@@ -32,6 +32,7 @@
 #include "util/linux/auxiliary_vector.h"
 #include "util/linux/memory_map.h"
 #include "util/process/process_memory.h"
+#include "util/process/process_memory_linux.h"
 #include "util/process/process_memory_range.h"
 
 #if defined(OS_ANDROID)
@@ -76,7 +77,7 @@ void TestAgainstTarget(pid_t pid, bool is_64_bit) {
       mappings.FindFileMmapStart(*phdr_mapping);
   LinuxVMAddress elf_address = exe_mapping->range.Base();
 
-  ProcessMemory memory;
+  ProcessMemoryLinux memory;
   ASSERT_TRUE(memory.Initialize(pid));
   ProcessMemoryRange range;
   ASSERT_TRUE(range.Initialize(&memory, is_64_bit));
