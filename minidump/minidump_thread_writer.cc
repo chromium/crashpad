@@ -17,7 +17,6 @@
 #include <utility>
 
 #include "base/logging.h"
-#include "base/memory/ptr_util.h"
 #include "minidump/minidump_context_writer.h"
 #include "minidump/minidump_memory_writer.h"
 #include "snapshot/memory_snapshot.h"
@@ -148,7 +147,7 @@ void MinidumpThreadListWriter::InitializeFromSnapshot(
   BuildMinidumpThreadIDMap(thread_snapshots, thread_id_map);
 
   for (const ThreadSnapshot* thread_snapshot : thread_snapshots) {
-    auto thread = base::WrapUnique(new MinidumpThreadWriter());
+    auto thread = std::make_unique<MinidumpThreadWriter>();
     thread->InitializeFromSnapshot(thread_snapshot, thread_id_map);
     AddThread(std::move(thread));
   }

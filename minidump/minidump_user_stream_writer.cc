@@ -14,7 +14,6 @@
 
 #include "minidump/minidump_user_stream_writer.h"
 
-#include "base/memory/ptr_util.h"
 #include "util/file/file_writer.h"
 
 namespace crashpad {
@@ -95,8 +94,7 @@ void MinidumpUserStreamWriter::InitializeFromSnapshot(
   DCHECK(!contents_writer_.get());
 
   stream_type_ = static_cast<MinidumpStreamType>(stream->stream_type());
-  contents_writer_ =
-      base::WrapUnique(new SnapshotContentsWriter(stream->memory()));
+  contents_writer_ = std::make_unique<SnapshotContentsWriter>(stream->memory());
 }
 
 void MinidumpUserStreamWriter::InitializeFromUserExtensionStream(
@@ -105,8 +103,8 @@ void MinidumpUserStreamWriter::InitializeFromUserExtensionStream(
   DCHECK(!contents_writer_.get());
 
   stream_type_ = data_source->stream_type();
-  contents_writer_ = base::WrapUnique(
-      new ExtensionStreamContentsWriter(std::move(data_source)));
+  contents_writer_ =
+      std::make_unique<ExtensionStreamContentsWriter>(std::move(data_source));
 }
 
 bool MinidumpUserStreamWriter::Freeze() {

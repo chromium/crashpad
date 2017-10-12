@@ -16,7 +16,6 @@
 
 #include <tlhelp32.h>
 
-#include "base/memory/ptr_util.h"
 #include "test/errors.h"
 #include "util/win/process_info.h"
 
@@ -124,7 +123,7 @@ WinMultiprocessWithTempDir::WinMultiprocessWithTempDir()
     : WinMultiprocess(), temp_dir_env_(kTempDirEnvName) {}
 
 void WinMultiprocessWithTempDir::WinMultiprocessParentBeforeChild() {
-  temp_dir_ = base::WrapUnique(new ScopedTempDir);
+  temp_dir_ = std::make_unique<ScopedTempDir>();
   temp_dir_env_.SetValue(temp_dir_->path().value().c_str());
 }
 

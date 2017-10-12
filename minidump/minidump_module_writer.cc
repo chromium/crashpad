@@ -20,7 +20,6 @@
 #include <utility>
 
 #include "base/logging.h"
-#include "base/memory/ptr_util.h"
 #include "base/numerics/safe_conversions.h"
 #include "minidump/minidump_string_writer.h"
 #include "minidump/minidump_writer_util.h"
@@ -244,7 +243,7 @@ void MinidumpModuleWriter::InitializeFromSnapshot(
   SetFileTypeAndSubtype(file_type, VFT2_UNKNOWN);
 
   auto codeview_record =
-      base::WrapUnique(new MinidumpModuleCodeViewRecordPDB70Writer());
+      std::make_unique<MinidumpModuleCodeViewRecordPDB70Writer>();
   codeview_record->InitializeFromSnapshot(module_snapshot);
   SetCodeViewRecord(std::move(codeview_record));
 }
@@ -385,7 +384,7 @@ void MinidumpModuleListWriter::InitializeFromSnapshot(
   DCHECK(modules_.empty());
 
   for (const ModuleSnapshot* module_snapshot : module_snapshots) {
-    auto module = base::WrapUnique(new MinidumpModuleWriter());
+    auto module = std::make_unique<MinidumpModuleWriter>();
     module->InitializeFromSnapshot(module_snapshot);
     AddModule(std::move(module));
   }

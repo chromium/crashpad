@@ -19,6 +19,7 @@
 #include <dbghelp.h>
 #include <stdint.h>
 
+#include <memory>
 #include <vector>
 
 #include "base/macros.h"

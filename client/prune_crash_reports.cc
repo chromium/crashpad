@@ -20,7 +20,6 @@
 #include <vector>
 
 #include "base/logging.h"
-#include "base/memory/ptr_util.h"
 #include "build/build_config.h"
 
 namespace crashpad {
@@ -70,10 +69,10 @@ void PruneCrashReportDatabase(CrashReportDatabase* database,
 std::unique_ptr<PruneCondition> PruneCondition::GetDefault() {
   // DatabaseSizePruneCondition must be the LHS so that it is always evaluated,
   // due to the short-circuting behavior of BinaryPruneCondition.
-  return base::WrapUnique(
-      new BinaryPruneCondition(BinaryPruneCondition::OR,
-                               new DatabaseSizePruneCondition(1024 * 128),
-                               new AgePruneCondition(365)));
+  return std::make_unique<BinaryPruneCondition>(
+      BinaryPruneCondition::OR,
+      new DatabaseSizePruneCondition(1024 * 128),
+      new AgePruneCondition(365));
 }
 
 static const time_t kSecondsInDay = 60 * 60 * 24;

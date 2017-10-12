@@ -19,13 +19,11 @@
 
 #include "base/compiler_specific.h"
 #include "base/format_macros.h"
-#include "base/memory/ptr_util.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_context_writer.h"
 #include "minidump/minidump_file_writer.h"
 #include "minidump/minidump_memory_writer.h"
-#include "minidump/minidump_thread_id_map.h"
 #include "minidump/test/minidump_context_test_util.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_memory_writer_test_util.h"
@@ -79,7 +77,7 @@ void GetThreadListStream(const std::string& file_contents,
 
 TEST(MinidumpThreadWriter, EmptyThreadList) {
   MinidumpFileWriter minidump_file_writer;
-  auto thread_list_writer = base::WrapUnique(new MinidumpThreadListWriter());
+  auto thread_list_writer = std::make_unique<MinidumpThreadListWriter>();
 
   ASSERT_TRUE(minidump_file_writer.AddStream(std::move(thread_list_writer)));
 
@@ -140,7 +138,7 @@ void ExpectThread(const MINIDUMP_THREAD* expected,
 
 TEST(MinidumpThreadWriter, OneThread_x86_NoStack) {
   MinidumpFileWriter minidump_file_writer;
-  auto thread_list_writer = base::WrapUnique(new MinidumpThreadListWriter());
+  auto thread_list_writer = std::make_unique<MinidumpThreadListWriter>();
 
   constexpr uint32_t kThreadID = 0x11111111;
   constexpr uint32_t kSuspendCount = 1;
@@ -149,14 +147,14 @@ TEST(MinidumpThreadWriter, OneThread_x86_NoStack) {
   constexpr uint64_t kTEB = 0x55555555;
   constexpr uint32_t kSeed = 123;
 
-  auto thread_writer = base::WrapUnique(new MinidumpThreadWriter());
+  auto thread_writer = std::make_unique<MinidumpThreadWriter>();
   thread_writer->SetThreadID(kThreadID);
   thread_writer->SetSuspendCount(kSuspendCount);
   thread_writer->SetPriorityClass(kPriorityClass);
   thread_writer->SetPriority(kPriority);
   thread_writer->SetTEB(kTEB);
 
-  auto context_x86_writer = base::WrapUnique(new MinidumpContextX86Writer());
+  auto context_x86_writer = std::make_unique<MinidumpContextX86Writer>();
   InitializeMinidumpContextX86(context_x86_writer->context(), kSeed);
   thread_writer->SetContext(std::move(context_x86_writer));
 
@@ -199,7 +197,7 @@ TEST(MinidumpThreadWriter, OneThread_x86_NoStack) {
 
 TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
   MinidumpFileWriter minidump_file_writer;
-  auto thread_list_writer = base::WrapUnique(new MinidumpThreadListWriter());
+  auto thread_list_writer = std::make_unique<MinidumpThreadListWriter>();
 
   constexpr uint32_t kThreadID = 0x22222222;
   constexpr uint32_t kSuspendCount = 2;
@@ -211,21 +209,23 @@ TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
   constexpr uint8_t kMemoryValue = 99;
   constexpr uint32_t kSeed = 456;
 
-  auto thread_writer = base::WrapUnique(new MinidumpThreadWriter());
+  auto thread_writer = std::make_unique<MinidumpThreadWriter>();
   thread_writer->SetThreadID(kThreadID);
   thread_writer->SetSuspendCount(kSuspendCount);
   thread_writer->SetPriorityClass(kPriorityClass);
   thread_writer->SetPriority(kPriority);
   thread_writer->SetTEB(kTEB);
 
-  auto memory_writer = base::WrapUnique(
-      new TestMinidumpMemoryWriter(kMemoryBase, kMemorySize, kMemoryValue));
+  auto memory_writer = std::make_unique<TestMinidumpMemoryWriter>(
+      kMemoryBase, kMemorySize, kMemoryValue);
   thread_writer->SetStack(std::move(memory_writer));
 
   // Object allocated on heap may not be aligned.
   MSVC_PUSH_DISABLE_WARNING(4316);
-  auto context_amd64_writer =
-      base::WrapUnique(new MinidumpContextAMD64Writer());
+  // This would use std::make_unique, but since the “new” would be in <memory>
+  // and not here, MSVC_PUSH_DISABLE_WARNING wouldn’t have the intended effect.
+  std::unique_ptr<MinidumpContextAMD64Writer> context_amd64_writer(
+      new MinidumpContextAMD64Writer());
   MSVC_POP_WARNING();  // C4316.
   InitializeMinidumpContextAMD64(context_amd64_writer->context(), kSeed);
   thread_writer->SetContext(std::move(context_amd64_writer));
@@ -278,8 +278,8 @@ TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
 
 TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
   MinidumpFileWriter minidump_file_writer;
-  auto thread_list_writer = base::WrapUnique(new MinidumpThreadListWriter());
-  auto memory_list_writer = base::WrapUnique(new MinidumpMemoryListWriter());
+  auto thread_list_writer = std::make_unique<MinidumpThreadListWriter>();
+  auto memory_list_writer = std::make_unique<MinidumpMemoryListWriter>();
   thread_list_writer->SetMemoryListWriter(memory_list_writer.get());
 
   constexpr uint32_t kThreadID0 = 1111111;
@@ -292,18 +292,18 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
   constexpr uint8_t kMemoryValue0 = 11;
   constexpr uint32_t kSeed0 = 1;
 
-  auto thread_writer_0 = base::WrapUnique(new MinidumpThreadWriter());
+  auto thread_writer_0 = std::make_unique<MinidumpThreadWriter>();
   thread_writer_0->SetThreadID(kThreadID0);
   thread_writer_0->SetSuspendCount(kSuspendCount0);
   thread_writer_0->SetPriorityClass(kPriorityClass0);
   thread_writer_0->SetPriority(kPriority0);
   thread_writer_0->SetTEB(kTEB0);
 
-  auto memory_writer_0 = base::WrapUnique(
-      new TestMinidumpMemoryWriter(kMemoryBase0, kMemorySize0, kMemoryValue0));
+  auto memory_writer_0 = std::make_unique<TestMinidumpMemoryWriter>(
+      kMemoryBase0, kMemorySize0, kMemoryValue0);
   thread_writer_0->SetStack(std::move(memory_writer_0));
 
-  auto context_x86_writer_0 = base::WrapUnique(new MinidumpContextX86Writer());
+  auto context_x86_writer_0 = std::make_unique<MinidumpContextX86Writer>();
   InitializeMinidumpContextX86(context_x86_writer_0->context(), kSeed0);
   thread_writer_0->SetContext(std::move(context_x86_writer_0));
 
@@ -319,18 +319,18 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
   constexpr uint8_t kMemoryValue1 = 22;
   constexpr uint32_t kSeed1 = 2;
 
-  auto thread_writer_1 = base::WrapUnique(new MinidumpThreadWriter());
+  auto thread_writer_1 = std::make_unique<MinidumpThreadWriter>();
   thread_writer_1->SetThreadID(kThreadID1);
   thread_writer_1->SetSuspendCount(kSuspendCount1);
   thread_writer_1->SetPriorityClass(kPriorityClass1);
   thread_writer_1->SetPriority(kPriority1);
   thread_writer_1->SetTEB(kTEB1);
 
-  auto memory_writer_1 = base::WrapUnique(
-      new TestMinidumpMemoryWriter(kMemoryBase1, kMemorySize1, kMemoryValue1));
+  auto memory_writer_1 = std::make_unique<TestMinidumpMemoryWriter>(
+      kMemoryBase1, kMemorySize1, kMemoryValue1);
   thread_writer_1->SetStack(std::move(memory_writer_1));
 
-  auto context_x86_writer_1 = base::WrapUnique(new MinidumpContextX86Writer());
+  auto context_x86_writer_1 = std::make_unique<MinidumpContextX86Writer>();
   InitializeMinidumpContextX86(context_x86_writer_1->context(), kSeed1);
   thread_writer_1->SetContext(std::move(context_x86_writer_1));
 
@@ -346,18 +346,18 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
   constexpr uint8_t kMemoryValue2 = 33;
   constexpr uint32_t kSeed2 = 3;
 
-  auto thread_writer_2 = base::WrapUnique(new MinidumpThreadWriter());
+  auto thread_writer_2 = std::make_unique<MinidumpThreadWriter>();
   thread_writer_2->SetThreadID(kThreadID2);
   thread_writer_2->SetSuspendCount(kSuspendCount2);
   thread_writer_2->SetPriorityClass(kPriorityClass2);
   thread_writer_2->SetPriority(kPriority2);
   thread_writer_2->SetTEB(kTEB2);
 
-  auto memory_writer_2 = base::WrapUnique(
-      new TestMinidumpMemoryWriter(kMemoryBase2, kMemorySize2, kMemoryValue2));
+  auto memory_writer_2 = std::make_unique<TestMinidumpMemoryWriter>(
+      kMemoryBase2, kMemorySize2, kMemoryValue2);
   thread_writer_2->SetStack(std::move(memory_writer_2));
 
-  auto context_x86_writer_2 = base::WrapUnique(new MinidumpContextX86Writer());
+  auto context_x86_writer_2 = std::make_unique<MinidumpContextX86Writer>();
   InitializeMinidumpContextX86(context_x86_writer_2->context(), kSeed2);
   thread_writer_2->SetContext(std::move(context_x86_writer_2));
 
@@ -597,7 +597,7 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
     thread_snapshot->SetThreadSpecificDataAddress(expect_threads[index].Teb);
 
     if (expect_threads[index].Stack.Memory.DataSize) {
-      auto memory_snapshot = base::WrapUnique(new TestMemorySnapshot());
+      auto memory_snapshot = std::make_unique<TestMemorySnapshot>();
       memory_snapshot->SetAddress(
           expect_threads[index].Stack.StartOfMemoryRange);
       memory_snapshot->SetSize(expect_threads[index].Stack.Memory.DataSize);
@@ -608,7 +608,7 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
     Traits::InitializeCPUContext(thread_snapshot->MutableContext(),
                                  context_seeds[index]);
 
-    auto teb_snapshot = base::WrapUnique(new TestMemorySnapshot());
+    auto teb_snapshot = std::make_unique<TestMemorySnapshot>();
     teb_snapshot->SetAddress(expect_threads[index].Teb);
     teb_snapshot->SetSize(kTebSize);
     teb_snapshot->SetValue(static_cast<char>('t' + index));
@@ -617,8 +617,8 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
     thread_snapshots.push_back(thread_snapshot);
   }
 
-  auto thread_list_writer = base::WrapUnique(new MinidumpThreadListWriter());
-  auto memory_list_writer = base::WrapUnique(new MinidumpMemoryListWriter());
+  auto thread_list_writer = std::make_unique<MinidumpThreadListWriter>();
+  auto memory_list_writer = std::make_unique<MinidumpMemoryListWriter>();
   thread_list_writer->SetMemoryListWriter(memory_list_writer.get());
   MinidumpThreadIDMap thread_id_map;
   thread_list_writer->InitializeFromSnapshot(thread_snapshots, &thread_id_map);
@@ -698,9 +698,9 @@ TEST(MinidumpThreadWriter, InitializeFromSnapshot_ThreadIDCollision) {
 
 TEST(MinidumpThreadWriterDeathTest, NoContext) {
   MinidumpFileWriter minidump_file_writer;
-  auto thread_list_writer = base::WrapUnique(new MinidumpThreadListWriter());
+  auto thread_list_writer = std::make_unique<MinidumpThreadListWriter>();
 
-  auto thread_writer = base::WrapUnique(new MinidumpThreadWriter());
+  auto thread_writer = std::make_unique<MinidumpThreadWriter>();
 
   thread_list_writer->AddThread(std::move(thread_writer));
   ASSERT_TRUE(minidump_file_writer.AddStream(std::move(thread_list_writer)));

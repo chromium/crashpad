@@ -17,7 +17,6 @@
 #include <memory>
 #include <utility>
 
-#include "base/memory/ptr_util.h"
 #include "snapshot/minidump/minidump_simple_string_dictionary_reader.h"
 #include "util/file/file_io.h"
 
@@ -278,7 +277,7 @@ bool ProcessSnapshotMinidump::InitializeModules() {
             ? &module_crashpad_info_it->second
             : nullptr;
 
-    auto module = base::WrapUnique(new internal::ModuleSnapshotMinidump());
+    auto module = std::make_unique<internal::ModuleSnapshotMinidump>();
     if (!module->Initialize(
             file_reader_, module_rva, module_crashpad_info_location)) {
       return false;

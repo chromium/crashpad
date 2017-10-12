@@ -17,7 +17,6 @@
 #include "base/files/file_path.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
-#include "snapshot/win/module_snapshot_win.h"
 #include "snapshot/win/pe_image_reader.h"
 #include "snapshot/win/process_reader_win.h"
 #include "test/errors.h"

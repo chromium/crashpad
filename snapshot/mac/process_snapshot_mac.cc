@@ -15,7 +15,6 @@
 #include "snapshot/mac/process_snapshot_mac.h"
 
 #include "base/logging.h"
-#include "base/memory/ptr_util.h"
 #include "util/misc/tri_state.h"
 
 namespace crashpad {
@@ -221,7 +220,7 @@ void ProcessSnapshotMac::InitializeThreads() {
       process_reader_.Threads();
   for (const ProcessReader::Thread& process_reader_thread :
        process_reader_threads) {
-    auto thread = base::WrapUnique(new internal::ThreadSnapshotMac());
+    auto thread = std::make_unique<internal::ThreadSnapshotMac>();
     if (thread->Initialize(&process_reader_, process_reader_thread)) {
       threads_.push_back(thread.release());
     }
@@ -233,7 +232,7 @@ void ProcessSnapshotMac::InitializeModules() {
       process_reader_.Modules();
   for (const ProcessReader::Module& process_reader_module :
        process_reader_modules) {
-    auto module = base::WrapUnique(new internal::ModuleSnapshotMac());
+    auto module = std::make_unique<internal::ModuleSnapshotMac>();
     if (module->Initialize(&process_reader_, process_reader_module)) {
       modules_.push_back(module.release());
     }
