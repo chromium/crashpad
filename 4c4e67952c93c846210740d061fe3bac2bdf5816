@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c85639c2_8b83edea",
+        "filename": "snapshot/win/process_snapshot_win_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-12T15:50:12Z",
+      "side": 0,
+      "message": "just curious, how did you find all the extraneous #includes?",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 45
+      },
+      "revId": "4c4e67952c93c846210740d061fe3bac2bdf5816",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}

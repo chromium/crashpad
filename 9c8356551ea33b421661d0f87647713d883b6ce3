@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "befbcc8d_404db615",
+        "filename": "build/force_include.gypi",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-12T15:50:12Z",
+      "side": 1,
+      "message": "I guess the compiler on macos doesn\u0027t support the c++14 option?",
+      "range": {
+        "startLine": 20,
+        "startChar": 42,
+        "endLine": 20,
+        "endChar": 47
+      },
+      "revId": "9c8356551ea33b421661d0f87647713d883b6ce3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
