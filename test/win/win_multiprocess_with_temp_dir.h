@@ -18,6 +18,7 @@
 #include <wchar.h>
 #include <windows.h>
 
+#include <memory>
 #include <string>
 
 #include "base/files/file_path.h"
