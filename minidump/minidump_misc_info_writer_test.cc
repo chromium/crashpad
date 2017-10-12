@@ -16,14 +16,11 @@
 
 #include <string.h>
 
-#include <memory>
 #include <string>
 #include <utility>
 
 #include "base/compiler_specific.h"
 #include "base/format_macros.h"
-#include "base/macros.h"
-#include "base/memory/ptr_util.h"
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
@@ -192,7 +189,7 @@ void ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_5>(
 
 TEST(MinidumpMiscInfoWriter, Empty) {
   MinidumpFileWriter minidump_file_writer;
-  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+  auto misc_info_writer = std::make_unique<MinidumpMiscInfoWriter>();
 
   ASSERT_TRUE(minidump_file_writer.AddStream(std::move(misc_info_writer)));
 
@@ -209,7 +206,7 @@ TEST(MinidumpMiscInfoWriter, Empty) {
 
 TEST(MinidumpMiscInfoWriter, ProcessId) {
   MinidumpFileWriter minidump_file_writer;
-  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+  auto misc_info_writer = std::make_unique<MinidumpMiscInfoWriter>();
 
   constexpr uint32_t kProcessId = 12345;
 
@@ -232,7 +229,7 @@ TEST(MinidumpMiscInfoWriter, ProcessId) {
 
 TEST(MinidumpMiscInfoWriter, ProcessTimes) {
   MinidumpFileWriter minidump_file_writer;
-  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+  auto misc_info_writer = std::make_unique<MinidumpMiscInfoWriter>();
 
   constexpr time_t kProcessCreateTime = 0x15252f00;
   constexpr uint32_t kProcessUserTime = 10;
@@ -260,7 +257,7 @@ TEST(MinidumpMiscInfoWriter, ProcessTimes) {
 
 TEST(MinidumpMiscInfoWriter, ProcessorPowerInfo) {
   MinidumpFileWriter minidump_file_writer;
-  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+  auto misc_info_writer = std::make_unique<MinidumpMiscInfoWriter>();
 
   constexpr uint32_t kProcessorMaxMhz = 2800;
   constexpr uint32_t kProcessorCurrentMhz = 2300;
@@ -295,7 +292,7 @@ TEST(MinidumpMiscInfoWriter, ProcessorPowerInfo) {
 
 TEST(MinidumpMiscInfoWriter, ProcessIntegrityLevel) {
   MinidumpFileWriter minidump_file_writer;
-  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+  auto misc_info_writer = std::make_unique<MinidumpMiscInfoWriter>();
 
   constexpr uint32_t kProcessIntegrityLevel = 0x2000;
 
@@ -318,7 +315,7 @@ TEST(MinidumpMiscInfoWriter, ProcessIntegrityLevel) {
 
 TEST(MinidumpMiscInfoWriter, ProcessExecuteFlags) {
   MinidumpFileWriter minidump_file_writer;
-  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+  auto misc_info_writer = std::make_unique<MinidumpMiscInfoWriter>();
 
   constexpr uint32_t kProcessExecuteFlags = 0x13579bdf;
 
@@ -341,7 +338,7 @@ TEST(MinidumpMiscInfoWriter, ProcessExecuteFlags) {
 
 TEST(MinidumpMiscInfoWriter, ProtectedProcess) {
   MinidumpFileWriter minidump_file_writer;
-  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+  auto misc_info_writer = std::make_unique<MinidumpMiscInfoWriter>();
 
   constexpr uint32_t kProtectedProcess = 1;
 
@@ -364,7 +361,7 @@ TEST(MinidumpMiscInfoWriter, ProtectedProcess) {
 
 TEST(MinidumpMiscInfoWriter, TimeZone) {
   MinidumpFileWriter minidump_file_writer;
-  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+  auto misc_info_writer = std::make_unique<MinidumpMiscInfoWriter>();
 
   constexpr uint32_t kTimeZoneId = 2;
   constexpr int32_t kBias = 300;
@@ -421,7 +418,7 @@ TEST(MinidumpMiscInfoWriter, TimeZoneStringsOverflow) {
   // to the widths of their fields.
 
   MinidumpFileWriter minidump_file_writer;
-  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+  auto misc_info_writer = std::make_unique<MinidumpMiscInfoWriter>();
 
   constexpr uint32_t kTimeZoneId = 2;
   constexpr int32_t kBias = 300;
@@ -480,7 +477,7 @@ TEST(MinidumpMiscInfoWriter, TimeZoneStringsOverflow) {
 
 TEST(MinidumpMiscInfoWriter, BuildStrings) {
   MinidumpFileWriter minidump_file_writer;
-  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+  auto misc_info_writer = std::make_unique<MinidumpMiscInfoWriter>();
 
   static constexpr char kBuildString[] = "build string";
   static constexpr char kDebugBuildString[] = "debug build string";
@@ -515,7 +512,7 @@ TEST(MinidumpMiscInfoWriter, BuildStringsOverflow) {
   // widths of their fields.
 
   MinidumpFileWriter minidump_file_writer;
-  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+  auto misc_info_writer = std::make_unique<MinidumpMiscInfoWriter>();
 
   MINIDUMP_MISC_INFO_N tmp;
   ALLOW_UNUSED_LOCAL(tmp);
@@ -549,7 +546,7 @@ TEST(MinidumpMiscInfoWriter, BuildStringsOverflow) {
 
 TEST(MinidumpMiscInfoWriter, XStateData) {
   MinidumpFileWriter minidump_file_writer;
-  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+  auto misc_info_writer = std::make_unique<MinidumpMiscInfoWriter>();
 
   constexpr XSTATE_CONFIG_FEATURE_MSC_INFO kXStateData = {
       sizeof(XSTATE_CONFIG_FEATURE_MSC_INFO),
@@ -583,7 +580,7 @@ TEST(MinidumpMiscInfoWriter, XStateData) {
 
 TEST(MinidumpMiscInfoWriter, ProcessCookie) {
   MinidumpFileWriter minidump_file_writer;
-  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+  auto misc_info_writer = std::make_unique<MinidumpMiscInfoWriter>();
 
   constexpr uint32_t kProcessCookie = 0x12345678;
 
@@ -606,7 +603,7 @@ TEST(MinidumpMiscInfoWriter, ProcessCookie) {
 
 TEST(MinidumpMiscInfoWriter, Everything) {
   MinidumpFileWriter minidump_file_writer;
-  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+  auto misc_info_writer = std::make_unique<MinidumpMiscInfoWriter>();
 
   constexpr uint32_t kProcessId = 12345;
   constexpr time_t kProcessCreateTime = 0x15252f00;
@@ -772,7 +769,7 @@ TEST(MinidumpMiscInfoWriter, InitializeFromSnapshot) {
   process_snapshot.SetProcessStartTime(kStartTime);
   process_snapshot.SetProcessCPUTimes(kUserCPUTime, kSystemCPUTime);
 
-  auto system_snapshot = base::WrapUnique(new TestSystemSnapshot());
+  auto system_snapshot = std::make_unique<TestSystemSnapshot>();
   constexpr uint64_t kHzPerMHz = static_cast<uint64_t>(1E6);
   system_snapshot->SetCPUFrequency(
       expect_misc_info.ProcessorCurrentMhz * kHzPerMHz,
@@ -788,7 +785,7 @@ TEST(MinidumpMiscInfoWriter, InitializeFromSnapshot) {
 
   process_snapshot.SetSystem(std::move(system_snapshot));
 
-  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+  auto misc_info_writer = std::make_unique<MinidumpMiscInfoWriter>();
   misc_info_writer->InitializeFromSnapshot(&process_snapshot);
 
   MinidumpFileWriter minidump_file_writer;
