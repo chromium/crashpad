@@ -22,6 +22,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "util/misc/from_pointer_cast.h"
+#include "util/process/process_memory_linux.h"
 
 namespace crashpad {
 namespace test {
@@ -40,7 +41,7 @@ TEST(ProcessMemoryRange, Basic) {
   constexpr bool is_64_bit = false;
 #endif  // ARCH_CPU_64_BITS
 
-  ProcessMemory memory;
+  ProcessMemoryLinux memory;
   ASSERT_TRUE(memory.Initialize(pid));
 
   ProcessMemoryRange range;
