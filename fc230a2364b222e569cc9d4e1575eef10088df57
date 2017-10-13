@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "221e12b4_78efd128",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-10-13T21:44:59Z",
+      "side": 1,
+      "message": "\u003e Seeing it all together, I’m not so sure if de-const-amination is most sensible here (as compared to snapshot). Maybe const (as logical constness) is fine for this interface, and if anyone really needs to alter implementation object state, they can write “mutable.” I’m on the fence. Do you have thoughts either way?\n\nI\u0027m in favor of \"logical constness\" here. The potential presence of internal mutable state feels like an implementation detail that shouldn\u0027t necessarily leak into the interface.\n\n\u003e I’ll approve this one if you want to land it as-is.\n\nYes please; I like the const version, if nothing else because it reduces the number of raw pointers we need to pass around for read-only-seeming operations.",
+      "parentUuid": "9ea001df_72c640f2",
+      "range": {
+        "startLine": 47,
+        "startChar": 66,
+        "endLine": 47,
+        "endChar": 71
+      },
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cc625ff_df6c7992",
         "filename": "util/process/process_memory.h",
         "patchSetId": 10
