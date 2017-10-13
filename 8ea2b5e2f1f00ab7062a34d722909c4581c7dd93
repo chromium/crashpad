@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a09b4005_04ee5738",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ba5e536_fb7df8ed",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "062afb93_fe872a4a",
         "filename": "client/annotation.h",
         "patchSetId": 9
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "07a0e97f_914b0e90",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "062afb93_fe872a4a",
+      "range": {
+        "startLine": 35,
+        "startChar": 42,
+        "endLine": 35,
+        "endChar": 67
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3297aa38_018879b4",
         "filename": "client/annotation.h",
         "patchSetId": 9
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "765a3b35_1ec10a3d",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "That guidance is new to me, but done.",
+      "parentUuid": "3297aa38_018879b4",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "548bb043_7dabe7e2",
         "filename": "client/annotation.h",
         "patchSetId": 9
@@ -73,6 +133,24 @@
       "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "817f020b_435df815",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "548bb043_7dabe7e2",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -145,6 +223,78 @@
     },
     {
       "key": {
+        "uuid": "11753c38_5e49ee8c",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f6244ff_66d114a3",
+      "range": {
+        "startLine": 53,
+        "startChar": 31,
+        "endLine": 53,
+        "endChar": 41
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05fa0529_10a25060",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9570c585_ca63c3b2",
+      "range": {
+        "startLine": 53,
+        "startChar": 47,
+        "endLine": 53,
+        "endChar": 49
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b5a260f_040dfc84",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32da4614_2c4db94c",
+      "range": {
+        "startLine": 53,
+        "startChar": 71,
+        "endLine": 53,
+        "endChar": 76
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2a53f75_fef48d2f",
         "filename": "client/annotation.h",
         "patchSetId": 9
@@ -162,6 +312,24 @@
     },
     {
       "key": {
+        "uuid": "a9f15f78_9d5a4709",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "I added documentation but I can\u0027t think of a nice way to prevent destruction.",
+      "parentUuid": "b2a53f75_fef48d2f",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8eb0cacb_2b9ee450",
         "filename": "client/annotation.h",
         "patchSetId": 9
@@ -173,6 +341,30 @@
       "writtenOn": "2017-10-13T18:26:38Z",
       "side": 1,
       "message": ":(\n\nI was hoping we’d lift the limit on value length altogether. No?\n\nI envision uses where 2k won’t be sufficient. Your PAGE_SIZE example usage is bigger than 2k on all of the systems we care about, for example.",
+      "range": {
+        "startLine": 61,
+        "startChar": 26,
+        "endLine": 61,
+        "endChar": 39
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7d80d46_6f2577e6",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "I think Bruce\u0027s point on the design doc that we should have some limit is totally valid. Maybe 2k is too low, but for now I don\u0027t see why staying this low is a problem, especially given the SimpleStringDictionary limits. Since upping this at a later date can be done with no ill effect, is there a concern? I was actually wondering if this is something that should be #define\u0027able when building.",
+      "parentUuid": "8eb0cacb_2b9ee450",
       "range": {
         "startLine": 61,
         "startChar": 26,
@@ -202,6 +394,24 @@
     },
     {
       "key": {
+        "uuid": "9e79df4b_e7ea6d35",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "Yes, that\u0027s something I had noticed in working with it a little. Even if we used underlying_type, constructing off of kUserDefinedStart still requires a cast. I took a different approach and added a constexpr helper to create a UserDefinedType().",
+      "parentUuid": "3ff0859b_c15fd16a",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "493e18bb_191f76fd",
         "filename": "client/annotation.h",
         "patchSetId": 9
@@ -216,6 +426,24 @@
       "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da509b49_07166519",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "493e18bb_191f76fd",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -265,6 +493,30 @@
     },
     {
       "key": {
+        "uuid": "8efaa4c1_90a9bd06",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "\u003e The voidy interface is a typehole. I’d rather have something a little better be exposed to users.\n\u003e \n\u003e Perhaps Annotation can be templated, where template \u003ctypename ValueType\u003e class Annotation would have a const ValueType* const value_ptr_ field.\n\u003e \n\u003e In that world, the sizes of many annotations could be inferred directly as sizeof(typename ValueType). That’d even work for something like “static Annotation\u003cchar[PAGE_SIZE]\u003e g_buffer_annotation \u003d {…};”. Of course, if you want something external to push in explicit sizing rather than having Annotation (or a specialization) know about NUL-termination, you’d still want to hang on to a SetSize() kind of thing. But even then, it’d give SetSize() the ability to check against the known maximum buffer size. That’d be nice too.\n\nI originally wanted to go down the the templatized route, but that breaks down when you need to work with the link_node_ and AnnotationList where there is not a homogeneous type.\n\nRe: SetSize(): I still want to be able to set the value size externally for e.g. a future StackTrace annotation type, where we may store space for 32 pointers but only use 12.\n\n\u003e If you’d like, you can take this a little further still, and move storage into the Annotation itself (rather than having it point to external data). That’d make Annotation even easier to use.\n\nIt\u0027s deliberate to be able to point to external storage. I think most users will not be using Annotation directly, but rather one of its Type helper subclasses.",
+      "parentUuid": "d85a4089_5b5a5dc2",
+      "range": {
+        "startLine": 88,
+        "startChar": 53,
+        "endLine": 88,
+        "endChar": 74
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a704ea20_93b76ceb",
         "filename": "client/annotation.h",
         "patchSetId": 9
@@ -288,6 +540,30 @@
     },
     {
       "key": {
+        "uuid": "398f69a8_984e3a5f",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "Right, I did this to avoid a variable size_t. Did add a typename.",
+      "parentUuid": "a704ea20_93b76ceb",
+      "range": {
+        "startLine": 108,
+        "startChar": 15,
+        "endLine": 108,
+        "endChar": 23
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91a83060_968f6a2d",
         "filename": "client/annotation.h",
         "patchSetId": 9
@@ -302,6 +578,24 @@
       "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e735fab_38a58e8a",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "I believe this was already discussed w.r.t. 0-sized values.",
+      "parentUuid": "91a83060_968f6a2d",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -328,6 +622,30 @@
     },
     {
       "key": {
+        "uuid": "407995d5_e3340135",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caefe9ed_5e48d8e6",
+      "range": {
+        "startLine": 133,
+        "startChar": 52,
+        "endLine": 133,
+        "endChar": 58
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4527643_afbd5568",
         "filename": "client/annotation.h",
         "patchSetId": 9
@@ -339,6 +657,24 @@
       "writtenOn": "2017-10-13T18:26:38Z",
       "side": 1,
       "message": "Can we separate the “value” operations out from the “key, value” operations? (I guess this would separate link_node_ and name_ into the owner object, and value_ptr_, size_, and type_ into the owned one.)\n\nRationale: with the flexibility we’re talking about, the “value” side of one of these may be useful in a non-“map” context. We may want to have simpler (array/sequence/vector) things, without the “name” stuff.",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32ab48f0_f6498801",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "I think all root annotation objects need a name to make them identifiable on the reporting end. For sequences, the value would point to an array of some other (POD) object type.",
+      "parentUuid": "c4527643_afbd5568",
       "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -362,6 +698,24 @@
     },
     {
       "key": {
+        "uuid": "4f9219b1_c5e4f94f",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e13ca47f_2c40e29b",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e11b128_1510fa62",
         "filename": "client/annotation_list.h",
         "patchSetId": 9
@@ -376,6 +730,24 @@
       "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e4811e4_13a78e1a",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "I don\u0027t view it as a map. Maps are typically 1:1 and associative; this is neither. It is also why annotations have names rather than keys now.",
+      "parentUuid": "5e11b128_1510fa62",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -396,6 +768,24 @@
     },
     {
       "key": {
+        "uuid": "6570a378_73b5ec24",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "I didn\u0027t want to invent that new pattern, but it would be handy. Done.",
+      "parentUuid": "9ad9d94c_68cb16ac",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab633c29_e55df66f",
         "filename": "client/annotation_list.h",
         "patchSetId": 9
@@ -413,6 +803,24 @@
     },
     {
       "key": {
+        "uuid": "daba4825_66362f34",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab633c29_e55df66f",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca4bb3de_9cfd4e44",
         "filename": "client/annotation_list.h",
         "patchSetId": 9
@@ -427,6 +835,24 @@
       "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f22955e2_681ee09e",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca4bb3de_9cfd4e44",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -464,6 +890,24 @@
     },
     {
       "key": {
+        "uuid": "e8e4981e_6c255b9b",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccf55ba4_6f46f702",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ef3c0f3_0d45de1a",
         "filename": "client/crashpad_info.h",
         "patchSetId": 9
@@ -478,6 +922,24 @@
       "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "367fbbc4_99737d02",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-13T22:33:10Z",
+      "side": 1,
+      "message": "Ack. Wasn\u0027t sure what the rule was here given the \"Fields present in...\" comment.",
+      "parentUuid": "7ef3c0f3_0d45de1a",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
