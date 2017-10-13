@@ -23,19 +23,6 @@
 #include <limits>
 
 #include "base/logging.h"
-#include "util/stdlib/cxx.h"
-
-// CONSTEXPR_STATIC_ASSERT will be a normal static_assert if the C++ library is
-// the C++11 library. If using an older C++ library, the
-// std::numeric_limits<>::min() and max() functions will not be marked as
-// constexpr, and thus won’t be usable with static_assert(). In that case, a
-// run-time CHECK() will have to do.
-#if CXX_LIBRARY_HAS_CONSTEXPR
-#define CONSTEXPR_STATIC_ASSERT(condition, message) \
-  static_assert(condition, message)
-#else
-#define CONSTEXPR_STATIC_ASSERT(condition, message) CHECK(condition) << message
-#endif
 
 namespace {
 
@@ -50,16 +37,16 @@ struct StringToIntegerTraits {
     static_assert(std::numeric_limits<TIntType>::is_signed ==
                       std::numeric_limits<TLongType>::is_signed,
                   "IntType and LongType signedness must agree");
-    CONSTEXPR_STATIC_ASSERT(std::numeric_limits<TIntType>::min() >=
-                                    std::numeric_limits<TLongType>::min() &&
-                                std::numeric_limits<TIntType>::min() <
-                                    std::numeric_limits<TLongType>::max(),
-                            "IntType min must be in LongType range");
-    CONSTEXPR_STATIC_ASSERT(std::numeric_limits<TIntType>::max() >
-                                    std::numeric_limits<TLongType>::min() &&
-                                std::numeric_limits<TIntType>::max() <=
-                                    std::numeric_limits<TLongType>::max(),
-                            "IntType max must be in LongType range");
+    static_assert(std::numeric_limits<TIntType>::min() >=
+                          std::numeric_limits<TLongType>::min() &&
+                      std::numeric_limits<TIntType>::min() <
+                          std::numeric_limits<TLongType>::max(),
+                  "IntType min must be in LongType range");
+    static_assert(std::numeric_limits<TIntType>::max() >
+                          std::numeric_limits<TLongType>::min() &&
+                      std::numeric_limits<TIntType>::max() <=
+                          std::numeric_limits<TLongType>::max(),
+                  "IntType max must be in LongType range");
   }
 };
 

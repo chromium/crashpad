@@ -16,11 +16,7 @@
 #define CRASHPAD_COMPAT_WIN_TIME_H_
 
 // This is intended to be roughly equivalent to #include_next.
-#if _MSC_VER < 1900
-#include <../include/time.h>
-#else
 #include <../ucrt/time.h>
-#endif
 
 #ifdef __cplusplus
 extern "C" {

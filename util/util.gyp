@@ -183,7 +183,6 @@
         'process/process_memory_range.h',
         'stdlib/aligned_allocator.cc',
         'stdlib/aligned_allocator.h',
-        'stdlib/cxx.h',
         'stdlib/map_insert.h',
         'stdlib/objc.h',
         'stdlib/pointer_container.h',

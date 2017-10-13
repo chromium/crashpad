@@ -14,16 +14,13 @@
 
 #include "client/crashpad_info.h"
 
+#include <type_traits>
+
 #include "util/misc/address_sanitizer.h"
 #include "util/misc/from_pointer_cast.h"
-#include "util/stdlib/cxx.h"
 
 #if defined(OS_MACOSX)
 #include <mach-o/loader.h>
-#endif
-
-#if CXX_LIBRARY_VERSION >= 2011
-#include <type_traits>
 #endif
 
 namespace {
@@ -34,20 +31,8 @@ constexpr uint32_t kCrashpadInfoVersion = 1;
 
 namespace crashpad {
 
-#if CXX_LIBRARY_VERSION >= 2011 || DOXYGEN
-// In C++11, check that CrashpadInfo has standard layout, which is what is
-// actually important.
 static_assert(std::is_standard_layout<CrashpadInfo>::value,
               "CrashpadInfo must be standard layout");
-#else
-// In C++98 (ISO 14882), section 9.5.1 says that a union cannot have a member
-// with a non-trivial ctor, copy ctor, dtor, or assignment operator. Use this
-// property to ensure that CrashpadInfo remains POD. This doesn’t work for C++11
-// because the requirements for unions have been relaxed.
-union Compile_Assert {
-  CrashpadInfo Compile_Assert__CrashpadInfo_must_be_pod;
-};
-#endif
 
 // This structure needs to be stored somewhere that is easy to find without
 // external information.

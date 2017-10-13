@@ -23,15 +23,6 @@
 #include <utility>
 #include <vector>
 
-#include "build/build_config.h"
-#include "util/stdlib/cxx.h"
-
-#if defined(COMPILER_MSVC) && _MSC_VER < 1900
-#define CRASHPAD_NOEXCEPT _NOEXCEPT
-#else
-#define CRASHPAD_NOEXCEPT noexcept
-#endif
-
 namespace crashpad {
 namespace internal {
 
@@ -70,19 +61,16 @@ struct AlignedAllocator {
     using other = AlignedAllocator<U, Alignment>;
   };
 
-  AlignedAllocator() CRASHPAD_NOEXCEPT {}
-  AlignedAllocator(const AlignedAllocator& other) CRASHPAD_NOEXCEPT {}
+  AlignedAllocator() noexcept {}
+  AlignedAllocator(const AlignedAllocator& other) noexcept {}
 
   template <typename U>
-  AlignedAllocator(const AlignedAllocator<U, Alignment>& other)
-      CRASHPAD_NOEXCEPT {}
+  AlignedAllocator(const AlignedAllocator<U, Alignment>& other) noexcept {}
 
   ~AlignedAllocator() {}
 
-  pointer address(reference x) const CRASHPAD_NOEXCEPT { return &x; }
-  const_pointer address(const_reference x) const CRASHPAD_NOEXCEPT {
-    return &x;
-  }
+  pointer address(reference x) const noexcept { return &x; }
+  const_pointer address(const_reference x) const noexcept { return &x; }
 
   pointer allocate(size_type n, std::allocator<void>::const_pointer hint = 0) {
     return reinterpret_cast<pointer>(
@@ -91,7 +79,7 @@ struct AlignedAllocator {
 
   void deallocate(pointer p, size_type n) { internal::AlignedFree(p); }
 
-  size_type max_size() const CRASHPAD_NOEXCEPT {
+  size_type max_size() const noexcept {
     return std::numeric_limits<size_type>::max() / sizeof(value_type);
   }
 
@@ -114,13 +102,13 @@ struct AlignedAllocator {
 
 template <class T1, class T2, size_t Alignment>
 bool operator==(const AlignedAllocator<T1, Alignment>& lhs,
-                const AlignedAllocator<T2, Alignment>& rhs) CRASHPAD_NOEXCEPT {
+                const AlignedAllocator<T2, Alignment>& rhs) noexcept {
   return true;
 }
 
 template <class T1, class T2, size_t Alignment>
 bool operator!=(const AlignedAllocator<T1, Alignment>& lhs,
-                const AlignedAllocator<T2, Alignment>& rhs) CRASHPAD_NOEXCEPT {
+                const AlignedAllocator<T2, Alignment>& rhs) noexcept {
   return false;
 }
 
@@ -133,7 +121,5 @@ template <typename T, size_t Alignment = alignof(T)>
 using AlignedVector = std::vector<T, AlignedAllocator<T, Alignment>>;
 
 }  // namespace crashpad
-
-#undef CRASHPAD_NOEXCEPT
 
 #endif  // CRASHPAD_UTIL_STDLIB_ALIGNED_ALLOCATOR_H_
