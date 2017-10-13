@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "20d6c9b7_b3215820",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-13T23:20:09Z",
+      "side": 1,
+      "message": "why non-virtual? wouldn\u0027t that break polymorphic pointer management? (delete thorough ProcessMemory* in particular)",
+      "parentUuid": "e729f1ed_cf2e1d8b",
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0181d059_7a2b0ff0",
         "filename": "util/process/process_memory.h",
         "patchSetId": 10
