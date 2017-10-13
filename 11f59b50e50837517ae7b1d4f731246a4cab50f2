@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b51a5585_5232a0f7",
+        "filename": "util/file/file_reader_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T01:49:31Z",
+      "side": 1,
+      "message": "We should do this one still.",
+      "revId": "11f59b50e50837517ae7b1d4f731246a4cab50f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
