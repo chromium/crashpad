@@ -1,0 +1,483 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ba5e536_fb7df8ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "Stay within 72 characters for git commit messages.",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "062afb93_fe872a4a",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "Static storage duration is really what you’re after. File-scope (or linkage) aren’t really relevant. So let’s say “declared with static storage duration,” full-stop. Expand your example slightly to show that this works with a function-scope “static char g_buffer[]; static crashpad::Annotation g_buffer_annotation;”.",
+      "range": {
+        "startLine": 35,
+        "startChar": 42,
+        "endLine": 35,
+        "endChar": 67
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3297aa38_018879b4",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "Doesn’t look like the braced “uniform” syntax is a requirement here, and Chromium style generally (and https://www.chromium.org/developers/coding-style/cpp-dos-and-donts?pli\u003d1#TOC-Variable-initialization explicitly) stays away from “uniform” when something else works.",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "548bb043_7dabe7e2",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "Blank (//!) line before this so that the important annotation bit stands apart from the Frobinate() prop.",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32da4614_2c4db94c",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "multiple",
+      "range": {
+        "startLine": 53,
+        "startChar": 71,
+        "endLine": 53,
+        "endChar": 76
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9570c585_ca63c3b2",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "New sentence.",
+      "range": {
+        "startLine": 53,
+        "startChar": 47,
+        "endLine": 53,
+        "endChar": 49
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f6244ff_66d114a3",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "Hyphenate.\n\nAlso, maybe say “inherently thread-safe” so that this whole paragraph agrees more with itself.",
+      "range": {
+        "startLine": 53,
+        "startChar": 31,
+        "endLine": 53,
+        "endChar": 41
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2a53f75_fef48d2f",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "Seems like destruction would be bad. Is there anything cute that we can do to prevent it? At the very least, this should be documented.",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8eb0cacb_2b9ee450",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": ":(\n\nI was hoping we’d lift the limit on value length altogether. No?\n\nI envision uses where 2k won’t be sufficient. Your PAGE_SIZE example usage is bigger than 2k on all of the systems we care about, for example.",
+      "range": {
+        "startLine": 61,
+        "startChar": 26,
+        "endLine": 61,
+        "endChar": 39
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ff0859b_c15fd16a",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "This is going to be hard to use (without casts) since Type is an “enum class”. You can make that easier on clients by having the interface accept/return std::underlying_type\u003cType\u003e::type instead of Type.",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "493e18bb_191f76fd",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "80",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed28bc5f_50292b28",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": ":)",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 88,
+        "endChar": 11
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d85a4089_5b5a5dc2",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "The voidy interface is a typehole. I’d rather have something a little better be exposed to users.\n\nPerhaps Annotation can be templated, where template \u003ctypename ValueType\u003e class Annotation would have a const ValueType* const value_ptr_ field.\n\nIn that world, the sizes of many annotations could be inferred directly as sizeof(typename ValueType). That’d even work for something like “static Annotation\u003cchar[PAGE_SIZE]\u003e g_buffer_annotation \u003d {…};”. Of course, if you want something external to push in explicit sizing rather than having Annotation (or a specialization) know about NUL-termination, you’d still want to hang on to a SetSize() kind of thing. But even then, it’d give SetSize() the ability to check against the known maximum buffer size. That’d be nice too.\n\nIf you’d like, you can take this a little further still, and move storage into the Annotation itself (rather than having it point to external data). That’d make Annotation even easier to use.",
+      "range": {
+        "startLine": 88,
+        "startChar": 53,
+        "endLine": 88,
+        "endChar": 74
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a704ea20_93b76ceb",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "size_t is a more natural fit, but you chose this for ease of serialization, right? If so, perhaps a “using ValueSizeType \u003d uint32_t” is called for.",
+      "range": {
+        "startLine": 108,
+        "startChar": 15,
+        "endLine": 108,
+        "endChar": 23
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91a83060_968f6a2d",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "Now that we’re talking about having this be as generic as possible, we may well want to allow key set, value empty. Should we add a bool field to track whether an annotation’s been set, and just let the size be the size?",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caefe9ed_5e48d8e6",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "SetSize",
+      "range": {
+        "startLine": 133,
+        "startChar": 52,
+        "endLine": 133,
+        "endChar": 58
+      },
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4527643_afbd5568",
+        "filename": "client/annotation.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "Can we separate the “value” operations out from the “key, value” operations? (I guess this would separate link_node_ and name_ into the owner object, and value_ptr_, size_, and type_ into the owned one.)\n\nRationale: with the flexibility we’re talking about, the “value” side of one of these may be useful in a non-“map” context. We may want to have simpler (array/sequence/vector) things, without the “name” stuff.",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e13ca47f_2c40e29b",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "Remove.",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e11b128_1510fa62",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "Since we have string keys and values, I think of this as more of a map than a list.",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ad9d94c_68cb16ac",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "Should we have a “Register()” method to stick a new one of these on CrashpadInfo? “Register-if-unregistered” semantics would actually have been really handy with the simple annotations, perhaps we can provide them here.",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab633c29_e55df66f",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "Something adhering to InputIterator requirements would be cool.",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca4bb3de_9cfd4e44",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "Blank before.",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46296f83_1388826a",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "You can also leave an \\sa to the convenience getter you’ve provided here.",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccf55ba4_6f46f702",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "You can also leave an \\sa to the convenience getter you’ve provided here.",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ef3c0f3_0d45de1a",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T18:26:38Z",
+      "side": 1,
+      "message": "I don’t think that we intended for mere expansions to bump the version number. We’ll just bump the size.\n\nIncompatible layout changes should bump the version number.",
+      "revId": "8ea2b5e2f1f00ab7062a34d722909c4581c7dd93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
