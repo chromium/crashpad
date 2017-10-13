@@ -43,7 +43,7 @@ class ProcessMemoryRange {
   //! \param[in] base The base address of the initial range.
   //! \param[in] size The size of the initial range.
   //! \return `true` on success. `false` on failure with a message logged.
-  bool Initialize(const ProcessMemory* memory,
+  bool Initialize(ProcessMemory* memory,
                   bool is_64_bit,
                   VMAddress base,
                   VMSize size);
@@ -56,7 +56,7 @@ class ProcessMemoryRange {
   //!
   //! \param[in] memory The memory reader to delegate to.
   //! \param[in] is_64_bit Whether the target process is 64-bit.
-  bool Initialize(const ProcessMemory* memory, bool is_64_bit);
+  bool Initialize(ProcessMemory* memory, bool is_64_bit);
 
   //! \brief Initializes this object from an existing memory range.
   //!
@@ -65,7 +65,7 @@ class ProcessMemoryRange {
   //!
   //! \param[in] other The memory range object to initialize from.
   //! \return `true` on success. `false` on failure with a message logged.
-  bool Initialize(const ProcessMemoryRange& other);
+  bool Initialize(ProcessMemoryRange& other);
 
   //! \brief Returns whether the range is part of a 64-bit address space.
   bool Is64Bit() const { return range_.Is64Bit(); }
@@ -97,7 +97,7 @@ class ProcessMemoryRange {
   //!
   //! \return `true` on success, with \a buffer filled appropriately. `false` on
   //!     failure, with a message logged.
-  bool Read(VMAddress address, size_t size, void* buffer) const;
+  bool Read(VMAddress address, size_t size, void* buffer);
 
   //! \brief Reads a `NUL`-terminated C string from the target process into a
   //!     string in the current process.
@@ -114,10 +114,10 @@ class ProcessMemoryRange {
   //!     encountering unmapped or unreadable pages.
   bool ReadCStringSizeLimited(VMAddress address,
                               size_t size,
-                              std::string* string) const;
+                              std::string* string);
 
  private:
-  const ProcessMemory* memory_;  // weak
+  ProcessMemory* memory_;  // weak
   CheckedVMAddressRange range_;
   InitializationStateDcheck initialized_;
 

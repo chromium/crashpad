@@ -64,7 +64,7 @@ void ExpectElfImageWithSymbol(pid_t pid,
   ASSERT_TRUE(range.Initialize(&memory, is_64_bit));
 
   ElfImageReader reader;
-  ASSERT_TRUE(reader.Initialize(range, address));
+  ASSERT_TRUE(reader.Initialize(&range, address));
 
   VMAddress symbol_address;
   VMSize symbol_size;

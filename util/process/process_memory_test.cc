@@ -121,17 +121,17 @@ TEST(ProcessMemory, ReadForked) {
   test.RunAgainstForked();
 }
 
-bool ReadCString(const ProcessMemory& memory,
+bool ReadCString(ProcessMemory* memory,
                  const char* pointer,
                  std::string* result) {
-  return memory.ReadCString(FromPointerCast<VMAddress>(pointer), result);
+  return memory->ReadCString(FromPointerCast<VMAddress>(pointer), result);
 }
 
-bool ReadCStringSizeLimited(const ProcessMemory& memory,
+bool ReadCStringSizeLimited(ProcessMemory* memory,
                             const char* pointer,
                             size_t size,
                             std::string* result) {
-  return memory.ReadCStringSizeLimited(
+  return memory->ReadCStringSizeLimited(
       FromPointerCast<VMAddress>(pointer), size, result);
 }
 
@@ -161,44 +161,46 @@ class ReadCStringTest : public TargetProcessTest {
 
     if (limit_size_) {
       ASSERT_TRUE(ReadCStringSizeLimited(
-          memory, kConstCharEmpty, arraysize(kConstCharEmpty), &result));
+          &memory, kConstCharEmpty, arraysize(kConstCharEmpty), &result));
       EXPECT_EQ(result, kConstCharEmpty);
 
       ASSERT_TRUE(ReadCStringSizeLimited(
-          memory, kConstCharShort, arraysize(kConstCharShort), &result));
+          &memory, kConstCharShort, arraysize(kConstCharShort), &result));
       EXPECT_EQ(result, kConstCharShort);
       EXPECT_FALSE(ReadCStringSizeLimited(
-          memory, kConstCharShort, arraysize(kConstCharShort) - 1, &result));
+          &memory, kConstCharShort, arraysize(kConstCharShort) - 1, &result));
 
       ASSERT_TRUE(ReadCStringSizeLimited(
-          memory, member_char_empty_, strlen(member_char_empty_) + 1, &result));
+          &memory, member_char_empty_, strlen(member_char_empty_) + 1,
+          &result));
       EXPECT_EQ(result, member_char_empty_);
 
       ASSERT_TRUE(ReadCStringSizeLimited(
-          memory, member_char_short_, strlen(member_char_short_) + 1, &result));
+          &memory, member_char_short_, strlen(member_char_short_) + 1,
+          &result));
       EXPECT_EQ(result, member_char_short_);
       EXPECT_FALSE(ReadCStringSizeLimited(
-          memory, member_char_short_, strlen(member_char_short_), &result));
+          &memory, member_char_short_, strlen(member_char_short_), &result));
 
       ASSERT_TRUE(ReadCStringSizeLimited(
-          memory, string_long_.c_str(), string_long_.size() + 1, &result));
+          &memory, string_long_.c_str(), string_long_.size() + 1, &result));
       EXPECT_EQ(result, string_long_);
       EXPECT_FALSE(ReadCStringSizeLimited(
-          memory, string_long_.c_str(), string_long_.size(), &result));
+          &memory, string_long_.c_str(), string_long_.size(), &result));
     } else {
-      ASSERT_TRUE(ReadCString(memory, kConstCharEmpty, &result));
+      ASSERT_TRUE(ReadCString(&memory, kConstCharEmpty, &result));
       EXPECT_EQ(result, kConstCharEmpty);
 
-      ASSERT_TRUE(ReadCString(memory, kConstCharShort, &result));
+      ASSERT_TRUE(ReadCString(&memory, kConstCharShort, &result));
       EXPECT_EQ(result, kConstCharShort);
 
-      ASSERT_TRUE(ReadCString(memory, member_char_empty_, &result));
+      ASSERT_TRUE(ReadCString(&memory, member_char_empty_, &result));
       EXPECT_EQ(result, member_char_empty_);
 
-      ASSERT_TRUE(ReadCString(memory, member_char_short_, &result));
+      ASSERT_TRUE(ReadCString(&memory, member_char_short_, &result));
       EXPECT_EQ(result, member_char_short_);
 
-      ASSERT_TRUE(ReadCString(memory, string_long_.c_str(), &result));
+      ASSERT_TRUE(ReadCString(&memory, string_long_.c_str(), &result));
       EXPECT_EQ(result, string_long_);
     }
   }
@@ -342,22 +344,22 @@ class ReadCStringUnmappedTest : public TargetProcessTest {
 
     if (limit_size_) {
       ASSERT_TRUE(ReadCStringSizeLimited(
-          memory, string1_, expected_length_ + 1, &result_));
+          &memory, string1_, expected_length_ + 1, &result_));
       EXPECT_EQ(result_, string1_);
       ASSERT_TRUE(ReadCStringSizeLimited(
-          memory, string2_, expected_length_ + 1, &result_));
+          &memory, string2_, expected_length_ + 1, &result_));
       EXPECT_EQ(result_, string2_);
       EXPECT_FALSE(ReadCStringSizeLimited(
-          memory, string3_, expected_length_ + 1, &result_));
+          &memory, string3_, expected_length_ + 1, &result_));
       EXPECT_FALSE(ReadCStringSizeLimited(
-          memory, string4_, expected_length_ + 1, &result_));
+          &memory, string4_, expected_length_ + 1, &result_));
     } else {
-      ASSERT_TRUE(ReadCString(memory, string1_, &result_));
+      ASSERT_TRUE(ReadCString(&memory, string1_, &result_));
       EXPECT_EQ(result_, string1_);
-      ASSERT_TRUE(ReadCString(memory, string2_, &result_));
+      ASSERT_TRUE(ReadCString(&memory, string2_, &result_));
       EXPECT_EQ(result_, string2_);
-      EXPECT_FALSE(ReadCString(memory, string3_, &result_));
-      EXPECT_FALSE(ReadCString(memory, string4_, &result_));
+      EXPECT_FALSE(ReadCString(&memory, string3_, &result_));
+      EXPECT_FALSE(ReadCString(&memory, string4_, &result_));
     }
   }
 

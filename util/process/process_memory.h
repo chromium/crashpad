@@ -54,7 +54,7 @@ class ProcessMemory {
   //!
   //! \return `true` on success, with \a buffer filled appropriately. `false` on
   //!     failure, with a message logged.
-  bool Read(VMAddress address, size_t size, void* buffer) const;
+  bool Read(VMAddress address, size_t size, void* buffer);
 
   //! \brief Reads a `NUL`-terminated C string from the target process into a
   //!     string in the current process.
@@ -69,7 +69,7 @@ class ProcessMemory {
   //! \return `true` on success, with \a string set appropriately. `false` on
   //!     failure, with a message logged. Failures can occur, for example, when
   //!     encountering unmapped or unreadable pages.
-  bool ReadCString(VMAddress address, std::string* string) const;
+  bool ReadCString(VMAddress address, std::string* string);
 
   //! \brief Reads a `NUL`-terminated C string from the target process into a
   //!     string in the current process.
@@ -86,13 +86,13 @@ class ProcessMemory {
   //!     encountering unmapped or unreadable pages.
   bool ReadCStringSizeLimited(VMAddress address,
                               size_t size,
-                              std::string* string) const;
+                              std::string* string);
 
  private:
   bool ReadCStringInternal(VMAddress address,
                            bool has_size,
                            size_t size,
-                           std::string* string) const;
+                           std::string* string);
 
   base::ScopedFD mem_fd_;
   pid_t pid_;

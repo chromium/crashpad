@@ -53,16 +53,16 @@ struct LinkEntrySpecific {
 };
 
 template <typename Traits>
-bool ReadLinkEntry(const ProcessMemoryRange& memory,
+bool ReadLinkEntry(ProcessMemoryRange* memory,
                    LinuxVMAddress* address,
                    DebugRendezvous::LinkEntry* entry_out) {
   LinkEntrySpecific<Traits> entry;
-  if (!memory.Read(*address, sizeof(entry), &entry)) {
+  if (!memory->Read(*address, sizeof(entry), &entry)) {
     return false;
   }
 
   std::string name;
-  if (!memory.ReadCStringSizeLimited(entry.l_name, 4096, &name)) {
+  if (!memory->ReadCStringSizeLimited(entry.l_name, 4096, &name)) {
     return false;
   }
 
@@ -84,11 +84,11 @@ DebugRendezvous::DebugRendezvous()
 
 DebugRendezvous::~DebugRendezvous() {}
 
-bool DebugRendezvous::Initialize(const ProcessMemoryRange& memory,
+bool DebugRendezvous::Initialize(ProcessMemoryRange* memory,
                                  LinuxVMAddress address) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
-  if (!(memory.Is64Bit() ? InitializeSpecific<Traits64>(memory, address)
-                         : InitializeSpecific<Traits32>(memory, address))) {
+  if (!(memory->Is64Bit() ? InitializeSpecific<Traits64>(memory, address)
+                          : InitializeSpecific<Traits32>(memory, address))) {
     return false;
   }
   INITIALIZATION_STATE_SET_VALID(initialized_);
@@ -107,10 +107,10 @@ const std::vector<DebugRendezvous::LinkEntry>& DebugRendezvous::Modules()
 }
 
 template <typename Traits>
-bool DebugRendezvous::InitializeSpecific(const ProcessMemoryRange& memory,
+bool DebugRendezvous::InitializeSpecific(ProcessMemoryRange* memory,
                                          LinuxVMAddress address) {
   DebugRendezvousSpecific<Traits> debug;
-  if (!memory.Read(address, sizeof(debug), &debug)) {
+  if (!memory->Read(address, sizeof(debug), &debug)) {
     return false;
   }
   if (debug.r_version != 1) {

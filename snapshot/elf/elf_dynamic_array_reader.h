@@ -42,9 +42,7 @@ class ElfDynamicArrayReader {
   //! \param[in] address The address in the remote process' address space where
   //!     the ELF dynamic table is loaded.
   //! \param[in] size The maximum number of bytes to read.
-  bool Initialize(const ProcessMemoryRange& memory,
-                  VMAddress address,
-                  VMSize size);
+  bool Initialize(ProcessMemoryRange* memory, VMAddress address, VMSize size);
 
   //! \brief Retrieve a value from the array.
   //!

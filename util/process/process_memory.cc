@@ -42,9 +42,7 @@ bool ProcessMemory::Initialize(pid_t pid) {
   return true;
 }
 
-bool ProcessMemory::Read(VMAddress address,
-                         size_t size,
-                         void* buffer) const {
+bool ProcessMemory::Read(VMAddress address, size_t size, void* buffer) {
   DCHECK(mem_fd_.is_valid());
 
   char* buffer_c = static_cast<char*>(buffer);
@@ -67,21 +65,20 @@ bool ProcessMemory::Read(VMAddress address,
   return true;
 }
 
-bool ProcessMemory::ReadCString(VMAddress address,
-                                std::string* string) const {
+bool ProcessMemory::ReadCString(VMAddress address, std::string* string) {
   return ReadCStringInternal(address, false, 0, string);
 }
 
 bool ProcessMemory::ReadCStringSizeLimited(VMAddress address,
                                            size_t size,
-                                           std::string* string) const {
+                                           std::string* string) {
   return ReadCStringInternal(address, true, size, string);
 }
 
 bool ProcessMemory::ReadCStringInternal(VMAddress address,
                                         bool has_size,
                                         size_t size,
-                                        std::string* string) const {
+                                        std::string* string) {
   DCHECK(mem_fd_.is_valid());
 
   string->clear();

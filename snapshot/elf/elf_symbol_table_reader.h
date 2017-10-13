@@ -59,7 +59,7 @@ class ElfSymbolTableReader {
 
   // TODO(jperaza): Support using .hash and .gnu.hash sections to improve symbol
   // lookup.
-  ElfSymbolTableReader(const ProcessMemoryRange* memory,
+  ElfSymbolTableReader(ProcessMemoryRange* memory,
                        ElfImageReader* elf_reader,
                        VMAddress address);
   ~ElfSymbolTableReader();
@@ -75,7 +75,7 @@ class ElfSymbolTableReader {
   template <typename SymEnt>
   bool ScanSymbolTable(const std::string& name, SymbolInformation* info);
 
-  const ProcessMemoryRange* const memory_;  // weak
+  ProcessMemoryRange* const memory_;  // weak
   ElfImageReader* const elf_reader_;  // weak
   const VMAddress base_address_;
 

@@ -23,7 +23,7 @@ namespace crashpad {
 namespace {
 
 template <typename DynType>
-bool Read(const ProcessMemoryRange& memory,
+bool Read(ProcessMemoryRange* memory,
           VMAddress address,
           VMSize size,
           std::map<uint64_t, uint64_t>* values) {
@@ -31,7 +31,7 @@ bool Read(const ProcessMemoryRange& memory,
 
   while (size > 0) {
     DynType entry;
-    if (!memory.Read(address, sizeof(entry), &entry)) {
+    if (!memory->Read(address, sizeof(entry), &entry)) {
       return false;
     }
     size -= sizeof(entry);
@@ -65,11 +65,11 @@ ElfDynamicArrayReader::ElfDynamicArrayReader() : values_() {}
 
 ElfDynamicArrayReader::~ElfDynamicArrayReader() {}
 
-bool ElfDynamicArrayReader::Initialize(const ProcessMemoryRange& memory,
+bool ElfDynamicArrayReader::Initialize(ProcessMemoryRange* memory,
                                        VMAddress address,
                                        VMSize size) {
-  return memory.Is64Bit() ? Read<Elf64_Dyn>(memory, address, size, &values_)
-                          : Read<Elf32_Dyn>(memory, address, size, &values_);
+  return memory->Is64Bit() ? Read<Elf64_Dyn>(memory, address, size, &values_)
+                           : Read<Elf32_Dyn>(memory, address, size, &values_);
 }
 
 }  // namespace crashpad

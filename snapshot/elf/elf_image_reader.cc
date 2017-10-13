@@ -47,12 +47,13 @@ class ElfImageReader::ProgramHeaderTableSpecific
   ProgramHeaderTableSpecific<PhdrType>() {}
   ~ProgramHeaderTableSpecific<PhdrType>() {}
 
-  bool Initialize(const ProcessMemoryRange& memory,
+  bool Initialize(ProcessMemoryRange* memory,
                   VMAddress address,
                   VMSize num_segments) {
     INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
     table_.resize(num_segments);
-    if (!memory.Read(address, sizeof(PhdrType) * num_segments, table_.data())) {
+    if (!memory->Read(
+            address, sizeof(PhdrType) * num_segments, table_.data())) {
       return false;
     }
 
@@ -171,11 +172,10 @@ ElfImageReader::ElfImageReader()
 
 ElfImageReader::~ElfImageReader() {}
 
-bool ElfImageReader::Initialize(const ProcessMemoryRange& memory,
-                                VMAddress address) {
+bool ElfImageReader::Initialize(ProcessMemoryRange* memory, VMAddress address) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
   ehdr_address_ = address;
-  if (!memory_.Initialize(memory)) {
+  if (!memory_.Initialize(*memory)) {
     return false;
   }
 
@@ -279,7 +279,7 @@ bool ElfImageReader::Initialize(const ProcessMemoryRange& memory,
     return false;
   }
   if (!range.ContainsRange(CheckedVMAddressRange(
-          memory.Is64Bit(), phdr_address, program_headers_->Size()))) {
+          memory->Is64Bit(), phdr_address, program_headers_->Size()))) {
     LOG(ERROR) << "phdrs out of range";
     return false;
   }
@@ -378,18 +378,18 @@ bool ElfImageReader::GetDebugAddress(VMAddress* debug) {
 }
 
 bool ElfImageReader::InitializeProgramHeaders() {
-#define INITIALIZE_PROGRAM_HEADERS(PhdrType, header)                    \
-  do {                                                                  \
-    if (header.e_phentsize != sizeof(PhdrType)) {                       \
-      LOG(ERROR) << "unexpected phdr size";                             \
-      return false;                                                     \
-    }                                                                   \
-    auto phdrs = new ProgramHeaderTableSpecific<PhdrType>();            \
-    program_headers_.reset(phdrs);                                      \
-    if (!phdrs->Initialize(                                             \
-            memory_, ehdr_address_ + header.e_phoff, header.e_phnum)) { \
-      return false;                                                     \
-    }                                                                   \
+#define INITIALIZE_PROGRAM_HEADERS(PhdrType, header)                     \
+  do {                                                                   \
+    if (header.e_phentsize != sizeof(PhdrType)) {                        \
+      LOG(ERROR) << "unexpected phdr size";                              \
+      return false;                                                      \
+    }                                                                    \
+    auto phdrs = new ProgramHeaderTableSpecific<PhdrType>();             \
+    program_headers_.reset(phdrs);                                       \
+    if (!phdrs->Initialize(                                              \
+            &memory_, ehdr_address_ + header.e_phoff, header.e_phnum)) { \
+      return false;                                                      \
+    }                                                                    \
   } while (false);
 
   if (memory_.Is64Bit()) {
@@ -420,7 +420,7 @@ bool ElfImageReader::InitializeDynamicArray() {
 
   dynamic_array_.reset(new ElfDynamicArrayReader());
   if (!dynamic_array_->Initialize(
-          memory_, dyn_segment_address, dyn_segment_size)) {
+          &memory_, dyn_segment_address, dyn_segment_size)) {
     return false;
   }
   dynamic_array_initialized_.set_valid();

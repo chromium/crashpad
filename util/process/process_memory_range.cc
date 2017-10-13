@@ -26,7 +26,7 @@ ProcessMemoryRange::ProcessMemoryRange()
 
 ProcessMemoryRange::~ProcessMemoryRange() {}
 
-bool ProcessMemoryRange::Initialize(const ProcessMemory* memory,
+bool ProcessMemoryRange::Initialize(ProcessMemory* memory,
                                     bool is_64_bit,
                                     VMAddress base,
                                     VMSize size) {
@@ -41,14 +41,13 @@ bool ProcessMemoryRange::Initialize(const ProcessMemory* memory,
   return true;
 }
 
-bool ProcessMemoryRange::Initialize(const ProcessMemory* memory,
-                                    bool is_64_bit) {
+bool ProcessMemoryRange::Initialize(ProcessMemory* memory, bool is_64_bit) {
   VMSize max = is_64_bit ? std::numeric_limits<uint64_t>::max()
                          : std::numeric_limits<uint32_t>::max();
   return Initialize(memory, is_64_bit, 0, max);
 }
 
-bool ProcessMemoryRange::Initialize(const ProcessMemoryRange& other) {
+bool ProcessMemoryRange::Initialize(ProcessMemoryRange& other) {
   return Initialize(other.memory_,
                     other.range_.Is64Bit(),
                     other.range_.Base(),
@@ -66,9 +65,7 @@ bool ProcessMemoryRange::RestrictRange(VMAddress base, VMSize size) {
   return true;
 }
 
-bool ProcessMemoryRange::Read(VMAddress address,
-                              size_t size,
-                              void* buffer) const {
+bool ProcessMemoryRange::Read(VMAddress address, size_t size, void* buffer) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   CheckedVMAddressRange read_range(range_.Is64Bit(), address, size);
   if (!read_range.IsValid() || !range_.ContainsRange(read_range)) {
@@ -80,7 +77,7 @@ bool ProcessMemoryRange::Read(VMAddress address,
 
 bool ProcessMemoryRange::ReadCStringSizeLimited(VMAddress address,
                                                 size_t size,
-                                                std::string* string) const {
+                                                std::string* string) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   if (!range_.ContainsValue(address)) {
     LOG(ERROR) << "read out of range";

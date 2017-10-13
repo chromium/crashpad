@@ -60,7 +60,7 @@ class DebugRendezvous {
   //! \param[in] address The address of an `r_debug` struct in the remote
   //!     process.
   //! \return `true` on success. `false` on failure with a message logged.
-  bool Initialize(const ProcessMemoryRange& memory, LinuxVMAddress address);
+  bool Initialize(ProcessMemoryRange* memory, LinuxVMAddress address);
 
   //! \brief Returns the LinkEntry for the main executable.
   const LinkEntry* Executable() const;
@@ -73,8 +73,7 @@ class DebugRendezvous {
 
  private:
   template <typename Traits>
-  bool InitializeSpecific(const ProcessMemoryRange& memory,
-                          LinuxVMAddress address);
+  bool InitializeSpecific(ProcessMemoryRange* memory, LinuxVMAddress address);
 
   std::vector<LinkEntry> modules_;
   LinkEntry executable_;

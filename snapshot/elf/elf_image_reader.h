@@ -47,7 +47,7 @@ class ElfImageReader {
   //! \param[in] memory A memory reader for the remote process.
   //! \param[in] address The address in the remote process' address space where
   //!     the ELF image is loaded.
-  bool Initialize(const ProcessMemoryRange& memory, VMAddress address);
+  bool Initialize(ProcessMemoryRange* memory, VMAddress address);
 
   //! \brief Returns the base address of the image's memory range.
   //!

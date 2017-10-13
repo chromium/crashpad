@@ -82,13 +82,13 @@ void TestAgainstTarget(pid_t pid, bool is_64_bit) {
   ASSERT_TRUE(range.Initialize(&memory, is_64_bit));
 
   ElfImageReader exe_reader;
-  ASSERT_TRUE(exe_reader.Initialize(range, elf_address));
+  ASSERT_TRUE(exe_reader.Initialize(&range, elf_address));
   LinuxVMAddress debug_address;
   ASSERT_TRUE(exe_reader.GetDebugAddress(&debug_address));
 
   // start the actual tests
   DebugRendezvous debug;
-  ASSERT_TRUE(debug.Initialize(range, debug_address));
+  ASSERT_TRUE(debug.Initialize(&range, debug_address));
 
 #if defined(OS_ANDROID)
   const int android_runtime_api = AndroidRuntimeAPI();
@@ -167,7 +167,7 @@ void TestAgainstTarget(pid_t pid, bool is_64_bit) {
 #endif  // OS_ANDROID
 
     ElfImageReader module_reader;
-    ASSERT_TRUE(module_reader.Initialize(range, module_mapping->range.Base()));
+    ASSERT_TRUE(module_reader.Initialize(&range, module_mapping->range.Base()));
 
     // Android's loader stops setting its own load bias after Android 4.4.4
     // (API 20) until Android 6.0 (API 23).

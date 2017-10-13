@@ -49,7 +49,7 @@ uint8_t GetVisibility(const Elf64_Sym& sym) {
 
 }  // namespace
 
-ElfSymbolTableReader::ElfSymbolTableReader(const ProcessMemoryRange* memory,
+ElfSymbolTableReader::ElfSymbolTableReader(ProcessMemoryRange* memory,
                                            ElfImageReader* elf_reader,
                                            VMAddress address)
     : memory_(memory), elf_reader_(elf_reader), base_address_(address) {}
