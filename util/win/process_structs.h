@@ -319,12 +319,12 @@ struct CLIENT_ID {
 template <class Traits>
 struct TEB {
   NT_TIB<Traits> NtTib;
-  typename Traits::Pointer ProcessEnvironmentBlock;
+  typename Traits::Pointer EnvironmentPointer;
   CLIENT_ID<Traits> ClientId;
-
-  // Not identical to Reserved2 in winternl's _TEB because we define ClientId.
-  typename Traits::Pointer RemainderOfReserved2[397];
-
+  typename Traits::Pointer ActiveRpcHandle;
+  typename Traits::Pointer ThreadLocalStoragePointer;
+  typename Traits::Pointer ProcessEnvironmentBlock;
+  typename Traits::Pointer RemainderOfReserved2[399];
   BYTE Reserved3[1952];
   typename Traits::Pointer TlsSlots[64];
   BYTE Reserved4[8];
