@@ -118,6 +118,30 @@
       "revId": "99dbb9fc0444823a107cbe85b0239ed486ed1b91",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1ebc838_a206964e",
+        "filename": "snapshot/elf/elf_image_reader_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T17:29:04Z",
+      "side": 1,
+      "message": "\u003e All right. If VS 2015’s library does have std::make_unique, then feel free to use it, and I’ll drop the mini_chromium change that adds base::MakeUnique.\n\nClosing the loop on this, we’re good to go on std::make_unique and relying on any part of C++14 whitelisted at https://chromium-cpp.appspot.com/.",
+      "parentUuid": "0511de94_ebe9a9d9",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 3
+      },
+      "revId": "99dbb9fc0444823a107cbe85b0239ed486ed1b91",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

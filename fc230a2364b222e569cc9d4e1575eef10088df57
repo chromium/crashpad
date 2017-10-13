@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "491bba88_968c36d2",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T17:29:04Z",
+      "side": 1,
+      "message": "Unused, remove.",
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc1596e0_8af16c9a",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T17:29:04Z",
+      "side": 1,
+      "message": "This should be protected and non-virtual unless it really does need to be public.",
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0181d059_7a2b0ff0",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T17:29:04Z",
+      "side": 1,
+      "message": "After https://crashpad.chromium.org/bug/9, I’m wary of “const” methods on widely-implemented interfaces. Is const important or helpful to this interface? It doesn’t look like having “const” makes anything easier at any of the use sites.\n\n(Also applies to the other methods here.)",
+      "range": {
+        "startLine": 47,
+        "startChar": 66,
+        "endLine": 47,
+        "endChar": 71
+      },
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cc625ff_df6c7992",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T17:29:04Z",
+      "side": 1,
+      "message": "This can be private.",
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92259d4d_a26a08e6",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T17:29:04Z",
+      "side": 1,
+      "message": "This isn’t really required on an interface class, and it can be harmful because it places restrictions on subclasses. Our interfaces usually omit it. That’ll let you remove #include \"base/macros.h\" too.",
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b794be8_80871168",
+        "filename": "util/process/process_memory_linux.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T17:29:04Z",
+      "side": 1,
+      "message": ": ProcessMemory(), mem_fd_(),",
+      "range": {
+        "startLine": 29,
+        "startChar": 41,
+        "endLine": 29,
+        "endChar": 53
+      },
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acc8826f_f82981e1",
+        "filename": "util/process/process_memory_linux.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T17:29:04Z",
+      "side": 1,
+      "message": "This just duplicates what the superclass’ documentation says. You don’t need to repeat it here. If you don’t say anything at all, the generated documentation will refer to the superclass’.\n\nExample: we get https://crashpad.chromium.org/doxygen/classcrashpad_1_1ProcessSnapshotMac.html#a195ed470a23bf6959f63734b8b5ebe13 without having to write anything at https://chromium.googlesource.com/crashpad/crashpad/+/952f787f4aabf1e9fc9d705bf49ac4219d2931ff/snapshot/mac/process_snapshot_mac.h#128.",
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
