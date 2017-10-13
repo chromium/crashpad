@@ -17,6 +17,8 @@
 
 #include <stdint.h>
 
+#include <type_traits>
+
 #include "base/logging.h"
 #include "base/macros.h"
 #include "base/numerics/safe_conversions.h"
@@ -187,6 +189,9 @@ class TSimpleAddressRangeBag {
 
 //! \brief A TSimpleAddressRangeBag with default template parameters.
 using SimpleAddressRangeBag = TSimpleAddressRangeBag<64>;
+
+static_assert(std::is_standard_layout<SimpleAddressRangeBag>::value,
+              "SimpleAddressRangeBag must be standard layout");
 
 }  // namespace crashpad
 

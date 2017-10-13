@@ -23,28 +23,22 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <type_traits>
+
 #include "base/logging.h"
 #include "base/rand_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "base/sys_byteorder.h"
-#include "util/stdlib/cxx.h"
 
 #if defined(OS_MACOSX)
 #include <uuid/uuid.h>
 #endif  // OS_MACOSX
 
-#if CXX_LIBRARY_VERSION >= 2011
-#include <type_traits>
-#endif
-
 namespace crashpad {
 
 static_assert(sizeof(UUID) == 16, "UUID must be 16 bytes");
-
-#if CXX_LIBRARY_VERSION >= 2011
 static_assert(std::is_pod<UUID>::value, "UUID must be POD");
-#endif
 
 bool UUID::operator==(const UUID& that) const {
   return memcmp(this, &that, sizeof(*this)) == 0;

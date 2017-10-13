@@ -88,51 +88,51 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
 // operates on each member in the struct.
 #define PROCESS_TYPE_STRUCT_IMPLEMENT 1
 
-#define PROCESS_TYPE_STRUCT_BEGIN(struct_name)                             \
-  namespace crashpad {                                                     \
-  namespace process_types {                                                \
-                                                                           \
-  /* static */                                                             \
-  size_t struct_name::ExpectedSize(ProcessReader* process_reader) {        \
-    if (!process_reader->Is64Bit()) {                                      \
-      return internal::struct_name<internal::Traits32>::Size();            \
-    } else {                                                               \
-      return internal::struct_name<internal::Traits64>::Size();            \
-    }                                                                      \
-  }                                                                        \
-                                                                           \
-  /* static */                                                             \
-  bool struct_name::ReadInto(ProcessReader* process_reader,                \
-                             mach_vm_address_t address,                    \
-                             struct_name* generic) {                       \
-    if (!process_reader->Is64Bit()) {                                      \
-      return ReadIntoInternal<internal::struct_name<internal::Traits32> >( \
-          process_reader, address, generic);                               \
-    } else {                                                               \
-      return ReadIntoInternal<internal::struct_name<internal::Traits64> >( \
-          process_reader, address, generic);                               \
-    }                                                                      \
-  }                                                                        \
-                                                                           \
-  /* static */                                                             \
-  template <typename T>                                                    \
-  bool struct_name::ReadIntoInternal(ProcessReader* process_reader,        \
-                                     mach_vm_address_t address,            \
-                                     struct_name* generic) {               \
-    T specific;                                                            \
-    if (!specific.Read(process_reader, address)) {                         \
-      return false;                                                        \
-    }                                                                      \
-    specific.GenericizeInto(generic, &generic->size_);                     \
-    return true;                                                           \
-  }                                                                        \
-                                                                           \
-  namespace internal {                                                     \
-                                                                           \
-  template <typename Traits>                                               \
-  void struct_name<Traits>::GenericizeInto(                                \
-      process_types::struct_name* generic,                                 \
-      size_t* specific_size) {                                             \
+#define PROCESS_TYPE_STRUCT_BEGIN(struct_name)                            \
+  namespace crashpad {                                                    \
+  namespace process_types {                                               \
+                                                                          \
+  /* static */                                                            \
+  size_t struct_name::ExpectedSize(ProcessReader* process_reader) {       \
+    if (!process_reader->Is64Bit()) {                                     \
+      return internal::struct_name<internal::Traits32>::Size();           \
+    } else {                                                              \
+      return internal::struct_name<internal::Traits64>::Size();           \
+    }                                                                     \
+  }                                                                       \
+                                                                          \
+  /* static */                                                            \
+  bool struct_name::ReadInto(ProcessReader* process_reader,               \
+                             mach_vm_address_t address,                   \
+                             struct_name* generic) {                      \
+    if (!process_reader->Is64Bit()) {                                     \
+      return ReadIntoInternal<internal::struct_name<internal::Traits32>>( \
+          process_reader, address, generic);                              \
+    } else {                                                              \
+      return ReadIntoInternal<internal::struct_name<internal::Traits64>>( \
+          process_reader, address, generic);                              \
+    }                                                                     \
+  }                                                                       \
+                                                                          \
+  /* static */                                                            \
+  template <typename T>                                                   \
+  bool struct_name::ReadIntoInternal(ProcessReader* process_reader,       \
+                                     mach_vm_address_t address,           \
+                                     struct_name* generic) {              \
+    T specific;                                                           \
+    if (!specific.Read(process_reader, address)) {                        \
+      return false;                                                       \
+    }                                                                     \
+    specific.GenericizeInto(generic, &generic->size_);                    \
+    return true;                                                          \
+  }                                                                       \
+                                                                          \
+  namespace internal {                                                    \
+                                                                          \
+  template <typename Traits>                                              \
+  void struct_name<Traits>::GenericizeInto(                               \
+      process_types::struct_name* generic,                                \
+      size_t* specific_size) {                                            \
     *specific_size = Size();
 
 #define PROCESS_TYPE_STRUCT_MEMBER(member_type, member_name, ...) \
@@ -200,56 +200,54 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
 // can do so by guarding their proctype definitions against this macro.
 #define PROCESS_TYPE_STRUCT_IMPLEMENT_ARRAY 1
 
-#define PROCESS_TYPE_STRUCT_BEGIN(struct_name)                                \
-  namespace crashpad {                                                        \
-  namespace process_types {                                                   \
-  namespace internal {                                                        \
-                                                                              \
-  /* static */                                                                \
-  template <typename Traits>                                                  \
-  bool struct_name<Traits>::ReadArrayInto(ProcessReader* process_reader,      \
-                                          mach_vm_address_t address,          \
-                                          size_t count,                       \
-                                          struct_name<Traits>* specific) {    \
-    return process_reader->Memory()->Read(                                    \
-        address, sizeof(struct_name<Traits>[count]), specific);               \
-  }                                                                           \
-                                                                              \
-  } /* namespace internal */                                                  \
-                                                                              \
-  /* static */                                                                \
-  bool struct_name::ReadArrayInto(ProcessReader* process_reader,              \
-                                  mach_vm_address_t address,                  \
-                                  size_t count,                               \
-                                  struct_name* generic) {                     \
-    if (!process_reader->Is64Bit()) {                                         \
-      return ReadArrayIntoInternal<                                           \
-          internal::struct_name<internal::Traits32> >(                        \
-          process_reader, address, count, generic);                           \
-    } else {                                                                  \
-      return ReadArrayIntoInternal<                                           \
-          internal::struct_name<internal::Traits64> >(                        \
-          process_reader, address, count, generic);                           \
-    }                                                                         \
-    return true;                                                              \
-  }                                                                           \
-                                                                              \
-  /* static */                                                                \
-  template <typename T>                                                       \
-  bool struct_name::ReadArrayIntoInternal(ProcessReader* process_reader,      \
-                                          mach_vm_address_t address,          \
-                                          size_t count,                       \
-                                          struct_name* generic) {             \
-    std::unique_ptr<T[]> specific(new T[count]);                              \
-    if (!T::ReadArrayInto(process_reader, address, count, &specific[0])) {    \
-      return false;                                                           \
-    }                                                                         \
-    for (size_t index = 0; index < count; ++index) {                          \
-      specific[index].GenericizeInto(&generic[index], &generic[index].size_); \
-    }                                                                         \
-    return true;                                                              \
-  }                                                                           \
-  } /* namespace process_types */                                             \
+#define PROCESS_TYPE_STRUCT_BEGIN(struct_name)                                 \
+  namespace crashpad {                                                         \
+  namespace process_types {                                                    \
+  namespace internal {                                                         \
+                                                                               \
+  /* static */                                                                 \
+  template <typename Traits>                                                   \
+  bool struct_name<Traits>::ReadArrayInto(ProcessReader* process_reader,       \
+                                          mach_vm_address_t address,           \
+                                          size_t count,                        \
+                                          struct_name<Traits>* specific) {     \
+    return process_reader->Memory()->Read(                                     \
+        address, sizeof(struct_name<Traits>[count]), specific);                \
+  }                                                                            \
+                                                                               \
+  } /* namespace internal */                                                   \
+                                                                               \
+  /* static */                                                                 \
+  bool struct_name::ReadArrayInto(ProcessReader* process_reader,               \
+                                  mach_vm_address_t address,                   \
+                                  size_t count,                                \
+                                  struct_name* generic) {                      \
+    if (!process_reader->Is64Bit()) {                                          \
+      return ReadArrayIntoInternal<internal::struct_name<internal::Traits32>>( \
+          process_reader, address, count, generic);                            \
+    } else {                                                                   \
+      return ReadArrayIntoInternal<internal::struct_name<internal::Traits64>>( \
+          process_reader, address, count, generic);                            \
+    }                                                                          \
+    return true;                                                               \
+  }                                                                            \
+                                                                               \
+  /* static */                                                                 \
+  template <typename T>                                                        \
+  bool struct_name::ReadArrayIntoInternal(ProcessReader* process_reader,       \
+                                          mach_vm_address_t address,           \
+                                          size_t count,                        \
+                                          struct_name* generic) {              \
+    std::unique_ptr<T[]> specific(new T[count]);                               \
+    if (!T::ReadArrayInto(process_reader, address, count, &specific[0])) {     \
+      return false;                                                            \
+    }                                                                          \
+    for (size_t index = 0; index < count; ++index) {                           \
+      specific[index].GenericizeInto(&generic[index], &generic[index].size_);  \
+    }                                                                          \
+    return true;                                                               \
+  }                                                                            \
+  } /* namespace process_types */                                              \
   } /* namespace crashpad */
 
 #define PROCESS_TYPE_STRUCT_MEMBER(member_type, member_name, ...)
