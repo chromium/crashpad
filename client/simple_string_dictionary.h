@@ -19,6 +19,7 @@
 #include <sys/types.h>
 
 #include <algorithm>
+#include <type_traits>
 
 #include "base/logging.h"
 #include "base/macros.h"
@@ -278,6 +279,9 @@ class TSimpleStringDictionary {
 //! For historical reasons this specialized version is available with the same
 //! size factors as a previous implementation.
 using SimpleStringDictionary = TSimpleStringDictionary<256, 256, 64>;
+
+static_assert(std::is_standard_layout<SimpleStringDictionary>::value,
+              "SimpleStringDictionary must be standard layout");
 
 }  // namespace crashpad
 
