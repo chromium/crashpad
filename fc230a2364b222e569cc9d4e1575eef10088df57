@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6109aeb3_4cea0e7c",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-10-13T18:49:35Z",
+      "side": 1,
+      "message": "\u003e Unused, remove.\n\nDone.",
+      "parentUuid": "491bba88_968c36d2",
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc1596e0_8af16c9a",
         "filename": "util/process/process_memory.h",
         "patchSetId": 10
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "e729f1ed_cf2e1d8b",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-10-13T18:49:35Z",
+      "side": 1,
+      "message": "\u003e This should be protected and non-virtual unless it really does need to be public.\n\nDone. It was required in the earlier version of this CL, but not anymore.",
+      "parentUuid": "cc1596e0_8af16c9a",
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0181d059_7a2b0ff0",
         "filename": "util/process/process_memory.h",
         "patchSetId": 10
@@ -47,6 +83,30 @@
       "writtenOn": "2017-10-13T17:29:04Z",
       "side": 1,
       "message": "After https://crashpad.chromium.org/bug/9, I’m wary of “const” methods on widely-implemented interfaces. Is const important or helpful to this interface? It doesn’t look like having “const” makes anything easier at any of the use sites.\n\n(Also applies to the other methods here.)",
+      "range": {
+        "startLine": 47,
+        "startChar": 66,
+        "endLine": 47,
+        "endChar": 71
+      },
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e27708cc_a1a216c4",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-10-13T18:49:35Z",
+      "side": 1,
+      "message": "\u003e After https://crashpad.chromium.org/bug/9, I’m wary of “const” methods on widely-implemented interfaces. Is const important or helpful to this interface? It doesn’t look like having “const” makes anything easier at any of the use sites.\n\u003e \n\u003e (Also applies to the other methods here.)\n\nI started pulling that thread, and it went pretty deep: see https://chromium-review.googlesource.com/c/crashpad/crashpad/+/719403\n\nIf you\u0027d like me to make these non-const, I think it makes sense to submit that CL first.",
+      "parentUuid": "0181d059_7a2b0ff0",
       "range": {
         "startLine": 47,
         "startChar": 66,
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "87257a5e_8785f4c9",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-10-13T18:49:35Z",
+      "side": 1,
+      "message": "\u003e This can be private.\n\nDone. Had no idea that pure virtuals could be private!",
+      "parentUuid": "8cc625ff_df6c7992",
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92259d4d_a26a08e6",
         "filename": "util/process/process_memory.h",
         "patchSetId": 10
@@ -90,6 +168,24 @@
       "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6f7387e_2f6cb49a",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-10-13T18:49:35Z",
+      "side": 1,
+      "message": "\u003e This isn’t really required on an interface class, and it can be harmful because it places restrictions on subclasses. Our interfaces usually omit it. That’ll let you remove #include \"base/macros.h\" too.\n\nDone.",
+      "parentUuid": "92259d4d_a26a08e6",
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -116,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "41fd486c_dd554049",
+        "filename": "util/process/process_memory_linux.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-10-13T18:49:35Z",
+      "side": 1,
+      "message": "\u003e : ProcessMemory(), mem_fd_(),\n\nDone.",
+      "parentUuid": "6b794be8_80871168",
+      "range": {
+        "startLine": 29,
+        "startChar": 41,
+        "endLine": 29,
+        "endChar": 53
+      },
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "acc8826f_f82981e1",
         "filename": "util/process/process_memory_linux.h",
         "patchSetId": 10
@@ -130,6 +250,24 @@
       "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81fa0f7d_9942bd58",
+        "filename": "util/process/process_memory_linux.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-10-13T18:49:35Z",
+      "side": 1,
+      "message": "\u003e This just duplicates what the superclass’ documentation says. You don’t need to repeat it here. If you don’t say anything at all, the generated documentation will refer to the superclass’.\n\nRemoved.",
+      "parentUuid": "acc8826f_f82981e1",
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
