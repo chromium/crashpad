@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "03a72dde_0303eda4",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T23:32:34Z",
+      "side": 1,
+      "message": "\u003e why non-virtual? wouldn\u0027t that break polymorphic pointer management? (delete thorough ProcessMemory* in particular)\n\nIt can\u0027t be deleted through a base pointer if it\u0027s protected.",
+      "parentUuid": "20d6c9b7_b3215820",
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0181d059_7a2b0ff0",
         "filename": "util/process/process_memory.h",
         "patchSetId": 10
