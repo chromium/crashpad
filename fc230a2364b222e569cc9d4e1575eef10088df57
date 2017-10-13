@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9ea001df_72c640f2",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-13T21:14:10Z",
+      "side": 1,
+      "message": "\u003e I started pulling that thread, and it went pretty deep: see https://chromium-review.googlesource.com/c/crashpad/crashpad/+/719403\n\u003e \n\u003e If you\u0027d like me to make these non-const, I think it makes sense to submit that CL first.\n\nSeeing it all together, I’m not so sure if de-const-amination is most sensible here (as compared to snapshot). Maybe const (as logical constness) is fine for this interface, and if anyone really needs to alter implementation object state, they can write “mutable.” I’m on the fence. Do you have thoughts either way?\n\nI’ll approve this one if you want to land it as-is. If you do want to de-const, I agree that the other one should land first, and I’ll review it once you make it non-RFC/WIP.",
+      "parentUuid": "e27708cc_a1a216c4",
+      "range": {
+        "startLine": 47,
+        "startChar": 66,
+        "endLine": 47,
+        "endChar": 71
+      },
+      "revId": "fc230a2364b222e569cc9d4e1575eef10088df57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8cc625ff_df6c7992",
         "filename": "util/process/process_memory.h",
         "patchSetId": 10
