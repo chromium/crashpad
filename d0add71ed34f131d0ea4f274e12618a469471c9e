@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f35f639f_bdace6d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1244998
+      },
+      "writtenOn": "2017-10-13T18:31:29Z",
+      "side": 1,
+      "message": "I looked into this a bit. It seems like the only place where some advantage _may_ be achieved by refactoring is in process_info_{mac,win}.cc ReadMemoryInfo(). Even there we\u0027d need some delegate to pick up the `mach_vm_region` vs `VirtualQueryEx`, plus traits for the address/size. Do you think that is the path to take?",
+      "parentUuid": "6a822133_17eb6813",
+      "revId": "d0add71ed34f131d0ea4f274e12618a469471c9e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87d60ae1_3f7e5f32",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
