@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8427010_6d2a3728",
+        "filename": "util/file/filesystem_win.cc",
+        "patchSetId": 46
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-16T18:57:41Z",
+      "side": 1,
+      "message": "Is this to remove symbolic links to directories? Probably worth a comment, it wasn’t immediately obvious to me.\n\nIf that’s not it, then I still don’t get it.",
+      "revId": "f7d40d811f177c0b2f22da19d035b91afab4df5e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecdbd5f6_70c1a599",
+        "filename": "util/util.gyp",
+        "patchSetId": 46
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-16T18:57:41Z",
+      "side": 1,
+      "message": "Sort: misc/as \u003e misc/address",
+      "revId": "f7d40d811f177c0b2f22da19d035b91afab4df5e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
