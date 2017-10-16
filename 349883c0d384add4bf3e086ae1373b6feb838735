@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f46500b2_e0a8b42a",
+        "filename": "util/file/scoped_remove_file.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-16T23:53:52Z",
+      "side": 1,
+      "message": "The empty() check is redundant. Since you’ve defined InvalidValue() correctly, base::ScopedGeneric will only call Free() if |path| is non-empty. You can remove this.",
+      "revId": "349883c0d384add4bf3e086ae1373b6feb838735",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "335767b0_584f1b0f",
+        "filename": "util/file/scoped_remove_file.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-16T23:53:52Z",
+      "side": 1,
+      "message": "Hmm. Can you write this as a const reference? I’m not certain that’ll work, and you may have already tried.",
+      "revId": "349883c0d384add4bf3e086ae1373b6feb838735",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
