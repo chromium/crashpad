@@ -14,7 +14,6 @@
 
 #include "snapshot/linux/process_reader.h"
 
-#include <dirent.h>
 #include <errno.h>
 #include <sched.h>
 #include <stdio.h>
@@ -27,8 +26,9 @@
 #include "base/logging.h"
 #include "base/strings/string_number_conversions.h"
 #include "build/build_config.h"
+#include "util/file/directory_reader.h"
 #include "util/linux/proc_stat_reader.h"
-#include "util/posix/scoped_dir.h"
+#include "util/misc/as_underlying_type.h"
 
 namespace crashpad {
 
@@ -264,15 +264,6 @@ void ProcessReader::InitializeThreads() {
     return;
   }
 
-  char path[32];
-  snprintf(path, arraysize(path), "/proc/%d/task", pid);
-  DIR* dir = opendir(path);
-  if (!dir) {
-    PLOG(ERROR) << "opendir";
-    return;
-  }
-  ScopedDIR scoped_dir(dir);
-
   Thread main_thread;
   main_thread.tid = pid;
   if (main_thread.InitializePtrace(connection_)) {
@@ -282,15 +273,19 @@ void ProcessReader::InitializeThreads() {
     LOG(WARNING) << "Couldn't initialize main thread.";
   }
 
+  char path[32];
+  snprintf(path, arraysize(path), "/proc/%d/task", pid);
   bool main_thread_found = false;
-  dirent* dir_entry;
-  while ((dir_entry = readdir(scoped_dir.get()))) {
-    if (strncmp(dir_entry->d_name, ".", arraysize(dir_entry->d_name)) == 0 ||
-        strncmp(dir_entry->d_name, "..", arraysize(dir_entry->d_name)) == 0) {
-      continue;
-    }
+  DirectoryReader reader;
+  if (!reader.Open(base::FilePath(path))) {
+    return;
+  }
+  base::FilePath tid_str;
+  DirectoryReader::Result result;
+  while ((result = reader.NextFile(&tid_str)) ==
+         DirectoryReader::Result::kSuccess) {
     pid_t tid;
-    if (!base::StringToInt(dir_entry->d_name, &tid)) {
+    if (!base::StringToInt(tid_str.value(), &tid)) {
       LOG(ERROR) << "format error";
       continue;
     }
@@ -308,6 +303,8 @@ void ProcessReader::InitializeThreads() {
       threads_.push_back(thread);
     }
   }
+  DCHECK_EQ(AsUnderlyingType(result),
+            AsUnderlyingType(DirectoryReader::Result::kNoMoreFiles));
   DCHECK(main_thread_found);
 }
 
