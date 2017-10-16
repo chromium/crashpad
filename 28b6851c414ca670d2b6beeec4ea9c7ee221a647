@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "938c1232_b25e79f7",
+        "filename": "util/file/filesystem_win.cc",
+        "patchSetId": 47
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-16T19:14:27Z",
+      "side": 1,
+      "message": "Don’t do this for INVALID_FILE_ATTRIBUTES, then. Let that fall through to DeleteFile, which will give the more meaningful error message.",
+      "revId": "28b6851c414ca670d2b6beeec4ea9c7ee221a647",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
