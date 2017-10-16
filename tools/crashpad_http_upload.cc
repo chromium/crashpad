@@ -22,6 +22,7 @@
 
 #include "base/files/file_path.h"
 #include "tools/tool_support.h"
+#include "util/file/file_io.h"
 #include "util/file/file_writer.h"
 #include "util/net/http_body.h"
 #include "util/net/http_multipart_builder.h"
@@ -85,6 +86,7 @@ int HTTPUploadMain(int argc, char* argv[]) {
       {nullptr, 0, nullptr, 0},
   };
 
+  ScopedFileHandle file_upload_handle;
   HTTPMultipartBuilder http_multipart_builder;
 
   int opt;
@@ -102,8 +104,14 @@ int HTTPUploadMain(int argc, char* argv[]) {
             ToolSupport::CommandLineArgumentToFilePathStringType(path));
         std::string file_name(
             ToolSupport::FilePathToCommandLineArgument(file_path.BaseName()));
-        http_multipart_builder.SetFileAttachment(
-            key, file_name, file_path, "application/octet-stream");
+        file_upload_handle.reset(LoggingOpenFileForRead(file_path));
+        if (!file_upload_handle.is_valid()) {
+          return EXIT_FAILURE;
+        }
+        http_multipart_builder.SetFileAttachment(key,
+                                                 file_name,
+                                                 file_upload_handle.get(),
+                                                 "application/octet-stream");
         break;
       }
       case kOptionNoUploadGzip: {
