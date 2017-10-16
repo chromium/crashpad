@@ -38,6 +38,11 @@ struct ScopedSearchHANDLECloseTraits {
   static void Free(HANDLE handle);
 };
 
+struct ScopedSearchHANDLECloseTraits {
+  static HANDLE InvalidValue() { return INVALID_HANDLE_VALUE; }
+  static void Free(HANDLE handle);
+};
+
 }  // namespace internal
 
 using ScopedFileHANDLE =
