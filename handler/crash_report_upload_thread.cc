@@ -344,18 +344,22 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
     std::string* response_body) {
   std::map<std::string, std::string> parameters;
 
-  {
-    FileReader minidump_file_reader;
-    if (!minidump_file_reader.Open(report->file_path)) {
-      // If the minidump file can’t be opened, all hope is lost.
-      return UploadResult::kPermanentFailure;
-    }
+  ScopedFileHandle handle(LoggingOpenFileForRead(report->file_path));
+  if (!handle.is_valid()) {
+    // If the minidump file can’t be opened, all hope is lost.
+    return UploadResult::kPermanentFailure;
+  }
 
-    // If the minidump file could be opened, ignore any errors that might occur
-    // when attempting to interpret it. This may result in its being uploaded
-    // with few or no parameters, but as long as there’s a dump file, the server
-    // can decide what to do with it.
+  {
+    WeakFileHandleFileReader minidump_file_reader(handle.get());
+    FileOffset start_offset = minidump_file_reader.SeekGet();
+
+    // Ignore any errors that might occur when attempting to interpret the
+    // minidump file. This may result in its being uploaded with few or no
+    // parameters, but as long as there’s a dump file, the server can decide
+    // what to do with it.
     parameters = BreakpadHTTPFormParametersFromMinidump(&minidump_file_reader);
+    minidump_file_reader.SeekSet(start_offset);
   }
 
   HTTPMultipartBuilder http_multipart_builder;
@@ -379,7 +383,7 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
 #else
       report->file_path.BaseName().value(),
 #endif
-      report->file_path,
+      handle.get(),
       "application/octet-stream");
 
   std::unique_ptr<HTTPTransport> http_transport(HTTPTransport::Create());
