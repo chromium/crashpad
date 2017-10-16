@@ -12,28 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_POSIX_SCOPED_DIR_H_
-#define CRASHPAD_UTIL_POSIX_SCOPED_DIR_H_
+#ifndef CRASHPAD_UTIL_MISC_AS_UNDERLYING_TYPE_H_
+#define CRASHPAD_UTIL_MISC_AS_UNDERLYING_TYPE_H_
 
-#include <dirent.h>
-
-#include "base/scoped_generic.h"
+#include <type_traits>
 
 namespace crashpad {
-namespace internal {
 
-struct ScopedDIRCloseTraits {
-  static DIR* InvalidValue() { return nullptr; }
-  static void Free(DIR* dir);
-};
-
-}  // namespace internal
-
-//! \brief Maintains a directory opened by `opendir`.
+//! \brief Casts a value to its underlying type.
 //!
-//! On destruction, the directory will be closed by calling `closedir`.
-using ScopedDIR = base::ScopedGeneric<DIR*, internal::ScopedDIRCloseTraits>;
+//! \param[in] from The value to be casted.
+//! \return \a from casted to its underlying type.
+template <typename From>
+typename std::underlying_type<From>::type AsUnderlyingType(From from) {
+  return static_cast<typename std::underlying_type<From>::type>(from);
+}
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_UTIL_POSIX_SCOPED_DIR_H_
+#endif  // CRASHPAD_UTIL_MISC_AS_UNDERLYING_TYPE_H_
