@@ -16,6 +16,24 @@
       "revId": "28b6851c414ca670d2b6beeec4ea9c7ee221a647",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29944103_d2e3e87e",
+        "filename": "util/file/filesystem_win.cc",
+        "patchSetId": 47
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-16T19:32:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "938c1232_b25e79f7",
+      "revId": "28b6851c414ca670d2b6beeec4ea9c7ee221a647",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
