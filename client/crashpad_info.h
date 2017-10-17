@@ -19,6 +19,7 @@
 
 #include "base/macros.h"
 #include "build/build_config.h"
+#include "client/annotation_list.h"
 #include "client/simple_address_range_bag.h"
 #include "client/simple_string_dictionary.h"
 #include "util/misc/tri_state.h"
@@ -108,6 +109,33 @@ struct CrashpadInfo {
   SimpleStringDictionary* simple_annotations() const {
     return simple_annotations_;
   }
+
+  //! \brief Sets the annotations list.
+  //!
+  //! Unlike the \a simple_annotations structure, the \a annotations can
+  //! typed data and it is not limited to a dictionary form. Annotations are
+  //! interpreted by Crashpad as module-level annotations.
+  //!
+  //! Annotations may exist in \a annotations_list at the time that this
+  //! method is called, or they may be added, removed, or modified in \a
+  //! annotations_list after this method is called.
+  //!
+  //! \param[in] annotations_list A list of set Annotation objects that maintain
+  //!     arbitrary, typed key-value state. The CrashpadInfo object does not
+  //!     take ownership of the AnnotationsList object. It is the caller’s
+  //!     responsibility to ensure that this pointer remains valid while it is
+  //!     in effect for a CrashpadInfo object.
+  //!
+  //! \sa annotations_list()
+  //! \sa AnnotationList::Register()
+  void set_annotations_list(AnnotationList* list) { annotations_list_ = list; }
+
+  //! \return The annotations list.
+  //!
+  //! \sa set_annotations_list()
+  //! \sa AnnotationList::Get()
+  //! \sa AnnotationList::Register()
+  AnnotationList* annotations_list() const { return annotations_list_; }
 
   //! \brief Enables or disables Crashpad handler processing.
   //!
@@ -218,6 +246,7 @@ struct CrashpadInfo {
   SimpleAddressRangeBag* extra_memory_ranges_;  // weak
   SimpleStringDictionary* simple_annotations_;  // weak
   internal::UserDataMinidumpStreamListEntry* user_data_minidump_stream_head_;
+  AnnotationList* annotations_list_;  // weak
 
 #if !defined(NDEBUG) && defined(OS_WIN)
   uint32_t invalid_read_detection_;
