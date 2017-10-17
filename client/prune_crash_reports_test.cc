@@ -34,18 +34,24 @@ namespace {
 
 class MockDatabase : public CrashReportDatabase {
  public:
+  MockDatabase() : CrashReportDatabase(base::FilePath()) {}
+
   // CrashReportDatabase:
   MOCK_METHOD0(GetSettings, Settings*());
-  MOCK_METHOD1(PrepareNewCrashReport, OperationStatus(NewReport**));
-  MOCK_METHOD2(FinishedWritingCrashReport, OperationStatus(NewReport*, UUID*));
-  MOCK_METHOD1(ErrorWritingCrashReport, OperationStatus(NewReport*));
+  MOCK_METHOD1(PrepareNewCrashReport,
+               OperationStatus(std::unique_ptr<NewReport>*));
+  MOCK_METHOD2(FinishedWritingCrashReport,
+               OperationStatus(std::unique_ptr<NewReport>*, UUID*));
   MOCK_METHOD2(LookUpCrashReport, OperationStatus(const UUID&, Report*));
   MOCK_METHOD1(GetPendingReports, OperationStatus(std::vector<Report>*));
   MOCK_METHOD1(GetCompletedReports, OperationStatus(std::vector<Report>*));
   MOCK_METHOD2(GetReportForUploading,
-               OperationStatus(const UUID&, const Report**));
+               OperationStatus(const UUID&,
+                               std::unique_ptr<const UploadReport>*));
   MOCK_METHOD3(RecordUploadAttempt,
-               OperationStatus(const Report*, bool, const std::string&));
+               OperationStatus(std::unique_ptr<const UploadReport>*,
+                               bool,
+                               const std::string&));
   MOCK_METHOD2(SkipReportUpload,
                OperationStatus(const UUID&, Metrics::CrashSkippedReason));
   MOCK_METHOD1(DeleteReport, OperationStatus(const UUID&));
@@ -72,41 +78,39 @@ TEST(PruneCrashReports, AgeCondition) {
   EXPECT_FALSE(condition.ShouldPruneReport(report_30_days));
 }
 
+void AddReport(CrashReportDatabase* db,
+               std::string* contents,
+               size_t report_size,
+               CrashReportDatabase::Report* report) {
+  std::unique_ptr<CrashReportDatabase::NewReport> new_report;
+  ASSERT_EQ(db->PrepareNewCrashReport(&new_report),
+            CrashReportDatabase::kNoError);
+
+  for (size_t bytes = 0; bytes < report_size; bytes += contents->size()) {
+    ASSERT_TRUE(
+        new_report->writer.Write(contents->c_str(), contents->length()));
+  }
+  UUID uuid;
+  ASSERT_EQ(db->FinishedWritingCrashReport(&new_report, &uuid),
+            CrashReportDatabase::kNoError);
+
+  ASSERT_EQ(db->LookUpCrashReport(uuid, report), CrashReportDatabase::kNoError);
+}
+
 TEST(PruneCrashReports, SizeCondition) {
   ScopedTempDir temp_dir;
+  CrashReportDatabase db(temp_dir.path());
+  ASSERT_TRUE(db.Initialize(false));
+
+  std::string contents;
+  for (int i = 0; i < 128; ++i) {
+    contents.push_back(static_cast<char>(i));
+  }
 
   CrashReportDatabase::Report report_1k;
-  report_1k.file_path = temp_dir.path().Append(FILE_PATH_LITERAL("file1024"));
+  ASSERT_NO_FATAL_FAILURE(AddReport(&db, &contents, 1024, &report_1k));
   CrashReportDatabase::Report report_3k;
-  report_3k.file_path = temp_dir.path().Append(FILE_PATH_LITERAL("file3072"));
-
-  {
-    ScopedFileHandle scoped_file_1k(
-        LoggingOpenFileForWrite(report_1k.file_path,
-                                FileWriteMode::kCreateOrFail,
-                                FilePermissions::kOwnerOnly));
-    ASSERT_TRUE(scoped_file_1k.is_valid());
-
-    std::string string;
-    for (int i = 0; i < 128; ++i)
-      string.push_back(static_cast<char>(i));
-
-    for (size_t i = 0; i < 1024; i += string.size()) {
-      ASSERT_TRUE(LoggingWriteFile(scoped_file_1k.get(),
-                                   string.c_str(), string.length()));
-    }
-
-    ScopedFileHandle scoped_file_3k(
-        LoggingOpenFileForWrite(report_3k.file_path,
-                                FileWriteMode::kCreateOrFail,
-                                FilePermissions::kOwnerOnly));
-    ASSERT_TRUE(scoped_file_3k.is_valid());
-
-    for (size_t i = 0; i < 3072; i += string.size()) {
-      ASSERT_TRUE(LoggingWriteFile(scoped_file_3k.get(),
-                                   string.c_str(), string.length()));
-    }
-  }
+  ASSERT_NO_FATAL_FAILURE(AddReport(&db, &contents, 3072, &report_3k));
 
   {
     DatabaseSizePruneCondition condition(1);
