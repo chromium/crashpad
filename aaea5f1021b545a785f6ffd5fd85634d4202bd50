@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2511dd65_1f2df211",
+        "filename": "client/annotation.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-17T15:23:57Z",
+      "side": 1,
+      "message": "Incorrect indentation.",
+      "revId": "aaea5f1021b545a785f6ffd5fd85634d4202bd50",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
