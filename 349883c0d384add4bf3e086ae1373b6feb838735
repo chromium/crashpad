@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "56f1f950_a1ca6d11",
+        "filename": "util/file/scoped_remove_file.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-17T00:09:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f46500b2_e0a8b42a",
+      "revId": "349883c0d384add4bf3e086ae1373b6feb838735",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "335767b0_584f1b0f",
         "filename": "util/file/scoped_remove_file.h",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "349883c0d384add4bf3e086ae1373b6feb838735",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5175883e_f621329a",
+        "filename": "util/file/scoped_remove_file.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-17T00:09:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "335767b0_584f1b0f",
+      "revId": "349883c0d384add4bf3e086ae1373b6feb838735",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
