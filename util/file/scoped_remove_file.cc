@@ -18,8 +18,10 @@
 
 namespace crashpad {
 
-void ScopedRemoveFileTraits::Free(const base::FilePath& path) {
-  LoggingRemoveFile(path);
+void ScopedRemoveFileTraits::Free(const base::FilePath path) {
+  if (!path.empty()) {
+    LoggingRemoveFile(path);
+  }
 }
 
 }  // namespace crashpad

@@ -22,7 +22,7 @@ namespace crashpad {
 
 struct ScopedRemoveFileTraits {
   static base::FilePath InvalidValue() { return base::FilePath(); }
-  static void Free(const base::FilePath& path);
+  static void Free(const base::FilePath path);
 };
 
 using ScopedRemoveFile =

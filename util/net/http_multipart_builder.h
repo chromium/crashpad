@@ -19,8 +19,9 @@
 #include <memory>
 #include <string>
 
-#include "base/files/file_path.h"
 #include "base/macros.h"
+#include "util/file/file_io.h"
+#include "util/file/file_reader.h"
 #include "util/net/http_headers.h"
 
 namespace crashpad {
@@ -64,7 +65,7 @@ class HTTPMultipartBuilder {
   //!     If this is empty, `"application/octet-stream"` will be used.
   void SetFileAttachment(const std::string& key,
                          const std::string& upload_file_name,
-                         const base::FilePath& path,
+                         FileHandle handle,
                          const std::string& content_type);
 
   //! \brief Generates the HTTPBodyStream for the data currently supplied to
@@ -83,7 +84,7 @@ class HTTPMultipartBuilder {
   struct FileAttachment {
     std::string filename;
     std::string content_type;
-    base::FilePath path;
+    FileHandle handle;
   };
 
   // Removes elements from both data maps at the specified |key|, to ensure

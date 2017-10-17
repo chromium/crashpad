@@ -23,13 +23,14 @@
 
 #include "base/files/file_path.h"
 #include "base/macros.h"
+#include "client/settings.h"
 #include "util/file/file_io.h"
+#include "util/file/scoped_remove_file.h"
+#include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/metrics.h"
 #include "util/misc/uuid.h"
 
 namespace crashpad {
-
-class Settings;
 
 //! \brief An interface for managing a collection of crash report files and
 //!     metadata associated with the crash reports.
@@ -51,6 +52,9 @@ class Settings;
 //!      calling SkipReportUpload().
 class CrashReportDatabase {
  public:
+  explicit CrashReportDatabase(const base::FilePath& path);
+  ~CrashReportDatabase();
+
   //! \brief A crash report record.
   //!
   //! This represents the metadata for a crash report, as well as the location
@@ -58,15 +62,11 @@ class CrashReportDatabase {
   //! information.
   struct Report {
     Report();
+    virtual ~Report();
 
     //! A unique identifier by which this report will always be known to the
     //! database.
     UUID uuid;
-
-    //! The current location of the crash report on the client’s filesystem.
-    //! The location of a crash report may change over time, so the UUID should
-    //! be used as the canonical identifier.
-    base::FilePath file_path;
 
     //! An identifier issued to this crash report by a collection server.
     std::string id;
@@ -94,6 +94,11 @@ class CrashReportDatabase {
     //! Whether this crash report was explicitly requested by user to be
     //! uploaded. This can be true only if report is in the 'pending' state.
     bool upload_explicitly_requested;
+
+   private:
+    base::FilePath file_path;
+    friend class CrashReportDatabase;
+    friend class DatabaseSizePruneCondition;
   };
 
   //! \brief A crash report that is in the process of being written.
@@ -101,41 +106,44 @@ class CrashReportDatabase {
   //! An instance of this struct should be created via PrepareNewCrashReport()
   //! and destroyed with FinishedWritingCrashReport().
   struct NewReport {
+    NewReport();
+    ~NewReport();
+
     //! The file handle to which the report should be written.
-    FileHandle handle;
+    ScopedFileHandle handle;
 
     //! A unique identifier by which this report will always be known to the
     //! database.
     UUID uuid;
 
-    //! The path to the crash report being written.
-    base::FilePath path;
+   private:
+    friend class CrashReportDatabase;
+    ScopedRemoveFile file_;
   };
 
-  //! \brief A scoper to cleanly handle the interface requirement imposed by
-  //!     PrepareNewCrashReport().
-  //!
-  //! Calls ErrorWritingCrashReport() upon destruction unless disarmed by
-  //! calling Disarm(). Armed upon construction.
-  class CallErrorWritingCrashReport {
-   public:
-    //! \brief Arms the object to call ErrorWritingCrashReport() on \a database
-    //!     with an argument of \a new_report on destruction.
-    CallErrorWritingCrashReport(CrashReportDatabase* database,
-                                NewReport* new_report);
+  using ScopedLockFile = ScopedRemoveFile;
 
-    //! \brief Calls ErrorWritingCrashReport() if the object is armed.
-    ~CallErrorWritingCrashReport();
+  struct UploadReport : public Report {
+    UploadReport();
+    ~UploadReport();
 
-    //! \brief Disarms the object so that CallErrorWritingCrashReport() will not
-    //!     be called upon destruction.
-    void Disarm();
+    ScopedFileHandle handle;
 
    private:
-    CrashReportDatabase* database_;  // weak
-    NewReport* new_report_;  // weak
+    friend class CrashReportDatabase;
+    ScopedLockFile lock_file_;
+    CrashReportDatabase* database_;
+  };
 
-    DISALLOW_COPY_AND_ASSIGN(CallErrorWritingCrashReport);
+  struct ReadReport : public Report {
+    ReadReport();
+    ~ReadReport();
+
+    ScopedFileHandle handle;
+
+   private:
+    friend class CrashReportDatabase;
+    ScopedLockFile lock_file_;
   };
 
   //! \brief The result code for operations performed on a database.
@@ -178,8 +186,6 @@ class CrashReportDatabase {
     kCannotRequestUpload,
   };
 
-  virtual ~CrashReportDatabase() {}
-
   //! \brief Opens a database of crash reports, possibly creating it.
   //!
   //! \param[in] path A path to the database to be created or opened. If the
@@ -209,34 +215,28 @@ class CrashReportDatabase {
   static std::unique_ptr<CrashReportDatabase> InitializeWithoutCreating(
       const base::FilePath& path);
 
+  bool Initialize(bool may_create);
+
   //! \brief Returns the Settings object for this database.
   //!
   //! \return A weak pointer to the Settings object, which is owned by the
   //!     database.
-  virtual Settings* GetSettings() = 0;
+  virtual Settings* GetSettings();
 
   //! \brief Creates a record of a new crash report.
   //!
   //! Callers can then write the crash report using the file handle provided.
-  //! The caller does not own the new crash report record or its file handle,
-  //! both of which must be explicitly disposed of by calling
-  //! FinishedWritingCrashReport() or ErrorWritingCrashReport().
-  //!
-  //! To arrange to call ErrorWritingCrashReport() during any early return, use
-  //! CallErrorWritingCrashReport.
+  //! Callers should then call FinishedWritingCrashReport().
   //!
   //! \param[out] report A NewReport object containing a file handle to which
   //!     the crash report data should be written. Only valid if this returns
-  //!     #kNoError. The caller must not delete the NewReport object or close
-  //!     the file handle within.
+  //!     #kNoError.
   //!
   //! \return The operation status code.
-  virtual OperationStatus PrepareNewCrashReport(NewReport** report) = 0;
+  virtual OperationStatus PrepareNewCrashReport(
+      std::unique_ptr<NewReport>* report);
 
   //! \brief Informs the database that a crash report has been written.
-  //!
-  //! After calling this method, the database is permitted to move and rename
-  //! the file at NewReport::path.
   //!
   //! \param[in] report A NewReport obtained with PrepareNewCrashReport(). The
   //!     NewReport object and file handle within will be invalidated as part of
@@ -244,22 +244,9 @@ class CrashReportDatabase {
   //! \param[out] uuid The UUID of this crash report.
   //!
   //! \return The operation status code.
-  virtual OperationStatus FinishedWritingCrashReport(NewReport* report,
-                                                     UUID* uuid) = 0;
-
-  //! \brief Informs the database that an error occurred while attempting to
-  //!     write a crash report, and that any resources associated with it should
-  //!     be cleaned up.
-  //!
-  //! After calling this method, the database is permitted to remove the file at
-  //! NewReport::path.
-  //!
-  //! \param[in] report A NewReport obtained with PrepareNewCrashReport(). The
-  //!     NewReport object and file handle within will be invalidated as part of
-  //!     this call.
-  //!
-  //! \return The operation status code.
-  virtual OperationStatus ErrorWritingCrashReport(NewReport* report) = 0;
+  virtual OperationStatus FinishedWritingCrashReport(
+      std::unique_ptr<NewReport>* report,
+      UUID* uuid);
 
   //! \brief Returns the crash report record for the unique identifier.
   //!
@@ -268,8 +255,7 @@ class CrashReportDatabase {
   //!     #kNoError.
   //!
   //! \return The operation status code.
-  virtual OperationStatus LookUpCrashReport(const UUID& uuid,
-                                            Report* report) = 0;
+  virtual OperationStatus LookUpCrashReport(const UUID& uuid, Report* report);
 
   //! \brief Returns a list of crash report records that have not been uploaded.
   //!
@@ -277,7 +263,7 @@ class CrashReportDatabase {
   //!     empty on entry. Only valid if this returns #kNoError.
   //!
   //! \return The operation status code.
-  virtual OperationStatus GetPendingReports(std::vector<Report>* reports) = 0;
+  virtual OperationStatus GetPendingReports(std::vector<Report>* reports);
 
   //! \brief Returns a list of crash report records that have been completed,
   //!     either by being uploaded or by skipping upload.
@@ -286,7 +272,7 @@ class CrashReportDatabase {
   //!     empty on entry. Only valid if this returns #kNoError.
   //!
   //! \return The operation status code.
-  virtual OperationStatus GetCompletedReports(std::vector<Report>* reports) = 0;
+  virtual OperationStatus GetCompletedReports(std::vector<Report>* reports);
 
   //! \brief Obtains a report object for uploading to a collection server.
   //!
@@ -303,8 +289,9 @@ class CrashReportDatabase {
   //!     #kNoError.
   //!
   //! \return The operation status code.
-  virtual OperationStatus GetReportForUploading(const UUID& uuid,
-                                                const Report** report) = 0;
+  virtual OperationStatus GetReportForUploading(
+      const UUID& uuid,
+      std::unique_ptr<const UploadReport>* report);
 
   //! \brief Adjusts a crash report record’s metadata to account for an upload
   //!     attempt, and updates the last upload attempt time as returned by
@@ -321,9 +308,9 @@ class CrashReportDatabase {
   //!     empty if it is `true`.
   //!
   //! \return The operation status code.
-  virtual OperationStatus RecordUploadAttempt(const Report* report,
-                                              bool successful,
-                                              const std::string& id) = 0;
+  virtual OperationStatus RecordUploadComplete(
+      std::unique_ptr<const UploadReport>* report,
+      const std::string& id);
 
   //! \brief Moves a report from the pending state to the completed state, but
   //!     without the report being uploaded.
@@ -336,16 +323,19 @@ class CrashReportDatabase {
   //!     metrics tracking purposes.
   //!
   //! \return The operation status code.
-  virtual OperationStatus SkipReportUpload(
+  virtual OperationStatus SkipReportUpload(const UUID& uuid,
+                                           Metrics::CrashSkippedReason reason);
+
+  virtual OperationStatus GetReportForReading(
       const UUID& uuid,
-      Metrics::CrashSkippedReason reason) = 0;
+      std::unique_ptr<const ReadReport>* report);
 
   //! \brief Deletes a crash report file and its associated metadata.
   //!
   //! \param[in] uuid The UUID of the report to delete.
   //!
   //! \return The operation status code.
-  virtual OperationStatus DeleteReport(const UUID& uuid) = 0;
+  virtual OperationStatus DeleteReport(const UUID& uuid);
 
   //! \brief Marks a crash report as explicitly requested to be uploaded by the
   //!     user and moves it to 'pending' state.
@@ -353,12 +343,28 @@ class CrashReportDatabase {
   //! \param[in] uuid The unique identifier for the crash report record.
   //!
   //! \return The operation status code.
-  virtual OperationStatus RequestUpload(const UUID& uuid) = 0;
-
- protected:
-  CrashReportDatabase() {}
+  virtual OperationStatus RequestUpload(const UUID& uuid);
 
  private:
+  OperationStatus LocateAndLockReport(const UUID& uuid,
+                                      base::FilePath* path,
+                                      ScopedLockFile* lock_file);
+
+  OperationStatus ReportsInDirectory(const base::FilePath& dir_path,
+                                     std::vector<Report>* reports);
+
+  OperationStatus RecordUploadAttempt(UploadReport* report,
+                                      bool successful,
+                                      const std::string& id);
+
+  static bool ReadMetadata(const base::FilePath& path, Report* report);
+  static bool WriteNewMetadata(const base::FilePath& path);
+  static bool WriteMetadata(const base::FilePath& path, Report* report);
+
+  base::FilePath base_dir_;
+  Settings settings_;
+  InitializationStateDcheck initialized_;
+
   DISALLOW_COPY_AND_ASSIGN(CrashReportDatabase);
 };
 
