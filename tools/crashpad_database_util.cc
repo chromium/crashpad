@@ -228,9 +228,7 @@ void ShowReport(const CrashReportDatabase::Report& report,
                 bool utc) {
   std::string spaces(space_count, ' ');
 
-  printf("%sPath: %" PRFilePath "\n",
-         spaces.c_str(),
-         report.file_path.value().c_str());
+  printf("%sUUID: %s\n", spaces.c_str(), report.uuid.ToString().c_str());
   if (!report.id.empty()) {
     printf("%sRemote ID: %s\n", spaces.c_str(), report.id.c_str());
   }
@@ -584,15 +582,12 @@ int DatabaseUtilMain(int argc, char* argv[]) {
       file_reader = std::move(file_path_reader);
     }
 
-    CrashReportDatabase::NewReport* new_report;
+    std::unique_ptr<CrashReportDatabase::NewReport> new_report;
     CrashReportDatabase::OperationStatus status =
         database->PrepareNewCrashReport(&new_report);
     if (status != CrashReportDatabase::kNoError) {
       return EXIT_FAILURE;
     }
-
-    CrashReportDatabase::CallErrorWritingCrashReport
-        call_error_writing_crash_report(database.get(), new_report);
 
     char buf[4096];
     FileOperationResult read_result;
@@ -601,16 +596,13 @@ int DatabaseUtilMain(int argc, char* argv[]) {
       if (read_result < 0) {
         return EXIT_FAILURE;
       }
-      if (read_result > 0 &&
-          !LoggingWriteFile(new_report->handle, buf, read_result)) {
+      if (read_result > 0 && !new_report->writer.Write(buf, read_result)) {
         return EXIT_FAILURE;
       }
     } while (read_result > 0);
 
-    call_error_writing_crash_report.Disarm();
-
     UUID uuid;
-    status = database->FinishedWritingCrashReport(new_report, &uuid);
+    status = database->FinishedWritingCrashReport(&new_report, &uuid);
     if (status != CrashReportDatabase::kNoError) {
       return EXIT_FAILURE;
     }
