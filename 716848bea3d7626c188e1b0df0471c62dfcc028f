@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "38d69336_b46354f7",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-17T15:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6b4b7ba_0aa8e94e",
+      "revId": "716848bea3d7626c188e1b0df0471c62dfcc028f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af942431_eabc575c",
         "filename": "handler/crash_report_upload_thread.cc",
         "patchSetId": 13
@@ -33,6 +51,24 @@
       "revId": "716848bea3d7626c188e1b0df0471c62dfcc028f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90a24122_b78052d2",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-17T15:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af942431_eabc575c",
+      "revId": "716848bea3d7626c188e1b0df0471c62dfcc028f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3c91b5a5_9d5a1168",
+        "filename": "tools/crashpad_http_upload.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-17T15:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d214fab_c399fd1a",
+      "revId": "716848bea3d7626c188e1b0df0471c62dfcc028f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5666ed58_1ee0049a",
         "filename": "util/net/http_body.h",
         "patchSetId": 13
@@ -67,6 +121,24 @@
       "revId": "716848bea3d7626c188e1b0df0471c62dfcc028f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb365392_b50f47af",
+        "filename": "util/net/http_body.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-17T15:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5666ed58_1ee0049a",
+      "revId": "716848bea3d7626c188e1b0df0471c62dfcc028f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
