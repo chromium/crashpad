@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb3a0d8e_755ce8e6",
+        "filename": "util/net/http_body.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-17T14:38:23Z",
+      "side": 0,
+      "message": "We’re able to lose this! I like the simplification.",
+      "revId": "474c7331a6dfd26cafd79cab8ebefc3331f80926",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

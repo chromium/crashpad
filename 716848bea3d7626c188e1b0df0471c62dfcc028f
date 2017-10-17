@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6b4b7ba_0aa8e94e",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-17T14:38:23Z",
+      "side": 1,
+      "message": "Since it looks like you intended to reflow this comment, you can hoist “what” up onto the preceding line.",
+      "revId": "716848bea3d7626c188e1b0df0471c62dfcc028f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af942431_eabc575c",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-17T14:38:23Z",
+      "side": 1,
+      "message": "Put a blank line before this. The comment block above applies to BreakpadHTTPFormParametersFromMinidump(), but not to this FileReader::SeekSet().",
+      "revId": "716848bea3d7626c188e1b0df0471c62dfcc028f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d214fab_c399fd1a",
+        "filename": "tools/crashpad_http_upload.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-17T14:38:23Z",
+      "side": 1,
+      "message": "The more modern (and all around safer) thing to do since we’re assured C++11 now is to use a std::vector\u003cstd::unique_ptr\u003cFileReader\u003e\u003e.\n\nWe can probably replace all of our PointerVectors with this.",
+      "revId": "716848bea3d7626c188e1b0df0471c62dfcc028f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5666ed58_1ee0049a",
+        "filename": "util/net/http_body.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-17T14:38:23Z",
+      "side": 1,
+      "message": "// weak",
+      "revId": "716848bea3d7626c188e1b0df0471c62dfcc028f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
