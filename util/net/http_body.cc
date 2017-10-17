@@ -46,38 +46,22 @@ FileOperationResult StringHTTPBodyStream::GetBytesBuffer(uint8_t* buffer,
   return num_bytes_returned;
 }
 
-FileHTTPBodyStream::FileHTTPBodyStream(const base::FilePath& path)
-    : HTTPBodyStream(), path_(path), file_(), file_state_(kUnopenedFile) {
+FileReaderHTTPBodyStream::FileReaderHTTPBodyStream(FileReaderInterface* reader)
+    : HTTPBodyStream(), reader_(reader), reached_eof_(false) {
+  DCHECK(reader_);
 }
 
-FileHTTPBodyStream::~FileHTTPBodyStream() {
-}
+FileReaderHTTPBodyStream::~FileReaderHTTPBodyStream() {}
 
-FileOperationResult FileHTTPBodyStream::GetBytesBuffer(uint8_t* buffer,
-                                                       size_t max_len) {
-  switch (file_state_) {
-    case kUnopenedFile:
-      file_.reset(LoggingOpenFileForRead(path_));
-      if (!file_.is_valid()) {
-        file_state_ = kFileOpenError;
-        return -1;
-      }
-      file_state_ = kReading;
-      break;
-    case kFileOpenError:
-      return -1;
-    case kClosedAtEOF:
-      return 0;
-    case kReading:
-      break;
+FileOperationResult FileReaderHTTPBodyStream::GetBytesBuffer(uint8_t* buffer,
+                                                             size_t max_len) {
+  if (reached_eof_) {
+    return 0;
   }
 
-  FileOperationResult rv = ReadFile(file_.get(), buffer, max_len);
+  FileOperationResult rv = reader_->Read(buffer, max_len);
   if (rv == 0) {
-    file_.reset();
-    file_state_ = kClosedAtEOF;
-  } else if (rv < 0) {
-    PLOG(ERROR) << "read";
+    reached_eof_ = true;
   }
   return rv;
 }
