@@ -96,10 +96,13 @@ TEST(StringHTTPBodyStream, MultipleReads) {
   }
 }
 
-TEST(FileHTTPBodyStream, ReadASCIIFile) {
+TEST(FileReaderHTTPBodyStream, ReadASCIIFile) {
   base::FilePath path = TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
-  FileHTTPBodyStream stream(path);
+
+  FileReader reader;
+  ASSERT_TRUE(reader.Open(path));
+  FileReaderHTTPBodyStream stream(&reader);
   std::string contents = ReadStreamToString(&stream, 32);
   EXPECT_EQ(contents, "This is a test.\n");
 
@@ -113,14 +116,16 @@ TEST(FileHTTPBodyStream, ReadASCIIFile) {
   ExpectBufferSet(buf, '!', sizeof(buf));
 }
 
-TEST(FileHTTPBodyStream, ReadBinaryFile) {
+TEST(FileReaderHTTPBodyStream, ReadBinaryFile) {
   // HEX contents of file: |FEEDFACE A11A15|.
   base::FilePath path = TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/binary_http_body.dat"));
   // This buffer size was chosen so that reading the file takes multiple reads.
   uint8_t buf[4];
 
-  FileHTTPBodyStream stream(path);
+  FileReader reader;
+  ASSERT_TRUE(reader.Open(path));
+  FileReaderHTTPBodyStream stream(&reader);
 
   memset(buf, '!', sizeof(buf));
   EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 4);
@@ -141,18 +146,6 @@ TEST(FileHTTPBodyStream, ReadBinaryFile) {
   ExpectBufferSet(buf, '!', sizeof(buf));
   EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 0);
   ExpectBufferSet(buf, '!', sizeof(buf));
-}
-
-TEST(FileHTTPBodyStream, NonExistentFile) {
-  base::FilePath path = base::FilePath(
-      FILE_PATH_LITERAL("/var/empty/crashpad/util/net/http_body/null"));
-  FileHTTPBodyStream stream(path);
-
-  uint8_t buf = 0xff;
-  EXPECT_LT(stream.GetBytesBuffer(&buf, 1), 0);
-  EXPECT_EQ(buf, 0xff);
-  EXPECT_LT(stream.GetBytesBuffer(&buf, 1), 0);
-  EXPECT_EQ(buf, 0xff);
 }
 
 TEST(CompositeHTTPBodyStream, TwoEmptyStrings) {
@@ -201,7 +194,10 @@ TEST_P(CompositeHTTPBodyStreamBufferSize, StringsAndFile) {
   parts.push_back(new StringHTTPBodyStream(string1));
   base::FilePath path = TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
-  parts.push_back(new FileHTTPBodyStream(path));
+
+  FileReader reader;
+  ASSERT_TRUE(reader.Open(path));
+  parts.push_back(new FileReaderHTTPBodyStream(&reader));
   parts.push_back(new StringHTTPBodyStream(string2));
 
   CompositeHTTPBodyStream stream(parts);
