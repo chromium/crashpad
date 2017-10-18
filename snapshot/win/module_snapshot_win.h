@@ -29,7 +29,6 @@
 #include "snapshot/win/process_reader_win.h"
 #include "util/misc/initialization_state.h"
 #include "util/misc/initialization_state_dcheck.h"
-#include "util/stdlib/pointer_container.h"
 #include "util/win/process_info.h"
 
 namespace crashpad {
@@ -99,7 +98,7 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
 
   template <class Traits>
   void GetCrashpadUserMinidumpStreams(
-      PointerVector<const UserMinidumpStream>* streams) const;
+      std::vector<std::unique_ptr<const UserMinidumpStream>>* streams) const;
 
   // Initializes vs_fixed_file_info_ if it has not yet been initialized, and
   // returns a pointer to it. Returns nullptr on failure, with a message logged
@@ -114,7 +113,7 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
   time_t timestamp_;
   uint32_t age_;
   // Too const-y: https://crashpad.chromium.org/bug/9.
-  mutable PointerVector<const UserMinidumpStream> streams_;
+  mutable std::vector<std::unique_ptr<const UserMinidumpStream>> streams_;
   InitializationStateDcheck initialized_;
 
   // VSFixedFileInfo() is logically const, but updates these members on the

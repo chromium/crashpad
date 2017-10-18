@@ -59,6 +59,7 @@ ExceptionSnapshotWin::ExceptionSnapshotWin()
       context_union_(),
       context_(),
       codes_(),
+      extra_memory_(),
       thread_id_(0),
       exception_address_(0),
       exception_flags_(0),
@@ -158,8 +159,9 @@ std::vector<const MemorySnapshot*> ExceptionSnapshotWin::ExtraMemory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   std::vector<const MemorySnapshot*> result;
   result.reserve(extra_memory_.size());
-  for (const auto& em : extra_memory_)
-    result.push_back(em);
+  for (const auto& em : extra_memory_) {
+    result.push_back(em.get());
+  }
   return result;
 }
 

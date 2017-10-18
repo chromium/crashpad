@@ -27,7 +27,6 @@
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_thread_id_map.h"
 #include "minidump/minidump_writable.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -203,7 +202,7 @@ class MinidumpThreadListWriter final : public internal::MinidumpStreamWriter {
   MinidumpStreamType StreamType() const override;
 
  private:
-  PointerVector<MinidumpThreadWriter> threads_;
+  std::vector<std::unique_ptr<MinidumpThreadWriter>> threads_;
   MinidumpMemoryListWriter* memory_list_writer_;  // weak
   MINIDUMP_THREAD_LIST thread_list_base_;
 

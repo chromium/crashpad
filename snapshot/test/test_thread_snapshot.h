@@ -25,7 +25,6 @@
 #include "snapshot/cpu_context.h"
 #include "snapshot/memory_snapshot.h"
 #include "snapshot/thread_snapshot.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 namespace test {
@@ -73,7 +72,7 @@ class TestThreadSnapshot final : public ThreadSnapshot {
   //!     ExtraMemory(). The TestThreadSnapshot object takes ownership of \a
   //!     extra_memory.
   void AddExtraMemory(std::unique_ptr<MemorySnapshot> extra_memory) {
-    extra_memory_.push_back(extra_memory.release());
+    extra_memory_.push_back(std::move(extra_memory));
   }
 
   // ThreadSnapshot:
@@ -97,7 +96,7 @@ class TestThreadSnapshot final : public ThreadSnapshot {
   int suspend_count_;
   int priority_;
   uint64_t thread_specific_data_address_;
-  PointerVector<MemorySnapshot> extra_memory_;
+  std::vector<std::unique_ptr<MemorySnapshot>> extra_memory_;
 
   DISALLOW_COPY_AND_ASSIGN(TestThreadSnapshot);
 };
