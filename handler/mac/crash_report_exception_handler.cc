@@ -155,7 +155,7 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     process_snapshot.SetClientID(client_id);
     process_snapshot.SetAnnotationsSimpleMap(*process_annotations_);
 
-    CrashReportDatabase::NewReport* new_report;
+    std::unique_ptr<CrashReportDatabase::NewReport> new_report;
     CrashReportDatabase::OperationStatus database_status =
         database_->PrepareNewCrashReport(&new_report);
     if (database_status != CrashReportDatabase::kNoError) {
@@ -166,26 +166,19 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
 
     process_snapshot.SetReportID(new_report->uuid);
 
-    CrashReportDatabase::CallErrorWritingCrashReport
-        call_error_writing_crash_report(database_, new_report);
-
-    WeakFileHandleFileWriter file_writer(new_report->handle);
-
     MinidumpFileWriter minidump;
     minidump.InitializeFromSnapshot(&process_snapshot);
     AddUserExtensionStreams(
         user_stream_data_sources_, &process_snapshot, &minidump);
 
-    if (!minidump.WriteEverything(&file_writer)) {
+    if (!minidump.WriteEverything(&new_report->writer)) {
       Metrics::ExceptionCaptureResult(
           Metrics::CaptureResult::kMinidumpWriteFailed);
       return KERN_FAILURE;
     }
 
-    call_error_writing_crash_report.Disarm();
-
     UUID uuid;
-    database_status = database_->FinishedWritingCrashReport(new_report, &uuid);
+    database_status = database_->FinishedWritingCrashReport(&new_report, &uuid);
     if (database_status != CrashReportDatabase::kNoError) {
       Metrics::ExceptionCaptureResult(
           Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
