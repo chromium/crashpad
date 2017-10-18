@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e3cef9a_6e7486a4",
+        "filename": "snapshot/test/test_process_snapshot.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-18T17:48:44Z",
+      "side": 1,
+      "message": "I think this actually ends up being a copy because unloaded_module is const.",
+      "range": {
+        "startLine": 101,
+        "startChar": 32,
+        "endLine": 101,
+        "endChar": 58
+      },
+      "revId": "140ac6c739c08743ba5e43118c70979fb331d64b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
