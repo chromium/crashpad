@@ -30,6 +30,8 @@
         '..',
       ],
       'sources': [
+        'annotation_snapshot.cc',
+        'annotation_snapshot.h',
         'capture_memory.cc',
         'capture_memory.h',
         'cpu_architecture.h',

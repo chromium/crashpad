@@ -94,6 +94,10 @@ std::map<std::string, std::string> TestModuleSnapshot::AnnotationsSimpleMap()
   return annotations_simple_map_;
 }
 
+std::vector<AnnotationSnapshot> TestModuleSnapshot::AnnotationObjects() const {
+  return annotation_objects_;
+}
+
 std::set<CheckedRange<uint64_t>> TestModuleSnapshot::ExtraMemoryRanges() const {
   return extra_memory_ranges_;
 }
