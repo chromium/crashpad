@@ -585,11 +585,11 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
     expect_threads[2].ThreadId = static_cast<uint32_t>(thread_ids[2]);
   }
 
-  PointerVector<TestThreadSnapshot> thread_snapshots_owner;
+  std::vector<std::unique_ptr<TestThreadSnapshot>> thread_snapshots_owner;
   std::vector<const ThreadSnapshot*> thread_snapshots;
   for (size_t index = 0; index < arraysize(expect_threads); ++index) {
-    TestThreadSnapshot* thread_snapshot = new TestThreadSnapshot();
-    thread_snapshots_owner.push_back(thread_snapshot);
+    thread_snapshots_owner.push_back(std::make_unique<TestThreadSnapshot>());
+    TestThreadSnapshot* thread_snapshot = thread_snapshots_owner.back().get();
 
     thread_snapshot->SetThreadID(thread_ids[index]);
     thread_snapshot->SetSuspendCount(expect_threads[index].SuspendCount);

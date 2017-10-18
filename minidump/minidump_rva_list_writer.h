@@ -24,7 +24,6 @@
 #include "base/macros.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_writable.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 namespace internal {
@@ -67,7 +66,7 @@ class MinidumpRVAListWriter : public MinidumpWritable {
 
  private:
   std::unique_ptr<MinidumpRVAList> rva_list_base_;
-  PointerVector<MinidumpWritable> children_;
+  std::vector<std::unique_ptr<MinidumpWritable>> children_;
   std::vector<RVA> child_rvas_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpRVAListWriter);

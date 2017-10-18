@@ -37,7 +37,6 @@
 #include "util/file/file_io.h"
 #include "util/linux/direct_ptrace_connection.h"
 #include "util/misc/from_pointer_cast.h"
-#include "util/stdlib/pointer_container.h"
 #include "util/synchronization/semaphore.h"
 
 namespace crashpad {
@@ -149,11 +148,11 @@ class TestThreadPool {
   TestThreadPool() : threads_() {}
 
   ~TestThreadPool() {
-    for (Thread* thread : threads_) {
+    for (const auto& thread : threads_) {
       thread->exit_semaphore.Signal();
     }
 
-    for (const Thread* thread : threads_) {
+    for (const auto& thread : threads_) {
       EXPECT_EQ(pthread_join(thread->pthread, nullptr), 0)
           << ErrnoMessage("pthread_join");
     }
@@ -161,8 +160,8 @@ class TestThreadPool {
 
   void StartThreads(size_t thread_count, size_t stack_size = 0) {
     for (size_t thread_index = 0; thread_index < thread_count; ++thread_index) {
-      Thread* thread = new Thread();
-      threads_.push_back(thread);
+      threads_.push_back(std::make_unique<Thread>());
+      Thread* thread = threads_.back().get();
 
       pthread_attr_t attr;
       ASSERT_EQ(pthread_attr_init(&attr), 0)
@@ -197,7 +196,7 @@ class TestThreadPool {
           << ErrnoMessage("pthread_create");
     }
 
-    for (Thread* thread : threads_) {
+    for (const auto& thread : threads_) {
       thread->ready_semaphore.Wait();
     }
   }
@@ -206,7 +205,7 @@ class TestThreadPool {
                              ThreadExpectation* expectation) {
     CHECK_LT(thread_index, threads_.size());
 
-    const Thread* thread = threads_[thread_index];
+    const Thread* thread = threads_[thread_index].get();
     *expectation = thread->expectation;
     return thread->tid;
   }
@@ -248,7 +247,7 @@ class TestThreadPool {
     return nullptr;
   }
 
-  PointerVector<Thread> threads_;
+  std::vector<std::unique_ptr<Thread>> threads_;
 
   DISALLOW_COPY_AND_ASSIGN(TestThreadPool);
 };

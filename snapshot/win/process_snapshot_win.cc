@@ -18,6 +18,7 @@
 #include <wchar.h>
 
 #include <algorithm>
+#include <utility>
 
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
@@ -100,7 +101,8 @@ bool ProcessSnapshotWin::Initialize(
 
   for (const MEMORY_BASIC_INFORMATION64& mbi :
        process_reader_.GetProcessInfo().MemoryInfo()) {
-    memory_map_.push_back(new internal::MemoryMapRegionSnapshotWin(mbi));
+    memory_map_.push_back(
+        std::make_unique<internal::MemoryMapRegionSnapshotWin>(mbi));
   }
 
   for (const auto& module : modules_) {
@@ -169,8 +171,8 @@ const SystemSnapshot* ProcessSnapshotWin::System() const {
 std::vector<const ThreadSnapshot*> ProcessSnapshotWin::Threads() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   std::vector<const ThreadSnapshot*> threads;
-  for (internal::ThreadSnapshotWin* thread : threads_) {
-    threads.push_back(thread);
+  for (const auto& thread : threads_) {
+    threads.push_back(thread.get());
   }
   return threads;
 }
@@ -178,8 +180,8 @@ std::vector<const ThreadSnapshot*> ProcessSnapshotWin::Threads() const {
 std::vector<const ModuleSnapshot*> ProcessSnapshotWin::Modules() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   std::vector<const ModuleSnapshot*> modules;
-  for (internal::ModuleSnapshotWin* module : modules_) {
-    modules.push_back(module);
+  for (const auto& module : modules_) {
+    modules.push_back(module.get());
   }
   return modules;
 }
@@ -197,8 +199,9 @@ const ExceptionSnapshot* ProcessSnapshotWin::Exception() const {
 std::vector<const MemoryMapRegionSnapshot*> ProcessSnapshotWin::MemoryMap()
     const {
   std::vector<const MemoryMapRegionSnapshot*> memory_map;
-  for (const auto& item : memory_map_)
-    memory_map.push_back(item);
+  for (const auto& item : memory_map_) {
+    memory_map.push_back(item.get());
+  }
   return memory_map;
 }
 
@@ -223,8 +226,9 @@ std::vector<HandleSnapshot> ProcessSnapshotWin::Handles() const {
 std::vector<const MemorySnapshot*> ProcessSnapshotWin::ExtraMemory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   std::vector<const MemorySnapshot*> extra_memory;
-  for (const auto& em : extra_memory_)
-    extra_memory.push_back(em);
+  for (const auto& em : extra_memory_) {
+    extra_memory.push_back(em.get());
+  }
   return extra_memory;
 }
 
@@ -243,7 +247,7 @@ void ProcessSnapshotWin::InitializeThreads(
     if (thread->Initialize(&process_reader_,
                            process_reader_thread,
                            budget_remaining_pointer)) {
-      threads_.push_back(thread.release());
+      threads_.push_back(std::move(thread));
     }
   }
 }
@@ -255,7 +259,7 @@ void ProcessSnapshotWin::InitializeModules() {
        process_reader_modules) {
     auto module = std::make_unique<internal::ModuleSnapshotWin>();
     if (module->Initialize(&process_reader_, process_reader_module)) {
-      modules_.push_back(module.release());
+      modules_.push_back(std::move(module));
     }
   }
 }
@@ -334,7 +338,7 @@ void ProcessSnapshotWin::GetCrashpadOptionsInternal(
     CrashpadInfoClientOptions* options) {
   CrashpadInfoClientOptions local_options;
 
-  for (internal::ModuleSnapshotWin* module : modules_) {
+  for (const auto& module : modules_) {
     CrashpadInfoClientOptions module_options;
     module->GetCrashpadOptions(&module_options);
 
@@ -448,7 +452,7 @@ void ProcessSnapshotWin::InitializePebData(
 void ProcessSnapshotWin::AddMemorySnapshot(
     WinVMAddress address,
     WinVMSize size,
-    PointerVector<internal::MemorySnapshotWin>* into) {
+    std::vector<std::unique_ptr<internal::MemorySnapshotWin>>* into) {
   if (size == 0)
     return;
 
@@ -469,23 +473,22 @@ void ProcessSnapshotWin::AddMemorySnapshot(
     }
   }
 
-  internal::MemorySnapshotWin* memory_snapshot =
-      new internal::MemorySnapshotWin();
-  memory_snapshot->Initialize(&process_reader_, address, size);
-  into->push_back(memory_snapshot);
+  into->push_back(std::make_unique<internal::MemorySnapshotWin>());
+  into->back()->Initialize(&process_reader_, address, size);
 }
 
 template <class Traits>
 void ProcessSnapshotWin::AddMemorySnapshotForUNICODE_STRING(
     const process_types::UNICODE_STRING<Traits>& us,
-    PointerVector<internal::MemorySnapshotWin>* into) {
+    std::vector<std::unique_ptr<internal::MemorySnapshotWin>>* into) {
   AddMemorySnapshot(us.Buffer, us.Length, into);
 }
 
 template <class Traits>
 void ProcessSnapshotWin::AddMemorySnapshotForLdrLIST_ENTRY(
-      const process_types::LIST_ENTRY<Traits>& le, size_t offset_of_member,
-      PointerVector<internal::MemorySnapshotWin>* into) {
+    const process_types::LIST_ENTRY<Traits>& le,
+    size_t offset_of_member,
+    std::vector<std::unique_ptr<internal::MemorySnapshotWin>>* into) {
   // Walk the doubly-linked list of entries, adding the list memory itself, as
   // well as pointed-to strings.
   typename Traits::Pointer last = le.Blink;
@@ -535,7 +538,7 @@ WinVMSize ProcessSnapshotWin::DetermineSizeOfEnvironmentBlock(
 template <class Traits>
 void ProcessSnapshotWin::ReadLock(
     WinVMAddress start,
-    PointerVector<internal::MemorySnapshotWin>* into) {
+    std::vector<std::unique_ptr<internal::MemorySnapshotWin>>* into) {
   // We're walking the RTL_CRITICAL_SECTION_DEBUG ProcessLocksList, but starting
   // from an actual RTL_CRITICAL_SECTION, so start by getting to the first
   // RTL_CRITICAL_SECTION_DEBUG.

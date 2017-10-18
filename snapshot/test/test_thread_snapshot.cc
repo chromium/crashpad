@@ -57,8 +57,9 @@ uint64_t TestThreadSnapshot::ThreadSpecificDataAddress() const {
 
 std::vector<const MemorySnapshot*> TestThreadSnapshot::ExtraMemory() const {
   std::vector<const MemorySnapshot*> extra_memory;
-  for (const auto& em : extra_memory_)
-    extra_memory.push_back(em);
+  for (const auto& em : extra_memory_) {
+    extra_memory.push_back(em.get());
+  }
   return extra_memory;
 }
 

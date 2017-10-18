@@ -22,12 +22,12 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "base/macros.h"
 #include "snapshot/mac/process_types.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/uuid.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -317,7 +317,7 @@ class MachOImageReader {
   // will be set to the valid state, but symbol_table_ will be nullptr.
   void InitializeSymbolTable() const;
 
-  PointerVector<MachOImageSegmentReader> segments_;
+  std::vector<std::unique_ptr<MachOImageSegmentReader>> segments_;
   std::map<std::string, size_t> segment_map_;
   std::string module_name_;
   std::string module_info_;

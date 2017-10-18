@@ -30,7 +30,6 @@
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -342,7 +341,7 @@ class MinidumpModuleListWriter final : public internal::MinidumpStreamWriter {
   MinidumpStreamType StreamType() const override;
 
  private:
-  PointerVector<MinidumpModuleWriter> modules_;
+  std::vector<std::unique_ptr<MinidumpModuleWriter>> modules_;
   MINIDUMP_MODULE_LIST module_list_base_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleListWriter);
