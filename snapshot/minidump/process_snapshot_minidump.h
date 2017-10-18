@@ -21,6 +21,7 @@
 #include <sys/time.h>
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -37,7 +38,6 @@
 #include "util/file/file_reader.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/uuid.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -95,7 +95,7 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   MINIDUMP_HEADER header_;
   std::vector<MINIDUMP_DIRECTORY> stream_directory_;
   std::map<MinidumpStreamType, const MINIDUMP_LOCATION_DESCRIPTOR*> stream_map_;
-  PointerVector<internal::ModuleSnapshotMinidump> modules_;
+  std::vector<std::unique_ptr<internal::ModuleSnapshotMinidump>> modules_;
   std::vector<UnloadedModuleSnapshot> unloaded_modules_;
   MinidumpCrashpadInfo crashpad_info_;
   std::map<std::string, std::string> annotations_simple_map_;

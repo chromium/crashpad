@@ -82,16 +82,16 @@ const SystemSnapshot* TestProcessSnapshot::System() const {
 
 std::vector<const ThreadSnapshot*> TestProcessSnapshot::Threads() const {
   std::vector<const ThreadSnapshot*> threads;
-  for (const ThreadSnapshot* thread : threads_) {
-    threads.push_back(thread);
+  for (const auto& thread : threads_) {
+    threads.push_back(thread.get());
   }
   return threads;
 }
 
 std::vector<const ModuleSnapshot*> TestProcessSnapshot::Modules() const {
   std::vector<const ModuleSnapshot*> modules;
-  for (const ModuleSnapshot* module : modules_) {
-    modules.push_back(module);
+  for (const auto& module : modules_) {
+    modules.push_back(module.get());
   }
   return modules;
 }
@@ -108,8 +108,9 @@ const ExceptionSnapshot* TestProcessSnapshot::Exception() const {
 std::vector<const MemoryMapRegionSnapshot*> TestProcessSnapshot::MemoryMap()
     const {
   std::vector<const MemoryMapRegionSnapshot*> memory_map;
-  for (const auto& item : memory_map_)
-    memory_map.push_back(item);
+  for (const auto& item : memory_map_) {
+    memory_map.push_back(item.get());
+  }
   return memory_map;
 }
 
@@ -119,8 +120,9 @@ std::vector<HandleSnapshot> TestProcessSnapshot::Handles() const {
 
 std::vector<const MemorySnapshot*> TestProcessSnapshot::ExtraMemory() const {
   std::vector<const MemorySnapshot*> extra_memory;
-  for (const auto& em : extra_memory_)
-    extra_memory.push_back(em);
+  for (const auto& em : extra_memory_) {
+    extra_memory.push_back(em.get());
+  }
   return extra_memory;
 }
 

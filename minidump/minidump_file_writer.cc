@@ -192,7 +192,7 @@ bool MinidumpFileWriter::AddStream(
     return false;
   }
 
-  streams_.push_back(stream.release());
+  streams_.push_back(std::move(stream));
 
   DCHECK_EQ(streams_.size(), stream_types_.size());
   return true;
@@ -275,8 +275,8 @@ std::vector<internal::MinidumpWritable*> MinidumpFileWriter::Children() {
   DCHECK_EQ(streams_.size(), stream_types_.size());
 
   std::vector<MinidumpWritable*> children;
-  for (internal::MinidumpStreamWriter* stream : streams_) {
-    children.push_back(stream);
+  for (const auto& stream : streams_) {
+    children.push_back(stream.get());
   }
 
   return children;
@@ -305,7 +305,7 @@ bool MinidumpFileWriter::WriteObject(FileWriterInterface* file_writer) {
   iov.iov_len = sizeof(header_);
   std::vector<WritableIoVec> iovecs(1, iov);
 
-  for (internal::MinidumpStreamWriter* stream : streams_) {
+  for (const auto& stream : streams_) {
     iov.iov_base = stream->DirectoryListEntry();
     iov.iov_len = sizeof(MINIDUMP_DIRECTORY);
     iovecs.push_back(iov);

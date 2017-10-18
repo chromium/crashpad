@@ -17,12 +17,14 @@
 
 #include <sys/types.h>
 
+#include <memory>
+#include <vector>
+
 #include "base/macros.h"
 #include "util/linux/ptrace_connection.h"
 #include "util/linux/ptracer.h"
 #include "util/linux/scoped_ptrace_attach.h"
 #include "util/misc/initialization_state_dcheck.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -52,7 +54,7 @@ class DirectPtraceConnection : public PtraceConnection {
   bool GetThreadInfo(pid_t tid, ThreadInfo* info) override;
 
  private:
-  PointerVector<ScopedPtraceAttach> attachments_;
+  std::vector<std::unique_ptr<ScopedPtraceAttach>> attachments_;
   pid_t pid_;
   Ptracer ptracer_;
   InitializationStateDcheck initialized_;

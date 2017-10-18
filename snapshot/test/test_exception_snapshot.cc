@@ -57,8 +57,9 @@ const std::vector<uint64_t>& TestExceptionSnapshot::Codes() const {
 
 std::vector<const MemorySnapshot*> TestExceptionSnapshot::ExtraMemory() const {
   std::vector<const MemorySnapshot*> extra_memory;
-  for (const auto& em : extra_memory_)
-    extra_memory.push_back(em);
+  for (const auto& em : extra_memory_) {
+    extra_memory.push_back(em.get());
+  }
   return extra_memory;
 }
 

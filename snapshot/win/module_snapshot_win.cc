@@ -14,6 +14,8 @@
 
 #include "snapshot/win/module_snapshot_win.h"
 
+#include <utility>
+
 #include "base/strings/utf_string_conversions.h"
 #include "client/crashpad_info.h"
 #include "client/simple_address_range_bag.h"
@@ -211,8 +213,9 @@ ModuleSnapshotWin::CustomMinidumpStreams() const {
   }
 
   std::vector<const UserMinidumpStream*> result;
-  for (const auto* stream : streams_)
-    result.push_back(stream);
+  for (const auto& stream : streams_) {
+    result.push_back(stream.get());
+  }
   return result;
 }
 
@@ -289,7 +292,7 @@ void ModuleSnapshotWin::GetCrashpadExtraMemoryRanges(
 
 template <class Traits>
 void ModuleSnapshotWin::GetCrashpadUserMinidumpStreams(
-    PointerVector<const UserMinidumpStream>* streams) const {
+    std::vector<std::unique_ptr<const UserMinidumpStream>>* streams) const {
   process_types::CrashpadInfo<Traits> crashpad_info;
   if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info))
     return;
@@ -308,8 +311,8 @@ void ModuleSnapshotWin::GetCrashpadUserMinidumpStreams(
           new internal::MemorySnapshotWin());
       memory->Initialize(
           process_reader_, list_entry.base_address, list_entry.size);
-      streams->push_back(
-          new UserMinidumpStream(list_entry.stream_type, memory.release()));
+      streams->push_back(std::make_unique<UserMinidumpStream>(
+          list_entry.stream_type, memory.release()));
     }
 
     cur = list_entry.next;
