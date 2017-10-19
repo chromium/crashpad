@@ -45,6 +45,85 @@ TEST(Filesystem, CreateDirectory) {
   EXPECT_TRUE(IsRegularFile(file));
 }
 
+TEST(Filesystem, MoveFileOrDirectory) {
+  ScopedTempDir temp_dir;
+
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
+
+  EXPECT_FALSE(MoveFileOrDirectory(base::FilePath(), base::FilePath()));
+  EXPECT_FALSE(MoveFileOrDirectory(base::FilePath(), file));
+  EXPECT_FALSE(MoveFileOrDirectory(file, base::FilePath()));
+  EXPECT_TRUE(IsRegularFile(file));
+
+  base::FilePath file2(temp_dir.path().Append(FILE_PATH_LITERAL("file2")));
+  EXPECT_TRUE(MoveFileOrDirectory(file, file2));
+  EXPECT_TRUE(IsRegularFile(file2));
+  EXPECT_FALSE(IsRegularFile(file));
+
+  EXPECT_FALSE(MoveFileOrDirectory(file, file2));
+  EXPECT_TRUE(IsRegularFile(file2));
+  EXPECT_FALSE(IsRegularFile(file));
+
+  ASSERT_TRUE(CreateFile(file));
+  EXPECT_TRUE(MoveFileOrDirectory(file2, file));
+  EXPECT_TRUE(IsRegularFile(file));
+  EXPECT_FALSE(IsRegularFile(file2));
+
+  base::FilePath dir(temp_dir.path().Append(FILE_PATH_LITERAL("dir")));
+  ASSERT_TRUE(
+      LoggingCreateDirectory(dir, FilePermissions::kWorldReadable, false));
+
+  base::FilePath nested(dir.Append(FILE_PATH_LITERAL("nested")));
+  ASSERT_TRUE(CreateFile(nested));
+
+  base::FilePath dir2(temp_dir.path().Append(FILE_PATH_LITERAL("dir2")));
+  EXPECT_TRUE(MoveFileOrDirectory(dir, dir2));
+  EXPECT_FALSE(IsDirectory(dir, true));
+  EXPECT_TRUE(IsDirectory(dir2, false));
+  EXPECT_TRUE(IsRegularFile(dir2.Append(nested.BaseName())));
+
+  ASSERT_TRUE(
+      LoggingCreateDirectory(dir, FilePermissions::kWorldReadable, false));
+  EXPECT_FALSE(MoveFileOrDirectory(dir, dir2));
+  EXPECT_TRUE(IsDirectory(dir, false));
+  EXPECT_TRUE(IsDirectory(dir2, false));
+  EXPECT_TRUE(IsRegularFile(dir2.Append(nested.BaseName())));
+
+  EXPECT_FALSE(MoveFileOrDirectory(file, dir2));
+  EXPECT_TRUE(IsDirectory(dir2, false));
+  EXPECT_TRUE(IsRegularFile(file));
+
+  EXPECT_FALSE(MoveFileOrDirectory(dir2, file));
+  EXPECT_TRUE(IsDirectory(dir2, false));
+  EXPECT_TRUE(IsRegularFile(file));
+
+  base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
+  ASSERT_TRUE(CreateSymbolicLink(file, link));
+
+  base::FilePath link2(temp_dir.path().Append(FILE_PATH_LITERAL("link2")));
+  EXPECT_TRUE(MoveFileOrDirectory(link, link2));
+  EXPECT_TRUE(FileExists(link2));
+  EXPECT_FALSE(FileExists(link));
+
+  ASSERT_TRUE(LoggingRemoveFile(file));
+  EXPECT_TRUE(MoveFileOrDirectory(link2, link));
+  EXPECT_TRUE(FileExists(link));
+  EXPECT_FALSE(FileExists(link2));
+
+  ASSERT_TRUE(LoggingRemoveFile(link));
+  ASSERT_TRUE(CreateSymbolicLink(dir, link));
+
+  EXPECT_TRUE(MoveFileOrDirectory(link, link2));
+  EXPECT_TRUE(FileExists(link2));
+  EXPECT_FALSE(FileExists(link));
+
+  ASSERT_TRUE(LoggingRemoveDirectory(dir));
+  EXPECT_TRUE(MoveFileOrDirectory(link2, link));
+  EXPECT_TRUE(FileExists(link));
+  EXPECT_FALSE(FileExists(link2));
+}
+
 TEST(Filesystem, IsRegularFile) {
   EXPECT_FALSE(IsRegularFile(base::FilePath()));
 
