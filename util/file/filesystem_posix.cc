@@ -15,6 +15,7 @@
 #include "util/file/filesystem.h"
 
 #include <errno.h>
+#include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -40,6 +41,25 @@ bool LoggingCreateDirectory(const base::FilePath& path,
   }
   PLOG(ERROR) << "mkdir " << path.value();
   return false;
+}
+
+bool LoggingMoveFile(const base::FilePath& source,
+                     const base::FilePath& dest) {
+  if (source.empty() || dest.empty()) {
+    LOG(ERROR) << "empty path";
+    return false;
+  }
+
+  if (linkat(AT_FDCWD,
+             source.value().c_str(),
+             AT_FDCWD,
+             dest.value().c_str(),
+             0)!= 0) {
+    PLOG(ERROR) << "linkat " << source.value() << " " << dest.value();
+    return false;
+  }
+
+  return LoggingRemoveFile(source);
 }
 
 bool IsRegularFile(const base::FilePath& path) {

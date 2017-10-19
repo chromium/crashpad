@@ -35,6 +35,16 @@ bool LoggingCreateDirectory(const base::FilePath& path,
                             FilePermissions permissions,
                             bool may_reuse);
 
+//! \brief Moves a file or symbolic link to a file or directory, logging a
+//!     message on failure.
+//!
+//! \a source must exist and refer to a file or symbolic link. \a dest must not
+//! exist.
+//!
+//! \param[in] source The path to the file to be moved.
+//! \param[in] dest The path to move the file to.
+bool LoggingMoveFile(const base::FilePath& source, const base::FilePath& dest);
+
 //! \brief Determines if a path refers to a regular file, logging a message on
 //!     failure.
 //!
