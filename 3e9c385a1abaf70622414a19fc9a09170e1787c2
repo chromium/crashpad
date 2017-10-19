@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41cf555a_dc04e498",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-19T18:53:39Z",
+      "side": 1,
+      "message": "Is it actually important that the symbolic link refer to something (as opposed to dangling)?\n\nIf that’s for Windows, it may be better to treat this not as a requirement of the interface, but a possible implementation detail. So in the same way that you say “this operation may be implemented as a copy and remove,” you could say that a link may be required to refer to a file or directory. (But what about referring to another symbolic link?)",
+      "range": {
+        "startLine": 40,
+        "startChar": 62,
+        "endLine": 41,
+        "endChar": 14
+      },
+      "revId": "3e9c385a1abaf70622414a19fc9a09170e1787c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90307d4c_399584fe",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-19T18:53:39Z",
+      "side": 1,
+      "message": "What about crossing filesystem boundaries?",
+      "revId": "3e9c385a1abaf70622414a19fc9a09170e1787c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7421228c_7492ad8c",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-19T18:53:39Z",
+      "side": 1,
+      "message": "\\return too",
+      "revId": "3e9c385a1abaf70622414a19fc9a09170e1787c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da716c80_a58608d2",
+        "filename": "util/file/filesystem_posix.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-19T18:53:39Z",
+      "side": 1,
+      "message": "linkat() is only available at all on OS X 10.10 and later. Chrome still needs to support 10.9. While this will be in the SDK, it won’t be present at runtime and will blow up.\n\nSince we probably don’t need to worry about older SDKs, you should be able to get away with just testing for linkat at runtime.\n\nHowever, this is awfully complex and I wonder why you don’t just use rename(). Is that just to prevent this from being used on directories? In that case, I’d ask why you didn’t elect to make this function (possibly renamed) work on directories too.",
+      "revId": "3e9c385a1abaf70622414a19fc9a09170e1787c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "542c4730_fb625f6a",
+        "filename": "util/file/filesystem_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-19T18:53:39Z",
+      "side": 1,
+      "message": "This could have worked for directories too.",
+      "revId": "3e9c385a1abaf70622414a19fc9a09170e1787c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df30415c_d5290c7d",
+        "filename": "util/file/filesystem_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-19T18:53:39Z",
+      "side": 1,
+      "message": "You have COPY_ALLOWED here but didn’t do the equivalent in the POSIX implementation.",
+      "revId": "3e9c385a1abaf70622414a19fc9a09170e1787c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
