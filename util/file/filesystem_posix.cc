@@ -15,11 +15,13 @@
 #include "util/file/filesystem.h"
 
 #include <errno.h>
+#include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
 
 #include "base/logging.h"
+#include "build/build_config.h"
 
 namespace crashpad {
 
@@ -40,6 +42,40 @@ bool LoggingCreateDirectory(const base::FilePath& path,
   }
   PLOG(ERROR) << "mkdir " << path.value();
   return false;
+}
+
+bool LoggingMoveFile(const base::FilePath& source, const base::FilePath& dest) {
+  if (source.empty() || dest.empty()) {
+    LOG(ERROR) << "empty path";
+    return false;
+  }
+
+  if (linkat(AT_FDCWD,
+             source.value().c_str(),
+             AT_FDCWD,
+             dest.value().c_str(),
+             0) != 0) {
+#if defined(OS_MACOSX)
+    // linkat is not supported for symbolic links on some filesystems on macOS.
+    if (errno == ENOTSUP) {
+      char link_target[256];
+      ssize_t length =
+          readlink(source.value().c_str(), link_target, arraysize(link_target));
+      if (length < 0) {
+        PLOG(ERROR) << "readlink " << source.value();
+        return false;
+      }
+      if (symlink(link_target, dest.value().c_str()) != 0) {
+        PLOG(ERROR) << "symlink " << source.value() << ", " << dest.value();
+        return false;
+      }
+    }
+    return LoggingRemoveFile(source);
+#endif
+    PLOG(ERROR) << "linkat " << source.value() << " " << dest.value();
+    return false;
+  }
+  return LoggingRemoveFile(source);
 }
 
 bool IsRegularFile(const base::FilePath& path) {
