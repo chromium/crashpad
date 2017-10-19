@@ -313,13 +313,13 @@ TEST(MinidumpMemoryWriter, AddFromSnapshot) {
   expect_memory_descriptors[2].Memory.DataSize = 0x800;
   values[2] = 0xa9;
 
-  PointerVector<TestMemorySnapshot> memory_snapshots_owner;
+  std::vector<std::unique_ptr<TestMemorySnapshot>> memory_snapshots_owner;
   std::vector<const MemorySnapshot*> memory_snapshots;
   for (size_t index = 0;
        index < arraysize(expect_memory_descriptors);
        ++index) {
-    TestMemorySnapshot* memory_snapshot = new TestMemorySnapshot();
-    memory_snapshots_owner.push_back(memory_snapshot);
+    memory_snapshots_owner.push_back(std::make_unique<TestMemorySnapshot>());
+    TestMemorySnapshot* memory_snapshot = memory_snapshots_owner.back().get();
     memory_snapshot->SetAddress(
         expect_memory_descriptors[index].StartOfMemoryRange);
     memory_snapshot->SetSize(expect_memory_descriptors[index].Memory.DataSize);

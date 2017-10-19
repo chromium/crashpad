@@ -100,7 +100,7 @@ std::set<CheckedRange<uint64_t>> TestModuleSnapshot::ExtraMemoryRanges() const {
 
 std::vector<const UserMinidumpStream*>
 TestModuleSnapshot::CustomMinidumpStreams() const {
-  return custom_minidump_streams_;
+  return std::vector<const UserMinidumpStream*>();
 }
 
 }  // namespace test

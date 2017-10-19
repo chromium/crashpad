@@ -195,7 +195,6 @@
         'stdlib/aligned_allocator.h',
         'stdlib/map_insert.h',
         'stdlib/objc.h',
-        'stdlib/pointer_container.h',
         'stdlib/string_number_conversion.cc',
         'stdlib/string_number_conversion.h',
         'stdlib/strlcpy.cc',

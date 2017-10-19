@@ -14,6 +14,8 @@
 
 #include "snapshot/win/capture_memory_delegate_win.h"
 
+#include <utility>
+
 #include "base/numerics/safe_conversions.h"
 #include "snapshot/win/memory_snapshot_win.h"
 
@@ -23,7 +25,7 @@ namespace internal {
 CaptureMemoryDelegateWin::CaptureMemoryDelegateWin(
     ProcessReaderWin* process_reader,
     const ProcessReaderWin::Thread& thread,
-    PointerVector<MemorySnapshotWin>* snapshots,
+    std::vector<std::unique_ptr<MemorySnapshotWin>>* snapshots,
     uint32_t* budget_remaining)
     : stack_(thread.stack_region_address, thread.stack_region_size),
       process_reader_(process_reader),
@@ -54,9 +56,9 @@ void CaptureMemoryDelegateWin::AddNewMemorySnapshot(
     return;
   if (budget_remaining_ && *budget_remaining_ == 0)
     return;
-  internal::MemorySnapshotWin* snapshot = new internal::MemorySnapshotWin();
+  snapshots_->push_back(std::make_unique<internal::MemorySnapshotWin>());
+  internal::MemorySnapshotWin* snapshot = snapshots_->back().get();
   snapshot->Initialize(process_reader_, range.base(), range.size());
-  snapshots_->push_back(snapshot);
   if (budget_remaining_) {
     if (!base::IsValueInRangeForNumericType<int64_t>(range.size())) {
       *budget_remaining_ = 0;

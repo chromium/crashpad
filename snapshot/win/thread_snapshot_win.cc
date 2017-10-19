@@ -128,9 +128,9 @@ std::vector<const MemorySnapshot*> ThreadSnapshotWin::ExtraMemory() const {
   std::vector<const MemorySnapshot*> result;
   result.reserve(1 + pointed_to_memory_.size());
   result.push_back(&teb_);
-  std::copy(pointed_to_memory_.begin(),
-            pointed_to_memory_.end(),
-            std::back_inserter(result));
+  for (const auto& pointed_to_memory : pointed_to_memory_) {
+    result.push_back(pointed_to_memory.get());
+  }
   return result;
 }
 

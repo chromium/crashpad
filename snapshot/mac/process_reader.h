@@ -30,7 +30,6 @@
 #include "util/mach/task_memory.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/posix/process_info.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -232,7 +231,7 @@ class ProcessReader {
   ProcessInfo process_info_;
   std::vector<Thread> threads_;  // owns send rights
   std::vector<Module> modules_;
-  PointerVector<MachOImageReader> module_readers_;
+  std::vector<std::unique_ptr<MachOImageReader>> module_readers_;
   std::unique_ptr<TaskMemory> task_memory_;
   task_t task_;  // weak
   InitializationStateDcheck initialized_;

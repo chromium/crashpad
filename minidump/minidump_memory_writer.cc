@@ -149,7 +149,7 @@ void MinidumpMemoryListWriter::AddMemory(
   DCHECK_EQ(state(), kStateMutable);
 
   AddExtraMemory(memory_writer.get());
-  children_.push_back(memory_writer.release());
+  children_.push_back(std::move(memory_writer));
 }
 
 void MinidumpMemoryListWriter::AddExtraMemory(
@@ -192,8 +192,8 @@ std::vector<internal::MinidumpWritable*> MinidumpMemoryListWriter::Children() {
   DCHECK_LE(children_.size(), memory_writers_.size());
 
   std::vector<MinidumpWritable*> children;
-  for (SnapshotMinidumpMemoryWriter* child : children_) {
-    children.push_back(child);
+  for (const auto& child : children_) {
+    children.push_back(child.get());
   }
 
   return children;

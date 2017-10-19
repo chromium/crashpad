@@ -703,11 +703,11 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   uuids[2].InitializeFromBytes(kUUIDBytes2);
   ages[2] = 30;
 
-  PointerVector<TestModuleSnapshot> module_snapshots_owner;
+  std::vector<std::unique_ptr<TestModuleSnapshot>> module_snapshots_owner;
   std::vector<const ModuleSnapshot*> module_snapshots;
   for (size_t index = 0; index < arraysize(expect_modules); ++index) {
-    TestModuleSnapshot* module_snapshot = new TestModuleSnapshot();
-    module_snapshots_owner.push_back(module_snapshot);
+    module_snapshots_owner.push_back(std::make_unique<TestModuleSnapshot>());
+    TestModuleSnapshot* module_snapshot = module_snapshots_owner.back().get();
     InitializeTestModuleSnapshotFromMinidumpModule(module_snapshot,
                                                    expect_modules[index],
                                                    module_paths[index],

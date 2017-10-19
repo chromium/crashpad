@@ -14,7 +14,6 @@
 
 #include "snapshot/minidump/process_snapshot_minidump.h"
 
-#include <memory>
 #include <utility>
 
 #include "snapshot/minidump/minidump_simple_string_dictionary_reader.h"
@@ -166,8 +165,8 @@ std::vector<const ThreadSnapshot*> ProcessSnapshotMinidump::Threads() const {
 std::vector<const ModuleSnapshot*> ProcessSnapshotMinidump::Modules() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   std::vector<const ModuleSnapshot*> modules;
-  for (internal::ModuleSnapshotMinidump* module : modules_) {
-    modules.push_back(module);
+  for (const auto& module : modules_) {
+    modules.push_back(module.get());
   }
   return modules;
 }
@@ -283,7 +282,7 @@ bool ProcessSnapshotMinidump::InitializeModules() {
       return false;
     }
 
-    modules_.push_back(module.release());
+    modules_.push_back(std::move(module));
   }
 
   return true;

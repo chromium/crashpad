@@ -25,7 +25,6 @@
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_string_writer.h"
 #include "minidump/minidump_writable.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -155,7 +154,8 @@ class MinidumpModuleCrashpadInfoListWriter final
   bool WriteObject(FileWriterInterface* file_writer) override;
 
  private:
-  PointerVector<MinidumpModuleCrashpadInfoWriter> module_crashpad_infos_;
+  std::vector<std::unique_ptr<MinidumpModuleCrashpadInfoWriter>>
+      module_crashpad_infos_;
   std::vector<MinidumpModuleCrashpadInfoLink> module_crashpad_info_links_;
   MinidumpModuleCrashpadInfoList module_crashpad_info_list_base_;
 

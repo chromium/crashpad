@@ -164,7 +164,7 @@ void MinidumpModuleCrashpadInfoListWriter::AddModule(
   }
 
   module_crashpad_info_links_.push_back(module_crashpad_info_link);
-  module_crashpad_infos_.push_back(module_crashpad_info.release());
+  module_crashpad_infos_.push_back(std::move(module_crashpad_info));
 }
 
 bool MinidumpModuleCrashpadInfoListWriter::IsUseful() const {
@@ -209,8 +209,8 @@ MinidumpModuleCrashpadInfoListWriter::Children() {
   DCHECK_EQ(module_crashpad_infos_.size(), module_crashpad_info_links_.size());
 
   std::vector<MinidumpWritable*> children;
-  for (MinidumpModuleCrashpadInfoWriter* module : module_crashpad_infos_) {
-    children.push_back(module);
+  for (const auto& module : module_crashpad_infos_) {
+    children.push_back(module.get());
   }
 
   return children;
