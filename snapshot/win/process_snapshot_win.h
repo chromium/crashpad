@@ -44,7 +44,6 @@
 #include "snapshot/win/thread_snapshot_win.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/uuid.h"
-#include "util/stdlib/pointer_container.h"
 #include "util/win/address_types.h"
 #include "util/win/process_structs.h"
 
@@ -150,20 +149,21 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   template <class Traits>
   void InitializePebData(WinVMAddress debug_critical_section_address);
 
-  void AddMemorySnapshot(WinVMAddress address,
-                         WinVMSize size,
-                         PointerVector<internal::MemorySnapshotWin>* into);
+  void AddMemorySnapshot(
+      WinVMAddress address,
+      WinVMSize size,
+      std::vector<std::unique_ptr<internal::MemorySnapshotWin>>* into);
 
   template <class Traits>
   void AddMemorySnapshotForUNICODE_STRING(
       const process_types::UNICODE_STRING<Traits>& us,
-      PointerVector<internal::MemorySnapshotWin>* into);
+      std::vector<std::unique_ptr<internal::MemorySnapshotWin>>* into);
 
   template <class Traits>
   void AddMemorySnapshotForLdrLIST_ENTRY(
       const process_types::LIST_ENTRY<Traits>& le,
       size_t offset_of_member,
-      PointerVector<internal::MemorySnapshotWin>* into);
+      std::vector<std::unique_ptr<internal::MemorySnapshotWin>>* into);
 
   WinVMSize DetermineSizeOfEnvironmentBlock(
       WinVMAddress start_of_environment_block);
@@ -171,16 +171,18 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   // Starting from the address of a CRITICAL_SECTION, add a lock and, if valid,
   // its .DebugInfo field to the snapshot.
   template <class Traits>
-  void ReadLock(WinVMAddress start,
-                PointerVector<internal::MemorySnapshotWin>* into);
+  void ReadLock(
+      WinVMAddress start,
+      std::vector<std::unique_ptr<internal::MemorySnapshotWin>>* into);
 
   internal::SystemSnapshotWin system_;
-  PointerVector<internal::MemorySnapshotWin> extra_memory_;
-  PointerVector<internal::ThreadSnapshotWin> threads_;
-  PointerVector<internal::ModuleSnapshotWin> modules_;
+  std::vector<std::unique_ptr<internal::MemorySnapshotWin>> extra_memory_;
+  std::vector<std::unique_ptr<internal::ThreadSnapshotWin>> threads_;
+  std::vector<std::unique_ptr<internal::ModuleSnapshotWin>> modules_;
   std::vector<UnloadedModuleSnapshot> unloaded_modules_;
   std::unique_ptr<internal::ExceptionSnapshotWin> exception_;
-  PointerVector<internal::MemoryMapRegionSnapshotWin> memory_map_;
+  std::vector<std::unique_ptr<internal::MemoryMapRegionSnapshotWin>>
+      memory_map_;
   ProcessReaderWin process_reader_;
   UUID report_id_;
   UUID client_id_;

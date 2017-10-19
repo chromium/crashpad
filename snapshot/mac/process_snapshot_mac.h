@@ -42,7 +42,6 @@
 #include "util/mach/mach_extensions.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/uuid.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -141,8 +140,8 @@ class ProcessSnapshotMac final : public ProcessSnapshot {
   void InitializeModules();
 
   internal::SystemSnapshotMac system_;
-  PointerVector<internal::ThreadSnapshotMac> threads_;
-  PointerVector<internal::ModuleSnapshotMac> modules_;
+  std::vector<std::unique_ptr<internal::ThreadSnapshotMac>> threads_;
+  std::vector<std::unique_ptr<internal::ModuleSnapshotMac>> modules_;
   std::unique_ptr<internal::ExceptionSnapshotMac> exception_;
   ProcessReader process_reader_;
   UUID report_id_;

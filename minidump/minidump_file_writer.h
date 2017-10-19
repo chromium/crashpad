@@ -28,7 +28,6 @@
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
 #include "util/file/file_io.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -145,7 +144,7 @@ class MinidumpFileWriter final : public internal::MinidumpWritable {
 
  private:
   MINIDUMP_HEADER header_;
-  PointerVector<internal::MinidumpStreamWriter> streams_;
+  std::vector<std::unique_ptr<internal::MinidumpStreamWriter>> streams_;
 
   // Protects against multiple streams with the same ID being added.
   std::set<MinidumpStreamType> stream_types_;

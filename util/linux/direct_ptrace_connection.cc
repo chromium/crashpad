@@ -14,7 +14,7 @@
 
 #include "util/linux/direct_ptrace_connection.h"
 
-#include <memory>
+#include <utility>
 
 namespace crashpad {
 
@@ -49,7 +49,7 @@ bool DirectPtraceConnection::Attach(pid_t tid) {
   if (!attach->ResetAttach(tid)) {
     return false;
   }
-  attachments_.push_back(attach.release());
+  attachments_.push_back(std::move(attach));
   return true;
 }
 

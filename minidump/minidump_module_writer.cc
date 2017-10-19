@@ -394,7 +394,7 @@ void MinidumpModuleListWriter::AddModule(
     std::unique_ptr<MinidumpModuleWriter> module) {
   DCHECK_EQ(state(), kStateMutable);
 
-  modules_.push_back(module.release());
+  modules_.push_back(std::move(module));
 }
 
 bool MinidumpModuleListWriter::Freeze() {
@@ -423,8 +423,8 @@ std::vector<internal::MinidumpWritable*> MinidumpModuleListWriter::Children() {
   DCHECK_GE(state(), kStateFrozen);
 
   std::vector<MinidumpWritable*> children;
-  for (MinidumpModuleWriter* module : modules_) {
-    children.push_back(module);
+  for (const auto& module : modules_) {
+    children.push_back(module.get());
   }
 
   return children;
@@ -438,7 +438,7 @@ bool MinidumpModuleListWriter::WriteObject(FileWriterInterface* file_writer) {
   iov.iov_len = sizeof(module_list_base_);
   std::vector<WritableIoVec> iovecs(1, iov);
 
-  for (const MinidumpModuleWriter* module : modules_) {
+  for (const auto& module : modules_) {
     iov.iov_base = module->MinidumpModule();
     iov.iov_len = sizeof(MINIDUMP_MODULE);
     iovecs.push_back(iov);
