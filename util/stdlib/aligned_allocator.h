@@ -83,16 +83,10 @@ struct AlignedAllocator {
     return std::numeric_limits<size_type>::max() / sizeof(value_type);
   }
 
-#if CXX_LIBRARY_VERSION < 2011
-  void construct(pointer p, const T& val) {
-    new (reinterpret_cast<void*>(p)) T(val);
-  }
-#else
   template <class U, class... Args>
   void construct(U* p, Args&&... args) {
     new (reinterpret_cast<void*>(p)) U(std::forward<Args>(args)...);
   }
-#endif
 
   template <class U>
   void destroy(U* p) {
