@@ -15,11 +15,15 @@
 #include "util/file/filesystem.h"
 
 #include <errno.h>
+#include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
 
+#include <memory>
+
 #include "base/logging.h"
+#include "build/build_config.h"
 
 namespace crashpad {
 
@@ -40,6 +44,57 @@ bool LoggingCreateDirectory(const base::FilePath& path,
   }
   PLOG(ERROR) << "mkdir " << path.value();
   return false;
+}
+
+bool LoggingMoveFile(const base::FilePath& source, const base::FilePath& dest) {
+  if (source.empty() || dest.empty()) {
+    LOG(ERROR) << "empty path";
+    return false;
+  }
+
+  if (linkat(AT_FDCWD,
+             source.value().c_str(),
+             AT_FDCWD,
+             dest.value().c_str(),
+             0) != 0) {
+#if defined(OS_MACOSX)
+    // linkat is not supported for symbolic links on some filesystems on macOS.
+    if (errno == ENOTSUP) {
+      struct stat st;
+      if (lstat(source.value().c_str(), &st) != 0) {
+        PLOG(ERROR) << "lstat " << source.value();
+        return false;
+      }
+      if (!S_ISLNK(st.st_mode)) {
+        LOG(ERROR) << "not a symlink " << source.value();
+        return false;
+      }
+
+      auto link_target = std::make_unique<char[]>(st.st_size + 1);
+
+      ssize_t length =
+          readlink(source.value().c_str(), link_target.get(), st.st_size + 1);
+      if (length < 0) {
+        PLOG(ERROR) << "readlink " << source.value();
+        return false;
+      }
+      if (length != st.st_size) {
+        LOG(ERROR) << "link changed length " << source.value();
+        return false;
+      }
+      link_target.get()[st.st_size] = '\0';
+
+      if (symlink(link_target.get(), dest.value().c_str()) != 0) {
+        PLOG(ERROR) << "symlink " << source.value() << ", " << dest.value();
+        return false;
+      }
+      return LoggingRemoveFile(source);
+    }
+#endif
+    PLOG(ERROR) << "linkat " << source.value() << ", " << dest.value();
+    return false;
+  }
+  return LoggingRemoveFile(source);
 }
 
 bool IsRegularFile(const base::FilePath& path) {
