@@ -45,6 +45,59 @@ TEST(Filesystem, CreateDirectory) {
   EXPECT_TRUE(IsRegularFile(file));
 }
 
+TEST(Filesystem, LoggingMoveFile) {
+  ScopedTempDir temp_dir;
+
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
+
+  EXPECT_FALSE(LoggingMoveFile(base::FilePath(), base::FilePath()));
+  EXPECT_FALSE(LoggingMoveFile(base::FilePath(), file));
+  EXPECT_FALSE(LoggingMoveFile(file, base::FilePath()));
+  EXPECT_TRUE(IsRegularFile(file));
+
+  base::FilePath file2(temp_dir.path().Append(FILE_PATH_LITERAL("file2")));
+  EXPECT_TRUE(LoggingMoveFile(file, file2));
+  EXPECT_TRUE(IsRegularFile(file2));
+  EXPECT_FALSE(IsRegularFile(file));
+
+  EXPECT_FALSE(LoggingMoveFile(file, file2));
+  EXPECT_TRUE(IsRegularFile(file2));
+  EXPECT_FALSE(IsRegularFile(file));
+
+  ASSERT_TRUE(CreateFile(file));
+  EXPECT_FALSE(LoggingMoveFile(file, file2));
+  EXPECT_TRUE(IsRegularFile(file));
+  EXPECT_TRUE(IsRegularFile(file2));
+
+  base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
+  ASSERT_TRUE(CreateSymbolicLink(file2, link));
+
+  base::FilePath link2(temp_dir.path().Append(FILE_PATH_LITERAL("link2")));
+  EXPECT_TRUE(LoggingMoveFile(link, link2));
+  EXPECT_TRUE(FileExists(link2));
+  EXPECT_FALSE(FileExists(link));
+
+  base::FilePath dir(temp_dir.path().Append(FILE_PATH_LITERAL("dir")));
+  ASSERT_TRUE(LoggingCreateDirectory(dir, FilePermissions::kWorldReadable, false));
+
+  base::FilePath dir2(temp_dir.path().Append(FILE_PATH_LITERAL("dir2")));
+  EXPECT_FALSE(LoggingMoveFile(dir, dir2));
+  EXPECT_TRUE(IsDirectory(dir, false));
+  EXPECT_FALSE(IsDirectory(dir2, true));
+
+  EXPECT_FALSE(LoggingMoveFile(file, dir));
+  EXPECT_TRUE(IsDirectory(dir, false));
+  EXPECT_TRUE(IsRegularFile(file));
+
+  ASSERT_TRUE(CreateSymbolicLink(dir, link));
+  ASSERT_TRUE(LoggingRemoveFile(link2));
+
+  EXPECT_TRUE(LoggingMoveFile(link, link2));
+  EXPECT_TRUE(FileExists(link2));
+  EXPECT_FALSE(FileExists(link));
+}
+
 TEST(Filesystem, IsRegularFile) {
   EXPECT_FALSE(IsRegularFile(base::FilePath()));
 
