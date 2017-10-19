@@ -94,6 +94,24 @@
     },
     {
       "key": {
+        "uuid": "2da71258_7f42d5da",
+        "filename": "util/file/filesystem_posix.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-19T20:30:21Z",
+      "side": 1,
+      "message": "\u003e I thought it\u0027d be nice to prevent accidentally overwriting existing files, which rename does. This isn\u0027t actually required by the database though, as long as everything keeps to the locking protocol and there aren\u0027t any external forces playing shenanigans with database files, so maybe it\u0027s not worth it for now.\n\nIf we don’t actually need that feature, I’d say that it’s probably sensible to go with the more easily implemented version, as long as we can keep parallel semantics (where we can define them) in both the POSIX and Windows implementations.\n\nSince this is for the database’s use only, perhaps it’s not necessary to make any affordance for “implementation may copy and remove” at all. Copy and remove in the context of a database can get scary, because when move isn’t an atomic operation, there may be a window of ambiguity in the on-disk representation.",
+      "parentUuid": "3c88a449_81ecbd39",
+      "revId": "3e9c385a1abaf70622414a19fc9a09170e1787c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "542c4730_fb625f6a",
         "filename": "util/file/filesystem_win.cc",
         "patchSetId": 6
