@@ -67,6 +67,18 @@ bool LoggingCreateDirectory(const base::FilePath& path,
   return false;
 }
 
+bool MoveFileOrDirectory(const base::FilePath& source,
+                         const base::FilePath& dest) {
+  if (!MoveFileEx(source.value().c_str(),
+                  dest.value().c_str(),
+                  IsDirectory(source, false) ? 0 : MOVEFILE_REPLACE_EXISTING)) {
+    PLOG(ERROR) << "MoveFileEx" << base::UTF16ToUTF8(source.value()) << ", "
+                << base::UTF16ToUTF8(dest.value());
+    return false;
+  }
+  return true;
+}
+
 bool IsRegularFile(const base::FilePath& path) {
   DWORD fileattr = GetFileAttributes(path.value().c_str());
   if (fileattr == INVALID_FILE_ATTRIBUTES) {
