@@ -33,6 +33,8 @@
         '..',
       ],
       'sources': [
+        'minidump_annotation_writer.cc',
+        'minidump_annotation_writer.h',
         'minidump_byte_array_writer.cc',
         'minidump_byte_array_writer.h',
         'minidump_context.h',
