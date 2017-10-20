@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "86ce9809_4e9e235b",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-20T16:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0c61f77_e312737a",
+      "revId": "5650acb11248abba0b4ad2eddae258746d712bd1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7d6c7d4_b987abd9",
         "filename": "util/file/filesystem.h",
         "patchSetId": 17
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "cb9dd85f_f4afe36e",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-20T16:32:31Z",
+      "side": 1,
+      "message": "I\u0027ve reversed the language here to simplify and be consistent with the previous paragraph.",
+      "parentUuid": "b7d6c7d4_b987abd9",
+      "range": {
+        "startLine": 47,
+        "startChar": 40,
+        "endLine": 47,
+        "endChar": 48
+      },
+      "revId": "5650acb11248abba0b4ad2eddae258746d712bd1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64b0888_c4d7a4c5",
         "filename": "util/file/filesystem.h",
         "patchSetId": 17
@@ -56,6 +98,24 @@
       "revId": "5650acb11248abba0b4ad2eddae258746d712bd1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65fbb67b_3e72a7fd",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-20T16:32:31Z",
+      "side": 1,
+      "message": "MoveFileEx allows overwriting files with files or directories, but I\u0027ve explicitly not allowed overwriting when source is a directory to fix that.\n\nMoveFileEx always fails if dest is a directory or a symbolic link to a directory.",
+      "parentUuid": "b64b0888_c4d7a4c5",
+      "revId": "5650acb11248abba0b4ad2eddae258746d712bd1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "4f017002_5a9d9146",
+        "filename": "util/file/filesystem_test_util.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-20T16:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82900a8d_632ae949",
+      "revId": "5650acb11248abba0b4ad2eddae258746d712bd1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef19ce56_9c1b8ddb",
         "filename": "util/file/filesystem_test_util.cc",
         "patchSetId": 17
@@ -90,6 +168,24 @@
       "revId": "5650acb11248abba0b4ad2eddae258746d712bd1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cd08c2c_7f41f4a7",
+        "filename": "util/file/filesystem_test_util.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-20T16:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef19ce56_9c1b8ddb",
+      "revId": "5650acb11248abba0b4ad2eddae258746d712bd1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

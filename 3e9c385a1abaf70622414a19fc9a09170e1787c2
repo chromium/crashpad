@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3b11acd3_c27c22e8",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-20T16:32:31Z",
+      "side": 1,
+      "message": "Whether the link is live or dangling doesn\u0027t seem to make a difference on Windows or POSIX.\n\nHowever, Windows does care about whether the link is intended to point to a file or directory.",
+      "parentUuid": "41cf555a_dc04e498",
+      "range": {
+        "startLine": 40,
+        "startChar": 62,
+        "endLine": 41,
+        "endChar": 14
+      },
+      "revId": "3e9c385a1abaf70622414a19fc9a09170e1787c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "90307d4c_399584fe",
         "filename": "util/file/filesystem.h",
         "patchSetId": 6
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "5a79c7f0_9ed8d35d",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-20T16:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90307d4c_399584fe",
+      "revId": "3e9c385a1abaf70622414a19fc9a09170e1787c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7421228c_7492ad8c",
         "filename": "util/file/filesystem.h",
         "patchSetId": 6
@@ -56,6 +98,24 @@
       "revId": "3e9c385a1abaf70622414a19fc9a09170e1787c2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe0d23ac_3026e98f",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-20T16:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7421228c_7492ad8c",
+      "revId": "3e9c385a1abaf70622414a19fc9a09170e1787c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -129,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "e46356bf_7a2a95d4",
+        "filename": "util/file/filesystem_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-20T16:32:31Z",
+      "side": 1,
+      "message": "Now it does!",
+      "parentUuid": "542c4730_fb625f6a",
+      "revId": "3e9c385a1abaf70622414a19fc9a09170e1787c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df30415c_d5290c7d",
         "filename": "util/file/filesystem_win.cc",
         "patchSetId": 6
@@ -143,6 +221,24 @@
       "revId": "3e9c385a1abaf70622414a19fc9a09170e1787c2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5505dd1f_8fe145e5",
+        "filename": "util/file/filesystem_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-20T16:32:31Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "df30415c_d5290c7d",
+      "revId": "3e9c385a1abaf70622414a19fc9a09170e1787c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
