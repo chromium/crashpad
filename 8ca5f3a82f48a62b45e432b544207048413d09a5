@@ -16,6 +16,24 @@
       "revId": "8ca5f3a82f48a62b45e432b544207048413d09a5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c10e2c7_f040d91b",
+        "filename": "util/file/filesystem_posix.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-20T17:13:30Z",
+      "side": 1,
+      "message": "Yep, that one caught me off-guard too.",
+      "parentUuid": "45ce9bf7_fc32020a",
+      "revId": "8ca5f3a82f48a62b45e432b544207048413d09a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
