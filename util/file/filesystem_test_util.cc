@@ -14,9 +14,15 @@
 
 #include "util/file/filesystem_test_util.h"
 
+#include <errno.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+
 #include "base/logging.h"
+#include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "test/errors.h"
 #include "util/file/file_io.h"
 #include "util/file/filesystem.h"
 
@@ -56,6 +62,24 @@ bool CreateSymbolicLink(const base::FilePath& target_path,
     return false;
   }
 #endif  // OS_POSIX
+  return true;
+}
+
+bool PathExists(const base::FilePath& path) {
+#if defined(OS_POSIX)
+  struct stat st;
+  if (lstat(path.value().c_str(), &st) != 0) {
+    EXPECT_EQ(errno, ENOENT) << ErrnoMessage("lstat ") << path.value();
+    return false;
+  }
+#elif defined(OS_WIN)
+  if (GetFileAttributes(path.value().c_str()) == INVALID_FILE_ATTRIBUTES) {
+    EXPECT_EQ(GetLastError(), ERROR_FILE_NOT_FOUND)
+        << ErrorMessage("GetFileAttributes ")
+        << base::UTF16ToUTF8(path.value());
+    return false;
+  }
+#endif
   return true;
 }
 
