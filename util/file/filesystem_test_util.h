@@ -25,6 +25,8 @@ bool CreateFile(const base::FilePath& file);
 bool CreateSymbolicLink(const base::FilePath& target_path,
                         const base::FilePath& symlink_path);
 
+bool PathExists(const base::FilePath& path);
+
 }  // namespace test
 }  // namespace crashpad
 

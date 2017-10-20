@@ -15,6 +15,7 @@
 #include "util/file/filesystem.h"
 
 #include <errno.h>
+#include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -40,6 +41,16 @@ bool LoggingCreateDirectory(const base::FilePath& path,
   }
   PLOG(ERROR) << "mkdir " << path.value();
   return false;
+}
+
+bool MoveFileOrDirectory(const base::FilePath& source,
+                         const base::FilePath& dest) {
+  if (rename(source.value().c_str(), dest.value().c_str()) != 0) {
+    PLOG(ERROR) << "rename " << source.value().c_str() << ", "
+                << dest.value().c_str();
+    return false;
+  }
+  return true;
 }
 
 bool IsRegularFile(const base::FilePath& path) {

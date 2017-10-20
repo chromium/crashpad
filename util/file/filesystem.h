@@ -35,6 +35,31 @@ bool LoggingCreateDirectory(const base::FilePath& path,
                             FilePermissions permissions,
                             bool may_reuse);
 
+//! \brief Moves a file, symbolic link, or directory, logging a message on
+//!     failure.
+//!
+//! \a source must exist and refer to a file, symbolic link, or directory.
+//!
+//! \a source and \a dest must be on the same filesystem.
+//!
+//! If \a dest exists, it may be overwritten:
+//!
+//! If \a dest exists and refers to a file or to a live or dangling symbolic
+//! link to a file, it will be overwritten if \a source also refers to a file or
+//! to a live or dangling symbolic link to a file or directory.
+//!
+//! On POSIX, if \a dest refers to a directory, it will be overwritten only if
+//! it is empty and \a source also refers to a directory.
+//!
+//! On Windows, if \a dest refers to a directory or to a live or dangling
+//! symbolic link to a directory, it will not be overwritten.
+//!
+//! \param[in] source The path to the file to be moved.
+//! \param[in] dest The new path for the file.
+//! \return `true` on success. `false` on failure with a message logged.
+bool MoveFileOrDirectory(const base::FilePath& source,
+                         const base::FilePath& dest);
+
 //! \brief Determines if a path refers to a regular file, logging a message on
 //!     failure.
 //!
