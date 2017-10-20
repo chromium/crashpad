@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45ce9bf7_fc32020a",
+        "filename": "util/file/filesystem_posix.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-20T16:55:49Z",
+      "side": 1,
+      "message": "Isn’t this a weird header to have to #include for rename()?",
+      "revId": "8ca5f3a82f48a62b45e432b544207048413d09a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
