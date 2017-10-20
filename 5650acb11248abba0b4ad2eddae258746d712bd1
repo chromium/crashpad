@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0c61f77_e312737a",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-20T16:22:41Z",
+      "side": 1,
+      "message": "You can also say that source and dest must be on the same filesystem.",
+      "revId": "5650acb11248abba0b4ad2eddae258746d712bd1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7d6c7d4_b987abd9",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-20T16:22:41Z",
+      "side": 1,
+      "message": "Emptiness isn’t important here (aside from the fact that non-emptiness was covered by the preceding clause).",
+      "range": {
+        "startLine": 47,
+        "startChar": 40,
+        "endLine": 47,
+        "endChar": 48
+      },
+      "revId": "5650acb11248abba0b4ad2eddae258746d712bd1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b64b0888_c4d7a4c5",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-20T16:22:41Z",
+      "side": 1,
+      "message": "Won’t it also fail if dest exists and refers to a directory? (And maybe if source is a directory and dest is a file? Not sure about that case.)",
+      "revId": "5650acb11248abba0b4ad2eddae258746d712bd1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82900a8d_632ae949",
+        "filename": "util/file/filesystem_test_util.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-20T16:22:41Z",
+      "side": 1,
+      "message": "#include \u003cerrno.h\u003e too.",
+      "revId": "5650acb11248abba0b4ad2eddae258746d712bd1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef19ce56_9c1b8ddb",
+        "filename": "util/file/filesystem_test_util.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-20T16:22:41Z",
+      "side": 1,
+      "message": "This one should be ErrorMessage instead of ErrnoMessage.",
+      "revId": "5650acb11248abba0b4ad2eddae258746d712bd1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
