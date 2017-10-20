@@ -1,0 +1,284 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63384e16_8d6436e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-20T22:45:38Z",
+      "side": 1,
+      "message": "bug?",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6f934cb_8cf831f7",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-20T22:45:38Z",
+      "side": 1,
+      "message": "Should this be versioned?",
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "457228ac_f57fc1c2",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-20T22:45:38Z",
+      "side": 1,
+      "message": ".is_valid() ?",
+      "range": {
+        "startLine": 118,
+        "startChar": 14,
+        "endLine": 118,
+        "endChar": 41
+      },
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be210669_3c451d2d",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-20T22:45:38Z",
+      "side": 1,
+      "message": "I think |\u003d default| for these is now the preferred style? (It is in Chromium, at least).",
+      "range": {
+        "startLine": 142,
+        "startChar": 44,
+        "endLine": 142,
+        "endChar": 65
+      },
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff6fd047_23998c6b",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-20T22:45:38Z",
+      "side": 1,
+      "message": "What is this for?",
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e38940a_c0ea0afe",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-20T22:45:38Z",
+      "side": 1,
+      "message": "Calling this \"new\" is a bit confusing because of the \"new\" directory. Maybe completed_path and completed_lock_file ?",
+      "range": {
+        "startLine": 331,
+        "startChar": 17,
+        "endLine": 331,
+        "endChar": 25
+      },
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbbd1947_6fb0608b",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-20T22:45:38Z",
+      "side": 1,
+      "message": "nit: friends generally come first in the private: section",
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8975faee_8211fcb2",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-20T22:45:38Z",
+      "side": 1,
+      "message": "Perhaps rather than friending this, add a StringDescription() method to return the text-friendly representation as a string?",
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cafcce98_c3dbd401",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-20T22:45:38Z",
+      "side": 1,
+      "message": "Since this is a struct, you don\u0027t need the _. But it should be consistent with Report::file_path at least.",
+      "range": {
+        "startLine": 126,
+        "startChar": 21,
+        "endLine": 126,
+        "endChar": 26
+      },
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44650ff5_73fb2d7b",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-20T22:45:38Z",
+      "side": 1,
+      "message": "If this isn\u0027t meant to be assignable, maybe the member should be private too and provide a getter instead? This actually applies somewhat to all three Report structs -- should they really be classes with getters?",
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "898cc35a_a5883841",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-20T22:45:38Z",
+      "side": 1,
+      "message": "DISALLOW_COPY_AND_ASSIGN ?",
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a04f24bf_5833f821",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-20T22:45:38Z",
+      "side": 1,
+      "message": "Perhaps rather than taking it as a std::unique_ptr*, have the caller std::move it to the method instead?",
+      "range": {
+        "startLine": 300,
+        "startChar": 35,
+        "endLine": 301,
+        "endChar": 55
+      },
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a7c775c_a5a19594",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-20T22:45:38Z",
+      "side": 1,
+      "message": "Brief header docs here may be helpful.",
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c76529bd_a8b33643",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-20T22:45:38Z",
+      "side": 1,
+      "message": "Providing a getter for reader could push the const_cast out of the callsite and into the UploadReport.",
+      "range": {
+        "startLine": 311,
+        "startChar": 23,
+        "endLine": 311,
+        "endChar": 46
+      },
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
