@@ -14,9 +14,9 @@
 
 #include "util/linux/memory_map.h"
 
-#include <linux/kdev_t.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/sysmacros.h>
 
 #include "base/files/file_path.h"
 #include "base/logging.h"
@@ -147,16 +147,25 @@ ParseResult ParseMapsLine(DelimitedFileReader* maps_file_reader,
     return ParseResult::kError;
   }
 
-  int major, minor;
-  if (maps_file_reader->GetDelim(' ', &field) !=
+  uint32_t major;
+  if (maps_file_reader->GetDelim(':', &field) !=
           DelimitedFileReader::Result::kSuccess ||
-      (field.pop_back(), field.size() != 5) ||
-      !HexStringToNumber(field.substr(0, 2), &major) ||
-      !HexStringToNumber(field.substr(3, 2), &minor)) {
+      (field.pop_back(), field.size()) < 2 ||
+      !HexStringToNumber(field, &major)) {
     LOG(ERROR) << "format error";
     return ParseResult::kError;
   }
-  mapping.device = MKDEV(major, minor);
+
+  uint32_t minor;
+  if (maps_file_reader->GetDelim(' ', &field) !=
+          DelimitedFileReader::Result::kSuccess ||
+      (field.pop_back(), field.size()) < 2 ||
+      !HexStringToNumber(field, &minor)) {
+    LOG(ERROR) << "format error";
+    return ParseResult::kError;
+  }
+
+  mapping.device = makedev(major, minor);
 
   if (maps_file_reader->GetDelim(' ', &field) !=
           DelimitedFileReader::Result::kSuccess ||
