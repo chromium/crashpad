@@ -18,6 +18,7 @@
 #include <stdint.h>
 #include <sys/types.h>
 
+#include "build/build_config.h"
 #include "util/linux/traits.h"
 
 namespace crashpad {

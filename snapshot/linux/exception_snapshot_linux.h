@@ -24,8 +24,8 @@
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/exception_snapshot.h"
-#include "snapshot/memory_snapshot.h"
 #include "snapshot/linux/process_reader.h"
+#include "snapshot/memory_snapshot.h"
 #include "util/linux/address_types.h"
 #include "util/misc/initialization_state_dcheck.h"
 
