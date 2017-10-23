@@ -20,6 +20,7 @@
 #include <sys/uio.h>
 
 #include "base/logging.h"
+#include "build/build_config.h"
 #include "util/misc/from_pointer_cast.h"
 
 #if defined(ARCH_CPU_X86_FAMILY)
