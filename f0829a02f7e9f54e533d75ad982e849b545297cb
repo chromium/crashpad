@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b02f0f0_8ab700f9",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-24T18:02:01Z",
+      "side": 1,
+      "message": "can we have readers not block other readers?",
+      "range": {
+        "startLine": 55,
+        "startChar": 65,
+        "endLine": 55,
+        "endChar": 69
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cad22ca5_0465fe7c",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-24T18:02:01Z",
+      "side": 1,
+      "message": "this looks forced - if the writer is not part of the state why not use a unique_ptr\u003cFileWriter\u003e as a member? (then the Writer() can be const and return a FileWriter* w/o any const_cast)",
+      "range": {
+        "startLine": 120,
+        "startChar": 40,
+        "endLine": 120,
+        "endChar": 50
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df34250a_ebb77991",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-24T18:02:01Z",
+      "side": 1,
+      "message": "does this one really need to be a member?",
+      "range": {
+        "startLine": 131,
+        "startChar": 21,
+        "endLine": 131,
+        "endChar": 34
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
