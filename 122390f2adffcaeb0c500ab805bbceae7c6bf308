@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e41e3bb2_5f95e303",
+        "filename": "util/win/safe_terminate_process_broken.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T18:24:52Z",
+      "side": 1,
+      "message": "I added this logging.\n\nCompared to the other “broken” file where RtlCaptureContext() was not a viable workaround, in this case, calling TerminateProcess() without the stack fix-up safety net is perfectly fine. But I still wanted to call attention to the fact that this isn’t production-ready and to leave a pointer to the bug.",
+      "revId": "122390f2adffcaeb0c500ab805bbceae7c6bf308",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
