@@ -1,0 +1,476 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef2ccc9b_00988581",
+        "filename": "client/annotation.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "What’s this for?\n\nYou might want some static_asserts to verify POD-ness.",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc93f3c3_14b31ac4",
+        "filename": "client/annotation.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "What’s this for?",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9adcd7f4_6d0875ea",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "For a file-scoped example, g_buffer and g_buffer_annotation should be in an unnamed namespace.",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae942e07_3e5c37fd",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "This is a pet peeve of mine, but whenever I see this word, I think “did you mean: ‘destroyed?’”\n\n(The C++ standard agrees with me: objects are destroyed.)",
+      "range": {
+        "startLine": 58,
+        "startChar": 39,
+        "endLine": 58,
+        "endChar": 49
+      },
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f0c591d_4f472ce9",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "\u003csys/types.h\u003e",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcab44ea_289bf6ad",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "I do believe that we will need to revisit this limit, but it’s OK for now.",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4bd9870_fbe36d22",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "\u003cstdint.h\u003e",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7109292_8d24a763",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "Just in terms of keeping things parallel, if kInvalid is 0 and then all of the positive numbers are system-defined, then kUserDefinedStart should be 0x8000 (“like zero”) and the rest of the negative numbers (those with representable positive counterparts) are user-defined.",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f7f34c2_f5180e4f",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "Period at the end of this sentence.",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38eb876c_d1e4d0ba",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "DCHECK_GT? Or does a constexpr function not work with that while working with DCHECK? I’m a little surprised that any logging is cool here.",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b701af9_00ab9916",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "Disambiguate “static:” “constexpr data with static storage duration.”\n\nIt’d be nice to have a check to guarantee that only suitable objects are passed into this, and not just any old const char*. Do we get that by virtue of the constructor being marked constexpr?",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "902c9aef_87c1d8eb",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "As discussed in person, you’re free to use \u003d default if you’d like. Same elsewhere (I see a constructor with a {} body on line 191 too).\n\nDefault values for member variables are also a possibility, if that’s your bag.\n\nNo requirement or preference on either of these, just pointing it out in context of our earlier conversation.",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2db83630_1dde1d4d",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "Do we need to store the NUL if we’re already storing the size?",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "715d2e92_6fad65fe",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "It’s probably smart to also specify the character encoding.",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67c126f0_1af1be52",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "You could add a pretty simple test for this (and the rest of Annotation).",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d76d2115_623b748b",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "strlcpy() counts the rest of the source buffer (the part it didn’t copy beyond MaxSize), which we don’t really need. But I guess it’s the best thing that we have.",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f93c179f_8f07ddb9",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "I am, however, very slightly worried that this expression will evaluate to 0. I’d feel better with a saturated_cast\u003cValueSizeType\u003e(n + 1), with the 1 on the inside, on the assumption that it’s a lot harder to exhaust a size_t than a uint32_t, which is what ValueSizeType is now.\n\n(I’m also thinking about it from the perspective that ValueSizeType might as well be a uint16_t while kValueMaxSize is 2048. We wouldn’t actually want to do that because it restricts how large kValueMaxSize could be raised given the wire format, but I’m just giving you my mental context here. In any event, doing the addition on the maybe-wider size_t and choosing saturation rather than truncation seems appropriate in any context.)",
+      "range": {
+        "startLine": 198,
+        "startChar": 30,
+        "endLine": 198,
+        "endChar": 63
+      },
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03fb54b4_f6aee691",
+        "filename": "client/annotation_list.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "I’m waffling over whether these are better as CHECKs or DCHECKs. You can go either way, I just want to make sure that you chose deliberately.",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79fb8903_090c6e3c",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "Did you test the inline use of \\sa? I’m not sure it’ll do what you want. Same on line 39.\n\nI think CrashpadInfo will be detected as a link without any special markup.",
+      "range": {
+        "startLine": 35,
+        "startChar": 10,
+        "endLine": 35,
+        "endChar": 13
+      },
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "932b5730_dee7d851",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "It’s not really “optional.” The rest of the sentence adequately explains that it’s only done if it hasn’t been done yet.",
+      "range": {
+        "startLine": 38,
+        "startChar": 46,
+        "endLine": 38,
+        "endChar": 56
+      },
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7969a4c1_c5a5dd87",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "Cool!",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a795c1f3_0ee7c84c",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "If we had a const form and cbegin()/cend(), would it be useful?",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9943926b_6bcf3f53",
+        "filename": "client/annotation_list_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "This should be ASSERT_FALSE() so that you bail out before deleting the existing AnnotationList, if one happens to exist by some accident.",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70670e58_20b17d00",
+        "filename": "client/annotation_list_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "You should add a comment saying that you know this is dirty, and that it’s only done for testing to reestablish the initial state.",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "326968d0_650ab820",
+        "filename": "client/annotation_list_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "This isn’t really a sentence.",
+      "range": {
+        "startLine": 54,
+        "startChar": 50,
+        "endLine": 55,
+        "endChar": 25
+      },
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c48d745_344fb613",
+        "filename": "client/annotation_list_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-24T21:25:01Z",
+      "side": 1,
+      "message": "This is confusing (and will be even more confusing in gtest output). You’re really testing AnnotationList (that’s what annotations_ is here), but you’ve named the fixture class StringAnnotation, which here means crashpad::test::(unnamed)::StringAnnotation. Extra-confusing is that we already have something named crashpad::StringAnnotation, which isn’t really what you’re testing here, although you do have some of those as members.\n\nI don’t usually think it’s necessary to name classes with a “Test” suffix, but maybe “AnnotationListTest” is called for. It kind of stinks that we have TEST(AnnotationList, Register) camping out on AnnotationList preventing it from being used as a fixture class name.",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
