@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "42035694_b6fcbef6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-24T04:20:36Z",
+      "side": 1,
+      "message": "None? Hopefully several? Removed for now.",
+      "parentUuid": "63384e16_8d6436e5",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6f934cb_8cf831f7",
         "filename": "client/crash_report_database.cc",
         "patchSetId": 38
@@ -39,6 +63,24 @@
       "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76c92525_6bae6dcb",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-24T04:20:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6f934cb_8cf831f7",
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "123cb86a_efdf228a",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-24T04:20:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "457228ac_f57fc1c2",
+      "range": {
+        "startLine": 118,
+        "startChar": 14,
+        "endLine": 118,
+        "endChar": 41
+      },
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be210669_3c451d2d",
         "filename": "client/crash_report_database.cc",
         "patchSetId": 38
@@ -76,6 +142,30 @@
       "writtenOn": "2017-10-20T22:45:38Z",
       "side": 1,
       "message": "I think |\u003d default| for these is now the preferred style? (It is in Chromium, at least).",
+      "range": {
+        "startLine": 142,
+        "startChar": 44,
+        "endLine": 142,
+        "endChar": 65
+      },
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dedc2fe_f88a1e09",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-24T04:20:36Z",
+      "side": 1,
+      "message": "Hrm. Do you know if there\u0027s a rationale? I couldn\u0027t find anything talking about this in the C++ style guide.\n\nMost everything else in Crashpad follows this style. There are only a couple other uses of \"default\" that I could find.",
+      "parentUuid": "be210669_3c451d2d",
       "range": {
         "startLine": 142,
         "startChar": 44,
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "02237fc7_60956b53",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-24T04:20:36Z",
+      "side": 1,
+      "message": "file_ removes the new report file unless released.\nI\u0027ve renamed it file_remover_ for added clarity.",
+      "parentUuid": "ff6fd047_23998c6b",
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e38940a_c0ea0afe",
         "filename": "client/crash_report_database.cc",
         "patchSetId": 38
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "c3196511_3738c232",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-24T04:20:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e38940a_c0ea0afe",
+      "range": {
+        "startLine": 331,
+        "startChar": 17,
+        "endLine": 331,
+        "endChar": 25
+      },
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbbd1947_6fb0608b",
         "filename": "client/crash_report_database.h",
         "patchSetId": 38
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "17722596_b070146a",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-24T04:20:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbbd1947_6fb0608b",
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8975faee_8211fcb2",
         "filename": "client/crash_report_database.h",
         "patchSetId": 38
@@ -156,6 +306,24 @@
       "writtenOn": "2017-10-20T22:45:38Z",
       "side": 1,
       "message": "Perhaps rather than friending this, add a StringDescription() method to return the text-friendly representation as a string?",
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2831b86_52d2aac2",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-24T04:20:36Z",
+      "side": 1,
+      "message": "I\u0027ve been on the fence about this. ShowReport uses some helpers that are also defined and reused in crashpad_database_util.cc, so this would involve factoring those out somewhere. I\u0027m also reluctant to pull ShowReport out so far from its intended point of use. It feels out of place in the database code to me. Ultimately, I think it\u0027d be nice to just have it stop printing file paths, but for now that would at least involve changing snapshot/win/end_to_end_test.py, which depends on them.",
+      "parentUuid": "8975faee_8211fcb2",
       "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -185,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "08aaef0d_e4dee368",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-24T04:20:36Z",
+      "side": 1,
+      "message": "It\u0027s now a class.",
+      "parentUuid": "cafcce98_c3dbd401",
+      "range": {
+        "startLine": 126,
+        "startChar": 21,
+        "endLine": 126,
+        "endChar": 26
+      },
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44650ff5_73fb2d7b",
         "filename": "client/crash_report_database.h",
         "patchSetId": 38
@@ -202,6 +394,24 @@
     },
     {
       "key": {
+        "uuid": "9fbc693a_de9010ba",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-24T04:20:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44650ff5_73fb2d7b",
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "898cc35a_a5883841",
         "filename": "client/crash_report_database.h",
         "patchSetId": 38
@@ -216,6 +426,24 @@
       "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77e865d4_116037f2",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-24T04:20:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "898cc35a_a5883841",
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -242,6 +470,30 @@
     },
     {
       "key": {
+        "uuid": "af498d46_563cd9b4",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-24T04:20:36Z",
+      "side": 1,
+      "message": "I like it! Done.",
+      "parentUuid": "a04f24bf_5833f821",
+      "range": {
+        "startLine": 300,
+        "startChar": 35,
+        "endLine": 301,
+        "endChar": 55
+      },
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a7c775c_a5a19594",
         "filename": "client/crash_report_database.h",
         "patchSetId": 38
@@ -256,6 +508,24 @@
       "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9edcb56_612dfdef",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-24T04:20:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a7c775c_a5a19594",
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -279,6 +549,30 @@
       "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d5a4615_8bb46cd2",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-24T04:20:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c76529bd_a8b33643",
+      "range": {
+        "startLine": 311,
+        "startChar": 23,
+        "endLine": 311,
+        "endChar": 46
+      },
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
