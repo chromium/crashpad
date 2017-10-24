@@ -78,29 +78,30 @@ class CrashWithExtendedHandler final : public WinMultiprocessWithTempDir {
 
 void CrashWithExtendedHandler::ValidateGeneratedDump() {
   // Open the database and find the sole dump that should have been created.
-  std::unique_ptr<CrashReportDatabase> database(
-      CrashReportDatabase::Initialize(GetTempDirPath()));
-  ASSERT_TRUE(database);
+  CrashReportDatabase database;
+  ASSERT_TRUE(database.Initialize(GetTempDirPath(), /* may_create= */ true));
 
   std::vector<CrashReportDatabase::Report> reports;
-  ASSERT_EQ(database->GetCompletedReports(&reports),
+  ASSERT_EQ(database.GetCompletedReports(&reports),
             CrashReportDatabase::kNoError);
   ASSERT_EQ(reports.size(), 1u);
 
-  // Open the dump and validate that it has the extension stream with the
-  // expected contents.
-  FileReader reader;
-  ASSERT_TRUE(reader.Open(reports[0].file_path));
+  std::unique_ptr<const CrashReportDatabase::ReadReport> read_report;
+  ASSERT_EQ(database.GetReportForReading(reports[0].uuid, &read_report),
+            CrashReportDatabase::kNoError);
+
+  // Validate that the dump has the extension stream with the expected contents.
+  FileReader* reader = read_report->Reader();
 
   // Read the header.
   MINIDUMP_HEADER header = {};
-  ASSERT_TRUE(reader.ReadExactly(&header, sizeof(header)));
+  ASSERT_TRUE(reader->ReadExactly(&header, sizeof(header)));
 
   // Read the directory.
   std::vector<MINIDUMP_DIRECTORY> directory(header.NumberOfStreams);
-  ASSERT_TRUE(reader.SeekSet(header.StreamDirectoryRva));
-  ASSERT_TRUE(reader.ReadExactly(directory.data(),
-                                 directory.size() * sizeof(directory[0])));
+  ASSERT_TRUE(reader->SeekSet(header.StreamDirectoryRva));
+  ASSERT_TRUE(reader->ReadExactly(directory.data(),
+                                  directory.size() * sizeof(directory[0])));
 
   // Search for the extension stream.
   size_t found_extension_streams = 0;
@@ -108,12 +109,12 @@ void CrashWithExtendedHandler::ValidateGeneratedDump() {
     if (entry.StreamType == 0xCAFEBABE) {
       ++found_extension_streams;
 
-      ASSERT_TRUE(reader.SeekSet(entry.Location.Rva));
+      ASSERT_TRUE(reader->SeekSet(entry.Location.Rva));
 
       std::vector<char> data;
       data.resize(entry.Location.DataSize);
 
-      ASSERT_TRUE(reader.ReadExactly(data.data(), data.size()));
+      ASSERT_TRUE(reader->ReadExactly(data.data(), data.size()));
 
       static constexpr char kExpectedData[] = "Injected extension stream!";
       EXPECT_EQ(memcmp(kExpectedData, data.data(), sizeof(kExpectedData)), 0);
