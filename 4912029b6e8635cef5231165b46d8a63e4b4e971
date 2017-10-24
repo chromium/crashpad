@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "8d20dc4d_995171e7",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-24T19:12:23Z",
+      "side": 1,
+      "message": "default is a C++11-ism, which is why most of Crashpad doesn\u0027t use it. It instructs the compiler to emit a constructor that should be identical to the  more-common Crashpad style of calling the default constructor for all members. It\u0027s just simpler and less verbose. http://en.cppreference.com/w/cpp/language/default_constructor",
+      "parentUuid": "6dedc2fe_f88a1e09",
+      "range": {
+        "startLine": 142,
+        "startChar": 44,
+        "endLine": 142,
+        "endChar": 65
+      },
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ff6fd047_23998c6b",
         "filename": "client/crash_report_database.cc",
         "patchSetId": 38
@@ -327,6 +351,24 @@
       "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfcf1004_e033616a",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-24T19:12:23Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "a2831b86_52d2aac2",
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {

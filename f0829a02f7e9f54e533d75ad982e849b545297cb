@@ -2,6 +2,149 @@
   "comments": [
     {
       "key": {
+        "uuid": "e46886ce_db2e093b",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 41
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-24T19:12:23Z",
+      "side": 1,
+      "message": "Very brief :)",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 12
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1244362c_c1aeab23",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 41
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-24T19:12:23Z",
+      "side": 1,
+      "message": "DCHECK_NE(ReportState::kUninitialized, state) ?",
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c9265e2_b7f993ae",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 41
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-24T19:12:23Z",
+      "side": 1,
+      "message": "Why FileSystem instead of Database?",
+      "range": {
+        "startLine": 203,
+        "startChar": 11,
+        "endLine": 203,
+        "endChar": 27
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe201f53_7473dc84",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 41
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-24T19:12:23Z",
+      "side": 1,
+      "message": "Why Busy instead of FileSystem?",
+      "range": {
+        "startLine": 210,
+        "startChar": 11,
+        "endLine": 210,
+        "endChar": 21
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c22bcf62_51a5b09d",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 41
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-24T19:12:23Z",
+      "side": 1,
+      "message": "Switch this to ignore_result and add a comment here?",
+      "range": {
+        "startLine": 239,
+        "startChar": 2,
+        "endLine": 239,
+        "endChar": 23
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d9d4523_6ffefb10",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 41
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-24T19:12:23Z",
+      "side": 1,
+      "message": "INITIALIZATION_STATE_DCHECK_VALID ?",
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b7c467a_0674c244",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 41
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-24T19:12:23Z",
+      "side": 1,
+      "message": "Should ReadMetadata handle logging a more precise error, instead of logging here? It already does use some Logging* variants for file operations.",
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b02f0f0_8ab700f9",
         "filename": "client/crash_report_database.h",
         "patchSetId": 41
@@ -22,6 +165,29 @@
       "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e5157e8_59f97229",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-24T19:12:23Z",
+      "side": 1,
+      "message": "Does this need to be virtual?",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 11
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     },
     {
       "key": {
@@ -68,6 +234,86 @@
       "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa716193_99542ad7",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-24T19:12:23Z",
+      "side": 1,
+      "message": "DISALLOW_COPY_AND_ASSIGN ?",
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49015490_bfd20aa1",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-24T19:12:23Z",
+      "side": 1,
+      "message": "It may be worth discussing what to do if an error is encountered when writing the crash report, since ErrorWritingCrashReport() is now removed.",
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "221572fd_b6f50ece",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-24T19:12:23Z",
+      "side": 1,
+      "message": "Rvalue references are only permitted for constructors and assignment operators (https://chromium-cpp.appspot.com/#core-whitelist see \"Rvalue References\"). But passing the unique_ptr by value will force callers to std::move it.",
+      "range": {
+        "startLine": 257,
+        "startChar": 32,
+        "endLine": 257,
+        "endChar": 34
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75755b23_705c271e",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-24T19:12:23Z",
+      "side": 1,
+      "message": "Transfer this by std::move as well ?",
+      "range": {
+        "startLine": 316,
+        "startChar": 6,
+        "endLine": 316,
+        "endChar": 42
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
