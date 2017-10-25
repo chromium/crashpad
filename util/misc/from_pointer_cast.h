@@ -21,6 +21,7 @@
 #include <type_traits>
 
 #include "base/numerics/safe_conversions.h"
+#include "build/build_config.h"
 
 namespace crashpad {
 
@@ -56,6 +57,20 @@ FromPointerCast(From) {
   return To();
 }
 
+// FromPointerCast<>() with a function pointer “From” type raises
+// -Wnoexcept-type in GCC 7.2 if the function pointer type has a throw() or
+// noexcept specification. This is the case for all standard C library functions
+// provided by glibc. Various tests make use of FromPointerCast<>() with
+// pointers to standard C library functions.
+//
+// Clang has the similar -Wc++1z-compat-mangling, which is not triggered by this
+// pattern.
+#if defined(COMPILER_GCC) && !defined(__clang__) && \
+    (__GNUC__ > 7 || (__GNUC__ == 7 && __GNUC_MINOR__ >= 2))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnoexcept-type"
+#endif
+
 // Cast a pointer to any other pointer type.
 template <typename To, typename From>
 typename std::enable_if<std::is_pointer<From>::value &&
@@ -87,6 +102,11 @@ FromPointerCast(From from) {
   // use checked_cast<>().
   return base::checked_cast<To>(intermediate);
 }
+
+#if defined(COMPILER_GCC) && !defined(__clang__) && \
+    (__GNUC__ > 7 || (__GNUC__ == 7 && __GNUC_MINOR__ >= 2))
+#pragma GCC diagnostic pop
+#endif
 
 #endif  // DOXYGEN
 
