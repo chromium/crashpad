@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f12c40de_73f497c3",
+        "filename": "client/annotation.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef2ccc9b_00988581",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc93f3c3_14b31ac4",
         "filename": "client/annotation.cc",
         "patchSetId": 16
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2937be0e_57d7d10b",
+        "filename": "client/annotation.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc93f3c3_14b31ac4",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adcd7f4_6d0875ea",
         "filename": "client/annotation.h",
         "patchSetId": 16
@@ -50,6 +86,24 @@
       "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6a76007_bbd4680b",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adcd7f4_6d0875ea",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "f534bd97_9044b5e9",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae942e07_3e5c37fd",
+      "range": {
+        "startLine": 58,
+        "startChar": 39,
+        "endLine": 58,
+        "endChar": 49
+      },
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f0c591d_4f472ce9",
         "filename": "client/annotation.h",
         "patchSetId": 16
@@ -90,6 +168,24 @@
       "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cb1eeb3_02acbc86",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f0c591d_4f472ce9",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "94c73b6c_98bf9ac9",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fcab44ea_289bf6ad",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4bd9870_fbe36d22",
         "filename": "client/annotation.h",
         "patchSetId": 16
@@ -124,6 +238,24 @@
       "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6626b804_9df68407",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4bd9870_fbe36d22",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "35a5bf03_ba8e8263",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "I like it.",
+      "parentUuid": "a7109292_8d24a763",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f7f34c2_f5180e4f",
         "filename": "client/annotation.h",
         "patchSetId": 16
@@ -158,6 +308,24 @@
       "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52118ad0_75005adc",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Period is on line 96.",
+      "parentUuid": "2f7f34c2_f5180e4f",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -178,6 +346,24 @@
     },
     {
       "key": {
+        "uuid": "0eba6d36_194fed9b",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Right, DCHECK_GT doesn\u0027t work in constexpr but DCHECK does.",
+      "parentUuid": "38eb876c_d1e4d0ba",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b701af9_00ab9916",
         "filename": "client/annotation.h",
         "patchSetId": 16
@@ -192,6 +378,24 @@
       "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8503bef_e2e92ee7",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "\u003e Disambiguate “static:” “constexpr data with static storage duration.”\n\nDone.\n\n\u003e It’d be nice to have a check to guarantee that only suitable objects are passed into this, and not just any old const char*. Do we get that by virtue of the constructor being marked constexpr?\n\nYes, that\u0027s what I\u0027m banking on.",
+      "parentUuid": "4b701af9_00ab9916",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -212,6 +416,24 @@
     },
     {
       "key": {
+        "uuid": "c34fd283_b1ad317b",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Ack. My personal style is to default when there\u0027s no initializer list.",
+      "parentUuid": "902c9aef_87c1d8eb",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2db83630_1dde1d4d",
         "filename": "client/annotation.h",
         "patchSetId": 16
@@ -223,6 +445,24 @@
       "writtenOn": "2017-10-24T21:25:01Z",
       "side": 1,
       "message": "Do we need to store the NUL if we’re already storing the size?",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71cf07c9_55da48d0",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "No, we don\u0027t need to, but I figured we should given that\u0027s what MinidumpString objects do.",
+      "parentUuid": "2db83630_1dde1d4d",
       "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -246,6 +486,24 @@
     },
     {
       "key": {
+        "uuid": "614ed7ac_f1421e0d",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "715d2e92_6fad65fe",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67c126f0_1af1be52",
         "filename": "client/annotation.h",
         "patchSetId": 16
@@ -263,6 +521,24 @@
     },
     {
       "key": {
+        "uuid": "5cfd60fd_8ea17b4e",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67c126f0_1af1be52",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d76d2115_623b748b",
         "filename": "client/annotation.h",
         "patchSetId": 16
@@ -277,6 +553,24 @@
       "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "151d4ee8_17403cad",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Yeah, the str*cpy family of functions are a disgrace.",
+      "parentUuid": "d76d2115_623b748b",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -303,6 +597,30 @@
     },
     {
       "key": {
+        "uuid": "6be8d140_13354faf",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f93c179f_8f07ddb9",
+      "range": {
+        "startLine": 198,
+        "startChar": 30,
+        "endLine": 198,
+        "endChar": 63
+      },
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03fb54b4_f6aee691",
         "filename": "client/annotation_list.cc",
         "patchSetId": 16
@@ -317,6 +635,24 @@
       "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29eb287c_e6503333",
+        "filename": "client/annotation_list.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Yeah, I deliberately chose CHECK because STL would throw for invalid iterators.",
+      "parentUuid": "03fb54b4_f6aee691",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -343,6 +679,30 @@
     },
     {
       "key": {
+        "uuid": "8cbc2a84_6d90e3d6",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "It auto-links without markup.",
+      "parentUuid": "79fb8903_090c6e3c",
+      "range": {
+        "startLine": 35,
+        "startChar": 10,
+        "endLine": 35,
+        "endChar": 13
+      },
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "932b5730_dee7d851",
         "filename": "client/annotation_list.h",
         "patchSetId": 16
@@ -366,6 +726,30 @@
     },
     {
       "key": {
+        "uuid": "e539e730_9ce16a13",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "932b5730_dee7d851",
+      "range": {
+        "startLine": 38,
+        "startChar": 46,
+        "endLine": 38,
+        "endChar": 56
+      },
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7969a4c1_c5a5dd87",
         "filename": "client/annotation_list.h",
         "patchSetId": 16
@@ -380,6 +764,24 @@
       "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f466db6_a84ba658",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": ":) I wish C++ had a way to have less boilerplate for this, though.",
+      "parentUuid": "7969a4c1_c5a5dd87",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -400,6 +802,24 @@
     },
     {
       "key": {
+        "uuid": "7feff38d_ff2a5357",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "I thought about it (as well as only providing a const iterator), but didn\u0027t think it would be useful (at least it isn\u0027t yet).",
+      "parentUuid": "a795c1f3_0ee7c84c",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9943926b_6bcf3f53",
         "filename": "client/annotation_list_test.cc",
         "patchSetId": 16
@@ -417,6 +837,24 @@
     },
     {
       "key": {
+        "uuid": "f5b94adc_241cb179",
+        "filename": "client/annotation_list_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9943926b_6bcf3f53",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70670e58_20b17d00",
         "filename": "client/annotation_list_test.cc",
         "patchSetId": 16
@@ -431,6 +869,24 @@
       "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d605068d_ae465574",
+        "filename": "client/annotation_list_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70670e58_20b17d00",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -457,6 +913,30 @@
     },
     {
       "key": {
+        "uuid": "4d50dc76_7d1a0594",
+        "filename": "client/annotation_list_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "326968d0_650ab820",
+      "range": {
+        "startLine": 54,
+        "startChar": 50,
+        "endLine": 55,
+        "endChar": 25
+      },
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c48d745_344fb613",
         "filename": "client/annotation_list_test.cc",
         "patchSetId": 16
@@ -471,6 +951,24 @@
       "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30d61e90_bf4b7c24",
+        "filename": "client/annotation_list_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T18:05:58Z",
+      "side": 1,
+      "message": "Renamed this test to AnnotationList and then the existing \"AnnotationList\" test to \"AnnotationListStatic\".",
+      "parentUuid": "1c48d745_344fb613",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
