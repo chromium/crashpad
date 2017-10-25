@@ -117,13 +117,13 @@ TEST(SafeTerminateProcess, PatchBadly) {
   // Make sure that TerminateProcess() works as a baseline.
   SetLastError(ERROR_SUCCESS);
   EXPECT_FALSE(TerminateProcess(process, 0));
-  EXPECT_EQ(GetLastError(), ERROR_ACCESS_DENIED);
+  EXPECT_EQ(GetLastError(), static_cast<DWORD>(ERROR_ACCESS_DENIED));
 
   // Make sure that SafeTerminateProcess() works, calling through to
   // TerminateProcess() properly.
   SetLastError(ERROR_SUCCESS);
   EXPECT_FALSE(SafeTerminateProcess(process, 0));
-  EXPECT_EQ(GetLastError(), ERROR_ACCESS_DENIED);
+  EXPECT_EQ(GetLastError(), static_cast<DWORD>(ERROR_ACCESS_DENIED));
 
   {
     // Patch TerminateProcess() badly. This turns it into a no-op that returns 0
@@ -152,14 +152,14 @@ TEST(SafeTerminateProcess, PatchBadly) {
     // patched with a no-op stub, GetLastError() shouldn’t be modified.
     SetLastError(ERROR_SUCCESS);
     EXPECT_FALSE(SafeTerminateProcess(process, 0));
-    EXPECT_EQ(GetLastError(), ERROR_SUCCESS);
+    EXPECT_EQ(GetLastError(), static_cast<DWORD>(ERROR_SUCCESS));
   }
 
   // Now that the real TerminateProcess() has been restored, verify that it
   // still works properly.
   SetLastError(ERROR_SUCCESS);
   EXPECT_FALSE(SafeTerminateProcess(process, 0));
-  EXPECT_EQ(GetLastError(), ERROR_ACCESS_DENIED);
+  EXPECT_EQ(GetLastError(), static_cast<DWORD>(ERROR_ACCESS_DENIED));
 }
 
 TEST(SafeTerminateProcess, TerminateChild) {

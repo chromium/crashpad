@@ -15,6 +15,7 @@
 #include "util/stdlib/strlcpy.h"
 
 #include <string.h>
+#include <wchar.h>
 
 #include <algorithm>
 
@@ -27,6 +28,25 @@
 namespace crashpad {
 namespace test {
 namespace {
+
+// The base::c16 functions only exist if WCHAR_T_IS_UTF32.
+#if defined(WCHAR_T_IS_UTF32)
+size_t C16Len(const base::char16* s) {
+  return base::c16len(s);
+}
+
+int C16Memcmp(const base::char16* s1, const base::char16* s2, size_t n) {
+  return base::c16memcmp(s1, s2, n);
+}
+#elif defined(WCHAR_T_IS_UTF16)
+size_t C16Len(const base::char16* s) {
+  return wcslen(s);
+}
+
+int C16Memcmp(const base::char16* s1, const base::char16* s2, size_t n) {
+  return wmemcmp(s1, s2, n);
+}
+#endif
 
 TEST(strlcpy, c16lcpy) {
   // Use a destination buffer that’s larger than the length passed to c16lcpy.
@@ -67,26 +87,25 @@ TEST(strlcpy, c16lcpy) {
           std::min(length, arraysize(destination.data) - 1);
 
       EXPECT_EQ(destination.data[expected_destination_length], '\0');
-      EXPECT_EQ(base::c16len(destination.data), expected_destination_length);
-      EXPECT_TRUE(base::c16memcmp(test_string.c_str(),
-                                  destination.data,
-                                  expected_destination_length) == 0);
+      EXPECT_EQ(C16Len(destination.data), expected_destination_length);
+      EXPECT_TRUE(C16Memcmp(test_string.c_str(),
+                            destination.data,
+                            expected_destination_length) == 0);
 
       // Make sure that the portion of the destination buffer that was not used
       // was not touched. This includes the guard areas and the unused portion
       // of the buffer passed to c16lcpy.
-      EXPECT_TRUE(base::c16memcmp(expected_untouched.lead_guard,
-                                  destination.lead_guard,
-                                  arraysize(destination.lead_guard)) == 0);
+      EXPECT_TRUE(C16Memcmp(expected_untouched.lead_guard,
+                            destination.lead_guard,
+                            arraysize(destination.lead_guard)) == 0);
       size_t expected_untouched_length =
           arraysize(destination.data) - expected_destination_length - 1;
-      EXPECT_TRUE(
-          base::c16memcmp(expected_untouched.data,
-                          &destination.data[expected_destination_length + 1],
-                          expected_untouched_length) == 0);
-      EXPECT_TRUE(base::c16memcmp(expected_untouched.trail_guard,
-                                  destination.trail_guard,
-                                  arraysize(destination.trail_guard)) == 0);
+      EXPECT_TRUE(C16Memcmp(expected_untouched.data,
+                            &destination.data[expected_destination_length + 1],
+                            expected_untouched_length) == 0);
+      EXPECT_TRUE(C16Memcmp(expected_untouched.trail_guard,
+                            destination.trail_guard,
+                            arraysize(destination.trail_guard)) == 0);
     }
   }
 }
