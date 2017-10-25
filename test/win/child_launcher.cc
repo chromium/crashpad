@@ -15,6 +15,7 @@
 #include "test/win/child_launcher.h"
 
 #include "gtest/gtest.h"
+#include "test/errors.h"
 #include "util/win/command_line.h"
 
 namespace crashpad {
@@ -47,25 +48,31 @@ void ChildLauncher::Start() {
 
   HANDLE stdout_read;
   HANDLE stdout_write;
-  ASSERT_TRUE(CreatePipe(&stdout_read, &stdout_write, &security_attributes, 0));
+  ASSERT_TRUE(CreatePipe(&stdout_read, &stdout_write, &security_attributes, 0))
+      << ErrorMessage("CreatePipe");
   stdout_read_handle_.reset(stdout_read);
   ScopedFileHANDLE write_handle(stdout_write);
   ASSERT_TRUE(
-      SetHandleInformation(stdout_read_handle_.get(), HANDLE_FLAG_INHERIT, 0));
+      SetHandleInformation(stdout_read_handle_.get(), HANDLE_FLAG_INHERIT, 0))
+      << ErrorMessage("SetHandleInformation");
 
   HANDLE stdin_read;
   HANDLE stdin_write;
-  ASSERT_TRUE(CreatePipe(&stdin_read, &stdin_write, &security_attributes, 0));
+  ASSERT_TRUE(CreatePipe(&stdin_read, &stdin_write, &security_attributes, 0))
+      << ErrorMessage("CreatePipe");
   stdin_write_handle_.reset(stdin_write);
   ScopedFileHANDLE read_handle(stdin_read);
   ASSERT_TRUE(
-      SetHandleInformation(stdin_write_handle_.get(), HANDLE_FLAG_INHERIT, 0));
+      SetHandleInformation(stdin_write_handle_.get(), HANDLE_FLAG_INHERIT, 0))
+      << ErrorMessage("SetHandleInformation");
 
   STARTUPINFO startup_info = {0};
   startup_info.cb = sizeof(startup_info);
   startup_info.hStdInput = read_handle.get();
   startup_info.hStdOutput = write_handle.get();
   startup_info.hStdError = GetStdHandle(STD_ERROR_HANDLE);
+  EXPECT_NE(startup_info.hStdError, INVALID_HANDLE_VALUE)
+      << ErrorMessage("GetStdHandle");
   startup_info.dwFlags = STARTF_USESTDHANDLES;
   PROCESS_INFORMATION process_information;
   std::wstring command_line;
@@ -81,7 +88,8 @@ void ChildLauncher::Start() {
                             nullptr,
                             nullptr,
                             &startup_info,
-                            &process_information));
+                            &process_information))
+      << ErrorMessage("CreateProcess");
   // Take ownership of the two process handles returned.
   main_thread_handle_.reset(process_information.hThread);
   process_handle_.reset(process_information.hProcess);
@@ -89,10 +97,11 @@ void ChildLauncher::Start() {
 
 DWORD ChildLauncher::WaitForExit() {
   EXPECT_TRUE(process_handle_.is_valid());
-  EXPECT_EQ(WaitForSingleObject(process_handle_.get(), INFINITE),
-            WAIT_OBJECT_0);
+  EXPECT_EQ(WaitForSingleObject(process_handle_.get(), INFINITE), WAIT_OBJECT_0)
+      << ErrorMessage("WaitForSingleObject");
   DWORD exit_code = 0;
-  EXPECT_TRUE(GetExitCodeProcess(process_handle_.get(), &exit_code));
+  EXPECT_TRUE(GetExitCodeProcess(process_handle_.get(), &exit_code))
+      << ErrorMessage("GetExitCodeProcess");
   process_handle_.reset();
   return exit_code;
 }
