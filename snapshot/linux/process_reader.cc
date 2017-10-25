@@ -192,8 +192,7 @@ bool ProcessReader::Initialize(PtraceConnection* connection) {
     return false;
   }
 
-  process_memory_.reset(new ProcessMemoryLinux());
-  if (!process_memory_->Initialize(pid)) {
+  if (!process_memory_.Initialize(pid)) {
     return false;
   }
 

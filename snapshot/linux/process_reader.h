@@ -18,7 +18,6 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
-#include <memory>
 #include <vector>
 
 #include "base/macros.h"
@@ -79,7 +78,7 @@ class ProcessReader {
   pid_t ParentProcessID() const { return process_info_.ParentProcessID(); }
 
   //! \brief Return a memory reader for the target process.
-  ProcessMemory* Memory() { return process_memory_.get(); }
+  ProcessMemory* Memory() { return &process_memory_; }
 
   //! \brief Return a memory map of the target process.
   MemoryMap* GetMemoryMap() { return &memory_map_; }
@@ -113,9 +112,9 @@ class ProcessReader {
 
   PtraceConnection* connection_;  // weak
   ProcessInfo process_info_;
-  class MemoryMap memory_map_;
+  MemoryMap memory_map_;
   std::vector<Thread> threads_;
-  std::unique_ptr<ProcessMemoryLinux> process_memory_;
+  ProcessMemoryLinux process_memory_;
   bool is_64_bit_;
   bool initialized_threads_;
   InitializationStateDcheck initialized_;
