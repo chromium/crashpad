@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdf1e2e4_418aca83",
+        "filename": "client/annotation.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-25T21:03:47Z",
+      "side": 1,
+      "message": "Aw, I misremembered strncpy() and thought it’d return the length. So strncpy() actually isn’t much better than strlcpy() was. stpncpy() is more what I wanted, but the Windows C library doesn’t have it. Oh well.",
+      "range": {
+        "startLine": 208,
+        "startChar": 62,
+        "endLine": 208,
+        "endChar": 75
+      },
+      "revId": "e0325710c5ed153a2a42e2153275047e6f888ecc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3946d73_17e1a415",
+        "filename": "client/annotation_test.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-25T21:03:47Z",
+      "side": 1,
+      "message": "Good call matching Avery’s pronunciation of this word.",
+      "revId": "e0325710c5ed153a2a42e2153275047e6f888ecc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
