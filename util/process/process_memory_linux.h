@@ -27,7 +27,7 @@
 namespace crashpad {
 
 //! \brief Accesses the memory of another Linux process.
-class ProcessMemoryLinux : public ProcessMemory {
+class ProcessMemoryLinux final : public ProcessMemory {
  public:
   ProcessMemoryLinux();
   ~ProcessMemoryLinux();
