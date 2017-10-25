@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2993be4_5ca304fe",
+        "filename": "util/stdlib/strlcpy_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001629
+      },
+      "writtenOn": "2017-10-25T18:05:16Z",
+      "side": 1,
+      "message": "Hey I now realize I missed the comment about wmemcmp. Let me do that, here and downstream.\n\nEdit: Done.",
+      "revId": "05990df027f9e9291c7546292dba826e9f561d26",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
