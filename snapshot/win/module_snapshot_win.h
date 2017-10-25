@@ -85,6 +85,7 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
   std::string DebugFileName() const override;
   std::vector<std::string> AnnotationsVector() const override;
   std::map<std::string, std::string> AnnotationsSimpleMap() const override;
+  std::vector<AnnotationSnapshot> AnnotationObjects() const override;
   std::set<CheckedRange<uint64_t>> ExtraMemoryRanges() const override;
   std::vector<const UserMinidumpStream*> CustomMinidumpStreams() const override;
 
