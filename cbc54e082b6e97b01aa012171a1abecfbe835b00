@@ -347,6 +347,24 @@
     },
     {
       "key": {
+        "uuid": "973a258e_f9c9f018",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T20:57:53Z",
+      "side": 1,
+      "message": "How about a colon.",
+      "parentUuid": "d9f0920b_0157bb68",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38eb876c_d1e4d0ba",
         "filename": "client/annotation.h",
         "patchSetId": 16
@@ -502,6 +520,24 @@
       "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a21cbe2_3c61eb34",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-25T20:57:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58f481e7_55a1de1a",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
