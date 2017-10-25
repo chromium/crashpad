@@ -105,7 +105,8 @@ CrashpadInfo::CrashpadInfo()
       padding_1_(0),
       extra_memory_ranges_(nullptr),
       simple_annotations_(nullptr),
-      user_data_minidump_stream_head_(nullptr)
+      user_data_minidump_stream_head_(nullptr),
+      annotations_list_(nullptr)
 #if !defined(NDEBUG) && defined(OS_WIN)
       ,
       invalid_read_detection_(0xbadc0de)
