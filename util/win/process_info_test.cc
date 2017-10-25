@@ -44,6 +44,7 @@ namespace {
 
 constexpr wchar_t kNtdllName[] = L"\\ntdll.dll";
 
+#if !defined(ARCH_CPU_64_BITS)
 bool IsProcessWow64(HANDLE process_handle) {
   static const auto is_wow64_process =
       GET_FUNCTION(L"kernel32.dll", ::IsWow64Process);
@@ -56,6 +57,7 @@ bool IsProcessWow64(HANDLE process_handle) {
   }
   return !!is_wow64;
 }
+#endif
 
 void VerifyAddressInInCodePage(const ProcessInfo& process_info,
                                WinVMAddress code_address) {
