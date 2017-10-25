@@ -329,6 +329,24 @@
     },
     {
       "key": {
+        "uuid": "d9f0920b_0157bb68",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-25T18:37:16Z",
+      "side": 1,
+      "message": "\u003e Period is on line 96.\n\nThen you need another word (or even comma) to connect the URL on line 96 to this sentence. “until all the infrastructure is updated url” isn’t sensible.",
+      "parentUuid": "52118ad0_75005adc",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38eb876c_d1e4d0ba",
         "filename": "client/annotation.h",
         "patchSetId": 16
@@ -463,6 +481,24 @@
       "side": 1,
       "message": "No, we don\u0027t need to, but I figured we should given that\u0027s what MinidumpString objects do.",
       "parentUuid": "2db83630_1dde1d4d",
+      "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58f481e7_55a1de1a",
+        "filename": "client/annotation.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-25T18:37:16Z",
+      "side": 1,
+      "message": "\u003e No, we don\u0027t need to, but I figured we should given that\u0027s what MinidumpString objects do.\n\nThat’s not the best precedent, though. Also, that’s all about the file format. Here we’re looking at the in-memory representation. I think we can forego NUL-termination (since it’s pretty awkward) and settle on trusting the length we’re storing. Then you can go from strlcpy() to strncpy().",
+      "parentUuid": "71cf07c9_55da48d0",
       "revId": "cbc54e082b6e97b01aa012171a1abecfbe835b00",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
