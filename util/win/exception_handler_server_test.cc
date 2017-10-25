@@ -72,7 +72,6 @@ class TestDelegate : public ExceptionHandlerServer::Delegate {
 
  private:
   HANDLE server_ready_;  // weak
-  bool started_;
 
   DISALLOW_COPY_AND_ASSIGN(TestDelegate);
 };

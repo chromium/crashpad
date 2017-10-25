@@ -34,7 +34,7 @@ base::FilePath GenerateCandidateName() {
   PCHECK(path_len != 0) << "GetTempPath";
   base::FilePath system_temp_dir(temp_path);
   base::string16 new_dir_name = base::UTF8ToUTF16(base::StringPrintf(
-        "crashpad.test.%d.%s", GetCurrentProcessId(), RandomString().c_str()));
+      "crashpad.test.%lu.%s", GetCurrentProcessId(), RandomString().c_str()));
   return system_temp_dir.Append(new_dir_name);
 }
 
