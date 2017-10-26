@@ -82,8 +82,7 @@ bool MoveFileOrDirectory(const base::FilePath& source,
 bool IsRegularFile(const base::FilePath& path) {
   DWORD fileattr = GetFileAttributes(path.value().c_str());
   if (fileattr == INVALID_FILE_ATTRIBUTES) {
-    PLOG_IF(ERROR, GetLastError() != ERROR_FILE_NOT_FOUND)
-        << "GetFileAttributes " << base::UTF16ToUTF8(path.value());
+    PLOG(ERROR) << "GetFileAttributes " << base::UTF16ToUTF8(path.value());
     return false;
   }
   if ((fileattr & FILE_ATTRIBUTE_DIRECTORY) != 0 ||
