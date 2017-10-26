@@ -23,6 +23,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
+#include "test/scoped_temp_dir.h"
 #include "util/file/file_io.h"
 #include "util/file/filesystem.h"
 
@@ -44,6 +45,33 @@ bool CreateFile(const base::FilePath& file) {
   return fd.is_valid();
 }
 
+bool CanCreateSymbolicLinks() {
+#if defined(OS_POSIX)
+  return true;
+#elif defined(OS_WIN)
+  static bool can_create_symbolic_links = [](){
+    ScopedTempDir temp_dir_;
+
+    base::FilePath target_path = temp_dir_.path().Append(L"target");
+    EXPECT_TRUE(CreateFile(target_path));
+
+    base::FilePath symlink_path = temp_dir_.path().Append(L"symlink");
+
+    if (!::CreateSymbolicLink(symlink_path.value().c_str(),
+                              target_path.value().c_str(),
+                              SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE)) {
+      EXPECT_EQ(GetLastError(), ERROR_PRIVILEGE_NOT_HELD)
+          << ErrorMessage("CreateSymbolicLink");
+      return false;
+    }
+
+    return true;
+  }();
+
+  return can_create_symbolic_links;
+#endif
+}
+
 bool CreateSymbolicLink(const base::FilePath& target_path,
                         const base::FilePath& symlink_path) {
 #if defined(OS_POSIX)
@@ -53,16 +81,19 @@ bool CreateSymbolicLink(const base::FilePath& target_path,
     PLOG(ERROR) << "symlink";
     return false;
   }
+  return true;
 #elif defined(OS_WIN)
   if (!::CreateSymbolicLink(
           symlink_path.value().c_str(),
           target_path.value().c_str(),
-          IsDirectory(target_path, true) ? SYMBOLIC_LINK_FLAG_DIRECTORY : 0)) {
+          SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE |
+              (IsDirectory(target_path, true) ? SYMBOLIC_LINK_FLAG_DIRECTORY
+                                              : 0))) {
     PLOG(ERROR) << "CreateSymbolicLink";
     return false;
   }
-#endif  // OS_POSIX
   return true;
+#endif  // OS_POSIX
 }
 
 bool PathExists(const base::FilePath& path) {
@@ -72,6 +103,7 @@ bool PathExists(const base::FilePath& path) {
     EXPECT_EQ(errno, ENOENT) << ErrnoMessage("lstat ") << path.value();
     return false;
   }
+  return true;
 #elif defined(OS_WIN)
   if (GetFileAttributes(path.value().c_str()) == INVALID_FILE_ATTRIBUTES) {
     EXPECT_EQ(GetLastError(), ERROR_FILE_NOT_FOUND)
@@ -79,8 +111,8 @@ bool PathExists(const base::FilePath& path) {
         << base::UTF16ToUTF8(path.value());
     return false;
   }
-#endif
   return true;
+#endif
 }
 
 }  // namespace test
