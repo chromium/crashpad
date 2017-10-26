@@ -16,6 +16,24 @@
       "revId": "43b5ce085047bd00e2f705da9c7524641d18b8b7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5f42418_413ebe41",
+        "filename": "util/file/filesystem_test_util.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-26T20:42:31Z",
+      "side": 1,
+      "message": "\u003e There\u0027s not too much to be done at this point, but there\u0027s no symbolic links on OS_FUCHSIA even though it defines OS_POSIX, so perhaps you could LOG/TODO/add an untested #if arm here.\n\nVery interesting! Is that the permanent state of affairs for Fuchsia: no symbolic links forever, as an intentional design sort of thing?\n\nIf that’s so, I didn’t really want to leave things in a state where this would always disable the tests, because the tests wouldn’t ever make any sense. So I just avoided defining all of the symbolic link handling and tests on OS_FUCHSIA altogether. Sound good?",
+      "parentUuid": "122176c5_c3e08cc7",
+      "revId": "43b5ce085047bd00e2f705da9c7524641d18b8b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
