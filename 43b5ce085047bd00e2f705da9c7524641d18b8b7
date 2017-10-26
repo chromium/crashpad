@@ -34,6 +34,24 @@
       "revId": "43b5ce085047bd00e2f705da9c7524641d18b8b7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdf25d91_af716580",
+        "filename": "util/file/filesystem_test_util.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-10-26T21:00:04Z",
+      "side": 1,
+      "message": "SGTM.\n\nI believe it\u0027s permanent. There\u0027s also no \"..\", though that\u0027s emulated in various places to make it seem like there sort of is.\n\nI\u0027m only passingly familiar, but I think the main motivation is sandboxing, in that it means that a handle to a directory can be the root of a view into a tree, without any way to escape to a higher level or elsewhere on the filesystem.",
+      "parentUuid": "e5f42418_413ebe41",
+      "revId": "43b5ce085047bd00e2f705da9c7524641d18b8b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
