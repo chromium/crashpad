@@ -29,6 +29,7 @@
 #include "gtest/gtest.h"
 #include "snapshot/win/pe_image_reader.h"
 #include "snapshot/win/process_reader_win.h"
+#include "test/gtest_disabled.h"
 #include "test/test_paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
@@ -46,16 +47,15 @@ enum TestType {
   kCrashDebugBreak,
 };
 
-void TestAnnotationsOnCrash(TestType type,
-                            const base::string16& directory_modification) {
+void TestAnnotationsOnCrash(TestType type, const base::FilePath& directory) {
   // Spawn a child process, passing it the pipe name to connect to.
-  base::FilePath test_executable = TestPaths::Executable();
-  std::wstring child_test_executable =
-      test_executable.DirName()
-          .Append(directory_modification)
-          .Append(test_executable.BaseName().RemoveFinalExtension().value() +
-                  L"_simple_annotations.exe")
-          .value();
+  std::wstring child_test_executable = directory
+                                           .Append(TestPaths::Executable()
+                                                       .BaseName()
+                                                       .RemoveFinalExtension()
+                                                       .value() +
+                                                   L"_simple_annotations.exe")
+                                           .value();
   ChildLauncher child(child_test_executable, L"");
   ASSERT_NO_FATAL_FAILURE(child.Start());
 
@@ -112,30 +112,30 @@ void TestAnnotationsOnCrash(TestType type,
 }
 
 TEST(PEImageAnnotationsReader, DontCrash) {
-  TestAnnotationsOnCrash(kDontCrash, FILE_PATH_LITERAL("."));
+  TestAnnotationsOnCrash(kDontCrash, TestPaths::Executable().DirName());
 }
 
 TEST(PEImageAnnotationsReader, CrashDebugBreak) {
-  TestAnnotationsOnCrash(kCrashDebugBreak, FILE_PATH_LITERAL("."));
+  TestAnnotationsOnCrash(kCrashDebugBreak, TestPaths::Executable().DirName());
 }
 
 #if defined(ARCH_CPU_64_BITS)
 TEST(PEImageAnnotationsReader, DontCrashWOW64) {
-#ifndef NDEBUG
-  TestAnnotationsOnCrash(kDontCrash, FILE_PATH_LITERAL("..\\..\\out\\Debug"));
-#else
-  TestAnnotationsOnCrash(kDontCrash, FILE_PATH_LITERAL("..\\..\\out\\Release"));
-#endif
+  base::FilePath output_32_bit_directory = TestPaths::Output32BitDirectory();
+  if (output_32_bit_directory.empty()) {
+    DISABLED_TEST();
+  }
+
+  TestAnnotationsOnCrash(kDontCrash, output_32_bit_directory);
 }
 
 TEST(PEImageAnnotationsReader, CrashDebugBreakWOW64) {
-#ifndef NDEBUG
-  TestAnnotationsOnCrash(kCrashDebugBreak,
-                         FILE_PATH_LITERAL("..\\..\\out\\Debug"));
-#else
-  TestAnnotationsOnCrash(kCrashDebugBreak,
-                         FILE_PATH_LITERAL("..\\..\\out\\Release"));
-#endif
+  base::FilePath output_32_bit_directory = TestPaths::Output32BitDirectory();
+  if (output_32_bit_directory.empty()) {
+    DISABLED_TEST();
+  }
+
+  TestAnnotationsOnCrash(kCrashDebugBreak, output_32_bit_directory);
 }
 #endif  // ARCH_CPU_64_BITS
 
