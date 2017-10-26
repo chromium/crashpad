@@ -88,6 +88,24 @@
       "revId": "43b5ce085047bd00e2f705da9c7524641d18b8b7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d34bfad_babce36d",
+        "filename": "util/file/filesystem_test_util.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-10-26T21:31:16Z",
+      "side": 1,
+      "message": "\u003e Yes, there\u0027s a \u0027.\u0027. It\u0027s probably not worth mucking with too much until we (Dave) has the tests up and running.\n\nEverything Scott has said about Fuchsia agrees with my understanding: no symlink support planned; \u0027.\u0027 and \u0027..\u0027 should work normally for processes using the posix emulation layer (but are resolved into paths without ./.. before being sent to the filesystem server).\n\n(Other possibly-surprising differences from typical unix/posix: no fork(2) (which complicates death tests), no traditional signals, no /dev/[u]random, and others I\u0027m sure)\n\nBut I wouldn\u0027t worry too much about making things easy for Fuchsia right now.",
+      "parentUuid": "c54463fa_8747b31f",
+      "revId": "43b5ce085047bd00e2f705da9c7524641d18b8b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
