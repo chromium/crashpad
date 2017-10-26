@@ -17,15 +17,41 @@
 
 #include "base/files/file_path.h"
 
+#include "build/build_config.h"
+
 namespace crashpad {
 namespace test {
 
 bool CreateFile(const base::FilePath& file);
 
+bool PathExists(const base::FilePath& path);
+
+#if !defined(OS_FUCHSIA) || DOXYGEN
+// There are no symbolic links on Fuchsia. Don’t bother declaring or defining
+// symbolic link-related functions at all, because it’s an error to even pretend
+// that symbolic links might be available on Fuchsia.
+
+//! \brief Determines whether it should be possible to create symbolic links.
+//!
+//! It is always possible to create symbolic links on POSIX.
+//!
+//! On Windows, it is only possible to create symbolic links when running as an
+//! administrator, or as a non-administrator when running Windows 10 build 15063
+//! (1703, Creators Update) or later, provided that developer mode is enabled
+//! and `SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE` is used. This function
+//! tests the creation of a symbolic link and returns true on success, and false
+//! on failure. If the symbolic link could not be created for a reason other
+//! than the expected lack of privilege, a message is logged.
+//!
+//! Additional background: <a
+//! href="https://blogs.windows.com/buildingapps/2016/12/02/symlinks-windows-10/">Symlinks
+//! in Windows 10!</a>
+bool CanCreateSymbolicLinks();
+
 bool CreateSymbolicLink(const base::FilePath& target_path,
                         const base::FilePath& symlink_path);
 
-bool PathExists(const base::FilePath& path);
+#endif  // !OS_FUCHSIA || DOXYGEN
 
 }  // namespace test
 }  // namespace crashpad
