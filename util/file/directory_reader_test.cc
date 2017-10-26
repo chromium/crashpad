@@ -21,6 +21,7 @@
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
+#include "test/gtest_disabled.h"
 #include "test/scoped_temp_dir.h"
 #include "util/file/file_io.h"
 #include "util/file/filesystem.h"
@@ -29,6 +30,51 @@
 namespace crashpad {
 namespace test {
 namespace {
+
+TEST(DirectoryReader, BadPaths) {
+  DirectoryReader reader;
+  EXPECT_FALSE(reader.Open(base::FilePath()));
+
+  ScopedTempDir temp_dir;
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
+  EXPECT_FALSE(reader.Open(file));
+
+  EXPECT_FALSE(
+      reader.Open(temp_dir.path().Append(FILE_PATH_LITERAL("doesntexist"))));
+}
+
+#if !defined(OS_FUCHSIA)
+
+TEST(DirectoryReader, BadPaths_SymbolicLinks) {
+  if (!CanCreateSymbolicLinks()) {
+    DISABLED_TEST();
+  }
+
+  ScopedTempDir temp_dir;
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
+
+  base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
+  ASSERT_TRUE(CreateSymbolicLink(file, link));
+
+  DirectoryReader reader;
+  EXPECT_FALSE(reader.Open(link));
+
+  ASSERT_TRUE(LoggingRemoveFile(file));
+  EXPECT_FALSE(reader.Open(link));
+}
+
+#endif  // !OS_FUCHSIA
+
+TEST(DirectoryReader, EmptyDirectory) {
+  ScopedTempDir temp_dir;
+  DirectoryReader reader;
+
+  ASSERT_TRUE(reader.Open(temp_dir.path()));
+  base::FilePath filename;
+  EXPECT_EQ(reader.NextFile(&filename), DirectoryReader::Result::kNoMoreFiles);
+}
 
 void ExpectFiles(const std::set<base::FilePath>& files,
                  const std::set<base::FilePath>& expected) {
@@ -41,53 +87,13 @@ void ExpectFiles(const std::set<base::FilePath>& files,
   }
 }
 
-TEST(DirectoryReader, BadPaths) {
-  DirectoryReader reader;
-  EXPECT_FALSE(reader.Open(base::FilePath()));
-
-  ScopedTempDir temp_dir;
-  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
-  ASSERT_TRUE(CreateFile(file));
-  EXPECT_FALSE(reader.Open(file));
-
-  base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
-  ASSERT_TRUE(CreateSymbolicLink(file, link));
-  EXPECT_FALSE(reader.Open(link));
-
-  ASSERT_TRUE(LoggingRemoveFile(file));
-  EXPECT_FALSE(reader.Open(link));
-
-  EXPECT_FALSE(
-      reader.Open(temp_dir.path().Append(FILE_PATH_LITERAL("doesntexist"))));
-}
-
-TEST(DirectoryReader, EmptyDirectory) {
-  ScopedTempDir temp_dir;
-  DirectoryReader reader;
-
-  ASSERT_TRUE(reader.Open(temp_dir.path()));
-  base::FilePath filename;
-  EXPECT_EQ(reader.NextFile(&filename), DirectoryReader::Result::kNoMoreFiles);
-}
-
-TEST(DirectoryReader, FilesAndDirectories) {
+void TestFilesAndDirectories(bool symbolic_links) {
   ScopedTempDir temp_dir;
   std::set<base::FilePath> expected_files;
 
   base::FilePath file(FILE_PATH_LITERAL("file"));
   ASSERT_TRUE(CreateFile(temp_dir.path().Append(file)));
   EXPECT_TRUE(expected_files.insert(file).second);
-
-  base::FilePath link(FILE_PATH_LITERAL("link"));
-  ASSERT_TRUE(CreateSymbolicLink(temp_dir.path().Append(file),
-                                 temp_dir.path().Append(link)));
-  EXPECT_TRUE(expected_files.insert(link).second);
-
-  base::FilePath dangling(FILE_PATH_LITERAL("dangling"));
-  ASSERT_TRUE(
-      CreateSymbolicLink(base::FilePath(FILE_PATH_LITERAL("not_a_file")),
-                         temp_dir.path().Append(dangling)));
-  EXPECT_TRUE(expected_files.insert(dangling).second);
 
   base::FilePath directory(FILE_PATH_LITERAL("directory"));
   ASSERT_TRUE(LoggingCreateDirectory(temp_dir.path().Append(directory),
@@ -98,6 +104,23 @@ TEST(DirectoryReader, FilesAndDirectories) {
   base::FilePath nested_file(FILE_PATH_LITERAL("nested_file"));
   ASSERT_TRUE(
       CreateFile(temp_dir.path().Append(directory).Append(nested_file)));
+
+#if !defined(OS_FUCHSIA)
+
+  if (symbolic_links) {
+    base::FilePath link(FILE_PATH_LITERAL("link"));
+    ASSERT_TRUE(CreateSymbolicLink(temp_dir.path().Append(file),
+                                   temp_dir.path().Append(link)));
+    EXPECT_TRUE(expected_files.insert(link).second);
+
+    base::FilePath dangling(FILE_PATH_LITERAL("dangling"));
+    ASSERT_TRUE(
+        CreateSymbolicLink(base::FilePath(FILE_PATH_LITERAL("not_a_file")),
+                           temp_dir.path().Append(dangling)));
+    EXPECT_TRUE(expected_files.insert(dangling).second);
+  }
+
+#endif  // !OS_FUCHSIA
 
   std::set<base::FilePath> files;
   DirectoryReader reader;
@@ -112,6 +135,22 @@ TEST(DirectoryReader, FilesAndDirectories) {
   EXPECT_EQ(reader.NextFile(&filename), DirectoryReader::Result::kNoMoreFiles);
   ExpectFiles(files, expected_files);
 }
+
+TEST(DirectoryReader, FilesAndDirectories) {
+  TestFilesAndDirectories(false);
+}
+
+#if !defined(OS_FUCHSIA)
+
+TEST(DirectoryReader, FilesAndDirectories_SymbolicLinks) {
+  if (!CanCreateSymbolicLinks()) {
+    DISABLED_TEST();
+  }
+
+  TestFilesAndDirectories(true);
+}
+
+#endif  // !OS_FUCHSIA
 
 }  // namespace
 }  // namespace test

@@ -51,7 +51,7 @@ void DisabledTestGtestEnvironment::DisabledTest() {
       "[ DISABLED ] %s\n",
       disabled_test.c_str());
 
-  disabled_tests_.insert(disabled_test);
+  disabled_tests_.push_back(disabled_test);
 }
 
 DisabledTestGtestEnvironment::DisabledTestGtestEnvironment()

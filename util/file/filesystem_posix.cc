@@ -56,7 +56,7 @@ bool MoveFileOrDirectory(const base::FilePath& source,
 bool IsRegularFile(const base::FilePath& path) {
   struct stat st;
   if (lstat(path.value().c_str(), &st) != 0) {
-    PLOG_IF(ERROR, errno != ENOENT) << "stat " << path.value();
+    PLOG(ERROR) << "stat " << path.value();
     return false;
   }
   return S_ISREG(st.st_mode);
@@ -69,11 +69,9 @@ bool IsDirectory(const base::FilePath& path, bool allow_symlinks) {
       PLOG(ERROR) << "stat " << path.value();
       return false;
     }
-  } else {
-    if (lstat(path.value().c_str(), &st) != 0) {
-      PLOG(ERROR) << "lstat " << path.value();
-      return false;
-    }
+  } else if (lstat(path.value().c_str(), &st) != 0) {
+    PLOG(ERROR) << "lstat " << path.value();
+    return false;
   }
   return S_ISDIR(st.st_mode);
 }
