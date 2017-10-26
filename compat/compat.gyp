@@ -54,6 +54,7 @@
         'win/sys/types.h',
         'win/time.cc',
         'win/time.h',
+        'win/winbase.h',
         'win/winnt.h',
         'win/winternl.h',
       ],
