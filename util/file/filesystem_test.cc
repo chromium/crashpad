@@ -16,6 +16,7 @@
 
 #include "base/logging.h"
 #include "gtest/gtest.h"
+#include "test/gtest_disabled.h"
 #include "test/scoped_temp_dir.h"
 #include "util/file/filesystem_test_util.h"
 
@@ -100,6 +101,17 @@ TEST(Filesystem, MoveFileOrDirectory) {
   EXPECT_FALSE(MoveFileOrDirectory(dir2, file));
   EXPECT_TRUE(IsDirectory(dir2, false));
   EXPECT_TRUE(IsRegularFile(file));
+}
+
+TEST(Filesystem, MoveFileOrDirectory_SymbolicLinks) {
+  if (!CanCreateSymbolicLinks()) {
+    DISABLED_TEST();
+  }
+
+  ScopedTempDir temp_dir;
+
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
 
   // file links
   base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
@@ -135,6 +147,10 @@ TEST(Filesystem, MoveFileOrDirectory) {
   EXPECT_FALSE(PathExists(link));
 
   // directory links
+  base::FilePath dir(temp_dir.path().Append(FILE_PATH_LITERAL("dir")));
+  ASSERT_TRUE(
+      LoggingCreateDirectory(dir, FilePermissions::kWorldReadable, false));
+
   ASSERT_TRUE(CreateSymbolicLink(dir, link));
 
   EXPECT_TRUE(MoveFileOrDirectory(link, link2));
@@ -159,6 +175,16 @@ TEST(Filesystem, IsRegularFile) {
 
   ASSERT_TRUE(CreateFile(file));
   EXPECT_TRUE(IsRegularFile(file));
+}
+
+TEST(Filesystem, IsRegularFile_SymbolicLinks) {
+  if (!CanCreateSymbolicLinks()) {
+    DISABLED_TEST();
+  }
+
+  ScopedTempDir temp_dir;
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
 
   base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
   ASSERT_TRUE(CreateSymbolicLink(file, link));
@@ -187,6 +213,16 @@ TEST(Filesystem, IsDirectory) {
   ASSERT_TRUE(CreateFile(file));
   EXPECT_FALSE(IsDirectory(file, false));
   EXPECT_FALSE(IsDirectory(file, true));
+}
+
+TEST(Filesystem, IsDirectory_SymbolicLinks) {
+  if (!CanCreateSymbolicLinks()) {
+    DISABLED_TEST();
+  }
+
+  ScopedTempDir temp_dir;
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
 
   base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
   ASSERT_TRUE(CreateSymbolicLink(file, link));
@@ -216,25 +252,39 @@ TEST(Filesystem, RemoveFile) {
   ASSERT_TRUE(CreateFile(file));
   EXPECT_TRUE(IsRegularFile(file));
 
+  base::FilePath dir(temp_dir.path().Append(FILE_PATH_LITERAL("dir")));
+  ASSERT_TRUE(
+      LoggingCreateDirectory(dir, FilePermissions::kWorldReadable, false));
+  EXPECT_FALSE(LoggingRemoveFile(dir));
+
+  EXPECT_TRUE(LoggingRemoveFile(file));
+  EXPECT_FALSE(IsRegularFile(file));
+  EXPECT_FALSE(LoggingRemoveFile(file));
+}
+
+TEST(Filesystem, RemoveFile_SymbolicLinks) {
+  if (!CanCreateSymbolicLinks()) {
+    DISABLED_TEST();
+  }
+
+  ScopedTempDir temp_dir;
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
+
+  base::FilePath dir(temp_dir.path().Append(FILE_PATH_LITERAL("dir")));
+  ASSERT_TRUE(
+      LoggingCreateDirectory(dir, FilePermissions::kWorldReadable, false));
+
   base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
   ASSERT_TRUE(CreateSymbolicLink(file, link));
   EXPECT_TRUE(LoggingRemoveFile(link));
   EXPECT_FALSE(PathExists(link));
   EXPECT_TRUE(PathExists(file));
 
-  base::FilePath dir(temp_dir.path().Append(FILE_PATH_LITERAL("dir")));
-  ASSERT_TRUE(
-      LoggingCreateDirectory(dir, FilePermissions::kWorldReadable, false));
-  EXPECT_FALSE(LoggingRemoveFile(dir));
-
   ASSERT_TRUE(CreateSymbolicLink(dir, link));
   EXPECT_TRUE(LoggingRemoveFile(link));
   EXPECT_FALSE(PathExists(link));
   EXPECT_TRUE(PathExists(dir));
-
-  EXPECT_TRUE(LoggingRemoveFile(file));
-  EXPECT_FALSE(IsRegularFile(file));
-  EXPECT_FALSE(LoggingRemoveFile(file));
 }
 
 TEST(Filesystem, RemoveDirectory) {
@@ -253,6 +303,23 @@ TEST(Filesystem, RemoveDirectory) {
   EXPECT_FALSE(LoggingRemoveDirectory(file));
   EXPECT_FALSE(LoggingRemoveDirectory(dir));
 
+  ASSERT_TRUE(LoggingRemoveFile(file));
+  EXPECT_TRUE(LoggingRemoveDirectory(dir));
+}
+
+TEST(Filesystem, RemoveDirectory_SymbolicLinks) {
+  if (!CanCreateSymbolicLinks()) {
+    DISABLED_TEST();
+  }
+
+  ScopedTempDir temp_dir;
+  base::FilePath dir(temp_dir.path().Append(FILE_PATH_LITERAL("dir")));
+  ASSERT_TRUE(
+      LoggingCreateDirectory(dir, FilePermissions::kWorldReadable, false));
+
+  base::FilePath file(dir.Append(FILE_PATH_LITERAL("file")));
+  EXPECT_FALSE(LoggingRemoveDirectory(file));
+
   base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
   ASSERT_TRUE(CreateSymbolicLink(file, link));
   EXPECT_FALSE(LoggingRemoveDirectory(link));
@@ -261,9 +328,6 @@ TEST(Filesystem, RemoveDirectory) {
   ASSERT_TRUE(CreateSymbolicLink(dir, link));
   EXPECT_FALSE(LoggingRemoveDirectory(link));
   EXPECT_TRUE(LoggingRemoveFile(link));
-
-  ASSERT_TRUE(LoggingRemoveFile(file));
-  EXPECT_TRUE(LoggingRemoveDirectory(dir));
 }
 
 }  // namespace

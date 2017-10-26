@@ -15,8 +15,8 @@
 #ifndef CRASHPAD_TEST_GTEST_DISABLED_H_
 #define CRASHPAD_TEST_GTEST_DISABLED_H_
 
-#include <set>
 #include <string>
+#include <vector>
 
 #include "base/macros.h"
 #include "gtest/gtest.h"
@@ -54,7 +54,7 @@ class DisabledTestGtestEnvironment final : public testing::Environment {
   // testing::Environment:
   void TearDown() override;
 
-  std::set<std::string> disabled_tests_;
+  std::vector<std::string> disabled_tests_;
 
   DISALLOW_COPY_AND_ASSIGN(DisabledTestGtestEnvironment);
 };
