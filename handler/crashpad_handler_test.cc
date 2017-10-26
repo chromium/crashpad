@@ -28,10 +28,13 @@
 #include "test/test_paths.h"
 #include "test/win/win_multiprocess_with_temp_dir.h"
 #include "util/file/file_reader.h"
+#include "util/win/capture_context.h"
 
 namespace crashpad {
 namespace test {
 namespace {
+
+constexpr DWORD kExpectedExitCode = 0x1CEB00DA;
 
 void StartAndCrashWithExtendedHandler(const base::FilePath& temp_dir) {
   base::FilePath handler_path = TestPaths::Executable().DirName().Append(
@@ -47,7 +50,14 @@ void StartAndCrashWithExtendedHandler(const base::FilePath& temp_dir) {
                                   false,
                                   false));
 
-  __debugbreak();
+  // It appears that the GoogleTest fixture will catch and handle exceptions
+  // from here. Hence the fabricated crash in favor of raising an exception.
+  EXCEPTION_RECORD exception_record = {kExpectedExitCode,
+                                       EXCEPTION_NONCONTINUABLE};
+  CONTEXT context;
+  CaptureContext(&context);
+  EXCEPTION_POINTERS exception_pointers = {&exception_record, &context};
+  CrashpadClient::DumpAndCrash(&exception_pointers);
 }
 
 class CrashWithExtendedHandler final : public WinMultiprocessWithTempDir {
@@ -59,7 +69,7 @@ class CrashWithExtendedHandler final : public WinMultiprocessWithTempDir {
   void ValidateGeneratedDump();
 
   void WinMultiprocessParent() override {
-    SetExpectedChildExitCode(EXCEPTION_BREAKPOINT);
+    SetExpectedChildExitCode(kExpectedExitCode);
   }
 
   void WinMultiprocessChild() override {
