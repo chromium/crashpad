@@ -50,15 +50,17 @@ TEST(DirectoryReader, BadPaths) {
   ASSERT_TRUE(CreateFile(file));
   EXPECT_FALSE(reader.Open(file));
 
-  base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
-  ASSERT_TRUE(CreateSymbolicLink(file, link));
-  EXPECT_FALSE(reader.Open(link));
-
-  ASSERT_TRUE(LoggingRemoveFile(file));
-  EXPECT_FALSE(reader.Open(link));
-
   EXPECT_FALSE(
       reader.Open(temp_dir.path().Append(FILE_PATH_LITERAL("doesntexist"))));
+
+  if (CanCreateSymbolicLinks()) {
+    base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
+    ASSERT_TRUE(CreateSymbolicLink(file, link));
+    EXPECT_FALSE(reader.Open(link));
+
+    ASSERT_TRUE(LoggingRemoveFile(file));
+    EXPECT_FALSE(reader.Open(link));
+  }
 }
 
 TEST(DirectoryReader, EmptyDirectory) {
@@ -78,17 +80,6 @@ TEST(DirectoryReader, FilesAndDirectories) {
   ASSERT_TRUE(CreateFile(temp_dir.path().Append(file)));
   EXPECT_TRUE(expected_files.insert(file).second);
 
-  base::FilePath link(FILE_PATH_LITERAL("link"));
-  ASSERT_TRUE(CreateSymbolicLink(temp_dir.path().Append(file),
-                                 temp_dir.path().Append(link)));
-  EXPECT_TRUE(expected_files.insert(link).second);
-
-  base::FilePath dangling(FILE_PATH_LITERAL("dangling"));
-  ASSERT_TRUE(
-      CreateSymbolicLink(base::FilePath(FILE_PATH_LITERAL("not_a_file")),
-                         temp_dir.path().Append(dangling)));
-  EXPECT_TRUE(expected_files.insert(dangling).second);
-
   base::FilePath directory(FILE_PATH_LITERAL("directory"));
   ASSERT_TRUE(LoggingCreateDirectory(temp_dir.path().Append(directory),
                                      FilePermissions::kWorldReadable,
@@ -98,6 +89,19 @@ TEST(DirectoryReader, FilesAndDirectories) {
   base::FilePath nested_file(FILE_PATH_LITERAL("nested_file"));
   ASSERT_TRUE(
       CreateFile(temp_dir.path().Append(directory).Append(nested_file)));
+
+  if (CanCreateSymbolicLinks()) {
+    base::FilePath link(FILE_PATH_LITERAL("link"));
+    ASSERT_TRUE(CreateSymbolicLink(temp_dir.path().Append(file),
+                                   temp_dir.path().Append(link)));
+    EXPECT_TRUE(expected_files.insert(link).second);
+
+    base::FilePath dangling(FILE_PATH_LITERAL("dangling"));
+    ASSERT_TRUE(
+        CreateSymbolicLink(base::FilePath(FILE_PATH_LITERAL("not_a_file")),
+                           temp_dir.path().Append(dangling)));
+    EXPECT_TRUE(expected_files.insert(dangling).second);
+  }
 
   std::set<base::FilePath> files;
   DirectoryReader reader;
