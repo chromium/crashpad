@@ -23,6 +23,7 @@
 #include "gtest/gtest.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "test/errors.h"
+#include "test/gtest_disabled.h"
 #include "test/test_paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
@@ -120,7 +121,7 @@ class CrashingDelegate : public ExceptionHandlerServer::Delegate {
   DISALLOW_COPY_AND_ASSIGN(CrashingDelegate);
 };
 
-void TestCrashingChild(const base::string16& directory_modification) {
+void TestCrashingChild(const base::FilePath& directory) {
   // Set up the registration server on a background thread.
   ScopedKernelHANDLE server_ready(CreateEvent(nullptr, false, false, nullptr));
   ASSERT_TRUE(server_ready.is_valid()) << ErrorMessage("CreateEvent");
@@ -140,13 +141,13 @@ void TestCrashingChild(const base::string16& directory_modification) {
       << ErrorMessage("WaitForSingleObject");
 
   // Spawn a child process, passing it the pipe name to connect to.
-  base::FilePath test_executable = TestPaths::Executable();
-  std::wstring child_test_executable =
-      test_executable.DirName()
-          .Append(directory_modification)
-          .Append(test_executable.BaseName().RemoveFinalExtension().value() +
-                  L"_crashing_child.exe")
-          .value();
+  std::wstring child_test_executable = directory
+                                           .Append(TestPaths::Executable()
+                                                       .BaseName()
+                                                       .RemoveFinalExtension()
+                                                       .value() +
+                                                   L"_crashing_child.exe")
+                                           .value();
   ChildLauncher child(child_test_executable, pipe_name);
   ASSERT_NO_FATAL_FAILURE(child.Start());
 
@@ -165,16 +166,17 @@ void TestCrashingChild(const base::string16& directory_modification) {
 }
 
 TEST(ExceptionSnapshotWinTest, ChildCrash) {
-  TestCrashingChild(FILE_PATH_LITERAL("."));
+  TestCrashingChild(TestPaths::Executable().DirName());
 }
 
 #if defined(ARCH_CPU_64_BITS)
 TEST(ExceptionSnapshotWinTest, ChildCrashWOW64) {
-#ifndef NDEBUG
-  TestCrashingChild(FILE_PATH_LITERAL("..\\..\\out\\Debug"));
-#else
-  TestCrashingChild(FILE_PATH_LITERAL("..\\..\\out\\Release"));
-#endif
+  base::FilePath output_32_bit_directory = TestPaths::Output32BitDirectory();
+  if (output_32_bit_directory.empty()) {
+    DISABLED_TEST();
+  }
+
+  TestCrashingChild(output_32_bit_directory);
 }
 #endif  // ARCH_CPU_64_BITS
 
@@ -227,8 +229,7 @@ class SimulateDelegate : public ExceptionHandlerServer::Delegate {
   DISALLOW_COPY_AND_ASSIGN(SimulateDelegate);
 };
 
-void TestDumpWithoutCrashingChild(
-    const base::string16& directory_modification) {
+void TestDumpWithoutCrashingChild(const base::FilePath& directory) {
   // Set up the registration server on a background thread.
   ScopedKernelHANDLE server_ready(CreateEvent(nullptr, false, false, nullptr));
   ASSERT_TRUE(server_ready.is_valid()) << ErrorMessage("CreateEvent");
@@ -248,11 +249,12 @@ void TestDumpWithoutCrashingChild(
       << ErrorMessage("WaitForSingleObject");
 
   // Spawn a child process, passing it the pipe name to connect to.
-  base::FilePath test_executable = TestPaths::Executable();
   std::wstring child_test_executable =
-      test_executable.DirName()
-          .Append(directory_modification)
-          .Append(test_executable.BaseName().RemoveFinalExtension().value() +
+      directory
+          .Append(TestPaths::Executable()
+                      .BaseName()
+                      .RemoveFinalExtension()
+                      .value() +
                   L"_dump_without_crashing.exe")
           .value();
   ChildLauncher child(child_test_executable, pipe_name);
@@ -273,16 +275,17 @@ void TestDumpWithoutCrashingChild(
 }
 
 TEST(SimulateCrash, ChildDumpWithoutCrashing) {
-  TestDumpWithoutCrashingChild(FILE_PATH_LITERAL("."));
+  TestDumpWithoutCrashingChild(TestPaths::Executable().DirName());
 }
 
 #if defined(ARCH_CPU_64_BITS)
 TEST(SimulateCrash, ChildDumpWithoutCrashingWOW64) {
-#ifndef NDEBUG
-  TestDumpWithoutCrashingChild(FILE_PATH_LITERAL("..\\..\\out\\Debug"));
-#else
-  TestDumpWithoutCrashingChild(FILE_PATH_LITERAL("..\\..\\out\\Release"));
-#endif
+  base::FilePath output_32_bit_directory = TestPaths::Output32BitDirectory();
+  if (output_32_bit_directory.empty()) {
+    DISABLED_TEST();
+  }
+
+  TestDumpWithoutCrashingChild(output_32_bit_directory);
 }
 #endif  // ARCH_CPU_64_BITS
 
