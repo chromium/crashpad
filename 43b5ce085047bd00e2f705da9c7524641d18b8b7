@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "122176c5_c3e08cc7",
+        "filename": "util/file/filesystem_test_util.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-10-26T20:18:02Z",
+      "side": 1,
+      "message": "There\u0027s not too much to be done at this point, but there\u0027s no symbolic links on OS_FUCHSIA even though it defines OS_POSIX, so perhaps you could LOG/TODO/add an untested #if arm here.",
+      "revId": "43b5ce085047bd00e2f705da9c7524641d18b8b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
