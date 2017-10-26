@@ -106,5 +106,19 @@ base::FilePath TestPaths::TestDataRoot() {
   return *test_data_root;
 }
 
+#if defined(OS_WIN) && defined(ARCH_CPU_64_BITS)
+
+// static
+base::FilePath TestPaths::Output32BitDirectory() {
+  const wchar_t* environment_value = _wgetenv(L"CRASHPAD_TEST_32_BIT_OUTPUT");
+  if (!environment_value) {
+    return base::FilePath();
+  }
+
+  return base::FilePath(environment_value);
+}
+
+#endif  // defined(OS_WIN) && defined(ARCH_CPU_64_BITS)
+
 }  // namespace test
 }  // namespace crashpad
