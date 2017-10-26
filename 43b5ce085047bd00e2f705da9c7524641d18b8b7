@@ -52,6 +52,24 @@
       "revId": "43b5ce085047bd00e2f705da9c7524641d18b8b7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aec82ce6_aab234e9",
+        "filename": "util/file/filesystem_test_util.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-26T21:07:58Z",
+      "side": 1,
+      "message": "\u003e I believe it\u0027s permanent. There\u0027s also no \"..\", though that\u0027s emulated in various places to make it seem like there sort of is.\n\nIs there a \".\"? While I\u0027m in here, I can make sure that we don\u0027t have a dependency on either of those existing.\n\nI know that on Windows, we assume the existence of at least one of \".\" and \"..\". Without those, we\u0027d get empty directory detection wrong, with an error right out of FindFirstFileEx(). I don\u0027t think we have any dependency like that on POSIX, though.",
+      "parentUuid": "fdf25d91_af716580",
+      "revId": "43b5ce085047bd00e2f705da9c7524641d18b8b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
