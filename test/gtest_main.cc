@@ -13,10 +13,13 @@
 // limitations under the License.
 
 #include "gtest/gtest.h"
+#include "test/gtest_disabled.h"
 #include "test/main_arguments.h"
 
 int main(int argc, char* argv[]) {
   crashpad::test::InitializeMainArguments(argc, argv);
   testing::InitGoogleTest(&argc, argv);
+  testing::AddGlobalTestEnvironment(
+      crashpad::test::DisabledTestGtestEnvironment::Get());
   return RUN_ALL_TESTS();
 }

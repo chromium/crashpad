@@ -20,6 +20,7 @@
 #include "snapshot/win/pe_image_reader.h"
 #include "snapshot/win/process_reader_win.h"
 #include "test/errors.h"
+#include "test/gtest_disabled.h"
 #include "test/test_paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
@@ -30,20 +31,20 @@ namespace crashpad {
 namespace test {
 namespace {
 
-void TestImageReaderChild(const base::string16& directory_modification) {
+void TestImageReaderChild(const base::FilePath& directory) {
   UUID done_uuid;
   done_uuid.InitializeWithNew();
   ScopedKernelHANDLE done(
       CreateEvent(nullptr, true, false, done_uuid.ToString16().c_str()));
   ASSERT_TRUE(done.is_valid()) << ErrorMessage("CreateEvent");
 
-  base::FilePath test_executable = TestPaths::Executable();
-  std::wstring child_test_executable =
-      test_executable.DirName()
-          .Append(directory_modification)
-          .Append(test_executable.BaseName().RemoveFinalExtension().value() +
-                  L"_image_reader.exe")
-          .value();
+  std::wstring child_test_executable = directory
+                                           .Append(TestPaths::Executable()
+                                                       .BaseName()
+                                                       .RemoveFinalExtension()
+                                                       .value() +
+                                                   L"_image_reader.exe")
+                                           .value();
   ChildLauncher child(child_test_executable, done_uuid.ToString16());
   ASSERT_NO_FATAL_FAILURE(child.Start());
 
@@ -112,16 +113,17 @@ void TestImageReaderChild(const base::string16& directory_modification) {
 }
 
 TEST(ProcessSnapshotTest, CrashpadInfoChild) {
-  TestImageReaderChild(FILE_PATH_LITERAL("."));
+  TestImageReaderChild(TestPaths::Executable().DirName());
 }
 
 #if defined(ARCH_CPU_64_BITS)
 TEST(ProcessSnapshotTest, CrashpadInfoChildWOW64) {
-#ifndef NDEBUG
-  TestImageReaderChild(FILE_PATH_LITERAL("..\\..\\out\\Debug"));
-#else
-  TestImageReaderChild(FILE_PATH_LITERAL("..\\..\\out\\Release"));
-#endif
+  base::FilePath output_32_bit_directory = TestPaths::Output32BitDirectory();
+  if (output_32_bit_directory.empty()) {
+    DISABLED_TEST();
+  }
+
+  TestImageReaderChild(output_32_bit_directory);
 }
 #endif
 

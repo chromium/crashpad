@@ -26,6 +26,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
+#include "test/gtest_disabled.h"
 #include "test/scoped_temp_dir.h"
 #include "test/test_paths.h"
 #include "test/win/child_launcher.h"
@@ -131,7 +132,7 @@ TEST(ProcessInfo, Self) {
                             FromPointerCast<WinVMAddress>(_ReturnAddress()));
 }
 
-void TestOtherProcess(const base::string16& directory_modification) {
+void TestOtherProcess(const base::FilePath& directory) {
   ProcessInfo process_info;
 
   UUID done_uuid;
@@ -141,12 +142,12 @@ void TestOtherProcess(const base::string16& directory_modification) {
       CreateEvent(nullptr, true, false, done_uuid.ToString16().c_str()));
   ASSERT_TRUE(done.get()) << ErrorMessage("CreateEvent");
 
-  base::FilePath test_executable = TestPaths::Executable();
-
   std::wstring child_test_executable =
-      test_executable.DirName()
-          .Append(directory_modification)
-          .Append(test_executable.BaseName().RemoveFinalExtension().value() +
+      directory
+          .Append(TestPaths::Executable()
+                      .BaseName()
+                      .RemoveFinalExtension()
+                      .value() +
                   L"_process_info_test_child.exe")
           .value();
 
@@ -190,16 +191,17 @@ void TestOtherProcess(const base::string16& directory_modification) {
 }
 
 TEST(ProcessInfo, OtherProcess) {
-  TestOtherProcess(FILE_PATH_LITERAL("."));
+  TestOtherProcess(TestPaths::Executable().DirName());
 }
 
 #if defined(ARCH_CPU_64_BITS)
 TEST(ProcessInfo, OtherProcessWOW64) {
-#ifndef NDEBUG
-  TestOtherProcess(FILE_PATH_LITERAL("..\\..\\out\\Debug"));
-#else
-  TestOtherProcess(FILE_PATH_LITERAL("..\\..\\out\\Release"));
-#endif
+  base::FilePath output_32_bit_directory = TestPaths::Output32BitDirectory();
+  if (output_32_bit_directory.empty()) {
+    DISABLED_TEST();
+  }
+
+  TestOtherProcess(output_32_bit_directory);
 }
 #endif  // ARCH_CPU_64_BITS
 

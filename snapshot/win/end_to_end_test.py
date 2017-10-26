@@ -462,7 +462,7 @@ def main(args):
       return 1
 
     z7_dump_path = None
-    if not args[0].endswith('x64'):
+    if not args[0].endswith('_x64'):
       z7_dump_path = GetDumpFromZ7Program(args[0], pipe_name)
       if not z7_dump_path:
         return 1

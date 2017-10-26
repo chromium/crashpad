@@ -17,6 +17,7 @@
 
 #include "base/files/file_path.h"
 #include "base/macros.h"
+#include "build/build_config.h"
 
 namespace crashpad {
 namespace test {
@@ -41,6 +42,22 @@ class TestPaths {
   //! only be used to locate test data, not for arbitrary access to source
   //! files.
   static base::FilePath TestDataRoot();
+
+#if (defined(OS_WIN) && defined(ARCH_CPU_64_BITS)) || DOXYGEN
+  //! \brief Returns the pathname of a directory containing 32-bit test build
+  //!     output.
+  //!
+  //! Tests that require the use of 32-bit build output should call this
+  //! function to locate that output. This function is only provided to allow
+  //! 64-bit test code to locate 32-bit output. 32-bit test code can find 32-bit
+  //! output in its own directory, the parent of Executable().
+  //!
+  //! If the `CRASHPAD_TEST_32_BIT_OUTPUT` environment variable is set, its
+  //! value will be returned. Otherwise, this function will return an empty
+  //! path, and tests that require the use of 32-bit build output should disable
+  //! themselves. The DISABLED_TEST() macro may be useful for this purpose.
+  static base::FilePath Output32BitDirectory();
+#endif
 
   DISALLOW_IMPLICIT_CONSTRUCTORS(TestPaths);
 };
