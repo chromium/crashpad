@@ -16,6 +16,7 @@
 
 #include "base/logging.h"
 #include "gtest/gtest.h"
+#include "test/gtest_disabled.h"
 #include "test/scoped_temp_dir.h"
 #include "util/file/filesystem_test_util.h"
 
@@ -60,16 +61,16 @@ TEST(Filesystem, MoveFileOrDirectory) {
   base::FilePath file2(temp_dir.path().Append(FILE_PATH_LITERAL("file2")));
   EXPECT_TRUE(MoveFileOrDirectory(file, file2));
   EXPECT_TRUE(IsRegularFile(file2));
-  EXPECT_FALSE(IsRegularFile(file));
+  EXPECT_FALSE(PathExists(file));
 
   EXPECT_FALSE(MoveFileOrDirectory(file, file2));
   EXPECT_TRUE(IsRegularFile(file2));
-  EXPECT_FALSE(IsRegularFile(file));
+  EXPECT_FALSE(PathExists(file));
 
   ASSERT_TRUE(CreateFile(file));
   EXPECT_TRUE(MoveFileOrDirectory(file2, file));
   EXPECT_TRUE(IsRegularFile(file));
-  EXPECT_FALSE(IsRegularFile(file2));
+  EXPECT_FALSE(PathExists(file2));
 
   // directories
   base::FilePath dir(temp_dir.path().Append(FILE_PATH_LITERAL("dir")));
@@ -100,6 +101,19 @@ TEST(Filesystem, MoveFileOrDirectory) {
   EXPECT_FALSE(MoveFileOrDirectory(dir2, file));
   EXPECT_TRUE(IsDirectory(dir2, false));
   EXPECT_TRUE(IsRegularFile(file));
+}
+
+#if !defined(OS_FUCHSIA)
+
+TEST(Filesystem, MoveFileOrDirectory_SymbolicLinks) {
+  if (!CanCreateSymbolicLinks()) {
+    DISABLED_TEST();
+  }
+
+  ScopedTempDir temp_dir;
+
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
 
   // file links
   base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
@@ -135,6 +149,10 @@ TEST(Filesystem, MoveFileOrDirectory) {
   EXPECT_FALSE(PathExists(link));
 
   // directory links
+  base::FilePath dir(temp_dir.path().Append(FILE_PATH_LITERAL("dir")));
+  ASSERT_TRUE(
+      LoggingCreateDirectory(dir, FilePermissions::kWorldReadable, false));
+
   ASSERT_TRUE(CreateSymbolicLink(dir, link));
 
   EXPECT_TRUE(MoveFileOrDirectory(link, link2));
@@ -148,6 +166,8 @@ TEST(Filesystem, MoveFileOrDirectory) {
   EXPECT_FALSE(PathExists(link2));
 }
 
+#endif  // !OS_FUCHSIA
+
 TEST(Filesystem, IsRegularFile) {
   EXPECT_FALSE(IsRegularFile(base::FilePath()));
 
@@ -159,6 +179,18 @@ TEST(Filesystem, IsRegularFile) {
 
   ASSERT_TRUE(CreateFile(file));
   EXPECT_TRUE(IsRegularFile(file));
+}
+
+#if !defined(OS_FUCHSIA)
+
+TEST(Filesystem, IsRegularFile_SymbolicLinks) {
+  if (!CanCreateSymbolicLinks()) {
+    DISABLED_TEST();
+  }
+
+  ScopedTempDir temp_dir;
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
 
   base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
   ASSERT_TRUE(CreateSymbolicLink(file, link));
@@ -172,6 +204,8 @@ TEST(Filesystem, IsRegularFile) {
   ASSERT_TRUE(CreateSymbolicLink(temp_dir.path(), dir_link));
   EXPECT_FALSE(IsRegularFile(dir_link));
 }
+
+#endif  // !OS_FUCHSIA
 
 TEST(Filesystem, IsDirectory) {
   EXPECT_FALSE(IsDirectory(base::FilePath(), false));
@@ -187,6 +221,18 @@ TEST(Filesystem, IsDirectory) {
   ASSERT_TRUE(CreateFile(file));
   EXPECT_FALSE(IsDirectory(file, false));
   EXPECT_FALSE(IsDirectory(file, true));
+}
+
+#if !defined(OS_FUCHSIA)
+
+TEST(Filesystem, IsDirectory_SymbolicLinks) {
+  if (!CanCreateSymbolicLinks()) {
+    DISABLED_TEST();
+  }
+
+  ScopedTempDir temp_dir;
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
 
   base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
   ASSERT_TRUE(CreateSymbolicLink(file, link));
@@ -204,6 +250,8 @@ TEST(Filesystem, IsDirectory) {
   EXPECT_TRUE(IsDirectory(dir_link, true));
 }
 
+#endif  // !OS_FUCHSIA
+
 TEST(Filesystem, RemoveFile) {
   EXPECT_FALSE(LoggingRemoveFile(base::FilePath()));
 
@@ -216,26 +264,44 @@ TEST(Filesystem, RemoveFile) {
   ASSERT_TRUE(CreateFile(file));
   EXPECT_TRUE(IsRegularFile(file));
 
+  base::FilePath dir(temp_dir.path().Append(FILE_PATH_LITERAL("dir")));
+  ASSERT_TRUE(
+      LoggingCreateDirectory(dir, FilePermissions::kWorldReadable, false));
+  EXPECT_FALSE(LoggingRemoveFile(dir));
+
+  EXPECT_TRUE(LoggingRemoveFile(file));
+  EXPECT_FALSE(PathExists(file));
+  EXPECT_FALSE(LoggingRemoveFile(file));
+}
+
+#if !defined(OS_FUCHSIA)
+
+TEST(Filesystem, RemoveFile_SymbolicLinks) {
+  if (!CanCreateSymbolicLinks()) {
+    DISABLED_TEST();
+  }
+
+  ScopedTempDir temp_dir;
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
+
+  base::FilePath dir(temp_dir.path().Append(FILE_PATH_LITERAL("dir")));
+  ASSERT_TRUE(
+      LoggingCreateDirectory(dir, FilePermissions::kWorldReadable, false));
+
   base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
   ASSERT_TRUE(CreateSymbolicLink(file, link));
   EXPECT_TRUE(LoggingRemoveFile(link));
   EXPECT_FALSE(PathExists(link));
   EXPECT_TRUE(PathExists(file));
 
-  base::FilePath dir(temp_dir.path().Append(FILE_PATH_LITERAL("dir")));
-  ASSERT_TRUE(
-      LoggingCreateDirectory(dir, FilePermissions::kWorldReadable, false));
-  EXPECT_FALSE(LoggingRemoveFile(dir));
-
   ASSERT_TRUE(CreateSymbolicLink(dir, link));
   EXPECT_TRUE(LoggingRemoveFile(link));
   EXPECT_FALSE(PathExists(link));
   EXPECT_TRUE(PathExists(dir));
-
-  EXPECT_TRUE(LoggingRemoveFile(file));
-  EXPECT_FALSE(IsRegularFile(file));
-  EXPECT_FALSE(LoggingRemoveFile(file));
 }
+
+#endif  // !OS_FUCHSIA
 
 TEST(Filesystem, RemoveDirectory) {
   EXPECT_FALSE(LoggingRemoveDirectory(base::FilePath()));
@@ -253,6 +319,25 @@ TEST(Filesystem, RemoveDirectory) {
   EXPECT_FALSE(LoggingRemoveDirectory(file));
   EXPECT_FALSE(LoggingRemoveDirectory(dir));
 
+  ASSERT_TRUE(LoggingRemoveFile(file));
+  EXPECT_TRUE(LoggingRemoveDirectory(dir));
+}
+
+#if !defined(OS_FUCHSIA)
+
+TEST(Filesystem, RemoveDirectory_SymbolicLinks) {
+  if (!CanCreateSymbolicLinks()) {
+    DISABLED_TEST();
+  }
+
+  ScopedTempDir temp_dir;
+  base::FilePath dir(temp_dir.path().Append(FILE_PATH_LITERAL("dir")));
+  ASSERT_TRUE(
+      LoggingCreateDirectory(dir, FilePermissions::kWorldReadable, false));
+
+  base::FilePath file(dir.Append(FILE_PATH_LITERAL("file")));
+  EXPECT_FALSE(LoggingRemoveDirectory(file));
+
   base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
   ASSERT_TRUE(CreateSymbolicLink(file, link));
   EXPECT_FALSE(LoggingRemoveDirectory(link));
@@ -261,10 +346,9 @@ TEST(Filesystem, RemoveDirectory) {
   ASSERT_TRUE(CreateSymbolicLink(dir, link));
   EXPECT_FALSE(LoggingRemoveDirectory(link));
   EXPECT_TRUE(LoggingRemoveFile(link));
-
-  ASSERT_TRUE(LoggingRemoveFile(file));
-  EXPECT_TRUE(LoggingRemoveDirectory(dir));
 }
+
+#endif  // !OS_FUCHSIA
 
 }  // namespace
 }  // namespace test
