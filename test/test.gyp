@@ -36,6 +36,8 @@
         'file.cc',
         'file.h',
         'gtest_death_check.h',
+        'gtest_disabled.cc',
+        'gtest_disabled.h',
         'hex_string.cc',
         'hex_string.h',
         'linux/fake_ptrace_connection.cc',
@@ -105,6 +107,10 @@
       'dependencies': [
         'crashpad_test',
         '../third_party/gtest/gtest.gyp:gtest',
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
+      ],
+      'include_dirs': [
+        '..',
       ],
       'sources': [
         'gtest_main.cc',
@@ -117,6 +123,10 @@
         'crashpad_test',
         '../third_party/gtest/gmock.gyp:gmock',
         '../third_party/gtest/gtest.gyp:gtest',
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
+      ],
+      'include_dirs': [
+        '..',
       ],
       'sources': [
         'gmock_main.cc',
