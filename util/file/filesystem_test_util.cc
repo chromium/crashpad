@@ -70,13 +70,13 @@ bool SymbolicLinkFlags(DWORD* flags) {
 
     // Don’t use ErrorMessage() here because the second CreateSymbolicLink() may
     // have scrambled it. Use the saved |error| value instead.
-    EXPECT_EQ(error, ERROR_PRIVILEGE_NOT_HELD)
+    EXPECT_EQ(error, static_cast<DWORD>(ERROR_PRIVILEGE_NOT_HELD))
         << "CreateSymbolicLink: "
         << logging::SystemErrorCodeToString(GetLastError());
     return -1;
   }();
 
-  if (symbolic_link_flags == -1) {
+  if (symbolic_link_flags == static_cast<DWORD>(-1)) {
     return false;
   }
 
