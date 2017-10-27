@@ -17,10 +17,31 @@
 #include "test/gtest_disabled.h"
 #include "test/main_arguments.h"
 
+#if defined(CRASHPAD_IN_CHROMIUM)
+#include "base/bind.h"
+#include "base/test/launcher/unit_test_launcher.h"
+#include "base/test/test_suite.h"
+#endif  // CRASHPAD_IN_CHROMIUM
+
 int main(int argc, char* argv[]) {
   crashpad::test::InitializeMainArguments(argc, argv);
   testing::InitGoogleMock(&argc, argv);
   testing::AddGlobalTestEnvironment(
       crashpad::test::DisabledTestGtestEnvironment::Get());
+
+#if defined(CRASHPAD_IN_CHROMIUM)
+
+  // This supports --test-launcher-summary-output, which writes a JSON file
+  // containing test details needed by Swarming.
+  base::TestSuite test_suite(argc, argv);
+  return base::LaunchUnitTests(
+      argc,
+      argv,
+      base::Bind(&base::TestSuite::Run, base::Unretained(&test_suite)));
+
+#else  // CRASHPAD_IN_CHROMIUM
+
   return RUN_ALL_TESTS();
+
+#endif  // CRASHPAD_IN_CHROMIUM
 }
