@@ -25,6 +25,7 @@
 #include "base/logging.h"
 #include "base/macros.h"
 #include "base/numerics/safe_conversions.h"
+#include "build/build_config.h"
 
 namespace crashpad {
 
