@@ -180,13 +180,7 @@ class TestClient final : public WinChildProcess {
   DISALLOW_COPY_AND_ASSIGN(TestClient);
 };
 
-// https://crashpad.chromium.org/bug/205
-#if defined(CRASHPAD_IN_CHROMIUM)
-#define MAYBE_MultipleConnections DISABLED_MultipleConnections
-#else  // CRASHPAD_IN_CHROMIUM
-#define MAYBE_MultipleConnections MultipleConnections
-#endif  // CRASHPAD_IN_CHROMIUM
-TEST_F(ExceptionHandlerServerTest, MAYBE_MultipleConnections) {
+TEST_F(ExceptionHandlerServerTest, MultipleConnections) {
   WinChildProcess::EntryPoint<TestClient>();
 
   std::unique_ptr<WinChildProcess::Handles> handles_1 =
