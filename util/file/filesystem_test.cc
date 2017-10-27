@@ -15,6 +15,7 @@
 #include "util/file/filesystem.h"
 
 #include "base/logging.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/gtest_disabled.h"
 #include "test/scoped_temp_dir.h"
