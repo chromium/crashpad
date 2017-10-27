@@ -89,7 +89,13 @@ class ScopedProcessSuspendTest final : public WinChildProcess {
   DISALLOW_COPY_AND_ASSIGN(ScopedProcessSuspendTest);
 };
 
-TEST(ScopedProcessSuspend, ScopedProcessSuspend) {
+// https://crashpad.chromium.org/bug/205
+#if defined(CRASHPAD_IN_CHROMIUM)
+#define MAYBE_ScopedProcessSuspend DISABLED_ScopedProcessSuspend
+#else  // CRASHPAD_IN_CHROMIUM
+#define MAYBE_ScopedProcessSuspend ScopedProcessSuspend
+#endif  // CRASHPAD_IN_CHROMIUM
+TEST(ScopedProcessSuspend, MAYBE_ScopedProcessSuspend) {
   WinChildProcess::EntryPoint<ScopedProcessSuspendTest>();
   std::unique_ptr<WinChildProcess::Handles> handles = WinChildProcess::Launch();
 
