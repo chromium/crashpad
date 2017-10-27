@@ -16,7 +16,6 @@
 
 #include <type_traits>
 
-#include "base/logging.h"
 #include "client/annotation_list.h"
 
 namespace crashpad {
