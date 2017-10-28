@@ -70,13 +70,12 @@ bool SymbolicLinkFlags(DWORD* flags) {
 
     // Don’t use ErrorMessage() here because the second CreateSymbolicLink() may
     // have scrambled it. Use the saved |error| value instead.
-    EXPECT_EQ(error, ERROR_PRIVILEGE_NOT_HELD)
-        << "CreateSymbolicLink: "
-        << logging::SystemErrorCodeToString(GetLastError());
+    EXPECT_EQ(error, static_cast<DWORD>(ERROR_PRIVILEGE_NOT_HELD))
+        << "CreateSymbolicLink: " << logging::SystemErrorCodeToString(error);
     return -1;
   }();
 
-  if (symbolic_link_flags == -1) {
+  if (symbolic_link_flags == static_cast<DWORD>(-1)) {
     return false;
   }
 
@@ -108,7 +107,7 @@ bool PathExists(const base::FilePath& path) {
   return true;
 #elif defined(OS_WIN)
   if (GetFileAttributes(path.value().c_str()) == INVALID_FILE_ATTRIBUTES) {
-    EXPECT_EQ(GetLastError(), ERROR_FILE_NOT_FOUND)
+    EXPECT_EQ(GetLastError(), static_cast<DWORD>(ERROR_FILE_NOT_FOUND))
         << ErrorMessage("GetFileAttributes ")
         << base::UTF16ToUTF8(path.value());
     return false;
