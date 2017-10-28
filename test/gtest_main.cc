@@ -34,10 +34,10 @@
 int main(int argc, char* argv[]) {
   crashpad::test::InitializeMainArguments(argc, argv);
 
-#if defined(CRASHPAD_TEST_LAUNCHER_GTEST)
-  testing::InitGoogleTest(&argc, argv);
-#elif defined(CRASHPAD_TEST_LAUNCHER_GMOCK)
+#if defined(CRASHPAD_TEST_LAUNCHER_GMOCK)
   testing::InitGoogleMock(&argc, argv);
+#elif defined(CRASHPAD_TEST_LAUNCHER_GTEST)
+  testing::InitGoogleTest(&argc, argv);
 #else  // CRASHPAD_TEST_LAUNCHER_GTEST
 #error #define CRASHPAD_TEST_LAUNCHER_GTEST or CRASHPAD_TEST_LAUNCHER_GMOCK
 #endif  // CRASHPAD_TEST_LAUNCHER_GTEST
