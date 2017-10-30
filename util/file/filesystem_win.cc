@@ -50,6 +50,31 @@ bool LoggingRemoveDirectoryImpl(const base::FilePath& path) {
 
 }  // namespace
 
+bool FileModificationTime(const base::FilePath& path, time_t* mtime) {
+  WIN32_FIND_DATA find_data;
+  ScopedSearchHANDLE handle(FindFirstFileEx(path.value().c_str(),
+                                            FindExInfoBasic,
+                                            &find_data,
+                                            FindExSearchNameMatch,
+                                            nullptr,
+                                            0));
+  if (!handle.is_valid()) {
+    PLOG(ERROR) << "FindFirstFileEx " << base::UTF16ToUTF8(path.value());
+    return false;
+  }
+
+  timeval tv;
+  if (!find_data.ftLastWriteTime.dwLowDateTime != 0) {
+    tv = FiletimeToTimevalEpoch(find_data.ftLastWriteTime);
+  } else if (!find_data.ftCreationTime.dwLowDataTime != 0) {
+    tv = FiletimeToTimevalEpoch(find_data.ftCreationTime);
+  } else {
+    LOG(ERROR) << "no timestamp";
+    return false
+  }
+  *mtime = tv.tv_sec;
+}
+
 bool LoggingCreateDirectory(const base::FilePath& path,
                             FilePermissions permissions,
                             bool may_reuse) {

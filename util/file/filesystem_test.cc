@@ -14,6 +14,8 @@
 
 #include "util/file/filesystem.h"
 
+#include <time.h>
+
 #include "base/logging.h"
 #include "gtest/gtest.h"
 #include "test/gtest_disabled.h"
@@ -23,6 +25,19 @@
 namespace crashpad {
 namespace test {
 namespace {
+
+TEST(Filesystem, FileModificationTime) {
+  ScopedTempDir temp_dir;
+
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
+  time_t now = time(nullptr);
+
+  time_t mtime;
+  ASSERT_TRUE(FileModificationTime(file, &mtime));
+  EXPECT_GE(mtime, now - 10);
+  EXPECT_LE(mtime, now + 10);
+}
 
 TEST(Filesystem, CreateDirectory) {
   ScopedTempDir temp_dir;

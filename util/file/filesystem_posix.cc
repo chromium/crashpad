@@ -24,6 +24,16 @@
 
 namespace crashpad {
 
+bool FileModificationTime(const base::FilePath& path, time_t* mtime) {
+  struct stat st;
+  if (lstat(path.value().c_str(), &st) != 0) {
+    PLOG(ERROR) << "lstat " << path.value();
+    return false;
+  }
+  *mtime = st.st_mtime;
+  return true;
+}
+
 bool LoggingCreateDirectory(const base::FilePath& path,
                             FilePermissions permissions,
                             bool may_reuse) {
