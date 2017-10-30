@@ -357,6 +357,15 @@ const CodeViewRecordPDB70* MinidumpWritableAtLocationDescriptor<
                                                                 location);
 }
 
+std::vector<uint8_t> MinidumpByteArrayAtRVA(const std::string& file_contents,
+                                            RVA rva) {
+  auto* minidump_byte_array =
+      MinidumpWritableAtRVA<MinidumpByteArray>(file_contents, rva);
+  auto* data = static_cast<const uint8_t*>(minidump_byte_array->data);
+  const uint8_t* data_end = data + minidump_byte_array->length;
+  return std::vector<uint8_t>(data, data_end);
+}
+
 TestUInt32MinidumpWritable::TestUInt32MinidumpWritable(uint32_t value)
     : MinidumpWritable(),
       value_(value) {

@@ -250,6 +250,18 @@ const T* MinidumpWritableAtRVA(const std::string& file_contents, RVA rva) {
   return MinidumpWritableAtLocationDescriptor<T>(file_contents, location);
 }
 
+//! \brief Returns the bytes referenced by a MinidumpByteArray object located
+//!     in a minidump file at the specified RVA.
+//!
+//! \param[in] file_contents The contents of the minidump file.
+//! \param[in] rva The offset in the minidump file of the MinidumpByteArray.
+//!
+//! \return The MinidumpByteArray::data referenced by the \a rva. Note that
+//!       this function does not check that the data are within the bounds of
+//!       the \a file_contents.
+std::vector<uint8_t> MinidumpByteArrayAtRVA(const std::string& file_contents,
+                                            RVA rva);
+
 //! \brief An internal::MinidumpWritable that carries a `uint32_t` for testing.
 class TestUInt32MinidumpWritable final : public internal::MinidumpWritable {
  public:

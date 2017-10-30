@@ -33,6 +33,8 @@
         '..',
       ],
       'sources': [
+        'minidump_byte_array_writer.cc',
+        'minidump_byte_array_writer.h',
         'minidump_context.h',
         'minidump_context_writer.cc',
         'minidump_context_writer.h',
