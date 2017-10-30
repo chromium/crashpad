@@ -25,6 +25,72 @@ namespace crashpad {
 namespace test {
 namespace {
 
+TEST(Filesystem, FileModificationTime) {
+  ScopedTempDir temp_dir;
+
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
+  time_t now = time(nullptr);
+
+  time_t mtime;
+  ASSERT_TRUE(FileModificationTime(file, &mtime));
+  EXPECT_GE(mtime, now - 10);
+  EXPECT_LE(mtime, now + 10);
+
+  EXPECT_FALSE(FileModificationTime(temp_dir.path(), &mtime));
+  EXPECT_FALSE(FileModificationTime(base::FilePath(), &mtime));
+  EXPECT_FALSE(FileModificationTime(
+      temp_dir.path().Append(FILE_PATH_LITERAL("notafile")), &mtime));
+}
+
+#if !defined(OS_FUCHSIA)
+
+TEST(Filesystem, FileModificationTime_SymbolicLinks) {
+  if (!CanCreateSymbolicLinks()) {
+    DISABLED_TEST();
+  }
+
+  ScopedTempDir temp_dir;
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
+
+  base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
+  ASSERT_TRUE(CreateSymbolicLink(file, link));
+  time_t now = time(nullptr);
+
+  time_t mtime;
+  ASSERT_TRUE(FileModificationTime(link, &mtime));
+  EXPECT_GE(mtime, now - 10);
+  EXPECT_LE(mtime, now + 10);
+
+  ASSERT_TRUE(LoggingRemoveFile(file));
+  time_t mtime2;
+  ASSERT_TRUE(FileModificationTime(link, &mtime2));
+  EXPECT_EQ(mtime2, mtime);
+
+  ASSERT_TRUE(LoggingRemoveFile(link));
+
+  const base::FilePath dir(temp_dir.path().Append(FILE_PATH_LITERAL("dir")));
+  ASSERT_TRUE(
+      LoggingCreateDirectory(dir, FilePermissions::kWorldReadable, false));
+  ASSERT_TRUE(CreateSymbolicLink(dir, link));
+  ASSERT_TRUE(FileModificationTime(link, &mtime));
+  EXPECT_GE(mtime, now - 10);
+  EXPECT_LE(mtime, now + 10);
+
+  const base::FilePath file2(dir.Append(FILE_PATH_LITERAL("nested")));
+  ASSERT_TRUE(CreateFile(file2));
+  ASSERT_TRUE(FileModificationTime(link, &mtime2));
+  EXPECT_EQ(mtime2, mtime);
+
+  ASSERT_TRUE(LoggingRemoveFile(file2));
+  ASSERT_TRUE(LoggingRemoveDirectory(dir));
+  ASSERT_TRUE(FileModificationTime(link, &mtime2));
+  EXPECT_EQ(mtime2, mtime);
+}
+
+#endif  // !OS_FUCHSIA
+
 TEST(Filesystem, CreateDirectory) {
   ScopedTempDir temp_dir;
 
