@@ -14,10 +14,12 @@
 
 #include "util/file/filesystem.h"
 
+#include <sys/time.h>
 #include <windows.h>
 
 #include "base/logging.h"
 #include "base/strings/utf_string_conversions.h"
+#include "util/win/time.h"
 
 namespace crashpad {
 
@@ -49,6 +51,36 @@ bool LoggingRemoveDirectoryImpl(const base::FilePath& path) {
 }
 
 }  // namespace
+
+bool FileModificationTime(const base::FilePath& path, time_t* mtime) {
+  if (IsDirectory(path, false)) {
+    return false;
+  }
+
+  WIN32_FIND_DATA find_data;
+  ScopedSearchHANDLE handle(FindFirstFileEx(path.value().c_str(),
+                                            FindExInfoBasic,
+                                            &find_data,
+                                            FindExSearchNameMatch,
+                                            nullptr,
+                                            0));
+  if (!handle.is_valid()) {
+    PLOG(ERROR) << "FindFirstFileEx " << base::UTF16ToUTF8(path.value());
+    return false;
+  }
+
+  timeval tv;
+  if (find_data.ftLastWriteTime.dwLowDateTime != 0) {
+    tv = FiletimeToTimevalEpoch(find_data.ftLastWriteTime);
+  } else if (find_data.ftCreationTime.dwLowDateTime != 0) {
+    tv = FiletimeToTimevalEpoch(find_data.ftCreationTime);
+  } else {
+    LOG(ERROR) << "no timestamp";
+    return false;
+  }
+  *mtime = tv.tv_sec;
+  return true;
+}
 
 bool LoggingCreateDirectory(const base::FilePath& path,
                             FilePermissions permissions,

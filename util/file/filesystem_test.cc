@@ -14,6 +14,8 @@
 
 #include "util/file/filesystem.h"
 
+#include <time.h>
+
 #include "base/logging.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
@@ -24,6 +26,47 @@
 namespace crashpad {
 namespace test {
 namespace {
+
+TEST(Filesystem, FileModificationTime) {
+  ScopedTempDir temp_dir;
+
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
+  time_t now = time(nullptr);
+
+  time_t mtime;
+  ASSERT_TRUE(FileModificationTime(file, &mtime));
+  EXPECT_GE(mtime, now - 10);
+  EXPECT_LE(mtime, now + 10);
+
+  EXPECT_FALSE(FileModificationTime(temp_dir.path(), &mtime));
+  EXPECT_FALSE(FileModificationTime(base::FilePath(), &mtime));
+  EXPECT_FALSE(FileModificationTime(
+      temp_dir.path().Append(FILE_PATH_LITERAL("notafile")), &mtime));
+}
+
+#if !defined(OS_FUCHSIA)
+
+TEST(Filesystem, FileModificationTime_SymbolicLinks) {
+  if (!CanCreateSymbolicLinks()) {
+    DISABLED_TEST();
+  }
+
+  ScopedTempDir temp_dir;
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
+
+  base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
+  ASSERT_TRUE(CreateSymbolicLink(file, link));
+  time_t now = time(nullptr);
+
+  time_t mtime;
+  ASSERT_TRUE(FileModificationTime(link, &mtime));
+  EXPECT_GE(mtime, now - 10);
+  EXPECT_LE(mtime, now + 10);
+}
+
+#endif  // !OS_FUCHSIA
 
 TEST(Filesystem, CreateDirectory) {
   ScopedTempDir temp_dir;
