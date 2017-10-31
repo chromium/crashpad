@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0e845c39_a8c7b397",
+        "filename": "snapshot/mac/mach_o_image_annotations_reader_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-31T21:10:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a64cbca_80a21c99",
+      "revId": "6c71146316353695b56dcb9b78a6ffcd9cb16597",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62f941b0_c071d6ad",
         "filename": "snapshot/mac/process_types/annotation.proctype",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "6c71146316353695b56dcb9b78a6ffcd9cb16597",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85c9c340_d35464a8",
+        "filename": "snapshot/mac/process_types/annotation.proctype",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-31T21:10:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62f941b0_c071d6ad",
+      "revId": "6c71146316353695b56dcb9b78a6ffcd9cb16597",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
