@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "ed8ea2b2_0840b276",
+        "filename": "minidump/minidump_context_writer.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T20:09:07Z",
+      "side": 1,
+      "message": "\u003e any issues with llvm and the throwing new operators? (ie. does llvm assumes that the return is !\u003d nullptr ?)\n\nIt does make that assumption, but we meet its expectation. See ThrowBadAlloc() in util/stdlib/aligned_allocator.cc.",
+      "parentUuid": "da0a0265_2acfe22c",
+      "range": {
+        "startLine": 113,
+        "startChar": 24,
+        "endLine": 113,
+        "endChar": 27
+      },
+      "revId": "9c4ca720f5d43ce1256c6b4d266d6620283e2454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66183b25_187b7572",
         "filename": "minidump/minidump_context_writer.h",
         "patchSetId": 1
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "0492b88b_815a8159",
+        "filename": "minidump/minidump_context_writer.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T20:09:07Z",
+      "side": 1,
+      "message": "\u003e paranoia: add new[] \u0026 delete[] operators which fail fast to safeguard against accidental usage\n\nCompile-time errors are even, better, so I’ll go with “\u003d delete”.",
+      "parentUuid": "66183b25_187b7572",
+      "range": {
+        "startLine": 114,
+        "startChar": 23,
+        "endLine": 114,
+        "endChar": 29
+      },
+      "revId": "9c4ca720f5d43ce1256c6b4d266d6620283e2454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac3b276d_fdf36656",
         "filename": "minidump/minidump_context_writer_test.cc",
         "patchSetId": 1
@@ -82,6 +130,30 @@
       "writtenOn": "2017-10-31T18:39:20Z",
       "side": 1,
       "message": "these can be static_asserts",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 13
+      },
+      "revId": "9c4ca720f5d43ce1256c6b4d266d6620283e2454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b91dcde_97bf2269",
+        "filename": "minidump/minidump_context_writer_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T20:09:07Z",
+      "side": 1,
+      "message": "Done, and moved from the test.cc to the main .cc file.",
+      "parentUuid": "ac3b276d_fdf36656",
       "range": {
         "startLine": 75,
         "startChar": 4,
