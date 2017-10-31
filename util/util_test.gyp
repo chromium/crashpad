@@ -40,8 +40,6 @@
         'file/file_io_test.cc',
         'file/file_reader_test.cc',
         'file/filesystem_test.cc',
-        'file/filesystem_test_util.cc',
-        'file/filesystem_test_util.h',
         'file/string_file_test.cc',
         'linux/auxiliary_vector_test.cc',
         'linux/memory_map_test.cc',
