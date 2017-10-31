@@ -42,7 +42,6 @@ void ThrowBadAlloc() {
 }  // namespace
 
 namespace crashpad {
-namespace internal {
 
 void* AlignedAllocate(size_t alignment, size_t size) {
 #if defined(OS_POSIX)
@@ -74,5 +73,4 @@ void AlignedFree(void* pointer) {
 #endif  // OS_POSIX
 }
 
-}  // namespace internal
 }  // namespace crashpad

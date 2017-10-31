@@ -110,6 +110,12 @@ class MinidumpContextAMD64Writer final : public MinidumpContextWriter {
   MinidumpContextAMD64Writer();
   ~MinidumpContextAMD64Writer() override;
 
+  static void* operator new(size_t size);
+  static void operator delete(void* ptr);
+
+  static void* operator new[](size_t size) = delete;
+  static void operator delete[](void* ptr) = delete;
+
   //! \brief Initializes the MinidumpContextAMD64 based on \a context_snapshot.
   //!
   //! \param[in] context_snapshot The context snapshot to use as source data.
