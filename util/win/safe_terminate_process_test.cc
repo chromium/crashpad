@@ -163,13 +163,11 @@ TEST(SafeTerminateProcess, PatchBadly) {
 }
 
 TEST(SafeTerminateProcess, TerminateChild) {
-  base::FilePath test_executable = TestPaths::Executable();
   std::wstring child_executable =
-      test_executable.DirName()
-          .Append(test_executable.BaseName().RemoveFinalExtension().value() +
-                  L"_safe_terminate_process_test_child.exe")
+      TestPaths::BuildArtifact(L"util",
+                               L"safe_terminate_process_test_child",
+                               TestPaths::FileType::kExecutable)
           .value();
-
   ChildLauncher child(child_executable, std::wstring());
   ASSERT_NO_FATAL_FAILURE(child.Start());
 
