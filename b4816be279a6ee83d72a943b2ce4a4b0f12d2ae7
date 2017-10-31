@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0f93628_d3bb114d",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T00:48:21Z",
+      "side": 1,
+      "message": "The restriction against directories seems odd. What informed that?\n\nPOSIX directories can have mtimes, and I think Windows allows ’em too.",
+      "revId": "b4816be279a6ee83d72a943b2ce4a4b0f12d2ae7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f69b202_b8477438",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T00:48:21Z",
+      "side": 1,
+      "message": "Most filesystems nowadays have sub-second resolution for times. Can we provide timespec, or at least timeval?\n\n(Unfortunately, that means that the POSIX implementation will need to vary between macOS and Linux.)",
+      "revId": "b4816be279a6ee83d72a943b2ce4a4b0f12d2ae7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1ccf7f3_3d0b73de",
+        "filename": "util/file/filesystem_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T00:48:21Z",
+      "side": 1,
+      "message": "This is a pretty roundabout way to get file times. Is there a reason you didn’t use GetFileTime()?",
+      "revId": "b4816be279a6ee83d72a943b2ce4a4b0f12d2ae7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
