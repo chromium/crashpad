@@ -203,7 +203,7 @@ class SimulateDelegate : public ExceptionHandlerServer::Delegate {
                         exception_information_address,
                         debug_critical_section_address);
     EXPECT_TRUE(snapshot.Exception());
-    EXPECT_EQ(snapshot.Exception()->Exception(), 0x517a7ed);
+    EXPECT_EQ(snapshot.Exception()->Exception(), 0x517a7edu);
 
     // Verify the dump was captured at the expected location with some slop
     // space.
@@ -271,7 +271,7 @@ void TestDumpWithoutCrashingChild(const base::FilePath& directory) {
   EXPECT_EQ(WaitForSingleObject(completed.get(), INFINITE), WAIT_OBJECT_0)
       << ErrorMessage("WaitForSingleObject");
 
-  EXPECT_EQ(child.WaitForExit(), 0);
+  EXPECT_EQ(child.WaitForExit(), 0u);
 }
 
 TEST(SimulateCrash, ChildDumpWithoutCrashing) {

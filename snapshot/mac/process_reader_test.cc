@@ -42,16 +42,6 @@
 #include "util/misc/from_pointer_cast.h"
 #include "util/synchronization/semaphore.h"
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_10
-extern "C" {
-
-// Redeclare a typedef whose availability (OS X 10.10) is newer than the
-// deployment target.
-typedef struct _cl_device_id* cl_device_id;
-
-}  // extern "C"
-#endif
-
 namespace crashpad {
 namespace test {
 namespace {
@@ -574,10 +564,24 @@ class ScopedOpenCLNoOpKernel {
     cl_int rv = clGetPlatformIDs(1, &platform_id, nullptr);
     ASSERT_EQ(rv, CL_SUCCESS) << "clGetPlatformIDs";
 
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_10 && \
+    MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_10
+    // cl_device_id is really available in OpenCL.framework back to 10.5, but in
+    // the 10.10 SDK and later, OpenCL.framework includes <OpenGL/CGLDevice.h>,
+    // which has its own cl_device_id that was introduced in 10.10. That
+    // triggers erroneous availability warnings.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability"
+#define DISABLED_WUNGUARDED_AVAILABILITY
+#endif  // SDK >= 10.10 && DT < 10.10
     // Use CL_DEVICE_TYPE_CPU to ensure that the kernel would execute on the
     // CPU. This is the only device type that a cl_kernels image will be created
     // for.
     cl_device_id device_id;
+#if defined(DISABLED_WUNGUARDED_AVAILABILITY)
+#pragma clang diagnostic pop
+#undef DISABLED_WUNGUARDED_AVAILABILITY
+#endif  // DISABLED_WUNGUARDED_AVAILABILITY
     rv =
         clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_CPU, 1, &device_id, nullptr);
     ASSERT_EQ(rv, CL_SUCCESS) << "clGetDeviceIDs";

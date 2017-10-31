@@ -107,12 +107,12 @@ TEST(ProcessReaderWin, SelfOneThread) {
 
   EXPECT_EQ(threads[0].id, GetCurrentThreadId());
 #if defined(ARCH_CPU_64_BITS)
-  EXPECT_NE(threads[0].context.native.Rip, 0);
+  EXPECT_NE(threads[0].context.native.Rip, 0u);
 #else
   EXPECT_NE(threads[0].context.native.Eip, 0u);
 #endif
 
-  EXPECT_EQ(threads[0].suspend_count, 0);
+  EXPECT_EQ(threads[0].suspend_count, 0u);
 }
 
 class ProcessReaderChildThreadSuspendCount final : public WinMultiprocess {
@@ -188,7 +188,7 @@ class ProcessReaderChildThreadSuspendCount final : public WinMultiprocess {
     // the pipe.
     CheckedReadFileAtEOF(ReadPipeHandle());
 
-    for (int i = 0; i < arraysize(threads); ++i)
+    for (size_t i = 0; i < arraysize(threads); ++i)
       done.Signal();
     for (auto& thread : threads)
       thread.Join();
