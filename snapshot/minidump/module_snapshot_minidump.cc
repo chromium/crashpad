@@ -135,6 +135,13 @@ ModuleSnapshotMinidump::AnnotationsSimpleMap() const {
   return annotations_simple_map_;
 }
 
+std::vector<AnnotationSnapshot> ModuleSnapshotMinidump::AnnotationObjects()
+    const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  NOTREACHED();
+  return {};
+}
+
 std::set<CheckedRange<uint64_t>> ModuleSnapshotMinidump::ExtraMemoryRanges()
     const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
