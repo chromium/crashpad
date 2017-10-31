@@ -35,6 +35,8 @@
         'errors.h',
         'file.cc',
         'file.h',
+        'filesystem.cc',
+        'filesystem.h',
         'gtest_death_check.h',
         'gtest_disabled.cc',
         'gtest_disabled.h',
