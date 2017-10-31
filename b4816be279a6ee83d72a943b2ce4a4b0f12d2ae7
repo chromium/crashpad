@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e87e6d87_efbf5111",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-31T01:36:57Z",
+      "side": 1,
+      "message": "The documentation for WIN32_FIND_DATA (https://msdn.microsoft.com/en-us/library/windows/desktop/aa365740(v\u003dvs.85).aspx) says that the write time for directories is just the creation time. This does differ from the wording on GetFileTime though, so I\u0027ll try it out.\n\nI could also include this under \"creation time is used if modification time isn\u0027t available\" but I was intending that more for instances where a filesystem might not support mtime, rather than differences in what a modification is considered to be.",
+      "parentUuid": "b0f93628_d3bb114d",
+      "revId": "b4816be279a6ee83d72a943b2ce4a4b0f12d2ae7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9f69b202_b8477438",
         "filename": "util/file/filesystem.h",
         "patchSetId": 5
