@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5fc5ed7_52f5d496",
+        "filename": "snapshot/annotation_snapshot.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T16:47:43Z",
+      "side": 1,
+      "message": "“default” leaves any old memory contents in type_. OK?",
+      "revId": "275d1d4161721b88669621df621e14dd0fe92d30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2b39315_cf4ae21f",
+        "filename": "snapshot/annotation_snapshot.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T16:47:43Z",
+      "side": 1,
+      "message": "need not?",
+      "range": {
+        "startLine": 42,
+        "startChar": 37,
+        "endLine": 42,
+        "endChar": 40
+      },
+      "revId": "275d1d4161721b88669621df621e14dd0fe92d30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65be1ad4_30b96f21",
+        "filename": "snapshot/mac/module_snapshot_mac.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T16:47:43Z",
+      "side": 1,
+      "message": "Did you agonize over this name? Because it seems…OK, but less than perfect?",
+      "revId": "275d1d4161721b88669621df621e14dd0fe92d30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
