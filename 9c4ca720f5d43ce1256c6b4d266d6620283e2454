@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e60e573_18cc505f",
+        "filename": "minidump/minidump_context_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-31T18:39:20Z",
+      "side": 1,
+      "message": "sigh, indeed..",
+      "range": {
+        "startLine": 166,
+        "startChar": 24,
+        "endLine": 166,
+        "endChar": 43
+      },
+      "revId": "9c4ca720f5d43ce1256c6b4d266d6620283e2454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da0a0265_2acfe22c",
+        "filename": "minidump/minidump_context_writer.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-31T18:39:20Z",
+      "side": 1,
+      "message": "any issues with llvm and the throwing new operators? (ie. does llvm assumes that the return is !\u003d nullptr ?)",
+      "range": {
+        "startLine": 113,
+        "startChar": 24,
+        "endLine": 113,
+        "endChar": 27
+      },
+      "revId": "9c4ca720f5d43ce1256c6b4d266d6620283e2454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66183b25_187b7572",
+        "filename": "minidump/minidump_context_writer.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-31T18:39:20Z",
+      "side": 1,
+      "message": "paranoia: add new[] \u0026 delete[] operators which fail fast to safeguard against accidental usage",
+      "range": {
+        "startLine": 114,
+        "startChar": 23,
+        "endLine": 114,
+        "endChar": 29
+      },
+      "revId": "9c4ca720f5d43ce1256c6b4d266d6620283e2454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac3b276d_fdf36656",
+        "filename": "minidump/minidump_context_writer_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-31T18:39:20Z",
+      "side": 1,
+      "message": "these can be static_asserts",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 13
+      },
+      "revId": "9c4ca720f5d43ce1256c6b4d266d6620283e2454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
