@@ -17,6 +17,8 @@
 
 #include "base/files/file_path.h"
 
+#include <sys/time.h>
+
 #include "build/build_config.h"
 
 namespace crashpad {
@@ -25,6 +27,8 @@ namespace test {
 bool CreateFile(const base::FilePath& file);
 
 bool PathExists(const base::FilePath& path);
+
+bool SetFileModificationTime(const base::FilePath& path, const timespec& mtime);
 
 #if !defined(OS_FUCHSIA) || DOXYGEN
 // There are no symbolic links on Fuchsia. Don’t bother declaring or defining

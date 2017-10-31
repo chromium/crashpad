@@ -116,6 +116,26 @@ bool PathExists(const base::FilePath& path) {
 #endif
 }
 
+void TimespecToTimeval(const timespec& ts, timeval* tv) {
+  tv->tv_sec = ts.tv_sec;
+  tv->tv_usec = ts.tv_nsec / 1000;
+}
+
+bool SetFileModificationTime(const base::FilePath& path, const timespec& mtime) {
+#if defined(OS_POSIX)
+  timeval tv[2];
+  TimespecToTimeval(mtime, tv);
+  tv[1] = tv[0];
+  if (utimes(path.value().c_str(), tv) != 0) {
+    PLOG(ERROR) << "utimes " << path.value();
+    return false;
+  }
+  return true;
+#elif defined(OS_WIN)
+  return false;
+#endif
+}
+
 #if !defined(OS_FUCHSIA)
 
 bool CanCreateSymbolicLinks() {
