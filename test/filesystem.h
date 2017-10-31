@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_FILE_FILESYSTEM_TEST_UTIL_H_
-#define CRASHPAD_UTIL_FILE_FILESYSTEM_TEST_UTIL_H_
+#ifndef CRASHPAD_TEST_FILESYSTEM_H_
+#define CRASHPAD_TEST_FILESYSTEM_H_
 
 #include "base/files/file_path.h"
 
@@ -56,4 +56,4 @@ bool CreateSymbolicLink(const base::FilePath& target_path,
 }  // namespace test
 }  // namespace crashpad
 
-#endif  // CRASHPAD_UTIL_FILE_FILESYSTEM_TEST_UTIL_H_
+#endif  // CRASHPAD_TEST_FILESYSTEM_H_

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/file/filesystem_test_util.h"
+#include "test/filesystem.h"
 
 #include <errno.h>
 #include <sys/stat.h>

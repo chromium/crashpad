@@ -17,9 +17,9 @@
 #include "base/logging.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "test/filesystem.h"
 #include "test/gtest_disabled.h"
 #include "test/scoped_temp_dir.h"
-#include "util/file/filesystem_test_util.h"
 
 namespace crashpad {
 namespace test {
