@@ -20,6 +20,7 @@
 #include <vector>
 
 #include "base/macros.h"
+#include "snapshot/annotation_snapshot.h"
 #include "snapshot/mac/process_types.h"
 
 namespace crashpad {
@@ -67,6 +68,10 @@ class MachOImageAnnotationsReader {
   //!     pairs, where all keys and values are strings.
   std::map<std::string, std::string> SimpleMap() const;
 
+  //! \brief Returns the module’s annotations that are organized as a list of
+  //      typed annotation objects.
+  std::vector<AnnotationSnapshot> AnnotationsList() const;
+
  private:
   // Reades crashreporter_annotations_t::message and
   // crashreporter_annotations_t::message2 on behalf of Vector().
@@ -80,6 +85,10 @@ class MachOImageAnnotationsReader {
   // Reads CrashpadInfo::simple_annotations_ on behalf of SimpleMap().
   void ReadCrashpadSimpleAnnotations(
       std::map<std::string, std::string>* simple_map_annotations) const;
+
+  // Reads CrashpadInfo::annotations_list_ on behalf of AnnotationsList().
+  void ReadCrashpadAnnotationsList(
+      std::vector<AnnotationSnapshot>* vector_annotations) const;
 
   std::string name_;
   ProcessReader* process_reader_;  // weak
