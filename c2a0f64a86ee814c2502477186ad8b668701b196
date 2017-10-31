@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "17a156f7_ebb2e2e4",
+        "filename": "minidump/minidump_file_writer_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T18:57:03Z",
+      "side": 1,
+      "message": "\u003e is this for documentation purposed only?\n\nIt’s so that I don’t have to repeat the same #if condition a few lines later for the pop.",
+      "parentUuid": "b6028ce9_6d8b19c5",
+      "range": {
+        "startLine": 402,
+        "startChar": 8,
+        "endLine": 402,
+        "endChar": 37
+      },
+      "revId": "c2a0f64a86ee814c2502477186ad8b668701b196",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "227870db_811eabd2",
         "filename": "snapshot/mac/process_reader_test.cc",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-31T18:27:07Z",
       "side": 1,
       "message": "this would break msvc compatibility, is it intentional?",
+      "range": {
+        "startLine": 573,
+        "startChar": 1,
+        "endLine": 573,
+        "endChar": 28
+      },
+      "revId": "c2a0f64a86ee814c2502477186ad8b668701b196",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0eb5f841_3f9e47ec",
+        "filename": "snapshot/mac/process_reader_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T18:57:03Z",
+      "side": 1,
+      "message": "\u003e this would break msvc compatibility, is it intentional?\n\nIn a Mac-specific file, it’s fine. When MSVC can target macOS, we’ll fix it.",
+      "parentUuid": "227870db_811eabd2",
       "range": {
         "startLine": 573,
         "startChar": 1,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f3b52526_73efd681",
+        "filename": "snapshot/mac/process_reader_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T18:57:03Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not the best person to review this since I\u0027m not familiar with Wunguarded-availability, but it seems we go to a lot of trouble to work around it : does this warning really need to be globally enabled?\n\nIt tells us when we’re using an interface that’s not available on the minimum OS version we’ve declared we need to run on. It’s nicer to catch these things at compile time than at run time*, especially since the first time a test might run on the oldest OS we care about (10.9 in this case), the code may already be committed and have to be backed out.\n\nBut the SDK has bugs like these, which are unfortunate.\n\n* well, I do think it’s weird that Apple has put so much effort into annotating types that were introduced in certain releases, because the type, and particularly a pointer type like this, really is usable regardless of the OS that the code will run on. But unfortunately, there’s no way to enable -Wunguarded-availablity for symbolic entities like functions and leave it off for things I don’t really care about, like types and enums.",
+      "parentUuid": "d2853554_079c872a",
+      "range": {
+        "startLine": 574,
+        "startChar": 35,
+        "endLine": 574,
+        "endChar": 58
+      },
+      "revId": "c2a0f64a86ee814c2502477186ad8b668701b196",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65fdbdd4_7c61d49e",
         "filename": "snapshot/win/cpu_context_win_test.cc",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2017-10-31T18:27:07Z",
       "side": 1,
       "message": "0x01234567u ?",
+      "range": {
+        "startLine": 83,
+        "startChar": 67,
+        "endLine": 83,
+        "endChar": 77
+      },
+      "revId": "c2a0f64a86ee814c2502477186ad8b668701b196",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c04000d4_a6442f0d",
+        "filename": "snapshot/win/cpu_context_win_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T18:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65fdbdd4_7c61d49e",
       "range": {
         "startLine": 83,
         "startChar": 67,
@@ -140,6 +236,47 @@
     },
     {
       "key": {
+        "uuid": "c2cc938a_34a20059",
+        "filename": "snapshot/win/cpu_context_win_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T18:57:03Z",
+      "side": 1,
+      "message": "\u003e this one should not generate a warning, but for consistency we could use the u suffix too\n\nMy thought pattern when I did this yesterday went:\n\n1. 0x01234567 needs a u suffix. Add it.\n2. 0x89abcdef should get the same treatment for consistency.\n3. Uh-oh, the u kinda gets lost among all of those other letters: 0x89abcdefu.\n\nAlso, “f u.”\n\nWhatever. The ‘u’ is kind of objectively better, because casts are ugly. Changed.",
+      "parentUuid": "9c73a798_bf6d9f8b",
+      "range": {
+        "startLine": 85,
+        "startChar": 67,
+        "endLine": 85,
+        "endChar": 77
+      },
+      "revId": "c2a0f64a86ee814c2502477186ad8b668701b196",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35df4e1b_8804ff0d",
+        "filename": "snapshot/win/exception_snapshot_win_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T18:57:03Z",
+      "side": 1,
+      "message": "Went with ‘u’ here too.",
+      "revId": "c2a0f64a86ee814c2502477186ad8b668701b196",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ee5288b_456bc66a",
         "filename": "snapshot/win/pe_image_reader_test.cc",
         "patchSetId": 3
@@ -151,6 +288,30 @@
       "writtenOn": "2017-10-31T18:27:07Z",
       "side": 1,
       "message": "nit: I\u0027d use a more explicit (x \u0026 F) !\u003d 0",
+      "range": {
+        "startLine": 83,
+        "startChar": 18,
+        "endLine": 83,
+        "endChar": 54
+      },
+      "revId": "c2a0f64a86ee814c2502477186ad8b668701b196",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "259187b8_f685c270",
+        "filename": "snapshot/win/pe_image_reader_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T18:57:03Z",
+      "side": 1,
+      "message": "Done. EXPECT_NE, actually.",
+      "parentUuid": "8ee5288b_456bc66a",
       "range": {
         "startLine": 83,
         "startChar": 18,
