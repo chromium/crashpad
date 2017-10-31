@@ -86,6 +86,7 @@
         'mac/process_types.cc',
         'mac/process_types.h',
         'mac/process_types/all.proctype',
+        'mac/process_types/annotation.proctype',
         'mac/process_types/crashpad_info.proctype',
         'mac/process_types/crashreporterclient.proctype',
         'mac/process_types/custom.cc',
