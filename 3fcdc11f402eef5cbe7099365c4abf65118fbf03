@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "159ed2b4_34b44e02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T17:00:09Z",
+      "side": 1,
+      "message": "👾",
+      "range": {
+        "startLine": 9,
+        "startChar": 53,
+        "endLine": 9,
+        "endChar": 57
+      },
+      "revId": "3fcdc11f402eef5cbe7099365c4abf65118fbf03",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58d07ab5_156e18bd",
+        "filename": "minidump/minidump_byte_array_writer.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T17:00:09Z",
+      "side": 1,
+      "message": "Only do this if !data_.empty(). Otherwise, leave only one element in iov. Nobody has promised that data() won’t be nullptr if data_ is empty, and if it’s nullptr, writev() and equivalent don’t promise not to blow up, even if the size is 0. Yes, this is stupid. Yes, it’s a real concern now. That’s why all of the other WriteObject() implementations that you’ll find are careful to put this iov[1] business in an if (!whatever.empty()) { iov.push_back()); } construct.",
+      "revId": "3fcdc11f402eef5cbe7099365c4abf65118fbf03",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cdf1a6e_b36e18c2",
+        "filename": "minidump/minidump_byte_array_writer.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T17:00:09Z",
+      "side": 1,
+      "message": "How big are these supposed to be?\n\nvector\u003cuint8_t\u003e isn’t always the best choice, because it’s impossible to size one and then write into it without having an intermediate initialization step that zeroes the whole thing out. For data “blobs” that may be large and copied or slurped into place, the zeroing can be wasteful and unnecessary. In that case, you’d prefer a unique_ptr\u003cuint8_t[]\u003e, which unfortunately requires that you carry the size separately (or provide a class that combines the unique_ptr\u003cuint8_t[]\u003e and size).",
+      "revId": "3fcdc11f402eef5cbe7099365c4abf65118fbf03",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7948e7a2_1a4a933f",
+        "filename": "minidump/test/minidump_writable_test_util.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T17:00:09Z",
+      "side": 1,
+      "message": "Should be in minidump_byte_array_writer_test_util.cc/h.",
+      "revId": "3fcdc11f402eef5cbe7099365c4abf65118fbf03",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1976596c_22d66207",
+        "filename": "minidump/test/minidump_writable_test_util.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-31T17:00:09Z",
+      "side": 1,
+      "message": "This may be nullptr, in which case you should return an empty vector (based on how MinidumpUTF8StringAtRVA() works).",
+      "revId": "3fcdc11f402eef5cbe7099365c4abf65118fbf03",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
