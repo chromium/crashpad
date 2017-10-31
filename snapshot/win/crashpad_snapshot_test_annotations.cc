@@ -15,6 +15,8 @@
 #include <windows.h>
 
 #include "base/logging.h"
+#include "client/annotation.h"
+#include "client/annotation_list.h"
 #include "client/crashpad_info.h"
 #include "util/file/file_io.h"
 
@@ -33,6 +35,20 @@ int wmain(int argc, wchar_t* argv[]) {
   simple_annotations->SetKeyValue("#TEST# empty_value", "");
 
   crashpad_info->set_simple_annotations(simple_annotations);
+
+  // Set the annotation objects.
+  crashpad::AnnotationList::Register();
+
+  static crashpad::StringAnnotation<32> annotation_one("#TEST# one");
+  static crashpad::StringAnnotation<32> annotation_two("#TEST# two");
+  static crashpad::StringAnnotation<32> annotation_three("#TEST# same-name");
+  static crashpad::StringAnnotation<32> annotation_four("#TEST# same-name");
+
+  annotation_one.Set("moocow");
+  annotation_two.Set("this will be cleared");
+  annotation_three.Set("same-name 3");
+  annotation_four.Set("same-name 4");
+  annotation_two.Clear();
 
   // Tell the parent that the environment has been set up.
   HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);

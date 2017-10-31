@@ -247,7 +247,7 @@
           },
         },
         {
-          'target_name': 'crashpad_snapshot_test_simple_annotations',
+          'target_name': 'crashpad_snapshot_test_annotations',
           'type': 'executable',
           'dependencies': [
             '../client/client.gyp:crashpad_client',
@@ -255,7 +255,7 @@
             '../third_party/mini_chromium/mini_chromium.gyp:base',
           ],
           'sources': [
-            'win/crashpad_snapshot_test_simple_annotations.cc',
+            'win/crashpad_snapshot_test_annotations.cc',
           ],
         },
       ],
