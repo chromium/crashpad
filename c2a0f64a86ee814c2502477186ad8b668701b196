@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6028ce9_6d8b19c5",
+        "filename": "minidump/minidump_file_writer_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-31T18:27:07Z",
+      "side": 1,
+      "message": "is this for documentation purposed only?",
+      "range": {
+        "startLine": 402,
+        "startChar": 8,
+        "endLine": 402,
+        "endChar": 37
+      },
+      "revId": "c2a0f64a86ee814c2502477186ad8b668701b196",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "227870db_811eabd2",
+        "filename": "snapshot/mac/process_reader_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-31T18:27:07Z",
+      "side": 1,
+      "message": "this would break msvc compatibility, is it intentional?",
+      "range": {
+        "startLine": 573,
+        "startChar": 1,
+        "endLine": 573,
+        "endChar": 28
+      },
+      "revId": "c2a0f64a86ee814c2502477186ad8b668701b196",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2853554_079c872a",
+        "filename": "snapshot/mac/process_reader_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-31T18:27:07Z",
+      "side": 1,
+      "message": "I\u0027m not the best person to review this since I\u0027m not familiar with Wunguarded-availability, but it seems we go to a lot of trouble to work around it : does this warning really need to be globally enabled?",
+      "range": {
+        "startLine": 574,
+        "startChar": 35,
+        "endLine": 574,
+        "endChar": 58
+      },
+      "revId": "c2a0f64a86ee814c2502477186ad8b668701b196",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65fdbdd4_7c61d49e",
+        "filename": "snapshot/win/cpu_context_win_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-31T18:27:07Z",
+      "side": 1,
+      "message": "0x01234567u ?",
+      "range": {
+        "startLine": 83,
+        "startChar": 67,
+        "endLine": 83,
+        "endChar": 77
+      },
+      "revId": "c2a0f64a86ee814c2502477186ad8b668701b196",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c73a798_bf6d9f8b",
+        "filename": "snapshot/win/cpu_context_win_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-31T18:27:07Z",
+      "side": 1,
+      "message": "this one should not generate a warning, but for consistency we could use the u suffix too",
+      "range": {
+        "startLine": 85,
+        "startChar": 67,
+        "endLine": 85,
+        "endChar": 77
+      },
+      "revId": "c2a0f64a86ee814c2502477186ad8b668701b196",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aaee2fd_e6f2cdd4",
+        "filename": "snapshot/win/cpu_context_win_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-31T18:27:07Z",
+      "side": 1,
+      "message": "this one should not generate a warning, but for consistency we could use the u suffix too",
+      "range": {
+        "startLine": 85,
+        "startChar": 67,
+        "endLine": 85,
+        "endChar": 77
+      },
+      "revId": "c2a0f64a86ee814c2502477186ad8b668701b196",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ee5288b_456bc66a",
+        "filename": "snapshot/win/pe_image_reader_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-31T18:27:07Z",
+      "side": 1,
+      "message": "nit: I\u0027d use a more explicit (x \u0026 F) !\u003d 0",
+      "range": {
+        "startLine": 83,
+        "startChar": 18,
+        "endLine": 83,
+        "endChar": 54
+      },
+      "revId": "c2a0f64a86ee814c2502477186ad8b668701b196",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
