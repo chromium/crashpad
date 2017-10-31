@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d71fad5a_dbad06e3",
+        "filename": "snapshot/annotation_snapshot.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-31T17:05:48Z",
+      "side": 1,
+      "message": "Probably not, switched to initializer list.",
+      "parentUuid": "d5fc5ed7_52f5d496",
+      "revId": "275d1d4161721b88669621df621e14dd0fe92d30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2b39315_cf4ae21f",
         "filename": "snapshot/annotation_snapshot.h",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "fdf8e6cd_e1f189ce",
+        "filename": "snapshot/annotation_snapshot.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-31T17:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2b39315_cf4ae21f",
+      "range": {
+        "startLine": 42,
+        "startChar": 37,
+        "endLine": 42,
+        "endChar": 40
+      },
+      "revId": "275d1d4161721b88669621df621e14dd0fe92d30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65be1ad4_30b96f21",
         "filename": "snapshot/mac/module_snapshot_mac.h",
         "patchSetId": 6
@@ -53,6 +95,24 @@
       "writtenOn": "2017-10-31T16:47:43Z",
       "side": 1,
       "message": "Did you agonize over this name? Because it seems…OK, but less than perfect?",
+      "revId": "275d1d4161721b88669621df621e14dd0fe92d30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "270c6d7e_7e096613",
+        "filename": "snapshot/mac/module_snapshot_mac.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-31T17:05:48Z",
+      "side": 1,
+      "message": "Yeah. I originally just called them \"Annotations\" but then that got confusing w.r.t. the other types of annotations we had. Open to suggestions, but since long-form name of annotations are \"typed annotation objects,\" I thought this was best.",
+      "parentUuid": "65be1ad4_30b96f21",
       "revId": "275d1d4161721b88669621df621e14dd0fe92d30",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
