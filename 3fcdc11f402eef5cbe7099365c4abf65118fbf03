@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "13308df6_55f2fc66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-31T18:29:31Z",
+      "side": 1,
+      "message": "\u003e 👾\n\nI had to sneak it in _somewhere_, but it doesn\u0027t appear in code :D.",
+      "parentUuid": "159ed2b4_34b44e02",
+      "range": {
+        "startLine": 9,
+        "startChar": 53,
+        "endLine": 9,
+        "endChar": 57
+      },
+      "revId": "3fcdc11f402eef5cbe7099365c4abf65118fbf03",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58d07ab5_156e18bd",
         "filename": "minidump/minidump_byte_array_writer.cc",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "add03778_17f83c6c",
+        "filename": "minidump/minidump_byte_array_writer.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-31T18:29:31Z",
+      "side": 1,
+      "message": "Done. Though I note MinidumpStringWriter does not do this.",
+      "parentUuid": "58d07ab5_156e18bd",
+      "revId": "3fcdc11f402eef5cbe7099365c4abf65118fbf03",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4cdf1a6e_b36e18c2",
         "filename": "minidump/minidump_byte_array_writer.h",
         "patchSetId": 3
@@ -53,6 +95,24 @@
       "writtenOn": "2017-10-31T17:00:09Z",
       "side": 1,
       "message": "How big are these supposed to be?\n\nvector\u003cuint8_t\u003e isn’t always the best choice, because it’s impossible to size one and then write into it without having an intermediate initialization step that zeroes the whole thing out. For data “blobs” that may be large and copied or slurped into place, the zeroing can be wasteful and unnecessary. In that case, you’d prefer a unique_ptr\u003cuint8_t[]\u003e, which unfortunately requires that you carry the size separately (or provide a class that combines the unique_ptr\u003cuint8_t[]\u003e and size).",
+      "revId": "3fcdc11f402eef5cbe7099365c4abf65118fbf03",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfd46cdd_1398ff3f",
+        "filename": "minidump/minidump_byte_array_writer.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-31T18:29:31Z",
+      "side": 1,
+      "message": "\u003e How big are these supposed to be?\n\nAt the moment, the only consumer is annotations, so it\u0027s limited to the annotation size (2048). But if other things want byte arrays, then they could be larger.\n\n\u003e vector\u003cuint8_t\u003e isn’t always the best choice, because it’s impossible to size one and then write into it without having an intermediate initialization step that zeroes the whole thing out. For data “blobs” that may be large and copied or slurped into place, the zeroing can be wasteful and unnecessary. In that case, you’d prefer a unique_ptr\u003cuint8_t[]\u003e, which unfortunately requires that you carry the size separately (or provide a class that combines the unique_ptr\u003cuint8_t[]\u003e and size).\n\nSince this is the minidump-side of the representation, I think this can be mitigated by just providing a pointer/size setter as well as the vector-based setter. That should allow a reader to slurp into a buffer of their choosing and then have the copy performed by the setter.",
+      "parentUuid": "4cdf1a6e_b36e18c2",
       "revId": "3fcdc11f402eef5cbe7099365c4abf65118fbf03",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "db26308a_a3cb3a44",
+        "filename": "minidump/test/minidump_writable_test_util.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-31T18:29:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7948e7a2_1a4a933f",
+      "revId": "3fcdc11f402eef5cbe7099365c4abf65118fbf03",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1976596c_22d66207",
         "filename": "minidump/test/minidump_writable_test_util.cc",
         "patchSetId": 3
@@ -90,6 +168,24 @@
       "revId": "3fcdc11f402eef5cbe7099365c4abf65118fbf03",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef9829bb_c96ed839",
+        "filename": "minidump/test/minidump_writable_test_util.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-31T18:29:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1976596c_22d66207",
+      "revId": "3fcdc11f402eef5cbe7099365c4abf65118fbf03",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
