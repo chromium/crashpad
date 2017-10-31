@@ -25,6 +25,7 @@
 #include "client/simple_string_dictionary.h"
 #include "snapshot/mac/mach_o_image_reader.h"
 #include "snapshot/mac/process_reader.h"
+#include "snapshot/snapshot_constants.h"
 #include "util/mach/task_memory.h"
 #include "util/stdlib/strnlen.h"
 
@@ -55,6 +56,15 @@ std::map<std::string, std::string> MachOImageAnnotationsReader::SimpleMap()
   ReadCrashpadSimpleAnnotations(&simple_map_annotations);
 
   return simple_map_annotations;
+}
+
+std::vector<AnnotationSnapshot> MachOImageAnnotationsReader::AnnotationsList()
+    const {
+  std::vector<AnnotationSnapshot> annotations;
+
+  ReadCrashpadAnnotationsList(&annotations);
+
+  return annotations;
 }
 
 void MachOImageAnnotationsReader::ReadCrashReporterClientAnnotations(
@@ -170,6 +180,66 @@ void MachOImageAnnotationsReader::ReadCrashpadSimpleAnnotations(
         LOG(INFO) << "duplicate simple annotation " << key << " in " << name_;
       }
     }
+  }
+}
+
+// TODO(rsesek): When there is a platform-agnostic remote memory reader
+// interface available, use it so that the implementation is not duplicated
+// in the PEImageAnnotationsReader.
+void MachOImageAnnotationsReader::ReadCrashpadAnnotationsList(
+    std::vector<AnnotationSnapshot>* annotations) const {
+  process_types::CrashpadInfo crashpad_info;
+  if (!image_reader_->GetCrashpadInfo(&crashpad_info)) {
+    return;
+  }
+
+  if (!crashpad_info.annotations_list) {
+    return;
+  }
+
+  process_types::AnnotationList annotation_list_object;
+  if (!annotation_list_object.Read(process_reader_,
+                                   crashpad_info.annotations_list)) {
+    LOG(WARNING) << "could not read annotations list object in " << name_;
+    return;
+  }
+
+  process_types::Annotation current = annotation_list_object.head;
+  for (size_t index = 0;
+       current.link_node != annotation_list_object.tail_pointer &&
+       index < kMaxNumberOfAnnotations;
+       ++index) {
+    if (!current.Read(process_reader_, current.link_node)) {
+      LOG(WARNING) << "could not read annotation at index " << index << " in "
+                   << name_;
+      return;
+    }
+
+    if (current.size == 0) {
+      continue;
+    }
+
+    AnnotationSnapshot snapshot;
+    snapshot.type = current.type;
+    snapshot.value.resize(current.size);
+
+    if (!process_reader_->Memory()->ReadCStringSizeLimited(
+            current.name, Annotation::kNameMaxLength, &snapshot.name)) {
+      LOG(WARNING) << "could not read annotation name at index " << index
+                   << " in " << name_;
+      continue;
+    }
+
+    size_t size =
+        std::min(static_cast<size_t>(current.size), Annotation::kValueMaxSize);
+    if (!process_reader_->Memory()->Read(
+            current.value, size, snapshot.value.data())) {
+      LOG(WARNING) << "could not read annotation value at index " << index
+                   << " in " << name_;
+      continue;
+    }
+
+    annotations->push_back(std::move(snapshot));
   }
 }
 
