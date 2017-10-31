@@ -28,7 +28,7 @@ DWORD WINAPI LotsOfReferencesThreadProc(void* param) {
 
   // Allocate a bunch of pointers to things on the stack.
   int* pointers[1000];
-  for (int i = 0; i < arraysize(pointers); ++i) {
+  for (size_t i = 0; i < arraysize(pointers); ++i) {
     pointers[i] = new int[2048];
   }
 
@@ -52,7 +52,7 @@ int wmain(int argc, wchar_t* argv[]) {
   // verify the cap on pointed-to memory.
   crashpad::Semaphore semaphore(0);
   crashpad::ScopedKernelHANDLE threads[100];
-  for (int i = 0; i < arraysize(threads); ++i) {
+  for (size_t i = 0; i < arraysize(threads); ++i) {
     threads[i].reset(CreateThread(nullptr,
                                   0,
                                   &LotsOfReferencesThreadProc,
@@ -65,7 +65,7 @@ int wmain(int argc, wchar_t* argv[]) {
     }
   }
 
-  for (int i = 0; i < arraysize(threads); ++i) {
+  for (size_t i = 0; i < arraysize(threads); ++i) {
     semaphore.Wait();
   }
 

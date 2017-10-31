@@ -21,6 +21,7 @@
 #include <utility>
 
 #include "base/compiler_specific.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_user_extension_stream_data_source.h"
@@ -395,9 +396,18 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_Exception) {
   // In a 32-bit environment, this will give a “timestamp out of range” warning,
   // but the test should complete without failure.
   constexpr uint32_t kSnapshotTime = 0xfd469ab8;
+#if defined(COMPILER_GCC) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconstant-conversion"
+#define DISABLED_WCONSTANT_CONVERSION
+#endif  // COMPILER_GCC || __clang__
   MSVC_SUPPRESS_WARNING(4309);  // Truncation of constant value.
   MSVC_SUPPRESS_WARNING(4838);  // Narrowing conversion.
   constexpr timeval kSnapshotTimeval = {static_cast<time_t>(kSnapshotTime), 0};
+#if defined(DISABLED_WCONSTANT_CONVERSION)
+#pragma GCC diagnostic pop
+#undef DISABLED_WCONSTANT_CONVERSION
+#endif  // DISABLED_WCONSTANT_CONVERSION
 
   TestProcessSnapshot process_snapshot;
   process_snapshot.SetSnapshotTime(kSnapshotTimeval);
