@@ -109,7 +109,7 @@ void TestImageReaderChild(const base::FilePath& directory) {
   // Tell the child it can terminate.
   EXPECT_TRUE(SetEvent(done.get())) << ErrorMessage("SetEvent");
 
-  EXPECT_EQ(child.WaitForExit(), 0);
+  EXPECT_EQ(child.WaitForExit(), 0u);
 }
 
 TEST(ProcessSnapshotTest, CrashpadInfoChild) {
