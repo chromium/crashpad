@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8861a8fb_3938cb8b",
+        "filename": "snapshot/win/crashpad_snapshot_test_annotations.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-31T21:21:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59d485aa_e1019685",
+      "revId": "0334dd6a55c033844d8cee6656da22921204217b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18ee6c41_1e418f16",
         "filename": "snapshot/win/pe_image_annotations_reader.cc",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "920e0e4f_ed200ae5",
+        "filename": "snapshot/win/pe_image_annotations_reader.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-31T21:21:24Z",
+      "side": 1,
+      "message": "Done (added as a constant in the other review)",
+      "parentUuid": "18ee6c41_1e418f16",
+      "revId": "0334dd6a55c033844d8cee6656da22921204217b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1b3c1a0_8f4eab33",
         "filename": "snapshot/win/pe_image_annotations_reader.cc",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "0334dd6a55c033844d8cee6656da22921204217b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8c5d816_a8f122c8",
+        "filename": "snapshot/win/pe_image_annotations_reader.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-31T21:21:24Z",
+      "side": 1,
+      "message": "Left TODO comment here and in the macOS implementation.",
+      "parentUuid": "b1b3c1a0_8f4eab33",
+      "revId": "0334dd6a55c033844d8cee6656da22921204217b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -73,6 +127,30 @@
       "revId": "0334dd6a55c033844d8cee6656da22921204217b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c3314fe_e9694f1c",
+        "filename": "snapshot/win/pe_image_annotations_reader_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-10-31T21:21:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb09b7d3_51c43c50",
+      "range": {
+        "startLine": 72,
+        "startChar": 39,
+        "endLine": 72,
+        "endChar": 49
+      },
+      "revId": "0334dd6a55c033844d8cee6656da22921204217b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
