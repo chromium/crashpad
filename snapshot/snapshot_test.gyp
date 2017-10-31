@@ -67,9 +67,9 @@
         '..',
       ],
       'sources': [
+        'api/module_annotations_win_test.cc',
         'cpu_context_test.cc',
         'crashpad_info_client_options_test.cc',
-        'api/module_annotations_win_test.cc',
         'elf/elf_image_reader_test.cc',
         'linux/debug_rendezvous_test.cc',
         'linux/exception_snapshot_linux_test.cc',
@@ -109,8 +109,10 @@
           'dependencies': [
             'crashpad_snapshot_test_crashing_child',
             'crashpad_snapshot_test_dump_without_crashing',
+            'crashpad_snapshot_test_extra_memory_ranges',
             'crashpad_snapshot_test_image_reader',
             'crashpad_snapshot_test_image_reader_module',
+            'crashpad_snapshot_test_simple_annotations',
           ],
         }],
         ['OS=="linux" or OS=="android"', {
