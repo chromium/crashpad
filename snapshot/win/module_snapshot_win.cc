@@ -190,6 +190,12 @@ std::map<std::string, std::string> ModuleSnapshotWin::AnnotationsSimpleMap()
   return annotations_reader.SimpleMap();
 }
 
+std::vector<AnnotationSnapshot> ModuleSnapshotWin::AnnotationObjects() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  NOTREACHED();
+  return {};
+}
+
 std::set<CheckedRange<uint64_t>> ModuleSnapshotWin::ExtraMemoryRanges() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   std::set<CheckedRange<uint64_t>> ranges;
