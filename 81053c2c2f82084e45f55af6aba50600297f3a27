@@ -46,6 +46,30 @@
       "revId": "81053c2c2f82084e45f55af6aba50600297f3a27",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1ef06b2_46771971",
+        "filename": "test/test_paths.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-01T16:52:05Z",
+      "side": 1,
+      "message": "I\u0027m fairly ambivalent. I was just thinking of the case where the test binary needs to be renamed in Chromium for some reason which would be then slightly awkward to roll, but realistically that\u0027s going to happen ~0 times, so I think it\u0027s fine for the names just magically be the same.",
+      "parentUuid": "827978a7_bb5cadf7",
+      "range": {
+        "startLine": 72,
+        "startChar": 35,
+        "endLine": 72,
+        "endChar": 49
+      },
+      "revId": "81053c2c2f82084e45f55af6aba50600297f3a27",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
