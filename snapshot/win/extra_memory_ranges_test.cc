@@ -43,15 +43,14 @@ enum TestType {
   kCrashDebugBreak,
 };
 
-void TestExtraMemoryRanges(TestType type, const base::FilePath& directory) {
+void TestExtraMemoryRanges(TestType type,
+                           TestPaths::Architecture architecture) {
   // Spawn a child process, passing it the pipe name to connect to.
-  std::wstring child_test_executable = directory
-                                           .Append(TestPaths::Executable()
-                                                       .BaseName()
-                                                       .RemoveFinalExtension()
-                                                       .value() +
-                                                   L"_extra_memory_ranges.exe")
-                                           .value();
+  base::FilePath child_test_executable =
+      TestPaths::BuildArtifact(L"snapshot",
+                               L"extra_memory_ranges",
+                               TestPaths::FileType::kExecutable,
+                               architecture);
   ChildLauncher child(child_test_executable, L"");
   ASSERT_NO_FATAL_FAILURE(child.Start());
 
@@ -101,30 +100,28 @@ void TestExtraMemoryRanges(TestType type, const base::FilePath& directory) {
 }
 
 TEST(ExtraMemoryRanges, DontCrash) {
-  TestExtraMemoryRanges(kDontCrash, TestPaths::Executable().DirName());
+  TestExtraMemoryRanges(kDontCrash, TestPaths::Architecture::kDefault);
 }
 
 TEST(ExtraMemoryRanges, CrashDebugBreak) {
-  TestExtraMemoryRanges(kCrashDebugBreak, TestPaths::Executable().DirName());
+  TestExtraMemoryRanges(kCrashDebugBreak, TestPaths::Architecture::kDefault);
 }
 
 #if defined(ARCH_CPU_64_BITS)
 TEST(ExtraMemoryRanges, DontCrashWOW64) {
-  base::FilePath output_32_bit_directory = TestPaths::Output32BitDirectory();
-  if (output_32_bit_directory.empty()) {
+  if (!TestPaths::Has32BitBuildArtifacts()) {
     DISABLED_TEST();
   }
 
-  TestExtraMemoryRanges(kDontCrash, output_32_bit_directory);
+  TestExtraMemoryRanges(kDontCrash, TestPaths::Architecture::k32Bit);
 }
 
 TEST(ExtraMemoryRanges, CrashDebugBreakWOW64) {
-  base::FilePath output_32_bit_directory = TestPaths::Output32BitDirectory();
-  if (output_32_bit_directory.empty()) {
+  if (!TestPaths::Has32BitBuildArtifacts()) {
     DISABLED_TEST();
   }
 
-  TestExtraMemoryRanges(kCrashDebugBreak, output_32_bit_directory);
+  TestExtraMemoryRanges(kCrashDebugBreak, TestPaths::Architecture::k32Bit);
 }
 #endif  // ARCH_CPU_64_BITS
 

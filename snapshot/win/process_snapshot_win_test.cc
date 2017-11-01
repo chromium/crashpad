@@ -31,20 +31,18 @@ namespace crashpad {
 namespace test {
 namespace {
 
-void TestImageReaderChild(const base::FilePath& directory) {
+void TestImageReaderChild(const TestPaths::Architecture architecture) {
   UUID done_uuid;
   done_uuid.InitializeWithNew();
   ScopedKernelHANDLE done(
       CreateEvent(nullptr, true, false, done_uuid.ToString16().c_str()));
   ASSERT_TRUE(done.is_valid()) << ErrorMessage("CreateEvent");
 
-  std::wstring child_test_executable = directory
-                                           .Append(TestPaths::Executable()
-                                                       .BaseName()
-                                                       .RemoveFinalExtension()
-                                                       .value() +
-                                                   L"_image_reader.exe")
-                                           .value();
+  base::FilePath child_test_executable =
+      TestPaths::BuildArtifact(L"snapshot",
+                               L"image_reader",
+                               TestPaths::FileType::kExecutable,
+                               architecture);
   ChildLauncher child(child_test_executable, done_uuid.ToString16());
   ASSERT_NO_FATAL_FAILURE(child.Start());
 
@@ -113,17 +111,16 @@ void TestImageReaderChild(const base::FilePath& directory) {
 }
 
 TEST(ProcessSnapshotTest, CrashpadInfoChild) {
-  TestImageReaderChild(TestPaths::Executable().DirName());
+  TestImageReaderChild(TestPaths::Architecture::kDefault);
 }
 
 #if defined(ARCH_CPU_64_BITS)
 TEST(ProcessSnapshotTest, CrashpadInfoChildWOW64) {
-  base::FilePath output_32_bit_directory = TestPaths::Output32BitDirectory();
-  if (output_32_bit_directory.empty()) {
+  if (!TestPaths::Has32BitBuildArtifacts()) {
     DISABLED_TEST();
   }
 
-  TestImageReaderChild(output_32_bit_directory);
+  TestImageReaderChild(TestPaths::Architecture::k32Bit);
 }
 #endif
 

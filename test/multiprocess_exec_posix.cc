@@ -40,7 +40,8 @@ MultiprocessExec::MultiprocessExec()
 }
 
 void MultiprocessExec::SetChildCommand(
-    const std::string& command, const std::vector<std::string>* arguments) {
+    const base::FilePath& command,
+    const std::vector<std::string>* arguments) {
   command_ = command;
   if (arguments) {
     arguments_ = *arguments;
@@ -62,7 +63,7 @@ void MultiprocessExec::PreFork() {
   // process, building it is a hazardous operation in that process.
   ASSERT_TRUE(argv_.empty());
 
-  argv_.push_back(command_.c_str());
+  argv_.push_back(command_.value().c_str());
   for (const std::string& argument : arguments_) {
     argv_.push_back(argument.c_str());
   }
