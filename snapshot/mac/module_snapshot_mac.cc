@@ -187,7 +187,9 @@ std::map<std::string, std::string> ModuleSnapshotMac::AnnotationsSimpleMap()
 
 std::vector<AnnotationSnapshot> ModuleSnapshotMac::AnnotationObjects() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return {};
+  MachOImageAnnotationsReader annotations_reader(
+      process_reader_, mach_o_image_reader_, name_);
+  return annotations_reader.AnnotationsList();
 }
 
 std::set<CheckedRange<uint64_t>> ModuleSnapshotMac::ExtraMemoryRanges() const {
