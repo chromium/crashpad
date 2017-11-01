@@ -51,13 +51,16 @@ namespace test {
 namespace {
 
 // \return The path to crashpad_snapshot_test_module_crashy_initializer.so
-std::string ModuleWithCrashyInitializer() {
-  return TestPaths::Executable().value() + "_module_crashy_initializer.so";
+base::FilePath ModuleWithCrashyInitializer() {
+  return TestPaths::BuildArtifact("snapshot",
+                                  "module_crashy_initializer",
+                                  TestPaths::FileType::kLoadableModule);
 }
 
 //! \return The path to the crashpad_snapshot_test_no_op executable.
 base::FilePath NoOpExecutable() {
-  return base::FilePath(TestPaths::Executable().value() + "_no_op");
+  return TestPaths::BuildArtifact(
+      "snapshot", "no_op", TestPaths::FileType::kExecutable);
 }
 
 class TestMachOImageAnnotationsReader final
@@ -183,7 +186,7 @@ class TestMachOImageAnnotationsReader final
           case kCrashModuleInitialization:
             // This message is set by dyld-353.2.1/src/ImageLoaderMachO.cpp
             // ImageLoaderMachO::doInitialization().
-            expected_annotation = ModuleWithCrashyInitializer();
+            expected_annotation = ModuleWithCrashyInitializer().value();
             break;
 
           case kCrashDyld:
@@ -402,7 +405,7 @@ class TestMachOImageAnnotationsReader final
 
       case kCrashModuleInitialization: {
         // Load a module that crashes while executing a module initializer.
-        void* dl_handle = dlopen(ModuleWithCrashyInitializer().c_str(),
+        void* dl_handle = dlopen(ModuleWithCrashyInitializer().value().c_str(),
                                  RTLD_LAZY | RTLD_LOCAL);
 
         // This should have crashed in the dlopen(). If dlopen() failed, the

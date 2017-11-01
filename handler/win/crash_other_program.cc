@@ -90,8 +90,8 @@ int CrashOtherProgram(int argc, wchar_t* argv[]) {
 
   // Launch another process that hangs.
   base::FilePath test_executable = TestPaths::Executable();
-  std::wstring child_test_executable =
-      test_executable.DirName().Append(L"hanging_program.exe").value();
+  base::FilePath child_test_executable =
+      test_executable.DirName().Append(L"hanging_program.exe");
   ChildLauncher child(child_test_executable, argv[1]);
   child.Start();
   if (testing::Test::HasFatalFailure()) {

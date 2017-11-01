@@ -132,7 +132,7 @@ TEST(ProcessInfo, Self) {
                             FromPointerCast<WinVMAddress>(_ReturnAddress()));
 }
 
-void TestOtherProcess(const base::FilePath& directory) {
+void TestOtherProcess(TestPaths::Architecture architecture) {
   ProcessInfo process_info;
 
   UUID done_uuid;
@@ -142,15 +142,11 @@ void TestOtherProcess(const base::FilePath& directory) {
       CreateEvent(nullptr, true, false, done_uuid.ToString16().c_str()));
   ASSERT_TRUE(done.get()) << ErrorMessage("CreateEvent");
 
-  std::wstring child_test_executable =
-      directory
-          .Append(TestPaths::Executable()
-                      .BaseName()
-                      .RemoveFinalExtension()
-                      .value() +
-                  L"_process_info_test_child.exe")
-          .value();
-
+  base::FilePath child_test_executable =
+      TestPaths::BuildArtifact(L"util",
+                               L"process_info_test_child",
+                               TestPaths::FileType::kExecutable,
+                               architecture);
   std::wstring args;
   AppendCommandLineArgument(done_uuid.ToString16(), &args);
 
@@ -191,17 +187,16 @@ void TestOtherProcess(const base::FilePath& directory) {
 }
 
 TEST(ProcessInfo, OtherProcess) {
-  TestOtherProcess(TestPaths::Executable().DirName());
+  TestOtherProcess(TestPaths::Architecture::kDefault);
 }
 
 #if defined(ARCH_CPU_64_BITS)
 TEST(ProcessInfo, OtherProcessWOW64) {
-  base::FilePath output_32_bit_directory = TestPaths::Output32BitDirectory();
-  if (output_32_bit_directory.empty()) {
+  if (!TestPaths::Has32BitBuildArtifacts()) {
     DISABLED_TEST();
   }
 
-  TestOtherProcess(output_32_bit_directory);
+  TestOtherProcess(TestPaths::Architecture::k32Bit);
 }
 #endif  // ARCH_CPU_64_BITS
 

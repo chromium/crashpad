@@ -37,8 +37,8 @@ namespace {
 constexpr DWORD kExpectedExitCode = 0x1CEB00DA;
 
 void StartAndCrashWithExtendedHandler(const base::FilePath& temp_dir) {
-  base::FilePath handler_path = TestPaths::Executable().DirName().Append(
-      FILE_PATH_LITERAL("crashpad_handler_test_extended_handler.exe"));
+  base::FilePath handler_path = TestPaths::BuildArtifact(
+      L"handler", L"extended_handler", TestPaths::FileType::kExecutable);
 
   CrashpadClient client;
   ASSERT_TRUE(client.StartHandler(handler_path,

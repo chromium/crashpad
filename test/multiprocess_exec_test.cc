@@ -48,17 +48,10 @@ class TestMultiprocessExec final : public MultiprocessExec {
 
 TEST(MultiprocessExec, MultiprocessExec) {
   TestMultiprocessExec multiprocess_exec;
-  base::FilePath test_executable = TestPaths::Executable();
-#if defined(OS_POSIX)
-  std::string child_test_executable = test_executable.value();
-#elif defined(OS_WIN)
-  std::string child_test_executable =
-      base::UTF16ToUTF8(test_executable.RemoveFinalExtension().value());
-#endif  // OS_POSIX
-  child_test_executable += "_multiprocess_exec_test_child";
-#if defined(OS_WIN)
-  child_test_executable += ".exe";
-#endif
+  base::FilePath child_test_executable = TestPaths::BuildArtifact(
+      FILE_PATH_LITERAL("test"),
+      FILE_PATH_LITERAL("multiprocess_exec_test_child"),
+      TestPaths::FileType::kExecutable);
   multiprocess_exec.SetChildCommand(child_test_executable, nullptr);
   multiprocess_exec.Run();
 }

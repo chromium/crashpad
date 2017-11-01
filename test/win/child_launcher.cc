@@ -21,15 +21,14 @@
 namespace crashpad {
 namespace test {
 
-ChildLauncher::ChildLauncher(const std::wstring& executable,
+ChildLauncher::ChildLauncher(const base::FilePath& executable,
                              const std::wstring& command_line)
     : executable_(executable),
       command_line_(command_line),
       process_handle_(),
       main_thread_handle_(),
       stdout_read_handle_(),
-      stdin_write_handle_() {
-}
+      stdin_write_handle_() {}
 
 ChildLauncher::~ChildLauncher() {
   if (process_handle_.is_valid())
@@ -76,10 +75,10 @@ void ChildLauncher::Start() {
   startup_info.dwFlags = STARTF_USESTDHANDLES;
   PROCESS_INFORMATION process_information;
   std::wstring command_line;
-  AppendCommandLineArgument(executable_, &command_line);
+  AppendCommandLineArgument(executable_.value(), &command_line);
   command_line += L" ";
   command_line += command_line_;
-  ASSERT_TRUE(CreateProcess(executable_.c_str(),
+  ASSERT_TRUE(CreateProcess(executable_.value().c_str(),
                             &command_line[0],
                             nullptr,
                             nullptr,

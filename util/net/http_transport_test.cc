@@ -59,7 +59,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     base::FilePath server_path = TestPaths::TestDataRoot().Append(
         FILE_PATH_LITERAL("util/net/http_transport_test_server.py"));
 #if defined(OS_POSIX)
-    SetChildCommand(server_path.value(), nullptr);
+    SetChildCommand(server_path, nullptr);
 #elif defined(OS_WIN)
     // Explicitly invoke a shell and python so that python can be found in the
     // path, and run the test script.
@@ -67,7 +67,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     args.push_back("/c");
     args.push_back("python");
     args.push_back(base::UTF16ToUTF8(server_path.value()));
-    SetChildCommand(getenv("COMSPEC"), &args);
+    SetChildCommand(base::FilePath(_wgetenv(L"COMSPEC")), &args);
 #endif  // OS_POSIX
   }
 

@@ -121,7 +121,7 @@ class CrashingDelegate : public ExceptionHandlerServer::Delegate {
   DISALLOW_COPY_AND_ASSIGN(CrashingDelegate);
 };
 
-void TestCrashingChild(const base::FilePath& directory) {
+void TestCrashingChild(TestPaths::Architecture architecture) {
   // Set up the registration server on a background thread.
   ScopedKernelHANDLE server_ready(CreateEvent(nullptr, false, false, nullptr));
   ASSERT_TRUE(server_ready.is_valid()) << ErrorMessage("CreateEvent");
@@ -141,13 +141,11 @@ void TestCrashingChild(const base::FilePath& directory) {
       << ErrorMessage("WaitForSingleObject");
 
   // Spawn a child process, passing it the pipe name to connect to.
-  std::wstring child_test_executable = directory
-                                           .Append(TestPaths::Executable()
-                                                       .BaseName()
-                                                       .RemoveFinalExtension()
-                                                       .value() +
-                                                   L"_crashing_child.exe")
-                                           .value();
+  base::FilePath child_test_executable =
+      TestPaths::BuildArtifact(L"snapshot",
+                               L"crashing_child",
+                               TestPaths::FileType::kExecutable,
+                               architecture);
   ChildLauncher child(child_test_executable, pipe_name);
   ASSERT_NO_FATAL_FAILURE(child.Start());
 
@@ -166,17 +164,16 @@ void TestCrashingChild(const base::FilePath& directory) {
 }
 
 TEST(ExceptionSnapshotWinTest, ChildCrash) {
-  TestCrashingChild(TestPaths::Executable().DirName());
+  TestCrashingChild(TestPaths::Architecture::kDefault);
 }
 
 #if defined(ARCH_CPU_64_BITS)
 TEST(ExceptionSnapshotWinTest, ChildCrashWOW64) {
-  base::FilePath output_32_bit_directory = TestPaths::Output32BitDirectory();
-  if (output_32_bit_directory.empty()) {
+  if (!TestPaths::Has32BitBuildArtifacts()) {
     DISABLED_TEST();
   }
 
-  TestCrashingChild(output_32_bit_directory);
+  TestCrashingChild(TestPaths::Architecture::k32Bit);
 }
 #endif  // ARCH_CPU_64_BITS
 
@@ -229,7 +226,7 @@ class SimulateDelegate : public ExceptionHandlerServer::Delegate {
   DISALLOW_COPY_AND_ASSIGN(SimulateDelegate);
 };
 
-void TestDumpWithoutCrashingChild(const base::FilePath& directory) {
+void TestDumpWithoutCrashingChild(TestPaths::Architecture architecture) {
   // Set up the registration server on a background thread.
   ScopedKernelHANDLE server_ready(CreateEvent(nullptr, false, false, nullptr));
   ASSERT_TRUE(server_ready.is_valid()) << ErrorMessage("CreateEvent");
@@ -249,14 +246,11 @@ void TestDumpWithoutCrashingChild(const base::FilePath& directory) {
       << ErrorMessage("WaitForSingleObject");
 
   // Spawn a child process, passing it the pipe name to connect to.
-  std::wstring child_test_executable =
-      directory
-          .Append(TestPaths::Executable()
-                      .BaseName()
-                      .RemoveFinalExtension()
-                      .value() +
-                  L"_dump_without_crashing.exe")
-          .value();
+  base::FilePath child_test_executable =
+      TestPaths::BuildArtifact(L"snapshot",
+                               L"dump_without_crashing",
+                               TestPaths::FileType::kExecutable,
+                               architecture);
   ChildLauncher child(child_test_executable, pipe_name);
   ASSERT_NO_FATAL_FAILURE(child.Start());
 
@@ -275,17 +269,16 @@ void TestDumpWithoutCrashingChild(const base::FilePath& directory) {
 }
 
 TEST(SimulateCrash, ChildDumpWithoutCrashing) {
-  TestDumpWithoutCrashingChild(TestPaths::Executable().DirName());
+  TestDumpWithoutCrashingChild(TestPaths::Architecture::kDefault);
 }
 
 #if defined(ARCH_CPU_64_BITS)
 TEST(SimulateCrash, ChildDumpWithoutCrashingWOW64) {
-  base::FilePath output_32_bit_directory = TestPaths::Output32BitDirectory();
-  if (output_32_bit_directory.empty()) {
+  if (!TestPaths::Has32BitBuildArtifacts()) {
     DISABLED_TEST();
   }
 
-  TestDumpWithoutCrashingChild(output_32_bit_directory);
+  TestDumpWithoutCrashingChild(TestPaths::Architecture::k32Bit);
 }
 #endif  // ARCH_CPU_64_BITS
 

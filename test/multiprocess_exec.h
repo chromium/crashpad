@@ -18,6 +18,7 @@
 #include <string>
 #include <vector>
 
+#include "base/files/file_path.h"
 #include "base/macros.h"
 #include "build/build_config.h"
 #include "test/multiprocess.h"
@@ -48,7 +49,7 @@ class MultiprocessExec : public Multiprocess {
   //!     process in its `argv[]` vector. This vector must begin at `argv[1]`,
   //!     as \a command is implicitly used as `argv[0]`. This argument may be
   //!     `nullptr` if no command-line arguments are to be passed.
-  void SetChildCommand(const std::string& command,
+  void SetChildCommand(const base::FilePath& command,
                        const std::vector<std::string>* arguments);
 
  protected:
@@ -61,7 +62,7 @@ class MultiprocessExec : public Multiprocess {
   // Multiprocess:
   void MultiprocessChild() override;
 
-  std::string command_;
+  base::FilePath command_;
   std::vector<std::string> arguments_;
 #if defined(OS_POSIX)
   std::vector<const char*> argv_;

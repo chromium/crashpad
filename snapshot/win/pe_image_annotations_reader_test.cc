@@ -48,15 +48,14 @@ enum TestType {
   kCrashDebugBreak,
 };
 
-void TestAnnotationsOnCrash(TestType type, const base::FilePath& directory) {
+void TestAnnotationsOnCrash(TestType type,
+                            TestPaths::Architecture architecture) {
   // Spawn a child process, passing it the pipe name to connect to.
-  std::wstring child_test_executable = directory
-                                           .Append(TestPaths::Executable()
-                                                       .BaseName()
-                                                       .RemoveFinalExtension()
-                                                       .value() +
-                                                   L"_annotations.exe")
-                                           .value();
+  base::FilePath child_test_executable =
+      TestPaths::BuildArtifact(L"snapshot",
+                               L"annotations",
+                               TestPaths::FileType::kExecutable,
+                               architecture);
   ChildLauncher child(child_test_executable, L"");
   ASSERT_NO_FATAL_FAILURE(child.Start());
 
@@ -148,30 +147,28 @@ void TestAnnotationsOnCrash(TestType type, const base::FilePath& directory) {
 }
 
 TEST(PEImageAnnotationsReader, DontCrash) {
-  TestAnnotationsOnCrash(kDontCrash, TestPaths::Executable().DirName());
+  TestAnnotationsOnCrash(kDontCrash, TestPaths::Architecture::kDefault);
 }
 
 TEST(PEImageAnnotationsReader, CrashDebugBreak) {
-  TestAnnotationsOnCrash(kCrashDebugBreak, TestPaths::Executable().DirName());
+  TestAnnotationsOnCrash(kCrashDebugBreak, TestPaths::Architecture::kDefault);
 }
 
 #if defined(ARCH_CPU_64_BITS)
 TEST(PEImageAnnotationsReader, DontCrashWOW64) {
-  base::FilePath output_32_bit_directory = TestPaths::Output32BitDirectory();
-  if (output_32_bit_directory.empty()) {
+  if (!TestPaths::Has32BitBuildArtifacts()) {
     DISABLED_TEST();
   }
 
-  TestAnnotationsOnCrash(kDontCrash, output_32_bit_directory);
+  TestAnnotationsOnCrash(kDontCrash, TestPaths::Architecture::k32Bit);
 }
 
 TEST(PEImageAnnotationsReader, CrashDebugBreakWOW64) {
-  base::FilePath output_32_bit_directory = TestPaths::Output32BitDirectory();
-  if (output_32_bit_directory.empty()) {
+  if (!TestPaths::Has32BitBuildArtifacts()) {
     DISABLED_TEST();
   }
 
-  TestAnnotationsOnCrash(kCrashDebugBreak, output_32_bit_directory);
+  TestAnnotationsOnCrash(kCrashDebugBreak, TestPaths::Architecture::k32Bit);
 }
 #endif  // ARCH_CPU_64_BITS
 
