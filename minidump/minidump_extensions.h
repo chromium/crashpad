@@ -344,7 +344,7 @@ struct ALIGNAS(4) PACKED MinidumpModuleCrashpadInfo {
   //!     module controls the data that appears here.
   //!
   //! These strings correspond to ModuleSnapshot::AnnotationsVector() and do not
-  //! duplicate anything in #simple_annotations.
+  //! duplicate anything in #simple_annotations or #annotation_objects.
   //!
   //! This field is present when #version is at least `1`.
   MINIDUMP_LOCATION_DESCRIPTOR list_annotations;
@@ -354,10 +354,20 @@ struct ALIGNAS(4) PACKED MinidumpModuleCrashpadInfo {
   //!
   //! These key-value pairs correspond to
   //! ModuleSnapshot::AnnotationsSimpleMap() and do not duplicate anything in
-  //! #list_annotations.
+  //! #list_annotations or #annotation_objects.
   //!
   //! This field is present when #version is at least `1`.
   MINIDUMP_LOCATION_DESCRIPTOR simple_annotations;
+
+  //! \brief A MinidumpAnnotationList object containing the annotation objects
+  //!     stored within the module. The module controls the data that appears
+  //!     here.
+  //!
+  //! These key-value pairs correspond to ModuleSnapshot::AnnotationObjects()
+  //! and do not duplicate anything in #list_annotations or #simple_annotations.
+  //!
+  //! This field may be present when #version is at least `1`.
+  MINIDUMP_LOCATION_DESCRIPTOR annotation_objects;
 };
 
 //! \brief A link between a MINIDUMP_MODULE structure and additional
