@@ -223,6 +223,12 @@ struct MinidumpSimpleStringDictionaryListTraits {
   }
 };
 
+struct MinidumpAnnotationListObjectsTraits {
+  using ListType = MinidumpAnnotationList;
+  enum : size_t { kElementSize = sizeof(MinidumpAnnotation) };
+  static size_t ElementCount(const ListType* list) { return list->count; }
+};
+
 template <typename T>
 const typename T::ListType* MinidumpListAtLocationDescriptor(
     const std::string& file_contents,
@@ -311,6 +317,15 @@ MinidumpWritableAtLocationDescriptor<MinidumpSimpleStringDictionary>(
     const MINIDUMP_LOCATION_DESCRIPTOR& location) {
   return MinidumpListAtLocationDescriptor<
       MinidumpSimpleStringDictionaryListTraits>(file_contents, location);
+}
+
+template <>
+const MinidumpAnnotationList*
+MinidumpWritableAtLocationDescriptor<MinidumpAnnotationList>(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR& location) {
+  return MinidumpListAtLocationDescriptor<MinidumpAnnotationListObjectsTraits>(
+      file_contents, location);
 }
 
 namespace {

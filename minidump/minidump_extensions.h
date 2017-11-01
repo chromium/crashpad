@@ -282,6 +282,32 @@ struct ALIGNAS(4) PACKED MinidumpSimpleStringDictionary {
   MinidumpSimpleStringDictionaryEntry entries[0];
 };
 
+//! \brief A typed annotation object.
+struct ALIGNAS(4) PACKED MinidumpAnnotation {
+  //! \brief ::RVA of a MinidumpUTF8String containing the name of the
+  //!     annotation.
+  RVA name;
+
+  //! \brief The type of data stored in the \a value of the annotation. This
+  //!     may correspond to an \a Annotation::Type or it may be user-defined.
+  uint16_t type;
+
+  //! \brief This field is always `0`.
+  uint16_t reserved;
+
+  //! \brief ::RVA of a MinidumpByteArray to the data for the annotation.
+  RVA value;
+};
+
+//! \brief A list of annotation objects.
+struct ALIGNAS(4) PACKED MinidumpAnnotationList {
+  //! \brief The number of annotation objects present.
+  uint32_t count;
+
+  //! \brief A list of MinidumpAnnotation objects.
+  MinidumpAnnotation objects[0];
+};
+
 //! \brief Additional Crashpad-specific information about a module carried
 //!     within a minidump file.
 //!
