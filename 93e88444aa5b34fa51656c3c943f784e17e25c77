@@ -22,6 +22,30 @@
       "revId": "93e88444aa5b34fa51656c3c943f784e17e25c77",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab908118_3069437f",
+        "filename": "test/test_paths.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-01T02:06:40Z",
+      "side": 1,
+      "message": "\u003e ing\n\nVery nice, I like!",
+      "parentUuid": "bbd1e1cb_9c80e1d7",
+      "range": {
+        "startLine": 112,
+        "startChar": 52,
+        "endLine": 112,
+        "endChar": 53
+      },
+      "revId": "93e88444aa5b34fa51656c3c943f784e17e25c77",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
