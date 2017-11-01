@@ -187,7 +187,6 @@ std::map<std::string, std::string> ModuleSnapshotMac::AnnotationsSimpleMap()
 
 std::vector<AnnotationSnapshot> ModuleSnapshotMac::AnnotationObjects() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();
   return {};
 }
 

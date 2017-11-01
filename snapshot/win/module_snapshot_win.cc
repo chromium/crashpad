@@ -192,7 +192,6 @@ std::map<std::string, std::string> ModuleSnapshotWin::AnnotationsSimpleMap()
 
 std::vector<AnnotationSnapshot> ModuleSnapshotWin::AnnotationObjects() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();
   return {};
 }
 
