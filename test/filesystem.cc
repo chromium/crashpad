@@ -16,6 +16,7 @@
 
 #include <errno.h>
 #include <sys/stat.h>
+#include <sys/time.h>
 #include <sys/types.h>
 
 #include "base/logging.h"
@@ -25,6 +26,7 @@
 #include "test/scoped_temp_dir.h"
 #include "util/file/file_io.h"
 #include "util/file/filesystem.h"
+#include "util/misc/clock.h"
 
 #if defined(OS_POSIX)
 #include <unistd.h>
@@ -32,6 +34,8 @@
 #include "base/posix/eintr_wrapper.h"
 #elif defined(OS_WIN)
 #include <windows.h>
+
+#include "util/win/time.h"
 #endif
 
 namespace crashpad {
@@ -110,6 +114,43 @@ bool PathExists(const base::FilePath& path) {
     EXPECT_EQ(GetLastError(), static_cast<DWORD>(ERROR_FILE_NOT_FOUND))
         << ErrorMessage("GetFileAttributes ")
         << base::UTF16ToUTF8(path.value());
+    return false;
+  }
+  return true;
+#endif
+}
+
+bool SetFileModificationTime(const base::FilePath& path, const timespec& mtime) {
+#if defined(OS_POSIX)
+  timeval tv[2];
+  TimespecToTimeval(mtime, tv);
+  tv[1] = tv[0];
+  if (utimes(path.value().c_str(), tv) != 0) {
+    PLOG(ERROR) << "utimes " << path.value();
+    return false;
+  }
+  return true;
+#elif defined(OS_WIN)
+  DWORD flags;
+  if (IsDirectory(path, false)) {
+    // required for directory handles
+    flags = FILE_FLAG_BACKUP_SEMANTICS;
+  } else {
+    flags = FILE_ATTRIBUTE_NORMAL;
+  }
+  ScopedFileHandle handle(::CreateFile(path.value().c_str(),
+                                       GENERIC_WRITE,
+                                       FILE_SHARE_READ | FILE_SHARE_WRITE,
+                                       nullptr,
+                                       OPEN_EXISTING,
+                                       flags,
+                                       nullptr));
+  if (!handle.is_valid()) {
+    return false;
+  }
+  FILETIME filetime = TimespecToFiletime(mtime);
+  if (!SetFileTime(handle.get(), nullptr, &filetime, &filetime)) {
+    PLOG(ERROR) << "SetFileTime " << path.value();
     return false;
   }
   return true;
