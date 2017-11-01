@@ -25,6 +25,38 @@ namespace test {
 //! \brief Functions to obtain paths from within tests.
 class TestPaths {
  public:
+  //! \brief The type of file requested of BuildArtifact().
+  //!
+  //! This is used to establish the file extension used by the returned path.
+  enum class FileType {
+    //! \brief No file extension is requested.
+    kNone = 0,
+
+    //! \brief `.exe` will be used on Windows, and no file extension will be
+    //!     used on other platforms.
+    kExecutable,
+
+    //! \brief `.dll` will be used on Windows, and `.so` will be used on other
+    //!     platforms.
+    kLoadableModule,
+  };
+
+  //! \brief The architecture of the file requested of BuildArtifact().
+  enum class Architecture {
+    //! \brief The default architecture is requested. This is usually the same
+    //!     architecture as the running process.
+    kDefault = 0,
+
+#if (defined(OS_WIN) && defined(ARCH_CPU_64_BITS)) || DOXYGEN
+    //! \brief The 32-bit variant is requested.
+    //!
+    //! On Windows, when running 64-bit code, the 32-bit variant can be
+    //! requested. Before doing so, Has32BitBuildArtifacts() must be called and
+    //! must return `true`. Otherwise, execution will be aborted.
+    k32Bit,
+#endif  // OS_WIN && ARCH_CPU_64_BITS
+  };
+
   //! \brief Returns the pathname of the currently-running test executable.
   //!
   //! On failure, aborts execution.
@@ -43,21 +75,50 @@ class TestPaths {
   //! files.
   static base::FilePath TestDataRoot();
 
+  //! \brief Returns the pathname of a build artifact.
+  //!
+  //! \param[in] module The name of the Crashpad module associated with the
+  //!     artifact, such as `"util"` or `"snapshot"`. \a module must correspond
+  //!     to the module of the calling code, or execution will be aborted.
+  //! \param[in] artifact The name of the specific artifact.
+  //! \param[in] file_type The artifact’s type, used to establish the returned
+  //!     path’s extension.
+  //! \param[in] architecture The artifact’s architecture.
+  //!
+  //! \return The computed pathname to the build artifact.
+  //!
+  //! For example, the following snippet will return a path to
+  //! `crashpad_snapshot_test_module.so` or `crashpad_snapshot_test_module.dll`
+  //! (depending on platform) in the same directory as the currently running
+  //! executable:
+  //!
+  //! \code
+  //!    base::FilePath path = TestPaths::BuildArtifact(
+  //!        FILE_PATH_LITERAL("snapshot"),
+  //!        FILE_PATH_LITERAL("module"),
+  //!        TestPaths::FileType::kLoadableModule);
+  //! \endcode
+  static base::FilePath BuildArtifact(
+      const base::FilePath::StringType& module,
+      const base::FilePath::StringType& artifact,
+      FileType file_type,
+      Architecture architecture = Architecture::kDefault);
+
 #if (defined(OS_WIN) && defined(ARCH_CPU_64_BITS)) || DOXYGEN
-  //! \brief Returns the pathname of a directory containing 32-bit test build
-  //!     output.
+  //! \return `true` if 32-bit build artifacts are available.
   //!
   //! Tests that require the use of 32-bit build output should call this
-  //! function to locate that output. This function is only provided to allow
-  //! 64-bit test code to locate 32-bit output. 32-bit test code can find 32-bit
-  //! output in its own directory, the parent of Executable().
+  //! function to determine whether that output is available. This function is
+  //! only provided to aid 64-bit test code in locating 32-bit output. Only if
+  //! this function indicates that 32-bit output is available, 64-bit test code
+  //! may call BuildArtifact() with Architecture::k32Bit to obtain a path to the
+  //! 32-bit output.
   //!
-  //! If the `CRASHPAD_TEST_32_BIT_OUTPUT` environment variable is set, its
-  //! value will be returned. Otherwise, this function will return an empty
-  //! path, and tests that require the use of 32-bit build output should disable
-  //! themselves. The DISABLED_TEST() macro may be useful for this purpose.
-  static base::FilePath Output32BitDirectory();
-#endif
+  //! 32-bit test code may assume the existence of 32-bit build output, which
+  //! can be found its own directory, and located by calling BuildArtifact()
+  //! with Architecture::kDefault.
+  static bool Has32BitBuildArtifacts();
+#endif  // OS_WIN && ARCH_CPU_64_BITS
 
   DISALLOW_IMPLICIT_CONSTRUCTORS(TestPaths);
 };
