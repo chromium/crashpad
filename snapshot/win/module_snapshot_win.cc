@@ -192,7 +192,9 @@ std::map<std::string, std::string> ModuleSnapshotWin::AnnotationsSimpleMap()
 
 std::vector<AnnotationSnapshot> ModuleSnapshotWin::AnnotationObjects() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return {};
+  PEImageAnnotationsReader annotations_reader(
+      process_reader_, pe_image_reader_.get(), name_);
+  return annotations_reader.AnnotationsList();
 }
 
 std::set<CheckedRange<uint64_t>> ModuleSnapshotWin::ExtraMemoryRanges() const {
