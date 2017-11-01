@@ -143,6 +143,8 @@
         'misc/scoped_forbid_return.cc',
         'misc/scoped_forbid_return.h',
         'misc/symbolic_constants_common.h',
+        'misc/time.cc',
+        'misc/time.h',
         'misc/tri_state.h',
         'misc/uuid.cc',
         'misc/uuid.h',

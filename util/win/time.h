@@ -31,6 +31,8 @@ timeval FiletimeToTimevalInterval(const FILETIME& filetime);
 //! \brief Similar to POSIX gettimeofday(), gets the current system time in UTC.
 void GetTimeOfDay(timeval* tv);
 
+FILETIME TimespecToFiletime(const timespec& ts);
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_WIN_TIME_H_
