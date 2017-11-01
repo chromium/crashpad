@@ -62,6 +62,24 @@ class TestPaths {
   //! On failure, aborts execution.
   static base::FilePath Executable();
 
+  //! \brief Returns the expected basename of the currently-running test
+  //!     executable.
+  //!
+  //! In Crashpad’s standalone build, this returns \a name, with the system’s
+  //! extension for executables (`.exe`) appended if appropriate.
+  //!
+  //! When building in Chromium, \a name is ignored, and the name of the
+  //! monolithic test executable (`crashpad_tests`) is returned, with the
+  //! system’s extension for executables appended if appropriate.
+  //!
+  //! Only use this function to determine test expectations.
+  //!
+  //! Do not use this function to obtain the name of the currently running test
+  //! executable, use Executable() instead. Do not use this function to locate
+  //! other build artifacts, use BuildArtifact() instead.
+  static base::FilePath ExpectedExecutableBasename(
+      const base::FilePath::StringType& name);
+
   //! \brief Returns the pathname of the test data root.
   //!
   //! If the `CRASHPAD_TEST_DATA_ROOT` environment variable is set, its value

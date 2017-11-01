@@ -117,6 +117,23 @@ base::FilePath TestPaths::Executable() {
 }
 
 // static
+base::FilePath TestPaths::ExpectedExecutableBasename(
+    const base::FilePath::StringType& name) {
+#if defined(CRASHPAD_IN_CHROMIUM)
+  base::FilePath::StringType executable_name(
+      FILE_PATH_LITERAL("crashpad_tests"));
+#else  // CRASHPAD_IN_CHROMIUM
+  base::FilePath::StringType executable_name(name);
+#endif  // CRASHPAD_IN_CHROMIUM
+
+#if defined(OS_WIN)
+  executable_name += FILE_PATH_LITERAL(".exe");
+#endif  // OS_WIN
+
+  return base::FilePath(executable_name);
+}
+
+// static
 base::FilePath TestPaths::TestDataRoot() {
   static base::FilePath* test_data_root =
       new base::FilePath(TestDataRootInternal());
