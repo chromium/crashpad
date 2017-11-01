@@ -26,12 +26,17 @@ TEST(Paths, Executable) {
   base::FilePath executable_path;
   ASSERT_TRUE(Paths::Executable(&executable_path));
   const base::FilePath executable_name(executable_path.BaseName());
+
+#if defined(CRASHPAD_IN_CHROMIUM)
+  base::FilePath::StringType expected(FILE_PATH_LITERAL("crashpad_tests"));
+#else  // CRASHPAD_IN_CHROMIUM
+  base::FilePath::StringType expected(FILE_PATH_LITERAL("crashpad_util_test"));
+#endif  // CRASHPAD_IN_CHROMIUM
 #if defined(OS_WIN)
-  EXPECT_EQ(executable_name.value(),
-            FILE_PATH_LITERAL("crashpad_util_test.exe"));
-#else
-  EXPECT_EQ(executable_name.value(), "crashpad_util_test");
+  expected += FILE_PATH_LITERAL(".exe");
 #endif  // OS_WIN
+
+  EXPECT_EQ(executable_name.value(), expected);
 }
 
 }  // namespace
