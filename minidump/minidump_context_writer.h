@@ -110,6 +110,16 @@ class MinidumpContextAMD64Writer final : public MinidumpContextWriter {
   MinidumpContextAMD64Writer();
   ~MinidumpContextAMD64Writer() override;
 
+  // Ensure proper alignment of heap-allocated objects. This should not be
+  // necessary in C++17.
+  static void* operator new(size_t size);
+  static void operator delete(void* ptr);
+
+  // Prevent unaligned heap-allocated arrays. Provisions could be made to allow
+  // these if necessary, but there is currently no use for them.
+  static void* operator new[](size_t size) = delete;
+  static void operator delete[](void* ptr) = delete;
+
   //! \brief Initializes the MinidumpContextAMD64 based on \a context_snapshot.
   //!
   //! \param[in] context_snapshot The context snapshot to use as source data.
