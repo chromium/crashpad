@@ -24,7 +24,6 @@
 #include <vector>
 
 namespace crashpad {
-namespace internal {
 
 //! \brief Allocates memory with the specified alignment constraint.
 //!
@@ -36,8 +35,6 @@ void* AlignedAllocate(size_t alignment, size_t size);
 //!
 //! This function wraps `free()` or `_aligned_free()`.
 void AlignedFree(void* pointer);
-
-}  // namespace internal
 
 //! \brief A standard allocator that aligns its allocations as requested,
 //!     suitable for use as an allocator in standard containers.
@@ -74,10 +71,10 @@ struct AlignedAllocator {
 
   pointer allocate(size_type n, std::allocator<void>::const_pointer hint = 0) {
     return reinterpret_cast<pointer>(
-        internal::AlignedAllocate(Alignment, sizeof(value_type) * n));
+        AlignedAllocate(Alignment, sizeof(value_type) * n));
   }
 
-  void deallocate(pointer p, size_type n) { internal::AlignedFree(p); }
+  void deallocate(pointer p, size_type n) { AlignedFree(p); }
 
   size_type max_size() const noexcept {
     return std::numeric_limits<size_type>::max() / sizeof(value_type);

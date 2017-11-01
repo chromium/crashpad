@@ -23,6 +23,7 @@
 #include "base/logging.h"
 #include "snapshot/cpu_context.h"
 #include "util/file/file_writer.h"
+#include "util/stdlib/aligned_allocator.h"
 
 namespace crashpad {
 
@@ -65,10 +66,8 @@ MinidumpContextWriter::CreateFromSnapshot(const CPUContext* context_snapshot) {
     }
 
     case kCPUArchitectureX86_64: {
-      MSVC_PUSH_DISABLE_WARNING(4316);  // Object on heap may not be aligned.
       MinidumpContextAMD64Writer* context_amd64 =
           new MinidumpContextAMD64Writer();
-      MSVC_POP_WARNING();  // C4316
       context.reset(context_amd64);
       context_amd64->InitializeFromSnapshot(context_snapshot->x86_64);
       break;
@@ -152,12 +151,32 @@ size_t MinidumpContextX86Writer::ContextSize() const {
   return sizeof(context_);
 }
 
+static_assert(alignof(MinidumpContextAMD64) >= 16,
+              "MinidumpContextAMD64 alignment");
+static_assert(alignof(MinidumpContextAMD64Writer) >=
+                  alignof(MinidumpContextAMD64),
+              "MinidumpContextAMD64Writer alignment");
+
 MinidumpContextAMD64Writer::MinidumpContextAMD64Writer()
     : MinidumpContextWriter(), context_() {
   context_.context_flags = kMinidumpContextAMD64;
 }
 
 MinidumpContextAMD64Writer::~MinidumpContextAMD64Writer() {
+}
+
+// static
+void* MinidumpContextAMD64Writer::operator new(size_t size) {
+  // MinidumpContextAMD64 requests an alignment of 16, which can be larger than
+  // what standard new provides. This may trigger MSVC warning C4316. As a
+  // workaround to this language deficiency, provide a custom allocation
+  // function to allocate a block meeting the alignment requirement.
+  return AlignedAllocate(alignof(MinidumpContextAMD64Writer), size);
+}
+
+// static
+void MinidumpContextAMD64Writer::operator delete(void* pointer) {
+  return AlignedFree(pointer);
 }
 
 void MinidumpContextAMD64Writer::InitializeFromSnapshot(

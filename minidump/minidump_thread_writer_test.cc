@@ -220,13 +220,7 @@ TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
       kMemoryBase, kMemorySize, kMemoryValue);
   thread_writer->SetStack(std::move(memory_writer));
 
-  // Object allocated on heap may not be aligned.
-  MSVC_PUSH_DISABLE_WARNING(4316);
-  // This would use std::make_unique, but since the “new” would be in <memory>
-  // and not here, MSVC_PUSH_DISABLE_WARNING wouldn’t have the intended effect.
-  std::unique_ptr<MinidumpContextAMD64Writer> context_amd64_writer(
-      new MinidumpContextAMD64Writer());
-  MSVC_POP_WARNING();  // C4316.
+  auto context_amd64_writer = std::make_unique<MinidumpContextAMD64Writer>();
   InitializeMinidumpContextAMD64(context_amd64_writer->context(), kSeed);
   thread_writer->SetContext(std::move(context_amd64_writer));
 
