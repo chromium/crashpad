@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f293ab9_43e48c08",
+        "filename": "client/annotation.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-01T17:12:51Z",
+      "side": 0,
+      "message": "…/crashpad/client/annotation.h:70: warning: explicit link request to \u0027name\u0027 could not be resolved\n\n(1) It’s called name_, and (2) it’s private and Doxygen is configured to not see private things.",
+      "revId": "4f5524fc684c4f12b0f9343066b9d51f962f2194",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60e7ed06_13f20f96",
+        "filename": "client/annotation.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-01T17:12:51Z",
+      "side": 0,
+      "message": "…/crashpad/client/annotation.h:73: warning: explicit link request to \u0027value\u0027 could not be resolved",
+      "revId": "4f5524fc684c4f12b0f9343066b9d51f962f2194",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0a176c5_60afc41b",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-01T17:12:51Z",
+      "side": 0,
+      "message": "…/crashpad/client/crashpad_info.h:113: warning: argument \u0027annotations_list\u0027 of command @param is not found in the argument list of crashpad::CrashpadInfo::set_annotations_list(AnnotationList *list)",
+      "revId": "4f5524fc684c4f12b0f9343066b9d51f962f2194",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74c67de7_9cb35520",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-01T17:12:51Z",
+      "side": 0,
+      "message": "…/crashpad/client/crashpad_info.h:131: warning: The following parameters of crashpad::CrashpadInfo::set_annotations_list(AnnotationList *list) are not documented:\n  parameter \u0027list\u0027",
+      "revId": "4f5524fc684c4f12b0f9343066b9d51f962f2194",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
