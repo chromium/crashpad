@@ -50,7 +50,7 @@ class Metrics {
 
   //! \brief Reports the size of a crash report file in bytes. Should be called
   //!     when a new report is written to disk.
-  static void CrashReportSize(FileHandle file);
+  static void CrashReportSize(FileOffset size);
 
   //! \brief Reports on a crash upload attempt, and if it succeeded.
   static void CrashUploadAttempted(bool successful);
