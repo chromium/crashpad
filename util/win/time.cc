@@ -24,6 +24,14 @@ namespace {
 
 constexpr uint64_t kMicrosecondsPerSecond = static_cast<uint64_t>(1E6);
 
+constexpr uint64_t kFiletimeIntervalsPerSecond = static_cast<uint64_t>(1E7);
+
+// Windows epoch is 1601-01-01, and FILETIME ticks are 100 nanoseconds.
+// 1601 to 1970 is 369 years + 89 leap days = 134774 days * 86400 seconds per
+// day. It's not entirely clear, but it appears that these are solar seconds,
+// not SI seconds, so there are no leap seconds to be considered.
+constexpr uint64_t kNumSecondsFrom1601To1970 = (369 * 365 + 89) * 86400ULL;
+
 uint64_t FiletimeToMicroseconds(const FILETIME& filetime) {
   uint64_t t = (static_cast<uint64_t>(filetime.dwHighDateTime) << 32) |
                filetime.dwLowDateTime;
@@ -42,11 +50,6 @@ timeval MicrosecondsToTimeval(uint64_t microseconds) {
 timeval FiletimeToTimevalEpoch(const FILETIME& filetime) {
   uint64_t microseconds = FiletimeToMicroseconds(filetime);
 
-  // Windows epoch is 1601-01-01, and FILETIME ticks are 100 nanoseconds.
-  // 1601 to 1970 is 369 years + 89 leap days = 134774 days * 86400 seconds per
-  // day. It's not entirely clear, but it appears that these are solar seconds,
-  // not SI seconds, so there are no leap seconds to be considered.
-  constexpr uint64_t kNumSecondsFrom1601To1970 = (369 * 365 + 89) * 86400ULL;
   DCHECK_GE(microseconds, kNumSecondsFrom1601To1970 * kMicrosecondsPerSecond);
   microseconds -= kNumSecondsFrom1601To1970 * kMicrosecondsPerSecond;
   return MicrosecondsToTimeval(microseconds);
@@ -60,6 +63,25 @@ void GetTimeOfDay(timeval* tv) {
   FILETIME filetime;
   GetSystemTimeAsFileTime(&filetime);
   *tv = FiletimeToTimevalEpoch(filetime);
+}
+
+FILETIME TimespecToFiletime(const timespec& ts) {
+  uint64_t intervals =
+      (kNumSecondsFrom1601To1970 + ts.tv_sec) * kFiletimeIntervalsPerSecond +
+      ts.tv_nsec / 100;
+  FILETIME filetime;
+  filetime.dwLowDateTime = intervals & 0xffffffff;
+  filetime.dwHighDateTime = intervals >> 32;
+  return filetime;
+}
+
+timespec FiletimeToTimespecEpoch(const FILETIME& filetime) {
+  uint64_t intervals =
+      (uint64_t{filetime.dwHighDateTime} << 32) | filetime.dwLowDateTime;
+  timespec result;
+  result.tv_sec = intervals / kFiletimeIntervalsPerSecond;
+  result.tv_nsec = (intervals % kFiletimeIntervalsPerSecond) * 100;
+  return result;
 }
 
 }  // namespace crashpad

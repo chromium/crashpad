@@ -48,4 +48,9 @@ void SleepNanoseconds(uint64_t nanoseconds) {
   DPCHECK(rv == 0) << "nanosleep";
 }
 
+void TimespecToTimeval(const timespec& ts, timeval* tv) {
+  tv->tv_sec = ts.tv_sec;
+  tv->tv_usec = ts.tv_nsec / 1000;
+}
+
 }  // namespace crashpad
