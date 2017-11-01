@@ -175,6 +175,24 @@
       "revId": "d9f47502e217d540f40e8ff57ca82c3befe6936c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1103a14b_24ea6629",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-01T21:19:37Z",
+      "side": 1,
+      "message": "\u003e It can, but I prefer this because it follows the flow of the rest of the method. If you feel strongly I\u0027ll change it.\n\nI don’t feel strongly. I’d probably write it the way I suggested, but if you really like it how you wrote it, that’s also fine.",
+      "parentUuid": "e0ea60e2_09db0893",
+      "revId": "d9f47502e217d540f40e8ff57ca82c3befe6936c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
