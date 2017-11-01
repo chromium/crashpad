@@ -20,7 +20,9 @@
 #include <utility>
 
 #include "gtest/gtest.h"
+#include "minidump/minidump_annotation_writer.h"
 #include "minidump/minidump_simple_string_dictionary_writer.h"
+#include "minidump/test/minidump_byte_array_writer_test_util.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
@@ -103,6 +105,8 @@ TEST(MinidumpModuleCrashpadInfoWriter, EmptyModule) {
   EXPECT_EQ(module->list_annotations.Rva, 0u);
   EXPECT_EQ(module->simple_annotations.DataSize, 0u);
   EXPECT_EQ(module->simple_annotations.Rva, 0u);
+  EXPECT_EQ(module->annotation_objects.DataSize, 0u);
+  EXPECT_EQ(module->annotation_objects.Rva, 0u);
 }
 
 TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
@@ -111,6 +115,7 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
   static constexpr char kValue[] = "value";
   static constexpr char kEntry[] = "entry";
   std::vector<std::string> vector(1, std::string(kEntry));
+  const AnnotationSnapshot annotation("one", 42, {'t', 'e', 's', 't'});
 
   StringFile string_file;
 
@@ -130,6 +135,10 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
       std::move(simple_string_dictionary_entry_writer));
   module_writer->SetSimpleAnnotations(
       std::move(simple_string_dictionary_writer));
+  auto annotation_list_writer =
+      std::make_unique<MinidumpAnnotationListWriter>();
+  annotation_list_writer->InitializeFromList({annotation});
+  module_writer->SetAnnotationObjects(std::move(annotation_list_writer));
   EXPECT_TRUE(module_writer->IsUseful());
   module_list_writer->AddModule(std::move(module_writer),
                                 kMinidumpModuleListIndex);
@@ -140,14 +149,16 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
   ASSERT_EQ(string_file.string().size(),
             sizeof(MinidumpModuleCrashpadInfoList) +
                 sizeof(MinidumpModuleCrashpadInfoLink) +
-                sizeof(MinidumpModuleCrashpadInfo) +
-                sizeof(MinidumpRVAList) +
-                sizeof(RVA) +
-                sizeof(MinidumpSimpleStringDictionary) +
+                sizeof(MinidumpModuleCrashpadInfo) + sizeof(MinidumpRVAList) +
+                sizeof(RVA) + sizeof(MinidumpSimpleStringDictionary) +
                 sizeof(MinidumpSimpleStringDictionaryEntry) +
-                sizeof(MinidumpUTF8String) + arraysize(kEntry) + 2 +  // padding
+                sizeof(MinidumpAnnotationList) + 2 +  // padding
+                sizeof(MinidumpAnnotation) + sizeof(MinidumpUTF8String) +
+                arraysize(kEntry) + 2 +  // padding
                 sizeof(MinidumpUTF8String) + arraysize(kKey) +
-                sizeof(MinidumpUTF8String) + arraysize(kValue));
+                sizeof(MinidumpUTF8String) + arraysize(kValue) +
+                sizeof(MinidumpUTF8String) + annotation.name.size() + 1 +
+                sizeof(MinidumpByteArray) + annotation.value.size());
 
   const MinidumpModuleCrashpadInfoList* module_list =
       MinidumpModuleCrashpadInfoListAtStart(string_file.string(), 1);
@@ -165,6 +176,8 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
   EXPECT_NE(module->list_annotations.Rva, 0u);
   EXPECT_NE(module->simple_annotations.DataSize, 0u);
   EXPECT_NE(module->simple_annotations.Rva, 0u);
+  EXPECT_NE(module->annotation_objects.DataSize, 0u);
+  EXPECT_NE(module->annotation_objects.Rva, 0u);
 
   const MinidumpRVAList* list_annotations =
       MinidumpWritableAtLocationDescriptor<MinidumpRVAList>(
@@ -188,18 +201,36 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
   EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(
                 string_file.string(), simple_annotations->entries[0].value),
             kValue);
+
+  const MinidumpAnnotationList* annotation_objects =
+      MinidumpWritableAtLocationDescriptor<MinidumpAnnotationList>(
+          string_file.string(), module->annotation_objects);
+  ASSERT_TRUE(annotation_objects);
+
+  ASSERT_EQ(annotation_objects->count, 1u);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(
+                string_file.string(), annotation_objects->objects[0].name),
+            annotation.name);
+  EXPECT_EQ(annotation_objects->objects[0].type, 42u);
+  EXPECT_EQ(annotation_objects->objects[0].reserved, 0u);
+  EXPECT_EQ(MinidumpByteArrayAtRVA(string_file.string(),
+                                   annotation_objects->objects[0].value),
+            annotation.value);
 }
 
 TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
   constexpr uint32_t kMinidumpModuleListIndex0 = 0;
   static constexpr char kKey0[] = "key";
   static constexpr char kValue0[] = "value";
+  const AnnotationSnapshot annotation0("name", 0x8FFF, {'t', '\0', 't'});
   constexpr uint32_t kMinidumpModuleListIndex1 = 2;
   constexpr uint32_t kMinidumpModuleListIndex2 = 5;
   static constexpr char kKey2A[] = "K";
   static constexpr char kValue2A[] = "VVV";
   static constexpr char kKey2B[] = "river";
   static constexpr char kValue2B[] = "hudson";
+  const AnnotationSnapshot annotation2a("A2", 0xDDDD, {2, 4, 6, 8});
+  const AnnotationSnapshot annotation2b("A3", 0xDDDF, {'m', 'o', 'o'});
 
   StringFile string_file;
 
@@ -216,6 +247,12 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
       std::move(simple_string_dictionary_entry_writer_0));
   module_writer_0->SetSimpleAnnotations(
       std::move(simple_string_dictionary_writer_0));
+  auto annotation_list_writer_0 =
+      std::make_unique<MinidumpAnnotationListWriter>();
+  auto annotation_writer_0 = std::make_unique<MinidumpAnnotationWriter>();
+  annotation_writer_0->InitializeFromSnapshot(annotation0);
+  annotation_list_writer_0->AddObject(std::move(annotation_writer_0));
+  module_writer_0->SetAnnotationObjects(std::move(annotation_list_writer_0));
   EXPECT_TRUE(module_writer_0->IsUseful());
   module_list_writer->AddModule(std::move(module_writer_0),
                                 kMinidumpModuleListIndex0);
@@ -240,6 +277,15 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
       std::move(simple_string_dictionary_entry_writer_2b));
   module_writer_2->SetSimpleAnnotations(
       std::move(simple_string_dictionary_writer_2));
+  auto annotation_list_writer_2 =
+      std::make_unique<MinidumpAnnotationListWriter>();
+  auto annotation_writer_2a = std::make_unique<MinidumpAnnotationWriter>();
+  annotation_writer_2a->InitializeFromSnapshot(annotation2a);
+  auto annotation_writer_2b = std::make_unique<MinidumpAnnotationWriter>();
+  annotation_writer_2b->InitializeFromSnapshot(annotation2b);
+  annotation_list_writer_2->AddObject(std::move(annotation_writer_2a));
+  annotation_list_writer_2->AddObject(std::move(annotation_writer_2b));
+  module_writer_2->SetAnnotationObjects(std::move(annotation_list_writer_2));
   EXPECT_TRUE(module_writer_2->IsUseful());
   module_list_writer->AddModule(std::move(module_writer_2),
                                 kMinidumpModuleListIndex2);
@@ -279,6 +325,21 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
                 string_file.string(), simple_annotations_0->entries[0].value),
             kValue0);
 
+  const MinidumpAnnotationList* annotation_list_0 =
+      MinidumpWritableAtLocationDescriptor<MinidumpAnnotationList>(
+          string_file.string(), module_0->annotation_objects);
+  ASSERT_TRUE(annotation_list_0);
+
+  ASSERT_EQ(annotation_list_0->count, 1u);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            annotation_list_0->objects[0].name),
+            annotation0.name);
+  EXPECT_EQ(annotation_list_0->objects[0].type, annotation0.type);
+  EXPECT_EQ(annotation_list_0->objects[0].reserved, 0u);
+  EXPECT_EQ(MinidumpByteArrayAtRVA(string_file.string(),
+                                   annotation_list_0->objects[0].value),
+            annotation0.value);
+
   EXPECT_EQ(module_list->modules[1].minidump_module_list_index,
             kMinidumpModuleListIndex1);
   const MinidumpModuleCrashpadInfo* module_1 =
@@ -297,6 +358,11 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
       MinidumpWritableAtLocationDescriptor<MinidumpSimpleStringDictionary>(
           string_file.string(), module_1->simple_annotations);
   EXPECT_FALSE(simple_annotations_1);
+
+  const MinidumpAnnotationList* annotation_list_1 =
+      MinidumpWritableAtLocationDescriptor<MinidumpAnnotationList>(
+          string_file.string(), module_1->annotation_objects);
+  EXPECT_FALSE(annotation_list_1);
 
   EXPECT_EQ(module_list->modules[2].minidump_module_list_index,
             kMinidumpModuleListIndex2);
@@ -330,6 +396,30 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
   EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(
                 string_file.string(), simple_annotations_2->entries[1].value),
             kValue2B);
+
+  const MinidumpAnnotationList* annotation_list_2 =
+      MinidumpWritableAtLocationDescriptor<MinidumpAnnotationList>(
+          string_file.string(), module_2->annotation_objects);
+  ASSERT_TRUE(annotation_list_2);
+
+  ASSERT_EQ(annotation_list_2->count, 2u);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            annotation_list_2->objects[0].name),
+            annotation2a.name);
+  EXPECT_EQ(annotation_list_2->objects[0].type, annotation2a.type);
+  EXPECT_EQ(annotation_list_2->objects[0].reserved, 0u);
+  EXPECT_EQ(MinidumpByteArrayAtRVA(string_file.string(),
+                                   annotation_list_2->objects[0].value),
+            annotation2a.value);
+
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            annotation_list_2->objects[1].name),
+            annotation2b.name);
+  EXPECT_EQ(annotation_list_2->objects[1].type, annotation2b.type);
+  EXPECT_EQ(annotation_list_2->objects[1].reserved, 0u);
+  EXPECT_EQ(MinidumpByteArrayAtRVA(string_file.string(),
+                                   annotation_list_2->objects[1].value),
+            annotation2b.value);
 }
 
 TEST(MinidumpModuleCrashpadInfoWriter, InitializeFromSnapshot) {
@@ -341,6 +431,8 @@ TEST(MinidumpModuleCrashpadInfoWriter, InitializeFromSnapshot) {
   static constexpr char kValue2[] = "different_value";
   static constexpr char kEntry3A[] = "list";
   static constexpr char kEntry3B[] = "erine";
+  const AnnotationSnapshot annotation(
+      "market", 1, {'2', '3', 'r', 'd', ' ', 'S', 't', '.'});
 
   std::vector<const ModuleSnapshot*> module_snapshots;
 
@@ -369,6 +461,10 @@ TEST(MinidumpModuleCrashpadInfoWriter, InitializeFromSnapshot) {
   module_snapshot_3.SetAnnotationsVector(annotations_vector_3);
   module_snapshots.push_back(&module_snapshot_3);
 
+  TestModuleSnapshot module_snapshot_4;
+  module_snapshot_4.SetAnnotationObjects({annotation});
+  module_snapshots.push_back(&module_snapshot_4);
+
   auto module_list_writer =
       std::make_unique<MinidumpModuleCrashpadInfoListWriter>();
   module_list_writer->InitializeFromSnapshot(module_snapshots);
@@ -378,7 +474,7 @@ TEST(MinidumpModuleCrashpadInfoWriter, InitializeFromSnapshot) {
   ASSERT_TRUE(module_list_writer->WriteEverything(&string_file));
 
   const MinidumpModuleCrashpadInfoList* module_list =
-      MinidumpModuleCrashpadInfoListAtStart(string_file.string(), 3);
+      MinidumpModuleCrashpadInfoListAtStart(string_file.string(), 4);
   ASSERT_TRUE(module_list);
 
   EXPECT_EQ(module_list->modules[0].minidump_module_list_index, 0u);
@@ -413,6 +509,9 @@ TEST(MinidumpModuleCrashpadInfoWriter, InitializeFromSnapshot) {
                 string_file.string(), simple_annotations_0->entries[1].value),
             kValue0A);
 
+  EXPECT_FALSE(MinidumpWritableAtLocationDescriptor<MinidumpAnnotationList>(
+      string_file.string(), module_0->annotation_objects));
+
   EXPECT_EQ(module_list->modules[1].minidump_module_list_index, 2u);
   const MinidumpModuleCrashpadInfo* module_2 =
       MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
@@ -439,6 +538,9 @@ TEST(MinidumpModuleCrashpadInfoWriter, InitializeFromSnapshot) {
                 string_file.string(), simple_annotations_2->entries[0].value),
             kValue2);
 
+  EXPECT_FALSE(MinidumpWritableAtLocationDescriptor<MinidumpAnnotationList>(
+      string_file.string(), module_2->annotation_objects));
+
   EXPECT_EQ(module_list->modules[2].minidump_module_list_index, 3u);
   const MinidumpModuleCrashpadInfo* module_3 =
       MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
@@ -464,6 +566,39 @@ TEST(MinidumpModuleCrashpadInfoWriter, InitializeFromSnapshot) {
       MinidumpWritableAtLocationDescriptor<MinidumpSimpleStringDictionary>(
           string_file.string(), module_3->simple_annotations);
   EXPECT_FALSE(simple_annotations_3);
+
+  EXPECT_FALSE(MinidumpWritableAtLocationDescriptor<MinidumpAnnotationList>(
+      string_file.string(), module_3->annotation_objects));
+
+  EXPECT_EQ(module_list->modules[3].minidump_module_list_index, 4u);
+  const MinidumpModuleCrashpadInfo* module_4 =
+      MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
+          string_file.string(), module_list->modules[3].location);
+  ASSERT_TRUE(module_4);
+
+  EXPECT_EQ(module_4->version, MinidumpModuleCrashpadInfo::kVersion);
+
+  EXPECT_FALSE(MinidumpWritableAtLocationDescriptor<MinidumpRVAList>(
+      string_file.string(), module_4->list_annotations));
+  EXPECT_FALSE(
+      MinidumpWritableAtLocationDescriptor<MinidumpSimpleStringDictionary>(
+          string_file.string(), module_4->simple_annotations));
+
+  auto* annotation_list_4 =
+      MinidumpWritableAtLocationDescriptor<MinidumpAnnotationList>(
+          string_file.string(), module_4->annotation_objects);
+  ASSERT_TRUE(annotation_list_4);
+
+  ASSERT_EQ(annotation_list_4->count, 1u);
+
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            annotation_list_4->objects[0].name),
+            annotation.name);
+  EXPECT_EQ(annotation_list_4->objects[0].type, annotation.type);
+  EXPECT_EQ(annotation_list_4->objects[0].reserved, 0u);
+  EXPECT_EQ(MinidumpByteArrayAtRVA(string_file.string(),
+                                   annotation_list_4->objects[0].value),
+            annotation.value);
 }
 
 }  // namespace

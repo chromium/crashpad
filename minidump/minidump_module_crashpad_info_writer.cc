@@ -17,6 +17,7 @@
 #include <utility>
 
 #include "base/logging.h"
+#include "minidump/minidump_annotation_writer.h"
 #include "minidump/minidump_simple_string_dictionary_writer.h"
 #include "snapshot/module_snapshot.h"
 #include "util/file/file_writer.h"
@@ -28,7 +29,8 @@ MinidumpModuleCrashpadInfoWriter::MinidumpModuleCrashpadInfoWriter()
     : MinidumpWritable(),
       module_(),
       list_annotations_(),
-      simple_annotations_() {
+      simple_annotations_(),
+      annotation_objects_() {
   module_.version = MinidumpModuleCrashpadInfo::kVersion;
 }
 
@@ -54,6 +56,12 @@ void MinidumpModuleCrashpadInfoWriter::InitializeFromSnapshot(
   if (simple_annotations->IsUseful()) {
     SetSimpleAnnotations(std::move(simple_annotations));
   }
+
+  auto annotation_objects = std::make_unique<MinidumpAnnotationListWriter>();
+  annotation_objects->InitializeFromList(module_snapshot->AnnotationObjects());
+  if (annotation_objects->IsUseful()) {
+    SetAnnotationObjects(std::move(annotation_objects));
+  }
 }
 
 void MinidumpModuleCrashpadInfoWriter::SetListAnnotations(
@@ -70,8 +78,15 @@ void MinidumpModuleCrashpadInfoWriter::SetSimpleAnnotations(
   simple_annotations_ = std::move(simple_annotations);
 }
 
+void MinidumpModuleCrashpadInfoWriter::SetAnnotationObjects(
+    std::unique_ptr<MinidumpAnnotationListWriter> annotation_objects) {
+  DCHECK_EQ(state(), kStateMutable);
+
+  annotation_objects_ = std::move(annotation_objects);
+}
+
 bool MinidumpModuleCrashpadInfoWriter::IsUseful() const {
-  return list_annotations_ || simple_annotations_;
+  return list_annotations_ || simple_annotations_ || annotation_objects_;
 }
 
 bool MinidumpModuleCrashpadInfoWriter::Freeze() {
@@ -88,6 +103,11 @@ bool MinidumpModuleCrashpadInfoWriter::Freeze() {
   if (simple_annotations_) {
     simple_annotations_->RegisterLocationDescriptor(
         &module_.simple_annotations);
+  }
+
+  if (annotation_objects_) {
+    annotation_objects_->RegisterLocationDescriptor(
+        &module_.annotation_objects);
   }
 
   return true;
@@ -109,6 +129,9 @@ MinidumpModuleCrashpadInfoWriter::Children() {
   }
   if (simple_annotations_) {
     children.push_back(simple_annotations_.get());
+  }
+  if (annotation_objects_) {
+    children.push_back(annotation_objects_.get());
   }
 
   return children;
