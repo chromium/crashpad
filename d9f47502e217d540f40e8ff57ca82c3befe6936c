@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0cfb252b_db879041",
+        "filename": "snapshot/minidump/minidump_annotation_reader.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-01T20:24:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "458ab646_2aa01c68",
+      "range": {
+        "startLine": 98,
+        "startChar": 10,
+        "endLine": 98,
+        "endChar": 28
+      },
+      "revId": "d9f47502e217d540f40e8ff57ca82c3befe6936c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24131663_a7a4e901",
         "filename": "snapshot/minidump/minidump_annotation_reader.h",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "d9f47502e217d540f40e8ff57ca82c3befe6936c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df08d30c_5769dad2",
+        "filename": "snapshot/minidump/minidump_annotation_reader.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-01T20:24:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24131663_a7a4e901",
+      "range": {
+        "startLine": 29,
+        "startChar": 58,
+        "endLine": 29,
+        "endChar": 74
+      },
+      "revId": "d9f47502e217d540f40e8ff57ca82c3befe6936c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "837aae37_2987370d",
+        "filename": "snapshot/minidump/minidump_annotation_reader.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-01T20:24:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e939e03_5bffd6fe",
+      "range": {
+        "startLine": 30,
+        "startChar": 45,
+        "endLine": 30,
+        "endChar": 58
+      },
+      "revId": "d9f47502e217d540f40e8ff57ca82c3befe6936c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bac8ff90_c2e635ae",
         "filename": "snapshot/minidump/module_snapshot_minidump.cc",
         "patchSetId": 1
@@ -82,6 +154,24 @@
       "writtenOn": "2017-11-01T18:01:37Z",
       "side": 1,
       "message": "This last one can just “return ReadMinidumpAnnotationList(…);”",
+      "revId": "d9f47502e217d540f40e8ff57ca82c3befe6936c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0ea60e2_09db0893",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-01T20:24:57Z",
+      "side": 1,
+      "message": "It can, but I prefer this because it follows the flow of the rest of the method. If you feel strongly I\u0027ll change it.",
+      "parentUuid": "bac8ff90_c2e635ae",
       "revId": "d9f47502e217d540f40e8ff57ca82c3befe6936c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
