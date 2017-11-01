@@ -22,6 +22,7 @@
 #include "gtest/gtest.h"
 #include "snapshot/win/process_reader_win.h"
 #include "test/errors.h"
+#include "test/test_paths.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/win/get_module_information.h"
 #include "util/win/module_version.h"
@@ -52,7 +53,11 @@ TEST(PEImageReader, DebugDirectory) {
   DWORD age;
   std::string pdbname;
   EXPECT_TRUE(pe_image_reader.DebugDirectoryInformation(&uuid, &age, &pdbname));
-  EXPECT_NE(pdbname.find("crashpad_snapshot_test"), std::string::npos);
+  std::string self_name = base::UTF16ToUTF8(
+      TestPaths::ExpectedExecutableBasename(L"crashpad_snapshot_test")
+          .RemoveFinalExtension()
+          .value());
+  EXPECT_NE(pdbname.find(self_name), std::string::npos);
   const std::string suffix(".pdb");
   EXPECT_EQ(
       pdbname.compare(pdbname.size() - suffix.size(), suffix.size(), suffix),
