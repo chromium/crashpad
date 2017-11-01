@@ -107,12 +107,12 @@
         }],
         ['OS=="win"', {
           'dependencies': [
+            'crashpad_snapshot_test_annotations',
             'crashpad_snapshot_test_crashing_child',
             'crashpad_snapshot_test_dump_without_crashing',
             'crashpad_snapshot_test_extra_memory_ranges',
             'crashpad_snapshot_test_image_reader',
             'crashpad_snapshot_test_image_reader_module',
-            'crashpad_snapshot_test_simple_annotations',
           ],
         }],
         ['OS=="linux" or OS=="android"', {
