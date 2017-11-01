@@ -104,10 +104,12 @@ TEST(ProcessInfo, Self) {
   std::vector<ProcessInfo::Module> modules;
   EXPECT_TRUE(process_info.Modules(&modules));
   ASSERT_GE(modules.size(), 2u);
-  static constexpr wchar_t kSelfName[] = L"\\crashpad_util_test.exe";
-  ASSERT_GE(modules[0].name.size(), wcslen(kSelfName));
-  EXPECT_EQ(modules[0].name.substr(modules[0].name.size() - wcslen(kSelfName)),
-            kSelfName);
+  std::wstring self_name =
+      std::wstring(1, '\\') +
+      TestPaths::ExpectedExecutableBasename(L"crashpad_util_test").value();
+  ASSERT_GE(modules[0].name.size(), self_name.size());
+  EXPECT_EQ(modules[0].name.substr(modules[0].name.size() - self_name.size()),
+            self_name);
   ASSERT_GE(modules[1].name.size(), wcslen(kNtdllName));
   EXPECT_EQ(modules[1].name.substr(modules[1].name.size() - wcslen(kNtdllName)),
             kNtdllName);
