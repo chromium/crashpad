@@ -67,10 +67,10 @@ class AnnotationList;
 //! are permanently referenced by a global object.
 class Annotation {
  public:
-  //! \brief The maximum length of the #name field in bytes.
+  //! \brief The maximum length of an annotation’s name, in bytes.
   static constexpr size_t kNameMaxLength = 64;
 
-  //! \brief The maximum size of the #value field in bytes.
+  //! \brief The maximum size of an annotation’s value, in bytes.
   static constexpr size_t kValueMaxSize = 2048;
 
   //! \brief The type used for \a SetSize().
