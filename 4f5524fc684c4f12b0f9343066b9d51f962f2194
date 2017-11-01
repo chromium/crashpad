@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "1ac82e6d_3583891a",
+        "filename": "client/annotation.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-01T17:16:03Z",
+      "side": 0,
+      "message": "Both of these moved from AnnotationSnapshot to here at some point and I forgot to update the comment.",
+      "parentUuid": "60e7ed06_13f20f96",
+      "revId": "4f5524fc684c4f12b0f9343066b9d51f962f2194",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0a176c5_60afc41b",
         "filename": "client/crashpad_info.h",
         "patchSetId": 1
