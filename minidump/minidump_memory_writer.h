@@ -28,7 +28,6 @@
 #include "minidump/minidump_writable.h"
 #include "snapshot/memory_snapshot.h"
 #include "util/file/file_io.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -162,7 +161,7 @@ class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
 
  private:
   std::vector<SnapshotMinidumpMemoryWriter*> memory_writers_;  // weak
-  PointerVector<SnapshotMinidumpMemoryWriter> children_;
+  std::vector<std::unique_ptr<SnapshotMinidumpMemoryWriter>> children_;
   MINIDUMP_MEMORY_LIST memory_list_base_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpMemoryListWriter);

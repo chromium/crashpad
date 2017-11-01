@@ -41,11 +41,11 @@ void SanityCheckContext(const CONTEXT& context) {
                                  CONTEXT_FLOATING_POINT;
   ASSERT_EQ(context.ContextFlags & must_have, must_have);
   constexpr uint32_t may_have = CONTEXT_EXTENDED_REGISTERS;
-  ASSERT_EQ(context.ContextFlags & ~(must_have | may_have), 0);
+  ASSERT_EQ(context.ContextFlags & ~(must_have | may_have), 0u);
 #elif defined(ARCH_CPU_X86_64)
   ASSERT_EQ(context.ContextFlags,
-            CONTEXT_AMD64 | CONTEXT_CONTROL | CONTEXT_INTEGER |
-                CONTEXT_SEGMENTS | CONTEXT_FLOATING_POINT);
+            static_cast<DWORD>(CONTEXT_AMD64 | CONTEXT_CONTROL |
+                CONTEXT_INTEGER | CONTEXT_SEGMENTS | CONTEXT_FLOATING_POINT));
 #endif
 
 #if defined(ARCH_CPU_X86_FAMILY)
@@ -61,12 +61,12 @@ void SanityCheckContext(const CONTEXT& context) {
   EXPECT_EQ(context.EFlags & 0xffc0802a, 2u);
 
   // CaptureContext() doesn’t capture debug registers, so make sure they read 0.
-  EXPECT_EQ(context.Dr0, 0);
-  EXPECT_EQ(context.Dr1, 0);
-  EXPECT_EQ(context.Dr2, 0);
-  EXPECT_EQ(context.Dr3, 0);
-  EXPECT_EQ(context.Dr6, 0);
-  EXPECT_EQ(context.Dr7, 0);
+  EXPECT_EQ(context.Dr0, 0u);
+  EXPECT_EQ(context.Dr1, 0u);
+  EXPECT_EQ(context.Dr2, 0u);
+  EXPECT_EQ(context.Dr3, 0u);
+  EXPECT_EQ(context.Dr6, 0u);
+  EXPECT_EQ(context.Dr7, 0u);
 #endif
 
 #if defined(ARCH_CPU_X86)
@@ -87,23 +87,23 @@ void SanityCheckContext(const CONTEXT& context) {
   }
 
   // CaptureContext() doesn’t use these fields.
-  EXPECT_EQ(context.P1Home, 0);
-  EXPECT_EQ(context.P2Home, 0);
-  EXPECT_EQ(context.P3Home, 0);
-  EXPECT_EQ(context.P4Home, 0);
-  EXPECT_EQ(context.P5Home, 0);
-  EXPECT_EQ(context.P6Home, 0);
+  EXPECT_EQ(context.P1Home, 0u);
+  EXPECT_EQ(context.P2Home, 0u);
+  EXPECT_EQ(context.P3Home, 0u);
+  EXPECT_EQ(context.P4Home, 0u);
+  EXPECT_EQ(context.P5Home, 0u);
+  EXPECT_EQ(context.P6Home, 0u);
   for (size_t i = 0; i < arraysize(context.VectorRegister); ++i) {
     SCOPED_TRACE(i);
-    EXPECT_EQ(context.VectorRegister[i].Low, 0);
-    EXPECT_EQ(context.VectorRegister[i].High, 0);
+    EXPECT_EQ(context.VectorRegister[i].Low, 0u);
+    EXPECT_EQ(context.VectorRegister[i].High, 0u);
   }
-  EXPECT_EQ(context.VectorControl, 0);
-  EXPECT_EQ(context.DebugControl, 0);
-  EXPECT_EQ(context.LastBranchToRip, 0);
-  EXPECT_EQ(context.LastBranchFromRip, 0);
-  EXPECT_EQ(context.LastExceptionToRip, 0);
-  EXPECT_EQ(context.LastExceptionFromRip, 0);
+  EXPECT_EQ(context.VectorControl, 0u);
+  EXPECT_EQ(context.DebugControl, 0u);
+  EXPECT_EQ(context.LastBranchToRip, 0u);
+  EXPECT_EQ(context.LastBranchFromRip, 0u);
+  EXPECT_EQ(context.LastExceptionToRip, 0u);
+  EXPECT_EQ(context.LastExceptionFromRip, 0u);
 #endif
 }
 

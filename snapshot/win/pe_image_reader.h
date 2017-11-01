@@ -48,6 +48,7 @@ struct CrashpadInfo {
   typename Traits::Pointer extra_address_ranges;
   typename Traits::Pointer simple_annotations;
   typename Traits::Pointer user_data_minidump_stream_head;
+  typename Traits::Pointer annotations_list;
 };
 
 }  // namespace process_types

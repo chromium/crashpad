@@ -69,6 +69,15 @@ TEST(MinidumpContextWriter, MinidumpContextX86Writer) {
 }
 
 TEST(MinidumpContextWriter, MinidumpContextAMD64Writer) {
+  {
+    // Make sure that a heap-allocated context writer has the proper alignment,
+    // because it may be nonstandard.
+    auto context_writer = std::make_unique<MinidumpContextAMD64Writer>();
+    EXPECT_EQ(reinterpret_cast<uintptr_t>(context_writer.get()) &
+                  (alignof(MinidumpContextAMD64Writer) - 1),
+              0u);
+  }
+
   StringFile string_file;
 
   {

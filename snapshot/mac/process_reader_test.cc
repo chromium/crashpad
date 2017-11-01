@@ -23,8 +23,7 @@
 #include <sys/stat.h>
 
 #include <map>
-#include <string>
-#include <vector>
+#include <utility>
 
 #include "base/logging.h"
 #include "base/mac/scoped_mach_port.h"
@@ -41,18 +40,7 @@
 #include "util/mac/mac_util.h"
 #include "util/mach/mach_extensions.h"
 #include "util/misc/from_pointer_cast.h"
-#include "util/stdlib/pointer_container.h"
 #include "util/synchronization/semaphore.h"
-
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_10
-extern "C" {
-
-// Redeclare a typedef whose availability (OS X 10.10) is newer than the
-// deployment target.
-typedef struct _cl_device_id* cl_device_id;
-
-}  // extern "C"
-#endif
 
 namespace crashpad {
 namespace test {
@@ -175,7 +163,7 @@ class TestThreadPool {
   // Resumes suspended threads, signals each thread’s exit semaphore asking it
   // to exit, and joins each thread, blocking until they have all exited.
   ~TestThreadPool() {
-    for (ThreadInfo* thread_info : thread_infos_) {
+    for (const auto& thread_info : thread_infos_) {
       thread_t thread_port = pthread_mach_thread_np(thread_info->pthread);
       while (thread_info->suspend_count > 0) {
         kern_return_t kr = thread_resume(thread_port);
@@ -184,11 +172,11 @@ class TestThreadPool {
       }
     }
 
-    for (ThreadInfo* thread_info : thread_infos_) {
+    for (const auto& thread_info : thread_infos_) {
       thread_info->exit_semaphore.Signal();
     }
 
-    for (const ThreadInfo* thread_info : thread_infos_) {
+    for (const auto& thread_info : thread_infos_) {
       int rv = pthread_join(thread_info->pthread, nullptr);
       CHECK_EQ(0, rv);
     }
@@ -201,8 +189,8 @@ class TestThreadPool {
     ASSERT_TRUE(thread_infos_.empty());
 
     for (size_t thread_index = 0; thread_index < thread_count; ++thread_index) {
-      ThreadInfo* thread_info = new ThreadInfo();
-      thread_infos_.push_back(thread_info);
+      thread_infos_.push_back(std::make_unique<ThreadInfo>());
+      ThreadInfo* thread_info = thread_infos_.back().get();
 
       int rv = pthread_create(&thread_info->pthread,
                               nullptr,
@@ -211,7 +199,7 @@ class TestThreadPool {
       ASSERT_EQ(rv, 0);
     }
 
-    for (ThreadInfo* thread_info : thread_infos_) {
+    for (const auto& thread_info : thread_infos_) {
       thread_info->ready_semaphore.Wait();
     }
 
@@ -238,7 +226,7 @@ class TestThreadPool {
                          ThreadExpectation* expectation) {
     CHECK_LT(thread_index, thread_infos_.size());
 
-    const ThreadInfo* thread_info = thread_infos_[thread_index];
+    const auto& thread_info = thread_infos_[thread_index];
     expectation->stack_address = thread_info->stack_address;
     expectation->suspend_count = thread_info->suspend_count;
 
@@ -297,9 +285,9 @@ class TestThreadPool {
     return nullptr;
   }
 
-  // This is a PointerVector because the address of a ThreadInfo object is
+  // This is a vector of pointers because the address of a ThreadInfo object is
   // passed to each thread’s ThreadMain(), so they cannot move around in memory.
-  PointerVector<ThreadInfo> thread_infos_;
+  std::vector<std::unique_ptr<ThreadInfo>> thread_infos_;
 
   DISALLOW_COPY_AND_ASSIGN(TestThreadPool);
 };
@@ -576,10 +564,24 @@ class ScopedOpenCLNoOpKernel {
     cl_int rv = clGetPlatformIDs(1, &platform_id, nullptr);
     ASSERT_EQ(rv, CL_SUCCESS) << "clGetPlatformIDs";
 
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_10 && \
+    MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_10
+    // cl_device_id is really available in OpenCL.framework back to 10.5, but in
+    // the 10.10 SDK and later, OpenCL.framework includes <OpenGL/CGLDevice.h>,
+    // which has its own cl_device_id that was introduced in 10.10. That
+    // triggers erroneous availability warnings.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability"
+#define DISABLED_WUNGUARDED_AVAILABILITY
+#endif  // SDK >= 10.10 && DT < 10.10
     // Use CL_DEVICE_TYPE_CPU to ensure that the kernel would execute on the
     // CPU. This is the only device type that a cl_kernels image will be created
     // for.
     cl_device_id device_id;
+#if defined(DISABLED_WUNGUARDED_AVAILABILITY)
+#pragma clang diagnostic pop
+#undef DISABLED_WUNGUARDED_AVAILABILITY
+#endif  // DISABLED_WUNGUARDED_AVAILABILITY
     rv =
         clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_CPU, 1, &device_id, nullptr);
     ASSERT_EQ(rv, CL_SUCCESS) << "clGetDeviceIDs";

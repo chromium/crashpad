@@ -24,25 +24,30 @@ namespace internal {
 
 #if defined(ARCH_CPU_X86_FAMILY)
 
+#define SET_GPRS32()                         \
+  do {                                       \
+    context->eax = thread_context.eax;       \
+    context->ebx = thread_context.ebx;       \
+    context->ecx = thread_context.ecx;       \
+    context->edx = thread_context.edx;       \
+    context->edi = thread_context.edi;       \
+    context->esi = thread_context.esi;       \
+    context->ebp = thread_context.ebp;       \
+    context->esp = thread_context.esp;       \
+    context->eip = thread_context.eip;       \
+    context->eflags = thread_context.eflags; \
+    context->cs = thread_context.xcs;        \
+    context->ds = thread_context.xds;        \
+    context->es = thread_context.xes;        \
+    context->fs = thread_context.xfs;        \
+    context->gs = thread_context.xgs;        \
+    context->ss = thread_context.xss;        \
+  } while (false)
+
 void InitializeCPUContextX86(const ThreadContext::t32_t& thread_context,
                              const FloatContext::f32_t& float_context,
                              CPUContextX86* context) {
-  context->eax = thread_context.eax;
-  context->ebx = thread_context.ebx;
-  context->ecx = thread_context.ecx;
-  context->edx = thread_context.edx;
-  context->edi = thread_context.edi;
-  context->esi = thread_context.esi;
-  context->ebp = thread_context.ebp;
-  context->esp = thread_context.esp;
-  context->eip = thread_context.eip;
-  context->eflags = thread_context.eflags;
-  context->cs = thread_context.xcs;
-  context->ds = thread_context.xds;
-  context->es = thread_context.xes;
-  context->fs = thread_context.xfs;
-  context->gs = thread_context.xgs;
-  context->ss = thread_context.xss;
+  SET_GPRS32();
 
   static_assert(sizeof(context->fxsave) == sizeof(float_context.fxsave),
                 "fxsave size mismatch");
@@ -60,30 +65,57 @@ void InitializeCPUContextX86(const ThreadContext::t32_t& thread_context,
 
 }
 
+void InitializeCPUContextX86(const SignalThreadContext32& thread_context,
+                             const SignalFloatContext32& float_context,
+                             CPUContextX86* context) {
+  InitializeCPUContextX86_NoFloatingPoint(thread_context, context);
+  CPUContextX86::FsaveToFxsave(float_context.fsave, &context->fxsave);
+}
+
+void InitializeCPUContextX86_NoFloatingPoint(
+    const SignalThreadContext32& thread_context,
+    CPUContextX86* context) {
+  SET_GPRS32();
+
+  context->dr0 = 0;
+  context->dr1 = 0;
+  context->dr2 = 0;
+  context->dr3 = 0;
+  context->dr4 = 0;
+  context->dr5 = 0;
+  context->dr6 = 0;
+  context->dr7 = 0;
+}
+
+#define SET_GPRS64()                         \
+  do {                                       \
+    context->rax = thread_context.rax;       \
+    context->rbx = thread_context.rbx;       \
+    context->rcx = thread_context.rcx;       \
+    context->rdx = thread_context.rdx;       \
+    context->rdi = thread_context.rdi;       \
+    context->rsi = thread_context.rsi;       \
+    context->rbp = thread_context.rbp;       \
+    context->rsp = thread_context.rsp;       \
+    context->r8 = thread_context.r8;         \
+    context->r9 = thread_context.r9;         \
+    context->r10 = thread_context.r10;       \
+    context->r11 = thread_context.r11;       \
+    context->r12 = thread_context.r12;       \
+    context->r13 = thread_context.r13;       \
+    context->r14 = thread_context.r14;       \
+    context->r15 = thread_context.r15;       \
+    context->rip = thread_context.rip;       \
+    context->rflags = thread_context.eflags; \
+    context->cs = thread_context.cs;         \
+    context->fs = thread_context.fs;         \
+    context->gs = thread_context.gs;         \
+  } while (false)
+
 void InitializeCPUContextX86_64(const ThreadContext::t64_t& thread_context,
                                 const FloatContext::f64_t& float_context,
                                 CPUContextX86_64* context) {
-  context->rax = thread_context.rax;
-  context->rbx = thread_context.rbx;
-  context->rcx = thread_context.rcx;
-  context->rdx = thread_context.rdx;
-  context->rdi = thread_context.rdi;
-  context->rsi = thread_context.rsi;
-  context->rbp = thread_context.rbp;
-  context->rsp = thread_context.rsp;
-  context->r8 = thread_context.r8;
-  context->r9 = thread_context.r9;
-  context->r10 = thread_context.r10;
-  context->r11 = thread_context.r11;
-  context->r12 = thread_context.r12;
-  context->r13 = thread_context.r13;
-  context->r14 = thread_context.r14;
-  context->r15 = thread_context.r15;
-  context->rip = thread_context.rip;
-  context->rflags = thread_context.eflags;
-  context->cs = thread_context.cs;
-  context->fs = thread_context.fs;
-  context->gs = thread_context.gs;
+  SET_GPRS64();
 
   static_assert(sizeof(context->fxsave) == sizeof(float_context.fxsave),
                 "fxsave size mismatch");
@@ -100,6 +132,25 @@ void InitializeCPUContextX86_64(const ThreadContext::t64_t& thread_context,
   context->dr7 = 0;
 }
 
+void InitializeCPUContextX86_64(const SignalThreadContext64& thread_context,
+                                const SignalFloatContext64& float_context,
+                                CPUContextX86_64* context) {
+  SET_GPRS64();
+
+  static_assert(
+      std::is_same<SignalFloatContext64, CPUContextX86_64::Fxsave>::value,
+      "signal float context has unexpected type");
+  memcpy(&context->fxsave, &float_context, sizeof(context->fxsave));
+
+  context->dr0 = 0;
+  context->dr1 = 0;
+  context->dr2 = 0;
+  context->dr3 = 0;
+  context->dr4 = 0;
+  context->dr5 = 0;
+  context->dr6 = 0;
+  context->dr7 = 0;
+}
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY || DOXYGEN

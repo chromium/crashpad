@@ -182,17 +182,20 @@ std::unique_ptr<WinChildProcess::Handles> WinChildProcess::Launch() {
   }
 
   // Build a command line for the child process that tells it only to run the
-  // current test, and to pass down the values of the pipe handles.
+  // current test, and to pass down the values of the pipe handles. Use
+  // --gtest_also_run_disabled_tests because the test may be DISABLED_, but if
+  // it managed to run in the parent, disabled tests must be running.
   const ::testing::TestInfo* const test_info =
       ::testing::UnitTest::GetInstance()->current_test_info();
   std::wstring command_line =
-      TestPaths::Executable().value() + L" " +
-      base::UTF8ToUTF16(base::StringPrintf("--gtest_filter=%s.%s %s=0x%x|0x%x",
-                                           test_info->test_case_name(),
-                                           test_info->name(),
-                                           kIsMultiprocessChild,
-                                           HandleToInt(write_for_child.get()),
-                                           HandleToInt(read_for_child.get())));
+      TestPaths::Executable().value() +
+      base::UTF8ToUTF16(base::StringPrintf(
+          " --gtest_filter=%s.%s %s=0x%x|0x%x --gtest_also_run_disabled_tests",
+          test_info->test_case_name(),
+          test_info->name(),
+          kIsMultiprocessChild,
+          HandleToInt(write_for_child.get()),
+          HandleToInt(read_for_child.get())));
 
   // Command-line buffer cannot be constant, per CreateProcess signature.
   handles_for_parent->process = LaunchCommandLine(&command_line[0]);
@@ -213,7 +216,7 @@ std::unique_ptr<WinChildProcess::Handles> WinChildProcess::Launch() {
     return std::unique_ptr<Handles>();
   }
 
-  return std::move(handles_for_parent);
+  return handles_for_parent;
 }
 
 FileHandle WinChildProcess::ReadPipeHandle() const {

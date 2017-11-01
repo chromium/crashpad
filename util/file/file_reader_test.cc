@@ -45,7 +45,7 @@ class MockFileReader : public FileReaderInterface {
   MOCK_METHOD2(ReadInt, FileOperationResult(uintptr_t, size_t));
 
   // FileReaderInterface:
-  FileOperationResult Read(void* data, size_t size) {
+  FileOperationResult Read(void* data, size_t size) override {
     return ReadInt(reinterpret_cast<uintptr_t>(data), size);
   }
 

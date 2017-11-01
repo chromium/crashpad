@@ -43,7 +43,7 @@ void AppendCommandLineArgumentTest(size_t argc, const wchar_t* const argv[]) {
 
   ASSERT_TRUE(test_argv) << ErrorMessage("CommandLineToArgvW");
   ScopedLocalAlloc test_argv_owner(test_argv);
-  ASSERT_EQ(test_argc, argc);
+  ASSERT_EQ(test_argc, static_cast<int>(argc));
 
   for (size_t index = 0; index < argc; ++index) {
     EXPECT_STREQ(argv[index], test_argv[index]) << "index " << index;
@@ -60,7 +60,7 @@ TEST(CommandLine, AppendCommandLineArgument) {
   {
     SCOPED_TRACE("simple");
 
-    static constexpr wchar_t* const kArguments[] = {
+    static constexpr const wchar_t* kArguments[] = {
         L"child.exe",
         L"argument 1",
         L"argument 2",
@@ -71,7 +71,7 @@ TEST(CommandLine, AppendCommandLineArgument) {
   {
     SCOPED_TRACE("path with spaces");
 
-    static constexpr wchar_t* const kArguments[] = {
+    static constexpr const wchar_t* kArguments[] = {
         L"child.exe",
         L"argument1",
         L"argument 2",
@@ -83,7 +83,7 @@ TEST(CommandLine, AppendCommandLineArgument) {
   {
     SCOPED_TRACE("argument with embedded quotation marks");
 
-    static constexpr wchar_t* const kArguments[] = {
+    static constexpr const wchar_t* kArguments[] = {
         L"child.exe",
         L"argument1",
         L"she said, \"you had me at hello\"",
@@ -95,7 +95,7 @@ TEST(CommandLine, AppendCommandLineArgument) {
   {
     SCOPED_TRACE("argument with unbalanced quotation marks");
 
-    static constexpr wchar_t* const kArguments[] = {
+    static constexpr const wchar_t* kArguments[] = {
         L"child.exe",
         L"argument1",
         L"argument\"2",
@@ -108,7 +108,7 @@ TEST(CommandLine, AppendCommandLineArgument) {
   {
     SCOPED_TRACE("argument ending with backslash");
 
-    static constexpr wchar_t* const kArguments[] = {
+    static constexpr const wchar_t* kArguments[] = {
         L"child.exe",
         L"\\some\\directory with\\spaces\\",
         L"argument2",
@@ -119,7 +119,7 @@ TEST(CommandLine, AppendCommandLineArgument) {
   {
     SCOPED_TRACE("empty argument");
 
-    static constexpr wchar_t* const kArguments[] = {
+    static constexpr const wchar_t* kArguments[] = {
         L"child.exe",
         L"",
         L"argument2",
@@ -130,7 +130,7 @@ TEST(CommandLine, AppendCommandLineArgument) {
   {
     SCOPED_TRACE("funny nonprintable characters");
 
-    static constexpr wchar_t* const kArguments[] = {
+    static constexpr const wchar_t* kArguments[] = {
         L"child.exe",
         L"argument 1",
         L"argument\t2",

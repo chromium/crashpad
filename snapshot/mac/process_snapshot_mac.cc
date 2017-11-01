@@ -14,8 +14,9 @@
 
 #include "snapshot/mac/process_snapshot_mac.h"
 
+#include <utility>
+
 #include "base/logging.h"
-#include "base/memory/ptr_util.h"
 #include "util/misc/tri_state.h"
 
 namespace crashpad {
@@ -93,7 +94,7 @@ void ProcessSnapshotMac::GetCrashpadOptions(
 
   CrashpadInfoClientOptions local_options;
 
-  for (internal::ModuleSnapshotMac* module : modules_) {
+  for (const auto& module : modules_) {
     CrashpadInfoClientOptions module_options;
     module->GetCrashpadOptions(&module_options);
 
@@ -174,8 +175,8 @@ const SystemSnapshot* ProcessSnapshotMac::System() const {
 std::vector<const ThreadSnapshot*> ProcessSnapshotMac::Threads() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   std::vector<const ThreadSnapshot*> threads;
-  for (internal::ThreadSnapshotMac* thread : threads_) {
-    threads.push_back(thread);
+  for (const auto& thread : threads_) {
+    threads.push_back(thread.get());
   }
   return threads;
 }
@@ -183,8 +184,8 @@ std::vector<const ThreadSnapshot*> ProcessSnapshotMac::Threads() const {
 std::vector<const ModuleSnapshot*> ProcessSnapshotMac::Modules() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   std::vector<const ModuleSnapshot*> modules;
-  for (internal::ModuleSnapshotMac* module : modules_) {
-    modules.push_back(module);
+  for (const auto& module : modules_) {
+    modules.push_back(module.get());
   }
   return modules;
 }
@@ -221,9 +222,9 @@ void ProcessSnapshotMac::InitializeThreads() {
       process_reader_.Threads();
   for (const ProcessReader::Thread& process_reader_thread :
        process_reader_threads) {
-    auto thread = base::WrapUnique(new internal::ThreadSnapshotMac());
+    auto thread = std::make_unique<internal::ThreadSnapshotMac>();
     if (thread->Initialize(&process_reader_, process_reader_thread)) {
-      threads_.push_back(thread.release());
+      threads_.push_back(std::move(thread));
     }
   }
 }
@@ -233,9 +234,9 @@ void ProcessSnapshotMac::InitializeModules() {
       process_reader_.Modules();
   for (const ProcessReader::Module& process_reader_module :
        process_reader_modules) {
-    auto module = base::WrapUnique(new internal::ModuleSnapshotMac());
+    auto module = std::make_unique<internal::ModuleSnapshotMac>();
     if (module->Initialize(&process_reader_, process_reader_module)) {
-      modules_.push_back(module.release());
+      modules_.push_back(std::move(module));
     }
   }
 }

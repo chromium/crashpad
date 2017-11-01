@@ -28,6 +28,8 @@
 
 #include "base/files/file_path.h"
 #include "base/macros.h"
+#include "client/annotation.h"
+#include "client/annotation_list.h"
 #include "client/crashpad_info.h"
 #include "client/simple_string_dictionary.h"
 #include "gtest/gtest.h"
@@ -49,13 +51,16 @@ namespace test {
 namespace {
 
 // \return The path to crashpad_snapshot_test_module_crashy_initializer.so
-std::string ModuleWithCrashyInitializer() {
-  return TestPaths::Executable().value() + "_module_crashy_initializer.so";
+base::FilePath ModuleWithCrashyInitializer() {
+  return TestPaths::BuildArtifact("snapshot",
+                                  "module_crashy_initializer",
+                                  TestPaths::FileType::kLoadableModule);
 }
 
 //! \return The path to the crashpad_snapshot_test_no_op executable.
 base::FilePath NoOpExecutable() {
-  return base::FilePath(TestPaths::Executable().value() + "_no_op");
+  return TestPaths::BuildArtifact(
+      "snapshot", "no_op", TestPaths::FileType::kExecutable);
 }
 
 class TestMachOImageAnnotationsReader final
@@ -181,7 +186,7 @@ class TestMachOImageAnnotationsReader final
           case kCrashModuleInitialization:
             // This message is set by dyld-353.2.1/src/ImageLoaderMachO.cpp
             // ImageLoaderMachO::doInitialization().
-            expected_annotation = ModuleWithCrashyInitializer();
+            expected_annotation = ModuleWithCrashyInitializer().value();
             break;
 
           case kCrashDyld:
@@ -248,10 +253,12 @@ class TestMachOImageAnnotationsReader final
     char c;
     CheckedReadFileExactly(ReadPipeHandle(), &c, sizeof(c));
 
-    // Verify the “simple map” annotations set via the CrashpadInfo interface.
+    // Verify the “simple map” and object-based annotations set via the
+    // CrashpadInfo interface.
     const std::vector<ProcessReader::Module>& modules =
         process_reader.Modules();
     std::map<std::string, std::string> all_annotations_simple_map;
+    std::vector<AnnotationSnapshot> all_annotations;
     for (const ProcessReader::Module& module : modules) {
       MachOImageAnnotationsReader module_annotations_reader(
           &process_reader, module.reader, module.name);
@@ -259,6 +266,11 @@ class TestMachOImageAnnotationsReader final
           module_annotations_reader.SimpleMap();
       all_annotations_simple_map.insert(module_annotations_simple_map.begin(),
                                         module_annotations_simple_map.end());
+
+      std::vector<AnnotationSnapshot> annotations =
+          module_annotations_reader.AnnotationsList();
+      all_annotations.insert(
+          all_annotations.end(), annotations.begin(), annotations.end());
     }
 
     EXPECT_GE(all_annotations_simple_map.size(), 5u);
@@ -267,6 +279,31 @@ class TestMachOImageAnnotationsReader final
     EXPECT_EQ(all_annotations_simple_map["#TEST# x"], "y");
     EXPECT_EQ(all_annotations_simple_map["#TEST# longer"], "shorter");
     EXPECT_EQ(all_annotations_simple_map["#TEST# empty_value"], "");
+
+    EXPECT_EQ(all_annotations.size(), 3u);
+    bool saw_same_name_3 = false, saw_same_name_4 = false;
+    for (const auto& annotation : all_annotations) {
+      EXPECT_EQ(annotation.type,
+                static_cast<uint16_t>(Annotation::Type::kString));
+      std::string value(reinterpret_cast<const char*>(annotation.value.data()),
+                        annotation.value.size());
+
+      if (annotation.name == "#TEST# one") {
+        EXPECT_EQ(value, "moocow");
+      } else if (annotation.name == "#TEST# same-name") {
+        if (value == "same-name 3") {
+          EXPECT_FALSE(saw_same_name_3);
+          saw_same_name_3 = true;
+        } else if (value == "same-name 4") {
+          EXPECT_FALSE(saw_same_name_4);
+          saw_same_name_4 = true;
+        } else {
+          ADD_FAILURE() << "unexpected annotation value " << value;
+        }
+      } else {
+        ADD_FAILURE() << "unexpected annotation " << annotation.name;
+      }
+    }
 
     // Tell the child process that it’s permitted to crash.
     CheckedWriteFile(WritePipeHandle(), &c, sizeof(c));
@@ -329,6 +366,19 @@ class TestMachOImageAnnotationsReader final
 
     crashpad_info->set_simple_annotations(simple_annotations);
 
+    AnnotationList::Register();  // This is “leaked” to crashpad_info.
+
+    static StringAnnotation<32> test_annotation_one{"#TEST# one"};
+    static StringAnnotation<32> test_annotation_two{"#TEST# two"};
+    static StringAnnotation<32> test_annotation_three{"#TEST# same-name"};
+    static StringAnnotation<32> test_annotation_four{"#TEST# same-name"};
+
+    test_annotation_one.Set("moocow");
+    test_annotation_two.Set("this will be cleared");
+    test_annotation_three.Set("same-name 3");
+    test_annotation_four.Set("same-name 4");
+    test_annotation_two.Clear();
+
     // Tell the parent that the environment has been set up.
     char c = '\0';
     CheckedWriteFile(WritePipeHandle(), &c, sizeof(c));
@@ -355,7 +405,7 @@ class TestMachOImageAnnotationsReader final
 
       case kCrashModuleInitialization: {
         // Load a module that crashes while executing a module initializer.
-        void* dl_handle = dlopen(ModuleWithCrashyInitializer().c_str(),
+        void* dl_handle = dlopen(ModuleWithCrashyInitializer().value().c_str(),
                                  RTLD_LAZY | RTLD_LOCAL);
 
         // This should have crashed in the dlopen(). If dlopen() failed, the

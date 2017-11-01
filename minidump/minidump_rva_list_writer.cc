@@ -14,6 +14,8 @@
 
 #include "minidump/minidump_rva_list_writer.h"
 
+#include <utility>
+
 #include "base/logging.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/safe_assignment.h"
@@ -34,7 +36,7 @@ MinidumpRVAListWriter::~MinidumpRVAListWriter() {
 void MinidumpRVAListWriter::AddChild(std::unique_ptr<MinidumpWritable> child) {
   DCHECK_EQ(state(), kStateMutable);
 
-  children_.push_back(child.release());
+  children_.push_back(std::move(child));
 }
 
 bool MinidumpRVAListWriter::Freeze() {
@@ -69,8 +71,8 @@ std::vector<MinidumpWritable*> MinidumpRVAListWriter::Children() {
   DCHECK_GE(state(), kStateFrozen);
 
   std::vector<MinidumpWritable*> children;
-  for (MinidumpWritable* child : children_) {
-    children.push_back(child);
+  for (const auto& child : children_) {
+    children.push_back(child.get());
   }
 
   return children;

@@ -19,9 +19,7 @@
 
 #include <utility>
 
-#include "base/memory/ptr_util.h"
 #include "gtest/gtest.h"
-#include "minidump/minidump_extensions.h"
 #include "minidump/minidump_simple_string_dictionary_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
@@ -61,7 +59,7 @@ TEST(MinidumpModuleCrashpadInfoWriter, EmptyList) {
   StringFile string_file;
 
   auto module_list_writer =
-      base::WrapUnique(new MinidumpModuleCrashpadInfoListWriter());
+      std::make_unique<MinidumpModuleCrashpadInfoListWriter>();
   EXPECT_FALSE(module_list_writer->IsUseful());
 
   EXPECT_TRUE(module_list_writer->WriteEverything(&string_file));
@@ -77,8 +75,8 @@ TEST(MinidumpModuleCrashpadInfoWriter, EmptyModule) {
   StringFile string_file;
 
   auto module_list_writer =
-      base::WrapUnique(new MinidumpModuleCrashpadInfoListWriter());
-  auto module_writer = base::WrapUnique(new MinidumpModuleCrashpadInfoWriter());
+      std::make_unique<MinidumpModuleCrashpadInfoListWriter>();
+  auto module_writer = std::make_unique<MinidumpModuleCrashpadInfoWriter>();
   EXPECT_FALSE(module_writer->IsUseful());
   module_list_writer->AddModule(std::move(module_writer), 0);
 
@@ -117,17 +115,16 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
   StringFile string_file;
 
   auto module_list_writer =
-      base::WrapUnique(new MinidumpModuleCrashpadInfoListWriter());
+      std::make_unique<MinidumpModuleCrashpadInfoListWriter>();
 
-  auto module_writer = base::WrapUnique(new MinidumpModuleCrashpadInfoWriter());
-  auto string_list_writer =
-      base::WrapUnique(new MinidumpUTF8StringListWriter());
+  auto module_writer = std::make_unique<MinidumpModuleCrashpadInfoWriter>();
+  auto string_list_writer = std::make_unique<MinidumpUTF8StringListWriter>();
   string_list_writer->InitializeFromVector(vector);
   module_writer->SetListAnnotations(std::move(string_list_writer));
   auto simple_string_dictionary_writer =
-      base::WrapUnique(new MinidumpSimpleStringDictionaryWriter());
+      std::make_unique<MinidumpSimpleStringDictionaryWriter>();
   auto simple_string_dictionary_entry_writer =
-      base::WrapUnique(new MinidumpSimpleStringDictionaryEntryWriter());
+      std::make_unique<MinidumpSimpleStringDictionaryEntryWriter>();
   simple_string_dictionary_entry_writer->SetKeyValue(kKey, kValue);
   simple_string_dictionary_writer->AddEntry(
       std::move(simple_string_dictionary_entry_writer));
@@ -207,14 +204,13 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
   StringFile string_file;
 
   auto module_list_writer =
-      base::WrapUnique(new MinidumpModuleCrashpadInfoListWriter());
+      std::make_unique<MinidumpModuleCrashpadInfoListWriter>();
 
-  auto module_writer_0 =
-      base::WrapUnique(new MinidumpModuleCrashpadInfoWriter());
+  auto module_writer_0 = std::make_unique<MinidumpModuleCrashpadInfoWriter>();
   auto simple_string_dictionary_writer_0 =
-      base::WrapUnique(new MinidumpSimpleStringDictionaryWriter());
+      std::make_unique<MinidumpSimpleStringDictionaryWriter>();
   auto simple_string_dictionary_entry_writer_0 =
-      base::WrapUnique(new MinidumpSimpleStringDictionaryEntryWriter());
+      std::make_unique<MinidumpSimpleStringDictionaryEntryWriter>();
   simple_string_dictionary_entry_writer_0->SetKeyValue(kKey0, kValue0);
   simple_string_dictionary_writer_0->AddEntry(
       std::move(simple_string_dictionary_entry_writer_0));
@@ -224,23 +220,21 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
   module_list_writer->AddModule(std::move(module_writer_0),
                                 kMinidumpModuleListIndex0);
 
-  auto module_writer_1 =
-      base::WrapUnique(new MinidumpModuleCrashpadInfoWriter());
+  auto module_writer_1 = std::make_unique<MinidumpModuleCrashpadInfoWriter>();
   EXPECT_FALSE(module_writer_1->IsUseful());
   module_list_writer->AddModule(std::move(module_writer_1),
                                 kMinidumpModuleListIndex1);
 
-  auto module_writer_2 =
-      base::WrapUnique(new MinidumpModuleCrashpadInfoWriter());
+  auto module_writer_2 = std::make_unique<MinidumpModuleCrashpadInfoWriter>();
   auto simple_string_dictionary_writer_2 =
-      base::WrapUnique(new MinidumpSimpleStringDictionaryWriter());
+      std::make_unique<MinidumpSimpleStringDictionaryWriter>();
   auto simple_string_dictionary_entry_writer_2a =
-      base::WrapUnique(new MinidumpSimpleStringDictionaryEntryWriter());
+      std::make_unique<MinidumpSimpleStringDictionaryEntryWriter>();
   simple_string_dictionary_entry_writer_2a->SetKeyValue(kKey2A, kValue2A);
   simple_string_dictionary_writer_2->AddEntry(
       std::move(simple_string_dictionary_entry_writer_2a));
   auto simple_string_dictionary_entry_writer_2b =
-      base::WrapUnique(new MinidumpSimpleStringDictionaryEntryWriter());
+      std::make_unique<MinidumpSimpleStringDictionaryEntryWriter>();
   simple_string_dictionary_entry_writer_2b->SetKeyValue(kKey2B, kValue2B);
   simple_string_dictionary_writer_2->AddEntry(
       std::move(simple_string_dictionary_entry_writer_2b));
@@ -376,7 +370,7 @@ TEST(MinidumpModuleCrashpadInfoWriter, InitializeFromSnapshot) {
   module_snapshots.push_back(&module_snapshot_3);
 
   auto module_list_writer =
-      base::WrapUnique(new MinidumpModuleCrashpadInfoListWriter());
+      std::make_unique<MinidumpModuleCrashpadInfoListWriter>();
   module_list_writer->InitializeFromSnapshot(module_snapshots);
   EXPECT_TRUE(module_list_writer->IsUseful());
 

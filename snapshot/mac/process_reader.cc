@@ -19,6 +19,7 @@
 #include <mach-o/loader.h>
 
 #include <algorithm>
+#include <utility>
 
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
@@ -112,13 +113,11 @@ ProcessReader::~ProcessReader() {
 bool ProcessReader::Initialize(task_t task) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
-  if (!process_info_.InitializeFromTask(task)) {
+  if (!process_info_.InitializeWithTask(task)) {
     return false;
   }
 
-  if (!process_info_.Is64Bit(&is_64_bit_)) {
-    return false;
-  }
+  is_64_bit_ = process_info_.Is64Bit();
 
   task_memory_.reset(new TaskMemory(task));
   task_ = task;
@@ -459,7 +458,7 @@ void ProcessReader::InitializeModules() {
 
     uint32_t file_type = reader ? reader->FileType() : 0;
 
-    module_readers_.push_back(reader.release());
+    module_readers_.push_back(std::move(reader));
     modules_.push_back(module);
 
     if (all_image_infos.version >= 2 && all_image_infos.dyldImageLoadAddress &&
@@ -559,7 +558,7 @@ void ProcessReader::InitializeModules() {
     }
 
     // dyld is loaded in the process even if its path can’t be determined.
-    module_readers_.push_back(reader.release());
+    module_readers_.push_back(std::move(reader));
     modules_.push_back(module);
   }
 }

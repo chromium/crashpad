@@ -22,6 +22,7 @@
 #include "gtest/gtest.h"
 #include "snapshot/win/process_reader_win.h"
 #include "test/errors.h"
+#include "test/test_paths.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/win/get_module_information.h"
 #include "util/win/module_version.h"
@@ -52,7 +53,11 @@ TEST(PEImageReader, DebugDirectory) {
   DWORD age;
   std::string pdbname;
   EXPECT_TRUE(pe_image_reader.DebugDirectoryInformation(&uuid, &age, &pdbname));
-  EXPECT_NE(pdbname.find("crashpad_snapshot_test"), std::string::npos);
+  std::string self_name = base::UTF16ToUTF8(
+      TestPaths::ExpectedExecutableBasename(L"crashpad_snapshot_test")
+          .RemoveFinalExtension()
+          .value());
+  EXPECT_NE(pdbname.find(self_name), std::string::npos);
   const std::string suffix(".pdb");
   EXPECT_EQ(
       pdbname.compare(pdbname.size() - suffix.size(), suffix.size(), suffix),
@@ -73,13 +78,14 @@ void TestVSFixedFileInfo(ProcessReaderWin* process_reader,
   ASSERT_TRUE(observed_rv || !known_dll);
 
   if (observed_rv) {
-    EXPECT_EQ(observed.dwSignature, VS_FFI_SIGNATURE);
-    EXPECT_EQ(observed.dwStrucVersion, VS_FFI_STRUCVERSION);
-    EXPECT_EQ(observed.dwFileFlags & ~observed.dwFileFlagsMask, 0);
-    EXPECT_EQ(observed.dwFileOS, VOS_NT_WINDOWS32);
+    EXPECT_EQ(observed.dwSignature, static_cast<DWORD>(VS_FFI_SIGNATURE));
+    EXPECT_EQ(observed.dwStrucVersion, static_cast<DWORD>(VS_FFI_STRUCVERSION));
+    EXPECT_EQ(observed.dwFileFlags & ~observed.dwFileFlagsMask, 0u);
     if (known_dll) {
-      EXPECT_EQ(observed.dwFileType, VFT_DLL);
+      EXPECT_EQ(observed.dwFileOS, static_cast<DWORD>(VOS_NT_WINDOWS32));
+      EXPECT_EQ(observed.dwFileType, static_cast<DWORD>(VFT_DLL));
     } else {
+      EXPECT_NE(observed.dwFileOS & VOS_NT_WINDOWS32, 0u);
       EXPECT_TRUE(observed.dwFileType == VFT_APP ||
                   observed.dwFileType == VFT_DLL);
     }

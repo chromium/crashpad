@@ -277,7 +277,7 @@ void AddUint64(std::vector<unsigned char>* data_vector, uint64_t data) {
 void CreatePipe(std::wstring* pipe_name, ScopedFileHANDLE* pipe_instance) {
   int tries = 5;
   std::string pipe_name_base =
-      base::StringPrintf("\\\\.\\pipe\\crashpad_%d_", GetCurrentProcessId());
+      base::StringPrintf("\\\\.\\pipe\\crashpad_%lu_", GetCurrentProcessId());
   do {
     *pipe_name = base::UTF8ToUTF16(pipe_name_base + RandomString());
 
@@ -1020,6 +1020,11 @@ bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
     NTSTATUS_LOG(ERROR, status) << "NtCreateThreadEx";
     return false;
   }
+
+  // The injected thread raises an exception and ultimately results in process
+  // termination. The suspension must be made aware that the process may be
+  // terminating, otherwise it’ll log an extraneous error.
+  suspend.TolerateTermination();
 
   bool result = true;
   if (WaitForSingleObject(injected_thread, 60 * 1000) != WAIT_OBJECT_0) {

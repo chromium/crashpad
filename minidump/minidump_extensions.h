@@ -118,6 +118,17 @@ struct ALIGNAS(4) PACKED MinidumpUTF8String {
   uint8_t Buffer[0];
 };
 
+//! \brief A variable-length array of bytes carried within a minidump file.
+//!     The data have no intrinsic type and should be interpreted according
+//!     to their referencing context.
+struct ALIGNAS(4) PACKED MinidumpByteArray {
+  //! \brief The length of the #data field.
+  uint32_t length;
+
+  //! \brief The bytes of data.
+  uint8_t data[0];
+};
+
 //! \brief CPU type values for MINIDUMP_SYSTEM_INFO::ProcessorArchitecture.
 //!
 //! \sa \ref PROCESSOR_ARCHITECTURE_x "PROCESSOR_ARCHITECTURE_*"

@@ -20,7 +20,6 @@
 #include <utility>
 
 #include "base/logging.h"
-#include "base/memory/ptr_util.h"
 #include "base/numerics/safe_conversions.h"
 #include "minidump/minidump_string_writer.h"
 #include "minidump/minidump_writer_util.h"
@@ -244,7 +243,7 @@ void MinidumpModuleWriter::InitializeFromSnapshot(
   SetFileTypeAndSubtype(file_type, VFT2_UNKNOWN);
 
   auto codeview_record =
-      base::WrapUnique(new MinidumpModuleCodeViewRecordPDB70Writer());
+      std::make_unique<MinidumpModuleCodeViewRecordPDB70Writer>();
   codeview_record->InitializeFromSnapshot(module_snapshot);
   SetCodeViewRecord(std::move(codeview_record));
 }
@@ -385,7 +384,7 @@ void MinidumpModuleListWriter::InitializeFromSnapshot(
   DCHECK(modules_.empty());
 
   for (const ModuleSnapshot* module_snapshot : module_snapshots) {
-    auto module = base::WrapUnique(new MinidumpModuleWriter());
+    auto module = std::make_unique<MinidumpModuleWriter>();
     module->InitializeFromSnapshot(module_snapshot);
     AddModule(std::move(module));
   }
@@ -395,7 +394,7 @@ void MinidumpModuleListWriter::AddModule(
     std::unique_ptr<MinidumpModuleWriter> module) {
   DCHECK_EQ(state(), kStateMutable);
 
-  modules_.push_back(module.release());
+  modules_.push_back(std::move(module));
 }
 
 bool MinidumpModuleListWriter::Freeze() {
@@ -424,8 +423,8 @@ std::vector<internal::MinidumpWritable*> MinidumpModuleListWriter::Children() {
   DCHECK_GE(state(), kStateFrozen);
 
   std::vector<MinidumpWritable*> children;
-  for (MinidumpModuleWriter* module : modules_) {
-    children.push_back(module);
+  for (const auto& module : modules_) {
+    children.push_back(module.get());
   }
 
   return children;
@@ -439,7 +438,7 @@ bool MinidumpModuleListWriter::WriteObject(FileWriterInterface* file_writer) {
   iov.iov_len = sizeof(module_list_base_);
   std::vector<WritableIoVec> iovecs(1, iov);
 
-  for (const MinidumpModuleWriter* module : modules_) {
+  for (const auto& module : modules_) {
     iov.iov_base = module->MinidumpModule();
     iov.iov_len = sizeof(MINIDUMP_MODULE);
     iovecs.push_back(iov);

@@ -41,23 +41,33 @@ namespace crashpad {
 //! other processes.
 class CrashReportUploadThread : public WorkerThread::Delegate {
  public:
+   //! \brief Options to be passed to the CrashReportUploadThread constructor.
+   struct Options {
+    //! Whether client identifying parameters like product name or version
+    //! should be added to the URL.
+    bool identify_client_via_url;
+
+    //! Whether uploads should be throttled to a (currently hardcoded) rate.
+    bool rate_limit;
+
+    //! Whether uploads should use `gzip` compression.
+    bool upload_gzip;
+
+    //! Whether to periodically check for new pending reports not already known
+    //! to exist. When `false`, only an initial upload attempt will be made for
+    //! reports known to exist by having been added by the ReportPending()
+    //! method. No scans for new pending reports will be conducted.
+    bool watch_pending_reports;
+  };
+
   //! \brief Constructs a new object.
   //!
   //! \param[in] database The database to upload crash reports from.
   //! \param[in] url The URL of the server to upload crash reports to.
-  //! \param[in] watch_pending_reports Whether to periodically check for new
-  //!     pending reports not already known to exist. When `false`, only an
-  //!     initial upload attempt will be made for reports known to exist by
-  //!     having been added by the ReportPending() method. No scans for new
-  //!     pending reports will be conducted.
-  //! \param[in] rate_limit Whether uploads should be throttled to a (currently
-  //!     hardcoded) rate.
-  //! \param[in] upload_gzip Whether uploads should use `gzip` compression.
+  //! \param[in] options Options for the report uploads.
   CrashReportUploadThread(CrashReportDatabase* database,
                           const std::string& url,
-                          bool watch_pending_reports,
-                          bool rate_limit,
-                          bool upload_gzip);
+                          const Options& options);
   ~CrashReportUploadThread();
 
   //! \brief Starts a dedicated upload thread, which executes ThreadMain().
@@ -153,13 +163,11 @@ class CrashReportUploadThread : public WorkerThread::Delegate {
   //!     been called on any thread, as well as periodically on a timer.
   void DoWork(const WorkerThread* thread) override;
 
+  const Options options_;
   const std::string url_;
   WorkerThread thread_;
   ThreadSafeVector<UUID> known_pending_report_uuids_;
   CrashReportDatabase* database_;  // weak
-  const bool watch_pending_reports_;
-  const bool rate_limit_;
-  const bool upload_gzip_;
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportUploadThread);
 };

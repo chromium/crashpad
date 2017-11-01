@@ -17,6 +17,7 @@
 
 #include <stdint.h>
 
+#include <memory>
 #include <vector>
 
 #include "base/macros.h"
@@ -27,7 +28,6 @@
 #include "snapshot/win/memory_snapshot_win.h"
 #include "snapshot/win/process_reader_win.h"
 #include "util/misc/initialization_state_dcheck.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -82,7 +82,7 @@ class ThreadSnapshotWin final : public ThreadSnapshot {
   MemorySnapshotWin teb_;
   ProcessReaderWin::Thread thread_;
   InitializationStateDcheck initialized_;
-  PointerVector<MemorySnapshotWin> pointed_to_memory_;
+  std::vector<std::unique_ptr<MemorySnapshotWin>> pointed_to_memory_;
 
   DISALLOW_COPY_AND_ASSIGN(ThreadSnapshotWin);
 };

@@ -1,4 +1,4 @@
- // Copyright 2016 The Crashpad Authors. All rights reserved.
+// Copyright 2016 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,8 +17,13 @@
 
 #include "snapshot/capture_memory.h"
 
+#include <stdint.h>
+
+#include <memory>
+#include <vector>
+
 #include "snapshot/win/process_reader_win.h"
-#include "util/stdlib/pointer_container.h"
+#include "util/numeric/checked_range.h"
 
 namespace crashpad {
 namespace internal {
@@ -38,10 +43,11 @@ class CaptureMemoryDelegateWin : public CaptureMemory::Delegate {
   //! \param[in] budget_remaining If non-null, a pointer to the remaining number
   //!     of bytes to capture. If this is `0`, no further memory will be
   //!     captured.
-  CaptureMemoryDelegateWin(ProcessReaderWin* process_reader,
-                           const ProcessReaderWin::Thread& thread,
-                           PointerVector<MemorySnapshotWin>* snapshots,
-                           uint32_t* budget_remaining);
+  CaptureMemoryDelegateWin(
+      ProcessReaderWin* process_reader,
+      const ProcessReaderWin::Thread& thread,
+      std::vector<std::unique_ptr<MemorySnapshotWin>>* snapshots,
+      uint32_t* budget_remaining);
 
   // MemoryCaptureDelegate:
   bool Is64Bit() const override;
@@ -52,8 +58,8 @@ class CaptureMemoryDelegateWin : public CaptureMemory::Delegate {
 
  private:
   CheckedRange<uint64_t, uint64_t> stack_;
-  ProcessReaderWin* process_reader_;
-  PointerVector<MemorySnapshotWin>* snapshots_;
+  ProcessReaderWin* process_reader_;  // weak
+  std::vector<std::unique_ptr<MemorySnapshotWin>>* snapshots_;  // weak
   uint32_t* budget_remaining_;
 };
 

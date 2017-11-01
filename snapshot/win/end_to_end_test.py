@@ -16,6 +16,7 @@
 
 import os
 import platform
+import pywintypes
 import random
 import re
 import subprocess
@@ -23,6 +24,8 @@ import sys
 import tempfile
 import time
 import win32con
+import win32pipe
+import winerror
 
 
 g_temp_dirs = []
@@ -81,6 +84,28 @@ def GetCdbPath():
   return None
 
 
+def NamedPipeExistsAndReady(pipe_name):
+  """Returns False if pipe_name does not exist. If pipe_name does exist, blocks
+  until the pipe is ready to service clients, and then returns True.
+
+  This is used as a drop-in replacement for os.path.exists() and os.access() to
+  test for the pipe's existence. Both of those calls tickle the pipe in a way
+  that appears to the server to be a client connecting, triggering error
+  messages when no data is received.
+
+  Although this function only needs to test pipe existence (waiting for
+  CreateNamedPipe()), it actually winds up testing pipe readiness
+  (waiting for ConnectNamedPipe()). This is unnecessary but harmless.
+  """
+  try:
+    win32pipe.WaitNamedPipe(pipe_name, win32pipe.NMPWAIT_WAIT_FOREVER)
+  except pywintypes.error, e:
+    if e[0] == winerror.ERROR_FILE_NOT_FOUND:
+      return False
+    raise
+  return True
+
+
 def GetDumpFromProgram(
     out_dir, pipe_name, executable_name, expect_exit_code, *args):
   """Initialize a crash database, and run |executable_name| connecting to a
@@ -108,22 +133,22 @@ def GetDumpFromProgram(
 
       # Wait until the server is ready.
       printed = False
-      while not os.path.exists(pipe_name):
+      while not NamedPipeExistsAndReady(pipe_name):
         if not printed:
           print 'Waiting for crashpad_handler to be ready...'
           printed = True
-        time.sleep(0.1)
+        time.sleep(0.001)
 
-      exit_code = subprocess.call(
-          [os.path.join(out_dir, executable_name), pipe_name] + list(args))
+      command = [os.path.join(out_dir, executable_name), pipe_name] + list(args)
     else:
-      exit_code = subprocess.call(
-          [os.path.join(out_dir, executable_name),
-           os.path.join(out_dir, 'crashpad_handler.com'),
-           test_database] +
-          list(args))
+      command = ([os.path.join(out_dir, executable_name),
+                  os.path.join(out_dir, 'crashpad_handler.com'),
+                  test_database] +
+                 list(args))
+    print 'Running %s' % os.path.basename(command[0])
+    exit_code = subprocess.call(command)
     if exit_code != expect_exit_code:
-        raise CalledProcessError(exit_code, executable_name)
+      raise subprocess.CalledProcessError(exit_code, executable_name)
 
     out = subprocess.check_output([
         os.path.join(out_dir, 'crashpad_database_util.exe'),
@@ -253,10 +278,17 @@ def RunTests(cdb_path,
   out.Check(r'Ldr\.InMemoryOrderModuleList:.*\d+ \. \d+', 'PEB_LDR_DATA saved')
   out.Check(r'Base TimeStamp                     Module', 'module list present')
   pipe_name_escaped = pipe_name.replace('\\', '\\\\')
-  out.Check(r'CommandLine: *\'.*crashy_program.exe *' + pipe_name_escaped,
+  out.Check(r'CommandLine: *\'.*crashy_program\.exe *' + pipe_name_escaped,
             'some PEB data is correct')
   out.Check(r'SystemRoot=C:\\Windows', 'some of environment captured',
             re.IGNORECASE)
+
+  out = CdbRun(cdb_path, dump_path, '?? @$peb->ProcessParameters')
+  out.Check(r' ImagePathName *: _UNICODE_STRING ".*\\crashy_program\.exe"',
+            'PEB->ProcessParameters.ImagePathName string captured')
+  out.Check(' DesktopInfo *: '
+            '_UNICODE_STRING "(?!--- memory read error at address ).*"',
+            'PEB->ProcessParameters.DesktopInfo string captured')
 
   out = CdbRun(cdb_path, dump_path, '!teb')
   out.Check(r'TEB at', 'found the TEB')
@@ -361,14 +393,15 @@ def RunTests(cdb_path,
     # ones just display the offset.
     out.Check(r'z7_test(!CrashMe\+0xe|\+0x100e):',
               'exception in z7 at correct location')
-    out.Check(r'z7_test  C \(codeview symbols\)     z7_test.dll',
+    out.Check(r'z7_test  C \(codeview symbols\)     z7_test\.dll',
               'expected non-pdb symbol format')
 
   out = CdbRun(cdb_path, other_program_path, '.ecxr;k;~')
   out.Check('Unknown exception - code deadbea7',
             'other program dump exception code')
   out.Check('!Sleep', 'other program reasonable location')
-  out.Check('hanging_program!Thread1', 'other program dump right thread')
+  out.Check("hanging_program!`anonymous namespace'::Thread1",
+            'other program dump right thread')
   count = 0
   while True:
     match_obj = out.Find(r'Id.*Suspend: (\d+) ')
@@ -429,7 +462,7 @@ def main(args):
       return 1
 
     z7_dump_path = None
-    if not args[0].endswith('x64'):
+    if not args[0].endswith('_x64'):
       z7_dump_path = GetDumpFromZ7Program(args[0], pipe_name)
       if not z7_dump_path:
         return 1

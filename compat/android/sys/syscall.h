@@ -18,8 +18,21 @@
 #include_next <sys/syscall.h>
 
 // Android 5.0.0 (API 21) NDK
+
 #if !defined(SYS_gettid)
 #define SYS_gettid __NR_gettid
+#endif
+
+#if !defined(SYS_timer_create)
+#define SYS_timer_create __NR_timer_create
+#endif
+
+#if !defined(SYS_timer_getoverrun)
+#define SYS_timer_getoverrun __NR_timer_getoverrun
+#endif
+
+#if !defined(SYS_timer_settime)
+#define SYS_timer_settime __NR_timer_settime
 #endif
 
 #endif  // CRASHPAD_COMPAT_ANDROID_SYS_SYSCALL_H_

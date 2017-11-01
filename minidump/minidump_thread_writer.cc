@@ -17,7 +17,6 @@
 #include <utility>
 
 #include "base/logging.h"
-#include "base/memory/ptr_util.h"
 #include "minidump/minidump_context_writer.h"
 #include "minidump/minidump_memory_writer.h"
 #include "snapshot/memory_snapshot.h"
@@ -148,7 +147,7 @@ void MinidumpThreadListWriter::InitializeFromSnapshot(
   BuildMinidumpThreadIDMap(thread_snapshots, thread_id_map);
 
   for (const ThreadSnapshot* thread_snapshot : thread_snapshots) {
-    auto thread = base::WrapUnique(new MinidumpThreadWriter());
+    auto thread = std::make_unique<MinidumpThreadWriter>();
     thread->InitializeFromSnapshot(thread_snapshot, thread_id_map);
     AddThread(std::move(thread));
   }
@@ -178,7 +177,7 @@ void MinidumpThreadListWriter::AddThread(
     }
   }
 
-  threads_.push_back(thread.release());
+  threads_.push_back(std::move(thread));
 }
 
 bool MinidumpThreadListWriter::Freeze() {
@@ -207,8 +206,8 @@ std::vector<internal::MinidumpWritable*> MinidumpThreadListWriter::Children() {
   DCHECK_GE(state(), kStateFrozen);
 
   std::vector<MinidumpWritable*> children;
-  for (MinidumpThreadWriter* thread : threads_) {
-    children.push_back(thread);
+  for (const auto& thread : threads_) {
+    children.push_back(thread.get());
   }
 
   return children;
@@ -222,7 +221,7 @@ bool MinidumpThreadListWriter::WriteObject(FileWriterInterface* file_writer) {
   iov.iov_len = sizeof(thread_list_base_);
   std::vector<WritableIoVec> iovecs(1, iov);
 
-  for (const MinidumpThreadWriter* thread : threads_) {
+  for (const auto& thread : threads_) {
     iov.iov_base = thread->MinidumpThread();
     iov.iov_len = sizeof(MINIDUMP_THREAD);
     iovecs.push_back(iov);

@@ -19,8 +19,8 @@
 #include <memory>
 #include <string>
 
-#include "base/files/file_path.h"
 #include "base/macros.h"
+#include "util/file/file_reader.h"
 #include "util/net/http_headers.h"
 
 namespace crashpad {
@@ -51,7 +51,7 @@ class HTTPMultipartBuilder {
   //! \param[in] value The value to set at the \a key.
   void SetFormData(const std::string& key, const std::string& value);
 
-  //! \brief Specifies the file at \a path to have its contents uploaded as
+  //! \brief Specifies the contents read from \a reader to be uploaded as
   //!     multipart data, available at `name` of \a upload_file_name.
   //!
   //! \param[in] key The key of the form data, specified as the `name` in the
@@ -59,12 +59,13 @@ class HTTPMultipartBuilder {
   //!     key will be overwritten.
   //! \param[in] upload_file_name The `filename` to specify for this multipart
   //!     data attachment.
-  //! \param[in] path The path of the file whose contents will be uploaded.
+  //! \param[in] reader A FileReaderInterface from which to read the content to
+  //!     upload.
   //! \param[in] content_type The `Content-Type` to specify for the attachment.
   //!     If this is empty, `"application/octet-stream"` will be used.
   void SetFileAttachment(const std::string& key,
                          const std::string& upload_file_name,
-                         const base::FilePath& path,
+                         FileReaderInterface* reader,
                          const std::string& content_type);
 
   //! \brief Generates the HTTPBodyStream for the data currently supplied to
@@ -83,7 +84,7 @@ class HTTPMultipartBuilder {
   struct FileAttachment {
     std::string filename;
     std::string content_type;
-    base::FilePath path;
+    FileReaderInterface* reader;
   };
 
   // Removes elements from both data maps at the specified |key|, to ensure

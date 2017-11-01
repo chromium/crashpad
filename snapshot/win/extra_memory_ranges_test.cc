@@ -25,6 +25,7 @@
 #include "client/simple_address_range_bag.h"
 #include "gtest/gtest.h"
 #include "snapshot/win/process_snapshot_win.h"
+#include "test/gtest_disabled.h"
 #include "test/test_paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
@@ -43,15 +44,13 @@ enum TestType {
 };
 
 void TestExtraMemoryRanges(TestType type,
-                           const base::string16& directory_modification) {
+                           TestPaths::Architecture architecture) {
   // Spawn a child process, passing it the pipe name to connect to.
-  base::FilePath test_executable = TestPaths::Executable();
-  std::wstring child_test_executable =
-      test_executable.DirName()
-          .Append(directory_modification)
-          .Append(test_executable.BaseName().RemoveFinalExtension().value() +
-                  L"_extra_memory_ranges.exe")
-          .value();
+  base::FilePath child_test_executable =
+      TestPaths::BuildArtifact(L"snapshot",
+                               L"extra_memory_ranges",
+                               TestPaths::FileType::kExecutable,
+                               architecture);
   ChildLauncher child(child_test_executable, L"");
   ASSERT_NO_FATAL_FAILURE(child.Start());
 
@@ -101,30 +100,28 @@ void TestExtraMemoryRanges(TestType type,
 }
 
 TEST(ExtraMemoryRanges, DontCrash) {
-  TestExtraMemoryRanges(kDontCrash, FILE_PATH_LITERAL("."));
+  TestExtraMemoryRanges(kDontCrash, TestPaths::Architecture::kDefault);
 }
 
 TEST(ExtraMemoryRanges, CrashDebugBreak) {
-  TestExtraMemoryRanges(kCrashDebugBreak, FILE_PATH_LITERAL("."));
+  TestExtraMemoryRanges(kCrashDebugBreak, TestPaths::Architecture::kDefault);
 }
 
 #if defined(ARCH_CPU_64_BITS)
 TEST(ExtraMemoryRanges, DontCrashWOW64) {
-#ifndef NDEBUG
-  TestExtraMemoryRanges(kDontCrash, FILE_PATH_LITERAL("..\\..\\out\\Debug"));
-#else
-  TestExtraMemoryRanges(kDontCrash, FILE_PATH_LITERAL("..\\..\\out\\Release"));
-#endif
+  if (!TestPaths::Has32BitBuildArtifacts()) {
+    DISABLED_TEST();
+  }
+
+  TestExtraMemoryRanges(kDontCrash, TestPaths::Architecture::k32Bit);
 }
 
 TEST(ExtraMemoryRanges, CrashDebugBreakWOW64) {
-#ifndef NDEBUG
-  TestExtraMemoryRanges(kCrashDebugBreak,
-                        FILE_PATH_LITERAL("..\\..\\out\\Debug"));
-#else
-  TestExtraMemoryRanges(kCrashDebugBreak,
-                        FILE_PATH_LITERAL("..\\..\\out\\Release"));
-#endif
+  if (!TestPaths::Has32BitBuildArtifacts()) {
+    DISABLED_TEST();
+  }
+
+  TestExtraMemoryRanges(kCrashDebugBreak, TestPaths::Architecture::k32Bit);
 }
 #endif  // ARCH_CPU_64_BITS
 

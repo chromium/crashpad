@@ -15,8 +15,8 @@
 #include "minidump/minidump_unloaded_module_writer.h"
 
 #include <limits>
+#include <utility>
 
-#include "base/memory/ptr_util.h"
 #include "minidump/minidump_writer_util.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/in_range_cast.h"
@@ -124,7 +124,7 @@ void MinidumpUnloadedModuleListWriter::InitializeFromSnapshot(
   DCHECK(unloaded_modules_.empty());
 
   for (auto unloaded_module_snapshot : unloaded_module_snapshots) {
-    auto unloaded_module = base::WrapUnique(new MinidumpUnloadedModuleWriter());
+    auto unloaded_module = std::make_unique<MinidumpUnloadedModuleWriter>();
     unloaded_module->InitializeFromSnapshot(unloaded_module_snapshot);
     AddUnloadedModule(std::move(unloaded_module));
   }
@@ -134,7 +134,7 @@ void MinidumpUnloadedModuleListWriter::AddUnloadedModule(
     std::unique_ptr<MinidumpUnloadedModuleWriter> unloaded_module) {
   DCHECK_EQ(state(), kStateMutable);
 
-  unloaded_modules_.push_back(unloaded_module.release());
+  unloaded_modules_.push_back(std::move(unloaded_module));
 }
 
 bool MinidumpUnloadedModuleListWriter::Freeze() {
@@ -171,8 +171,8 @@ MinidumpUnloadedModuleListWriter::Children() {
   DCHECK_GE(state(), kStateFrozen);
 
   std::vector<MinidumpWritable*> children;
-  for (MinidumpUnloadedModuleWriter* unloaded_module : unloaded_modules_) {
-    children.push_back(unloaded_module);
+  for (const auto& unloaded_module : unloaded_modules_) {
+    children.push_back(unloaded_module.get());
   }
 
   return children;
@@ -187,8 +187,7 @@ bool MinidumpUnloadedModuleListWriter::WriteObject(
   iov.iov_len = sizeof(unloaded_module_list_base_);
   std::vector<WritableIoVec> iovecs(1, iov);
 
-  for (const MinidumpUnloadedModuleWriter* unloaded_module :
-       unloaded_modules_) {
+  for (const auto& unloaded_module : unloaded_modules_) {
     iov.iov_base = unloaded_module->MinidumpUnloadedModule();
     iov.iov_len = sizeof(MINIDUMP_UNLOADED_MODULE);
     iovecs.push_back(iov);

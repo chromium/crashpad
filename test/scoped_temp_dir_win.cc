@@ -34,7 +34,7 @@ base::FilePath GenerateCandidateName() {
   PCHECK(path_len != 0) << "GetTempPath";
   base::FilePath system_temp_dir(temp_path);
   base::string16 new_dir_name = base::UTF8ToUTF16(base::StringPrintf(
-        "crashpad.test.%d.%s", GetCurrentProcessId(), RandomString().c_str()));
+      "crashpad.test.%lu.%s", GetCurrentProcessId(), RandomString().c_str()));
   return system_temp_dir.Append(new_dir_name);
 }
 
@@ -70,34 +70,6 @@ base::FilePath ScopedTempDir::CreateTemporaryDirectory() {
 
   CHECK(false) << "Couldn't create a new unique temp dir";
   return base::FilePath();
-}
-
-// static
-void ScopedTempDir::RecursivelyDeleteTemporaryDirectory(
-    const base::FilePath& path) {
-  const base::string16 all_files_mask(L"\\*");
-
-  base::string16 search_mask = path.value() + all_files_mask;
-  WIN32_FIND_DATA find_data;
-  HANDLE search_handle = FindFirstFile(search_mask.c_str(), &find_data);
-  if (search_handle == INVALID_HANDLE_VALUE)
-    ASSERT_EQ(GetLastError(), ERROR_FILE_NOT_FOUND);
-  do {
-    if (wcscmp(find_data.cFileName, L".") == 0 ||
-        wcscmp(find_data.cFileName, L"..") == 0) {
-      continue;
-    }
-    base::FilePath entry_path = path.Append(find_data.cFileName);
-    ASSERT_FALSE(find_data.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT);
-    if (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-      RecursivelyDeleteTemporaryDirectory(entry_path);
-    else
-      EXPECT_TRUE(DeleteFile(entry_path.value().c_str()));
-  } while (FindNextFile(search_handle, &find_data));
-  EXPECT_EQ(GetLastError(), ERROR_NO_MORE_FILES);
-
-  EXPECT_TRUE(FindClose(search_handle));
-  EXPECT_TRUE(RemoveDirectory(path.value().c_str()));
 }
 
 }  // namespace test

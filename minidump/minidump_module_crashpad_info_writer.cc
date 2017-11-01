@@ -17,7 +17,6 @@
 #include <utility>
 
 #include "base/logging.h"
-#include "base/memory/ptr_util.h"
 #include "minidump/minidump_simple_string_dictionary_writer.h"
 #include "snapshot/module_snapshot.h"
 #include "util/file/file_writer.h"
@@ -42,14 +41,14 @@ void MinidumpModuleCrashpadInfoWriter::InitializeFromSnapshot(
   DCHECK(!list_annotations_);
   DCHECK(!simple_annotations_);
 
-  auto list_annotations = base::WrapUnique(new MinidumpUTF8StringListWriter());
+  auto list_annotations = std::make_unique<MinidumpUTF8StringListWriter>();
   list_annotations->InitializeFromVector(module_snapshot->AnnotationsVector());
   if (list_annotations->IsUseful()) {
     SetListAnnotations(std::move(list_annotations));
   }
 
   auto simple_annotations =
-      base::WrapUnique(new MinidumpSimpleStringDictionaryWriter());
+      std::make_unique<MinidumpSimpleStringDictionaryWriter>();
   simple_annotations->InitializeFromMap(
       module_snapshot->AnnotationsSimpleMap());
   if (simple_annotations->IsUseful()) {
@@ -142,7 +141,7 @@ void MinidumpModuleCrashpadInfoListWriter::InitializeFromSnapshot(
   for (size_t index = 0; index < count; ++index) {
     const ModuleSnapshot* module_snapshot = module_snapshots[index];
 
-    auto module = base::WrapUnique(new MinidumpModuleCrashpadInfoWriter());
+    auto module = std::make_unique<MinidumpModuleCrashpadInfoWriter>();
     module->InitializeFromSnapshot(module_snapshot);
     if (module->IsUseful()) {
       AddModule(std::move(module), index);
@@ -165,7 +164,7 @@ void MinidumpModuleCrashpadInfoListWriter::AddModule(
   }
 
   module_crashpad_info_links_.push_back(module_crashpad_info_link);
-  module_crashpad_infos_.push_back(module_crashpad_info.release());
+  module_crashpad_infos_.push_back(std::move(module_crashpad_info));
 }
 
 bool MinidumpModuleCrashpadInfoListWriter::IsUseful() const {
@@ -210,8 +209,8 @@ MinidumpModuleCrashpadInfoListWriter::Children() {
   DCHECK_EQ(module_crashpad_infos_.size(), module_crashpad_info_links_.size());
 
   std::vector<MinidumpWritable*> children;
-  for (MinidumpModuleCrashpadInfoWriter* module : module_crashpad_infos_) {
-    children.push_back(module);
+  for (const auto& module : module_crashpad_infos_) {
+    children.push_back(module.get());
   }
 
   return children;

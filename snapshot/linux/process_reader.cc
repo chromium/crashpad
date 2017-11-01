@@ -14,20 +14,21 @@
 
 #include "snapshot/linux/process_reader.h"
 
-#include <dirent.h>
 #include <errno.h>
 #include <sched.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/resource.h>
+#include <unistd.h>
 
 #include <algorithm>
 
 #include "base/logging.h"
 #include "base/strings/string_number_conversions.h"
 #include "build/build_config.h"
+#include "util/file/directory_reader.h"
 #include "util/linux/proc_stat_reader.h"
-#include "util/posix/scoped_dir.h"
+#include "util/misc/as_underlying_type.h"
 
 namespace crashpad {
 
@@ -43,9 +44,7 @@ bool ShouldMergeStackMappings(const MemoryMap::Mapping& stack_mapping,
 }  // namespace
 
 ProcessReader::Thread::Thread()
-    : thread_context(),
-      float_context(),
-      thread_specific_data_address(0),
+    : thread_info(),
       stack_region_address(0),
       stack_region_size(0),
       tid(-1),
@@ -54,19 +53,8 @@ ProcessReader::Thread::Thread()
 
 ProcessReader::Thread::~Thread() {}
 
-bool ProcessReader::Thread::InitializePtrace() {
-  ThreadInfo thread_info;
-  if (!thread_info.Initialize(tid)) {
-    return false;
-  }
-
-  thread_info.GetGeneralPurposeRegisters(&thread_context);
-
-  if (!thread_info.GetFloatingPointRegisters(&float_context)) {
-    return false;
-  }
-
-  if (!thread_info.GetThreadArea(&thread_specific_data_address)) {
+bool ProcessReader::Thread::InitializePtrace(PtraceConnection* connection) {
+  if (!connection->GetThreadInfo(tid, &thread_info)) {
     return false;
   }
 
@@ -101,11 +89,11 @@ bool ProcessReader::Thread::InitializePtrace() {
 void ProcessReader::Thread::InitializeStack(ProcessReader* reader) {
   LinuxVMAddress stack_pointer;
 #if defined(ARCH_CPU_X86_FAMILY)
-  stack_pointer =
-      reader->Is64Bit() ? thread_context.t64.rsp : thread_context.t32.esp;
+  stack_pointer = reader->Is64Bit() ? thread_info.thread_context.t64.rsp
+                                    : thread_info.thread_context.t32.esp;
 #elif defined(ARCH_CPU_ARM_FAMILY)
-  stack_pointer =
-      reader->Is64Bit() ? thread_context.t64.sp : thread_context.t32.sp;
+  stack_pointer = reader->Is64Bit() ? thread_info.thread_context.t64.sp
+                                    : thread_info.thread_context.t32.sp;
 #else
 #error Port.
 #endif
@@ -171,14 +159,16 @@ void ProcessReader::Thread::InitializeStack(ProcessReader* reader) {
   // the stack region.
   stack_region_size = stack_end - stack_region_address;
   if (tid != reader->ProcessID() &&
-      thread_specific_data_address > stack_region_address &&
-      thread_specific_data_address < stack_end) {
-    stack_region_size = thread_specific_data_address - stack_region_address;
+      thread_info.thread_specific_data_address > stack_region_address &&
+      thread_info.thread_specific_data_address < stack_end) {
+    stack_region_size =
+        thread_info.thread_specific_data_address - stack_region_address;
   }
 }
 
 ProcessReader::ProcessReader()
-    : process_info_(),
+    : connection_(),
+      process_info_(),
       memory_map_(),
       threads_(),
       process_memory_(),
@@ -188,24 +178,25 @@ ProcessReader::ProcessReader()
 
 ProcessReader::~ProcessReader() {}
 
-bool ProcessReader::Initialize(pid_t pid) {
+bool ProcessReader::Initialize(PtraceConnection* connection) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
-  if (!process_info_.Initialize(pid)) {
+  DCHECK(connection);
+  connection_ = connection;
+
+  if (!process_info_.InitializeWithPtrace(connection_)) {
     return false;
   }
 
+  pid_t pid = connection->GetProcessID();
   if (!memory_map_.Initialize(pid)) {
     return false;
   }
 
-  process_memory_.reset(new ProcessMemory());
-  if (!process_memory_->Initialize(pid)) {
+  if (!process_memory_.Initialize(pid)) {
     return false;
   }
 
-  if (!process_info_.Is64Bit(&is_64_bit_)) {
-    return false;
-  }
+  is_64_bit_ = process_info_.Is64Bit();
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -272,33 +263,28 @@ void ProcessReader::InitializeThreads() {
     return;
   }
 
-  char path[32];
-  snprintf(path, arraysize(path), "/proc/%d/task", pid);
-  DIR* dir = opendir(path);
-  if (!dir) {
-    PLOG(ERROR) << "opendir";
-    return;
-  }
-  ScopedDIR scoped_dir(dir);
-
   Thread main_thread;
   main_thread.tid = pid;
-  if (main_thread.InitializePtrace()) {
+  if (main_thread.InitializePtrace(connection_)) {
     main_thread.InitializeStack(this);
     threads_.push_back(main_thread);
   } else {
     LOG(WARNING) << "Couldn't initialize main thread.";
   }
 
+  char path[32];
+  snprintf(path, arraysize(path), "/proc/%d/task", pid);
   bool main_thread_found = false;
-  dirent* dir_entry;
-  while ((dir_entry = readdir(scoped_dir.get()))) {
-    if (strncmp(dir_entry->d_name, ".", arraysize(dir_entry->d_name)) == 0 ||
-        strncmp(dir_entry->d_name, "..", arraysize(dir_entry->d_name)) == 0) {
-      continue;
-    }
+  DirectoryReader reader;
+  if (!reader.Open(base::FilePath(path))) {
+    return;
+  }
+  base::FilePath tid_str;
+  DirectoryReader::Result result;
+  while ((result = reader.NextFile(&tid_str)) ==
+         DirectoryReader::Result::kSuccess) {
     pid_t tid;
-    if (!base::StringToInt(dir_entry->d_name, &tid)) {
+    if (!base::StringToInt(tid_str.value(), &tid)) {
       LOG(ERROR) << "format error";
       continue;
     }
@@ -311,11 +297,13 @@ void ProcessReader::InitializeThreads() {
 
     Thread thread;
     thread.tid = tid;
-    if (thread.InitializePtrace()) {
+    if (connection_->Attach(tid) && thread.InitializePtrace(connection_)) {
       thread.InitializeStack(this);
       threads_.push_back(thread);
     }
   }
+  DCHECK_EQ(AsUnderlyingType(result),
+            AsUnderlyingType(DirectoryReader::Result::kNoMoreFiles));
   DCHECK(main_thread_found);
 }
 

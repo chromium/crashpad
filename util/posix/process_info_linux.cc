@@ -21,7 +21,6 @@
 #include "util/file/delimited_file_reader.h"
 #include "util/file/file_reader.h"
 #include "util/linux/proc_stat_reader.h"
-#include "util/linux/thread_info.h"
 #include "util/misc/lexing.h"
 
 namespace crashpad {
@@ -38,16 +37,16 @@ ProcessInfo::ProcessInfo()
       egid_(-1),
       sgid_(-1),
       start_time_initialized_(),
-      is_64_bit_initialized_(),
-      is_64_bit_(false),
       initialized_() {}
 
 ProcessInfo::~ProcessInfo() {}
 
-bool ProcessInfo::Initialize(pid_t pid) {
+bool ProcessInfo::InitializeWithPtrace(PtraceConnection* connection) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+  DCHECK(connection);
 
-  pid_ = pid;
+  pid_ = connection->GetProcessID();
+  is_64_bit_ = connection->Is64Bit();
 
   {
     char path[32];
@@ -220,37 +219,9 @@ bool ProcessInfo::DidChangePrivileges() const {
   return false;
 }
 
-bool ProcessInfo::Is64Bit(bool* is_64_bit) const {
+bool ProcessInfo::Is64Bit() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-
-  if (is_64_bit_initialized_.is_uninitialized()) {
-    is_64_bit_initialized_.set_invalid();
-
-#if defined(ARCH_CPU_64_BITS)
-    constexpr bool am_64_bit = true;
-#else
-    constexpr bool am_64_bit = false;
-#endif
-
-    if (pid_ == getpid()) {
-      is_64_bit_ = am_64_bit;
-    } else {
-      ThreadInfo thread_info;
-      if (!thread_info.Initialize(pid_)) {
-        return false;
-      }
-      is_64_bit_ = thread_info.Is64Bit();
-    }
-
-    is_64_bit_initialized_.set_valid();
-  }
-
-  if (!is_64_bit_initialized_.is_valid()) {
-    return false;
-  }
-
-  *is_64_bit = is_64_bit_;
-  return true;
+  return is_64_bit_;
 }
 
 bool ProcessInfo::StartTime(timeval* start_time) const {

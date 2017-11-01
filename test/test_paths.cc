@@ -90,6 +90,23 @@ base::FilePath TestDataRootInternal() {
   return base::FilePath(base::FilePath::kCurrentDirectory);
 }
 
+#if defined(OS_WIN) && defined(ARCH_CPU_64_BITS)
+
+// Returns the pathname of a directory containing 32-bit test build output.
+//
+// It would be better for this to be named 32BitOutputDirectory(), but that’s
+// not a legal name.
+base::FilePath Output32BitDirectory() {
+  const wchar_t* environment_value = _wgetenv(L"CRASHPAD_TEST_32_BIT_OUTPUT");
+  if (!environment_value) {
+    return base::FilePath();
+  }
+
+  return base::FilePath(environment_value);
+}
+
+#endif  // defined(OS_WIN) && defined(ARCH_CPU_64_BITS)
+
 }  // namespace
 
 // static
@@ -100,11 +117,87 @@ base::FilePath TestPaths::Executable() {
 }
 
 // static
+base::FilePath TestPaths::ExpectedExecutableBasename(
+    const base::FilePath::StringType& name) {
+#if defined(CRASHPAD_IN_CHROMIUM)
+  base::FilePath::StringType executable_name(
+      FILE_PATH_LITERAL("crashpad_tests"));
+#else  // CRASHPAD_IN_CHROMIUM
+  base::FilePath::StringType executable_name(name);
+#endif  // CRASHPAD_IN_CHROMIUM
+
+#if defined(OS_WIN)
+  executable_name += FILE_PATH_LITERAL(".exe");
+#endif  // OS_WIN
+
+  return base::FilePath(executable_name);
+}
+
+// static
 base::FilePath TestPaths::TestDataRoot() {
   static base::FilePath* test_data_root =
       new base::FilePath(TestDataRootInternal());
   return *test_data_root;
 }
+
+// static
+base::FilePath TestPaths::BuildArtifact(
+    const base::FilePath::StringType& module,
+    const base::FilePath::StringType& artifact,
+    FileType file_type,
+    Architecture architecture) {
+  base::FilePath directory;
+  switch (architecture) {
+    case Architecture::kDefault:
+      directory = Executable().DirName();
+      break;
+
+#if defined(OS_WIN) && defined(ARCH_CPU_64_BITS)
+    case Architecture::k32Bit:
+      directory = Output32BitDirectory();
+      CHECK(!directory.empty());
+      break;
+#endif  // OS_WIN && ARCH_CPU_64_BITS
+  }
+
+  base::FilePath::StringType test_name =
+      FILE_PATH_LITERAL("crashpad_") + module + FILE_PATH_LITERAL("_test");
+#if !defined(CRASHPAD_IN_CHROMIUM)
+  CHECK(Executable().BaseName().RemoveFinalExtension().value() == test_name);
+#endif  // !CRASHPAD_IN_CHROMIUM
+
+  base::FilePath::StringType extension;
+  switch (file_type) {
+    case FileType::kNone:
+      break;
+
+    case FileType::kExecutable:
+#if defined(OS_WIN)
+      extension = FILE_PATH_LITERAL(".exe");
+#endif  // OS_WIN
+      break;
+
+    case FileType::kLoadableModule:
+#if defined(OS_WIN)
+      extension = FILE_PATH_LITERAL(".dll");
+#else  // OS_WIN
+      extension = FILE_PATH_LITERAL(".so");
+#endif  // OS_WIN
+      break;
+  }
+
+  return directory.Append(test_name + FILE_PATH_LITERAL("_") + artifact +
+                          extension);
+}
+
+#if defined(OS_WIN) && defined(ARCH_CPU_64_BITS)
+
+// static
+bool TestPaths::Has32BitBuildArtifacts() {
+  return !Output32BitDirectory().empty();
+}
+
+#endif  // defined(OS_WIN) && defined(ARCH_CPU_64_BITS)
 
 }  // namespace test
 }  // namespace crashpad

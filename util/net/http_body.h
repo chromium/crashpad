@@ -24,6 +24,7 @@
 #include "base/files/file_path.h"
 #include "base/macros.h"
 #include "util/file/file_io.h"
+#include "util/file/file_reader.h"
 
 namespace crashpad {
 
@@ -70,33 +71,26 @@ class StringHTTPBodyStream : public HTTPBodyStream {
   DISALLOW_COPY_AND_ASSIGN(StringHTTPBodyStream);
 };
 
-//! \brief An implementation of HTTPBodyStream that reads from the specified
-//!     file and provides its contents for an HTTP body.
-class FileHTTPBodyStream : public HTTPBodyStream {
+//! \brief An implementation of HTTPBodyStream that reads from a
+//!     FileReaderInterface and provides its contents for an HTTP body.
+class FileReaderHTTPBodyStream : public HTTPBodyStream {
  public:
-  //! \brief Creates a stream for reading the file at the specified \a path.
+  //! \brief Creates a stream for reading from a FileReaderInterface.
   //!
-  //! \param[in] path The file from which this HTTPBodyStream will read.
-  explicit FileHTTPBodyStream(const base::FilePath& path);
+  //! \param[in] reader A FileReaderInterface from which this HTTPBodyStream
+  //!     will read.
+  explicit FileReaderHTTPBodyStream(FileReaderInterface* reader);
 
-  ~FileHTTPBodyStream() override;
+  ~FileReaderHTTPBodyStream() override;
 
   // HTTPBodyStream:
   FileOperationResult GetBytesBuffer(uint8_t* buffer, size_t max_len) override;
 
  private:
-  enum FileState {
-    kUnopenedFile,
-    kFileOpenError,
-    kClosedAtEOF,
-    kReading,
-  };
+  FileReaderInterface* reader_;  // weak
+  bool reached_eof_;
 
-  base::FilePath path_;
-  ScopedFileHandle file_;
-  FileState file_state_;
-
-  DISALLOW_COPY_AND_ASSIGN(FileHTTPBodyStream);
+  DISALLOW_COPY_AND_ASSIGN(FileReaderHTTPBodyStream);
 };
 
 //! \brief An implementation of HTTPBodyStream that combines an array of

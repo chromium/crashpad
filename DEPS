@@ -19,13 +19,13 @@ vars = {
 deps = {
   'buildtools':
       Var('chromium_git') + '/chromium/buildtools.git@' +
-      'a7cc7a3e21a061975b33dcdcd81a9716ba614c3c',
+      'f6d165d9d842ddd29056c127a5f3a3c5d8e0d2e3',
   'crashpad/third_party/gtest/gtest':
       Var('chromium_git') + '/external/github.com/google/googletest@' +
-      'd62d6c6556d96dda924382547c54a4b3afedb22c',
+      '7b6561c56e353100aca8458d7bc49c4e0119bae8',
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
-      'ffd524cefaad622e72995e852ffb0b18e83f8054',
+      'f72586209ecbf70b71ce690f2182ebe51669cbb3',
 
   # TODO(scottmg): Consider pinning these. For now, we don't have any particular
   # reason to do so.
@@ -38,7 +38,7 @@ deps = {
 
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      'ee67585e3115982282b86e210939ead1791e696d',
+      '7d6697ceb5cb5ca02fde3813496f48b9b1d76d0c',
   'crashpad/third_party/zlib/zlib':
       Var('chromium_git') + '/chromium/src/third_party/zlib@' +
       '13dc246a58e4b72104d35f9b1809af95221ebda7',

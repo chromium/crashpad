@@ -17,6 +17,12 @@
 
 #include "util/win/process_structs.h"
 
+// Copied from ntstatus.h because um/winnt.h conflicts with general inclusion of
+// ntstatus.h.
+#define STATUS_INFO_LENGTH_MISMATCH ((NTSTATUS)0xC0000004L)
+#define STATUS_BUFFER_TOO_SMALL ((NTSTATUS)0xC0000023L)
+#define STATUS_PROCESS_IS_TERMINATING ((NTSTATUS)0xC000010AL)
+
 namespace crashpad {
 
 NTSTATUS NtClose(HANDLE handle);
@@ -35,11 +41,6 @@ NtCreateThreadEx(PHANDLE thread_handle,
                  SIZE_T stack_size,
                  SIZE_T maximum_stack_size,
                  PVOID /*PPS_ATTRIBUTE_LIST*/ attribute_list);
-
-// Copied from ntstatus.h because um/winnt.h conflicts with general inclusion of
-// ntstatus.h.
-#define STATUS_BUFFER_TOO_SMALL ((NTSTATUS)0xC0000023L)
-#define STATUS_INFO_LENGTH_MISMATCH ((NTSTATUS)0xC0000004L)
 
 // winternal.h defines THREADINFOCLASS, but not all members.
 enum { ThreadBasicInformation = 0 };

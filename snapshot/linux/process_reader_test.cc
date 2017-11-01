@@ -24,7 +24,9 @@
 #include <unistd.h>
 
 #include <map>
+#include <memory>
 #include <string>
+#include <utility>
 
 #include "base/format_macros.h"
 #include "base/memory/free_deleter.h"
@@ -32,10 +34,11 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
+#include "test/linux/fake_ptrace_connection.h"
 #include "test/multiprocess.h"
 #include "util/file/file_io.h"
+#include "util/linux/direct_ptrace_connection.h"
 #include "util/misc/from_pointer_cast.h"
-#include "util/stdlib/pointer_container.h"
 #include "util/synchronization/semaphore.h"
 
 namespace crashpad {
@@ -69,13 +72,16 @@ LinuxVMAddress GetTLS() {
 }
 
 TEST(ProcessReader, SelfBasic) {
-  ProcessReader process_reader;
-  ASSERT_TRUE(process_reader.Initialize(getpid()));
+  FakePtraceConnection connection;
+  connection.Initialize(getpid());
 
-#if !defined(ARCH_CPU_64_BITS)
-  EXPECT_FALSE(process_reader.Is64Bit());
-#else
+  ProcessReader process_reader;
+  ASSERT_TRUE(process_reader.Initialize(&connection));
+
+#if defined(ARCH_CPU_64_BITS)
   EXPECT_TRUE(process_reader.Is64Bit());
+#else
+  EXPECT_FALSE(process_reader.Is64Bit());
 #endif
 
   EXPECT_EQ(process_reader.ProcessID(), getpid());
@@ -99,8 +105,11 @@ class BasicChildTest : public Multiprocess {
 
  private:
   void MultiprocessParent() override {
+    DirectPtraceConnection connection;
+    ASSERT_TRUE(connection.Initialize(ChildPID()));
+
     ProcessReader process_reader;
-    ASSERT_TRUE(process_reader.Initialize(ChildPID()));
+    ASSERT_TRUE(process_reader.Initialize(&connection));
 
 #if !defined(ARCH_CPU_64_BITS)
     EXPECT_FALSE(process_reader.Is64Bit());
@@ -141,11 +150,11 @@ class TestThreadPool {
   TestThreadPool() : threads_() {}
 
   ~TestThreadPool() {
-    for (Thread* thread : threads_) {
+    for (const auto& thread : threads_) {
       thread->exit_semaphore.Signal();
     }
 
-    for (const Thread* thread : threads_) {
+    for (const auto& thread : threads_) {
       EXPECT_EQ(pthread_join(thread->pthread, nullptr), 0)
           << ErrnoMessage("pthread_join");
     }
@@ -153,8 +162,8 @@ class TestThreadPool {
 
   void StartThreads(size_t thread_count, size_t stack_size = 0) {
     for (size_t thread_index = 0; thread_index < thread_count; ++thread_index) {
-      Thread* thread = new Thread();
-      threads_.push_back(thread);
+      threads_.push_back(std::make_unique<Thread>());
+      Thread* thread = threads_.back().get();
 
       pthread_attr_t attr;
       ASSERT_EQ(pthread_attr_init(&attr), 0)
@@ -189,7 +198,7 @@ class TestThreadPool {
           << ErrnoMessage("pthread_create");
     }
 
-    for (Thread* thread : threads_) {
+    for (const auto& thread : threads_) {
       thread->ready_semaphore.Wait();
     }
   }
@@ -198,7 +207,7 @@ class TestThreadPool {
                              ThreadExpectation* expectation) {
     CHECK_LT(thread_index, threads_.size());
 
-    const Thread* thread = threads_[thread_index];
+    const Thread* thread = threads_[thread_index].get();
     *expectation = thread->expectation;
     return thread->tid;
   }
@@ -240,7 +249,7 @@ class TestThreadPool {
     return nullptr;
   }
 
-  PointerVector<Thread> threads_;
+  std::vector<std::unique_ptr<Thread>> threads_;
 
   DISALLOW_COPY_AND_ASSIGN(TestThreadPool);
 };
@@ -255,18 +264,19 @@ void ExpectThreads(const ThreadMap& thread_map,
   ASSERT_TRUE(memory_map.Initialize(pid));
 
   for (const auto& thread : threads) {
-    SCOPED_TRACE(base::StringPrintf("Thread id %d, tls 0x%" PRIx64
-                                    ", stack addr 0x%" PRIx64
-                                    ", stack size 0x%" PRIx64,
-                                    thread.tid,
-                                    thread.thread_specific_data_address,
-                                    thread.stack_region_address,
-                                    thread.stack_region_size));
+    SCOPED_TRACE(
+        base::StringPrintf("Thread id %d, tls 0x%" PRIx64
+                           ", stack addr 0x%" PRIx64 ", stack size 0x%" PRIx64,
+                           thread.tid,
+                           thread.thread_info.thread_specific_data_address,
+                           thread.stack_region_address,
+                           thread.stack_region_size));
 
     const auto& iterator = thread_map.find(thread.tid);
     ASSERT_NE(iterator, thread_map.end());
 
-    EXPECT_EQ(thread.thread_specific_data_address, iterator->second.tls);
+    EXPECT_EQ(thread.thread_info.thread_specific_data_address,
+              iterator->second.tls);
 
     ASSERT_TRUE(memory_map.FindMapping(thread.stack_region_address));
     EXPECT_LE(thread.stack_region_address, iterator->second.stack_address);
@@ -305,8 +315,11 @@ class ChildThreadTest : public Multiprocess {
       thread_map[tid] = expectation;
     }
 
+    DirectPtraceConnection connection;
+    ASSERT_TRUE(connection.Initialize(ChildPID()));
+
     ProcessReader process_reader;
-    ASSERT_TRUE(process_reader.Initialize(ChildPID()));
+    ASSERT_TRUE(process_reader.Initialize(&connection));
     const std::vector<ProcessReader::Thread>& threads =
         process_reader.Threads();
     ExpectThreads(thread_map, threads, ChildPID());
@@ -379,8 +392,11 @@ class ChildWithSplitStackTest : public Multiprocess {
     CheckedReadFileExactly(ReadPipeHandle(), &stack_addr2, sizeof(stack_addr2));
     CheckedReadFileExactly(ReadPipeHandle(), &stack_addr3, sizeof(stack_addr3));
 
+    DirectPtraceConnection connection;
+    ASSERT_TRUE(connection.Initialize(ChildPID()));
+
     ProcessReader process_reader;
-    ASSERT_TRUE(process_reader.Initialize(ChildPID()));
+    ASSERT_TRUE(process_reader.Initialize(&connection));
 
     const std::vector<ProcessReader::Thread>& threads =
         process_reader.Threads();

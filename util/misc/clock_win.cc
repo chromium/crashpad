@@ -45,4 +45,12 @@ uint64_t ClockMonotonicNanoseconds() {
          ((leftover_ticks * kNanosecondsPerSecond) / frequency);
 }
 
+void SleepNanoseconds(uint64_t nanoseconds) {
+  // This is both inaccurate (will be way too long for short sleeps) and
+  // incorrect (can sleep for less than requested). But it's what's available
+  // without implementing a busy loop.
+  constexpr uint64_t kNanosecondsPerMillisecond = static_cast<uint64_t>(1E6);
+  Sleep(static_cast<DWORD>(nanoseconds / kNanosecondsPerMillisecond));
+}
+
 }  // namespace crashpad

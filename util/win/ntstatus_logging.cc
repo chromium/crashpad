@@ -32,9 +32,14 @@ std::string FormatNtstatus(DWORD ntstatus) {
       arraysize(msgbuf),
       nullptr);
   if (len) {
+    // Most system messages end in a period and a space. Remove the space if
+    // it’s there, because ~NtstatusLogMessage() includes one.
+    if (len >= 1 && msgbuf[len - 1] == ' ') {
+      msgbuf[len - 1] = '\0';
+    }
     return msgbuf;
   } else {
-    return base::StringPrintf("<failed to retrieve error message (0x%x)>",
+    return base::StringPrintf("<failed to retrieve error message (0x%lx)>",
                               GetLastError());
   }
 }
@@ -63,7 +68,7 @@ NtstatusLogMessage::NtstatusLogMessage(
 
 NtstatusLogMessage::~NtstatusLogMessage() {
   stream() << ": " << FormatNtstatus(ntstatus_)
-           << base::StringPrintf(" (0x%08x)", ntstatus_);
+           << base::StringPrintf(" (0x%08lx)", ntstatus_);
 }
 
 }  // namespace logging

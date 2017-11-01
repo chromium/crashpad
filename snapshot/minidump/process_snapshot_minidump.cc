@@ -14,10 +14,8 @@
 
 #include "snapshot/minidump/process_snapshot_minidump.h"
 
-#include <memory>
 #include <utility>
 
-#include "base/memory/ptr_util.h"
 #include "snapshot/minidump/minidump_simple_string_dictionary_reader.h"
 #include "util/file/file_io.h"
 
@@ -167,8 +165,8 @@ std::vector<const ThreadSnapshot*> ProcessSnapshotMinidump::Threads() const {
 std::vector<const ModuleSnapshot*> ProcessSnapshotMinidump::Modules() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   std::vector<const ModuleSnapshot*> modules;
-  for (internal::ModuleSnapshotMinidump* module : modules_) {
-    modules.push_back(module);
+  for (const auto& module : modules_) {
+    modules.push_back(module.get());
   }
   return modules;
 }
@@ -278,13 +276,13 @@ bool ProcessSnapshotMinidump::InitializeModules() {
             ? &module_crashpad_info_it->second
             : nullptr;
 
-    auto module = base::WrapUnique(new internal::ModuleSnapshotMinidump());
+    auto module = std::make_unique<internal::ModuleSnapshotMinidump>();
     if (!module->Initialize(
             file_reader_, module_rva, module_crashpad_info_location)) {
       return false;
     }
 
-    modules_.push_back(module.release());
+    modules_.push_back(std::move(module));
   }
 
   return true;

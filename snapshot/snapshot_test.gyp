@@ -67,12 +67,14 @@
         '..',
       ],
       'sources': [
+        'api/module_annotations_win_test.cc',
         'cpu_context_test.cc',
         'crashpad_info_client_options_test.cc',
-        'api/module_annotations_win_test.cc',
+        'elf/elf_image_reader_test.cc',
         'linux/debug_rendezvous_test.cc',
-        'linux/elf_image_reader_test.cc',
+        'linux/exception_snapshot_linux_test.cc',
         'linux/process_reader_test.cc',
+        'linux/system_snapshot_linux_test.cc',
         'mac/cpu_context_mac_test.cc',
         'mac/mach_o_image_annotations_reader_test.cc',
         'mac/mach_o_image_reader_test.cc',
@@ -81,6 +83,7 @@
         'mac/process_types_test.cc',
         'mac/system_snapshot_mac_test.cc',
         'minidump/process_snapshot_minidump_test.cc',
+        'posix/timezone_test.cc',
         'win/cpu_context_win_test.cc',
         'win/exception_snapshot_win_test.cc',
         'win/extra_memory_ranges_test.cc',
@@ -104,8 +107,10 @@
         }],
         ['OS=="win"', {
           'dependencies': [
+            'crashpad_snapshot_test_annotations',
             'crashpad_snapshot_test_crashing_child',
             'crashpad_snapshot_test_dump_without_crashing',
+            'crashpad_snapshot_test_extra_memory_ranges',
             'crashpad_snapshot_test_image_reader',
             'crashpad_snapshot_test_image_reader_module',
           ],
@@ -128,6 +133,10 @@
               '-ldl',
             ],
           },
+        }, {  # else: OS!="linux" and OS!="android"
+          'sources/': [
+            ['exclude', '^elf/'],
+          ],
         }],
       ],
       'target_conditions': [
@@ -240,7 +249,7 @@
           },
         },
         {
-          'target_name': 'crashpad_snapshot_test_simple_annotations',
+          'target_name': 'crashpad_snapshot_test_annotations',
           'type': 'executable',
           'dependencies': [
             '../client/client.gyp:crashpad_client',
@@ -248,7 +257,7 @@
             '../third_party/mini_chromium/mini_chromium.gyp:base',
           ],
           'sources': [
-            'win/crashpad_snapshot_test_simple_annotations.cc',
+            'win/crashpad_snapshot_test_annotations.cc',
           ],
         },
       ],

@@ -26,6 +26,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
+#include "test/gtest_disabled.h"
 #include "test/scoped_temp_dir.h"
 #include "test/test_paths.h"
 #include "test/win/child_launcher.h"
@@ -44,6 +45,7 @@ namespace {
 
 constexpr wchar_t kNtdllName[] = L"\\ntdll.dll";
 
+#if !defined(ARCH_CPU_64_BITS)
 bool IsProcessWow64(HANDLE process_handle) {
   static const auto is_wow64_process =
       GET_FUNCTION(L"kernel32.dll", ::IsWow64Process);
@@ -56,6 +58,7 @@ bool IsProcessWow64(HANDLE process_handle) {
   }
   return !!is_wow64;
 }
+#endif
 
 void VerifyAddressInInCodePage(const ProcessInfo& process_info,
                                WinVMAddress code_address) {
@@ -67,9 +70,9 @@ void VerifyAddressInInCodePage(const ProcessInfo& process_info,
   for (const auto& mi : memory_info) {
     if (mi.BaseAddress <= code_address &&
         mi.BaseAddress + mi.RegionSize > code_address) {
-      EXPECT_EQ(mi.State, MEM_COMMIT);
-      EXPECT_EQ(mi.Protect, PAGE_EXECUTE_READ);
-      EXPECT_EQ(mi.Type, MEM_IMAGE);
+      EXPECT_EQ(mi.State, static_cast<DWORD>(MEM_COMMIT));
+      EXPECT_EQ(mi.Protect, static_cast<DWORD>(PAGE_EXECUTE_READ));
+      EXPECT_EQ(mi.Type, static_cast<DWORD>(MEM_IMAGE));
       EXPECT_FALSE(found_region);
       found_region = true;
     }
@@ -101,10 +104,12 @@ TEST(ProcessInfo, Self) {
   std::vector<ProcessInfo::Module> modules;
   EXPECT_TRUE(process_info.Modules(&modules));
   ASSERT_GE(modules.size(), 2u);
-  static constexpr wchar_t kSelfName[] = L"\\crashpad_util_test.exe";
-  ASSERT_GE(modules[0].name.size(), wcslen(kSelfName));
-  EXPECT_EQ(modules[0].name.substr(modules[0].name.size() - wcslen(kSelfName)),
-            kSelfName);
+  std::wstring self_name =
+      std::wstring(1, '\\') +
+      TestPaths::ExpectedExecutableBasename(L"crashpad_util_test").value();
+  ASSERT_GE(modules[0].name.size(), self_name.size());
+  EXPECT_EQ(modules[0].name.substr(modules[0].name.size() - self_name.size()),
+            self_name);
   ASSERT_GE(modules[1].name.size(), wcslen(kNtdllName));
   EXPECT_EQ(modules[1].name.substr(modules[1].name.size() - wcslen(kNtdllName)),
             kNtdllName);
@@ -114,8 +119,8 @@ TEST(ProcessInfo, Self) {
   EXPECT_EQ(modules[1].dll_base,
             reinterpret_cast<uintptr_t>(GetModuleHandle(L"ntdll.dll")));
 
-  EXPECT_GT(modules[0].size, 0);
-  EXPECT_GT(modules[1].size, 0);
+  EXPECT_GT(modules[0].size, 0u);
+  EXPECT_GT(modules[1].size, 0u);
 
   EXPECT_EQ(modules[0].timestamp,
             GetTimestampForLoadedLibrary(GetModuleHandle(nullptr)));
@@ -129,7 +134,7 @@ TEST(ProcessInfo, Self) {
                             FromPointerCast<WinVMAddress>(_ReturnAddress()));
 }
 
-void TestOtherProcess(const base::string16& directory_modification) {
+void TestOtherProcess(TestPaths::Architecture architecture) {
   ProcessInfo process_info;
 
   UUID done_uuid;
@@ -139,15 +144,11 @@ void TestOtherProcess(const base::string16& directory_modification) {
       CreateEvent(nullptr, true, false, done_uuid.ToString16().c_str()));
   ASSERT_TRUE(done.get()) << ErrorMessage("CreateEvent");
 
-  base::FilePath test_executable = TestPaths::Executable();
-
-  std::wstring child_test_executable =
-      test_executable.DirName()
-          .Append(directory_modification)
-          .Append(test_executable.BaseName().RemoveFinalExtension().value() +
-                  L"_process_info_test_child.exe")
-          .value();
-
+  base::FilePath child_test_executable =
+      TestPaths::BuildArtifact(L"util",
+                               L"process_info_test_child",
+                               TestPaths::FileType::kExecutable,
+                               architecture);
   std::wstring args;
   AppendCommandLineArgument(done_uuid.ToString16(), &args);
 
@@ -164,7 +165,7 @@ void TestOtherProcess(const base::string16& directory_modification) {
   // Tell the test it's OK to shut down now that we've read our data.
   EXPECT_TRUE(SetEvent(done.get())) << ErrorMessage("SetEvent");
 
-  EXPECT_EQ(child.WaitForExit(), 0);
+  EXPECT_EQ(child.WaitForExit(), 0u);
 
   std::vector<ProcessInfo::Module> modules;
   EXPECT_TRUE(process_info.Modules(&modules));
@@ -188,16 +189,16 @@ void TestOtherProcess(const base::string16& directory_modification) {
 }
 
 TEST(ProcessInfo, OtherProcess) {
-  TestOtherProcess(FILE_PATH_LITERAL("."));
+  TestOtherProcess(TestPaths::Architecture::kDefault);
 }
 
 #if defined(ARCH_CPU_64_BITS)
 TEST(ProcessInfo, OtherProcessWOW64) {
-#ifndef NDEBUG
-  TestOtherProcess(FILE_PATH_LITERAL("..\\..\\out\\Debug"));
-#else
-  TestOtherProcess(FILE_PATH_LITERAL("..\\..\\out\\Release"));
-#endif
+  if (!TestPaths::Has32BitBuildArtifacts()) {
+    DISABLED_TEST();
+  }
+
+  TestOtherProcess(TestPaths::Architecture::k32Bit);
 }
 #endif  // ARCH_CPU_64_BITS
 
@@ -231,8 +232,8 @@ TEST(ProcessInfo, AccessibleRangesOneInside) {
                                    memory_info);
 
   ASSERT_EQ(result.size(), 1u);
-  EXPECT_EQ(result[0].base(), 2);
-  EXPECT_EQ(result[0].size(), 4);
+  EXPECT_EQ(result[0].base(), 2u);
+  EXPECT_EQ(result[0].size(), 4u);
 }
 
 TEST(ProcessInfo, AccessibleRangesOneTruncatedSize) {
@@ -254,8 +255,8 @@ TEST(ProcessInfo, AccessibleRangesOneTruncatedSize) {
                                    memory_info);
 
   ASSERT_EQ(result.size(), 1u);
-  EXPECT_EQ(result[0].base(), 5);
-  EXPECT_EQ(result[0].size(), 5);
+  EXPECT_EQ(result[0].base(), 5u);
+  EXPECT_EQ(result[0].size(), 5u);
 }
 
 TEST(ProcessInfo, AccessibleRangesOneMovedStart) {
@@ -277,8 +278,8 @@ TEST(ProcessInfo, AccessibleRangesOneMovedStart) {
                                    memory_info);
 
   ASSERT_EQ(result.size(), 1u);
-  EXPECT_EQ(result[0].base(), 10);
-  EXPECT_EQ(result[0].size(), 5);
+  EXPECT_EQ(result[0].base(), 10u);
+  EXPECT_EQ(result[0].size(), 5u);
 }
 
 TEST(ProcessInfo, ReserveIsInaccessible) {
@@ -300,8 +301,8 @@ TEST(ProcessInfo, ReserveIsInaccessible) {
                                    memory_info);
 
   ASSERT_EQ(result.size(), 1u);
-  EXPECT_EQ(result[0].base(), 10);
-  EXPECT_EQ(result[0].size(), 5);
+  EXPECT_EQ(result[0].base(), 10u);
+  EXPECT_EQ(result[0].size(), 5u);
 }
 
 TEST(ProcessInfo, PageGuardIsInaccessible) {
@@ -325,8 +326,8 @@ TEST(ProcessInfo, PageGuardIsInaccessible) {
                                    memory_info);
 
   ASSERT_EQ(result.size(), 1u);
-  EXPECT_EQ(result[0].base(), 10);
-  EXPECT_EQ(result[0].size(), 5);
+  EXPECT_EQ(result[0].base(), 10u);
+  EXPECT_EQ(result[0].size(), 5u);
 }
 
 TEST(ProcessInfo, PageNoAccessIsInaccessible) {
@@ -350,8 +351,8 @@ TEST(ProcessInfo, PageNoAccessIsInaccessible) {
                                    memory_info);
 
   ASSERT_EQ(result.size(), 1u);
-  EXPECT_EQ(result[0].base(), 10);
-  EXPECT_EQ(result[0].size(), 5);
+  EXPECT_EQ(result[0].base(), 10u);
+  EXPECT_EQ(result[0].size(), 5u);
 }
 
 TEST(ProcessInfo, AccessibleRangesCoalesced) {
@@ -378,8 +379,8 @@ TEST(ProcessInfo, AccessibleRangesCoalesced) {
                                    memory_info);
 
   ASSERT_EQ(result.size(), 1u);
-  EXPECT_EQ(result[0].base(), 11);
-  EXPECT_EQ(result[0].size(), 4);
+  EXPECT_EQ(result[0].base(), 11u);
+  EXPECT_EQ(result[0].size(), 4u);
 }
 
 TEST(ProcessInfo, AccessibleRangesMiddleUnavailable) {
@@ -406,10 +407,10 @@ TEST(ProcessInfo, AccessibleRangesMiddleUnavailable) {
                                    memory_info);
 
   ASSERT_EQ(result.size(), 2u);
-  EXPECT_EQ(result[0].base(), 5);
-  EXPECT_EQ(result[0].size(), 5);
-  EXPECT_EQ(result[1].base(), 15);
-  EXPECT_EQ(result[1].size(), 35);
+  EXPECT_EQ(result[0].base(), 5u);
+  EXPECT_EQ(result[0].size(), 5u);
+  EXPECT_EQ(result[1].base(), 15u);
+  EXPECT_EQ(result[1].size(), 35u);
 }
 
 TEST(ProcessInfo, RequestedBeforeMap) {
@@ -426,8 +427,8 @@ TEST(ProcessInfo, RequestedBeforeMap) {
                                    memory_info);
 
   ASSERT_EQ(result.size(), 1u);
-  EXPECT_EQ(result[0].base(), 10);
-  EXPECT_EQ(result[0].size(), 5);
+  EXPECT_EQ(result[0].base(), 10u);
+  EXPECT_EQ(result[0].size(), 5u);
 }
 
 TEST(ProcessInfo, RequestedAfterMap) {
@@ -444,8 +445,8 @@ TEST(ProcessInfo, RequestedAfterMap) {
           CheckedRange<WinVMAddress, WinVMSize>(15, 100), memory_info);
 
   ASSERT_EQ(result.size(), 1u);
-  EXPECT_EQ(result[0].base(), 15);
-  EXPECT_EQ(result[0].size(), 5);
+  EXPECT_EQ(result[0].base(), 15u);
+  EXPECT_EQ(result[0].size(), 5u);
 }
 
 TEST(ProcessInfo, ReadableRanges) {
@@ -562,7 +563,7 @@ TEST(ProcessInfo, Handles) {
   ASSERT_TRUE(scoped_key.is_valid());
 
   std::wstring mapping_name =
-      base::UTF8ToUTF16(base::StringPrintf("Local\\test_mapping_%d_%s",
+      base::UTF8ToUTF16(base::StringPrintf("Local\\test_mapping_%lu_%s",
                                            GetCurrentProcessId(),
                                            RandomString().c_str()));
   ScopedKernelHANDLE mapping(CreateFileMapping(INVALID_HANDLE_VALUE,
@@ -584,46 +585,49 @@ TEST(ProcessInfo, Handles) {
       EXPECT_FALSE(found_file_handle);
       found_file_handle = true;
       EXPECT_EQ(handle.type_name, L"File");
-      EXPECT_EQ(handle.handle_count, 1);
+      EXPECT_EQ(handle.handle_count, 1u);
       EXPECT_NE(handle.pointer_count, 0u);
       EXPECT_EQ(handle.granted_access & STANDARD_RIGHTS_ALL,
-                STANDARD_RIGHTS_READ | STANDARD_RIGHTS_WRITE | SYNCHRONIZE);
-      EXPECT_EQ(handle.attributes, 0);
+                static_cast<uint32_t>(STANDARD_RIGHTS_READ |
+                                      STANDARD_RIGHTS_WRITE | SYNCHRONIZE));
+      EXPECT_EQ(handle.attributes, 0u);
     }
     if (handle.handle == HandleToInt(inherited_file.get())) {
       EXPECT_FALSE(found_inherited_file_handle);
       found_inherited_file_handle = true;
       EXPECT_EQ(handle.type_name, L"File");
-      EXPECT_EQ(handle.handle_count, 1);
+      EXPECT_EQ(handle.handle_count, 1u);
       EXPECT_NE(handle.pointer_count, 0u);
       EXPECT_EQ(handle.granted_access & STANDARD_RIGHTS_ALL,
-                STANDARD_RIGHTS_READ | STANDARD_RIGHTS_WRITE | SYNCHRONIZE);
+                static_cast<uint32_t>(STANDARD_RIGHTS_READ |
+                                      STANDARD_RIGHTS_WRITE | SYNCHRONIZE));
 
       // OBJ_INHERIT from ntdef.h, but including that conflicts with other
       // headers.
-      constexpr int kObjInherit = 0x2;
+      constexpr uint32_t kObjInherit = 0x2;
       EXPECT_EQ(handle.attributes, kObjInherit);
     }
     if (handle.handle == HandleToInt(scoped_key.get())) {
       EXPECT_FALSE(found_key_handle);
       found_key_handle = true;
       EXPECT_EQ(handle.type_name, L"Key");
-      EXPECT_EQ(handle.handle_count, 1);
+      EXPECT_EQ(handle.handle_count, 1u);
       EXPECT_NE(handle.pointer_count, 0u);
       EXPECT_EQ(handle.granted_access & STANDARD_RIGHTS_ALL,
-                STANDARD_RIGHTS_READ);
-      EXPECT_EQ(handle.attributes, 0);
+                static_cast<uint32_t>(STANDARD_RIGHTS_READ));
+      EXPECT_EQ(handle.attributes, 0u);
     }
     if (handle.handle == HandleToInt(mapping.get())) {
       EXPECT_FALSE(found_mapping_handle);
       found_mapping_handle = true;
       EXPECT_EQ(handle.type_name, L"Section");
-      EXPECT_EQ(handle.handle_count, 1);
+      EXPECT_EQ(handle.handle_count, 1u);
       EXPECT_NE(handle.pointer_count, 0u);
       EXPECT_EQ(handle.granted_access & STANDARD_RIGHTS_ALL,
-                DELETE | READ_CONTROL | WRITE_DAC | WRITE_OWNER |
-                    STANDARD_RIGHTS_READ | STANDARD_RIGHTS_WRITE);
-      EXPECT_EQ(handle.attributes, 0);
+                static_cast<uint32_t>(DELETE | READ_CONTROL | WRITE_DAC |
+                                      WRITE_OWNER | STANDARD_RIGHTS_READ |
+                                      STANDARD_RIGHTS_WRITE));
+      EXPECT_EQ(handle.attributes, 0u);
     }
   }
   EXPECT_TRUE(found_file_handle);

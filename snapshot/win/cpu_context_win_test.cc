@@ -80,9 +80,9 @@ void TestInitializeX86Context_FsaveWithoutFxsave() {
     EXPECT_EQ(cpu_context_x86.fxsave.fsw, 0x0004);
     EXPECT_EQ(cpu_context_x86.fxsave.ftw, 0x00f0);
     EXPECT_EQ(cpu_context_x86.fxsave.fop, 0x0bad);
-    EXPECT_EQ(cpu_context_x86.fxsave.fpu_ip, 0x01234567);
+    EXPECT_EQ(cpu_context_x86.fxsave.fpu_ip, 0x01234567u);
     EXPECT_EQ(cpu_context_x86.fxsave.fpu_cs, 0x0003);
-    EXPECT_EQ(cpu_context_x86.fxsave.fpu_dp, 0x89abcdef);
+    EXPECT_EQ(cpu_context_x86.fxsave.fpu_dp, 0x89abcdefu);
     EXPECT_EQ(cpu_context_x86.fxsave.fpu_ds, 0x0007);
     for (size_t st_mm = 0; st_mm < 7; ++st_mm) {
       EXPECT_EQ(

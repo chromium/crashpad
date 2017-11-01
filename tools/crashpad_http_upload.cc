@@ -19,9 +19,11 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "base/files/file_path.h"
 #include "tools/tool_support.h"
+#include "util/file/file_reader.h"
 #include "util/file/file_writer.h"
 #include "util/net/http_body.h"
 #include "util/net/http_multipart_builder.h"
@@ -85,6 +87,7 @@ int HTTPUploadMain(int argc, char* argv[]) {
       {nullptr, 0, nullptr, 0},
   };
 
+  std::vector<std::unique_ptr<FileReader>> readers;
   HTTPMultipartBuilder http_multipart_builder;
 
   int opt;
@@ -102,8 +105,14 @@ int HTTPUploadMain(int argc, char* argv[]) {
             ToolSupport::CommandLineArgumentToFilePathStringType(path));
         std::string file_name(
             ToolSupport::FilePathToCommandLineArgument(file_path.BaseName()));
+
+        readers.push_back(std::make_unique<FileReader>());
+        FileReader* upload_file_reader = readers.back().get();
+        if (!upload_file_reader->Open(file_path)) {
+          return EXIT_FAILURE;
+        }
         http_multipart_builder.SetFileAttachment(
-            key, file_name, file_path, "application/octet-stream");
+            key, file_name, upload_file_reader, "application/octet-stream");
         break;
       }
       case kOptionNoUploadGzip: {

@@ -141,13 +141,10 @@ TEST(CrashpadInfoClientOptions, OneModule) {
 
 TEST(CrashpadInfoClientOptions, TwoModules) {
   // Open the module, which has its own CrashpadInfo structure.
-#if defined(OS_MACOSX)
-  const base::FilePath::StringType kDlExtension = FILE_PATH_LITERAL(".so");
-#elif defined(OS_WIN)
-  const base::FilePath::StringType kDlExtension = FILE_PATH_LITERAL(".dll");
-#endif
-  base::FilePath module_path = TestPaths::Executable().DirName().Append(
-      FILE_PATH_LITERAL("crashpad_snapshot_test_module") + kDlExtension);
+  base::FilePath module_path =
+      TestPaths::BuildArtifact(FILE_PATH_LITERAL("snapshot"),
+                               FILE_PATH_LITERAL("module"),
+                               TestPaths::FileType::kLoadableModule);
 #if defined(OS_MACOSX)
   ScopedModuleHandle module(
       dlopen(module_path.value().c_str(), RTLD_LAZY | RTLD_LOCAL));

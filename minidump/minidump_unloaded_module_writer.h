@@ -143,7 +143,7 @@ class MinidumpUnloadedModuleListWriter final
   MinidumpStreamType StreamType() const override;
 
  private:
-  PointerVector<MinidumpUnloadedModuleWriter> unloaded_modules_;
+  std::vector<std::unique_ptr<MinidumpUnloadedModuleWriter>> unloaded_modules_;
   MINIDUMP_UNLOADED_MODULE_LIST unloaded_module_list_base_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpUnloadedModuleListWriter);

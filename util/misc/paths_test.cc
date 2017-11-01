@@ -15,8 +15,8 @@
 #include "util/misc/paths.h"
 
 #include "base/files/file_path.h"
-#include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "test/test_paths.h"
 
 namespace crashpad {
 namespace test {
@@ -26,12 +26,10 @@ TEST(Paths, Executable) {
   base::FilePath executable_path;
   ASSERT_TRUE(Paths::Executable(&executable_path));
   const base::FilePath executable_name(executable_path.BaseName());
-#if defined(OS_WIN)
-  EXPECT_EQ(executable_name.value(),
-            FILE_PATH_LITERAL("crashpad_util_test.exe"));
-#else
-  EXPECT_EQ(executable_name.value(), "crashpad_util_test");
-#endif  // OS_WIN
+  const base::FilePath expected_name(TestPaths::ExpectedExecutableBasename(
+      FILE_PATH_LITERAL("crashpad_util_test")));
+
+  EXPECT_EQ(executable_name.value(), expected_name.value());
 }
 
 }  // namespace

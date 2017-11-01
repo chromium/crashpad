@@ -17,13 +17,14 @@
 
 #include <dirent.h>
 
-#include <memory>
+#include "base/scoped_generic.h"
 
 namespace crashpad {
 namespace internal {
 
-struct ScopedDIRCloser {
-  void operator()(DIR* dir) const;
+struct ScopedDIRCloseTraits {
+  static DIR* InvalidValue() { return nullptr; }
+  static void Free(DIR* dir);
 };
 
 }  // namespace internal
@@ -31,7 +32,7 @@ struct ScopedDIRCloser {
 //! \brief Maintains a directory opened by `opendir`.
 //!
 //! On destruction, the directory will be closed by calling `closedir`.
-using ScopedDIR = std::unique_ptr<DIR, internal::ScopedDIRCloser>;
+using ScopedDIR = base::ScopedGeneric<DIR*, internal::ScopedDIRCloseTraits>;
 
 }  // namespace crashpad
 

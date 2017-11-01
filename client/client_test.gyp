@@ -35,6 +35,8 @@
         '..',
       ],
       'sources': [
+        'annotation_test.cc',
+        'annotation_list_test.cc',
         'capture_context_mac_test.cc',
         'crash_report_database_test.cc',
         'crashpad_client_win_test.cc',
@@ -43,6 +45,13 @@
         'simple_address_range_bag_test.cc',
         'simple_string_dictionary_test.cc',
         'simulate_crash_mac_test.cc',
+      ],
+      'conditions': [
+        ['OS=="win"', {
+          'dependencies': [
+            '../handler/handler.gyp:crashpad_handler_console',
+          ],
+        }],
       ],
     },
   ],

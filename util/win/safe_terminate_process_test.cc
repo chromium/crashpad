@@ -117,13 +117,13 @@ TEST(SafeTerminateProcess, PatchBadly) {
   // Make sure that TerminateProcess() works as a baseline.
   SetLastError(ERROR_SUCCESS);
   EXPECT_FALSE(TerminateProcess(process, 0));
-  EXPECT_EQ(GetLastError(), ERROR_ACCESS_DENIED);
+  EXPECT_EQ(GetLastError(), static_cast<DWORD>(ERROR_ACCESS_DENIED));
 
   // Make sure that SafeTerminateProcess() works, calling through to
   // TerminateProcess() properly.
   SetLastError(ERROR_SUCCESS);
   EXPECT_FALSE(SafeTerminateProcess(process, 0));
-  EXPECT_EQ(GetLastError(), ERROR_ACCESS_DENIED);
+  EXPECT_EQ(GetLastError(), static_cast<DWORD>(ERROR_ACCESS_DENIED));
 
   {
     // Patch TerminateProcess() badly. This turns it into a no-op that returns 0
@@ -152,25 +152,22 @@ TEST(SafeTerminateProcess, PatchBadly) {
     // patched with a no-op stub, GetLastError() shouldn’t be modified.
     SetLastError(ERROR_SUCCESS);
     EXPECT_FALSE(SafeTerminateProcess(process, 0));
-    EXPECT_EQ(GetLastError(), ERROR_SUCCESS);
+    EXPECT_EQ(GetLastError(), static_cast<DWORD>(ERROR_SUCCESS));
   }
 
   // Now that the real TerminateProcess() has been restored, verify that it
   // still works properly.
   SetLastError(ERROR_SUCCESS);
   EXPECT_FALSE(SafeTerminateProcess(process, 0));
-  EXPECT_EQ(GetLastError(), ERROR_ACCESS_DENIED);
+  EXPECT_EQ(GetLastError(), static_cast<DWORD>(ERROR_ACCESS_DENIED));
 }
 
 TEST(SafeTerminateProcess, TerminateChild) {
-  base::FilePath test_executable = TestPaths::Executable();
-  std::wstring child_executable =
-      test_executable.DirName()
-          .Append(test_executable.BaseName().RemoveFinalExtension().value() +
-                  L"_safe_terminate_process_test_child.exe")
-          .value();
-
-  ChildLauncher child(child_executable, std::wstring());
+  base::FilePath child_executable =
+      TestPaths::BuildArtifact(L"util",
+                               L"safe_terminate_process_test_child",
+                               TestPaths::FileType::kExecutable);
+  ChildLauncher child(child_executable, L"");
   ASSERT_NO_FATAL_FAILURE(child.Start());
 
   constexpr DWORD kExitCode = 0x51ee9d1e;  // Sort of like “sleep and die.”

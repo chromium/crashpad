@@ -133,13 +133,13 @@ void HTTPMultipartBuilder::SetFormData(const std::string& key,
 void HTTPMultipartBuilder::SetFileAttachment(
     const std::string& key,
     const std::string& upload_file_name,
-    const base::FilePath& path,
+    FileReaderInterface* reader,
     const std::string& content_type) {
   EraseKey(upload_file_name);
 
   FileAttachment attachment;
   attachment.filename = EncodeMIMEField(upload_file_name);
-  attachment.path = path;
+  attachment.reader = reader;
 
   if (content_type.empty()) {
     attachment.content_type = "application/octet-stream";
@@ -174,7 +174,7 @@ std::unique_ptr<HTTPBodyStream> HTTPMultipartBuilder::GetBodyStream() {
         attachment.content_type.c_str(), kBoundaryCRLF);
 
     streams.push_back(new StringHTTPBodyStream(header));
-    streams.push_back(new FileHTTPBodyStream(attachment.path));
+    streams.push_back(new FileReaderHTTPBodyStream(attachment.reader));
     streams.push_back(new StringHTTPBodyStream(kCRLF));
   }
 

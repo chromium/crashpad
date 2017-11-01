@@ -21,6 +21,17 @@
       'target_name': 'crashpad_compat',
       'type': 'static_library',
       'sources': [
+        'android/elf.h',
+        'android/linux/elf.h',
+        'android/linux/prctl.h',
+        'android/linux/ptrace.h',
+        'android/sched.h',
+        'android/sys/mman.cc',
+        'android/sys/mman.h',
+        'android/sys/syscall.h',
+        'android/sys/user.h',
+        'linux/signal.h',
+        'linux/sys/ptrace.h',
         'mac/AvailabilityMacros.h',
         'mac/kern/exc_resource.h',
         'mac/mach/i386/thread_state.h',
@@ -29,8 +40,6 @@
         'mac/mach-o/getsect.h',
         'mac/mach-o/loader.h',
         'mac/sys/resource.h',
-        'non_cxx11_lib/type_traits',
-        'non_cxx11_lib/utility',
         'non_mac/mach/mach.h',
         'non_win/dbghelp.h',
         'non_win/minwinbase.h',
@@ -41,10 +50,13 @@
         'win/getopt.h',
         'win/strings.cc',
         'win/strings.h',
+        'win/sys/time.h',
         'win/sys/types.h',
         'win/time.cc',
         'win/time.h',
+        'win/winbase.h',
         'win/winnt.h',
+        'win/winternl.h',
       ],
       'conditions': [
         ['OS=="mac"', {
@@ -53,12 +65,10 @@
           ],
           'include_dirs': [
             'mac',
-            'non_cxx11_lib',
           ],
           'direct_dependent_settings': {
             'include_dirs': [
               'mac',
-              'non_cxx11_lib',
             ],
           },
         }],
@@ -87,10 +97,17 @@
         ['OS=="android"', {
           'include_dirs': [
             'android',
+            'linux',
           ],
           'direct_dependent_settings': {
             'include_dirs': [
               'android',
+              'linux',
+            ],
+          },
+          'link_settings': {
+            'libraries': [
+              '-ldl',
             ],
           },
         }],
