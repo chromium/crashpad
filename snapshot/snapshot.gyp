@@ -101,6 +101,8 @@
         'mac/thread_snapshot_mac.cc',
         'mac/thread_snapshot_mac.h',
         'memory_snapshot.h',
+        'minidump/minidump_annotation_reader.cc',
+        'minidump/minidump_annotation_reader.h',
         'minidump/minidump_simple_string_dictionary_reader.cc',
         'minidump/minidump_simple_string_dictionary_reader.h',
         'minidump/minidump_string_list_reader.cc',
