@@ -53,4 +53,9 @@ void SleepNanoseconds(uint64_t nanoseconds) {
   Sleep(static_cast<DWORD>(nanoseconds / kNanosecondsPerMillisecond));
 }
 
+void TimespecToTimeval(const timespec& ts, timeval* tv) {
+  tv->tv_sec = static_cast<long>(ts.tv_sec);
+  tv->tv_usec = ts.tv_nsec / 1000;
+}
+
 }  // namespace crashpad
