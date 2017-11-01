@@ -116,15 +116,15 @@ struct CrashpadInfo {
   //! typed data and it is not limited to a dictionary form. Annotations are
   //! interpreted by Crashpad as module-level annotations.
   //!
-  //! Annotations may exist in \a annotations_list at the time that this
-  //! method is called, or they may be added, removed, or modified in \a
-  //! annotations_list after this method is called.
+  //! Annotations may exist in \a list at the time that this method is called,
+  //! or they may be added, removed, or modified in \a list after this method is
+  //! called.
   //!
-  //! \param[in] annotations_list A list of set Annotation objects that maintain
-  //!     arbitrary, typed key-value state. The CrashpadInfo object does not
-  //!     take ownership of the AnnotationsList object. It is the caller’s
-  //!     responsibility to ensure that this pointer remains valid while it is
-  //!     in effect for a CrashpadInfo object.
+  //! \param[in] list A list of set Annotation objects that maintain arbitrary,
+  //!     typed key-value state. The CrashpadInfo object does not take ownership
+  //!     of the AnnotationsList object. It is the caller’s responsibility to
+  //!     ensure that this pointer remains valid while it is in effect for a
+  //!     CrashpadInfo object.
   //!
   //! \sa annotations_list()
   //! \sa AnnotationList::Register()
