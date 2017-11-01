@@ -21,6 +21,17 @@
 
 namespace crashpad {
 
+//! \brief Determines the modification time for a file or symbolic link,
+//!     logging a message on failure.
+//!
+//! This function may return the creation time for a file if the modification
+//! time is not available.
+//!
+//! \param[in] path The file to get the modification time for.
+//! \param[out] mtime The modification time as seconds since the POSIX Epoch.
+//! \return `true` on success. `false` on failure with a message logged.
+bool FileModificationTime(const base::FilePath& path, time_t* mtime);
+
 //! \brief Creates a directory, logging a message on failure.
 //!
 //! \param[in] path The path to the directory to create.
