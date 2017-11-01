@@ -101,6 +101,12 @@ std::string WinHttpMessage(const char* extra) {
                               GetLastError(),
                               error_code);
   }
+
+  // Most system messages end in a space. Remove the space if it’s there,
+  // because the StringPrintf() below includes one.
+  if (len >= 1 && msgbuf[len - 1] == ' ') {
+    msgbuf[len - 1] = '\0';
+  }
   return base::StringPrintf("%s: %s (0x%lx)", extra, msgbuf, error_code);
 }
 
