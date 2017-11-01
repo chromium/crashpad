@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61d14cdd_5385f9ba",
+        "filename": "minidump/minidump_annotation_writer.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-01T17:54:11Z",
+      "side": 1,
+      "message": "Both “i” and “index” are confusing: which variable indexes which vector?\n\nYou can do a for (const auto\u0026 object : objects_), and you can push_back or emplace_back into iov, so you don’t need any index variables at all.",
+      "revId": "7e39c383326924efe859f9c0043652124c24aa1d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dbd537c_2d4021ce",
+        "filename": "minidump/minidump_annotation_writer.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-01T17:54:11Z",
+      "side": 1,
+      "message": "The Initialize methods that take something from the Snapshot family are always called InitializeFromSnapshot().",
+      "range": {
+        "startLine": 43,
+        "startChar": 7,
+        "endLine": 43,
+        "endChar": 31
+      },
+      "revId": "7e39c383326924efe859f9c0043652124c24aa1d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e433605_127ac53c",
+        "filename": "minidump/minidump_annotation_writer.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-01T17:54:11Z",
+      "side": 1,
+      "message": "Make possessive.",
+      "range": {
+        "startLine": 50,
+        "startChar": 61,
+        "endLine": 50,
+        "endChar": 68
+      },
+      "revId": "7e39c383326924efe859f9c0043652124c24aa1d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30982e4d_05156b0a",
+        "filename": "minidump/minidump_annotation_writer.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-01T17:54:11Z",
+      "side": 1,
+      "message": "Pluralize, but that breaks things, so “AnnotationSnapshot objects”.",
+      "range": {
+        "startLine": 77,
+        "startChar": 11,
+        "endLine": 77,
+        "endChar": 29
+      },
+      "revId": "7e39c383326924efe859f9c0043652124c24aa1d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed67dca6_b9e555b4",
+        "filename": "minidump/test/minidump_writable_test_util.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-01T17:54:11Z",
+      "side": 1,
+      "message": "You lost the word “or” following this final comma.",
+      "range": {
+        "startLine": 145,
+        "startChar": 64,
+        "endLine": 145,
+        "endChar": 65
+      },
+      "revId": "7e39c383326924efe859f9c0043652124c24aa1d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
