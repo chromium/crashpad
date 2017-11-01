@@ -22,6 +22,30 @@
       "revId": "81053c2c2f82084e45f55af6aba50600297f3a27",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "827978a7_bb5cadf7",
+        "filename": "test/test_paths.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-01T16:47:52Z",
+      "side": 1,
+      "message": "\u003e It\u0027s kind of too bad that this name is here, when I guess the name of the binary will be specified in build files on the Chromium side, but it\u0027s also probably not worth passing it around to make it pretend to be more general than it really is.\n\nI already have to do the CRASHPAD_IN_CHROMIUM thing when building the test library in Chromium. I could remove specific knowledge of the executable name from Crashpad and have it be something that’s pushed in by the build system as a defined preprocessor macro. CRASHPAD_MONOLITHIC_TEST_EXECUTABLE?\nWhat do you think?",
+      "parentUuid": "e8f0b73e_a9d01de5",
+      "range": {
+        "startLine": 72,
+        "startChar": 35,
+        "endLine": 72,
+        "endChar": 49
+      },
+      "revId": "81053c2c2f82084e45f55af6aba50600297f3a27",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
