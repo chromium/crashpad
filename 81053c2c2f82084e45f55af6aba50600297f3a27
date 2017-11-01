@@ -70,6 +70,30 @@
       "revId": "81053c2c2f82084e45f55af6aba50600297f3a27",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79bc4f95_4092d2d2",
+        "filename": "test/test_paths.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-01T16:59:56Z",
+      "side": 1,
+      "message": "\u003e I\u0027m fairly ambivalent. I was just thinking of the case where the test binary needs to be renamed in Chromium for some reason which would be then slightly awkward to roll, but realistically that\u0027s going to happen ~0 times, so I think it\u0027s fine for the names just magically be the same.\n\nThanks. I mostly just wanted to avoid the macro because string quoting in macros is a little weird, I didn’t want to figure out how GN dealt with it, and it’d have been ugly to do the L\"crashpad_tests\" or \"crashpad_tests\" Windows vs. non thing in BUILD.gn.",
+      "parentUuid": "d1ef06b2_46771971",
+      "range": {
+        "startLine": 72,
+        "startChar": 35,
+        "endLine": 72,
+        "endChar": 49
+      },
+      "revId": "81053c2c2f82084e45f55af6aba50600297f3a27",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
