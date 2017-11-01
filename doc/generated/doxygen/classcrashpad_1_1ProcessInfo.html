@@ -96,12 +96,15 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6f68198a753d9b3ec59729019c4088c5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#a6f68198a753d9b3ec59729019c4088c5">Initialize</a> (pid_t pid)</td></tr>
-<tr class="memdesc:a6f68198a753d9b3ec59729019c4088c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes this object with information about the process whose ID is <em>pid</em>.  <a href="#a6f68198a753d9b3ec59729019c4088c5">More...</a><br /></td></tr>
-<tr class="separator:a6f68198a753d9b3ec59729019c4088c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62fce0d331fa98e234fc1097a34bc842"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#a62fce0d331fa98e234fc1097a34bc842">InitializeFromTask</a> (task_t task)</td></tr>
-<tr class="memdesc:a62fce0d331fa98e234fc1097a34bc842"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes this object with information about a process based on its Mach task.  <a href="#a62fce0d331fa98e234fc1097a34bc842">More...</a><br /></td></tr>
-<tr class="separator:a62fce0d331fa98e234fc1097a34bc842"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8819e382cc28a7c4de810834fa1ef92"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#aa8819e382cc28a7c4de810834fa1ef92">InitializeWithPtrace</a> (<a class="el" href="classcrashpad_1_1PtraceConnection.html">PtraceConnection</a> *connection)</td></tr>
+<tr class="memdesc:aa8819e382cc28a7c4de810834fa1ef92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes this object with information about the process whose ID is <em>pid</em> using a <a class="el" href="classcrashpad_1_1PtraceConnection.html" title="Provides an interface for making ptrace requests against a process and its threads. ">PtraceConnection</a> <em>connection</em>.  <a href="#aa8819e382cc28a7c4de810834fa1ef92">More...</a><br /></td></tr>
+<tr class="separator:aa8819e382cc28a7c4de810834fa1ef92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a126375f413eeda18c24a22642070804b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#a126375f413eeda18c24a22642070804b">InitializeWithPid</a> (pid_t pid)</td></tr>
+<tr class="memdesc:a126375f413eeda18c24a22642070804b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes this object with information about the process whose ID is <em>pid</em>.  <a href="#a126375f413eeda18c24a22642070804b">More...</a><br /></td></tr>
+<tr class="separator:a126375f413eeda18c24a22642070804b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07bd316cb2e10f34ee9244e28ef6465d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#a07bd316cb2e10f34ee9244e28ef6465d">InitializeWithTask</a> (task_t task)</td></tr>
+<tr class="memdesc:a07bd316cb2e10f34ee9244e28ef6465d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes this object with information about a process based on its Mach task.  <a href="#a07bd316cb2e10f34ee9244e28ef6465d">More...</a><br /></td></tr>
+<tr class="separator:a07bd316cb2e10f34ee9244e28ef6465d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28c8d64d39c3d039282a061d5c2c72ba"><td class="memItemLeft" align="right" valign="top">pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#a28c8d64d39c3d039282a061d5c2c72ba">ProcessID</a> () const</td></tr>
 <tr class="separator:a28c8d64d39c3d039282a061d5c2c72ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ba8e38419e93e732c3acb09fbf0115b"><td class="memItemLeft" align="right" valign="top">pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#a6ba8e38419e93e732c3acb09fbf0115b">ParentProcessID</a> () const</td></tr>
@@ -125,9 +128,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a38a40f720591eb2117a260b5faad78c9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#a38a40f720591eb2117a260b5faad78c9">DidChangePrivileges</a> () const</td></tr>
 <tr class="memdesc:a38a40f720591eb2117a260b5faad78c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether the target process has changed privileges.  <a href="#a38a40f720591eb2117a260b5faad78c9">More...</a><br /></td></tr>
 <tr class="separator:a38a40f720591eb2117a260b5faad78c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada5cdc0aa94f8f7ead254f5e175e15b9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#ada5cdc0aa94f8f7ead254f5e175e15b9">Is64Bit</a> (bool *is_64_bit) const</td></tr>
-<tr class="memdesc:ada5cdc0aa94f8f7ead254f5e175e15b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the target process’ bitness.  <a href="#ada5cdc0aa94f8f7ead254f5e175e15b9">More...</a><br /></td></tr>
-<tr class="separator:ada5cdc0aa94f8f7ead254f5e175e15b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aded0c4c25b2bed09a9f4c4a605eb3f8d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#aded0c4c25b2bed09a9f4c4a605eb3f8d">Is64Bit</a> () const</td></tr>
+<tr class="memdesc:aded0c4c25b2bed09a9f4c4a605eb3f8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the target process’ bitness.  <a href="#aded0c4c25b2bed09a9f4c4a605eb3f8d">More...</a><br /></td></tr>
+<tr class="separator:aded0c4c25b2bed09a9f4c4a605eb3f8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2022cf75ceb87ed7b1f9b8c5cf6ff951"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#a2022cf75ceb87ed7b1f9b8c5cf6ff951">StartTime</a> (timeval *start_time) const</td></tr>
 <tr class="memdesc:a2022cf75ceb87ed7b1f9b8c5cf6ff951"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the target process’ start time.  <a href="#a2022cf75ceb87ed7b1f9b8c5cf6ff951">More...</a><br /></td></tr>
 <tr class="separator:a2022cf75ceb87ed7b1f9b8c5cf6ff951"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -334,37 +337,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadMemoryInfo</b> (H
 
 </div>
 </div>
-<a id="a6f68198a753d9b3ec59729019c4088c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f68198a753d9b3ec59729019c4088c5">&#9670;&nbsp;</a></span>Initialize() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool crashpad::ProcessInfo::Initialize </td>
-          <td>(</td>
-          <td class="paramtype">pid_t&#160;</td>
-          <td class="paramname"><em>pid</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Initializes this object with information about the process whose ID is <em>pid</em>. </p>
-<p>This method must be called successfully prior to calling any other method in this class. This method may only be called once.</p>
-<p>It is unspecified whether the information that an object of this class returns is loaded at the time <a class="el" href="classcrashpad_1_1ProcessInfo.html#a6f68198a753d9b3ec59729019c4088c5" title="Initializes this object with information about the process whose ID is pid. ">Initialize()</a> is called or subsequently, and whether this information is cached in the object or not.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">pid</td><td>The process ID to obtain information for.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, <code>false</code> on failure with a message logged. </dd></dl>
-
-</div>
-</div>
 <a id="a6b8cae2f57a4a47cd37b6b1c7d33f64d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b8cae2f57a4a47cd37b6b1c7d33f64d">&#9670;&nbsp;</a></span>Initialize() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b8cae2f57a4a47cd37b6b1c7d33f64d">&#9670;&nbsp;</a></span>Initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -385,14 +359,72 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadMemoryInfo</b> (H
 
 </div>
 </div>
-<a id="a62fce0d331fa98e234fc1097a34bc842"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a62fce0d331fa98e234fc1097a34bc842">&#9670;&nbsp;</a></span>InitializeFromTask()</h2>
+<a id="a126375f413eeda18c24a22642070804b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a126375f413eeda18c24a22642070804b">&#9670;&nbsp;</a></span>InitializeWithPid()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool crashpad::ProcessInfo::InitializeFromTask </td>
+          <td class="memname">bool crashpad::ProcessInfo::InitializeWithPid </td>
+          <td>(</td>
+          <td class="paramtype">pid_t&#160;</td>
+          <td class="paramname"><em>pid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes this object with information about the process whose ID is <em>pid</em>. </p>
+<p>This method must be called successfully prior to calling any other method in this class. This method may only be called once.</p>
+<p>It is unspecified whether the information that an object of this class returns is loaded at the time <a class="el" href="classcrashpad_1_1ProcessInfo.html#a6b8cae2f57a4a47cd37b6b1c7d33f64d" title="Initializes this object with information about the given process. ">Initialize()</a> is called or subsequently, and whether this information is cached in the object or not.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">pid</td><td>The process ID to obtain information for.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, <code>false</code> on failure with a message logged. </dd></dl>
+
+</div>
+</div>
+<a id="aa8819e382cc28a7c4de810834fa1ef92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8819e382cc28a7c4de810834fa1ef92">&#9670;&nbsp;</a></span>InitializeWithPtrace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::ProcessInfo::InitializeWithPtrace </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classcrashpad_1_1PtraceConnection.html">PtraceConnection</a> *&#160;</td>
+          <td class="paramname"><em>connection</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes this object with information about the process whose ID is <em>pid</em> using a <a class="el" href="classcrashpad_1_1PtraceConnection.html" title="Provides an interface for making ptrace requests against a process and its threads. ">PtraceConnection</a> <em>connection</em>. </p>
+<p>This method must be called successfully prior to calling any other method in this class. This method may only be called once.</p>
+<p>It is unspecified whether the information that an object of this class returns is loaded at the time <a class="el" href="classcrashpad_1_1ProcessInfo.html#a6b8cae2f57a4a47cd37b6b1c7d33f64d" title="Initializes this object with information about the given process. ">Initialize()</a> is called or subsequently, and whether this information is cached in the object or not.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">connection</td><td>A connection to the remote process.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, <code>false</code> on failure with a message logged. </dd></dl>
+
+</div>
+</div>
+<a id="a07bd316cb2e10f34ee9244e28ef6465d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07bd316cb2e10f34ee9244e28ef6465d">&#9670;&nbsp;</a></span>InitializeWithTask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::ProcessInfo::InitializeWithTask </td>
           <td>(</td>
           <td class="paramtype">task_t&#160;</td>
           <td class="paramname"><em>task</em></td><td>)</td>
@@ -402,7 +434,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadMemoryInfo</b> (H
 </div><div class="memdoc">
 
 <p>Initializes this object with information about a process based on its Mach task. </p>
-<p>This method serves as a stand-in for <a class="el" href="classcrashpad_1_1ProcessInfo.html#a6f68198a753d9b3ec59729019c4088c5" title="Initializes this object with information about the process whose ID is pid. ">Initialize()</a> and may be called in its place with the same restrictions and considerations.</p>
+<p>This method serves as a stand-in for <a class="el" href="classcrashpad_1_1ProcessInfo.html#a126375f413eeda18c24a22642070804b" title="Initializes this object with information about the process whose ID is pid. ">InitializeWithPid()</a> and may be called in its place with the same restrictions and considerations.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">task</td><td>The Mach task to obtain information for.</td></tr>
@@ -431,8 +463,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadMemoryInfo</b> (H
 
 </div>
 </div>
-<a id="ada5cdc0aa94f8f7ead254f5e175e15b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada5cdc0aa94f8f7ead254f5e175e15b9">&#9670;&nbsp;</a></span>Is64Bit() <span class="overload">[2/2]</span></h2>
+<a id="aded0c4c25b2bed09a9f4c4a605eb3f8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aded0c4c25b2bed09a9f4c4a605eb3f8d">&#9670;&nbsp;</a></span>Is64Bit() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -440,21 +472,14 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadMemoryInfo</b> (H
         <tr>
           <td class="memname">bool crashpad::ProcessInfo::Is64Bit </td>
           <td>(</td>
-          <td class="paramtype">bool *&#160;</td>
-          <td class="paramname"><em>is_64_bit</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Determines the target process’ bitness. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">is_64_bit</td><td><code>true</code> if the target task is a 64-bit process.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, with <em>is_64_bit</em> set. Otherwise, <code>false</code> with a message logged. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the target task is a 64-bit process. </dd></dl>
 
 </div>
 </div>

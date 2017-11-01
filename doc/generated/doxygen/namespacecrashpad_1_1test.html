@@ -83,6 +83,12 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1ChildLauncher.html">ChildLauncher</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a child process for testing. Uses gtest <code>ASSERT_*</code> to indicate failure. The child's output is passed through a pipe and is available via <a class="el" href="classcrashpad_1_1test_1_1ChildLauncher.html#a3ed4b8859fa32e8f772e50afc19163ee" title="The read end of a pipe attached to the child&#39;s stdout. ">stdout_read_handle()</a>, and the child's input is attached to a second pipe available via <a class="el" href="classcrashpad_1_1test_1_1ChildLauncher.html#afe9c94037f079ad475e6b0aab992c21f" title="The write end of a pipe attached to the child&#39;s stdin. ">stdin_write_handle()</a>.  <a href="classcrashpad_1_1test_1_1ChildLauncher.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1DisabledTestGtestEnvironment.html">DisabledTestGtestEnvironment</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides support for dynamically disabled gtest tests.  <a href="classcrashpad_1_1test_1_1DisabledTestGtestEnvironment.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1FakePtraceConnection.html">FakePtraceConnection</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stands-in where real PtraceConnections aren't available.  <a href="classcrashpad_1_1test_1_1FakePtraceConnection.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1MachMultiprocess.html">MachMultiprocess</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages a Mach-aware multiprocess test.  <a href="classcrashpad_1_1test_1_1MachMultiprocess.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,6 +149,9 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a792154d99d868c18ba566d01d20be2cc"><td class="memItemLeft" align="right" valign="top">std::vector&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1test.html#a792154d99d868c18ba566d01d20be2cc">MinidumpByteArrayAtRVA</a> (const std::string &amp;file_contents, <a class="el" href="dbghelp_8h.html#acf465a1a77ecf067a9d946583bc6a3f8">RVA</a> rva)</td></tr>
+<tr class="memdesc:a792154d99d868c18ba566d01d20be2cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the bytes referenced by a <a class="el" href="structcrashpad_1_1MinidumpByteArray.html" title="A variable-length array of bytes carried within a minidump file. The data have no intrinsic type and ...">MinidumpByteArray</a> object located in a minidump file at the specified RVA.  <a href="#a792154d99d868c18ba566d01d20be2cc">More...</a><br /></td></tr>
+<tr class="separator:a792154d99d868c18ba566d01d20be2cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68bb97f184e9e5a41356a960fdaf3320"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structMINIDUMP__HEADER.html">MINIDUMP_HEADER</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1test.html#a68bb97f184e9e5a41356a960fdaf3320">MinidumpHeaderAtStart</a> (const std::string &amp;file_contents, const <a class="el" href="structMINIDUMP__DIRECTORY.html">MINIDUMP_DIRECTORY</a> **directory)</td></tr>
 <tr class="memdesc:a68bb97f184e9e5a41356a960fdaf3320"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="structMINIDUMP__HEADER.html" title="The top-level structure identifying a minidump file. ">MINIDUMP_HEADER</a> at the start of a minidump file, along with the <a class="el" href="structMINIDUMP__DIRECTORY.html" title="A pointer to a stream within a minidump file. ">MINIDUMP_DIRECTORY</a> it references.  <a href="#a68bb97f184e9e5a41356a960fdaf3320">More...</a><br /></td></tr>
 <tr class="separator:a68bb97f184e9e5a41356a960fdaf3320"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -296,6 +305,18 @@ template&lt;&gt; </td></tr>
 <tr class="memitem:a897d99ec1dd2c343d29a3d14e3560732"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#a1e53a1957d9edcba8b406ea632b6daf2">FileOffset</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1test.html#a897d99ec1dd2c343d29a3d14e3560732">FileSize</a> (const base::FilePath &amp;path)</td></tr>
 <tr class="memdesc:a897d99ec1dd2c343d29a3d14e3560732"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the size of a file.  <a href="#a897d99ec1dd2c343d29a3d14e3560732">More...</a><br /></td></tr>
 <tr class="separator:a897d99ec1dd2c343d29a3d14e3560732"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a250fa0e7606b1879173399b8128c1146"><td class="memItemLeft" align="right" valign="top"><a id="a250fa0e7606b1879173399b8128c1146"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>CreateFile</b> (const base::FilePath &amp;file)</td></tr>
+<tr class="separator:a250fa0e7606b1879173399b8128c1146"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70be49b8df7a164ab2d8641f6bf88bef"><td class="memItemLeft" align="right" valign="top"><a id="a70be49b8df7a164ab2d8641f6bf88bef"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>PathExists</b> (const base::FilePath &amp;path)</td></tr>
+<tr class="separator:a70be49b8df7a164ab2d8641f6bf88bef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a9bc67b39f0b394ae33cc4fd36fc73d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1test.html#a3a9bc67b39f0b394ae33cc4fd36fc73d">CanCreateSymbolicLinks</a> ()</td></tr>
+<tr class="memdesc:a3a9bc67b39f0b394ae33cc4fd36fc73d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether it should be possible to create symbolic links.  <a href="#a3a9bc67b39f0b394ae33cc4fd36fc73d">More...</a><br /></td></tr>
+<tr class="separator:a3a9bc67b39f0b394ae33cc4fd36fc73d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3fb90bfe915d400207c2a370f93fcc1"><td class="memItemLeft" align="right" valign="top"><a id="ae3fb90bfe915d400207c2a370f93fcc1"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>CreateSymbolicLink</b> (const base::FilePath &amp;target_path, const base::FilePath &amp;symlink_path)</td></tr>
+<tr class="separator:ae3fb90bfe915d400207c2a370f93fcc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa4835fcb6a4a897b0841b8575789b77"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1test.html#aaa4835fcb6a4a897b0841b8575789b77">BytesToHexString</a> (const void *bytes, size_t length)</td></tr>
 <tr class="memdesc:aaa4835fcb6a4a897b0841b8575789b77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a hexadecimal string corresponding to <em>bytes</em> and <em>length</em>.  <a href="#aaa4835fcb6a4a897b0841b8575789b77">More...</a><br /></td></tr>
 <tr class="separator:aaa4835fcb6a4a897b0841b8575789b77"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -425,6 +446,28 @@ const std::vector&lt; std::string &gt; *&#160;</td><td class="memItemRight" vali
 
 <p>Returns a hexadecimal string corresponding to <em>bytes</em> and <em>length</em>. </p>
 <p>Example usage: </p><div class="fragment"><div class="line">uint8_t expected[10];</div><div class="line">uint8_t observed[10];</div><div class="line"><span class="comment">// …</span></div><div class="line">EXPECT_EQ(<a class="code" href="namespacecrashpad_1_1test.html#aaa4835fcb6a4a897b0841b8575789b77">BytesToHexString</a>(observed, arraysize(observed)),</div><div class="line">          <a class="code" href="namespacecrashpad_1_1test.html#aaa4835fcb6a4a897b0841b8575789b77">BytesToHexString</a>(expected, arraysize(expected)));</div></div><!-- fragment --> 
+</div>
+</div>
+<a id="a3a9bc67b39f0b394ae33cc4fd36fc73d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a9bc67b39f0b394ae33cc4fd36fc73d">&#9670;&nbsp;</a></span>CanCreateSymbolicLinks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::test::CanCreateSymbolicLinks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determines whether it should be possible to create symbolic links. </p>
+<p>It is always possible to create symbolic links on POSIX.</p>
+<p>On Windows, it is only possible to create symbolic links when running as an administrator, or as a non-administrator when running Windows 10 build 15063 (1703, Creators Update) or later, provided that developer mode is enabled and <code>SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE</code> is used. This function tests the creation of a symbolic link and returns true on success, and false on failure. If the symbolic link could not be created for a reason other than the expected lack of privilege, a message is logged.</p>
+<p>Additional background: <a href="https://blogs.windows.com/buildingapps/2016/12/02/symlinks-windows-10/">Symlinks in Windows 10!</a> </p>
+
 </div>
 </div>
 <a id="ab80403780da9c07617b44d8d7db7c618"></a>
@@ -1091,6 +1134,44 @@ const std::vector&lt; std::string &gt; *&#160;</td><td class="memItemRight" vali
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A string of the format <code>"(os/kern) invalid address (1)"</code> if <em>mach_err</em> has the value <code>KERN_INVALID_ADDRESS</code> on a system where this is defined to be 1. If <em>base</em> is not empty, it will be prepended to this string, separated by a colon. </dd></dl>
+
+</div>
+</div>
+<a id="a792154d99d868c18ba566d01d20be2cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a792154d99d868c18ba566d01d20be2cc">&#9670;&nbsp;</a></span>MinidumpByteArrayAtRVA()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; uint8_t &gt; crashpad::test::MinidumpByteArrayAtRVA </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>file_contents</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="dbghelp_8h.html#acf465a1a77ecf067a9d946583bc6a3f8">RVA</a>&#160;</td>
+          <td class="paramname"><em>rva</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the bytes referenced by a <a class="el" href="structcrashpad_1_1MinidumpByteArray.html" title="A variable-length array of bytes carried within a minidump file. The data have no intrinsic type and ...">MinidumpByteArray</a> object located in a minidump file at the specified RVA. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">file_contents</td><td>The contents of the minidump file. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rva</td><td>The offset in the minidump file of the <a class="el" href="structcrashpad_1_1MinidumpByteArray.html" title="A variable-length array of bytes carried within a minidump file. The data have no intrinsic type and ...">MinidumpByteArray</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="structcrashpad_1_1MinidumpByteArray.html#aec012e2ccbbcf2bb88b7f18d26d1b1a8" title="The bytes of data. ">MinidumpByteArray::data</a> referenced by the <em>rva</em>. Note that this function does not check that the data are within the bounds of the <em>file_contents</em>. </dd></dl>
 
 </div>
 </div>

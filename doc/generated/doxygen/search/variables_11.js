@@ -1,7 +1,9 @@
 var searchData=
 [
   ['teb',['Teb',['../structMINIDUMP__THREAD.html#a78e39b500ecbe680092406abd6aee3f3',1,'MINIDUMP_THREAD']]],
+  ['thread_5fcontext',['thread_context',['../structcrashpad_1_1ThreadInfo.html#af4fc4b9bf1255d8c8ee73c3fea46211f',1,'crashpad::ThreadInfo']]],
   ['thread_5fid',['thread_id',['../structcrashpad_1_1ExceptionInformation.html#aca46374644c03c19a15210df702277aa',1,'crashpad::ExceptionInformation']]],
+  ['thread_5fspecific_5fdata_5faddress',['thread_specific_data_address',['../structcrashpad_1_1ThreadInfo.html#afeee699fe4cd5d496bcdb4870e0d0d97',1,'crashpad::ThreadInfo']]],
   ['threadcontext',['ThreadContext',['../structMINIDUMP__THREAD.html#a4bea75c1a353e346689b97aeaea22184',1,'MINIDUMP_THREAD::ThreadContext()'],['../structMINIDUMP__EXCEPTION__STREAM.html#a5a49137fc0a19e8096504e16e954f351',1,'MINIDUMP_EXCEPTION_STREAM::ThreadContext()']]],
   ['threadid',['ThreadId',['../structMINIDUMP__THREAD.html#a1d2508187af6c3ec09e5836badb56fd2',1,'MINIDUMP_THREAD::ThreadId()'],['../structMINIDUMP__EXCEPTION__STREAM.html#a086c9170bbe85b667b65f90fca98bf95',1,'MINIDUMP_EXCEPTION_STREAM::ThreadId()']]],
   ['threads',['Threads',['../structMINIDUMP__THREAD__LIST.html#a1cfde082e9b93fc4ebef482d220021e9',1,'MINIDUMP_THREAD_LIST']]],
@@ -10,7 +12,7 @@ var searchData=
   ['timezone',['TimeZone',['../structMINIDUMP__MISC__INFO__3.html#aed5a62e4763420e86a7477138f85f23d',1,'MINIDUMP_MISC_INFO_3']]],
   ['timezoneid',['TimeZoneId',['../structMINIDUMP__MISC__INFO__3.html#a65b9873189c3dad3f692b6792771f27b',1,'MINIDUMP_MISC_INFO_3']]],
   ['token',['token',['../structcrashpad_1_1ShutdownRequest.html#afb1920c18fec843124cad93b1f390f16',1,'crashpad::ShutdownRequest']]],
-  ['type',['type',['../structcrashpad_1_1ElfSymbolTableReader_1_1SymbolInformation.html#a8fb495353e851cef5f09629af63269a5',1,'crashpad::ElfSymbolTableReader::SymbolInformation::type()'],['../structMINIDUMP__MEMORY__INFO.html#ac23730215942661e57117b1bb2e5782b',1,'MINIDUMP_MEMORY_INFO::Type()']]],
+  ['type',['type',['../structcrashpad_1_1AnnotationSnapshot.html#a26c4db6e9828ccbe63ce082fbc9938f2',1,'crashpad::AnnotationSnapshot::type()'],['../structcrashpad_1_1ElfSymbolTableReader_1_1SymbolInformation.html#a8fb495353e851cef5f09629af63269a5',1,'crashpad::ElfSymbolTableReader::SymbolInformation::type()'],['../structMINIDUMP__MEMORY__INFO.html#ac23730215942661e57117b1bb2e5782b',1,'MINIDUMP_MEMORY_INFO::Type()']]],
   ['type_5fname',['type_name',['../structcrashpad_1_1HandleSnapshot.html#aa69dbac711ca36bdd594f5735352ca76',1,'crashpad::HandleSnapshot::type_name()'],['../structcrashpad_1_1ProcessInfo_1_1Handle.html#a68c54dbf175260260c61917382bcb4bf',1,'crashpad::ProcessInfo::Handle::type_name()']]],
   ['typenamerva',['TypeNameRva',['../structMINIDUMP__HANDLE__DESCRIPTOR.html#ad76732f99dcca016e6bb43a539e5a2f8',1,'MINIDUMP_HANDLE_DESCRIPTOR']]]
 ];

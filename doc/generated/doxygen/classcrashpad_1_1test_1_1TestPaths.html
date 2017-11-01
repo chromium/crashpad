@@ -64,6 +64,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classcrashpad_1_1test_1_1TestPaths-members.html">List of all members</a>  </div>
@@ -77,6 +78,15 @@ $(function() {
 
 <p><code>#include &quot;test/test_paths.h&quot;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a8f71a95dc0f7e8458694443a2b26dd2c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a8f71a95dc0f7e8458694443a2b26dd2c">FileType</a> <tr class="memdesc:a8f71a95dc0f7e8458694443a2b26dd2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of file requested of <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a2e6e7d9320faa239b7c1b788f9f48589" title="Returns the pathname of a build artifact. ">BuildArtifact()</a>.  <a href="classcrashpad_1_1test_1_1TestPaths.html#a8f71a95dc0f7e8458694443a2b26dd2c">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:a8f71a95dc0f7e8458694443a2b26dd2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e035319ae61157982fcb2317cfef21f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a7e035319ae61157982fcb2317cfef21f">Architecture</a> <tr class="memdesc:a7e035319ae61157982fcb2317cfef21f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The architecture of the file requested of <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a2e6e7d9320faa239b7c1b788f9f48589" title="Returns the pathname of a build artifact. ">BuildArtifact()</a>.  <a href="classcrashpad_1_1test_1_1TestPaths.html#a7e035319ae61157982fcb2317cfef21f">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:a7e035319ae61157982fcb2317cfef21f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:acc76a16233c44086bb93f15c317d49d3"><td class="memItemLeft" align="right" valign="top"><a id="acc76a16233c44086bb93f15c317d49d3"></a>
@@ -88,13 +98,147 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ac7351ad5bba670bab617e4981196fb59"><td class="memItemLeft" align="right" valign="top">static base::FilePath&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#ac7351ad5bba670bab617e4981196fb59">Executable</a> ()</td></tr>
 <tr class="memdesc:ac7351ad5bba670bab617e4981196fb59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the pathname of the currently-running test executable.  <a href="#ac7351ad5bba670bab617e4981196fb59">More...</a><br /></td></tr>
 <tr class="separator:ac7351ad5bba670bab617e4981196fb59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dab61cf91bed0b10a6f35ea1b73eeaa"><td class="memItemLeft" align="right" valign="top">static base::FilePath&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a5dab61cf91bed0b10a6f35ea1b73eeaa">ExpectedExecutableBasename</a> (const base::FilePath::StringType &amp;name)</td></tr>
+<tr class="memdesc:a5dab61cf91bed0b10a6f35ea1b73eeaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the expected basename of the currently-running test executable.  <a href="#a5dab61cf91bed0b10a6f35ea1b73eeaa">More...</a><br /></td></tr>
+<tr class="separator:a5dab61cf91bed0b10a6f35ea1b73eeaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43295a9664e969f260216ad83bf66318"><td class="memItemLeft" align="right" valign="top">static base::FilePath&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a43295a9664e969f260216ad83bf66318">TestDataRoot</a> ()</td></tr>
 <tr class="memdesc:a43295a9664e969f260216ad83bf66318"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the pathname of the test data root.  <a href="#a43295a9664e969f260216ad83bf66318">More...</a><br /></td></tr>
 <tr class="separator:a43295a9664e969f260216ad83bf66318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e6e7d9320faa239b7c1b788f9f48589"><td class="memItemLeft" align="right" valign="top">static base::FilePath&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a2e6e7d9320faa239b7c1b788f9f48589">BuildArtifact</a> (const base::FilePath::StringType &amp;module, const base::FilePath::StringType &amp;artifact, <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a8f71a95dc0f7e8458694443a2b26dd2c">FileType</a> file_type, <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a7e035319ae61157982fcb2317cfef21f">Architecture</a> architecture=<a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a7e035319ae61157982fcb2317cfef21fa6867faeaa475fda467e48267db2bb8a8">Architecture::kDefault</a>)</td></tr>
+<tr class="memdesc:a2e6e7d9320faa239b7c1b788f9f48589"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the pathname of a build artifact.  <a href="#a2e6e7d9320faa239b7c1b788f9f48589">More...</a><br /></td></tr>
+<tr class="separator:a2e6e7d9320faa239b7c1b788f9f48589"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ad926b54eca4e5df637a51fb485fdf7"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a2ad926b54eca4e5df637a51fb485fdf7">Has32BitBuildArtifacts</a> ()</td></tr>
+<tr class="separator:a2ad926b54eca4e5df637a51fb485fdf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Functions to obtain paths from within tests. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="a7e035319ae61157982fcb2317cfef21f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e035319ae61157982fcb2317cfef21f">&#9670;&nbsp;</a></span>Architecture</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a7e035319ae61157982fcb2317cfef21f">crashpad::test::TestPaths::Architecture</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The architecture of the file requested of <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a2e6e7d9320faa239b7c1b788f9f48589" title="Returns the pathname of a build artifact. ">BuildArtifact()</a>. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7e035319ae61157982fcb2317cfef21fa6867faeaa475fda467e48267db2bb8a8"></a>kDefault&#160;</td><td class="fielddoc"><p>The default architecture is requested. This is usually the same architecture as the running process. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7e035319ae61157982fcb2317cfef21faa755d84d293c41c0947a73f25594f16c"></a>k32Bit&#160;</td><td class="fielddoc"><p>The 32-bit variant is requested. </p>
+<p>On Windows, when running 64-bit code, the 32-bit variant can be requested. Before doing so, <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a2ad926b54eca4e5df637a51fb485fdf7">Has32BitBuildArtifacts()</a> must be called and must return <code>true</code>. Otherwise, execution will be aborted. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a8f71a95dc0f7e8458694443a2b26dd2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f71a95dc0f7e8458694443a2b26dd2c">&#9670;&nbsp;</a></span>FileType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a8f71a95dc0f7e8458694443a2b26dd2c">crashpad::test::TestPaths::FileType</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The type of file requested of <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a2e6e7d9320faa239b7c1b788f9f48589" title="Returns the pathname of a build artifact. ">BuildArtifact()</a>. </p>
+<p>This is used to establish the file extension used by the returned path. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8f71a95dc0f7e8458694443a2b26dd2ca35c3ace1970663a16e5c65baa5941b13"></a>kNone&#160;</td><td class="fielddoc"><p>No file extension is requested. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8f71a95dc0f7e8458694443a2b26dd2ca34866f483b2de26f50c260108d07b9d5"></a>kExecutable&#160;</td><td class="fielddoc"><p><code>.exe</code> will be used on Windows, and no file extension will be used on other platforms. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8f71a95dc0f7e8458694443a2b26dd2cafdaff58895d4dc44a22810f63d865aec"></a>kLoadableModule&#160;</td><td class="fielddoc"><p><code>.dll</code> will be used on Windows, and <code>.so</code> will be used on other platforms. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a2e6e7d9320faa239b7c1b788f9f48589"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e6e7d9320faa239b7c1b788f9f48589">&#9670;&nbsp;</a></span>BuildArtifact()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">base::FilePath crashpad::test::TestPaths::BuildArtifact </td>
+          <td>(</td>
+          <td class="paramtype">const base::FilePath::StringType &amp;&#160;</td>
+          <td class="paramname"><em>module</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const base::FilePath::StringType &amp;&#160;</td>
+          <td class="paramname"><em>artifact</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a8f71a95dc0f7e8458694443a2b26dd2c">FileType</a>&#160;</td>
+          <td class="paramname"><em>file_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a7e035319ae61157982fcb2317cfef21f">Architecture</a>&#160;</td>
+          <td class="paramname"><em>architecture</em> = <code><a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a7e035319ae61157982fcb2317cfef21fa6867faeaa475fda467e48267db2bb8a8">Architecture::kDefault</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the pathname of a build artifact. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">module</td><td>The name of the Crashpad module associated with the artifact, such as <code>"util"</code> or <code>"snapshot"</code>. <em>module</em> must correspond to the module of the calling code, or execution will be aborted. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">artifact</td><td>The name of the specific artifact. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">file_type</td><td>The artifact’s type, used to establish the returned path’s extension. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">architecture</td><td>The artifact’s architecture.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The computed pathname to the build artifact.</dd></dl>
+<p>For example, the following snippet will return a path to <code>crashpad_snapshot_test_module.so</code> or <code>crashpad_snapshot_test_module.dll</code> (depending on platform) in the same directory as the currently running executable:</p>
+<div class="fragment"><div class="line">base::FilePath path = <a class="code" href="classcrashpad_1_1test_1_1TestPaths.html#a2e6e7d9320faa239b7c1b788f9f48589">TestPaths::BuildArtifact</a>(</div><div class="line">    FILE_PATH_LITERAL(<span class="stringliteral">&quot;snapshot&quot;</span>),</div><div class="line">    FILE_PATH_LITERAL(<span class="stringliteral">&quot;module&quot;</span>),</div><div class="line">    <a class="code" href="classcrashpad_1_1test_1_1TestPaths.html#a8f71a95dc0f7e8458694443a2b26dd2cafdaff58895d4dc44a22810f63d865aec">TestPaths::FileType::kLoadableModule</a>);</div></div><!-- fragment --> 
+</div>
+</div>
 <a id="ac7351ad5bba670bab617e4981196fb59"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac7351ad5bba670bab617e4981196fb59">&#9670;&nbsp;</a></span>Executable()</h2>
 
@@ -120,6 +264,66 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Returns the pathname of the currently-running test executable. </p>
 <p>On failure, aborts execution. </p>
+
+</div>
+</div>
+<a id="a5dab61cf91bed0b10a6f35ea1b73eeaa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dab61cf91bed0b10a6f35ea1b73eeaa">&#9670;&nbsp;</a></span>ExpectedExecutableBasename()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">base::FilePath crashpad::test::TestPaths::ExpectedExecutableBasename </td>
+          <td>(</td>
+          <td class="paramtype">const base::FilePath::StringType &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the expected basename of the currently-running test executable. </p>
+<p>In Crashpad’s standalone build, this returns <em>name</em>, with the system’s extension for executables (<code>.exe</code>) appended if appropriate.</p>
+<p>When building in Chromium, <em>name</em> is ignored, and the name of the monolithic test executable (<code>crashpad_tests</code>) is returned, with the system’s extension for executables appended if appropriate.</p>
+<p>Only use this function to determine test expectations.</p>
+<p>Do not use this function to obtain the name of the currently running test executable, use <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#ac7351ad5bba670bab617e4981196fb59" title="Returns the pathname of the currently-running test executable. ">Executable()</a> instead. Do not use this function to locate other build artifacts, use <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a2e6e7d9320faa239b7c1b788f9f48589" title="Returns the pathname of a build artifact. ">BuildArtifact()</a> instead. </p>
+
+</div>
+</div>
+<a id="a2ad926b54eca4e5df637a51fb485fdf7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ad926b54eca4e5df637a51fb485fdf7">&#9670;&nbsp;</a></span>Has32BitBuildArtifacts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool crashpad::test::TestPaths::Has32BitBuildArtifacts </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if 32-bit build artifacts are available.</dd></dl>
+<p>Tests that require the use of 32-bit build output should call this function to determine whether that output is available. This function is only provided to aid 64-bit test code in locating 32-bit output. Only if this function indicates that 32-bit output is available, 64-bit test code may call <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a2e6e7d9320faa239b7c1b788f9f48589" title="Returns the pathname of a build artifact. ">BuildArtifact()</a> with <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a7e035319ae61157982fcb2317cfef21faa755d84d293c41c0947a73f25594f16c" title="The 32-bit variant is requested. ">Architecture::k32Bit</a> to obtain a path to the 32-bit output.</p>
+<p>32-bit test code may assume the existence of 32-bit build output, which can be found its own directory, and located by calling <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a2e6e7d9320faa239b7c1b788f9f48589" title="Returns the pathname of a build artifact. ">BuildArtifact()</a> with <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a7e035319ae61157982fcb2317cfef21fa6867faeaa475fda467e48267db2bb8a8" title="The default architecture is requested. This is usually the same architecture as the running process...">Architecture::kDefault</a>. </p>
 
 </div>
 </div>

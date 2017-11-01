@@ -91,6 +91,14 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A standard allocator that aligns its allocations as requested, suitable for use as an allocator in standard containers.  <a href="structcrashpad_1_1AlignedAllocator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Annotation.html">Annotation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for an annotation, which records a name-value pair of arbitrary data when set.  <a href="classcrashpad_1_1Annotation.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1AnnotationList.html">AnnotationList</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list that contains all the currently set annotations.  <a href="classcrashpad_1_1AnnotationList.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1AnnotationSnapshot.html">AnnotationSnapshot</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1AuxiliaryVector.html">AuxiliaryVector</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the auxiliary vector for a target process.  <a href="classcrashpad_1_1AuxiliaryVector.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -157,6 +165,12 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1DelimitedFileReader.html">DelimitedFileReader</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a file one field or line at a time.  <a href="classcrashpad_1_1DelimitedFileReader.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1DirectoryReader.html">DirectoryReader</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iterates over the file and directory names in a directory.  <a href="classcrashpad_1_1DirectoryReader.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1DirectPtraceConnection.html">DirectPtraceConnection</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages a direct <code>ptrace</code> connection to a process.  <a href="classcrashpad_1_1DirectPtraceConnection.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfDynamicArrayReader.html">ElfDynamicArrayReader</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A reader for ELF dynamic arrays mapped into another process.  <a href="classcrashpad_1_1ElfDynamicArrayReader.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -178,11 +192,11 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionSnapshot.html">ExceptionSnapshot</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An abstract interface to a snapshot representing an exception that a snapshot process sustained and triggered the snapshot being taken.  <a href="classcrashpad_1_1ExceptionSnapshot.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1FileHTTPBodyStream.html">FileHTTPBodyStream</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An implementation of <a class="el" href="classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body. ">HTTPBodyStream</a> that reads from the specified file and provides its contents for an HTTP body.  <a href="classcrashpad_1_1FileHTTPBodyStream.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1FileReader.html">FileReader</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A file reader implementation that wraps traditional system file operations on files accessed through the filesystem.  <a href="classcrashpad_1_1FileReader.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1FileReaderHTTPBodyStream.html">FileReaderHTTPBodyStream</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An implementation of <a class="el" href="classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body. ">HTTPBodyStream</a> that reads from a <a class="el" href="classcrashpad_1_1FileReaderInterface.html" title="An interface to read to files and other file-like objects with semantics matching the underlying plat...">FileReaderInterface</a> and provides its contents for an HTTP body.  <a href="classcrashpad_1_1FileReaderHTTPBodyStream.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1FileReaderInterface.html">FileReaderInterface</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An interface to read to files and other file-like objects with semantics matching the underlying platform (POSIX or Windows).  <a href="classcrashpad_1_1FileReaderInterface.html#details">More...</a><br /></td></tr>
@@ -248,6 +262,12 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Metrics.html">Metrics</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Container class to hold shared UMA metrics integration points.  <a href="classcrashpad_1_1Metrics.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1MinidumpByteArray.html">MinidumpByteArray</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A variable-length array of bytes carried within a minidump file. The data have no intrinsic type and should be interpreted according to their referencing context.  <a href="structcrashpad_1_1MinidumpByteArray.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpByteArrayWriter.html">MinidumpByteArrayWriter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a variable-length byte array for a minidump into a.  <a href="classcrashpad_1_1MinidumpByteArrayWriter.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1MinidumpContextAMD64.html">MinidumpContextAMD64</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An x86_64 (AMD64) CPU context (register state) carried in a minidump file.  <a href="structcrashpad_1_1MinidumpContextAMD64.html#details">More...</a><br /></td></tr>
@@ -378,14 +398,14 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PEImageResourceReader.html">PEImageResourceReader</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A reader for resources stored in PE images mapped into another process.  <a href="classcrashpad_1_1PEImageResourceReader.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PointerVector.html">PointerVector</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows a <code>std::vector</code> to “own” pointer elements stored in it.  <a href="classcrashpad_1_1PointerVector.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html">ProcessInfo</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gathers information about a process given its <code>HANDLE</code>. This consists primarily of information stored in the Process Environment Block.  <a href="classcrashpad_1_1ProcessInfo.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemory.html">ProcessMemory</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accesses the memory of another process.  <a href="classcrashpad_1_1ProcessMemory.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract base class for accessing the memory of another process.  <a href="classcrashpad_1_1ProcessMemory.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryLinux.html">ProcessMemoryLinux</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accesses the memory of another Linux process.  <a href="classcrashpad_1_1ProcessMemoryLinux.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryRange.html">ProcessMemoryRange</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides range protected access to the memory of another process.  <a href="classcrashpad_1_1ProcessMemoryRange.html#details">More...</a><br /></td></tr>
@@ -420,6 +440,12 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PruneCrashReportThread.html">PruneCrashReportThread</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A thread that periodically prunes crash reports from the database using the specified condition.  <a href="classcrashpad_1_1PruneCrashReportThread.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PtraceConnection.html">PtraceConnection</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides an interface for making <code>ptrace</code> requests against a process and its threads.  <a href="classcrashpad_1_1PtraceConnection.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Ptracer.html">Ptracer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides an architecturally agnostic interface for collecting information with <code>ptrace</code>.  <a href="classcrashpad_1_1Ptracer.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1RegistrationRequest.html">RegistrationRequest</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A client registration request.  <a href="structcrashpad_1_1RegistrationRequest.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -439,6 +465,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ScopedPtraceAttach.html">ScopedPtraceAttach</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maintains a <code>ptrace()</code> attachment to a process.  <a href="classcrashpad_1_1ScopedPtraceAttach.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1ScopedRemoveFileTraits.html">ScopedRemoveFileTraits</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ScopedTaskSuspend.html">ScopedTaskSuspend</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages the suspension of another task.  <a href="classcrashpad_1_1ScopedTaskSuspend.html#details">More...</a><br /></td></tr>
@@ -464,6 +492,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1SnapshotMinidumpMemoryWriter.html">SnapshotMinidumpMemoryWriter</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The base class for writers of memory ranges pointed to by <a class="el" href="structMINIDUMP__MEMORY__DESCRIPTOR.html" title="A pointer to a snapshot of a region of memory contained within a minidump file. ">MINIDUMP_MEMORY_DESCRIPTOR</a> objects in a minidump file.  <a href="classcrashpad_1_1SnapshotMinidumpMemoryWriter.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1StringAnnotation.html">StringAnnotation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An.  <a href="classcrashpad_1_1StringAnnotation.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1StringFile.html">StringFile</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A file reader and writer backed by a virtual file, as opposed to a file on disk or other operating system file descriptor-based file.  <a href="classcrashpad_1_1StringFile.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -482,7 +513,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unioncrashpad_1_1ThreadContext.html">ThreadContext</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The set of general purpose registers for an architecture family.  <a href="unioncrashpad_1_1ThreadContext.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ThreadInfo.html">ThreadInfo</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1ThreadInfo.html">ThreadInfo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A collection of <code>ptrace</code>-able information about a thread.  <a href="structcrashpad_1_1ThreadInfo.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ThreadLogMessages.html">ThreadLogMessages</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Captures log messages produced on the current thread during an object’s lifetime.  <a href="classcrashpad_1_1ThreadLogMessages.html#details">More...</a><br /></td></tr>
@@ -495,6 +527,10 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ToolSupport.html">ToolSupport</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Common functions used by command line tools.  <a href="classcrashpad_1_1ToolSupport.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1Traits32.html">Traits32</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1Traits64.html">Traits64</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1TSimpleAddressRangeBag.html">TSimpleAddressRangeBag</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A bag implementation using a fixed amount of storage, so that it does not perform any dynamic allocations for its operations.  <a href="classcrashpad_1_1TSimpleAddressRangeBag.html#details">More...</a><br /></td></tr>
@@ -570,6 +606,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nam
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a25465a3a2d289a06addf93c346c6f917">FileOperationResult</a> = ssize_t</td></tr>
 <tr class="memdesc:a25465a3a2d289a06addf93c346c6f917"><td class="mdescLeft">&#160;</td><td class="mdescRight">The return value of read and write calls. <br /></td></tr>
 <tr class="separator:a25465a3a2d289a06addf93c346c6f917"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3b155594084d47e9480cbc5025c6b67"><td class="memItemLeft" align="right" valign="top"><a id="ac3b155594084d47e9480cbc5025c6b67"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ScopedRemoveFile</b> = base::ScopedGeneric&lt; base::FilePath, <a class="el" href="structcrashpad_1_1ScopedRemoveFileTraits.html">ScopedRemoveFileTraits</a> &gt;</td></tr>
+<tr class="separator:ac3b155594084d47e9480cbc5025c6b67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb197256391fbfca91f9a7e5c911db45"><td class="memItemLeft" align="right" valign="top"><a id="acb197256391fbfca91f9a7e5c911db45"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a> = uint64_t</td></tr>
 <tr class="memdesc:acb197256391fbfca91f9a7e5c911db45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to represent an address in a process, potentially across bitness. <br /></td></tr>
@@ -594,6 +633,18 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nam
 <tr class="memitem:a34f36473e385b19eb229798ab2f7210c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a34f36473e385b19eb229798ab2f7210c">MachMessageDeadline</a> = uint64_t</td></tr>
 <tr class="memdesc:a34f36473e385b19eb229798ab2f7210c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The time before which a <a class="el" href="namespacecrashpad.html#a35293418a0b7637a00631807ac4b431e" title="Runs mach_msg() with a deadline, as opposed to a timeout. ">MachMessageWithDeadline()</a> call should complete.  <a href="#a34f36473e385b19eb229798ab2f7210c">More...</a><br /></td></tr>
 <tr class="separator:a34f36473e385b19eb229798ab2f7210c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2d003bfc8632755c60ab27bd6d1c8ae"><td class="memItemLeft" align="right" valign="top"><a id="af2d003bfc8632755c60ab27bd6d1c8ae"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> = uint64_t</td></tr>
+<tr class="memdesc:af2d003bfc8632755c60ab27bd6d1c8ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to represent an address in a process, potentially across bitness. <br /></td></tr>
+<tr class="separator:af2d003bfc8632755c60ab27bd6d1c8ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a103690edebf604dcd23d5c03b78fe0be"><td class="memItemLeft" align="right" valign="top"><a id="a103690edebf604dcd23d5c03b78fe0be"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> = uint64_t</td></tr>
+<tr class="memdesc:a103690edebf604dcd23d5c03b78fe0be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to represent the size of a memory range (with a VMAddress), potentially across bitness. <br /></td></tr>
+<tr class="separator:a103690edebf604dcd23d5c03b78fe0be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac738e47e73215dc7110edad7c2785527"><td class="memItemLeft" align="right" valign="top"><a id="ac738e47e73215dc7110edad7c2785527"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ac738e47e73215dc7110edad7c2785527">VMOffset</a> = std::make_signed&lt; <a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> &gt;::type</td></tr>
+<tr class="memdesc:ac738e47e73215dc7110edad7c2785527"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to represent an offset from a VMAddress, potentially across bitness. <br /></td></tr>
+<tr class="separator:ac738e47e73215dc7110edad7c2785527"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f13feba965ef7750b3d49064936e5ee"><td class="memItemLeft" align="right" valign="top"><a id="a0f13feba965ef7750b3d49064936e5ee"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a0f13feba965ef7750b3d49064936e5ee">SymbolicConstantToStringOptions</a> = unsigned int</td></tr>
 <tr class="memdesc:a0f13feba965ef7750b3d49064936e5ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">A bitfield containing values of <a class="el" href="namespacecrashpad.html#a7856b82b71167792ea6103debb5105ed" title="Options for various *ToString functions in symbolic_constants_* files. ">SymbolicConstantToStringOptionBits</a>. <br /></td></tr>
@@ -606,9 +657,12 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nam
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#af6ffe10a8131fab8d1f8de60d9a812f9">HTTPHeaders</a> = std::map&lt; std::string, std::string &gt;</td></tr>
 <tr class="memdesc:af6ffe10a8131fab8d1f8de60d9a812f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">A map of HTTP header fields to their values. <br /></td></tr>
 <tr class="separator:af6ffe10a8131fab8d1f8de60d9a812f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a280d875d598299275111b611ab02d9d0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a280d875d598299275111b611ab02d9d0">ScopedDIR</a> = std::unique_ptr&lt; DIR, <a class="el" href="structcrashpad_1_1internal_1_1ScopedDIRCloser.html">internal::ScopedDIRCloser</a> &gt;</td></tr>
-<tr class="memdesc:a280d875d598299275111b611ab02d9d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maintains a directory opened by <code>opendir</code>.  <a href="#a280d875d598299275111b611ab02d9d0">More...</a><br /></td></tr>
-<tr class="separator:a280d875d598299275111b611ab02d9d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a754aa9162769947b5a5debad05d8d6ae"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a754aa9162769947b5a5debad05d8d6ae">CheckedVMAddressRange</a> = <a class="el" href="classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html">internal::CheckedAddressRangeGeneric</a>&lt; <a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a>, <a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> &gt;</td></tr>
+<tr class="memdesc:a754aa9162769947b5a5debad05d8d6ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensures that a range, composed of a base and a size, does not overflow the pointer type of the process it describes a range in.  <a href="#a754aa9162769947b5a5debad05d8d6ae">More...</a><br /></td></tr>
+<tr class="separator:a754aa9162769947b5a5debad05d8d6ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac63c0ded12544d344a9ad552958adf85"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ac63c0ded12544d344a9ad552958adf85">ScopedDIR</a> = base::ScopedGeneric&lt; DIR *, <a class="el" href="structcrashpad_1_1internal_1_1ScopedDIRCloseTraits.html">internal::ScopedDIRCloseTraits</a> &gt;</td></tr>
+<tr class="memdesc:ac63c0ded12544d344a9ad552958adf85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maintains a directory opened by <code>opendir</code>.  <a href="#ac63c0ded12544d344a9ad552958adf85">More...</a><br /></td></tr>
+<tr class="separator:ac63c0ded12544d344a9ad552958adf85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0103ebbd1b4f59431dd7292bd544de39"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t Alignment = alignof(T)&gt; </td></tr>
 <tr class="memitem:a0103ebbd1b4f59431dd7292bd544de39"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a0103ebbd1b4f59431dd7292bd544de39">AlignedVector</a> = std::vector&lt; T, <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; T, Alignment &gt; &gt;</td></tr>
 <tr class="memdesc:a0103ebbd1b4f59431dd7292bd544de39"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <code>std::vector</code> using <a class="el" href="structcrashpad_1_1AlignedAllocator.html" title="A standard allocator that aligns its allocations as requested, suitable for use as an allocator in st...">AlignedAllocator</a>.  <a href="#a0103ebbd1b4f59431dd7292bd544de39">More...</a><br /></td></tr>
@@ -630,6 +684,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>ScopedFileHANDLE</b>
 <tr class="memitem:a76696c6339810ca1c46878023cb7bb09"><td class="memItemLeft" align="right" valign="top"><a id="a76696c6339810ca1c46878023cb7bb09"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>ScopedKernelHANDLE</b> = base::ScopedGeneric&lt; HANDLE, <a class="el" href="structcrashpad_1_1internal_1_1ScopedKernelHANDLECloseTraits.html">internal::ScopedKernelHANDLECloseTraits</a> &gt;</td></tr>
 <tr class="separator:a76696c6339810ca1c46878023cb7bb09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b4edaab685f8706d136cfdf3807768e"><td class="memItemLeft" align="right" valign="top"><a id="a5b4edaab685f8706d136cfdf3807768e"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ScopedSearchHANDLE</b> = base::ScopedGeneric&lt; HANDLE, <a class="el" href="structcrashpad_1_1internal_1_1ScopedSearchHANDLECloseTraits.html">internal::ScopedSearchHANDLECloseTraits</a> &gt;</td></tr>
+<tr class="separator:a5b4edaab685f8706d136cfdf3807768e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9593ac07cbe5f4d3aa01f657e4744214"><td class="memItemLeft" align="right" valign="top"><a id="a9593ac07cbe5f4d3aa01f657e4744214"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>ScopedLocalAlloc</b> = base::ScopedGeneric&lt; HLOCAL, <a class="el" href="structcrashpad_1_1internal_1_1LocalAllocTraits.html">internal::LocalAllocTraits</a> &gt;</td></tr>
 <tr class="separator:a9593ac07cbe5f4d3aa01f657e4744214"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -678,12 +735,12 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a589b4d9bd6f2233b67148ab6793c3c13"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a589b4d9bd6f2233b67148ab6793c3c13">XattrStatus</a> <tr class="memdesc:a589b4d9bd6f2233b67148ab6793c3c13"><td class="mdescLeft">&#160;</td><td class="mdescRight">The result code for a ReadXattr operation.  <a href="namespacecrashpad.html#a589b4d9bd6f2233b67148ab6793c3c13">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a589b4d9bd6f2233b67148ab6793c3c13"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a217c8826b1e8ca5539eee63b3ab9e612"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: mach_msg_timeout_t <tr class="memdesc:a217c8826b1e8ca5539eee63b3ab9e612"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special constants used as <code>mach_msg_timeout_t</code> values.  <a href="namespacecrashpad.html#a217c8826b1e8ca5539eee63b3ab9e612">More...</a><br /></td></tr>
+<tr class="memitem:af1e0df68dc66fbae951d18368ccb59ef"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: mach_msg_timeout_t <tr class="memdesc:af1e0df68dc66fbae951d18368ccb59ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special constants used as <code>mach_msg_timeout_t</code> values.  <a href="namespacecrashpad.html#af1e0df68dc66fbae951d18368ccb59ef">More...</a><br /></td></tr>
 </td></tr>
-<tr class="separator:a217c8826b1e8ca5539eee63b3ab9e612"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b5bc1165e2d5a398f6f9da42b873a55"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: MachMessageDeadline <tr class="memdesc:a2b5bc1165e2d5a398f6f9da42b873a55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special constants used as <a class="el" href="namespacecrashpad.html#a34f36473e385b19eb229798ab2f7210c">MachMessageDeadline</a> values.  <a href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55">More...</a><br /></td></tr>
+<tr class="separator:af1e0df68dc66fbae951d18368ccb59ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99a3f775fc82503e6bad14d67c8602d6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: MachMessageDeadline <tr class="memdesc:a99a3f775fc82503e6bad14d67c8602d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special constants used as <a class="el" href="namespacecrashpad.html#a34f36473e385b19eb229798ab2f7210c">MachMessageDeadline</a> values.  <a href="namespacecrashpad.html#a99a3f775fc82503e6bad14d67c8602d6">More...</a><br /></td></tr>
 </td></tr>
-<tr class="separator:a2b5bc1165e2d5a398f6f9da42b873a55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a99a3f775fc82503e6bad14d67c8602d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7856b82b71167792ea6103debb5105ed"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a7856b82b71167792ea6103debb5105ed">SymbolicConstantToStringOptionBits</a> <tr class="memdesc:a7856b82b71167792ea6103debb5105ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options for various <code>*ToString</code> functions in <code>symbolic_constants_*</code> files.  <a href="namespacecrashpad.html#a7856b82b71167792ea6103debb5105ed">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a7856b82b71167792ea6103debb5105ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -693,15 +750,15 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a3b405c19a5787fabcfba96001d49f292"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a3b405c19a5787fabcfba96001d49f292">TriState</a> : uint8_t <tr class="memdesc:a3b405c19a5787fabcfba96001d49f292"><td class="mdescLeft">&#160;</td><td class="mdescRight">A tri-state value that can be unset, on, or off.  <a href="namespacecrashpad.html#a3b405c19a5787fabcfba96001d49f292">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a3b405c19a5787fabcfba96001d49f292"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0eacd702be5b170b68c1eab828d59a31"><td class="memItemLeft" align="right" valign="top"><a id="a0eacd702be5b170b68c1eab828d59a31"></a>enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a0eacd702be5b170b68c1eab828d59a31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a741427cd088f51e4a1a3401c9ec67352"><td class="memItemLeft" align="right" valign="top"><a id="a741427cd088f51e4a1a3401c9ec67352"></a>enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a741427cd088f51e4a1a3401c9ec67352"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7f0ef4c3d518c02abc325c5b2e943be"><td class="memItemLeft" align="right" valign="top"><a id="ab7f0ef4c3d518c02abc325c5b2e943be"></a>enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:ab7f0ef4c3d518c02abc325c5b2e943be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fc23d973d92c45d570d4bb62087adf8"><td class="memItemLeft" align="right" valign="top"><a id="a5fc23d973d92c45d570d4bb62087adf8"></a>enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a5fc23d973d92c45d570d4bb62087adf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf909fcc58999f95ab1a2d485a3b884f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#acf909fcc58999f95ab1a2d485a3b884f">TerminationCodes</a> : unsigned int <tr class="memdesc:acf909fcc58999f95ab1a2d485a3b884f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crashpad-specific codes that are used as arguments to SafeTerminateProcess() or <code>TerminateProcess()</code> in unusual circumstances.  <a href="namespacecrashpad.html#acf909fcc58999f95ab1a2d485a3b884f">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:acf909fcc58999f95ab1a2d485a3b884f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49097714a5193c715c4f09ca7742d485"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a49097714a5193c715c4f09ca7742d485"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2591b9461b78849ca05f29349f7e5206"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a2591b9461b78849ca05f29349f7e5206"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -817,6 +874,24 @@ template bool&#160;</td><td class="memItemRight" valign="bottom"><b>PEImageReade
 <tr class="memitem:ac6eccc3b9b90d2dd74048a43c9002e88"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ac6eccc3b9b90d2dd74048a43c9002e88">StdioFileHandle</a> (<a class="el" href="namespacecrashpad.html#a8402ddae562db04a8daf6bffecaded5b">StdioStream</a> stdio_stream)</td></tr>
 <tr class="memdesc:ac6eccc3b9b90d2dd74048a43c9002e88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a FileHandle corresponding to the requested standard I/O stream.  <a href="#ac6eccc3b9b90d2dd74048a43c9002e88">More...</a><br /></td></tr>
 <tr class="separator:ac6eccc3b9b90d2dd74048a43c9002e88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ae84cd353b237bfdf698d40da521568"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a7ae84cd353b237bfdf698d40da521568">LoggingCreateDirectory</a> (const base::FilePath &amp;path, <a class="el" href="namespacecrashpad.html#a034ccc90eb0d1f587ee89275d822175d">FilePermissions</a> permissions, bool may_reuse)</td></tr>
+<tr class="memdesc:a7ae84cd353b237bfdf698d40da521568"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a directory, logging a message on failure.  <a href="#a7ae84cd353b237bfdf698d40da521568">More...</a><br /></td></tr>
+<tr class="separator:a7ae84cd353b237bfdf698d40da521568"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e5ef254327bfa348cc23cd21893b29e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a7e5ef254327bfa348cc23cd21893b29e">MoveFileOrDirectory</a> (const base::FilePath &amp;source, const base::FilePath &amp;dest)</td></tr>
+<tr class="memdesc:a7e5ef254327bfa348cc23cd21893b29e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves a file, symbolic link, or directory, logging a message on failure.  <a href="#a7e5ef254327bfa348cc23cd21893b29e">More...</a><br /></td></tr>
+<tr class="separator:a7e5ef254327bfa348cc23cd21893b29e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c69205d3a470099d1489f71cbfe7ba6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a3c69205d3a470099d1489f71cbfe7ba6">IsRegularFile</a> (const base::FilePath &amp;path)</td></tr>
+<tr class="memdesc:a3c69205d3a470099d1489f71cbfe7ba6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if a path refers to a regular file, logging a message on failure.  <a href="#a3c69205d3a470099d1489f71cbfe7ba6">More...</a><br /></td></tr>
+<tr class="separator:a3c69205d3a470099d1489f71cbfe7ba6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af12fac7cddd34499234ca6617e3e3aa3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#af12fac7cddd34499234ca6617e3e3aa3">IsDirectory</a> (const base::FilePath &amp;path, bool allow_symlinks)</td></tr>
+<tr class="memdesc:af12fac7cddd34499234ca6617e3e3aa3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if a path refers to a directory, logging a message on failure.  <a href="#af12fac7cddd34499234ca6617e3e3aa3">More...</a><br /></td></tr>
+<tr class="separator:af12fac7cddd34499234ca6617e3e3aa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7c5ccd8661bd87eed66eae26fb9e0d3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ac7c5ccd8661bd87eed66eae26fb9e0d3">LoggingRemoveFile</a> (const base::FilePath &amp;path)</td></tr>
+<tr class="memdesc:ac7c5ccd8661bd87eed66eae26fb9e0d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a file or a symbolic link to a file or directory, logging a message on failure.  <a href="#ac7c5ccd8661bd87eed66eae26fb9e0d3">More...</a><br /></td></tr>
+<tr class="separator:ac7c5ccd8661bd87eed66eae26fb9e0d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fdc84fcc207cf0b718626997d11ad04"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a7fdc84fcc207cf0b718626997d11ad04">LoggingRemoveDirectory</a> (const base::FilePath &amp;path)</td></tr>
+<tr class="memdesc:a7fdc84fcc207cf0b718626997d11ad04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Non-recurseively removes an empty directory, logging a message on failure.  <a href="#a7fdc84fcc207cf0b718626997d11ad04">More...</a><br /></td></tr>
+<tr class="separator:a7fdc84fcc207cf0b718626997d11ad04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a616ed0784021ecbd2f0f14b7e75c068c"><td class="memItemLeft" align="right" valign="top">launch_data_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a616ed0784021ecbd2f0f14b7e75c068c">CFPropertyToLaunchData</a> (CFPropertyListRef property_cf)</td></tr>
 <tr class="memdesc:a616ed0784021ecbd2f0f14b7e75c068c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a Core Foundation-type property list to a launchd-type <code>launch_data_t</code>.  <a href="#a616ed0784021ecbd2f0f14b7e75c068c">More...</a><br /></td></tr>
 <tr class="separator:a616ed0784021ecbd2f0f14b7e75c068c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -970,6 +1045,10 @@ template bool&#160;</td><td class="memItemRight" valign="bottom"><b>PEImageReade
 <tr class="memitem:aeff94a266a84248b3ff0defae01efd8d"><td class="memItemLeft" align="right" valign="top">task_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#aeff94a266a84248b3ff0defae01efd8d">TaskForPID</a> (pid_t pid)</td></tr>
 <tr class="memdesc:aeff94a266a84248b3ff0defae01efd8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <code>task_for_pid()</code>.  <a href="#aeff94a266a84248b3ff0defae01efd8d">More...</a><br /></td></tr>
 <tr class="separator:aeff94a266a84248b3ff0defae01efd8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af02496100daab9a7147875f31cd6ffa2"><td class="memTemplParams" colspan="2">template&lt;typename From &gt; </td></tr>
+<tr class="memitem:af02496100daab9a7147875f31cd6ffa2"><td class="memTemplItemLeft" align="right" valign="top">std::underlying_type&lt; From &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#af02496100daab9a7147875f31cd6ffa2">AsUnderlyingType</a> (From from)</td></tr>
+<tr class="memdesc:af02496100daab9a7147875f31cd6ffa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Casts a value to its underlying type.  <a href="#af02496100daab9a7147875f31cd6ffa2">More...</a><br /></td></tr>
+<tr class="separator:af02496100daab9a7147875f31cd6ffa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa93af751a4a09c316fb3de1a90e03fe8"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#aa93af751a4a09c316fb3de1a90e03fe8">ClockMonotonicNanoseconds</a> ()</td></tr>
 <tr class="memdesc:aa93af751a4a09c316fb3de1a90e03fe8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of the system’s monotonic clock.  <a href="#aa93af751a4a09c316fb3de1a90e03fe8">More...</a><br /></td></tr>
 <tr class="separator:aa93af751a4a09c316fb3de1a90e03fe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1016,6 +1095,9 @@ template bool&#160;</td><td class="memItemRight" valign="bottom"><b>AdvancePastN
 <tr class="memitem:ae0634eb0299cf5b28f7a373454d97c51"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ae0634eb0299cf5b28f7a373454d97c51">ZlibErrorString</a> (int zr)</td></tr>
 <tr class="memdesc:ae0634eb0299cf5b28f7a373454d97c51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats a string for an error received from the zlib library.  <a href="#ae0634eb0299cf5b28f7a373454d97c51">More...</a><br /></td></tr>
 <tr class="separator:ae0634eb0299cf5b28f7a373454d97c51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16b771a34723da94fac698418232b1e2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a16b771a34723da94fac698418232b1e2">URLEncode</a> (const std::string &amp;url)</td></tr>
+<tr class="memdesc:a16b771a34723da94fac698418232b1e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs percent-encoding (URL encoding) on the input string, following RFC 3986 paragraph 2.  <a href="#a16b771a34723da94fac698418232b1e2">More...</a><br /></td></tr>
+<tr class="separator:a16b771a34723da94fac698418232b1e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e1b1c536af301cd418dad62348b1d29"><td class="memTemplParams" colspan="2">template&lt;typename Destination , typename Source &gt; </td></tr>
 <tr class="memitem:a6e1b1c536af301cd418dad62348b1d29"><td class="memTemplItemLeft" align="right" valign="top">Destination&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a6e1b1c536af301cd418dad62348b1d29">InRangeCast</a> (Source source, Destination default_value)</td></tr>
 <tr class="memdesc:a6e1b1c536af301cd418dad62348b1d29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Casts to a different type if it can be done without data loss, logging a warning message and returing a default value otherwise.  <a href="#a6e1b1c536af301cd418dad62348b1d29">More...</a><br /></td></tr>
@@ -1039,14 +1121,20 @@ template bool&#160;</td><td class="memItemRight" valign="bottom"><b>AdvancePastN
 <tr class="memitem:a6249dd58c6a81b300d64b25a943fa25c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a6249dd58c6a81b300d64b25a943fa25c">StringToSignal</a> (const base::StringPiece &amp;string, <a class="el" href="namespacecrashpad.html#a14f1de509869f929122998a2f88f08a6">StringToSymbolicConstantOptions</a> options, int *signal)</td></tr>
 <tr class="memdesc:a6249dd58c6a81b300d64b25a943fa25c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a string to its corresponding POSIX signal value.  <a href="#a6249dd58c6a81b300d64b25a943fa25c">More...</a><br /></td></tr>
 <tr class="separator:a6249dd58c6a81b300d64b25a943fa25c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afcda4999ed1b6ac03aab90c8833dbebb"><td class="memTemplParams" colspan="2"><a id="afcda4999ed1b6ac03aab90c8833dbebb"></a>
+<tr class="memitem:ab8be7196ea1ef43c438be47b1f3bbf57"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ab8be7196ea1ef43c438be47b1f3bbf57">AlignedAllocate</a> (size_t alignment, size_t size)</td></tr>
+<tr class="memdesc:ab8be7196ea1ef43c438be47b1f3bbf57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates memory with the specified alignment constraint.  <a href="#ab8be7196ea1ef43c438be47b1f3bbf57">More...</a><br /></td></tr>
+<tr class="separator:ab8be7196ea1ef43c438be47b1f3bbf57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d4cc77fb390eed171c11c6e06b78c85"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a4d4cc77fb390eed171c11c6e06b78c85">AlignedFree</a> (void *pointer)</td></tr>
+<tr class="memdesc:a4d4cc77fb390eed171c11c6e06b78c85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees memory allocated by <a class="el" href="namespacecrashpad.html#ab8be7196ea1ef43c438be47b1f3bbf57" title="Allocates memory with the specified alignment constraint. ">AlignedAllocate()</a>.  <a href="#a4d4cc77fb390eed171c11c6e06b78c85">More...</a><br /></td></tr>
+<tr class="separator:a4d4cc77fb390eed171c11c6e06b78c85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c02d0116a6584c2dbe07ccc932f1acf"><td class="memTemplParams" colspan="2"><a id="a8c02d0116a6584c2dbe07ccc932f1acf"></a>
 template&lt;class T1 , class T2 , size_t Alignment&gt; </td></tr>
-<tr class="memitem:afcda4999ed1b6ac03aab90c8833dbebb"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; T1, Alignment &gt; &amp;lhs, const <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; T2, Alignment &gt; &amp;rhs) CRASHPAD_NOEXCEPT</td></tr>
-<tr class="separator:afcda4999ed1b6ac03aab90c8833dbebb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f9985c36e027f96f920b48d3c89aec7"><td class="memTemplParams" colspan="2"><a id="a9f9985c36e027f96f920b48d3c89aec7"></a>
+<tr class="memitem:a8c02d0116a6584c2dbe07ccc932f1acf"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; T1, Alignment &gt; &amp;lhs, const <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; T2, Alignment &gt; &amp;rhs) noexcept</td></tr>
+<tr class="separator:a8c02d0116a6584c2dbe07ccc932f1acf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cd5b93493013a882e5beb9f8bdc740d"><td class="memTemplParams" colspan="2"><a id="a8cd5b93493013a882e5beb9f8bdc740d"></a>
 template&lt;class T1 , class T2 , size_t Alignment&gt; </td></tr>
-<tr class="memitem:a9f9985c36e027f96f920b48d3c89aec7"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; T1, Alignment &gt; &amp;lhs, const <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; T2, Alignment &gt; &amp;rhs) CRASHPAD_NOEXCEPT</td></tr>
-<tr class="separator:a9f9985c36e027f96f920b48d3c89aec7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cd5b93493013a882e5beb9f8bdc740d"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; T1, Alignment &gt; &amp;lhs, const <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; T2, Alignment &gt; &amp;rhs) noexcept</td></tr>
+<tr class="separator:a8cd5b93493013a882e5beb9f8bdc740d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0486df983d8e9cecbe1e46e0059806df"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a0486df983d8e9cecbe1e46e0059806df"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a0486df983d8e9cecbe1e46e0059806df">MapInsertOrReplace</a> (T *map, const typename T::key_type &amp;key, const typename T::mapped_type &amp;value, typename T::mapped_type *old_value)</td></tr>
 <tr class="memdesc:a0486df983d8e9cecbe1e46e0059806df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts a mapping from <em>key</em> to <em>value</em> into <em>map</em>, or replaces an existing mapping so that <em>key</em> maps to <em>value</em>.  <a href="#a0486df983d8e9cecbe1e46e0059806df">More...</a><br /></td></tr>
@@ -1252,6 +1340,9 @@ int *&#160;</td><td class="memItemRight" valign="bottom"><b>g_extra_memory_point
 <tr class="memitem:ad2a92286fc050a3c5c64aab6ebd2ac38"><td class="memItemLeft" align="right" valign="top"><a id="ad2a92286fc050a3c5c64aab6ebd2ac38"></a>
 int *&#160;</td><td class="memItemRight" valign="bottom"><b>g_extra_memory_not_saved</b></td></tr>
 <tr class="separator:ad2a92286fc050a3c5c64aab6ebd2ac38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83421817896ef24623f0f1cf10268843"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a83421817896ef24623f0f1cf10268843">kMaxNumberOfAnnotations</a> = 200</td></tr>
+<tr class="memdesc:a83421817896ef24623f0f1cf10268843"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum number of crashpad::Annotations that will be read from a client process.  <a href="#a83421817896ef24623f0f1cf10268843">More...</a><br /></td></tr>
+<tr class="separator:a83421817896ef24623f0f1cf10268843"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add54baa0f53825b93f3aab2fcafce367"><td class="memItemLeft" align="right" valign="top"><a id="add54baa0f53825b93f3aab2fcafce367"></a>
 const <a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#add54baa0f53825b93f3aab2fcafce367">kInvalidFileHandle</a> = -1</td></tr>
 <tr class="memdesc:add54baa0f53825b93f3aab2fcafce367"><td class="mdescLeft">&#160;</td><td class="mdescRight">A value that can never be a valid FileHandle. <br /></td></tr>
@@ -1340,6 +1431,24 @@ template&lt;typename T , size_t Alignment = alignof(T)&gt; </div>
 
 </div>
 </div>
+<a id="a754aa9162769947b5a5debad05d8d6ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a754aa9162769947b5a5debad05d8d6ae">&#9670;&nbsp;</a></span>CheckedVMAddressRange</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespacecrashpad.html#a754aa9162769947b5a5debad05d8d6ae">crashpad::CheckedVMAddressRange</a> = typedef <a class="el" href="classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html">internal::CheckedAddressRangeGeneric</a>&lt;<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a>, <a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Ensures that a range, composed of a base and a size, does not overflow the pointer type of the process it describes a range in. </p>
+<p>This class checks bases of type <a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae" title="Type used to represent an address in a process, potentially across bitness. ">VMAddress</a> and sizes of type <a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be" title="Type used to represent the size of a memory range (with a VMAddress), potentially across bitness...">VMSize</a> against a process whose pointer type is either 32 or 64 bits wide.</p>
+<p>Aside from varying the overall range on the basis of a process’ pointer type width, this class functions very similarly to <a class="el" href="classcrashpad_1_1CheckedRange.html" title="Ensures that a range, composed of a base and size, does not overflow its data type. ">CheckedRange</a>. </p>
+
+</div>
+</div>
 <a id="ad171ce8db60c84b2d875f7acd3b90f1e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad171ce8db60c84b2d875f7acd3b90f1e">&#9670;&nbsp;</a></span>CheckedWinAddressRange</h2>
 
@@ -1388,7 +1497,7 @@ template&lt;typename T , size_t Alignment = alignof(T)&gt; </div>
 </div><div class="memdoc">
 
 <p>The time before which a <a class="el" href="namespacecrashpad.html#a35293418a0b7637a00631807ac4b431e" title="Runs mach_msg() with a deadline, as opposed to a timeout. ">MachMessageWithDeadline()</a> call should complete. </p>
-<p>A value of this type may be one of the special constants <a class="el" href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a> or <a class="el" href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55a848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. Any other values should be produced by calling <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>.</p>
+<p>A value of this type may be one of the special constants <a class="el" href="namespacecrashpad.html#a99a3f775fc82503e6bad14d67c8602d6a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a> or <a class="el" href="namespacecrashpad.html#a99a3f775fc82503e6bad14d67c8602d6a848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. Any other values should be produced by calling <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>.</p>
 <p>Internally, these are currently specified on the same time base as <a class="el" href="namespacecrashpad.html#aa93af751a4a09c316fb3de1a90e03fe8" title="Returns the value of the system’s monotonic clock. ">ClockMonotonicNanoseconds()</a>, although this is an implementation detail. </p>
 
 </div>
@@ -1411,14 +1520,14 @@ template&lt;typename T , size_t Alignment = alignof(T)&gt; </div>
 
 </div>
 </div>
-<a id="a280d875d598299275111b611ab02d9d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a280d875d598299275111b611ab02d9d0">&#9670;&nbsp;</a></span>ScopedDIR</h2>
+<a id="ac63c0ded12544d344a9ad552958adf85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac63c0ded12544d344a9ad552958adf85">&#9670;&nbsp;</a></span>ScopedDIR</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="namespacecrashpad.html#a280d875d598299275111b611ab02d9d0">crashpad::ScopedDIR</a> = typedef std::unique_ptr&lt;DIR, <a class="el" href="structcrashpad_1_1internal_1_1ScopedDIRCloser.html">internal::ScopedDIRCloser</a>&gt;</td>
+          <td class="memname">using <a class="el" href="namespacecrashpad.html#ac63c0ded12544d344a9ad552958adf85">crashpad::ScopedDIR</a> = typedef base::ScopedGeneric&lt;DIR*, <a class="el" href="structcrashpad_1_1internal_1_1ScopedDIRCloseTraits.html">internal::ScopedDIRCloseTraits</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1446,8 +1555,8 @@ template&lt;typename T , size_t Alignment = alignof(T)&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a49097714a5193c715c4f09ca7742d485"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49097714a5193c715c4f09ca7742d485">&#9670;&nbsp;</a></span>anonymous enum</h2>
+<a id="a2591b9461b78849ca05f29349f7e5206"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2591b9461b78849ca05f29349f7e5206">&#9670;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1458,18 +1567,18 @@ template&lt;typename T , size_t Alignment = alignof(T)&gt; </div>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a49097714a5193c715c4f09ca7742d485ae4f1a3b637ac392d76826131e72ac832"></a>kXPProcessAllAccess&#160;</td><td class="fielddoc"><p>This is the XP-suitable value of <code>PROCESS_ALL_ACCESS</code>. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a2591b9461b78849ca05f29349f7e5206ae4f1a3b637ac392d76826131e72ac832"></a>kXPProcessAllAccess&#160;</td><td class="fielddoc"><p>This is the XP-suitable value of <code>PROCESS_ALL_ACCESS</code>. </p>
 <p>Requesting <code>PROCESS_ALL_ACCESS</code> with the value defined when building against a Vista+ SDK results in <code>ERROR_ACCESS_DENIED</code> when running on XP. See <a href="https://msdn.microsoft.com/en-ca/library/windows/desktop/ms684880.aspx">https://msdn.microsoft.com/en-ca/library/windows/desktop/ms684880.aspx</a> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a49097714a5193c715c4f09ca7742d485af4736ae0e9abf32de684ad33895eec0e"></a>kXPThreadAllAccess&#160;</td><td class="fielddoc"><p>This is the XP-suitable value of <code>THREAD_ALL_ACCESS</code>. </p>
+<tr><td class="fieldname"><a id="a2591b9461b78849ca05f29349f7e5206af4736ae0e9abf32de684ad33895eec0e"></a>kXPThreadAllAccess&#160;</td><td class="fielddoc"><p>This is the XP-suitable value of <code>THREAD_ALL_ACCESS</code>. </p>
 <p>Requesting <code>THREAD_ALL_ACCESS</code> with the value defined when building against a Vista+ SDK results in <code>ERROR_ACCESS_DENIED</code> when running on XP. See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769.aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769.aspx</a> </p>
 </td></tr>
 </table>
 
 </div>
 </div>
-<a id="a217c8826b1e8ca5539eee63b3ab9e612"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a217c8826b1e8ca5539eee63b3ab9e612">&#9670;&nbsp;</a></span>anonymous enum</h2>
+<a id="af1e0df68dc66fbae951d18368ccb59ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1e0df68dc66fbae951d18368ccb59ef">&#9670;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1482,16 +1591,16 @@ template&lt;typename T , size_t Alignment = alignof(T)&gt; </div>
 
 <p>Special constants used as <code>mach_msg_timeout_t</code> values. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a217c8826b1e8ca5539eee63b3ab9e612a15aaf8991271871ab08493449c00a048"></a>kMachMessageTimeoutNonblocking&#160;</td><td class="fielddoc"><p>When passed to <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>, that function will return <a class="el" href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="af1e0df68dc66fbae951d18368ccb59efa15aaf8991271871ab08493449c00a048"></a>kMachMessageTimeoutNonblocking&#160;</td><td class="fielddoc"><p>When passed to <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>, that function will return <a class="el" href="namespacecrashpad.html#a99a3f775fc82503e6bad14d67c8602d6a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a217c8826b1e8ca5539eee63b3ab9e612aaf4f2c8a649ea6bcfe896e77c312315f"></a>kMachMessageTimeoutWaitIndefinitely&#160;</td><td class="fielddoc"><p>When passed to <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>, that function will return <a class="el" href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55a848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. </p>
+<tr><td class="fieldname"><a id="af1e0df68dc66fbae951d18368ccb59efaaf4f2c8a649ea6bcfe896e77c312315f"></a>kMachMessageTimeoutWaitIndefinitely&#160;</td><td class="fielddoc"><p>When passed to <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>, that function will return <a class="el" href="namespacecrashpad.html#a99a3f775fc82503e6bad14d67c8602d6a848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. </p>
 </td></tr>
 </table>
 
 </div>
 </div>
-<a id="a2b5bc1165e2d5a398f6f9da42b873a55"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b5bc1165e2d5a398f6f9da42b873a55">&#9670;&nbsp;</a></span>anonymous enum</h2>
+<a id="a99a3f775fc82503e6bad14d67c8602d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99a3f775fc82503e6bad14d67c8602d6">&#9670;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1504,9 +1613,9 @@ template&lt;typename T , size_t Alignment = alignof(T)&gt; </div>
 
 <p>Special constants used as <a class="el" href="namespacecrashpad.html#a34f36473e385b19eb229798ab2f7210c">MachMessageDeadline</a> values. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a2b5bc1165e2d5a398f6f9da42b873a55a6461bf9de012b5f2305fb3da6d0f82d5"></a>kMachMessageDeadlineNonblocking&#160;</td><td class="fielddoc"><p><a class="el" href="namespacecrashpad.html#a35293418a0b7637a00631807ac4b431e" title="Runs mach_msg() with a deadline, as opposed to a timeout. ">MachMessageWithDeadline()</a> should not block at all in its operation. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a99a3f775fc82503e6bad14d67c8602d6a6461bf9de012b5f2305fb3da6d0f82d5"></a>kMachMessageDeadlineNonblocking&#160;</td><td class="fielddoc"><p><a class="el" href="namespacecrashpad.html#a35293418a0b7637a00631807ac4b431e" title="Runs mach_msg() with a deadline, as opposed to a timeout. ">MachMessageWithDeadline()</a> should not block at all in its operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a2b5bc1165e2d5a398f6f9da42b873a55a848a739b3c252f4565161a6bd3f070d6"></a>kMachMessageDeadlineWaitIndefinitely&#160;</td><td class="fielddoc"><p><a class="el" href="namespacecrashpad.html#a35293418a0b7637a00631807ac4b431e" title="Runs mach_msg() with a deadline, as opposed to a timeout. ">MachMessageWithDeadline()</a> should wait indefinitely for the requested operation to complete. </p>
+<tr><td class="fieldname"><a id="a99a3f775fc82503e6bad14d67c8602d6a848a739b3c252f4565161a6bd3f070d6"></a>kMachMessageDeadlineWaitIndefinitely&#160;</td><td class="fielddoc"><p><a class="el" href="namespacecrashpad.html#a35293418a0b7637a00631807ac4b431e" title="Runs mach_msg() with a deadline, as opposed to a timeout. ">MachMessageWithDeadline()</a> should wait indefinitely for the requested operation to complete. </p>
 </td></tr>
 </table>
 
@@ -2242,6 +2351,58 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="ab8be7196ea1ef43c438be47b1f3bbf57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8be7196ea1ef43c438be47b1f3bbf57">&#9670;&nbsp;</a></span>AlignedAllocate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * crashpad::AlignedAllocate </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>alignment</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Allocates memory with the specified alignment constraint. </p>
+<p>This function wraps <code>posix_memalign()</code> or <code>_aligned_malloc()</code>. Memory allocated by this function must be released by AlignFree(). </p>
+
+</div>
+</div>
+<a id="a4d4cc77fb390eed171c11c6e06b78c85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d4cc77fb390eed171c11c6e06b78c85">&#9670;&nbsp;</a></span>AlignedFree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::AlignedFree </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>pointer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Frees memory allocated by <a class="el" href="namespacecrashpad.html#ab8be7196ea1ef43c438be47b1f3bbf57" title="Allocates memory with the specified alignment constraint. ">AlignedAllocate()</a>. </p>
+<p>This function wraps <code>free()</code> or <code>_aligned_free()</code>. </p>
+
+</div>
+</div>
 <a id="a52a7dee343e392e5bf1794e8136df7f9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a52a7dee343e392e5bf1794e8136df7f9">&#9670;&nbsp;</a></span>AppendCommandLineArgument()</h2>
 
@@ -2318,6 +2479,35 @@ template&lt;typename Destination , typename Source &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if <em>source</em> is in the range supported by the type of <em>*destination</em>, with the assignment to <em>*destination</em> having been performed. <code>false</code> if the assignment cannot be completed safely because <em>source</em> is outside of this range. </dd></dl>
+
+</div>
+</div>
+<a id="af02496100daab9a7147875f31cd6ffa2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af02496100daab9a7147875f31cd6ffa2">&#9670;&nbsp;</a></span>AsUnderlyingType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename From &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::underlying_type&lt;From&gt;::type crashpad::AsUnderlyingType </td>
+          <td>(</td>
+          <td class="paramtype">From&#160;</td>
+          <td class="paramname"><em>from</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Casts a value to its underlying type. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">from</td><td>The value to be casted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><em>from</em> casted to its underlying type. </dd></dl>
 
 </div>
 </div>
@@ -3634,6 +3824,44 @@ template&lt;typename Destination , typename Source &gt; </div>
 
 </div>
 </div>
+<a id="af12fac7cddd34499234ca6617e3e3aa3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af12fac7cddd34499234ca6617e3e3aa3">&#9670;&nbsp;</a></span>IsDirectory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::IsDirectory </td>
+          <td>(</td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>allow_symlinks</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determines if a path refers to a directory, logging a message on failure. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>The path to check. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">allow_symlinks</td><td>Whether to allow the final component in the path to be a symbolic link to a directory. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the path exists and is a directory. Otherwise <code>false</code>. </dd></dl>
+
+</div>
+</div>
 <a id="ad2ac0b9fe2a066fecac5e8d9b977e892"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad2ac0b9fe2a066fecac5e8d9b977e892">&#9670;&nbsp;</a></span>IsExceptionNonfatalResource()</h2>
 
@@ -3676,6 +3904,35 @@ template&lt;typename Destination , typename Source &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the exception is a non-fatal <code>EXC_RESOURCE</code>. <code>false</code> otherwise. If the exception is <code>EXC_RESOURCE</code> of a recognized type but it is not possible to determine whether it is fatal, returns <code>true</code> under the assumption that all known <code>EXC_RESOURCE</code> exceptions are non-fatal by default. If the exception is not <code>EXC_RESOURCE</code> or is an unknown <code>EXC_RESOURCE</code> type, returns <code>false</code>. </dd></dl>
+
+</div>
+</div>
+<a id="a3c69205d3a470099d1489f71cbfe7ba6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c69205d3a470099d1489f71cbfe7ba6">&#9670;&nbsp;</a></span>IsRegularFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::IsRegularFile </td>
+          <td>(</td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determines if a path refers to a regular file, logging a message on failure. </p>
+<p>On POSIX, this function returns <code>true</code> if <em>path</em> refers to a file that is not a symbolic link, directory, or other kind of special file.</p>
+<p>On Windows, this function returns <code>true</code> if <em>path</em> refers to a file that is not a symbolic link or directory.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>The path to the file to check. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the file exists and is a regular file. Otherwise <code>false</code>. </dd></dl>
 
 </div>
 </div>
@@ -4400,6 +4657,51 @@ template&lt;typename Destination , typename Source &gt; </div>
 
 </div>
 </div>
+<a id="a7ae84cd353b237bfdf698d40da521568"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ae84cd353b237bfdf698d40da521568">&#9670;&nbsp;</a></span>LoggingCreateDirectory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::LoggingCreateDirectory </td>
+          <td>(</td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a034ccc90eb0d1f587ee89275d822175d">FilePermissions</a>&#160;</td>
+          <td class="paramname"><em>permissions</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>may_reuse</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a directory, logging a message on failure. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>The path to the directory to create. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">permissions</td><td>The permissions to use if the directory is created. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">may_reuse</td><td>If <code>true</code>, this function will return <code>true</code> if a directory or symbolic link to a directory with path <em>path</em> already exists. If the directory already exists, it's permissions may differ from <em>permissions</em>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the directory is successfully created or it already existed and <em>may_reuse</em> is <code>true</code>. Otherwise, <code>false</code>. </dd></dl>
+
+</div>
+</div>
 <a id="a0224d5a689cdb8c2315c255fd6ea6b5c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0224d5a689cdb8c2315c255fd6ea6b5c">&#9670;&nbsp;</a></span>LoggingFileSizeByHandle()</h2>
 
@@ -4653,6 +4955,61 @@ template&lt;typename Destination , typename Source &gt; </div>
 
 </div>
 </div>
+<a id="a7fdc84fcc207cf0b718626997d11ad04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fdc84fcc207cf0b718626997d11ad04">&#9670;&nbsp;</a></span>LoggingRemoveDirectory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::LoggingRemoveDirectory </td>
+          <td>(</td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Non-recurseively removes an empty directory, logging a message on failure. </p>
+<p>This function will not remove symbolic links to directories.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>The to the directory to remove. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the directory was removed. Otherwise, <code>false</code>. </dd></dl>
+
+</div>
+</div>
+<a id="ac7c5ccd8661bd87eed66eae26fb9e0d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7c5ccd8661bd87eed66eae26fb9e0d3">&#9670;&nbsp;</a></span>LoggingRemoveFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::LoggingRemoveFile </td>
+          <td>(</td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes a file or a symbolic link to a file or directory, logging a message on failure. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>The path to the file to remove. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. <code>false</code> on failure with a message logged. </dd></dl>
+
+</div>
+</div>
 <a id="a3d6cedc10e24145d4a0c1000c33f8a10"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3d6cedc10e24145d4a0c1000c33f8a10">&#9670;&nbsp;</a></span>LoggingSeekFile()</h2>
 
@@ -4800,7 +5157,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 
 <p>Computes the deadline for a specified timeout value. </p>
 <p>While deadlines exist on an absolute time scale, timeouts are relative. This function calculates the deadline as <em>timeout_ms</em> milliseconds after it executes.</p>
-<p>If <em>timeout_ms</em> is <a class="el" href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>, this function will return <a class="el" href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>. If <em>timeout_ms</em> is <a class="el" href="namespacecrashpad.html#a217c8826b1e8ca5539eee63b3ab9e612aaf4f2c8a649ea6bcfe896e77c312315f" title="When passed to MachMessageDeadlineFromTimeout(), that function will return kMachMessageDeadlineWaitIn...">kMachMessageTimeoutWaitIndefinitely</a>, this function will return <a class="el" href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55a848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. </p>
+<p>If <em>timeout_ms</em> is <a class="el" href="namespacecrashpad.html#a99a3f775fc82503e6bad14d67c8602d6a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>, this function will return <a class="el" href="namespacecrashpad.html#a99a3f775fc82503e6bad14d67c8602d6a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>. If <em>timeout_ms</em> is <a class="el" href="namespacecrashpad.html#af1e0df68dc66fbae951d18368ccb59efaaf4f2c8a649ea6bcfe896e77c312315f" title="When passed to MachMessageDeadlineFromTimeout(), that function will return kMachMessageDeadlineWaitIn...">kMachMessageTimeoutWaitIndefinitely</a>, this function will return <a class="el" href="namespacecrashpad.html#a99a3f775fc82503e6bad14d67c8602d6a848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. </p>
 
 </div>
 </div>
@@ -4944,7 +5301,7 @@ template&lt;typename Destination , typename Source &gt; </div>
     <tr><td class="paramdir">[in]</td><td class="paramname">receive_port</td><td></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">deadline</td><td>The time by which this call should complete. If the deadline is exceeded, this call will return <code>MACH_SEND_TIMED_OUT</code> or <code>MACH_RCV_TIMED_OUT</code>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">notify_port</td><td></td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">run_even_if_expired</td><td>If <code>true</code>, a deadline that is expired when this function is called will be treated as though a deadline of <a class="el" href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a> had been specified. When <code>false</code>, an expired deadline will result in a <code>MACH_SEND_TIMED_OUT</code> or <code>MACH_RCV_TIMED_OUT</code> return value, even if the deadline is already expired when the function is called.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">run_even_if_expired</td><td>If <code>true</code>, a deadline that is expired when this function is called will be treated as though a deadline of <a class="el" href="namespacecrashpad.html#a99a3f775fc82503e6bad14d67c8602d6a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a> had been specified. When <code>false</code>, an expired deadline will result in a <code>MACH_SEND_TIMED_OUT</code> or <code>MACH_RCV_TIMED_OUT</code> return value, even if the deadline is already expired when the function is called.</td></tr>
   </table>
   </dd>
 </dl>
@@ -5152,6 +5509,50 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>false</code> if <em>key</em> was previously present in <em>map</em>. If <em>old_value</em> is not <code>nullptr</code>, it will be set to the previous value. <code>true</code> if <em>key</em> was not present in the map and was inserted. </dd></dl>
+
+</div>
+</div>
+<a id="a7e5ef254327bfa348cc23cd21893b29e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e5ef254327bfa348cc23cd21893b29e">&#9670;&nbsp;</a></span>MoveFileOrDirectory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::MoveFileOrDirectory </td>
+          <td>(</td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>dest</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Moves a file, symbolic link, or directory, logging a message on failure. </p>
+<p><em>source</em> must exist and refer to a file, symbolic link, or directory.</p>
+<p><em>source</em> and <em>dest</em> must be on the same filesystem.</p>
+<p>If <em>dest</em> exists, it may be overwritten:</p>
+<p>If <em>dest</em> exists and refers to a file or to a live or dangling symbolic link to a file, it will be overwritten if <em>source</em> also refers to a file or to a live or dangling symbolic link to a file or directory.</p>
+<p>On POSIX, if <em>dest</em> refers to a directory, it will be overwritten only if it is empty and <em>source</em> also refers to a directory.</p>
+<p>On Windows, if <em>dest</em> refers to a directory or to a live or dangling symbolic link to a directory, it will not be overwritten.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">source</td><td>The path to the file to be moved. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dest</td><td>The new path for the file. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. <code>false</code> on failure with a message logged. </dd></dl>
 
 </div>
 </div>
@@ -6144,7 +6545,7 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
   </table>
   </dd>
 </dl>
-<p>This function is resilient against the underlying <code>nanosleep()</code> system call being interrupted by a signal. </p>
+<p>On POSIX, this function is resilient against the underlying <code>nanosleep()</code> system call being interrupted by a signal. </p>
 
 </div>
 </div>
@@ -6901,6 +7302,33 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
 
 </div>
 </div>
+<a id="a16b771a34723da94fac698418232b1e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16b771a34723da94fac698418232b1e2">&#9670;&nbsp;</a></span>URLEncode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string crashpad::URLEncode </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>url</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Performs percent-encoding (URL encoding) on the input string, following RFC 3986 paragraph 2. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">url</td><td>The string to be encoded. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The encoded string. </dd></dl>
+
+</div>
+</div>
 <a id="ada530c306bf30e9ed9274c20d05c0db4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ada530c306bf30e9ed9274c20d05c0db4">&#9670;&nbsp;</a></span>WriteFile()</h2>
 
@@ -7227,6 +7655,23 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
 
 <p><code>MACH_PORT_NULL</code> with the correct type for a Mach port, <code>mach_port_t</code>. </p>
 <p>For situations where implicit conversions between signed and unsigned types are not performed, use kMachPortNull instead of an explicit <code>implicit_cast</code> of <code>MACH_PORT_NULL</code> to <code>mach_port_t</code>. This is useful for logging and testing assertions. </p>
+
+</div>
+</div>
+<a id="a83421817896ef24623f0f1cf10268843"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83421817896ef24623f0f1cf10268843">&#9670;&nbsp;</a></span>kMaxNumberOfAnnotations</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr size_t crashpad::kMaxNumberOfAnnotations = 200</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The maximum number of crashpad::Annotations that will be read from a client process. </p>
+<dl class="section note"><dt>Note</dt><dd>This maximum was chosen arbitrarily and may change in the future. </dd></dl>
 
 </div>
 </div>

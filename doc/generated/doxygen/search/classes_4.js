@@ -11,6 +11,7 @@ var searchData=
   ['exceptioninformation',['ExceptionInformation',['../structcrashpad_1_1ExceptionInformation.html',1,'crashpad']]],
   ['exceptionports',['ExceptionPorts',['../classcrashpad_1_1ExceptionPorts.html',1,'crashpad']]],
   ['exceptionsnapshot',['ExceptionSnapshot',['../classcrashpad_1_1ExceptionSnapshot.html',1,'crashpad']]],
+  ['exceptionsnapshotlinux',['ExceptionSnapshotLinux',['../classcrashpad_1_1internal_1_1ExceptionSnapshotLinux.html',1,'crashpad::internal']]],
   ['exceptionsnapshotmac',['ExceptionSnapshotMac',['../classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html',1,'crashpad::internal']]],
   ['exceptionsnapshotwin',['ExceptionSnapshotWin',['../classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html',1,'crashpad::internal']]],
   ['extensionstreamcontentswriter',['ExtensionStreamContentsWriter',['../classcrashpad_1_1MinidumpUserStreamWriter_1_1ExtensionStreamContentsWriter.html',1,'crashpad::MinidumpUserStreamWriter']]]

@@ -42,6 +42,8 @@ var searchData=
   ['minidump_5fthread_5flist',['MINIDUMP_THREAD_LIST',['../structMINIDUMP__THREAD__LIST.html',1,'']]],
   ['minidump_5funloaded_5fmodule',['MINIDUMP_UNLOADED_MODULE',['../structMINIDUMP__UNLOADED__MODULE.html',1,'']]],
   ['minidump_5funloaded_5fmodule_5flist',['MINIDUMP_UNLOADED_MODULE_LIST',['../structMINIDUMP__UNLOADED__MODULE__LIST.html',1,'']]],
+  ['minidumpbytearray',['MinidumpByteArray',['../structcrashpad_1_1MinidumpByteArray.html',1,'crashpad']]],
+  ['minidumpbytearraywriter',['MinidumpByteArrayWriter',['../classcrashpad_1_1MinidumpByteArrayWriter.html',1,'crashpad']]],
   ['minidumpcontextamd64',['MinidumpContextAMD64',['../structcrashpad_1_1MinidumpContextAMD64.html',1,'crashpad']]],
   ['minidumpcontextamd64writer',['MinidumpContextAMD64Writer',['../classcrashpad_1_1MinidumpContextAMD64Writer.html',1,'crashpad']]],
   ['minidumpcontextwriter',['MinidumpContextWriter',['../classcrashpad_1_1MinidumpContextWriter.html',1,'crashpad']]],

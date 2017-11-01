@@ -13,9 +13,12 @@ var searchData=
   ['kmachexceptionsimulated',['kMachExceptionSimulated',['../namespacecrashpad.html#a9e0a6740778f04fe2d190dbcd080d55b',1,'crashpad']]],
   ['kmachmessagereceiveaudittrailer',['kMachMessageReceiveAuditTrailer',['../namespacecrashpad.html#a2c87c3ca622c253c84e9b557a0abe034',1,'crashpad']]],
   ['kmachportnull',['kMachPortNull',['../namespacecrashpad.html#a253712a6760b4b8a54dbcc8943692731',1,'crashpad']]],
+  ['kmaxnumberofannotations',['kMaxNumberOfAnnotations',['../namespacecrashpad.html#a83421817896ef24623f0f1cf10268843',1,'crashpad']]],
+  ['knamemaxlength',['kNameMaxLength',['../classcrashpad_1_1Annotation.html#a159abc1f99211ba3d3be0e68789af327',1,'crashpad::Annotation']]],
   ['knativereadfunctionname',['kNativeReadFunctionName',['../namespacecrashpad_1_1internal.html#ad721931863942c751ca4852cb2f0112e',1,'crashpad::internal']]],
   ['knativewritefunctionname',['kNativeWriteFunctionName',['../namespacecrashpad_1_1internal.html#a3e88f1d108a5961424fa705b4284e6af',1,'crashpad::internal']]],
   ['kpipeinstances',['kPipeInstances',['../classcrashpad_1_1ExceptionHandlerServer.html#aa0182e8bb9a9931d96acf84f93eb81cd',1,'crashpad::ExceptionHandlerServer']]],
   ['ksignature',['kSignature',['../structcrashpad_1_1CodeViewRecordPDB20.html#a44ae151e658264089c48724635cbc789',1,'crashpad::CodeViewRecordPDB20::kSignature()'],['../structcrashpad_1_1CodeViewRecordPDB70.html#a0a52adc79bf1bc9ba3eb444848d89dda',1,'crashpad::CodeViewRecordPDB70::kSignature()']]],
+  ['kvaluemaxsize',['kValueMaxSize',['../classcrashpad_1_1Annotation.html#a9e776193af79d77a2b45138aa42fa92f',1,'crashpad::Annotation']]],
   ['kversion',['kVersion',['../structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a47ff487dfe930f561edda132627bd7c0',1,'crashpad::MinidumpModuleCrashpadInfo::kVersion()'],['../structcrashpad_1_1MinidumpCrashpadInfo.html#ac7d7756efc10878a8f76a903c4d6d8d4',1,'crashpad::MinidumpCrashpadInfo::kVersion()']]]
 ];

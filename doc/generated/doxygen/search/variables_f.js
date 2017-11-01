@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['rate_5flimit',['rate_limit',['../structcrashpad_1_1CrashReportUploadThread_1_1Options.html#ae2dc005799a5a76c81f345de04d3a366',1,'crashpad::CrashReportUploadThread::Options']]],
   ['read',['read',['../structcrashpad_1_1test_1_1WinChildProcess_1_1Handles.html#afdb549c4b1fd8c86b64dccc3cbdc08b2',1,'crashpad::test::WinChildProcess::Handles']]],
   ['reader',['reader',['../structcrashpad_1_1ProcessReader_1_1Module.html#a3be41f4fae388989c30bbb3046f2a854',1,'crashpad::ProcessReader::Module']]],
   ['regionsize',['RegionSize',['../structMINIDUMP__MEMORY__INFO.html#af1b29639a9edec37d2b8f431134e3181',1,'MINIDUMP_MEMORY_INFO']]],

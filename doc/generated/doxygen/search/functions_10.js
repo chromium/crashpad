@@ -19,5 +19,6 @@ var searchData=
   ['producestreamdata',['ProduceStreamData',['../classcrashpad_1_1UserStreamDataSource.html#ad3b6afc1a10a663418fc8893c484230e',1,'crashpad::UserStreamDataSource']]],
   ['prunecrashreportdatabase',['PruneCrashReportDatabase',['../namespacecrashpad.html#a87aa3a36a41939af1166c336db41ec11',1,'crashpad']]],
   ['prunecrashreportthread',['PruneCrashReportThread',['../classcrashpad_1_1PruneCrashReportThread.html#a611e02d9b7666df11d2484f682b771ea',1,'crashpad::PruneCrashReportThread']]],
+  ['ptracer',['Ptracer',['../classcrashpad_1_1Ptracer.html#aa293306ec2502ca6129beb24781770a5',1,'crashpad::Ptracer::Ptracer(bool is_64_bit)'],['../classcrashpad_1_1Ptracer.html#a9440335d60e4c6c7892fefab971fb691',1,'crashpad::Ptracer::Ptracer()']]],
   ['pushback',['PushBack',['../classcrashpad_1_1ThreadSafeVector.html#a662327583f078bbccc1936842b37c011',1,'crashpad::ThreadSafeVector']]]
 ];

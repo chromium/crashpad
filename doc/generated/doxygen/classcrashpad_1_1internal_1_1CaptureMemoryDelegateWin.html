@@ -82,9 +82,9 @@ Inheritance diagram for crashpad::internal::CaptureMemoryDelegateWin:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8c08c93d2784dd400ad21daa9ed91568"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1CaptureMemoryDelegateWin.html#a8c08c93d2784dd400ad21daa9ed91568">CaptureMemoryDelegateWin</a> (<a class="el" href="classcrashpad_1_1ProcessReaderWin.html">ProcessReaderWin</a> *process_reader, const <a class="el" href="structcrashpad_1_1ProcessReaderWin_1_1Thread.html">ProcessReaderWin::Thread</a> &amp;thread, <a class="el" href="classcrashpad_1_1PointerVector.html">PointerVector</a>&lt; <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotWin.html">MemorySnapshotWin</a> &gt; *snapshots, uint32_t *budget_remaining)</td></tr>
-<tr class="memdesc:a8c08c93d2784dd400ad21daa9ed91568"><td class="mdescLeft">&#160;</td><td class="mdescRight">A MemoryCaptureDelegate for Windows.  <a href="#a8c08c93d2784dd400ad21daa9ed91568">More...</a><br /></td></tr>
-<tr class="separator:a8c08c93d2784dd400ad21daa9ed91568"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3356201f7d192508053e92862f5ec789"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1CaptureMemoryDelegateWin.html#a3356201f7d192508053e92862f5ec789">CaptureMemoryDelegateWin</a> (<a class="el" href="classcrashpad_1_1ProcessReaderWin.html">ProcessReaderWin</a> *process_reader, const <a class="el" href="structcrashpad_1_1ProcessReaderWin_1_1Thread.html">ProcessReaderWin::Thread</a> &amp;thread, std::vector&lt; std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotWin.html">MemorySnapshotWin</a> &gt;&gt; *snapshots, uint32_t *budget_remaining)</td></tr>
+<tr class="memdesc:a3356201f7d192508053e92862f5ec789"><td class="mdescLeft">&#160;</td><td class="mdescRight">A MemoryCaptureDelegate for Windows.  <a href="#a3356201f7d192508053e92862f5ec789">More...</a><br /></td></tr>
+<tr class="separator:a3356201f7d192508053e92862f5ec789"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accfeefca9347531e9190ee8d67b96954"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1CaptureMemoryDelegateWin.html#accfeefca9347531e9190ee8d67b96954">Is64Bit</a> () const override</td></tr>
 <tr class="separator:accfeefca9347531e9190ee8d67b96954"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07efa777912f0ba2dbe1ffb9c179c60e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1CaptureMemoryDelegateWin.html#a07efa777912f0ba2dbe1ffb9c179c60e">ReadMemory</a> (uint64_t at, uint64_t num_bytes, void *into) const override</td></tr>
@@ -99,8 +99,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="separator:a7f86fec71c8d1e34abfb2271535cbced"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a8c08c93d2784dd400ad21daa9ed91568"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c08c93d2784dd400ad21daa9ed91568">&#9670;&nbsp;</a></span>CaptureMemoryDelegateWin()</h2>
+<a id="a3356201f7d192508053e92862f5ec789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3356201f7d192508053e92862f5ec789">&#9670;&nbsp;</a></span>CaptureMemoryDelegateWin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -120,7 +120,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classcrashpad_1_1PointerVector.html">PointerVector</a>&lt; <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotWin.html">MemorySnapshotWin</a> &gt; *&#160;</td>
+          <td class="paramtype">std::vector&lt; std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotWin.html">MemorySnapshotWin</a> &gt;&gt; *&#160;</td>
           <td class="paramname"><em>snapshots</em>, </td>
         </tr>
         <tr>

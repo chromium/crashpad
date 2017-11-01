@@ -126,6 +126,9 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <tr class="memitem:a5650eaea4d201ffa29b0dda5bcce1cf1"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a5650eaea4d201ffa29b0dda5bcce1cf1">AnnotationsSimpleMap</a> () const override</td></tr>
 <tr class="memdesc:a5650eaea4d201ffa29b0dda5bcce1cf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns key-value string annotations recorded in the module.  <a href="#a5650eaea4d201ffa29b0dda5bcce1cf1">More...</a><br /></td></tr>
 <tr class="separator:a5650eaea4d201ffa29b0dda5bcce1cf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afee52188333f5ce88ab3b2dd4722f669"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structcrashpad_1_1AnnotationSnapshot.html">AnnotationSnapshot</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#afee52188333f5ce88ab3b2dd4722f669">AnnotationObjects</a> () const override</td></tr>
+<tr class="memdesc:afee52188333f5ce88ab3b2dd4722f669"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the typed annotation objects recorded in the module.  <a href="#afee52188333f5ce88ab3b2dd4722f669">More...</a><br /></td></tr>
+<tr class="separator:afee52188333f5ce88ab3b2dd4722f669"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab018c4c4f5c01d1b8ad8620049ffb758"><td class="memItemLeft" align="right" valign="top"><a id="ab018c4c4f5c01d1b8ad8620049ffb758"></a>
 std::set&lt; <a class="el" href="classcrashpad_1_1CheckedRange.html">CheckedRange</a>&lt; uint64_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#ab018c4c4f5c01d1b8ad8620049ffb758">ExtraMemoryRanges</a> () const override</td></tr>
 <tr class="memdesc:ab018c4c4f5c01d1b8ad8620049ffb758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a set of extra memory ranges specified in the module as being desirable to include in the crash dump. <br /></td></tr>
@@ -144,6 +147,38 @@ Additional Inherited Members</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A <a class="el" href="classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ...">ModuleSnapshot</a> based on a module in a minidump file. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="afee52188333f5ce88ab3b2dd4722f669"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afee52188333f5ce88ab3b2dd4722f669">&#9670;&nbsp;</a></span>AnnotationObjects()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structcrashpad_1_1AnnotationSnapshot.html">AnnotationSnapshot</a> &gt; crashpad::internal::ModuleSnapshotMinidump::AnnotationObjects </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the typed annotation objects recorded in the module. </p>
+<p>This method retrieves annotations recorded in a module. These annotations are intended for diagnostic use, including crash analysis. <a class="el" href="classcrashpad_1_1Annotation.html" title="Base class for an annotation, which records a name-value pair of arbitrary data when set...">Annotation</a> objects are strongly-typed name-value pairs. The names are not unique.</p>
+<p>For macOS snapshots, these annotations are found by interpreting the <code>__DATA,crashpad_info</code> section as <code><a class="el" href="structcrashpad_1_1CrashpadInfo.html" title="A structure that can be used by a Crashpad-enabled program to provide information to the Crashpad cra...">CrashpadInfo</a></code>. Clients can use the Crashpad client interface to store annotations in this structure. Most annotations under the client’s direct control will be retrievable by this method. For clients such as Chrome, this includes the process type.</p>
+<p>The annotations returned by this method do not duplicate those returned by <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a19863780827939572c3ea36ef0077dbe" title="Returns string annotations recorded in the module. ">AnnotationsVector()</a> or <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a5650eaea4d201ffa29b0dda5bcce1cf1" title="Returns key-value string annotations recorded in the module. ">AnnotationsSimpleMap()</a>. </p>
+
+<p>Implements <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a373ec34033c8a1558060560871b29fe4">crashpad::ModuleSnapshot</a>.</p>
+
+</div>
+</div>
 <a id="a5650eaea4d201ffa29b0dda5bcce1cf1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5650eaea4d201ffa29b0dda5bcce1cf1">&#9670;&nbsp;</a></span>AnnotationsSimpleMap()</h2>
 
@@ -170,7 +205,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Returns key-value string annotations recorded in the module. </p>
 <p>This method retrieves annotations recorded in a module. These annotations are intended for diagnostic use, including crash analysis. “Simple annotations” are structured as a sequence of key-value pairs, where all keys and values are strings. These are referred to in Chrome as “crash keys.”</p>
 <p>For macOS snapshots, these annotations are found by interpreting the <code>__DATA,crashpad_info</code> section as <code><a class="el" href="structcrashpad_1_1CrashpadInfo.html" title="A structure that can be used by a Crashpad-enabled program to provide information to the Crashpad cra...">CrashpadInfo</a></code>. Clients can use the Crashpad client interface to store annotations in this structure. Most annotations under the client’s direct control will be retrievable by this method. For clients such as Chrome, this includes the process type.</p>
-<p>The annotations returned by this method do not duplicate those returned by <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a19863780827939572c3ea36ef0077dbe" title="Returns string annotations recorded in the module. ">AnnotationsVector()</a>. Additional annotations related to the process, system, or snapshot producer may be obtained by calling <a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a7f39b29ec055fb4235e5156d55e066cb" title="Returns key-value string annotations recorded for the process, system, or snapshot producer...">ProcessSnapshot::AnnotationsSimpleMap()</a>. </p>
+<p>The annotations returned by this method do not duplicate those returned by <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a19863780827939572c3ea36ef0077dbe" title="Returns string annotations recorded in the module. ">AnnotationsVector()</a> or <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#afee52188333f5ce88ab3b2dd4722f669" title="Returns the typed annotation objects recorded in the module. ">AnnotationObjects()</a>. Additional annotations related to the process, system, or snapshot producer may be obtained by calling <a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a7f39b29ec055fb4235e5156d55e066cb" title="Returns key-value string annotations recorded for the process, system, or snapshot producer...">ProcessSnapshot::AnnotationsSimpleMap()</a>. </p>
 
 <p>Implements <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a4d1328fda3e91a4c25369b5fcc4cf2f6">crashpad::ModuleSnapshot</a>.</p>
 
@@ -202,7 +237,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Returns string annotations recorded in the module. </p>
 <p>This method retrieves annotations recorded in a module. These annotations are intended for diagnostic use, including crash analysis. A module may contain multiple annotations, so they are returned in a vector.</p>
 <p>For macOS snapshots, these annotations are found by interpreting the module’s <code>__DATA,__crash_info</code> section as <code>crashreporter_annotations_t</code>. System libraries using the crash reporter client interface may reference annotations in this structure. Additional annotations messages may be found in other locations, which may be module-specific. The dynamic linker (<code>dyld</code>) can provide an annotation at its <code>_error_string</code> symbol.</p>
-<p>The annotations returned by this method do not duplicate those returned by <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a5650eaea4d201ffa29b0dda5bcce1cf1" title="Returns key-value string annotations recorded in the module. ">AnnotationsSimpleMap()</a>. </p>
+<p>The annotations returned by this method do not duplicate those returned by <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a5650eaea4d201ffa29b0dda5bcce1cf1" title="Returns key-value string annotations recorded in the module. ">AnnotationsSimpleMap()</a> or <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#afee52188333f5ce88ab3b2dd4722f669" title="Returns the typed annotation objects recorded in the module. ">AnnotationObjects()</a>. </p>
 
 <p>Implements <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a11075b25729fda7cf96ed8c8b25061a2">crashpad::ModuleSnapshot</a>.</p>
 

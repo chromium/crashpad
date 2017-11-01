@@ -74,13 +74,13 @@ $(function() {
 <p>Provides range protected access to the memory of another process.  
  <a href="classcrashpad_1_1ProcessMemoryRange.html#details">More...</a></p>
 
-<p><code>#include &quot;util/linux/process_memory_range.h&quot;</code></p>
+<p><code>#include &quot;util/process/process_memory_range.h&quot;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a23ad3695cfbfa6e8d6d0c776afef46b6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryRange.html#a23ad3695cfbfa6e8d6d0c776afef46b6">Initialize</a> (const <a class="el" href="classcrashpad_1_1ProcessMemory.html">ProcessMemory</a> *memory, bool is_64_bit, <a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a> base, <a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a> size)</td></tr>
-<tr class="memdesc:a23ad3695cfbfa6e8d6d0c776afef46b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes this object.  <a href="#a23ad3695cfbfa6e8d6d0c776afef46b6">More...</a><br /></td></tr>
-<tr class="separator:a23ad3695cfbfa6e8d6d0c776afef46b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab74c5da48508e04d8e51778e8815ad6a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryRange.html#ab74c5da48508e04d8e51778e8815ad6a">Initialize</a> (const <a class="el" href="classcrashpad_1_1ProcessMemory.html">ProcessMemory</a> *memory, bool is_64_bit, <a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> base, <a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> size)</td></tr>
+<tr class="memdesc:ab74c5da48508e04d8e51778e8815ad6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes this object.  <a href="#ab74c5da48508e04d8e51778e8815ad6a">More...</a><br /></td></tr>
+<tr class="separator:ab74c5da48508e04d8e51778e8815ad6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4642cb32847e27d07998a6c7b0cc6cfb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryRange.html#a4642cb32847e27d07998a6c7b0cc6cfb">Initialize</a> (const <a class="el" href="classcrashpad_1_1ProcessMemory.html">ProcessMemory</a> *memory, bool is_64_bit)</td></tr>
 <tr class="memdesc:a4642cb32847e27d07998a6c7b0cc6cfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes this object with the maximum range for the address space.  <a href="#a4642cb32847e27d07998a6c7b0cc6cfb">More...</a><br /></td></tr>
 <tr class="separator:a4642cb32847e27d07998a6c7b0cc6cfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -91,29 +91,29 @@ Public Member Functions</h2></td></tr>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryRange.html#a4c486d8043ce80096e4a578339d13196">Is64Bit</a> () const</td></tr>
 <tr class="memdesc:a4c486d8043ce80096e4a578339d13196"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the range is part of a 64-bit address space. <br /></td></tr>
 <tr class="separator:a4c486d8043ce80096e4a578339d13196"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca5609c65d501aaf82e95d6a349c1907"><td class="memItemLeft" align="right" valign="top"><a id="aca5609c65d501aaf82e95d6a349c1907"></a>
-<a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryRange.html#aca5609c65d501aaf82e95d6a349c1907">Base</a> () const</td></tr>
-<tr class="memdesc:aca5609c65d501aaf82e95d6a349c1907"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the base address of the range. <br /></td></tr>
-<tr class="separator:aca5609c65d501aaf82e95d6a349c1907"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac775497b681cb3471211a2bf2114d779"><td class="memItemLeft" align="right" valign="top"><a id="ac775497b681cb3471211a2bf2114d779"></a>
-<a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryRange.html#ac775497b681cb3471211a2bf2114d779">Size</a> () const</td></tr>
-<tr class="memdesc:ac775497b681cb3471211a2bf2114d779"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the range. <br /></td></tr>
-<tr class="separator:ac775497b681cb3471211a2bf2114d779"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f1a929c8147197216edf5187c7b24fa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryRange.html#a6f1a929c8147197216edf5187c7b24fa">RestrictRange</a> (<a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a> base, <a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a> size)</td></tr>
-<tr class="memdesc:a6f1a929c8147197216edf5187c7b24fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shrinks the range to the new base and size.  <a href="#a6f1a929c8147197216edf5187c7b24fa">More...</a><br /></td></tr>
-<tr class="separator:a6f1a929c8147197216edf5187c7b24fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26c36adb5a042b1c3dddbcaf457200d6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryRange.html#a26c36adb5a042b1c3dddbcaf457200d6">Read</a> (<a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a> address, size_t size, void *buffer) const</td></tr>
-<tr class="memdesc:a26c36adb5a042b1c3dddbcaf457200d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies memory from the target process into a caller-provided buffer in the current process.  <a href="#a26c36adb5a042b1c3dddbcaf457200d6">More...</a><br /></td></tr>
-<tr class="separator:a26c36adb5a042b1c3dddbcaf457200d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc40d7e7835a1626ee80b69b1bee100a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryRange.html#afc40d7e7835a1626ee80b69b1bee100a">ReadCStringSizeLimited</a> (<a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a> address, size_t size, std::string *string) const</td></tr>
-<tr class="memdesc:afc40d7e7835a1626ee80b69b1bee100a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a <code>NUL</code>-terminated C string from the target process into a string in the current process.  <a href="#afc40d7e7835a1626ee80b69b1bee100a">More...</a><br /></td></tr>
-<tr class="separator:afc40d7e7835a1626ee80b69b1bee100a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9360c93a9ef464197d18c342d1faab86"><td class="memItemLeft" align="right" valign="top"><a id="a9360c93a9ef464197d18c342d1faab86"></a>
+<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryRange.html#a9360c93a9ef464197d18c342d1faab86">Base</a> () const</td></tr>
+<tr class="memdesc:a9360c93a9ef464197d18c342d1faab86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the base address of the range. <br /></td></tr>
+<tr class="separator:a9360c93a9ef464197d18c342d1faab86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28346f167dd546b8c0f7a918208f6495"><td class="memItemLeft" align="right" valign="top"><a id="a28346f167dd546b8c0f7a918208f6495"></a>
+<a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryRange.html#a28346f167dd546b8c0f7a918208f6495">Size</a> () const</td></tr>
+<tr class="memdesc:a28346f167dd546b8c0f7a918208f6495"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the range. <br /></td></tr>
+<tr class="separator:a28346f167dd546b8c0f7a918208f6495"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dbd6d8a6d8975ac781e7b99b2153ca1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryRange.html#a8dbd6d8a6d8975ac781e7b99b2153ca1">RestrictRange</a> (<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> base, <a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> size)</td></tr>
+<tr class="memdesc:a8dbd6d8a6d8975ac781e7b99b2153ca1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shrinks the range to the new base and size.  <a href="#a8dbd6d8a6d8975ac781e7b99b2153ca1">More...</a><br /></td></tr>
+<tr class="separator:a8dbd6d8a6d8975ac781e7b99b2153ca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ad438df39bf14400cb17cba96848a9e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryRange.html#a8ad438df39bf14400cb17cba96848a9e">Read</a> (<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> address, size_t size, void *buffer) const</td></tr>
+<tr class="memdesc:a8ad438df39bf14400cb17cba96848a9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies memory from the target process into a caller-provided buffer in the current process.  <a href="#a8ad438df39bf14400cb17cba96848a9e">More...</a><br /></td></tr>
+<tr class="separator:a8ad438df39bf14400cb17cba96848a9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af41ab54e9338416ae3561325fdd6cf34"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryRange.html#af41ab54e9338416ae3561325fdd6cf34">ReadCStringSizeLimited</a> (<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> address, size_t size, std::string *string) const</td></tr>
+<tr class="memdesc:af41ab54e9338416ae3561325fdd6cf34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a <code>NUL</code>-terminated C string from the target process into a string in the current process.  <a href="#af41ab54e9338416ae3561325fdd6cf34">More...</a><br /></td></tr>
+<tr class="separator:af41ab54e9338416ae3561325fdd6cf34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides range protected access to the memory of another process. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a23ad3695cfbfa6e8d6d0c776afef46b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23ad3695cfbfa6e8d6d0c776afef46b6">&#9670;&nbsp;</a></span>Initialize() <span class="overload">[1/3]</span></h2>
+<a id="ab74c5da48508e04d8e51778e8815ad6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab74c5da48508e04d8e51778e8815ad6a">&#9670;&nbsp;</a></span>Initialize() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -133,13 +133,13 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a>&#160;</td>
           <td class="paramname"><em>base</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a>&#160;</td>
           <td class="paramname"><em>size</em>&#160;</td>
         </tr>
         <tr>
@@ -231,8 +231,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a id="a26c36adb5a042b1c3dddbcaf457200d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26c36adb5a042b1c3dddbcaf457200d6">&#9670;&nbsp;</a></span>Read()</h2>
+<a id="a8ad438df39bf14400cb17cba96848a9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ad438df39bf14400cb17cba96848a9e">&#9670;&nbsp;</a></span>Read()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -240,7 +240,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="memname">bool crashpad::ProcessMemoryRange::Read </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a>&#160;</td>
           <td class="paramname"><em>address</em>, </td>
         </tr>
         <tr>
@@ -276,8 +276,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a id="afc40d7e7835a1626ee80b69b1bee100a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc40d7e7835a1626ee80b69b1bee100a">&#9670;&nbsp;</a></span>ReadCStringSizeLimited()</h2>
+<a id="af41ab54e9338416ae3561325fdd6cf34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af41ab54e9338416ae3561325fdd6cf34">&#9670;&nbsp;</a></span>ReadCStringSizeLimited()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -285,7 +285,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="memname">bool crashpad::ProcessMemoryRange::ReadCStringSizeLimited </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a>&#160;</td>
           <td class="paramname"><em>address</em>, </td>
         </tr>
         <tr>
@@ -321,8 +321,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a id="a6f1a929c8147197216edf5187c7b24fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f1a929c8147197216edf5187c7b24fa">&#9670;&nbsp;</a></span>RestrictRange()</h2>
+<a id="a8dbd6d8a6d8975ac781e7b99b2153ca1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8dbd6d8a6d8975ac781e7b99b2153ca1">&#9670;&nbsp;</a></span>RestrictRange()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -330,13 +330,13 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="memname">bool crashpad::ProcessMemoryRange::RestrictRange </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a>&#160;</td>
           <td class="paramname"><em>base</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a>&#160;</td>
           <td class="paramname"><em>size</em>&#160;</td>
         </tr>
         <tr>
@@ -361,8 +361,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>util/linux/process_memory_range.h</li>
-<li>util/linux/process_memory_range.cc</li>
+<li>util/process/process_memory_range.h</li>
+<li>util/process/process_memory_range.cc</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

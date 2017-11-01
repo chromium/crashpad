@@ -109,31 +109,32 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>difference_type</b> 
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aeb456dc9a30c3cf15b22cd20d28b959d"><td class="memItemLeft" align="right" valign="top"><a id="aeb456dc9a30c3cf15b22cd20d28b959d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>AlignedAllocator</b> (const <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a> &amp;other) CRASHPAD_NOEXCEPT</td></tr>
-<tr class="separator:aeb456dc9a30c3cf15b22cd20d28b959d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad081d98bae3fb7b9459df1a58637a919"><td class="memTemplParams" colspan="2"><a id="ad081d98bae3fb7b9459df1a58637a919"></a>
+<tr class="memitem:af535736661e24384f2837890e982f8e2"><td class="memItemLeft" align="right" valign="top"><a id="af535736661e24384f2837890e982f8e2"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>AlignedAllocator</b> (const <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a> &amp;other) noexcept</td></tr>
+<tr class="separator:af535736661e24384f2837890e982f8e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a227466fedfd3429b272b27a2d418a70d"><td class="memTemplParams" colspan="2"><a id="a227466fedfd3429b272b27a2d418a70d"></a>
 template&lt;typename U &gt; </td></tr>
-<tr class="memitem:ad081d98bae3fb7b9459df1a58637a919"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>AlignedAllocator</b> (const <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; U, Alignment &gt; &amp;other) CRASHPAD_NOEXCEPT</td></tr>
-<tr class="separator:ad081d98bae3fb7b9459df1a58637a919"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf814fe385f054dd937d212b4ae8abf1"><td class="memItemLeft" align="right" valign="top"><a id="aaf814fe385f054dd937d212b4ae8abf1"></a>
-pointer&#160;</td><td class="memItemRight" valign="bottom"><b>address</b> (reference x) const CRASHPAD_NOEXCEPT</td></tr>
-<tr class="separator:aaf814fe385f054dd937d212b4ae8abf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a141b5d571d06c131b3576b76cdc9c15f"><td class="memItemLeft" align="right" valign="top"><a id="a141b5d571d06c131b3576b76cdc9c15f"></a>
-const_pointer&#160;</td><td class="memItemRight" valign="bottom"><b>address</b> (const_reference x) const CRASHPAD_NOEXCEPT</td></tr>
-<tr class="separator:a141b5d571d06c131b3576b76cdc9c15f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a227466fedfd3429b272b27a2d418a70d"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>AlignedAllocator</b> (const <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; U, Alignment &gt; &amp;other) noexcept</td></tr>
+<tr class="separator:a227466fedfd3429b272b27a2d418a70d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaefda0568b35ee54bc6836cd1b279234"><td class="memItemLeft" align="right" valign="top"><a id="aaefda0568b35ee54bc6836cd1b279234"></a>
+pointer&#160;</td><td class="memItemRight" valign="bottom"><b>address</b> (reference x) const noexcept</td></tr>
+<tr class="separator:aaefda0568b35ee54bc6836cd1b279234"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af710cd195b167be64782cc8c6846fc7f"><td class="memItemLeft" align="right" valign="top"><a id="af710cd195b167be64782cc8c6846fc7f"></a>
+const_pointer&#160;</td><td class="memItemRight" valign="bottom"><b>address</b> (const_reference x) const noexcept</td></tr>
+<tr class="separator:af710cd195b167be64782cc8c6846fc7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cfac009a68ec41e193c84763f4bd524"><td class="memItemLeft" align="right" valign="top"><a id="a8cfac009a68ec41e193c84763f4bd524"></a>
 pointer&#160;</td><td class="memItemRight" valign="bottom"><b>allocate</b> (size_type n, std::allocator&lt; void &gt;::const_pointer hint=0)</td></tr>
 <tr class="separator:a8cfac009a68ec41e193c84763f4bd524"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad382de9c41ef6787dea0885204a55bed"><td class="memItemLeft" align="right" valign="top"><a id="ad382de9c41ef6787dea0885204a55bed"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>deallocate</b> (pointer p, size_type n)</td></tr>
 <tr class="separator:ad382de9c41ef6787dea0885204a55bed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a458eb3ddb25b1d2c546823d7c45be17e"><td class="memItemLeft" align="right" valign="top"><a id="a458eb3ddb25b1d2c546823d7c45be17e"></a>
-size_type&#160;</td><td class="memItemRight" valign="bottom"><b>max_size</b> () const CRASHPAD_NOEXCEPT</td></tr>
-<tr class="separator:a458eb3ddb25b1d2c546823d7c45be17e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99ffa99804af42ea978ee0e06d8162cd"><td class="memItemLeft" align="right" valign="top"><a id="a99ffa99804af42ea978ee0e06d8162cd"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>construct</b> (pointer p, const T &amp;val)</td></tr>
-<tr class="separator:a99ffa99804af42ea978ee0e06d8162cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a85fa0ce76b44c6bca2795a394ceb85"><td class="memItemLeft" align="right" valign="top"><a id="a2a85fa0ce76b44c6bca2795a394ceb85"></a>
+size_type&#160;</td><td class="memItemRight" valign="bottom"><b>max_size</b> () const noexcept</td></tr>
+<tr class="separator:a2a85fa0ce76b44c6bca2795a394ceb85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45211e04c8ef0c06e44043f84abdab34"><td class="memTemplParams" colspan="2"><a id="a45211e04c8ef0c06e44043f84abdab34"></a>
+template&lt;class U , class... Args&gt; </td></tr>
+<tr class="memitem:a45211e04c8ef0c06e44043f84abdab34"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>construct</b> (U *p, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a45211e04c8ef0c06e44043f84abdab34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44a2a2baccc145e914608c1bc7e47dc2"><td class="memTemplParams" colspan="2"><a id="a44a2a2baccc145e914608c1bc7e47dc2"></a>
 template&lt;class U &gt; </td></tr>
 <tr class="memitem:a44a2a2baccc145e914608c1bc7e47dc2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>destroy</b> (U *p)</td></tr>

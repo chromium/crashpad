@@ -88,9 +88,9 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a75402177f6ee8d7dfda6a20776504a50"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessReader.html#a75402177f6ee8d7dfda6a20776504a50">Initialize</a> (pid_t pid)</td></tr>
-<tr class="memdesc:a75402177f6ee8d7dfda6a20776504a50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes this object.  <a href="#a75402177f6ee8d7dfda6a20776504a50">More...</a><br /></td></tr>
-<tr class="separator:a75402177f6ee8d7dfda6a20776504a50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a597b39ae25cd58bbc32bb1a3effb20e9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessReader.html#a597b39ae25cd58bbc32bb1a3effb20e9">Initialize</a> (<a class="el" href="classcrashpad_1_1PtraceConnection.html">PtraceConnection</a> *connection)</td></tr>
+<tr class="memdesc:a597b39ae25cd58bbc32bb1a3effb20e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes this object.  <a href="#a597b39ae25cd58bbc32bb1a3effb20e9">More...</a><br /></td></tr>
+<tr class="separator:a597b39ae25cd58bbc32bb1a3effb20e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a80035d1e28c6a138e2ad8157abc5f4"><td class="memItemLeft" align="right" valign="top"><a id="a7a80035d1e28c6a138e2ad8157abc5f4"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessReader.html#a7a80035d1e28c6a138e2ad8157abc5f4">Is64Bit</a> () const</td></tr>
 <tr class="memdesc:a7a80035d1e28c6a138e2ad8157abc5f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return <code>true</code> if the target task is a 64-bit process. <br /></td></tr>
@@ -254,8 +254,8 @@ const std::vector&lt; <a class="el" href="structcrashpad_1_1ProcessReader_1_1Thr
 
 </div>
 </div>
-<a id="a75402177f6ee8d7dfda6a20776504a50"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75402177f6ee8d7dfda6a20776504a50">&#9670;&nbsp;</a></span>Initialize() <span class="overload">[1/2]</span></h2>
+<a id="a597b39ae25cd58bbc32bb1a3effb20e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a597b39ae25cd58bbc32bb1a3effb20e9">&#9670;&nbsp;</a></span>Initialize() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -263,18 +263,18 @@ const std::vector&lt; <a class="el" href="structcrashpad_1_1ProcessReader_1_1Thr
         <tr>
           <td class="memname">bool crashpad::ProcessReader::Initialize </td>
           <td>(</td>
-          <td class="paramtype">pid_t&#160;</td>
-          <td class="paramname"><em>pid</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classcrashpad_1_1PtraceConnection.html">PtraceConnection</a> *&#160;</td>
+          <td class="paramname"><em>connection</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Initializes this object. </p>
-<p>This method must be successfully called before calling any other method in this class.</p>
+<p>This method must be successfully called before calling any other method in this class and may only be called once.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">pid</td><td>The process ID of the target process. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">connection</td><td>A <a class="el" href="classcrashpad_1_1PtraceConnection.html" title="Provides an interface for making ptrace requests against a process and its threads. ">PtraceConnection</a> to the target process. </td></tr>
   </table>
   </dd>
 </dl>

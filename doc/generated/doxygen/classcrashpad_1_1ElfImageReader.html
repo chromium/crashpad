@@ -75,7 +75,7 @@ $(function() {
 <p>A reader for ELF images mapped into another process.  
  <a href="classcrashpad_1_1ElfImageReader.html#details">More...</a></p>
 
-<p><code>#include &quot;snapshot/linux/elf_image_reader.h&quot;</code></p>
+<p><code>#include &quot;snapshot/elf/elf_image_reader.h&quot;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -86,37 +86,37 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aec68cb7793afece793853d8ff5dff398"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#aec68cb7793afece793853d8ff5dff398">Initialize</a> (const <a class="el" href="classcrashpad_1_1ProcessMemoryRange.html">ProcessMemoryRange</a> &amp;memory, <a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a> address)</td></tr>
-<tr class="memdesc:aec68cb7793afece793853d8ff5dff398"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the reader.  <a href="#aec68cb7793afece793853d8ff5dff398">More...</a><br /></td></tr>
-<tr class="separator:aec68cb7793afece793853d8ff5dff398"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acedd932cca6e89be0e7094ea16ea887e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#acedd932cca6e89be0e7094ea16ea887e">Address</a> () const</td></tr>
-<tr class="memdesc:acedd932cca6e89be0e7094ea16ea887e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the base address of the image's memory range.  <a href="#acedd932cca6e89be0e7094ea16ea887e">More...</a><br /></td></tr>
-<tr class="separator:acedd932cca6e89be0e7094ea16ea887e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16f4a7dcdccef43ac24b4ff3457ed67c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#a16f4a7dcdccef43ac24b4ff3457ed67c">Size</a> () const</td></tr>
-<tr class="memdesc:a16f4a7dcdccef43ac24b4ff3457ed67c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the range containing all loaded segments for this image.  <a href="#a16f4a7dcdccef43ac24b4ff3457ed67c">More...</a><br /></td></tr>
-<tr class="separator:a16f4a7dcdccef43ac24b4ff3457ed67c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecb53804ed0d1d78968c26908c164b76"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#aecb53804ed0d1d78968c26908c164b76">Initialize</a> (const <a class="el" href="classcrashpad_1_1ProcessMemoryRange.html">ProcessMemoryRange</a> &amp;memory, <a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> address)</td></tr>
+<tr class="memdesc:aecb53804ed0d1d78968c26908c164b76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the reader.  <a href="#aecb53804ed0d1d78968c26908c164b76">More...</a><br /></td></tr>
+<tr class="separator:aecb53804ed0d1d78968c26908c164b76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7d380b5d56ba94de33ad9e72e5b033f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#aa7d380b5d56ba94de33ad9e72e5b033f">Address</a> () const</td></tr>
+<tr class="memdesc:aa7d380b5d56ba94de33ad9e72e5b033f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the base address of the image's memory range.  <a href="#aa7d380b5d56ba94de33ad9e72e5b033f">More...</a><br /></td></tr>
+<tr class="separator:aa7d380b5d56ba94de33ad9e72e5b033f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff63ec7e00cd748e2395f35c0f32af15"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#aff63ec7e00cd748e2395f35c0f32af15">Size</a> () const</td></tr>
+<tr class="memdesc:aff63ec7e00cd748e2395f35c0f32af15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the range containing all loaded segments for this image.  <a href="#aff63ec7e00cd748e2395f35c0f32af15">More...</a><br /></td></tr>
+<tr class="separator:aff63ec7e00cd748e2395f35c0f32af15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd0483257628188753b1f70709b8cad6"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#afd0483257628188753b1f70709b8cad6">FileType</a> () const</td></tr>
 <tr class="memdesc:afd0483257628188753b1f70709b8cad6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the file type for the image.  <a href="#afd0483257628188753b1f70709b8cad6">More...</a><br /></td></tr>
 <tr class="separator:afd0483257628188753b1f70709b8cad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b988943143f6c2ab68686098248b118"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#aaceb37fb2d50bfedc7242a92e962df3f">LinuxVMOffset</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#a4b988943143f6c2ab68686098248b118">GetLoadBias</a> () const</td></tr>
-<tr class="memdesc:a4b988943143f6c2ab68686098248b118"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the load bias for the image.  <a href="#a4b988943143f6c2ab68686098248b118">More...</a><br /></td></tr>
-<tr class="separator:a4b988943143f6c2ab68686098248b118"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae722bcbca8898b56dd16d6ded81fd8a4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#ae722bcbca8898b56dd16d6ded81fd8a4">GetDynamicSymbol</a> (const std::string &amp;name, <a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a> *address, <a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a> *size)</td></tr>
-<tr class="memdesc:ae722bcbca8898b56dd16d6ded81fd8a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads information from the dynamic symbol table about the symbol identified by <em>name</em>.  <a href="#ae722bcbca8898b56dd16d6ded81fd8a4">More...</a><br /></td></tr>
-<tr class="separator:ae722bcbca8898b56dd16d6ded81fd8a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc08fd269eddcb7b4539751482d22fe3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#adc08fd269eddcb7b4539751482d22fe3">ReadDynamicStringTableAtOffset</a> (<a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a> offset, std::string *string)</td></tr>
-<tr class="memdesc:adc08fd269eddcb7b4539751482d22fe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a <code>NUL</code>-terminated C string from this image's dynamic string table.  <a href="#adc08fd269eddcb7b4539751482d22fe3">More...</a><br /></td></tr>
-<tr class="separator:adc08fd269eddcb7b4539751482d22fe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13444baaf7441a34739706a15fa3ab64"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#a13444baaf7441a34739706a15fa3ab64">GetDebugAddress</a> (<a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a> *debug)</td></tr>
-<tr class="memdesc:a13444baaf7441a34739706a15fa3ab64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine the debug address.  <a href="#a13444baaf7441a34739706a15fa3ab64">More...</a><br /></td></tr>
-<tr class="separator:a13444baaf7441a34739706a15fa3ab64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a5c9e9b48422e429866e07bd373080d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#ac738e47e73215dc7110edad7c2785527">VMOffset</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#a8a5c9e9b48422e429866e07bd373080d">GetLoadBias</a> () const</td></tr>
+<tr class="memdesc:a8a5c9e9b48422e429866e07bd373080d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the load bias for the image.  <a href="#a8a5c9e9b48422e429866e07bd373080d">More...</a><br /></td></tr>
+<tr class="separator:a8a5c9e9b48422e429866e07bd373080d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac533f0b854f09963870e4457ff2bce3b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#ac533f0b854f09963870e4457ff2bce3b">GetDynamicSymbol</a> (const std::string &amp;name, <a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> *address, <a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> *size)</td></tr>
+<tr class="memdesc:ac533f0b854f09963870e4457ff2bce3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads information from the dynamic symbol table about the symbol identified by <em>name</em>.  <a href="#ac533f0b854f09963870e4457ff2bce3b">More...</a><br /></td></tr>
+<tr class="separator:ac533f0b854f09963870e4457ff2bce3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01391ffa016463a02e293a229e3fd554"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#a01391ffa016463a02e293a229e3fd554">ReadDynamicStringTableAtOffset</a> (<a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> offset, std::string *string)</td></tr>
+<tr class="memdesc:a01391ffa016463a02e293a229e3fd554"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a <code>NUL</code>-terminated C string from this image's dynamic string table.  <a href="#a01391ffa016463a02e293a229e3fd554">More...</a><br /></td></tr>
+<tr class="separator:a01391ffa016463a02e293a229e3fd554"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae456b7627b37bf84f9241de34fde4bdb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#ae456b7627b37bf84f9241de34fde4bdb">GetDebugAddress</a> (<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> *debug)</td></tr>
+<tr class="memdesc:ae456b7627b37bf84f9241de34fde4bdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine the debug address.  <a href="#ae456b7627b37bf84f9241de34fde4bdb">More...</a><br /></td></tr>
+<tr class="separator:ae456b7627b37bf84f9241de34fde4bdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A reader for ELF images mapped into another process. </p>
 <p>This class is capable of reading both 32-bit and 64-bit images. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="acedd932cca6e89be0e7094ea16ea887e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acedd932cca6e89be0e7094ea16ea887e">&#9670;&nbsp;</a></span>Address()</h2>
+<a id="aa7d380b5d56ba94de33ad9e72e5b033f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7d380b5d56ba94de33ad9e72e5b033f">&#9670;&nbsp;</a></span>Address()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -125,7 +125,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a> crashpad::ElfImageReader::Address </td>
+          <td class="memname"><a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> crashpad::ElfImageReader::Address </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -139,7 +139,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the base address of the image's memory range. </p>
-<p>This may differ from the address passed to <a class="el" href="classcrashpad_1_1ElfImageReader.html#aec68cb7793afece793853d8ff5dff398" title="Initializes the reader. ">Initialize()</a> if the ELF header is not loaded at the start of the first <code>PT_LOAD</code> segment. </p>
+<p>This may differ from the address passed to <a class="el" href="classcrashpad_1_1ElfImageReader.html#aecb53804ed0d1d78968c26908c164b76" title="Initializes the reader. ">Initialize()</a> if the ELF header is not loaded at the start of the first <code>PT_LOAD</code> segment. </p>
 
 </div>
 </div>
@@ -163,8 +163,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a13444baaf7441a34739706a15fa3ab64"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13444baaf7441a34739706a15fa3ab64">&#9670;&nbsp;</a></span>GetDebugAddress()</h2>
+<a id="ae456b7627b37bf84f9241de34fde4bdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae456b7627b37bf84f9241de34fde4bdb">&#9670;&nbsp;</a></span>GetDebugAddress()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -172,7 +172,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">bool crashpad::ElfImageReader::GetDebugAddress </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> *&#160;</td>
           <td class="paramname"><em>debug</em></td><td>)</td>
           <td></td>
         </tr>
@@ -191,8 +191,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae722bcbca8898b56dd16d6ded81fd8a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae722bcbca8898b56dd16d6ded81fd8a4">&#9670;&nbsp;</a></span>GetDynamicSymbol()</h2>
+<a id="ac533f0b854f09963870e4457ff2bce3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac533f0b854f09963870e4457ff2bce3b">&#9670;&nbsp;</a></span>GetDynamicSymbol()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -206,13 +206,13 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> *&#160;</td>
           <td class="paramname"><em>address</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> *&#160;</td>
           <td class="paramname"><em>size</em>&#160;</td>
         </tr>
         <tr>
@@ -236,8 +236,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a4b988943143f6c2ab68686098248b118"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4b988943143f6c2ab68686098248b118">&#9670;&nbsp;</a></span>GetLoadBias()</h2>
+<a id="a8a5c9e9b48422e429866e07bd373080d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a5c9e9b48422e429866e07bd373080d">&#9670;&nbsp;</a></span>GetLoadBias()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -246,7 +246,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacecrashpad.html#aaceb37fb2d50bfedc7242a92e962df3f">LinuxVMOffset</a> crashpad::ElfImageReader::GetLoadBias </td>
+          <td class="memname"><a class="el" href="namespacecrashpad.html#ac738e47e73215dc7110edad7c2785527">VMOffset</a> crashpad::ElfImageReader::GetLoadBias </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -264,8 +264,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aec68cb7793afece793853d8ff5dff398"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec68cb7793afece793853d8ff5dff398">&#9670;&nbsp;</a></span>Initialize()</h2>
+<a id="aecb53804ed0d1d78968c26908c164b76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecb53804ed0d1d78968c26908c164b76">&#9670;&nbsp;</a></span>Initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -279,7 +279,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a>&#160;</td>
           <td class="paramname"><em>address</em>&#160;</td>
         </tr>
         <tr>
@@ -302,8 +302,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="adc08fd269eddcb7b4539751482d22fe3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc08fd269eddcb7b4539751482d22fe3">&#9670;&nbsp;</a></span>ReadDynamicStringTableAtOffset()</h2>
+<a id="a01391ffa016463a02e293a229e3fd554"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01391ffa016463a02e293a229e3fd554">&#9670;&nbsp;</a></span>ReadDynamicStringTableAtOffset()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -311,7 +311,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">bool crashpad::ElfImageReader::ReadDynamicStringTableAtOffset </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a>&#160;</td>
           <td class="paramname"><em>offset</em>, </td>
         </tr>
         <tr>
@@ -340,8 +340,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a16f4a7dcdccef43ac24b4ff3457ed67c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16f4a7dcdccef43ac24b4ff3457ed67c">&#9670;&nbsp;</a></span>Size()</h2>
+<a id="aff63ec7e00cd748e2395f35c0f32af15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff63ec7e00cd748e2395f35c0f32af15">&#9670;&nbsp;</a></span>Size()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -350,7 +350,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a> crashpad::ElfImageReader::Size </td>
+          <td class="memname"><a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> crashpad::ElfImageReader::Size </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -369,8 +369,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>snapshot/linux/elf_image_reader.h</li>
-<li>snapshot/linux/elf_image_reader.cc</li>
+<li>snapshot/elf/elf_image_reader.h</li>
+<li>snapshot/elf/elf_image_reader.cc</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

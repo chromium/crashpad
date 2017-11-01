@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['data',['Data',['../structIMAGE__DEBUG__MISC.html#a7ea2a7b3d6dc6e329c901fe324e5ae05',1,'IMAGE_DEBUG_MISC']]],
+  ['data',['Data',['../structIMAGE__DEBUG__MISC.html#a7ea2a7b3d6dc6e329c901fe324e5ae05',1,'IMAGE_DEBUG_MISC::Data()'],['../structcrashpad_1_1MinidumpByteArray.html#aec012e2ccbbcf2bb88b7f18d26d1b1a8',1,'crashpad::MinidumpByteArray::data()']]],
   ['datasize',['DataSize',['../structMINIDUMP__LOCATION__DESCRIPTOR.html#ad83430521d4a8991d85e06be61525a92',1,'MINIDUMP_LOCATION_DESCRIPTOR']]],
   ['datatype',['DataType',['../structIMAGE__DEBUG__MISC.html#a34353f624ec48a7aff62190abbe0ba38',1,'IMAGE_DEBUG_MISC']]],
   ['daylightbias',['DaylightBias',['../structTIME__ZONE__INFORMATION.html#ac42af349e90f75b4517a3049e66f703b',1,'TIME_ZONE_INFORMATION']]],
