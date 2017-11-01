@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b75bceb_6daac2c4",
+        "filename": "minidump/minidump_extensions.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-01T17:57:43Z",
+      "side": 1,
+      "message": "I don’t think we need to bump this if we’re just increasing the size of the structure, but leaving existing stuff intact. A v1 reader, for example, would understand the fields that are still there or give up if it doesn’t want to try to deal with the larger size. Either is OK.\n\nWe should save v2 for a change that alters the meaning of existing bits such that a v1 reader would do the wrong thing.",
+      "revId": "afa5ec48f9a84fc80c7352ec701ca1852daa8ef7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b2d2fbb_0701c8f5",
+        "filename": "minidump/minidump_extensions.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-01T17:57:43Z",
+      "side": 1,
+      "message": "(which means that attention is required here—“may be present”—and in the CL description)",
+      "revId": "afa5ec48f9a84fc80c7352ec701ca1852daa8ef7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
