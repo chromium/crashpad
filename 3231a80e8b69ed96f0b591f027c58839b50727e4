@@ -16,6 +16,24 @@
       "revId": "3231a80e8b69ed96f0b591f027c58839b50727e4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b520a166_8e18731e",
+        "filename": "minidump/minidump_annotation_writer_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-02T15:35:09Z",
+      "side": 1,
+      "message": "\"Should\" is a pretty strong word given that gtest now doesn\u0027t care at all. I still prefer the old Yoda-style, but I changed it just for you!\n\nhttps://chromium-review.googlesource.com/c/crashpad/crashpad/+/751441",
+      "parentUuid": "a10c8688_5e64ef11",
+      "revId": "3231a80e8b69ed96f0b591f027c58839b50727e4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
