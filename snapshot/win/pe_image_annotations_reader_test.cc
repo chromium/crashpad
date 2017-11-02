@@ -102,7 +102,7 @@ void TestAnnotationsOnCrash(TestType type,
   EXPECT_EQ(all_annotations_simple_map["#TEST# empty_value"], "");
 
   // Verify the typed annotation objects.
-  EXPECT_EQ(all_annotation_objects.size(), 3);
+  EXPECT_EQ(all_annotation_objects.size(), 3u);
   bool saw_same_name_3 = false, saw_same_name_4 = false;
   for (const auto& annotation : all_annotation_objects) {
     EXPECT_EQ(annotation.type,
