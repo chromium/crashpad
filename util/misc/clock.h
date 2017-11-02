@@ -16,6 +16,8 @@
 #define CRASHPAD_UTIL_MISC_CLOCK_H_
 
 #include <stdint.h>
+#include <sys/time.h>
+#include <time.h>
 
 #include "build/build_config.h"
 
@@ -42,6 +44,8 @@ uint64_t ClockMonotonicNanoseconds();
 //! On POSIX, this function is resilient against the underlying `nanosleep()`
 //! system call being interrupted by a signal.
 void SleepNanoseconds(uint64_t nanoseconds);
+
+void TimespecToTimeval(const timespec& ts, timeval* tv);
 
 }  // namespace crashpad
 
