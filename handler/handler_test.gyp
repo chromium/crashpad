@@ -18,6 +18,40 @@
   ],
   'targets': [
     {
+      'target_name': 'crashpad_handler_test',
+      'type': 'executable',
+      'dependencies': [
+        'crashpad_handler_test_extended_handler',
+        'handler.gyp:crashpad_handler_lib',
+        '../client/client.gyp:crashpad_client',
+        '../compat/compat.gyp:crashpad_compat',
+        '../snapshot/snapshot.gyp:crashpad_snapshot',
+        '../snapshot/snapshot_test.gyp:crashpad_snapshot_test_lib',
+        '../test/test.gyp:crashpad_gtest_main',
+        '../test/test.gyp:crashpad_test',
+        '../third_party/gtest/gtest.gyp:gtest',
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
+        '../util/util.gyp:crashpad_util',
+      ],
+      'include_dirs': [
+        '..',
+      ],
+      'sources': [
+        'crashpad_handler_test.cc',
+        'minidump_to_upload_parameters_test.cc',
+      ],
+      'conditions': [
+        ['OS!="win"', {
+          'dependencies!': [
+            'crashpad_handler_test_extended_handler',
+          ],
+          'sources!': [
+            'crashpad_handler_test.cc',
+          ],
+        }],
+      ],
+    },
+    {
       'target_name': 'crashpad_handler_test_extended_handler',
       'type': 'executable',
       'dependencies': [
@@ -50,28 +84,6 @@
           ],
           'sources': [
             'win/crash_other_program.cc',
-          ],
-        },
-        {
-          # The handler is only tested on Windows for now.
-          'target_name': 'crashpad_handler_test',
-          'type': 'executable',
-          'dependencies': [
-            'crashpad_handler_test_extended_handler',
-            'handler.gyp:crashpad_handler_lib',
-            '../client/client.gyp:crashpad_client',
-            '../compat/compat.gyp:crashpad_compat',
-            '../test/test.gyp:crashpad_gtest_main',
-            '../test/test.gyp:crashpad_test',
-            '../third_party/gtest/gtest.gyp:gtest',
-            '../third_party/mini_chromium/mini_chromium.gyp:base',
-            '../util/util.gyp:crashpad_util',
-          ],
-          'include_dirs': [
-            '..',
-          ],
-          'sources': [
-            'crashpad_handler_test.cc',
           ],
         },
         {
