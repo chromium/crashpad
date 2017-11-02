@@ -14,10 +14,12 @@
 
 #include "util/file/filesystem.h"
 
+#include <sys/time.h>
 #include <windows.h>
 
 #include "base/logging.h"
 #include "base/strings/utf_string_conversions.h"
+#include "util/win/time.h"
 
 namespace crashpad {
 
@@ -48,7 +50,40 @@ bool LoggingRemoveDirectoryImpl(const base::FilePath& path) {
   return true;
 }
 
+bool FileHandleModificationTime(FileHandle handle, timespec* mtime) {
+  FILETIME file_mtime;
+  if (!GetFileTime(handle, nullptr, nullptr, &file_mtime)) {
+    PLOG(ERROR) << "GetFileTime";
+    return false;
+  }
+  *mtime = FiletimeToTimespecEpoch(file_mtime);
+  return true;
+}
+
 }  // namespace
+
+bool FileModificationTime(const base::FilePath& path, timespec* mtime) {
+  DWORD flags = FILE_FLAG_OPEN_REPARSE_POINT;
+  if (IsDirectory(path, true)) {
+    // required for directory handles
+    flags |= FILE_FLAG_BACKUP_SEMANTICS;
+  }
+
+  ScopedFileHandle handle(
+      ::CreateFile(path.value().c_str(),
+                   GENERIC_READ,
+                   FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+                   nullptr,
+                   OPEN_EXISTING,
+                   flags,
+                   nullptr));
+  if (!handle.is_valid()) {
+    PLOG(ERROR) << "CreateFile " << base::UTF16ToUTF8(path.value());
+    return false;
+  }
+
+  return FileHandleModificationTime(handle.get(), mtime);
+}
 
 bool LoggingCreateDirectory(const base::FilePath& path,
                             FilePermissions permissions,
