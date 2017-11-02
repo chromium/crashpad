@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afe519af_7b06d05f",
+        "filename": "snapshot/win/pe_image_annotations_reader_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-02T01:37:49Z",
+      "side": 0,
+      "message": "In file included from …/third_party/crashpad/crashpad/snapshot/win/pe_image_annotations_reader_test.cc:29:\n…/third_party/googletest/src/googletest/include\\gtest/gtest.h(1392,11):  error: comparison of integers of different signs: \u0027const unsigned long long\u0027 and \u0027const int\u0027 [-Werror,-Wsign-compare]\n  if (lhs \u003d\u003d rhs) {\n      ~~~ ^  ~~~\n…/third_party/googletest/src/googletest/include\\gtest/gtest.h(1421,12):  note: in instantiation of function template specialization \u0027testing::internal::CmpHelperEQ\u003cunsigned long long, int\u003e\u0027 requested here\n    return CmpHelperEQ(lhs_expression, rhs_expression, lhs, rhs);\n           ^\n…/third_party/crashpad/crashpad/snapshot/win/pe_image_annotations_reader_test.cc(105,3):  note: in instantiation of function template specialization \u0027testing::internal::EqHelper\u003cfalse\u003e::Compare\u003cunsigned long long, int\u003e\u0027 requested here\n  EXPECT_EQ(all_annotation_objects.size(), 3);\n  ^\n…/third_party/googletest/src/googletest/include\\gtest/gtest.h(1924,63):  note: expanded from macro \u0027EXPECT_EQ\u0027\n                      EqHelper\u003cGTEST_IS_NULL_LITERAL_(val1)\u003e::Compare, \\",
+      "revId": "3231a80e8b69ed96f0b591f027c58839b50727e4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
