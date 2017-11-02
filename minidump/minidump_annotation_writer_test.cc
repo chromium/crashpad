@@ -52,7 +52,7 @@ TEST(MinidumpAnnotationWriter, EmptyList) {
 
   auto* list = MinidumpAnnotationListAtStart(string_file.string(), 0);
   ASSERT_TRUE(list);
-  EXPECT_EQ(0u, list->count);
+  EXPECT_EQ(list->count, 0u);
 }
 
 TEST(MinidumpAnnotationWriter, OneItem) {
@@ -80,15 +80,16 @@ TEST(MinidumpAnnotationWriter, OneItem) {
 
   auto* list = MinidumpAnnotationListAtStart(string_file.string(), 1);
   ASSERT_TRUE(list);
-  EXPECT_EQ(1u, list->count);
-  EXPECT_EQ(kName,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            list->objects[0].name));
-  EXPECT_EQ(kType, list->objects[0].type);
-  EXPECT_EQ(0u, list->objects[0].reserved);
+  EXPECT_EQ(list->count, 1u);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            list->objects[0].name),
+            kName);
+  EXPECT_EQ(list->objects[0].type, kType);
+  EXPECT_EQ(list->objects[0].reserved, 0u);
   EXPECT_EQ(
-      kValue,
-      MinidumpByteArrayAtRVA(string_file.string(), list->objects[0].value));
+
+      MinidumpByteArrayAtRVA(string_file.string(), list->objects[0].value),
+      kValue);
 }
 
 TEST(MinidumpAnnotationWriter, ThreeItems) {
@@ -123,17 +124,18 @@ TEST(MinidumpAnnotationWriter, ThreeItems) {
 
   auto* list = MinidumpAnnotationListAtStart(string_file.string(), 3);
   ASSERT_TRUE(list);
-  EXPECT_EQ(3u, list->count);
+  EXPECT_EQ(list->count, 3u);
 
   for (size_t i = 0; i < 3; ++i) {
-    EXPECT_EQ(kNames[i],
-              MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                              list->objects[i].name));
-    EXPECT_EQ(kTypes[i], list->objects[i].type);
-    EXPECT_EQ(0u, list->objects[i].reserved);
+    EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                              list->objects[i].name),
+              kNames[i]);
+    EXPECT_EQ(list->objects[i].type, kTypes[i]);
+    EXPECT_EQ(list->objects[i].reserved, 0u);
     EXPECT_EQ(
-        kValues[i],
-        MinidumpByteArrayAtRVA(string_file.string(), list->objects[i].value));
+
+        MinidumpByteArrayAtRVA(string_file.string(), list->objects[i].value),
+        kValues[i]);
   }
 }
 
@@ -164,23 +166,25 @@ TEST(MinidumpAnnotationWriter, DuplicateNames) {
 
   auto* list = MinidumpAnnotationListAtStart(string_file.string(), 2);
   ASSERT_TRUE(list);
-  EXPECT_EQ(2u, list->count);
+  EXPECT_EQ(list->count, 2u);
 
-  EXPECT_EQ(kName,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            list->objects[0].name));
-  EXPECT_EQ(kType, list->objects[0].type);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            list->objects[0].name),
+            kName);
+  EXPECT_EQ(list->objects[0].type, kType);
   EXPECT_EQ(
-      kValue1,
-      MinidumpByteArrayAtRVA(string_file.string(), list->objects[0].value));
 
-  EXPECT_EQ(kName,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            list->objects[1].name));
-  EXPECT_EQ(kType, list->objects[1].type);
+      MinidumpByteArrayAtRVA(string_file.string(), list->objects[0].value),
+      kValue1);
+
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            list->objects[1].name),
+            kName);
+  EXPECT_EQ(list->objects[1].type, kType);
   EXPECT_EQ(
-      kValue2,
-      MinidumpByteArrayAtRVA(string_file.string(), list->objects[1].value));
+
+      MinidumpByteArrayAtRVA(string_file.string(), list->objects[1].value),
+      kValue2);
 }
 
 }  // namespace
