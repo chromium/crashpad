@@ -46,15 +46,12 @@ def main(args):
 
   tests = [
       'crashpad_client_test',
+      'crashpad_handler_test',
       'crashpad_minidump_test',
       'crashpad_snapshot_test',
       'crashpad_test_test',
       'crashpad_util_test',
   ]
-
-  if sys.platform == 'win32':
-    tests.append('crashpad_handler_test')
-    tests = sorted(tests)
 
   for test in tests:
     print '-' * 80
