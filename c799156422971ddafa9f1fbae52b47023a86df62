@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4414672b_f9a6f53f",
+        "filename": "handler/handler_test.gyp",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-02T03:30:49Z",
+      "side": 1,
+      "message": "In the GYP build, this would usually list crashpad_handler_test.cc in the main sources section, and then exclude it on non-Windows.",
+      "revId": "c799156422971ddafa9f1fbae52b47023a86df62",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b5c359c_8a974a0d",
+        "filename": "handler/minidump_to_upload_parameters.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-02T03:30:49Z",
+      "side": 1,
+      "message": "Don’t log anything here, or it will become quite spammy the instant we support a non-string type.",
+      "revId": "c799156422971ddafa9f1fbae52b47023a86df62",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "163f28b7_deeb0ccb",
+        "filename": "handler/minidump_to_upload_parameters_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-02T03:30:49Z",
+      "side": 1,
+      "message": "Since you’re testing this, it must be important, but the documentation in the header didn’t really discuss whether an annotation object was supposed to supersede a simple annotation by the same name.",
+      "revId": "c799156422971ddafa9f1fbae52b47023a86df62",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
