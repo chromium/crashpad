@@ -74,6 +74,7 @@
         'misc/scoped_forbid_return_test.cc',
         'misc/random_string_test.cc',
         'misc/reinterpret_bytes_test.cc',
+        'misc/time_test.cc',
         'misc/uuid_test.cc',
         'net/http_body_gzip_test.cc',
         'net/http_body_test.cc',
@@ -115,7 +116,6 @@
         'win/safe_terminate_process_test.cc',
         'win/scoped_process_suspend_test.cc',
         'win/session_end_watcher_test.cc',
-        'win/time_test.cc',
       ],
       'conditions': [
         ['OS=="mac"', {

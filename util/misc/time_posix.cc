@@ -1,4 +1,4 @@
-// Copyright 2015 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,23 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/win/time.h"
-
-#include "gtest/gtest.h"
+#include "util/misc/time.h"
 
 namespace crashpad {
-namespace test {
-namespace {
 
-TEST(Time, Reasonable) {
-  timeval t;
-  GetTimeOfDay(&t);
-  // Assume that time's time_t return is seconds from 1970.
-  time_t approx_now = time(nullptr);
-  EXPECT_GE(approx_now, t.tv_sec);
-  EXPECT_LT(approx_now - 100, t.tv_sec);
+void TimespecToTimeval(const timespec& ts, timeval* tv) {
+  tv->tv_sec = ts.tv_sec;
+  tv->tv_usec = ts.tv_nsec / 1000;
 }
 
-}  // namespace
-}  // namespace test
 }  // namespace crashpad
