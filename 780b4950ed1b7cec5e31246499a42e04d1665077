@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9baa8be9_368d7d9b",
+        "filename": "snapshot/linux/process_snapshot_linux.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-02T19:23:03Z",
+      "side": 1,
+      "message": "Do you want to leave NOTIMPLEMENTED() here as a reminder? Of all of your TODOs, this is the only one that blocks Chromium integration in my mind.",
+      "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b465f7e0_1a7f2727",
+        "filename": "snapshot/linux/process_snapshot_linux.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-02T19:23:03Z",
+      "side": 1,
+      "message": "We haven’t invented a mapping of non-Windows bits to the format that’s used in minidumps for the memory map. We haven’t implemented MemoryMap() on macOS yet either.\n\nWe should eventually do this (and implement it on macOS), but I don’t think that you need to focus on it until after we have the initial Chromium integration done, unless it naturally falls out of other work.\n\nhttps://crashpad.chromium.org/bug/20.",
+      "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee010565_0994a710",
+        "filename": "snapshot/linux/process_snapshot_linux.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-02T19:23:03Z",
+      "side": 1,
+      "message": "Yes, but not here. Handles and FDs are distinct enough that we don’t want to borrow the interface. This comes under https://crashpad.chromium.org/bug/21.",
+      "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05c379e4_dd55783b",
+        "filename": "util/linux/registration_protocol.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-02T19:23:03Z",
+      "side": 1,
+      "message": "This isn’t about “registration” at all.\n\n(Windows borrowed an existing header which maybe wasn’t great precedent. Its ExceptionInformation isn’t about registration either.)",
+      "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d006cec8_74934597",
+        "filename": "util/linux/registration_protocol.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-02T19:23:03Z",
+      "side": 1,
+      "message": "Given the layout of the structure, I don’t think that this is necessary.",
+      "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fd4767c_58ddbafb",
+        "filename": "util/linux/registration_protocol.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-02T19:23:03Z",
+      "side": 1,
+      "message": "The signal number is missing from here. You may have planned to convey it elsewhere, but it could make sense for it to live with these other fields.",
+      "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed027200_7f68ef54",
+        "filename": "util/linux/registration_protocol.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-02T19:23:03Z",
+      "side": 1,
+      "message": "Let’s keep `siginfo_t` and `ucontext_t` in backticks for nice Doxygen formatting.",
+      "range": {
+        "startLine": 29,
+        "startChar": 32,
+        "endLine": 29,
+        "endChar": 41
+      },
+      "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
