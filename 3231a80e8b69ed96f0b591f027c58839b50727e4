@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a10c8688_5e64ef11",
+        "filename": "minidump/minidump_annotation_writer_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-02T13:49:41Z",
+      "side": 1,
+      "message": "These should be (observed, expected) now. It looks like you’ve got a mix of orderings in this file.",
+      "revId": "3231a80e8b69ed96f0b591f027c58839b50727e4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
