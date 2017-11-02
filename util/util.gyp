@@ -65,6 +65,7 @@
         'linux/ptrace_connection.h',
         'linux/ptracer.cc',
         'linux/ptracer.h',
+        'linux/registration_protocol.h',
         'linux/scoped_ptrace_attach.cc',
         'linux/scoped_ptrace_attach.h',
         'linux/thread_info.cc',
