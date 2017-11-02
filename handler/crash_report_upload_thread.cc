@@ -27,6 +27,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "client/settings.h"
+#include "handler/minidump_to_upload_parameters.h"
 #include "snapshot/minidump/process_snapshot_minidump.h"
 #include "snapshot/module_snapshot.h"
 #include "util/file/file_reader.h"
@@ -45,68 +46,6 @@
 namespace crashpad {
 
 namespace {
-
-void InsertOrReplaceMapEntry(std::map<std::string, std::string>* map,
-                             const std::string& key,
-                             const std::string& value) {
-  std::string old_value;
-  if (!MapInsertOrReplace(map, key, value, &old_value)) {
-    LOG(WARNING) << "duplicate key " << key << ", discarding value "
-                 << old_value;
-  }
-}
-
-// Given a minidump file readable by |minidump_file_reader|, returns a map of
-// key-value pairs to use as HTTP form parameters for upload to a Breakpad
-// server. The map is built by combining the process simple annotations map with
-// each module’s simple annotations map. In the case of duplicate keys, the map
-// will retain the first value found for any key, and will log a warning about
-// discarded values. Each module’s annotations vector is also examined and built
-// into a single string value, with distinct elements separated by newlines, and
-// stored at the key named “list_annotations”, which supersedes any other key
-// found by that name. The client ID stored in the minidump is converted to
-// a string and stored at the key named “guid”, which supersedes any other key
-// found by that name.
-//
-// In the event of an error reading the minidump file, a message will be logged.
-std::map<std::string, std::string> BreakpadHTTPFormParametersFromMinidump(
-    FileReaderInterface* minidump_file_reader) {
-  ProcessSnapshotMinidump minidump_process_snapshot;
-  if (!minidump_process_snapshot.Initialize(minidump_file_reader)) {
-    return std::map<std::string, std::string>();
-  }
-
-  std::map<std::string, std::string> parameters =
-      minidump_process_snapshot.AnnotationsSimpleMap();
-
-  std::string list_annotations;
-  for (const ModuleSnapshot* module : minidump_process_snapshot.Modules()) {
-    for (const auto& kv : module->AnnotationsSimpleMap()) {
-      if (!parameters.insert(kv).second) {
-        LOG(WARNING) << "duplicate key " << kv.first << ", discarding value "
-                     << kv.second;
-      }
-    }
-
-    for (std::string annotation : module->AnnotationsVector()) {
-      list_annotations.append(annotation);
-      list_annotations.append("\n");
-    }
-  }
-
-  if (!list_annotations.empty()) {
-    // Remove the final newline character.
-    list_annotations.resize(list_annotations.size() - 1);
-
-    InsertOrReplaceMapEntry(&parameters, "list_annotations", list_annotations);
-  }
-
-  UUID client_id;
-  minidump_process_snapshot.ClientID(&client_id);
-  InsertOrReplaceMapEntry(&parameters, "guid", client_id.ToString());
-
-  return parameters;
-}
 
 // Calls CrashReportDatabase::RecordUploadAttempt() with |successful| set to
 // false upon destruction unless disarmed by calling Fire() or Disarm(). Fire()
@@ -359,7 +298,11 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
   // minidump file. This may result in its being uploaded with few or no
   // parameters, but as long as there’s a dump file, the server can decide what
   // to do with it.
-  parameters = BreakpadHTTPFormParametersFromMinidump(&minidump_file_reader);
+  ProcessSnapshotMinidump minidump_process_snapshot;
+  if (minidump_process_snapshot.Initialize(&minidump_file_reader)) {
+    parameters =
+        BreakpadHTTPFormParametersFromMinidump(&minidump_process_snapshot);
+  }
 
   if (!minidump_file_reader.SeekSet(start_offset)) {
     return UploadResult::kPermanentFailure;
