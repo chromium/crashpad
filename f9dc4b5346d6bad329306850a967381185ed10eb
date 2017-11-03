@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "317e9b1a_54c23703",
+        "filename": "util/misc/time.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-03T18:35:34Z",
+      "side": 1,
+      "message": "This function also isn\u0027t used on Windows yet, so we could also just avoid defining this function there until it\u0027s needed.",
+      "parentUuid": "9d91962e_3c00abfe",
+      "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a193bb87_abcd4e73",
         "filename": "util/misc/time.h",
         "patchSetId": 6
