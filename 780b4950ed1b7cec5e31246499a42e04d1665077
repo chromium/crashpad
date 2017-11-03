@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e49cd5ab_821b35b9",
+        "filename": "snapshot/linux/process_snapshot_linux.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-03T16:00:07Z",
+      "side": 1,
+      "message": "It looks like that\u0027s a chromiumism that hasn\u0027t been brought into mini chromium yet. I don\u0027t expect this TODO to be terribly long lived, so logging an error seems just as good to me.",
+      "parentUuid": "9baa8be9_368d7d9b",
+      "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b465f7e0_1a7f2727",
         "filename": "snapshot/linux/process_snapshot_linux.cc",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fbe3b6b_8ea39bf6",
+        "filename": "snapshot/linux/process_snapshot_linux.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-03T16:00:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b465f7e0_1a7f2727",
+      "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "360cc6b9_4091a9ea",
+        "filename": "snapshot/linux/process_snapshot_linux.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-03T16:00:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ee010565_0994a710",
+      "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05c379e4_dd55783b",
         "filename": "util/linux/registration_protocol.h",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2017-11-02T19:23:03Z",
       "side": 1,
       "message": "This isn’t about “registration” at all.\n\n(Windows borrowed an existing header which maybe wasn’t great precedent. Its ExceptionInformation isn’t about registration either.)",
+      "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44b12213_0c785777",
+        "filename": "util/linux/registration_protocol.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-03T16:00:07Z",
+      "side": 1,
+      "message": "Moved to exception_information.h",
+      "parentUuid": "05c379e4_dd55783b",
       "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "3c2948e5_c7c144d9",
+        "filename": "util/linux/registration_protocol.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-03T16:00:07Z",
+      "side": 1,
+      "message": "The 64-bit version will have 4 bytes of tail padding, causing us to accidentally read too much from a 32-bit process if we attempt to read it all in one go.",
+      "parentUuid": "d006cec8_74934597",
+      "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fd4767c_58ddbafb",
         "filename": "util/linux/registration_protocol.h",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2017-11-02T19:23:03Z",
       "side": 1,
       "message": "The signal number is missing from here. You may have planned to convey it elsewhere, but it could make sense for it to live with these other fields.",
+      "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ace9ca5a_bc05fa0f",
+        "filename": "util/linux/registration_protocol.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-03T16:00:07Z",
+      "side": 1,
+      "message": "The signal number should be present in the siginfo_t",
+      "parentUuid": "5fd4767c_58ddbafb",
       "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -124,6 +232,30 @@
       "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6b62c0e_a4cd72c0",
+        "filename": "util/linux/registration_protocol.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-03T16:00:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed027200_7f68ef54",
+      "range": {
+        "startLine": 29,
+        "startChar": 32,
+        "endLine": 29,
+        "endChar": 41
+      },
+      "revId": "780b4950ed1b7cec5e31246499a42e04d1665077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
