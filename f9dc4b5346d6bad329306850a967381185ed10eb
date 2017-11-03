@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e12afcc2_d341036d",
+        "filename": "util/misc/time.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-03T18:33:31Z",
+      "side": 1,
+      "message": "Yeah, this is just to make it work for Windows too.\nI also considered doing an ifdef to make this just for Windows, but it should be harmless, though maybe confusing for Mac and Linux.",
+      "parentUuid": "8f295838_2ecc322c",
+      "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4b91b34f_76c5d155",
         "filename": "util/misc/time.h",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2017-11-03T18:17:52Z",
       "side": 1,
       "message": "How can this be subject to truncation and fail? Both ts.tv_sec and tv-\u003etv_sec are the same type, time_t.\n\nOr are they not?",
+      "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d91962e_3c00abfe",
+        "filename": "util/misc/time.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-03T18:33:31Z",
+      "side": 1,
+      "message": "They are on Mac and Linux, but not Windows.\nOn Windows, tv-\u003etv_sec is a long, which is smaller than a time_t.",
+      "parentUuid": "4b91b34f_76c5d155",
       "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
