@@ -22,26 +22,11 @@
 #include "base/logging.h"
 #include "util/file/file_io.h"
 #include "util/misc/lexing.h"
+#include "util/misc/time.h"
 
 namespace crashpad {
 
 namespace {
-
-void SubtractTimespec(const timespec& t1,
-                      const timespec& t2,
-                      timespec* result) {
-  result->tv_sec = t1.tv_sec - t2.tv_sec;
-  result->tv_nsec = t1.tv_nsec - t2.tv_nsec;
-  if (result->tv_nsec < 0) {
-    result->tv_sec -= 1;
-    result->tv_nsec += static_cast<long>(1E9);
-  }
-}
-
-void TimespecToTimeval(const timespec& ts, timeval* tv) {
-  tv->tv_sec = ts.tv_sec;
-  tv->tv_usec = ts.tv_nsec / 1000;
-}
 
 long GetClockTicksPerSecond() {
   long clock_ticks_per_s = sysconf(_SC_CLK_TCK);
