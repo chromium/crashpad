@@ -58,6 +58,8 @@
         'linux/memory_snapshot_linux.h',
         'linux/process_reader.cc',
         'linux/process_reader.h',
+        'linux/process_snapshot_linux.cc',
+        'linux/process_snapshot_linux.h',
         'linux/signal_context.h',
         'linux/system_snapshot_linux.cc',
         'linux/system_snapshot_linux.h',
