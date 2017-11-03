@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f295838_2ecc322c",
+        "filename": "util/misc/time.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-03T18:17:52Z",
+      "side": 1,
+      "message": "We didn’t have this in the original version, https://chromium-review.googlesource.com/c/crashpad/crashpad/+/752574/6/util/linux/proc_stat_reader.cc#b41, either.",
+      "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b91b34f_76c5d155",
+        "filename": "util/misc/time.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-03T18:17:52Z",
+      "side": 1,
+      "message": "How can this be subject to truncation and fail? Both ts.tv_sec and tv-\u003etv_sec are the same type, time_t.\n\nOr are they not?",
+      "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a193bb87_abcd4e73",
+        "filename": "util/misc/time.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-03T18:17:52Z",
+      "side": 1,
+      "message": "|| DOXYGEN",
+      "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cbf4e7d_a3a4217b",
+        "filename": "util/misc/time.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-03T18:17:52Z",
+      "side": 1,
+      "message": "`gettimeofday()` in backticks, since we don’t have auto-linking to documentation for things that we don’t provide.",
+      "range": {
+        "startLine": 52,
+        "startChar": 28,
+        "endLine": 52,
+        "endChar": 42
+      },
+      "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79d78508_40e40506",
+        "filename": "util/misc/time.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-03T18:17:52Z",
+      "side": 1,
+      "message": "This should be named with an “Epoch” suffix indicating that it’s epoch-aware as opposed to being suitable for intervals. The two other functions in this suite where the distinction is important use this suffix.",
+      "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef1c7652_6f33e18c",
+        "filename": "util/misc/time_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-03T18:17:52Z",
+      "side": 1,
+      "message": "We could add some very simple tests for the arithmetic and conversion functions here. Use important birthdays, anniversaries, etc. as test data!",
+      "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e4e6220_68362908",
+        "filename": "util/misc/time_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-03T18:17:52Z",
+      "side": 1,
+      "message": "Since this magic hundred appears here and in FiletimeToTimespecEpoch, it should probably be a constant with a self-documenting name, and even defined in a reasonable way.\n\n  static constexpr uint64_t kNanosecondsPerSecond \u003d static_cast\u003cuint64_t\u003e(1E9);\n  static constexpr uint64_t kNanosecondsPerFiletimeInterval \u003d kNanosecondsPerSecond / kFiletimeIntervalsPerSecond;\n\nNow that I’m thinking along those lines, up in FiletimeToMicroseconds(), we could also have a more self-documenting “kFiletimeIntervalsPerMicrosecond \u003d kFiletimeIntervalsPerSecond / kMicrosecondsPerSecond” instead of the magic ten, obviating the need for the comment.",
+      "range": {
+        "startLine": 71,
+        "startChar": 19,
+        "endLine": 71,
+        "endChar": 22
+      },
+      "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
