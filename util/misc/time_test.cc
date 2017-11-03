@@ -12,25 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_WIN_TIME_H_
-#define CRASHPAD_UTIL_WIN_TIME_H_
+#include "util/misc/time.h"
 
-#include <sys/time.h>
-#include <windows.h>
+#include "gtest/gtest.h"
 
 namespace crashpad {
+namespace test {
+namespace {
 
-//! \brief Convert Windows `FILETIME` to `timeval`, converting from Windows
-//!     epoch to POSIX epoch.
-timeval FiletimeToTimevalEpoch(const FILETIME& filetime);
+#if defined(OS_WIN)
 
-//! \brief Convert Windows `FILETIME` to `timeval`, treating the values as
-//!     an interval of elapsed time.
-timeval FiletimeToTimevalInterval(const FILETIME& filetime);
+TEST(Time, Reasonable) {
+  timeval t;
+  GetTimeOfDay(&t);
+  // Assume that time's time_t return is seconds from 1970.
+  time_t approx_now = time(nullptr);
+  EXPECT_GE(approx_now, t.tv_sec);
+  EXPECT_LT(approx_now - 100, t.tv_sec);
+}
 
-//! \brief Similar to POSIX gettimeofday(), gets the current system time in UTC.
-void GetTimeOfDay(timeval* tv);
+#endif  // OS_WIN
 
+}  // namespace
+}  // namespace test
 }  // namespace crashpad
-
-#endif  // CRASHPAD_UTIL_WIN_TIME_H_
