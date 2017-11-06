@@ -35,6 +35,8 @@ constexpr uint64_t kFiletimeIntervalsPerMicrosecond =
 // not SI seconds, so there are no leap seconds to be considered.
 constexpr uint64_t kNumSecondsFrom1601To1970 = (369 * 365 + 89) * 86400ULL;
 
+constexpr uint64_t kFiletimeIntervalsPerSecond = static_cast<uint64_t>(1E7);
+
 uint64_t FiletimeToMicroseconds(const FILETIME& filetime) {
   uint64_t t = (static_cast<uint64_t>(filetime.dwHighDateTime) << 32) |
                filetime.dwLowDateTime;
