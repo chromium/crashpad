@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "6fef126b_9a27d71d",
+        "filename": "util/misc/time.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-06T21:33:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "122b4b1d_65adc954",
+      "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a193bb87_abcd4e73",
         "filename": "util/misc/time.h",
         "patchSetId": 6
@@ -122,6 +140,24 @@
       "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bd0d21f_d6f65035",
+        "filename": "util/misc/time.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-06T21:33:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a193bb87_abcd4e73",
+      "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -148,6 +184,30 @@
     },
     {
       "key": {
+        "uuid": "2af87b66_7ea3bf2e",
+        "filename": "util/misc/time.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-06T21:33:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cbf4e7d_a3a4217b",
+      "range": {
+        "startLine": 52,
+        "startChar": 28,
+        "endLine": 52,
+        "endChar": 42
+      },
+      "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79d78508_40e40506",
         "filename": "util/misc/time.h",
         "patchSetId": 6
@@ -162,6 +222,24 @@
       "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12895cef_0db233b9",
+        "filename": "util/misc/time.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-06T21:33:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79d78508_40e40506",
+      "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -182,6 +260,24 @@
     },
     {
       "key": {
+        "uuid": "37f1adf2_3aebc7f6",
+        "filename": "util/misc/time_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-06T21:33:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef1c7652_6f33e18c",
+      "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e4e6220_68362908",
         "filename": "util/misc/time_win.cc",
         "patchSetId": 6
@@ -193,6 +289,30 @@
       "writtenOn": "2017-11-03T18:17:52Z",
       "side": 1,
       "message": "Since this magic hundred appears here and in FiletimeToTimespecEpoch, it should probably be a constant with a self-documenting name, and even defined in a reasonable way.\n\n  static constexpr uint64_t kNanosecondsPerSecond \u003d static_cast\u003cuint64_t\u003e(1E9);\n  static constexpr uint64_t kNanosecondsPerFiletimeInterval \u003d kNanosecondsPerSecond / kFiletimeIntervalsPerSecond;\n\nNow that I’m thinking along those lines, up in FiletimeToMicroseconds(), we could also have a more self-documenting “kFiletimeIntervalsPerMicrosecond \u003d kFiletimeIntervalsPerSecond / kMicrosecondsPerSecond” instead of the magic ten, obviating the need for the comment.",
+      "range": {
+        "startLine": 71,
+        "startChar": 19,
+        "endLine": 71,
+        "endChar": 22
+      },
+      "revId": "f9dc4b5346d6bad329306850a967381185ed10eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68376a15_9437fdd6",
+        "filename": "util/misc/time_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-06T21:33:50Z",
+      "side": 1,
+      "message": "Done, except I defined kNanosecondsPerFiletimeInterval directly and derived kFiletimeIntervalsPerSecond instead, since FILETIMEs are documented in terms of the interval duration.",
+      "parentUuid": "1e4e6220_68362908",
       "range": {
         "startLine": 71,
         "startChar": 19,
