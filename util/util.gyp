@@ -144,6 +144,9 @@
         'misc/scoped_forbid_return.cc',
         'misc/scoped_forbid_return.h',
         'misc/symbolic_constants_common.h',
+        'misc/time.cc',
+        'misc/time.h',
+        'misc/time_win.cc',
         'misc/tri_state.h',
         'misc/uuid.cc',
         'misc/uuid.h',
@@ -257,8 +260,6 @@
         'win/session_end_watcher.cc',
         'win/session_end_watcher.h',
         'win/termination_codes.h',
-        'win/time.cc',
-        'win/time.h',
         'win/xp_compat.h',
       ],
       'conditions': [

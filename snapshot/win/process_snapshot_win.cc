@@ -24,9 +24,9 @@
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "util/misc/from_pointer_cast.h"
+#include "util/misc/time.h"
 #include "util/win/nt_internals.h"
 #include "util/win/registration_protocol_win.h"
-#include "util/win/time.h"
 
 namespace crashpad {
 

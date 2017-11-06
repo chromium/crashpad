@@ -21,12 +21,12 @@
 
 #include "base/numerics/safe_conversions.h"
 #include "base/strings/stringprintf.h"
+#include "util/misc/time.h"
 #include "util/win/capture_context.h"
 #include "util/win/nt_internals.h"
 #include "util/win/ntstatus_logging.h"
 #include "util/win/process_structs.h"
 #include "util/win/scoped_handle.h"
-#include "util/win/time.h"
 
 namespace crashpad {
 

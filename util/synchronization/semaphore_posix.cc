@@ -20,23 +20,11 @@
 
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
+#include "util/misc/time.h"
 
 namespace crashpad {
 
 #if !defined(OS_MACOSX)
-
-namespace {
-
-void AddTimespec(const timespec& ts1, const timespec& ts2, timespec* result) {
-  result->tv_sec = ts1.tv_sec + ts2.tv_sec;
-  result->tv_nsec = ts1.tv_nsec + ts2.tv_nsec;
-  if (result->tv_nsec > static_cast<long>(1E9)) {
-    ++result->tv_sec;
-    result->tv_nsec -= static_cast<long>(1E9);
-  }
-}
-
-}  // namespace
 
 Semaphore::Semaphore(int value) {
   PCHECK(sem_init(&semaphore_, 0, value) == 0) << "sem_init";
