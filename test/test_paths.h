@@ -69,7 +69,7 @@ class TestPaths {
   //! extension for executables (`.exe`) appended if appropriate.
   //!
   //! When building in Chromium, \a name is ignored, and the name of the
-  //! monolithic test executable (`crashpad_tests`) is returned, with the
+  //! monolithic test executable (`crashpad_test`) is returned, with the
   //! system’s extension for executables appended if appropriate.
   //!
   //! Only use this function to determine test expectations.

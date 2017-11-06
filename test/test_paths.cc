@@ -121,7 +121,7 @@ base::FilePath TestPaths::ExpectedExecutableBasename(
     const base::FilePath::StringType& name) {
 #if defined(CRASHPAD_IN_CHROMIUM)
   base::FilePath::StringType executable_name(
-      FILE_PATH_LITERAL("crashpad_tests"));
+      FILE_PATH_LITERAL("crashpad_test"));
 #else  // CRASHPAD_IN_CHROMIUM
   base::FilePath::StringType executable_name(name);
 #endif  // CRASHPAD_IN_CHROMIUM
