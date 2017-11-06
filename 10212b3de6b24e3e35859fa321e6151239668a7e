@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb61ec15_063f13ba",
+        "filename": "util/misc/time.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-06T21:51:02Z",
+      "side": 1,
+      "message": "Blank line before this.",
+      "revId": "10212b3de6b24e3e35859fa321e6151239668a7e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2d08966_7d8f3290",
+        "filename": "util/misc/time.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-06T21:51:02Z",
+      "side": 1,
+      "message": "It’s slightly uneven that some of these functions are comfortable returning timespec/timeval structures, but we use out-parameters for some others.\n\nThere’s no need to change anything for this, it’s just a stray observation in case you’ve got a strong motivation to change it.",
+      "revId": "10212b3de6b24e3e35859fa321e6151239668a7e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8add928d_6d701aff",
+        "filename": "util/misc/time_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-06T21:51:02Z",
+      "side": 1,
+      "message": "Good choice. :)",
+      "revId": "10212b3de6b24e3e35859fa321e6151239668a7e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5fb5241_b6fb944b",
+        "filename": "util/misc/time_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-06T21:51:02Z",
+      "side": 1,
+      "message": "This isn’t an assumption, it’s definitional. The comment’s not necessary.",
+      "revId": "10212b3de6b24e3e35859fa321e6151239668a7e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
