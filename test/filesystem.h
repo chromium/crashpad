@@ -17,14 +17,27 @@
 
 #include "base/files/file_path.h"
 
+#include <time.h>
+
 #include "build/build_config.h"
 
 namespace crashpad {
 namespace test {
 
-bool CreateFile(const base::FilePath& file);
+//! \brief Creates an empty file at path \a filepath.
+bool CreateFile(const base::FilePath& filepath);
 
+//! \brief Returns `true` if a filesystem node exists at path \a path.
 bool PathExists(const base::FilePath& path);
+
+//! \brief Sets the modification time for a file, directory, or symbolic link.
+//!
+//! On macOS, prior to 10.13, the time is set with microsecond precision.
+//!
+//! \param[in] path The path to the file to set the modification time for.
+//! \param[in] mtime The new modification time for the file.
+//! \return `true` on success. Otherwise `false` with a message logged.
+bool SetFileModificationTime(const base::FilePath& path, const timespec& mtime);
 
 #if !defined(OS_FUCHSIA) || DOXYGEN
 // There are no symbolic links on Fuchsia. Don’t bother declaring or defining
@@ -48,6 +61,11 @@ bool PathExists(const base::FilePath& path);
 //! in Windows 10!</a>
 bool CanCreateSymbolicLinks();
 
+//! \brief Creates a new symbolic link.
+//!
+//! \param[in] target_path The target for the link.
+//! \param[in] symlink_path The name for the new link.
+//! \return `true` on success. Otherwise `false` with a message logged.
 bool CreateSymbolicLink(const base::FilePath& target_path,
                         const base::FilePath& symlink_path);
 
