@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40117d70_a1b9be06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-07T19:35:02Z",
+      "side": 1,
+      "message": "Bug: linking to the database bug? (Since I assume that’s what this is supporting.)",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f660abda_7f8f26ad",
+        "filename": "test/filesystem.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-07T19:35:02Z",
+      "side": 1,
+      "message": "Also, this doesn’t do what the comment says. You’re using lutimes() whenever Crashpad was built with a runtime OS minimum of less than 10.13. That code will still run on 10.13, and use this older lutimes() codepath.\n\nSomething like…\n\n#if defined(OS_POSIX)\n#if defined(OS_MACOSX) \u0026\u0026 MAC_OS_X_VERSION_MAX_ALLOWED \u003c MAC_OS_X_VERSION_10_13\n  static int (*const utimensat)(int, const char*, const timespec[2], int) \u003d [](){\n    Dl_info info;\n    if (!dladdr(utimes, \u0026info)) {\n      return nullptr;\n    }\n    void* dl_handle \u003d dlopen(info.dli_fname, RTLD_LAZY | RTLD_LOCAL | RTLD_NOLOAD);\n    if (!dl_handle) {\n      return nullptr;\n    }\n    return dlsym(dl_handle, \"utimensat\");\n  }();\n#endif\n  if (utimensat) {\n    // the contents of your current OS_POSIX branch\n    // you may need #pragma clang diagnostic push/ignored \"-Wunguarded-availability-new\"/pop\n  }\n#if defined(OS_MACOSX) \u0026\u0026 MAC_OS_X_VERSION_MIN_REQUIRED \u003c MAC_OS_X_VERSION_10_13\n  // the contents of your current OS_MACOSX branch\n#endif\n#endif  // OS_POSIX",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54cc0249_5fdd66ba",
+        "filename": "test/filesystem.h",
+        "patchSetId": 29
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-07T19:35:02Z",
+      "side": 1,
+      "message": "I see what you mean about the use of utimensat() vs. lutimes(), but this comment is confusing, because the resolution is also a property of the filesystem: HFS+ gives seconds, and APFS gives nanoseconds. APFS isn’t a possibility until 10.13, so really, you’re unlikely to get anything better than one-second resolution on, say, 10.12.",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63b202e0_dc496279",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-07T19:35:02Z",
+      "side": 1,
+      "message": "This can be simplified to #include \"test/errors.h\" and EXPECT_EQ(res, 0) \u003c\u003c ErrnoMessage(\"clock_gettime\");",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13d4ce8f_7e275011",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-07T19:35:02Z",
+      "side": 1,
+      "message": "These are going to be flaky, because we can’t control scheduling, particularly on virtual machines. Even 2 seconds aren’t universally long enough.\n\nInstead of “now”, you can save a “before” and “after” time, and then make sure that the directory’s timestamp is between the two. You may still want to include the -2/+2 fudge factor to deal with uncertain filesystem timestamp resolution.",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e84913f_b1cd0d5e",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-07T19:35:02Z",
+      "side": 1,
+      "message": "Might be useful to verify that FileModificationTime(temp_dir.path()) has changed to the expected neighborhood after calling SetFileModificationTime().",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a51835b3_a3c80c55",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-07T19:35:02Z",
+      "side": 1,
+      "message": "Same here, but you’ll need to grab the before and after times again (or put your CreateFile next to the thing that creates the directory, between the before/after grab that’ll be above.)",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "531da915_854535c8",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-07T19:35:02Z",
+      "side": 1,
+      "message": "This tests filesystem semantics (does the directory’s timestamp get updated when a file is introduced?) which I think are out of scope here, unless you need to rely on specific behaviors. If we do have specific requirements like this, we need to be very clear about them.",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3e59d89_22b9f6b0",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-07T19:35:02Z",
+      "side": 1,
+      "message": "Again, this is filesystem-dependent. And you’re using a compile-time version check, but since it’s filesystem-dependent, even a runtime version check would be dubious.",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3696aa4c_57d5f41f",
+        "filename": "util/file/filesystem_win.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-07T19:35:02Z",
+      "side": 1,
+      "message": "Having FileHandleModificationTime() be a distinct function means that its log message can’t include the file path, and that’s something that you’ve typically been doing in this interface family.",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
