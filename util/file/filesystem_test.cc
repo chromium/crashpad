@@ -25,6 +25,136 @@ namespace crashpad {
 namespace test {
 namespace {
 
+bool CurrentTime(timespec* now) {
+#if defined(OS_POSIX)
+  int res = clock_gettime(CLOCK_REALTIME, now);
+  if (res != 0) {
+    PLOG(ERROR) << "clock_gettime";
+    EXPECT_EQ(res, 0);
+    return false;
+  }
+  return true;
+#else
+  int res = timespec_get(now, TIME_UTC);
+  if (res != TIME_UTC) {
+    EXPECT_EQ(res, TIME_UTC);
+    return false;
+  }
+  return true;
+#endif
+}
+
+TEST(Filesystem, FileModificationTime) {
+  ScopedTempDir temp_dir;
+  timespec dir_mtime;
+  ASSERT_TRUE(FileModificationTime(temp_dir.path(), &dir_mtime));
+  timespec now;
+  ASSERT_TRUE(CurrentTime(&now));
+  EXPECT_GE(dir_mtime.tv_sec, now.tv_sec - 2);
+  EXPECT_LE(dir_mtime.tv_sec, now.tv_sec + 2);
+
+  dir_mtime.tv_sec -= 100;
+  ASSERT_TRUE(SetFileModificationTime(temp_dir.path(), dir_mtime));
+
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
+  ASSERT_TRUE(CurrentTime(&now));
+
+  timespec file_mtime;
+  ASSERT_TRUE(FileModificationTime(file, &file_mtime));
+  EXPECT_GE(file_mtime.tv_sec, now.tv_sec - 2);
+  EXPECT_LE(file_mtime.tv_sec, now.tv_sec + 2);
+
+  timespec dir_mtime2;
+  ASSERT_TRUE(FileModificationTime(temp_dir.path(), &dir_mtime2));
+  EXPECT_GT(dir_mtime2.tv_sec, dir_mtime.tv_sec);
+
+  timespec mtime;
+  EXPECT_FALSE(FileModificationTime(base::FilePath(), &mtime));
+  EXPECT_FALSE(FileModificationTime(
+      temp_dir.path().Append(FILE_PATH_LITERAL("notafile")), &mtime));
+}
+
+#if !defined(OS_FUCHSIA)
+
+void ExpectTimespecEqual(const timespec& ts1, const timespec& ts2) {
+#if defined(OS_MACOSX) && MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_13
+  ASSERT_PRED4(
+      [](time_t updated_sec, long updated_nsec, time_t old_sec, long old_nsec) {
+        // SetFileModificationTime is unable to use nanosecond precision before
+        // macOS 10.13
+        return updated_sec == old_sec &&
+               updated_nsec == (old_nsec - old_nsec % 1000);
+      },
+      ts1.tv_sec,
+      ts1.tv_nsec,
+      ts2.tv_sec,
+      ts2.tv_nsec);
+#else
+  ASSERT_PRED4(
+      [](time_t updated_sec, long updated_nsec, time_t old_sec, long old_nsec) {
+        return updated_sec == old_sec && updated_nsec == old_nsec;
+      },
+      ts1.tv_sec,
+      ts1.tv_nsec,
+      ts2.tv_sec,
+      ts2.tv_nsec);
+#endif  // OS_MACOSX && MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_13
+}
+
+TEST(Filesystem, FileModificationTime_SymbolicLinks) {
+  if (!CanCreateSymbolicLinks()) {
+    DISABLED_TEST();
+  }
+
+  ScopedTempDir temp_dir;
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
+
+  base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
+  ASSERT_TRUE(CreateSymbolicLink(file, link));
+  timespec now;
+  ASSERT_TRUE(CurrentTime(&now));
+
+  timespec mtime;
+  ASSERT_TRUE(FileModificationTime(link, &mtime));
+  EXPECT_GE(mtime.tv_sec, now.tv_sec - 2);
+  EXPECT_LE(mtime.tv_sec, now.tv_sec + 2);
+
+  mtime.tv_sec -= 100;
+  ASSERT_TRUE(SetFileModificationTime(link, mtime));
+
+  ASSERT_TRUE(LoggingRemoveFile(file));
+  timespec mtime2;
+  ASSERT_TRUE(FileModificationTime(link, &mtime2));
+  EXPECT_NO_FATAL_FAILURE(ExpectTimespecEqual(mtime, mtime2));
+
+  ASSERT_TRUE(LoggingRemoveFile(link));
+
+  const base::FilePath dir(temp_dir.path().Append(FILE_PATH_LITERAL("dir")));
+  ASSERT_TRUE(
+      LoggingCreateDirectory(dir, FilePermissions::kWorldReadable, false));
+  ASSERT_TRUE(CreateSymbolicLink(dir, link));
+  ASSERT_TRUE(FileModificationTime(link, &mtime));
+  EXPECT_GE(mtime.tv_sec, now.tv_sec - 2);
+  EXPECT_LE(mtime.tv_sec, now.tv_sec + 2);
+
+  mtime.tv_sec -= 100;
+  ASSERT_TRUE(SetFileModificationTime(link, mtime));
+
+  const base::FilePath file2(dir.Append(FILE_PATH_LITERAL("nested")));
+  ASSERT_TRUE(CreateFile(file2));
+  ASSERT_TRUE(FileModificationTime(link, &mtime2));
+  EXPECT_NO_FATAL_FAILURE(ExpectTimespecEqual(mtime, mtime2));
+
+  ASSERT_TRUE(LoggingRemoveFile(file2));
+  ASSERT_TRUE(LoggingRemoveDirectory(dir));
+  ASSERT_TRUE(FileModificationTime(link, &mtime2));
+  EXPECT_NO_FATAL_FAILURE(ExpectTimespecEqual(mtime, mtime2));
+}
+
+#endif  // !OS_FUCHSIA
+
 TEST(Filesystem, CreateDirectory) {
   ScopedTempDir temp_dir;
 
