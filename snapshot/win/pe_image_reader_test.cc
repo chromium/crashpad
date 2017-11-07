@@ -18,6 +18,7 @@
 #include <psapi.h>
 
 #include "base/files/file_path.h"
+#include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
 #include "snapshot/win/process_reader_win.h"
@@ -86,8 +87,17 @@ void TestVSFixedFileInfo(ProcessReaderWin* process_reader,
       EXPECT_EQ(observed.dwFileType, static_cast<DWORD>(VFT_DLL));
     } else {
       EXPECT_NE(observed.dwFileOS & VOS_NT_WINDOWS32, 0u);
+
+      // VFT_DRV/VFT2_DRV_NETWORK is for nsi.dll, “network service interface.”
+      // It’s not normally loaded, but has been observed to be loaded in some
+      // cases.
       EXPECT_TRUE(observed.dwFileType == VFT_APP ||
-                  observed.dwFileType == VFT_DLL);
+                  observed.dwFileType == VFT_DLL ||
+                  (observed.dwFileType == VFT_DRV &&
+                   observed.dwFileSubtype == VFT2_DRV_NETWORK))
+          << base::StringPrintf("type 0x%x, subtype 0x%x",
+                                observed.dwFileType,
+                                observed.dwFileSubtype);
     }
   }
 
