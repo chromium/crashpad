@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "25a5ed61_85e0ff4a",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-07T01:48:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f69b202_b8477438",
+      "revId": "b4816be279a6ee83d72a943b2ce4a4b0f12d2ae7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1ccf7f3_3d0b73de",
         "filename": "util/file/filesystem_win.cc",
         "patchSetId": 5
@@ -65,6 +83,24 @@
       "writtenOn": "2017-10-31T00:48:21Z",
       "side": 1,
       "message": "This is a pretty roundabout way to get file times. Is there a reason you didn’t use GetFileTime()?",
+      "revId": "b4816be279a6ee83d72a943b2ce4a4b0f12d2ae7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aba1742d_7a0be115",
+        "filename": "util/file/filesystem_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-07T01:48:47Z",
+      "side": 1,
+      "message": "Mostly just being lazy about having to create the file handle first. Updated to use GetFileTime.",
+      "parentUuid": "b1ccf7f3_3d0b73de",
       "revId": "b4816be279a6ee83d72a943b2ce4a4b0f12d2ae7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
