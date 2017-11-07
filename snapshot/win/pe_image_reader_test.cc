@@ -95,7 +95,7 @@ void TestVSFixedFileInfo(ProcessReaderWin* process_reader,
                   observed.dwFileType == VFT_DLL ||
                   (observed.dwFileType == VFT_DRV &&
                    observed.dwFileSubtype == VFT2_DRV_NETWORK))
-          << base::StringPrintf("type 0x%x, subtype 0x%x",
+          << base::StringPrintf("type 0x%lx, subtype 0x%lx",
                                 observed.dwFileType,
                                 observed.dwFileSubtype);
     }
