@@ -22,6 +22,30 @@
       "revId": "6320d9d1b75c3f7b853864258aeaf43ad37a02c3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "572ddbc4_44470b7d",
+        "filename": "snapshot/win/pe_image_reader_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-07T21:46:08Z",
+      "side": 1,
+      "message": "\u003e PRIx32 ? (%lx is not portable, although since this is a windows specific file maybe it\u0027s not really a problem)\n\nFor formatting DWORDs, %lx is appropriate.\n\nPRIx32 wouldn’t even work, it’s just “x”, which is what I had here before.\n\nhttps://logs.chromium.org/v/?s\u003dchromium%2Fbb%2Ftryserver.chromium.win%2Fwin10_chromium_x64_rel_ng%2F21368%2F%2B%2Frecipes%2Fsteps%2Fcompile__with_patch_%2F0%2Fstdout:\n\n[4882/7313] CXX obj/third_party/crashpad/crashpad/snapshot/snapshot_test/pe_image_reader_test.obj\nFAILED: obj/third_party/crashpad/crashpad/snapshot/snapshot_test/pe_image_reader_test.obj \nC:\\b\\c\\goma_client/gomacc.exe ../../third_party/llvm-build/Release+Asserts/bin/clang-cl.exe /nologo /showIncludes  @obj/third_party/crashpad/crashpad/snapshot/snapshot_test/pe_image_reader_test.obj.rsp /c ../../third_party/crashpad/crashpad/snapshot/win/pe_image_reader_test.cc /Foobj/third_party/crashpad/crashpad/snapshot/snapshot_test/pe_image_reader_test.obj /Fd\"obj/third_party/crashpad/crashpad/snapshot/snapshot_test_cc.pdb\"\n../../third_party/crashpad/crashpad/snapshot/win/pe_image_reader_test.cc(99,33):  error: format specifies type \u0027unsigned int\u0027 but the argument has type \u0027DWORD\u0027 (aka \u0027unsigned long\u0027) [-Werror,-Wformat]\n                                observed.dwFileType,\n                                ^~~~~~~~~~~~~~~~~~~\n../../third_party/crashpad/crashpad/snapshot/win/pe_image_reader_test.cc(100,33):  error: format specifies type \u0027unsigned int\u0027 but the argument has type \u0027DWORD\u0027 (aka \u0027unsigned long\u0027) [-Werror,-Wformat]\n                                observed.dwFileSubtype);\n                                ^~~~~~~~~~~~~~~~~~~~~~\n2 errors generated.",
+      "parentUuid": "1a160c8a_bcdcd460",
+      "range": {
+        "startLine": 98,
+        "startChar": 41,
+        "endLine": 98,
+        "endChar": 43
+      },
+      "revId": "6320d9d1b75c3f7b853864258aeaf43ad37a02c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
