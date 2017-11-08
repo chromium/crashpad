@@ -138,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "c2a239fb_199832cd",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T00:20:51Z",
+      "side": 1,
+      "message": "I currently only need to collect timestamps for regular files for the database.\n\nMy intention for this test and the symbolic link tests below was just to document what actually does happen in case this function is used on directories or symbolic links.",
+      "parentUuid": "531da915_854535c8",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b3e59d89_22b9f6b0",
         "filename": "util/file/filesystem_test.cc",
         "patchSetId": 29
