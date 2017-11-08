@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "616f9b14_2d929e8c",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 41
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 1,
+      "message": "Haha, oh no, my scatterbrain is showing!\n\nI\u0027ve moved ReportState to the header since it\u0027s now used in some private methods and updated the comments.",
+      "parentUuid": "e46886ce_db2e093b",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 12
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1244362c_c1aeab23",
         "filename": "client/crash_report_database.cc",
         "patchSetId": 41
@@ -39,6 +63,24 @@
       "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1da91fb_2b475bb0",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 41
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1244362c_c1aeab23",
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "0c1fc05b_719e7509",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 41
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 1,
+      "message": "Uncertain. This was used in the Windows implementation. Maybe InitializeWithNew() was presumed to get random bits from the filesystem (it does read from /dev/urandom for POSIX). InitializeWithNew() doesn\u0027t check for errors and always returns true now, but changed to kDatabaseError anyhow.",
+      "parentUuid": "7c9265e2_b7f993ae",
+      "range": {
+        "startLine": 203,
+        "startChar": 11,
+        "endLine": 203,
+        "endChar": 27
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe201f53_7473dc84",
         "filename": "client/crash_report_database.cc",
         "patchSetId": 41
@@ -85,6 +151,30 @@
       "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcb6699c_895fc0d9",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 41
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 1,
+      "message": "At the time, I was thinking this would happen if there was a report uuid collision, but I guess that does seem substantially less likely than a filesystem error, assuming UUID::InitializeWithNew is working correctly.",
+      "parentUuid": "fe201f53_7473dc84",
+      "range": {
+        "startLine": 210,
+        "startChar": 11,
+        "endLine": 210,
+        "endChar": 21
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "c9f10ab4_f79238f2",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 41
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c22bcf62_51a5b09d",
+      "range": {
+        "startLine": 239,
+        "startChar": 2,
+        "endLine": 239,
+        "endChar": 23
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d9d4523_6ffefb10",
         "filename": "client/crash_report_database.cc",
         "patchSetId": 41
@@ -125,6 +239,24 @@
       "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f864e33_a6309575",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 41
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d9d4523_6ffefb10",
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "17fd2445_dc4183fb",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 41
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b7c467a_0674c244",
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b02f0f0_8ab700f9",
         "filename": "client/crash_report_database.h",
         "patchSetId": 41
@@ -156,6 +306,30 @@
       "writtenOn": "2017-10-24T18:02:01Z",
       "side": 1,
       "message": "can we have readers not block other readers?",
+      "range": {
+        "startLine": 55,
+        "startChar": 65,
+        "endLine": 55,
+        "endChar": 69
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f074b6d9_d21b1b96",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 1,
+      "message": "It should be possible but probably more complex than it\u0027s worth. The only read operation that I expect might take a long time would be GetReportForReading(), but that\u0027s only used in test code. Although, GetReportForUploading() might look like it\u0027s reading, it implicitly modifies metadata. The other reading operations only lock files long enough to read the metadata file.",
+      "parentUuid": "1b02f0f0_8ab700f9",
       "range": {
         "startLine": 55,
         "startChar": 65,
@@ -191,6 +365,30 @@
     },
     {
       "key": {
+        "uuid": "2ccf9181_e6f288f2",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "5e5157e8_59f97229",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 11
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cad22ca5_0465fe7c",
         "filename": "client/crash_report_database.h",
         "patchSetId": 41
@@ -202,6 +400,30 @@
       "writtenOn": "2017-10-24T18:02:01Z",
       "side": 1,
       "message": "this looks forced - if the writer is not part of the state why not use a unique_ptr\u003cFileWriter\u003e as a member? (then the Writer() can be const and return a FileWriter* w/o any const_cast)",
+      "range": {
+        "startLine": 120,
+        "startChar": 40,
+        "endLine": 120,
+        "endChar": 50
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe8d329c_70b6265d",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cad22ca5_0465fe7c",
       "range": {
         "startLine": 120,
         "startChar": 40,
@@ -237,6 +459,30 @@
     },
     {
       "key": {
+        "uuid": "52034aec_78d9dfd9",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 1,
+      "message": "If FinishedWritingCrashReport() never gets called (presumably because something bad happened), the new report needs to be cleaned up. We\u0027ll probably need something to clean up stale reports in the new directory anyways for instances where something really bad happens and the scoper doesn\u0027t get to run, but at least this slims down the interface by not requiring users to call ErrorWritingCrashReport(). This also conveniently caches the file path, which gets used by FinishedWritingCrashReport().",
+      "parentUuid": "df34250a_ebb77991",
+      "range": {
+        "startLine": 131,
+        "startChar": 21,
+        "endLine": 131,
+        "endChar": 34
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa716193_99542ad7",
         "filename": "client/crash_report_database.h",
         "patchSetId": 41
@@ -254,6 +500,24 @@
     },
     {
       "key": {
+        "uuid": "6c50e545_140a6d60",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa716193_99542ad7",
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49015490_bfd20aa1",
         "filename": "client/crash_report_database.h",
         "patchSetId": 41
@@ -268,6 +532,24 @@
       "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13703b34_0f7b94a4",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49015490_bfd20aa1",
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -294,6 +576,30 @@
     },
     {
       "key": {
+        "uuid": "8ab52ede_28e8afce",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "221572fd_b6f50ece",
+      "range": {
+        "startLine": 257,
+        "startChar": 32,
+        "endLine": 257,
+        "endChar": 34
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75755b23_705c271e",
         "filename": "client/crash_report_database.h",
         "patchSetId": 41
@@ -314,6 +620,30 @@
       "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec66fe9a_4e6e913a",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75755b23_705c271e",
+      "range": {
+        "startLine": 316,
+        "startChar": 6,
+        "endLine": 316,
+        "endChar": 42
+      },
+      "revId": "f0829a02f7e9f54e533d75ad982e849b545297cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

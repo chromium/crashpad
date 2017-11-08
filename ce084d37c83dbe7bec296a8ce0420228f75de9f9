@@ -16,6 +16,24 @@
       "revId": "ce084d37c83dbe7bec296a8ce0420228f75de9f9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fec89c6_92308d84",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "428dac0e_e726bf3d",
+      "revId": "ce084d37c83dbe7bec296a8ce0420228f75de9f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

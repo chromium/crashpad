@@ -202,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "2767e76e_43a8c8d2",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-08T04:28:46Z",
+      "side": 1,
+      "message": "The reports now allocate FileReaders/Writers in their initializers so they are no longer default.",
+      "parentUuid": "8d20dc4d_995171e7",
+      "range": {
+        "startLine": 142,
+        "startChar": 44,
+        "endLine": 142,
+        "endChar": 65
+      },
+      "revId": "4912029b6e8635cef5231165b46d8a63e4b4e971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff6fd047_23998c6b",
         "filename": "client/crash_report_database.cc",
         "patchSetId": 38
