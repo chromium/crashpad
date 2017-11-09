@@ -21,8 +21,24 @@
 #include <unistd.h>
 
 #include "base/logging.h"
+#include "build/build_config.h"
 
 namespace crashpad {
+
+bool FileModificationTime(const base::FilePath& path, timespec* mtime) {
+  struct stat st;
+  if (lstat(path.value().c_str(), &st) != 0) {
+    PLOG(ERROR) << "lstat " << path.value();
+    return false;
+  }
+
+#if defined(OS_MACOSX)
+  *mtime = st.st_mtimespec;
+#else
+  *mtime = st.st_mtim;
+#endif
+  return true;
+}
 
 bool LoggingCreateDirectory(const base::FilePath& path,
                             FilePermissions permissions,
