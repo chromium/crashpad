@@ -105,6 +105,47 @@ class CrashpadClient {
                     bool restartable,
                     bool asynchronous_start);
 
+#if defined(OS_LINUX) || defined(OS_ANDROID) || DOXYGEN
+  //! brief As StartHandler(), but defers handler creation until a crash occurs.
+  bool StartHandlerOnCrash(
+      const base::FilePath& handler,
+      const base::FilePath& database,
+      const base::FilePath& metrics_dir,
+      const std::string& url,
+      const std::map<std::string, std::string>& annotations,
+      const std::vector<std::string>& arguments);
+
+  //! \brief Sends a RegistrationRequest to an already running handler process
+  //!     on behalf of another process.
+  //!
+  //! \param[in] request
+  //! \param[in] socket
+  bool RegisterProcess(const RegistrationRequest& request,
+                       int socket);
+
+  //! Specifies how crashes should be handled
+  enum class HandlerMode {
+    //! No special work needs to be done.
+    kSignalSocket,
+
+    //! The signal handler should expect to recieve the pid of the handler
+    //! process after it signals a crash, on which it should call
+    //! PR_SET_PTRACER.
+    kSetPtracer,
+
+    //! The signal handler should fork a ptrace broker process to handle ptrace
+    //! requests for the handler.
+    kBroker,
+  };
+
+  //! \brief Registers this process for crash handling via an already opened
+  //!     socket.
+  //!
+  //! The receiving end of the socket may belong to an already running handler
+  //! process or a proxy.
+  bool RegisterSelf(int socket, HandlerMode handler_mode);
+#endif  // OS_LINUX || OS_ANDROID || DOXYGEN
+
 #if defined(OS_MACOSX) || DOXYGEN
   //! \brief Sets the process’ crash handler to a Mach service registered with
   //!     the bootstrap server.
