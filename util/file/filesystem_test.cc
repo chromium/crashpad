@@ -17,6 +17,7 @@
 #include "base/logging.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "test/errors.h"
 #include "test/filesystem.h"
 #include "test/gtest_disabled.h"
 #include "test/scoped_temp_dir.h"
@@ -24,6 +25,109 @@
 namespace crashpad {
 namespace test {
 namespace {
+
+bool CurrentTime(timespec* now) {
+#if defined(OS_POSIX)
+  int res = clock_gettime(CLOCK_REALTIME, now);
+  if (res != 0) {
+    EXPECT_EQ(res, 0) << ErrnoMessage("clock_gettime");
+    return false;
+  }
+  return true;
+#else
+  int res = timespec_get(now, TIME_UTC);
+  if (res != TIME_UTC) {
+    EXPECT_EQ(res, TIME_UTC);
+    return false;
+  }
+  return true;
+#endif
+}
+
+TEST(Filesystem, FileModificationTime) {
+  timespec expected_time_start, expected_time_end;
+
+  ASSERT_TRUE(CurrentTime(&expected_time_start));
+  ScopedTempDir temp_dir;
+  ASSERT_TRUE(CurrentTime(&expected_time_end));
+
+  timespec dir_mtime;
+  ASSERT_TRUE(FileModificationTime(temp_dir.path(), &dir_mtime));
+  EXPECT_GE(dir_mtime.tv_sec, expected_time_start.tv_sec - 2);
+  EXPECT_LE(dir_mtime.tv_sec, expected_time_end.tv_sec + 2);
+
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CurrentTime(&expected_time_start));
+  ASSERT_TRUE(CreateFile(file));
+  ASSERT_TRUE(CurrentTime(&expected_time_end));
+
+  timespec file_mtime;
+  ASSERT_TRUE(FileModificationTime(file, &file_mtime));
+  EXPECT_GE(file_mtime.tv_sec, expected_time_start.tv_sec - 2);
+  EXPECT_LE(file_mtime.tv_sec, expected_time_end.tv_sec + 2);
+
+  timespec file_mtime_again;
+  ASSERT_TRUE(FileModificationTime(file, &file_mtime_again));
+  EXPECT_EQ(file_mtime.tv_sec, file_mtime_again.tv_sec);
+  EXPECT_EQ(file_mtime.tv_nsec, file_mtime_again.tv_nsec);
+
+  timespec mtime;
+  EXPECT_FALSE(FileModificationTime(base::FilePath(), &mtime));
+  EXPECT_FALSE(FileModificationTime(
+      temp_dir.path().Append(FILE_PATH_LITERAL("notafile")), &mtime));
+}
+
+#if !defined(OS_FUCHSIA)
+
+TEST(Filesystem, FileModificationTime_SymbolicLinks) {
+  if (!CanCreateSymbolicLinks()) {
+    DISABLED_TEST();
+  }
+
+  ScopedTempDir temp_dir;
+
+  const base::FilePath dir_link(
+      temp_dir.path().Append(FILE_PATH_LITERAL("dir_link")));
+
+  timespec expected_time_start, expected_time_end;
+  ASSERT_TRUE(CurrentTime(&expected_time_start));
+  ASSERT_TRUE(CreateSymbolicLink(temp_dir.path(), dir_link));
+  ASSERT_TRUE(CurrentTime(&expected_time_end));
+
+  timespec mtime, mtime2;
+  ASSERT_TRUE(FileModificationTime(temp_dir.path(), &mtime));
+  mtime.tv_sec -= 100;
+  ASSERT_TRUE(SetFileModificationTime(temp_dir.path(), mtime));
+  ASSERT_TRUE(FileModificationTime(temp_dir.path(), &mtime2));
+  EXPECT_GE(mtime2.tv_sec, mtime.tv_sec - 2);
+  EXPECT_LE(mtime2.tv_sec, mtime.tv_sec + 2);
+
+  ASSERT_TRUE(FileModificationTime(dir_link, &mtime));
+  EXPECT_GE(mtime.tv_sec, expected_time_start.tv_sec - 2);
+  EXPECT_LE(mtime.tv_sec, expected_time_end.tv_sec + 2);
+
+  base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
+  ASSERT_TRUE(CreateFile(file));
+
+  base::FilePath link(temp_dir.path().Append(FILE_PATH_LITERAL("link")));
+
+  ASSERT_TRUE(CurrentTime(&expected_time_start));
+  ASSERT_TRUE(CreateSymbolicLink(file, link));
+  ASSERT_TRUE(CurrentTime(&expected_time_end));
+
+  ASSERT_TRUE(FileModificationTime(file, &mtime));
+  mtime.tv_sec -= 100;
+  ASSERT_TRUE(SetFileModificationTime(file, mtime));
+  ASSERT_TRUE(FileModificationTime(file, &mtime2));
+  EXPECT_GE(mtime2.tv_sec, mtime.tv_sec - 2);
+  EXPECT_LE(mtime2.tv_sec, mtime.tv_sec + 2);
+
+  ASSERT_TRUE(FileModificationTime(link, &mtime));
+  EXPECT_GE(mtime.tv_sec, expected_time_start.tv_sec - 2);
+  EXPECT_LE(mtime.tv_sec, expected_time_end.tv_sec + 2);
+}
+
+#endif  // !OS_FUCHSIA
 
 TEST(Filesystem, CreateDirectory) {
   ScopedTempDir temp_dir;
