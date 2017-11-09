@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39501951_5f1436fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-09T18:25:58Z",
+      "side": 1,
+      "message": "Add a comment here for some color: this is only necessary for deprecated (traditional) NDK headers, not the new unified headers.",
+      "revId": "7f9a9efb97c8af5c38489d32c5cf60cf2a0617f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
