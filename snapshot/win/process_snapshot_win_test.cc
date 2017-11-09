@@ -26,6 +26,7 @@
 #include "util/file/file_io.h"
 #include "util/win/scoped_handle.h"
 #include "util/win/scoped_process_suspend.h"
+#include "util/win/scoped_set_event.h"
 
 namespace crashpad {
 namespace test {
@@ -45,6 +46,8 @@ void TestImageReaderChild(const TestPaths::Architecture architecture) {
                                architecture);
   ChildLauncher child(child_test_executable, done_uuid.ToString16());
   ASSERT_NO_FATAL_FAILURE(child.Start());
+
+  ScopedSetEvent set_done(done.get());
 
   char c;
   ASSERT_TRUE(
@@ -105,7 +108,7 @@ void TestImageReaderChild(const TestPaths::Architecture architecture) {
   }
 
   // Tell the child it can terminate.
-  EXPECT_TRUE(SetEvent(done.get())) << ErrorMessage("SetEvent");
+  EXPECT_TRUE(set_done.Set());
 
   EXPECT_EQ(child.WaitForExit(), 0u);
 }
