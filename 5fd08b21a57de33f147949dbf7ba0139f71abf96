@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59c078f2_d7790b48",
+        "filename": "test/filesystem.cc",
+        "patchSetId": 33
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-09T04:32:32Z",
+      "side": 1,
+      "message": "These are declared as maybe-failing now, but we both know that should never happen on macOS. You can DCHECK() each of their results (but make sure not to DCHECK() the calls!) Since this is in test code, you can also EXPECT_TRUE() instead, and then it’s safe to just wrap the calls.",
+      "revId": "5fd08b21a57de33f147949dbf7ba0139f71abf96",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "348bcae4_8978c1ec",
+        "filename": "test/filesystem.h",
+        "patchSetId": 33
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-09T04:32:32Z",
+      "side": 1,
+      "message": "P.S. Thanks for adding these!",
+      "revId": "5fd08b21a57de33f147949dbf7ba0139f71abf96",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db97ff2_679f5a5e",
+        "filename": "test/filesystem.h",
+        "patchSetId": 33
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-09T04:32:32Z",
+      "side": 1,
+      "message": "This honestly may be a lost cause on some filesystems too, but given the level of standardization by utimensat() now, I’m OK with going for it. We can deal with breakage if we discover it, and possibly un-specify or declare underlying dependencies beyond our control for symbolic links if necessary.",
+      "range": {
+        "startLine": 33,
+        "startChar": 64,
+        "endLine": 33,
+        "endChar": 77
+      },
+      "revId": "5fd08b21a57de33f147949dbf7ba0139f71abf96",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f7ed7a8_2ffa32d1",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 33
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-09T04:32:32Z",
+      "side": 1,
+      "message": "Perhaps one more test here, where you grab FileModificationTime(file) here once more and EXPECT_EQ(file_mtime, file_mtime_again);",
+      "revId": "5fd08b21a57de33f147949dbf7ba0139f71abf96",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
