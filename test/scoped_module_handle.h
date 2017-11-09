@@ -59,6 +59,9 @@ class ScopedModuleHandle {
   explicit ScopedModuleHandle(ModuleHandle handle);
   ~ScopedModuleHandle();
 
+  //! \return The module handle being managed.
+  ModuleHandle get() const { return handle_; }
+
   //! \return `true` if this object manages a valid loadable module handle.
   bool valid() const { return handle_ != nullptr; }
 

@@ -23,42 +23,52 @@
 #include "gtest/gtest.h"
 #include "snapshot/win/process_reader_win.h"
 #include "test/errors.h"
+#include "test/scoped_module_handle.h"
 #include "test/test_paths.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/win/get_module_information.h"
 #include "util/win/module_version.h"
 #include "util/win/process_info.h"
 
-extern "C" IMAGE_DOS_HEADER __ImageBase;
-
 namespace crashpad {
 namespace test {
 namespace {
 
 TEST(PEImageReader, DebugDirectory) {
+  base::FilePath module_path =
+      TestPaths::BuildArtifact(L"snapshot",
+                               L"image_reader_module",
+                               TestPaths::FileType::kLoadableModule);
+  ScopedModuleHandle module_handle(LoadLibrary(module_path.value().c_str()));
+  ASSERT_TRUE(module_handle.valid()) << ErrorMessage("LoadLibrary");
+
   PEImageReader pe_image_reader;
   ProcessReaderWin process_reader;
   ASSERT_TRUE(process_reader.Initialize(GetCurrentProcess(),
                                         ProcessSuspensionState::kRunning));
-  HMODULE self = reinterpret_cast<HMODULE>(&__ImageBase);
+
   MODULEINFO module_info;
-  ASSERT_TRUE(CrashpadGetModuleInformation(
-      GetCurrentProcess(), self, &module_info, sizeof(module_info)))
+  ASSERT_TRUE(CrashpadGetModuleInformation(GetCurrentProcess(),
+                                           module_handle.get(),
+                                           &module_info,
+                                           sizeof(module_info)))
       << ErrorMessage("GetModuleInformation");
-  EXPECT_EQ(module_info.lpBaseOfDll, self);
-  ASSERT_TRUE(pe_image_reader.Initialize(&process_reader,
-                                         FromPointerCast<WinVMAddress>(self),
-                                         module_info.SizeOfImage,
-                                         "self"));
+  EXPECT_EQ(module_info.lpBaseOfDll, module_handle.get());
+
+  base::FilePath module_basename = module_path.BaseName();
+  ASSERT_TRUE(pe_image_reader.Initialize(
+      &process_reader,
+      FromPointerCast<WinVMAddress>(module_handle.get()),
+      module_info.SizeOfImage,
+      base::UTF16ToUTF8(module_basename.value())));
+
   UUID uuid;
   DWORD age;
   std::string pdbname;
   ASSERT_TRUE(pe_image_reader.DebugDirectoryInformation(&uuid, &age, &pdbname));
-  std::string self_name = base::UTF16ToUTF8(
-      TestPaths::ExpectedExecutableBasename(L"crashpad_snapshot_test")
-          .RemoveFinalExtension()
-          .value());
-  EXPECT_NE(pdbname.find(self_name), std::string::npos);
+  std::string module_name =
+      base::UTF16ToUTF8(module_basename.RemoveFinalExtension().value());
+  EXPECT_NE(pdbname.find(module_name), std::string::npos);
   const std::string suffix(".pdb");
   EXPECT_EQ(
       pdbname.compare(pdbname.size() - suffix.size(), suffix.size(), suffix),
