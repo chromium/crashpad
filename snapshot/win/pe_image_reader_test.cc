@@ -53,7 +53,7 @@ TEST(PEImageReader, DebugDirectory) {
   UUID uuid;
   DWORD age;
   std::string pdbname;
-  EXPECT_TRUE(pe_image_reader.DebugDirectoryInformation(&uuid, &age, &pdbname));
+  ASSERT_TRUE(pe_image_reader.DebugDirectoryInformation(&uuid, &age, &pdbname));
   std::string self_name = base::UTF16ToUTF8(
       TestPaths::ExpectedExecutableBasename(L"crashpad_snapshot_test")
           .RemoveFinalExtension()

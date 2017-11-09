@@ -257,6 +257,8 @@
         'win/scoped_local_alloc.h',
         'win/scoped_process_suspend.cc',
         'win/scoped_process_suspend.h',
+        'win/scoped_set_event.cc',
+        'win/scoped_set_event.h',
         'win/session_end_watcher.cc',
         'win/session_end_watcher.h',
         'win/termination_codes.h',
