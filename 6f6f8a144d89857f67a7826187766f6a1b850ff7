@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e68155b_a76f77c5",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 35
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-09T23:35:43Z",
+      "side": 1,
+      "message": "Uh-oh, this is only available on macOS since 10.12!\n\ngettimeofday() + TimevalToTimespec() for OS_MACOSX? That ought to be fine: it’s actually what the system Libc does for CLOCK_REALTIME where implemented.",
+      "revId": "6f6f8a144d89857f67a7826187766f6a1b850ff7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
