@@ -15,11 +15,20 @@
 #ifndef CRASHPAD_UTIL_FILE_FILESYSTEM_H_
 #define CRASHPAD_UTIL_FILE_FILESYSTEM_H_
 
-#include "base/files/file_path.h"
+#include <time.h>
 
+#include "base/files/file_path.h"
 #include "util/file/file_io.h"
 
 namespace crashpad {
+
+//! \brief Determines the modification time for a file, directory, or symbolic
+//!     link, logging a message on failure.
+//!
+//! \param[in] path The file to get the modification time for.
+//! \param[out] mtime The modification time as seconds since the POSIX Epoch.
+//! \return `true` on success. `false` on failure with a message logged.
+bool FileModificationTime(const base::FilePath& path, timespec* mtime);
 
 //! \brief Creates a directory, logging a message on failure.
 //!
