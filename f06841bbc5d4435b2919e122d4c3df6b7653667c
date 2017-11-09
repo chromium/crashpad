@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f623bb8d_4c7f0cb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-09T00:40:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40117d70_a1b9be06",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f660abda_7f8f26ad",
         "filename": "test/filesystem.cc",
         "patchSetId": 29
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "b517576e_a23b717f",
+        "filename": "test/filesystem.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-09T00:40:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8891f4e7_fd8c1adc",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54cc0249_5fdd66ba",
         "filename": "test/filesystem.h",
         "patchSetId": 29
@@ -83,6 +119,24 @@
       "writtenOn": "2017-11-07T19:35:02Z",
       "side": 1,
       "message": "I see what you mean about the use of utimensat() vs. lutimes(), but this comment is confusing, because the resolution is also a property of the filesystem: HFS+ gives seconds, and APFS gives nanoseconds. APFS isn’t a possibility until 10.13, so really, you’re unlikely to get anything better than one-second resolution on, say, 10.12.",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dd9da57_7ac878c0",
+        "filename": "test/filesystem.h",
+        "patchSetId": 29
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-09T00:40:29Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "54cc0249_5fdd66ba",
       "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -106,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "f6aab0d3_5198803b",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-09T00:40:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63b202e0_dc496279",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13d4ce8f_7e275011",
         "filename": "util/file/filesystem_test.cc",
         "patchSetId": 29
@@ -120,6 +192,24 @@
       "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b001877_2f73e2cf",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-09T00:40:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13d4ce8f_7e275011",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "e749c359_96257eb1",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-09T00:40:29Z",
+      "side": 1,
+      "message": "I no longer use SetFileModificationTime here, but I check that the time has changed where I use it in the link tests below.",
+      "parentUuid": "1e84913f_b1cd0d5e",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a51835b3_a3c80c55",
         "filename": "util/file/filesystem_test.cc",
         "patchSetId": 29
@@ -154,6 +262,24 @@
       "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33d74de4_766d421a",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-09T00:40:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a51835b3_a3c80c55",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -192,6 +318,24 @@
     },
     {
       "key": {
+        "uuid": "11ce4e58_e574fb33",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-09T00:40:29Z",
+      "side": 1,
+      "message": "The test on directory modifications affecting timestamps is removed. I\u0027ve also updated the tests for symbolic links to check that the timestamps for links are distinct from timestamps of the targets, but no longer check that modifications to the targets do not update timestamps for the links and have removed that comment from the documentation.",
+      "parentUuid": "c2a239fb_199832cd",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b3e59d89_22b9f6b0",
         "filename": "util/file/filesystem_test.cc",
         "patchSetId": 29
@@ -209,6 +353,24 @@
     },
     {
       "key": {
+        "uuid": "ebda3cba_eb4c84f3",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-09T00:40:29Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "b3e59d89_22b9f6b0",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3696aa4c_57d5f41f",
         "filename": "util/file/filesystem_win.cc",
         "patchSetId": 29
@@ -220,6 +382,24 @@
       "writtenOn": "2017-11-07T19:35:02Z",
       "side": 1,
       "message": "Having FileHandleModificationTime() be a distinct function means that its log message can’t include the file path, and that’s something that you’ve typically been doing in this interface family.",
+      "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abdaa016_f967da57",
+        "filename": "util/file/filesystem_win.cc",
+        "patchSetId": 29
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-09T00:40:29Z",
+      "side": 1,
+      "message": "I did that because I was thinking about also having a FileHandleModificationTime() in filesystem.h (and still am), but I suppose I\u0027ll decide whether to factor this out if/when I decide to actually do that.",
+      "parentUuid": "3696aa4c_57d5f41f",
       "revId": "f06841bbc5d4435b2919e122d4c3df6b7653667c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
