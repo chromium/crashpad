@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85a09018_16ea93a5",
+        "filename": "util/misc/time.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-10T01:02:07Z",
+      "side": 1,
+      "message": "I’d go in struct field order (since there isn’t a reason not to, as there was in TimespecToTimeval()): sec before nsec.",
+      "revId": "7a7bde4921988a94f74331aaec8552a3e32ae3f6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
