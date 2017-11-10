@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dc13955_90cf65a5",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 70
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-10T19:49:39Z",
+      "side": 0,
+      "message": "The only comment so far is that I don’t think we should delete the existing macOS and Windows implementations yet without some sort of a transition plan in place.\n\nFor the time being, I think that our starting point should be to use the new implementation for new databases on those platforms, and to use the implementation that matches what’s on disk for existing databases.",
+      "revId": "6f6f8a144d89857f67a7826187766f6a1b850ff7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
