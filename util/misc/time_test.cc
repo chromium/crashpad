@@ -52,6 +52,12 @@ TEST(Time, TimeConversions) {
   EXPECT_EQ(timeval_birthdate.tv_sec, kCrashpadBirthdate.tv_sec);
   EXPECT_EQ(timeval_birthdate.tv_usec, kCrashpadBirthdate.tv_nsec / 1000);
 
+  timespec timespec_birthdate;
+  TimevalToTimespec(timeval_birthdate, &timespec_birthdate);
+  EXPECT_EQ(timespec_birthdate.tv_sec, kCrashpadBirthdate.tv_sec);
+  EXPECT_EQ(timespec_birthdate.tv_nsec,
+            kCrashpadBirthdate.tv_nsec - (kCrashpadBirthdate.tv_nsec % 1000));
+
   constexpr timespec kEndOfTime = {
     /* .tv_sec= */ std::numeric_limits<decltype(timespec::tv_sec)>::max(),
     /* .tv_nsec= */ 0
@@ -75,7 +81,7 @@ TEST(Time, TimeConversions) {
   EXPECT_EQ(filetime.dwLowDateTime, filetime_birthdate.dwLowDateTime);
   EXPECT_EQ(filetime.dwHighDateTime, filetime_birthdate.dwHighDateTime);
 
-  timespec timespec_birthdate = FiletimeToTimespecEpoch(filetime_birthdate);
+  timespec_birthdate = FiletimeToTimespecEpoch(filetime_birthdate);
   EXPECT_EQ(timespec_birthdate.tv_sec, kCrashpadBirthdate.tv_sec);
   EXPECT_EQ(timespec_birthdate.tv_nsec,
             kCrashpadBirthdate.tv_nsec - kCrashpadBirthdate.tv_nsec % 100);

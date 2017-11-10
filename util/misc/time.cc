@@ -46,4 +46,9 @@ bool TimespecToTimeval(const timespec& ts, timeval* tv) {
   return AssignIfInRange(&tv->tv_sec, ts.tv_sec);
 }
 
+void TimevalToTimespec(const timeval& tv, timespec* ts) {
+  ts->tv_sec = tv.tv_sec;
+  ts->tv_nsec = tv.tv_usec * 1000;
+}
+
 }  // namespace crashpad
