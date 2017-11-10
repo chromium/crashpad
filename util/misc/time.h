@@ -42,6 +42,9 @@ void SubtractTimespec(const timespec& ts1,
 //! \return `true` if the assignment is possible without truncation.
 bool TimespecToTimeval(const timespec& ts, timeval* tv);
 
+//! \brief Convert the timeval \a tv to a timespec \a ts.
+void TimevalToTimespec(const timeval& tv, timespec* ts);
+
 #if defined(OS_WIN) || DOXYGEN
 
 //! \brief Convert a `timespec` to a Windows `FILETIME`, converting from POSIX
