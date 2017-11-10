@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93366b0f_3e444559",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 70
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-10T19:47:32Z",
+      "side": 1,
+      "message": "nit: punctuate comments in this method",
+      "revId": "c5f0fc308a576bc7aec4927a521519e230732d61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1f9c6bb_71d83a2d",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 70
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-10T19:47:32Z",
+      "side": 1,
+      "message": "\"metadata version mismatch\"",
+      "range": {
+        "startLine": 752,
+        "startChar": 19,
+        "endLine": 752,
+        "endChar": 20
+      },
+      "revId": "c5f0fc308a576bc7aec4927a521519e230732d61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73eab6c4_fed90a02",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 70
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-10T19:47:32Z",
+      "side": 1,
+      "message": "Could you document the difference between CheckoutReport and LocateAndLockReport a little more?",
+      "revId": "c5f0fc308a576bc7aec4927a521519e230732d61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ccad3dd_b6e2d0fa",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 70
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-10T19:47:32Z",
+      "side": 1,
+      "message": "and locks?",
+      "range": {
+        "startLine": 414,
+        "startChar": 5,
+        "endLine": 414,
+        "endChar": 12
+      },
+      "revId": "c5f0fc308a576bc7aec4927a521519e230732d61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0b04e80_61884529",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 70
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-10T19:47:32Z",
+      "side": 1,
+      "message": "nit: punctuate comments",
+      "revId": "c5f0fc308a576bc7aec4927a521519e230732d61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
