@@ -27,7 +27,16 @@ namespace test {
 namespace {
 
 bool CurrentTime(timespec* now) {
-#if defined(OS_POSIX)
+#if defined(OS_MACOSX)
+  timeval now_tv;
+  int res = gettimeofday(&now_tv, nullptr);
+  if (res != 0) {
+    EXPECT_EQ(res, 0) << ErrnoMessage("gettimeofday");
+    return false;
+  }
+  TimevalToTimespec(now_tv, now);
+  return true;
+#elif defined(OS_POSIX)
   int res = clock_gettime(CLOCK_REALTIME, now);
   if (res != 0) {
     EXPECT_EQ(res, 0) << ErrnoMessage("clock_gettime");
