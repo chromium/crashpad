@@ -19,9 +19,11 @@
 
 #include <sys/cdefs.h>
 
-#if defined(__GLIBC__) && defined(__x86_64__)
+#if !defined(PTRACE_GET_THREAD_AREA) && \
+    defined(__GLIBC__) && (defined(__i386__) || defined(__x86_64__))
 static constexpr __ptrace_request PTRACE_GET_THREAD_AREA =
     static_cast<__ptrace_request>(25);
-#endif  // __GLIBC__ && __x86_64__
+#define PTRACE_GET_THREAD_AREA PTRACE_GET_THREAD_AREA
+#endif  // !PTRACE_GET_THREAD_AREA && __GLIBC__ && (__i386__ || __x86_64__)
 
 #endif  // CRASHPAD_COMPAT_LINUX_SYS_PTRACE_H_
