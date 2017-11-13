@@ -17,6 +17,7 @@
 #include <stddef.h>
 #include <string.h>
 
+#include <algorithm>
 #include <memory>
 
 #include "base/logging.h"
@@ -80,37 +81,59 @@ bool PEImageReader::GetCrashpadInfo(
     return false;
   }
 
-  if (section.Misc.VirtualSize < sizeof(process_types::CrashpadInfo<Traits>)) {
+  if (section.Misc.VirtualSize < offsetof(process_types::CrashpadInfo<Traits>,
+                                          indirectly_referenced_memory_cap)) {
     LOG(WARNING) << "small crashpad info section size "
                  << section.Misc.VirtualSize << ", "
                  << module_subrange_reader_.name();
     return false;
   }
 
+  const size_t crashpad_info_size = std::min(
+      sizeof(*crashpad_info), static_cast<size_t>(section.Misc.VirtualSize));
+
   ProcessSubrangeReader crashpad_info_subrange_reader;
   const WinVMAddress crashpad_info_address = Address() + section.VirtualAddress;
-  if (!crashpad_info_subrange_reader.InitializeSubrange(
-          module_subrange_reader_,
-          crashpad_info_address,
-          section.Misc.VirtualSize,
-          "crashpad_info")) {
+  if (!crashpad_info_subrange_reader.InitializeSubrange(module_subrange_reader_,
+                                                        crashpad_info_address,
+                                                        crashpad_info_size,
+                                                        "crashpad_info")) {
     return false;
   }
 
   if (!crashpad_info_subrange_reader.ReadMemory(
-          crashpad_info_address,
-          sizeof(process_types::CrashpadInfo<Traits>),
-          crashpad_info)) {
+          crashpad_info_address, crashpad_info_size, crashpad_info)) {
     LOG(WARNING) << "could not read crashpad info from "
                  << module_subrange_reader_.name();
     return false;
   }
 
   if (crashpad_info->signature != CrashpadInfo::kSignature ||
-      crashpad_info->version < 1) {
+      crashpad_info->size < offsetof(process_types::CrashpadInfo<Traits>,
+                                     indirectly_referenced_memory_cap) ||
+      crashpad_info->version != 1) {
     LOG(WARNING) << "unexpected crashpad info data in "
                  << module_subrange_reader_.name();
     return false;
+  }
+
+  if (crashpad_info->size > crashpad_info_size) {
+    LOG(WARNING) << "inconsistent crashpad info section size "
+                 << section.Misc.VirtualSize << " and struct size "
+                 << crashpad_info->size << ", "
+                 << module_subrange_reader_.name();
+    return false;
+  }
+
+  if (crashpad_info->size < sizeof(*crashpad_info)) {
+    // This isn’t strictly a problem, because unknown fields will simply be
+    // ignored, but it may be of diagnostic interest.
+    LOG(INFO) << "large crashpad info struct size " << crashpad_info->size
+              << ", " << module_subrange_reader_.name();
+
+    memset(reinterpret_cast<char*>(crashpad_info) + crashpad_info->size,
+           0,
+           sizeof(*crashpad_info) - crashpad_info->size);
   }
 
   return true;
