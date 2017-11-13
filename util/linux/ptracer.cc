@@ -19,6 +19,8 @@
 #include <sys/ptrace.h>
 #include <sys/uio.h>
 
+#include <vector>
+
 #include "base/logging.h"
 #include "build/build_config.h"
 #include "util/misc/from_pointer_cast.h"
@@ -60,17 +62,54 @@ bool GetFloatingPointRegisters64(pid_t tid, FloatContext* context) {
 bool GetThreadArea32(pid_t tid,
                      const ThreadContext& context,
                      LinuxVMAddress* address) {
-  size_t index = (context.t32.xgs & 0xffff) >> 3;
-  user_desc desc;
-  if (ptrace(
-          PTRACE_GET_THREAD_AREA, tid, reinterpret_cast<void*>(index), &desc) !=
-      0) {
-    PLOG(ERROR) << "ptrace";
+  const unsigned int entry_number = (context.t32.xgs & 0xffff) >> 3;
+
+  // Support reading up to 64 entries.
+  std::vector<user_desc> descs(16);
+  int tries = 3;
+  while (true) {
+    const size_t try_size = descs.size() * sizeof(descs[0]);
+
+    iovec iov;
+    iov.iov_base = descs.data();
+    iov.iov_len = try_size;
+
+    if (ptrace(
+            PTRACE_GETREGSET, tid, reinterpret_cast<void*>(NT_386_TLS), &iov) !=
+        0) {
+      PLOG(ERROR) << "ptrace";
+      return false;
+    }
+
+    if (iov.iov_len > try_size || iov.iov_len % sizeof(descs[0]) != 0) {
+      LOG(ERROR) << "ptrace: unexpected iov_len " << iov.iov_len;
+      return false;
+    }
+
+    if (iov.iov_len == try_size && --tries) {
+      descs.resize(2 * descs.size());
+      continue;
+    }
+
+    // Don’t fail if |tries| has reached 0. The entry is likely to be present
+    // even though the full set may not have been fetched.
+
+    descs.resize(iov.iov_len / sizeof(descs[0]));
+
+    for (const auto& desc : descs) {
+      if (desc.entry_number == entry_number) {
+        *address = desc.base_addr;
+        return true;
+      }
+    }
+
+    if (iov.iov_len == try_size) {
+      LOG(WARNING) << "retries exceeded";
+    } else {
+      LOG(WARNING) << "entry not found";
+    }
     return false;
   }
-
-  *address = desc.base_addr;
-  return true;
 }
 
 bool GetThreadArea64(pid_t tid,
