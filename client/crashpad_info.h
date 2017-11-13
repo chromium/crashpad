@@ -219,6 +219,11 @@ struct CrashpadInfo {
                                  const void* data,
                                  size_t size);
 
+  //! \brief Changes the size of the structure.
+  //!
+  //! \param[in] amount The number of bytes to subtact from the structure size.
+  void DecreaseSizeForTesting(uint32_t amount);
+
   enum : uint32_t {
     kSignature = 'CPad',
   };

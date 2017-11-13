@@ -219,6 +219,11 @@ int CrashyMain(int argc, wchar_t* argv[]) {
   // Encourage the compiler to keep this variable around.
   printf("%p, %p\n", offset_pointer, &offset_pointer);
 
+  // Pare down the size of the structure to make sure a the version of the
+  // structure before annotations_list_ was added is handled correctly.
+  crashpad::CrashpadInfo::GetCrashpadInfo()->DecreaseSizeForTesting(
+      sizeof(uintptr_t));
+
   crashpad::CrashpadInfo::GetCrashpadInfo()
       ->set_gather_indirectly_referenced_memory(
           TriState::kEnabled, std::numeric_limits<uint32_t>::max());

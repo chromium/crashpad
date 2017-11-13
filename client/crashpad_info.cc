@@ -126,4 +126,8 @@ void CrashpadInfo::AddUserDataMinidumpStream(uint32_t stream_type,
   user_data_minidump_stream_head_ = to_be_added;
 }
 
+void CrashpadInfo::DecreaseSizeForTesting(uint32_t amount) {
+  size_ -= amount;
+}
+
 }  // namespace crashpad
