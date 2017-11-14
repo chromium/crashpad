@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f508811_169de7e2",
+        "filename": "snapshot/crashpad_info_client_options_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-14T21:23:15Z",
+      "side": 1,
+      "message": "Could use a TEST_P here instead.",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 301,
+        "endChar": 4
+      },
+      "revId": "dcb6a37d4bda86365e3d5d2d4ec283975e491237",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fb09e6d_07260281",
+        "filename": "snapshot/mac/process_types/custom.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-14T21:23:15Z",
+      "side": 1,
+      "message": "Should this math be checked?",
+      "range": {
+        "startLine": 65,
+        "startChar": 18,
+        "endLine": 65,
+        "endChar": 19
+      },
+      "revId": "dcb6a37d4bda86365e3d5d2d4ec283975e491237",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3431574c_1eefff90",
+        "filename": "snapshot/mac/process_types/custom.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-14T21:23:15Z",
+      "side": 1,
+      "message": "Same.",
+      "range": {
+        "startLine": 79,
+        "startChar": 33,
+        "endLine": 79,
+        "endChar": 34
+      },
+      "revId": "dcb6a37d4bda86365e3d5d2d4ec283975e491237",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
