@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "37991c67_f2f99ac8",
+        "filename": "snapshot/crashpad_info_client_options_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-14T23:05:23Z",
+      "side": 1,
+      "message": "Done\n\nAlso, I expanded the test to set a low size embedded in the struct, and I’m verifying that the part that lies beyond that size reads back out as zero.",
+      "parentUuid": "3f508811_169de7e2",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 301,
+        "endChar": 4
+      },
+      "revId": "dcb6a37d4bda86365e3d5d2d4ec283975e491237",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fb09e6d_07260281",
         "filename": "snapshot/mac/process_types/custom.cc",
         "patchSetId": 10
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3a0c4ca7_82f19211",
+        "filename": "snapshot/mac/process_types/custom.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-14T23:05:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fb09e6d_07260281",
+      "range": {
+        "startLine": 65,
+        "startChar": 18,
+        "endLine": 65,
+        "endChar": 19
+      },
+      "revId": "dcb6a37d4bda86365e3d5d2d4ec283975e491237",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3431574c_1eefff90",
         "filename": "snapshot/mac/process_types/custom.cc",
         "patchSetId": 10
@@ -68,6 +116,30 @@
       "revId": "dcb6a37d4bda86365e3d5d2d4ec283975e491237",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f8cfa28_4a1d51a3",
+        "filename": "snapshot/mac/process_types/custom.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-14T23:05:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3431574c_1eefff90",
+      "range": {
+        "startLine": 79,
+        "startChar": 33,
+        "endLine": 79,
+        "endChar": 34
+      },
+      "revId": "dcb6a37d4bda86365e3d5d2d4ec283975e491237",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
