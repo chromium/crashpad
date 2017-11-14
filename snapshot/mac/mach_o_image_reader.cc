@@ -481,7 +481,7 @@ bool MachOImageReader::GetCrashpadInfo(
   }
 
   if (crashpad_info_section->size <
-      crashpad_info->ExpectedSize(process_reader_)) {
+      crashpad_info->MinimumSize(process_reader_)) {
     LOG(WARNING) << "small crashpad info section size "
                  << crashpad_info_section->size << module_info_;
     return false;
@@ -493,10 +493,27 @@ bool MachOImageReader::GetCrashpadInfo(
   }
 
   if (crashpad_info->signature != CrashpadInfo::kSignature ||
-      crashpad_info->size != crashpad_info_section->size ||
-      crashpad_info->version < 1) {
-    LOG(WARNING) << "unexpected crashpad info data" << module_info_;
+      crashpad_info->version != 1) {
+    LOG(WARNING) << base::StringPrintf(
+        "unexpected crashpad info signature 0x%x, version %u%s",
+        crashpad_info->signature,
+        crashpad_info->version,
+        module_info_.c_str());
     return false;
+  }
+
+  if (crashpad_info->size != crashpad_info_section->size) {
+    LOG(WARNING) << "crashpad info struct size " << crashpad_info->size
+                 << " mismatch with section size "
+                 << crashpad_info_section->size << module_info_;
+    return false;
+  }
+
+  if (crashpad_info->size > crashpad_info->ExpectedSize(process_reader_)) {
+    // This isn’t strictly a problem, because unknown fields will simply be
+    // ignored, but it may be of diagnostic interest.
+    LOG(INFO) << "large crashpad info size " << crashpad_info->size
+              << module_info_;
   }
 
   return true;
