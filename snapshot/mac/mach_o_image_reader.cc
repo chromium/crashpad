@@ -16,6 +16,7 @@
 
 #include <mach-o/loader.h>
 #include <mach-o/nlist.h>
+#include <stddef.h>
 #include <string.h>
 
 #include <limits>
@@ -481,7 +482,7 @@ bool MachOImageReader::GetCrashpadInfo(
   }
 
   if (crashpad_info_section->size <
-      crashpad_info->ExpectedSize(process_reader_)) {
+      crashpad_info->MinimumSize(process_reader_)) {
     LOG(WARNING) << "small crashpad info section size "
                  << crashpad_info_section->size << module_info_;
     return false;
@@ -494,9 +495,16 @@ bool MachOImageReader::GetCrashpadInfo(
 
   if (crashpad_info->signature != CrashpadInfo::kSignature ||
       crashpad_info->size != crashpad_info_section->size ||
-      crashpad_info->version < 1) {
+      crashpad_info->version != 1) {
     LOG(WARNING) << "unexpected crashpad info data" << module_info_;
     return false;
+  }
+
+  if (crashpad_info->size > crashpad_info->ExpectedSize(process_reader_)) {
+    // This isn’t strictly a problem, because unknown fields will simply be
+    // ignored, but it may be of diagnostic interest.
+    LOG(INFO) << "large crashpad info size " << crashpad_info->size
+              << module_info_;
   }
 
   return true;
