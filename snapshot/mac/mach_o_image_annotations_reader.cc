@@ -153,11 +153,8 @@ void MachOImageAnnotationsReader::ReadDyldErrorStringAnnotation(
 void MachOImageAnnotationsReader::ReadCrashpadSimpleAnnotations(
     std::map<std::string, std::string>* simple_map_annotations) const {
   process_types::CrashpadInfo crashpad_info;
-  if (!image_reader_->GetCrashpadInfo(&crashpad_info)) {
-    return;
-  }
-
-  if (!crashpad_info.simple_annotations) {
+  if (!image_reader_->GetCrashpadInfo(&crashpad_info) ||
+      !crashpad_info.simple_annotations) {
     return;
   }
 
@@ -189,11 +186,8 @@ void MachOImageAnnotationsReader::ReadCrashpadSimpleAnnotations(
 void MachOImageAnnotationsReader::ReadCrashpadAnnotationsList(
     std::vector<AnnotationSnapshot>* annotations) const {
   process_types::CrashpadInfo crashpad_info;
-  if (!image_reader_->GetCrashpadInfo(&crashpad_info)) {
-    return;
-  }
-
-  if (!crashpad_info.annotations_list) {
+  if (!image_reader_->GetCrashpadInfo(&crashpad_info) ||
+      !crashpad_info.annotations_list) {
     return;
   }
 
