@@ -85,11 +85,10 @@ template <class Traits>
 void PEImageAnnotationsReader::ReadCrashpadSimpleAnnotations(
     std::map<std::string, std::string>* simple_map_annotations) const {
   process_types::CrashpadInfo<Traits> crashpad_info;
-  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info))
+  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info) ||
+      !crashpad_info.simple_annotations) {
     return;
-
-  if (!crashpad_info.simple_annotations)
-    return;
+  }
 
   std::vector<SimpleStringDictionary::Entry>
       simple_annotations(SimpleStringDictionary::num_entries);
@@ -122,11 +121,8 @@ template <class Traits>
 void PEImageAnnotationsReader::ReadCrashpadAnnotationsList(
     std::vector<AnnotationSnapshot>* vector_annotations) const {
   process_types::CrashpadInfo<Traits> crashpad_info;
-  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info)) {
-    return;
-  }
-
-  if (!crashpad_info.annotations_list) {
+  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info) ||
+      !crashpad_info.annotations_list) {
     return;
   }
 

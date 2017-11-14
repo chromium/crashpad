@@ -94,12 +94,14 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
                                                                                \
     /* Returns the size of the object that was read. This is the size of the   \
      * storage in the process that the data is read from, and is not the same  \
-     * as the size of the generic struct. */                                   \
+     * as the size of the generic struct. For versioned and sized structures,  \
+     * the size of the full structure is returned. */                          \
     size_t Size() const { return size_; }                                      \
                                                                                \
     /* Similar to Size(), but computes the expected size of a structure based  \
      * on the process’ bitness. This can be used prior to reading any data     \
-     * from a process. */                                                      \
+     * from a process. For versioned and sized structures,                     \
+     * ExpectedSizeForVersion() and MinimumSize() may also be useful. */       \
     static size_t ExpectedSize(ProcessReader* process_reader);
 
 #define PROCESS_TYPE_STRUCT_MEMBER(member_type, member_name, ...)              \
@@ -113,6 +115,13 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
     static size_t ExpectedSizeForVersion(                                      \
         ProcessReader* process_reader,                                         \
         decltype(struct_name::version_field) version);
+
+#define PROCESS_TYPE_STRUCT_SIZED(struct_name, size_field)                     \
+  /* Similar to ExpectedSize(), but computes the minimum size of a             \
+   * structure based on the process’ bitness, typically including enough of    \
+   * a structure to contain its size field. This can be used prior to          \
+   * reading any data from a process. */                                       \
+  static size_t MinimumSize(ProcessReader* process_reader);
 
 #define PROCESS_TYPE_STRUCT_END(struct_name)                                   \
    private:                                                                    \
@@ -140,6 +149,7 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
 #undef PROCESS_TYPE_STRUCT_BEGIN
 #undef PROCESS_TYPE_STRUCT_MEMBER
 #undef PROCESS_TYPE_STRUCT_VERSIONED
+#undef PROCESS_TYPE_STRUCT_SIZED
 #undef PROCESS_TYPE_STRUCT_END
 #undef PROCESS_TYPE_STRUCT_DECLARE
 
@@ -195,6 +205,10 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
     static size_t ExpectedSizeForVersion(                                      \
         decltype(struct_name::version_field) version);
 
+#define PROCESS_TYPE_STRUCT_SIZED(struct_name, size_field)                     \
+  /* MinimumSize() is as in the generic user-visible struct above. */          \
+  static size_t MinimumSize();
+
 #define PROCESS_TYPE_STRUCT_END(struct_name)                                   \
    private:                                                                    \
     /* ReadInto() is as in the generic user-visible struct above. */           \
@@ -211,6 +225,7 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
 #undef PROCESS_TYPE_STRUCT_BEGIN
 #undef PROCESS_TYPE_STRUCT_MEMBER
 #undef PROCESS_TYPE_STRUCT_VERSIONED
+#undef PROCESS_TYPE_STRUCT_SIZED
 #undef PROCESS_TYPE_STRUCT_END
 #undef PROCESS_TYPE_STRUCT_DECLARE_INTERNAL
 
