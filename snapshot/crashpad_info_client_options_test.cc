@@ -229,6 +229,83 @@ TEST(CrashpadInfoClientOptions, TwoModules) {
   }
 }
 
+enum class DifferentSize {
+  kSmall,
+  kLarge,
+};
+
+void TestDifferentlySizedModule(DifferentSize different_size) {
+  base::FilePath::StringType artifact(FILE_PATH_LITERAL("module_"));
+  switch (different_size) {
+    case DifferentSize::kSmall:
+      artifact += FILE_PATH_LITERAL("small");
+      break;
+    case DifferentSize::kLarge:
+      artifact += FILE_PATH_LITERAL("large");
+      break;
+  }
+
+  // Open the module, which has its a CrashpadInfo-like structure that’s smaller
+  // or larger than the current version’s CrashpadInfo structure defined in the
+  // client library.
+  base::FilePath module_path =
+      TestPaths::BuildArtifact(FILE_PATH_LITERAL("snapshot"),
+                               artifact,
+                               TestPaths::FileType::kLoadableModule);
+#if defined(OS_MACOSX)
+  ScopedModuleHandle module(
+      dlopen(module_path.value().c_str(), RTLD_LAZY | RTLD_LOCAL));
+  ASSERT_TRUE(module.valid())
+      << "dlopen " << module_path.value() << ": " << dlerror();
+#elif defined(OS_WIN)
+  ScopedModuleHandle module(LoadLibrary(module_path.value().c_str()));
+  ASSERT_TRUE(module.valid())
+      << "LoadLibrary " << base::UTF16ToUTF8(module_path.value()) << ": "
+      << ErrorMessage();
+#else
+#error Port.
+#endif  // OS_MACOSX
+
+  // Get the function pointer from the module.
+  CrashpadInfo* (*TestModule_GetCrashpadInfo)() =
+      module.LookUpSymbol<CrashpadInfo* (*)()>("TestModule_GetCrashpadInfo");
+  ASSERT_TRUE(TestModule_GetCrashpadInfo);
+
+  auto options = SelfProcessSnapshotAndGetCrashpadOptions();
+
+  // Make sure that the initial state has all values unset.
+  EXPECT_EQ(options.crashpad_handler_behavior, TriState::kUnset);
+  EXPECT_EQ(options.system_crash_reporter_forwarding, TriState::kUnset);
+  EXPECT_EQ(options.gather_indirectly_referenced_memory, TriState::kUnset);
+
+  // Get the remote CrashpadInfo structure.
+  CrashpadInfo* remote_crashpad_info = TestModule_GetCrashpadInfo();
+  ASSERT_TRUE(remote_crashpad_info);
+
+  {
+    ScopedUnsetCrashpadInfoOptions unset_remote(remote_crashpad_info);
+
+    // Make sure that a change in the remote structure can be read back out,
+    // even though the remote structure is a different size.
+    remote_crashpad_info->set_crashpad_handler_behavior(TriState::kEnabled);
+    remote_crashpad_info->set_system_crash_reporter_forwarding(
+        TriState::kDisabled);
+
+    options = SelfProcessSnapshotAndGetCrashpadOptions();
+    EXPECT_EQ(options.crashpad_handler_behavior, TriState::kEnabled);
+    EXPECT_EQ(options.system_crash_reporter_forwarding, TriState::kDisabled);
+    EXPECT_EQ(options.gather_indirectly_referenced_memory, TriState::kUnset);
+  }
+}
+
+TEST(CrashpadInfoClientOptions, SmallModule) {
+  TestDifferentlySizedModule(DifferentSize::kSmall);
+}
+
+TEST(CrashpadInfoClientOptions, LargeModule) {
+  TestDifferentlySizedModule(DifferentSize::kLarge);
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
