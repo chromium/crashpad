@@ -16,6 +16,24 @@
       "revId": "6f6f8a144d89857f67a7826187766f6a1b850ff7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9e8ef2b_c49215d9",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 70
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-15T21:38:02Z",
+      "side": 0,
+      "message": "This may be a silly question, but what sorts of things would a transition plan entail?",
+      "parentUuid": "5dc13955_90cf65a5",
+      "revId": "6f6f8a144d89857f67a7826187766f6a1b850ff7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
