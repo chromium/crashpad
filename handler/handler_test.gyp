@@ -38,6 +38,7 @@
       ],
       'sources': [
         'crashpad_handler_test.cc',
+        'linux/exception_handler_server_test.cc',
         'minidump_to_upload_parameters_test.cc',
       ],
       'conditions': [
