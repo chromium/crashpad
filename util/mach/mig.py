@@ -21,6 +21,18 @@ import re
 import subprocess
 import sys
 
+# For all the server_routines in this list, FixServerImplementation()
+# will modify the _Xserver_routine function to not call out to
+# server_routine and will instead set the MIG RetCode to KERN_FAILURE.
+_SERVER_ROUTINES_TO_NOP = [
+    'catch_exception_raise',
+    'catch_exception_raise_state',
+    'catch_exception_raise_state_identity',
+    'catch_mach_exception_raise',
+    'catch_mach_exception_raise_state',
+    'catch_mach_exception_raise_state_identity',
+    ]
+
 def FixUserImplementation(implementation):
   """Rewrites a MIG-generated user implementation (.c) file.
 
@@ -72,6 +84,15 @@ def FixServerImplementation(implementation):
 
   # Rewrite the declarations in this file as “mig_external”.
   contents = declaration_pattern.sub(r'mig_external \1', contents);
+
+  # For server routines that Crashpad does not implement, rather than writing
+  # empty stub implementations, remove the callout and return failure.
+  routine_callout_pattern = re.compile(
+      r'OutP->RetCode = (([a-zA-Z0-9_]+)\(.+\));')
+  routine_callouts = routine_callout_pattern.findall(contents)
+  for routine in routine_callouts:
+    if routine[1] in _SERVER_ROUTINES_TO_NOP:
+      contents = contents.replace(routine[0], 'KERN_FAILURE')
 
   file.seek(0)
   file.truncate()
