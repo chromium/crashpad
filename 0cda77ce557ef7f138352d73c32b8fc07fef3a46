@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e62edc4_8c9a8bf4",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-15T23:33:43Z",
+      "side": 1,
+      "message": "We don’t ever implement any of these “for real”. If you want to axe some more code (and I recommend it!), you can get rid of this line, the _SERVER_ROUTINES_TO_NOP list, one bogus function from util/mach/child_port_server.cc, and five bogus functions from util/mach/notify_server.cc.",
+      "revId": "0cda77ce557ef7f138352d73c32b8fc07fef3a46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7404ff0e_3ff2d7a6",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-15T23:33:43Z",
+      "side": 1,
+      "message": "If you can get \u003cabort.h\u003e #included, then you could do\n\nKERN_FAILURE;abort()\n\nto get more assurance of disuse. Our bogus functions had NOTREACHED().",
+      "revId": "0cda77ce557ef7f138352d73c32b8fc07fef3a46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
