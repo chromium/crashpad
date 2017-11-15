@@ -25,6 +25,11 @@
 
 namespace {
 
+// Don’t change this when simply adding fields. Readers will size-check the
+// structure and ignore fields they’re aware of when not present, as well as
+// fields they’re not aware of. Only change this when introducing an
+// incompatible layout, with the understanding that existing readers will not
+// understand new versions.
 constexpr uint32_t kCrashpadInfoVersion = 1;
 
 }  // namespace
@@ -106,13 +111,7 @@ CrashpadInfo::CrashpadInfo()
       extra_memory_ranges_(nullptr),
       simple_annotations_(nullptr),
       user_data_minidump_stream_head_(nullptr),
-      annotations_list_(nullptr)
-#if !defined(NDEBUG) && defined(OS_WIN)
-      ,
-      invalid_read_detection_(0xbadc0de)
-#endif
-{
-}
+      annotations_list_(nullptr) {}
 
 void CrashpadInfo::AddUserDataMinidumpStream(uint32_t stream_type,
                                              const void* data,

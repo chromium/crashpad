@@ -233,10 +233,10 @@ struct CrashpadInfo {
 #pragma clang diagnostic ignored "-Wunused-private-field"
 #endif
 
-  // Fields present in version 1:
+  // Fields present in version 1, subject to a check of the size_ field:
   uint32_t signature_;  // kSignature
   uint32_t size_;  // The size of the entire CrashpadInfo structure.
-  uint32_t version_;  // kVersion
+  uint32_t version_;  // kCrashpadInfoVersion
   uint32_t indirectly_referenced_memory_cap_;
   uint32_t padding_0_;
   TriState crashpad_handler_behavior_;
@@ -248,9 +248,11 @@ struct CrashpadInfo {
   internal::UserDataMinidumpStreamListEntry* user_data_minidump_stream_head_;
   AnnotationList* annotations_list_;  // weak
 
-#if !defined(NDEBUG) && defined(OS_WIN)
-  uint32_t invalid_read_detection_;
-#endif
+  // It’s generally safe to add new fields without changing
+  // kCrashpadInfoVersion, because readers should check size_ and ignore fields
+  // that aren’t present, as well as unknown fields.
+  //
+  // Adding fields? Consider snapshot/crashpad_info_size_test_module.cc too.
 
 #if defined(__clang__)
 #pragma clang diagnostic pop

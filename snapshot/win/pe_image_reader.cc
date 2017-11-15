@@ -17,9 +17,11 @@
 #include <stddef.h>
 #include <string.h>
 
+#include <algorithm>
 #include <memory>
 
 #include "base/logging.h"
+#include "base/strings/stringprintf.h"
 #include "client/crashpad_info.h"
 #include "snapshot/win/pe_image_resource_reader.h"
 #include "util/misc/from_pointer_cast.h"
@@ -80,37 +82,56 @@ bool PEImageReader::GetCrashpadInfo(
     return false;
   }
 
-  if (section.Misc.VirtualSize < sizeof(process_types::CrashpadInfo<Traits>)) {
+  if (section.Misc.VirtualSize <
+      offsetof(process_types::CrashpadInfo<Traits>, size) +
+          sizeof(crashpad_info->size)) {
     LOG(WARNING) << "small crashpad info section size "
                  << section.Misc.VirtualSize << ", "
                  << module_subrange_reader_.name();
     return false;
   }
 
-  ProcessSubrangeReader crashpad_info_subrange_reader;
   const WinVMAddress crashpad_info_address = Address() + section.VirtualAddress;
-  if (!crashpad_info_subrange_reader.InitializeSubrange(
-          module_subrange_reader_,
-          crashpad_info_address,
-          section.Misc.VirtualSize,
-          "crashpad_info")) {
-    return false;
-  }
-
-  if (!crashpad_info_subrange_reader.ReadMemory(
-          crashpad_info_address,
-          sizeof(process_types::CrashpadInfo<Traits>),
-          crashpad_info)) {
+  const WinVMSize crashpad_info_size =
+      std::min(static_cast<WinVMSize>(sizeof(*crashpad_info)),
+               static_cast<WinVMSize>(section.Misc.VirtualSize));
+  if (!module_subrange_reader_.ReadMemory(
+          crashpad_info_address, crashpad_info_size, crashpad_info)) {
     LOG(WARNING) << "could not read crashpad info from "
                  << module_subrange_reader_.name();
     return false;
   }
 
+  if (crashpad_info->size < sizeof(*crashpad_info)) {
+    // Zero out anything beyond the structure’s declared size.
+    memset(reinterpret_cast<char*>(crashpad_info) + crashpad_info->size,
+           0,
+           sizeof(*crashpad_info) - crashpad_info->size);
+  }
+
   if (crashpad_info->signature != CrashpadInfo::kSignature ||
-      crashpad_info->version < 1) {
-    LOG(WARNING) << "unexpected crashpad info data in "
-                 << module_subrange_reader_.name();
+      crashpad_info->version != 1) {
+    LOG(WARNING) << base::StringPrintf(
+        "unexpected crashpad info signature 0x%x, version %u in %s",
+        crashpad_info->signature,
+        crashpad_info->version,
+        module_subrange_reader_.name().c_str());
     return false;
+  }
+
+  // Don’t require strict equality, to leave wiggle room for sloppy linkers.
+  if (crashpad_info->size > section.Misc.VirtualSize) {
+    LOG(WARNING) << "crashpad info struct size " << crashpad_info->size
+                 << " large for section size " << section.Misc.VirtualSize
+                 << " in " << module_subrange_reader_.name();
+    return false;
+  }
+
+  if (crashpad_info->size > sizeof(*crashpad_info)) {
+    // This isn’t strictly a problem, because unknown fields will simply be
+    // ignored, but it may be of diagnostic interest.
+    LOG(INFO) << "large crashpad info size " << crashpad_info->size << ", "
+              << module_subrange_reader_.name();
   }
 
   return true;

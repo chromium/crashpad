@@ -272,11 +272,10 @@ template <class Traits>
 void ModuleSnapshotWin::GetCrashpadExtraMemoryRanges(
     std::set<CheckedRange<uint64_t>>* ranges) const {
   process_types::CrashpadInfo<Traits> crashpad_info;
-  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info))
+  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info) ||
+      !crashpad_info.extra_address_ranges) {
     return;
-
-  if (!crashpad_info.extra_address_ranges)
-    return;
+  }
 
   std::vector<SimpleAddressRangeBag::Entry> simple_ranges(
       SimpleAddressRangeBag::num_entries);

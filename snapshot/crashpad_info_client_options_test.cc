@@ -14,6 +14,7 @@
 
 #include "snapshot/crashpad_info_client_options.h"
 
+#include "base/auto_reset.h"
 #include "base/files/file_path.h"
 #include "base/macros.h"
 #include "base/strings/utf_string_conversions.h"
@@ -228,6 +229,101 @@ TEST(CrashpadInfoClientOptions, TwoModules) {
     EXPECT_EQ(options.gather_indirectly_referenced_memory, TriState::kUnset);
   }
 }
+
+class CrashpadInfoSizes_ClientOptions
+    : public testing::TestWithParam<base::FilePath::StringType> {};
+
+TEST_P(CrashpadInfoSizes_ClientOptions, DifferentlySizedStruct) {
+  base::FilePath::StringType artifact(FILE_PATH_LITERAL("module_"));
+  artifact += GetParam();
+
+  // Open the module, which has a CrashpadInfo-like structure that’s smaller or
+  // larger than the current version’s CrashpadInfo structure defined in the
+  // client library.
+  base::FilePath module_path =
+      TestPaths::BuildArtifact(FILE_PATH_LITERAL("snapshot"),
+                               artifact,
+                               TestPaths::FileType::kLoadableModule);
+#if defined(OS_MACOSX)
+  ScopedModuleHandle module(
+      dlopen(module_path.value().c_str(), RTLD_LAZY | RTLD_LOCAL));
+  ASSERT_TRUE(module.valid())
+      << "dlopen " << module_path.value() << ": " << dlerror();
+#elif defined(OS_WIN)
+  ScopedModuleHandle module(LoadLibrary(module_path.value().c_str()));
+  ASSERT_TRUE(module.valid())
+      << "LoadLibrary " << base::UTF16ToUTF8(module_path.value()) << ": "
+      << ErrorMessage();
+#else
+#error Port.
+#endif  // OS_MACOSX
+
+  // Get the function pointer from the module.
+  CrashpadInfo* (*TestModule_GetCrashpadInfo)() =
+      module.LookUpSymbol<CrashpadInfo* (*)()>("TestModule_GetCrashpadInfo");
+  ASSERT_TRUE(TestModule_GetCrashpadInfo);
+
+  auto options = SelfProcessSnapshotAndGetCrashpadOptions();
+
+  // Make sure that the initial state has all values unset.
+  EXPECT_EQ(options.crashpad_handler_behavior, TriState::kUnset);
+  EXPECT_EQ(options.system_crash_reporter_forwarding, TriState::kUnset);
+  EXPECT_EQ(options.gather_indirectly_referenced_memory, TriState::kUnset);
+
+  // Get the remote CrashpadInfo structure.
+  CrashpadInfo* remote_crashpad_info = TestModule_GetCrashpadInfo();
+  ASSERT_TRUE(remote_crashpad_info);
+
+  {
+    ScopedUnsetCrashpadInfoOptions unset_remote(remote_crashpad_info);
+
+    // Make sure that a change in the remote structure can be read back out,
+    // even though it’s a different size.
+    remote_crashpad_info->set_crashpad_handler_behavior(TriState::kEnabled);
+    remote_crashpad_info->set_system_crash_reporter_forwarding(
+        TriState::kDisabled);
+
+    options = SelfProcessSnapshotAndGetCrashpadOptions();
+    EXPECT_EQ(options.crashpad_handler_behavior, TriState::kEnabled);
+    EXPECT_EQ(options.system_crash_reporter_forwarding, TriState::kDisabled);
+    EXPECT_EQ(options.gather_indirectly_referenced_memory, TriState::kUnset);
+  }
+
+  {
+    ScopedUnsetCrashpadInfoOptions unset_remote(remote_crashpad_info);
+
+    // Make sure that the portion of the remote structure lying beyond its
+    // declared size reads as zero.
+
+    // 4 = offsetof(CrashpadInfo, size_), but it’s private.
+    uint32_t* size = reinterpret_cast<uint32_t*>(
+        reinterpret_cast<char*>(remote_crashpad_info) + 4);
+
+    // 21 = offsetof(CrashpadInfo, system_crash_reporter_forwarding_, but it’s
+    // private.
+    base::AutoReset<uint32_t> reset_size(size, 21);
+
+    // system_crash_reporter_forwarding_ is now beyond the struct’s declared
+    // size. Storage has actually been allocated for it, so it’s safe to set
+    // here.
+    remote_crashpad_info->set_crashpad_handler_behavior(TriState::kEnabled);
+    remote_crashpad_info->set_system_crash_reporter_forwarding(
+        TriState::kDisabled);
+
+    // Since system_crash_reporter_forwarding_ is beyond the struct’s declared
+    // size, it should read as 0 (TriState::kUnset), even though it was set to
+    // a different value above.
+    options = SelfProcessSnapshotAndGetCrashpadOptions();
+    EXPECT_EQ(options.crashpad_handler_behavior, TriState::kEnabled);
+    EXPECT_EQ(options.system_crash_reporter_forwarding, TriState::kUnset);
+    EXPECT_EQ(options.gather_indirectly_referenced_memory, TriState::kUnset);
+  }
+}
+
+INSTANTIATE_TEST_CASE_P(CrashpadInfoSizes_ClientOptions,
+                        CrashpadInfoSizes_ClientOptions,
+                        testing::Values(FILE_PATH_LITERAL("small"),
+                                        FILE_PATH_LITERAL("large")));
 
 }  // namespace
 }  // namespace test
