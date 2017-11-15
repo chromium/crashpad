@@ -53,6 +53,8 @@
       'type': 'executable',
       'dependencies': [
         'crashpad_snapshot_test_module',
+        'crashpad_snapshot_test_module_large',
+        'crashpad_snapshot_test_module_small',
         'snapshot.gyp:crashpad_snapshot',
         'snapshot.gyp:crashpad_snapshot_api',
         '../client/client.gyp:crashpad_client',
@@ -159,6 +161,32 @@
       ],
       'sources': [
         'crashpad_info_client_options_test_module.cc',
+      ],
+    },
+    {
+      'target_name': 'crashpad_snapshot_test_module_large',
+      'type': 'loadable_module',
+      'dependencies': [
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
+      ],
+      'defines': [
+        'CRASHPAD_INFO_SIZE_TEST_MODULE_LARGE=1',
+      ],
+      'sources': [
+        'crashpad_info_size_test_module.cc',
+      ],
+    },
+    {
+      'target_name': 'crashpad_snapshot_test_module_small',
+      'type': 'loadable_module',
+      'dependencies': [
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
+      ],
+      'defines': [
+        'CRASHPAD_INFO_SIZE_TEST_MODULE_SMALL=1',
+      ],
+      'sources': [
+        'crashpad_info_size_test_module.cc',
       ],
     },
   ],
