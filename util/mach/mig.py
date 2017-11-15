@@ -73,6 +73,18 @@ def FixServerImplementation(implementation):
   # Rewrite the declarations in this file as “mig_external”.
   contents = declaration_pattern.sub(r'mig_external \1', contents);
 
+  # Crashpad never implements the mach_msg_server() MIG callouts. To avoid
+  # needing to provide stub implementations, set KERN_FAILURE as the RetCode
+  # and abort().
+  routine_callout_pattern = re.compile(
+      r'OutP->RetCode = (([a-zA-Z0-9_]+)\(.+\));')
+  routine_callouts = routine_callout_pattern.findall(contents)
+  for routine in routine_callouts:
+    contents = contents.replace(routine[0], 'KERN_FAILURE; abort()')
+
+  # Include the header for abort().
+  contents = '#include <stdlib.h>\n' + contents
+
   file.seek(0)
   file.truncate()
   file.write(contents)
