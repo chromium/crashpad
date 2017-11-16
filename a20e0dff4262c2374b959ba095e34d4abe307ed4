@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "442e3d3d_b3593f72",
+        "filename": "client/annotation.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-16T20:10:23Z",
+      "side": 1,
+      "message": "Sure, memcpy works too.",
+      "parentUuid": "3adcd0d8_2e7fe134",
+      "revId": "a20e0dff4262c2374b959ba095e34d4abe307ed4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0eeb44_7c5e2d76",
         "filename": "client/annotation_test.cc",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "a20e0dff4262c2374b959ba095e34d4abe307ed4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4300e9b3_d5ec2b91",
+        "filename": "client/annotation_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-16T20:10:23Z",
+      "side": 1,
+      "message": "Ah nifty.",
+      "parentUuid": "2d0eeb44_7c5e2d76",
+      "revId": "a20e0dff4262c2374b959ba095e34d4abe307ed4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
