@@ -25,6 +25,7 @@
 #include "base/logging.h"
 #include "base/macros.h"
 #include "base/numerics/safe_conversions.h"
+#include "base/strings/string_piece.h"
 #include "build/build_config.h"
 
 namespace crashpad {
@@ -208,6 +209,22 @@ class StringAnnotation : public Annotation {
     strncpy(value_, value, MaxSize);
     SetSize(
         std::min(MaxSize, base::saturated_cast<ValueSizeType>(strlen(value))));
+  }
+
+  //! \brief Sets the Annotation's string value.
+  //!
+  //! \param[in] value The string value.
+  void Set(base::StringPiece string) {
+    Annotation::ValueSizeType size =
+        std::min(MaxSize, base::saturated_cast<ValueSizeType>(string.size()));
+    memcpy(value_, string.data(), size);
+    // Check for no embedded `NUL` characters.
+    DCHECK(!memchr(value_, '\0', size));
+    SetSize(size);
+  }
+
+  const base::StringPiece value() const {
+    return base::StringPiece(value_, size());
   }
 
  private:
