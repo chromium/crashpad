@@ -19,6 +19,7 @@
 #include "client/annotation_list.h"
 #include "client/crashpad_info.h"
 #include "gtest/gtest.h"
+#include "test/gtest_death_check.h"
 
 namespace crashpad {
 namespace test {
@@ -81,14 +82,13 @@ TEST_F(Annotation, Basics) {
 
 TEST_F(Annotation, StringType) {
   crashpad::StringAnnotation<5> annotation("name");
-  const char* value_ptr = static_cast<const char*>(annotation.value());
 
   EXPECT_FALSE(annotation.is_set());
 
   EXPECT_EQ(crashpad::Annotation::Type::kString, annotation.type());
   EXPECT_EQ(0u, annotation.size());
   EXPECT_EQ(std::string("name"), annotation.name());
-  EXPECT_EQ(0u, strlen(value_ptr));
+  EXPECT_EQ(0u, annotation.value().size());
 
   annotation.Set("test");
 
@@ -96,15 +96,19 @@ TEST_F(Annotation, StringType) {
   EXPECT_EQ(1u, AnnotationsCount());
 
   EXPECT_EQ(4u, annotation.size());
-  EXPECT_EQ(std::string("test"), value_ptr);
+  EXPECT_EQ("test", annotation.value());
 
-  annotation.Set("loooooooooooong");
+  annotation.Set(std::string("loooooooooooong"));
 
   EXPECT_TRUE(annotation.is_set());
   EXPECT_EQ(1u, AnnotationsCount());
 
   EXPECT_EQ(5u, annotation.size());
-  EXPECT_EQ(std::string("loooo"), std::string(value_ptr, annotation.size()));
+  EXPECT_EQ("loooo", annotation.value());
+
+#if DCHECK_IS_ON()
+  EXPECT_DEATH_CHECK(annotation.Set(std::string("te\0st", 5)), "");
+#endif
 }
 
 }  // namespace
