@@ -69,6 +69,24 @@
       "revId": "a20e0dff4262c2374b959ba095e34d4abe307ed4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ca05d4b_94c76c75",
+        "filename": "client/annotation_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-16T21:58:01Z",
+      "side": 1,
+      "message": "\u003e Ah nifty.\n\nWait ’til you see what I’m gonna teach EXPECT_DEATH_CHECK to do.",
+      "parentUuid": "4300e9b3_d5ec2b91",
+      "revId": "a20e0dff4262c2374b959ba095e34d4abe307ed4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
