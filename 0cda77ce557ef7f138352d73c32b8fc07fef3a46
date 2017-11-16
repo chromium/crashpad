@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "29bf0c1e_441bcc6b",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-16T01:15:01Z",
+      "side": 1,
+      "message": "\u003e one bogus function from util/mach/child_port_server.cc, and five bogus functions from util/mach/notify_server.cc.\n\nGerrit is being absolutely awful, but it looks like you didn\u0027t actually remove the now-unused stubs in the two other .cc files.",
+      "parentUuid": "f5201b59_92613924",
+      "revId": "0cda77ce557ef7f138352d73c32b8fc07fef3a46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7404ff0e_3ff2d7a6",
         "filename": "util/mach/mig.py",
         "patchSetId": 1
