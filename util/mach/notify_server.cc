@@ -18,46 +18,6 @@
 #include "util/mach/mach_message.h"
 #include "util/mach/notifyServer.h"
 
-extern "C" {
-
-// These five functions are not used, and are in fact obsoleted by the other
-// functionality implemented in this file. The standard MIG-generated
-// notify_server() (in notifyServer.c) server dispatch routine usable with the
-// standard mach_msg_server() function calls out to this function.
-// notify_server() is unused and is replaced by the more flexible NotifyServer,
-// but the linker still needs to see these five function definitions.
-
-kern_return_t do_mach_notify_port_deleted(notify_port_t notify,
-                                          mach_port_name_t name) {
-  NOTREACHED();
-  return KERN_FAILURE;
-}
-
-kern_return_t do_mach_notify_port_destroyed(notify_port_t notify,
-                                            mach_port_t rights) {
-  NOTREACHED();
-  return KERN_FAILURE;
-}
-
-kern_return_t do_mach_notify_no_senders(notify_port_t notify,
-                                        mach_port_mscount_t mscount) {
-  NOTREACHED();
-  return KERN_FAILURE;
-}
-
-kern_return_t do_mach_notify_send_once(notify_port_t notify) {
-  NOTREACHED();
-  return KERN_FAILURE;
-}
-
-kern_return_t do_mach_notify_dead_name(notify_port_t notify,
-                                       mach_port_name_t name) {
-  NOTREACHED();
-  return KERN_FAILURE;
-}
-
-}  // extern "C"
-
 namespace {
 
 // The MIG-generated __MIG_check__Request__*() functions are not declared as
