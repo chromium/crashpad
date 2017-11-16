@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3adcd0d8_2e7fe134",
+        "filename": "client/annotation.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-16T20:07:00Z",
+      "side": 1,
+      "message": "When I see this, I think “oh, these might overlap?”",
+      "revId": "a20e0dff4262c2374b959ba095e34d4abe307ed4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d0eeb44_7c5e2d76",
+        "filename": "client/annotation_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-16T20:07:00Z",
+      "side": 1,
+      "message": "EXPECT_DEATH_CHECK",
+      "revId": "a20e0dff4262c2374b959ba095e34d4abe307ed4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
