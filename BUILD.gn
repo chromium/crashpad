@@ -1,0 +1,21 @@
+# Copyright 2017 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+import("//testing/test.gni")
+
+config("crashpad_config") {
+  include_dirs = [ "//third_party/crashpad/crashpad" ]
+}
+
+test("crashpad_tests") {
+  deps = [
+    "client:client_test",
+    "handler:handler_test",
+    "minidump:minidump_test",
+    "snapshot:snapshot_test",
+    "test:gmock_main",
+    "test:test_test",
+    "util:util_test",
+  ]
+}

@@ -1,0 +1,151 @@
+# Copyright 2015 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+source_set("tool_support") {
+  sources = [
+    "tool_support.cc",
+    "tool_support.h",
+  ]
+
+  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+
+  deps = [
+    "//base",
+  ]
+}
+
+executable("crashpad_database_util") {
+  sources = [
+    "crashpad_database_util.cc",
+  ]
+
+  deps = [
+    ":tool_support",
+    "//base",
+    "//build/win:default_exe_manifest",
+    "//third_party/crashpad/crashpad/client",
+    "//third_party/crashpad/crashpad/compat",
+    "//third_party/crashpad/crashpad/util",
+  ]
+}
+
+executable("crashpad_http_upload") {
+  sources = [
+    "crashpad_http_upload.cc",
+  ]
+
+  deps = [
+    ":tool_support",
+    "//base",
+    "//build/win:default_exe_manifest",
+    "//third_party/crashpad/crashpad/compat",
+    "//third_party/crashpad/crashpad/util",
+  ]
+}
+
+executable("generate_dump") {
+  sources = [
+    "generate_dump.cc",
+  ]
+
+  deps = [
+    ":tool_support",
+    "//base",
+    "//build/win:default_exe_manifest",
+    "//third_party/crashpad/crashpad/compat",
+    "//third_party/crashpad/crashpad/minidump",
+    "//third_party/crashpad/crashpad/snapshot",
+    "//third_party/crashpad/crashpad/util",
+  ]
+
+  if (is_mac) {
+    # This would be better as a config so that it could be shared with
+    # exception_port_tool, but configs can’t alter “inputs”.
+    inputs = [
+      rebase_path("mac/sectaskaccess_info.plist"),
+    ]
+    ldflags = [
+      "-sectcreate",
+      "__TEXT",
+      "__info_plist",
+      inputs[0],
+    ]
+  }
+
+  if (is_win) {
+    cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
+  }
+}
+
+if (is_mac) {
+  executable("catch_exception_tool") {
+    sources = [
+      "mac/catch_exception_tool.cc",
+    ]
+
+    deps = [
+      ":tool_support",
+      "//base",
+      "//third_party/crashpad/crashpad/compat",
+      "//third_party/crashpad/crashpad/util",
+    ]
+  }
+
+  executable("exception_port_tool") {
+    sources = [
+      "mac/exception_port_tool.cc",
+    ]
+
+    # This would be better as a config so that it could be shared with
+    # generate_dump, but configs can’t alter “inputs”.
+    inputs = [
+      rebase_path("mac/sectaskaccess_info.plist"),
+    ]
+    ldflags = [
+      "-sectcreate",
+      "__TEXT",
+      "__info_plist",
+      inputs[0],
+    ]
+
+    deps = [
+      ":tool_support",
+      "//base",
+      "//third_party/crashpad/crashpad/compat",
+      "//third_party/crashpad/crashpad/util",
+    ]
+  }
+
+  executable("on_demand_service_tool") {
+    sources = [
+      "mac/on_demand_service_tool.mm",
+    ]
+
+    libs = [
+      "CoreFoundation.framework",
+      "Foundation.framework",
+    ]
+
+    deps = [
+      ":tool_support",
+      "//base",
+      "//third_party/crashpad/crashpad/compat",
+      "//third_party/crashpad/crashpad/util",
+    ]
+  }
+
+  executable("run_with_crashpad") {
+    sources = [
+      "mac/run_with_crashpad.cc",
+    ]
+
+    deps = [
+      ":tool_support",
+      "//base",
+      "//third_party/crashpad/crashpad/client",
+      "//third_party/crashpad/crashpad/compat",
+      "//third_party/crashpad/crashpad/util",
+    ]
+  }
+}
