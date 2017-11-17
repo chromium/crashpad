@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e15b5865_fe8acc90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-17T22:23:12Z",
+      "side": 1,
+      "message": "I’m not sure about this either. Robert suggested yesterday that we might be able to use the “secondary” thing to make gn/gni files available in Crashpad in the same locations that they show up in the Chromium tree. We can figure it out later, as you say.",
+      "revId": "ae2bbc299cab1fd48374133b885f78faa6c3a638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1c70146_21ae082f",
+        "filename": "BUILD.gn",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-17T22:23:12Z",
+      "side": 1,
+      "message": "These should all be changed to the Crashpad boilerplate in this repository. (Hang on to the years if possible, since they’re of historical interest…)\n\n(which means the CL description, if it’s being honest, should go from “unmodified” to “lightly modified.”)",
+      "revId": "ae2bbc299cab1fd48374133b885f78faa6c3a638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
