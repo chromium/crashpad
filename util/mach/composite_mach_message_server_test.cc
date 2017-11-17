@@ -18,7 +18,7 @@
 
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
-#include "test/gtest_death_check.h"
+#include "test/gtest_death.h"
 #include "util/mach/mach_message.h"
 
 namespace crashpad {
