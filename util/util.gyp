@@ -179,6 +179,8 @@
         'posix/close_stdio.h',
         'posix/drop_privileges.cc',
         'posix/drop_privileges.h',
+        'posix/double_fork_and_exec.cc',
+        'posix/double_fork_and_exec.h',
         'posix/process_info.h',
         'posix/process_info_linux.cc',
         'posix/process_info_mac.cc',

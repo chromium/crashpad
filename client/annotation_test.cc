@@ -19,7 +19,7 @@
 #include "client/annotation_list.h"
 #include "client/crashpad_info.h"
 #include "gtest/gtest.h"
-#include "test/gtest_death_check.h"
+#include "test/gtest_death.h"
 
 namespace crashpad {
 namespace test {
@@ -105,11 +105,16 @@ TEST_F(Annotation, StringType) {
 
   EXPECT_EQ(5u, annotation.size());
   EXPECT_EQ("loooo", annotation.value());
+}
 
 #if DCHECK_IS_ON()
-  EXPECT_DEATH_CHECK(annotation.Set(std::string("te\0st", 5)), "");
-#endif
+
+TEST(AnnotationDeathTest, EmbeddedNUL) {
+  crashpad::StringAnnotation<5> annotation("name");
+  EXPECT_DEATH_CHECK(annotation.Set(std::string("te\0st", 5)), "embedded NUL");
 }
+
+#endif
 
 }  // namespace
 }  // namespace test
