@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7df447e8_36bd7244",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-18T01:25:17Z",
+      "side": 1,
+      "message": "I futzed around a little at https://chromium-review.googlesource.com/c/crashpad/crashpad/+/777410/1/build/dependencies.gni which is then used in all the deps \u003d []. I wouldn\u0027t say it\u0027s great, but it might be workable. Something using secondary might be nicer if can avoid non-$variable paths everywhere; it\u0027s not immediately clear to me how that\u0027d work, I\u0027ll see if I can some up with something like that that works.",
+      "parentUuid": "e15b5865_fe8acc90",
+      "revId": "ae2bbc299cab1fd48374133b885f78faa6c3a638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e1c70146_21ae082f",
         "filename": "BUILD.gn",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "ae2bbc299cab1fd48374133b885f78faa6c3a638",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "292489b6_7f4a0a78",
+        "filename": "BUILD.gn",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-18T01:25:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1c70146_21ae082f",
+      "revId": "ae2bbc299cab1fd48374133b885f78faa6c3a638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
