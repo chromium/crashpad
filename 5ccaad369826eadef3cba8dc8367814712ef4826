@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "86784089_5d9f1d11",
+        "filename": "test/mac/exception_swallower.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-18T01:48:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96877d93_5c0e2d3b",
+      "range": {
+        "startLine": 74,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 58
+      },
+      "revId": "5ccaad369826eadef3cba8dc8367814712ef4826",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "759e60aa_e78adf99",
         "filename": "test/mac/exception_swallower_exe.cc",
         "patchSetId": 2
@@ -285,6 +309,30 @@
     },
     {
       "key": {
+        "uuid": "fa4f1168_d0759746",
+        "filename": "test/mac/exception_swallower_exe.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-18T01:48:27Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e \u003c\u003d ?\n\u003e \u003e \n\u003e \u003e 0 is a valid file descriptor.\n\u003e \n\u003e Sure, but not in this context where STDIN is closed on line 175.\n\nGotcha. I changed this one to |\u003c\u003d STDERR_FILENO|. I left line 175 alone as |\u003c 0|, because it’s only concerned with catching the value if --socket-fd is not specified, and the default value set on line 129 is -1.",
+      "parentUuid": "3bcbe17a_12de8a49",
+      "range": {
+        "startLine": 143,
+        "startChar": 30,
+        "endLine": 143,
+        "endChar": 31
+      },
+      "revId": "5ccaad369826eadef3cba8dc8367814712ef4826",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38dc1f9d_d4dee84e",
         "filename": "util/posix/double_fork_and_exec.h",
         "patchSetId": 2
@@ -329,6 +377,30 @@
       "revId": "5ccaad369826eadef3cba8dc8367814712ef4826",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1918d402_7071c64a",
+        "filename": "util/posix/double_fork_and_exec.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-18T01:48:27Z",
+      "side": 1,
+      "message": "Resolved",
+      "parentUuid": "61f1cd97_a89a82b3",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 42
+      },
+      "revId": "5ccaad369826eadef3cba8dc8367814712ef4826",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
