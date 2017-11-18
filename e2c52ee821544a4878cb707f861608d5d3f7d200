@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26e20452_182adb6e",
+        "filename": "BUILD.gn",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-18T01:15:19Z",
+      "side": 1,
+      "message": "This isn’t the boilerplate that we use in Crashpad, though. We’re Apache-licensed, not BSD.",
+      "revId": "e2c52ee821544a4878cb707f861608d5d3f7d200",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
