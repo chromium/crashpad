@@ -2,10 +2,12 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+import("build/dependencies.gni")
+
 import("//testing/test.gni")
 
 config("crashpad_config") {
-  include_dirs = [ "//third_party/crashpad/crashpad" ]
+  include_dirs = [ "$crashpad_source_root" ]
 }
 
 test("crashpad_tests") {

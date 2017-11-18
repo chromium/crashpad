@@ -2,6 +2,8 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+import("../build/dependencies.gni")
+
 import("//testing/test.gni")
 
 static_library("handler") {
@@ -26,16 +28,16 @@ static_library("handler") {
     "win/crash_report_exception_handler.h",
   ]
 
-  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+  public_configs = [ "$crashpad_source_root:crashpad_config" ]
 
   deps = [
-    "//base",
-    "//third_party/crashpad/crashpad/client",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/minidump",
-    "//third_party/crashpad/crashpad/snapshot",
-    "//third_party/crashpad/crashpad/tools:tool_support",
-    "//third_party/crashpad/crashpad/util",
+    "$crashpad_base_location/base",
+    "$crashpad_source_root/client",
+    "$crashpad_source_root/compat",
+    "$crashpad_source_root/minidump",
+    "$crashpad_source_root/snapshot",
+    "$crashpad_source_root/tools:tool_support",
+    "$crashpad_source_root/util",
   ]
 
   if (is_win) {
@@ -52,13 +54,13 @@ source_set("handler_test") {
 
   deps = [
     ":handler",
-    "//base",
+    "$crashpad_base_location/base",
+    "$crashpad_source_root/client",
+    "$crashpad_source_root/compat",
+    "$crashpad_source_root/snapshot",
+    "$crashpad_source_root/test",
+    "$crashpad_source_root/util",
     "//testing/gtest",
-    "//third_party/crashpad/crashpad/client",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/snapshot",
-    "//third_party/crashpad/crashpad/test",
-    "//third_party/crashpad/crashpad/util",
   ]
 
   if (is_win) {
@@ -77,10 +79,13 @@ executable("crashpad_handler") {
 
   deps = [
     ":handler",
-    "//base",
-    "//build/win:default_exe_manifest",
-    "//third_party/crashpad/crashpad/compat",
+    "$crashpad_base_location/base",
+    "$crashpad_source_root/compat",
   ]
+
+  if (crashpad_in_chromium) {
+    deps += [ "//build/win:default_exe_manifest" ]
+  }
 
   if (is_mac && is_component_build) {
     ldflags = [
@@ -113,12 +118,15 @@ executable("crashpad_handler_test_extended_handler") {
 
   deps = [
     ":handler",
-    "//base",
-    "//build/win:default_exe_manifest",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/minidump:test_support",
-    "//third_party/crashpad/crashpad/tools:tool_support",
+    "$crashpad_base_location/base",
+    "$crashpad_source_root/compat",
+    "$crashpad_source_root/minidump:test_support",
+    "$crashpad_source_root/tools:tool_support",
   ]
+
+  if (crashpad_in_chromium) {
+    deps += [ "//build/win:default_exe_manifest" ]
+  }
 }
 
 if (is_win) {
@@ -134,10 +142,12 @@ if (is_win) {
 
     deps = [
       ":handler",
-      "//base",
-      "//build/win:default_exe_manifest",
-      "//third_party/crashpad/crashpad/compat",
+      "$crashpad_base_location/base",
+      "$crashpad_source_root/compat",
     ]
+    if (crashpad_in_chromium) {
+      deps += [ "//build/win:default_exe_manifest" ]
+    }
   }
 
   copy("crashpad_handler_console") {

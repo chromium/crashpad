@@ -2,16 +2,20 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+import("../build/dependencies.gni")
+
+import("../build/dependencies.gni")
+
 source_set("tool_support") {
   sources = [
     "tool_support.cc",
     "tool_support.h",
   ]
 
-  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+  public_configs = [ "$crashpad_source_root:crashpad_config" ]
 
   deps = [
-    "//base",
+    "$crashpad_base_location/base",
   ]
 }
 
@@ -22,12 +26,15 @@ executable("crashpad_database_util") {
 
   deps = [
     ":tool_support",
-    "//base",
-    "//build/win:default_exe_manifest",
-    "//third_party/crashpad/crashpad/client",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/util",
+    "$crashpad_base_location/base",
+    "$crashpad_source_root/client",
+    "$crashpad_source_root/compat",
+    "$crashpad_source_root/util",
   ]
+
+  if (crashpad_in_chromium) {
+    deps += [ "//build/win:default_exe_manifest" ]
+  }
 }
 
 executable("crashpad_http_upload") {
@@ -37,11 +44,13 @@ executable("crashpad_http_upload") {
 
   deps = [
     ":tool_support",
-    "//base",
-    "//build/win:default_exe_manifest",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/util",
+    "$crashpad_base_location/base",
+    "$crashpad_source_root/compat",
+    "$crashpad_source_root/util",
   ]
+  if (crashpad_in_chromium) {
+    deps += [ "//build/win:default_exe_manifest" ]
+  }
 }
 
 executable("generate_dump") {
@@ -51,13 +60,15 @@ executable("generate_dump") {
 
   deps = [
     ":tool_support",
-    "//base",
-    "//build/win:default_exe_manifest",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/minidump",
-    "//third_party/crashpad/crashpad/snapshot",
-    "//third_party/crashpad/crashpad/util",
+    "$crashpad_base_location/base",
+    "$crashpad_source_root/compat",
+    "$crashpad_source_root/minidump",
+    "$crashpad_source_root/snapshot",
+    "$crashpad_source_root/util",
   ]
+  if (crashpad_in_chromium) {
+    deps += [ "//build/win:default_exe_manifest" ]
+  }
 
   if (is_mac) {
     # This would be better as a config so that it could be shared with
@@ -86,9 +97,9 @@ if (is_mac) {
 
     deps = [
       ":tool_support",
-      "//base",
-      "//third_party/crashpad/crashpad/compat",
-      "//third_party/crashpad/crashpad/util",
+      "$crashpad_base_location/base",
+      "$crashpad_source_root/compat",
+      "$crashpad_source_root/util",
     ]
   }
 
@@ -111,9 +122,9 @@ if (is_mac) {
 
     deps = [
       ":tool_support",
-      "//base",
-      "//third_party/crashpad/crashpad/compat",
-      "//third_party/crashpad/crashpad/util",
+      "$crashpad_base_location/base",
+      "$crashpad_source_root/compat",
+      "$crashpad_source_root/util",
     ]
   }
 
@@ -129,9 +140,9 @@ if (is_mac) {
 
     deps = [
       ":tool_support",
-      "//base",
-      "//third_party/crashpad/crashpad/compat",
-      "//third_party/crashpad/crashpad/util",
+      "$crashpad_base_location/base",
+      "$crashpad_source_root/compat",
+      "$crashpad_source_root/util",
     ]
   }
 
@@ -142,10 +153,10 @@ if (is_mac) {
 
     deps = [
       ":tool_support",
-      "//base",
-      "//third_party/crashpad/crashpad/client",
-      "//third_party/crashpad/crashpad/compat",
-      "//third_party/crashpad/crashpad/util",
+      "$crashpad_base_location/base",
+      "$crashpad_source_root/client",
+      "$crashpad_source_root/compat",
+      "$crashpad_source_root/util",
     ]
   }
 }

@@ -2,6 +2,8 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+import("../build/dependencies.gni")
+
 config("compat_config") {
   include_dirs = []
 
@@ -58,7 +60,7 @@ static_library("compat") {
 
   public_configs = [
     ":compat_config",
-    "//third_party/crashpad/crashpad:crashpad_config",
+    "$crashpad_source_root:crashpad_config",
   ]
 
   deps = []

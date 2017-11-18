@@ -2,6 +2,8 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+import("../build/dependencies.gni")
+
 import("//testing/test.gni")
 
 static_library("test") {
@@ -50,7 +52,7 @@ static_library("test") {
     "win/win_multiprocess_with_temp_dir.h",
   ]
 
-  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+  public_configs = [ "$crashpad_source_root:crashpad_config" ]
 
   defines = [ "CRASHPAD_IN_CHROMIUM" ]
 
@@ -59,11 +61,11 @@ static_library("test") {
   ]
 
   deps = [
-    "//base",
+    "$crashpad_base_location/base",
+    "$crashpad_source_root/compat",
+    "$crashpad_source_root/snapshot",
+    "$crashpad_source_root/util",
     "//testing/gtest",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/snapshot",
-    "//third_party/crashpad/crashpad/util",
   ]
 
   if (is_mac) {
@@ -91,11 +93,11 @@ source_set("test_test") {
 
   deps = [
     ":test",
-    "//base",
+    "$crashpad_base_location/base",
+    "$crashpad_source_root/compat",
+    "$crashpad_source_root/util",
     "//testing/gmock",
     "//testing/gtest",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/util",
   ]
 
   data_deps = [
@@ -120,11 +122,14 @@ static_library("gmock_main") {
   ]
   deps = [
     ":test",
-    "//base",
-    "//base/test:test_support",
+    "//$crashpad_base_location/base",
     "//testing/gmock",
     "//testing/gtest",
   ]
+
+  if (crashpad_in_chromium) {
+    deps += [ "//base/test:test_support" ]
+  }
 }
 
 static_library("gtest_main") {
@@ -138,8 +143,11 @@ static_library("gtest_main") {
   ]
   deps = [
     ":test",
-    "//base",
-    "//base/test:test_support",
+    "$crashpad_base_location/base",
     "//testing/gtest",
   ]
+
+  if (crashpad_in_chromium) {
+    deps += [ "//base/test:test_support" ]
+  }
 }
