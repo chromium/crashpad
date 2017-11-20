@@ -44,7 +44,7 @@ namespace crashpad {
 //!
 //! \a thread and \a task are only used when \a behavior indicates that the
 //! exception message will carry identity information, when it has the value
-//! value `EXCEPTION_DEFAULT` or `EXCEPTION_STATE_IDENTITY`, possibly with
+//! `EXCEPTION_DEFAULT` or `EXCEPTION_STATE_IDENTITY`, possibly with
 //! `MACH_EXCEPTION_CODES` also set. In other cases, these parameters are unused
 //! and may be set to `THREAD_NULL` and `TASK_NULL`, respectively.
 //!

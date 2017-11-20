@@ -34,7 +34,7 @@ namespace test {
 //! \brief Formats a Mach error message.
 //!
 //! The returned string will combine the \a base string, if supplied, with a
-//! a textual and numeric description of the error.
+//! textual and numeric description of the error.
 //!
 //! \param[in] mach_err The Mach error code, which may be a `kern_return_t` or
 //!     related type.
@@ -50,7 +50,7 @@ std::string MachErrorMessage(mach_error_t mach_err,
 //! \brief Formats a bootstrap error message.
 //!
 //! The returned string will combine the \a base string, if supplied, with a
-//! a textual and numeric description of the error.
+//! textual and numeric description of the error.
 //!
 //! \param[in] bootstrap_err The bootstrap error code.
 //! \param[in] base A string to prepend to the error description.

@@ -29,7 +29,7 @@ namespace crashpad {
 //!     simultaneous use in a single MachMessageServer::Run() call.
 //!
 //! This class implements a MachMessageServer::Interface that contains other
-//! other MachMessageServer::Interface objects.
+//! MachMessageServer::Interface objects.
 //!
 //! In some situations, it may be desirable for a Mach message server to handle
 //! messages from distinct MIG subsystems with distinct
@@ -59,9 +59,9 @@ class CompositeMachMessageServer : public MachMessageServer::Interface {
   //! \copydoc MachMessageServer::Interface::MachMessageServerFunction()
   //!
   //! This implementation forwards the message to an appropriate handler added
-  //! by AddHandler() on the basis of the \a in request message’s message ID.
-  //! If no appropriate handler exists, the \a out reply message is treated as
-  //! a `mig_reply_error_t`, its return code is set to `MIG_BAD_ID`, and `false`
+  //! by AddHandler() on the basis of the \a in request message’s message ID. If
+  //! no appropriate handler exists, the \a out reply message is treated as a
+  //! `mig_reply_error_t`, its return code is set to `MIG_BAD_ID`, and `false`
   //! is returned.
   bool MachMessageServerFunction(const mach_msg_header_t* in,
                                  mach_msg_header_t* out,
