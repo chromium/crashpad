@@ -14,118 +14,156 @@
 
 #include "test/mac/exception_swallower.h"
 
-#include <fcntl.h>
-#include <sys/socket.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #include <string>
-#include <vector>
 
 #include "base/logging.h"
 #include "base/mac/scoped_mach_port.h"
 #include "base/strings/stringprintf.h"
-#include "gtest/gtest.h"
-#include "test/test_paths.h"
-#include "util/file/file_io.h"
+#include "handler/mac/exception_handler_server.h"
+#include "util/mach/exc_server_variants.h"
 #include "util/mach/exception_ports.h"
 #include "util/mach/mach_extensions.h"
-#include "util/posix/double_fork_and_exec.h"
+#include "util/misc/random_string.h"
+#include "util/thread/thread.h"
 
 namespace crashpad {
 namespace test {
 
-// static
-void ExceptionSwallower::Parent_PrepareForCrashingChild() {
-  Get()->SetParent();
+namespace {
+
+constexpr char kServiceEnvironmentVariable[] =
+    "CRASHPAD_EXCEPTION_SWALLOWER_SERVICE";
+
+ExceptionSwallower* g_exception_swallower;
+
+// Like getenv(), but fails a CHECK() if the underlying function fails. It’s not
+// considered a failure for |name| to be unset in the environment. In that case,
+// nullptr is returned.
+const char* CheckedGetenv(const char* name) {
+  errno = 0;
+  const char* value;
+  PCHECK((value = getenv(name)) || errno == 0) << "getenv";
+  return value;
 }
 
-// static
-void ExceptionSwallower::Parent_PrepareForGtestDeathTest() {
-  if (testing::FLAGS_gtest_death_test_style == "fast") {
-    Parent_PrepareForCrashingChild();
-  } else {
-    // This is the only other death test style that’s known to gtest.
-    DCHECK_EQ(testing::FLAGS_gtest_death_test_style, "threadsafe");
-  }
-}
+}  // namespace
 
-// static
-void ExceptionSwallower::Child_SwallowExceptions() {
-  Get()->SwallowExceptions();
-}
-
-ExceptionSwallower::ExceptionSwallower()
-    : service_name_(), fd_(), parent_pid_(0) {
-  base::FilePath exception_swallower_server_path =
-      TestPaths::Executable().DirName().Append("crashpad_exception_swallower");
-
-  // Use socketpair() as a full-duplex pipe().
-  int socket_fds[2];
-  PCHECK(socketpair(AF_UNIX, SOCK_STREAM, PF_UNSPEC, socket_fds) == 0)
-      << "socketpair";
-
-  fd_.reset(socket_fds[0]);
-  base::ScopedFD exception_swallower_fd(socket_fds[1]);
-
-  // fd_ is long-lived. Make sure that nobody accidentaly inherits it.
-  PCHECK(fcntl(fd_.get(), F_SETFD, FD_CLOEXEC) != -1) << "fcntl";
-
-  // SIGPIPE is undesirable when writing to this socket. Allow broken-pipe
-  // writes to fail with EPIPE instead.
-  for (size_t index = 0; index < arraysize(socket_fds); ++index) {
-    constexpr int value = 1;
-    PCHECK(setsockopt(socket_fds[index],
-                      SOL_SOCKET,
-                      SO_NOSIGPIPE,
-                      &value,
-                      sizeof(value)) == 0)
-        << "setsockopt";
+class ExceptionSwallower::ExceptionSwallowerThread
+    : public Thread,
+      public UniversalMachExcServer::Interface {
+ public:
+  explicit ExceptionSwallowerThread(
+      base::mac::ScopedMachReceiveRight receive_right)
+      : Thread(),
+        UniversalMachExcServer::Interface(),
+        exception_handler_server_(std::move(receive_right), true),
+        pid_(getpid()) {
+    Start();
   }
 
-  std::vector<std::string> argv;
-  argv.reserve(2);
-  argv.push_back(exception_swallower_server_path.value());
-  argv.push_back(
-      base::StringPrintf("--socket-fd=%d", exception_swallower_fd.get()));
+  ~ExceptionSwallowerThread() override {}
 
-  CHECK(DoubleForkAndExec(argv, exception_swallower_fd.get(), false, nullptr));
+  void Stop() { exception_handler_server_.Stop(); }
 
-  // Close the exception swallower server’s side of the socket, so that it’s the
-  // only process that can use it.
-  exception_swallower_fd.reset();
+  // Returns the process ID that the thread is running in. This is used to
+  // detect misuses that place the exception swallower server thread and code
+  // that wants its exceptions swallowed in the same process.
+  pid_t ProcessID() const { return pid_; }
 
-  // When the exception swallower server provides its registered service name,
-  // it’s ready to go.
-  uint8_t service_name_size;
-  CheckedReadFileExactly(
-      fd_.get(), &service_name_size, sizeof(service_name_size));
-  service_name_.resize(service_name_size);
-  if (!service_name_.empty()) {
-    CheckedReadFileExactly(fd_.get(), &service_name_[0], service_name_.size());
+ private:
+  // Thread:
+
+  void ThreadMain() override { exception_handler_server_.Run(this); }
+
+  // UniversalMachExcServer::Interface:
+
+  kern_return_t CatchMachException(exception_behavior_t behavior,
+                                   exception_handler_t exception_port,
+                                   thread_t thread,
+                                   task_t task,
+                                   exception_type_t exception,
+                                   const mach_exception_data_type_t* code,
+                                   mach_msg_type_number_t code_count,
+                                   thread_state_flavor_t* flavor,
+                                   ConstThreadState old_state,
+                                   mach_msg_type_number_t old_state_count,
+                                   thread_state_t new_state,
+                                   mach_msg_type_number_t* new_state_count,
+                                   const mach_msg_trailer_t* trailer,
+                                   bool* destroy_complex_request) override {
+    *destroy_complex_request = true;
+
+    // Swallow.
+
+    ExcServerCopyState(
+        behavior, old_state, old_state_count, new_state, new_state_count);
+    return ExcServerSuccessfulReturnValue(exception, behavior, false);
   }
 
-  // Verify that everything’s set up.
-  base::mac::ScopedMachSendRight exception_swallower_port(
-      BootstrapLookUp(service_name_));
-  CHECK(exception_swallower_port.is_valid());
+  ExceptionHandlerServer exception_handler_server_;
+  pid_t pid_;
+
+  DISALLOW_COPY_AND_ASSIGN(ExceptionSwallowerThread);
+};
+
+ExceptionSwallower::ExceptionSwallower() : exception_swallower_thread_() {
+  CHECK(!g_exception_swallower);
+  g_exception_swallower = this;
+
+  if (CheckedGetenv(kServiceEnvironmentVariable)) {
+    // The environment variable is already set, so just proceed with the
+    // existing service. This normally happens when the gtest “threadsafe” death
+    // test style is chosen, because the test child process will re-execute code
+    // already run in the test parent process. See
+    // https://github.com/google/googletest/blob/master/googletest/docs/AdvancedGuide.md#death-test-styles.
+    return;
+  }
+
+  std::string service_name =
+      base::StringPrintf("org.chromium.crashpad.test.exception_swallower.%d.%s",
+                         getpid(),
+                         RandomString().c_str());
+  base::mac::ScopedMachReceiveRight receive_right(
+      BootstrapCheckIn(service_name));
+  CHECK(receive_right.is_valid());
+
+  exception_swallower_thread_.reset(
+      new ExceptionSwallowerThread(std::move(receive_right)));
+
+  PCHECK(setenv(kServiceEnvironmentVariable, service_name.c_str(), 1) == 0)
+      << "setenv";
 }
 
-ExceptionSwallower::~ExceptionSwallower() {}
+ExceptionSwallower::~ExceptionSwallower() {
+  PCHECK(unsetenv(kServiceEnvironmentVariable) == 0) << "unsetenv";
+
+  exception_swallower_thread_->Stop();
+  exception_swallower_thread_->Join();
+
+  CHECK_EQ(g_exception_swallower, this);
+  g_exception_swallower = nullptr;
+}
 
 // static
-ExceptionSwallower* ExceptionSwallower::Get() {
-  static ExceptionSwallower* const instance = new ExceptionSwallower();
-  return instance;
-}
-
-void ExceptionSwallower::SetParent() {
-  parent_pid_ = getpid();
-}
-
 void ExceptionSwallower::SwallowExceptions() {
-  CHECK_NE(getpid(), parent_pid_);
+  // The exception swallower thread can’t be in this process, because the
+  // EXC_CRASH or EXC_CORPSE_NOTIFY exceptions that it needs to swallow will be
+  // delivered after a crash has occurred and none of its threads will be
+  // scheduled to run.
+  CHECK(!g_exception_swallower ||
+        !g_exception_swallower->exception_swallower_thread_ ||
+        g_exception_swallower->exception_swallower_thread_->ProcessID() !=
+            getpid());
+
+  const char* service_name = CheckedGetenv(kServiceEnvironmentVariable);
+  CHECK(service_name);
 
   base::mac::ScopedMachSendRight exception_swallower_port(
-      BootstrapLookUp(service_name_));
+      BootstrapLookUp(service_name));
   CHECK(exception_swallower_port.is_valid());
 
   ExceptionPorts task_exception_ports(ExceptionPorts::kTargetTypeTask,
