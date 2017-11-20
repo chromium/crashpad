@@ -35,7 +35,7 @@ namespace test {
 //! \brief Formats an error message using an `errno` value.
 //!
 //! The returned string will combine the \a base string, if supplied, with a
-//! a textual and numeric description of the error.
+//! textual and numeric description of the error.
 //!
 //! The message is formatted using `strerror()`. \a err may be `0` or outside of
 //! the range of known error codes, and the message returned will contain the
@@ -53,7 +53,7 @@ std::string ErrnoMessage(int err, const std::string& base = std::string());
 //! \brief Formats an error message using `errno`.
 //!
 //! The returned string will combine the \a base string, if supplied, with a
-//! a textual and numeric description of the error.
+//! textual and numeric description of the error.
 //!
 //! The message is formatted using `strerror()`. `errno` may be `0` or outside
 //! of the range of known error codes, and the message returned will contain the
@@ -71,8 +71,8 @@ std::string ErrnoMessage(const std::string& base = std::string());
 //! \brief Formats an error message using `GetLastError()`.
 //!
 //! The returned string will combine the \a base string, if supplied, with a
-//! a textual and numeric description of the error. The format is the same as
-//! the `PLOG()` formatting in base.
+//! textual and numeric description of the error. The format is the same as the
+//! `PLOG()` formatting in base.
 std::string ErrorMessage(const std::string& base = std::string());
 #endif
 

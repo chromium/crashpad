@@ -70,9 +70,8 @@ bool ModuleSnapshotWin::Initialize(
     // If we fully supported all old debugging formats, we would want to extract
     // and emit a different type of CodeView record here (as old Microsoft tools
     // would do). As we don't expect to ever encounter a module that wouldn't be
-    // be using .PDB that we actually have symbols for, we simply set a
-    // plausible name here, but this will never correspond to symbols that we
-    // have.
+    // using .PDB that we actually have symbols for, we simply set a plausible
+    // name here, but this will never correspond to symbols that we have.
     pdb_name_ = base::UTF16ToUTF8(name_);
   }
 
@@ -177,8 +176,8 @@ std::string ModuleSnapshotWin::DebugFileName() const {
 std::vector<std::string> ModuleSnapshotWin::AnnotationsVector() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   // These correspond to system-logged things on Mac. We don't currently track
-  // any of these on Windows, but could in the future.
-  // See https://crashpad.chromium.org/bug/38.
+  // any of these on Windows, but could in the future. See
+  // https://crashpad.chromium.org/bug/38.
   return std::vector<std::string>();
 }
 

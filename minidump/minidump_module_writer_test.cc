@@ -83,7 +83,7 @@ TEST(MinidumpModuleWriter, EmptyModuleList) {
 
 // If |expected_pdb_name| is not nullptr, |codeview_record| is used to locate a
 // CodeView record in |file_contents|, and its fields are compared against the
-// the |expected_pdb_*| values. If |expected_pdb_uuid| is supplied, the CodeView
+// |expected_pdb_*| values. If |expected_pdb_uuid| is supplied, the CodeView
 // record must be a PDB 7.0 link, otherwise, it must be a PDB 2.0 link. If
 // |expected_pdb_name| is nullptr, |codeview_record| must not point to anything.
 void ExpectCodeViewRecord(const MINIDUMP_LOCATION_DESCRIPTOR* codeview_record,
