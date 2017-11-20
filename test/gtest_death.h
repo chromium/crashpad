@@ -37,10 +37,13 @@
 //!
 //! \sa ASSERT_DEATH_CHECK()
 //! \sa EXPECT_DEATH_CRASH()
-#define ASSERT_DEATH_CRASH(statement, regex)                                  \
-  crashpad::test::ExceptionSwallower::Parent_PrepareForGtestDeathTest();      \
-  ASSERT_DEATH(crashpad::test::ExceptionSwallower::Child_SwallowExceptions(); \
-               { statement; }, regex)
+#define ASSERT_DEATH_CRASH(statement, regex)                              \
+  do {                                                                    \
+    crashpad::test::ExceptionSwallower exception_swallower;               \
+    ASSERT_DEATH(crashpad::test::ExceptionSwallower::SwallowExceptions(); \
+                 { statement; },                                          \
+                 regex);                                                  \
+  } while (false)
 
 //! \brief Wraps the gtest `EXPECT_DEATH()` macro to make assertions about death
 //!     caused by crashes.
@@ -52,10 +55,13 @@
 //!
 //! \sa EXPECT_DEATH_CHECK()
 //! \sa ASSERT_DEATH_CRASH()
-#define EXPECT_DEATH_CRASH(statement, regex)                                  \
-  crashpad::test::ExceptionSwallower::Parent_PrepareForGtestDeathTest();      \
-  EXPECT_DEATH(crashpad::test::ExceptionSwallower::Child_SwallowExceptions(); \
-               { statement; }, regex)
+#define EXPECT_DEATH_CRASH(statement, regex)                              \
+  do {                                                                    \
+    crashpad::test::ExceptionSwallower exception_swallower;               \
+    EXPECT_DEATH(crashpad::test::ExceptionSwallower::SwallowExceptions(); \
+                 { statement; },                                          \
+                 regex);                                                  \
+  } while (false)
 
 #else  // OS_MACOSX
 

@@ -84,7 +84,7 @@
       'conditions': [
         ['OS=="mac"', {
           'dependencies': [
-            'crashpad_exception_swallower',
+            '../handler/handler.gyp:crashpad_handler_lib',
           ],
           'link_settings': {
             'libraries': [
@@ -145,28 +145,5 @@
         'gtest_main.cc',
       ],
     },
-  ],
-  'conditions': [
-    ['OS=="mac"', {
-      'targets': [
-        {
-          'target_name': 'crashpad_exception_swallower',
-          'type': 'executable',
-          'dependencies': [
-            '../compat/compat.gyp:crashpad_compat',
-            '../handler/handler.gyp:crashpad_handler_lib',
-            '../third_party/mini_chromium/mini_chromium.gyp:base',
-            '../tools/tools.gyp:crashpad_tool_support',
-            '../util/util.gyp:crashpad_util',
-          ],
-          'include_dirs': [
-            '..',
-          ],
-          'sources': [
-            'mac/exception_swallower_exe.cc',
-          ],
-        },
-      ],
-    }],
   ],
 }

@@ -74,13 +74,12 @@ void Multiprocess::Run() {
   ASSERT_NO_FATAL_FAILURE(PreFork());
 
 #if defined(OS_MACOSX)
-  // If the child is expected to crash, set up an exception swallower process
-  // to swallow the exception instead of allowing it to be seen by the system’s
-  // crash reporter.
-  const bool swallow_exceptions =
-      reason_ == kTerminationSignal && Signals::IsCrashSignal(code_);
-  if (swallow_exceptions) {
-    ExceptionSwallower::Parent_PrepareForCrashingChild();
+  // If the child is expected to crash, set up an exception swallower to swallow
+  // the exception instead of allowing it to be seen by the system’s crash
+  // reporter.
+  std::unique_ptr<ExceptionSwallower> exception_swallower;
+  if (reason_ == kTerminationSignal && Signals::IsCrashSignal(code_)) {
+    exception_swallower.reset(new ExceptionSwallower());
   }
 #endif  // OS_MACOSX
 
@@ -141,8 +140,8 @@ void Multiprocess::Run() {
     }
   } else {
 #if defined(OS_MACOSX)
-    if (swallow_exceptions) {
-      ExceptionSwallower::Child_SwallowExceptions();
+    if (exception_swallower.get()) {
+      ExceptionSwallower::SwallowExceptions();
     }
 #endif  // OS_MACOSX
 
