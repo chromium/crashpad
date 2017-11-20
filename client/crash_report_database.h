@@ -34,15 +34,15 @@ class Settings;
 //! \brief An interface for managing a collection of crash report files and
 //!     metadata associated with the crash reports.
 //!
-//! All Report objects that are returned by this class are logically const.
-//! They are snapshots of the database at the time the query was run, and the
-//! data returned is liable to change after the query is executed.
+//! All Report objects that are returned by this class are logically const. They
+//! are snapshots of the database at the time the query was run, and the data
+//! returned is liable to change after the query is executed.
 //!
 //! The lifecycle of a crash report has three stages:
 //!
-//!   1. New: A crash report is created with PrepareNewCrashReport(), the
-//!      the client then writes the report, and then calls
-//!      FinishedWritingCrashReport() to make the report Pending.
+//!   1. New: A crash report is created with PrepareNewCrashReport(), the client
+//!      then writes the report, and then calls FinishedWritingCrashReport() to
+//!      make the report Pending.
 //!   2. Pending: The report has been written but has not been locally
 //!      processed, or it was has been brought back from 'Completed' state by
 //!      user request.
@@ -63,9 +63,9 @@ class CrashReportDatabase {
     //! database.
     UUID uuid;
 
-    //! The current location of the crash report on the client’s filesystem.
-    //! The location of a crash report may change over time, so the UUID should
-    //! be used as the canonical identifier.
+    //! The current location of the crash report on the client’s filesystem. The
+    //! location of a crash report may change over time, so the UUID should be
+    //! used as the canonical identifier.
     base::FilePath file_path;
 
     //! An identifier issued to this crash report by a collection server.
@@ -85,8 +85,8 @@ class CrashReportDatabase {
     //! this report will be made.
     time_t last_upload_attempt_time;
 
-    //! The number of times an attempt was made to submit this report to
-    //! a collection server. If this is more than zero, then
+    //! The number of times an attempt was made to submit this report to a
+    //! collection server. If this is more than zero, then
     //! #last_upload_attempt_time will be set to the timestamp of the most
     //! recent attempt.
     int upload_attempts;
@@ -155,17 +155,17 @@ class CrashReportDatabase {
     //!     report.
     //!
     //! A database is responsible for managing both the metadata about a report
-    //! and the actual crash report itself. This error is returned when an
-    //! error occurred when managing the report file. Additional information
-    //! will be logged.
+    //! and the actual crash report itself. This error is returned when an error
+    //! occurred when managing the report file. Additional information will be
+    //! logged.
     kFileSystemError,
 
     //! \brief An error occured while recording metadata for a crash report or
     //!     database-wide settings.
     //!
     //! A database is responsible for managing both the metadata about a report
-    //! and the actual crash report itself. This error is returned when an
-    //! error occurred when managing the metadata about a crash report or
+    //! and the actual crash report itself. This error is returned when an error
+    //! occurred when managing the metadata about a crash report or
     //! database-wide settings. Additional information will be logged.
     kDatabaseError,
 

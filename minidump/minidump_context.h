@@ -61,7 +61,7 @@ enum MinidumpContextFlags : uint32_t {
   //!
   //! If this bit is set, it indicates that the bits indicating how the thread
   //! had entered kernel mode (::kMinidumpContextExceptionActive and
-  //! and ::kMinidumpContextServiceActive) are valid. This bit is only used on
+  //! ::kMinidumpContextServiceActive) are valid. This bit is only used on
   //! Windows.
   kMinidumpContextExceptionReporting = 0x80000000,
 };
@@ -154,8 +154,8 @@ struct MinidumpContextX86 {
   uint32_t dr6;
   uint32_t dr7;
 
-  // CPUContextX86::Fsave has identical layout to what the x86 CONTEXT
-  // structure places here.
+  // CPUContextX86::Fsave has identical layout to what the x86 CONTEXT structure
+  // places here.
   CPUContextX86::Fsave fsave;
   union {
     uint32_t spare_0;  // As in the native x86 CONTEXT structure since Windows 8
@@ -324,9 +324,8 @@ struct alignas(16) MinidumpContextAMD64 {
   //!
   //! See Intel Software Developer’s Manual, Volume 3B: System Programming, Part
   //! 2 (253669-051), 17.4 “Last Branch, Interrupt, and Exception Recording
-  //! Overview”, and AMD Architecture Programmer’s Manual, Volume 2:
-  //! System Programming (24593-3.24), 13.1.6 “Control-Transfer Breakpoint
-  //! Features”.
+  //! Overview”, and AMD Architecture Programmer’s Manual, Volume 2: System
+  //! Programming (24593-3.24), 13.1.6 “Control-Transfer Breakpoint Features”.
   //!
   //! \{
   uint64_t debug_control;

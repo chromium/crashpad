@@ -118,7 +118,7 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
   InitializationStateDcheck initialized_;
 
   // VSFixedFileInfo() is logically const, but updates these members on the
-  // the call. See https://crashpad.chromium.org/bug/9.
+  // call. See https://crashpad.chromium.org/bug/9.
   mutable VS_FIXEDFILEINFO vs_fixed_file_info_;
   mutable InitializationState initialized_vs_fixed_file_info_;
 
