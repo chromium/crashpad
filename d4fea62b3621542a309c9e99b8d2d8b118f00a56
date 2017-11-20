@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "65677d18_41997643",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-20T23:20:19Z",
+      "side": 1,
+      "message": "\u003e This will conflict horribly with Josh. Skip?\n\nYes, I’ll drop this file.",
+      "parentUuid": "c8ba678e_784350fd",
+      "revId": "d4fea62b3621542a309c9e99b8d2d8b118f00a56",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bc286c4_fa2a10ba",
         "filename": "minidump/minidump_writable.h",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "932cc8c4_afe0bf02",
+        "filename": "minidump/minidump_writable.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-20T23:20:19Z",
+      "side": 1,
+      "message": "\u003e Not sure \"entire\" agrees here.\n\nRevised.",
+      "parentUuid": "7bc286c4_fa2a10ba",
+      "range": {
+        "startLine": 131,
+        "startChar": 55,
+        "endLine": 131,
+        "endChar": 78
+      },
+      "revId": "d4fea62b3621542a309c9e99b8d2d8b118f00a56",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2010a61b_30767936",
         "filename": "util/mach/child_port.defs",
         "patchSetId": 3
@@ -62,6 +104,30 @@
       "revId": "d4fea62b3621542a309c9e99b8d2d8b118f00a56",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8256e90a_101b133b",
+        "filename": "util/mach/child_port.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-20T23:20:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2010a61b_30767936",
+      "range": {
+        "startLine": 43,
+        "startChar": 74,
+        "endLine": 43,
+        "endChar": 80
+      },
+      "revId": "d4fea62b3621542a309c9e99b8d2d8b118f00a56",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
