@@ -46,6 +46,30 @@
       "revId": "3bdc41595087d59c6806d959f5ede3c2c1dec307",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4e12b40_28365454",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-20T19:38:08Z",
+      "side": 1,
+      "message": "It\u0027s not to do with flake, but rather so many things in Chromium depend CoreFoundation-using APIs in base that the message gets printed a ton. Several tests already have to enable threadsafe mode anyways because of that having a material effect (e.g. https://cs.chromium.org/chromium/src/jingle/glue/chrome_async_socket_unittest.cc?q\u003d%22+%3D+%5C%22threadsafe%5C%22%22+-file:linux\u0026sq\u003dpackage:chromium\u0026dr\u003dC\u0026l\u003d161).",
+      "parentUuid": "18b8a096_6ff5cc3a",
+      "range": {
+        "startLine": 12,
+        "startChar": 43,
+        "endLine": 14,
+        "endChar": 23
+      },
+      "revId": "3bdc41595087d59c6806d959f5ede3c2c1dec307",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
