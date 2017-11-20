@@ -750,9 +750,9 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
   // We include a fake exception and use a code of '0x517a7ed' (something like
   // "simulated") so that it's relatively obvious in windbg that it's not
   // actually an exception. Most values in
-  // https://msdn.microsoft.com/en-us/library/windows/desktop/aa363082.aspx have
-  // some of the top nibble set, so we make sure to pick a value that doesn't,
-  // so as to be unlikely to conflict.
+  // https://msdn.microsoft.com/library/aa363082.aspx have some of the top
+  // nibble set, so we make sure to pick a value that doesn't, so as to be
+  // unlikely to conflict.
   constexpr uint32_t kSimulatedExceptionCode = 0x517a7ed;
   EXCEPTION_RECORD record = {};
   record.ExceptionCode = kSimulatedExceptionCode;

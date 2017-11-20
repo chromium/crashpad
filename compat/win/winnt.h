@@ -18,8 +18,8 @@
 // include_next <winnt.h>
 #include <../um/winnt.h>
 
-// https://msdn.microsoft.com/en-us/library/windows/desktop/aa373184.aspx:
-// "Note that this structure definition was accidentally omitted from WinNT.h."
+// https://msdn.microsoft.com/library/aa373184.aspx: "Note that this structure
+// definition was accidentally omitted from WinNT.h."
 struct PROCESSOR_POWER_INFORMATION {
   ULONG Number;
   ULONG MaxMhz;

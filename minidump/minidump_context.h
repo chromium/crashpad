@@ -26,7 +26,7 @@ namespace crashpad {
 //! \brief Architecture-independent flags for `context_flags` fields in Minidump
 //!    context structures.
 //
-// http://zachsaw.blogspot.com/2010/11/wow64-bug-getthreadcontext-may-return.html#c5639760895973344002
+// https://zachsaw.blogspot.com/2010/11/wow64-bug-getthreadcontext-may-return.html#c5639760895973344002
 enum MinidumpContextFlags : uint32_t {
   //! \brief The thread was executing a trap handler in kernel mode
   //!     (`CONTEXT_EXCEPTION_ACTIVE`).

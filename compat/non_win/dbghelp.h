@@ -564,16 +564,15 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MODULE {
   //! <a
   //! href="http://pierrelib.pagesperso-orange.fr/exec_formats/MS_Symbol_Type_v1.0.pdf#page=71">Microsoft
   //! Symbol and Type Information</a>, section 7.2, “Debug Information Format”
-  //! for a list of debug information formats, and <a
-  //! href="http://undocumented.rawol.com/sbs-w2k-1-windows-2000-debugging-support.pdf#page=63">Undocumented
-  //! Windows 2000 Secrets</a>, Windows 2000 Debugging Support/Microsoft Symbol
-  //! File Internals/CodeView Subsections for an in-depth description of the
-  //! CodeView 4.1 format. Signatures seen in the wild include “NB09”
-  //! (0x3930424e) for CodeView 4.1 and “NB11” (0x3131424e) for CodeView 5.0.
-  //! This form of debugging information within the module, as opposed to a link
-  //! to an external `.pdb` file, is chosen by building with `/Z7` in Visual
-  //! Studio 6.0 (1998) and earlier. This embedded form of debugging information
-  //! is now considered obsolete.
+  //! for a list of debug information formats, and <i>Undocumented Windows 2000
+  //! Secrets</i>, Windows 2000 Debugging Support/Microsoft Symbol File
+  //! Internals/CodeView Subsections for an in-depth description of the CodeView
+  //! 4.1 format. Signatures seen in the wild include “NB09” (0x3930424e) for
+  //! CodeView 4.1 and “NB11” (0x3131424e) for CodeView 5.0. This form of
+  //! debugging information within the module, as opposed to a link to an
+  //! external `.pdb` file, is chosen by building with `/Z7` in Visual Studio
+  //! 6.0 (1998) and earlier. This embedded form of debugging information is now
+  //! considered obsolete.
   //!
   //! On Windows, the CodeView record is taken from a module’s
   //! IMAGE_DEBUG_DIRECTORY entry whose Type field has the value

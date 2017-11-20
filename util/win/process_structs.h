@@ -289,7 +289,7 @@ struct PEB {
 template <class Traits>
 struct NT_TIB {
   union {
-    // See https://msdn.microsoft.com/en-us/library/dn424783.aspx.
+    // See https://msdn.microsoft.com/library/dn424783.aspx.
     typename Traits::Pointer Wow64Teb;
     struct {
       typename Traits::Pointer ExceptionList;
@@ -306,7 +306,7 @@ struct NT_TIB {
   };
 };
 
-// See https://msdn.microsoft.com/en-us/library/gg750647.aspx.
+// See https://msdn.microsoft.com/library/gg750647.aspx.
 template <class Traits>
 struct CLIENT_ID {
   typename Traits::Pointer UniqueProcess;
@@ -314,8 +314,8 @@ struct CLIENT_ID {
 };
 
 // This is a partial definition of the TEB, as we do not currently use many
-// fields of it. See http://www.nirsoft.net/kernel_struct/vista/TEB.html, and
-// the (arch-specific) definition of _TEB in winternl.h.
+// fields of it. See https://nirsoft.net/kernel_struct/vista/TEB.html, and the
+// (arch-specific) definition of _TEB in winternl.h.
 template <class Traits>
 struct TEB {
   NT_TIB<Traits> NtTib;
@@ -334,7 +334,7 @@ struct TEB {
   typename Traits::Pointer TlsExpansionSlots;
 };
 
-// See https://msdn.microsoft.com/en-us/library/gg750724.aspx.
+// See https://msdn.microsoft.com/library/gg750724.aspx.
 template <class Traits>
 struct SYSTEM_THREAD_INFORMATION {
   union {
@@ -400,7 +400,7 @@ struct VM_COUNTERS<internal::Traits64> {
   SIZE_T PrivateUsage;
 };
 
-// See http://undocumented.ntinternals.net/source/usermode/undocumented%20functions/system%20information/structures/system_process_information.html
+// https://undocumented.ntinternals.net/UserMode/Undocumented%20Functions/System%20Information/Structures/SYSTEM_PROCESS_INFORMATION.html
 template <class Traits>
 struct SYSTEM_PROCESS_INFORMATION {
   ULONG NextEntryOffset;
@@ -436,7 +436,7 @@ struct SYSTEM_PROCESS_INFORMATION {
   SYSTEM_THREAD_INFORMATION<Traits> Threads[1];
 };
 
-// http://undocumented.ntinternals.net/source/usermode/structures/thread_basic_information.html
+// https://undocumented.ntinternals.net/source/usermode/structures/THREAD_BASIC_INFORMATION.html
 template <class Traits>
 struct THREAD_BASIC_INFORMATION {
   union {

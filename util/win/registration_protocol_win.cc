@@ -137,7 +137,7 @@ const void* GetSecurityDescriptorForNamedPipeInstance(size_t* size) {
 
 #pragma pack(push, 1)
   static constexpr struct SecurityDescriptorBlob {
-    // See https://msdn.microsoft.com/en-us/library/cc230366.aspx.
+    // See https://msdn.microsoft.com/library/cc230366.aspx.
     SECURITY_DESCRIPTOR_RELATIVE sd_rel;
     struct {
       ACL acl;

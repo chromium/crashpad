@@ -19,7 +19,7 @@
 namespace crashpad {
 
 // Ref:
-// http://blogs.msdn.com/b/twistylittlepassagesallalike/archive/2011/04/23/everyone-quotes-arguments-the-wrong-way.aspx
+// https://blogs.msdn.microsoft.com/twistylittlepassagesallalike/2011/04/23/everyone-quotes-command-line-arguments-the-wrong-way/
 void AppendCommandLineArgument(const std::wstring& argument,
                                std::wstring* command_line) {
   if (!command_line->empty()) {

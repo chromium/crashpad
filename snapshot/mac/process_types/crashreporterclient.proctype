@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // The name of this file was chosen based on
-// http://llvm.org/svn/llvm-project/llvm/trunk/lib/Support/PrettyStackTrace.cpp.
+// https://llvm.org/svn/llvm-project/llvm/trunk/lib/Support/PrettyStackTrace.cpp.
 // The name of the structure it describes was chosen based on that file as well
 // as 10.9.2 cups-372.2/cups/backend/usb-darwin.c. That file also provided the
 // names and types of the fields in the structure.

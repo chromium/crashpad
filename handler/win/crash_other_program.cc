@@ -52,9 +52,8 @@ bool CrashAndDumpTarget(const CrashpadClient& client, HANDLE process) {
   do {
     if (te32.th32OwnerProcessID == target_pid) {
       // We set the thread priority of "Thread1" to a non-default value before
-      // going to sleep. Dump and blame this thread. For an explanation of
-      // "9", see
-      // https://msdn.microsoft.com/en-us/library/windows/desktop/ms685100.aspx.
+      // going to sleep. Dump and blame this thread. For an explanation of "9",
+      // see https://msdn.microsoft.com/library/ms685100.aspx.
       if (te32.tpBasePri == 9) {
         ScopedKernelHANDLE thread(
             OpenThread(kXPThreadAllAccess, false, te32.th32ThreadID));

@@ -85,7 +85,7 @@ void TestGzipDeflateInflate(const std::string& string) {
   // 8-byte trailer.
   constexpr size_t kGzipHeaderSize = 18;
 
-  // Per http://www.zlib.net/zlib_tech.html, in the worst case, zlib will store
+  // Per https://zlib.net/zlib_tech.html, in the worst case, zlib will store
   // uncompressed data as-is, at an overhead of 5 bytes per 16384-byte block.
   // Zero-length input will “compress” to a 2-byte zlib stream. Add the overhead
   // of the gzip wrapper, assuming no optional fields are present.

@@ -21,7 +21,7 @@ limitations under the License.
 Crashpad currently consists of a crash-reporting client and some related tools
 for macOS and Windows. The core client work for both platforms is substantially
 complete. Crashpad became the crash reporter client for
-[Chromium](https://dev.chromium.org/Home) on macOS as of [March
+[Chromium](https://www.chromium.org/Home) on macOS as of [March
 2015](https://chromium.googlesource.com/chromium/src/\+/d413b2dcb54d523811d386f1ff4084f677a6d089),
 and on Windows as of [November
 2015](https://chromium.googlesource.com/chromium/src/\+/cfa5b01bb1d06bf96967bd37e21a44752801948c).

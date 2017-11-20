@@ -17,7 +17,7 @@
 #if defined(OS_MACOSX) && MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_7
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
-// Redeclare a method only available on OSX 10.7+ to suppress a
+// Redeclare a method only available on Mac OS X 10.7 and later to suppress a
 // -Wpartial-availability warning.
 extern "C" {
 size_t strnlen(const char* string, size_t max_length);

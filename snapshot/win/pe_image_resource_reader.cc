@@ -165,7 +165,7 @@ uint32_t PEImageResourceReader::GetEntryFromResourceDirectoryByLanguage(
     return 0;
   }
 
-  // https://msdn.microsoft.com/en-us/library/cc194810.aspx
+  // https://msdn.microsoft.com/library/cc194810.aspx
   //
   // TODO(mark): It seems like FindResourceEx() might do something more complex.
   // It would be best to mimic its behavior.
