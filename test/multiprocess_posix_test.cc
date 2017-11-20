@@ -20,7 +20,7 @@
 
 #include "base/macros.h"
 #include "gtest/gtest.h"
-#include "test/gtest_death_check.h"
+#include "test/gtest_death.h"
 #include "util/file/file_io.h"
 
 namespace crashpad {
