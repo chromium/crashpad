@@ -22,6 +22,30 @@
       "revId": "3bdc41595087d59c6806d959f5ede3c2c1dec307",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18b8a096_6ff5cc3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-20T18:55:33Z",
+      "side": 1,
+      "message": "\u003e I\u0027ve had half a mind to land https://chromium-review.googlesource.com/c/chromium/src/+/570500 for a while.\n\nAre we definitively aware of test flake caused by “fast,” or is it speculation?",
+      "parentUuid": "9daa8b00_aed67135",
+      "range": {
+        "startLine": 12,
+        "startChar": 43,
+        "endLine": 14,
+        "endChar": 23
+      },
+      "revId": "3bdc41595087d59c6806d959f5ede3c2c1dec307",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
