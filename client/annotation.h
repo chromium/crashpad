@@ -213,13 +213,13 @@ class StringAnnotation : public Annotation {
 
   //! \brief Sets the Annotation's string value.
   //!
-  //! \param[in] value The string value.
+  //! \param[in] string The string value.
   void Set(base::StringPiece string) {
     Annotation::ValueSizeType size =
         std::min(MaxSize, base::saturated_cast<ValueSizeType>(string.size()));
     memcpy(value_, string.data(), size);
     // Check for no embedded `NUL` characters.
-    DCHECK(!memchr(value_, '\0', size));
+    DCHECK(!memchr(value_, '\0', size)) << "embedded NUL";
     SetSize(size);
   }
 

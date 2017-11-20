@@ -149,6 +149,8 @@ static_library("util") {
     "posix/close_multiple.h",
     "posix/close_stdio.cc",
     "posix/close_stdio.h",
+    "posix/double_fork_and_exec.cc",
+    "posix/double_fork_and_exec.h",
     "posix/drop_privileges.cc",
     "posix/drop_privileges.h",
     "posix/process_info.h",

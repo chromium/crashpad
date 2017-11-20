@@ -78,6 +78,10 @@ class Multiprocess {
   //! TerminationReason::kTerminationNormal, and the default expected
   //! termination code is `EXIT_SUCCESS` (`0`).
   //!
+  //! This method does not need to be called if the default termination
+  //! expectation is appropriate, but if this method is called, it must be
+  //! called before Run().
+  //!
   //! \param[in] reason Whether to expect the child to terminate normally or
   //!     as a result of a signal.
   //! \param[in] code If \a reason is TerminationReason::kTerminationNormal,

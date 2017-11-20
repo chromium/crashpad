@@ -34,7 +34,7 @@
 #include "snapshot/test/test_process_snapshot.h"
 #include "snapshot/test/test_system_snapshot.h"
 #include "snapshot/test/test_thread_snapshot.h"
-#include "test/gtest_death_check.h"
+#include "test/gtest_death.h"
 #include "util/file/string_file.h"
 
 namespace crashpad {
