@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8ba678e_784350fd",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-20T23:10:53Z",
+      "side": 1,
+      "message": "This will conflict horribly with Josh. Skip?",
+      "revId": "d4fea62b3621542a309c9e99b8d2d8b118f00a56",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bc286c4_fa2a10ba",
+        "filename": "minidump/minidump_writable.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-20T23:10:53Z",
+      "side": 1,
+      "message": "Not sure \"entire\" agrees here.",
+      "range": {
+        "startLine": 131,
+        "startChar": 55,
+        "endLine": 131,
+        "endChar": 78
+      },
+      "revId": "d4fea62b3621542a309c9e99b8d2d8b118f00a56",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2010a61b_30767936",
+        "filename": "util/mach/child_port.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-20T23:10:53Z",
+      "side": 1,
+      "message": "punctuation got lost",
+      "range": {
+        "startLine": 43,
+        "startChar": 74,
+        "endLine": 43,
+        "endChar": 80
+      },
+      "revId": "d4fea62b3621542a309c9e99b8d2d8b118f00a56",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
