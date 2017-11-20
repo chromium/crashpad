@@ -18,14 +18,14 @@
 // child_port provides an interface for port rights to be transferred between
 // tasks. Its expected usage is for processes to be able to pass port rights
 // across IPC boundaries. A child process may wish to give its parent a copy of
-// of a send right to its own task port, or a parent process may wish to give a
+// a send right to its own task port, or a parent process may wish to give a
 // receive right to a child process that implements a server.
 //
-// This Mach subsystem defines the lowest-level interface for these rights to
-// be transferred. Most users will not user this interface directly, but will
-// use ChildPortHandshake, which builds on this interface by providing client
-// and server implementations, along with a protocol for establishing
-// communication in a parent-child process relationship.
+// This Mach subsystem defines the lowest-level interface for these rights to be
+// transferred. Most users will not user this interface directly, but will use
+// ChildPortHandshake, which builds on this interface by providing client and
+// server implementations, along with a protocol for establishing communication
+// in a parent-child process relationship.
 subsystem child_port 10011;
 
 serverprefix handle_;
