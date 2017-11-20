@@ -12,7 +12,6 @@
 /out
 /third_party/gtest/gtest
 /third_party/gyp/gyp
-/third_party/llvm
 /third_party/mini_chromium/mini_chromium
 /third_party/zlib/zlib
 /xcodebuild
