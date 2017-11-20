@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57f1cbdb_a89d0570",
+        "filename": "compat/non_win/dbghelp.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-20T22:04:38Z",
+      "side": 0,
+      "message": "This one’s been dead for a while, and was probably a copyright problem, so I decided not to link to archive.org or another online copy.",
+      "revId": "cd1d773a40e4d75addc19f47ead67bfbd058f007",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4006a6a_13752236",
+        "filename": "util/net/http_transport_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-20T22:04:38Z",
+      "side": 0,
+      "message": "And I don’t know what happened to Community Additions.",
+      "revId": "cd1d773a40e4d75addc19f47ead67bfbd058f007",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
