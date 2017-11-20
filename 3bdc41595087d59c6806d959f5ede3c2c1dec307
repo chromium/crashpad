@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9daa8b00_aed67135",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-20T18:49:09Z",
+      "side": 1,
+      "message": "I\u0027ve had half a mind to land https://chromium-review.googlesource.com/c/chromium/src/+/570500 for a while.",
+      "range": {
+        "startLine": 12,
+        "startChar": 43,
+        "endLine": 14,
+        "endChar": 23
+      },
+      "revId": "3bdc41595087d59c6806d959f5ede3c2c1dec307",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
