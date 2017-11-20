@@ -277,11 +277,14 @@ static_library("util") {
   if (is_win) {
     # There's no ml.exe yet in cross builds, so provide broken-but-not-asm
     # versions of the functions defined in .asm files.
+    #
     # CaptureContext() in capture_context_broken.cc just calls CHECK(false).
     # SafeTerminateProcess() in safe_terminate_process.cc just calls regular
     # TerminateProcess() without the protection against broken third-party
     # patching of TerminateProcess().
-    # TODO(thakis): Use the .asm file in cross builds somehow, crbug.com/762167
+    #
+    # TODO(thakis): Use the .asm file in cross builds somehow,
+    # https://crbug.com/762167.
     if (host_os == "win") {
       sources += [
         "win/capture_context.asm",

@@ -8,7 +8,7 @@ Security Critical: yes
 
 Description:
 mini_chromium is a small collection of useful low-level (“base”) routines from
-the Chromium open-source project at http://www.chromium.org/. Chromium is
+the Chromium open-source project at https://www.chromium.org/Home. Chromium is
 large, sprawling, full of dependencies, and a web browser. mini_chromium is
 small, self-contained, and a library. mini_chromium is especially useful as a
 dependency of other code that wishes to use Chromium’s base routines.

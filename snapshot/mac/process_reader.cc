@@ -681,9 +681,9 @@ void ProcessReader::LocateRedZone(mach_vm_address_t* const start_address,
                                   const unsigned int user_tag) {
 #if defined(ARCH_CPU_X86_FAMILY)
   if (Is64Bit()) {
-    // x86_64 has a red zone. See AMD64 ABI 0.99.6,
-    // http://www.x86-64.org/documentation/abi.pdf, section 3.2.2, “The Stack
-    // Frame”.
+    // x86_64 has a red zone. See AMD64 ABI 0.99.8,
+    // https://raw.githubusercontent.com/wiki/hjl-tools/x86-psABI/x86-64-psABI-r252.pdf#page=19,
+    // section 3.2.2, “The Stack Frame”.
     constexpr mach_vm_size_t kRedZoneSize = 128;
     mach_vm_address_t red_zone_base =
         *start_address >= kRedZoneSize ? *start_address - kRedZoneSize : 0;

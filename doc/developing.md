@@ -22,7 +22,7 @@ limitations under the License.
 
 ## Introduction
 
-Crashpad is a [Chromium project](https://dev.chromium.org/Home). Most of its
+Crashpad is a [Chromium project](https://www.chromium.org/Home). Most of its
 development practices follow Chromium’s. In order to function on its own in
 other projects, Crashpad uses
 [mini_chromium](https://chromium.googlesource.com/chromium/mini_chromium/), a
@@ -43,9 +43,9 @@ the `$PATH` environment variable:
       C++ support and the Windows SDK. MSVS 2015 and MSVS 2017 are both
       supported. Some tests also require the CDB debugger, installed with
       [Debugging Tools for
-      Windows](https://msdn.microsoft.com/library/windows/hardware/ff551063.aspx).
+      Windows](https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/).
  * Chromium’s
-   [depot_tools](https://dev.chromium.org/developers/how-tos/depottools).
+   [depot_tools](https://www.chromium.org/developers/how-tos/depottools).
  * [Git](https://git-scm.com/). This is provided by Xcode on macOS and by
    depot_tools on Windows.
  * [Python](https://www.python.org/). This is provided by the operating system
@@ -57,12 +57,12 @@ The main source code repository is a Git repository hosted at
 https://chromium.googlesource.com/crashpad/crashpad. Although it is possible to
 check out this repository directly with `git clone`, Crashpad’s dependencies are
 managed by
-[`gclient`](https://dev.chromium.org/developers/how-tos/depottools#TOC-gclient)
+[`gclient`](https://www.chromium.org/developers/how-tos/depottools#TOC-gclient)
 instead of Git submodules, so to work on Crashpad, it is best to use `fetch` to
 get the source code.
 
 `fetch` and `gclient` are part of the
-[depot_tools](https://dev.chromium.org/developers/how-tos/depottools). There’s
+[depot_tools](https://www.chromium.org/developers/how-tos/depottools). There’s
 no need to install them separately.
 
 ### Initial Checkout
@@ -106,7 +106,7 @@ $ ninja -C out/Debug
 ```
 
 Ninja is part of the
-[depot_tools](https://dev.chromium.org/developers/how-tos/depottools). There’s
+[depot_tools](https://www.chromium.org/developers/how-tos/depottools). There’s
 no need to install it separately.
 
 ### Android
@@ -200,7 +200,7 @@ $ python build/run_tests.py out/Debug
 
 On Windows, `end_to_end_test.py` requires the CDB debugger, installed with
 [Debugging Tools for
-Windows](https://msdn.microsoft.com/library/windows/hardware/ff551063.aspx).
+Windows](https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/).
 This can be installed either as part of the [Windows Driver
 Kit](https://go.microsoft.com/fwlink/p?LinkID=239721) or the [Windows
 SDK](https://go.microsoft.com/fwlink/p?LinkID=271979). If the Windows SDK has
@@ -243,7 +243,7 @@ device:/data/local/tmp $ CRASHPAD_TEST_DATA_ROOT=crashpad_test_data_root \
 ## Contributing
 
 Crashpad’s contribution process is very similar to [Chromium’s contribution
-process](https://dev.chromium.org/developers/contributing-code).
+process](https://www.chromium.org/developers/contributing-code).
 
 ### Code Review
 
@@ -256,7 +256,7 @@ must be sent to an appropriate reviewer, with a Cc sent to
 file specifies this environment to `git-cl`.
 
 `git-cl` is part of the
-[depot_tools](https://dev.chromium.org/developers/how-tos/depottools). There’s
+[depot_tools](https://www.chromium.org/developers/how-tos/depottools). There’s
 no need to install it separately.
 
 ```
@@ -282,7 +282,7 @@ patch set with `git cl upload` and let your reviewer know you’ve addressed the
 feedback.
 
 The most recently uploaded patch set on a review may be tested on a [try
-server](https://dev.chromium.org/developers/testing/try-server-usage) by running
+server](https://www.chromium.org/developers/testing/try-server-usage) by running
 `git cl try` or by clicking the “CQ Dry Run” button in Gerrit. These set the
 “Commit-Queue: +1” label. This does not mean that the patch will be committed,
 but the try server and commit queue share infrastructure and a Gerrit label. The
@@ -294,7 +294,7 @@ Crashpad and Chromium committers.
 
 After code review is complete and “Code-Review: +1” has been received from all
 reviewers, the patch can be submitted to Crashpad’s [commit
-queue](https://dev.chromium.org/developers/testing/commit-queue) by clicking the
+queue](https://www.chromium.org/developers/testing/commit-queue) by clicking the
 “Submit to CQ” button in Gerrit. This sets the “Commit-Queue: +2” label, which
 tests the patch on the try server before landing it. Commit queue access is
 available to Crashpad and Chromium committers.

@@ -235,7 +235,7 @@ bool PEImageReader::VSFixedFileInfo(
   }
 
   // This structure is not declared anywhere in the SDK, but is documented at
-  // https://msdn.microsoft.com/en-us/library/windows/desktop/ms647001.aspx.
+  // https://msdn.microsoft.com/library/ms647001.aspx.
   struct VS_VERSIONINFO {
     WORD wLength;
     WORD wValueLength;
