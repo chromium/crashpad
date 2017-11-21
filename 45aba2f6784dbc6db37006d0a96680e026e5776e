@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "764bea05_362eb5af",
+        "filename": "build/BUILD.gn",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-21T21:44:35Z",
+      "side": 1,
+      "message": "When I was originally hacking at this, my thought was to take the mini_chromium copy of this.",
+      "revId": "45aba2f6784dbc6db37006d0a96680e026e5776e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52a334cf_fa4c78c0",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-21T21:44:35Z",
+      "side": 1,
+      "message": "I kinda think we should not do this.",
+      "revId": "45aba2f6784dbc6db37006d0a96680e026e5776e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af9ee4db_e189ff0f",
+        "filename": "build/dependencies.gni",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-21T21:44:35Z",
+      "side": 1,
+      "message": "Another weird thought I had was Crashpad could define a base/BUILD.gn locally that just group()s mini_chromium. I think that could reduce at least some of the variable use.",
+      "revId": "45aba2f6784dbc6db37006d0a96680e026e5776e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a965759a_a69ce75d",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 10
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-21T21:44:35Z",
+      "side": 1,
+      "message": "I was trying to see how other Chromium projects do this, and the only one I could think of that has switched to GN is V8. And they seem to get around this by defining most of the targets in a root BUILD.gn and then only using relative paths.",
+      "range": {
+        "startLine": 58,
+        "startChar": 5,
+        "endLine": 58,
+        "endChar": 26
+      },
+      "revId": "45aba2f6784dbc6db37006d0a96680e026e5776e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99a9a7ac_c46cad89",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 10
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-21T21:44:35Z",
+      "side": 1,
+      "message": "Another weird thought: crashpad_in_chromium has always smelled a bit funny to me. Could Chromium just carry downstream mods to the GN files instead?",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 137,
+        "endChar": 29
+      },
+      "revId": "45aba2f6784dbc6db37006d0a96680e026e5776e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
