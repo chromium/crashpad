@@ -12,8 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//build/config/compiler/compiler.gni")
+
+import("../build/dependencies.gni")
+
 import("//testing/test.gni")
+
+if (crashpad_in_chromium) {
+  import("//build/config/compiler/compiler.gni")
+}
 
 static_library("snapshot") {
   sources = [
@@ -125,13 +131,13 @@ static_library("snapshot") {
     ]
   }
 
-  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+  public_configs = [ "$crashpad_source_root:crashpad_config" ]
 
   deps = [
-    "//base",
-    "//third_party/crashpad/crashpad/client",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/util",
+    "$crashpad_base_location/base",
+    "$crashpad_source_root/client",
+    "$crashpad_source_root/compat",
+    "$crashpad_source_root/util",
   ]
 
   if (is_win) {
@@ -147,15 +153,15 @@ if (is_win) {
       "api/module_annotations_win.h",
     ]
 
-    public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+    public_configs = [ "$crashpad_source_root:crashpad_config" ]
 
     cflags = [ "/wd4201" ]
 
     deps = [
       ":snapshot",
-      "//base",
-      "//third_party/crashpad/crashpad/compat",
-      "//third_party/crashpad/crashpad/util",
+      "$crashpad_base_location/base",
+      "$crashpad_source_root/compat",
+      "$crashpad_source_root/util",
     ]
   }
 } else {
@@ -185,16 +191,16 @@ static_library("test_support") {
     "test/test_thread_snapshot.h",
   ]
 
-  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+  public_configs = [ "$crashpad_source_root:crashpad_config" ]
 
   public_deps = [
     ":snapshot",
   ]
 
   deps = [
-    "//base",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/util",
+    "$crashpad_base_location/base",
+    "$crashpad_source_root/compat",
+    "$crashpad_source_root/util",
   ]
 
   if (is_win) {
@@ -235,12 +241,12 @@ source_set("snapshot_test") {
   deps = [
     ":snapshot_api",
     ":test_support",
-    "//base",
+    "$crashpad_base_location/base",
+    "$crashpad_source_root/client",
+    "$crashpad_source_root/compat",
+    "$crashpad_source_root/test",
+    "$crashpad_source_root/util",
     "//testing/gtest",
-    "//third_party/crashpad/crashpad/client",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/test",
-    "//third_party/crashpad/crashpad/util",
   ]
 
   data_deps = [
@@ -278,8 +284,8 @@ loadable_module("crashpad_snapshot_test_module") {
     "crashpad_info_client_options_test_module.cc",
   ]
   deps = [
-    "//base",
-    "//third_party/crashpad/crashpad/client",
+    "$crashpad_base_location/base",
+    "$crashpad_source_root/client",
   ]
 }
 
@@ -290,7 +296,7 @@ loadable_module("crashpad_snapshot_test_module_large") {
   ]
   defines = [ "CRASHPAD_INFO_SIZE_TEST_MODULE_LARGE" ]
   deps = [
-    "//base",
+    "$crashpad_base_location/base",
   ]
 }
 
@@ -301,7 +307,7 @@ loadable_module("crashpad_snapshot_test_module_small") {
   ]
   defines = [ "CRASHPAD_INFO_SIZE_TEST_MODULE_SMALL" ]
   deps = [
-    "//base",
+    "$crashpad_base_location/base",
   ]
 }
 
@@ -328,9 +334,9 @@ if (is_win) {
       "win/crashpad_snapshot_test_annotations.cc",
     ]
     deps = [
-      "//base",
-      "//third_party/crashpad/crashpad/client",
-      "//third_party/crashpad/crashpad/compat",
+      "$crashpad_base_location/base",
+      "$crashpad_source_root/client",
+      "$crashpad_source_root/compat",
     ]
   }
 
@@ -340,10 +346,10 @@ if (is_win) {
       "win/crashpad_snapshot_test_crashing_child.cc",
     ]
     deps = [
-      "//base",
-      "//third_party/crashpad/crashpad/client",
-      "//third_party/crashpad/crashpad/compat",
-      "//third_party/crashpad/crashpad/util",
+      "$crashpad_base_location/base",
+      "$crashpad_source_root/client",
+      "$crashpad_source_root/compat",
+      "$crashpad_source_root/util",
     ]
   }
 
@@ -353,10 +359,10 @@ if (is_win) {
       "win/crashpad_snapshot_test_dump_without_crashing.cc",
     ]
     deps = [
-      "//base",
-      "//third_party/crashpad/crashpad/client",
-      "//third_party/crashpad/crashpad/compat",
-      "//third_party/crashpad/crashpad/util",
+      "$crashpad_base_location/base",
+      "$crashpad_source_root/client",
+      "$crashpad_source_root/compat",
+      "$crashpad_source_root/util",
     ]
   }
 
@@ -366,9 +372,9 @@ if (is_win) {
       "win/crashpad_snapshot_test_extra_memory_ranges.cc",
     ]
     deps = [
-      "//base",
-      "//third_party/crashpad/crashpad/client",
-      "//third_party/crashpad/crashpad/compat",
+      "$crashpad_base_location/base",
+      "$crashpad_source_root/client",
+      "$crashpad_source_root/compat",
     ]
   }
 
@@ -378,12 +384,12 @@ if (is_win) {
       "win/crashpad_snapshot_test_image_reader.cc",
     ]
     deps = [
-      "//base",
-      "//third_party/crashpad/crashpad/client",
-      "//third_party/crashpad/crashpad/compat",
-      "//third_party/crashpad/crashpad/util",
+      "$crashpad_base_location/base",
+      "$crashpad_source_root/client",
+      "$crashpad_source_root/compat",
+      "$crashpad_source_root/util",
     ]
-    if (symbol_level == 0) {
+    if (crashpad_in_chromium && symbol_level == 0) {
       # The tests that use this executable rely on at least minimal debug info.
       configs -= [ "//build/config/compiler:default_symbols" ]
       configs += [ "//build/config/compiler:minimal_symbols" ]
@@ -396,10 +402,10 @@ if (is_win) {
       "win/crashpad_snapshot_test_image_reader_module.cc",
     ]
     deps = [
-      "//base",
-      "//third_party/crashpad/crashpad/client",
+      "$crashpad_base_location/base",
+      "$crashpad_source_root/client",
     ]
-    if (symbol_level == 0) {
+    if (crashpad_in_chromium && symbol_level == 0) {
       # The tests that use this module rely on at least minimal debug info.
       configs -= [ "//build/config/compiler:default_symbols" ]
       configs += [ "//build/config/compiler:minimal_symbols" ]

@@ -12,9 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//build/config/sanitizers/sanitizers.gni")
-import("//build/toolchain/toolchain.gni")
+import("../build/dependencies.gni")
+
 import("//testing/test.gni")
+
+if (crashpad_in_chromium) {
+  import("//build/config/sanitizers/sanitizers.gni")
+  import("//build/toolchain/toolchain.gni")
+}
 
 if (is_mac) {
   import("//build/config/sysroot.gni")
@@ -298,18 +303,20 @@ static_library("util") {
     }
   }
 
-  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+  public_configs = [ "$crashpad_source_root:crashpad_config" ]
 
   # Include files from here and generated files starting with "util".
   include_dirs = [ "$root_gen_dir/third_party/crashpad/crashpad" ]
 
   public_deps = [
-    "//third_party/crashpad/crashpad/compat",
+    "$crashpad_source_root/compat",
   ]
 
   deps = [
-    "//base",
-    "//third_party/crashpad/crashpad/third_party/zlib",
+    "$crashpad_base_location/base",
+
+    # TODO(GN): Should this point at Chromium's zlib when in Chromium?
+    "$crashpad_source_root/third_party/zlib",
   ]
 
   if (is_mac) {
@@ -428,13 +435,13 @@ source_set("util_test") {
 
   deps = [
     ":util",
-    "//base",
+    "$crashpad_base_location/base",
+    "$crashpad_source_root/client",
+    "$crashpad_source_root/compat",
+    "$crashpad_source_root/test",
+    "$crashpad_source_root/third_party/zlib",
     "//testing/gmock",
     "//testing/gtest",
-    "//third_party/crashpad/crashpad/client",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/test",
-    "//third_party/crashpad/crashpad/third_party/zlib",
   ]
 
   if (is_mac) {

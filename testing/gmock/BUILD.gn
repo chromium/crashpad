@@ -12,22 +12,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("build/dependencies.gni")
+source_set("gmock") {
+  testonly = true
+  sources = [
+    "include/gmock/gmock-actions.h",
+    "include/gmock/gmock-generated-function-mockers.h",
+    "include/gmock/gmock-matchers.h",
+    "include/gmock/gmock.h",
+  ]
+  deps = [
+    "//third_party/gtest:gmock",
+  ]
 
-import("//testing/test.gni")
-
-config("crashpad_config") {
-  include_dirs = [ "$crashpad_source_root" ]
+  public_configs = [
+    "//third_party/gtest:gmock_config",
+    "//third_party/gtest:gtest_config",
+  ]
 }
 
-test("crashpad_tests") {
+source_set("gmock_main") {
+  testonly = true
   deps = [
-    "$crashpad_source_root/client:client_test",
-    "$crashpad_source_root/handler:handler_test",
-    "$crashpad_source_root/minidump:minidump_test",
-    "$crashpad_source_root/snapshot:snapshot_test",
-    "$crashpad_source_root/test:gmock_main",
-    "$crashpad_source_root/test:test_test",
-    "$crashpad_source_root/util:util_test",
+    "//third_party/gtest:gmock_main",
   ]
 }
