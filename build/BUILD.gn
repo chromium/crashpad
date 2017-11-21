@@ -1,0 +1,258 @@
+# Copyright 2016 The Crashpad Authors. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+################################################################################
+# DEFAULT BUILD CONFIGURATION
+################################################################################
+
+config("debug") {
+}
+
+config("release") {
+  defines = [ "NDEBUG" ]
+
+  if (is_mac) {
+    cflags = [ "-O3" ]
+    ldflags = [ "-Wl,-dead_strip" ]
+  } else if (is_win) {
+    cflags = [
+      "/GL",  # LTCG.
+      "/O2",
+      "/Ob2",  # Both explicit and auto inlining.
+      "/Oy-",  # Disable omitting frame pointers, must be after /O2.
+      "/Zc:inline",  # Remove unreferenced COMDAT (faster links).
+      "/d2Zi+",  # Improve debugging of optimized code.
+    ]
+    ldflags = [
+      "/OPT:ICF",
+      "/OPT:REF",
+      "/LTCG",
+    ]
+    arflags = [ "/LTCG" ]
+  }
+}
+
+config("default") {
+  if (is_mac || is_fuchsia) {
+    cflags = [
+      "-Wall",
+      "-Wendif-labels",
+      "-Werror",
+      "-Wextra",
+      "-Wno-missing-field-initializers",
+      "-Wno-unused-parameter",
+      "-Wsign-compare",
+      "-fno-rtti",
+      "-fno-strict-aliasing",  # See https://crbug.com/32204
+      "-fobjc-call-cxx-cdtors",
+      "-fstack-protector-all",  # Implies -fstack-protector
+      "-fvisibility-inlines-hidden",
+      "-fvisibility=hidden",
+    ]
+
+    cflags_c = [ "-std=c99" ]
+    cflags_cc = [ "-std=c++14" ]
+    cflags_objc = cflags_c
+    cflags_objcc = cflags_cc
+
+    if (is_clang) {
+      cflags += [
+        "-Wexit-time-destructors",
+        "-Wheader-hygiene",
+        "-Wnewline-eof",
+        "-Wstring-conversion",
+      ]
+    }
+  } else if (is_win) {
+    cflags = [
+      "/DNOMINMAX",
+      "/DUNICODE",
+      "/DWIN32_LEAN_AND_MEAN",
+      "/D_CRT_SECURE_NO_WARNINGS",
+      "/D_HAS_EXCEPTIONS=0",
+      "/D_UNICODE",
+      "/W4",
+      "/WX",
+      "/wd4100",  # Unreferenced formal parameter.
+      "/wd4127",  # Conditional expression is constant.
+      "/wd4351",  # New behavior: elements of array will be default initialized.
+      "/wd4530",  # Exceptions disabled.
+      "/wd4702",  # Unreachable code.
+      "/wd4996",  # 'X' was declared deprecated.
+    ]
+  }
+
+  if (is_debug) {
+    configs = [ ":debug" ]
+  } else {
+    configs = [ ":release" ]
+  }
+}
+
+################################################################################
+# TOOLCHAIN DEFINITIONS
+################################################################################
+
+toolchain("gcc_like_toolchain") {
+  if (is_clang) {
+    cc = "${clang_root}clang"
+    cxx = "${clang_root}clang++"
+    ld = "${clang_root}lld"
+  } else {
+    cc = "gcc"
+    cxx = "g++"
+    ld = "ld"
+  }
+
+  tool("cc") {
+    depfile = "{{output}}.d"
+    command = "$cc -MMD -MF $depfile {{defines}} {{include_dirs}} {{cflags}} {{cflags_c}} -c {{source}} -o {{output}}"
+    depsformat = "gcc"
+    description = "CXX {{output}}"
+    outputs = [
+      "{{target_out_dir}}/{{source_name_part}}.o",
+    ]
+  }
+
+  tool("cxx") {
+    depfile = "{{output}}.d"
+    command = "$cxx -MMD -MF $depfile {{defines}} {{include_dirs}} {{cflags}} {{cflags_cc}} -c {{source}} -o {{output}}"
+    depsformat = "gcc"
+    description = "CXX {{output}}"
+    outputs = [
+      "{{target_out_dir}}/{{source_name_part}}.o",
+    ]
+  }
+
+  tool("objc") {
+    depfile = "{{output}}.d"
+    command = "$cc -MMD -MF $depfile {{defines}} {{include_dirs}} {{cflags}} {{cflags_objc}} -c {{source}} -o {{output}}"
+    depsformat = "gcc"
+    description = "OBJC {{output}}"
+    outputs = [
+      "{{target_out_dir}}/{{source_name_part}}.o",
+    ]
+  }
+
+  tool("objcxx") {
+    depfile = "{{output}}.d"
+    command = "$cxx -MMD -MF $depfile {{defines}} {{include_dirs}} {{cflags}} {{cflags_objcc}} -c {{source}} -o {{output}}"
+    depsformat = "gcc"
+    description = "OBJCXX {{output}}"
+    outputs = [
+      "{{target_out_dir}}/{{source_name_part}}.o",
+    ]
+  }
+
+  tool("alink") {
+    if (is_mac) {
+      command = "libtool -static {{arflags}} -o {{output}} {{inputs}}"
+    } else {
+      command = "ar rcsD {{arflags}} -o {{output}} {{inputs}}"
+    }
+    description = "LIBTOOL-STATIC {{output}}"
+    default_output_dir = "{{target_out_dir}}"
+    default_output_extension = ".a"
+    output_prefix = "lib"
+    outputs = [
+      "{{output_dir}}/{{target_output_name}}{{output_extension}}",
+    ]
+  }
+
+  tool("solink_module") {
+    # TODO: Implement.
+    outputs = [
+      "{{target_output_name}}{{output_extension}}",
+    ]
+    command = "echo TODO(GN)"
+  }
+
+  tool("link") {
+    exename = "{{target_output_name}}{{output_extension}}"
+    outfile = "{{output_dir}}/$exename"
+    rspfile = "$outfile.rsp"
+
+    default_output_extension = ""
+
+    default_output_dir = "{{root_out_dir}}"
+
+    start_group_flag = "-Wl,--start-group"
+    end_group_flag = "-Wl,--end-group "
+    command = "$ld {{ldflags}} -o \"$outfile\" $start_group_flag @\"$rspfile\" {{solibs}} $end_group_flag {{libs}}"
+
+    description = "LINK $outfile"
+    rspfile_content = "{{inputs}}"
+    outputs = [
+      outfile,
+    ]
+  }
+
+  tool("stamp") {
+    command = "touch {{output}}"
+    description = "STAMP {{output}}"
+  }
+}
+
+toolchain("msvc_toolchain") {
+  # We don't support all the cross blah-de-blah that Chromium does here. The
+  # environment must be pre-setup by a vcvarsall.bat invocation. @rsp files are
+  # also not used, for simplicity, and because mini_chromium/Crashpad shouldn't
+  # require them in any configurations.
+  cc = "cl.exe"
+  cxx = "cl.exe"
+  ar = "lib.exe"
+  ld = "link.exe"
+  helper_path = rebase_path("win_helper.py")
+
+  tool("cc") {
+    depfile = "{{output}}.d"
+    command = "$cc /nologo /showIncludes {{defines}} {{include_dirs}} {{cflags}} {{cflags_c}} /c {{source}} /Fo{{output}}"
+    depsformat = "msvc"
+    description = "CC {{output}}"
+    outputs = [
+      "{{source_out_dir}}/{{target_output_name}}.{{source_name_part}}.obj",
+    ]
+  }
+  tool("cxx") {
+    depfile = "{{output}}.d"
+    command = "$cxx /nologo /showIncludes {{defines}} {{include_dirs}} {{cflags}} {{cflags_c}} /c {{source}} /Fo{{output}}"
+    depsformat = "msvc"
+    description = "CXX {{output}}"
+    outputs = [
+      "{{source_out_dir}}/{{target_output_name}}.{{source_name_part}}.obj",
+    ]
+  }
+  tool("alink") {
+    command = "$python_path $helper_path link-wrapper $ar /nologo /out:{{output}} {{arflags}} {{inputs}}"
+    description = "LIB {{output}}"
+    outputs = [
+      "{{target_out_dir}}/{{target_output_name}}{{output_extension}}",
+    ]
+    default_output_extension = ".lib"
+    output_prefix = ""
+  }
+  tool("link") {
+    outputs = [
+      "{{root_out_dir}}/{{target_output_name}}{{output_extension}}",
+    ]
+    command = "$python_path $helper_path link-wrapper $ld /nologo /OUT:{{output}} {{ldflags}} {{inputs}} {{solibs}} {{libs}}"
+    description = "LINK {{output}}"
+    default_output_extension = ".exe"
+  }
+  tool("stamp") {
+    command = "$python_path $helper_path stamp {{output}}"
+    description = "STAMP {{output}}"
+  }
+}
