@@ -12,22 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("build/dependencies.gni")
+declare_args() {
+  crashpad_source_root = "//"
 
-import("//testing/test.gni")
+  crashpad_base_location = "//third_party/mini_chromium/mini_chromium"
 
-config("crashpad_config") {
-  include_dirs = [ "$crashpad_source_root" ]
-}
-
-test("crashpad_tests") {
-  deps = [
-    "client:client_test",
-    "handler:handler_test",
-    "minidump:minidump_test",
-    "snapshot:snapshot_test",
-    "test:gmock_main",
-    "test:test_test",
-    "util:util_test",
-  ]
+  crashpad_in_chromium = false
 }

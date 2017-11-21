@@ -18,7 +18,5 @@ config("zlib_config") {
 
 group("zlib") {
   public_configs = [ ":zlib_config" ]
-  public_deps = [
-    "//third_party/zlib:zlib",
-  ]
+  # TODO(GN)
 }
