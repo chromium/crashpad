@@ -44,6 +44,7 @@
         'linux/auxiliary_vector_test.cc',
         'linux/memory_map_test.cc',
         'linux/proc_stat_reader_test.cc',
+        'linux/ptrace_broker_test.cc',
         'linux/ptracer_test.cc',
         'linux/scoped_ptrace_attach_test.cc',
         'mac/launchd_test.mm',
