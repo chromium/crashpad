@@ -18,6 +18,7 @@
 #include "gtest/gtest.h"
 #include "test/multiprocess.h"
 #include "util/file/file_io.h"
+#include "util/linux/ptracer_test_util.h"
 #include "util/linux/scoped_ptrace_attach.h"
 #include "util/misc/from_pointer_cast.h"
 
@@ -60,24 +61,7 @@ class SameBitnessTest : public Multiprocess {
   }
 
   void MultiprocessChild() override {
-    LinuxVMAddress expected_tls;
-#if defined(ARCH_CPU_ARMEL)
-    // 0xffff0fe0 is the address of the kernel user helper __kuser_get_tls().
-    auto kuser_get_tls = reinterpret_cast<void* (*)()>(0xffff0fe0);
-    expected_tls = FromPointerCast<LinuxVMAddress>(kuser_get_tls());
-#elif defined(ARCH_CPU_ARM64)
-    // Linux/aarch64 places the tls address in system register tpidr_el0.
-    asm("mrs %0, tpidr_el0" : "=r"(expected_tls));
-#elif defined(ARCH_CPU_X86)
-    uint32_t expected_tls_32;
-    asm("movl %%gs:0x0, %0" : "=r"(expected_tls_32));
-    expected_tls = expected_tls_32;
-#elif defined(ARCH_CPU_X86_64)
-    asm("movq %%fs:0x0, %0" : "=r"(expected_tls));
-#else
-#error Port.
-#endif  // ARCH_CPU_ARMEL
-
+    LinuxVMAddress expected_tls = GetTLS();
     CheckedWriteFile(WritePipeHandle(), &expected_tls, sizeof(expected_tls));
 
     CheckedReadFileAtEOF(ReadPipeHandle());
