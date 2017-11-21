@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import("../build/dependencies.gni")
+
 import("//testing/test.gni")
 
 static_library("minidump") {
@@ -69,16 +71,16 @@ static_library("minidump") {
     "minidump_writer_util.h",
   ]
 
-  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+  public_configs = [ "$crashpad_source_root:crashpad_config" ]
 
   public_deps = [
-    "//third_party/crashpad/crashpad/compat",
+    "$crashpad_source_root/compat",
   ]
 
   deps = [
-    "//base",
-    "//third_party/crashpad/crashpad/snapshot",
-    "//third_party/crashpad/crashpad/util",
+    "$crashpad_base_location/base",
+    "$crashpad_source_root/snapshot",
+    "$crashpad_source_root/util",
   ]
 
   if (is_win) {
@@ -111,14 +113,14 @@ static_library("test_support") {
     "test/minidump_writable_test_util.h",
   ]
 
-  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+  public_configs = [ "$crashpad_source_root:crashpad_config" ]
 
   public_deps = [
     ":minidump",
   ]
 
   deps = [
-    "//base",
+    "$crashpad_base_location/base",
     "//testing/gtest",
   ]
 
@@ -156,11 +158,11 @@ source_set("minidump_test") {
 
   deps = [
     ":test_support",
-    "//base",
+    "$crashpad_base_location/base",
+    "$crashpad_source_root/snapshot:test_support",
+    "$crashpad_source_root/test",
+    "$crashpad_source_root/util",
     "//testing/gtest",
-    "//third_party/crashpad/crashpad/snapshot:test_support",
-    "//third_party/crashpad/crashpad/test",
-    "//third_party/crashpad/crashpad/util",
   ]
 
   if (is_win) {
