@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import("../build/dependencies.gni")
+
 import("//testing/test.gni")
 
 static_library("test") {
@@ -60,7 +62,7 @@ static_library("test") {
     "win/win_multiprocess_with_temp_dir.h",
   ]
 
-  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+  public_configs = [ "$crashpad_source_root:crashpad_config" ]
 
   defines = [ "CRASHPAD_IN_CHROMIUM" ]
 
@@ -69,11 +71,11 @@ static_library("test") {
   ]
 
   deps = [
-    "//base",
+    "$crashpad_base_location/base",
     "//testing/gtest",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/snapshot",
-    "//third_party/crashpad/crashpad/util",
+    "$crashpad_source_root/compat",
+    "$crashpad_source_root/snapshot",
+    "$crashpad_source_root/util",
   ]
 
   if (is_mac) {
