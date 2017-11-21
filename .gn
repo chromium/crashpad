@@ -1,0 +1,11 @@
+# Copyright 2017 The Crashpad Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+buildconfig = "//build/BUILDCONFIG.gn"
+
+default_args = {
+  # This is set to Crashpad's location when it's used inside another build (i.e.
+  # when built inside Chromium).
+  crashpad_source_root = "//"
+}

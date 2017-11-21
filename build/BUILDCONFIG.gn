@@ -1,0 +1,109 @@
+# Copyright 2016 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+if (target_os == "") {
+  target_os = host_os
+}
+
+if (current_os == "") {
+  current_os = target_os
+}
+
+declare_args() {
+  is_debug = false
+  is_clang = current_os == "mac" || current_os == "fuchsia"
+  clang_root = ""
+}
+
+is_mac = false
+is_win = false
+is_linux = false
+is_android = false
+is_fuchsia = false
+
+if (current_os == "mac") {
+  is_mac = true
+} else if (current_os == "win") {
+  is_win = true
+} else if (current_os == "android") {
+  is_android = true
+} else if (current_os == "linux") {
+  is_linux = true
+} else if (current_os == "fuchsia") {
+  is_fuchsia = true
+}
+
+is_posix = is_mac || is_linux || is_android || is_fuchsia
+
+if (is_win) {
+  set_default_toolchain("//build:msvc_toolchain")
+} else {
+  set_default_toolchain("//build:gcc_like_toolchain")
+}
+
+set_defaults("static_library") {
+  configs = [ "//build:default" ]
+}
+
+################################################################################
+# SOURCE FILENAME RULES
+################################################################################
+
+sources_assignment_filter = []
+if (!is_mac) {
+  sources_assignment_filter += [
+    "*_mac.h",
+    "*_mac.cc",
+    "*_mac.mm",
+    "*_mac_unittest.h",
+    "*_mac_unittest.cc",
+    "*_mac_unittest.mm",
+    "*\bmac/*",
+    "*_cocoa.h",
+    "*_cocoa.cc",
+    "*_cocoa.mm",
+    "*_cocoa_unittest.h",
+    "*_cocoa_unittest.cc",
+    "*_cocoa_unittest.mm",
+    "*\bcocoa/*",
+    "*\bmach/*",
+  ]
+}
+if (!is_linux) {
+  sources_assignment_filter += [
+    "*_linux.h",
+    "*_linux.cc",
+    "*_linux_unittest.h",
+    "*_linux_unittest.cc",
+    "*\blinux/*",
+  ]
+}
+if (!is_android) {
+  sources_assignment_filter += [
+    "*_android.h",
+    "*_android.cc",
+    "*_android_unittest.h",
+    "*_android_unittest.cc",
+    "*\bandroid/*",
+  ]
+}
+if (!is_win) {
+  sources_assignment_filter += [
+    "*_win.cc",
+    "*_win.h",
+    "*_win_unittest.cc",
+    "*\bwin/*",
+  ]
+}
+if (!is_posix) {
+  sources_assignment_filter += [
+    "*_posix.h",
+    "*_posix.cc",
+    "*_posix_unittest.h",
+    "*_posix_unittest.cc",
+    "*\bposix/*",
+  ]
+}
+
+set_sources_assignment_filter(sources_assignment_filter)

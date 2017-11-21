@@ -1,20 +1,15 @@
-# Copyright 2015 The Crashpad Authors. All rights reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# Copyright 2015 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
 
-import("//build/config/sanitizers/sanitizers.gni")
-import("//build/toolchain/toolchain.gni")
+import("//build/dependencies.gni")
+
 import("//testing/test.gni")
+
+if (crashpad_in_chromium) {
+  import("//build/config/sanitizers/sanitizers.gni")
+  import("//build/toolchain/toolchain.gni")
+}
 
 if (is_mac) {
   import("//build/config/sysroot.gni")
@@ -293,18 +288,20 @@ static_library("util") {
     }
   }
 
-  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+  public_configs = [ "$crashpad_source_root:crashpad_config" ]
 
   # Include files from here and generated files starting with "util".
   include_dirs = [ "$root_gen_dir/third_party/crashpad/crashpad" ]
 
   public_deps = [
-    "//third_party/crashpad/crashpad/compat",
+    "$crashpad_source_root/compat",
   ]
 
   deps = [
-    "//base",
-    "//third_party/crashpad/crashpad/third_party/zlib",
+    "$crashpad_base_location//base",
+
+    # TODO(GN): Should this point at Chromium's zlib when in Chromium?
+    "$crashpad_source_root/third_party/zlib",
   ]
 
   if (is_mac) {
@@ -423,13 +420,13 @@ source_set("util_test") {
 
   deps = [
     ":util",
-    "//base",
+    "$crashpad_base_location/base",
     "//testing/gmock",
     "//testing/gtest",
-    "//third_party/crashpad/crashpad/client",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/test",
-    "//third_party/crashpad/crashpad/third_party/zlib",
+    "$crashpad_source_root/client",
+    "$crashpad_source_root/compat",
+    "$crashpad_source_root/test",
+    "$crashpad_source_root/third_party/zlib",
   ]
 
   if (is_mac) {
