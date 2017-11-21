@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0c3c7d2_0772d6d1",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-11-21T23:06:16Z",
+      "side": 1,
+      "message": "paranoid: request \u003d {} ?",
+      "range": {
+        "startLine": 29,
+        "startChar": 12,
+        "endLine": 29,
+        "endChar": 19
+      },
+      "revId": "4165a98a5390379223b20a783dd616964247753f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b79283ca_5c86fd9f",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-11-21T23:06:16Z",
+      "side": 1,
+      "message": "a state machine implemented as a loop + recursion seems hard to follow IMO",
+      "range": {
+        "startLine": 44,
+        "startChar": 15,
+        "endLine": 44,
+        "endChar": 18
+      },
+      "revId": "4165a98a5390379223b20a783dd616964247753f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b75bafe0_934953b2",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-11-21T23:06:16Z",
+      "side": 1,
+      "message": "minor: why not use a switch instead of if(req.type \u003d\u003d ) / continue; ?",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 15
+      },
+      "revId": "4165a98a5390379223b20a783dd616964247753f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65897110_9946922b",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-11-21T23:06:16Z",
+      "side": 1,
+      "message": "a general protocol question - how do we guarantee that the client and server match? (ie. any protocol magic signature and versioning considerations or is this handled somewhere else?)",
+      "range": {
+        "startLine": 37,
+        "startChar": 9,
+        "endLine": 37,
+        "endChar": 17
+      },
+      "revId": "4165a98a5390379223b20a783dd616964247753f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
