@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "e9548d6d_42717aaf",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-21T23:57:03Z",
+      "side": 1,
+      "message": "I haven\u0027t thought of a better way to store the attachments without using the heap.",
+      "parentUuid": "b79283ca_5c86fd9f",
+      "range": {
+        "startLine": 44,
+        "startChar": 15,
+        "endLine": 44,
+        "endChar": 18
+      },
+      "revId": "4165a98a5390379223b20a783dd616964247753f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b75bafe0_934953b2",
         "filename": "util/linux/ptrace_broker.cc",
         "patchSetId": 7
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "6d07dcb1_1422c977",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-21T23:57:03Z",
+      "side": 1,
+      "message": "It seemed slightly more complicated with the extra indents and use of breaks which apply to the switch rather than the loop.",
+      "parentUuid": "b75bafe0_934953b2",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 15
+      },
+      "revId": "4165a98a5390379223b20a783dd616964247753f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "65897110_9946922b",
         "filename": "util/linux/ptrace_broker.h",
         "patchSetId": 7
@@ -82,6 +130,30 @@
       "writtenOn": "2017-11-21T23:06:16Z",
       "side": 1,
       "message": "a general protocol question - how do we guarantee that the client and server match? (ie. any protocol magic signature and versioning considerations or is this handled somewhere else?)",
+      "range": {
+        "startLine": 37,
+        "startChar": 9,
+        "endLine": 37,
+        "endChar": 17
+      },
+      "revId": "4165a98a5390379223b20a783dd616964247753f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07ac0e16_27a18c9f",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-21T23:57:03Z",
+      "side": 1,
+      "message": "Oh, right. I\u0027ll add this.",
+      "parentUuid": "65897110_9946922b",
       "range": {
         "startLine": 37,
         "startChar": 9,
