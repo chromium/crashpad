@@ -12,22 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("build/dependencies.gni")
+template("test") {
+  executable(target_name) {
+    deps = []
+    forward_variables_from(invoker, "*")
 
-import("//testing/test.gni")
-
-config("crashpad_config") {
-  include_dirs = [ "$crashpad_source_root" ]
-}
-
-test("crashpad_tests") {
-  deps = [
-    "$crashpad_source_root/client:client_test",
-    "$crashpad_source_root/handler:handler_test",
-    "$crashpad_source_root/minidump:minidump_test",
-    "$crashpad_source_root/snapshot:snapshot_test",
-    "$crashpad_source_root/test:gmock_main",
-    "$crashpad_source_root/test:test_test",
-    "$crashpad_source_root/util:util_test",
-  ]
+    testonly = true
+  }
 }

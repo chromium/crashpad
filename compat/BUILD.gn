@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
+import("../build/dependencies.gni")
+
 config("compat_config") {
   include_dirs = []
 
@@ -68,7 +71,7 @@ static_library("compat") {
 
   public_configs = [
     ":compat_config",
-    "//third_party/crashpad/crashpad:crashpad_config",
+    "$crashpad_source_root:crashpad_config",
   ]
 
   deps = []

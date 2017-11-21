@@ -12,22 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("build/dependencies.gni")
+buildconfig = "//build/BUILDCONFIG.gn"
 
-import("//testing/test.gni")
-
-config("crashpad_config") {
-  include_dirs = [ "$crashpad_source_root" ]
-}
-
-test("crashpad_tests") {
-  deps = [
-    "$crashpad_source_root/client:client_test",
-    "$crashpad_source_root/handler:handler_test",
-    "$crashpad_source_root/minidump:minidump_test",
-    "$crashpad_source_root/snapshot:snapshot_test",
-    "$crashpad_source_root/test:gmock_main",
-    "$crashpad_source_root/test:test_test",
-    "$crashpad_source_root/util:util_test",
-  ]
+default_args = {
+  # This is set to Crashpad's location when it's used inside another build (i.e.
+  # when built inside Chromium).
+  crashpad_source_root = "//"
 }
