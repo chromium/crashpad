@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "dcd9aaf3_ba37f66d",
+        "filename": "build/BUILD.gn",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-21T22:15:05Z",
+      "side": 1,
+      "message": "Sorry for being vague, yeah I meant that the base build stuff lives in mini_chromium. I was thinking that it may be convenient to have a ready-to-go GN toolchain available along with a small copy of //base. But it\u0027s not a sticking point. Without it, though, anything else that were to use mini_chromium would probably need to pull a toolchain from *somewhere*.",
+      "parentUuid": "8c684f35_b53b9457",
+      "revId": "45aba2f6784dbc6db37006d0a96680e026e5776e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "52a334cf_fa4c78c0",
         "filename": "build/BUILDCONFIG.gn",
         "patchSetId": 10
