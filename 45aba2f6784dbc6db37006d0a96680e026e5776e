@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "9cc87e01_d858a7f2",
+        "filename": "build/BUILD.gn",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-21T22:43:19Z",
+      "side": 1,
+      "message": "Agreed. I kind of view that more as a GN deficiency/feature than something that mini_chromium necessarily should try to address though? I\u0027m not sure. \n\nI guess my thinking is that realistically, we\u0027re just going to change mini_chromium\u0027s build flags to be whatever it is that Crashpad wants (i.e. we don\u0027t want to maintain a mini_chromium_standalone), so it\u0027s at least wedded to Crashpad, if not owned-by Crashpad. On the other hand it\u0027s all a matter of degree because we\u0027re probably _also_ going to change these flags to match Chromium\u0027s whims, so we could just as well say that we should reference their build/BUILD.gn instead.\n\n... OK, I\u0027ll try to leave build/BUILD.gn in mini_chromium for now and see how it goes.",
+      "parentUuid": "dcd9aaf3_ba37f66d",
+      "revId": "45aba2f6784dbc6db37006d0a96680e026e5776e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "52a334cf_fa4c78c0",
         "filename": "build/BUILDCONFIG.gn",
         "patchSetId": 10

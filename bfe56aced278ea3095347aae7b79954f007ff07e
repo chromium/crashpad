@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dc2c388_0d2c8e5a",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-21T22:43:19Z",
+      "side": 1,
+      "message": "The stub configs/groups thing seems to work OK, other than for this one.",
+      "revId": "bfe56aced278ea3095347aae7b79954f007ff07e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
