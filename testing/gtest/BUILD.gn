@@ -12,20 +12,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//testing/test.gni")
-
-config("crashpad_config") {
-  include_dirs = [ rebase_path(".") ]
+config("gtest_direct_config") {
+  visibility = [ ":*" ]
+  defines = [ "UNIT_TEST" ]
 }
 
-test("crashpad_tests") {
+static_library("gtest") {
+  testonly = true
+
+  sources = [
+    "include/gtest/gtest-death-test.h",
+    "include/gtest/gtest-message.h",
+    "include/gtest/gtest-param-test.h",
+    "include/gtest/gtest-spi.h",
+    "include/gtest/gtest.h",
+    "include/gtest/gtest_prod.h",
+  ]
   deps = [
-    "client:client_test",
-    "handler:handler_test",
-    "minidump:minidump_test",
-    "snapshot:snapshot_test",
-    "test:gmock_main",
-    "test:test_test",
-    "util:util_test",
+    "//third_party/gtest:gtest",
+  ]
+
+  public_configs = [ ":gtest_direct_config" ]
+}
+
+source_set("gtest_main") {
+  testonly = true
+  deps = [
+    "//third_party/gtest:gtest_main",
   ]
 }
