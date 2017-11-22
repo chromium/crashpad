@@ -12,13 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-config("zlib_config") {
-  defines = [ "CRASHPAD_ZLIB_SOURCE_CHROMIUM" ]
-}
+# This is a stub to match Chromium. This target is unused and has no effect when
+# building standalone in Crashpad.
 
-group("zlib") {
-  public_configs = [ ":zlib_config" ]
-  public_deps = [
-    "//third_party/zlib/zlib:zlib",
-  ]
+group("test_support") {
 }

@@ -12,13 +12,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-config("zlib_config") {
-  defines = [ "CRASHPAD_ZLIB_SOURCE_CHROMIUM" ]
+source_set("gmock") {
+  testonly = true
+  sources = [
+    "include/gmock/gmock-actions.h",
+    "include/gmock/gmock-generated-function-mockers.h",
+    "include/gmock/gmock-matchers.h",
+    "include/gmock/gmock.h",
+  ]
+  deps = [
+    "//third_party/gtest:gmock",
+  ]
+
+  public_configs = [
+    "//third_party/gtest:gmock_config",
+    "//third_party/gtest:gtest_config",
+  ]
 }
 
-group("zlib") {
-  public_configs = [ ":zlib_config" ]
-  public_deps = [
-    "//third_party/zlib/zlib:zlib",
+source_set("gmock_main") {
+  testonly = true
+  deps = [
+    "//third_party/gtest:gmock_main",
   ]
 }
