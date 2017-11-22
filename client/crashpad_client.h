@@ -105,6 +105,46 @@ class CrashpadClient {
                     bool restartable,
                     bool asynchronous_start);
 
+#if defined(OS_LINUX) || defined(OS_ANDROID) || DOXYGEN
+  // TODO start handler service with broker?
+
+  //! \brief Starts a single-use handler process in response to a crash signal.
+  bool StartHandlerOnCrash(
+      const base::FilePath& handler,
+      const base::FilePath& database,
+      const base::FilePath& metrics_dir,
+      const std::string& url,
+      const std::map<std::string, std::string>& annotations,
+      const std::vector<std::string>& arguments);
+
+  //! Specifies how crashes should be handled
+  enum class PtraceMode {
+    //! The signal handler should expect to recieve the pid of the handler
+    //! process after it signals a crash, on which it should call
+    //! PR_SET_PTRACER.
+    kSetPtracer,
+
+    //! The signal handler should fork a ptrace broker process to handle ptrace
+    //! requests for the handler.
+    kBroker,
+  };
+
+  //! \brief Registers this process for crash handling via an already opened
+  //!     socket.
+  //!
+  //! The receiving end of the socket will be transferred to the handler as part
+  //! of registration.
+  //!
+  //! \param[in] socket A socket connected to a proxy process capable of
+  //!     registering this process with the handler.
+  //! \param[in] mode The mode by which the handler can trace this process.
+  //! \param[in] defer_registration if `true`, registration will be deferred
+  //!     until a crash occurs.
+  //! \return `true` on success. Otherwise `false` with a message logged.
+  bool RegisterByProxy(int socket, PtraceMode mode, bool defer_registration);
+
+#endif  // OS_LINUX || OS_ANDROID || DOXYGEN
+
 #if defined(OS_MACOSX) || DOXYGEN
   //! \brief Sets the process’ crash handler to a Mach service registered with
   //!     the bootstrap server.
