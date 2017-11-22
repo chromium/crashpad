@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d1542af6_c0aa4d18",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-22T00:20:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0c3c7d2_0772d6d1",
+      "range": {
+        "startLine": 29,
+        "startChar": 12,
+        "endLine": 29,
+        "endChar": 19
+      },
+      "revId": "4165a98a5390379223b20a783dd616964247753f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b79283ca_5c86fd9f",
         "filename": "util/linux/ptrace_broker.cc",
         "patchSetId": 7
@@ -142,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "76270600_ee4a58c2",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-22T00:20:14Z",
+      "side": 1,
+      "message": "Yep, I\u0027ve added a DCHECK.",
+      "parentUuid": "92a7b32b_0891982e",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 17
+      },
+      "revId": "4165a98a5390379223b20a783dd616964247753f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65897110_9946922b",
         "filename": "util/linux/ptrace_broker.h",
         "patchSetId": 7
@@ -186,6 +234,30 @@
       "revId": "4165a98a5390379223b20a783dd616964247753f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e904063_4af29cc9",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-11-22T00:20:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07ac0e16_27a18c9f",
+      "range": {
+        "startLine": 37,
+        "startChar": 9,
+        "endLine": 37,
+        "endChar": 17
+      },
+      "revId": "4165a98a5390379223b20a783dd616964247753f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
