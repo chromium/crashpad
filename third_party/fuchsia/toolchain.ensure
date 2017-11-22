@@ -1,0 +1,5 @@
+@Subdir clang
+fuchsia/clang/linux-amd64 latest
+
+@Subdir sdk
+fuchsia/sdk/linux-amd64 latest
