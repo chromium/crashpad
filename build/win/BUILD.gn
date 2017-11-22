@@ -12,13 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-config("zlib_config") {
-  defines = [ "CRASHPAD_ZLIB_SOURCE_CHROMIUM" ]
+# This is a stub to match Chromium. The configs in this file do not have any
+# effect on the build when building standalone in Crashpad.
+
+group("default_exe_manifest") {
 }
 
-group("zlib") {
-  public_configs = [ ":zlib_config" ]
-  public_deps = [
-    "//third_party/zlib/zlib:zlib",
-  ]
+config("console") {
+}
+
+config("windowed") {
 }

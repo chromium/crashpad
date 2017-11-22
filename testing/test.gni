@@ -12,13 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-config("zlib_config") {
-  defines = [ "CRASHPAD_ZLIB_SOURCE_CHROMIUM" ]
-}
+template("test") {
+  executable(target_name) {
+    deps = []
+    forward_variables_from(invoker, "*")
 
-group("zlib") {
-  public_configs = [ ":zlib_config" ]
-  public_deps = [
-    "//third_party/zlib/zlib:zlib",
-  ]
+    testonly = true
+  }
 }
