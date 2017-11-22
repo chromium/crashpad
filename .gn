@@ -12,13 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-config("zlib_config") {
-  defines = [ "CRASHPAD_ZLIB_SOURCE_CHROMIUM" ]
-}
-
-group("zlib") {
-  public_configs = [ ":zlib_config" ]
-  public_deps = [
-    "//third_party/zlib/zlib:zlib",
-  ]
-}
+buildconfig = "//build/BUILDCONFIG.gn"

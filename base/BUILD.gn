@@ -12,13 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-config("zlib_config") {
-  defines = [ "CRASHPAD_ZLIB_SOURCE_CHROMIUM" ]
-}
+# This target is a stub so that both Crashpad and Chromium can refer to "//base"
+# in their build files. When building in the Chromium tree, "//base" will refer
+# the "real" base, but when building standalone in Crashpad, we forward those
+# references on to mini_chromium.
 
-group("zlib") {
-  public_configs = [ ":zlib_config" ]
-  public_deps = [
-    "//third_party/zlib/zlib:zlib",
+group("base") {
+  public_configs =
+      [ "//third_party/mini_chromium/mini_chromium/base:base_public_config" ]
+  deps = [
+    "//third_party/mini_chromium/mini_chromium/base",
   ]
 }
