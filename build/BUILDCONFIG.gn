@@ -20,6 +20,14 @@ if (current_os == "") {
   current_os = target_os
 }
 
+if (target_cpu == "") {
+  target_cpu = host_cpu
+}
+
+if (current_cpu == "") {
+  current_cpu = target_cpu
+}
+
 declare_args() {
   is_debug = false
   is_clang = current_os == "mac" || current_os == "fuchsia"
