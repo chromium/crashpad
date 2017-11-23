@@ -26,6 +26,8 @@
 #define METRICS_OS_NAME "Android"
 #elif defined(OS_LINUX)
 #define METRICS_OS_NAME "Linux"
+#elif defined(OS_FUCHSIA)
+#define METRICS_OS_NAME "Fuchsia"
 #endif
 
 namespace crashpad {
