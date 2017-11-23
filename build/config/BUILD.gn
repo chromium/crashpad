@@ -12,9 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-group("zlib") {
-  public_configs = [ "../../build/config:crashpad_zlib_config" ]
-  public_deps = [
-    "//third_party/zlib/zlib:zlib",
-  ]
+# When building in Chromium, these configs is used to set #defines that indicate
+# whether code is being built standalone, or in Chromium, or potentially in some
+# other configutation.
+
+config("crashpad_in_chromium") {
+  # defines = [ "CRASHPAD_IN_CHROMIUM" ]
+}
+
+config("crashpad_zlib_config") {
+  # defines = [ "CRASHPAD_ZLIB_SOURCE_CHROMIUM" ]
+  defines = [ "CRASHPAD_ZLIB_SOURCE_EMBEDDED" ]
 }
