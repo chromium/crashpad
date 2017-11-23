@@ -1,0 +1,143 @@
+# Copyright 2016 The Crashpad Authors. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+_gtest_dir = "gtest/googletest"
+
+config("gtest_private_config") {
+  visibility = [ ":*" ]
+
+  include_dirs = [ "$_gtest_dir" ]
+
+  defines = [ "GUNIT_NO_GOOGLE3=1" ]
+}
+
+config("gtest_public_config") {
+  include_dirs = [ "$_gtest_dir/include" ]
+}
+
+static_library("gtest") {
+  sources = [
+    "$_gtest_dir/include/gtest/gtest-death-test.h",
+    "$_gtest_dir/include/gtest/gtest-message.h",
+    "$_gtest_dir/include/gtest/gtest-param-test.h",
+    "$_gtest_dir/include/gtest/gtest-printers.h",
+    "$_gtest_dir/include/gtest/gtest-spi.h",
+    "$_gtest_dir/include/gtest/gtest-test-part.h",
+    "$_gtest_dir/include/gtest/gtest-typed-test.h",
+    "$_gtest_dir/include/gtest/gtest.h",
+    "$_gtest_dir/include/gtest/gtest_pred_impl.h",
+    "$_gtest_dir/include/gtest/gtest_prod.h",
+    "$_gtest_dir/include/gtest/internal/custom/gtest-port.h",
+    "$_gtest_dir/include/gtest/internal/custom/gtest-printers.h",
+    "$_gtest_dir/include/gtest/internal/custom/gtest.h",
+    "$_gtest_dir/include/gtest/internal/gtest-death-test-internal.h",
+    "$_gtest_dir/include/gtest/internal/gtest-filepath.h",
+    "$_gtest_dir/include/gtest/internal/gtest-internal.h",
+    "$_gtest_dir/include/gtest/internal/gtest-linked_ptr.h",
+    "$_gtest_dir/include/gtest/internal/gtest-param-util-generated.h",
+    "$_gtest_dir/include/gtest/internal/gtest-param-util.h",
+    "$_gtest_dir/include/gtest/internal/gtest-port-arch.h",
+    "$_gtest_dir/include/gtest/internal/gtest-port.h",
+    "$_gtest_dir/include/gtest/internal/gtest-string.h",
+    "$_gtest_dir/include/gtest/internal/gtest-tuple.h",
+    "$_gtest_dir/include/gtest/internal/gtest-type-util.h",
+    "$_gtest_dir/src/gtest-all.cc",
+    "$_gtest_dir/src/gtest-death-test.cc",
+    "$_gtest_dir/src/gtest-filepath.cc",
+    "$_gtest_dir/src/gtest-internal-inl.h",
+    "$_gtest_dir/src/gtest-port.cc",
+    "$_gtest_dir/src/gtest-printers.cc",
+    "$_gtest_dir/src/gtest-test-part.cc",
+    "$_gtest_dir/src/gtest-typed-test.cc",
+    "$_gtest_dir/src/gtest.cc",
+  ]
+  sources -= [ "$_gtest_dir/src/gtest-all.cc" ]
+
+  configs -= [ "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors" ]
+  configs += [ ":gtest_private_config" ]
+  public_configs = [ ":gtest_public_config" ]
+}
+
+_gmock_dir = "gtest/googlemock"
+
+config("gmock_private_config") {
+  visibility = [ ":*" ]
+
+  include_dirs = [ "$_gmock_dir" ]
+}
+
+config("gmock_public_config") {
+  include_dirs = [ "$_gmock_dir/include" ]
+
+  # The MOCK_METHODn() macros do not specify “override”, which
+  # triggers this warning in users: “error: 'Method' overrides a
+  # member function but is not marked 'override'
+  # [-Werror,-Winconsistent-missing-override]”. Suppress these
+  # warnings, and add -Wno-unknown-warning-option because only
+  # recent versions of clang (trunk r220703 and later, version
+  # 3.6 and later) recognize it.
+  if (is_clang) {
+    cflags_cc = [
+      "-Wno-inconsistent-missing-override",
+      "-Wno-unknown-warning-option",
+    ]
+  }
+}
+
+static_library("gmock") {
+  sources = [
+    "$_gmock_dir/include/gmock/gmock-actions.h",
+    "$_gmock_dir/include/gmock/gmock-cardinalities.h",
+    "$_gmock_dir/include/gmock/gmock-generated-actions.h",
+    "$_gmock_dir/include/gmock/gmock-generated-function-mockers.h",
+    "$_gmock_dir/include/gmock/gmock-generated-matchers.h",
+    "$_gmock_dir/include/gmock/gmock-generated-nice-strict.h",
+    "$_gmock_dir/include/gmock/gmock-matchers.h",
+    "$_gmock_dir/include/gmock/gmock-more-actions.h",
+    "$_gmock_dir/include/gmock/gmock-more-matchers.h",
+    "$_gmock_dir/include/gmock/gmock-spec-builders.h",
+    "$_gmock_dir/include/gmock/gmock.h",
+    "$_gmock_dir/include/gmock/internal/custom/gmock-generated-actions.h",
+    "$_gmock_dir/include/gmock/internal/custom/gmock-matchers.h",
+    "$_gmock_dir/include/gmock/internal/custom/gmock-port.h",
+    "$_gmock_dir/include/gmock/internal/gmock-generated-internal-utils.h",
+    "$_gmock_dir/include/gmock/internal/gmock-internal-utils.h",
+    "$_gmock_dir/include/gmock/internal/gmock-port.h",
+    "$_gmock_dir/src/gmock-all.cc",
+    "$_gmock_dir/src/gmock-cardinalities.cc",
+    "$_gmock_dir/src/gmock-internal-utils.cc",
+    "$_gmock_dir/src/gmock-matchers.cc",
+    "$_gmock_dir/src/gmock-spec-builders.cc",
+    "$_gmock_dir/src/gmock.cc",
+  ]
+  sources -= [ "$_gmock_dir/src/gmock-all.cc" ]
+
+  deps = [
+    ":gtest",
+  ]
+
+  configs -= [ "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors" ]
+  configs += [ ":gmock_private_config" ]
+  public_configs = [ ":gmock_public_config" ]
+}
+
+static_library("gmock_main") {
+  sources = [
+    "$_gmock_dir/src/gmock_main.cc",
+  ]
+  deps = [
+    ":gmock",
+    ":gtest",
+  ]
+}
