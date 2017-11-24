@@ -244,7 +244,7 @@ TEST_P(CrashpadInfoSizes_ClientOptions, DifferentlySizedStruct) {
       TestPaths::BuildArtifact(FILE_PATH_LITERAL("snapshot"),
                                artifact,
                                TestPaths::FileType::kLoadableModule);
-#if defined(OS_MACOSX)
+#if defined(OS_MACOSX) || defined(OS_FUCHSIA)
   ScopedModuleHandle module(
       dlopen(module_path.value().c_str(), RTLD_LAZY | RTLD_LOCAL));
   ASSERT_TRUE(module.valid())

@@ -87,6 +87,8 @@ void MultiprocessExec::MultiprocessChild() {
 
 #if defined(OS_LINUX)
   __fpurge(stdin);
+#elif defined(OS_FUCHSIA)
+  // TODO(scottmg): Nothing equivalent currently available on Fuchsia.
 #else
   rv = fpurge(stdin);
   ASSERT_EQ(rv, 0) << ErrnoMessage("fpurge");

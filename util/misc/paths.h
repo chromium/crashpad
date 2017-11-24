@@ -17,6 +17,7 @@
 
 #include "base/files/file_path.h"
 #include "base/macros.h"
+#include "build/build_config.h"
 
 namespace crashpad {
 
@@ -31,6 +32,17 @@ class Paths {
   //!
   //! \note In test code, use test::TestPaths::Executable() instead.
   static bool Executable(base::FilePath* path);
+
+#if defined(OS_FUCHSIA) || DOXYGEN
+  //! \brief Saves the pathname of the currently-running executable.
+  //!
+  //! \param[in] path The pathname of the currently-running executable.
+  //!
+  //! Fuchsia does not provide a way to retrieve the currently-running
+  //! executable (or argv[0]), so at startup, this must be saved off for later
+  //! use.
+static void SetExecutable(const base::FilePath& path);
+#endif  // OS_FUCHSIA
 
   DISALLOW_IMPLICIT_CONSTRUCTORS(Paths);
 };

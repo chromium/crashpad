@@ -74,7 +74,7 @@ static_library("test") {
 
   public_configs = [ "..:crashpad_config" ]
 
-  configs += [ "../build/config:crashpad_in_chromium" ]
+  configs += [ "../build:crashpad_in_chromium" ]
 
   data = [
     "test_paths_test_data_root.txt",
@@ -145,7 +145,7 @@ static_library("gmock_main") {
   sources = [
     "gtest_main.cc",
   ]
-  configs += [ "../build/config:crashpad_in_chromium" ]
+  configs += [ "../build:crashpad_in_chromium" ]
   defines = [ "CRASHPAD_TEST_LAUNCHER_GMOCK" ]
   deps = [
     ":test",
@@ -161,7 +161,7 @@ static_library("gtest_main") {
   sources = [
     "gtest_main.cc",
   ]
-  configs += [ "../build/config:crashpad_in_chromium" ]
+  configs += [ "../build:crashpad_in_chromium" ]
   defines = [ "CRASHPAD_TEST_LAUNCHER_GTEST" ]
   deps = [
     ":test",
