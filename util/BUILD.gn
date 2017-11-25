@@ -128,10 +128,6 @@ static_library("util") {
     "posix/close_multiple.h",
     "posix/close_stdio.cc",
     "posix/close_stdio.h",
-    "posix/double_fork_and_exec.cc",
-    "posix/double_fork_and_exec.h",
-    "posix/drop_privileges.cc",
-    "posix/drop_privileges.h",
     "posix/process_info.h",
     "posix/scoped_dir.cc",
     "posix/scoped_dir.h",
@@ -139,8 +135,6 @@ static_library("util") {
     "posix/scoped_mmap.h",
     "posix/signals.cc",
     "posix/signals.h",
-    "posix/symbolic_constants_posix.cc",
-    "posix/symbolic_constants_posix.h",
     "stdlib/aligned_allocator.cc",
     "stdlib/aligned_allocator.h",
     "stdlib/map_insert.h",
@@ -164,6 +158,17 @@ static_library("util") {
     "thread/worker_thread.cc",
     "thread/worker_thread.h",
   ]
+
+  if (is_posix && !is_fuchsia) {
+    sources += [
+      "posix/double_fork_and_exec.cc",
+      "posix/double_fork_and_exec.h",
+      "posix/drop_privileges.cc",
+      "posix/drop_privileges.h",
+      "posix/symbolic_constants_posix.cc",
+      "posix/symbolic_constants_posix.h",
+    ]
+  }
 
   if (is_mac) {
     sources += [
@@ -295,6 +300,16 @@ static_library("util") {
     }
   }
 
+  if (is_fuchsia) {
+    sources += [
+      "fuchsia/address_types.h",
+      "fuchsia/checked_fuchsia_address_range.h",
+      "misc/paths_fuchsia.cc",
+      "net/http_transport_fuchsia.cc",
+      "posix/process_info_fuchsia.cc",
+    ]
+  }
+
   public_configs = [ "..:crashpad_config" ]
 
   # Include files from here and generated files starting with "util".
@@ -360,7 +375,6 @@ source_set("util_test") {
     "net/http_body_test_util.cc",
     "net/http_body_test_util.h",
     "net/http_multipart_builder_test.cc",
-    "net/http_transport_test.cc",
     "net/url_test.cc",
     "numeric/checked_address_range_test.cc",
     "numeric/checked_range_test.cc",
@@ -369,7 +383,6 @@ source_set("util_test") {
     "posix/process_info_test.cc",
     "posix/scoped_mmap_test.cc",
     "posix/signals_test.cc",
-    "posix/symbolic_constants_posix_test.cc",
     "stdlib/aligned_allocator_test.cc",
     "stdlib/map_insert_test.cc",
     "stdlib/string_number_conversion_test.cc",
@@ -382,6 +395,15 @@ source_set("util_test") {
     "thread/thread_test.cc",
     "thread/worker_thread_test.cc",
   ]
+
+  if (!is_fuchsia) {
+    # TODO(scottmg): Port.
+    sources += [ "net/http_transport_test.cc" ]
+  }
+
+  if (is_posix && !is_fuchsia) {
+    sources += [ "posix/symbolic_constants_posix_test.cc" ]
+  }
 
   if (is_mac) {
     sources += [

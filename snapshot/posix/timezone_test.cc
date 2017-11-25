@@ -15,7 +15,6 @@
 #include "snapshot/posix/timezone.h"
 
 #include <stdlib.h>
-#include <sys/cdefs.h>
 #include <sys/time.h>
 #include <time.h>
 
@@ -26,6 +25,10 @@
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
+
+#if !defined(OS_FUCHSIA)
+#include <sys/cdefs.h>
+#endif
 
 namespace crashpad {
 namespace test {
