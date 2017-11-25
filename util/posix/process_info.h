@@ -61,7 +61,7 @@ class ProcessInfo {
   bool InitializeWithPtrace(PtraceConnection* connection);
 #endif  // OS_LINUX || OS_ANDROID || DOXYGEN
 
-#if defined(OS_MACOSX) || DOXYGEN
+#if defined(OS_MACOSX) || defined(OS_FUCHSIA) || DOXYGEN
   //! \brief Initializes this object with information about the process whose ID
   //!     is \a pid.
   //!
@@ -76,7 +76,9 @@ class ProcessInfo {
   //!
   //! \return `true` on success, `false` on failure with a message logged.
   bool InitializeWithPid(pid_t pid);
+#endif
 
+#if defined(OS_MACOSX) || DOXYGEN
   //! \brief Initializes this object with information about a process based on
   //!     its Mach task.
   //!
@@ -168,6 +170,7 @@ class ProcessInfo {
  private:
 #if defined(OS_MACOSX)
   kinfo_proc kern_proc_info_;
+#elif defined(OS_FUCHSIA)
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
   // Some members are marked mutable so that they can be lazily initialized by
   // const methods. These are always InitializationState-protected so that
