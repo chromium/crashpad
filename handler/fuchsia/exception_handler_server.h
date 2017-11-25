@@ -12,30 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_PATHS_H_
-#define CRASHPAD_UTIL_PATHS_H_
+#ifndef CRASHPAD_HANDLER_FUCHSIA_EXCEPTION_HANDLER_SERVER_H_
+#define CRASHPAD_HANDLER_FUCHSIA_EXCEPTION_HANDLER_SERVER_H_
 
-#include "base/files/file_path.h"
 #include "base/macros.h"
-#include "build/build_config.h"
 
 namespace crashpad {
 
-//! \brief Functions to obtain paths.
-class Paths {
- public:
-  //! \brief Obtains the pathname of the currently-running executable.
-  //!
-  //! \param[out] path The pathname of the currently-running executable.
-  //!
-  //! \return `true` on success. `false` on failure, with a message logged.
-  //!
-  //! \note In test code, use test::TestPaths::Executable() instead.
-  static bool Executable(base::FilePath* path);
+class CrashReportExceptionHandler;
 
-  DISALLOW_IMPLICIT_CONSTRUCTORS(Paths);
+//! \brief XXX
+class ExceptionHandlerServer {
+ public:
+  //! \brief XXX
+  ExceptionHandlerServer();
+  ~ExceptionHandlerServer();
+
+  //! \brief XXX
+  void Run(CrashReportExceptionHandler* handler);
+
+ private:
+  DISALLOW_COPY_AND_ASSIGN(ExceptionHandlerServer);
 };
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_UTIL_TEST_PATHS_H_
+#endif  // CRASHPAD_HANDLER_FUCHSIA_EXCEPTION_HANDLER_SERVER_H_

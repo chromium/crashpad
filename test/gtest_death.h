@@ -65,8 +65,10 @@
 
 #else  // OS_MACOSX
 
-#define ASSERT_DEATH_CRASH(statement, regex) ASSERT_DEATH(statement, regex)
-#define EXPECT_DEATH_CRASH(statement, regex) EXPECT_DEATH(statement, regex)
+#define ASSERT_DEATH_CRASH(statement, regex) \
+  ASSERT_DEATH_IF_SUPPORTED(statement, regex)
+#define EXPECT_DEATH_CRASH(statement, regex) \
+  EXPECT_DEATH_IF_SUPPORTED(statement, regex)
 
 #endif  // OS_MACOSX
 

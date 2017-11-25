@@ -71,6 +71,11 @@ void CloseNowOrOnExec(int fd, bool ebadf_ok) {
 // This is an advantage over looping over all possible file descriptors, because
 // no attempt needs to be made to close file descriptors that are not open.
 bool CloseMultipleNowOrOnExecUsingFDDir(int min_fd, int preserve_fd) {
+#if defined(OS_FUCHSIA)
+	// There's no way to retrieve open FDs on Fuchsia.
+	return false;
+#else  // OS_FUCHSIA
+
 #if defined(OS_MACOSX)
   static constexpr char kFDDir[] = "/dev/fd";
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
@@ -103,6 +108,8 @@ bool CloseMultipleNowOrOnExecUsingFDDir(int min_fd, int preserve_fd) {
   }
 
   return true;
+
+#endif  // OS_FUCHSIA
 }
 
 }  // namespace
@@ -134,7 +141,8 @@ void CloseMultipleNowOrOnExec(int fd, int preserve_fd) {
   max_fd = std::max(max_fd, getdtablesize());
 #endif
 
-#if !(defined(OS_LINUX) || defined(OS_ANDROID)) || defined(OPEN_MAX)
+#if !(defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FUCHSIA)) || \
+    defined(OPEN_MAX)
   // Linux does not provide OPEN_MAX. See
   // https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/commit/include/linux/limits.h?id=77293034696e3e0b6c8b8fc1f96be091104b3d2b.
   max_fd = std::max(max_fd, OPEN_MAX);

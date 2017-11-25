@@ -21,7 +21,7 @@
 #include <windows.h>
 #endif
 
-#if defined(OS_MACOSX)
+#if defined(OS_MACOSX) || defined(OS_FUCHSIA)
 
 int main(int argc, char* argv[]) {
   return crashpad::HandlerMain(argc, argv, nullptr);

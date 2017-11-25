@@ -12,30 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_PATHS_H_
-#define CRASHPAD_UTIL_PATHS_H_
+#include "client/crashpad_client.h"
 
-#include "base/files/file_path.h"
-#include "base/macros.h"
-#include "build/build_config.h"
+#include "base/logging.h"
 
 namespace crashpad {
 
-//! \brief Functions to obtain paths.
-class Paths {
- public:
-  //! \brief Obtains the pathname of the currently-running executable.
-  //!
-  //! \param[out] path The pathname of the currently-running executable.
-  //!
-  //! \return `true` on success. `false` on failure, with a message logged.
-  //!
-  //! \note In test code, use test::TestPaths::Executable() instead.
-  static bool Executable(base::FilePath* path);
+CrashpadClient::CrashpadClient() {}
 
-  DISALLOW_IMPLICIT_CONSTRUCTORS(Paths);
-};
+CrashpadClient::~CrashpadClient() {}
+
+bool CrashpadClient::StartHandler(
+    const base::FilePath& handler,
+    const base::FilePath& database,
+    const base::FilePath& metrics_dir,
+    const std::string& url,
+    const std::map<std::string, std::string>& annotations,
+    const std::vector<std::string>& arguments,
+    bool restartable,
+    bool asynchronous_start) {
+  NOTREACHED();
+  return false;
+}
 
 }  // namespace crashpad
-
-#endif  // CRASHPAD_UTIL_TEST_PATHS_H_
