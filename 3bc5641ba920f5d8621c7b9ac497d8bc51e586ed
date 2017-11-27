@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d7e908ac_29c89839",
+        "filename": "base/BUILD.gn",
+        "patchSetId": 21
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-27T23:37:23Z",
+      "side": 1,
+      "message": "Ah! I see. Yeah, that\u0027s a good idea. Done.",
+      "parentUuid": "a69f5396_9293fe01",
+      "revId": "3bc5641ba920f5d8621c7b9ac497d8bc51e586ed",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2ee2491_f2ad2445",
         "filename": "build/BUILDCONFIG.gn",
         "patchSetId": 21
@@ -30,6 +48,30 @@
       "writtenOn": "2017-11-27T21:06:52Z",
       "side": 1,
       "message": "When?",
+      "range": {
+        "startLine": 1,
+        "startChar": 12,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "3bc5641ba920f5d8621c7b9ac497d8bc51e586ed",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c7db4c2_01b05f58",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 21
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-27T23:37:23Z",
+      "side": 1,
+      "message": "Copied from mini_chromium, when I first said I would try to get this done. Well, at least it might get done before 2018.",
+      "parentUuid": "c2ee2491_f2ad2445",
       "range": {
         "startLine": 1,
         "startChar": 12,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2597684_acb52a6f",
+        "filename": "snapshot/test/BUILD.gn",
+        "patchSetId": 22
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-27T23:37:23Z",
+      "side": 0,
+      "message": "I got a little carried away copying files around in the first bulk import -- this was supposed to be test/BUILD.gn, where it was also copied.",
+      "revId": "e9f40ae176fb15a3a5ed1adb9aa7bd85ad221ce8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
