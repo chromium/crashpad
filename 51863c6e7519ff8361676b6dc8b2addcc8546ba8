@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6e74837f_e75561bc",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-27T20:54:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7b96262_79d5a770",
+      "revId": "51863c6e7519ff8361676b6dc8b2addcc8546ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b2015df_e0c21758",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "51863c6e7519ff8361676b6dc8b2addcc8546ba8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ea7bdea_b4975924",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-27T20:54:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b2015df_e0c21758",
+      "revId": "51863c6e7519ff8361676b6dc8b2addcc8546ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1c4105d2_ede47fdf",
+        "filename": "third_party/fuchsia/toolchain.ensure",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-27T20:54:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0fcaaea_5bcd4904",
+      "revId": "51863c6e7519ff8361676b6dc8b2addcc8546ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7142e8f_da83a936",
         "filename": "third_party/fuchsia/toolchain.ensure",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "39969aec_02e5a93e",
+        "filename": "third_party/fuchsia/toolchain.ensure",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-27T20:54:28Z",
+      "side": 1,
+      "message": "Yes, Mac is available also.",
+      "parentUuid": "c7142e8f_da83a936",
+      "revId": "51863c6e7519ff8361676b6dc8b2addcc8546ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a7410c5a_f362f917",
         "filename": "third_party/fuchsia/toolchain.ensure",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2017-11-27T20:19:12Z",
       "side": 1,
       "message": "linux-amd64 sounds like a host thing, but I’d have expected “sdk” to be a target thing. What’s up here?",
+      "revId": "51863c6e7519ff8361676b6dc8b2addcc8546ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eed63149_2b040ffb",
+        "filename": "third_party/fuchsia/toolchain.ensure",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-27T20:54:28Z",
+      "side": 1,
+      "message": "Yes, the linux-amd64 is the host part of the name. There\u0027s various tool binaries that are part of the SDK (building disk images, copying to device, etc.).\n\nI believe some of the Fuchsia team hosts themselves on Mac, but none of the Chromium-level of things have been attempted on Mac. So for now, I\u0027d like to proceed as if it\u0027s Linux-only for hosting. (I don\u0027t think it\u0027d be a ton of work to make it go, but I also don\u0027t want to commit to trying to keep multiple hosts working at this early point.)",
+      "parentUuid": "a7410c5a_f362f917",
       "revId": "51863c6e7519ff8361676b6dc8b2addcc8546ba8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
