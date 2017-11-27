@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19d37024_09f1338f",
+        "filename": "DEPS",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-27T21:00:40Z",
+      "side": 1,
+      "message": "Trailing slash required/intentional? Nuke it if not.",
+      "range": {
+        "startLine": 124,
+        "startChar": 44,
+        "endLine": 124,
+        "endChar": 45
+      },
+      "revId": "b5189f9b1cd9941339819b0a37d9e2c9111c6ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8be9ab3_adfdf41a",
+        "filename": "third_party/fuchsia/toolchain.ensure",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-27T21:00:40Z",
+      "side": 1,
+      "message": "And if this supports comment characters, add some license bolierplate to it too.",
+      "revId": "b5189f9b1cd9941339819b0a37d9e2c9111c6ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
