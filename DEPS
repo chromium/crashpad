@@ -114,6 +114,18 @@ hooks = [
     ],
   },
   {
+    'name': 'fuchsia_clang',
+    'pattern': '.',
+    'condition': 'checkout_fuchsia',
+    'action': [
+      'cipd',
+      'ensure',
+      '-ensure-file', 'crashpad/third_party/fuchsia/toolchain.ensure',
+      '-root', 'crashpad/third_party/fuchsia',
+      '-log-level', 'info',
+    ],
+  },
+  {
     'name': 'gyp',
     'pattern': '\.gypi?$',
     'action': ['python', 'crashpad/build/gyp_crashpad.py'],
