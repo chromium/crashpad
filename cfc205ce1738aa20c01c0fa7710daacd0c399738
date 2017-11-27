@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b7b0ca1_58b41594",
+        "filename": "client/crashpad_info.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-27T20:46:13Z",
+      "side": 1,
+      "message": "Once they spill beyond a single line, we need to reevaluate whether these comments contribute anything positive. I think that with the controlled bits being just single lines, they’re no longer worthwhile at this point.",
+      "revId": "cfc205ce1738aa20c01c0fa7710daacd0c399738",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
