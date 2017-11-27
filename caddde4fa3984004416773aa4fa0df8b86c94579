@@ -22,6 +22,30 @@
       "revId": "caddde4fa3984004416773aa4fa0df8b86c94579",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ea63660_ffedf7e0",
+        "filename": "util/misc/uuid.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-27T21:37:28Z",
+      "side": 1,
+      "message": "Reworded a bit.",
+      "parentUuid": "ca1ba03c_88a96658",
+      "range": {
+        "startLine": 95,
+        "startChar": 11,
+        "endLine": 95,
+        "endChar": 15
+      },
+      "revId": "caddde4fa3984004416773aa4fa0df8b86c94579",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
