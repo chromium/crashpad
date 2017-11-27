@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7b96262_79d5a770",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-27T20:19:12Z",
+      "side": 1,
+      "message": "Keep sorted.",
+      "revId": "51863c6e7519ff8361676b6dc8b2addcc8546ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b2015df_e0c21758",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-27T20:19:12Z",
+      "side": 1,
+      "message": "Extra blank line.",
+      "revId": "51863c6e7519ff8361676b6dc8b2addcc8546ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0fcaaea_5bcd4904",
+        "filename": "third_party/fuchsia/toolchain.ensure",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-27T20:19:12Z",
+      "side": 1,
+      "message": "README.crashpad in this directory?",
+      "revId": "51863c6e7519ff8361676b6dc8b2addcc8546ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7142e8f_da83a936",
+        "filename": "third_party/fuchsia/toolchain.ensure",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-27T20:19:12Z",
+      "side": 1,
+      "message": "Are toolchains available for other “host” systems?",
+      "revId": "51863c6e7519ff8361676b6dc8b2addcc8546ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7410c5a_f362f917",
+        "filename": "third_party/fuchsia/toolchain.ensure",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-27T20:19:12Z",
+      "side": 1,
+      "message": "linux-amd64 sounds like a host thing, but I’d have expected “sdk” to be a target thing. What’s up here?",
+      "revId": "51863c6e7519ff8361676b6dc8b2addcc8546ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
