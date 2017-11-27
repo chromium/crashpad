@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "2e7d286e_6036b969",
+        "filename": "third_party/fuchsia/toolchain.ensure",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-27T21:29:03Z",
+      "side": 1,
+      "message": "Ooh, I found some magic syntax in .ensure.\n\nSo we can have Mac clang for \"free\". There doesn\u0027t seem to be a matching SDK package so I\u0027m not sure how useful it\u0027ll be as you won\u0027t have a sysroot. But it\u0027s no worse than hardcoding it to Linux, at least.",
+      "parentUuid": "749696ec_9842abfc",
+      "revId": "51863c6e7519ff8361676b6dc8b2addcc8546ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a7410c5a_f362f917",
         "filename": "third_party/fuchsia/toolchain.ensure",
         "patchSetId": 2
