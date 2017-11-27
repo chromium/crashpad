@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a69f5396_9293fe01",
+        "filename": "base/BUILD.gn",
+        "patchSetId": 21
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-27T21:06:52Z",
+      "side": 1,
+      "message": "Can we get away with sticking stubs like this in a “secondary” tree? (That was Robert’s suggestion.) That way, we don’t have to pollute our view of things just because of dependencies we have on Chromium.",
+      "revId": "3bc5641ba920f5d8621c7b9ac497d8bc51e586ed",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2ee2491_f2ad2445",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 21
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-27T21:06:52Z",
+      "side": 1,
+      "message": "When?",
+      "range": {
+        "startLine": 1,
+        "startChar": 12,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "3bc5641ba920f5d8621c7b9ac497d8bc51e586ed",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab35be5a_b8fdb9fc",
+        "filename": "testing/gmock/BUILD.gn",
+        "patchSetId": 21
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-27T21:06:52Z",
+      "side": 1,
+      "message": "Give a little more info. testing/gtest/BUILD.gn too.",
+      "revId": "3bc5641ba920f5d8621c7b9ac497d8bc51e586ed",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
