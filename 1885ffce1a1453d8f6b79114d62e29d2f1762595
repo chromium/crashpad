@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "12b43720_151ee138",
+        "filename": "base/BUILD.gn",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-28T16:33:49Z",
+      "side": 1,
+      "message": "Move to chromium_compatibility?",
+      "revId": "1885ffce1a1453d8f6b79114d62e29d2f1762595",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4cdc72f9_0d127321",
         "filename": "base/BUILD.gn",
         "patchSetId": 23
@@ -19,6 +36,23 @@
         "endLine": 23,
         "endChar": 6
       },
+      "revId": "1885ffce1a1453d8f6b79114d62e29d2f1762595",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5d3d25a_b484935f",
+        "filename": "base/test/BUILD.gn",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-28T16:33:49Z",
+      "side": 1,
+      "message": "Me too?",
       "revId": "1885ffce1a1453d8f6b79114d62e29d2f1762595",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
