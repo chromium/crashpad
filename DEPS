@@ -36,92 +36,21 @@ deps = {
 
 hooks = [
   {
-    'name': 'clang_format_mac',
-    'pattern': '.',
-    'action': [
-      'download_from_google_storage',
-      '--platform=^darwin$',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-clang-format',
-      '--sha1_file',
-      'buildtools/mac/clang-format.sha1',
-    ],
-  },
-  {
-    'name': 'clang_format_win',
-    'pattern': '.',
-    'action': [
-      'download_from_google_storage',
-      '--platform=^win32$',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-clang-format',
-      '--sha1_file',
-      'buildtools/win/clang-format.exe.sha1',
-    ],
-  },
-  {
-    'name': 'clang_format_linux',
-    'pattern': '.',
-    'action': [
-      'download_from_google_storage',
-      '--platform=^linux2?$',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-clang-format',
-      '--sha1_file',
-      'buildtools/linux64/clang-format.sha1',
-    ],
-  },
-  {
-    'name': 'gn_mac',
-    'pattern': '.',
-    'action': [
-      'download_from_google_storage',
-      '--platform=^darwin$',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-gn',
-      '--sha1_file',
-      'buildtools/mac/gn.sha1',
-    ],
-  },
-  {
-    'name': 'gn_win',
-    'pattern': '.',
-    'action': [
-      'download_from_google_storage',
-      '--platform=^win32$',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-gn',
-      '--sha1_file',
-      'buildtools/win/gn.exe.sha1',
-    ],
-  },
-  {
-    'name': 'gn_linux',
-    'pattern': '.',
-    'action': [
-      'download_from_google_storage',
-      '--platform=^linux2?$',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-gn',
-      '--sha1_file',
-      'buildtools/linux64/gn.sha1',
-    ],
-  },
-  {
-    'name': 'fuchsia_clang',
+    # The SDK is keyed to the host system because it contains build tools.
+    # Currently, linux-amd64 is the only SDK published (see
+    # https://chrome-infra-packages.appspot.com/#/?path=fuchsia/sdk). As long as
+    # this is the case, use that SDK package even on other build hosts. The
+    # sysroot (containing headers and libraries) and other components are
+    # related to the target and should be functional with an appropriate
+    # toolchain that runs on the build host (fuchsia_clang, below).
+    'name': 'fuchsia_sdk',
     'pattern': '.',
     'condition': 'checkout_fuchsia',
     'action': [
       'cipd',
-      'ensure',
-      '-ensure-file', 'crashpad/third_party/fuchsia/toolchain.ensure',
-      '-root', 'crashpad/third_party/fuchsia',
+      'install',
+      'fuchsia/sdk/linux-amd64',
+      '-root', 'crashpad/third_party/fuchsia/sdk/linux-amd64',
       '-log-level', 'info',
     ],
   },
@@ -131,6 +60,117 @@ hooks = [
     'action': ['python', 'crashpad/build/gyp_crashpad.py'],
   },
 ]
+
+hooks_os = {
+  'mac': [
+    {
+      'name': 'clang_format_mac',
+      'pattern': '.',
+      'action': [
+        'download_from_google_storage',
+        '--no_resume',
+        '--no_auth',
+        '--bucket=chromium-clang-format',
+        '--sha1_file',
+        'buildtools/mac/clang-format.sha1',
+      ],
+    },
+    {
+      'name': 'gn_mac',
+      'pattern': '.',
+      'action': [
+        'download_from_google_storage',
+        '--no_resume',
+        '--no_auth',
+        '--bucket=chromium-gn',
+        '--sha1_file',
+        'buildtools/mac/gn.sha1',
+      ],
+    },
+    {
+      # This uses “cipd install” so that mac-amd64 and linux-amd64 can coexist
+      # peacefully. “cipd ensure” would remove the Linux package when running on
+      # a macOS build host and vice-versa.
+      'name': 'fuchsia_clang_mac',
+      'pattern': '.',
+      'condition': 'checkout_fuchsia',
+      'action': [
+        'cipd',
+        'install',
+        'fuchsia/clang/mac-amd64',
+        '-root', 'crashpad/third_party/fuchsia/clang/mac-amd64',
+        '-log-level', 'info',
+      ],
+    },
+  ],
+  'unix': [  # Linux, really
+    {
+      'name': 'clang_format_linux',
+      'pattern': '.',
+      'action': [
+        'download_from_google_storage',
+        '--no_resume',
+        '--no_auth',
+        '--bucket=chromium-clang-format',
+        '--sha1_file',
+        'buildtools/linux64/clang-format.sha1',
+      ],
+    },
+    {
+      'name': 'gn_linux',
+      'pattern': '.',
+      'action': [
+        'download_from_google_storage',
+        '--no_resume',
+        '--no_auth',
+        '--bucket=chromium-gn',
+        '--sha1_file',
+        'buildtools/linux64/gn.sha1',
+      ],
+    },
+    {
+      # This uses “cipd install” so that mac-amd64 and linux-amd64 can coexist
+      # peacefully. “cipd ensure” would remove the macOS package when running on
+      # a Linux build host and vice-versa.
+      'name': 'fuchsia_clang_linux',
+      'pattern': '.',
+      'condition': 'checkout_fuchsia',
+      'action': [
+        'cipd',
+        'install',
+        'fuchsia/clang/linux-amd64',
+        '-root', 'crashpad/third_party/fuchsia/clang/linux-amd64',
+        '-log-level', 'info',
+      ],
+    },
+  ],
+  'win': [
+    {
+      'name': 'clang_format_win',
+      'pattern': '.',
+      'action': [
+        'download_from_google_storage',
+        '--no_resume',
+        '--no_auth',
+        '--bucket=chromium-clang-format',
+        '--sha1_file',
+        'buildtools/win/clang-format.exe.sha1',
+      ],
+    },
+    {
+      'name': 'gn_win',
+      'pattern': '.',
+      'action': [
+        'download_from_google_storage',
+        '--no_resume',
+        '--no_auth',
+        '--bucket=chromium-gn',
+        '--sha1_file',
+        'buildtools/win/gn.exe.sha1',
+      ],
+    },
+  ],
+}
 
 recursedeps = [
   'buildtools',
