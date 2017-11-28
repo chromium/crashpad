@@ -12,8 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-@Subdir clang
+@Subdir clang/${os}-${arch}
 fuchsia/clang/${os}-${arch} latest
 
-@Subdir sdk
-fuchsia/sdk/${os=linux}-${arch} latest
+# The SDK is keyed to the host system because it contains build tools.
+# Currently, linux-amd64 is the only SDK published (see
+# https://chrome-infra-packages.appspot.com/#/?path=fuchsia/sdk). As long as
+# this is the case, use that SDK package even on other build hosts. The sysroot
+# (containing headers and libraries) and other components are related to the
+# target and should be functional with an appropriate toolchain that runs on the
+# build host (clang, above).
+@Subdir sdk/linux-amd64
+fuchsia/sdk/linux-amd64 latest
