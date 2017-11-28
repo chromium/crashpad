@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "134896e5_e2844273",
+        "filename": "third_party/fuchsia/toolchain.ensure",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-28T22:09:04Z",
+      "side": 1,
+      "message": "It\u0027s a bit fuzzy to me. I\u0027m leaning more towards moving that out of mini_chromium and putting it in Crashpad, leaving only base/BUILD.gn in mini_chromium. I\u0027m becoming skeptical that a \"general\" GN configuration makes sense, and rather it should always be a per-project thing. It think it would necessitate a lot generality in the form of declare_args() or other extension and configuration points to handle different build switches/options/flavours. And it feels like we\u0027re not really in a position to create that hypothetical very-general configuration, having only a single consumer.\n\nAnyway, we can keep bashing on until we have a working trunk on a few platforms and maybe it\u0027ll be more clear either way by then.",
+      "parentUuid": "a85599e4_30bebab8",
+      "revId": "dea3454559b7354b03e4c0494c3aac3dd9817d78",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "83e813b2_ecaf7314",
         "filename": "third_party/fuchsia/toolchain.ensure",
         "patchSetId": 1
