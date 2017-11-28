@@ -12,20 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//testing/test.gni")
+# TODO(GN): This is a placeholder that matches the name of Chromium's location
+# for this file. It will need to be filled out to cause a gmock dependency.
 
-config("crashpad_config") {
-  include_dirs = [ "." ]
-}
-
-test("crashpad_tests") {
-  deps = [
-    "client:client_test",
-    "handler:handler_test",
-    "minidump:minidump_test",
-    "snapshot:snapshot_test",
-    "test:gmock_main",
-    "test:test_test",
-    "util:util_test",
-  ]
+group("gmock") {
 }

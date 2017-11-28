@@ -69,16 +69,16 @@ static_library("minidump") {
     "minidump_writer_util.h",
   ]
 
-  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+  public_configs = [ "..:crashpad_config" ]
 
   public_deps = [
-    "//third_party/crashpad/crashpad/compat",
+    "../compat",
   ]
 
   deps = [
+    "../snapshot",
+    "../util",
     "//base",
-    "//third_party/crashpad/crashpad/snapshot",
-    "//third_party/crashpad/crashpad/util",
   ]
 
   if (is_win) {
@@ -111,7 +111,7 @@ static_library("test_support") {
     "test/minidump_writable_test_util.h",
   ]
 
-  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+  public_configs = [ "..:crashpad_config" ]
 
   public_deps = [
     ":minidump",
@@ -156,11 +156,11 @@ source_set("minidump_test") {
 
   deps = [
     ":test_support",
+    "../snapshot:test_support",
+    "../test",
+    "../util",
     "//base",
     "//testing/gtest",
-    "//third_party/crashpad/crashpad/snapshot:test_support",
-    "//third_party/crashpad/crashpad/test",
-    "//third_party/crashpad/crashpad/util",
   ]
 
   if (is_win) {

@@ -1,0 +1,5 @@
+This directory is used as a secondary GN source root for compatibility with
+Chromium. Files in this subtree should match file paths that the Crashpad build
+files need to refer to when building in Chromium. In the Crashpad tree, they
+should either be empty/no-ops, or forward to the real Crashpad implementation
+in the real tree. No actual configuration should be done in this secondary tree.
