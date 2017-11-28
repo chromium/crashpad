@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42bf93d8_32a60c2e",
+        "filename": "third_party/fuchsia/toolchain.ensure",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-28T21:47:03Z",
+      "side": 1,
+      "message": "I don’t think this is referenced anywhere yet, but where it’s needed, it should be trivial to insert “mac” or “linux” based on the build host OS.",
+      "revId": "dea3454559b7354b03e4c0494c3aac3dd9817d78",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83e813b2_ecaf7314",
+        "filename": "third_party/fuchsia/toolchain.ensure",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-28T21:47:03Z",
+      "side": 1,
+      "message": "This could also just go into “sdk”, but for future-proofing, it seemed best to use sdk/linux-amd64.",
+      "revId": "dea3454559b7354b03e4c0494c3aac3dd9817d78",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
