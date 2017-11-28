@@ -35,7 +35,33 @@ namespace crashpad {
 //!
 //! This class is capable of reading both 32-bit and 64-bit images.
 class ElfImageReader {
+ private:
+  class ProgramHeaderTable;
+
  public:
+  class NoteReader {
+   public:
+    NoteReader(const ElfImageReader* elf_reader_,
+               const ProcessMemoryRange* range,
+               const ProgramHeaderTable* phdr_table);
+    ~NoteReader();
+
+    enum class Result { kError, kSuccess, kNoMoreNotes };
+
+    Result NextNote(std::string* name, uint64_t* type, std::string* data);
+
+   private:
+    template <typename T>
+    Result ReadNote(std::string* name, uint64_t* type, std::string* data);
+
+    const ElfImageReader* elf_reader_;  // weak
+    const ProcessMemoryRange* range_;  // weak
+    const ProgramHeaderTable* phdr_table_;  // weak
+    VMAddress current_segment_address_;
+    VMAddress segment_end_address_;
+    size_t phdr_index_;
+  };
+
   ElfImageReader();
   ~ElfImageReader();
 
@@ -101,8 +127,9 @@ class ElfImageReader {
   //! \return `true` if the debug address was found.
   bool GetDebugAddress(VMAddress* debug);
 
+  NoteReader Notes();
+
  private:
-  class ProgramHeaderTable;
   template <typename PhdrType>
   class ProgramHeaderTableSpecific;
 
