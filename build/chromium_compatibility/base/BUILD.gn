@@ -12,20 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//testing/test.gni")
+# This target is a stub so that both Crashpad and Chromium can refer to "//base"
+# in their build files. When building in the Chromium tree, "//base" will refer
+# the "real" base, but when building standalone in Crashpad, we forward those
+# references on to mini_chromium.
 
-config("crashpad_config") {
-  include_dirs = [ "." ]
-}
-
-test("crashpad_tests") {
-  deps = [
-    "client:client_test",
-    "handler:handler_test",
-    "minidump:minidump_test",
-    "snapshot:snapshot_test",
-    "test:gmock_main",
-    "test:test_test",
-    "util:util_test",
+group("base") {
+  public_configs =
+      [ "//third_party/mini_chromium/mini_chromium/base:base_public_config" ]
+  public_deps = [
+    "//third_party/mini_chromium/mini_chromium/base",
   ]
 }

@@ -12,20 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//testing/test.gni")
+# This is a stub to match Chromium. The configs in this file do not have any
+# effect on the build when building standalone in Crashpad.
 
-config("crashpad_config") {
-  include_dirs = [ "." ]
+config("default_symbols") {
 }
 
-test("crashpad_tests") {
-  deps = [
-    "client:client_test",
-    "handler:handler_test",
-    "minidump:minidump_test",
-    "snapshot:snapshot_test",
-    "test:gmock_main",
-    "test:test_test",
-    "util:util_test",
-  ]
+config("minimal_symbols") {
+}
+
+config("chromium_code") {
+}
+
+config("no_chromium_code") {
 }

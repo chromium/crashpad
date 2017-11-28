@@ -48,12 +48,12 @@ static_library("client") {
     ]
   }
 
-  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+  public_configs = [ "..:crashpad_config" ]
 
   deps = [
+    "../compat",
+    "../util",
     "//base",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/util",
   ]
 
   if (is_win) {
@@ -88,20 +88,19 @@ source_set("client_test") {
 
   deps = [
     ":client",
+    "../compat",
+    "../test",
+    "../util",
     "//base",
     "//testing/gmock",
     "//testing/gtest",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/test",
-    "//third_party/crashpad/crashpad/util",
   ]
 
   data_deps = [
-    "//third_party/crashpad/crashpad/handler:crashpad_handler",
+    "../handler:crashpad_handler",
   ]
 
   if (is_win) {
-    data_deps +=
-        [ "//third_party/crashpad/crashpad/handler:crashpad_handler_console" ]
+    data_deps += [ "../handler:crashpad_handler_console" ]
   }
 }

@@ -62,7 +62,7 @@ static_library("test") {
     "win/win_multiprocess_with_temp_dir.h",
   ]
 
-  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+  public_configs = [ "..:crashpad_config" ]
 
   defines = [ "CRASHPAD_IN_CHROMIUM" ]
 
@@ -71,11 +71,11 @@ static_library("test") {
   ]
 
   deps = [
+    "../compat",
+    "../snapshot",
+    "../util",
     "//base",
     "//testing/gtest",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/snapshot",
-    "//third_party/crashpad/crashpad/util",
   ]
 
   if (is_mac) {
@@ -104,11 +104,11 @@ source_set("test_test") {
 
   deps = [
     ":test",
+    "../compat",
+    "../util",
     "//base",
     "//testing/gmock",
     "//testing/gtest",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/util",
   ]
 
   data_deps = [

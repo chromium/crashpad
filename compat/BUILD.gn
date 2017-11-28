@@ -68,7 +68,7 @@ static_library("compat") {
 
   public_configs = [
     ":compat_config",
-    "//third_party/crashpad/crashpad:crashpad_config",
+    "..:crashpad_config",
   ]
 
   deps = []

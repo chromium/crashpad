@@ -18,7 +18,7 @@ source_set("tool_support") {
     "tool_support.h",
   ]
 
-  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+  public_configs = [ "..:crashpad_config" ]
 
   deps = [
     "//base",
@@ -32,11 +32,11 @@ executable("crashpad_database_util") {
 
   deps = [
     ":tool_support",
+    "../client",
+    "../compat",
+    "../util",
     "//base",
     "//build/win:default_exe_manifest",
-    "//third_party/crashpad/crashpad/client",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/util",
   ]
 }
 
@@ -47,10 +47,10 @@ executable("crashpad_http_upload") {
 
   deps = [
     ":tool_support",
+    "../compat",
+    "../util",
     "//base",
     "//build/win:default_exe_manifest",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/util",
   ]
 }
 
@@ -61,12 +61,12 @@ executable("generate_dump") {
 
   deps = [
     ":tool_support",
+    "../compat",
+    "../minidump",
+    "../snapshot",
+    "../util",
     "//base",
     "//build/win:default_exe_manifest",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/minidump",
-    "//third_party/crashpad/crashpad/snapshot",
-    "//third_party/crashpad/crashpad/util",
   ]
 
   if (is_mac) {
@@ -96,9 +96,9 @@ if (is_mac) {
 
     deps = [
       ":tool_support",
+      "../compat",
+      "../util",
       "//base",
-      "//third_party/crashpad/crashpad/compat",
-      "//third_party/crashpad/crashpad/util",
     ]
   }
 
@@ -121,9 +121,9 @@ if (is_mac) {
 
     deps = [
       ":tool_support",
+      "../compat",
+      "../util",
       "//base",
-      "//third_party/crashpad/crashpad/compat",
-      "//third_party/crashpad/crashpad/util",
     ]
   }
 
@@ -139,9 +139,9 @@ if (is_mac) {
 
     deps = [
       ":tool_support",
+      "../compat",
+      "../util",
       "//base",
-      "//third_party/crashpad/crashpad/compat",
-      "//third_party/crashpad/crashpad/util",
     ]
   }
 
@@ -152,10 +152,10 @@ if (is_mac) {
 
     deps = [
       ":tool_support",
+      "../client",
+      "../compat",
+      "../util",
       "//base",
-      "//third_party/crashpad/crashpad/client",
-      "//third_party/crashpad/crashpad/compat",
-      "//third_party/crashpad/crashpad/util",
     ]
   }
 }

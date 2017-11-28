@@ -20,32 +20,42 @@ static_library("handler") {
     "crash_report_upload_thread.h",
     "handler_main.cc",
     "handler_main.h",
-    "mac/crash_report_exception_handler.cc",
-    "mac/crash_report_exception_handler.h",
-    "mac/exception_handler_server.cc",
-    "mac/exception_handler_server.h",
-    "mac/file_limit_annotation.cc",
-    "mac/file_limit_annotation.h",
     "minidump_to_upload_parameters.cc",
     "minidump_to_upload_parameters.h",
     "prune_crash_reports_thread.cc",
     "prune_crash_reports_thread.h",
     "user_stream_data_source.cc",
     "user_stream_data_source.h",
-    "win/crash_report_exception_handler.cc",
-    "win/crash_report_exception_handler.h",
   ]
 
-  public_configs = [ "//third_party/crashpad/crashpad:crashpad_config" ]
+  if (is_mac) {
+    sources += [
+      "mac/crash_report_exception_handler.cc",
+      "mac/crash_report_exception_handler.h",
+      "mac/exception_handler_server.cc",
+      "mac/exception_handler_server.h",
+      "mac/file_limit_annotation.cc",
+      "mac/file_limit_annotation.h",
+    ]
+  }
+
+  if (is_win) {
+    sources += [
+      "win/crash_report_exception_handler.cc",
+      "win/crash_report_exception_handler.h",
+    ]
+  }
+
+  public_configs = [ "..:crashpad_config" ]
 
   deps = [
+    "../client",
+    "../compat",
+    "../minidump",
+    "../snapshot",
+    "../tools:tool_support",
+    "../util",
     "//base",
-    "//third_party/crashpad/crashpad/client",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/minidump",
-    "//third_party/crashpad/crashpad/snapshot",
-    "//third_party/crashpad/crashpad/tools:tool_support",
-    "//third_party/crashpad/crashpad/util",
   ]
 
   if (is_win) {
@@ -62,13 +72,13 @@ source_set("handler_test") {
 
   deps = [
     ":handler",
+    "../client",
+    "../compat",
+    "../snapshot",
+    "../test",
+    "../util",
     "//base",
     "//testing/gtest",
-    "//third_party/crashpad/crashpad/client",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/snapshot",
-    "//third_party/crashpad/crashpad/test",
-    "//third_party/crashpad/crashpad/util",
   ]
 
   if (is_win) {
@@ -87,9 +97,9 @@ executable("crashpad_handler") {
 
   deps = [
     ":handler",
+    "../compat",
     "//base",
     "//build/win:default_exe_manifest",
-    "//third_party/crashpad/crashpad/compat",
   ]
 
   if (is_mac && is_component_build) {
@@ -123,11 +133,11 @@ executable("crashpad_handler_test_extended_handler") {
 
   deps = [
     ":handler",
+    "../compat",
+    "../minidump:test_support",
+    "../tools:tool_support",
     "//base",
     "//build/win:default_exe_manifest",
-    "//third_party/crashpad/crashpad/compat",
-    "//third_party/crashpad/crashpad/minidump:test_support",
-    "//third_party/crashpad/crashpad/tools:tool_support",
   ]
 }
 
@@ -144,9 +154,9 @@ if (is_win) {
 
     deps = [
       ":handler",
+      "../compat",
       "//base",
       "//build/win:default_exe_manifest",
-      "//third_party/crashpad/crashpad/compat",
     ]
   }
 
