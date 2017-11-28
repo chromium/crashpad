@@ -30,7 +30,9 @@ constexpr size_t Annotation::kValueMaxSize;
 void Annotation::SetSize(ValueSizeType size) {
   DCHECK_LT(size, kValueMaxSize);
   size_ = size;
-  AnnotationList::Get()->Add(this);
+  // Use Register() instead of Get() in case the calling module has not
+  // explicitly initialized the annotation list, to avoid crashing.
+  AnnotationList::Register()->Add(this);
 }
 
 void Annotation::Clear() {
