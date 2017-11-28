@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a85599e4_30bebab8",
+        "filename": "third_party/fuchsia/toolchain.ensure",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-28T21:55:10Z",
+      "side": 1,
+      "message": "\u003e https://chromium.googlesource.com/chromium/mini_chromium/+/master/build/BUILD.gn#12 will be the two lines to update with the host info.\n\nI’ll do that first and then update this with a DEPS roll.\n\nBut: different repository… If mini_chromium’s gn infrastructure becomes useful, we’ll probably want to move the Fuchsia toolchain/SDK checkout stuff to live there.",
+      "parentUuid": "0665da12_064713a1",
+      "revId": "dea3454559b7354b03e4c0494c3aac3dd9817d78",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "83e813b2_ecaf7314",
         "filename": "third_party/fuchsia/toolchain.ensure",
         "patchSetId": 1
