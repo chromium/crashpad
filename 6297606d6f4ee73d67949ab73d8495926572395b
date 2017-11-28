@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67933b2e_b75c08f2",
+        "filename": "client/annotation.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-28T18:25:25Z",
+      "side": 1,
+      "message": "Spelling",
+      "range": {
+        "startLine": 34,
+        "startChar": 32,
+        "endLine": 34,
+        "endChar": 42
+      },
+      "revId": "6297606d6f4ee73d67949ab73d8495926572395b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
