@@ -22,6 +22,30 @@
       "revId": "6297606d6f4ee73d67949ab73d8495926572395b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12503092_3ab0f125",
+        "filename": "client/annotation.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-28T18:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67933b2e_b75c08f2",
+      "range": {
+        "startLine": 34,
+        "startChar": 32,
+        "endLine": 34,
+        "endChar": 42
+      },
+      "revId": "6297606d6f4ee73d67949ab73d8495926572395b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
