@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0665da12_064713a1",
+        "filename": "third_party/fuchsia/toolchain.ensure",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-28T21:52:12Z",
+      "side": 1,
+      "message": "https://chromium.googlesource.com/chromium/mini_chromium/+/master/build/BUILD.gn#12 will be the two lines to update with the host info.",
+      "parentUuid": "42bf93d8_32a60c2e",
+      "revId": "dea3454559b7354b03e4c0494c3aac3dd9817d78",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "83e813b2_ecaf7314",
         "filename": "third_party/fuchsia/toolchain.ensure",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-11-28T21:47:03Z",
       "side": 1,
       "message": "This could also just go into “sdk”, but for future-proofing, it seemed best to use sdk/linux-amd64.",
+      "revId": "dea3454559b7354b03e4c0494c3aac3dd9817d78",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a19fbe5b_c766439d",
+        "filename": "third_party/fuchsia/toolchain.ensure",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-28T21:52:12Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "83e813b2_ecaf7314",
       "revId": "dea3454559b7354b03e4c0494c3aac3dd9817d78",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
