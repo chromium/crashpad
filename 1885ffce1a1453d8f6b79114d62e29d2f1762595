@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ebcbd710_da530c5f",
+        "filename": "base/BUILD.gn",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-28T18:34:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12b43720_151ee138",
+      "revId": "1885ffce1a1453d8f6b79114d62e29d2f1762595",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4cdc72f9_0d127321",
         "filename": "base/BUILD.gn",
         "patchSetId": 23
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "12859429_11b75541",
+        "filename": "base/BUILD.gn",
+        "patchSetId": 23
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-28T18:34:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cdc72f9_0d127321",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 6
+      },
+      "revId": "1885ffce1a1453d8f6b79114d62e29d2f1762595",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5d3d25a_b484935f",
         "filename": "base/test/BUILD.gn",
         "patchSetId": 23
@@ -56,6 +98,24 @@
       "revId": "1885ffce1a1453d8f6b79114d62e29d2f1762595",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eff36d4f_979ad93d",
+        "filename": "base/test/BUILD.gn",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-28T18:34:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5d3d25a_b484935f",
+      "revId": "1885ffce1a1453d8f6b79114d62e29d2f1762595",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
