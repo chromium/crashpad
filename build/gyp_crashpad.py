@@ -17,9 +17,6 @@
 import os
 import sys
 
-if sys.version_info[0] < 3:
-  range = xrange
-
 
 def ChooseDependencyPath(local_path, external_path):
   """Chooses between a dependency located at local path and an external path.
