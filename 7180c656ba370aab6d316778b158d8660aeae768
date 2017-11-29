@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18d7d10d_f154d291",
+        "filename": "BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T18:36:11Z",
+      "side": 1,
+      "message": "handler_test, minidump_test, and snapshot_test should use gtest_main instead of gmock_main (since they don’t use gmock).",
+      "revId": "7180c656ba370aab6d316778b158d8660aeae768",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b3a6f64_a574efa8",
+        "filename": "BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T18:36:11Z",
+      "side": 1,
+      "message": "Will “gn format” try to reformat these alphabetically?",
+      "revId": "7180c656ba370aab6d316778b158d8660aeae768",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebcf9f04_9121c20f",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T18:36:11Z",
+      "side": 1,
+      "message": "This whole file exists so that you can refer to //third_party/zlib:zlib, but that’s another Chromium path. So probably this file belongs in chromium_compatibility too, in the same way that the base target’s over there.",
+      "revId": "7180c656ba370aab6d316778b158d8660aeae768",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e933964e_d2545064",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T18:36:11Z",
+      "side": 1,
+      "message": "It makes more sense to me to invert the if/config here so that the if lives inside the config. That’s the way you wrote the group(\"zlib\") target.",
+      "revId": "7180c656ba370aab6d316778b158d8660aeae768",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b97835d_a07e3c08",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T18:36:11Z",
+      "side": 1,
+      "message": ":zlib isn’t necessary on this or line 36, I think.",
+      "revId": "7180c656ba370aab6d316778b158d8660aeae768",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
