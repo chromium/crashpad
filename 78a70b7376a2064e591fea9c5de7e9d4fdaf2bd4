@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06a4517f_e91742b7",
+        "filename": "build/chromium_compatibility/testing/gmock/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T21:04:50Z",
+      "side": 1,
+      "message": "This word makes me think of a gn config(), but it’s really a group() which is a target. Revise here and in gtest’s equivalent?",
+      "range": {
+        "startLine": 15,
+        "startChar": 23,
+        "endLine": 15,
+        "endChar": 36
+      },
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3d18258_0833a023",
+        "filename": "test/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T21:04:50Z",
+      "side": 1,
+      "message": "Not a comment on what you’ve written, more of a “GN remedial ed” thing:\n\nI’m always puzzled by how variable assignment/reassignment/append works with things like configs. In this case, you’ve got a config that may or may not define CRASHPAD_IN_CHROMIUM, and you’ve also got CRASHPAD_TEST_LAUNCHER_GMOCK right here. How do the “defines” in the two places know to get merged instead of having one clobber the other?",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9892a01f_da0b6e78",
+        "filename": "test/gtest_death.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T21:04:50Z",
+      "side": 1,
+      "message": "Add a new paragraph here about how this uses `ASSERT_DEATH_IF_SUPPORTED()` to deal with systems that may not support death tests. Optionally mention Fuchsia.",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e586a1a2_a40a3dc1",
+        "filename": "test/gtest_death.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T21:04:50Z",
+      "side": 1,
+      "message": "Technically it wouldn’t be the worst thing to write ASSERT_DEATH_IF_SUPPORTED here, even though we expect it to be supported on macOS.",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45a34d08_a41e0bee",
+        "filename": "test/gtest_death.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T21:04:50Z",
+      "side": 1,
+      "message": "And duplicate your comment here, s/ASSERT/EXPECT/.",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74034e24_6dd32cfb",
+        "filename": "test/gtest_death.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T21:04:50Z",
+      "side": 1,
+      "message": "I left off an “on macOS” here, and also in the paragraph on line 107. Can you fix this for me while you’re in here?",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be544d09_e42a6b1c",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T21:04:50Z",
+      "side": 1,
+      "message": "What’s this (and _gmock_dir) for? Are they supposed to be overridable?",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd47e974_e264d26c",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T21:04:50Z",
+      "side": 1,
+      "message": "Reflow this comment.",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
