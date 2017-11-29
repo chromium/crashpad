@@ -16,6 +16,24 @@
       "revId": "3bea1d6b2010e93d112865d5e31510c3a09f84ae",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f39bac6_04a9e8ea",
+        "filename": "build/crashpad_in_chromium.gni",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T18:37:24Z",
+      "side": 1,
+      "message": "\u003e When building in Chromium, this will set to true by chromium/src/.gn in the default_args block.\n\nSo it’ll be available globally?\n\nI don’t feel great about that. But I guess the only alternative is to have update.py flip this line to true when it does an import.",
+      "parentUuid": "6e1095b4_9de32e1f",
+      "revId": "3bea1d6b2010e93d112865d5e31510c3a09f84ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
