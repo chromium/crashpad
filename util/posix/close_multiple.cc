@@ -30,6 +30,10 @@
 #include "util/file/directory_reader.h"
 #include "util/misc/implicit_cast.h"
 
+#if defined(OS_FUCHSIA)
+#include <fdio/limits.h>
+#endif
+
 #if defined(OS_MACOSX)
 #include <sys/sysctl.h>
 #endif
@@ -71,6 +75,10 @@ void CloseNowOrOnExec(int fd, bool ebadf_ok) {
 // This is an advantage over looping over all possible file descriptors, because
 // no attempt needs to be made to close file descriptors that are not open.
 bool CloseMultipleNowOrOnExecUsingFDDir(int min_fd, int preserve_fd) {
+#if defined(OS_FUCHSIA)
+  // There is no FD directory on Fuchsia.
+  return false;
+#elif
 #if defined(OS_MACOSX)
   static constexpr char kFDDir[] = "/dev/fd";
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
@@ -103,6 +111,7 @@ bool CloseMultipleNowOrOnExecUsingFDDir(int min_fd, int preserve_fd) {
   }
 
   return true;
+#endif  // OS_FUCHSIA
 }
 
 }  // namespace
@@ -134,9 +143,14 @@ void CloseMultipleNowOrOnExec(int fd, int preserve_fd) {
   max_fd = std::max(max_fd, getdtablesize());
 #endif
 
-#if !(defined(OS_LINUX) || defined(OS_ANDROID)) || defined(OPEN_MAX)
-  // Linux does not provide OPEN_MAX. See
+#if defined(OS_FUCHSIA)
+  // Fuchsia does not provide OPEN_MAX, but fdio has a similar type of limit on
+  // the number of fds per process.
+  max_fd = std::max(max_fd, FDIO_MAX_FD);
+#elif !(defined(OS_LINUX) || defined(OS_ANDROID)) || defined(OPEN_MAX)
+  // Linux/Android do not provide OPEN_MAX. See
   // https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/commit/include/linux/limits.h?id=77293034696e3e0b6c8b8fc1f96be091104b3d2b.
+  // Fuchsia also does not provide OPEN_MAX. sysconf
   max_fd = std::max(max_fd, OPEN_MAX);
 #endif
 
