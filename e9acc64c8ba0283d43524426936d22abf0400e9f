@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "883e86d2_55c56aba",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T23:37:22Z",
+      "side": 1,
+      "message": "No, unfortunately it doesn\u0027t. There\u0027s a handful of 80col violations in gn format that I should really look at someday. https://cs.chromium.org/chromium/src/tools/gn/command_format_unittest.cc?q\u003dformat_unittest\u0026sq\u003dpackage:chromium\u0026l\u003d1\n\nI suspect in this one in particular, it feels that keeping it on a single line is more important than 80 col because there\u0027s only one item in the list. But that\u0027s pretty wrong in this case.",
+      "parentUuid": "43dda83d_d417cf33",
+      "revId": "e9acc64c8ba0283d43524426936d22abf0400e9f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61aba14f_87eafad8",
         "filename": "third_party/gtest/BUILD.gn",
         "patchSetId": 4
