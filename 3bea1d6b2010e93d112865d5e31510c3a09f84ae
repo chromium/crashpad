@@ -34,6 +34,24 @@
       "revId": "3bea1d6b2010e93d112865d5e31510c3a09f84ae",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1700d235_27998668",
+        "filename": "build/crashpad_in_chromium.gni",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-11-29T18:38:40Z",
+      "side": 1,
+      "message": "Yeah declare_args are project-wide (so that individual targets can have options configured through `gn args`).",
+      "parentUuid": "9f39bac6_04a9e8ea",
+      "revId": "3bea1d6b2010e93d112865d5e31510c3a09f84ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
