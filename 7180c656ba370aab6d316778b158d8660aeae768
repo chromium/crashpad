@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a9435ab4_f6c7d500",
+        "filename": "BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T19:05:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18d7d10d_f154d291",
+      "revId": "7180c656ba370aab6d316778b158d8660aeae768",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b3a6f64_a574efa8",
         "filename": "BUILD.gn",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "023895bc_d0368ad2",
+        "filename": "BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T19:05:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b3a6f64_a574efa8",
+      "revId": "7180c656ba370aab6d316778b158d8660aeae768",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebcf9f04_9121c20f",
         "filename": "third_party/zlib/BUILD.gn",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2017-11-29T18:36:11Z",
       "side": 1,
       "message": "This whole file exists so that you can refer to //third_party/zlib:zlib, but that’s another Chromium path. So probably this file belongs in chromium_compatibility too, in the same way that the base target’s over there.",
+      "revId": "7180c656ba370aab6d316778b158d8660aeae768",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d08982e_43fb71e1",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T19:05:17Z",
+      "side": 1,
+      "message": "I think this one should stay here. It\u0027s depending on a somewhere-else //third_party/zlib:zlib in Chromium, but it has the Crashpad-required-job of setting CRASHPAD_ZLIB_SOURCE_SYSTEM, CRASHPAD_ZLIB_SOURCE_CHROMIUM, or CRASHPAD_ZLIB_SOURCE_EMBEDDED (to support system zlib on Mac, or embedded zlib for Windows, unrelated to Chromium support).\n\n[If Crashpad switched to GN for standalone builds, it\u0027d probably just be easiest to always use embedded zlib, store it in //third_party/zlib in the Crashpad tree (without the second level sub dir) and be done with it, unless there\u0027s a strong reason to use the system one.]",
+      "parentUuid": "ebcf9f04_9121c20f",
       "revId": "7180c656ba370aab6d316778b158d8660aeae768",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "fcd3decf_498cbc5d",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T19:05:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e933964e_d2545064",
+      "revId": "7180c656ba370aab6d316778b158d8660aeae768",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b97835d_a07e3c08",
         "filename": "third_party/zlib/BUILD.gn",
         "patchSetId": 3
@@ -84,6 +156,24 @@
       "revId": "7180c656ba370aab6d316778b158d8660aeae768",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23f5c4fd_13955bbe",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T19:05:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b97835d_a07e3c08",
+      "revId": "7180c656ba370aab6d316778b158d8660aeae768",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
