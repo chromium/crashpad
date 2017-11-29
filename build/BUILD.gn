@@ -12,26 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("../../build/crashpad_in_chromium.gni")
+# When building in Chromium, these configs is used to set #defines that indicate
+# whether code is being built standalone, or in Chromium, or potentially in some
+# other configutation.
 
-config("zlib_config") {
+import("crashpad_in_chromium.gni")
+
+config("crashpad_in_chromium") {
   if (crashpad_in_chromium) {
-    defines = [ "CRASHPAD_ZLIB_SOURCE_CHROMIUM" ]
-  } else {
-    defines = [ "CRASHPAD_ZLIB_SOURCE_EMBEDDED" ]
-  }
-}
-
-group("zlib") {
-  public_configs = [ ":zlib_config" ]
-
-  if (crashpad_in_chromium) {
-    public_deps = [
-      "//third_party/zlib",
-    ]
-  } else {
-    public_deps = [
-      "//third_party/zlib/zlib",
-    ]
+    defines = [ "CRASHPAD_IN_CHROMIUM" ]
   }
 }

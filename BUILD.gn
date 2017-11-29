@@ -13,19 +13,64 @@
 # limitations under the License.
 
 import("//testing/test.gni")
+import("build/crashpad_in_chromium.gni")
 
 config("crashpad_config") {
   include_dirs = [ "." ]
 }
 
-test("crashpad_tests") {
-  deps = [
-    "client:client_test",
-    "handler:handler_test",
-    "minidump:minidump_test",
-    "snapshot:snapshot_test",
-    "test:gmock_main",
-    "test:test_test",
-    "util:util_test",
-  ]
+if (crashpad_in_chromium) {
+  test("crashpad_tests") {
+    deps = [
+      "client:client_test",
+      "handler:handler_test",
+      "minidump:minidump_test",
+      "snapshot:snapshot_test",
+      "test:gmock_main",
+      "test:test_test",
+      "util:util_test",
+    ]
+  }
+} else {
+  test("crashpad_client_test") {
+    deps = [
+      "client:client_test",
+      "test:gmock_main",
+    ]
+  }
+
+  test("crashpad_handler_test") {
+    deps = [
+      "handler:handler_test",
+      "test:gtest_main",
+    ]
+  }
+
+  test("crashpad_minidump_test") {
+    deps = [
+      "minidump:minidump_test",
+      "test:gtest_main",
+    ]
+  }
+
+  test("crashpad_snapshot_test") {
+    deps = [
+      "snapshot:snapshot_test",
+      "test:gtest_main",
+    ]
+  }
+
+  test("crashpad_test_test") {
+    deps = [
+      "test:gmock_main",
+      "test:test_test",
+    ]
+  }
+
+  test("crashpad_util_test") {
+    deps = [
+      "test:gmock_main",
+      "util:util_test",
+    ]
+  }
 }
