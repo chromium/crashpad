@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ca85ca9b_d117aada",
+        "filename": "build/chromium_compatibility/testing/gmock/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T22:09:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06a4517f_e91742b7",
+      "range": {
+        "startLine": 15,
+        "startChar": 23,
+        "endLine": 15,
+        "endChar": 36
+      },
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3d18258_0833a023",
         "filename": "test/BUILD.gn",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2017-11-29T21:04:50Z",
       "side": 1,
       "message": "Not a comment on what you’ve written, more of a “GN remedial ed” thing:\n\nI’m always puzzled by how variable assignment/reassignment/append works with things like configs. In this case, you’ve got a config that may or may not define CRASHPAD_IN_CHROMIUM, and you’ve also got CRASHPAD_TEST_LAUNCHER_GMOCK right here. How do the “defines” in the two places know to get merged instead of having one clobber the other?",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5d09880_2dc2c2ef",
+        "filename": "test/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T22:09:24Z",
+      "side": 1,
+      "message": "I\u0027m not really an expert, but here\u0027s my understanding...\n\nThe ordering rules are in `gn help defines` https://chromium.googlesource.com/chromium/src/+/master/tools/gn/docs/reference.md#defines. It\u0027s not a generic thing, in that GN understands what \"defines\" is supposed to be for.\n\nThat describes the order that disparate lists of defines are merged, but there\u0027s no provision for removing across various locations, i.e. you can\u0027t have some config add a define, and then a different target directly modify the defines and affect the define added by the config.\n\nThis is one reason why the exit-time-destructors had to be moved to a separate config in the other CL. It\u0027s possible to add and remove configs, but it\u0027s not possible to add and remove individual cflags (or defines, or whatever).\n\nOne thing that can be misleading is that +\u003d and -\u003d operations make it look like it\u0027s affecting the total list of things (say \"defines\") that apply to this target, but it\u0027s not -- within the scope of evaluation of target, only the local list can be modified. So here, we\u0027re just modifying the local defines list, which, when evaluation of this block is complete, gets merged with other defines according to those rules.\n\nIn the case of defines the merger then becomes pretty simple: \"keep all of them, with the ordering specified by those rules\". But generally the ordering of defines on the command line isn\u0027t particularly something you care about, so it\u0027s really just \"keep all of them\". (The defined ordering is of course more important for includes.)\n\nIn the specific case of configs they\u0027re sort of more \"global\" because we use set_defaults in build/BUILDCONFIG.gn which sets a local configs variable in this scope that does get modified during this target\u0027s evaluation. But, configs aren\u0027t flattened out right away, so after the set_defaults, this scope can modify those that were added in whatever way it sees fit, but there\u0027s no other \"action at a distance\" that can happen.\n\nIf e.g. crashpad_in_chromium itself did:\n\n  config(\"some_stuff\") {...}\n\n  config(\"crashpad_in_chromium\") {\n    defines \u003d [...]\n    configs \u003d [\":some_stuff\"]\n  }\n\nthis target would not be able to directly do configs -\u003d [\"../build:some_stuff\"], because that config is a child config of crashpad_in_chromium, it\u0027s not a config that\u0027s on the target we\u0027re currently in. Instead, the parent config would need to be refactored so that the two could work together and know about each other, e.g. by having a higher level add two separate configs where one could be removed by this target.\n\n(I\u0027m not sure if all that actually communicated the information you were looking for, but it actually helped me to type it out, so that\u0027s something. :)",
+      "parentUuid": "f3d18258_0833a023",
       "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "2b170ba9_88fba843",
+        "filename": "test/gtest_death.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T22:09:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9892a01f_da0b6e78",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e586a1a2_a40a3dc1",
         "filename": "test/gtest_death.h",
         "patchSetId": 3
@@ -73,6 +133,24 @@
       "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0c81c9d_6d113174",
+        "filename": "test/gtest_death.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T22:09:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e586a1a2_a40a3dc1",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "19ba9c34_5bcf8957",
+        "filename": "test/gtest_death.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T22:09:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45a34d08_a41e0bee",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74034e24_6dd32cfb",
         "filename": "test/gtest_death.h",
         "patchSetId": 3
@@ -104,6 +200,24 @@
       "writtenOn": "2017-11-29T21:04:50Z",
       "side": 1,
       "message": "I left off an “on macOS” here, and also in the paragraph on line 107. Can you fix this for me while you’re in here?",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce20bb3a_08652c4d",
+        "filename": "test/gtest_death.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T22:09:24Z",
+      "side": 1,
+      "message": "Done (I think?)",
+      "parentUuid": "74034e24_6dd32cfb",
       "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "d68c9cc8_964fae45",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T22:09:24Z",
+      "side": 1,
+      "message": "I think it was just to be slightly shorter and have fewer places to change if it moved, but a bit confusing. Removed.",
+      "parentUuid": "be544d09_e42a6b1c",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd47e974_e264d26c",
         "filename": "third_party/gtest/BUILD.gn",
         "patchSetId": 3
@@ -141,6 +273,24 @@
       "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93c8fca6_be1be3a7",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T22:09:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd47e974_e264d26c",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
