@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5a54071_587b8452",
+        "filename": "build/gyp_crashpad.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T19:33:01Z",
+      "side": 1,
+      "message": "I realize the definition changed in 3, but I\u0027d say not to bother with this as we can handle a list of numbers O(#argv).",
+      "revId": "ef3ce94fbfbb8a172038205687ae709a0a1dcbc3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59d6b3e8_0e544c4d",
+        "filename": "util/net/http_transport_test_server.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T19:33:01Z",
+      "side": 1,
+      "message": "\\n",
+      "revId": "ef3ce94fbfbb8a172038205687ae709a0a1dcbc3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
