@@ -297,7 +297,7 @@ static_library("util") {
 
   public_configs = [ "..:crashpad_config" ]
 
-  # Include files from here and generated files starting with "util".
+  # Include generated files starting with "util".
   include_dirs = [ "$root_gen_dir/third_party/crashpad/crashpad" ]
 
   public_deps = [
