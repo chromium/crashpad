@@ -43,6 +43,7 @@ if sys.version_info[0] < 3:
 else:
   import http.server as http_server
 
+
 class BufferedReadFile(object):
   """A File-like object that stores all read contents into a buffer."""
 
