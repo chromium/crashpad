@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "300e4813_f445061f",
+        "filename": "test/multiprocess_exec_posix.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T23:46:14Z",
+      "side": 1,
+      "message": "I wasn\u0027t clear on what this was accomplishing, or what will break if it\u0027s missing on Fuchsia. Do you happen to recall?",
+      "revId": "21111ee7d1f46f7bda8e5d9ba080db35796449cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d77721d8_479a3e2e",
+        "filename": "util/posix/drop_privileges.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T23:46:14Z",
+      "side": 1,
+      "message": "These exist, but currently aren\u0027t implemented on Fuchsia (I think they\u0027ll just return -1 and set errno\u003dENOSYS). This comes up fairly frequently in calling POSIXy functions.\n\nPerhaps we\u0027d be better to just exclude this file to not mislead ourselves later.",
+      "range": {
+        "startLine": 75,
+        "startChar": 9,
+        "endLine": 75,
+        "endChar": 18
+      },
+      "revId": "21111ee7d1f46f7bda8e5d9ba080db35796449cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
