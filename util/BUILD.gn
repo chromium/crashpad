@@ -139,8 +139,6 @@ static_library("util") {
     "posix/scoped_mmap.h",
     "posix/signals.cc",
     "posix/signals.h",
-    "posix/symbolic_constants_posix.cc",
-    "posix/symbolic_constants_posix.h",
     "stdlib/aligned_allocator.cc",
     "stdlib/aligned_allocator.h",
     "stdlib/map_insert.h",
@@ -293,6 +291,16 @@ static_library("util") {
         "win/safe_terminate_process_broken.cc",
       ]
     }
+  }
+
+  if (is_posix && !is_fuchsia) {
+    sources += [
+      # These map signals to and from strings. While Fuchsia defines some of the
+      # common SIGx defines, signals are never raised on Fuchsia, so there's
+      # need to include this mapping code.
+      "posix/symbolic_constants_posix.cc",
+      "posix/symbolic_constants_posix.h",
+    ]
   }
 
   public_configs = [ "..:crashpad_config" ]
