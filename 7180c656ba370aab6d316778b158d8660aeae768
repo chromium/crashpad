@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "d96a67be_60f9982b",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T19:13:13Z",
+      "side": 1,
+      "message": "\u003e I think this one should stay here. It\u0027s depending on a somewhere-else //third_party/zlib:zlib in Chromium, but it has the Crashpad-required-job of setting CRASHPAD_ZLIB_SOURCE_SYSTEM, CRASHPAD_ZLIB_SOURCE_CHROMIUM, or CRASHPAD_ZLIB_SOURCE_EMBEDDED (to support system zlib on Mac, or embedded zlib for Windows, unrelated to Chromium support).\n\nOK. I guess the weird thing here is that for other libraries, Crashpad is “owning” the meaty BUILD.gn that says how to build it, but for zlib, we’re pulling that in along with the source from Chromium’s zlib repository. Normally, that’s where we’d put our CRASHPAD_ZLIB_SOURCE stuff, but since we don’t control it, we’ve got to do it here instead.\n\nSeems reasonable, then.\n\nSince you mention CRASHPAD_ZLIB_SOURCE_SYSTEM: is that coming in a future change?",
+      "parentUuid": "2d08982e_43fb71e1",
+      "revId": "7180c656ba370aab6d316778b158d8660aeae768",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e933964e_d2545064",
         "filename": "third_party/zlib/BUILD.gn",
         "patchSetId": 3

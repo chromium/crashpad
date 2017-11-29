@@ -70,6 +70,24 @@
       "revId": "3bea1d6b2010e93d112865d5e31510c3a09f84ae",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07396455_c0ea26a9",
+        "filename": "build/crashpad_in_chromium.gni",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T19:13:13Z",
+      "side": 1,
+      "message": "\u003e They\u0027re sort of global, but in order to refer to them, the GN file that wants to use it would need to import(\"//third_party/crashpad/crashpad/build/crashpad_in_chromium.gni\"), so it can\u0027t happen just accidentally.\n\nI guess that’s fine.",
+      "parentUuid": "019600c6_8ec65e54",
+      "revId": "3bea1d6b2010e93d112865d5e31510c3a09f84ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
