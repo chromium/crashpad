@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "a13e18d3_1d598f0d",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T19:40:51Z",
+      "side": 1,
+      "message": "\u003e \u003e [If Crashpad switched to GN for standalone builds, it\u0027d probably just be easiest to always use embedded zlib, store it in //third_party/zlib in the Crashpad tree (without the second level sub dir) and be done with it, unless there\u0027s a strong reason to use the system one.]\n\u003e \n\u003e Well, I don’t want to be maintaining two descriptions of the build long-term, but I also don’t think that the embedded zlib is really necessary for non-Chromium, non-Windows users.\n\nI haven\u0027t looked at CRASHPAD_ZLIB_SOURCE_SYSTEM yet, but I guess it\u0027ll just need to modify zlib_config to set that when is_mac (and maybe is_linux or is_android... there\u0027s no system zlib on Fuchsia either, so it\u0027ll be like Windows.). I\u0027ll be sure to consider that when I start trying to build with GN for Mac anyway.",
+      "parentUuid": "8dca4c50_7854e0b5",
+      "revId": "7180c656ba370aab6d316778b158d8660aeae768",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e933964e_d2545064",
         "filename": "third_party/zlib/BUILD.gn",
         "patchSetId": 3
