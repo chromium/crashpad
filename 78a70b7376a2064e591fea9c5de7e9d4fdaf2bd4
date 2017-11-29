@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "e6f61b49_4320a6cb",
+        "filename": "test/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T22:46:37Z",
+      "side": 1,
+      "message": "\u003e The ordering rules are in `gn help defines` https://chromium.googlesource.com/chromium/src/+/master/tools/gn/docs/reference.md#defines. It\u0027s not a generic thing, in that GN understands what \"defines\" is supposed to be for.\n\nGN promised “less magic,” but this sounds like some special-casey magic to me. Oh well.\n\n\u003e (I\u0027m not sure if all that actually communicated the information you were looking for, but it actually helped me to type it out, so that\u0027s something. :)\n\nThis does answer my basic question and it was helpful, so thanks!",
+      "parentUuid": "f5d09880_2dc2c2ef",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9892a01f_da0b6e78",
         "filename": "test/gtest_death.h",
         "patchSetId": 3
@@ -224,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "9936f688_7cb87d57",
+        "filename": "test/gtest_death.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T22:46:37Z",
+      "side": 1,
+      "message": "\u003e Done (I think?)\n\nYes.",
+      "parentUuid": "ce20bb3a_08652c4d",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be544d09_e42a6b1c",
         "filename": "third_party/gtest/BUILD.gn",
         "patchSetId": 3
@@ -256,6 +292,24 @@
       "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3298429a_e9a0a844",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T22:46:37Z",
+      "side": 1,
+      "message": "\u003e I think it was just to be slightly shorter and have fewer places to change if it moved, but a bit confusing. Removed.\n\nYeah, I think it’s better with the paths just written out. Seems more like “the GN way” too.",
+      "parentUuid": "d68c9cc8_964fae45",
+      "revId": "78a70b7376a2064e591fea9c5de7e9d4fdaf2bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {

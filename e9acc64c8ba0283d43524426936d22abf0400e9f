@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61aba14f_87eafad8",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-29T22:46:37Z",
+      "side": 1,
+      "message": "It’s somewhat important that we have a way to run gmock’s and gtest’s own tests in our own build configuration, to make sure that they work as intended, particularly across gtest updates. But that doesn’t have to happen in that change. You (or I) could hit it in a follow-up.",
+      "revId": "e9acc64c8ba0283d43524426936d22abf0400e9f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
