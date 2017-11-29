@@ -17,6 +17,9 @@
 import os
 import sys
 
+if sys.version_info[0] < 3:
+  range = xrange
+
 
 def ChooseDependencyPath(local_path, external_path):
   """Chooses between a dependency located at local path and an external path.
@@ -78,7 +81,7 @@ def main(args):
     # Check to make sure that no target_arch was specified. target_arch may be
     # set during a cross build, such as a cross build for Android.
     has_target_arch = False
-    for arg_index in xrange(0, len(args)):
+    for arg_index in range(0, len(args)):
       arg = args[arg_index]
       if (arg.startswith('-Dtarget_arch=') or
           (arg == '-D' and arg_index + 1 < len(args) and
