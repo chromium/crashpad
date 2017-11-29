@@ -47,8 +47,6 @@ static_library("test") {
   ]
 
   if (is_mac) {
-    libs = [ "bsm" ]
-    deps += [ "//third_party/crashpad/crashpad/handler" ]
     sources += [
       "mac/dyld.cc",
       "mac/dyld.h",
@@ -89,6 +87,11 @@ static_library("test") {
     "//base",
     "//testing/gtest",
   ]
+
+  if (is_mac) {
+    libs = [ "bsm" ]
+    deps += [ "../handler" ]
+  }
 }
 
 source_set("test_test") {

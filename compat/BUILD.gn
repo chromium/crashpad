@@ -74,9 +74,9 @@ static_library("compat") {
   deps = []
 
   if (is_mac) {
-    deps += [ "//third_party/crashpad/crashpad/third_party/apple_cctools" ]
+    deps += [ "../third_party/apple_cctools" ]
   }
   if (is_win) {
-    deps += [ "//third_party/crashpad/crashpad/third_party/getopt" ]
+    deps += [ "../third_party/getopt" ]
   }
 }
