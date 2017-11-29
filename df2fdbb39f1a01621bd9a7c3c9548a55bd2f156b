@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8826355a_3abafbc8",
+        "filename": "test/gtest_death.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-29T20:31:40Z",
+      "side": 1,
+      "message": "Death tests aren\u0027t support in gtest on Fuchsia currently. This will LOG a warning and skip the remainder of the test.",
+      "range": {
+        "startLine": 69,
+        "startChar": 14,
+        "endLine": 69,
+        "endChar": 27
+      },
+      "revId": "df2fdbb39f1a01621bd9a7c3c9548a55bd2f156b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
