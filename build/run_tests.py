@@ -15,6 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import print_function
+
 import os
 import subprocess
 import sys
@@ -25,7 +27,7 @@ import sys
 # location in the recipe.
 def main(args):
   if len(args) != 1:
-    print >> sys.stderr, 'usage: run_tests.py <binary_dir>'
+    print('usage: run_tests.py <binary_dir>', file=sys.stderr)
     return 1
 
   crashpad_dir = \
@@ -54,16 +56,16 @@ def main(args):
   ]
 
   for test in tests:
-    print '-' * 80
-    print test
-    print '-' * 80
+    print('-' * 80)
+    print(test)
+    print('-' * 80)
     subprocess.check_call(os.path.join(binary_dir, test))
 
   if sys.platform == 'win32':
     script = 'snapshot/win/end_to_end_test.py'
-    print '-' * 80
-    print script
-    print '-' * 80
+    print('-' * 80)
+    print(script)
+    print('-' * 80)
     subprocess.check_call(
         [sys.executable, os.path.join(crashpad_dir, script), binary_dir])
 
