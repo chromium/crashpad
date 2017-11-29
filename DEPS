@@ -38,9 +38,9 @@ hooks = [
   {
     'name': 'clang_format_mac',
     'pattern': '.',
+    'condition': 'host_os == "mac"',
     'action': [
       'download_from_google_storage',
-      '--platform=^darwin$',
       '--no_resume',
       '--no_auth',
       '--bucket=chromium-clang-format',
@@ -49,24 +49,11 @@ hooks = [
     ],
   },
   {
-    'name': 'clang_format_win',
-    'pattern': '.',
-    'action': [
-      'download_from_google_storage',
-      '--platform=^win32$',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-clang-format',
-      '--sha1_file',
-      'buildtools/win/clang-format.exe.sha1',
-    ],
-  },
-  {
     'name': 'clang_format_linux',
     'pattern': '.',
+    'condition': 'host_os == "linux"',
     'action': [
       'download_from_google_storage',
-      '--platform=^linux2?$',
       '--no_resume',
       '--no_auth',
       '--bucket=chromium-clang-format',
@@ -75,11 +62,24 @@ hooks = [
     ],
   },
   {
-    'name': 'gn_mac',
+    'name': 'clang_format_win',
     'pattern': '.',
+    'condition': 'host_os == "win"',
     'action': [
       'download_from_google_storage',
-      '--platform=^darwin$',
+      '--no_resume',
+      '--no_auth',
+      '--bucket=chromium-clang-format',
+      '--sha1_file',
+      'buildtools/win/clang-format.exe.sha1',
+    ],
+  },
+  {
+    'name': 'gn_mac',
+    'pattern': '.',
+    'condition': 'host_os == "mac"',
+    'action': [
+      'download_from_google_storage',
       '--no_resume',
       '--no_auth',
       '--bucket=chromium-gn',
@@ -88,24 +88,11 @@ hooks = [
     ],
   },
   {
-    'name': 'gn_win',
-    'pattern': '.',
-    'action': [
-      'download_from_google_storage',
-      '--platform=^win32$',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-gn',
-      '--sha1_file',
-      'buildtools/win/gn.exe.sha1',
-    ],
-  },
-  {
     'name': 'gn_linux',
     'pattern': '.',
+    'condition': 'host_os == "linux"',
     'action': [
       'download_from_google_storage',
-      '--platform=^linux2?$',
       '--no_resume',
       '--no_auth',
       '--bucket=chromium-gn',
@@ -114,14 +101,67 @@ hooks = [
     ],
   },
   {
-    'name': 'fuchsia_clang',
+    'name': 'gn_win',
+    'pattern': '.',
+    'condition': 'host_os == "win"',
+    'action': [
+      'download_from_google_storage',
+      '--no_resume',
+      '--no_auth',
+      '--bucket=chromium-gn',
+      '--sha1_file',
+      'buildtools/win/gn.exe.sha1',
+    ],
+  },
+  {
+    # This uses “cipd install” so that mac-amd64 and linux-amd64 can coexist
+    # peacefully. “cipd ensure” would remove the Linux package when running on a
+    # macOS build host and vice-versa. https://crbug.com/789364.
+    'name': 'fuchsia_clang_mac',
+    'pattern': '.',
+    'condition': 'checkout_fuchsia and host_os == "mac"',
+    'action': [
+      'cipd',
+      'install',
+      'fuchsia/clang/mac-amd64',
+      'latest',
+      '-root', 'crashpad/third_party/fuchsia/clang/mac-amd64',
+      '-log-level', 'info',
+    ],
+  },
+  {
+    # This uses “cipd install” so that mac-amd64 and linux-amd64 can coexist
+    # peacefully. “cipd ensure” would remove the macOS package when running on a
+    # Linux build host and vice-versa. https://crbug.com/789364.
+    'name': 'fuchsia_clang_linux',
+    'pattern': '.',
+    'condition': 'checkout_fuchsia and host_os == "linux"',
+    'action': [
+      'cipd',
+      'install',
+      'fuchsia/clang/linux-amd64',
+      'latest',
+      '-root', 'crashpad/third_party/fuchsia/clang/linux-amd64',
+      '-log-level', 'info',
+    ],
+  },
+  {
+    # The SDK is keyed to the host system because it contains build tools.
+    # Currently, linux-amd64 is the only SDK published (see
+    # https://chrome-infra-packages.appspot.com/#/?path=fuchsia/sdk). As long as
+    # this is the case, use that SDK package even on other build hosts. The
+    # sysroot (containing headers and libraries) and other components are
+    # related to the target and should be functional with an appropriate
+    # toolchain that runs on the build host (fuchsia_clang, above).
+    'name': 'fuchsia_sdk',
     'pattern': '.',
     'condition': 'checkout_fuchsia',
     'action': [
       'cipd',
-      'ensure',
-      '-ensure-file', 'crashpad/third_party/fuchsia/toolchain.ensure',
-      '-root', 'crashpad/third_party/fuchsia',
+      'install',
+      'fuchsia/sdk/linux-amd64',
+      'latest',
+      '-root', 'crashpad/third_party/fuchsia/sdk/linux-amd64',
       '-log-level', 'info',
     ],
   },
