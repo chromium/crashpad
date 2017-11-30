@@ -109,8 +109,14 @@ FileOperationResult ReadFile(FileHandle file, void* buffer, size_t size) {
 }
 
 FileHandle OpenFileForRead(const base::FilePath& path) {
+#if defined(OS_FUCHSIA)
+  // HANDLE_EINTR and O_NOCTTY are unnecessary on Fuchsia (and O_NOCTTY causes
+  // an "Invalid argument" failure).
+  return open(path.value().c_str(), O_RDONLY | O_CLOEXEC);
+#else
   return HANDLE_EINTR(
       open(path.value().c_str(), O_RDONLY | O_NOCTTY | O_CLOEXEC));
+#endif
 }
 
 FileHandle OpenFileForWrite(const base::FilePath& path,
