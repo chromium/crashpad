@@ -58,10 +58,8 @@ static_library("util") {
     "file/delimited_file_reader.cc",
     "file/delimited_file_reader.h",
     "file/directory_reader.h",
-    "file/directory_reader_posix.cc",
     "file/file_io.cc",
     "file/file_io.h",
-    "file/file_io_posix.cc",
     "file/file_reader.cc",
     "file/file_reader.h",
     "file/file_seeker.cc",
@@ -69,7 +67,6 @@ static_library("util") {
     "file/file_writer.cc",
     "file/file_writer.h",
     "file/filesystem.h",
-    "file/filesystem_posix.cc",
     "file/scoped_remove_file.cc",
     "file/scoped_remove_file.h",
     "file/string_file.cc",
@@ -79,7 +76,6 @@ static_library("util") {
     "misc/arraysize_unsafe.h",
     "misc/as_underlying_type.h",
     "misc/clock.h",
-    "misc/clock_posix.cc",
     "misc/from_pointer_cast.h",
     "misc/implicit_cast.h",
     "misc/initialization_state.h",
@@ -124,23 +120,6 @@ static_library("util") {
     "numeric/in_range_cast.h",
     "numeric/int128.h",
     "numeric/safe_assignment.h",
-    "posix/close_multiple.cc",
-    "posix/close_multiple.h",
-    "posix/close_stdio.cc",
-    "posix/close_stdio.h",
-    "posix/double_fork_and_exec.cc",
-    "posix/double_fork_and_exec.h",
-    "posix/drop_privileges.cc",
-    "posix/drop_privileges.h",
-    "posix/process_info.h",
-    "posix/scoped_dir.cc",
-    "posix/scoped_dir.h",
-    "posix/scoped_mmap.cc",
-    "posix/scoped_mmap.h",
-    "posix/signals.cc",
-    "posix/signals.h",
-    "posix/symbolic_constants_posix.cc",
-    "posix/symbolic_constants_posix.h",
     "stdlib/aligned_allocator.cc",
     "stdlib/aligned_allocator.h",
     "stdlib/map_insert.h",
@@ -155,15 +134,50 @@ static_library("util") {
     "string/split_string.cc",
     "string/split_string.h",
     "synchronization/semaphore.h",
-    "synchronization/semaphore_posix.cc",
     "thread/thread.cc",
     "thread/thread.h",
     "thread/thread_log_messages.cc",
     "thread/thread_log_messages.h",
-    "thread/thread_posix.cc",
     "thread/worker_thread.cc",
     "thread/worker_thread.h",
   ]
+
+  if (is_posix) {
+    sources += [
+      "file/directory_reader_posix.cc",
+      "file/file_io_posix.cc",
+      "file/filesystem_posix.cc",
+      "misc/clock_posix.cc",
+      "posix/close_stdio.cc",
+      "posix/close_stdio.h",
+      "posix/process_info.h",
+      "posix/scoped_dir.cc",
+      "posix/scoped_dir.h",
+      "posix/scoped_mmap.cc",
+      "posix/scoped_mmap.h",
+      "posix/signals.cc",
+      "posix/signals.h",
+      "synchronization/semaphore_posix.cc",
+      "thread/thread_posix.cc",
+    ]
+
+    if (!is_fuchsia) {
+      sources += [
+        "posix/close_multiple.cc",
+        "posix/close_multiple.h",
+        "posix/double_fork_and_exec.cc",
+        "posix/double_fork_and_exec.h",
+        "posix/drop_privileges.cc",
+        "posix/drop_privileges.h",
+
+        # These map signals to and from strings. While Fuchsia defines some of
+        # the common SIGx defines, signals are never raised on Fuchsia, so
+        # there's need to include this mapping code.
+        "posix/symbolic_constants_posix.cc",
+        "posix/symbolic_constants_posix.h",
+      ]
+    }
+  }
 
   if (is_mac) {
     sources += [
