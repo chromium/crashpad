@@ -17,6 +17,8 @@
 
 #include_next <elf.h>
 
+#include <android/api-level.h>
+
 #if !defined(ELF32_ST_VISIBILITY)
 #define ELF32_ST_VISIBILITY(other) ((other) & 0x3)
 #endif
@@ -34,5 +36,24 @@
 #if !defined(STT_TLS)
 #define STT_TLS 6
 #endif
+
+// ELF note header types are normally provided by <linux/elf.h>, included by
+// <elf.h>, however traditional headers do not provide these definitions via
+// <elf.h> until API 21. Unified headers do provide these defintions prior to
+// API 21, so use NT_PRSTATUS, also defined in <linux/elf.h>, to detect their
+// availability.
+#if __ANDROID_API__ < 21 && !defined(NT_PRSTATUS)
+typedef struct {
+  Elf32_Word n_namesz;
+  Elf32_Word n_descsz;
+  Elf32_Word n_type;
+} Elf32_Nhdr;
+
+typedef struct {
+  Elf64_Word n_namesz;
+  Elf64_Word n_descsz;
+  Elf64_Word n_type;
+} Elf64_Nhdr;
+#endif  // __ANDROID_API__ < 21 && !defined(NT_PRSTATUS)
 
 #endif  // CRASHPAD_COMPAT_ANDROID_ELF_H_
