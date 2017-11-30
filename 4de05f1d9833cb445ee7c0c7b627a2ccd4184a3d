@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f0dde40_f17d9643",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-30T01:27:26Z",
+      "side": 1,
+      "message": "Drop this now that we decided against it.",
+      "revId": "4de05f1d9833cb445ee7c0c7b627a2ccd4184a3d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e8f2813_9cdf096d",
+        "filename": "test/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-30T01:27:26Z",
+      "side": 1,
+      "message": "We should pull the _posix files into an if (is_posix) block too, so that we’re not relying on the filter for them either.\n\nThen, the no-Fuchsia file could be collapsed into an (is_posix) { if (!is_fuchsia) } block.",
+      "revId": "4de05f1d9833cb445ee7c0c7b627a2ccd4184a3d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acc374dc_4ee8123d",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-30T01:27:26Z",
+      "side": 1,
+      "message": "We should standardize on where to put (is_posix), (is_posix \u0026\u0026 !is_fuchsia), relative to the other OSes, kinda how we tend to do use Mac-Linux-Windows as a standard order now.\n\nMy vote would be for before Mac, since it’d follow the main sources list and we have more POSIXy platforms than not, so it’d kind of serve as a continuation.\n\nThat’s where you put it in test/BUILD.gn, and it stood out to me that you had it in a different location here.",
+      "revId": "4de05f1d9833cb445ee7c0c7b627a2ccd4184a3d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

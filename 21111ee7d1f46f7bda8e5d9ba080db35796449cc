@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "057a719f_ca0c24e5",
+        "filename": "util/posix/close_multiple.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-30T01:27:26Z",
+      "side": 1,
+      "message": "\u003e Very explicit, each one must be specifically cloned or passed into the child, with a bit of specialness for stdin/stdout/stderr.\n\nThat sounds like the right design to me! All Crashpad is doing with CloseMultipleNowOrOnExec() is trying to achieve that exact behavior.\n\n\u003e I think again, that means I should just exclude this file on Fuchsia.\n\nPerfect.",
+      "parentUuid": "3d1c51e3_42eb9abb",
+      "revId": "21111ee7d1f46f7bda8e5d9ba080db35796449cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d77721d8_479a3e2e",
         "filename": "util/posix/drop_privileges.cc",
         "patchSetId": 1
@@ -176,6 +194,30 @@
       "revId": "21111ee7d1f46f7bda8e5d9ba080db35796449cc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "612aeb6a_81c8242a",
+        "filename": "util/posix/drop_privileges.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-30T01:27:26Z",
+      "side": 1,
+      "message": "\u003e No, I don\u0027t think there\u0027s anything like setuid bits.\n\nDoesn’t look like it from a quick grep through zircon.",
+      "parentUuid": "3f90fb4e_62ca7671",
+      "range": {
+        "startLine": 75,
+        "startChar": 9,
+        "endLine": 75,
+        "endChar": 18
+      },
+      "revId": "21111ee7d1f46f7bda8e5d9ba080db35796449cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
