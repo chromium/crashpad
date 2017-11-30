@@ -27,31 +27,41 @@
 
 #if defined(OS_MACOSX) || DOXYGEN
 
-//! \brief Wraps the gtest `ASSERT_DEATH()` macro to make assertions about death
-//!     caused by crashes.
+//! \brief Wraps the gtest `ASSERT_DEATH_IF_SUPPORTED()` macro to make
+//!     assertions about death caused by crashes.
 //!
 //! On macOS, this macro prevents the system’s crash reporter from handling
 //! crashes that occur in \a statement. Crashes are normally visible to the
 //! system’s crash reporter, but it is undesirable for intentional
 //! ASSERT_DEATH_CRASH() crashes to be handled by any crash reporter.
 //!
+//! `ASSERT_DEATH_IF_SUPPORTED()` is used instead of `ASSERT_DEATH()` to
+//! support platforms where death tests are not implemented by gtest (e.g.
+//! Fuchsia). On platforms where death tests are not implemented, a warning
+//! will be logged and the remainder of the test body skipped.
+//!
 //! \sa ASSERT_DEATH_CHECK()
 //! \sa EXPECT_DEATH_CRASH()
-#define ASSERT_DEATH_CRASH(statement, regex)                              \
-  do {                                                                    \
-    crashpad::test::ExceptionSwallower exception_swallower;               \
-    ASSERT_DEATH(crashpad::test::ExceptionSwallower::SwallowExceptions(); \
-                 { statement; },                                          \
-                 regex);                                                  \
+#define ASSERT_DEATH_CRASH(statement, regex)                     \
+  do {                                                           \
+    crashpad::test::ExceptionSwallower exception_swallower;      \
+    ASSERT_DEATH_IF_SUPPORTED(                                   \
+        crashpad::test::ExceptionSwallower::SwallowExceptions(); \
+        { statement; }, regex);                                  \
   } while (false)
 
-//! \brief Wraps the gtest `EXPECT_DEATH()` macro to make assertions about death
-//!     caused by crashes.
+//! \brief Wraps the gtest `EXPECT_DEATH_IF_SUPPORTED()` macro to make
+//!     assertions about death caused by crashes.
 //!
 //! On macOS, this macro prevents the system’s crash reporter from handling
 //! crashes that occur in \a statement. Crashes are normally visible to the
 //! system’s crash reporter, but it is undesirable for intentional
 //! EXPECT_DEATH_CRASH() crashes to be handled by any crash reporter.
+//!
+//! `EXPECT_DEATH_IF_SUPPORTED()` is used instead of `EXPECT_DEATH()` to
+//! support platforms where death tests are not implemented by gtest (e.g.
+//! Fuchsia). On platforms where death tests are not implemented, a warning
+//! will be logged and the remainder of the test body skipped.
 //!
 //! \sa EXPECT_DEATH_CHECK()
 //! \sa ASSERT_DEATH_CRASH()
@@ -65,8 +75,10 @@
 
 #else  // OS_MACOSX
 
-#define ASSERT_DEATH_CRASH(statement, regex) ASSERT_DEATH(statement, regex)
-#define EXPECT_DEATH_CRASH(statement, regex) EXPECT_DEATH(statement, regex)
+#define ASSERT_DEATH_CRASH(statement, regex) \
+  ASSERT_DEATH_IF_SUPPORTED(statement, regex)
+#define EXPECT_DEATH_CRASH(statement, regex) \
+  EXPECT_DEATH_IF_SUPPORTED(statement, regex)
 
 #endif  // OS_MACOSX
 
@@ -84,10 +96,10 @@
 //! for any particular output on the standard error stream. In other build
 //! configurations, the \a regex pattern is left intact.
 //!
-//! `CHECK()` failures normally show up as crashes to the system’s crash
-//! reporter, but it is undesirable for intentional ASSERT_DEATH_CHECK() crashes
-//! to be handled by any crash reporter, so this is implemented in terms of
-//! ASSERT_DEATH_CRASH() instead of `ASSERT_DEATH()`.
+//! On macOS, `CHECK()` failures normally show up as crashes to the system’s
+//! crash reporter, but it is undesirable for intentional ASSERT_DEATH_CHECK()
+//! crashes to be handled by any crash reporter, so this is implemented in
+//! terms of ASSERT_DEATH_CRASH() instead of `ASSERT_DEATH()`.
 //!
 //! \sa EXPECT_DEATH_CHECK()
 #define ASSERT_DEATH_CHECK(statement, regex) \
@@ -102,10 +114,10 @@
 //! for any particular output on the standard error stream. In other build
 //! configurations, the \a regex pattern is left intact.
 //!
-//! `CHECK()` failures normally show up as crashes to the system’s crash
-//! reporter, but it is undesirable for intentional EXPECT_DEATH_CHECK() crashes
-//! to be handled by any crash reporter, so this is implemented in terms of
-//! EXPECT_DEATH_CRASH() instead of `EXPECT_DEATH()`.
+//! On macOS, `CHECK()` failures normally show up as crashes to the system’s
+//! crash reporter, but it is undesirable for intentional EXPECT_DEATH_CHECK()
+//! crashes to be handled by any crash reporter, so this is implemented in
+//! terms of EXPECT_DEATH_CRASH() instead of `EXPECT_DEATH()`.
 //!
 //! \sa ASSERT_DEATH_CHECK()
 #define EXPECT_DEATH_CHECK(statement, regex) \
