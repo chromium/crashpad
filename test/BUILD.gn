@@ -33,18 +33,24 @@ static_library("test") {
     "main_arguments.h",
     "multiprocess.h",
     "multiprocess_exec.h",
-    "multiprocess_exec_posix.cc",
-    "multiprocess_exec_win.cc",
-    "multiprocess_posix.cc",
     "scoped_module_handle.cc",
     "scoped_module_handle.h",
     "scoped_temp_dir.cc",
     "scoped_temp_dir.h",
-    "scoped_temp_dir_posix.cc",
-    "scoped_temp_dir_win.cc",
     "test_paths.cc",
     "test_paths.h",
   ]
+
+  if (is_posix) {
+    sources += [
+      "multiprocess_posix.cc",
+      "scoped_temp_dir_posix.cc",
+    ]
+
+    if (!is_fuchsia) {
+      sources += [ "multiprocess_exec_posix.cc" ]
+    }
+  }
 
   if (is_mac) {
     sources += [
@@ -61,6 +67,8 @@ static_library("test") {
 
   if (is_win) {
     sources += [
+      "multiprocess_exec_win.cc",
+      "scoped_temp_dir_win.cc",
       "win/child_launcher.cc",
       "win/child_launcher.h",
       "win/win_child_process.cc",
