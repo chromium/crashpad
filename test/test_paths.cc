@@ -19,12 +19,32 @@
 
 #include "base/logging.h"
 #include "build/build_config.h"
+#include "test/main_arguments.h"
 #include "util/misc/paths.h"
 
 namespace crashpad {
 namespace test {
 
 namespace {
+
+#if defined(OS_FUCHSIA)
+
+bool GetRealpathOfArgv0(base::FilePath* path) {
+  const auto& argv = crashpad::test::GetMainArguments();
+  if (argv.empty())
+    return false;
+
+  char executable_path[PATH_MAX + 1];
+  if (realpath(argv[0].c_str(), executable_path)) {
+    *path = base::FilePath(executable_path);
+  } else {
+    *path = base::FilePath(argv[0]);
+  }
+  return true;
+}
+
+#endif  // defined(OS_FUCHSIA)
+
 
 bool IsTestDataRoot(const base::FilePath& candidate) {
   const base::FilePath marker_path =
@@ -61,7 +81,12 @@ base::FilePath TestDataRootInternal() {
   // In a standalone build, the test executable is usually at
   // out/{Debug,Release} relative to the Crashpad root.
   base::FilePath executable_path;
-  if (Paths::Executable(&executable_path)) {
+#if defined(OS_FUCHSIA)
+  if (GetRealpathOfArgv0(&executable_path))
+#else
+  if (Paths::Executable(&executable_path))
+#endif
+  {
     base::FilePath candidate =
         base::FilePath(executable_path.DirName()
                            .Append(base::FilePath::kParentDirectory)
@@ -112,7 +137,11 @@ base::FilePath Output32BitDirectory() {
 // static
 base::FilePath TestPaths::Executable() {
   base::FilePath executable_path;
+#if defined(OS_FUCHSIA)
+  CHECK(GetRealpathOfArgv0(&executable_path));
+#else  // defined(OS_FUCHSIA)
   CHECK(Paths::Executable(&executable_path));
+#endif  // defined(OS_FUCHSIA)
   return executable_path;
 }
 
