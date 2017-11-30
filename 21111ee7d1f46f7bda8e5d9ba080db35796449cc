@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d4dad19a_4ab5a6a0",
+        "filename": "test/multiprocess_exec_posix.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-30T00:06:22Z",
+      "side": 1,
+      "message": "Right, there\u0027s no fork() for sure. OK, makes more sense to exclude this whole file instead. I also dropped util/double_fork_and_exec.cc for the same reason.",
+      "parentUuid": "fbf6f19a_39798430",
+      "revId": "21111ee7d1f46f7bda8e5d9ba080db35796449cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7d1ff513_e9333e67",
         "filename": "util/posix/close_multiple.cc",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Also depends: what\u0027s Fuchsia\u0027s inheritance policy for both file descriptors and zx_handle_ts in spawned processes?",
       "parentUuid": "7d1ff513_e9333e67",
+      "revId": "21111ee7d1f46f7bda8e5d9ba080db35796449cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d1c51e3_42eb9abb",
+        "filename": "util/posix/close_multiple.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-30T00:06:22Z",
+      "side": 1,
+      "message": "Very explicit, each one must be specifically cloned or passed into the child, with a bit of specialness for stdin/stdout/stderr. I think again, that means I should just exclude this file on Fuchsia.",
+      "parentUuid": "79efb730_ca77502e",
       "revId": "21111ee7d1f46f7bda8e5d9ba080db35796449cc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -107,6 +143,30 @@
       "side": 1,
       "message": "This depends on Fuchsia\u0027s privilege model. Does it have anything like setuid executables?\n\nThis is only used for tools like generate_dump, which could be installed setuid for ease of use, but that wouldn\u0027t want to retain full privileges after opening the process to dump.",
       "parentUuid": "d77721d8_479a3e2e",
+      "range": {
+        "startLine": 75,
+        "startChar": 9,
+        "endLine": 75,
+        "endChar": 18
+      },
+      "revId": "21111ee7d1f46f7bda8e5d9ba080db35796449cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f90fb4e_62ca7671",
+        "filename": "util/posix/drop_privileges.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-30T00:06:22Z",
+      "side": 1,
+      "message": "No, I don\u0027t think there\u0027s anything like setuid bits. I\u0027ll exclude this one too.",
+      "parentUuid": "dbf448aa_793c40fb",
       "range": {
         "startLine": 75,
         "startChar": 9,
