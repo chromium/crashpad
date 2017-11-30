@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b4e15c3d_be7b8981",
+        "filename": "test/test_paths.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-30T23:41:41Z",
+      "side": 1,
+      "message": "Oops, I fiddled back and forth on this and lost an explanatory comment. For posterity, here\u0027s what it would have been, which would have been much more useful of a change to send to you!\n\n  // Fuchsia does not have any way to implement Paths::Executable() as there\u0027s\n  // no API to retrieve the executable, or argv from the system. See\n  // https://crbug.com/726124, and ZX-797. So, as an alternative, reach into the\n  // test code location that saves argv[0] and assume that\u0027s close to correct.",
+      "parentUuid": "36b6de20_ecd85e38",
+      "revId": "ba0e8af2ebe51405e58d56c0113fcc2a4f23d074",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6bf148f3_a1b1a209",
         "filename": "test/test_paths.cc",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-11-30T23:16:42Z",
       "side": 1,
       "message": "Also, whatever you do wind up doing should probably just happen right in a Fuchsia implementation of Paths::Executable(), instead of here in this file.",
+      "revId": "ba0e8af2ebe51405e58d56c0113fcc2a4f23d074",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1279261a_48030be5",
+        "filename": "test/test_paths.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-11-30T23:41:41Z",
+      "side": 1,
+      "message": "Yeah, there\u0027s no great solution. The reason I put it here in TestPaths, rather than doing this in Paths was that I didn\u0027t want to require all users to have to call something at the beginning of main(), especially since using argv[0] is kind of gross anyway. \n\nAfter some more poking around, I tried `zx_object_get_property(zx_process_self(), ZX_PROP_NAME, name, sizeof(name))`. On device, if the binary\u0027s in /tmp, that returns \"/tmp/crashpad_test_test\" which looks OK! Unfortunately, kernel object names have a maximum length of ZX_MAX_NAME_LEN, and that\u0027s only 32, so it could very easily be truncated (and often is).\n\nI guess I\u0027ll implement Paths::Executable() like that for now, as that will work for now in Crashpad-standalone as long as the tree is very shallow, and try to plead my case again on ZX-797.",
+      "parentUuid": "6bf148f3_a1b1a209",
       "revId": "ba0e8af2ebe51405e58d56c0113fcc2a4f23d074",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
