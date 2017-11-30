@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36b6de20_ecd85e38",
+        "filename": "test/test_paths.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-30T23:16:42Z",
+      "side": 1,
+      "message": "realpath() is a sucky interface (it depends on the working directory and uses the obnoxious PATH_MAX). Assuming that argv[0] carries any meaning can also be hazardous.\n\nDoes Fuchsia not have any way to get the path of the main executable?",
+      "revId": "ba0e8af2ebe51405e58d56c0113fcc2a4f23d074",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bf148f3_a1b1a209",
+        "filename": "test/test_paths.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-11-30T23:16:42Z",
+      "side": 1,
+      "message": "Also, whatever you do wind up doing should probably just happen right in a Fuchsia implementation of Paths::Executable(), instead of here in this file.",
+      "revId": "ba0e8af2ebe51405e58d56c0113fcc2a4f23d074",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
