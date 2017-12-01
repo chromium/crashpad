@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "a9161558_3e3c31a2",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-01T21:31:24Z",
+      "side": 1,
+      "message": "For Linux, Elf64_Nhdr and Elf32_Nhdr are equivalent. Both use 32-bit types.\nI check anyways, in case some other OS (Fuchsia) does use 64-bit types.\nI\u0027ll update the comment to specify Linux, specifically, uses 4-byte alignment.",
+      "parentUuid": "e46e3ab6_7335430d",
+      "range": {
+        "startLine": 249,
+        "startChar": 26,
+        "endLine": 249,
+        "endChar": 32
+      },
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a9353176_b31fc86d",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 10
@@ -213,6 +237,24 @@
       "side": 1,
       "message": "\u003e It doesn\u0027t look like readelf or GDB do any special handling when reading from note segments. They assume all the notes are 4-byte aligned so I suspect they would fail if they tried to read sequential notes where the first note is mis-aligned. Normally, they read notes using the section header table, which gives the start address of each note individually. They only fall back to the program header table for core files, but I think .note.android.ident wouldn\u0027t normally end up there.\n\nRather than inferring the alignment, can we use ElfN_Phdr::p_align?",
       "parentUuid": "cdc5d707_3560a5ec",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1e779dd_4a14e68d",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-01T21:31:24Z",
+      "side": 1,
+      "message": "Outlook doesn\u0027t look good.\nThe test binary I have says the note segment has p_align \u003d 4, but has p_vaddr \u003d 0x24e.",
+      "parentUuid": "b0ea6ba6_6ec1f1d7",
       "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
