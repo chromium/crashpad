@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "01192b45_48c17dd6",
+        "filename": "compat/android/elf.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-01T20:14:33Z",
+      "side": 1,
+      "message": "It\u0027s defined in linux/elf.h, but including both linux/elf.h and elf.h directly results in name collisions.\n\nhttps://chromium-review.googlesource.com/c/crashpad/crashpad/+/455659",
+      "parentUuid": "1084149e_476df181",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3aeeacdf_02b19146",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 10
@@ -82,6 +100,30 @@
     },
     {
       "key": {
+        "uuid": "fa84619e_94db604a",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-01T20:14:33Z",
+      "side": 1,
+      "message": "Nope.\nThis source says 64-bit objects should have 8-byte alignment, 32-bit, 4-byte alignment:\nhttp://www.sco.com/developers/gabi/latest/ch5.pheader.html\n\nThis source says both 64-bit and 32-bit objects have 4-byte alignment:\nhttps://docs.oracle.com/cd/E23824_01/html/819-0690/chapter6-18048.html\n\nObservation so far (and the kernel header\u0027s definition for Elf64_Nhdr) says 64-bit objects use 4-byte aligned notes.",
+      "parentUuid": "e8cdd882_f0caa581",
+      "range": {
+        "startLine": 249,
+        "startChar": 26,
+        "endLine": 249,
+        "endChar": 32
+      },
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a9353176_b31fc86d",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 10
@@ -93,6 +135,24 @@
       "writtenOn": "2017-12-01T03:22:28Z",
       "side": 1,
       "message": "This comment is terrifying. Is this really what other readers do?",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdc5d707_3560a5ec",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-01T20:14:33Z",
+      "side": 1,
+      "message": "It doesn\u0027t look like readelf or GDB do any special handling when reading from note segments. They assume all the notes are 4-byte aligned so I suspect they would fail if they tried to read sequential notes where the first note is mis-aligned. Normally, they read notes using the section header table, which gives the start address of each note individually. They only fall back to the program header table for core files, but I think .note.android.ident wouldn\u0027t normally end up there.",
+      "parentUuid": "a9353176_b31fc86d",
       "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
