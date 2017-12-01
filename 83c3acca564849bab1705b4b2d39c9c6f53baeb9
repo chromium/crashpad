@@ -465,6 +465,24 @@
     },
     {
       "key": {
+        "uuid": "4a4cf96d_6ebff29e",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-01T23:46:16Z",
+      "side": 1,
+      "message": "Perhaps it\u0027s the presence of additional notes with 4-byte alignment that\u0027s causing this.\nI also see 2-byte alignment for crashpad_util_test, but .note.android.ident is the only note in that segment.",
+      "parentUuid": "5cda897e_eff26e8f",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0ef2cf9c_0525ef54",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 10
