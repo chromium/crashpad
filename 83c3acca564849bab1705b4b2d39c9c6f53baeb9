@@ -238,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "559e85e3_28da0970",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T22:59:49Z",
+      "side": 1,
+      "message": "\u003e uint32_t should be sufficient for Linux, but I left it as uint64_t in case something does use 64-bit entries and to avoid having to templatize the NoteReader or NextNote.\n\nSeems like that’d be contrary to the ELF spec, which does say “4 bytes” for this.\n\n\u003e I could also make it a uint32_t with a static_assert that Elf*_Nhdr::n_namesz is 4-bytes and change it should we find something that uses 8-byte types.\n\nThat’s probably the best approach, let’s do it.",
+      "parentUuid": "288c363f_bd3a8dbb",
+      "range": {
+        "startLine": 249,
+        "startChar": 26,
+        "endLine": 249,
+        "endChar": 32
+      },
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a9353176_b31fc86d",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 10
@@ -357,6 +381,24 @@
       "side": 1,
       "message": "Yep, I just double checked it.\nI tested with NDK r14, x86_64.",
       "parentUuid": "1e0c793a_3f6de495",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffa827db_dcb4b9b9",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T22:59:49Z",
+      "side": 1,
+      "message": "\u003e Yep, I just double checked it.\n\u003e I tested with NDK r14, x86_64.\n\nMaybe it was only fixed recently. Guess we can’t rely on that. Thanks for checking.",
+      "parentUuid": "21198f6f_8237d953",
       "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
