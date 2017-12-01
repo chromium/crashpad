@@ -1,0 +1,294 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48b2e761_65da82ad",
+        "filename": "compat/android/elf.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T03:22:28Z",
+      "side": 1,
+      "message": "It looks like NT_PRSTATUS is always defined, even in traditional headers.\n\nWe’ve been using __ANDROID_API_N__ as a proxy for determining whether unified headers are in use.",
+      "range": {
+        "startLine": 45,
+        "startChar": 28,
+        "endLine": 45,
+        "endChar": 49
+      },
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1084149e_476df181",
+        "filename": "compat/android/elf.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T03:22:28Z",
+      "side": 1,
+      "message": "Then again, it looks like traditional headers provide this too. For example, I see it in android-ndk-r15c/platforms/android-16/arch-x86/usr/include/linux/elf.h.",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3aeeacdf_02b19146",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T03:22:28Z",
+      "side": 1,
+      "message": "This is current_address_, it just happens to be inside a segment, right?",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8cdd882_f0caa581",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T03:22:28Z",
+      "side": 1,
+      "message": "or 8-byte for ELF64?",
+      "range": {
+        "startLine": 249,
+        "startChar": 26,
+        "endLine": 249,
+        "endChar": 32
+      },
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9353176_b31fc86d",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T03:22:28Z",
+      "side": 1,
+      "message": "This comment is terrifying. Is this really what other readers do?",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ef2cf9c_0525ef54",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T03:22:28Z",
+      "side": 1,
+      "message": "#undef PAD here or at the end of the function.",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ec5ec08_7a90fe28",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T03:22:28Z",
+      "side": 1,
+      "message": "You haven’t protected against local_name.empty(), in which case std::string::back() is invalid. You could easily return Result::kError if note_info.n_namesz \u003d\u003d 0, allowing the read to be skipped altogether in an impossible situation.",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2cebd37_c243246b",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T03:22:28Z",
+      "side": 1,
+      "message": "You haven’t protected against local_name.empty(). You could easily return Result::kError if note_info.n_namesz \u003d\u003d 0.",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8b34bcd_2b08366b",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T03:22:28Z",
+      "side": 1,
+      "message": "Log something.",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17117d03_74ee3489",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T03:22:28Z",
+      "side": 1,
+      "message": "Is it valid to keep trying if this happens?\n\nBased on the implementation, the answer looks to be no. It’s important to document this because the implementation may also go berserk if it’s attempted again after returning kError. (In fact, you might want to provide a field to invalidate the object, and either test it when looking for the next note to fail fast with kError again, or just DCHECK it.",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0bc3926_7a62dcda",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T03:22:28Z",
+      "side": 1,
+      "message": "I don’t like leaving this exposed in the public interface. On the implementation side, it makes it too easy to accidentally return this. On the consumer side, you’d have to provide a bogus “case kRetry:” or “default:” to placate -Wswitch.",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d0702b6_8716b862",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T03:22:28Z",
+      "side": 1,
+      "message": "DISALLOW_COPY_AND_ASSIGN",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea815b9d_2a4cd6d2",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T03:22:28Z",
+      "side": 1,
+      "message": "Something should say that you will scan all PT_NOTE segments. Same in the next method.",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01739e88_2c9c0fce",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T03:22:28Z",
+      "side": 1,
+      "message": "It may be better to return a std::unique_ptr\u003cNoteReader\u003e instead of returning a struct by value. Same for NotesWithType().",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc7fe971_a590c925",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T03:22:28Z",
+      "side": 1,
+      "message": "NotesWithNameAndType() instead of just NotesWithType, then?",
+      "range": {
+        "startLine": 181,
+        "startChar": 49,
+        "endLine": 181,
+        "endChar": 75
+      },
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c517fb3a_79ddf03a",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T03:22:28Z",
+      "side": 1,
+      "message": "Ah, good catch!",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
