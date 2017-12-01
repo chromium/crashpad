@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "2914a65b_91552cd4",
+        "filename": "compat/android/elf.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T21:09:22Z",
+      "side": 1,
+      "message": "\u003e It\u0027s defined in linux/elf.h, but including both linux/elf.h and elf.h directly results in name collisions.\n\nThe bit in the comment that said “normally provided by \u003clinux/elf.h\u003e, included by \u003celf.h\u003e” must be what led me astray. I suggest rewording to make the point more clearly, which I now understand is based on:\n\n • These types and the macro are normally provided by \u003clinux/elf.h\u003e\n • In unified headers, \u003celf.h\u003e includes \u003clinux/elf.h\u003e\n • In traditional headers, \u003celf.h\u003e doesn’t, and furthermore, the two headers can’t both be included in the same translation unit due to collisions.",
+      "parentUuid": "01192b45_48c17dd6",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3aeeacdf_02b19146",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 10
@@ -124,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "e46e3ab6_7335430d",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T21:09:22Z",
+      "side": 1,
+      "message": "\u003e Nope.\n\u003e This source says 64-bit objects should have 8-byte alignment, 32-bit, 4-byte alignment:\n\u003e http://www.sco.com/developers/gabi/latest/ch5.pheader.html\n\u003e \n\u003e This source says both 64-bit and 32-bit objects have 4-byte alignment:\n\u003e https://docs.oracle.com/cd/E23824_01/html/819-0690/chapter6-18048.html\n\u003e \n\u003e Observation so far (and the kernel header\u0027s definition for Elf64_Nhdr) says 64-bit objects use 4-byte aligned notes.\n\nI asked because line 238 sets align to 8 with NhdrType \u003d Elf64_Nhdr. Is that wrong?",
+      "parentUuid": "fa84619e_94db604a",
+      "range": {
+        "startLine": 249,
+        "startChar": 26,
+        "endLine": 249,
+        "endChar": 32
+      },
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a9353176_b31fc86d",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 10
@@ -153,6 +195,24 @@
       "side": 1,
       "message": "It doesn\u0027t look like readelf or GDB do any special handling when reading from note segments. They assume all the notes are 4-byte aligned so I suspect they would fail if they tried to read sequential notes where the first note is mis-aligned. Normally, they read notes using the section header table, which gives the start address of each note individually. They only fall back to the program header table for core files, but I think .note.android.ident wouldn\u0027t normally end up there.",
       "parentUuid": "a9353176_b31fc86d",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0ea6ba6_6ec1f1d7",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T21:09:22Z",
+      "side": 1,
+      "message": "\u003e It doesn\u0027t look like readelf or GDB do any special handling when reading from note segments. They assume all the notes are 4-byte aligned so I suspect they would fail if they tried to read sequential notes where the first note is mis-aligned. Normally, they read notes using the section header table, which gives the start address of each note individually. They only fall back to the program header table for core files, but I think .note.android.ident wouldn\u0027t normally end up there.\n\nRather than inferring the alignment, can we use ElfN_Phdr::p_align?",
+      "parentUuid": "cdc5d707_3560a5ec",
       "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
