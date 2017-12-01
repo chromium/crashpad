@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ecdf7bc_2c4b1b7a",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T01:34:17Z",
+      "side": 1,
+      "message": "I meant to bring this up yesterday: we should duplicate https://crrev.com/34b6bbd8fca3 in mini_chromium for all of the non-platform-specific POSIX code that uses HANDLE_EINTR and IGNORE_EINTR.",
+      "range": {
+        "startLine": 113,
+        "startChar": 5,
+        "endLine": 113,
+        "endChar": 17
+      },
+      "revId": "aeb70db9bbf88bc5699af4568216e09e62e85b04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1f3d326_edb68f2e",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T01:34:17Z",
+      "side": 1,
+      "message": "Based on what you were telling me yesterday and also ZX-973, it looks like this is a no-op too. But I guess if it’s silently accepted and it conveys the meaning that we intend, it’s fine to leave it here.",
+      "range": {
+        "startLine": 115,
+        "startChar": 47,
+        "endLine": 115,
+        "endChar": 56
+      },
+      "revId": "aeb70db9bbf88bc5699af4568216e09e62e85b04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7177dc2_0f264600",
+        "filename": "util/misc/paths_fuchsia.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T01:34:17Z",
+      "side": 1,
+      "message": "Remove “we” here and on the next line (yeah, still my pet peeve, welcome back).",
+      "revId": "aeb70db9bbf88bc5699af4568216e09e62e85b04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bbe3c91_526fa138",
+        "filename": "util/misc/paths_fuchsia.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T01:34:17Z",
+      "side": 1,
+      "message": "Curious: based on https://fuchsia.googlesource.com/zircon/+/master/docs/program_loading.md, it seems that the process might not even really be associated with a pathname at all. Will a process’ ZX_PROP_NAME ever be stuffed with something other than a pathname? (It looks like even via the launchpad interface, you can start a process from a vmo, fd, or path.)\n\nAlso curious: can anyone muck with this by calling zx_object_set_property()?",
+      "revId": "aeb70db9bbf88bc5699af4568216e09e62e85b04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a39dc83_c62e4c2e",
+        "filename": "util/misc/paths_fuchsia.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T01:34:17Z",
+      "side": 1,
+      "message": "OK to roll mini_chromium to ZX_LOG here.",
+      "revId": "aeb70db9bbf88bc5699af4568216e09e62e85b04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c9cec07_ac2b7e03",
+        "filename": "util/misc/paths_fuchsia.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T01:34:17Z",
+      "side": 1,
+      "message": "This could be almost anything, not necessarily “doesn’t exist”. Just PLOG(ERROR) \u003c\u003c \"stat \" \u003c\u003c name, which will print the proper reason.",
+      "revId": "aeb70db9bbf88bc5699af4568216e09e62e85b04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed91cea2_1f6e9567",
+        "filename": "util/misc/paths_fuchsia.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T01:34:17Z",
+      "side": 1,
+      "message": "Also check S_ISREG(buf.st_mode). That way, even if the path gets truncated to end in a \u0027/\u0027 in the middle of a path or just before it, this function will fail.\n\nUnless you tell me that Fuchsia has something freaky like filedirectory hybrids, which at this point wouldn’t really surprise me.",
+      "revId": "aeb70db9bbf88bc5699af4568216e09e62e85b04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
