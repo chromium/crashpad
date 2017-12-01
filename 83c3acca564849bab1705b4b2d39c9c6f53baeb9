@@ -261,6 +261,24 @@
     },
     {
       "key": {
+        "uuid": "133bf355_54bec4fb",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-01T22:00:22Z",
+      "side": 1,
+      "message": "I\u0027ve just verified, by tinkering with the test executable to make it look like a core file, readelf is unable to read past the .note.android.ident note.",
+      "parentUuid": "e1e779dd_4a14e68d",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0ef2cf9c_0525ef54",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 10
