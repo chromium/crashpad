@@ -405,6 +405,24 @@
     },
     {
       "key": {
+        "uuid": "249b6a83_9302dc74",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-01T23:19:58Z",
+      "side": 1,
+      "message": "\u003e \u003e Yep, I just double checked it.\n\u003e \u003e I tested with NDK r14, x86_64.\n\u003e \n\u003e Maybe it was only fixed recently. Guess we can’t rely on that. Thanks for checking.\n\nDunno what’s up, but since I was doing NDK work anyway, I just tried with NDK r14 and readelf -l still shows, for crashpad_util_test targeting x86_64:\n\n  NOTE           0x0000000000000216 0x0000000000000216 0x0000000000000216\n                 0x0000000000000098 0x0000000000000098  R      0x2\n\n(p_align is the last field)",
+      "parentUuid": "ffa827db_dcb4b9b9",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0ef2cf9c_0525ef54",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 10
