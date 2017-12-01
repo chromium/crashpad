@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "288c363f_bd3a8dbb",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-01T22:34:29Z",
+      "side": 1,
+      "message": "uint32_t should be sufficient for Linux, but I left it as uint64_t in case something does use 64-bit entries and to avoid having to templatize the NoteReader or NextNote.\n\nI could also make it a uint32_t with a static_assert that Elf*_Nhdr::n_namesz is 4-bytes and change it should we find something that uses 8-byte types.",
+      "parentUuid": "122209e5_c8025518",
+      "range": {
+        "startLine": 249,
+        "startChar": 26,
+        "endLine": 249,
+        "endChar": 32
+      },
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a9353176_b31fc86d",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 10
@@ -315,6 +339,24 @@
       "side": 1,
       "message": "\u003e Outlook doesn\u0027t look good.\n\u003e The test binary I have says the note segment has p_align \u003d 4, but has p_vaddr \u003d 0x24e.\n\nWeird, I suggested it after I tested too, and saw p_align \u003d 2 (and p_vaddr \u003d 0x24e too, so maybe we’re doing almost the same thing). This was with NDK r16 targeting x86-64, and I verified with readelf -l.",
       "parentUuid": "e1e779dd_4a14e68d",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21198f6f_8237d953",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-01T22:34:29Z",
+      "side": 1,
+      "message": "Yep, I just double checked it.\nI tested with NDK r14, x86_64.",
+      "parentUuid": "1e0c793a_3f6de495",
       "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
