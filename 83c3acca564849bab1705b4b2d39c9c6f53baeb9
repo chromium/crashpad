@@ -483,6 +483,24 @@
     },
     {
       "key": {
+        "uuid": "7ee5b5e3_447d2c47",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-02T00:12:22Z",
+      "side": 1,
+      "message": "You could check this by adding the --build-id flag in util_test.gyp\n\u0027ldflags\u0027: [\u0027-Wl,--build-id\u0027,],\n\nDoing that I get this for crashpad_util_test:\n  NOTE           0x000000000000024e 0x000000000000024e 0x000000000000024e\n                 0x00000000000000be 0x00000000000000be  R      4\n\nThe build-id note has 4-byte alignment and is placed after the android note, in the same segment.",
+      "parentUuid": "4a4cf96d_6ebff29e",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0ef2cf9c_0525ef54",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 10
