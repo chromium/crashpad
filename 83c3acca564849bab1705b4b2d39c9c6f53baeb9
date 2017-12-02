@@ -501,6 +501,24 @@
     },
     {
       "key": {
+        "uuid": "7ad64c2b_df47daff",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-02T04:13:02Z",
+      "side": 1,
+      "message": "I guess we should basically just go with what you’ve got for this, unless something better occurs to us. The discussion has been interesting but ultimately academic, but thanks for sticking it out.\n\nA couple more points to round this out:\n\nLinux gABI extensions, a couple of weeks ago, recognized that they’re not aligning properly per gABI on 64-bit, but evidently didn’t recognize that their note structures’ fields are also not the full width specified by gABI for 64-bit objects. https://sourceware.org/ml/gnu-gabi/2017-q4/msg00000.html.\n\nHere’s where .note.android.ident comes from, along with its 2-byte alignment: https://android.googlesource.com/platform/bionic/+/e09ab2cc2ff41ce7519c143d448371ddd62afc59. You’ll notice that in that change, it actually regressed. It had been 4 bytes previously. As for the mismatch between 0x24e being aligned to 4, the linker is probably honoring everyone’s alignment request and then slapping the highest alignment constraint in the segment on it as p_align.",
+      "parentUuid": "7ee5b5e3_447d2c47",
+      "revId": "83c3acca564849bab1705b4b2d39c9c6f53baeb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0ef2cf9c_0525ef54",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 10
