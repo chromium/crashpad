@@ -20,6 +20,117 @@ from __future__ import print_function
 import os
 import subprocess
 import sys
+import uuid
+
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+
+
+def _BinaryDirLooksLikeFuchsiaBuild(binary_dir):
+  """Roughly checks whether the provided output directory looks like it's
+  targetting Fuchsia.
+  """
+  gn_args_file = os.path.join(binary_dir, 'args.gn')
+  if not os.path.exists(gn_args_file):
+    return False
+  with open(gn_args_file, 'rb') as f:
+    gn_args_contents = f.read()
+  return 'target_os = "fuchsia"' in gn_args_contents
+
+
+def _GenerateFuchsiaRuntimeDepsFiles(binary_dir, tests):
+  """This ensures a <binary_dir>/<test>.runtime_deps file exists for each test.
+  """
+  targets_file = os.path.abspath(os.path.join(binary_dir, 'targets.txt'))
+  with open(targets_file, 'wb') as f:
+    f.write('//:' + '\n//:'.join(tests) + '\n')
+  subprocess.check_call(
+      ['gn', 'gen', binary_dir, '--runtime-deps-list-file=' + targets_file])
+
+
+def _HandleOutputFromProcess(process, done_message):
+  """Pass through the output from |process| until the special termination
+  message is encountered.
+
+  Attempts to determine if any tests failed by inspecting the log output.
+  """
+
+  # Continue processing until we read the done message.
+  success = True
+  while True:
+    line = process.stdout.readline().strip()
+
+    if 'FAILED TEST' in line:
+      success = False
+    elif done_message in line and 'echo ' not in line:
+      break
+
+    print(line)
+
+  sys.stdout.flush()
+
+  return success
+
+
+def _RunOnFuchsiaTarget(binary_dir, test, device_name):
+  """Runs the given Fuchsia test executable on the given device.
+
+  Copies the executable and its runtime dependencies as specified by GN to the
+  target in /tmp using `netcp`, along with an sh script to run the binary in
+  a standard namespace, then runs that script on device, and logs output back
+  to this machine via `loglistener`.
+  """
+  arch = 'mac-amd64' if sys.platform == 'darwin' else 'linux-amd64'
+  sdk_root = os.path.join(ROOT_DIR, 'third_party', 'fuchsia', 'sdk', arch)
+
+  # Run loglistener and filter the output to know when the test is done.
+  loglistener_process = subprocess.Popen(
+      [os.path.join(sdk_root, 'tools', 'loglistener'), device_name],
+      stdout=subprocess.PIPE, stdin=open(os.devnull), stderr=open(os.devnull))
+
+  runtime_deps_file = os.path.join(binary_dir, test + '.runtime_deps')
+  with open(runtime_deps_file, 'rb') as f:
+    runtime_deps = f.read().splitlines()
+
+  netruncmd = os.path.join(sdk_root, 'tools', 'netruncmd')
+  tmp_root = '/tmp/tmp_for_%s' % test
+  staging_root = '/tmp/pkg_for_%s' % test
+  # Make a staging directory tree on the target.
+  subprocess.check_call([netruncmd, device_name, 'mkdir %s\n' % tmp_root])
+  subprocess.check_call([netruncmd, device_name, 'mkdir %s\n' % staging_root])
+  subprocess.check_call([netruncmd, device_name,
+                         'mkdir %s/bin\n' % staging_root])
+  subprocess.check_call([netruncmd, device_name,
+                         'mkdir %s/assets\n' % staging_root])
+
+  netcp = os.path.join(sdk_root, 'tools', 'netcp')
+  # Copy runtime deps into the staging tree. Some heuristics here are necessary
+  # to determine where the runtime deps should live. As there are few runtime
+  # deps in practice, this works OK for now.
+  for dep in runtime_deps:
+    norm = os.path.normpath(dep)
+    copy_to_bin = not norm.startswith('../')
+    if copy_to_bin:
+      target_name = norm
+    else:
+      target_name = norm
+      while target_name.startswith('../'):
+        target_name = target_name[3:]
+    target_dir = staging_root + ('/bin' if copy_to_bin else '/assets')
+    subprocess.check_call([netcp, os.path.join(binary_dir, norm),
+                           device_name + ':' + target_dir + '/' + target_name],
+                          stderr=open(os.devnull))
+
+  done_message = 'TERMINATED: ' + str(uuid.uuid1())
+  subprocess.check_call([netruncmd, device_name,
+                         'namespace /pkg=/tmp/pkg_for_%s /tmp=/tmp/tmp_for_%s' %
+                             (test, test) +
+                         ' --' +
+                         ' /tmp/pkg_for_%s/bin/%s;' % (test, test) +
+                         ' echo ' + done_message])
+
+  success = _HandleOutputFromProcess(loglistener_process, done_message)
+  if not success:
+    raise subprocess.CalledProcessError(1, test)
 
 
 # This script is primarily used from the waterfall so that the list of tests
@@ -46,20 +157,39 @@ def main(args):
     if os.path.isdir(binary_dir_32):
       os.environ['CRASHPAD_TEST_32_BIT_OUTPUT'] = binary_dir_32
 
+  is_fuchsia = _BinaryDirLooksLikeFuchsiaBuild(binary_dir)
+
   tests = [
+      'crashpad_minidump_test',
+      'crashpad_test_test',
+  ]
+
+  if not is_fuchsia:
+    tests.extend([
+      # TODO(scottmg): Move the rest of these to the common section once they
+      # are building and running successfully.
       'crashpad_client_test',
       'crashpad_handler_test',
-      'crashpad_minidump_test',
       'crashpad_snapshot_test',
-      'crashpad_test_test',
       'crashpad_util_test',
-  ]
+      ])
+
+  if is_fuchsia:
+    zircon_nodename = os.environ.get('ZIRCON_NODENAME')
+    if not zircon_nodename:
+      print('Please set ZIRCON_NODENAME to your device\'s hostname',
+            file=sys.stderr)
+      return 2
+    _GenerateFuchsiaRuntimeDepsFiles(binary_dir, tests)
 
   for test in tests:
     print('-' * 80)
     print(test)
     print('-' * 80)
-    subprocess.check_call(os.path.join(binary_dir, test))
+    if is_fuchsia:
+      _RunOnFuchsiaTarget(binary_dir, test, zircon_nodename)
+    else:
+      subprocess.check_call(os.path.join(binary_dir, test))
 
   if sys.platform == 'win32':
     script = 'snapshot/win/end_to_end_test.py'
