@@ -1,0 +1,335 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f79fb6b_0f677ac5",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "I don’t think there’s a reason to abspath this.",
+      "range": {
+        "startLine": 25,
+        "startChar": 11,
+        "endLine": 25,
+        "endChar": 26
+      },
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "deb86b50_074dbfcc",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "targeting",
+      "range": {
+        "startLine": 29,
+        "startChar": 64,
+        "endLine": 29,
+        "endChar": 74
+      },
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfdc7bfb_ea0df351",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "This will be a little flaky, since it won’t understand commented-out lines or formatting anomalies. What if you ran gn args “$binary_dir --list\u003dtarget_os --short”?",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e014bc7_a9336f25",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "Don’t need this abspath either.",
+      "range": {
+        "startLine": 41,
+        "startChar": 17,
+        "endLine": 41,
+        "endChar": 32
+      },
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8edf1213_4e36995c",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "Since this doesn’t need to persist beyond the “gn gen”, perhaps a NamedTemporaryFile(delete\u003dTrue) with “gn gen” happening while the file’s still open would be more suitable.",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b323ef6e_524b1fac",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "I’m basically taking your word for how all of this works.",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d08d262_13fda60f",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "Is strip() right or is rstrip() better?",
+      "range": {
+        "startLine": 58,
+        "startChar": 37,
+        "endLine": 58,
+        "endChar": 44
+      },
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea709487_858effcd",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "Ah, this is unfortunate: we don’t have a mac-amd64 SDK package on cipd.",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f44ef69b_6bee1488",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "Not sure about the possibilities for collisions here, but it may be prudent to introduce some randomness into the temporary directory names.",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "874ccb53_14708746",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "Looks like these are being fed to a shell? Can we quote arguments in the way that the shell expects? If it’s a Bourne-type shell, you can use pipes.quote().",
+      "range": {
+        "startLine": 91,
+        "startChar": 50,
+        "endLine": 91,
+        "endChar": 60
+      },
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18947658_ce1339c9",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "And if it’s a POSIX-type mkdir command, you can mkdir multiple directories in one command. Just feed it more arguments.",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24e5eefc_7b4d15b7",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "Heuristics need a little more explanation. Examples of paths might be all that you need. Otherwise, it’s hard to reason about what to change in here in the future, since nobody will know what needs to keep working and what sorts of changes might break this.",
+      "range": {
+        "startLine": 99,
+        "startChar": 45,
+        "endLine": 99,
+        "endChar": 60
+      },
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75224f17_8cf12561",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "Quoting for various things in this long string too. Perhaps it’d be better to build it up as a list, quote each argument, and then paste it together with a join.",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aec54b01_37211e81",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "May also want to clean up the temporary directories here, particularly if you’ve put some randomness into their names.",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7368642_c2a99b4a",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "Is this the same as ROOT_DIR now?\n\n(Maybe CRASHPAD_DIR is a better name, since it tells you what it’s the root of.)",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9711af4_8d55bf09",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "You can use \"double quotes\" on the string so that you don’t need to \\whack the \u0027single quote.",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6827ebb_90cfb6ab",
+        "filename": "test/test_paths.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:01:35Z",
+      "side": 1,
+      "message": "Not really an “environment” value anymore.",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 31
+      },
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
