@@ -16,7 +16,9 @@
 
 #include <stddef.h>
 
+#include <algorithm>
 #include <limits>
+#include <utility>
 #include <vector>
 
 #include "base/logging.h"
@@ -35,6 +37,9 @@ class ElfImageReader::ProgramHeaderTable {
   virtual bool GetPreferredElfHeaderAddress(VMAddress* address) const = 0;
   virtual bool GetPreferredLoadedMemoryRange(VMAddress* address,
                                              VMSize* size) const = 0;
+  virtual bool GetNoteSegment(size_t* start_index,
+                              VMAddress* address,
+                              VMSize* size) const = 0;
 
  protected:
   ProgramHeaderTable() {}
@@ -150,12 +155,163 @@ class ElfImageReader::ProgramHeaderTableSpecific
     return false;
   }
 
+  bool GetNoteSegment(size_t* start_index,
+                      VMAddress* address,
+                      VMSize* size) const override {
+    INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+    for (size_t index = *start_index; index < table_.size(); ++index) {
+      if (table_[index].p_type == PT_NOTE) {
+        *start_index = index + 1;
+        *address = table_[index].p_vaddr;
+        *size = table_[index].p_memsz;
+        return true;
+      }
+    }
+    return false;
+  }
+
  private:
   std::vector<PhdrType> table_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProgramHeaderTableSpecific<PhdrType>);
 };
+
+ElfImageReader::NoteReader::~NoteReader() = default;
+
+ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::NextNote(
+    std::string* name,
+    uint32_t* type,
+    std::string* desc) {
+  if (!is_valid_) {
+    return Result::kError;
+  }
+
+  InternalResult result = InternalResult::kError;
+  do {
+    while (current_address_ == segment_end_address_) {
+      VMSize segment_size;
+      if (!phdr_table_->GetNoteSegment(
+              &phdr_index_, &current_address_, &segment_size)) {
+        return Result::kNoMoreNotes;
+      }
+      current_address_ += elf_reader_->GetLoadBias();
+      segment_end_address_ = current_address_ + segment_size;
+    }
+
+    result = range_->Is64Bit() ? ReadNote<Elf64_Nhdr>(name, type, desc)
+                               : ReadNote<Elf32_Nhdr>(name, type, desc);
+  } while (result == InternalResult::kRetry);
+
+  if (result == InternalResult::kSuccess) {
+    return Result::kSuccess;
+  }
+  is_valid_ = false;
+  return Result::kError;
+}
+
+ElfImageReader::NoteReader::NoteReader(const ElfImageReader* elf_reader,
+                                       const ProcessMemoryRange* range,
+                                       const ProgramHeaderTable* phdr_table,
+                                       ssize_t max_note_size,
+                                       const std::string& name_filter,
+                                       uint32_t type_filter,
+                                       bool use_filter)
+    : elf_reader_(elf_reader),
+      range_(range),
+      phdr_table_(phdr_table),
+      current_address_(0),
+      segment_end_address_(0),
+      phdr_index_(0),
+      max_note_size_(max_note_size),
+      name_filter_(name_filter),
+      type_filter_(type_filter),
+      use_filter_(use_filter),
+      is_valid_(true) {}
+
+template <typename NhdrType>
+ElfImageReader::NoteReader::InternalResult ElfImageReader::NoteReader::ReadNote(
+    std::string* name,
+    uint32_t* type,
+    std::string* desc) {
+  static_assert(sizeof(*type) == sizeof(NhdrType::n_namesz),
+                "Note field size mismatch");
+  DCHECK_LT(current_address_, segment_end_address_);
+  if (segment_end_address_ - current_address_ < sizeof(NhdrType)) {
+    LOG(ERROR) << "unused bytes";
+    return InternalResult::kError;
+  }
+
+  NhdrType note_info;
+  if (!range_->Read(current_address_, sizeof(note_info), &note_info)) {
+    return InternalResult::kError;
+  }
+  current_address_ += sizeof(note_info);
+
+  constexpr size_t align = sizeof(note_info.n_namesz);
+#define PAD(x) ((x) + align - 1 & ~(align - 1))
+  size_t padded_namesz = PAD(note_info.n_namesz);
+  size_t padded_descsz = PAD(note_info.n_descsz);
+
+  size_t note_size = padded_namesz + padded_descsz;
+  if (note_size > segment_end_address_ - current_address_) {
+    LOG(ERROR) << "invalid note size";
+    return InternalResult::kError;
+  }
+
+  // Notes typically have 4-byte alignment. However .note.android.ident uses
+  // 2-byte alignment. If this note was aligned at less than 4-bytes, expect
+  // that the next note will be aligned at 4-bytes and add extra padding, if
+  // necessary.
+  VMAddress end_of_note =
+      std::min(PAD(current_address_ + note_size), segment_end_address_);
+#undef PAD
+
+  if (max_note_size_ >= 0 && note_size > static_cast<size_t>(max_note_size_)) {
+    current_address_ = end_of_note;
+    return InternalResult::kRetry;
+  }
+
+  if (use_filter_ && note_info.n_type != type_filter_) {
+    current_address_ = end_of_note;
+    return InternalResult::kRetry;
+  }
+
+  std::string local_name(note_info.n_namesz, '\0');
+  if (!range_->Read(current_address_, note_info.n_namesz, &local_name[0])) {
+    return InternalResult::kError;
+  }
+  if (!local_name.empty()) {
+    if (local_name.back() != '\0') {
+      LOG(ERROR) << "unterminated note name";
+      return InternalResult::kError;
+    }
+    local_name.pop_back();
+  }
+
+  if (use_filter_ && local_name != name_filter_) {
+    current_address_ = end_of_note;
+    return InternalResult::kRetry;
+  }
+
+  current_address_ += padded_namesz;
+
+  std::string local_desc(note_info.n_descsz, '\0');
+  if (!range_->Read(current_address_, note_info.n_descsz, &local_desc[0])) {
+    return InternalResult::kError;
+  }
+
+  current_address_ = end_of_note;
+
+  if (name) {
+    name->swap(local_name);
+  }
+  if (type) {
+    *type = note_info.n_type;
+  }
+  desc->swap(local_desc);
+  return InternalResult::kSuccess;
+}
 
 ElfImageReader::ElfImageReader()
     : header_64_(),
@@ -465,6 +621,20 @@ bool ElfImageReader::GetAddressFromDynamicArray(uint64_t tag,
   }
 #endif  // OS_ANDROID
   return true;
+}
+
+std::unique_ptr<ElfImageReader::NoteReader> ElfImageReader::Notes(
+    ssize_t max_note_size) {
+  return std::make_unique<NoteReader>(
+      this, &memory_, program_headers_.get(), max_note_size);
+}
+
+std::unique_ptr<ElfImageReader::NoteReader>
+ElfImageReader::NotesWithNameAndType(const std::string& name,
+                                     uint32_t type,
+                                     ssize_t max_note_size) {
+  return std::make_unique<NoteReader>(
+      this, &memory_, program_headers_.get(), max_note_size, name, type, true);
 }
 
 }  // namespace crashpad
