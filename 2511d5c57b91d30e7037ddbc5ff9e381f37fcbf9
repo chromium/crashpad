@@ -22,6 +22,30 @@
       "revId": "2511d5c57b91d30e7037ddbc5ff9e381f37fcbf9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70958613_e61ecc58",
+        "filename": "util/misc/paths_fuchsia.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:32:03Z",
+      "side": 1,
+      "message": "\u003e Another way would be to get it from argv[0], which would mean having some sort of save of that at the top of main() in {test, non-test, Chromium}, which is a bit stinky.\n\nWe already have this: crashpad::test::InitializeMainArguments() (already called from our test main()) and crashpad::test::GetMainArguments(). Since it’s a test interface, you’d only be able to use it to implement TestPaths::Executable(), not Paths::Executable(). But given the quirks of argv[0] (next paragraph), it wouldn’t be suitable for a non-test interface anyway (and it’d only really be suitable for tests as a last resort, if there really isn’t any better way to do it.)\n\nThere’s no guarantee (on most systems, anyway) that argv[0] has anything to do with your executable, it’s just convention. And even the convention says only that argv[0] carries the thing that the user invoked, so, for example, when you type ls and PATH resolution finds /bin/ls, argv[0] is just ls.",
+      "parentUuid": "2d1903a1_4c63dfb0",
+      "range": {
+        "startLine": 31,
+        "startChar": 35,
+        "endLine": 31,
+        "endChar": 42
+      },
+      "revId": "2511d5c57b91d30e7037ddbc5ff9e381f37fcbf9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
