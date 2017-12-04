@@ -70,6 +70,30 @@
       "revId": "2511d5c57b91d30e7037ddbc5ff9e381f37fcbf9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71988a0c_9fd26a2e",
+        "filename": "util/misc/paths_fuchsia.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "Right, I used main_arguments.h back in PS#1, but we wound our way here eventually.\n\nI guess another way to go would be to make reinvocation a special case (since that\u0027s the only non-test usage of Paths::Executable()) and then we could use a VMO launching interface.\n\nBut I\u0027m not sure that we\u0027ll necessarily want to handle self-monitoring in the same way as handler_main.cc does for other platforms anyway, so it might all be a bit premature.",
+      "parentUuid": "f13a5be5_c919446b",
+      "range": {
+        "startLine": 31,
+        "startChar": 35,
+        "endLine": 31,
+        "endChar": 42
+      },
+      "revId": "2511d5c57b91d30e7037ddbc5ff9e381f37fcbf9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }

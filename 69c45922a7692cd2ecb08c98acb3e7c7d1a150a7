@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "29ff6bc8_408c66ff",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "Just to protect against a potential os.chdir(). Doesn\u0027t matter too much.\n\n... Hmm, and I see crashpad_dir had an abspath on __file__. Copied that since now I\u0027m just sort of \"moving\" that.",
+      "parentUuid": "1f79fb6b_0f677ac5",
+      "range": {
+        "startLine": 25,
+        "startChar": 11,
+        "endLine": 25,
+        "endChar": 26
+      },
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "deb86b50_074dbfcc",
         "filename": "build/run_tests.py",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5174cbe3_75b0ddbb",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "deb86b50_074dbfcc",
+      "range": {
+        "startLine": 29,
+        "startChar": 64,
+        "endLine": 29,
+        "endChar": 74
+      },
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfdc7bfb_ea0df351",
         "filename": "build/run_tests.py",
         "patchSetId": 11
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "459bb75c_6ffc656e",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfdc7bfb_ea0df351",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e014bc7_a9336f25",
         "filename": "build/run_tests.py",
         "patchSetId": 11
@@ -76,6 +142,30 @@
       "writtenOn": "2017-12-04T19:01:35Z",
       "side": 1,
       "message": "Don’t need this abspath either.",
+      "range": {
+        "startLine": 41,
+        "startChar": 17,
+        "endLine": 41,
+        "endChar": 32
+      },
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff9cb3f2_c56b7907",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "This one is more necessary. Subsequent invocations of GN will remember this because the arguments are saved in build.ninja. If it\u0027s not abspath()d, then gn writes it as literally \"--runtime-deps-list-file\u003dout/fuch/targets.txt\", which won\u0027t exist on regeneration because regeneration is run from a cwd of out/fuch. Alternatively, we could chdir out/fuch before running this, or pursue it as a GN bug (it seems to abspath the --root argument internally). But abspath() seemed easiest.",
+      "parentUuid": "1e014bc7_a9336f25",
       "range": {
         "startLine": 41,
         "startChar": 17,
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "9979a863_2b52f578",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "For the same reason as above, it has to stick around. Perhaps this is a reason not to pursue this approach.",
+      "parentUuid": "8edf1213_4e36995c",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b323ef6e_524b1fac",
         "filename": "build/run_tests.py",
         "patchSetId": 11
@@ -116,6 +224,24 @@
       "writtenOn": "2017-12-04T19:01:35Z",
       "side": 1,
       "message": "I’m basically taking your word for how all of this works.",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bc627bf_f3380fd5",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "Gotcha, it\u0027s all pretty malleable anyway, as there may well be better ways to run apps on Fuchsia systems in the not too distant future anyway.",
+      "parentUuid": "b323ef6e_524b1fac",
       "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "81784174_4eb28837",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d08d262_13fda60f",
+      "range": {
+        "startLine": 58,
+        "startChar": 37,
+        "endLine": 58,
+        "endChar": 44
+      },
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea709487_858effcd",
         "filename": "build/run_tests.py",
         "patchSetId": 11
@@ -156,6 +306,24 @@
       "writtenOn": "2017-12-04T19:01:35Z",
       "side": 1,
       "message": "Ah, this is unfortunate: we don’t have a mac-amd64 SDK package on cipd.",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16a9622b_ab215854",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "Looks like we don\u0027t have either at the moment, the linux one is broken https://luci-scheduler.appspot.com/jobs/fuchsia/sdk-x86_64-linux. I\u0027ll take a look at that and file a bug to see if we can have a Mac-hosted one fairly easily too.",
+      "parentUuid": "ea709487_858effcd",
       "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -179,6 +347,24 @@
     },
     {
       "key": {
+        "uuid": "080b1070_88201ea8",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f44ef69b_6bee1488",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "874ccb53_14708746",
         "filename": "build/run_tests.py",
         "patchSetId": 11
@@ -190,6 +376,30 @@
       "writtenOn": "2017-12-04T19:01:35Z",
       "side": 1,
       "message": "Looks like these are being fed to a shell? Can we quote arguments in the way that the shell expects? If it’s a Bourne-type shell, you can use pipes.quote().",
+      "range": {
+        "startLine": 91,
+        "startChar": 50,
+        "endLine": 91,
+        "endChar": 60
+      },
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31def37a_17f9922c",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "netruncmd is indeed running commands via /boot/bin/sh -c cmd, where each of those is a single element in an argv array. So as long as it makes it to the other side as one thing, I think it\u0027ll be treated properly at that level.\n\nI tried to confirm what the sh that\u0027s receiving those wants. It\u0027s \"dash\", in zircon/third_party/uapp/dash. There\u0027s no docs that I could find, and looking at the vintage code in src/parser.c didn\u0027t immediately enlighten me. It looks like it has some sort of handling of single and double quotes and backslashes, so I\u0027m going to ... assume that pipes.quote() is close. Ish.",
+      "parentUuid": "874ccb53_14708746",
       "range": {
         "startLine": 91,
         "startChar": 50,
@@ -219,6 +429,24 @@
     },
     {
       "key": {
+        "uuid": "34b94a82_206b431e",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18947658_ce1339c9",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24e5eefc_7b4d15b7",
         "filename": "build/run_tests.py",
         "patchSetId": 11
@@ -230,6 +458,30 @@
       "writtenOn": "2017-12-04T19:01:35Z",
       "side": 1,
       "message": "Heuristics need a little more explanation. Examples of paths might be all that you need. Otherwise, it’s hard to reason about what to change in here in the future, since nobody will know what needs to keep working and what sorts of changes might break this.",
+      "range": {
+        "startLine": 99,
+        "startChar": 45,
+        "endLine": 99,
+        "endChar": 60
+      },
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d53b4ad2_9de3a21b",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "Hopefully a little clearer in the factored out version.",
+      "parentUuid": "24e5eefc_7b4d15b7",
       "range": {
         "startLine": 99,
         "startChar": 45,
@@ -259,6 +511,24 @@
     },
     {
       "key": {
+        "uuid": "f0f6bd0b_73e1edb4",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "Done, and in a local helper function for the multiple locations.",
+      "parentUuid": "75224f17_8cf12561",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aec54b01_37211e81",
         "filename": "build/run_tests.py",
         "patchSetId": 11
@@ -273,6 +543,24 @@
       "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04b1335c_46f2e12b",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "I waffled on this for a while, as it might be useful to inspect the target on failure, but I guess we can always comment the removal out. Done.",
+      "parentUuid": "aec54b01_37211e81",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -293,6 +581,24 @@
     },
     {
       "key": {
+        "uuid": "9fe037ec_9d7067a2",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7368642_c2a99b4a",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9711af4_8d55bf09",
         "filename": "build/run_tests.py",
         "patchSetId": 11
@@ -307,6 +613,24 @@
       "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31102a47_89f21085",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9711af4_8d55bf09",
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -330,6 +654,30 @@
       "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7089c9e3_9bc25278",
+        "filename": "test/test_paths.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T21:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6827ebb_90cfb6ab",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 31
+      },
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
