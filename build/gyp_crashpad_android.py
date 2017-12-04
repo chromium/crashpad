@@ -69,26 +69,32 @@ def main(args):
     os.environ['CXX_target'] = os.path.join(ndk_bin_dir,
                                             '%s-g++' % arch_triplet)
 
-    # Unlike the Clang build, when using GCC with “unified headers,”
-    # __ANDROID_API__ isn’t set automatically and must be pushed in to the
-    # build. Fish the correct value out of the Clang wrapper script. If unified
-    # headers are not being used, the Clang wrapper won’t mention
-    # __ANDROID_API__, but the standalone toolchain’s <android/api-level.h> will
-    # #define it for both Clang and GCC.
-    #
-    # Unified headers are the way of the future, according to
-    # https://android.googlesource.com/platform/ndk/+/ndk-r14/CHANGELOG.md and
-    # https://android.googlesource.com/platform/ndk/+/master/docs/UnifiedHeaders.md.
-    with open(clang_path, 'r') as file:
-      clang_script_contents = file.read()
-    matches = re.finditer(r'\s-D__ANDROID_API__=([\d]+)\s',
-                          clang_script_contents)
-    match = next(matches, None)
-    if match:
-      android_api = int(match.group(1))
-      extra_args.extend(['-D', 'android_api_level=%d' % android_api])
-      if next(matches, None):
-        raise AssertionError('__ANDROID_API__ defined too many times')
+  # Unlike the Clang build, when using GCC with unified headers, __ANDROID_API__
+  # isn’t set automatically and must be pushed in to the build. Fish the correct
+  # value out of the Clang wrapper script. If deprecated headers are in use, the
+  # Clang wrapper won’t mention __ANDROID_API__, but the standalone toolchain’s
+  # <android/api-level.h> will #define it for both Clang and GCC.
+  #
+  # android_api_level is extracted in this manner even when compiling with Clang
+  # so that it’s available for use in GYP conditions that need to test the API
+  # level, but beware that it’ll only be available when unified headers are in
+  # use.
+  #
+  # Unified headers are the way of the future, according to
+  # https://android.googlesource.com/platform/ndk/+/ndk-r14/CHANGELOG.md and
+  # https://android.googlesource.com/platform/ndk/+/master/docs/UnifiedHeaders.md.
+  # Traditional (deprecated) headers have been removed entirely as of NDK r16.
+  # https://android.googlesource.com/platform/ndk/+/ndk-release-r16/CHANGELOG.md.
+  with open(clang_path, 'r') as file:
+    clang_script_contents = file.read()
+  matches = re.finditer(r'\s-D__ANDROID_API__=([\d]+)\s',
+                        clang_script_contents)
+  match = next(matches, None)
+  if match:
+    android_api = int(match.group(1))
+    extra_args.extend(['-D', 'android_api_level=%d' % android_api])
+    if next(matches, None):
+      raise AssertionError('__ANDROID_API__ defined too many times')
 
   for tool in ('ar', 'nm', 'readelf'):
     os.environ['%s_target' % tool.upper()] = (
