@@ -43,7 +43,9 @@ bool IsTestDataRoot(const base::FilePath& candidate) {
 }
 
 base::FilePath TestDataRootInternal() {
-#if !defined(OS_WIN)
+#if defined(OS_FUCHSIA)
+  const char* environment_value = "/pkg/assets";
+#elif !defined(OS_WIN)
   const char* environment_value = getenv("CRASHPAD_TEST_DATA_ROOT");
 #else  // defined(OS_WIN)
   const wchar_t* environment_value = _wgetenv(L"CRASHPAD_TEST_DATA_ROOT");
