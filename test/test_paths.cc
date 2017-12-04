@@ -43,6 +43,13 @@ bool IsTestDataRoot(const base::FilePath& candidate) {
 }
 
 base::FilePath TestDataRootInternal() {
+#if defined(OS_FUCHSIA)
+  base::FilePath asset_path("/pkg/assets");
+  if (!IsTestDataRoot(asset_path)) {
+    LOG(WARNING) << "Test data root seems invalid, continuing anyway";
+  }
+  return asset_path;
+#else  // defined(OS_FUCHSIA)
 #if !defined(OS_WIN)
   const char* environment_value = getenv("CRASHPAD_TEST_DATA_ROOT");
 #else  // defined(OS_WIN)
@@ -88,6 +95,7 @@ base::FilePath TestDataRootInternal() {
   }
 
   return base::FilePath(base::FilePath::kCurrentDirectory);
+#endif  // defined(OS_FUCHSIA)
 }
 
 #if defined(OS_WIN) && defined(ARCH_CPU_64_BITS)
