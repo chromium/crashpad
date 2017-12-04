@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d1903a1_4c63dfb0",
+        "filename": "util/misc/paths_fuchsia.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-04T19:09:24Z",
+      "side": 1,
+      "message": "Unfortunately, even after all this, we still don\u0027t know our basename here (ZX_PROP_NAME returns the full path, which ends up just being mostly \"path\" and not \"name\" for the leading 32 characters depending on the binary).\n\nI was wondering about having the run script set an environment variable to get the basename but it\u0027s bit ugly.\n\nAnother way would be to get it from argv[0], which would mean having some sort of save of that at the top of main() in {test, non-test, Chromium}, which is a bit stinky.\n\nWe could also require a build-time #define to be set to the basename, I guess.\n\nAt the moment, I believe we don\u0027t need the real name (I think that\u0027s only necessary for relaunching in the handler code?) so \"unknown\" is sufficient.",
+      "range": {
+        "startLine": 31,
+        "startChar": 35,
+        "endLine": 31,
+        "endChar": 42
+      },
+      "revId": "2511d5c57b91d30e7037ddbc5ff9e381f37fcbf9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
