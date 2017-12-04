@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74cfb74e_9cd0b751",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T21:43:16Z",
+      "side": 1,
+      "message": "Should log something here to adhere to the documented behavior.",
+      "revId": "772202373065cc8d86fccb8240edc90c3a73c1d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36dc6ddb_246bf5a6",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T21:43:16Z",
+      "side": 1,
+      "message": "Optional: you could get rid of “kRetry” and this loop altogether if you replaced the situations that were “return kRetry” now with recursive “return ReadNote()” calls. (They’d be eligible for the tail call optimization.)",
+      "revId": "772202373065cc8d86fccb8240edc90c3a73c1d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc0a6d21_61d90ce3",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T21:43:16Z",
+      "side": 1,
+      "message": "This (and all other reads in this method) should be serviced by a subrange reader that makes sure you don’t go out of the segment’s bounds.\n\nIt may make the most sense to set up the subrange reader in NextNote() when you advance to a new PT_NOTE segment. This ProcessMemoryRange could also be used in place of segment_end_address_.\n\nUsing the subrange reader would allow you to get rid of the custom overflow detection in this method: you could just let Read() fail, log something for you, and all you’d have to do is return kError (which you’re already doing anyway).",
+      "revId": "772202373065cc8d86fccb8240edc90c3a73c1d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97b3a55d_253bbbd6",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 11
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T21:43:16Z",
+      "side": 1,
+      "message": "Optional, but another thought I had: if you’re concerned that someone might be using the 64-bit version of the note structure anywhere, you could make this decltype(Elf64_Nhdr::n_type), on the theory that the 64-bit version will always be at least as wide as the 32-bit one. The static_assert would also need to change to \u003e\u003d.",
+      "revId": "772202373065cc8d86fccb8240edc90c3a73c1d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
