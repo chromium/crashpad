@@ -46,6 +46,30 @@
       "revId": "2511d5c57b91d30e7037ddbc5ff9e381f37fcbf9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f13a5be5_c919446b",
+        "filename": "util/misc/paths_fuchsia.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-04T19:32:57Z",
+      "side": 1,
+      "message": "\u003e \u003e Another way would be to get it from argv[0], which would mean having some sort of save of that at the top of main() in {test, non-test, Chromium}, which is a bit stinky.\n\u003e \n\u003e We already have this: crashpad::test::InitializeMainArguments() (already called from our test main()) and crashpad::test::GetMainArguments().\n\nOne more thing: we do use this for all of our tests, even when we’re in Chromium.",
+      "parentUuid": "70958613_e61ecc58",
+      "range": {
+        "startLine": 31,
+        "startChar": 35,
+        "endLine": 31,
+        "endChar": 42
+      },
+      "revId": "2511d5c57b91d30e7037ddbc5ff9e381f37fcbf9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
