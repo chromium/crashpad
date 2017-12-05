@@ -31,6 +31,9 @@
 #elif defined(OS_WIN)
 #include <windows.h>
 #include "snapshot/win/process_snapshot_win.h"
+#elif defined(OS_FUCHSIA)
+#include <zircon/process.h>
+#include "snapshot/fuchsia/process_snapshot_fuchsia.h"
 #endif
 
 namespace crashpad {
@@ -81,6 +84,9 @@ CrashpadInfoClientOptions SelfProcessSnapshotAndGetCrashpadOptions() {
   ProcessSnapshotWin process_snapshot;
   EXPECT_TRUE(process_snapshot.Initialize(
       GetCurrentProcess(), ProcessSuspensionState::kRunning, 0, 0));
+#elif defined(OS_FUCHSIA)
+  ProcessSnapshotFuchsia process_snapshot;
+  EXPECT_TRUE(process_snapshot.Initialize(zx_process_self()));
 #else
 #error Port.
 #endif  // OS_MACOSX
@@ -146,7 +152,7 @@ TEST(CrashpadInfoClientOptions, TwoModules) {
       TestPaths::BuildArtifact(FILE_PATH_LITERAL("snapshot"),
                                FILE_PATH_LITERAL("module"),
                                TestPaths::FileType::kLoadableModule);
-#if defined(OS_MACOSX)
+#if defined(OS_POSIX)
   ScopedModuleHandle module(
       dlopen(module_path.value().c_str(), RTLD_LAZY | RTLD_LOCAL));
   ASSERT_TRUE(module.valid()) << "dlopen " << module_path.value() << ": "
@@ -244,7 +250,7 @@ TEST_P(CrashpadInfoSizes_ClientOptions, DifferentlySizedStruct) {
       TestPaths::BuildArtifact(FILE_PATH_LITERAL("snapshot"),
                                artifact,
                                TestPaths::FileType::kLoadableModule);
-#if defined(OS_MACOSX)
+#if defined(OS_POSIX)
   ScopedModuleHandle module(
       dlopen(module_path.value().c_str(), RTLD_LAZY | RTLD_LOCAL));
   ASSERT_TRUE(module.valid())
