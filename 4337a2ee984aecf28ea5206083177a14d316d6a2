@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f7dc5915_80c0caf7",
+        "filename": "build/run_tests.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T21:37:27Z",
+      "side": 1,
+      "message": "I thought about doing that, but was thinking that what I\u0027ll likely want is actually --gtest_filter, so then it\u0027s multiple args vs. multiple params and messy ordering ... I dunno. Maybe it should actually change to be a run_test.py that run_tests.py uses.",
+      "parentUuid": "f6ee9594_c1f83102",
+      "revId": "4337a2ee984aecf28ea5206083177a14d316d6a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b91f2e19_569e4377",
         "filename": "build/run_tests.py",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2017-12-05T21:10:01Z",
       "side": 1,
       "message": "If things get any more complex than this, we may want to bring in argparse.",
+      "revId": "4337a2ee984aecf28ea5206083177a14d316d6a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68b2be79_58754038",
+        "filename": "build/run_tests.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T21:37:27Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "b91f2e19_569e4377",
       "revId": "4337a2ee984aecf28ea5206083177a14d316d6a2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e16b2dac_f07da89b",
+        "filename": "build/run_tests.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T21:37:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f02c2b72_6c132bd1",
+      "revId": "4337a2ee984aecf28ea5206083177a14d316d6a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9b481de_f5e21f15",
         "filename": "build/run_tests.py",
         "patchSetId": 6
@@ -67,6 +121,24 @@
       "revId": "4337a2ee984aecf28ea5206083177a14d316d6a2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "225c17bf_24ab5221",
+        "filename": "build/run_tests.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T21:37:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9b481de_f5e21f15",
+      "revId": "4337a2ee984aecf28ea5206083177a14d316d6a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "60d07966_008cc8d1",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 6
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T21:37:27Z",
+      "side": 1,
+      "message": "Ah, good point.\n\nThe easiest (?) for Fuchsia would probably have been to port it to Go as that\u0027s what the Fuchsia team favours for \"script\"-type things. Considering Android though, perhaps a plain ol\u0027 C++ binary will be best.\n\nChromium does some forwarding back to a host process because there the test server is quite complex, but there\u0027s a lot of code to manipulate those connections, it\u0027s sometimes flaky, and it means that the device can\u0027t run tests standalone without being hooked to a parent which seems a bit awkward sometimes (in that the tests can\u0027t run fire-and-forget).",
+      "parentUuid": "af0925e9_7f56dd22",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 403,
+        "endChar": 11
+      },
+      "revId": "4337a2ee984aecf28ea5206083177a14d316d6a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16657791_f6e66f97",
         "filename": "util/numeric/checked_address_range.cc",
         "patchSetId": 6
@@ -104,6 +200,24 @@
       "writtenOn": "2017-12-05T21:10:01Z",
       "side": 1,
       "message": "In deciding what to do here:\n\n1. I know that Fuchsia only builds for 64-bit architectures now (namely x86-64 and arm64). Is that an ongoing guarantee, or is there a possibility that there may be a 32-bit architecture hosting Fuchsia in the future?\n\n2. Even if the answer to (1) is “32-bit is not foreclosed,” it seems that a multi-bitted Fuchsia, in which a single system might host both 64-bit and 32-bit user spaces, may never happen for other reasons. Reasonable assumption?\n\nOn the basis of the answers to these questions, we may be able to rule out cross-bitting on Fuchsia altogether. It’d be good to know this up front, since it may impact some of these existing interfaces.",
+      "revId": "4337a2ee984aecf28ea5206083177a14d316d6a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7643fb9_31c9de85",
+        "filename": "util/numeric/checked_address_range.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T21:37:27Z",
+      "side": 1,
+      "message": "\u003e In deciding what to do here:\n\u003e \n\u003e 1. I know that Fuchsia only builds for 64-bit architectures now (namely x86-64 and arm64). Is that an ongoing guarantee, or is there a possibility that there may be a 32-bit architecture hosting Fuchsia in the future?\n\nYes, it\u0027s absolutely 64-bit only AFAIK. +cpu to confirm if there\u0027s an Official Statement of that somewhere.\n\n\u003e \n\u003e 2. Even if the answer to (1) is “32-bit is not foreclosed,” it seems that a multi-bitted Fuchsia, in which a single system might host both 64-bit and 32-bit user spaces, may never happen for other reasons. Reasonable assumption?\n\u003e \n\u003e On the basis of the answers to these questions, we may be able to rule out cross-bitting on Fuchsia altogether. It’d be good to know this up front, since it may impact some of these existing interfaces.\n\nFuchsia/Zircon seem pretty solidly 64-bit only, so I think in the platform-specific code we\u0027re safe to simplify by not considering cross-bitness. I think 128-bit pointers at some point in the future might be more likely than 32-bit. :)",
+      "parentUuid": "16657791_f6e66f97",
       "revId": "4337a2ee984aecf28ea5206083177a14d316d6a2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
