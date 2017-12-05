@@ -189,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "5c6254f8_d7f117cb",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 6
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:29:40Z",
+      "side": 1,
+      "message": "\u003e Ah, good point.\n\u003e \n\u003e The easiest (?) for Fuchsia would probably have been to port it to Go as that\u0027s what the Fuchsia team favours for \"script\"-type things. Considering Android though, perhaps a plain ol\u0027 C++ binary will be best.\n\u003e \n\u003e Chromium does some forwarding back to a host process because there the test server is quite complex, but there\u0027s a lot of code to manipulate those connections, it\u0027s sometimes flaky, and it means that the device can\u0027t run tests standalone without being hooked to a parent which seems a bit awkward sometimes (in that the tests can\u0027t run fire-and-forget).\n\nThere’s no clear winner. C++ would be the most code to write (yuck) but the least infrastructure to invent (hooray!) I’m including “figure out how to build this weirdo thing” in “infrastructure.”\n\nShipping a Python interpreter over to the device may even be an option, awful in its on special ways.",
+      "parentUuid": "60d07966_008cc8d1",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 403,
+        "endChar": 11
+      },
+      "revId": "4337a2ee984aecf28ea5206083177a14d316d6a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16657791_f6e66f97",
         "filename": "util/numeric/checked_address_range.cc",
         "patchSetId": 6

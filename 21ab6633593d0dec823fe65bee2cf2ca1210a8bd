@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f823bdb0_4ff2a8ef",
+        "filename": "build/run_tests.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:29:40Z",
+      "side": 1,
+      "message": "You named it IS_WINDOWS_HOST, not IS_WINDOWS, for a good reason. But whether to run end_to_end_test.py isn’t really about the host at all, at least not as a primary matter).\n\nI know that there’s no Fuchsia SDK for Windows (yet?) But if there were, I know someone who might be using it…\n\nAt the very least, this should be “and not is_fuchsia”, or you can stick this as an “elif IS_WINDOWS_HOST:” after the is_fuchsia block below.",
+      "revId": "21ab6633593d0dec823fe65bee2cf2ca1210a8bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90326eb5_3c54cda0",
+        "filename": "build/run_tests.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:29:40Z",
+      "side": 1,
+      "message": ".splitext(test)[1] \u003d\u003d \u0027.py\u0027 is fine, and so is test.endswith(\u0027.py\u0027) which is what you used on line 206. But the two should be consistent.",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 215,
+        "endChar": 41
+      },
+      "revId": "21ab6633593d0dec823fe65bee2cf2ca1210a8bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
