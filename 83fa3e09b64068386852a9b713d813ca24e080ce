@@ -289,6 +289,24 @@
       "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "344e6d4c_6ce5ee10",
+        "filename": "snapshot/posix/timezone_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T23:45:44Z",
+      "side": 1,
+      "message": "Gotcha, I\u0027ll stick to API 16. Thanks for investigating.",
+      "parentUuid": "8192099a_6c5d8f79",
+      "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
