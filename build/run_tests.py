@@ -151,11 +151,12 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name):
 # that are run is maintained in-tree, rather than in a separate infrastructure
 # location in the recipe.
 def main(args):
-  if len(args) != 1:
-    print('usage: run_tests.py <binary_dir>', file=sys.stderr)
+  if len(args) != 1 and len(args) != 2:
+    print('usage: run_tests.py <binary_dir> [test_to_run]', file=sys.stderr)
     return 1
 
   binary_dir = args[0]
+  single_test = args[1] if len(args) == 2 else None
 
   # Tell 64-bit Windows tests where to find 32-bit test executables, for
   # cross-bitted testing. This relies on the fact that the GYP build by default
@@ -174,6 +175,7 @@ def main(args):
   tests = [
       'crashpad_minidump_test',
       'crashpad_test_test',
+      'crashpad_util_test',
   ]
 
   if not is_fuchsia:
@@ -183,7 +185,6 @@ def main(args):
       'crashpad_client_test',
       'crashpad_handler_test',
       'crashpad_snapshot_test',
-      'crashpad_util_test',
       ])
 
   if is_fuchsia:
@@ -199,6 +200,12 @@ def main(args):
       zircon_nodename = devices[0].strip().split()[1]
       print('Using autodetected Fuchsia device:', zircon_nodename)
     _GenerateFuchsiaRuntimeDepsFiles(binary_dir, tests)
+
+  if single_test:
+    if single_test not in tests:
+      print('Unrecognized test:', single_test)
+      return 3
+    tests = [single_test]
 
   for test in tests:
     print('-' * 80)
