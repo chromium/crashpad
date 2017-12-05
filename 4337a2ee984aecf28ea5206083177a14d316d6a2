@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6ee9594_c1f83102",
+        "filename": "build/run_tests.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T21:10:01Z",
+      "side": 1,
+      "message": "Do you have any need for a multiple [test_to_run …] instead of a single [test_to_run]?",
+      "revId": "4337a2ee984aecf28ea5206083177a14d316d6a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b91f2e19_569e4377",
+        "filename": "build/run_tests.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T21:10:01Z",
+      "side": 1,
+      "message": "If things get any more complex than this, we may want to bring in argparse.",
+      "revId": "4337a2ee984aecf28ea5206083177a14d316d6a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f02c2b72_6c132bd1",
+        "filename": "build/run_tests.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T21:10:01Z",
+      "side": 1,
+      "message": ", file\u003dsys.stderr",
+      "revId": "4337a2ee984aecf28ea5206083177a14d316d6a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9b481de_f5e21f15",
+        "filename": "build/run_tests.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T21:10:01Z",
+      "side": 1,
+      "message": "Perhaps end_to_end_test.py should be part of the tests [list], and this block that runs it should be in the “for test in tests” loop as a special case. That’d allow it to work in single-test mode too.",
+      "revId": "4337a2ee984aecf28ea5206083177a14d316d6a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af0925e9_7f56dd22",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 6
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T21:10:01Z",
+      "side": 1,
+      "message": "No changes required here, just a note: we’ll have this same problem on Android. In resolving it, we may want to take both platforms into account.",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 403,
+        "endChar": 11
+      },
+      "revId": "4337a2ee984aecf28ea5206083177a14d316d6a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16657791_f6e66f97",
+        "filename": "util/numeric/checked_address_range.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T21:10:01Z",
+      "side": 1,
+      "message": "In deciding what to do here:\n\n1. I know that Fuchsia only builds for 64-bit architectures now (namely x86-64 and arm64). Is that an ongoing guarantee, or is there a possibility that there may be a 32-bit architecture hosting Fuchsia in the future?\n\n2. Even if the answer to (1) is “32-bit is not foreclosed,” it seems that a multi-bitted Fuchsia, in which a single system might host both 64-bit and 32-bit user spaces, may never happen for other reasons. Reasonable assumption?\n\nOn the basis of the answers to these questions, we may be able to rule out cross-bitting on Fuchsia altogether. It’d be good to know this up front, since it may impact some of these existing interfaces.",
+      "revId": "4337a2ee984aecf28ea5206083177a14d316d6a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
