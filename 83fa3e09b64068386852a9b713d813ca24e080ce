@@ -253,6 +253,24 @@
       "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1e5711c_3f1a152b",
+        "filename": "snapshot/posix/timezone_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T23:30:20Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e Ah, I followed arm64 since that was in convenient copy-paste format in the docs.\n\u003e \u003e \u003e \n\u003e \u003e \u003e ... Android x86 complained about https://gist.github.com/sgraham/da177684758b758aac86866eb3b05502\n\u003e \u003e \n\u003e \u003e Did you update past yesterday’s 5969d6b1eb22?\n\u003e \n\u003e Yeah I think I have that. Just tried at 2403d066, and I still get the same error. Quite possible that I messed up something else along the way though.\n\nDid you re-gyp after that?\n\nWait, maybe it doesn’t matter:\n\n\u003e -D__ANDROID_API__\u003d21 -D_FILE_OFFSET_BITS\u003d64\n\nHmm, that’s not a configuration I tested. I’ll look.",
+      "parentUuid": "292a27bb_13c940e2",
+      "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
