@@ -235,6 +235,24 @@
       "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "292a27bb_13c940e2",
+        "filename": "snapshot/posix/timezone_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T23:26:34Z",
+      "side": 1,
+      "message": "\u003e \u003e Ah, I followed arm64 since that was in convenient copy-paste format in the docs.\n\u003e \u003e \n\u003e \u003e ... Android x86 complained about https://gist.github.com/sgraham/da177684758b758aac86866eb3b05502\n\u003e \n\u003e Did you update past yesterday’s 5969d6b1eb22?\n\nYeah I think I have that. Just tried at 2403d066, and I still get the same error. Quite possible that I messed up something else along the way though.\n\n[(2403d066...)] scottmg@around:/work/crashpad/crashpad$ python build/gyp_crashpad_android.py       --ndk /work/android-ndk-r16_x86_api21       --generator-output out/android_x86_api21\n[(2403d066...)] scottmg@around:/work/crashpad/crashpad$ ninja -C out/android_x86_api21/out/Debug crashpad_snapshot_test\nninja: Entering directory `out/android_x86_api21/out/Debug\u0027\n[13-\u003e14/27 ~1] CXX obj/third_party/gtest/gtest/googletest/src/gtest.gtest-port.o\nFAILED: obj/third_party/gtest/gtest/googletest/src/gtest.gtest-port.o \n/work/android-ndk-r16_x86_api21/bin/clang++ -MMD -MF obj/third_party/gtest/gtest/googletest/src/gtest.gtest-port.o.d -D__ANDROID_API__\u003d21 -D_FILE_OFFSET_BITS\u003d64 -I../../../../third_party/gtest/gtest/googletest -I../../../../third_party/gtest/gtest/googletest/include -fPIC -fno-exceptions -fno-strict-aliasing -fstack-protector-all -fvisibility\u003dhidden -g -pipe -pthread -Wall -Werror -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wheader-hygiene -Wsign-compare -Wstring-conversion -O0 -fno-rtti -fvisibility-inlines-hidden -std\u003dc++14  -c ../../../../third_party/gtest/gtest/googletest/src/gtest-port.cc -o obj/third_party/gtest/gtest/googletest/src/gtest.gtest-port.o\nIn file included from ../../../../third_party/gtest/gtest/googletest/src/gtest-port.cc:38:\nIn file included from /work/android-ndk-r16_x86_api21/bin/../lib/gcc/i686-linux-android/4.9.x/../../../../include/c++/4.9.x/fstream:41:\n/work/android-ndk-r16_x86_api21/bin/../lib/gcc/i686-linux-android/4.9.x/../../../../include/c++/4.9.x/cstdio:107:11: error: no member named \u0027fgetpos\u0027 in the global namespace\n  using ::fgetpos;\n        ~~^\n/work/android-ndk-r16_x86_api21/bin/../lib/gcc/i686-linux-android/4.9.x/../../../../include/c++/4.9.x/cstdio:117:11: error: no member named \u0027fsetpos\u0027 in the global namespace\n  using ::fsetpos;\n        ~~^\n2 errors generated.\nninja: build stopped: subcommand failed.",
+      "parentUuid": "547999e7_03e5b4f4",
+      "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
