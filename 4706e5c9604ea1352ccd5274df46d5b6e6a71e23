@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c74abaf1_83b37f13",
+        "filename": "build/run_tests.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T19:18:10Z",
+      "side": 1,
+      "message": "Considering that we’re dealing with other stuff in binary_dir that’s totally different, local_binary is a confusing name for this. How about netcp_path?",
+      "revId": "4706e5c9604ea1352ccd5274df46d5b6e6a71e23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f702df82_ecfc510b",
+        "filename": "build/run_tests.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T19:18:10Z",
+      "side": 1,
+      "message": "I guess netcp implies a mkdir -p on the device side?",
+      "revId": "4706e5c9604ea1352ccd5274df46d5b6e6a71e23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
