@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39116457_7009fe4e",
+        "filename": "build/run_tests.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T18:38:55Z",
+      "side": 1,
+      "message": "I would have thought that you’d need to trap stderr too, but evidently gn doesn’t send error to stderr. OK…",
+      "revId": "c76139b137d410497487acb64578761c760cec81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd16909_bf07dc8c",
+        "filename": "build/run_tests.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T18:38:55Z",
+      "side": 1,
+      "message": "Since you’ve switched to mkdir -p, you don’t need to explicitly mkdir staging_root now.",
+      "range": {
+        "startLine": 119,
+        "startChar": 39,
+        "endLine": 119,
+        "endChar": 52
+      },
+      "revId": "c76139b137d410497487acb64578761c760cec81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
