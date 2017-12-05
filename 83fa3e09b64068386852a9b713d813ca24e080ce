@@ -163,6 +163,24 @@
       "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "276da62f_57bf1def",
+        "filename": "snapshot/posix/timezone_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:55:52Z",
+      "side": 1,
+      "message": "\u003e I tried a Linux (setting CXX\u003d/usr/bin/clang++-3.5 before gyp?)\n\nThe host CXX shouldn’t matter at all, and build/gyp_crashpad_android.py should be setting CXX_target correctly for you based on the standalone NDK toolchain path you fed it at --ndk.\n\n\u003e and Android build via https://chromium.googlesource.com/crashpad/crashpad/+/HEAD/doc/developing.md#building-android and tried to build crashpad_snapshot_test but I get other unrelated errors for both before I get to this.\n\narm and arm64 are currently broken, but x86 and x86-64 are OK. Not all targets build yet either, but crashpad_{minidump,snapshot,test,util}_test do work.",
+      "parentUuid": "f380e5da_dfe36f96",
+      "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
