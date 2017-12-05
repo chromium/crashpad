@@ -54,27 +54,17 @@ void LocateExecutable(pid_t pid, bool is_64_bit, VMAddress* elf_address) {
   *elf_address = exe_mapping->range.Base();
 }
 
-void ExpectElfImageWithSymbol(pid_t pid,
-                              VMAddress address,
-                              bool is_64_bit,
-                              std::string symbol_name,
-                              VMAddress expected_symbol_address) {
-  ProcessMemoryLinux memory;
-  ASSERT_TRUE(memory.Initialize(pid));
-  ProcessMemoryRange range;
-  ASSERT_TRUE(range.Initialize(&memory, is_64_bit));
-
-  ElfImageReader reader;
-  ASSERT_TRUE(reader.Initialize(range, address));
-
+void ExpectSymbol(ElfImageReader* reader,
+                  const std::string& symbol_name,
+                  VMAddress expected_symbol_address) {
   VMAddress symbol_address;
   VMSize symbol_size;
   ASSERT_TRUE(
-      reader.GetDynamicSymbol(symbol_name, &symbol_address, &symbol_size));
+      reader->GetDynamicSymbol(symbol_name, &symbol_address, &symbol_size));
   EXPECT_EQ(symbol_address, expected_symbol_address);
 
   EXPECT_FALSE(
-      reader.GetDynamicSymbol("notasymbol", &symbol_address, &symbol_size));
+      reader->GetDynamicSymbol("notasymbol", &symbol_address, &symbol_size));
 }
 
 void ReadThisExecutableInTarget(pid_t pid) {
@@ -87,12 +77,48 @@ void ReadThisExecutableInTarget(pid_t pid) {
   VMAddress elf_address;
   LocateExecutable(pid, am_64_bit, &elf_address);
 
-  ExpectElfImageWithSymbol(
-      pid,
-      elf_address,
-      am_64_bit,
-      "ElfImageReaderTestExportedSymbol",
-      FromPointerCast<VMAddress>(ElfImageReaderTestExportedSymbol));
+  ProcessMemoryLinux memory;
+  ASSERT_TRUE(memory.Initialize(pid));
+  ProcessMemoryRange range;
+  ASSERT_TRUE(range.Initialize(&memory, am_64_bit));
+
+  ElfImageReader reader;
+  ASSERT_TRUE(reader.Initialize(range, elf_address));
+
+  ExpectSymbol(&reader,
+               "ElfImageReaderTestExportedSymbol",
+               FromPointerCast<VMAddress>(ElfImageReaderTestExportedSymbol));
+
+  ElfImageReader::NoteReader::Result result;
+  std::string note_name;
+  std::string note_desc;
+  ElfImageReader::NoteReader::NoteType note_type;
+
+  std::unique_ptr<ElfImageReader::NoteReader> notes = reader.Notes(-1);
+  while ((result = notes->NextNote(&note_name, &note_type, &note_desc)) ==
+         ElfImageReader::NoteReader::Result::kSuccess) {
+  }
+  EXPECT_EQ(result, ElfImageReader::NoteReader::Result::kNoMoreNotes);
+
+  notes = reader.Notes(0);
+  EXPECT_EQ(notes->NextNote(&note_name, &note_type, &note_desc),
+            ElfImageReader::NoteReader::Result::kNoMoreNotes);
+
+  // Find the note defined in elf_image_reader_test_note.S.
+  constexpr char kCrashpadNoteName[] = "Crashpad";
+  constexpr ElfImageReader::NoteReader::NoteType kCrashpadNoteType = 1;
+  constexpr uint32_t kCrashpadNoteDesc = 42;
+  notes = reader.NotesWithNameAndType(kCrashpadNoteName, kCrashpadNoteType, -1);
+  ASSERT_EQ(notes->NextNote(&note_name, &note_type, &note_desc),
+            ElfImageReader::NoteReader::Result::kSuccess);
+  EXPECT_EQ(note_name, kCrashpadNoteName);
+  EXPECT_EQ(note_type, kCrashpadNoteType);
+  EXPECT_EQ(note_desc.size(), sizeof(kCrashpadNoteDesc));
+  EXPECT_EQ(*reinterpret_cast<decltype(kCrashpadNoteDesc)*>(&note_desc[0]),
+            kCrashpadNoteDesc);
+
+  EXPECT_EQ(notes->NextNote(&note_name, &note_type, &note_desc),
+            ElfImageReader::NoteReader::Result::kNoMoreNotes);
 }
 
 // Assumes that libc is loaded at the same address in this process as in the
@@ -109,11 +135,15 @@ void ReadLibcInTarget(pid_t pid) {
                                                               << dlerror();
   VMAddress elf_address = FromPointerCast<VMAddress>(info.dli_fbase);
 
-  ExpectElfImageWithSymbol(pid,
-                           elf_address,
-                           am_64_bit,
-                           "getpid",
-                           FromPointerCast<VMAddress>(getpid));
+  ProcessMemoryLinux memory;
+  ASSERT_TRUE(memory.Initialize(pid));
+  ProcessMemoryRange range;
+  ASSERT_TRUE(range.Initialize(&memory, am_64_bit));
+
+  ElfImageReader reader;
+  ASSERT_TRUE(reader.Initialize(range, elf_address));
+
+  ExpectSymbol(&reader, "getpid", FromPointerCast<VMAddress>(getpid));
 }
 
 class ReadExecutableChildTest : public Multiprocess {

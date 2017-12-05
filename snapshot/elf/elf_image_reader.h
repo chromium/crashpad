@@ -17,6 +17,7 @@
 
 #include <elf.h>
 #include <stdint.h>
+#include <sys/types.h>
 
 #include <memory>
 #include <string>
@@ -35,7 +36,77 @@ namespace crashpad {
 //!
 //! This class is capable of reading both 32-bit and 64-bit images.
 class ElfImageReader {
+ private:
+  class ProgramHeaderTable;
+
  public:
+  //! \brief This class enables reading note segments from an ELF image.
+  //!
+  //! Objects of this class should be created by calling
+  //! ElfImageReader::Notes() or ElfImageReader::NotesWithNameAndType().
+  class NoteReader {
+   public:
+    ~NoteReader();
+
+    //! \brief The return value for NextNote().
+    enum class Result {
+      //! \brief An error occurred. The NoteReader is invalidated and message is
+      //!     logged.
+      kError,
+
+      //! \brief A note was found.
+      kSuccess,
+
+      //! \brief No more notes were found.
+      kNoMoreNotes,
+    };
+
+    //! \brief A type large enough to hold a note type, potentially across
+    //!     bitness.
+    using NoteType = decltype(Elf64_Nhdr::n_type);
+
+    //! \brief Searches for the next note in the image.
+    //!
+    //! \param[out] name The name of the note owner, if not `nullptr`.
+    //! \param[out] type A type for the note, if not `nullptr`.
+    //! \param[out] desc The note descriptor.
+    //! \return a #Result value. \a name, \a type, and \a desc are only valid if
+    //!     this method returns Result::kSuccess.
+    Result NextNote(std::string* name, NoteType* type, std::string* desc);
+
+    // private
+    NoteReader(const ElfImageReader* elf_reader_,
+               const ProcessMemoryRange* range,
+               const ProgramHeaderTable* phdr_table,
+               ssize_t max_note_size,
+               const std::string& name_filter = std::string(),
+               NoteType type_filter = 0,
+               bool use_filter = false);
+
+   private:
+    // Reads the next note at the current segment address. Sets retry_ to true
+    // and returns kError if use_filter_ is true and the note's name and type do
+    // not match name_filter_ and type_filter_.
+    template <typename T>
+    Result ReadNote(std::string* name, NoteType* type, std::string* desc);
+
+    VMAddress current_address_;
+    VMAddress segment_end_address_;
+    const ElfImageReader* elf_reader_;  // weak
+    const ProcessMemoryRange* range_;  // weak
+    const ProgramHeaderTable* phdr_table_;  // weak
+    std::unique_ptr<ProcessMemoryRange> segment_range_;
+    size_t phdr_index_;
+    ssize_t max_note_size_;
+    std::string name_filter_;
+    NoteType type_filter_;
+    bool use_filter_;
+    bool is_valid_;
+    bool retry_;
+
+    DISALLOW_COPY_AND_ASSIGN(NoteReader);
+  };
+
   ElfImageReader();
   ~ElfImageReader();
 
@@ -101,8 +172,37 @@ class ElfImageReader {
   //! \return `true` if the debug address was found.
   bool GetDebugAddress(VMAddress* debug);
 
+  //! \brief Return a NoteReader for this image, which scans all PT_NOTE
+  //!     segments in the image.
+  //!
+  //! The returned NoteReader is only valid for the lifetime of the
+  //! ElfImageReader that created it.
+  //!
+  //! \param[in] max_note_size The maximum note size to read. Notes whose
+  //!     combined name, descriptor, and padding size are greater than
+  //!     \a max_note_size will be silently skipped. A \a max_note_size of -1
+  //!     indicates infinite maximum note size.
+  //! \return A NoteReader object capable of reading notes in this image.
+  std::unique_ptr<NoteReader> Notes(ssize_t max_note_size);
+
+  //! \brief Return a NoteReader for this image, which scans all PT_NOTE
+  //!     segments in the image, filtering by name and type.
+  //!
+  //! The returned NoteReader is only valid for the lifetime of the
+  //! ElfImageReader that created it.
+  //!
+  //! \param[in] name The note name to match.
+  //! \param[in] type The note type to match.
+  //! \param[in] max_note_size The maximum note size to read. Notes whose
+  //!     combined name, descriptor, and padding size are greater than
+  //!     \a max_note_size will be silently skipped. A \a max_note_size of -1
+  //!     indicates infinite maximum note size.
+  //! \return A NoteReader object capable of reading notes in this image.
+  std::unique_ptr<NoteReader> NotesWithNameAndType(const std::string& name,
+                                                   NoteReader::NoteType type,
+                                                   ssize_t max_note_size);
+
  private:
-  class ProgramHeaderTable;
   template <typename PhdrType>
   class ProgramHeaderTableSpecific;
 
