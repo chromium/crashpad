@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3afe475_5d57f83c",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T18:54:56Z",
+      "side": 1,
+      "message": "start_index as an in-out is not immediately obvious, it’s worth a quick comment here.",
+      "revId": "002a003b297e6bcc0a21f3c2c83767393abfbf8e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb66d678_9a8f9b4c",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T18:54:56Z",
+      "side": 1,
+      "message": "You can change this to “may inadvertently use” with a link to the fix, and maybe say that it hopefully isn’t a problem because it should appear first in a note segment.",
+      "range": {
+        "startLine": 262,
+        "startChar": 72,
+        "endLine": 262,
+        "endChar": 76
+      },
+      "revId": "002a003b297e6bcc0a21f3c2c83767393abfbf8e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20a757ef_1cf3a5ad",
+        "filename": "snapshot/elf/elf_image_reader_test_note.S",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T18:54:56Z",
+      "side": 1,
+      "message": "Good call!",
+      "revId": "002a003b297e6bcc0a21f3c2c83767393abfbf8e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
