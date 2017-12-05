@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6dbdbca8_e6028f39",
+        "filename": "build/run_tests.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T19:55:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c74abaf1_83b37f13",
+      "revId": "4706e5c9604ea1352ccd5274df46d5b6e6a71e23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f702df82_ecfc510b",
         "filename": "build/run_tests.py",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2017-12-05T19:18:10Z",
       "side": 1,
       "message": "I guess netcp implies a mkdir -p on the device side?",
+      "revId": "4706e5c9604ea1352ccd5274df46d5b6e6a71e23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11ee51e6_1a146a35",
+        "filename": "build/run_tests.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T19:55:55Z",
+      "side": 1,
+      "message": "Yeah, it seems to magically create the parent tree which is kind of convenient if a bit error prone.",
+      "parentUuid": "f702df82_ecfc510b",
       "revId": "4706e5c9604ea1352ccd5274df46d5b6e6a71e23",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
