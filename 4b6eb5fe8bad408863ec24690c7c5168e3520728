@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c0d4ece_84c5827a",
+        "filename": "snapshot/crashpad_info_size_test_module.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T21:59:43Z",
+      "side": 1,
+      "message": "Should been in https://chromium-review.googlesource.com/c/crashpad/crashpad/+/786777.",
+      "range": {
+        "startLine": 73,
+        "startChar": 46,
+        "endLine": 73,
+        "endChar": 69
+      },
+      "revId": "4b6eb5fe8bad408863ec24690c7c5168e3520728",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
