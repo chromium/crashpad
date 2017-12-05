@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "deea3a1e_10e0dda5",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T21:28:57Z",
+      "side": 1,
+      "message": "switch/case-case-case?",
+      "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56f3dc63_607035f7",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T21:28:57Z",
+      "side": 1,
+      "message": "in which case this (a “default:”) shouldn’t be needed",
+      "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95975d29_251e4c31",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T21:28:57Z",
+      "side": 1,
+      "message": "I assume that this implies detach.",
+      "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f07082c_443362cd",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T21:28:57Z",
+      "side": 1,
+      "message": "Do we want something for PTRACE_PEEKDATA too? We may need to handle the case where we can’t get at /proc/pid/mem.",
+      "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "262912b7_298b45b6",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T21:28:57Z",
+      "side": 1,
+      "message": "What’s the meaning of this given that you also have a kIs64Bit request type?",
+      "range": {
+        "startLine": 86,
+        "startChar": 25,
+        "endLine": 86,
+        "endChar": 39
+      },
+      "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b3834eb_63428dc3",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T21:28:57Z",
+      "side": 1,
+      "message": "Reorder to keep the struct up front.",
+      "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f505e90c_5935218c",
+        "filename": "util/linux/ptracer_test_util.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T21:28:57Z",
+      "side": 1,
+      "message": "Can you use this in snapshot/linux/process_reader_test.cc too?",
+      "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
