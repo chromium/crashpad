@@ -38,7 +38,7 @@ def _BinaryDirLooksLikeFuchsiaBuild(binary_dir):
   popen = subprocess.Popen(
       ['gn', 'args', binary_dir, '--list=target_os', '--short'],
       shell=IS_WINDOWS_HOST, stdout=subprocess.PIPE, stderr=open(os.devnull))
-  value = popen.communicate()[0]
+  value, _ = popen.communicate()
   return popen.returncode == 0 and 'target_os = "fuchsia"' in value
 
 
@@ -121,13 +121,26 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name):
                              '%s/assets' % staging_root]
     netruncmd(['mkdir', '-p'] + directories_to_create)
 
-    # Copy runtime deps into the staging tree.
-    netcp = os.path.join(sdk_root, 'tools', 'netcp')
-    for dep in runtime_deps:
-      target_path = staging_root + _RuntimeDepsPathToFuchsiaTargetPath(dep)
-      subprocess.check_call([netcp, os.path.join(binary_dir, dep),
+    def netcp(local_path):
+      in_binary_dir = local_path.startswith(binary_dir + '/')
+      if in_binary_dir:
+        target_path = os.path.join(
+            staging_root, 'bin', local_path[len(binary_dir)+1:])
+      else:
+        target_path = os.path.join(staging_root, 'assets', local_path)
+      local_binary = os.path.join(sdk_root, 'tools', 'netcp')
+      subprocess.check_call([local_binary, local_path,
                             device_name + ':' + target_path],
                             stderr=open(os.devnull))
+
+    for dep in runtime_deps:
+      local_path = os.path.normpath(os.path.join(binary_dir, dep))
+      if os.path.isdir(local_path):
+        for root, dirs, files in os.walk(local_path):
+          for f in files:
+            netcp(os.path.join(root, f))
+      else:
+        netcp(local_path)
 
     done_message = 'TERMINATED: ' + unique_id
     namespace_command = [
@@ -170,6 +183,7 @@ def main(args):
   tests = [
       'crashpad_minidump_test',
       'crashpad_test_test',
+      'crashpad_util_test',
   ]
 
   if not is_fuchsia:
@@ -179,7 +193,6 @@ def main(args):
       'crashpad_client_test',
       'crashpad_handler_test',
       'crashpad_snapshot_test',
-      'crashpad_util_test',
       ])
 
   if is_fuchsia:

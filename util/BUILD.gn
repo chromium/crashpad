@@ -310,7 +310,10 @@ static_library("util") {
   }
 
   if (is_fuchsia) {
-    sources += [ "misc/paths_fuchsia.cc" ]
+    sources += [
+      "fuchsia/checked_fuchsia_address_range.h",
+      "misc/paths_fuchsia.cc",
+    ]
   }
 
   public_configs = [ "..:crashpad_config" ]
@@ -378,16 +381,11 @@ source_set("util_test") {
     "net/http_body_test_util.cc",
     "net/http_body_test_util.h",
     "net/http_multipart_builder_test.cc",
-    "net/http_transport_test.cc",
     "net/url_test.cc",
     "numeric/checked_address_range_test.cc",
     "numeric/checked_range_test.cc",
     "numeric/in_range_cast_test.cc",
     "numeric/int128_test.cc",
-    "posix/process_info_test.cc",
-    "posix/scoped_mmap_test.cc",
-    "posix/signals_test.cc",
-    "posix/symbolic_constants_posix_test.cc",
     "stdlib/aligned_allocator_test.cc",
     "stdlib/map_insert_test.cc",
     "stdlib/string_number_conversion_test.cc",
@@ -400,6 +398,23 @@ source_set("util_test") {
     "thread/thread_test.cc",
     "thread/worker_thread_test.cc",
   ]
+
+  if (!is_fuchsia) {
+    sources += [ "net/http_transport_test.cc" ]
+  }
+
+  if (is_posix) {
+    if (!is_fuchsia) {
+      sources += [
+        "posix/process_info_test.cc",
+        "posix/symbolic_constants_posix_test.cc",
+      ]
+    }
+    sources += [
+      "posix/scoped_mmap_test.cc",
+      "posix/signals_test.cc",
+    ]
+  }
 
   if (is_mac) {
     sources += [
