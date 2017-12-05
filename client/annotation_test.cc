@@ -14,7 +14,9 @@
 
 #include "client/annotation.h"
 
+#include <array>
 #include <string>
+#include <vector>
 
 #include "client/annotation_list.h"
 #include "client/crashpad_info.h"
@@ -105,6 +107,19 @@ TEST_F(Annotation, StringType) {
 
   EXPECT_EQ(5u, annotation.size());
   EXPECT_EQ("loooo", annotation.value());
+}
+
+TEST(StringAnnotation, ArrayOfString) {
+  static crashpad::StringAnnotation<4> annotations[] = {
+    {"test-1", crashpad::kAnnotationArray},
+    {"test-2", crashpad::kAnnotationArray},
+    {"test-3", crashpad::kAnnotationArray},
+    {"test-4", crashpad::kAnnotationArray},
+  };
+
+  for (auto& annotation : annotations) {
+    EXPECT_FALSE(annotation.is_set());
+  }
 }
 
 #if DCHECK_IS_ON()
