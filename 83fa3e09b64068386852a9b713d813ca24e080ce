@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bebf51ca_04a52915",
+        "filename": "snapshot/crashpad_info_client_options_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T22:48:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03d44567_b81cc205",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 45
+      },
+      "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7370c413_92521581",
         "filename": "snapshot/crashpad_info_client_options_test.cc",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ebe881aa_de71adec",
+        "filename": "snapshot/crashpad_info_client_options_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T22:48:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7370c413_92521581",
+      "range": {
+        "startLine": 253,
+        "startChar": 4,
+        "endLine": 253,
+        "endChar": 45
+      },
+      "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3564b21d_dedd9d9c",
         "filename": "snapshot/fuchsia/process_snapshot_fuchsia.cc",
         "patchSetId": 3
@@ -59,6 +107,24 @@
       "writtenOn": "2017-12-05T22:20:45Z",
       "side": 1,
       "message": "I don’t think that it’s particularly useful to have this set up just so that a bunch of tests can fail, but if it makes porting easier for you, go for it.\n\nYou may want to tag each NOTREACHED() with https://crashpad.chromium.org/bug/196, so that in case any of them wind up in a “permanently not implemented” state after you’re substantially done, we’ve got an easy grep to find them.",
+      "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "768a8e88_83baf94d",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T22:48:39Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s a bit spammy. This class is the worst of them to get everything building, the rest can be almost constructor-only stubs (coming soon to a CL near you!).\n\nMy thinking was that it was a bit useful to be able to build everything, and maybe set up a bot that does that too, to notice compile regressions.\n\nAdded the bug tag anyway.",
+      "parentUuid": "3564b21d_dedd9d9c",
       "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -79,6 +145,24 @@
       "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f380e5da_dfe36f96",
+        "filename": "snapshot/posix/timezone_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T22:48:39Z",
+      "side": 1,
+      "message": "I tried a Linux (setting CXX\u003d/usr/bin/clang++-3.5 before gyp?) and Android build via https://chromium.googlesource.com/crashpad/crashpad/+/HEAD/doc/developing.md#building-android and tried to build crashpad_snapshot_test but I get other unrelated errors for both before I get to this.\n\nJosh, any tips on building and/or do you know if I can just remove this?",
+      "parentUuid": "3c405441_d15d19d7",
+      "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
