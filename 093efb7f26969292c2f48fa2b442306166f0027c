@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e04f1fd0_9d006f98",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T20:58:14Z",
+      "side": 1,
+      "message": "This one should be included, but it\u0027s going to need quite a lot of work as detailed, so excluded for now.",
+      "range": {
+        "startLine": 407,
+        "startChar": 18,
+        "endLine": 407,
+        "endChar": 44
+      },
+      "revId": "093efb7f26969292c2f48fa2b442306166f0027c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22062375_e26d9886",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T20:58:14Z",
+      "side": 1,
+      "message": "Looking through the ProcessInfo members, most of them either don\u0027t make any sense, or aren\u0027t available, so this is just excluded.",
+      "range": {
+        "startLine": 413,
+        "startChar": 15,
+        "endLine": 413,
+        "endChar": 27
+      },
+      "revId": "093efb7f26969292c2f48fa2b442306166f0027c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b60b359b_42a87857",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T20:58:14Z",
+      "side": 1,
+      "message": "These are both signals-related.",
+      "range": {
+        "startLine": 414,
+        "startChar": 8,
+        "endLine": 415,
+        "endChar": 49
+      },
+      "revId": "093efb7f26969292c2f48fa2b442306166f0027c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
