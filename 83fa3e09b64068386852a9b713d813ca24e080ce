@@ -217,6 +217,24 @@
       "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "547999e7_03e5b4f4",
+        "filename": "snapshot/posix/timezone_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T23:19:00Z",
+      "side": 1,
+      "message": "\u003e Ah, I followed arm64 since that was in convenient copy-paste format in the docs.\n\u003e \n\u003e ... Android x86 complained about https://gist.github.com/sgraham/da177684758b758aac86866eb3b05502\n\nDid you update past yesterday’s 5969d6b1eb22?",
+      "parentUuid": "69245473_ecd9b9a5",
+      "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
