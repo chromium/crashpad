@@ -108,10 +108,13 @@ source_set("test_test") {
   sources = [
     "hex_string_test.cc",
     "main_arguments_test.cc",
-    "multiprocess_exec_test.cc",
     "scoped_temp_dir_test.cc",
     "test_paths_test.cc",
   ]
+
+  if (is_posix && !is_fuchsia) {
+    sources += [ "multiprocess_posix_test.cc" ]
+  }
 
   if (is_mac) {
     sources += [ "mac/mach_multiprocess_test.cc" ]
@@ -124,8 +127,12 @@ source_set("test_test") {
     ]
   }
 
-  if (is_posix) {
-    sources += [ "multiprocess_posix_test.cc" ]
+  if (!is_fuchsia) {
+    sources += [
+      # TODO(scottmg): A MultiprocessExecFuchsia is probably desirable, but
+      # hasn't been implemented yet.
+      "multiprocess_exec_test.cc",
+    ]
   }
 
   deps = [
