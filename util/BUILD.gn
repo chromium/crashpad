@@ -309,6 +309,10 @@ static_library("util") {
     }
   }
 
+  if (is_fuchsia) {
+    sources += [ "misc/paths_fuchsia.cc" ]
+  }
+
   public_configs = [ "..:crashpad_config" ]
 
   # Include generated files starting with "util".
