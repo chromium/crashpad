@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "237f1fb0_94e3b74b",
+        "filename": "client/annotation.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:33:08Z",
+      "side": 1,
+      "message": "crashpad::ArrayInitializerTag is a fairly specific single-purpose thing to be hanging out in “namespace crashpad” under that name.\n\nIn-class “enum class” and initialize as crashpad::StringAnnotation::Tag::kArray?",
+      "revId": "fa38b5432ca1562a8a90cf33b7dbc75b5822bddc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
