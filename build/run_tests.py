@@ -174,6 +174,7 @@ def main(args):
 
   tests = [
       'crashpad_minidump_test',
+      'crashpad_snapshot_test',
       'crashpad_test_test',
       'crashpad_util_test',
   ]
@@ -184,7 +185,6 @@ def main(args):
       # are building and running successfully.
       'crashpad_client_test',
       'crashpad_handler_test',
-      'crashpad_snapshot_test',
       ])
 
   if is_fuchsia:

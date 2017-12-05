@@ -128,6 +128,13 @@ static_library("snapshot") {
     ]
   }
 
+  if (is_fuchsia) {
+    sources += [
+      "fuchsia/process_snapshot_fuchsia.cc",
+      "fuchsia/process_snapshot_fuchsia.h",
+    ]
+  }
+
   if (target_cpu == "x86" || target_cpu == "x64") {
     sources += [
       "x86/cpuid_reader.cc",
