@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d4d3939_f595b0ec",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-05T00:45:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74cfb74e_9cd0b751",
+      "revId": "772202373065cc8d86fccb8240edc90c3a73c1d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36dc6ddb_246bf5a6",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2017-12-04T21:43:16Z",
       "side": 1,
       "message": "Optional: you could get rid of “kRetry” and this loop altogether if you replaced the situations that were “return kRetry” now with recursive “return ReadNote()” calls. (They’d be eligible for the tail call optimization.)",
+      "revId": "772202373065cc8d86fccb8240edc90c3a73c1d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "999a789f_0eee361e",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-05T00:45:46Z",
+      "side": 1,
+      "message": "We\u0027d need to call NextNote or move the GetNoteSegment loop into ReadNote since we might need to retry into the next segment. I tried it out, but it doesn\u0027t get tail-call optimized because of the local strings\u0027 destructors.\n\nIt would be nice to get rid of kRetry/InternalResult, though. What do you think of using a retry_ member?",
+      "parentUuid": "36dc6ddb_246bf5a6",
       "revId": "772202373065cc8d86fccb8240edc90c3a73c1d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e5b53dbb_0a2ff156",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-05T00:45:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc0a6d21_61d90ce3",
+      "revId": "772202373065cc8d86fccb8240edc90c3a73c1d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97b3a55d_253bbbd6",
         "filename": "snapshot/elf/elf_image_reader.h",
         "patchSetId": 11
@@ -64,6 +118,24 @@
       "writtenOn": "2017-12-04T21:43:16Z",
       "side": 1,
       "message": "Optional, but another thought I had: if you’re concerned that someone might be using the 64-bit version of the note structure anywhere, you could make this decltype(Elf64_Nhdr::n_type), on the theory that the 64-bit version will always be at least as wide as the 32-bit one. The static_assert would also need to change to \u003e\u003d.",
+      "revId": "772202373065cc8d86fccb8240edc90c3a73c1d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebb45cc5_ec7fd39d",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 11
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-05T00:45:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97b3a55d_253bbbd6",
       "revId": "772202373065cc8d86fccb8240edc90c3a73c1d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
