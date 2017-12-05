@@ -1,0 +1,266 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7501e4bf_4bbac3a7",
+        "filename": "compat/android/sys/epoll.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:13:16Z",
+      "side": 1,
+      "message": "Incorrect macro. Again on line 30.",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9451920f_d0c3925c",
+        "filename": "compat/android/sys/epoll.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:13:16Z",
+      "side": 1,
+      "message": "If it’s present in the C library, we should call it instead of doing the syscall() directly, in case the C library wrapper does something else useful.\n\nYou can use the mmap wrapper that I just removed yesterday as an example: https://chromium-review.googlesource.com/c/crashpad/crashpad/+/804555/4/compat/android/sys/mman.cc.",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00221938_d5043f58",
+        "filename": "compat/android/sys/epoll.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:13:16Z",
+      "side": 1,
+      "message": "Is it really just x86? Looks like this is always missing from traditional headers at API \u003c 21.",
+      "range": {
+        "startLine": 23,
+        "startChar": 44,
+        "endLine": 23,
+        "endChar": 50
+      },
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6996203_01f857ef",
+        "filename": "compat/android/sys/epoll.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:13:16Z",
+      "side": 1,
+      "message": "Same: is it really just x86?",
+      "range": {
+        "startLine": 28,
+        "startChar": 53,
+        "endLine": 28,
+        "endChar": 59
+      },
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd2e36fc_5a69361a",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:13:16Z",
+      "side": 1,
+      "message": "DCHECK_EQ(res, 1);",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9443596_73053a69",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:13:16Z",
+      "side": 1,
+      "message": "Since this is a bitfield, can we print it in hex? It’s easier to make sense of that way, especially considering that the constants all show up as hex in \u003csys/epoll.h\u003e.",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f245ea01_27066f49",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:13:16Z",
+      "side": 1,
+      "message": "switch-case-case this one too?",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07caf003_5c6ed1bb",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:13:16Z",
+      "side": 1,
+      "message": "Will we ever want to delete a subclass through a base (ExceptionHandlerServer::Delegate) pointer? If not, this can be private and non-virtual. (Seems to apply to Windows too.)",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a68b59b5_08dba962",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:13:16Z",
+      "side": 1,
+      "message": ";?",
+      "range": {
+        "startLine": 49,
+        "startChar": 59,
+        "endLine": 49,
+        "endChar": 60
+      },
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "436de728_95bce616",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:13:16Z",
+      "side": 1,
+      "message": "It’s not clear from the comment whether this behavior is desirable or if you’re mentioning it because code using ExceptionHandlerServer needs to take care to avoid calling Stop() if Run() hasn’t been called.",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 19
+      },
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f60f8da_95d94b34",
+        "filename": "util/linux/registration_protocol.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:13:16Z",
+      "side": 1,
+      "message": "Do we need to maintain this at registration time? Can’t we just send this along at exception time?",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8e702ac_7017f291",
+        "filename": "util/linux/registration_protocol.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:13:16Z",
+      "side": 1,
+      "message": "This is subject to forgery. We shouldn’t transfer this with the registration. Instead, we can pick up the client’s PID with SO_PEERCRED.",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be1b2795_eab484e0",
+        "filename": "util/linux/registration_protocol.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:13:16Z",
+      "side": 1,
+      "message": "Shouldn’t this be up to the handler to decide too?",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "523da591_fdbeceab",
+        "filename": "util/linux/registration_protocol.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T22:13:16Z",
+      "side": 1,
+      "message": "It seems that it’s possible that if the answers to each of the above questions is appropriate, the registration struct becomes empty. At that point, we may not even need it at all. Then we can eschew explicit registration and just allow anyone with access to the correct file descriptor to be a client. Fewer IPCs (at startup, which is heavily performance-sensitive), and less state to maintain in the handler: that’d be a win.\n\nWe couldn’t achieve this on Windows because the mechanism that we use to signal “I’m crashing” was chosen for its reliability and simplicity, which were both critical in a crashing process, and that mechanism does require registration and in-handler state. But I see no reason that we should be limited in the same way on Linux/Android.",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
