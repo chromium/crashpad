@@ -150,7 +150,6 @@ static_library("util") {
       "misc/clock_posix.cc",
       "posix/close_stdio.cc",
       "posix/close_stdio.h",
-      "posix/process_info.h",
       "posix/scoped_dir.cc",
       "posix/scoped_dir.h",
       "posix/scoped_mmap.cc",
@@ -169,6 +168,7 @@ static_library("util") {
         "posix/double_fork_and_exec.h",
         "posix/drop_privileges.cc",
         "posix/drop_privileges.h",
+        "posix/process_info.h",
 
         # These map signals to and from strings. While Fuchsia defines some of
         # the common SIGx defines, signals are never raised on Fuchsia, so
@@ -378,16 +378,11 @@ source_set("util_test") {
     "net/http_body_test_util.cc",
     "net/http_body_test_util.h",
     "net/http_multipart_builder_test.cc",
-    "net/http_transport_test.cc",
     "net/url_test.cc",
     "numeric/checked_address_range_test.cc",
     "numeric/checked_range_test.cc",
     "numeric/in_range_cast_test.cc",
     "numeric/int128_test.cc",
-    "posix/process_info_test.cc",
-    "posix/scoped_mmap_test.cc",
-    "posix/signals_test.cc",
-    "posix/symbolic_constants_posix_test.cc",
     "stdlib/aligned_allocator_test.cc",
     "stdlib/map_insert_test.cc",
     "stdlib/string_number_conversion_test.cc",
@@ -400,6 +395,25 @@ source_set("util_test") {
     "thread/thread_test.cc",
     "thread/worker_thread_test.cc",
   ]
+
+  if (!is_fuchsia) {
+    # TODO(scottmg): This requires an implementation of MultiprocessExec for
+    # testing, and a solution to http_transport_test_server.py -- either a port
+    # to non-Python, or method of forwarding those requests back to the builder
+    # host.
+    sources += [ "net/http_transport_test.cc" ]
+  }
+
+  if (is_posix) {
+    if (!is_fuchsia) {
+      sources += [
+        "posix/process_info_test.cc",
+        "posix/signals_test.cc",
+        "posix/symbolic_constants_posix_test.cc",
+      ]
+    }
+    sources += [ "posix/scoped_mmap_test.cc" ]
+  }
 
   if (is_mac) {
     sources += [
