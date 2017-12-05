@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd672850_f366f2cd",
+        "filename": "build/run_tests.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T16:19:14Z",
+      "side": 1,
+      "message": "Did you test this with a non-Fuchsia build directory? In a non-GN build, “gn args” will exit 1 causing a Python exception to be raised. You should swallow that exception and return False as long as we still have GYP-based builds.",
+      "revId": "e137ab49d6c38238112da321948007908dc141e0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0580bfb7_a195e446",
+        "filename": "build/run_tests.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T16:19:14Z",
+      "side": 1,
+      "message": "The indentation looks funny, but I don’t know if anything would look right here.",
+      "revId": "e137ab49d6c38238112da321948007908dc141e0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c08805b8_67ecf0c1",
+        "filename": "build/run_tests.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T16:19:14Z",
+      "side": 1,
+      "message": "uuid4 is better than uuid1 which probably should be considered obsolete. Also on lines 109 and 124.\n\nYou should use the same UUID at least on lines 108 and 109, so that directories from the same test run can be correlated to one another. Or you could do /tmp/%s_%s/tmp and /tmp/%s_%s/staging to keep them contained together, instead of having them be siblings.",
+      "revId": "e137ab49d6c38238112da321948007908dc141e0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc262a56_22c4e590",
+        "filename": "build/run_tests.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T16:19:14Z",
+      "side": 1,
+      "message": "Is this environment variable used by anything else?\n\nIs there something like the Android SDK’s “adb devices” that tells you what Zircon devices are connected? If there’s only one thing connected, we should use it instead of erroring out.",
+      "revId": "e137ab49d6c38238112da321948007908dc141e0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

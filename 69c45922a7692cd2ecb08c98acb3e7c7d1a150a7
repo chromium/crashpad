@@ -412,6 +412,30 @@
     },
     {
       "key": {
+        "uuid": "d050ca0c_13418807",
+        "filename": "build/run_tests.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-05T16:19:14Z",
+      "side": 1,
+      "message": "\u003e netruncmd is indeed running commands via /boot/bin/sh -c cmd, where each of those is a single element in an argv array. So as long as it makes it to the other side as one thing, I think it\u0027ll be treated properly at that level.\n\u003e \n\u003e I tried to confirm what the sh that\u0027s receiving those wants. It\u0027s \"dash\", in zircon/third_party/uapp/dash. There\u0027s no docs that I could find, and looking at the vintage code in src/parser.c didn\u0027t immediately enlighten me. It looks like it has some sort of handling of single and double quotes and backslashes, so I\u0027m going to ... assume that pipes.quote() is close. Ish.\n\nI know dash. (Proof: https://git.kernel.org/pub/scm/utils/dash/dash.git/commit/?id\u003d45d2ed830766c316138a7910b1bde96e32719349)\n\nThis is the “Debian Almquist Shell” (https://en.wikipedia.org/wiki/Almquist_shell#dash:_Ubuntu.2C_Debian_and_POSIX_compliance_of_Linux_distributions). It’s a basic and lightweight Bourne shell compliant with POSIX.\n\npipes.quote() is correct for it.",
+      "parentUuid": "31def37a_17f9922c",
+      "range": {
+        "startLine": 91,
+        "startChar": 50,
+        "endLine": 91,
+        "endChar": 60
+      },
+      "revId": "69c45922a7692cd2ecb08c98acb3e7c7d1a150a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18947658_ce1339c9",
         "filename": "build/run_tests.py",
         "patchSetId": 11
