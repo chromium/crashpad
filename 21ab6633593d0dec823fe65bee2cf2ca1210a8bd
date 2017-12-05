@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c3a7c87d_2ff1bee7",
+        "filename": "build/run_tests.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T23:04:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f823bdb0_4ff2a8ef",
+      "revId": "21ab6633593d0dec823fe65bee2cf2ca1210a8bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90326eb5_3c54cda0",
         "filename": "build/run_tests.py",
         "patchSetId": 7
@@ -30,6 +48,30 @@
       "writtenOn": "2017-12-05T22:29:40Z",
       "side": 1,
       "message": ".splitext(test)[1] \u003d\u003d \u0027.py\u0027 is fine, and so is test.endswith(\u0027.py\u0027) which is what you used on line 206. But the two should be consistent.",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 215,
+        "endChar": 41
+      },
+      "revId": "21ab6633593d0dec823fe65bee2cf2ca1210a8bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4c645a4_6fc9f945",
+        "filename": "build/run_tests.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-05T23:04:45Z",
+      "side": 1,
+      "message": "No idea why I did that since both were within 2 minutes of each other.",
+      "parentUuid": "90326eb5_3c54cda0",
       "range": {
         "startLine": 215,
         "startChar": 4,
