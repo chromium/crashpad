@@ -70,19 +70,6 @@ def _HandleOutputFromFuchsiaLogListener(process, done_message):
   return success
 
 
-def _RuntimeDepsPathToFuchsiaTargetPath(runtime_dep):
-  """Determines the target location for a given Fuchsia runtime dependency file.
-
-  If the file is in the build directory, then it's stored in /bin, otherwise
-  in /assets. This is only a rough heuristic, but is sufficient for the current
-  data set.
-  """
-  norm = os.path.normpath(runtime_dep)
-  in_build_dir = not norm.startswith('../')
-  no_prefix = norm.lstrip('/.')
-  return ('/bin/' if in_build_dir else '/assets/') + no_prefix
-
-
 def _RunOnFuchsiaTarget(binary_dir, test, device_name):
   """Runs the given Fuchsia |test| executable on the given |device_name|. The
   device must already be booted.
@@ -106,10 +93,10 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name):
     """Runs a list of commands on the target device. Each command is escaped
     by using pipes.quote(), and then each command is chained by shell ';'.
     """
-    local_binary = os.path.join(sdk_root, 'tools', 'netruncmd')
+    netruncmd_path = os.path.join(sdk_root, 'tools', 'netruncmd')
     final_args = ' ; '.join(' '.join(pipes.quote(x) for x in command)
                             for command in args)
-    subprocess.check_call([local_binary, device_name, final_args])
+    subprocess.check_call([netruncmd_path, device_name, final_args])
 
   try:
     unique_id = uuid.uuid4().hex
@@ -121,13 +108,30 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name):
                              '%s/assets' % staging_root]
     netruncmd(['mkdir', '-p'] + directories_to_create)
 
-    # Copy runtime deps into the staging tree.
-    netcp = os.path.join(sdk_root, 'tools', 'netcp')
-    for dep in runtime_deps:
-      target_path = staging_root + _RuntimeDepsPathToFuchsiaTargetPath(dep)
-      subprocess.check_call([netcp, os.path.join(binary_dir, dep),
-                            device_name + ':' + target_path],
+    def netcp(local_path):
+      """Uses `netcp` to copy a file or directory to the device. Files located
+      inside the build dir are stored to /pkg/bin, otherwise to /pkg/assets.
+      """
+      in_binary_dir = local_path.startswith(binary_dir + '/')
+      if in_binary_dir:
+        target_path = os.path.join(
+            staging_root, 'bin', local_path[len(binary_dir)+1:])
+      else:
+        target_path = os.path.join(staging_root, 'assets', local_path)
+      netcp_path = os.path.join(sdk_root, 'tools', 'netcp')
+      subprocess.check_call([netcp_path, local_path,
+                             device_name + ':' + target_path],
                             stderr=open(os.devnull))
+
+    # Copy runtime deps into the staging tree.
+    for dep in runtime_deps:
+      local_path = os.path.normpath(os.path.join(binary_dir, dep))
+      if os.path.isdir(local_path):
+        for root, dirs, files in os.walk(local_path):
+          for f in files:
+            netcp(os.path.join(root, f))
+      else:
+        netcp(local_path)
 
     done_message = 'TERMINATED: ' + unique_id
     namespace_command = [
