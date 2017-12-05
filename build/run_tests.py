@@ -173,6 +173,7 @@ def main(args):
   is_fuchsia = _BinaryDirLooksLikeFuchsiaBuild(binary_dir)
 
   tests = [
+      'crashpad_client_test',
       'crashpad_minidump_test',
       'crashpad_snapshot_test',
       'crashpad_test_test',
@@ -183,7 +184,6 @@ def main(args):
     tests.extend([
       # TODO(scottmg): Move the rest of these to the common section once they
       # are building and running successfully.
-      'crashpad_client_test',
       'crashpad_handler_test',
       ])
 
