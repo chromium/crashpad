@@ -173,19 +173,13 @@ def main(args):
   is_fuchsia = _BinaryDirLooksLikeFuchsiaBuild(binary_dir)
 
   tests = [
+      'crashpad_client_test',
+      'crashpad_handler_test',
       'crashpad_minidump_test',
       'crashpad_snapshot_test',
       'crashpad_test_test',
       'crashpad_util_test',
   ]
-
-  if not is_fuchsia:
-    tests.extend([
-      # TODO(scottmg): Move the rest of these to the common section once they
-      # are building and running successfully.
-      'crashpad_client_test',
-      'crashpad_handler_test',
-      ])
 
   if is_fuchsia:
     zircon_nodename = os.environ.get('ZIRCON_NODENAME')

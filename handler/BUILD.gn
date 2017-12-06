@@ -46,6 +46,15 @@ static_library("handler") {
     ]
   }
 
+  if (is_fuchsia) {
+    sources += [
+      "fuchsia/crash_report_exception_handler.cc",
+      "fuchsia/crash_report_exception_handler.h",
+      "fuchsia/exception_handler_server.cc",
+      "fuchsia/exception_handler_server.h",
+    ]
+  }
+
   public_configs = [ "..:crashpad_config" ]
 
   deps = [
@@ -75,6 +84,7 @@ source_set("handler_test") {
     "../client",
     "../compat",
     "../snapshot",
+    "../snapshot:test_support",
     "../test",
     "../util",
     "//base",

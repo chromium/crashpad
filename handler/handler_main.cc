@@ -74,6 +74,9 @@
 #include "util/win/handle.h"
 #include "util/win/initial_client_data.h"
 #include "util/win/session_end_watcher.h"
+#elif defined(OS_FUCHSIA)
+#include "handler/fuchsia/crash_report_exception_handler.h"
+#include "handler/fuchsia/exception_handler_server.h"
 #endif  // OS_MACOSX
 
 namespace crashpad {
@@ -343,6 +346,16 @@ void InstallCrashHandler() {
   SetConsoleCtrlHandler(ConsoleHandler, true);
   static TerminateHandler* terminate_handler = new TerminateHandler();
   ALLOW_UNUSED_LOCAL(terminate_handler);
+}
+
+#elif defined(OS_FUCHSIA)
+
+void InstallCrashHandler() {
+  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
+}
+
+void ReinstallCrashHandler() {
+  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
 }
 
 #endif  // OS_MACOSX
@@ -727,6 +740,8 @@ int HandlerMain(int argc,
   if (!options.pipe_name.empty()) {
     exception_handler_server.SetPipeName(base::UTF8ToUTF16(options.pipe_name));
   }
+#elif defined(OS_FUCHSIA)
+  ExceptionHandlerServer exception_handler_server;
 #endif  // OS_MACOSX
 
   base::GlobalHistogramAllocator* histogram_allocator = nullptr;
