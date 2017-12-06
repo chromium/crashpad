@@ -13,12 +13,11 @@
 # limitations under the License.
 
 import("//testing/test.gni")
+import("../build/crashpad_in_chromium.gni")
 
 if (is_mac) {
   import("//build/config/sysroot.gni")
-}
 
-if (is_mac) {
   action_foreach("mig") {
     script = "mach/mig.py"
 
@@ -38,7 +37,7 @@ if (is_mac) {
 
     args = [ "{{source}}" ]
     args += rebase_path(outputs, root_build_dir)
-    if (!use_system_xcode) {
+    if (crashpad_in_chromium && !use_system_xcode) {
       args += [
         "--developer-dir",
         hermetic_xcode_path,
@@ -46,7 +45,7 @@ if (is_mac) {
     }
     args += [
       "--sdk",
-      mac_sdk_path,
+      sysroot,
       "--include",
       rebase_path("../compat/mac", root_build_dir),
     ]
@@ -326,10 +325,8 @@ static_library("util") {
   ]
 
   deps = [
-    "//base",
-
-    # TODO(GN): Should this point at Chromium's zlib when in Chromium?
     "../third_party/zlib",
+    "//base",
   ]
 
   if (is_mac) {
@@ -340,6 +337,7 @@ static_library("util") {
       "IOKit.framework",
     ]
     deps += [ ":mig" ]
+    include_dirs += [ "$root_build_dir/gen" ]
   }
 
   if (is_win) {

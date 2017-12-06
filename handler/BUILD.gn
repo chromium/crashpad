@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import("../build/crashpad_in_chromium.gni")
 import("//testing/test.gni")
 
 static_library("handler") {
@@ -112,7 +113,7 @@ executable("crashpad_handler") {
     "//build/win:default_exe_manifest",
   ]
 
-  if (is_mac && is_component_build) {
+  if (crashpad_in_chromium && is_mac && is_component_build) {
     ldflags = [
       # The handler is in
       # Chromium.app/Contents/Versions/X/Chromium Framework.framework/Versions/A/Helpers/
