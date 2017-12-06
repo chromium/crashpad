@@ -168,6 +168,24 @@
     },
     {
       "key": {
+        "uuid": "41938d35_69eb9f8a",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-06T23:03:49Z",
+      "side": 1,
+      "message": "\u003e Ah, OK. How about for now I just don\u0027t pass anything in at all then, and it\u0027ll use whatever xcrun says is the default? Then the script is just a trivial GN-required wrapper around xcrun. We can add fancier overriding to downlevel when someone needs it.\n\nThat’s fine as long as we don’t support a user-configurable mac_sdk for the rest of the build.",
+      "parentUuid": "cd48d767_7331451d",
+      "revId": "90b3472c19ae362f7f5c036ae164616985f5073b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1cc50560_69e3e44d",
         "filename": "util/BUILD.gn",
         "patchSetId": 3
@@ -197,6 +215,24 @@
       "side": 1,
       "message": "Sounds reasonable. I\u0027m not sure about the mini_chromium split again here, it sort of feels like that file should live in mini_chromium if it\u0027s added since we\u0027d want to configure the rest of the build with it. Is that where you were thinking?\n\nSo... hmm. I guess what we\u0027d have to do is have it in mini_chromium somewhere, but then have a stub in build/chromium_compatibility/build/config/sysroot.gni forward to the mini_chromium one. I\u0027ll try that.",
       "parentUuid": "1cc50560_69e3e44d",
+      "revId": "90b3472c19ae362f7f5c036ae164616985f5073b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d2d2b0a_c82095b2",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-06T23:03:49Z",
+      "side": 1,
+      "message": "\u003e Sounds reasonable. I\u0027m not sure about the mini_chromium split again here, it sort of feels like that file should live in mini_chromium if it\u0027s added since we\u0027d want to configure the rest of the build with it. Is that where you were thinking?\n\u003e \n\u003e So... hmm. I guess what we\u0027d have to do is have it in mini_chromium somewhere, but then have a stub in build/chromium_compatibility/build/config/sysroot.gni forward to the mini_chromium one. I\u0027ll try that.\n\nWhatever you think is good. As we were saying last week, a lot of the split between Crashpad and mini_chromium for GN infrastructure feels a little artificial. In my mind, we’re still in the “experimenting” phase, and it’s fine if there’s churn as we decide how and where things should live.",
+      "parentUuid": "9a2f3dc7_903afb33",
       "revId": "90b3472c19ae362f7f5c036ae164616985f5073b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
