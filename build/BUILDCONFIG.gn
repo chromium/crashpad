@@ -39,7 +39,6 @@ is_win = false
 is_linux = false
 is_android = false
 is_fuchsia = false
-is_ios = false  # This is necessary for third_party/zlib/zlib/BUILD.gn.
 
 if (current_os == "mac") {
   is_mac = true
@@ -91,3 +90,9 @@ set_defaults("loadable_module") {
 set_defaults("shared_library") {
   configs = _default_configs
 }
+
+# These are set to constant values for Chromium build file compatibility. This
+# generally avoids extra explicit checking of whether or not Crashpad is
+# building in Chromium mode or not.
+is_ios = false
+is_component_build = false
