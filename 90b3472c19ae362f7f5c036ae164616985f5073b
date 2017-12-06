@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88363f6b_bac71f66",
+        "filename": "build/find_mac_sdk.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-06T22:07:29Z",
+      "side": 1,
+      "message": "Make sure that this is added as +x executable.",
+      "revId": "90b3472c19ae362f7f5c036ae164616985f5073b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7d96da7_3c290fdf",
+        "filename": "build/find_mac_sdk.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-06T22:07:29Z",
+      "side": 1,
+      "message": "#!/usr/bin/env python\n(blank)\n# Copyright blah blah",
+      "revId": "90b3472c19ae362f7f5c036ae164616985f5073b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "052a5605_7aa3c504",
+        "filename": "build/find_mac_sdk.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-06T22:07:29Z",
+      "side": 1,
+      "message": "from __future__ import print_function",
+      "revId": "90b3472c19ae362f7f5c036ae164616985f5073b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9913037a_9e08a180",
+        "filename": "build/find_mac_sdk.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-06T22:07:29Z",
+      "side": 1,
+      "message": "file\u003dsys.stderr",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 9
+      },
+      "revId": "90b3472c19ae362f7f5c036ae164616985f5073b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "666019f5_38f80192",
+        "filename": "build/find_mac_sdk.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-06T22:07:29Z",
+      "side": 1,
+      "message": "sdk_version should be optional.\n\nOr if it’s hard to call in that way from gn, we should have some value for it that we treat as meaning “default”.",
+      "range": {
+        "startLine": 22,
+        "startChar": 34,
+        "endLine": 22,
+        "endChar": 45
+      },
+      "revId": "90b3472c19ae362f7f5c036ae164616985f5073b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a41ab224_042b6a6d",
+        "filename": "build/find_mac_sdk.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-06T22:07:29Z",
+      "side": 1,
+      "message": "We shouldn’t be building up SDK paths manually.\n\n“xcrun --show-sdk-path” will assemble a path to the default SDK.\n\n“xcrun --show-sdk-path --sdk macosx10.12” will assemble a path to the 10.12 SDK.\n\nSince you won’t be doing anything with the output other than just reprinting it, you can move from subprocess.check_output to subprocess.check_call.",
+      "revId": "90b3472c19ae362f7f5c036ae164616985f5073b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae5a2dbb_5bbdb8e4",
+        "filename": "build/find_mac_sdk.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-06T22:07:29Z",
+      "side": 1,
+      "message": "You don’t have to, but I prefer to invoke main with sys.argv[1:], and to then just use those args directly in main() without having to worry about skipping [0].",
+      "revId": "90b3472c19ae362f7f5c036ae164616985f5073b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12500aaf_a98a48af",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-06T22:07:29Z",
+      "side": 1,
+      "message": "I don’t want to have a hard-coded default for this. See comments in the .py file.\n\nWhy? For the past few years, Apple’s only been shipping a single SDK version with each copy of Xcode. The Xcode 8 series contains the macOS 10.12 SDK, and I guess that’s what you’re using. But Xcode 9 is current, and it contains the macOS 10.13 SDK. It’s not necessarily entirely unreasonable for you (or someone else) to be using Xcode 8 still, but neither is it unreasonable for someone else to be using 9 as I am. And the only way to support both in the same tree without requiring everyone to write their SDK version down in args.gn is to respect whatever happens to be present as the default.",
+      "revId": "90b3472c19ae362f7f5c036ae164616985f5073b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
