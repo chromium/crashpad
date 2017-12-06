@@ -56,7 +56,7 @@ int ExtendedHandlerMain(int argc, char* argv[]) {
 
 }  // namespace
 
-#if defined(OS_MACOSX)
+#if defined(OS_POSIX)
 
 int main(int argc, char* argv[]) {
   return ExtendedHandlerMain(argc, argv);

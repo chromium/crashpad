@@ -29,9 +29,12 @@
 #include "util/posix/drop_privileges.h"
 #include "util/stdlib/string_number_conversion.h"
 
+#if defined(OS_POSIX)
+#include <unistd.h>
+#endif
+
 #if defined(OS_MACOSX)
 #include <mach/mach.h>
-#include <unistd.h>
 
 #include "base/mac/scoped_mach_port.h"
 #include "snapshot/mac/process_snapshot_mac.h"
@@ -42,6 +45,8 @@
 #include "snapshot/win/process_snapshot_win.h"
 #include "util/win/scoped_process_suspend.h"
 #include "util/win/xp_compat.h"
+#elif defined(OS_FUCHSIA)
+#include "snapshot/fuchsia/process_snapshot_fuchsia.h"
 #endif  // OS_MACOSX
 
 namespace crashpad {
@@ -186,6 +191,12 @@ int GenerateDumpMain(int argc, char* argv[]) {
                                          : ProcessSuspensionState::kRunning,
                                      0,
                                      0)) {
+      return EXIT_FAILURE;
+    }
+#elif defined(OS_FUCHSIA)
+    ProcessSnapshotFuchsia process_snapshot;
+    // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+    if (!process_snapshot.Initialize(ZX_HANDLE_INVALID)) {
       return EXIT_FAILURE;
     }
 #endif  // OS_MACOSX
