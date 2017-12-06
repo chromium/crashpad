@@ -90,7 +90,6 @@ static_library("test") {
 
   deps = [
     "../compat",
-    "../snapshot",
     "../util",
     "//base",
     "//testing/gtest",
@@ -98,7 +97,10 @@ static_library("test") {
 
   if (is_mac) {
     libs = [ "bsm" ]
-    deps += [ "../handler" ]
+    deps += [
+      "../handler",
+      "../snapshot",
+    ]
   }
 }
 
