@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "127500d3_522b4c55",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-06T23:08:47Z",
+      "side": 1,
+      "message": "Is it possible to group these in a for-Chromium-compat-only file?\n\nAt the very least, I think we should take these out of the “meat” of BUILDCONFIG.gn and put them further dow, like at the bottom. Or at least before the things that look like function calls, so following the is_posix line.",
+      "revId": "ce23a4e478eb2090be36aff0f3f1174fba759e2a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e715f58_89efac37",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-06T23:08:47Z",
+      "side": 1,
+      "message": "Does this need to be set for non-Mac?\n\nMaybe it’s not possible to do that because putting it in an “if (is_mac)” would scope it incorrectly.",
+      "revId": "ce23a4e478eb2090be36aff0f3f1174fba759e2a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
