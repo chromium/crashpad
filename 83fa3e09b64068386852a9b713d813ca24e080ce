@@ -307,6 +307,24 @@
       "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60964492_0ff5d905",
+        "filename": "snapshot/posix/timezone_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-06T16:04:10Z",
+      "side": 1,
+      "message": "\u003e Gotcha, I\u0027ll stick to API 16. Thanks for investigating.\n\nThis resulted in https://crashpad.chromium.org/bug/211 and the changes hanging off of it.",
+      "parentUuid": "344e6d4c_6ce5ee10",
+      "revId": "83fa3e09b64068386852a9b713d813ca24e080ce",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
