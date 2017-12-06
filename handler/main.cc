@@ -21,7 +21,7 @@
 #include <windows.h>
 #endif
 
-#if defined(OS_MACOSX)
+#if defined(OS_POSIX)
 
 int main(int argc, char* argv[]) {
   return crashpad::HandlerMain(argc, argv, nullptr);
@@ -50,4 +50,4 @@ int wmain(int argc, wchar_t* argv[]) {
   return crashpad::ToolSupport::Wmain(argc, argv, HandlerMainAdaptor);
 }
 
-#endif  // OS_MACOSX
+#endif  // OS_POSIX
