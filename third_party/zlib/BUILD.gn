@@ -19,19 +19,71 @@ config("zlib_config") {
     defines = [ "CRASHPAD_ZLIB_SOURCE_CHROMIUM" ]
   } else {
     defines = [ "CRASHPAD_ZLIB_SOURCE_EMBEDDED" ]
+    include_dirs = [ "zlib" ]
   }
 }
 
-group("zlib") {
-  public_configs = [ ":zlib_config" ]
-
-  if (crashpad_in_chromium) {
+if (crashpad_in_chromium) {
+  group("zlib") {
+    public_configs = [ ":zlib_config" ]
     public_deps = [
       "//third_party/zlib",
     ]
-  } else {
-    public_deps = [
-      "//third_party/zlib/zlib",
+  }
+} else {
+  static_library("zlib") {
+    public_configs = [ ":zlib_config" ]
+    sources = [
+      "zlib/adler32.c",
+      "zlib/compress.c",
+      "zlib/crc32.c",
+      "zlib/crc32.h",
+      "zlib/deflate.c",
+      "zlib/deflate.h",
+      "zlib/gzclose.c",
+      "zlib/gzguts.h",
+      "zlib/gzlib.c",
+      "zlib/gzread.c",
+      "zlib/gzwrite.c",
+      "zlib/infback.c",
+      "zlib/inffast.c",
+      "zlib/inffast.h",
+      "zlib/inffixed.h",
+      "zlib/inflate.c",
+      "zlib/inflate.h",
+      "zlib/inftrees.c",
+      "zlib/inftrees.h",
+      "zlib/names.h",
+      "zlib/trees.c",
+      "zlib/trees.h",
+      "zlib/uncompr.c",
+      "zlib/x86.h",
+      "zlib/zconf.h",
+      "zlib/zlib.h",
+      "zlib/zutil.c",
+      "zlib/zutil.h",
     ]
+    cflags = []
+
+    if (current_cpu == "x86" || current_cpu == "x64") {
+      sources += [
+        "zlib/crc_folding.c",
+        "zlib/fill_window_sse.c",
+        "zlib/x86.c",
+      ]
+      if (!is_win || is_clang) {
+        cflags += [
+          "-msse4.2",
+          "-mpclmul",
+        ]
+      }
+      if (is_clang) {
+        cflags += [ "-Wno-incompatible-pointer-types" ]
+      }
+    } else {
+      sources = [
+        "zlib/simd_stub.c",
+      ]
+    }
   }
 }
