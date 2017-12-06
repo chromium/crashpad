@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f02a3f0_30e8982e",
+        "filename": "build/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-06T20:54:07Z",
+      "side": 1,
+      "message": "Would a simple \u0027linux-android\u0027 in build_ninja_content be sufficient instead of re\u0027ing the whole file?",
+      "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6540ab3_f38cca9e",
+        "filename": "build/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-06T20:54:07Z",
+      "side": 1,
+      "message": "If it doesn\u0027t exist and it\u0027s not in the list, should it also be skipped?",
+      "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b9f6530_a14f764c",
+        "filename": "build/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-06T20:54:07Z",
+      "side": 1,
+      "message": "nit; a formatting something like\n\n  supported_tests \u003d (\u0027crashpad_client_test\u0027, \u0027crashpad_handler_test\u0027,\n                     \u0027crashpad_minidump_test\u0027, \u0027crashpad_snapshot_test\u0027)\n  if not os.path.exists(local_test_path) and test in supported_tests:\n\nmight be more visually pleasant.",
+      "range": {
+        "startLine": 69,
+        "startChar": 54,
+        "endLine": 69,
+        "endChar": 78
+      },
+      "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07978dab_b2b17374",
+        "filename": "build/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-06T20:54:07Z",
+      "side": 1,
+      "message": "This is for \\n? Maybe .rstrip() instead, especially for the \\r\\n case since you\u0027re ostensibly trying to handle Windows here.",
+      "range": {
+        "startLine": 76,
+        "startChar": 44,
+        "endLine": 76,
+        "endChar": 49
+      },
+      "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44a5a880_2acc55b1",
+        "filename": "build/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-06T20:54:07Z",
+      "side": 1,
+      "message": "I don\u0027t think this is necessary, split(\u0027x\u0027)[0], split(\u0027x/\u0027)[0], and split(\u0027x/y\u0027)[0] all seem to do what you\u0027d need here?\n\nOr is it necesssary for the actual \"push\" loop below? In that case, it could move down there.",
+      "range": {
+        "startLine": 106,
+        "startChar": 9,
+        "endLine": 106,
+        "endChar": 44
+      },
+      "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d01f0d16_0bd2edf5",
+        "filename": "build/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-06T20:54:07Z",
+      "side": 1,
+      "message": "I think this will have to stay a list because of the mutation in the IS_WINDOWS_HOST block.",
+      "range": {
+        "startLine": 274,
+        "startChar": 10,
+        "endLine": 274,
+        "endChar": 11
+      },
+      "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9401035_d4a835a7",
+        "filename": "build/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-06T20:54:07Z",
+      "side": 1,
+      "message": "elif? The IS_WINDOWS_HOST case is a bit confused.",
+      "range": {
+        "startLine": 302,
+        "startChar": 2,
+        "endLine": 302,
+        "endChar": 3
+      },
+      "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
