@@ -31,7 +31,7 @@ deps = {
       '88e056258a01450b07414642fa5fb98493c1f6ce',
   'crashpad/third_party/zlib/zlib':
       Var('chromium_git') + '/chromium/src/third_party/zlib@' +
-      '13dc246a58e4b72104d35f9b1809af95221ebda7',
+      '19b73624f3fed8d47788c07f7bea6ccd435a7ee5',
 }
 
 hooks = [

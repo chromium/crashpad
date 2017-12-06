@@ -31,7 +31,7 @@ bool CrashpadClient::StartHandler(
     const std::vector<std::string>& arguments,
     bool restartable,
     bool asynchronous_start) {
-  NOTREACHED();
+  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return false;
 }
 

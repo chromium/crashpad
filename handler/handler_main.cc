@@ -351,11 +351,11 @@ void InstallCrashHandler() {
 #elif defined(OS_FUCHSIA)
 
 void InstallCrashHandler() {
-  NOTREACHED();
+  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
 }
 
 void ReinstallCrashHandler() {
-  NOTREACHED();
+  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
 }
 
 #endif  // OS_MACOSX

@@ -21,14 +21,14 @@ namespace crashpad {
 // static
 std::unique_ptr<CrashReportDatabase> CrashReportDatabase::Initialize(
     const base::FilePath& path) {
-  NOTREACHED();
+  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return std::unique_ptr<CrashReportDatabase>();
 }
 
 // static
 std::unique_ptr<CrashReportDatabase>
 CrashReportDatabase::InitializeWithoutCreating(const base::FilePath& path) {
-  NOTREACHED();
+  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return std::unique_ptr<CrashReportDatabase>();
 }
 

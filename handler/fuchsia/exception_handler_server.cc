@@ -14,12 +14,16 @@
 
 #include "handler/fuchsia/exception_handler_server.h"
 
+#include "base/logging.h"
+
 namespace crashpad {
 
 ExceptionHandlerServer::ExceptionHandlerServer() {}
 
 ExceptionHandlerServer::~ExceptionHandlerServer() {}
 
-void ExceptionHandlerServer::Run(CrashReportExceptionHandler* handler) {}
+void ExceptionHandlerServer::Run(CrashReportExceptionHandler* handler) {
+  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
+}
 
 }  // namespace crashpad
