@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a203ff17_a9c732e3",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-06T18:20:54Z",
+      "side": 1,
+      "message": "Oops, should have had this one all along.",
+      "revId": "b6879718fedc54aa2be212e9af5eb27a02cc3204",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
