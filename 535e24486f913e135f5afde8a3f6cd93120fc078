@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc4701b9_db074e5d",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-06T18:40:36Z",
+      "side": 1,
+      "message": "Could drop some of this SSE stuff for simplicity on the assumption that we\u0027re not dealing with giant datasets in standalone mode, but it\u0027s also not too much extra code.",
+      "revId": "535e24486f913e135f5afde8a3f6cd93120fc078",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
