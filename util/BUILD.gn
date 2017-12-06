@@ -13,19 +13,28 @@
 # limitations under the License.
 
 import("//testing/test.gni")
+import("../build/crashpad_in_chromium.gni")
 
-if (is_mac) {
-  import("//build/config/sysroot.gni")
+declare_args() {
+  # The SDK version to target when building on macOS.
+  mac_sdk = "10.12"
 }
 
 if (is_mac) {
+  if (crashpad_in_chromium) {
+    import("//build/config/sysroot.gni")
+    sdkroot = sysroot
+  } else {
+    sdkroot = exec_script("//build/find_mac_sdk.py", [mac_sdk], "trim string")
+  }
+
   action_foreach("mig") {
     script = "mach/mig.py"
 
     sources = [
-      "$sysroot/usr/include/mach/exc.defs",
-      "$sysroot/usr/include/mach/mach_exc.defs",
-      "$sysroot/usr/include/mach/notify.defs",
+      "$sdkroot/usr/include/mach/exc.defs",
+      "$sdkroot/usr/include/mach/mach_exc.defs",
+      "$sdkroot/usr/include/mach/notify.defs",
       "mach/child_port.defs",
     ]
 
@@ -38,7 +47,7 @@ if (is_mac) {
 
     args = [ "{{source}}" ]
     args += rebase_path(outputs, root_build_dir)
-    if (!use_system_xcode) {
+    if (crashpad_in_chromium && !use_system_xcode) {
       args += [
         "--developer-dir",
         hermetic_xcode_path,
@@ -46,7 +55,7 @@ if (is_mac) {
     }
     args += [
       "--sdk",
-      mac_sdk_path,
+      sdkroot,
       "--include",
       rebase_path("../compat/mac", root_build_dir),
     ]
