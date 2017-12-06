@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "694d6e03_8e35c63a",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-06T23:24:50Z",
+      "side": 1,
+      "message": "BUILDCONFIG.gn is the special set of globals that is evaluated as a prolog to each .gn file. So I think to match Chromium\u0027s expectations, we have to also put is_component_build in this file.\n\nis_ios can be removed once the custom zlib build file lands.",
+      "parentUuid": "127500d3_522b4c55",
+      "revId": "ce23a4e478eb2090be36aff0f3f1174fba759e2a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e715f58_89efac37",
         "filename": "build/BUILDCONFIG.gn",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2017-12-06T23:08:47Z",
       "side": 1,
       "message": "Does this need to be set for non-Mac?\n\nMaybe it’s not possible to do that because putting it in an “if (is_mac)” would scope it incorrectly.",
+      "revId": "ce23a4e478eb2090be36aff0f3f1174fba759e2a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ba1c930_e6efae5b",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-06T23:24:50Z",
+      "side": 1,
+      "message": "use_system_xcode is in a strange place in Chromium: https://cs.chromium.org/chromium/src/build_overrides/build.gni?rcl\u003d2b290d978563789ecb9a5fd1aa742595be534f74\u0026l\u003d48 I think I could probably reasonably put that in sysroot.gni (and yes, it can be is_mac\u0027d even though it\u0027s not in Chromium.)",
+      "parentUuid": "8e715f58_89efac37",
       "revId": "ce23a4e478eb2090be36aff0f3f1174fba759e2a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
