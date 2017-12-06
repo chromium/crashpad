@@ -22,7 +22,6 @@
       'type': 'static_library',
       'dependencies': [
         '../compat/compat.gyp:crashpad_compat',
-        '../snapshot/snapshot.gyp:crashpad_snapshot',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
         '../util/util.gyp:crashpad_util',
@@ -85,6 +84,7 @@
         ['OS=="mac"', {
           'dependencies': [
             '../handler/handler.gyp:crashpad_handler_lib',
+            '../snapshot/snapshot.gyp:crashpad_snapshot',
           ],
           'link_settings': {
             'libraries': [
