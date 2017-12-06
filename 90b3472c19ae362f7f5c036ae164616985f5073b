@@ -147,6 +147,23 @@
       "revId": "90b3472c19ae362f7f5c036ae164616985f5073b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cc50560_69e3e44d",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-06T22:15:22Z",
+      "side": 1,
+      "message": "sysroot (in the style of this .gni) may not be the most unreasonable thing to have available in the standalone Crashpad build, considering the various cross targets we want to support. You’re already working with sysroot for Fuchsia in mini_chromium’s build/BUILD.gn. Should we go ahead and do a //build/config/sysroot.gni here too, and move your find_mac_sdk.py to it? It’d eliminate this use of crashpad_in_chromium.",
+      "revId": "90b3472c19ae362f7f5c036ae164616985f5073b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
