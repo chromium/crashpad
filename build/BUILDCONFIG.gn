@@ -41,6 +41,10 @@ is_android = false
 is_fuchsia = false
 is_ios = false  # This is necessary for third_party/zlib/zlib/BUILD.gn.
 
+# To avoid some codepaths in the standalone build that are Chromium-only,
+# without specifically checking whether building in Chromium mode.
+is_component_build = false
+
 if (current_os == "mac") {
   is_mac = true
 } else if (current_os == "win") {
