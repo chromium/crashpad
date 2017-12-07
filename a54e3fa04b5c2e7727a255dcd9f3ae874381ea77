@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3618bd3a_0c421637",
+        "filename": "build/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T21:53:42Z",
+      "side": 1,
+      "message": "\u003e Would a simple \u0027linux-android\u0027 in build_ninja_content be sufficient instead of re\u0027ing the whole file?\n\nI guess so, but I don’t like how loosey-goosey that would be.",
+      "parentUuid": "0f02a3f0_30e8982e",
+      "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6540ab3_f38cca9e",
         "filename": "build/run_tests.py",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f8c3cd9_60722196",
+        "filename": "build/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T21:53:42Z",
+      "side": 1,
+      "message": "\u003e If it doesn\u0027t exist and it\u0027s not in the list, should it also be skipped?\n\nIf we wanted to do that, it’d best be handled outside of this Android-specific function, right?\n\nMy idea here was that these four tests either don’t build on Android yet at all, or don’t build on arm/arm64, and we needed a clean way to deal with their absence for the time being without forcing all test runs to fail. Once they’re supported, we’d get rid of this list and require them to be present for a bare “run_tests.py” invocation, just like on other OSes.",
+      "parentUuid": "b6540ab3_f38cca9e",
+      "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "1af9572a_9c701cb2",
+        "filename": "build/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T21:53:42Z",
+      "side": 1,
+      "message": "Done, as MAYBE_UNSUPPORTED_TESTS. Just having the name on it should make the intent clearer.",
+      "parentUuid": "4b9f6530_a14f764c",
+      "range": {
+        "startLine": 69,
+        "startChar": 54,
+        "endLine": 69,
+        "endChar": 78
+      },
+      "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07978dab_b2b17374",
         "filename": "build/run_tests.py",
         "patchSetId": 1
@@ -79,6 +139,30 @@
       "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d261b96_7a408234",
+        "filename": "build/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T21:53:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07978dab_b2b17374",
+      "range": {
+        "startLine": 76,
+        "startChar": 44,
+        "endLine": 76,
+        "endChar": 49
+      },
+      "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "a7dfa594_be3179b2",
+        "filename": "build/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T21:53:42Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think this is necessary, split(\u0027x\u0027)[0], split(\u0027x/\u0027)[0], and split(\u0027x/y\u0027)[0] all seem to do what you\u0027d need here?\n\u003e \n\u003e Or is it necesssary for the actual \"push\" loop below? In that case, it could move down there.\n\n\u003e\u003e\u003e import posixpath\n\u003e\u003e\u003e posixpath.split(\u0027a/b\u0027)\n(\u0027a\u0027, \u0027b\u0027)\n\u003e\u003e\u003e posixpath.split(\u0027a/b/\u0027)\n(\u0027a/b\u0027, \u0027\u0027)\n\nThat’s no good. I need to treat [0] as the thing to create in both cases.\n\nIt seems like it’d be OK in the second case to mkdir a/b, but there’s a problem if you do that: if a/b exists, then when you “adb push b a/b”, you’ll wind up with it heading into a/b/b. On the other hand, if a exists but a/b doesn’t, it’ll go into a/b, where it belongs.\n\nI’ve addressed this by expanding the comment.",
+      "parentUuid": "44a5a880_2acc55b1",
+      "range": {
+        "startLine": 106,
+        "startChar": 9,
+        "endLine": 106,
+        "endChar": 44
+      },
+      "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d01f0d16_0bd2edf5",
         "filename": "build/run_tests.py",
         "patchSetId": 1
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "d330f797_238a7d24",
+        "filename": "build/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T21:53:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d01f0d16_0bd2edf5",
+      "range": {
+        "startLine": 274,
+        "startChar": 10,
+        "endLine": 274,
+        "endChar": 11
+      },
+      "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9401035_d4a835a7",
         "filename": "build/run_tests.py",
         "patchSetId": 1
@@ -148,6 +280,30 @@
       "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d2397f0_25e55e9a",
+        "filename": "build/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T21:53:42Z",
+      "side": 1,
+      "message": "Good catch. Done.",
+      "parentUuid": "f9401035_d4a835a7",
+      "range": {
+        "startLine": 302,
+        "startChar": 2,
+        "endLine": 302,
+        "endChar": 3
+      },
+      "revId": "a54e3fa04b5c2e7727a255dcd9f3ae874381ea77",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
