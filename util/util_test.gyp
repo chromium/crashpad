@@ -169,18 +169,6 @@
           'sources': [
             'win/process_info_test_child.cc',
           ],
-          # Set an unusually high load address to make sure that the main
-          # executable still appears as the first element in
-          # ProcessInfo::Modules().
-          'msvs_settings': {
-            'VCLinkerTool': {
-              'AdditionalOptions': [
-                '/BASE:0x78000000',
-              ],
-              'RandomizedBaseAddress': '1',  # /DYNAMICBASE:NO.
-              'FixedBaseAddress': '2',  # /FIXED.
-            },
-          },
         },
         {
           'target_name': 'crashpad_util_test_safe_terminate_process_test_child',
