@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "82b92f05_7fc3854a",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-07T17:34:59Z",
+      "side": 1,
+      "message": "I originally went with the ifs over the switch because the use of breaks in the loop seemed less readable and I\u0027m pretty sure at some point I got a warning for using default when all the cases were handled. I wanted to have a default since we\u0027re reading this request from a socket so it seemed more likely to accidentally read something wrong and end up with an invalid request type.\n\nUsing continues in the switch instead of breaks seems to solve both those problems.",
+      "parentUuid": "deea3a1e_10e0dda5",
+      "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "56f3dc63_607035f7",
         "filename": "util/linux/ptrace_broker.cc",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2017-12-05T21:28:57Z",
       "side": 1,
       "message": "in which case this (a “default:”) shouldn’t be needed",
+      "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f6ef3c0_9506a122",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-07T17:34:59Z",
+      "side": 1,
+      "message": "response above",
+      "parentUuid": "56f3dc63_607035f7",
       "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5e9398e2_b4273bf8",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-07T17:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95975d29_251e4c31",
+      "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f07082c_443362cd",
         "filename": "util/linux/ptrace_broker.h",
         "patchSetId": 8
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "4d70a542_5a1a156c",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-07T17:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f07082c_443362cd",
+      "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "262912b7_298b45b6",
         "filename": "util/linux/ptrace_broker.h",
         "patchSetId": 8
@@ -81,6 +153,30 @@
       "writtenOn": "2017-12-05T21:28:57Z",
       "side": 1,
       "message": "What’s the meaning of this given that you also have a kIs64Bit request type?",
+      "range": {
+        "startLine": 86,
+        "startChar": 25,
+        "endLine": 86,
+        "endChar": 39
+      },
+      "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "771fb25e_7ca7c006",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-07T17:34:59Z",
+      "side": 1,
+      "message": "The kIs64Bit request returns this value, which is used to initialize Ptracer. Other options are to pass the target pid (expected to be getppid()) to initialize with, or defer initializing Ptracer until we get the first kAttach request (and return an error if we get any other request first).\n\nI went with is_64_bit here since it\u0027s less work to initialize and for its expected use, we know the target process has the same bitness as the broker.",
+      "parentUuid": "262912b7_298b45b6",
       "range": {
         "startLine": 86,
         "startChar": 25,
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "a72ed0f5_21a108c9",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-07T17:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b3834eb_63428dc3",
+      "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f505e90c_5935218c",
         "filename": "util/linux/ptracer_test_util.h",
         "patchSetId": 8
@@ -124,6 +238,24 @@
       "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95a5f6e1_1a213d0d",
+        "filename": "util/linux/ptracer_test_util.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-07T17:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f505e90c_5935218c",
+      "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
