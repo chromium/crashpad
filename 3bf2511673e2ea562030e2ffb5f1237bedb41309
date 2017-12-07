@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "acfe15cd_323d8823",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-07T17:57:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7863a169_baf5a38b",
+      "revId": "3bf2511673e2ea562030e2ffb5f1237bedb41309",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20a82150_6671ff6b",
         "filename": "third_party/zlib/BUILD.gn",
         "patchSetId": 7
@@ -33,6 +51,24 @@
       "revId": "3bf2511673e2ea562030e2ffb5f1237bedb41309",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a071aedc_697bfac0",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-07T17:57:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20a82150_6671ff6b",
+      "revId": "3bf2511673e2ea562030e2ffb5f1237bedb41309",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "d6a3d57b_d841d46b",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-07T17:57:37Z",
+      "side": 1,
+      "message": "Added it to this one. We have a variety of --check problems, so I\u0027ll leave it off there for now take a look at those separately. (Looking at `gn help group` it looks like groups can only contain deps and configs, so I think we\u0027ll need a stub source_set that contains the header probably.)",
+      "parentUuid": "c798f74f_cffbd8c0",
+      "revId": "3bf2511673e2ea562030e2ffb5f1237bedb41309",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cda0ebd3_0145e103",
         "filename": "third_party/zlib/BUILD.gn",
         "patchSetId": 7
@@ -67,6 +121,24 @@
       "revId": "3bf2511673e2ea562030e2ffb5f1237bedb41309",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fd89bad_12be344e",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-07T17:57:37Z",
+      "side": 1,
+      "message": "Hmm, this is mostly based on the Chromium gn file, rather than from gyp. I wonder if those are intentionally missing from Chromium or not. Added anyway.",
+      "parentUuid": "cda0ebd3_0145e103",
+      "revId": "3bf2511673e2ea562030e2ffb5f1237bedb41309",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "d4dbba22_6abb01eb",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-07T17:57:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e62b2945_167e4ed9",
+      "revId": "3bf2511673e2ea562030e2ffb5f1237bedb41309",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d5a2a93_7ba19eba",
         "filename": "third_party/zlib/BUILD.gn",
         "patchSetId": 7
@@ -98,6 +188,24 @@
       "writtenOn": "2017-12-07T15:58:35Z",
       "side": 1,
       "message": "The GYP version disables a bunch of warnings in MSVC. I imagine that you haven’t tried to use this GN version on Windows yet, and it’s cool if you want to wait to do that here until you’re ready.\n\nAs mentioned previously, I do want to keep the “system” zlib source for Mac and Linux in the standalone build. Also OK to do that in a post-Fuchsia change as other stuff gets moved over to GN.",
+      "revId": "3bf2511673e2ea562030e2ffb5f1237bedb41309",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2b1ca7d_4b46ae46",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-07T17:57:37Z",
+      "side": 1,
+      "message": "Added MSVC warnings, but untested. Yeah, I\u0027ll take a look at system as I try to get Mac working.",
+      "parentUuid": "2d5a2a93_7ba19eba",
       "revId": "3bf2511673e2ea562030e2ffb5f1237bedb41309",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
