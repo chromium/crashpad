@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6394b262_282cb540",
+        "filename": "handler/crashpad_handler_test_extended_handler.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T18:32:26Z",
+      "side": 1,
+      "message": "// OS_POSIX",
+      "revId": "483acd88f06f91095f744c21962d57968520ef04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e18c2974_1c8c045a",
+        "filename": "handler/main.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T18:32:26Z",
+      "side": 1,
+      "message": "What’s this change for?",
+      "revId": "483acd88f06f91095f744c21962d57968520ef04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2dc2a90_91e03972",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T18:32:26Z",
+      "side": 1,
+      "message": "Let’s group it so that there’s no blank between cflags and defines, and then there is a blank before the if.",
+      "revId": "483acd88f06f91095f744c21962d57968520ef04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0ae7463_2898312e",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T18:32:26Z",
+      "side": 1,
+      "message": "And let’s just do all of the conditions last, so this can move up.",
+      "revId": "483acd88f06f91095f744c21962d57968520ef04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
