@@ -66,6 +66,19 @@ class Ptracer {
   //! \return `true` on success. `false` on failure with a message logged.
   bool GetThreadInfo(pid_t tid, ThreadInfo* info);
 
+  //! \brief Uses `ptrace` to read memory from the process with process ID \a
+  //!     pid.
+  //!
+  //! The target process should already be attached before calling this method.
+  //! \see ScopedPtraceAttach
+  //!
+  //! \param[in] pid The process ID whose memory to read.
+  //! \param[in] address The base address of the region to read.
+  //! \param[in] size The size of the memory region to read.
+  //! \param[out] buffer The buffer to fill with the data read.
+  //! \return `true` on success. `false` on failure.
+  bool ReadMemory(pid_t pid, LinuxVMAddress address, size_t size, char* buffer);
+
  private:
   bool is_64_bit_;
   InitializationStateDcheck initialized_;

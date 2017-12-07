@@ -43,6 +43,8 @@
         'hex_string.h',
         'linux/fake_ptrace_connection.cc',
         'linux/fake_ptrace_connection.h',
+        'linux/get_tls.cc',
+        'linux/get_tls.h',
         'mac/dyld.cc',
         'mac/dyld.h',
         'mac/exception_swallower.cc',
