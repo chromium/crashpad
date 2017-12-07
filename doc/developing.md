@@ -210,35 +210,18 @@ Software Development Kit.
 
 ### Android
 
-To test on Android, use [ADB (Android Debug
-Bridge)](https://developer.android.com/studio/command-line/adb.html) to `adb
-push` test executables and test data to a device or emulator, then use `adb
-shell` to get a shell to run the test executables from. ADB is part of the
-[Android SDK](https://developer.android.com/sdk/). Note that it is sufficient to
-install just the command-line tools. The entire Android Studio IDE is not
-necessary to obtain ADB.
+To test on Android, [ADB (Android Debug
+Bridge)](https://developer.android.com/studio/command-line/adb.html) from the
+[Android SDK](https://developer.android.com/sdk/) must be in the `PATH`. Note
+that it is sufficient to install just the command-line tools from the Android
+SDK. The entire Android Studio IDE is not necessary to obtain ADB.
 
-This example runs `crashpad_test_test` on a device. This test executable has a
-run-time dependency on a second executable and a test data file, which are also
-transferred to the device prior to running the test.
-
-```
-$ cd ~/crashpad/crashpad
-$ adb push out/android_arm64_api21/out/Debug/crashpad_test_test /data/local/tmp/
-[100%] /data/local/tmp/crashpad_test_test
-$ adb push \
-      out/android_arm64_api21/out/Debug/crashpad_test_test_multiprocess_exec_test_child \
-      /data/local/tmp/
-[100%] /data/local/tmp/crashpad_test_test_multiprocess_exec_test_child
-$ adb shell mkdir -p /data/local/tmp/crashpad_test_data_root/test
-$ adb push test/test_paths_test_data_root.txt \
-      /data/local/tmp/crashpad_test_data_root/test/
-[100%] /data/local/tmp/crashpad_test_data_root/test/test_paths_test_data_root.txt
-$ adb shell
-device:/ $ cd /data/local/tmp
-device:/data/local/tmp $ CRASHPAD_TEST_DATA_ROOT=crashpad_test_data_root \
-                         ./crashpad_test_test
-```
+When asked to test an Android build directory, `run_tests.py` will detect a
+single connected Android device (including an emulator). If multiple devices are
+connected, one may be chosen explicitly with the `ANDROID_DEVICE` environment
+variable. `run_tests.py` will upload test executables and data to a temporary
+location on the detected or selected device, run them, and clean up after itself
+when done.
 
 ## Contributing
 
