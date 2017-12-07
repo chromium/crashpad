@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2bd4640_a4d88bdd",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T19:32:35Z",
+      "side": 1,
+      "message": "Should all of these file operations (WriteFileExactly too) use the logging variants?",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4be859c8_4b608bbd",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T19:32:35Z",
+      "side": 1,
+      "message": "Similar question: log something here?",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3b03195_bbfbce55",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T19:32:35Z",
+      "side": 1,
+      "message": "I’m a little concerned about unbounded recursion.",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00abee56_e73c8135",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T19:32:35Z",
+      "side": 1,
+      "message": "Let’s just put a blank line before this.",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe839321_a9f246b6",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T19:32:35Z",
+      "side": 1,
+      "message": "It’s absolutely important to limit this, but I’d be a little more generous and use 4kB. But I also think that we should hide this in the broker implementation (see my comment in the client implementation).",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c544462_2ff54589",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T19:32:35Z",
+      "side": 1,
+      "message": "PtraceConnection::Attach and PtraceClient::Initialize both promised to log something when returning false.",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "168e00fc_af6331d9",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T19:32:35Z",
+      "side": 1,
+      "message": "Same thing here.",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82a4553b_87532560",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T19:32:35Z",
+      "side": 1,
+      "message": "It may be better to have the broker be responsible for this, if we define the response to not just be a bool but a bool plus the size of data that was read and is being returned.",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "588140d7_b68d879b",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T19:32:35Z",
+      "side": 1,
+      "message": "You said you’d log a message if this returns false.",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b41d984c_5406abb5",
+        "filename": "util/linux/ptrace_client.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T19:32:35Z",
+      "side": 1,
+      "message": "Shouldn’t this be part of PtraceConnection too?",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66017589_e2825679",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T19:32:35Z",
+      "side": 1,
+      "message": "Avoid the “we”s in this comment.",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "144b9d5a_2a7507e4",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T19:32:35Z",
+      "side": 1,
+      "message": "PLOG(ERROR)?",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ba02afd_766decca",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T19:32:35Z",
+      "side": 1,
+      "message": "Do we need this extra memcpy step? Why not just PTRACE_PEEKDATA directly into *reinterpret_cast\u003clong\u003e(buffer)?",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

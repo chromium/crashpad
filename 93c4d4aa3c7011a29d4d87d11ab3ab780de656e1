@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "94ea2d33_3974b47b",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-07T19:32:35Z",
+      "side": 1,
+      "message": "\u003e I originally went with the ifs over the switch because the use of breaks in the loop seemed less readable and I\u0027m pretty sure at some point I got a warning for using default when all the cases were handled. I wanted to have a default since we\u0027re reading this request from a socket so it seemed more likely to accidentally read something wrong and end up with an invalid request type.\n\nInteresting point. If this is what you’re concerned about, and it is a valid concern, then “enum class” may bad choice no matter how you work with it. What’s to prevent the compiler from reasoning that for all of the defined enum values, you’ve provided a “continue”, so your DCHECK and “return false” can never be reached?",
+      "parentUuid": "82b92f05_7fc3854a",
+      "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "56f3dc63_607035f7",
         "filename": "util/linux/ptrace_broker.cc",
         "patchSetId": 8
