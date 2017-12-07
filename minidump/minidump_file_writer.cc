@@ -59,7 +59,7 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   DCHECK_EQ(state(), kStateMutable);
   DCHECK_EQ(header_.Signature, 0u);
   DCHECK_EQ(header_.TimeDateStamp, 0u);
-  DCHECK_EQ(header_.Flags, MiniDumpNormal);
+  DCHECK_EQ(static_cast<MINIDUMP_TYPE>(header_.Flags), MiniDumpNormal);
   DCHECK(streams_.empty());
 
   // This time is truncated to an integer number of seconds, not rounded, for
