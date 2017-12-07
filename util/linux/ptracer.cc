@@ -345,4 +345,37 @@ bool Ptracer::GetThreadInfo(pid_t tid, ThreadInfo* info) {
              tid, info->thread_context, &info->thread_specific_data_address);
 }
 
+bool Ptracer::ReadMemory(pid_t pid,
+                         LinuxVMAddress address,
+                         size_t size,
+                         char* buffer) {
+  while (size > 0) {
+    errno = 0;
+    long word = ptrace(PTRACE_PEEKDATA, pid, address, nullptr);
+    if (errno != 0) {
+      // If we want to read data smaller than a word at the end of a mapping, a
+      // whole word might spill over. Try aligning the read so the data we want
+      // is at the end of the word instead.
+      if (errno == EIO && size < sizeof(word)) {
+        errno = 0;
+        word = ptrace(
+            PTRACE_PEEKDATA, pid, address - sizeof(word) + size, nullptr);
+        if (errno == 0) {
+          memcpy(buffer,
+                 reinterpret_cast<char*>(&word) + sizeof(word) - size,
+                 size);
+          return true;
+        }
+      }
+      return false;
+    }
+    size_t to_read = std::min(sizeof(word), size);
+    memcpy(buffer, &word, to_read);
+    size -= to_read;
+    buffer += to_read;
+    address += to_read;
+  }
+  return true;
+}
+
 }  // namespace crashpad
