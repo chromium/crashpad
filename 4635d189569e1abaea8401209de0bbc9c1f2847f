@@ -16,6 +16,24 @@
       "revId": "4635d189569e1abaea8401209de0bbc9c1f2847f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e834c88d_e23aa73f",
+        "filename": "util/win/process_info_test_child.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T23:30:12Z",
+      "side": 1,
+      "message": "Hmm, good point.\n\nOn thinking about it further, while it does appear a bit sketchy, it seems like it\u0027s probably OK, given that LDR_DATA_TABLE_ENTRYs are specifically threaded together with the three separate linked list structures.\n\n(I could use the other list, but I sort of wanted to use only MSDN-documented fields in the test code, and MemoryOrder is the only listed one.)",
+      "parentUuid": "5d3a4676_70b412cd",
+      "revId": "4635d189569e1abaea8401209de0bbc9c1f2847f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
