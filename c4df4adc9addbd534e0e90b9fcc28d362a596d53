@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3bc9f002_5c8367fc",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T20:12:49Z",
+      "side": 1,
+      "message": "I was thinking that too when I read it, but it\u0027s the back element, not a past-the-end, so it needs to be processed. (Fortunately, the last one was lz32.dll, so the test caught that!)",
+      "parentUuid": "0fc4d72c_f3c66903",
+      "revId": "c4df4adc9addbd534e0e90b9fcc28d362a596d53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77f6cae7_5d2846a1",
         "filename": "util/win/process_info.cc",
         "patchSetId": 4
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "9f54cc13_084cbb7a",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T20:12:49Z",
+      "side": 1,
+      "message": "Yeah, that makes sense.\n\nWe could conceivably just ignore failure of grabbing the name too, as you might be able to glean something from a pattern of size/timestamp... but I guess things have probably gone poorly (as in, the process is probably gone) so there\u0027s probably not a lot to gather.\n\n...\n\nAlthough, this all in user-space, so I suppose knowing there\u0027s a bad/corrupted module might be useful too. How about setting it to an \"unreadable\" value and continuing on failure here? I\u0027ll see if I can write a test for that.",
+      "parentUuid": "b7028162_e9519ba0",
+      "revId": "c4df4adc9addbd534e0e90b9fcc28d362a596d53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "438b9f22_278f2c35",
         "filename": "util/win/process_info.cc",
         "patchSetId": 4
@@ -64,6 +100,24 @@
       "writtenOn": "2017-12-08T04:15:29Z",
       "side": 1,
       "message": "However, looking at the InMemoryOrder code that you’re removing, we had |return false| for failures there where we have |break| here. It might still be valuable to ensure that (1) we actually are able to read at least the first module’s name (that is, return false instead of continue on line 295 if process_info-\u003emodules_.empty()), and (2) we did actually find at least one module (that is, return false instead of true on line 305 if process_info-\u003emodules_.empty()).\n\nThat’s closest to the existing behavior, although maybe I’m assuming we were more deliberate then than we actually were.",
+      "revId": "c4df4adc9addbd534e0e90b9fcc28d362a596d53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90345830_b4df3f40",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T20:12:49Z",
+      "side": 1,
+      "message": "I don\u0027t think there\u0027s any reason it was written as return false before, probably generally that \"failure means the world is broken, abort\" I think.",
+      "parentUuid": "438b9f22_278f2c35",
       "revId": "c4df4adc9addbd534e0e90b9fcc28d362a596d53",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
