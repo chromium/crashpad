@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e6e4e393_cd3fc987",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T23:58:08Z",
+      "side": 1,
+      "message": "Yuck, what a mess.",
+      "parentUuid": "08a5e7dc_dd42ae46",
+      "range": {
+        "startLine": 17,
+        "startChar": 18,
+        "endLine": 17,
+        "endChar": 40
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b87393e9_c3077737",
         "filename": "build/run_tests.py",
         "patchSetId": 3
@@ -177,6 +201,30 @@
       "side": 1,
       "message": "\u003e The adb I have on my system doesn\u0027t have -n documented in help, though I see it is here... https://developer.android.com/studio/command-line/adb.html Hopefully it\u0027s been around \"forever\" and it\u0027s just not in the tool\u0027s builtin help.\n\nNowhere near “forever” at all. It showed up in Android platform/system/core 7d5860736097 (https://android.googlesource.com/platform/system/core/+/7d586073609723cb2f6ed37de0ad1a7996e621ae for review benefit), which is in 7.0 (N)’s SDK platform-tools version 24 (https://android.googlesource.com/platform/system/core/+log/android-7.0.0_r1/adb/commandline.cpp). “adb --version” will tell you what you have (at least it will for a recent version).\n\nI don’t know if it’s worth trying to support arbitrarily old SDKs. Things in platform-tools like adb do miss out on support for older devices if you don’t update them from time to time. In this case, all -n does is open /dev/null as stdin, which is nearly as easy to do in the Popen constructor, so I’ll just do that.",
       "parentUuid": "353d9c77_b4575bd5",
+      "range": {
+        "startLine": 107,
+        "startChar": 58,
+        "endLine": 107,
+        "endChar": 61
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0551c1a5_f14df436",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T23:58:08Z",
+      "side": 1,
+      "message": "I got it from `sudo apt-get install android-tools-adb` but I guess if it\u0027s really old, likely no one uses it anyway. Whichever you think is better. adb --version didn\u0027t even work, but it says \"Android Debug Bridge version 1.0.31\" at the top of its help for whatever that\u0027s worth.",
+      "parentUuid": "3dfdfd9c_fcf68ead",
       "range": {
         "startLine": 107,
         "startChar": 58,
