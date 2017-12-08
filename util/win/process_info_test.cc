@@ -180,10 +180,13 @@ void TestOtherProcess(TestPaths::Architecture architecture) {
   // lz32.dll is an uncommonly-used-but-always-available module that the test
   // binary manually loads.
   static constexpr wchar_t kLz32dllName[] = L"\\lz32.dll";
-  ASSERT_GE(modules.back().name.size(), wcslen(kLz32dllName));
-  EXPECT_EQ(modules.back().name.substr(modules.back().name.size() -
-                                       wcslen(kLz32dllName)),
+  auto& lz32 = modules[modules.size() - 2];
+  ASSERT_GE(lz32.name.size(), wcslen(kLz32dllName));
+  EXPECT_EQ(lz32.name.substr(lz32.name.size() - wcslen(kLz32dllName)),
             kLz32dllName);
+
+  auto& corrupted = modules.back();
+  EXPECT_EQ(corrupted.name, L"???");
 
   VerifyAddressInInCodePage(process_info, code_address);
 }
