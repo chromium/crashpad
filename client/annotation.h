@@ -196,11 +196,35 @@ class Annotation {
 template <Annotation::ValueSizeType MaxSize>
 class StringAnnotation : public Annotation {
  public:
+  //! \brief A constructor tag that enables braced initialization in C arrays.
+  //!
+  //! \sa StringAnnotation()
+  enum class Tag { kArray };
+
   //! \brief Constructs a new StringAnnotation with the given \a name.
   //!
   //! \param[in] name The Annotation name.
   constexpr explicit StringAnnotation(const char name[])
       : Annotation(Type::kString, name, value_), value_() {}
+
+  //! \brief Constructs a new StringAnnotation with the given \a name.
+  //!
+  //! This constructor takes the ArrayInitializerTag for use when
+  //! initializing a C array of annotations. The main constructor is
+  //! explicit and cannot be brace-initialized. As an example:
+  //!
+  //! \code
+  //!   static crashpad::StringAnnotation<32> annotations[] = {
+  //!     {"name-1", crashpad::StringAnnotation<32>::Tag::kArray},
+  //!     {"name-2", crashpad::StringAnnotation<32>::Tag::kArray},
+  //!     {"name-3", crashpad::StringAnnotation<32>::Tag::kArray},
+  //!   };
+  //! \endcode
+  //!
+  //! \param[in] name The Annotation name.
+  //! \param[in] tag A constructor tag.
+  constexpr StringAnnotation(const char name[], Tag tag)
+      : StringAnnotation(name) {}
 
   //! \brief Sets the Annotation's string value.
   //!
