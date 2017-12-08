@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d3a4676_70b412cd",
+        "filename": "util/win/process_info_test_child.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-08T22:42:24Z",
+      "side": 1,
+      "message": "This is trusting that InLoadOrder and InMemoryOrder entries point to the same strings. Too much trust, or just enough?",
+      "revId": "4635d189569e1abaea8401209de0bbc9c1f2847f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
