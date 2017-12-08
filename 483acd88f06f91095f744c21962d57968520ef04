@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b5fa0ac0_f5d443fa",
+        "filename": "handler/crashpad_handler_test_extended_handler.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T00:36:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6394b262_282cb540",
+      "revId": "483acd88f06f91095f744c21962d57968520ef04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e18c2974_1c8c045a",
         "filename": "handler/main.cc",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "483acd88f06f91095f744c21962d57968520ef04",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "969b454a_4989079a",
+        "filename": "handler/main.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T00:36:15Z",
+      "side": 1,
+      "message": "Just because building all includes building crashpad_handler (and client_test depends on it), and crashpad_handler wants a main().\n\nNot sure if I missed your actual question... were you thinking it should be POSIX instead?\n\n... oh! I see I didn\u0027t upload this until this latest patch set. I\u0027m not sure how that happened. Well, that\u0027s the reason, crashpad_handler doesn\u0027t link otherwise.",
+      "parentUuid": "e18c2974_1c8c045a",
+      "revId": "483acd88f06f91095f744c21962d57968520ef04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b077d8f5_d4a23fe7",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T00:36:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2dc2a90_91e03972",
+      "revId": "483acd88f06f91095f744c21962d57968520ef04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0ae7463_2898312e",
         "filename": "third_party/zlib/BUILD.gn",
         "patchSetId": 8
@@ -67,6 +121,24 @@
       "revId": "483acd88f06f91095f744c21962d57968520ef04",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fdb7c6b_9e589fb7",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T00:36:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0ae7463_2898312e",
+      "revId": "483acd88f06f91095f744c21962d57968520ef04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
