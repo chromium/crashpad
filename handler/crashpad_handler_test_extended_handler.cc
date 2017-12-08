@@ -56,7 +56,7 @@ int ExtendedHandlerMain(int argc, char* argv[]) {
 
 }  // namespace
 
-#if defined(OS_MACOSX)
+#if defined(OS_POSIX)
 
 int main(int argc, char* argv[]) {
   return ExtendedHandlerMain(argc, argv);
@@ -68,4 +68,4 @@ int wmain(int argc, wchar_t* argv[]) {
   return crashpad::ToolSupport::Wmain(argc, argv, &ExtendedHandlerMain);
 }
 
-#endif  // OS_MACOSX
+#endif  // OS_POSIX
