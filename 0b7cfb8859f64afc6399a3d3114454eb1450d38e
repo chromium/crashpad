@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "dc81456b_1bc8d522",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-08T15:46:42Z",
+      "side": 1,
+      "message": "\u003e I\u0027ve been refraining from logging in the broker since I\u0027m anticipating the broker running in a (forked from a) crashed process and logging could be dangerous. I\u0027m not sure whether it would be better to attempt to leave a message which might fail further, or play it safe and just exit cleanly, possibly with a status indicating why it failed.\n\u003e \n\u003e If logging is a bad idea for the broker, we\u0027ll also need non-logging versions of Ptracer methods.\n\nGood point.\n\nActually, the logging would be less useful in the broker anyway, we really care about getting these things in the handler. We could extend the protocol to carry better error indications from the broker back to the handler.\n\nYou can do that here, or you can do it in a quick follow-up. Your preference.",
+      "parentUuid": "c88197ff_6e7b115e",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4be859c8_4b608bbd",
         "filename": "util/linux/ptrace_broker.cc",
         "patchSetId": 12
