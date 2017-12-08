@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "08a5e7dc_dd42ae46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-08T23:47:00Z",
+      "side": 1,
+      "message": "\u003e I think it works now on an up-to-date Win10.\n\nBut only with SetConsoleMode(…, ENABLE_VIRTUAL_TERMINAL_PROCESSING), which isn’t the default. Or it was the default in earlier Windows 10, but it isn’t when cmd.exe starts a child anymore. https://github.com/Microsoft/WSL/issues/1173#issuecomment-254250445\n\nI guess I could do this if pywin32 or something else exposed it.\n\nI miss ansi.sys. Sorta. Not really.",
+      "parentUuid": "fe84e76a_195a6012",
+      "range": {
+        "startLine": 17,
+        "startChar": 18,
+        "endLine": 17,
+        "endChar": 40
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b87393e9_c3077737",
         "filename": "build/run_tests.py",
         "patchSetId": 3
@@ -94,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "4fc034f0_5d7bbedd",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-08T23:47:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "354942da_6a72b6e1",
+      "range": {
+        "startLine": 88,
+        "startChar": 17,
+        "endLine": 88,
+        "endChar": 24
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "353d9c77_b4575bd5",
         "filename": "build/run_tests.py",
         "patchSetId": 3
@@ -114,6 +162,30 @@
       "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dfdfd9c_fcf68ead",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-08T23:47:00Z",
+      "side": 1,
+      "message": "\u003e The adb I have on my system doesn\u0027t have -n documented in help, though I see it is here... https://developer.android.com/studio/command-line/adb.html Hopefully it\u0027s been around \"forever\" and it\u0027s just not in the tool\u0027s builtin help.\n\nNowhere near “forever” at all. It showed up in Android platform/system/core 7d5860736097 (https://android.googlesource.com/platform/system/core/+/7d586073609723cb2f6ed37de0ad1a7996e621ae for review benefit), which is in 7.0 (N)’s SDK platform-tools version 24 (https://android.googlesource.com/platform/system/core/+log/android-7.0.0_r1/adb/commandline.cpp). “adb --version” will tell you what you have (at least it will for a recent version).\n\nI don’t know if it’s worth trying to support arbitrarily old SDKs. Things in platform-tools like adb do miss out on support for older devices if you don’t update them from time to time. In this case, all -n does is open /dev/null as stdin, which is nearly as easy to do in the Popen constructor, so I’ll just do that.",
+      "parentUuid": "353d9c77_b4575bd5",
+      "range": {
+        "startLine": 107,
+        "startChar": 58,
+        "endLine": 107,
+        "endChar": 61
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "024bcd27_ccf4751b",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-08T23:47:00Z",
+      "side": 1,
+      "message": "\u003e Maybe dumb question, will ${?} ever print as something like -1?\n\nNope.",
+      "parentUuid": "496d74df_25beae55",
+      "range": {
+        "startLine": 120,
+        "startChar": 40,
+        "endLine": 120,
+        "endChar": 43
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d70bce27_45702565",
         "filename": "build/run_tests.py",
         "patchSetId": 3
@@ -163,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "8c798308_19b55fed",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-08T23:47:00Z",
+      "side": 1,
+      "message": "\u003e Cool, I can/should probably do this for Fuchsia too, I\u0027ve been suffering along in monochrome like a sucker.\n\nWill happily review! Not sure how it’ll interact with the log listener, though.",
+      "parentUuid": "d70bce27_45702565",
+      "range": {
+        "startLine": 207,
+        "startChar": 30,
+        "endLine": 207,
+        "endChar": 75
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a32300f_640ce75c",
         "filename": "build/run_tests.py",
         "patchSetId": 3
@@ -183,6 +303,30 @@
       "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee0b2f15_f6a57534",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-08T23:47:00Z",
+      "side": 1,
+      "message": "\u003e Yuck. Where\u0027s this list come from? Is there a smaller set like \"dumb\" or unset we could blacklist, instead of whitelisting all these?\n\nI added a comment explaining where I got the list (https://chromium.googlesource.com/external/github.com/google/googletest/+/82447f23be9474bee8d883128b3f93dde9697334/googletest/src/gtest.cc#2941). TERM can be literally anything, so the whitelist that matches gtest’s own, while redundant, is better than any blacklist.",
+      "parentUuid": "8a32300f_640ce75c",
+      "range": {
+        "startLine": 215,
+        "startChar": 15,
+        "endLine": 217,
+        "endChar": 57
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
