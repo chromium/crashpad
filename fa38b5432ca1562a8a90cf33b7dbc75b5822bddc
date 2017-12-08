@@ -16,6 +16,24 @@
       "revId": "fa38b5432ca1562a8a90cf33b7dbc75b5822bddc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f686771b_05412d2d",
+        "filename": "client/annotation.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-12-08T18:03:15Z",
+      "side": 1,
+      "message": "Your suggestion is good. Originally I went with \"crashpad::StringAnnotation::ArrayInitializer::kTag\" but that seemed way too verbose, which is why it went floating around.\n\nI might want to move/rename the enum class when we have more annotation subclasses, but that\u0027s TBD.",
+      "parentUuid": "237f1fb0_94e3b74b",
+      "revId": "fa38b5432ca1562a8a90cf33b7dbc75b5822bddc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
