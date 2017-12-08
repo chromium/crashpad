@@ -46,17 +46,15 @@ def _BinaryDirTargetOS(binary_dir):
 
   # For GYP with Ninja, look for the appearance of “linux-android” in the path
   # to ar. This path is configured by gyp_crashpad_android.py.
-  try:
-    with open(os.path.join(binary_dir, 'build.ninja')) as build_ninja_file:
+  build_ninja_path = os.path.join(binary_dir, 'build.ninja')
+  if os.path.exists(build_ninja_path):
+    with open(build_ninja_path) as build_ninja_file:
       build_ninja_content = build_ninja_file.read()
       match = re.search('^ar = .+-linux-android(eabi)?-ar$',
                         build_ninja_content,
                         re.MULTILINE)
       if match:
         return 'android'
-  except FileNotFoundError:
-    # Ninja may not be in use. Assume the best.
-    pass
 
   return None
 
@@ -70,13 +68,95 @@ def _RunOnAndroidTarget(binary_dir, test, android_device):
       'crashpad_snapshot_test',
   )
   if not os.path.exists(local_test_path) and test in MAYBE_UNSUPPORTED_TESTS:
-    print(test, 'is not present and may not be supported, skipping')
+    print('This test is not present and may not be supported, skipping')
     return
 
-  device_temp_dir = subprocess.check_output(
-      ['adb', '-s', android_device, 'shell',
-       'mktemp', '-d', '/data/local/tmp/%s.XXXXXXXX' % test],
-      shell=IS_WINDOWS_HOST).decode('utf-8').rstrip()
+  def _adb(*args):
+    # Flush all of this script’s own buffered stdout output before running adb,
+    # which will likely produce its own output on stdout.
+    sys.stdout.flush()
+
+    adb_command = ['adb', '-s', android_device]
+    adb_command.extend(args)
+    subprocess.check_call(adb_command, shell=IS_WINDOWS_HOST)
+
+  def _adb_push(sources, destination):
+    args = list(sources)
+    args.append(destination)
+    _adb('push', *args)
+
+  def _adb_shell(command_args, env={}):
+    # Build a command to execute via “sh -c” instead of invoking it directly.
+    # Here’s why:
+    #
+    # /system/bin/env isn’t normally present prior to Android 6.0 (M), where
+    # toybox was introduced (Android platform/manifest 9a2c01e8450b). Instead,
+    # set environment variables by using the shell’s internal “export” command.
+    #
+    # adbd prior to Android 7.0 (N), and the adb client prior to SDK
+    # platform-tools version 24, don’t know how to communicate a shell command’s
+    # exit status. This was added in Android platform/system/core 606835ae5c4b).
+    # With older adb servers and clients, adb will “exit 0” indicating success
+    # even if the command failed on the device. This makes
+    # subprocess.check_call() semantics difficult to implement directly. As a
+    # workaround, have the device send the command’s exit status over stdout and
+    # pick it back up in this function.
+    #
+    # Both workarounds are implemented by giving the device a simple script,
+    # which adbd will run as an “sh -c” argument.
+    adb_command = ['adb', '-s', android_device, 'shell']
+    script_commands = []
+    for k, v in env.items():
+      script_commands.append('export %s=%s' % (pipes.quote(k), pipes.quote(v)))
+    script_commands.extend([
+        ' '.join(pipes.quote(x) for x in command_args),
+        'status=${?}',
+        'echo "status=${status}"',
+        'exit ${status}'])
+    adb_command.append('; '.join(script_commands))
+    child = subprocess.Popen(adb_command,
+                             shell=IS_WINDOWS_HOST,
+                             stdin=open(os.devnull),
+                             stdout=subprocess.PIPE)
+
+    FINAL_LINE_RE = re.compile('status=(\d+)$')
+    final_line = None
+    while True:
+      # Use readline so that the test output appears “live” when running.
+      data = child.stdout.readline().decode('utf-8')
+      if data == '':
+        break
+      if final_line is not None:
+        # It wasn’t really the final line.
+        print(final_line, end='')
+        final_line = None
+      if FINAL_LINE_RE.match(data.rstrip()):
+        final_line = data
+      else:
+        print(data, end='')
+
+    if final_line is None:
+      # Maybe there was some stderr output after the end of stdout. Old versions
+      # of adb, prior to when the exit status could be communicated, smush the
+      # two together.
+      raise subprocess.CalledProcessError(-1, adb_command)
+    status = int(FINAL_LINE_RE.match(final_line.rstrip()).group(1))
+    if status != 0:
+      raise subprocess.CalledProcessError(status, adb_command)
+
+    child.wait()
+    if child.returncode != 0:
+      raise subprocess.CalledProcessError(subprocess.returncode, adb_command)
+
+  # /system/bin/mktemp isn’t normally present prior to Android 6.0 (M), where
+  # toybox was introduced (Android platform/manifest 9a2c01e8450b). Fake it with
+  # a host-generated name. This won’t retry if the name is in use, but with 122
+  # bits of randomness, it should be OK. This uses “mkdir” instead of “mkdir -p”
+  # because the latter will not indicate failure if the directory already
+  # exists.
+  device_temp_dir = '/data/local/tmp/%s.%s' % (test, uuid.uuid4().hex)
+  _adb_shell(['mkdir', device_temp_dir])
+
   try:
     # Specify test dependencies that must be pushed to the device. This could be
     # determined automatically in a GN build, following the example used for
@@ -90,15 +170,6 @@ def _RunOnAndroidTarget(binary_dir, test, android_device):
           'crashpad_test_test_multiprocess_exec_test_child')
     elif test == 'crashpad_util_test':
       test_data.append('util/net/testdata/')
-
-    def _adb(*args):
-      # Flush all of this script’s own buffered stdout output before running
-      # adb, which will likely produce its own output on stdout.
-      sys.stdout.flush()
-
-      adb_command = ['adb', '-s', android_device]
-      adb_command.extend(args)
-      subprocess.check_call(adb_command, shell=IS_WINDOWS_HOST)
 
     # Establish the directory structure on the device.
     device_out_dir = posixpath.join(device_temp_dir, 'out')
@@ -117,28 +188,44 @@ def _RunOnAndroidTarget(binary_dir, test, android_device):
       device_mkdir = posixpath.split(device_source_path)[0]
       if device_mkdir not in device_mkdirs:
         device_mkdirs.append(device_mkdir)
-    adb_mkdir_command = ['shell', 'mkdir', '-p']
+    adb_mkdir_command = ['mkdir', '-p']
     adb_mkdir_command.extend(device_mkdirs)
-    _adb(*adb_mkdir_command)
+    _adb_shell(adb_mkdir_command)
 
     # Push the test binary and any other build output to the device.
-    adb_push_command = ['push']
+    local_test_build_artifacts = []
     for artifact in test_build_artifacts:
-      adb_push_command.append(os.path.join(binary_dir, artifact))
-    adb_push_command.append(device_out_dir)
-    _adb(*adb_push_command)
+      local_test_build_artifacts.append(os.path.join(binary_dir, artifact))
+    _adb_push(local_test_build_artifacts, device_out_dir)
 
     # Push test data to the device.
     for source_path in test_data:
-      _adb('push',
-           os.path.join(CRASHPAD_DIR, source_path),
-           posixpath.join(device_temp_dir, source_path))
+      _adb_push([os.path.join(CRASHPAD_DIR, source_path)],
+                posixpath.join(device_temp_dir, source_path))
 
-    # Run the test on the device.
-    _adb('shell', 'env', 'CRASHPAD_TEST_DATA_ROOT=' + device_temp_dir,
-         posixpath.join(device_out_dir, test))
+    # Run the test on the device. Pass the test data root in the environment.
+    #
+    # Because the test will not run with its standard output attached to a
+    # pseudo-terminal device, gtest will not normally enable colored output, so
+    # mimic gtest’s own logic for deciding whether to enable color by checking
+    # this script’s own standard output connection. The whitelist of TERM values
+    # comes from gtest googletest/src/gtest.cc
+    # testing::internal::ShouldUseColor().
+    env = {'CRASHPAD_TEST_DATA_ROOT': device_temp_dir}
+    gtest_color = os.environ.get('GTEST_COLOR')
+    if gtest_color in ('auto', None):
+      if (sys.stdout.isatty() and
+          os.environ.get('TERM') in
+              ('xterm', 'xterm-color', 'xterm-256color', 'screen',
+               'screen-256color', 'tmux', 'tmux-256color', 'rxvt-unicode',
+               'rxvt-unicode-256color', 'linux', 'cygwin')):
+        gtest_color = 'yes'
+      else:
+        gtest_color = 'no'
+    env['GTEST_COLOR'] = gtest_color
+    _adb_shell([posixpath.join(device_out_dir, test)], env)
   finally:
-    _adb('shell', 'rm', '-rf', device_temp_dir)
+    _adb_shell(['rm', '-rf', device_temp_dir])
 
 
 def _GetFuchsiaSDKRoot():
@@ -330,10 +417,10 @@ def main(args):
     tests = [single_test]
 
   for test in tests:
+    print('-' * 80)
+    print(test)
+    print('-' * 80)
     if test.endswith('.py'):
-      print('-' * 80)
-      print(test)
-      print('-' * 80)
       subprocess.check_call(
           [sys.executable, os.path.join(CRASHPAD_DIR, test), binary_dir])
     else:
