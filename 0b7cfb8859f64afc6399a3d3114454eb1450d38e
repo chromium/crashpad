@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c88197ff_6e7b115e",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-08T01:12:59Z",
+      "side": 1,
+      "message": "I\u0027ve been refraining from logging in the broker since I\u0027m anticipating the broker running in a (forked from a) crashed process and logging could be dangerous. I\u0027m not sure whether it would be better to attempt to leave a message which might fail further, or play it safe and just exit cleanly, possibly with a status indicating why it failed.\n\nIf logging is a bad idea for the broker, we\u0027ll also need non-logging versions of Ptracer methods.",
+      "parentUuid": "d2bd4640_a4d88bdd",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4be859c8_4b608bbd",
         "filename": "util/linux/ptrace_broker.cc",
         "patchSetId": 12
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "146d2def_a06e5225",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-08T01:12:59Z",
+      "side": 1,
+      "message": "It\u0027s now occurring to me that sbrk (or maybe mmap?) might be a preferable option. I\u0027ll try it out.",
+      "parentUuid": "a3b03195_bbfbce55",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "00abee56_e73c8135",
         "filename": "util/linux/ptrace_broker.cc",
         "patchSetId": 12
@@ -67,6 +103,24 @@
       "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81d1b0d2_4d5ec5dd",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-08T01:12:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00abee56_e73c8135",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "25857bfb_bc6f084c",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-08T01:12:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe839321_a9f246b6",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c544462_2ff54589",
         "filename": "util/linux/ptrace_client.cc",
         "patchSetId": 12
@@ -101,6 +173,24 @@
       "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e36baa4e_4dc73a19",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-08T01:12:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c544462_2ff54589",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "5e4510ee_45da7781",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-08T01:12:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "168e00fc_af6331d9",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82a4553b_87532560",
         "filename": "util/linux/ptrace_client.cc",
         "patchSetId": 12
@@ -135,6 +243,24 @@
       "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e142f58_14867e95",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-08T01:12:59Z",
+      "side": 1,
+      "message": "That does work out better, thanks!\nI eschew the Bool and just use a response with 0 buffer size to indicate an error though.",
+      "parentUuid": "82a4553b_87532560",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "e1b7498e_47538d28",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-08T01:12:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "588140d7_b68d879b",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b41d984c_5406abb5",
         "filename": "util/linux/ptrace_client.h",
         "patchSetId": 12
@@ -166,6 +310,24 @@
       "writtenOn": "2017-12-07T19:32:35Z",
       "side": 1,
       "message": "Shouldn’t this be part of PtraceConnection too?",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e08b9922_624feb29",
+        "filename": "util/linux/ptrace_client.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-08T01:12:59Z",
+      "side": 1,
+      "message": "Yep, I\u0027ve left a TODO above since I hadn\u0027t decided on the right way to do this yet, and changing up PtraceConnection seemed like it would require a changes of a larger scope than I wanted to include in this CL.",
+      "parentUuid": "b41d984c_5406abb5",
       "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -186,6 +348,24 @@
       "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db1e4d28_3e29d4a5",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-08T01:12:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66017589_e2825679",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -220,6 +400,24 @@
       "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "878fa703_529be0b4",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-08T01:12:59Z",
+      "side": 1,
+      "message": "It\u0027s only necessary when the read is smaller than a word, which I suppose is probably uncommon. Here\u0027s a version which reads right into the buffer, when possible.",
+      "parentUuid": "9ba02afd_766decca",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
