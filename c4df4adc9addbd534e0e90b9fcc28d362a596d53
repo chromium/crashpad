@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "acc841f5_d87f955f",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-08T20:58:30Z",
+      "side": 1,
+      "message": "\u003e Yeah, that makes sense.\n\u003e \n\u003e We could conceivably just ignore failure of grabbing the name too, as you might be able to glean something from a pattern of size/timestamp... but I guess things have probably gone poorly (as in, the process is probably gone) so there\u0027s probably not a lot to gather.\n\nI suppose it’s nice to know that the loader stuck something in a certain address range, even if we don’t really know what it was.\n\n\u003e Although, this all in user-space, so I suppose knowing there\u0027s a bad/corrupted module might be useful too. How about setting it to an \"unreadable\" value and continuing on failure here? I\u0027ll see if I can write a test for that.\n\nAn empty string or a \"?\" would be good: something unlikely or impossible to appear in an actual filename.",
+      "parentUuid": "9f54cc13_084cbb7a",
+      "revId": "c4df4adc9addbd534e0e90b9fcc28d362a596d53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "438b9f22_278f2c35",
         "filename": "util/win/process_info.cc",
         "patchSetId": 4
