@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "171513d5_d369c9eb",
+        "filename": "handler/main.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-08T04:24:13Z",
+      "side": 1,
+      "message": "\u003e Just because building all includes building crashpad_handler (and client_test depends on it), and crashpad_handler wants a main().\n\u003e \n\u003e Not sure if I missed your actual question... were you thinking it should be POSIX instead?\n\nYeah, I meant that I thought that this would be better off as OS_POSIX, but that’s what it was before, so I’m confused.\n\nhandler/crashpad_handler_test_extended_handler.cc is almost exactly the same thing as this file, and you’re switching OS_MACOSX to OS_POSIX there.",
+      "parentUuid": "969b454a_4989079a",
+      "revId": "483acd88f06f91095f744c21962d57968520ef04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2dc2a90_91e03972",
         "filename": "third_party/zlib/BUILD.gn",
         "patchSetId": 8
