@@ -258,7 +258,7 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::ReadNote(
   current_address_ += sizeof(note_info);
 
   constexpr size_t align = sizeof(note_info.n_namesz);
-#define PAD(x) ((x) + align - 1 & ~(align - 1))
+#define PAD(x) (((x) + align - 1) & ~(align - 1))
   size_t padded_namesz = PAD(note_info.n_namesz);
   size_t padded_descsz = PAD(note_info.n_descsz);
   size_t note_size = padded_namesz + padded_descsz;
