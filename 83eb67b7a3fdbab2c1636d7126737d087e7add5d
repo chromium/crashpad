@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00919dc9_511e3412",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T23:21:41Z",
+      "side": 1,
+      "message": "These all sound a lot like the annoying things I had to do on Fuchsia too. :(",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 63
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe84e76a_195a6012",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T23:21:41Z",
+      "side": 1,
+      "message": "I think it works now on an up-to-date Win10.",
+      "range": {
+        "startLine": 17,
+        "startChar": 18,
+        "endLine": 17,
+        "endChar": 40
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b87393e9_c3077737",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T23:21:41Z",
+      "side": 1,
+      "message": "Sigh, py24eva.\n\n$ python -c \u0027open(\"/\")\u0027\nTraceback (most recent call last):\n  File \"\u003cstring\u003e\", line 1, in \u003cmodule\u003e\nIOError: [Errno 21] Is a directory: \u0027/\u0027\n$ python -c \u0027open(\"fdsa\")\u0027\nTraceback (most recent call last):\n  File \"\u003cstring\u003e\", line 1, in \u003cmodule\u003e\nIOError: [Errno 2] No such file or directory: \u0027fdsa\u0027\n$ python3 -c \u0027open(\"/\")\u0027\nTraceback (most recent call last):\n  File \"\u003cstring\u003e\", line 1, in \u003cmodule\u003e\nIsADirectoryError: [Errno 21] Is a directory: \u0027/\u0027\n$ python3 -c \u0027open(\"fdsa\")\u0027\nTraceback (most recent call last):\n  File \"\u003cstring\u003e\", line 1, in \u003cmodule\u003e\nFileNotFoundError: [Errno 2] No such file or directory: \u0027fdsa\u0027\n\n(No action required, not worth worrying about build.ninja being a directory or unreadable or whatever weird thing might come up.)",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 31
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "354942da_6a72b6e1",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T23:21:41Z",
+      "side": 1,
+      "message": "It wasn\u0027t immediately obvious to me this was to be a list, and with python\u0027s silly ability to blithely treat string-as-iterable, |command| feels like it could be easily misinterpreted as expecting _adb_shell(\"ls\").\n\ncommand_args/_argv would be enough, or command_as_list, or something better if you have a good name in mind.",
+      "range": {
+        "startLine": 88,
+        "startChar": 17,
+        "endLine": 88,
+        "endChar": 24
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "353d9c77_b4575bd5",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T23:21:41Z",
+      "side": 1,
+      "message": "The adb I have on my system doesn\u0027t have -n documented in help, though I see it is here... https://developer.android.com/studio/command-line/adb.html Hopefully it\u0027s been around \"forever\" and it\u0027s just not in the tool\u0027s builtin help.",
+      "range": {
+        "startLine": 107,
+        "startChar": 58,
+        "endLine": 107,
+        "endChar": 61
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "496d74df_25beae55",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T23:21:41Z",
+      "side": 1,
+      "message": "Maybe dumb question, will ${?} ever print as something like -1?",
+      "range": {
+        "startLine": 120,
+        "startChar": 40,
+        "endLine": 120,
+        "endChar": 43
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d70bce27_45702565",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T23:21:41Z",
+      "side": 1,
+      "message": "Cool, I can/should probably do this for Fuchsia too, I\u0027ve been suffering along in monochrome like a sucker.",
+      "range": {
+        "startLine": 207,
+        "startChar": 30,
+        "endLine": 207,
+        "endChar": 75
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a32300f_640ce75c",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T23:21:41Z",
+      "side": 1,
+      "message": "Yuck. Where\u0027s this list come from? Is there a smaller set like \"dumb\" or unset we could blacklist, instead of whitelisting all these?",
+      "range": {
+        "startLine": 215,
+        "startChar": 15,
+        "endLine": 217,
+        "endChar": 57
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "038e5c13_0d22256a",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-08T23:21:41Z",
+      "side": 1,
+      "message": "Oops!",
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
