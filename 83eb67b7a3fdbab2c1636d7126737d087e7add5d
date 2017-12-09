@@ -403,6 +403,30 @@
     },
     {
       "key": {
+        "uuid": "a4c69d87_62cce660",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-09T03:09:10Z",
+      "side": 1,
+      "message": "I hunted around in Zircon for a while, but I don\u0027t see where the strip/drop is happening. I\u0027ll have to do some more testing, maybe it\u0027s something minor that I could just set up differently.",
+      "parentUuid": "00b82cac_167127d3",
+      "range": {
+        "startLine": 207,
+        "startChar": 30,
+        "endLine": 207,
+        "endChar": 75
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a32300f_640ce75c",
         "filename": "build/run_tests.py",
         "patchSetId": 3
