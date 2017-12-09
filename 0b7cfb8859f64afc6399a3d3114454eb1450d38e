@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "23cf8ece_b38d77f1",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-09T02:18:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc81456b_1bc8d522",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be859c8_4b608bbd",
         "filename": "util/linux/ptrace_broker.cc",
         "patchSetId": 12
@@ -69,6 +87,24 @@
       "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7692ddf6_d6605eb1",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-09T02:18:04Z",
+      "side": 1,
+      "message": "Run now returns error codes if an error occurs that can\u0027t be sent to the handler, typically because writing to the socket has failed.",
+      "parentUuid": "4be859c8_4b608bbd",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -101,6 +137,24 @@
       "side": 1,
       "message": "It\u0027s now occurring to me that sbrk (or maybe mmap?) might be a preferable option. I\u0027ll try it out.",
       "parentUuid": "a3b03195_bbfbce55",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5d16359_c4568714",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-09T02:18:04Z",
+      "side": 1,
+      "message": "The broker now attempts to use sbrk to allocate memory for attachments and falls back to using the stack if that fails.",
+      "parentUuid": "146d2def_a06e5225",
       "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -401,6 +455,24 @@
       "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f20de99d_aa2e8425",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-09T02:18:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "144b9d5a_2a7507e4",
+      "revId": "0b7cfb8859f64afc6399a3d3114454eb1450d38e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {

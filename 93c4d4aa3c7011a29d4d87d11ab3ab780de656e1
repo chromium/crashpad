@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "9d54ada0_b5025369",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-09T02:18:04Z",
+      "side": 1,
+      "message": "Whoops! I\u0027ve changed the request type to an enum now.",
+      "parentUuid": "9843e782_8035c0d2",
+      "revId": "93c4d4aa3c7011a29d4d87d11ab3ab780de656e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56f3dc63_607035f7",
         "filename": "util/linux/ptrace_broker.cc",
         "patchSetId": 8
