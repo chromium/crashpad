@@ -355,6 +355,30 @@
     },
     {
       "key": {
+        "uuid": "01270dd1_d66ff62b",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-09T01:41:08Z",
+      "side": 1,
+      "message": "\u003e Dang, yeah, I think loglistener strips the Escape, so I just get goop in the output:\n\u003e \n\u003e [03726.906] 07299.07315\u003e [0;32m[----------] [mGlobal test environment set-up.\n\u003e \n\u003e Oh well.\n\nHere’s the latest horrible idea that seems less and less horrible the more I chew on it: put the test stdout through a filter that base64-encodes it, and let that spew to the log. We could even give it the responsibility for splitting stdout and stderr, and propagating the exit status.\n\nToo bad the Fuchsia SDK doesn’t have something like this already. Seems like a fairly common thing you’d want for testing, at least.",
+      "parentUuid": "aa208abc_b693d697",
+      "range": {
+        "startLine": 207,
+        "startChar": 30,
+        "endLine": 207,
+        "endChar": 75
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a32300f_640ce75c",
         "filename": "build/run_tests.py",
         "patchSetId": 3
