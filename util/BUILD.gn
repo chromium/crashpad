@@ -491,14 +491,6 @@ if (is_win) {
     sources = [
       "win/process_info_test_child.cc",
     ]
-
-    # Set an unusually high load address to make sure that the main executable
-    # still appears as the first element in ProcessInfo::Modules().
-    ldflags = [
-      "/BASE:0x78000000",
-      "/DYNAMICBASE:NO",
-      "/FIXED",
-    ]
   }
 
   executable("crashpad_util_test_safe_terminate_process_test_child") {
