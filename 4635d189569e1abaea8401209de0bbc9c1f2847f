@@ -52,6 +52,24 @@
       "revId": "4635d189569e1abaea8401209de0bbc9c1f2847f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cf89e6e_1adf4148",
+        "filename": "util/win/process_info_test_child.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-09T00:02:08Z",
+      "side": 1,
+      "message": "Won\u0027t that be lovely if the bonus work from a flake fix introduces a new flake.",
+      "parentUuid": "ee62325d_3b7d4391",
+      "revId": "4635d189569e1abaea8401209de0bbc9c1f2847f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
