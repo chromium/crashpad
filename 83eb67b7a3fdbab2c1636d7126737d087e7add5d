@@ -331,6 +331,30 @@
     },
     {
       "key": {
+        "uuid": "aa208abc_b693d697",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-09T00:06:57Z",
+      "side": 1,
+      "message": "Dang, yeah, I think loglistener strips the Escape, so I just get goop in the output:\n\n[03726.906] 07299.07315\u003e [0;32m[----------] [mGlobal test environment set-up.\n\nOh well.",
+      "parentUuid": "8c798308_19b55fed",
+      "range": {
+        "startLine": 207,
+        "startChar": 30,
+        "endLine": 207,
+        "endChar": 75
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a32300f_640ce75c",
         "filename": "build/run_tests.py",
         "patchSetId": 3
