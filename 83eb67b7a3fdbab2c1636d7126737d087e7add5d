@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "c556aa58_faebaf45",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-09T04:35:42Z",
+      "side": 1,
+      "message": "\u003e I got it from `sudo apt-get install android-tools-adb` but I guess if it\u0027s really old, likely no one uses it anyway. Whichever you think is better. adb --version didn\u0027t even work, but it says \"Android Debug Bridge version 1.0.31\" at the top of its help for whatever that\u0027s worth.\n\nThat IS pretty old, it’s gotta be between https://android.googlesource.com/platform/system/core/+/64b3103017cb9038c5fb7e3601f51c6a458bed06 (2012-08-31) and https://android.googlesource.com/platform/system/core/+/71fe584a1a7256c057267ae46a35f7c74d1d549e (2014-07-07). That’d be 4.4.2, K, at the latest.\n\n[g]trusty? You must be getting https://packages.ubuntu.com/trusty/android-tools-adb. Yeah, that’s really stale (but so is trusty).",
+      "parentUuid": "0551c1a5_f14df436",
+      "range": {
+        "startLine": 107,
+        "startChar": 58,
+        "endLine": 107,
+        "endChar": 61
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "496d74df_25beae55",
         "filename": "build/run_tests.py",
         "patchSetId": 3
@@ -415,6 +439,30 @@
       "side": 1,
       "message": "I hunted around in Zircon for a while, but I don\u0027t see where the strip/drop is happening. I\u0027ll have to do some more testing, maybe it\u0027s something minor that I could just set up differently.",
       "parentUuid": "00b82cac_167127d3",
+      "range": {
+        "startLine": 207,
+        "startChar": 30,
+        "endLine": 207,
+        "endChar": 75
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52e98a9c_9471490d",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-09T04:35:42Z",
+      "side": 1,
+      "message": "\u003e The output is sent to a virtual console on device when you\u0027re logged into it interactively. I don\u0027t think I\u0027d miss having readable output there *that* much, but it\u0027d certainly be odd to see a spray of base64 there.\n\nI was thinking that it could be a wrapper utility that’d spawn a child process with the child’s stdout and stderr hooked up to pipes whose other ends are in the utility. That’s where the packetization and base64-encoding and whatever else would happen. The test executable itself shouldn’t have to change at all. It’d still be clean for normal use on-device, and it’d only be repackaged for the log when run_tests.py or something else started it via the wrapper utility, which in our case here would happen from off-device via netruncmd.\n\nTo round it out, we could even have a utility to handle the “client” side, hiding away all of the loglistener and netruncmd stuff, and exposing something that invoked the command on the device and produced an unpacked stdout, stderr, along with the correct exit code.\n\nYou could almost call it elegant, even.",
+      "parentUuid": "a4c69d87_62cce660",
       "range": {
         "startLine": 207,
         "startChar": 30,
