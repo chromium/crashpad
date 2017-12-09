@@ -269,36 +269,15 @@ bool ReadProcessData(HANDLE process,
     return false;
 
   process_types::LDR_DATA_TABLE_ENTRY<Traits> ldr_data_table_entry;
-
-  // Include the first module in the memory order list to get our the main
-  // executable's name, as it's not included in initialization order below.
-  if (!ReadStruct(process,
-                  static_cast<WinVMAddress>(
-                      peb_ldr_data.InMemoryOrderModuleList.Flink) -
-                      offsetof(process_types::LDR_DATA_TABLE_ENTRY<Traits>,
-                               InMemoryOrderLinks),
-                  &ldr_data_table_entry)) {
-    return false;
-  }
   ProcessInfo::Module module;
-  if (!ReadUnicodeString(
-          process, ldr_data_table_entry.FullDllName, &module.name)) {
-    return false;
-  }
-  module.dll_base = ldr_data_table_entry.DllBase;
-  module.size = ldr_data_table_entry.SizeOfImage;
-  module.timestamp = ldr_data_table_entry.TimeDateStamp;
-  process_info->modules_.push_back(module);
 
   // Walk the PEB LDR structure (doubly-linked list) to get the list of loaded
   // modules. We use this method rather than EnumProcessModules to get the
-  // modules in initialization order rather than memory order.
-  typename Traits::Pointer last =
-      peb_ldr_data.InInitializationOrderModuleList.Blink;
-  for (typename Traits::Pointer cur =
-           peb_ldr_data.InInitializationOrderModuleList.Flink;
-       ;
-       cur = ldr_data_table_entry.InInitializationOrderLinks.Flink) {
+  // modules in load order rather than memory order. Notably, this includes the
+  // main executable as the first element.
+  typename Traits::Pointer last = peb_ldr_data.InLoadOrderModuleList.Blink;
+  for (typename Traits::Pointer cur = peb_ldr_data.InLoadOrderModuleList.Flink;;
+       cur = ldr_data_table_entry.InLoadOrderLinks.Flink) {
     // |cur| is the pointer to the LIST_ENTRY embedded in the
     // LDR_DATA_TABLE_ENTRY, in the target process's address space. So we need
     // to read from the target, and also offset back to the beginning of the
@@ -306,14 +285,14 @@ bool ReadProcessData(HANDLE process,
     if (!ReadStruct(process,
                     static_cast<WinVMAddress>(cur) -
                         offsetof(process_types::LDR_DATA_TABLE_ENTRY<Traits>,
-                                 InInitializationOrderLinks),
+                                 InLoadOrderLinks),
                     &ldr_data_table_entry)) {
       break;
     }
     // TODO(scottmg): Capture Checksum, etc. too?
     if (!ReadUnicodeString(
             process, ldr_data_table_entry.FullDllName, &module.name)) {
-      break;
+      module.name = L"???";
     }
     module.dll_base = ldr_data_table_entry.DllBase;
     module.size = ldr_data_table_entry.SizeOfImage;
