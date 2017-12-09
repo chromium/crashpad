@@ -379,6 +379,30 @@
     },
     {
       "key": {
+        "uuid": "00b82cac_167127d3",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-09T02:32:38Z",
+      "side": 1,
+      "message": "\u003e \u003e Dang, yeah, I think loglistener strips the Escape, so I just get goop in the output:\n\u003e \u003e \n\u003e \u003e [03726.906] 07299.07315\u003e [0;32m[----------] [mGlobal test environment set-up.\n\u003e \u003e \n\u003e \u003e Oh well.\n\u003e \n\u003e Here’s the latest horrible idea that seems less and less horrible the more I chew on it: put the test stdout through a filter that base64-encodes it, and let that spew to the log. We could even give it the responsibility for splitting stdout and stderr, and propagating the exit status.\n\u003e \n\u003e Too bad the Fuchsia SDK doesn’t have something like this already. Seems like a fairly common thing you’d want for testing, at least.\n\nDoesn\u0027t sound too bad. :) I had the same brilliant idea on the Chromium side to try to exfiltrate the test-results.json for swarming results, but I ended up discarding it since the .json is actually pretty gigantic there and ... a bonus bit of fiddly. loglistener (or rather, it\u0027s probably in the system log itself) has a relatively short line length after which it wraps, which causes a new date/timestamp line prefix in the middle of a conceptually single line of log. Still workable, but just messy to parse it back out to the originally emitted log line again.\n\nThe output is sent to a virtual console on device when you\u0027re logged into it interactively. I don\u0027t think I\u0027d miss having readable output there *that* much, but it\u0027d certainly be odd to see a spray of base64 there.\n\nI could look into just fixing the log or loglistener to (optionally?) pass through the codes, that might be simplest if upstream doesn\u0027t mind.\n\nYet another approach could be to avoid loglistener entirely and just redirect (or tee) to a local file on device, and then copy that out on run completion. The main thing that\u0027d fail at is that it wouldn\u0027t be streaming like loglistener is now, but maybe that\u0027s not so bad since the total runtime isn\u0027t very long in our case.\n\nOr... maybe just live with monochrome for now. :)",
+      "parentUuid": "01270dd1_d66ff62b",
+      "range": {
+        "startLine": 207,
+        "startChar": 30,
+        "endLine": 207,
+        "endChar": 75
+      },
+      "revId": "83eb67b7a3fdbab2c1636d7126737d087e7add5d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a32300f_640ce75c",
         "filename": "build/run_tests.py",
         "patchSetId": 3
