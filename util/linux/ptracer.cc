@@ -14,6 +14,7 @@
 
 #include "util/linux/ptracer.h"
 
+#include <errno.h>
 #include <linux/elf.h>
 #include <string.h>
 #include <sys/ptrace.h>
@@ -34,38 +35,43 @@ namespace {
 #if defined(ARCH_CPU_X86_FAMILY)
 
 template <typename Destination>
-bool GetRegisterSet(pid_t tid, int set, Destination* dest) {
+bool GetRegisterSet(pid_t tid, int set, Destination* dest, bool can_log) {
   iovec iov;
   iov.iov_base = dest;
   iov.iov_len = sizeof(*dest);
   if (ptrace(PTRACE_GETREGSET, tid, reinterpret_cast<void*>(set), &iov) != 0) {
-    PLOG(ERROR) << "ptrace";
+    PLOG_IF(ERROR, can_log) << "ptrace";
     return false;
   }
   if (iov.iov_len != sizeof(*dest)) {
-    LOG(ERROR) << "Unexpected registers size";
+    LOG_IF(ERROR, can_log) << "Unexpected registers size";
     return false;
   }
   return true;
 }
 
-bool GetFloatingPointRegisters32(pid_t tid, FloatContext* context) {
-  return GetRegisterSet(tid, NT_PRXFPREG, &context->f32.fxsave);
+bool GetFloatingPointRegisters32(pid_t tid,
+                                 FloatContext* context,
+                                 bool can_log) {
+  return GetRegisterSet(tid, NT_PRXFPREG, &context->f32.fxsave, can_log);
 }
 
-bool GetFloatingPointRegisters64(pid_t tid, FloatContext* context) {
-  return GetRegisterSet(tid, NT_PRFPREG, &context->f64.fxsave);
+bool GetFloatingPointRegisters64(pid_t tid,
+                                 FloatContext* context,
+                                 bool can_log) {
+  return GetRegisterSet(tid, NT_PRFPREG, &context->f64.fxsave, can_log);
 }
 
 bool GetThreadArea32(pid_t tid,
                      const ThreadContext& context,
-                     LinuxVMAddress* address) {
+                     LinuxVMAddress* address,
+                     bool can_log) {
   size_t index = (context.t32.xgs & 0xffff) >> 3;
   user_desc desc;
   if (ptrace(
           PTRACE_GET_THREAD_AREA, tid, reinterpret_cast<void*>(index), &desc) !=
       0) {
-    PLOG(ERROR) << "ptrace";
+    PLOG_IF(ERROR, can_log) << "ptrace";
     return false;
   }
 
@@ -75,7 +81,8 @@ bool GetThreadArea32(pid_t tid,
 
 bool GetThreadArea64(pid_t tid,
                      const ThreadContext& context,
-                     LinuxVMAddress* address) {
+                     LinuxVMAddress* address,
+                     bool can_log) {
   *address = context.t64.fs_base;
   return true;
 }
@@ -98,17 +105,21 @@ bool GetThreadArea64(pid_t tid,
 // TODO(mark): Once helpers to interpret the kernel version are available, add
 // a DCHECK to ensure that the kernel is older than 3.5.
 
-bool GetGeneralPurposeRegistersLegacy(pid_t tid, ThreadContext* context) {
+bool GetGeneralPurposeRegistersLegacy(pid_t tid,
+                                      ThreadContext* context,
+                                      bool can_log) {
   if (ptrace(PTRACE_GETREGS, tid, nullptr, &context->t32) != 0) {
-    PLOG(ERROR) << "ptrace";
+    PLOG_IF(ERROR, can_log) << "ptrace";
     return false;
   }
   return true;
 }
 
-bool GetFloatingPointRegistersLegacy(pid_t tid, FloatContext* context) {
+bool GetFloatingPointRegistersLegacy(pid_t tid,
+                                     FloatContext* context,
+                                     bool can_log) {
   if (ptrace(PTRACE_GETFPREGS, tid, nullptr, &context->f32.fpregs) != 0) {
-    PLOG(ERROR) << "ptrace";
+    PLOG_IF(ERROR, can_log) << "ptrace";
     return false;
   }
   context->f32.have_fpregs = true;
@@ -119,7 +130,7 @@ bool GetFloatingPointRegistersLegacy(pid_t tid, FloatContext* context) {
         // These registers are optional on 32-bit ARM cpus
         break;
       default:
-        PLOG(ERROR) << "ptrace";
+        PLOG_IF(ERROR, can_log) << "ptrace";
         return false;
     }
   } else {
@@ -138,7 +149,9 @@ bool GetFloatingPointRegistersLegacy(pid_t tid, FloatContext* context) {
 constexpr size_t kArmVfpSize = 32 * 8 + 4;
 
 // Target is 32-bit
-bool GetFloatingPointRegisters32(pid_t tid, FloatContext* context) {
+bool GetFloatingPointRegisters32(pid_t tid,
+                                 FloatContext* context,
+                                 bool can_log) {
   context->f32.have_fpregs = false;
   context->f32.have_vfp = false;
 
@@ -151,19 +164,19 @@ bool GetFloatingPointRegisters32(pid_t tid, FloatContext* context) {
     switch (errno) {
 #if defined(ARCH_CPU_ARMEL)
       case EIO:
-        return GetFloatingPointRegistersLegacy(tid, context);
+        return GetFloatingPointRegistersLegacy(tid, context, can_log);
 #endif  // ARCH_CPU_ARMEL
       case EINVAL:
         // A 32-bit process running on a 64-bit CPU doesn't have this register
         // set. It should have a VFP register set instead.
         break;
       default:
-        PLOG(ERROR) << "ptrace";
+        PLOG_IF(ERROR, can_log) << "ptrace";
         return false;
     }
   } else {
     if (iov.iov_len != sizeof(context->f32.fpregs)) {
-      LOG(ERROR) << "Unexpected registers size";
+      LOG_IF(ERROR, can_log) << "Unexpected registers size";
       return false;
     }
     context->f32.have_fpregs = true;
@@ -179,36 +192,38 @@ bool GetFloatingPointRegisters32(pid_t tid, FloatContext* context) {
         // VFP may not be present on 32-bit ARM cpus.
         break;
       default:
-        PLOG(ERROR) << "ptrace";
+        PLOG_IF(ERROR, can_log) << "ptrace";
         return false;
     }
   } else {
     if (iov.iov_len != kArmVfpSize && iov.iov_len != sizeof(context->f32.vfp)) {
-      LOG(ERROR) << "Unexpected registers size";
+      LOG_IF(ERROR, can_log) << "Unexpected registers size";
       return false;
     }
     context->f32.have_vfp = true;
   }
 
   if (!(context->f32.have_fpregs || context->f32.have_vfp)) {
-    LOG(ERROR) << "Unable to collect registers";
+    LOG_IF(ERROR, can_log) << "Unable to collect registers";
     return false;
   }
   return true;
 }
 
-bool GetFloatingPointRegisters64(pid_t tid, FloatContext* context) {
+bool GetFloatingPointRegisters64(pid_t tid,
+                                 FloatContext* context,
+                                 bool can_log) {
   iovec iov;
   iov.iov_base = context;
   iov.iov_len = sizeof(*context);
   if (ptrace(
           PTRACE_GETREGSET, tid, reinterpret_cast<void*>(NT_PRFPREG), &iov) !=
       0) {
-    PLOG(ERROR) << "ptrace";
+    PLOG_IF(ERROR, can_log) << "ptrace";
     return false;
   }
   if (iov.iov_len != sizeof(context->f64)) {
-    LOG(ERROR) << "Unexpected registers size";
+    LOG_IF(ERROR, can_log) << "Unexpected registers size";
     return false;
   }
   return true;
@@ -216,11 +231,12 @@ bool GetFloatingPointRegisters64(pid_t tid, FloatContext* context) {
 
 bool GetThreadArea32(pid_t tid,
                      const ThreadContext& context,
-                     LinuxVMAddress* address) {
+                     LinuxVMAddress* address,
+                     bool can_log) {
 #if defined(ARCH_CPU_ARMEL)
   void* result;
   if (ptrace(PTRACE_GET_THREAD_AREA, tid, nullptr, &result) != 0) {
-    PLOG(ERROR) << "ptrace";
+    PLOG_IF(ERROR, can_log) << "ptrace";
     return false;
   }
   *address = FromPointerCast<LinuxVMAddress>(result);
@@ -228,25 +244,27 @@ bool GetThreadArea32(pid_t tid,
 #else
   // TODO(jperaza): it doesn't look like there is a way for a 64-bit ARM process
   // to get the thread area for a 32-bit ARM process with ptrace.
-  LOG(WARNING) << "64-bit ARM cannot trace TLS area for a 32-bit process";
+  LOG_IF(WARNING, can_log)
+      << "64-bit ARM cannot trace TLS area for a 32-bit process";
   return false;
 #endif  // ARCH_CPU_ARMEL
 }
 
 bool GetThreadArea64(pid_t tid,
                      const ThreadContext& context,
-                     LinuxVMAddress* address) {
+                     LinuxVMAddress* address,
+                     bool can_log) {
   iovec iov;
   iov.iov_base = address;
   iov.iov_len = sizeof(*address);
   if (ptrace(
           PTRACE_GETREGSET, tid, reinterpret_cast<void*>(NT_ARM_TLS), &iov) !=
       0) {
-    PLOG(ERROR) << "ptrace";
+    PLOG_IF(ERROR, can_log) << "ptrace";
     return false;
   }
   if (iov.iov_len != 8) {
-    LOG(ERROR) << "address size mismatch";
+    LOG_IF(ERROR, can_log) << "address size mismatch";
     return false;
   }
   return true;
@@ -255,7 +273,9 @@ bool GetThreadArea64(pid_t tid,
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
 
-size_t GetGeneralPurposeRegistersAndLength(pid_t tid, ThreadContext* context) {
+size_t GetGeneralPurposeRegistersAndLength(pid_t tid,
+                                           ThreadContext* context,
+                                           bool can_log) {
   iovec iov;
   iov.iov_base = context;
   iov.iov_len = sizeof(*context);
@@ -265,31 +285,35 @@ size_t GetGeneralPurposeRegistersAndLength(pid_t tid, ThreadContext* context) {
     switch (errno) {
 #if defined(ARCH_CPU_ARMEL)
       case EIO:
-        if (GetGeneralPurposeRegistersLegacy(tid, context)) {
+        if (GetGeneralPurposeRegistersLegacy(tid, context, can_log)) {
           return sizeof(context->t32);
         }
 #endif  // ARCH_CPU_ARMEL
       default:
-        PLOG(ERROR) << "ptrace";
+        PLOG_IF(ERROR, can_log) << "ptrace";
         return 0;
     }
   }
   return iov.iov_len;
 }
 
-bool GetGeneralPurposeRegisters32(pid_t tid, ThreadContext* context) {
-  if (GetGeneralPurposeRegistersAndLength(tid, context) !=
+bool GetGeneralPurposeRegisters32(pid_t tid,
+                                  ThreadContext* context,
+                                  bool can_log) {
+  if (GetGeneralPurposeRegistersAndLength(tid, context, can_log) !=
       sizeof(context->t32)) {
-    LOG(ERROR) << "Unexpected registers size";
+    LOG_IF(ERROR, can_log) << "Unexpected registers size";
     return false;
   }
   return true;
 }
 
-bool GetGeneralPurposeRegisters64(pid_t tid, ThreadContext* context) {
-  if (GetGeneralPurposeRegistersAndLength(tid, context) !=
+bool GetGeneralPurposeRegisters64(pid_t tid,
+                                  ThreadContext* context,
+                                  bool can_log) {
+  if (GetGeneralPurposeRegistersAndLength(tid, context, can_log) !=
       sizeof(context->t64)) {
-    LOG(ERROR) << "Unexpected registers size";
+    LOG_IF(ERROR, can_log) << "Unexpected registers size";
     return false;
   }
   return true;
@@ -297,9 +321,11 @@ bool GetGeneralPurposeRegisters64(pid_t tid, ThreadContext* context) {
 
 }  // namespace
 
-Ptracer::Ptracer() : is_64_bit_(false), initialized_() {}
+Ptracer::Ptracer(bool can_log)
+    : is_64_bit_(false), can_log_(can_log), initialized_() {}
 
-Ptracer::Ptracer(bool is_64_bit) : is_64_bit_(is_64_bit) {
+Ptracer::Ptracer(bool is_64_bit, bool can_log)
+    : is_64_bit_(is_64_bit), can_log_(can_log), initialized_() {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
   INITIALIZATION_STATE_SET_VALID(initialized_);
 }
@@ -310,13 +336,13 @@ bool Ptracer::Initialize(pid_t pid) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   ThreadContext context;
-  size_t length = GetGeneralPurposeRegistersAndLength(pid, &context);
+  size_t length = GetGeneralPurposeRegistersAndLength(pid, &context, can_log_);
   if (length == sizeof(context.t64)) {
     is_64_bit_ = true;
   } else if (length == sizeof(context.t32)) {
     is_64_bit_ = false;
   } else {
-    LOG(ERROR) << "Unexpected registers size";
+    LOG_IF(ERROR, can_log_) << "Unexpected registers size";
     return false;
   }
 
@@ -333,16 +359,73 @@ bool Ptracer::GetThreadInfo(pid_t tid, ThreadInfo* info) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   if (is_64_bit_) {
-    return GetGeneralPurposeRegisters64(tid, &info->thread_context) &&
-           GetFloatingPointRegisters64(tid, &info->float_context) &&
-           GetThreadArea64(
-               tid, info->thread_context, &info->thread_specific_data_address);
+    return GetGeneralPurposeRegisters64(tid, &info->thread_context, can_log_) &&
+           GetFloatingPointRegisters64(tid, &info->float_context, can_log_) &&
+           GetThreadArea64(tid,
+                           info->thread_context,
+                           &info->thread_specific_data_address,
+                           can_log_);
   }
 
-  return GetGeneralPurposeRegisters32(tid, &info->thread_context) &&
-         GetFloatingPointRegisters32(tid, &info->float_context) &&
-         GetThreadArea32(
-             tid, info->thread_context, &info->thread_specific_data_address);
+  return GetGeneralPurposeRegisters32(tid, &info->thread_context, can_log_) &&
+         GetFloatingPointRegisters32(tid, &info->float_context, can_log_) &&
+         GetThreadArea32(tid,
+                         info->thread_context,
+                         &info->thread_specific_data_address,
+                         can_log_);
+}
+
+bool Ptracer::ReadMemory(pid_t pid,
+                         LinuxVMAddress address,
+                         size_t size,
+                         char* buffer) {
+  while (size > 0) {
+    errno = 0;
+
+    if (size >= sizeof(long)) {
+      *reinterpret_cast<long*>(buffer) =
+          ptrace(PTRACE_PEEKDATA, pid, address, nullptr);
+
+      if (errno != 0) {
+        PLOG_IF(ERROR, can_log_) << "ptrace";
+        return false;
+      }
+
+      size -= sizeof(long);
+      buffer += sizeof(long);
+      address += sizeof(long);
+    } else {
+      long word = ptrace(PTRACE_PEEKDATA, pid, address, nullptr);
+
+      if (errno == 0) {
+        memcpy(buffer, reinterpret_cast<char*>(&word), size);
+        return true;
+      }
+
+      if (errno != EIO) {
+        PLOG_IF(ERROR, can_log_);
+        return false;
+      }
+
+      // A read smaller than a word at the end of a mapping might spill over
+      // into unmapped memory. Try aligning the read so that the requested
+      // data is at the end of the word instead.
+      errno = 0;
+      word =
+          ptrace(PTRACE_PEEKDATA, pid, address - sizeof(word) + size, nullptr);
+
+      if (errno == 0) {
+        memcpy(
+            buffer, reinterpret_cast<char*>(&word) + sizeof(word) - size, size);
+        return true;
+      }
+
+      PLOG_IF(ERROR, can_log_);
+      return false;
+    }
+  }
+
+  return true;
 }
 
 }  // namespace crashpad

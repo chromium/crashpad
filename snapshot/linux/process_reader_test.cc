@@ -35,6 +35,7 @@
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/linux/fake_ptrace_connection.h"
+#include "test/linux/get_tls.h"
 #include "test/multiprocess.h"
 #include "util/file/file_io.h"
 #include "util/linux/direct_ptrace_connection.h"
@@ -47,28 +48,6 @@ namespace {
 
 pid_t gettid() {
   return syscall(SYS_gettid);
-}
-
-LinuxVMAddress GetTLS() {
-  LinuxVMAddress tls;
-#if defined(ARCH_CPU_ARMEL)
-  // 0xffff0fe0 is the address of the kernel user helper __kuser_get_tls().
-  auto kuser_get_tls = reinterpret_cast<void* (*)()>(0xffff0fe0);
-  tls = FromPointerCast<LinuxVMAddress>(kuser_get_tls());
-#elif defined(ARCH_CPU_ARM64)
-  // Linux/aarch64 places the tls address in system register tpidr_el0.
-  asm("mrs %0, tpidr_el0" : "=r"(tls));
-#elif defined(ARCH_CPU_X86)
-  uint32_t tls_32;
-  asm("movl %%gs:0x0, %0" : "=r"(tls_32));
-  tls = tls_32;
-#elif defined(ARCH_CPU_X86_64)
-  asm("movq %%fs:0x0, %0" : "=r"(tls));
-#else
-#error Port.
-#endif  // ARCH_CPU_ARMEL
-
-  return tls;
 }
 
 TEST(ProcessReader, SelfBasic) {

@@ -62,6 +62,10 @@
         'linux/memory_map.h',
         'linux/proc_stat_reader.cc',
         'linux/proc_stat_reader.h',
+        'linux/ptrace_broker.cc',
+        'linux/ptrace_broker.h',
+        'linux/ptrace_client.cc',
+        'linux/ptrace_client.h'
         'linux/ptrace_connection.h',
         'linux/ptracer.cc',
         'linux/ptracer.h',
