@@ -187,3 +187,9 @@ static_library("gtest_main") {
     "//testing/gtest",
   ]
 }
+
+executable("run") {
+  testonly = true
+  sources = ["fuchsia/run.cc"]
+  libs = ["launchpad"]
+}
