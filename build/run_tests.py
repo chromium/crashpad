@@ -59,6 +59,44 @@ def _BinaryDirTargetOS(binary_dir):
   return None
 
 
+def _EnableVTProcessingOnWindowsConsole():
+  """Enables virtual terminal processing for ANSI/VT100-style escape sequences
+  on a Windows console attached to standard output. Returns True on success.
+  Returns False if standard output is not a console or if virtual terminal
+  processing is not supported. The feature was introduced in Windows 10.
+  """
+
+  import pywintypes
+  import win32console
+  import winerror
+
+  stdout_console = win32console.GetStdHandle(win32console.STD_OUTPUT_HANDLE)
+  try:
+    console_mode = stdout_console.GetConsoleMode()
+  except pywintypes.error as e:
+    if e.winerror == winerror.ERROR_INVALID_HANDLE:
+      # Standard output is not a console.
+      return False
+    raise
+
+  try:
+    # From <wincon.h>. This would be
+    # win32console.ENABLE_VIRTUAL_TERMINAL_PROCESSING, but it’s too new to be
+    # defined there.
+    ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004
+
+    stdout_console.SetConsoleMode(console_mode |
+                                  ENABLE_VIRTUAL_TERMINAL_PROCESSING)
+  except pywintypes.error as e:
+    if e.winerror == winerror.ERROR_INVALID_PARAMETER:
+      # ANSI/VT100-style escape sequence processing isn’t supported before
+      # Windows 10.
+      return False
+    raise
+
+  return True
+
+
 def _RunOnAndroidTarget(binary_dir, test, android_device):
   local_test_path = os.path.join(binary_dir, test)
   MAYBE_UNSUPPORTED_TESTS = (
@@ -215,10 +253,11 @@ def _RunOnAndroidTarget(binary_dir, test, android_device):
     gtest_color = os.environ.get('GTEST_COLOR')
     if gtest_color in ('auto', None):
       if (sys.stdout.isatty() and
-          os.environ.get('TERM') in
-              ('xterm', 'xterm-color', 'xterm-256color', 'screen',
-               'screen-256color', 'tmux', 'tmux-256color', 'rxvt-unicode',
-               'rxvt-unicode-256color', 'linux', 'cygwin')):
+          (os.environ.get('TERM') in
+               ('xterm', 'xterm-color', 'xterm-256color', 'screen',
+                'screen-256color', 'tmux', 'tmux-256color', 'rxvt-unicode',
+                'rxvt-unicode-256color', 'linux', 'cygwin') or
+           (IS_WINDOWS_HOST and _EnableVTProcessingOnWindowsConsole()))):
         gtest_color = 'yes'
       else:
         gtest_color = 'no'
