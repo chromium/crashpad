@@ -318,6 +318,7 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name):
   runtime_deps_file = os.path.join(binary_dir, test + '.runtime_deps')
   with open(runtime_deps_file, 'rb') as f:
     runtime_deps = f.read().splitlines()
+  runtime_deps.append('./run')
 
   def netruncmd(*args):
     """Runs a list of commands on the target device. Each command is escaped
@@ -366,7 +367,7 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name):
     done_message = 'TERMINATED: ' + unique_id
     namespace_command = [
         'namespace', '/pkg=' + staging_root, '/tmp=' + tmp_root, '--',
-        staging_root + '/bin/' + test]
+        staging_root + '/bin/run', '/pkg/bin/' + test]
     netruncmd(namespace_command, ['echo', done_message])
 
     success = _HandleOutputFromFuchsiaLogListener(
