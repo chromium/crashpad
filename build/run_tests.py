@@ -23,6 +23,7 @@ import posixpath
 import re
 import subprocess
 import sys
+import tempfile
 import uuid
 
 CRASHPAD_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -95,6 +96,21 @@ def _EnableVTProcessingOnWindowsConsole():
     raise
 
   return True
+
+
+def _GTestColorEnabled():
+  gtest_color = os.environ.get('GTEST_COLOR')
+  if gtest_color in ('auto', None):
+    if (sys.stdout.isatty() and
+        (os.environ.get('TERM') in
+              ('xterm', 'xterm-color', 'xterm-256color', 'screen',
+              'screen-256color', 'tmux', 'tmux-256color', 'rxvt-unicode',
+              'rxvt-unicode-256color', 'linux', 'cygwin') or
+          (IS_WINDOWS_HOST and _EnableVTProcessingOnWindowsConsole()))):
+      gtest_color = 'yes'
+    else:
+      gtest_color = 'no'
+  return gtest_color
 
 
 def _RunOnAndroidTarget(binary_dir, test, android_device):
@@ -250,18 +266,7 @@ def _RunOnAndroidTarget(binary_dir, test, android_device):
     # comes from gtest googletest/src/gtest.cc
     # testing::internal::ShouldUseColor().
     env = {'CRASHPAD_TEST_DATA_ROOT': device_temp_dir}
-    gtest_color = os.environ.get('GTEST_COLOR')
-    if gtest_color in ('auto', None):
-      if (sys.stdout.isatty() and
-          (os.environ.get('TERM') in
-               ('xterm', 'xterm-color', 'xterm-256color', 'screen',
-                'screen-256color', 'tmux', 'tmux-256color', 'rxvt-unicode',
-                'rxvt-unicode-256color', 'linux', 'cygwin') or
-           (IS_WINDOWS_HOST and _EnableVTProcessingOnWindowsConsole()))):
-        gtest_color = 'yes'
-      else:
-        gtest_color = 'no'
-    env['GTEST_COLOR'] = gtest_color
+    env['GTEST_COLOR'] = _GTestColorEnabled()
     _adb_shell([posixpath.join(device_out_dir, test)], env)
   finally:
     _adb_shell(['rm', '-rf', device_temp_dir])
@@ -324,7 +329,7 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name):
     by using pipes.quote(), and then each command is chained by shell ';'.
     """
     netruncmd_path = os.path.join(sdk_root, 'tools', 'netruncmd')
-    final_args = ' ; '.join(' '.join(pipes.quote(x) for x in command)
+    final_args = ' ; '.join(' '.join(x for x in command)
                             for command in args)
     subprocess.check_call([netruncmd_path, device_name, final_args])
 
@@ -332,13 +337,15 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name):
     unique_id = uuid.uuid4().hex
     tmp_root = '/tmp/%s_%s/tmp' % (test, unique_id)
     staging_root = '/tmp/%s_%s/pkg' % (test, unique_id)
+    results_file = '/tmp/%s_%s/results.txt' % (test, unique_id)
+    local_results_file = tempfile.NamedTemporaryFile()
 
     # Make a staging directory tree on the target.
     directories_to_create = [tmp_root, '%s/bin' % staging_root,
                              '%s/assets' % staging_root]
     netruncmd(['mkdir', '-p'] + directories_to_create)
 
-    def netcp(local_path):
+    def netcp_push_to_pkg(local_path):
       """Uses `netcp` to copy a file or directory to the device. Files located
       inside the build dir are stored to /pkg/bin, otherwise to /pkg/assets.
       """
@@ -353,28 +360,43 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name):
                              device_name + ':' + target_path],
                             stderr=open(os.devnull))
 
+    def netcp_pull(remote_path, local_path):
+      """Uses `netcp` to copy a file from the device to a target location."""
+      netcp_path = os.path.join(sdk_root, 'tools', 'netcp')
+      subprocess.check_call([netcp_path, device_name + ':' + remote_path,
+                             local_path], stderr=open(os.devnull))
+
     # Copy runtime deps into the staging tree.
     for dep in runtime_deps:
       local_path = os.path.normpath(os.path.join(binary_dir, dep))
       if os.path.isdir(local_path):
         for root, dirs, files in os.walk(local_path):
           for f in files:
-            netcp(os.path.join(root, f))
+            netcp_push_to_pkg(os.path.join(root, f))
       else:
-        netcp(local_path)
+        netcp_push_to_pkg(local_path)
 
     done_message = 'TERMINATED: ' + unique_id
     namespace_command = [
         'namespace', '/pkg=' + staging_root, '/tmp=' + tmp_root, '--',
         staging_root + '/bin/' + test]
-    netruncmd(namespace_command, ['echo', done_message])
+    # Pass TERM through, so that GTest will enable colored output. Escapes are
+    # stripped along the way, so 
+    netruncmd(['export', 'TERM=' + os.getenv('TERM')],
+              namespace_command,
+              ['echo', done_message])
 
     success = _HandleOutputFromFuchsiaLogListener(
         loglistener_process, done_message)
+
+    #netcp_pull(results_file, local_results_file.name)
+    #with open(local_results_file.name, 'rb') as f:
+      #sys.stdout.write(f.read())
+
     if not success:
       raise subprocess.CalledProcessError(1, test)
   finally:
-    netruncmd(['rm', '-rf', tmp_root, staging_root])
+    netruncmd(['rm', '-rf', tmp_root, staging_root])#, results_file])
 
 
 # This script is primarily used from the waterfall so that the list of tests
