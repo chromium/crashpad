@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "035ff655_1323db10",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-11T17:23:31Z",
+      "side": 1,
+      "message": "constexpr\nOR\nconst + getpagesize()",
+      "revId": "7899871d145a602cf65b06ffc65584b3f83ec571",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f43b9b8_5fd6da2a",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-11T17:23:31Z",
+      "side": 1,
+      "message": "Make sure that it’s big enough for our purposes: round up from sizeof(ScopedPtraceAttach) to the next page size.",
+      "revId": "7899871d145a602cf65b06ffc65584b3f83ec571",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e1f3c49_ad9325d9",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-11T17:23:31Z",
+      "side": 1,
+      "message": "Since losing “class” from this enum means that it’s referred to as Request::kAttach instead of Request::Type::kAttach, these should perhaps all be renamed with a Type prefix. “Poor man’s namespacing,” like how we used to have to do things. Request::kTypeAttach.",
+      "revId": "7899871d145a602cf65b06ffc65584b3f83ec571",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b018ebb1_6ec17bb6",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-11T17:23:31Z",
+      "side": 1,
+      "message": "Fearful of the “class” aspect for all enums that cross process boundaries.",
+      "range": {
+        "startLine": 96,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 12
+      },
+      "revId": "7899871d145a602cf65b06ffc65584b3f83ec571",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
