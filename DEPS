@@ -115,6 +115,22 @@ hooks = [
   },
   {
     # This uses “cipd install” so that mac-amd64 and linux-amd64 can coexist
+    # peacefully. “cipd ensure” would remove the macOS package when running on a
+    # Linux build host and vice-versa. https://crbug.com/789364.
+    'name': 'fuchsia_clang_linux',
+    'pattern': '.',
+    'condition': 'checkout_fuchsia and host_os == "linux"',
+    'action': [
+      'cipd',
+      'install',
+      'fuchsia/clang/linux-amd64',
+      'latest',
+      '-root', 'crashpad/third_party/fuchsia/clang/linux-amd64',
+      '-log-level', 'info',
+    ],
+  },
+  {
+    # This uses “cipd install” so that mac-amd64 and linux-amd64 can coexist
     # peacefully. “cipd ensure” would remove the Linux package when running on a
     # macOS build host and vice-versa. https://crbug.com/789364.
     'name': 'fuchsia_clang_mac',
@@ -130,18 +146,30 @@ hooks = [
     ],
   },
   {
-    # This uses “cipd install” so that mac-amd64 and linux-amd64 can coexist
-    # peacefully. “cipd ensure” would remove the macOS package when running on a
-    # Linux build host and vice-versa. https://crbug.com/789364.
-    'name': 'fuchsia_clang_linux',
+    # Same rationale for using "install" rather than "ensure" as for clang packages.
+    'name': 'fuchsia_qemu_linux',
     'pattern': '.',
     'condition': 'checkout_fuchsia and host_os == "linux"',
     'action': [
       'cipd',
       'install',
-      'fuchsia/clang/linux-amd64',
+      'fuchsia/qemu/linux-amd64',
       'latest',
-      '-root', 'crashpad/third_party/fuchsia/clang/linux-amd64',
+      '-root', 'crashpad/third_party/fuchsia/qemu/linux-amd64',
+      '-log-level', 'info',
+    ],
+  },
+  {
+    # Same rationale for using "install" rather than "ensure" as for clang packages.
+    'name': 'fuchsia_qemu_mac',
+    'pattern': '.',
+    'condition': 'checkout_fuchsia and host_os == "mac"',
+    'action': [
+      'cipd',
+      'install',
+      'fuchsia/qemu/mac-amd64',
+      'latest',
+      '-root', 'crashpad/third_party/fuchsia/qemu/mac-amd64',
       '-log-level', 'info',
     ],
   },
