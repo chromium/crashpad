@@ -37,7 +37,7 @@ def _BinaryDirTargetOS(binary_dir):
   # Look for a GN “target_os”.
   popen = subprocess.Popen(
       ['gn', 'args', binary_dir, '--list=target_os', '--short'],
-      shell=IS_WINDOWS_HOST, stdout=subprocess.PIPE, stderr=open(os.devnull))
+      shell=IS_WINDOWS_HOST, stdout=subprocess.PIPE)
   value = popen.communicate()[0]
   if popen.returncode == 0:
     match = re.match('target_os = "(.*)"$', value.decode('utf-8'))
@@ -267,9 +267,14 @@ def _RunOnAndroidTarget(binary_dir, test, android_device):
     _adb_shell(['rm', '-rf', device_temp_dir])
 
 
-def _GetFuchsiaSDKRoot():
+def _GetZirconToolsPath():
+  zircon_tools_path = os.environ.get('ZIRCON_TOOLS')
+  if zircon_tools_path is not None:
+    return zircon_tools_path
+
   arch = 'mac-amd64' if sys.platform == 'darwin' else 'linux-amd64'
-  return os.path.join(CRASHPAD_DIR, 'third_party', 'fuchsia', 'sdk', arch)
+  return os.path.join(
+      CRASHPAD_DIR, 'third_party', 'fuchsia', 'sdk', arch, 'tools')
 
 
 def _GenerateFuchsiaRuntimeDepsFiles(binary_dir, tests):
@@ -281,25 +286,6 @@ def _GenerateFuchsiaRuntimeDepsFiles(binary_dir, tests):
       ['gn', 'gen', binary_dir, '--runtime-deps-list-file=' + targets_file])
 
 
-def _HandleOutputFromFuchsiaLogListener(process, done_message):
-  """Pass through the output from |process| (which should be an instance of
-  Fuchsia's loglistener) until a special termination |done_message| is
-  encountered.
-
-  Also attempts to determine if any tests failed by inspecting the log output,
-  and returns False if there were failures.
-  """
-  success = True
-  while True:
-    line = process.stdout.readline().rstrip()
-    if 'FAILED TEST' in line:
-      success = False
-    elif done_message in line and 'echo ' not in line:
-      break
-    print(line)
-  return success
-
-
 def _RunOnFuchsiaTarget(binary_dir, test, device_name):
   """Runs the given Fuchsia |test| executable on the given |device_name|. The
   device must already be booted.
@@ -308,30 +294,27 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name):
   target in /tmp using `netcp`, runs the binary on the target, and logs output
   back to stdout on this machine via `loglistener`.
   """
-  sdk_root = _GetFuchsiaSDKRoot()
-
-  # Run loglistener and filter the output to know when the test is done.
-  loglistener_process = subprocess.Popen(
-      [os.path.join(sdk_root, 'tools', 'loglistener'), device_name],
-      stdout=subprocess.PIPE, stdin=open(os.devnull), stderr=open(os.devnull))
+  zircon_tools_path = _GetZirconToolsPath()
 
   runtime_deps_file = os.path.join(binary_dir, test + '.runtime_deps')
   with open(runtime_deps_file, 'rb') as f:
     runtime_deps = f.read().splitlines()
+  runtime_deps.append('./run_and_log')
 
   def netruncmd(*args):
     """Runs a list of commands on the target device. Each command is escaped
     by using pipes.quote(), and then each command is chained by shell ';'.
     """
-    netruncmd_path = os.path.join(sdk_root, 'tools', 'netruncmd')
+    netruncmd_path = os.path.join(zircon_tools_path, 'netruncmd')
     final_args = ' ; '.join(' '.join(pipes.quote(x) for x in command)
                             for command in args)
     subprocess.check_call([netruncmd_path, device_name, final_args])
 
   try:
     unique_id = uuid.uuid4().hex
-    tmp_root = '/tmp/%s_%s/tmp' % (test, unique_id)
-    staging_root = '/tmp/%s_%s/pkg' % (test, unique_id)
+    test_root = '/tmp/%s_%s' % (test, unique_id)
+    tmp_root = test_root + '/tmp'
+    staging_root = test_root + '/pkg'
 
     # Make a staging directory tree on the target.
     directories_to_create = [tmp_root, '%s/bin' % staging_root,
@@ -348,10 +331,9 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name):
             staging_root, 'bin', local_path[len(binary_dir)+1:])
       else:
         target_path = os.path.join(staging_root, 'assets', local_path)
-      netcp_path = os.path.join(sdk_root, 'tools', 'netcp')
+      netcp_path = os.path.join(zircon_tools_path, 'netcp')
       subprocess.check_call([netcp_path, local_path,
-                             device_name + ':' + target_path],
-                            stderr=open(os.devnull))
+                             device_name + ':' + target_path])
 
     # Copy runtime deps into the staging tree.
     for dep in runtime_deps:
@@ -363,18 +345,19 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name):
       else:
         netcp(local_path)
 
-    done_message = 'TERMINATED: ' + unique_id
-    namespace_command = [
-        'namespace', '/pkg=' + staging_root, '/tmp=' + tmp_root, '--',
-        staging_root + '/bin/' + test]
-    netruncmd(namespace_command, ['echo', done_message])
-
-    success = _HandleOutputFromFuchsiaLogListener(
-        loglistener_process, done_message)
-    if not success:
-      raise subprocess.CalledProcessError(1, test)
+    subprocess.check_call(
+        # TODO: Honor PATH, to be able to use namespace instead of
+        # /system/bin/namespace.
+        [os.path.join(CRASHPAD_DIR, 'test', 'fuchsia', 'run_on_fuchsia.py'),
+         '/system/bin/namespace', '/pkg=' + staging_root, '/tmp=' + tmp_root, '--',
+         posixpath.join(staging_root, 'bin', test)],
+        env={
+            'FUCHSIA_RUN_AND_LOG': staging_root + '/bin/run_and_log',
+            'ZIRCON_NODENAME': device_name,
+            'ZIRCON_TOOLS': zircon_tools_path,
+        })
   finally:
-    netruncmd(['rm', '-rf', tmp_root, staging_root])
+    netruncmd(['rm', '-rf', test_root])
 
 
 # This script is primarily used from the waterfall so that the list of tests
@@ -435,7 +418,7 @@ def main(args):
   elif is_fuchsia:
     zircon_nodename = os.environ.get('ZIRCON_NODENAME')
     if not zircon_nodename:
-      netls = os.path.join(_GetFuchsiaSDKRoot(), 'tools', 'netls')
+      netls = os.path.join(_GetZirconToolsPath(), 'netls')
       popen = subprocess.Popen([netls, '--nowait'], stdout=subprocess.PIPE)
       devices = popen.communicate()[0].splitlines()
       if popen.returncode != 0 or len(devices) != 1:
