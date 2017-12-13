@@ -1,0 +1,290 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fa7811d_234cf4a6",
+        "filename": ".gitignore",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T17:57:45Z",
+      "side": 1,
+      "message": "Do we need to stash this here? Seems kinda…weird…",
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d9105b9_3b02cf74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T17:57:45Z",
+      "side": 1,
+      "message": "Are these available?",
+      "range": {
+        "startLine": 12,
+        "startChar": 22,
+        "endLine": 12,
+        "endChar": 61
+      },
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74047690_623c6039",
+        "filename": "DEPS",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T17:57:45Z",
+      "side": 1,
+      "message": "All of the other entries in this file follow our standard-ish OS ordering, mac-linux-win, like we use for #ifdefs. If you really want to alphabetize instead, you should fix up the rest of the file too.",
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61b1a5e3_cab21236",
+        "filename": "DEPS",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T17:57:45Z",
+      "side": 1,
+      "message": "1. 80 columns\n\n2. The abbreviated comment is good, but let’s leave a link to https://crbug.com/789364 on these too, so that a grep finds all of the references.\n\nSame on line 163.",
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1db10963_2d31bb53",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T17:57:45Z",
+      "side": 1,
+      "message": "nit: I don’t think style requires two blank lines when functions/classes aren’t involved.",
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac9cacf4_e77c71f1",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T17:57:45Z",
+      "side": 1,
+      "message": "This is more “returncode” in subprocess parlance.",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 7
+      },
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "754de4d7_67dce326",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T17:57:45Z",
+      "side": 1,
+      "message": "getpass.getuser()",
+      "range": {
+        "startLine": 48,
+        "startChar": 29,
+        "endLine": 48,
+        "endChar": 51
+      },
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c779f14a_45b00bb5",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T17:57:45Z",
+      "side": 1,
+      "message": "nit: QEMU likes to be capitalized. (Same in the first line of the commit message. You did capitalize it in the commit message body.)",
+      "range": {
+        "startLine": 51,
+        "startChar": 18,
+        "endLine": 51,
+        "endChar": 22
+      },
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fe13773_91d872e9",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T17:57:45Z",
+      "side": 1,
+      "message": "Since it’s used a few times, we might want (at least local to this function), fuchsia_dir…",
+      "range": {
+        "startLine": 65,
+        "startChar": 27,
+        "endLine": 65,
+        "endChar": 66
+      },
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14b4db56_99a5b28c",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T17:57:45Z",
+      "side": 1,
+      "message": "…and fuchsia_sdk_target_dir.",
+      "range": {
+        "startLine": 67,
+        "startChar": 29,
+        "endLine": 68,
+        "endChar": 53
+      },
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0358dea4_e93ed38b",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T17:57:45Z",
+      "side": 1,
+      "message": "Randomize this a bit. The 52:54:00 prefix is OK (it’s got the “local” bit and it’s what QEMU uses anyway), but you should follow it up with three random bytes.\n\n  \u0027:\u0027.join(\u0027%02x\u0027 % random.randint(0, 255) for x in range(3))",
+      "range": {
+        "startLine": 86,
+        "startChar": 38,
+        "endLine": 86,
+        "endChar": 55
+      },
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69dd368f_d6f6d21e",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T17:57:45Z",
+      "side": 1,
+      "message": "Since you’re going to let this run in the background, do you want to give it null stdin, stdout, and stderr?",
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc732901_d2aa3246",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T17:57:45Z",
+      "side": 1,
+      "message": "\\n is nice.",
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f1d62f4_f1bba932",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T17:57:45Z",
+      "side": 1,
+      "message": "args[0] not in (\u0027start\u0027, \u0027stop\u0027)",
+      "range": {
+        "startLine": 95,
+        "startChar": 24,
+        "endLine": 95,
+        "endChar": 64
+      },
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
