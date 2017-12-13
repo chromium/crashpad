@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d2a197cb_4892efd3",
+        "filename": ".gitignore",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T22:38:15Z",
+      "side": 1,
+      "message": "\u003e We could just have run_tests.py launch and keep it in memory, so rather than having a start/stop, just have it create the qemu as necessary and then, shut it down on completion. That\u0027s probably nicer, and integrates more easily with bots too.\n\u003e \n\u003e One drawback would be that later we might want to run things interactively so having it as a start/stop might be convenient for that.\n\u003e \n\u003e Oh... or maybe you just meant it should go in /tmp instead of dumping it here?\n\nYeah, I meant something like os.path.join(tempfile.gettempdir(), \u0027.crashpad_fuchsia_qemu.pid\u0027). But I like the idea of foregoing the pid file and just letting it be started and stopped, at least in a certain mode. I can imagine that there’d also be a need to direct run_tests.py to a specific device or emulator, so we wouldn’t want it to be too difficult to do that either.",
+      "parentUuid": "36ea62bc_620181e9",
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9d9105b9_3b02cf74",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

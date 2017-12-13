@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0cd93a81_b34ac8c4",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T22:38:15Z",
+      "side": 1,
+      "message": "Since this is out in /tmp somewhere, let’s put crashpad in the name too.",
+      "revId": "4d9cdd02512d8bbe40cce6035d613ce6bf5ac153",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
