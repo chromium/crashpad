@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf1e035a_45993608",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T03:17:46Z",
+      "side": 1,
+      "message": "Commas are in fashion this season.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 11
+      },
+      "revId": "37eb44006b3d2d51bfd5e24e3fa32099c386e275",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2c39c63_d3c914fc",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T03:17:46Z",
+      "side": 1,
+      "message": "Move inside the #if.",
+      "revId": "37eb44006b3d2d51bfd5e24e3fa32099c386e275",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46d176d6_ffcf9fc1",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T03:17:46Z",
+      "side": 1,
+      "message": "If we can’t guarantee that RemoveFile() fails on directories on all systems, and especially if the standard supports a system tolerant of this, then we should not treat it as a requirement of the interface but instead document it as “implementation-defined” and remove the bogus negative test.\n\nIf it were actually possible to implement traditional unlink() semantics with respect to directories on Fuchsia in a race-free way, we could just do that. But POSIX doesn’t have anything like funlink() (to borrow the stat()/fstat() analogy), nor would it really, based on how its filesystem interface is designed. So if Fuchsia has primitives that would support this, then we could do it that way, but based on a quick glance, I don’t think that there are. If this isn’t possible, I don’t see much benefit in relaxing a test on just one platform, when the whole point of providing a uniform platform-neutral interface is to provide uniform semantics across systems. (In doing so, it’s OK in my opinion to say that certain conditions, like this, are beyond the spec.)",
+      "revId": "37eb44006b3d2d51bfd5e24e3fa32099c386e275",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fa2a56b_f3d08b17",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T03:17:46Z",
+      "side": 1,
+      "message": "On the other hand, this special case for Fuchsia’s OK, because it looks like a legitimate upstream bug.",
+      "revId": "37eb44006b3d2d51bfd5e24e3fa32099c386e275",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0903309_635e12e8",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-13T03:17:46Z",
+      "side": 1,
+      "message": "This is the outdated 2004 edition. Switch to 2016: http://pubs.opengroup.org/onlinepubs/9699919799/functions/rmdir.html.",
+      "range": {
+        "startLine": 449,
+        "startChar": 5,
+        "endLine": 449,
+        "endChar": 72
+      },
+      "revId": "37eb44006b3d2d51bfd5e24e3fa32099c386e275",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
