@@ -146,6 +146,36 @@ hooks = [
     ],
   },
   {
+    # Same rationale for using "install" rather than "ensure" as for clang
+    # packages. https://crbug.com/789364.
+    'name': 'fuchsia_qemu_mac',
+    'pattern': '.',
+    'condition': 'checkout_fuchsia and host_os == "mac"',
+    'action': [
+      'cipd',
+      'install',
+      'fuchsia/qemu/mac-amd64',
+      'latest',
+      '-root', 'crashpad/third_party/fuchsia/qemu/mac-amd64',
+      '-log-level', 'info',
+    ],
+  },
+  {
+    # Same rationale for using "install" rather than "ensure" as for clang
+    # packages. https://crbug.com/789364.
+    'name': 'fuchsia_qemu_linux',
+    'pattern': '.',
+    'condition': 'checkout_fuchsia and host_os == "linux"',
+    'action': [
+      'cipd',
+      'install',
+      'fuchsia/qemu/linux-amd64',
+      'latest',
+      '-root', 'crashpad/third_party/fuchsia/qemu/linux-amd64',
+      '-log-level', 'info',
+    ],
+  },
+  {
     # The SDK is keyed to the host system because it contains build tools.
     # Currently, linux-amd64 is the only SDK published (see
     # https://chrome-infra-packages.appspot.com/#/?path=fuchsia/sdk). As long as
