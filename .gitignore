@@ -12,6 +12,7 @@
 /out
 /third_party/fuchsia/.cipd
 /third_party/fuchsia/clang
+/third_party/fuchsia/qemu
 /third_party/fuchsia/sdk
 /third_party/gtest/gtest
 /third_party/gyp/gyp
