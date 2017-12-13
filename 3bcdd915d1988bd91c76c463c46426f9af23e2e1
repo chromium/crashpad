@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "36ea62bc_620181e9",
+        "filename": ".gitignore",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-13T21:44:12Z",
+      "side": 1,
+      "message": "We could just have run_tests.py launch and keep it in memory, so rather than having a start/stop, just have it create the qemu as necessary and then, shut it down on completion. That\u0027s probably nicer, and integrates more easily with bots too.\n\nOne drawback would be that later we might want to run things interactively so having it as a start/stop might be convenient for that.\n\nOh... or maybe you just meant it should go in /tmp instead of dumping it here?",
+      "parentUuid": "9fa7811d_234cf4a6",
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9d9105b9_3b02cf74",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2017-12-13T17:57:45Z",
       "side": 1,
       "message": "Are these available?",
+      "range": {
+        "startLine": 12,
+        "startChar": 22,
+        "endLine": 12,
+        "endChar": 61
+      },
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00ec1acc_bb3a47b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-13T21:44:12Z",
+      "side": 1,
+      "message": "Yeah! I got one from someone who had already built it, but I think the \"standard\" is an x64 Intel NUC. I\u0027ll follow up offline to see if they\u0027re generally just ordered from normal suppliers or if there\u0027s an official Thing To Get.",
+      "parentUuid": "9d9105b9_3b02cf74",
       "range": {
         "startLine": 12,
         "startChar": 22,
@@ -93,6 +135,24 @@
     },
     {
       "key": {
+        "uuid": "595ca393_93705faf",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-13T21:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1db10963_2d31bb53",
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac9cacf4_e77c71f1",
         "filename": "build/run_fuchsia_qemu.py",
         "patchSetId": 5
@@ -113,6 +173,30 @@
       "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "455d4289_0864a031",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-13T21:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac9cacf4_e77c71f1",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 7
+      },
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -139,6 +223,30 @@
     },
     {
       "key": {
+        "uuid": "96217e21_e419405e",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-13T21:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "754de4d7_67dce326",
+      "range": {
+        "startLine": 48,
+        "startChar": 29,
+        "endLine": 48,
+        "endChar": 51
+      },
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c779f14a_45b00bb5",
         "filename": "build/run_fuchsia_qemu.py",
         "patchSetId": 5
@@ -159,6 +267,30 @@
       "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5140e374_9aa330bf",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-13T21:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c779f14a_45b00bb5",
+      "range": {
+        "startLine": 51,
+        "startChar": 18,
+        "endLine": 51,
+        "endChar": 22
+      },
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -185,6 +317,30 @@
     },
     {
       "key": {
+        "uuid": "80c6ec49_68049453",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-13T21:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fe13773_91d872e9",
+      "range": {
+        "startLine": 65,
+        "startChar": 27,
+        "endLine": 65,
+        "endChar": 66
+      },
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14b4db56_99a5b28c",
         "filename": "build/run_fuchsia_qemu.py",
         "patchSetId": 5
@@ -205,6 +361,30 @@
       "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "241fe32e_882f93ef",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-13T21:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14b4db56_99a5b28c",
+      "range": {
+        "startLine": 67,
+        "startChar": 29,
+        "endLine": 68,
+        "endChar": 53
+      },
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -231,6 +411,30 @@
     },
     {
       "key": {
+        "uuid": "dc05f7a9_9502622e",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-13T21:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0358dea4_e93ed38b",
+      "range": {
+        "startLine": 86,
+        "startChar": 38,
+        "endLine": 86,
+        "endChar": 55
+      },
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69dd368f_d6f6d21e",
         "filename": "build/run_fuchsia_qemu.py",
         "patchSetId": 5
@@ -248,6 +452,24 @@
     },
     {
       "key": {
+        "uuid": "0473034b_c4c8241e",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-13T21:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69dd368f_d6f6d21e",
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc732901_d2aa3246",
         "filename": "build/run_fuchsia_qemu.py",
         "patchSetId": 5
@@ -262,6 +484,24 @@
       "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8efc1b8_0e8e3e04",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-13T21:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc732901_d2aa3246",
+      "revId": "3bcdd915d1988bd91c76c463c46426f9af23e2e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
