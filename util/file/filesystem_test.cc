@@ -373,7 +373,6 @@ TEST(Filesystem, RemoveFile) {
   EXPECT_FALSE(LoggingRemoveFile(base::FilePath()));
 
   ScopedTempDir temp_dir;
-  EXPECT_FALSE(LoggingRemoveFile(temp_dir.path()));
 
   base::FilePath file(temp_dir.path().Append(FILE_PATH_LITERAL("file")));
   EXPECT_FALSE(LoggingRemoveFile(file));
@@ -384,7 +383,6 @@ TEST(Filesystem, RemoveFile) {
   base::FilePath dir(temp_dir.path().Append(FILE_PATH_LITERAL("dir")));
   ASSERT_TRUE(
       LoggingCreateDirectory(dir, FilePermissions::kWorldReadable, false));
-  EXPECT_FALSE(LoggingRemoveFile(dir));
 
   EXPECT_TRUE(LoggingRemoveFile(file));
   EXPECT_FALSE(PathExists(file));
@@ -433,8 +431,16 @@ TEST(Filesystem, RemoveDirectory) {
   EXPECT_FALSE(LoggingRemoveDirectory(file));
 
   ASSERT_TRUE(CreateFile(file));
+#if !defined(OS_FUCHSIA)
+  // The current implementation of Fuchsia's rmdir() simply calls unlink(), and
+  // unlink() works on all FS objects. This is incorrect as
+  // http://pubs.opengroup.org/onlinepubs/9699919799/functions/rmdir.html says
+  // "The directory shall be removed only if it is an empty directory." and "If
+  // the directory is not an empty directory, rmdir() shall fail and set errno
+  // to [EEXIST] or [ENOTEMPTY]." Upstream bug: US-400.
   EXPECT_FALSE(LoggingRemoveDirectory(file));
   EXPECT_FALSE(LoggingRemoveDirectory(dir));
+#endif
 
   ASSERT_TRUE(LoggingRemoveFile(file));
   EXPECT_TRUE(LoggingRemoveDirectory(dir));
