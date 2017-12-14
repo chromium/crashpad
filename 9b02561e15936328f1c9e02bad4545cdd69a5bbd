@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2976e2de_063ca76c",
+        "filename": "BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-14T23:07:44Z",
+      "side": 1,
+      "message": "Heh, I was reading it as \"is_chromium\" with a \"crashpad_\" namespace. But \"crashpad_is_in_chromium\" reads more gooder.",
+      "parentUuid": "0e707d9f_0ca3cf5a",
+      "revId": "9b02561e15936328f1c9e02bad4545cdd69a5bbd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "58f18052_12e433cf",
         "filename": "build/crashpad_dependency/crashpad_dependencies.gni",
         "patchSetId": 9
@@ -47,6 +65,24 @@
       "writtenOn": "2017-12-14T22:00:11Z",
       "side": 1,
       "message": "You’ve basically got to duplicate this visibility hack in zlib and other targets that we only want to pick up from the dependencies file too, right? And mini_chromium’s base…that one’s tricky, because it’s in a different repository.\n\nI dunno, do you still think that it’s better to have that knowledge in a central dependencies file when we still need to pollute all of these targets that need special crashpad_in_chromium handling with other stuff? Or should we just decentralize the crashpad_in_chromium handling to the edges?",
+      "revId": "9b02561e15936328f1c9e02bad4545cdd69a5bbd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9155e503_9f5827af",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-14T23:07:44Z",
+      "side": 1,
+      "message": "The initial reason I went with the centralized approach is that I didn\u0027t know where to put \u0027base\u0027 otherwise. It can\u0027t be decentralized out to mini_chromium\u0027s build files of course, and we can\u0027t rely on build/secondary in Fuchsia.\n\nI thought it was kind of nice to centralize too (mostly to make it explicit there\u0027s a shifting dependency under you when you see \"crashpad_dependency:X\"). But there\u0027s only a few targets anyway, so doesn\u0027t matter much to me. I can move gtest/gmock/zlib to be decentralized since like you say we have to add visibility annotations there, so we\u0027re already futzing around in the file.\n\nI was less concerned think //base, //base:test_support, and //build/win:default_exe_manifest because those names don\u0027t exist in standalone where we\u0027re doing development, so it\u0027s harder to get those wrong.\n\nBasically though, I think we\u0027re going to have to be careful (and have bots). Regardless of where the redirection happens, we have to be careful to use the redirection targets, otherwise things will only work in a subset of the three configurations.",
+      "parentUuid": "bcfead4a_0eb6840a",
       "revId": "9b02561e15936328f1c9e02bad4545cdd69a5bbd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
