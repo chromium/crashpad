@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//testing/test.gni")
+import("../build/crashpad_dependencies.gni")
 
 static_library("test") {
   testonly = true
@@ -89,10 +89,10 @@ static_library("test") {
   ]
 
   deps = [
+    "../build/crashpad_dependency:base",
+    "../build/crashpad_dependency:gtest",
     "../compat",
     "../util",
-    "//base",
-    "//testing/gtest",
   ]
 
   if (is_mac) {
@@ -139,11 +139,11 @@ source_set("test_test") {
 
   deps = [
     ":test",
+    "../build/crashpad_dependency:base",
+    "../build/crashpad_dependency:gmock",
+    "../build/crashpad_dependency:gtest",
     "../compat",
     "../util",
-    "//base",
-    "//testing/gmock",
-    "//testing/gtest",
   ]
 
   data_deps = [
@@ -166,10 +166,10 @@ static_library("gmock_main") {
   defines = [ "CRASHPAD_TEST_LAUNCHER_GMOCK" ]
   deps = [
     ":test",
-    "//base",
-    "//base/test:test_support",
-    "//testing/gmock",
-    "//testing/gtest",
+    "../build/crashpad_dependency:base",
+    "../build/crashpad_dependency:base_test_support",
+    "../build/crashpad_dependency:gmock",
+    "../build/crashpad_dependency:gtest",
   ]
 }
 
@@ -182,8 +182,8 @@ static_library("gtest_main") {
   defines = [ "CRASHPAD_TEST_LAUNCHER_GTEST" ]
   deps = [
     ":test",
-    "//base",
-    "//base/test:test_support",
-    "//testing/gtest",
+    "../build/crashpad_dependency:base",
+    "../build/crashpad_dependency:base_test_support",
+    "../build/crashpad_dependency:gtest",
   ]
 }
