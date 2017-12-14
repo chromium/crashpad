@@ -16,10 +16,10 @@
 # whether code is being built standalone, or in Chromium, or potentially in some
 # other configutation.
 
-import("crashpad_in_chromium.gni")
+import("crashpad_dependency/crashpad_dependencies.gni")
 
-config("crashpad_in_chromium") {
-  if (crashpad_in_chromium) {
+config("crashpad_is_chromium") {
+  if (crashpad_is_chromium) {
     defines = [ "CRASHPAD_IN_CHROMIUM" ]
   }
 }
