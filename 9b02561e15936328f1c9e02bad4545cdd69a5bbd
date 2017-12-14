@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e707d9f_0ca3cf5a",
+        "filename": "BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-14T22:00:11Z",
+      "side": 1,
+      "message": "crashpad_is_chromium sounds like an identity crisis. You may have misunderstood me, I meant crashpad_is_in_chromium.",
+      "revId": "9b02561e15936328f1c9e02bad4545cdd69a5bbd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58f18052_12e433cf",
+        "filename": "build/crashpad_dependency/crashpad_dependencies.gni",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-14T22:00:11Z",
+      "side": 1,
+      "message": "This one is the only one that shouldn’t have the “in” in its name.",
+      "revId": "9b02561e15936328f1c9e02bad4545cdd69a5bbd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcfead4a_0eb6840a",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-14T22:00:11Z",
+      "side": 1,
+      "message": "You’ve basically got to duplicate this visibility hack in zlib and other targets that we only want to pick up from the dependencies file too, right? And mini_chromium’s base…that one’s tricky, because it’s in a different repository.\n\nI dunno, do you still think that it’s better to have that knowledge in a central dependencies file when we still need to pollute all of these targets that need special crashpad_in_chromium handling with other stuff? Or should we just decentralize the crashpad_in_chromium handling to the edges?",
+      "revId": "9b02561e15936328f1c9e02bad4545cdd69a5bbd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
