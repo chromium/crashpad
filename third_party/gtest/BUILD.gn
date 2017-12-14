@@ -19,10 +19,18 @@ config("gtest_private_config") {
 }
 
 config("gtest_public_config") {
+  visibility = [
+    ":*",
+    "//build/crashpad_dependency:*",
+  ]
   include_dirs = [ "gtest/googletest/include" ]
 }
 
 static_library("gtest") {
+  visibility = [
+    ":*",
+    "//build/crashpad_dependency:*",
+  ]
   sources = [
     "gtest/googletest/include/gtest/gtest-death-test.h",
     "gtest/googletest/include/gtest/gtest-message.h",
@@ -65,11 +73,18 @@ static_library("gtest") {
 }
 
 config("gmock_private_config") {
-  visibility = [ ":*" ]
+  visibility = [
+    ":*",
+    "//build/crashpad_dependency:*",
+  ]
   include_dirs = [ "gtest/googlemock" ]
 }
 
 config("gmock_public_config") {
+  visibility = [
+    ":*",
+    "//build/crashpad_dependency:*",
+  ]
   include_dirs = [ "gtest/googlemock/include" ]
 
   # The MOCK_METHODn() macros do not specify “override”, which triggers this
@@ -86,7 +101,13 @@ config("gmock_public_config") {
   }
 }
 
+# Do not directly depend on this library in Crashpad. Instead, use
+# //build/crashpad_dependency:gmock.
 static_library("gmock") {
+  visibility = [
+    ":*",
+    "//build/crashpad_dependency:*",
+  ]
   sources = [
     "gtest/googlemock/include/gmock/gmock-actions.h",
     "gtest/googlemock/include/gmock/gmock-cardinalities.h",

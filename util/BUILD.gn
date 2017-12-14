@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//testing/test.gni")
-
 if (is_mac) {
   import("//build/config/sysroot.gni")
 
@@ -324,8 +322,8 @@ static_library("util") {
   ]
 
   deps = [
+    "../build/crashpad_dependency:base",
     "../third_party/zlib",
-    "//base",
   ]
 
   if (is_mac) {
@@ -463,13 +461,13 @@ source_set("util_test") {
 
   deps = [
     ":util",
+    "../build/crashpad_dependency:base",
+    "../build/crashpad_dependency:gmock",
+    "../build/crashpad_dependency:gtest",
     "../client",
     "../compat",
     "../test",
     "../third_party/zlib",
-    "//base",
-    "//testing/gmock",
-    "//testing/gtest",
   ]
 
   if (is_mac) {
