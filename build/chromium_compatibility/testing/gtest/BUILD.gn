@@ -15,6 +15,7 @@
 # This is a forwarding target to match the location that Chromium uses.
 
 group("gtest") {
+  testonly = true
   public_configs = [ "//third_party/gtest:gtest_public_config" ]
   public_deps = [
     "//third_party/gtest:gtest",
