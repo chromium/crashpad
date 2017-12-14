@@ -12,8 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//build/config/compiler/compiler.gni")
-import("//testing/test.gni")
+import("../build/crashpad_dependencies.gni")
 
 static_library("snapshot") {
   sources = [
@@ -145,10 +144,10 @@ static_library("snapshot") {
   public_configs = [ "..:crashpad_config" ]
 
   deps = [
+    "../build/crashpad_dependency:base",
     "../client",
     "../compat",
     "../util",
-    "//base",
   ]
 
   if (is_win) {
@@ -170,9 +169,9 @@ if (is_win) {
 
     deps = [
       ":snapshot",
+      "../build/crashpad_dependency:base",
       "../compat",
       "../util",
-      "//base",
     ]
   }
 } else {
@@ -209,9 +208,9 @@ static_library("test_support") {
   ]
 
   deps = [
+    "../build/crashpad_dependency:base",
     "../compat",
     "../util",
-    "//base",
   ]
 
   if (is_win) {
@@ -259,12 +258,12 @@ source_set("snapshot_test") {
   deps = [
     ":snapshot_api",
     ":test_support",
+    "../build/crashpad_dependency:base",
+    "../build/crashpad_dependency:gtest",
     "../client",
     "../compat",
     "../test",
     "../util",
-    "//base",
-    "//testing/gtest",
   ]
 
   data_deps = [
@@ -302,8 +301,8 @@ loadable_module("crashpad_snapshot_test_module") {
     "crashpad_info_client_options_test_module.cc",
   ]
   deps = [
+    "../build/crashpad_dependency:base",
     "../client",
-    "//base",
   ]
 }
 
@@ -314,7 +313,7 @@ loadable_module("crashpad_snapshot_test_module_large") {
   ]
   defines = [ "CRASHPAD_INFO_SIZE_TEST_MODULE_LARGE" ]
   deps = [
-    "//base",
+    "../build/crashpad_dependency:base",
   ]
 }
 
@@ -325,7 +324,7 @@ loadable_module("crashpad_snapshot_test_module_small") {
   ]
   defines = [ "CRASHPAD_INFO_SIZE_TEST_MODULE_SMALL" ]
   deps = [
-    "//base",
+    "../build/crashpad_dependency:base",
   ]
 }
 
@@ -352,9 +351,9 @@ if (is_win) {
       "win/crashpad_snapshot_test_annotations.cc",
     ]
     deps = [
+      "../build/crashpad_dependency:base",
       "../client",
       "../compat",
-      "//base",
     ]
   }
 
@@ -364,10 +363,10 @@ if (is_win) {
       "win/crashpad_snapshot_test_crashing_child.cc",
     ]
     deps = [
+      "../build/crashpad_dependency:base",
       "../client",
       "../compat",
       "../util",
-      "//base",
     ]
   }
 
@@ -377,10 +376,10 @@ if (is_win) {
       "win/crashpad_snapshot_test_dump_without_crashing.cc",
     ]
     deps = [
+      "../build/crashpad_dependency:base",
       "../client",
       "../compat",
       "../util",
-      "//base",
     ]
   }
 
@@ -390,9 +389,9 @@ if (is_win) {
       "win/crashpad_snapshot_test_extra_memory_ranges.cc",
     ]
     deps = [
+      "../build/crashpad_dependency:base",
       "../client",
       "../compat",
-      "//base",
     ]
   }
 
@@ -402,10 +401,10 @@ if (is_win) {
       "win/crashpad_snapshot_test_image_reader.cc",
     ]
     deps = [
+      "../build/crashpad_dependency:base",
       "../client",
       "../compat",
       "../util",
-      "//base",
     ]
     if (symbol_level == 0) {
       # The tests that use this executable rely on at least minimal debug info.
@@ -420,8 +419,8 @@ if (is_win) {
       "win/crashpad_snapshot_test_image_reader_module.cc",
     ]
     deps = [
+      "../build/crashpad_dependency:base",
       "../client",
-      "//base",
     ]
     if (symbol_level == 0) {
       # The tests that use this module rely on at least minimal debug info.

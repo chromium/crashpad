@@ -13,7 +13,3 @@
 # limitations under the License.
 
 buildconfig = "//build/BUILDCONFIG.gn"
-
-# This secondary source root is used to put various forwarding/stub files that
-# serve to make the core build files compatible with Chromium.
-secondary_source = "//build/chromium_compatibility/"
