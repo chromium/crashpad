@@ -14,23 +14,38 @@
 
 import("../../build/crashpad_in_chromium.gni")
 
+if (crashpad_in_chromium) {
+  zlib_source = "chromium"
+} else if (!is_win && !is_fuchsia) {
+  zlib_source = "system"
+} else {
+  zlib_source = "embedded"
+}
+
 config("zlib_config") {
-  if (crashpad_in_chromium) {
+  if (zlib_source == "chromium") {
     defines = [ "CRASHPAD_ZLIB_SOURCE_CHROMIUM" ]
-  } else {
+  } else if (zlib_source == "system") {
+    defines = [ "CRASHPAD_ZLIB_SOURCE_SYSTEM" ]
+  } else if (zlib_source == "embedded") {
     defines = [ "CRASHPAD_ZLIB_SOURCE_EMBEDDED" ]
     include_dirs = [ "zlib" ]
   }
 }
 
-if (crashpad_in_chromium) {
+if (zlib_source == "chromium") {
   group("zlib") {
     public_configs = [ ":zlib_config" ]
     public_deps = [
       "//third_party/zlib",
     ]
   }
-} else {
+} else if (zlib_source == "system") {
+  source_set("zlib") {
+    public_configs = [ ":zlib_config" ]
+    libs = [ "z" ]
+  }
+} else if (zlib_source == "embedded") {
   static_library("zlib") {
     sources = [
       "zlib/adler32.c",
