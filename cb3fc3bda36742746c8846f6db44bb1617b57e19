@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3167ed0c_0e29bd90",
+        "filename": "build/crashpad_dependencies.gni",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-14T21:46:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a81b29f5_29e12c11",
+      "revId": "cb3fc3bda36742746c8846f6db44bb1617b57e19",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47bdcc1b_76f29f2c",
         "filename": "build/crashpad_dependencies.gni",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "cb3fc3bda36742746c8846f6db44bb1617b57e19",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85e1d8bd_bcbf1718",
+        "filename": "build/crashpad_dependencies.gni",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-14T21:46:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47bdcc1b_76f29f2c",
+      "revId": "cb3fc3bda36742746c8846f6db44bb1617b57e19",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "4c6a2b5f_b2cddef2",
+        "filename": "build/crashpad_dependency/BUILD.gn",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-14T21:46:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3e5a265_5f5bcbd3",
+      "revId": "cb3fc3bda36742746c8846f6db44bb1617b57e19",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1a892e1_14fb2317",
         "filename": "build/crashpad_dependency/BUILD.gn",
         "patchSetId": 5
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "aa3e4e4c_928a2905",
+        "filename": "build/crashpad_dependency/BUILD.gn",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-14T21:46:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1a892e1_14fb2317",
+      "revId": "cb3fc3bda36742746c8846f6db44bb1617b57e19",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc589e1c_13cc5cef",
         "filename": "client/BUILD.gn",
         "patchSetId": 5
@@ -81,6 +153,24 @@
       "writtenOn": "2017-12-14T15:43:13Z",
       "side": 1,
       "message": "Since this is delegated to build/crashpad_dependency/BUILD.gn now, we should be able to get rid of most or all of these in the main meaty BUILD.gn files now, right?\n\nIn that case, do we even need the .gni file, or can we inline it all into build/crashpad_dependency/BUILD.gn?",
+      "revId": "cb3fc3bda36742746c8846f6db44bb1617b57e19",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4b9fe21_5151c080",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-14T21:46:44Z",
+      "side": 1,
+      "message": "You\u0027re right about the imports as the logic is in the BUILD file now. I don\u0027t think we can get rid of the gni entirely as that\u0027s the only way to have variables that aren\u0027t in BUILDCONFIG.gn shared amongst multiple .gn files.\n\nI tried to make it as small as possible by moving test into //BUILD.gn.",
+      "parentUuid": "dc589e1c_13cc5cef",
       "revId": "cb3fc3bda36742746c8846f6db44bb1617b57e19",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
