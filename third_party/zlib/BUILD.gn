@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("../../build/crashpad_in_chromium.gni")
+import("../../build/crashpad_dependency/crashpad_dependencies.gni")
 
 config("zlib_config") {
-  if (crashpad_in_chromium) {
+  if (crashpad_is_chromium) {
     defines = [ "CRASHPAD_ZLIB_SOURCE_CHROMIUM" ]
   } else {
     defines = [ "CRASHPAD_ZLIB_SOURCE_EMBEDDED" ]
@@ -23,7 +23,7 @@ config("zlib_config") {
   }
 }
 
-if (crashpad_in_chromium) {
+if (crashpad_is_chromium) {
   group("zlib") {
     public_configs = [ ":zlib_config" ]
     public_deps = [
