@@ -1,0 +1,412 @@
+// Copyright 2017 The Crashpad Authors. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#include "handler/linux/exception_handler_server.h"
+
+#include <errno.h>
+#include <sys/capability.h>
+#include <sys/epoll.h>
+#include <sys/eventfd.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+#include <utility>
+
+#include "base/logging.h"
+#include "base/posix/eintr_wrapper.h"
+#include "base/strings/string_number_conversions.h"
+#include "util/file/file_io.h"
+#include "util/file/filesystem.h"
+#include "util/linux/handler_protocol.h"
+#include "util/misc/as_underlying_type.h"
+
+namespace crashpad {
+
+namespace {
+
+// Log an error for a socket after an EPOLLERR.
+void LogSocketError(int sock) {
+  int err;
+  socklen_t err_len = sizeof(err);
+  if (getsockopt(sock, SOL_SOCKET, SO_ERROR, &err, &err_len) != 0) {
+    PLOG(ERROR) << "getsockopt";
+  } else {
+    errno = err;
+    PLOG(ERROR) << "EPOLLERR";
+  }
+}
+
+enum class PtraceScope {
+  kClassic = 0,
+  kRestricted,
+  kAdminOnly,
+  kNoAttach,
+  kUnknown
+};
+
+PtraceScope GetPtraceScope() {
+  const base::FilePath settings_file("/proc/sys/kernel/yama/ptrace_scope");
+  if (!IsRegularFile(base::FilePath(settings_file))) {
+    return PtraceScope::kClassic;
+  }
+
+  std::string contents;
+  if (!LoggingReadEntireFile(settings_file, &contents)) {
+    return PtraceScope::kUnknown;
+  }
+
+  int ptrace_scope;
+  if (!base::StringToInt(contents, &ptrace_scope)) {
+    return PtraceScope::kUnknown;
+  }
+
+  return static_cast<PtraceScope>(ptrace_scope);
+}
+
+struct ScopedCapTraits {
+  static cap_t InvalidValue() { return nullptr; }
+  static void Free(cap_t cap) { cap_free(cap); }
+};
+
+using ScopedCap = base::ScopedGeneric<cap_t, ScopedCapTraits>;
+
+bool HaveCapSysPtrace() {
+  ScopedCap caps(cap_get_proc());
+  if (!caps.is_valid()) {
+    PLOG(ERROR) << "cap_get_proc";
+    return false;
+  }
+
+  cap_flag_value_t cap_val;
+  if (cap_get_flag(caps.get(), CAP_SYS_PTRACE, CAP_EFFECTIVE, &cap_val) != 0) {
+    PLOG(ERROR) << "cap_get_flag";
+    return false;
+  }
+
+  return cap_val == CAP_SET;
+}
+
+bool SendMessageToClient(int client_sock, ServerToClientMessage::Type type) {
+  ServerToClientMessage message;
+  message.type = type;
+  message.pid = getpid();
+
+  return LoggingWriteFile(client_sock, &message, sizeof(message));
+}
+
+}  // namespace
+
+struct ExceptionHandlerServer::Event {
+  enum class Type { kShutdown, kClientMessage } type;
+
+  ScopedFileHandle fd;
+};
+
+ExceptionHandlerServer::ExceptionHandlerServer()
+    : clients_(),
+      shutdown_event_(),
+      delegate_(nullptr),
+      pollfd_(),
+      keep_running_(true) {}
+
+ExceptionHandlerServer::~ExceptionHandlerServer() = default;
+
+bool ExceptionHandlerServer::InitializeWithClient(ScopedFileHandle sock) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+  pollfd_.reset(epoll_create1(EPOLL_CLOEXEC));
+  if (!pollfd_.is_valid()) {
+    PLOG(ERROR) << "epoll_create1";
+    return false;
+  }
+
+  shutdown_event_ = std::make_unique<Event>();
+  shutdown_event_->type = Event::Type::kShutdown;
+  shutdown_event_->fd.reset(eventfd(0, EFD_CLOEXEC | EFD_NONBLOCK));
+  if (!shutdown_event_->fd.is_valid()) {
+    PLOG(ERROR) << "eventfd";
+    return false;
+  }
+
+  epoll_event poll_event;
+  poll_event.events = EPOLLIN;
+  poll_event.data.ptr = shutdown_event_.get();
+  if (epoll_ctl(pollfd_.get(),
+                EPOLL_CTL_ADD,
+                shutdown_event_->fd.get(),
+                &poll_event) != 0) {
+    PLOG(ERROR) << "epoll_ctl";
+    return false;
+  }
+
+  if (!InstallClientSocket(std::move(sock))) {
+    return false;
+  }
+
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
+
+void ExceptionHandlerServer::Run(Delegate* delegate) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  delegate_ = delegate;
+
+  while (keep_running_ && clients_.size() > 0) {
+    epoll_event poll_event;
+    int res = HANDLE_EINTR(epoll_wait(pollfd_.get(), &poll_event, 1, -1));
+    if (res < 0) {
+      PLOG(ERROR) << "epoll_wait";
+      return;
+    }
+    DCHECK_EQ(res, 1);
+
+    Event* eventp = reinterpret_cast<Event*>(poll_event.data.ptr);
+    if (eventp->type == Event::Type::kShutdown) {
+      if (poll_event.events & EPOLLERR) {
+        LogSocketError(eventp->fd.get());
+      }
+      keep_running_ = false;
+    } else {
+      HandleEvent(eventp, poll_event.events);
+    }
+  }
+}
+
+void ExceptionHandlerServer::Stop() {
+  keep_running_ = false;
+  if (shutdown_event_ && shutdown_event_->fd.is_valid()) {
+    uint64_t value = 1;
+    LoggingWriteFile(shutdown_event_->fd.get(), &value, sizeof(value));
+  }
+}
+
+void ExceptionHandlerServer::HandleEvent(Event* event, uint32_t event_type) {
+  DCHECK_EQ(AsUnderlyingType(event->type),
+            AsUnderlyingType(Event::Type::kClientMessage));
+
+  if (event_type & EPOLLERR) {
+    LogSocketError(event->fd.get());
+    UninstallClientSocket(event);
+    return;
+  }
+
+  if (event_type & EPOLLIN) {
+    if (!ReceiveClientMessage(event)) {
+      UninstallClientSocket(event);
+    }
+    return;
+  }
+
+  if (event_type & EPOLLHUP || event_type & EPOLLRDHUP) {
+    UninstallClientSocket(event);
+    return;
+  }
+
+  LOG(ERROR) << "Unexpected event 0x" << std::hex << event_type;
+  return;
+}
+
+bool ExceptionHandlerServer::InstallClientSocket(ScopedFileHandle socket) {
+  int optval = 1;
+  socklen_t optlen = sizeof(optval);
+  if (setsockopt(socket.get(), SOL_SOCKET, SO_PASSCRED, &optval, optlen) != 0) {
+    PLOG(ERROR) << "setsockopt";
+    return false;
+  }
+
+  auto event = std::make_unique<Event>();
+  event->type = Event::Type::kClientMessage;
+  event->fd.reset(socket.release());
+
+  Event* eventp = event.get();
+
+  if (!clients_.insert(std::make_pair(event->fd.get(), std::move(event)))
+           .second) {
+    LOG(ERROR) << "duplicate descriptor";
+    return false;
+  }
+
+  epoll_event poll_event;
+  poll_event.events = EPOLLIN | EPOLLRDHUP;
+  poll_event.data.ptr = eventp;
+
+  if (epoll_ctl(pollfd_.get(), EPOLL_CTL_ADD, eventp->fd.get(), &poll_event) !=
+      0) {
+    PLOG(ERROR) << "epoll_ctl";
+    clients_.erase(eventp->fd.get());
+    return false;
+  }
+
+  return true;
+}
+
+bool ExceptionHandlerServer::UninstallClientSocket(Event* event) {
+  if (epoll_ctl(pollfd_.get(), EPOLL_CTL_DEL, event->fd.get(), nullptr) != 0) {
+    PLOG(ERROR) << "epoll_ctl";
+    return false;
+  }
+
+  if (clients_.erase(event->fd.get()) != 1) {
+    LOG(ERROR) << "event not found";
+    return false;
+  }
+
+  return true;
+}
+
+bool ExceptionHandlerServer::ReceiveClientMessage(Event* event) {
+  ClientToServerMessage message;
+  iovec iov;
+  iov.iov_base = &message;
+  iov.iov_len = sizeof(message);
+
+  msghdr msg;
+  msg.msg_name = nullptr;
+  msg.msg_namelen = 0;
+  msg.msg_iov = &iov;
+  msg.msg_iovlen = 1;
+
+  char cmsg_buf[CMSG_SPACE(sizeof(ucred))];
+  msg.msg_control = cmsg_buf;
+  msg.msg_controllen = sizeof(cmsg_buf);
+  msg.msg_flags = 0;
+
+  int res = recvmsg(event->fd.get(), &msg, 0);
+  if (res < 0) {
+    PLOG(ERROR) << "recvmsg";
+    return false;
+  }
+  if (res == 0) {
+    // The client had an orderly shutdown.
+    return false;
+  }
+
+  if (msg.msg_name != nullptr || msg.msg_namelen != 0) {
+    LOG(ERROR) << "unexpected msg name";
+    return false;
+  }
+
+  if (msg.msg_iovlen != 1) {
+    LOG(ERROR) << "unexpected iovlen";
+    return false;
+  }
+
+  if (msg.msg_iov[0].iov_len != sizeof(ClientToServerMessage)) {
+    LOG(ERROR) << "unexpected message size " << msg.msg_iov[0].iov_len;
+    return false;
+  }
+  auto client_msg =
+      reinterpret_cast<ClientToServerMessage*>(msg.msg_iov[0].iov_base);
+
+  switch (client_msg->type) {
+    case ClientToServerMessage::kCrashDumpRequest: {
+      cmsghdr* cmsg = CMSG_FIRSTHDR(&msg);
+      if (cmsg == nullptr) {
+        LOG(ERROR) << "missing credentials";
+        return false;
+      }
+
+      if (cmsg->cmsg_level != SOL_SOCKET) {
+        LOG(ERROR) << "unexpected cmsg_level " << cmsg->cmsg_level;
+        return false;
+      }
+
+      if (cmsg->cmsg_type != SCM_CREDENTIALS) {
+        LOG(ERROR) << "unexpected cmsg_type " << cmsg->cmsg_type;
+        return false;
+      }
+
+      if (cmsg->cmsg_len != CMSG_LEN(sizeof(ucred))) {
+        LOG(ERROR) << "unexpected cmsg_len " << cmsg->cmsg_len;
+        return false;
+      }
+
+      ucred* client_credentials = reinterpret_cast<ucred*>(CMSG_DATA(cmsg));
+      pid_t client_process_id = client_credentials->pid;
+
+      bool fork_broker = true;
+      switch (GetPtraceScope()) {
+        case PtraceScope::kClassic:
+          if (getuid() != client_credentials->uid) {
+            fork_broker = true;
+          }
+          break;
+
+        case PtraceScope::kRestricted:
+          if (!SendMessageToClient(event->fd.get(),
+                                   ServerToClientMessage::kTypeSetPtracer)) {
+            return false;
+          }
+
+          Errno status;
+          if (!LoggingReadFileExactly(
+                  event->fd.get(), &status, sizeof(status))) {
+            return false;
+          }
+
+          if (status != 0) {
+            errno = status;
+            PLOG(ERROR) << "Handler Client SetPtracer";
+            fork_broker = true;
+          }
+          break;
+
+        case PtraceScope::kAdminOnly:
+          if (HaveCapSysPtrace()) {
+            fork_broker = false;
+            break;
+          }
+        // fallthrough
+        case PtraceScope::kNoAttach:
+          LOG(WARNING) << "Can't use ptrace";
+          return true;
+
+        case PtraceScope::kUnknown:
+          fork_broker = true;
+          break;
+      }
+
+      if (fork_broker) {
+        LOG(INFO) << "Sending fork broker";
+        if (!SendMessageToClient(event->fd.get(),
+                                 ServerToClientMessage::kTypeForkBroker)) {
+          return false;
+        }
+        LOG(INFO) << "handling brokered exception";
+        delegate_->HandleExceptionWithBroker(
+            client_process_id,
+            client_msg->client_info.exception_information_address,
+            event->fd.get());
+      } else {
+        LOG(INFO) << "handling exception";
+        delegate_->HandleException(
+            client_process_id,
+            client_msg->client_info.exception_information_address);
+      }
+
+      if (!SendMessageToClient(event->fd.get(),
+                               ServerToClientMessage::kTypeCrashDumpComplete)) {
+        return false;
+      }
+      return true;
+    }
+  }
+
+  DCHECK(false);
+  LOG(ERROR) << "Unknown message type";
+  return false;
+}
+
+}  // namespace crashpad
