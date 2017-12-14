@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source_set("getopt") {
+static_library("getopt") {
   sources = [
     "getopt.cc",
     "getopt.h",
