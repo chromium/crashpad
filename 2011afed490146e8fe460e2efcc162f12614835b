@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af6ad413_3dd12a20",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-14T22:00:59Z",
+      "side": 1,
+      "message": "These should all be test() (which I guess already implies testonly), but I have to leave NOW so I’m just noting it here as self-review.",
+      "revId": "2011afed490146e8fe460e2efcc162f12614835b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
