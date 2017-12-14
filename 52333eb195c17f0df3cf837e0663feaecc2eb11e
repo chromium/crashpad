@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02b42bd1_e0cc313f",
+        "filename": "compat/empty.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-14T21:53:57Z",
+      "side": 1,
+      "message": "I don’t love any solution, including this one!",
+      "revId": "52333eb195c17f0df3cf837e0663feaecc2eb11e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
