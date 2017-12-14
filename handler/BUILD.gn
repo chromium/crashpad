@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//testing/test.gni")
+import("../build/crashpad_dependencies.gni")
 
 static_library("handler") {
   sources = [
@@ -58,13 +58,13 @@ static_library("handler") {
   public_configs = [ "..:crashpad_config" ]
 
   deps = [
+    "../build/crashpad_dependency:base",
     "../client",
     "../compat",
     "../minidump",
     "../snapshot",
     "../tools:tool_support",
     "../util",
-    "//base",
   ]
 
   if (is_win) {
@@ -81,14 +81,14 @@ source_set("handler_test") {
 
   deps = [
     ":handler",
+    "../build/crashpad_dependency:base",
+    "../build/crashpad_dependency:gtest",
     "../client",
     "../compat",
     "../snapshot",
     "../snapshot:test_support",
     "../test",
     "../util",
-    "//base",
-    "//testing/gtest",
   ]
 
   if (is_win) {
@@ -107,9 +107,9 @@ executable("crashpad_handler") {
 
   deps = [
     ":handler",
+    "../build/crashpad_dependency:base",
+    "../build/crashpad_dependency:win_default_exe_manifest",
     "../compat",
-    "//base",
-    "//build/win:default_exe_manifest",
   ]
 
   if (is_mac && is_component_build) {
@@ -143,11 +143,11 @@ executable("crashpad_handler_test_extended_handler") {
 
   deps = [
     ":handler",
+    "../build/crashpad_dependency:base",
+    "../build/crashpad_dependency:win_default_exe_manifest",
     "../compat",
     "../minidump:test_support",
     "../tools:tool_support",
-    "//base",
-    "//build/win:default_exe_manifest",
   ]
 }
 
@@ -164,9 +164,9 @@ if (is_win) {
 
     deps = [
       ":handler",
+      "../build/crashpad_dependency:base",
+      "../build/crashpad_dependency:win_default_exe_manifest",
       "../compat",
-      "//base",
-      "//build/win:default_exe_manifest",
     ]
   }
 

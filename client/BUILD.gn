@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//testing/test.gni")
+import("../build/crashpad_dependencies.gni")
 
 static_library("client") {
   sources = [
@@ -63,9 +63,9 @@ static_library("client") {
   public_configs = [ "..:crashpad_config" ]
 
   deps = [
+    "../build/crashpad_dependency:base",
     "../compat",
     "../util",
-    "//base",
   ]
 
   if (is_win) {
@@ -100,12 +100,12 @@ source_set("client_test") {
 
   deps = [
     ":client",
+    "../build/crashpad_dependency:base",
+    "../build/crashpad_dependency:gmock",
+    "../build/crashpad_dependency:gtest",
     "../compat",
     "../test",
     "../util",
-    "//base",
-    "//testing/gmock",
-    "//testing/gtest",
   ]
 
   data_deps = [
