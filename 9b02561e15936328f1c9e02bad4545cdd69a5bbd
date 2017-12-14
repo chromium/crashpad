@@ -86,6 +86,24 @@
       "revId": "9b02561e15936328f1c9e02bad4545cdd69a5bbd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97851095_a2284415",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-14T23:33:31Z",
+      "side": 1,
+      "message": "If we\u0027re following the gyp model (and I know that we don\u0027t need to), we could do it on the Crashpad side of the border: have third_party/mini_chromium:base delegate to either third_party/mini_chromium/mini_chromium/base or, in Chromium, //base.\n\nThat doesn\u0027t really help with default_exe_manifest. (Separately, though, do we benefit from that in Chromium and should we actually have it not be a no-op in standalone Crashpad?)",
+      "parentUuid": "9155e503_9f5827af",
+      "revId": "9b02561e15936328f1c9e02bad4545cdd69a5bbd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
