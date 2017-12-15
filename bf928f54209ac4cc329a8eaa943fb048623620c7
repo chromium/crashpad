@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "757f8d53_8ea8d6da",
+        "filename": "build/chromium_compatibility/testing/test.gni",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-15T05:55:23Z",
+      "side": 1,
+      "message": "I was surprised that this didn’t inherit the set_defaults(\"executable\").",
+      "revId": "bf928f54209ac4cc329a8eaa943fb048623620c7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
