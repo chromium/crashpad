@@ -36,8 +36,6 @@
         'mac/kern/exc_resource.h',
         'mac/mach/i386/thread_state.h',
         'mac/mach/mach.h',
-        'mac/mach-o/getsect.cc',
-        'mac/mach-o/getsect.h',
         'mac/mach-o/loader.h',
         'mac/sys/resource.h',
         'non_mac/mach/mach.h',
@@ -60,9 +58,6 @@
       ],
       'conditions': [
         ['OS=="mac"', {
-          'dependencies': [
-            '../third_party/apple_cctools/apple_cctools.gyp:apple_cctools',
-          ],
           'include_dirs': [
             'mac',
           ],
