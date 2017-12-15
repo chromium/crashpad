@@ -104,6 +104,24 @@
       "revId": "9b02561e15936328f1c9e02bad4545cdd69a5bbd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e1faaa5_e144c67a",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-15T22:19:23Z",
+      "side": 1,
+      "message": "Updated to follow gyp more closely. I don\u0027t think there\u0027s anything we need a manifest for, though it\u0027s plausible that we might want something specified in there at some point, so having something to do so in a plain build/ location seems reasonable.",
+      "parentUuid": "97851095_a2284415",
+      "revId": "9b02561e15936328f1c9e02bad4545cdd69a5bbd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
