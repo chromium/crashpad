@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbaaf7fe_c623ed89",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-15T22:42:27Z",
+      "side": 1,
+      "message": "I forgot that James doesn\u0027t care for gmock, so the gtest version that Fuchsia has in //third_party is a pre-gmock-merge revision. So we\u0027ll have to resolve that.",
+      "revId": "5070b27ea1d64189baab03f3ad241aad247c931a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
