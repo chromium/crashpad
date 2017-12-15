@@ -33,6 +33,7 @@ PtraceBroker::PtraceBroker(int sock, bool is_64_bit)
 PtraceBroker::~PtraceBroker() = default;
 
 int PtraceBroker::Run() {
+  LOG(INFO) << "broker pid " << getpid();
   int result = RunImpl();
   ReleaseAttachments();
   return result;
@@ -62,6 +63,7 @@ int PtraceBroker::RunImpl() {
           attach_on_stack = true;
         }
 
+        LOG(INFO) << "broker attaching " << request.tid;
         Bool status = kBoolFalse;
         if (attach->ResetAttach(request.tid)) {
           status = kBoolTrue;

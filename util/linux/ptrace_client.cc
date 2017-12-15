@@ -51,6 +51,7 @@ bool AttachImpl(int sock, pid_t tid) {
 
   if (success != PtraceBroker::kBoolTrue) {
     ReceiveAndLogError(sock, "PtraceBroker Attach");
+    return false;
   }
 
   return true;
