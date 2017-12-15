@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f7b9462_5e2966a6",
+        "filename": "compat/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-15T05:59:28Z",
+      "side": 1,
+      "message": "After messing with the gtest change, I figured out a way to switch between group and static_library, so there’s no longer any need for an empty dummy file. Is this reasonable GN use?",
+      "revId": "71caa8e49f30bbc00097cd8ca37297bd4bdbad58",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
