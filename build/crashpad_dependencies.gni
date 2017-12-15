@@ -26,3 +26,7 @@ assert(
 crashpad_is_in_chromium = crashpad_dependencies == "chromium"
 crashpad_is_in_fuchsia = crashpad_dependencies == "fuchsia"
 crashpad_is_standalone = crashpad_dependencies == "standalone"
+
+# Fuchsia doesn't declare is_posix as Chromium does, so use a local version.
+# TODO(scottmg): Consider not using _posix on Fuchsia.
+crashpad_is_posix = is_mac || is_linux || is_android || is_fuchsia
