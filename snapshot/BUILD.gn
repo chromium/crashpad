@@ -12,9 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//build/config/compiler/compiler.gni")
-import("//testing/test.gni")
-
 static_library("snapshot") {
   sources = [
     "annotation_snapshot.cc",
@@ -147,8 +144,8 @@ static_library("snapshot") {
   deps = [
     "../client",
     "../compat",
+    "../third_party/mini_chromium:base",
     "../util",
-    "//base",
   ]
 
   if (is_win) {
@@ -171,8 +168,8 @@ if (is_win) {
     deps = [
       ":snapshot",
       "../compat",
+      "../third_party/mini_chromium:base",
       "../util",
-      "//base",
     ]
   }
 } else {
@@ -210,8 +207,8 @@ static_library("test_support") {
 
   deps = [
     "../compat",
+    "../third_party/mini_chromium:base",
     "../util",
-    "//base",
   ]
 
   if (is_win) {
@@ -262,9 +259,9 @@ source_set("snapshot_test") {
     "../client",
     "../compat",
     "../test",
+    "../third_party/gtest:gtest",
+    "../third_party/mini_chromium:base",
     "../util",
-    "//base",
-    "//testing/gtest",
   ]
 
   data_deps = [
@@ -303,7 +300,7 @@ loadable_module("crashpad_snapshot_test_module") {
   ]
   deps = [
     "../client",
-    "//base",
+    "../third_party/mini_chromium:base",
   ]
 }
 
@@ -314,7 +311,7 @@ loadable_module("crashpad_snapshot_test_module_large") {
   ]
   defines = [ "CRASHPAD_INFO_SIZE_TEST_MODULE_LARGE" ]
   deps = [
-    "//base",
+    "../third_party/mini_chromium:base",
   ]
 }
 
@@ -325,7 +322,7 @@ loadable_module("crashpad_snapshot_test_module_small") {
   ]
   defines = [ "CRASHPAD_INFO_SIZE_TEST_MODULE_SMALL" ]
   deps = [
-    "//base",
+    "../third_party/mini_chromium:base",
   ]
 }
 
@@ -354,7 +351,7 @@ if (is_win) {
     deps = [
       "../client",
       "../compat",
-      "//base",
+      "../third_party/mini_chromium:base",
     ]
   }
 
@@ -366,8 +363,8 @@ if (is_win) {
     deps = [
       "../client",
       "../compat",
+      "../third_party/mini_chromium:base",
       "../util",
-      "//base",
     ]
   }
 
@@ -379,8 +376,8 @@ if (is_win) {
     deps = [
       "../client",
       "../compat",
+      "../third_party/mini_chromium:base",
       "../util",
-      "//base",
     ]
   }
 
@@ -392,7 +389,7 @@ if (is_win) {
     deps = [
       "../client",
       "../compat",
-      "//base",
+      "../third_party/mini_chromium:base",
     ]
   }
 
@@ -404,8 +401,8 @@ if (is_win) {
     deps = [
       "../client",
       "../compat",
+      "../third_party/mini_chromium:base",
       "../util",
-      "//base",
     ]
     if (symbol_level == 0) {
       # The tests that use this executable rely on at least minimal debug info.
@@ -421,7 +418,7 @@ if (is_win) {
     ]
     deps = [
       "../client",
-      "//base",
+      "../third_party/mini_chromium:base",
     ]
     if (symbol_level == 0) {
       # The tests that use this module rely on at least minimal debug info.
