@@ -14,8 +14,8 @@
 
 #include "util/misc/metrics.h"
 
+#include "base/metrics/histogram_functions.h"
 #include "base/metrics/histogram_macros.h"
-#include "base/metrics/sparse_histogram.h"
 #include "build/build_config.h"
 
 #if defined(OS_MACOSX)
@@ -91,8 +91,8 @@ void Metrics::ExceptionCaptureResult(CaptureResult result) {
 
 // static
 void Metrics::ExceptionCode(uint32_t exception_code) {
-  UMA_HISTOGRAM_SPARSE_SLOWLY("Crashpad.ExceptionCode." METRICS_OS_NAME,
-                              static_cast<int32_t>(exception_code));
+  base::UmaHistogramSparse("Crashpad.ExceptionCode." METRICS_OS_NAME,
+                           static_cast<int32_t>(exception_code));
 }
 
 // static
@@ -109,7 +109,7 @@ void Metrics::HandlerLifetimeMilestone(LifetimeMilestone milestone) {
 
 // static
 void Metrics::HandlerCrashed(uint32_t exception_code) {
-  UMA_HISTOGRAM_SPARSE_SLOWLY(
+  base::UmaHistogramSparse(
       "Crashpad.HandlerCrash.ExceptionCode." METRICS_OS_NAME,
       static_cast<int32_t>(exception_code));
 }
