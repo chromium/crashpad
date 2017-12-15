@@ -16,6 +16,24 @@
       "revId": "5070b27ea1d64189baab03f3ad241aad247c931a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4510e1d2_f4d277e5",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-15T22:57:55Z",
+      "side": 1,
+      "message": "\u003e I forgot that James doesn\u0027t care for gmock, so the gtest version that Fuchsia has in //third_party is a pre-gmock-merge revision. So we\u0027ll have to resolve that.\n\nDoes that mean that gmock isn’t available natively in a Fuchsia build at all, and that they plan to pin to an aging version of gtest indefinitely? Oh my.",
+      "parentUuid": "bbaaf7fe_c623ed89",
+      "revId": "5070b27ea1d64189baab03f3ad241aad247c931a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
