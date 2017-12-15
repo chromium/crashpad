@@ -62,7 +62,7 @@ if (is_win) {
       "//third_party/mini_chromium/mini_chromium/build:gcc_like_toolchain")
 }
 
-_default_configs = [
+default_configs = [
   "//third_party/mini_chromium/mini_chromium/build:default",
   "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
 
@@ -72,23 +72,23 @@ _default_configs = [
 ]
 
 set_defaults("source_set") {
-  configs = _default_configs
+  configs = default_configs
 }
 
 set_defaults("static_library") {
-  configs = _default_configs
+  configs = default_configs
 }
 
 set_defaults("executable") {
-  configs = _default_configs
+  configs = default_configs
 }
 
 set_defaults("loadable_module") {
-  configs = _default_configs
+  configs = default_configs
 }
 
 set_defaults("shared_library") {
-  configs = _default_configs
+  configs = default_configs
 }
 
 # These are set to constant values for Chromium build file compatibility. This
