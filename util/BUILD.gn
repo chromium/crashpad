@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import("../build/crashpad_dependencies.gni")
+
 if (is_mac) {
   import("//build/config/sysroot.gni")
 
@@ -138,7 +140,7 @@ static_library("util") {
     "thread/worker_thread.h",
   ]
 
-  if (is_posix) {
+  if (crashpad_is_posix) {
     sources += [
       "file/directory_reader_posix.cc",
       "file/file_io_posix.cc",
@@ -402,7 +404,7 @@ source_set("util_test") {
     sources += [ "net/http_transport_test.cc" ]
   }
 
-  if (is_posix) {
+  if (crashpad_is_posix) {
     if (!is_fuchsia) {
       sources += [
         "posix/process_info_test.cc",
