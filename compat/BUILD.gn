@@ -26,15 +26,27 @@ config("compat_config") {
   }
 }
 
-static_library("compat") {
+template("compat_target") {
+  if (is_mac) {
+    # There are no sources to compile, which doesn’t mix will with a
+    # static_library.
+    group(target_name) {
+      forward_variables_from(invoker, "*")
+    }
+  } else {
+    static_library(target_name) {
+      forward_variables_from(invoker, "*")
+    }
+  }
+}
+
+compat_target("compat") {
   sources = []
 
   if (is_mac) {
     sources += [
       "mac/AvailabilityMacros.h",
       "mac/kern/exc_resource.h",
-      "mac/mach-o/getsect.cc",
-      "mac/mach-o/getsect.h",
       "mac/mach-o/loader.h",
       "mac/mach/mach.h",
       "mac/sys/resource.h",
@@ -73,9 +85,6 @@ static_library("compat") {
 
   deps = []
 
-  if (is_mac) {
-    deps += [ "../third_party/apple_cctools" ]
-  }
   if (is_win) {
     deps += [ "../third_party/getopt" ]
   }
