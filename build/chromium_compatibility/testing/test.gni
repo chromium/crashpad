@@ -14,9 +14,11 @@
 
 template("test") {
   executable(target_name) {
-    deps = []
-    forward_variables_from(invoker, "*")
-
     testonly = true
+    forward_variables_from(invoker, "*")
   }
+}
+
+set_defaults("test") {
+  configs = default_configs
 }

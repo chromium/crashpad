@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import("//testing/test.gni")
+
 config("gtest_private_config") {
   visibility = [ ":*" ]
   include_dirs = [ "gtest/googletest" ]
@@ -23,6 +25,7 @@ config("gtest_public_config") {
 }
 
 static_library("gtest") {
+  testonly = true
   sources = [
     "gtest/googletest/include/gtest/gtest-death-test.h",
     "gtest/googletest/include/gtest/gtest-message.h",
@@ -59,9 +62,155 @@ static_library("gtest") {
     "gtest/googletest/src/gtest.cc",
   ]
   sources -= [ "gtest/googletest/src/gtest-all.cc" ]
+  public_configs = [ ":gtest_public_config" ]
   configs -= [ "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors" ]
   configs += [ ":gtest_private_config" ]
-  public_configs = [ ":gtest_public_config" ]
+}
+
+static_library("gtest_main") {
+  # Tests outside of this file should use ../../test:gtest_main instead.
+  visibility = [ ":*" ]
+
+  testonly = true
+  sources = [
+    "gtest/googletest/src/gtest_main.cc",
+  ]
+  deps = [
+    ":gtest",
+  ]
+}
+
+test("gtest_all_test") {
+  sources = [
+    "gtest/googletest/test/gtest-death-test_test.cc",
+    "gtest/googletest/test/gtest-filepath_test.cc",
+    "gtest/googletest/test/gtest-linked_ptr_test.cc",
+    "gtest/googletest/test/gtest-message_test.cc",
+    "gtest/googletest/test/gtest-options_test.cc",
+    "gtest/googletest/test/gtest-port_test.cc",
+    "gtest/googletest/test/gtest-printers_test.cc",
+    "gtest/googletest/test/gtest-test-part_test.cc",
+    "gtest/googletest/test/gtest-typed-test2_test.cc",
+    "gtest/googletest/test/gtest-typed-test_test.cc",
+    "gtest/googletest/test/gtest-typed-test_test.h",
+    "gtest/googletest/test/gtest_main_unittest.cc",
+    "gtest/googletest/test/gtest_pred_impl_unittest.cc",
+    "gtest/googletest/test/gtest_prod_test.cc",
+    "gtest/googletest/test/gtest_unittest.cc",
+    "gtest/googletest/test/production.cc",
+    "gtest/googletest/test/production.h",
+  ]
+  configs -= [ "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors" ]
+  configs += [ ":gtest_private_config" ]
+  deps = [
+    ":gtest",
+    ":gtest_main",
+  ]
+}
+
+test("gtest_environment_test") {
+  sources = [
+    "gtest/googletest/test/gtest_environment_test.cc",
+  ]
+  configs += [ ":gtest_private_config" ]
+  deps = [
+    ":gtest",
+  ]
+}
+
+test("gtest_listener_test") {
+  sources = [
+    "gtest/googletest/test/gtest-listener_test.cc",
+  ]
+  deps = [
+    ":gtest",
+  ]
+}
+
+test("gtest_no_test") {
+  sources = [
+    "gtest/googletest/test/gtest_no_test_unittest.cc",
+  ]
+  deps = [
+    ":gtest",
+  ]
+}
+
+test("gtest_param_test") {
+  sources = [
+    "gtest/googletest/test/gtest-param-test2_test.cc",
+    "gtest/googletest/test/gtest-param-test_test.cc",
+    "gtest/googletest/test/gtest-param-test_test.h",
+  ]
+  configs -= [ "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors" ]
+  configs += [ ":gtest_private_config" ]
+  deps = [
+    ":gtest",
+  ]
+}
+
+test("gtest_premature_exit_test") {
+  sources = [
+    "gtest/googletest/test/gtest_premature_exit_test.cc",
+  ]
+  deps = [
+    ":gtest",
+  ]
+}
+
+test("gtest_repeat_test") {
+  sources = [
+    "gtest/googletest/test/gtest_repeat_test.cc",
+  ]
+  configs += [ ":gtest_private_config" ]
+  deps = [
+    ":gtest",
+  ]
+}
+
+test("gtest_sole_header_test") {
+  sources = [
+    "gtest/googletest/test/gtest_sole_header_test.cc",
+  ]
+  deps = [
+    ":gtest",
+    ":gtest_main",
+  ]
+}
+
+test("gtest_stress_test") {
+  sources = [
+    "gtest/googletest/test/gtest_stress_test.cc",
+  ]
+  configs += [ ":gtest_private_config" ]
+  deps = [
+    ":gtest",
+  ]
+}
+
+test("gtest_unittest_api_test") {
+  sources = [
+    "gtest/googletest/test/gtest-unittest-api_test.cc",
+  ]
+  deps = [
+    ":gtest",
+  ]
+}
+
+group("gtest_all_tests") {
+  testonly = true
+  deps = [
+    ":gtest_all_test",
+    ":gtest_environment_test",
+    ":gtest_listener_test",
+    ":gtest_no_test",
+    ":gtest_param_test",
+    ":gtest_premature_exit_test",
+    ":gtest_repeat_test",
+    ":gtest_sole_header_test",
+    ":gtest_stress_test",
+    ":gtest_unittest_api_test",
+  ]
 }
 
 config("gmock_private_config") {
@@ -74,19 +223,17 @@ config("gmock_public_config") {
 
   # The MOCK_METHODn() macros do not specify “override”, which triggers this
   # warning in users: “error: 'Method' overrides a member function but is not
-  # marked 'override' [-Werror,-Winconsistent-missing-override]”. Suppress
-  # these warnings, and add -Wno-unknown-warning-option because only recent
-  # versions of clang (trunk r220703 and later, version
-  # 3.6 and later) recognize it.
+  # marked 'override' [-Werror,-Winconsistent-missing-override]”. Suppress these
+  # warnings until https://github.com/google/googletest/issues/533 is fixed.
   if (is_clang) {
     cflags_cc = [
       "-Wno-inconsistent-missing-override",
-      "-Wno-unknown-warning-option",
     ]
   }
 }
 
 static_library("gmock") {
+  testonly = true
   sources = [
     "gtest/googlemock/include/gmock/gmock-actions.h",
     "gtest/googlemock/include/gmock/gmock-cardinalities.h",
@@ -113,20 +260,85 @@ static_library("gmock") {
     "gtest/googlemock/src/gmock.cc",
   ]
   sources -= [ "gtest/googlemock/src/gmock-all.cc" ]
+  public_configs = [ ":gmock_public_config" ]
+  configs -= [ "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors" ]
+  configs += [ ":gmock_private_config" ]
   deps = [
     ":gtest",
   ]
-  configs -= [ "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors" ]
-  configs += [ ":gmock_private_config" ]
-  public_configs = [ ":gmock_public_config" ]
 }
 
 static_library("gmock_main") {
+  # Tests outside of this file should use ../../test:gmock_main instead.
+  visibility = [ ":*" ]
+  testonly = true
   sources = [
     "gtest/googlemock/src/gmock_main.cc",
   ]
   deps = [
     ":gmock",
     ":gtest",
+  ]
+}
+
+test("gmock_all_test") {
+  sources = [
+    "gtest/googlemock/test/gmock-actions_test.cc",
+    "gtest/googlemock/test/gmock-cardinalities_test.cc",
+    "gtest/googlemock/test/gmock-generated-actions_test.cc",
+    "gtest/googlemock/test/gmock-generated-function-mockers_test.cc",
+    "gtest/googlemock/test/gmock-generated-internal-utils_test.cc",
+    "gtest/googlemock/test/gmock-generated-matchers_test.cc",
+    "gtest/googlemock/test/gmock-internal-utils_test.cc",
+    "gtest/googlemock/test/gmock-matchers_test.cc",
+    "gtest/googlemock/test/gmock-more-actions_test.cc",
+    "gtest/googlemock/test/gmock-nice-strict_test.cc",
+    "gtest/googlemock/test/gmock-port_test.cc",
+    "gtest/googlemock/test/gmock-spec-builders_test.cc",
+    "gtest/googlemock/test/gmock_test.cc",
+  ]
+  configs += [
+    ":gmock_private_config",
+    ":gtest_private_config",
+  ]
+  deps = [
+    ":gmock",
+    ":gmock_main",
+    ":gtest",
+  ]
+}
+
+test("gmock_link_test") {
+  sources = [
+    "gtest/googlemock/test/gmock_link2_test.cc",
+    "gtest/googlemock/test/gmock_link_test.cc",
+    "gtest/googlemock/test/gmock_link_test.h",
+  ]
+  configs += [ ":gmock_private_config" ]
+  deps = [
+    ":gmock",
+    ":gmock_main",
+    ":gtest",
+  ]
+}
+
+test("gmock_stress_test") {
+  sources = [
+    "gtest/googlemock/test/gmock_stress_test.cc",
+  ]
+  configs -= [ "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors" ]
+  configs += [ ":gmock_private_config" ]
+  deps = [
+    ":gmock",
+    ":gtest",
+  ]
+}
+
+group("gmock_all_tests") {
+  testonly = true
+  deps = [
+    ":gmock_all_test",
+    ":gmock_link_test",
+    ":gmock_stress_test",
   ]
 }
