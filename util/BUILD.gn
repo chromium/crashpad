@@ -42,9 +42,13 @@ if (is_mac) {
         hermetic_xcode_path,
       ]
     }
+    if (sysroot != "") {
+      args += [
+        "--sdk",
+        sysroot,
+      ]
+    }
     args += [
-      "--sdk",
-      sysroot,
       "--include",
       rebase_path("../compat/mac", root_build_dir),
     ]
