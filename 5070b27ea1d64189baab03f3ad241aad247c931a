@@ -34,6 +34,24 @@
       "revId": "5070b27ea1d64189baab03f3ad241aad247c931a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06a35e76_7c68ce08",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-15T22:59:07Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m not sure. I think it\u0027s probably best to negotiate a pull to head. Or just not build gmock-requiring-tests in crashpad_is_in_fuchsia for now.",
+      "parentUuid": "4510e1d2_f4d277e5",
+      "revId": "5070b27ea1d64189baab03f3ad241aad247c931a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
