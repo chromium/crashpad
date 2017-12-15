@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9b01ed6b_4e99e295",
+        "filename": "build/chromium_compatibility/testing/test.gni",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-15T23:05:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64fadf28_75204ccc",
+      "revId": "20ec910d86650bdb5bb98b0c9948622c5344fa0b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03086ec8_7e27bc2e",
         "filename": "build/chromium_compatibility/testing/test.gni",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2017-12-15T20:30:53Z",
       "side": 1,
       "message": "That is strange. I\u0027m not sure why without debugging; maybe the forward_variables_from is overwriting the defaults because there\u0027s a configs in the test invocation?",
+      "revId": "20ec910d86650bdb5bb98b0c9948622c5344fa0b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0097a258_752edcfb",
+        "filename": "build/chromium_compatibility/testing/test.gni",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-15T23:05:32Z",
+      "side": 1,
+      "message": "\u003e That is strange. I\u0027m not sure why without debugging; maybe the forward_variables_from is overwriting the defaults because there\u0027s a configs in the test invocation?\n\nJust another mystery, I guess.",
+      "parentUuid": "03086ec8_7e27bc2e",
       "revId": "20ec910d86650bdb5bb98b0c9948622c5344fa0b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
