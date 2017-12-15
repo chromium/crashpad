@@ -34,6 +34,24 @@
       "revId": "71caa8e49f30bbc00097cd8ca37297bd4bdbad58",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "534e7cef_626f1fc0",
+        "filename": "compat/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-15T20:44:38Z",
+      "side": 1,
+      "message": "Looks OK to me. (There\u0027s a lot more group+forwarding in GN than originally planned for, I think.)",
+      "parentUuid": "22e584f7_dfb96ae3",
+      "revId": "71caa8e49f30bbc00097cd8ca37297bd4bdbad58",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
