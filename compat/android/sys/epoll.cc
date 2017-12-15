@@ -12,31 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_COMPAT_ANDROID_SYS_SYSCALL_H_
-#define CRASHPAD_COMPAT_ANDROID_SYS_SYSCALL_H_
+#include <sys/epoll.h>
 
-#include_next <sys/syscall.h>
+#include <dlfcn.h>
+#include <sys/syscall.h>
+#include <unistd.h>
 
-// Android 5.0.0 (API 21) NDK
+#if __ANDROID_API__ < 21
 
-#if !defined(SYS_epoll_create1)
-#define SYS_epoll_create1 __NR_epoll_create1
-#endif
+extern "C" {
 
-#if !defined(SYS_gettid)
-#define SYS_gettid __NR_gettid
-#endif
+int epoll_create1(int flags) {
+  static const auto epoll_create1_p =
+      reinterpret_cast<int (*)(int)>(dlsym(RTLD_DEFAULT, "epoll_create1"));
+  if (epoll_create1_p) {
+    return epoll_create1_p(flags);
+  }
 
-#if !defined(SYS_timer_create)
-#define SYS_timer_create __NR_timer_create
-#endif
+  return syscall(SYS_epoll_create1, flags);
+}
 
-#if !defined(SYS_timer_getoverrun)
-#define SYS_timer_getoverrun __NR_timer_getoverrun
-#endif
+}  // extern "C"
 
-#if !defined(SYS_timer_settime)
-#define SYS_timer_settime __NR_timer_settime
-#endif
-
-#endif  // CRASHPAD_COMPAT_ANDROID_SYS_SYSCALL_H_
+#endif  // __ANDROID_API__ < 21
