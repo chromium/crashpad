@@ -16,6 +16,24 @@
       "revId": "71caa8e49f30bbc00097cd8ca37297bd4bdbad58",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22e584f7_dfb96ae3",
+        "filename": "compat/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-12-15T13:40:08Z",
+      "side": 1,
+      "message": "Yeah, this is how component() is done in Chromium.",
+      "parentUuid": "4f7b9462_5e2966a6",
+      "revId": "71caa8e49f30bbc00097cd8ca37297bd4bdbad58",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
