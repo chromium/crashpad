@@ -20,6 +20,7 @@
 #include <sys/types.h>
 
 #include "base/macros.h"
+#include "util/linux/exception_handler_protocol.h"
 #include "util/linux/ptrace_connection.h"
 #include "util/linux/ptracer.h"
 #include "util/linux/scoped_ptrace_attach.h"
@@ -86,13 +87,6 @@ class PtraceBroker {
       VMSize size;
     } iov;
   };
-
-  //! \brief The type used for error reporting.
-  using Errno = int32_t;
-  static_assert(sizeof(Errno) >= sizeof(errno), "Errno type is too small");
-
-  //! \brief A boolean status suitable for communication between processes.
-  enum Bool : char { kBoolFalse, kBoolTrue };
 
   //! \brief The response sent for a Request with type kTypeGetThreadInfo.
   struct GetThreadInfoResponse {
