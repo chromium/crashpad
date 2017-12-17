@@ -27,7 +27,7 @@ namespace crashpad {
 namespace {
 
 bool ReceiveAndLogError(int sock, const std::string& operation) {
-  PtraceBroker::Errno error;
+  Errno error;
   if (!LoggingReadFileExactly(sock, &error, sizeof(error))) {
     return false;
   }
@@ -44,13 +44,14 @@ bool AttachImpl(int sock, pid_t tid) {
     return false;
   }
 
-  PtraceBroker::Bool success;
+  Bool success;
   if (!LoggingReadFileExactly(sock, &success, sizeof(success))) {
     return false;
   }
 
-  if (success != PtraceBroker::kBoolTrue) {
+  if (success != kBoolTrue) {
     ReceiveAndLogError(sock, "PtraceBroker Attach");
+    return false;
   }
 
   return true;
@@ -90,11 +91,11 @@ bool PtraceClient::Initialize(int sock, pid_t pid) {
     return false;
   }
 
-  PtraceBroker::Bool is_64_bit;
+  Bool is_64_bit;
   if (!LoggingReadFileExactly(sock_, &is_64_bit, sizeof(is_64_bit))) {
     return false;
   }
-  is_64_bit_ = is_64_bit == PtraceBroker::kBoolTrue;
+  is_64_bit_ = is_64_bit == kBoolTrue;
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -130,7 +131,7 @@ bool PtraceClient::GetThreadInfo(pid_t tid, ThreadInfo* info) {
     return false;
   }
 
-  if (response.success == PtraceBroker::kBoolTrue) {
+  if (response.success == kBoolTrue) {
     *info = response.info;
     return true;
   }
