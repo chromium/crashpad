@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fc83eb7c_d2edbcca",
+        "filename": "compat/android/sys/epoll.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-17T20:34:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7501e4bf_4bbac3a7",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9451920f_d0c3925c",
         "filename": "compat/android/sys/epoll.cc",
         "patchSetId": 9
@@ -33,6 +51,24 @@
       "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0be2265d_4d270552",
+        "filename": "compat/android/sys/epoll.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-17T20:34:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9451920f_d0c3925c",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "420ff6fa_82088586",
+        "filename": "compat/android/sys/epoll.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-17T20:34:51Z",
+      "side": 1,
+      "message": "You\u0027re right! Fixed.",
+      "parentUuid": "00221938_d5043f58",
+      "range": {
+        "startLine": 23,
+        "startChar": 44,
+        "endLine": 23,
+        "endChar": 50
+      },
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6996203_01f857ef",
         "filename": "compat/android/sys/epoll.h",
         "patchSetId": 9
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "525260b1_531c479c",
+        "filename": "compat/android/sys/epoll.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-17T20:34:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6996203_01f857ef",
+      "range": {
+        "startLine": 28,
+        "startChar": 53,
+        "endLine": 28,
+        "endChar": 59
+      },
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd2e36fc_5a69361a",
         "filename": "handler/linux/exception_handler_server.cc",
         "patchSetId": 9
@@ -96,6 +180,24 @@
       "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "550fddbd_e5f0e7d7",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-17T20:34:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd2e36fc_5a69361a",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "df743df1_5cd4dbbe",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-17T20:34:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9443596_73053a69",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f245ea01_27066f49",
         "filename": "handler/linux/exception_handler_server.cc",
         "patchSetId": 9
@@ -133,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "465892c2_9c5ccac5",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-17T20:34:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f245ea01_27066f49",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07caf003_5c6ed1bb",
         "filename": "handler/linux/exception_handler_server.h",
         "patchSetId": 9
@@ -147,6 +285,24 @@
       "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9eb22f0_3e000e2b",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-17T20:34:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07caf003_5c6ed1bb",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -173,6 +329,30 @@
     },
     {
       "key": {
+        "uuid": "694e39a4_6b1c3a3a",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-17T20:34:51Z",
+      "side": 1,
+      "message": "Too much C++, probably.",
+      "parentUuid": "a68b59b5_08dba962",
+      "range": {
+        "startLine": 49,
+        "startChar": 59,
+        "endLine": 49,
+        "endChar": 60
+      },
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "436de728_95bce616",
         "filename": "handler/linux/exception_handler_server.h",
         "patchSetId": 9
@@ -184,6 +364,30 @@
       "writtenOn": "2017-12-05T22:13:16Z",
       "side": 1,
       "message": "It’s not clear from the comment whether this behavior is desirable or if you’re mentioning it because code using ExceptionHandlerServer needs to take care to avoid calling Stop() if Run() hasn’t been called.",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 19
+      },
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33465ece_d702ab59",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-17T20:34:51Z",
+      "side": 1,
+      "message": "How about now?\n\nI also updated the wording in the mac version to match, from which I stole it.",
+      "parentUuid": "436de728_95bce616",
       "range": {
         "startLine": 89,
         "startChar": 6,
@@ -258,6 +462,24 @@
       "writtenOn": "2017-12-05T22:13:16Z",
       "side": 1,
       "message": "It seems that it’s possible that if the answers to each of the above questions is appropriate, the registration struct becomes empty. At that point, we may not even need it at all. Then we can eschew explicit registration and just allow anyone with access to the correct file descriptor to be a client. Fewer IPCs (at startup, which is heavily performance-sensitive), and less state to maintain in the handler: that’d be a win.\n\nWe couldn’t achieve this on Windows because the mechanism that we use to signal “I’m crashing” was chosen for its reliability and simplicity, which were both critical in a crashing process, and that mechanism does require registration and in-handler state. But I see no reason that we should be limited in the same way on Linux/Android.",
+      "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "594adfb8_7277f221",
+        "filename": "util/linux/registration_protocol.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-17T20:34:51Z",
+      "side": 1,
+      "message": "Makes sense. I\u0027ve changed the Registration struct to a ClientInformation, which for now only contains the exception information address and it is sent in a CrashDumpRequest message. The client_process_id is picked up through SCM_CREDENTIALS.",
+      "parentUuid": "523da591_fdbeceab",
       "revId": "81643b25486ffdf28d75b5dfdfc028db8f6b02b7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
