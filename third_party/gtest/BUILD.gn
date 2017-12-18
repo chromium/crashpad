@@ -147,6 +147,13 @@ test("gtest_param_test") {
   deps = [
     ":gtest",
   ]
+
+  if (is_clang) {
+    cflags_cc = [
+      # For gtest/googlemock/test/gmock-matchers_test.cc’s Unstreamable::value_.
+      "-Wno-unused-private-field",
+    ]
+  }
 }
 
 test("gtest_premature_exit_test") {
@@ -221,12 +228,13 @@ config("gmock_private_config") {
 config("gmock_public_config") {
   include_dirs = [ "gtest/googlemock/include" ]
 
-  # The MOCK_METHODn() macros do not specify “override”, which triggers this
-  # warning in users: “error: 'Method' overrides a member function but is not
-  # marked 'override' [-Werror,-Winconsistent-missing-override]”. Suppress these
-  # warnings until https://github.com/google/googletest/issues/533 is fixed.
   if (is_clang) {
     cflags_cc = [
+      # The MOCK_METHODn() macros do not specify “override”, which triggers this
+      # warning in users: “error: 'Method' overrides a member function but is
+      # not marked 'override' [-Werror,-Winconsistent-missing-override]”.
+      # Suppress these warnings until
+      # https://github.com/google/googletest/issues/533 is fixed.
       "-Wno-inconsistent-missing-override",
     ]
   }
@@ -306,6 +314,14 @@ test("gmock_all_test") {
     ":gmock_main",
     ":gtest",
   ]
+
+  if (is_clang) {
+    cflags_cc = [
+      # For gtest/googlemock/test/gmock-matchers_test.cc’s
+      # testing::gmock_matchers_test::Unprintable::c_.
+      "-Wno-unused-private-field",
+    ]
+  }
 }
 
 test("gmock_link_test") {
