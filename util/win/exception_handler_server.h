@@ -38,8 +38,6 @@ class ExceptionHandlerServer {
  public:
   class Delegate {
    public:
-    virtual ~Delegate();
-
     //! \brief Called when the server has created the named pipe connection
     //!     points and is ready to service requests.
     virtual void ExceptionHandlerServerStarted() = 0;
@@ -60,6 +58,9 @@ class ExceptionHandlerServer {
         HANDLE process,
         WinVMAddress exception_information_address,
         WinVMAddress debug_critical_section_address) = 0;
+
+   protected:
+    ~Delegate();
   };
 
   //! \brief Constructs the exception handling server.
