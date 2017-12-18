@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2d04f84_a8bbf080",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-18T21:47:35Z",
+      "side": 0,
+      "message": "Gerrit is displaying a mess here, but the `else` arm is unchanged from before, just indented, with the crashpad_is_in_chromium and crashpad_is_in_fuchsia cases preceeding it.",
+      "revId": "b51adda8d29c82253e104fc9588fe38a4ed45f94",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
