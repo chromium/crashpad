@@ -16,6 +16,24 @@
       "revId": "4f7d2fbcffb6d15c58b59c82dd7e043b7a9592f7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de9678ec_7d726d58",
+        "filename": "build/crashpad_dependencies.gni",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-18T23:59:15Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s a bit weird. I just thought it was weirder to have multiple names for it. But I guess pulling its value from somewhere and setting a local name makes sense.",
+      "parentUuid": "de71720d_dc44348d",
+      "revId": "4f7d2fbcffb6d15c58b59c82dd7e043b7a9592f7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
