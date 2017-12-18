@@ -12,14 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//testing/test.gni")
-import("build/crashpad_in_chromium.gni")
+import("build/crashpad_dependencies.gni")
 
 config("crashpad_config") {
   include_dirs = [ "." ]
 }
 
-if (crashpad_in_chromium) {
+if (crashpad_is_in_chromium) {
   test("crashpad_tests") {
     deps = [
       "client:client_test",
