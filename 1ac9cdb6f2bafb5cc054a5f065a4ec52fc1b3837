@@ -1,0 +1,197 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39aa1101_7a4b40e5",
+        "filename": "build/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-18T22:15:31Z",
+      "side": 1,
+      "message": "Just “win” is how we usually refer to it in this sort of situation.",
+      "range": {
+        "startLine": 27,
+        "startChar": 28,
+        "endLine": 27,
+        "endChar": 35
+      },
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e84d2973_9af62383",
+        "filename": "build/config/sysroot.gni",
+        "patchSetId": 17
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-18T22:15:31Z",
+      "side": 1,
+      "message": "There’s only one use of this in Crashpad now, in the mig action in util. Do we still need this file, or are things heading in the direction of adding crashpad_is_in_chromium to that condition?",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf35c310_61476723",
+        "filename": "build/crashpad_dependencies.gni",
+        "patchSetId": 17
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-18T22:15:31Z",
+      "side": 1,
+      "message": "Not really the most readable wrap job, but I guess “gn format” did this, so it’s canonical and not really worth fighting.",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87fd2577_27a23025",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-18T22:15:31Z",
+      "side": 1,
+      "message": "Break with the alphabetical rules and do (gtest, gmock) to match the standalone branch?",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "786d41d9_fd64dd0b",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-18T22:15:31Z",
+      "side": 1,
+      "message": "Consistency:\n\n  else if (crashpad_is_standalone)\n\nas you did in third_party/mini_chromium/BUILD.gn, or make the one in that file an else-without-if to match this one. I’m not expressing a preference, I just like to be consistent.",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c05b06cb_33d96b26",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-18T22:15:31Z",
+      "side": 1,
+      "message": "Rewrap comments to 80 columns.",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06b08ee2_afb94f01",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-18T22:15:31Z",
+      "side": 1,
+      "message": "Me too.",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31e2a53c_f225e274",
+        "filename": "third_party/mini_chromium/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-18T22:15:31Z",
+      "side": 1,
+      "message": "For groups that act as forwarding targets, shouldn’t we be using public_deps? That’s what you did in the gtest BUILD.gn when it forwards to Chromium.",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d386b48b_2065437b",
+        "filename": "third_party/mini_chromium/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-18T22:15:31Z",
+      "side": 1,
+      "message": "If you use public_deps, do you need public_configs too?",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb832b2a_7b745753",
+        "filename": "third_party/mini_chromium/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-18T22:15:31Z",
+      "side": 1,
+      "message": "public_deps too?",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70499770_04a737cf",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-18T22:15:31Z",
+      "side": 1,
+      "message": "But it’s not really Chromium in this case. Fuchsia has its own //third_party/zlib, so calling it “chromium” is confusing. “external” may be better to convey that it’s not embedded or system. It’s still not great because it doesn’t say that it’s built by GN, which is kind of important, so feel free to come up with an even better name.",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
