@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d1180e4f_8129cb9a",
+        "filename": "compat/android/sys/epoll.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-18T23:21:05Z",
+      "side": 1,
+      "message": "I also meant to mention before, calling dlsym for a non-existent symbol raises a floating point exception on Android 4.4.2.\n\nhttps://code.google.com/p/android/issues/detail?id\u003d61799\n\nAs far as I can tell, the fix never made it into KitKat, so I expect this would always crash there without a SIGFPE signal handler here and for our local mmap.",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 74
+      },
+      "revId": "c9150c0a4748281e5e3ae8c6e267cc842a729bcb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf1451be_7d458d98",
         "filename": "compat/android/sys/epoll.h",
         "patchSetId": 18
@@ -16,6 +39,24 @@
       "revId": "c9150c0a4748281e5e3ae8c6e267cc842a729bcb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa841f70_c724908e",
+        "filename": "compat/android/sys/epoll.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-18T23:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf1451be_7d458d98",
+      "revId": "c9150c0a4748281e5e3ae8c6e267cc842a729bcb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -36,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "732a321f_96394755",
+        "filename": "compat/android/sys/epoll.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-18T23:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d06541d_183df32b",
+      "revId": "c9150c0a4748281e5e3ae8c6e267cc842a729bcb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bbbf4d52_7247633e",
         "filename": "handler/linux/exception_handler_server.cc",
         "patchSetId": 18
@@ -50,6 +109,24 @@
       "revId": "c9150c0a4748281e5e3ae8c6e267cc842a729bcb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8ef026c_3fe94e3d",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-18T23:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbbf4d52_7247633e",
+      "revId": "c9150c0a4748281e5e3ae8c6e267cc842a729bcb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -70,6 +147,24 @@
     },
     {
       "key": {
+        "uuid": "6978483c_c24600cc",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-18T23:21:05Z",
+      "side": 1,
+      "message": "It looks like more libcap support might be eventually coming to Android:\nhttps://android.googlesource.com/platform/external/libcap/\n\nBut on the other hand, LINUX_CAPABILITY_VERSION_3 is old enough I\u0027m guessing we can generally expect to be using it, reducing the need for libcap to handle different versions for us. I\u0027ve stashed the libcap version for now.",
+      "parentUuid": "24ee7fda_265fbfce",
+      "revId": "c9150c0a4748281e5e3ae8c6e267cc842a729bcb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "06520053_7407c446",
         "filename": "util/linux/exception_handler_client.cc",
         "patchSetId": 18
@@ -81,6 +176,24 @@
       "writtenOn": "2017-12-18T15:57:12Z",
       "side": 1,
       "message": "This seems weird, I don’t recall having to do this on the sender’s side at all.",
+      "revId": "c9150c0a4748281e5e3ae8c6e267cc842a729bcb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60e223c7_b7e5f4c3",
+        "filename": "util/linux/exception_handler_client.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-18T23:21:05Z",
+      "side": 1,
+      "message": "Documentation says the sender has to specify it\u0027s credentials, which are checked by the kernel. The sender can specify another process\u0027 credentials if it has CAP_SYS_ADMIN.\n\nIf I don\u0027t set this, sendmsg returns EPERM.\n\nThe sender doesn\u0027t have to set anything if we use SO_PEERCRED, but that returns the credentials of whatever process created the socket, which might not always be the sender.",
+      "parentUuid": "06520053_7407c446",
       "revId": "c9150c0a4748281e5e3ae8c6e267cc842a729bcb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
