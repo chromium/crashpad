@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//testing/test.gni")
-
 static_library("test") {
   testonly = true
 
@@ -82,7 +80,7 @@ static_library("test") {
 
   public_configs = [ "..:crashpad_config" ]
 
-  configs += [ "../build:crashpad_in_chromium" ]
+  configs += [ "../build:crashpad_is_in_chromium" ]
 
   data = [
     "test_paths_test_data_root.txt",
@@ -90,9 +88,9 @@ static_library("test") {
 
   deps = [
     "../compat",
+    "../third_party/gtest:gtest",
+    "../third_party/mini_chromium:base",
     "../util",
-    "//base",
-    "//testing/gtest",
   ]
 
   if (is_mac) {
@@ -140,10 +138,10 @@ source_set("test_test") {
   deps = [
     ":test",
     "../compat",
+    "../third_party/gtest:gmock",
+    "../third_party/gtest:gtest",
+    "../third_party/mini_chromium:base",
     "../util",
-    "//base",
-    "//testing/gmock",
-    "//testing/gtest",
   ]
 
   data_deps = [
@@ -162,14 +160,14 @@ static_library("gmock_main") {
   sources = [
     "gtest_main.cc",
   ]
-  configs += [ "../build:crashpad_in_chromium" ]
+  configs += [ "../build:crashpad_is_in_chromium" ]
   defines = [ "CRASHPAD_TEST_LAUNCHER_GMOCK" ]
   deps = [
     ":test",
-    "//base",
-    "//base/test:test_support",
-    "//testing/gmock",
-    "//testing/gtest",
+    "../third_party/gtest:gmock",
+    "../third_party/gtest:gtest",
+    "../third_party/mini_chromium:base",
+    "../third_party/mini_chromium:base_test_support",
   ]
 }
 
@@ -178,12 +176,12 @@ static_library("gtest_main") {
   sources = [
     "gtest_main.cc",
   ]
-  configs += [ "../build:crashpad_in_chromium" ]
+  configs += [ "../build:crashpad_is_in_chromium" ]
   defines = [ "CRASHPAD_TEST_LAUNCHER_GTEST" ]
   deps = [
     ":test",
-    "//base",
-    "//base/test:test_support",
-    "//testing/gtest",
+    "../third_party/gtest:gtest",
+    "../third_party/mini_chromium:base",
+    "../third_party/mini_chromium:base_test_support",
   ]
 }
