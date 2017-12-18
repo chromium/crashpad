@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6db0c6ff_20f48bd1",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-18T23:40:14Z",
+      "side": 0,
+      "message": "I\u0027m coming around to thinking that we really don\u0027t want much of anything in this file.\n\nAnother example is the recent change to export default_configs, which doesn\u0027t work in Fuchsia because they don\u0027t define that. (I think for that one I\u0027ll try to figure out why test didn\u0027t inherit executable, and then de-export default_configs again.)",
+      "revId": "457cc6a34fde6ed6ef87edb92da5a7ae139fdf4a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
