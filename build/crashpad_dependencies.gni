@@ -27,6 +27,8 @@ crashpad_is_in_chromium = crashpad_dependencies == "chromium"
 crashpad_is_in_fuchsia = crashpad_dependencies == "fuchsia"
 crashpad_is_standalone = crashpad_dependencies == "standalone"
 
+import("../third_party/mini_chromium/mini_chromium/build/is_posix.gni")
+
 if (crashpad_is_in_chromium) {
   import("//testing/test.gni")
 } else {
