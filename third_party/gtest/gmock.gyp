@@ -168,6 +168,26 @@
         '<(gmock_dir)/test/gmock-spec-builders_test.cc',
         '<(gmock_dir)/test/gmock_test.cc',
       ],
+      'conditions': [
+         ['clang!=0', {
+          # For gtest/googlemock/test/gmock-matchers_test.cc’s
+          # Unstreamable::value_.
+          'conditions': [
+            ['OS=="mac"', {
+              'xcode_settings': {
+                'WARNING_CFLAGS': [
+                  '-Wno-unused-private-field',
+                ],
+              },
+            }],
+            ['OS=="linux" or OS=="android"', {
+              'cflags': [
+                '-Wno-unused-private-field',
+              ],
+            }],
+          ],
+        }],
+      ],
     },
     {
       'target_name': 'gmock_link_test',
