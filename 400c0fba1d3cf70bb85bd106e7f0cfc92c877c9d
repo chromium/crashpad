@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa7d5b5_8ee50a6f",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-18T23:44:06Z",
+      "side": 1,
+      "message": "ElfImageReader.MainExecutableSelf and ElfImageReader.MainExecutableChild both fail in a GN build like this:\n\n[10361:10361:20171218,183722.774550:WARNING elf_dynamic_array_reader.cc:44] 64 trailing bytes not read\n[10361:10361:20171218,183722.775141:ERROR elf_image_reader.cc:528] bad offset\n../../snapshot/elf/elf_image_reader_test.cc:63: Failure\nValue of: reader-\u003eGetDynamicSymbol(symbol_name, \u0026symbol_address, \u0026symbol_size)\n  Actual: false\nExpected: true\n\nI’ve still got to investigate more.",
+      "revId": "400c0fba1d3cf70bb85bd106e7f0cfc92c877c9d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
