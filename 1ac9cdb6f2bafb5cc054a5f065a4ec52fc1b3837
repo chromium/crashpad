@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6bb0ced_6f833673",
+        "filename": "build/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-18T22:36:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39aa1101_7a4b40e5",
+      "range": {
+        "startLine": 27,
+        "startChar": 28,
+        "endLine": 27,
+        "endChar": 35
+      },
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e84d2973_9af62383",
         "filename": "build/config/sysroot.gni",
         "patchSetId": 17
@@ -36,6 +60,24 @@
       "writtenOn": "2017-12-18T22:15:31Z",
       "side": 1,
       "message": "There’s only one use of this in Crashpad now, in the mig action in util. Do we still need this file, or are things heading in the direction of adding crashpad_is_in_chromium to that condition?",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37510249_74fe49f0",
+        "filename": "build/config/sysroot.gni",
+        "patchSetId": 17
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-18T22:36:25Z",
+      "side": 1,
+      "message": "Might as well just get rid of it. Done.",
+      "parentUuid": "e84d2973_9af62383",
       "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "0eeca9fe_bdfc72f4",
+        "filename": "build/crashpad_dependencies.gni",
+        "patchSetId": 17
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-18T22:36:25Z",
+      "side": 1,
+      "message": "Yeah, I didn\u0027t like it either. If you can think of a nicer format and a rule for why/when it\u0027d be chosen, you can file a bug upstream and I can try to write it.",
+      "parentUuid": "cf35c310_61476723",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87fd2577_27a23025",
         "filename": "third_party/gtest/BUILD.gn",
         "patchSetId": 17
@@ -73,6 +133,24 @@
       "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3106d720_581d7639",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-18T22:36:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87fd2577_27a23025",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "2ab060bf_157043e9",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-18T22:36:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "786d41d9_fd64dd0b",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c05b06cb_33d96b26",
         "filename": "third_party/gtest/BUILD.gn",
         "patchSetId": 17
@@ -107,6 +203,24 @@
       "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dba4374_9fe80bf9",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-18T22:36:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c05b06cb_33d96b26",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "f5f1c023_21d15168",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-18T22:36:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06b08ee2_afb94f01",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31e2a53c_f225e274",
         "filename": "third_party/mini_chromium/BUILD.gn",
         "patchSetId": 17
@@ -141,6 +273,24 @@
       "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb6ba148_81b5d318",
+        "filename": "third_party/mini_chromium/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-18T22:36:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31e2a53c_f225e274",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -161,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "0bebc19e_c14282b9",
+        "filename": "third_party/mini_chromium/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-18T22:36:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d386b48b_2065437b",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb832b2a_7b745753",
         "filename": "third_party/mini_chromium/BUILD.gn",
         "patchSetId": 17
@@ -178,6 +346,24 @@
     },
     {
       "key": {
+        "uuid": "1643d5d5_af821054",
+        "filename": "third_party/mini_chromium/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-18T22:36:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb832b2a_7b745753",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70499770_04a737cf",
         "filename": "third_party/zlib/BUILD.gn",
         "patchSetId": 17
@@ -189,6 +375,24 @@
       "writtenOn": "2017-12-18T22:15:31Z",
       "side": 1,
       "message": "But it’s not really Chromium in this case. Fuchsia has its own //third_party/zlib, so calling it “chromium” is confusing. “external” may be better to convey that it’s not embedded or system. It’s still not great because it doesn’t say that it’s built by GN, which is kind of important, so feel free to come up with an even better name.",
+      "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4a14175_0cf66ec8",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 17
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-18T22:36:25Z",
+      "side": 1,
+      "message": "Yeah, kinda icky. third_party? `external` is probably better. I\u0027m going to just remove the Fuchsia arm in this CL, as I had it generating, but not fully building in Fuchsia yet, so I\u0027ll do all the changes for that together and focus on just getting rid of secondary in this change.",
+      "parentUuid": "70499770_04a737cf",
       "revId": "1ac9cdb6f2bafb5cc054a5f065a4ec52fc1b3837",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
