@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de71720d_dc44348d",
+        "filename": "build/crashpad_dependencies.gni",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-18T23:48:41Z",
+      "side": 1,
+      "message": "Shouldn’t this be crashpad_is_posix for use in here?\n\nIt’s weird to import a Crashpad file to get a mini_chromium-namespaced variable.",
+      "revId": "4f7d2fbcffb6d15c58b59c82dd7e043b7a9592f7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
