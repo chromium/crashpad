@@ -12,22 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# When building in Chromium, these configs is used to set #defines that indicate
-# whether code is being built standalone, or in Chromium, or potentially in some
-# other configutation.
+import("../../build/crashpad_dependencies.gni")
 
-import("crashpad_dependencies.gni")
-
-config("crashpad_is_in_chromium") {
+group("base") {
   if (crashpad_is_in_chromium) {
-    defines = [ "CRASHPAD_IS_IN_CHROMIUM" ]
+    deps = [
+      "//base",
+    ]
+  } else if (crashpad_is_in_fuchsia) {
+    public_configs = [ "//third_party/mini_chromium/base:base_public_config" ]
+    deps = [
+      "//third_party/mini_chromium/base",
+    ]
+  } else if (crashpad_is_standalone) {
+    public_configs =
+        [ "//third_party/mini_chromium/mini_chromium/base:base_public_config" ]
+    deps = [
+      "//third_party/mini_chromium/mini_chromium/base",
+    ]
   }
 }
 
-group("default_exe_manifest_windows") {
+group("base_test_support") {
   if (crashpad_is_in_chromium) {
     deps = [
-      "//build/win:default_exe_manifest",
+      "//base:test_support",
     ]
   }
 }
