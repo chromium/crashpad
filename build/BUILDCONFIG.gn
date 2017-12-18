@@ -65,10 +65,6 @@ if (is_win) {
 default_configs = [
   "//third_party/mini_chromium/mini_chromium/build:default",
   "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
-
-  # This (no-op) is added here so that build files that expect to be able to
-  # remove it can do so without causing an error.
-  "//build/config/compiler:chromium_code",
 ]
 
 set_defaults("source_set") {

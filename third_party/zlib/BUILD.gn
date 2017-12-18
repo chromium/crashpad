@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("../../build/crashpad_in_chromium.gni")
+import("../../build/crashpad_dependencies.gni")
 
-if (crashpad_in_chromium) {
+if (crashpad_is_in_chromium) {
   zlib_source = "chromium"
 } else if (!is_win && !is_fuchsia) {
   zlib_source = "system"

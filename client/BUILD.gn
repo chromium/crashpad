@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//testing/test.gni")
-
 static_library("client") {
   sources = [
     "annotation.cc",
@@ -64,8 +62,8 @@ static_library("client") {
 
   deps = [
     "../compat",
+    "../third_party/mini_chromium:base",
     "../util",
-    "//base",
   ]
 
   if (is_win) {
@@ -102,10 +100,10 @@ source_set("client_test") {
     ":client",
     "../compat",
     "../test",
+    "../third_party/gtest:gmock",
+    "../third_party/gtest:gtest",
+    "../third_party/mini_chromium:base",
     "../util",
-    "//base",
-    "//testing/gmock",
-    "//testing/gtest",
   ]
 
   data_deps = [

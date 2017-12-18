@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//testing/test.gni")
-
 static_library("handler") {
   sources = [
     "crash_report_upload_thread.cc",
@@ -62,9 +60,9 @@ static_library("handler") {
     "../compat",
     "../minidump",
     "../snapshot",
+    "../third_party/mini_chromium:base",
     "../tools:tool_support",
     "../util",
-    "//base",
   ]
 
   if (is_win) {
@@ -86,9 +84,9 @@ source_set("handler_test") {
     "../snapshot",
     "../snapshot:test_support",
     "../test",
+    "../third_party/gtest:gtest",
+    "../third_party/mini_chromium:base",
     "../util",
-    "//base",
-    "//testing/gtest",
   ]
 
   if (is_win) {
@@ -107,9 +105,9 @@ executable("crashpad_handler") {
 
   deps = [
     ":handler",
+    "../build:default_exe_manifest_win",
     "../compat",
-    "//base",
-    "//build/win:default_exe_manifest",
+    "../third_party/mini_chromium:base",
   ]
 
   if (is_mac && is_component_build) {
@@ -143,11 +141,11 @@ executable("crashpad_handler_test_extended_handler") {
 
   deps = [
     ":handler",
+    "../build:default_exe_manifest_win",
     "../compat",
     "../minidump:test_support",
+    "../third_party/mini_chromium:base",
     "../tools:tool_support",
-    "//base",
-    "//build/win:default_exe_manifest",
   ]
 }
 
@@ -164,9 +162,9 @@ if (is_win) {
 
     deps = [
       ":handler",
+      "../build:default_exe_manifest_win",
       "../compat",
-      "//base",
-      "//build/win:default_exe_manifest",
+      "../third_party/mini_chromium:base",
     ]
   }
 

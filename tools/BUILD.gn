@@ -21,7 +21,7 @@ source_set("tool_support") {
   public_configs = [ "..:crashpad_config" ]
 
   deps = [
-    "//base",
+    "../third_party/mini_chromium:base",
   ]
 }
 
@@ -32,11 +32,11 @@ executable("crashpad_database_util") {
 
   deps = [
     ":tool_support",
+    "../build:default_exe_manifest_win",
     "../client",
     "../compat",
+    "../third_party/mini_chromium:base",
     "../util",
-    "//base",
-    "//build/win:default_exe_manifest",
   ]
 }
 
@@ -47,10 +47,10 @@ executable("crashpad_http_upload") {
 
   deps = [
     ":tool_support",
+    "../build:default_exe_manifest_win",
     "../compat",
+    "../third_party/mini_chromium:base",
     "../util",
-    "//base",
-    "//build/win:default_exe_manifest",
   ]
 }
 
@@ -61,12 +61,12 @@ executable("generate_dump") {
 
   deps = [
     ":tool_support",
+    "../build:default_exe_manifest_win",
     "../compat",
     "../minidump",
     "../snapshot",
+    "../third_party/mini_chromium:base",
     "../util",
-    "//base",
-    "//build/win:default_exe_manifest",
   ]
 
   if (is_mac) {
@@ -97,8 +97,8 @@ if (is_mac) {
     deps = [
       ":tool_support",
       "../compat",
+      "../third_party/mini_chromium:base",
       "../util",
-      "//base",
     ]
   }
 
@@ -122,8 +122,8 @@ if (is_mac) {
     deps = [
       ":tool_support",
       "../compat",
+      "../third_party/mini_chromium:base",
       "../util",
-      "//base",
     ]
   }
 
@@ -140,8 +140,8 @@ if (is_mac) {
     deps = [
       ":tool_support",
       "../compat",
+      "../third_party/mini_chromium:base",
       "../util",
-      "//base",
     ]
   }
 
@@ -154,8 +154,8 @@ if (is_mac) {
       ":tool_support",
       "../client",
       "../compat",
+      "../third_party/mini_chromium:base",
       "../util",
-      "//base",
     ]
   }
 }

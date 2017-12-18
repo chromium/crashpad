@@ -25,18 +25,18 @@
 #include "test/win/win_child_process.h"
 #endif  // OS_WIN
 
-#if defined(CRASHPAD_IN_CHROMIUM)
+#if defined(CRASHPAD_IS_IN_CHROMIUM)
 #include "base/bind.h"
 #include "base/test/launcher/unit_test_launcher.h"
 #include "base/test/test_suite.h"
-#endif  // CRASHPAD_IN_CHROMIUM
+#endif  // CRASHPAD_IS_IN_CHROMIUM
 
 int main(int argc, char* argv[]) {
   crashpad::test::InitializeMainArguments(argc, argv);
   testing::AddGlobalTestEnvironment(
       crashpad::test::DisabledTestGtestEnvironment::Get());
 
-#if defined(CRASHPAD_IN_CHROMIUM)
+#if defined(CRASHPAD_IS_IN_CHROMIUM)
 
 #if defined(OS_WIN)
   // Chromium’s test launcher interferes with WinMultiprocess-based tests. Allow
@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
         base::Bind(&base::TestSuite::Run, base::Unretained(&test_suite)));
   }
 
-#endif  // CRASHPAD_IN_CHROMIUM
+#endif  // CRASHPAD_IS_IN_CHROMIUM
 
 #if defined(CRASHPAD_TEST_LAUNCHER_GMOCK)
   testing::InitGoogleMock(&argc, argv);

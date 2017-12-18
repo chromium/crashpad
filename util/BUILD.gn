@@ -12,10 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//testing/test.gni")
-
 if (is_mac) {
-  import("//build/config/sysroot.gni")
+  import("../build/crashpad_dependencies.gni")
+
+  if (crashpad_is_in_chromium) {
+    import("//build/config/sysroot.gni")
+  } else {
+    import("//third_party/mini_chromium/mini_chromium/build/sysroot.gni")
+  }
 
   action_foreach("mig") {
     script = "mach/mig.py"
@@ -36,11 +40,13 @@ if (is_mac) {
 
     args = [ "{{source}}" ]
     args += rebase_path(outputs, root_build_dir)
-    if (!use_system_xcode) {
-      args += [
-        "--developer-dir",
-        hermetic_xcode_path,
-      ]
+    if (crashpad_is_in_chromium) {
+      if (!use_system_xcode) {
+        args += [
+          "--developer-dir",
+          hermetic_xcode_path,
+        ]
+      }
     }
     if (sysroot != "") {
       args += [
@@ -328,8 +334,8 @@ static_library("util") {
   ]
 
   deps = [
+    "../third_party/mini_chromium:base",
     "../third_party/zlib",
-    "//base",
   ]
 
   if (is_mac) {
@@ -470,10 +476,10 @@ source_set("util_test") {
     "../client",
     "../compat",
     "../test",
+    "../third_party/gtest:gmock",
+    "../third_party/gtest:gtest",
+    "../third_party/mini_chromium:base",
     "../third_party/zlib",
-    "//base",
-    "//testing/gmock",
-    "//testing/gtest",
   ]
 
   if (is_mac) {
