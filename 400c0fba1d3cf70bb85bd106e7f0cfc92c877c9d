@@ -16,6 +16,24 @@
       "revId": "400c0fba1d3cf70bb85bd106e7f0cfc92c877c9d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c69ace0f_8674e8c9",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-18T23:53:21Z",
+      "side": 1,
+      "message": "This may be what you\u0027re looking for:\n          \u0027ldflags\u0027: [\n            \u0027-Wl,--dynamic-list\u003dtest_exported_symbols.sym\u0027,\n          ],",
+      "parentUuid": "3aa7d5b5_8ee50a6f",
+      "revId": "400c0fba1d3cf70bb85bd106e7f0cfc92c877c9d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
