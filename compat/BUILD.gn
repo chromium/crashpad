@@ -15,14 +15,18 @@
 config("compat_config") {
   include_dirs = []
 
+  if (is_mac) {
+    include_dirs += [ "mac" ]
+  }
+
+  if (is_linux) {
+    include_dirs += [ "linux" ]
+  }
+
   if (is_win) {
     include_dirs += [ "win" ]
   } else {
     include_dirs += [ "non_win" ]
-  }
-
-  if (is_mac) {
-    include_dirs += [ "mac" ]
   }
 }
 
@@ -53,6 +57,13 @@ compat_target("compat") {
     ]
   } else {
     sources += [ "non_mac/mach/mach.h" ]
+  }
+
+  if (is_linux) {
+    sources += [
+      "linux/signal.h",
+      "linux/sys/ptrace.h",
+    ]
   }
 
   if (is_win) {

@@ -63,6 +63,15 @@ static_library("test") {
     ]
   }
 
+  if (is_linux) {
+    sources += [
+      "linux/fake_ptrace_connection.cc",
+      "linux/fake_ptrace_connection.h",
+      "linux/get_tls.cc",
+      "linux/get_tls.h",
+    ]
+  }
+
   if (is_win) {
     sources += [
       "multiprocess_exec_win.cc",
@@ -112,6 +121,14 @@ source_set("test_test") {
     "test_paths_test.cc",
   ]
 
+  if (!is_fuchsia) {
+    sources += [
+      # TODO(scottmg): A MultiprocessExecFuchsia is probably desirable, but
+      # hasn't been implemented yet.
+      "multiprocess_exec_test.cc",
+    ]
+  }
+
   if (is_posix && !is_fuchsia) {
     sources += [ "multiprocess_posix_test.cc" ]
   }
@@ -124,14 +141,6 @@ source_set("test_test") {
     sources += [
       "win/win_child_process_test.cc",
       "win/win_multiprocess_test.cc",
-    ]
-  }
-
-  if (!is_fuchsia) {
-    sources += [
-      # TODO(scottmg): A MultiprocessExecFuchsia is probably desirable, but
-      # hasn't been implemented yet.
-      "multiprocess_exec_test.cc",
     ]
   }
 
