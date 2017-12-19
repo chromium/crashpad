@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fe25101_e4e92d02",
+        "filename": "build/crashpad_dependencies.gni",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T05:19:30Z",
+      "side": 1,
+      "message": "Looking at the test template in this file, it does some stuff a little bit differently. I don’t know whether the “configs” stuff makes any difference. The fact that it adds its own gtest_main to deps is a little concerning. I think that our gtest_main (or gmock_main, but that doesn’t work) should win, but I’m not 100% sure on the order of operations here. Ideally we wouldn’t even have their gtest_main dep since some of our tests won’t work without our own gtest_main.",
+      "revId": "317ef0843d24dd8a6ad14bfa04993d8b24d4e0f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
