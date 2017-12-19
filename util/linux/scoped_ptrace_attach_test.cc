@@ -15,12 +15,12 @@
 #include "util/linux/scoped_ptrace_attach.h"
 
 #include <errno.h>
-#include <sys/prctl.h>
 #include <sys/ptrace.h>
 #include <unistd.h>
 
 #include "gtest/gtest.h"
 #include "test/errors.h"
+#include "test/linux/scoped_pr_set_ptracer.h"
 #include "test/multiprocess.h"
 #include "util/file/file_io.h"
 
@@ -28,39 +28,13 @@ namespace crashpad {
 namespace test {
 namespace {
 
-class ScopedPrSetPtracer {
- public:
-  explicit ScopedPrSetPtracer(pid_t pid) {
-    // PR_SET_PTRACER is only supported if the Yama Linux security module (LSM)
-    // is enabled. Otherwise, this prctl() call fails with EINVAL. See
-    // linux-4.9.20/security/yama/yama_lsm.c yama_task_prctl() and
-    // linux-4.9.20/kernel/sys.c [sys_]prctl().
-    //
-    // If Yama is not enabled, the default ptrace restrictions should be
-    // sufficient for these tests.
-    //
-    // If Yama is enabled, then /proc/sys/kernel/yama/ptrace_scope must be 0
-    // (YAMA_SCOPE_DISABLED, in which case this prctl() is not necessary) or 1
-    // (YAMA_SCOPE_RELATIONAL) for these tests to succeed. If it is 2
-    // (YAMA_SCOPE_CAPABILITY) then the test requires CAP_SYS_PTRACE, and if it
-    // is 3 (YAMA_SCOPE_NO_ATTACH), these tests will fail.
-    success_ = prctl(PR_SET_PTRACER, pid, 0, 0, 0) == 0;
-    if (!success_) {
-      EXPECT_EQ(errno, EINVAL) << ErrnoMessage("prctl");
-    }
-  }
-
-  ~ScopedPrSetPtracer() {
-    if (success_) {
-      EXPECT_EQ(prctl(PR_SET_PTRACER, 0, 0, 0, 0), 0) << ErrnoMessage("prctl");
-    }
-  }
-
- private:
-  bool success_;
-
-  DISALLOW_COPY_AND_ASSIGN(ScopedPrSetPtracer);
-};
+// If Yama is not enabled, the default ptrace restrictions should be
+// sufficient for these tests.
+//
+// If Yama is enabled, then /proc/sys/kernel/yama/ptrace_scope must be 0
+// (YAMA_SCOPE_DISABLED) or 1 (YAMA_SCOPE_RELATIONAL) for these tests to
+// succeed. If it is 2 (YAMA_SCOPE_CAPABILITY) then the test requires
+// CAP_SYS_PTRACE, and if it is 3 (YAMA_SCOPE_NO_ATTACH), these tests will fail.
 
 class AttachTest : public Multiprocess {
  public:

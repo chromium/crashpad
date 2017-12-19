@@ -85,6 +85,14 @@ class Signals {
                              int flags,
                              struct sigaction* old_action);
 
+  //! \brief Installs `SIG_DFL` for the signal \a sig.
+  //!
+  //! \param[in] sig The signal to set the default action for.
+  //!
+  //! \return `true` on success, `false` on failure with errno set. No message
+  //!     is logged.
+  static bool InstallDefaultHandler(int sig);
+
   //! \brief Installs a new signal handler for all signals associated with
   //!     crashes.
   //!

@@ -45,6 +45,8 @@
         'linux/fake_ptrace_connection.h',
         'linux/get_tls.cc',
         'linux/get_tls.h',
+        'linux/scoped_pr_set_ptracer.cc',
+        'linux/scoped_pr_set_ptracer.h',
         'mac/dyld.cc',
         'mac/dyld.h',
         'mac/exception_swallower.cc',

@@ -53,7 +53,7 @@ void InitializeCPUContextX86_NoFloatingPoint(
     const SignalThreadContext32& thread_context,
     CPUContextX86* context);
 
-// \{
+//! \{
 //! \brief Initializes a CPUContextX86_64 structure from native context
 //!     structures on Linux.
 //!

@@ -26,6 +26,8 @@
         'android/linux/prctl.h',
         'android/linux/ptrace.h',
         'android/sched.h',
+        'android/sys/epoll.cc',
+        'android/sys/epoll.h',
         'android/sys/mman.cc',
         'android/sys/mman.h',
         'android/sys/syscall.h',
