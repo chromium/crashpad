@@ -14,8 +14,8 @@
 
 import("../../build/crashpad_dependencies.gni")
 
-if (crashpad_is_in_chromium) {
-  zlib_source = "chromium"
+if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
+  zlib_source = "external"
 } else if (!is_win && !is_fuchsia) {
   zlib_source = "system"
 } else {
@@ -23,8 +23,8 @@ if (crashpad_is_in_chromium) {
 }
 
 config("zlib_config") {
-  if (zlib_source == "chromium") {
-    defines = [ "CRASHPAD_ZLIB_SOURCE_CHROMIUM" ]
+  if (zlib_source == "external") {
+    defines = [ "CRASHPAD_ZLIB_SOURCE_EXTERNAL" ]
   } else if (zlib_source == "system") {
     defines = [ "CRASHPAD_ZLIB_SOURCE_SYSTEM" ]
   } else if (zlib_source == "embedded") {
@@ -33,7 +33,7 @@ config("zlib_config") {
   }
 }
 
-if (zlib_source == "chromium") {
+if (zlib_source == "external") {
   group("zlib") {
     public_configs = [ ":zlib_config" ]
     public_deps = [
