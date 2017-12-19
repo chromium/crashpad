@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "025510d1_4d651281",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T21:39:31Z",
+      "side": 1,
+      "message": "those projects’",
+      "range": {
+        "startLine": 16,
+        "startChar": 61,
+        "endLine": 16,
+        "endChar": 75
+      },
+      "revId": "f96cd8551f06a77be1cf8430a63216fc41dc8f06",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06c48f48_48ec7d88",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T21:39:31Z",
+      "side": 1,
+      "message": "Now that everything needs to import this file in all build types:\n\nIt doesn’t look like this will work in Chromium, where there’s no //third_party/mini_chromium. I think you want these inside the “else” of the “if” above, but with paths adjusted for crashpad_is_in_fuchsia. crashpad_is_in_chromium will need to do something else.",
+      "revId": "f96cd8551f06a77be1cf8430a63216fc41dc8f06",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce2f2c6d_5b7318ca",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 10
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T21:39:31Z",
+      "side": 1,
+      "message": "\u0026\u0026 crashpad_is_in_chromium",
+      "revId": "f96cd8551f06a77be1cf8430a63216fc41dc8f06",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6594c6d1_a51d691a",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 10
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T21:39:31Z",
+      "side": 1,
+      "message": "Otherwise, based on what you told me, this will break the standalone Mac build.",
+      "revId": "f96cd8551f06a77be1cf8430a63216fc41dc8f06",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b46db671_f47d749f",
+        "filename": "third_party/mini_chromium/BUILD.gn",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T21:39:31Z",
+      "side": 1,
+      "message": "//third_party/mini_chromium and //third_party/crashpad are siblings in crashpad_is_in_fuchsia, right? This seems wrong.",
+      "revId": "f96cd8551f06a77be1cf8430a63216fc41dc8f06",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "379ae745_2a5134fe",
+        "filename": "third_party/mini_chromium/BUILD.gn",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T21:39:31Z",
+      "side": 1,
+      "message": "You don’t need this in configs if it’s in public_configs. I think that’s how it works, at least.",
+      "revId": "f96cd8551f06a77be1cf8430a63216fc41dc8f06",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
