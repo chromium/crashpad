@@ -94,6 +94,34 @@ static_library("snapshot") {
     ]
   }
 
+  if (is_linux) {
+    sources += [
+      "elf/elf_dynamic_array_reader.cc",
+      "elf/elf_dynamic_array_reader.h",
+      "elf/elf_image_reader.cc",
+      "elf/elf_image_reader.h",
+      "elf/elf_symbol_table_reader.cc",
+      "elf/elf_symbol_table_reader.h",
+      "linux/cpu_context_linux.cc",
+      "linux/cpu_context_linux.h",
+      "linux/debug_rendezvous.cc",
+      "linux/debug_rendezvous.h",
+      "linux/exception_snapshot_linux.cc",
+      "linux/exception_snapshot_linux.h",
+      "linux/memory_snapshot_linux.cc",
+      "linux/memory_snapshot_linux.h",
+      "linux/process_reader.cc",
+      "linux/process_reader.h",
+      "linux/process_snapshot_linux.cc",
+      "linux/process_snapshot_linux.h",
+      "linux/signal_context.h",
+      "linux/system_snapshot_linux.cc",
+      "linux/system_snapshot_linux.h",
+      "linux/thread_snapshot_linux.cc",
+      "linux/thread_snapshot_linux.h",
+    ]
+  }
+
   if (is_win) {
     sources += [
       "win/capture_memory_delegate_win.cc",
@@ -218,12 +246,24 @@ static_library("test_support") {
   }
 }
 
+config("snapshot_test_link") {
+  visibility = [ ":*" ]
+  if (is_linux) {
+    # There’s no way to make the link depend on this file. “inputs” doesn’t have
+    # the intended effect in a config. https://crbug.com/781858,
+    # https://crbug.com/796187.
+    inputs = [
+      "elf/test_exported_symbols.sym",
+    ]
+    ldflags = [ "-Wl,--dynamic-list," + rebase_path(inputs[0], root_build_dir) ]
+  }
+}
+
 source_set("snapshot_test") {
   testonly = true
 
   sources = [
     "cpu_context_test.cc",
-    "crashpad_info_client_options_test.cc",
     "minidump/process_snapshot_minidump_test.cc",
   ]
 
@@ -237,6 +277,20 @@ source_set("snapshot_test") {
       "mac/process_types_test.cc",
       "mac/system_snapshot_mac_test.cc",
     ]
+  }
+
+  if (is_linux) {
+    sources += [
+      "elf/elf_image_reader_test.cc",
+      "elf/elf_image_reader_test_note.S",
+      "elf/test_exported_symbols.sym",
+      "linux/debug_rendezvous_test.cc",
+      "linux/exception_snapshot_linux_test.cc",
+      "linux/process_reader_test.cc",
+      "linux/system_snapshot_linux_test.cc",
+    ]
+  } else {
+    sources += [ "crashpad_info_client_options_test.cc" ]
   }
 
   if (is_win) {
@@ -254,6 +308,12 @@ source_set("snapshot_test") {
   } else {
     sources += [ "posix/timezone_test.cc" ]
   }
+
+  # public_configs isn’t quite right. snapshot_test_link sets ldflags, and
+  # what’s really needed is a way to push ldflags to dependent targets that
+  # produce linker output. Luckily in this case, all dependents do produce
+  # linker output. https://crbug.com/796183.
+  public_configs = [ ":snapshot_test_link" ]
 
   deps = [
     ":snapshot_api",
@@ -279,6 +339,10 @@ source_set("snapshot_test") {
       ":crashpad_snapshot_test_module_crashy_initializer",
       ":crashpad_snapshot_test_no_op",
     ]
+  }
+
+  if (is_linux) {
+    libs = [ "dl" ]
   }
 
   if (is_win) {

@@ -65,6 +65,15 @@ static_library("test") {
     ]
   }
 
+  if (is_linux) {
+    sources += [
+      "linux/fake_ptrace_connection.cc",
+      "linux/fake_ptrace_connection.h",
+      "linux/get_tls.cc",
+      "linux/get_tls.h",
+    ]
+  }
+
   if (is_win) {
     sources += [
       "multiprocess_exec_win.cc",
