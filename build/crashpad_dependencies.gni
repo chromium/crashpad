@@ -38,6 +38,6 @@ if (crashpad_is_in_chromium) {
   }
 
   set_defaults("test") {
-    configs = default_configs
+    configs = executable_configs
   }
 }
