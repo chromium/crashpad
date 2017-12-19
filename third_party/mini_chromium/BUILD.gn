@@ -12,21 +12,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("../../build/crashpad_dependencies.gni")
+import("../../build/crashpad_buildconfig.gni")
 
-group("base") {
-  if (crashpad_is_in_chromium) {
+if (crashpad_is_in_chromium) {
+  group("base") {
     public_deps = [
       "//base",
     ]
-  } else if (crashpad_is_in_fuchsia) {
-    public_deps = [
-      "//third_party/mini_chromium/base",
-    ]
-  } else if (crashpad_is_standalone) {
-    public_deps = [
-      "//third_party/mini_chromium/mini_chromium/base",
-    ]
+  }
+} else {
+  config("base_config") {
+    if (crashpad_is_in_fuchsia) {
+      include_dirs = [ "." ]
+    } else if (crashpad_is_standalone) {
+      include_dirs = [ "mini_chromium" ]
+    }
+  }
+
+  static_library("base") {
+    if (crashpad_is_in_fuchsia) {
+      import("//third_party/mini_chromium/base/base_files.gni")
+      configs += [ ":base_config" ]
+    } else if (crashpad_is_standalone) {
+      import("//third_party/mini_chromium/mini_chromium/base/base_files.gni")
+    }
+    public_configs = [ ":base_config" ]
+    sources = base_sources
+    libs = base_libs
   }
 }
 

@@ -12,22 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# When building in Chromium, these configs is used to set #defines that indicate
-# whether code is being built standalone, or in Chromium, or potentially in some
-# other configutation.
-
 import("crashpad_buildconfig.gni")
 
-config("crashpad_is_in_chromium") {
-  if (crashpad_is_in_chromium) {
-    defines = [ "CRASHPAD_IS_IN_CHROMIUM" ]
+if (crashpad_is_in_chromium) {
+  import("//testing/test.gni")
+} else {
+  template("test") {
+    executable(target_name) {
+      testonly = true
+      forward_variables_from(invoker, "*")
+    }
   }
-}
 
-group("default_exe_manifest_win") {
-  if (crashpad_is_in_chromium) {
-    deps = [
-      "//build/win:default_exe_manifest",
-    ]
+  set_defaults("test") {
+    configs = crashpad_default_configs
   }
 }
