@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1bcc2672_9476a371",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T05:11:18Z",
+      "side": 1,
+      "message": "\u003e This is OK, we\u0027ll just have to be sure we really mean clang when we use this to handle Chromium Windows being clang-built.\n\nNoted, thanks.",
+      "parentUuid": "d3e7c8f9_a0929f12",
+      "revId": "400c0fba1d3cf70bb85bd106e7f0cfc92c877c9d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aa7d5b5_8ee50a6f",
         "filename": "snapshot/BUILD.gn",
         "patchSetId": 2
@@ -87,6 +105,24 @@
       "revId": "400c0fba1d3cf70bb85bd106e7f0cfc92c877c9d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15cb2e5e_1d62bbda",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T05:11:18Z",
+      "side": 1,
+      "message": "\u003e This may be what you\u0027re looking for:\n\u003e           \u0027ldflags\u0027: [\n\u003e             \u0027-Wl,--dynamic-list\u003dtest_exported_symbols.sym\u0027,\n\u003e           ],\n\nYup, that was it. Thanks!\n\nUnfortunately, I hit https://crbug.com/781858 along the way again.",
+      "parentUuid": "844a5948_6bed4cea",
+      "revId": "400c0fba1d3cf70bb85bd106e7f0cfc92c877c9d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
