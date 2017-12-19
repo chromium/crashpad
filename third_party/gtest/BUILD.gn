@@ -26,12 +26,14 @@ if (crashpad_is_in_chromium) {
     ]
   }
 } else if (crashpad_is_in_fuchsia) {
-  # TODO(scottmg): Fuchsia doesn't have a third_party/gmock, and has a
-  # pre-gmock-integration gtest.
   group("gtest") {
     public_deps = [
       "//third_party/gtest",
     ]
+  }
+  group("gmock") {
+    # TODO(scottmg): Fuchsia doesn't have a third_party/gmock, and has a
+    # pre-gmock-integration gtest.
   }
 } else if (crashpad_is_standalone) {
   config("gtest_private_config") {

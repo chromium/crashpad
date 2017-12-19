@@ -18,19 +18,45 @@ config("crashpad_config") {
   include_dirs = [ "." ]
 }
 
-if (crashpad_is_in_chromium) {
+if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
   test("crashpad_tests") {
     deps = [
-      "client:client_test",
       "handler:handler_test",
       "minidump:minidump_test",
-      "snapshot:snapshot_test",
-      "test:gmock_main",
-      "test:test_test",
-      "util:util_test",
     ]
+
+    # TODO(scottmg): Not everything builds in the in-Fuchsia-tree configuration
+    # of Crashpad yet. Collapse this down to match the crashpad_is_in_chromium
+    # configuration eventually.
+    if (crashpad_is_in_fuchsia) {
+      deps += [ "test:gtest_main" ]
+    } else {
+      deps += [
+        "client:client_test",
+        "snapshot:snapshot_test",
+        "test:gmock_main",
+        "test:test_test",
+        "util:util_test",
+      ]
+    }
   }
-} else {
+
+  if (crashpad_is_in_fuchsia) {
+    import("//build/package.gni")
+    package("crashpad_test") {
+      testonly = true
+      system_image = true
+
+      deps = [
+        ":crashpad_tests",
+      ]
+
+      tests = [ {
+            name = "crashpad_tests"
+          } ]
+    }
+  }
+} else if (crashpad_is_standalone) {
   test("crashpad_client_test") {
     deps = [
       "client:client_test",
