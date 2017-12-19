@@ -62,13 +62,6 @@
             'handler_main.cc',
           ],
         }],
-        ['OS=="linux"', {
-          'link_settings': {
-            'libraries': [
-              '-lcap',
-            ],
-          },
-        }],
       ],
       'target_conditions': [
         ['OS=="android"', {
