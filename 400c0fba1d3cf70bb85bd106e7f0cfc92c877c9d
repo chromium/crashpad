@@ -69,6 +69,24 @@
       "revId": "400c0fba1d3cf70bb85bd106e7f0cfc92c877c9d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "844a5948_6bed4cea",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T00:25:42Z",
+      "side": 1,
+      "message": "I found https://groups.google.com/a/chromium.org/d/topic/gn-dev/g7LGN2aIL-Q, which makes me sad. Since this isn\u0027t \"libs\", I\u0027m stick with ldflags. all_dependent_configs is too broad. I guess public_configs may work in this specific case by luck, but what I really want is link_dependent_configs, or ldflags that behave correctly in the first place.",
+      "parentUuid": "edfafa93_651add9f",
+      "revId": "400c0fba1d3cf70bb85bd106e7f0cfc92c877c9d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
