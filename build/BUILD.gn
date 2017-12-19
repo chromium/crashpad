@@ -16,7 +16,7 @@
 # whether code is being built standalone, or in Chromium, or potentially in some
 # other configutation.
 
-import("crashpad_dependencies.gni")
+import("crashpad_buildconfig.gni")
 
 config("crashpad_is_in_chromium") {
   if (crashpad_is_in_chromium) {
