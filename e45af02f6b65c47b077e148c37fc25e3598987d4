@@ -34,6 +34,24 @@
       "revId": "e45af02f6b65c47b077e148c37fc25e3598987d4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0951b7f8_78e7407a",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T18:34:16Z",
+      "side": 1,
+      "message": "\u003e Could we make is_clang non-global?\n\nIt’s used by mini_chromium’s BUILD.gn too, and I don’t want to have mini_chromium reach into a Crashpad-specific .gni file to get is_clang, so I think it has to stay here.\n\nThis is a mess, isn’t it?\n\n\u003e Otherwise, I guess we could try deferring the determination of the value of is_clang until later, by doing something like defaulting is_clang to an \"unknown\" -1 and then having an import determine the real value later when the values on which you want to have the default value depend, are available.\n\nBut that’s part of the problem. It’s yucky to import crashpad_dependencies.gni into BUILDCONFIG.gn: it makes all of crashpad_dependencies.gni available everywhere, even when not explicitly requested, but only in the standalone Crashpad build. We’re gonna mess that up all the time, and each time we’ll have a real pain importing things into Chromium.",
+      "parentUuid": "0c374e1d_6d33006b",
+      "revId": "e45af02f6b65c47b077e148c37fc25e3598987d4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
