@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("../../build/crashpad_dependencies.gni")
+import("../../build/crashpad_buildconfig.gni")
 
 group("base") {
   if (crashpad_is_in_chromium) {

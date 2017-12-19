@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("../../build/crashpad_dependencies.gni")
+import("../../build/crashpad_buildconfig.gni")
 
 if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
   zlib_source = "external"
-} else if (!is_win && !is_fuchsia) {
+} else if (!crashpad_is_win && !crashpad_is_fuchsia) {
   zlib_source = "system"
 } else {
   zlib_source = "embedded"
@@ -82,7 +82,7 @@ if (zlib_source == "external") {
     defines = [ "HAVE_STDARG_H" ]
     public_configs = [ ":zlib_config" ]
 
-    if (is_win) {
+    if (crashpad_is_win) {
       cflags += [
         "/wd4131",  # uses old-style declarator
         "/wd4244",  # conversion from 't1' to 't2', possible loss of data
@@ -104,13 +104,13 @@ if (zlib_source == "external") {
         "zlib/x86.c",
         "zlib/x86.h",
       ]
-      if (!is_win || is_clang) {
+      if (!crashpad_is_win || crashpad_is_clang) {
         cflags += [
           "-msse4.2",
           "-mpclmul",
         ]
       }
-      if (is_clang) {
+      if (crashpad_is_clang) {
         cflags += [ "-Wno-incompatible-pointer-types" ]
       }
     } else {
