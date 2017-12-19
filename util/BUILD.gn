@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("../build/crashpad_dependencies.gni")
+import("../build/crashpad_buildconfig.gni")
 
-if (is_mac) {
+if (crashpad_is_mac) {
   if (crashpad_is_in_chromium) {
     import("//build/config/sysroot.gni")
   } else {
@@ -168,7 +168,7 @@ static_library("util") {
       "thread/thread_posix.cc",
     ]
 
-    if (!is_fuchsia) {
+    if (!crashpad_is_fuchsia) {
       sources += [
         "posix/close_multiple.cc",
         "posix/close_multiple.h",
@@ -187,7 +187,7 @@ static_library("util") {
     }
   }
 
-  if (is_mac) {
+  if (crashpad_is_mac) {
     sources += [
       "mac/checked_mach_address_range.h",
       "mac/launchd.h",
@@ -240,7 +240,7 @@ static_library("util") {
     sources += get_target_outputs(":mig")
   }
 
-  if (is_linux) {
+  if (crashpad_is_linux) {
     sources += [
       "linux/address_types.h",
       "linux/auxiliary_vector.cc",
@@ -280,7 +280,7 @@ static_library("util") {
     ]
   }
 
-  if (is_win) {
+  if (crashpad_is_win) {
     sources += [
       "file/directory_reader_win.cc",
       "file/file_io_win.cc",
@@ -357,7 +357,7 @@ static_library("util") {
     }
   }
 
-  if (is_fuchsia) {
+  if (crashpad_is_fuchsia) {
     sources += [
       "misc/paths_fuchsia.cc",
       "net/http_transport_fuchsia.cc",
@@ -378,7 +378,7 @@ static_library("util") {
     "../third_party/zlib",
   ]
 
-  if (is_mac) {
+  if (crashpad_is_mac) {
     libs = [
       "bsm",
       "CoreFoundation.framework",
@@ -389,11 +389,11 @@ static_library("util") {
     include_dirs += [ "$root_build_dir/gen" ]
   }
 
-  if (is_linux) {
+  if (crashpad_is_linux) {
     libs = [ "curl" ]
   }
 
-  if (is_win) {
+  if (crashpad_is_win) {
     cflags = [
       "/wd4201",  # nonstandard extension used : nameless struct/union.
       "/wd4577",  # 'noexcept' used with no exception handling mode specified.
@@ -450,7 +450,7 @@ source_set("util_test") {
     "thread/worker_thread_test.cc",
   ]
 
-  if (!is_fuchsia) {
+  if (!crashpad_is_fuchsia) {
     # TODO(scottmg): This requires an implementation of MultiprocessExec for
     # testing, and a solution to http_transport_test_server.py -- either a port
     # to non-Python, or method of forwarding those requests back to the builder
@@ -459,7 +459,7 @@ source_set("util_test") {
   }
 
   if (crashpad_is_posix) {
-    if (!is_fuchsia) {
+    if (!crashpad_is_fuchsia) {
       sources += [
         "posix/process_info_test.cc",
         "posix/signals_test.cc",
@@ -469,7 +469,7 @@ source_set("util_test") {
     sources += [ "posix/scoped_mmap_test.cc" ]
   }
 
-  if (is_mac) {
+  if (crashpad_is_mac) {
     sources += [
       "mac/launchd_test.mm",
       "mac/mac_util_test.mm",
@@ -493,7 +493,7 @@ source_set("util_test") {
     ]
   }
 
-  if (is_linux) {
+  if (crashpad_is_linux) {
     sources += [
       "linux/auxiliary_vector_test.cc",
       "linux/memory_map_test.cc",
@@ -508,7 +508,7 @@ source_set("util_test") {
     ]
   }
 
-  if (is_win) {
+  if (crashpad_is_win) {
     sources += [
       "win/capture_context_test.cc",
       "win/command_line_test.cc",
@@ -541,11 +541,11 @@ source_set("util_test") {
     "../third_party/zlib",
   ]
 
-  if (is_mac) {
+  if (crashpad_is_mac) {
     libs = [ "Foundation.framework" ]
   }
 
-  if (is_win) {
+  if (crashpad_is_win) {
     libs = [ "rpcrt4.lib" ]
     data_deps = [
       ":crashpad_util_test_process_info_test_child",
@@ -554,7 +554,7 @@ source_set("util_test") {
   }
 }
 
-if (is_win) {
+if (crashpad_is_win) {
   executable("crashpad_util_test_process_info_test_child") {
     testonly = true
     sources = [

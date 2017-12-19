@@ -12,6 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Intentionally very minimal, so that Crashpad can build in-tree in a variety of
+# other projects, unrelated to the variables that are set in those projects'
+# BUILDCONFIG.gn. Do not add more variables here. Instead, make them available
+# in build/crashpad_buildconfig.gni if they must be globally available.
+
 if (target_os == "") {
   target_os = host_os
 }
@@ -28,35 +33,7 @@ if (current_cpu == "") {
   current_cpu = target_cpu
 }
 
-is_mac = false
-is_win = false
-is_linux = false
-is_android = false
-is_fuchsia = false
-
-if (current_os == "mac") {
-  is_mac = true
-} else if (current_os == "win") {
-  is_win = true
-} else if (current_os == "android") {
-  is_android = true
-} else if (current_os == "linux") {
-  is_linux = true
-} else if (current_os == "fuchsia") {
-  is_fuchsia = true
-}
-
-declare_args() {
-  # When true, enables the debug configuration, with additional run-time checks
-  # and logging. When false, enables the release configuration, with additional
-  # optimizations.
-  is_debug = false
-
-  # When true, configures for compilation with Clang.
-  is_clang = !is_win
-}
-
-if (is_win) {
+if (current_os == "win") {
   set_default_toolchain(
       "//third_party/mini_chromium/mini_chromium/build:msvc_toolchain")
 } else {
@@ -64,12 +41,19 @@ if (is_win) {
       "//third_party/mini_chromium/mini_chromium/build:gcc_like_toolchain")
 }
 
+declare_args() {
+  # When true, enables the debug configuration, with additional run-time checks
+  # and logging. When false, enables the release configuration, with additional
+  # optimizations.
+  is_debug = false
+}
+
 _default_configs = [
   "//third_party/mini_chromium/mini_chromium/build:default",
   "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
 ]
 
-default_executable_configs =
+_default_executable_configs =
     _default_configs +
     [ "//third_party/mini_chromium/mini_chromium/build:executable" ]
 
@@ -82,7 +66,7 @@ set_defaults("static_library") {
 }
 
 set_defaults("executable") {
-  configs = default_executable_configs
+  configs = _default_executable_configs
 }
 
 set_defaults("loadable_module") {
@@ -93,8 +77,6 @@ set_defaults("shared_library") {
   configs = _default_configs
 }
 
-# These are set to constant values for Chromium build file compatibility. This
-# generally avoids extra explicit checking of whether or not Crashpad is
-# building in Chromium mode or not.
-is_ios = false
-is_component_build = false
+set_defaults("test") {
+  configs = _default_executable_configs
+}
