@@ -16,11 +16,13 @@ import("../../build/crashpad_dependencies.gni")
 
 if (crashpad_is_in_chromium) {
   group("gtest") {
+    testonly = true
     public_deps = [
       "//testing/gtest",
     ]
   }
   group("gmock") {
+    testonly = true
     public_deps = [
       "//testing/gmock",
     ]
@@ -29,6 +31,7 @@ if (crashpad_is_in_chromium) {
   # TODO(scottmg): Fuchsia doesn't have a third_party/gmock, and has a
   # pre-gmock-integration gtest.
   group("gtest") {
+    testonly = true
     public_deps = [
       "//third_party/gtest",
     ]
