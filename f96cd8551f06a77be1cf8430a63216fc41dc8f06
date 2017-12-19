@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "23bdd193_efe621c2",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-19T22:55:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "025510d1_4d651281",
+      "range": {
+        "startLine": 16,
+        "startChar": 61,
+        "endLine": 16,
+        "endChar": 75
+      },
+      "revId": "f96cd8551f06a77be1cf8430a63216fc41dc8f06",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06c48f48_48ec7d88",
         "filename": "build/crashpad_buildconfig.gni",
         "patchSetId": 10
