@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "385467f0_3124db03",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-19T22:09:28Z",
+      "side": 1,
+      "message": "I actually forgot to remove this from handler.gyp. It should no longer be necessary.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 3
+      },
+      "revId": "d55a4ca25785021a08a0422cd7b40e0023f52f85",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
