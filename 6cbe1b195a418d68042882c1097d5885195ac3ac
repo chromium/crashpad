@@ -16,6 +16,24 @@
       "revId": "6cbe1b195a418d68042882c1097d5885195ac3ac",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b32519ba_3ed7f414",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 16
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-19T23:29:31Z",
+      "side": 1,
+      "message": "Good lord, my brain is on vacation already.",
+      "parentUuid": "c8b0b7b3_48155028",
+      "revId": "6cbe1b195a418d68042882c1097d5885195ac3ac",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
