@@ -34,6 +34,24 @@
       "revId": "317ef0843d24dd8a6ad14bfa04993d8b24d4e0f3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96dd51dc_f9dc7f5c",
+        "filename": "build/crashpad_dependencies.gni",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T18:26:22Z",
+      "side": 1,
+      "message": "\u003e Oh, right, that won\u0027t work. I was thinking it was just a pile of tests for someone to run, but we need the handling for multiprocess stuff. OK, I guess I\u0027ll try to sort out using our template instead then -- I think I have to resolve the same thing you\u0027re looking at elsewhere with the is_clang, and BUILDCONFIG mess.\n\nTAG! You’re it.",
+      "parentUuid": "d0e4e137_6009729c",
+      "revId": "317ef0843d24dd8a6ad14bfa04993d8b24d4e0f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
