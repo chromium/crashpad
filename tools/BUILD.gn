@@ -72,14 +72,15 @@ executable("generate_dump") {
   if (is_mac) {
     # This would be better as a config so that it could be shared with
     # exception_port_tool, but configs can’t alter “inputs”.
+    # https://crbug.com/781858.
     inputs = [
-      rebase_path("mac/sectaskaccess_info.plist"),
+      "mac/sectaskaccess_info.plist",
     ]
     ldflags = [
       "-sectcreate",
       "__TEXT",
       "__info_plist",
-      inputs[0],
+      rebase_path(inputs[0], root_build_dir),
     ]
   }
 
@@ -108,15 +109,15 @@ if (is_mac) {
     ]
 
     # This would be better as a config so that it could be shared with
-    # generate_dump, but configs can’t alter “inputs”.
+    # generate_dump, but configs can’t alter “inputs”. https://crbug.com/781858.
     inputs = [
-      rebase_path("mac/sectaskaccess_info.plist"),
+      "mac/sectaskaccess_info.plist",
     ]
     ldflags = [
       "-sectcreate",
       "__TEXT",
       "__info_plist",
-      inputs[0],
+      rebase_path(inputs[0], root_build_dir),
     ]
 
     deps = [
