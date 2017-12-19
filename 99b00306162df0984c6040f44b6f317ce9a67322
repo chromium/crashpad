@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06ad3df1_b129d541",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T20:21:32Z",
+      "side": 0,
+      "message": "I think things will probably work better if we do leave these here.",
+      "revId": "99b00306162df0984c6040f44b6f317ce9a67322",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70c62634_bbefafb1",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T20:21:32Z",
+      "side": 0,
+      "message": "Don’t lose this through all of the merging and rebasing.",
+      "revId": "99b00306162df0984c6040f44b6f317ce9a67322",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

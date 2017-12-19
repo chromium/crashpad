@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51cf5076_2824a2fc",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T20:21:32Z",
+      "side": 1,
+      "message": "I think I’d still support keeping things as isolated as possible, with everything up to this point in crashpad_dependencies.gni. Then, this crashpad_buildconfig.gni file would need to import crashpad_dependencies.gni. And I guess that means that any other import of crashpad_buildconfig.gni would automatically pick up crashpad_dependencies.gni’s variables too, which is kind of what I was trying to avoid?",
+      "revId": "87a7e326f83626476b09e011ee887ab4012a817f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54e6ad34_4d18f070",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T20:21:32Z",
+      "side": 1,
+      "message": "All in now. OK…",
+      "revId": "87a7e326f83626476b09e011ee887ab4012a817f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3487662a_ec0c1147",
+        "filename": "build/test.gni",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T20:21:32Z",
+      "side": 1,
+      "message": "crashpad_default_executable_configs",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 28,
+        "endChar": 38
+      },
+      "revId": "87a7e326f83626476b09e011ee887ab4012a817f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b63dd50c_d276516e",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T20:21:32Z",
+      "side": 1,
+      "message": "This is the only place that crashpad_is_component_build is used.\n\nHow does evaluation work? Rather than having this look like it’s something that might apply outside of Chromium, could we remove our own crashpad_is_component_build if we wrote “crashpad_is_mac \u0026\u0026 crashpad_is_in_chromium \u0026\u0026 is_component_build” here, without offending the standalone or Fuchsia builds?",
+      "range": {
+        "startLine": 115,
+        "startChar": 25,
+        "endLine": 115,
+        "endChar": 52
+      },
+      "revId": "87a7e326f83626476b09e011ee887ab4012a817f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
