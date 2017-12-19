@@ -63,9 +63,7 @@ class ExceptionHandlerServer {
 
   //! \brief Stops a running exception-handling server.
   //!
-  //! The normal mode of operation is to call Stop() while Run() is running. It
-  //! is expected that Stop() would be called from a signal handler.
-  //!
+  //! Stop() may be called at any time, and may be called from a signal handler.
   //! If Stop() is called before Run() it will cause Run() to return as soon as
   //! it is called. It is harmless to call Stop() after Run() has already
   //! returned, or to call Stop() after it has already been called.

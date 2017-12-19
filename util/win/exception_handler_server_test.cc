@@ -56,7 +56,7 @@ class RunServerThread : public Thread {
 class TestDelegate : public ExceptionHandlerServer::Delegate {
  public:
   explicit TestDelegate(HANDLE server_ready) : server_ready_(server_ready) {}
-  ~TestDelegate() override {}
+  ~TestDelegate() {}
 
   void ExceptionHandlerServerStarted() override {
     SetEvent(server_ready_);
