@@ -39,6 +39,8 @@ if (crashpad_is_in_chromium) {
 
 if (crashpad_is_in_chromium) {
   import("//testing/test.gni")
+} else if (crashpad_is_in_fuchsia) {
+  import("//garnet/public/build/test.gni")
 } else {
   template("test") {
     executable(target_name) {
