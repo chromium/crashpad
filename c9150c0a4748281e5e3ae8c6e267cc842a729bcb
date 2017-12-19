@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "faf961a1_28877b45",
+        "filename": "compat/android/sys/epoll.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-19T19:51:31Z",
+      "side": 1,
+      "message": "I\u0027ve got a draft to fix this, but I\u0027ll put it in a follow-up CL. So far, compat doesn\u0027t depend on util. Is that intentional/required or just how it\u0027s worked out?",
+      "parentUuid": "16de4929_d5620478",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 74
+      },
+      "revId": "c9150c0a4748281e5e3ae8c6e267cc842a729bcb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf1451be_7d458d98",
         "filename": "compat/android/sys/epoll.h",
         "patchSetId": 18
@@ -236,6 +260,24 @@
       "side": 1,
       "message": "\u003e Documentation says the sender has to specify it\u0027s credentials, which are checked by the kernel. The sender can specify another process\u0027 credentials if it has CAP_SYS_ADMIN.\n\u003e \n\u003e If I don\u0027t set this, sendmsg returns EPERM.\n\u003e \n\u003e The sender doesn\u0027t have to set anything if we use SO_PEERCRED, but that returns the credentials of whatever process created the socket, which might not always be the sender.\n\nSO_PEERCRED must be what I was recalling, then.\n\nShould the uid and gid be getting the euid and egid instead? Can\u0027t check the server implementation right now.\n\nProvided that this is kernel-checked and that there\u0027s no way to avoid sending this over, it sounds like you\u0027ve done the right thing. Thanks!",
       "parentUuid": "60e223c7_b7e5f4c3",
+      "revId": "c9150c0a4748281e5e3ae8c6e267cc842a729bcb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "beef1476_ee7fee37",
+        "filename": "util/linux/exception_handler_client.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-19T19:51:31Z",
+      "side": 1,
+      "message": "euid/egid probably makes more sense to look at, so I\u0027ve used them, but I don\u0027t think it will end up making a practical difference. sendmsg allows any of uid/euid/suid to be specified. The server cares about this for the purposes of ptrace-attaching, but it looks like (I haven\u0027t verified) uid/euid/suid for the victim process all need to be the same anyways:\nhttp://elixir.free-electrons.com/linux/latest/source/kernel/ptrace.c#L312",
+      "parentUuid": "97e81c6a_11df595d",
       "revId": "c9150c0a4748281e5e3ae8c6e267cc842a729bcb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
