@@ -58,7 +58,7 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
       const std::map<std::string, std::string>* process_annotations,
       const UserStreamDataSources* user_stream_data_sources);
 
-  ~CrashReportExceptionHandler() override;
+  ~CrashReportExceptionHandler();
 
   // ExceptionHandlerServer::Delegate:
 

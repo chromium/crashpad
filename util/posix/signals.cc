@@ -139,6 +139,15 @@ bool Signals::InstallHandler(int sig,
 }
 
 // static
+bool Signals::InstallDefaultHandler(int sig) {
+  struct sigaction action;
+  sigemptyset(&action.sa_mask);
+  action.sa_flags = 0;
+  action.sa_handler = SIG_DFL;
+  return sigaction(sig, &action, nullptr) == 0;
+}
+
+// static
 bool Signals::InstallCrashHandlers(Handler handler,
                                    int flags,
                                    OldActions* old_actions) {
