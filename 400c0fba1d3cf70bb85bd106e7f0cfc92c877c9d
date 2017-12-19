@@ -51,6 +51,24 @@
       "revId": "400c0fba1d3cf70bb85bd106e7f0cfc92c877c9d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edfafa93_651add9f",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T00:07:02Z",
+      "side": 1,
+      "message": "\u003e This may be what you\u0027re looking for:\n\u003e           \u0027ldflags\u0027: [\n\u003e             \u0027-Wl,--dynamic-list\u003dtest_exported_symbols.sym\u0027,\n\u003e           ],\n\nMaybe. Looks like I’ll have to mess with GN configs to simulate link_settings.",
+      "parentUuid": "c69ace0f_8674e8c9",
+      "revId": "400c0fba1d3cf70bb85bd106e7f0cfc92c877c9d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
