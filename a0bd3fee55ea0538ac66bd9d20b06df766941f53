@@ -16,6 +16,24 @@
       "revId": "a0bd3fee55ea0538ac66bd9d20b06df766941f53",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ecedf9f_4a20a16a",
+        "filename": "build/crashpad_dependencies.gni",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T17:12:22Z",
+      "side": 0,
+      "message": "\u003e But that brings up a new problem: executable_configs is specific to Crashpad’s BUILDCONFIG, but it’s meaningless in Chromium and Fuchsia. And I’m using it to get -pie into Linux executables. So the new question: is there a better way to go about all of this?\n\nChromium and Fuchsia both name this default_executable_configs. I’ll call it that, which should work everywhere.",
+      "parentUuid": "2525b0c7_c79ea7bf",
+      "revId": "a0bd3fee55ea0538ac66bd9d20b06df766941f53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
