@@ -34,6 +34,24 @@
       "revId": "a0bd3fee55ea0538ac66bd9d20b06df766941f53",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0b6d84f_e829c1b0",
+        "filename": "build/crashpad_dependencies.gni",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-19T18:22:54Z",
+      "side": 0,
+      "message": "(Can\u0027t quote the older comment apparently...) But no, I just screwed that up in mixing/matching/copying amongst repos and trees. The _ means just means it\u0027s not visible outside BUILDCONFIG.gn. So, it\u0027d be nicer to have it so that it\u0027s not available everywhere.\n\n\u003e \u003e But that brings up a new problem: executable_configs is specific to Crashpad’s BUILDCONFIG, but it’s meaningless in Chromium and Fuchsia. And I’m using it to get -pie into Linux executables. So the new question: is there a better way to go about all of this?\n\u003e \n\u003e Chromium and Fuchsia both name this default_executable_configs. I’ll call it that, which should work everywhere.\n\nThat sounds like it should work.\n\nThis many-BUILDCONFIG.gn\u0027s seems like an awful mess. I\u0027m thinking along the lines of changing everything to work like crashpad_dependencies.gni now, where we define local versions of variables we care about (i.e. crashpad_is_posix, crashpad_is_mac, etc.) based on the value of crashpad_dependencies, and then import that at the top of all of our BUILD.gn files. I\u0027m not sure if that\u0027ll work or not, but it would be nice to escape the whims of some other project\u0027s BUILDCONFIG.gn anyway.",
+      "parentUuid": "8ecedf9f_4a20a16a",
+      "revId": "a0bd3fee55ea0538ac66bd9d20b06df766941f53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
