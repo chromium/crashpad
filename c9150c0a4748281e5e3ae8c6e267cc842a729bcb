@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "4705710e_a95e69fb",
+        "filename": "compat/android/sys/epoll.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T20:09:41Z",
+      "side": 1,
+      "message": "\u003e I\u0027ve got a draft to fix this, but I\u0027ll put it in a follow-up CL. So far, compat doesn\u0027t depend on util. Is that intentional/required or just how it\u0027s worked out?\n\nIt’s intentional, otherwise it would be circular, which might work in some situations but certainly not all.",
+      "parentUuid": "faf961a1_28877b45",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 74
+      },
+      "revId": "c9150c0a4748281e5e3ae8c6e267cc842a729bcb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf1451be_7d458d98",
         "filename": "compat/android/sys/epoll.h",
         "patchSetId": 18
