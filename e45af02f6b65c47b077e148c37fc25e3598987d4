@@ -52,6 +52,24 @@
       "revId": "e45af02f6b65c47b077e148c37fc25e3598987d4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53abe068_f8504fa8",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-19T18:51:41Z",
+      "side": 1,
+      "message": "Yup.\n\nI guess maybe go ahead and land like this and just avoid the posix problem for now. I\u0027m going to test no-BUILDCONFIG now.",
+      "parentUuid": "0951b7f8_78e7407a",
+      "revId": "e45af02f6b65c47b077e148c37fc25e3598987d4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
