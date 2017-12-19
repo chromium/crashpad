@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "4b28e85d_938ed839",
+        "filename": "build/test.gni",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-19T23:14:20Z",
+      "side": 1,
+      "message": "I\u0027m not sure. I was hoping (but haven\u0027t tried) doing whatever it is that garnet/public/build/test.gni does in order to inherit the executable configs without having to re-specify them. Otherwise, we\u0027ll probably have to go with a my_test() template.",
+      "parentUuid": "31a8b4c4_2ed22d59",
+      "revId": "5c7c570a10d468c26d4222cb80c05fc13c3173dd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3185b2be_9950e7bc",
         "filename": "handler/BUILD.gn",
         "patchSetId": 12
@@ -65,6 +83,24 @@
       "writtenOn": "2017-12-19T23:06:55Z",
       "side": 1,
       "message": "This still needs \u0026\u0026 is crashpad_is_in_chromium\n\n(I commented on this before, did you miss it?)",
+      "revId": "5c7c570a10d468c26d4222cb80c05fc13c3173dd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cb7617f_d009f779",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 12
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-19T23:14:20Z",
+      "side": 1,
+      "message": "Oops, sorry, yeah.",
+      "parentUuid": "3185b2be_9950e7bc",
       "revId": "5c7c570a10d468c26d4222cb80c05fc13c3173dd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
