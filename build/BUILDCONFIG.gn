@@ -12,6 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Intentionally very minimal, so that Crashpad can build in-tree in a variety of
+# other projects, unrelated to the variables that are set in that project's
+# BUILDCONFIG.gn. Do not add more variables here. Instead, make them available
+# in build/crashpad_buildconfig.gni if they must be globally available.
+
 if (target_os == "") {
   target_os = host_os
 }
@@ -28,65 +33,10 @@ if (current_cpu == "") {
   current_cpu = target_cpu
 }
 
-declare_args() {
-  is_debug = false
-  is_clang = current_os == "mac" || current_os == "fuchsia"
-  clang_root = ""
-}
-
-is_mac = false
-is_win = false
-is_linux = false
-is_android = false
-is_fuchsia = false
-
-if (current_os == "mac") {
-  is_mac = true
-} else if (current_os == "win") {
-  is_win = true
-} else if (current_os == "android") {
-  is_android = true
-} else if (current_os == "linux") {
-  is_linux = true
-} else if (current_os == "fuchsia") {
-  is_fuchsia = true
-}
-
-if (is_win) {
+if (current_os == "win") {
   set_default_toolchain(
       "//third_party/mini_chromium/mini_chromium/build:msvc_toolchain")
 } else {
   set_default_toolchain(
       "//third_party/mini_chromium/mini_chromium/build:gcc_like_toolchain")
 }
-
-default_configs = [
-  "//third_party/mini_chromium/mini_chromium/build:default",
-  "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
-]
-
-set_defaults("source_set") {
-  configs = default_configs
-}
-
-set_defaults("static_library") {
-  configs = default_configs
-}
-
-set_defaults("executable") {
-  configs = default_configs
-}
-
-set_defaults("loadable_module") {
-  configs = default_configs
-}
-
-set_defaults("shared_library") {
-  configs = default_configs
-}
-
-# These are set to constant values for Chromium build file compatibility. This
-# generally avoids extra explicit checking of whether or not Crashpad is
-# building in Chromium mode or not.
-is_ios = false
-is_component_build = false
