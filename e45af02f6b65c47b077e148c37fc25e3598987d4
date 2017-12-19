@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b351033d_9af08cb7",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T17:07:30Z",
+      "side": 1,
+      "message": "This had been is_posix, but now that it’s crashpad_is_posix, I can’t see that from here.\n\nI don’t want to import crashpad_dependencies.gni here in BUILDCONFIG.gn, because that exposes it everywhere without an explicit import. Also, it’d require contortions in ordering here: crashpad_dependencies.gni uses executable_configs, which isn’t set until later in this file. Pulling crashpad_is_posix out into its own is_posix.gni doesn’t really help because its definition still depends on crashpad_dependencies.",
+      "revId": "e45af02f6b65c47b077e148c37fc25e3598987d4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

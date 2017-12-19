@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2525b0c7_c79ea7bf",
+        "filename": "build/crashpad_dependencies.gni",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T17:07:30Z",
+      "side": 0,
+      "message": "I thought you were doing some magic inheritance thing here and I didn’t ask about it, but I couldn’t make this work with the leading underscore in a standalone build:\n\n[1/1] Regenerating ninja files\nFAILED: build.ninja \n/chrome/crashpad/buildtools/mac/gn --root\u003d/chrome/crashpad/crashpad -q gen .\nERROR at //build/crashpad_dependencies.gni:51:15: Undefined identifier\n    configs \u003d _default_configs\n              ^---------------\nSee //BUILD.gn:15:1: whence it was imported.\nimport(\"build/crashpad_dependencies.gni\")\n^---------------------------------------\nninja: error: rebuilding \u0027build.ninja\u0027: subcommand failed\n\nSo the new theory is that Fuchsia calls this _default_configs, and you were just making that build work, at the expense of the Crashpad standalone one.\n\nCrashpad used to have an underscore here too, until I changed it to default_configs last week in https://chromium.googlesource.com/crashpad/crashpad/+/3650d565709f1cc390d1ea9e5a3e9a436b8c81a4, because I couldn’t see the name with the underscore in crashpad_dependencies.gni. But now that crashpad_dependencies uses executable_configs, I can put the underscore back on default_configs. Good? I don’t know.\n\nBut that brings up a new problem: executable_configs is specific to Crashpad’s BUILDCONFIG, but it’s meaningless in Chromium and Fuchsia. And I’m using it to get -pie into Linux executables. So the new question: is there a better way to go about all of this?",
+      "revId": "a0bd3fee55ea0538ac66bd9d20b06df766941f53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
