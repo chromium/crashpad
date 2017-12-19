@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import("../build/crashpad_buildconfig.gni")
+
 static_library("minidump") {
   sources = [
     "minidump_annotation_writer.cc",
@@ -79,7 +81,7 @@ static_library("minidump") {
     "../util",
   ]
 
-  if (is_win) {
+  if (crashpad_is_win) {
     cflags = [
       "/wd4201",  # nonstandard extension used : nameless struct/union
       "/wd4324",  # 'struct' : structure was padded due to __declspec(align())
@@ -120,7 +122,7 @@ static_library("test_support") {
     "../third_party/mini_chromium:base",
   ]
 
-  if (is_win) {
+  if (crashpad_is_win) {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
   }
 }
@@ -161,7 +163,7 @@ source_set("minidump_test") {
     "../util",
   ]
 
-  if (is_win) {
+  if (crashpad_is_win) {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
   }
 }

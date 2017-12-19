@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("../build/crashpad_dependencies.gni")
+import("../build/crashpad_buildconfig.gni")
 
 static_library("test") {
   testonly = true
@@ -47,12 +47,12 @@ static_library("test") {
       "scoped_temp_dir_posix.cc",
     ]
 
-    if (!is_fuchsia) {
+    if (!crashpad_is_fuchsia) {
       sources += [ "multiprocess_exec_posix.cc" ]
     }
   }
 
-  if (is_mac) {
+  if (crashpad_is_mac) {
     sources += [
       "mac/dyld.cc",
       "mac/dyld.h",
@@ -65,7 +65,7 @@ static_library("test") {
     ]
   }
 
-  if (is_linux) {
+  if (crashpad_is_linux) {
     sources += [
       "linux/fake_ptrace_connection.cc",
       "linux/fake_ptrace_connection.h",
@@ -76,7 +76,7 @@ static_library("test") {
     ]
   }
 
-  if (is_win) {
+  if (crashpad_is_win) {
     sources += [
       "multiprocess_exec_win.cc",
       "scoped_temp_dir_win.cc",
@@ -106,7 +106,7 @@ static_library("test") {
     "../util",
   ]
 
-  if (is_mac) {
+  if (crashpad_is_mac) {
     libs = [ "bsm" ]
     deps += [
       "../handler",
@@ -125,22 +125,22 @@ source_set("test_test") {
     "test_paths_test.cc",
   ]
 
-  if (crashpad_is_posix && !is_fuchsia) {
+  if (crashpad_is_posix && !crashpad_is_fuchsia) {
     sources += [ "multiprocess_posix_test.cc" ]
   }
 
-  if (is_mac) {
+  if (crashpad_is_mac) {
     sources += [ "mac/mach_multiprocess_test.cc" ]
   }
 
-  if (is_win) {
+  if (crashpad_is_win) {
     sources += [
       "win/win_child_process_test.cc",
       "win/win_multiprocess_test.cc",
     ]
   }
 
-  if (!is_fuchsia) {
+  if (!crashpad_is_fuchsia) {
     sources += [
       # TODO(scottmg): A MultiprocessExecFuchsia is probably desirable, but
       # hasn't been implemented yet.

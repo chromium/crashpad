@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("../../build/crashpad_dependencies.gni")
+import("../../build/crashpad_buildconfig.gni")
+import("../../build/test.gni")
 
 if (crashpad_is_in_chromium) {
   group("gtest") {
@@ -168,7 +169,7 @@ if (crashpad_is_in_chromium) {
       ":gtest",
     ]
 
-    if (is_clang) {
+    if (crashpad_is_clang) {
       cflags_cc = [
         # For gtest/googlemock/test/gmock-matchers_test.cc’s
         # Unstreamable::value_.
@@ -249,7 +250,7 @@ if (crashpad_is_in_chromium) {
   config("gmock_public_config") {
     include_dirs = [ "gtest/googlemock/include" ]
 
-    if (is_clang) {
+    if (crashpad_is_clang) {
       cflags_cc = [
         # The MOCK_METHODn() macros do not specify “override”, which triggers
         # this warning in users: “error: 'Method' overrides a member function
@@ -336,7 +337,7 @@ if (crashpad_is_in_chromium) {
       ":gtest",
     ]
 
-    if (is_clang) {
+    if (crashpad_is_clang) {
       cflags_cc = [
         # For gtest/googlemock/test/gmock-matchers_test.cc’s
         # testing::gmock_matchers_test::Unprintable::c_.
