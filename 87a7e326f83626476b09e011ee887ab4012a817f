@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3e193c6e_e7d5a2ec",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-19T20:41:27Z",
+      "side": 1,
+      "message": "Right, it\u0027s not really much different, but at least it\u0027s explicitly imported now, so we have a set of dependable variables we can rely on being available, that are all here, and all under our control. Everything *has* to import crashpad_buildconfig.gni, so I don\u0027t think there\u0027s much utility in splitting _dependencies out to a separate file.",
+      "parentUuid": "51cf5076_2824a2fc",
+      "revId": "87a7e326f83626476b09e011ee887ab4012a817f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "54e6ad34_4d18f070",
         "filename": "build/crashpad_buildconfig.gni",
         "patchSetId": 7
@@ -59,6 +77,30 @@
     },
     {
       "key": {
+        "uuid": "8538c96c_9293d32e",
+        "filename": "build/test.gni",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-19T20:41:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3487662a_ec0c1147",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 28,
+        "endChar": 38
+      },
+      "revId": "87a7e326f83626476b09e011ee887ab4012a817f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b63dd50c_d276516e",
         "filename": "handler/BUILD.gn",
         "patchSetId": 7
@@ -79,6 +121,30 @@
       "revId": "87a7e326f83626476b09e011ee887ab4012a817f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3a9ef56_0bb7a9c7",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-19T20:41:27Z",
+      "side": 1,
+      "message": "It can\u0027t be chained by \u0026\u0026, but it can be nested in a subordinate if.",
+      "parentUuid": "b63dd50c_d276516e",
+      "range": {
+        "startLine": 115,
+        "startChar": 25,
+        "endLine": 115,
+        "endChar": 52
+      },
+      "revId": "87a7e326f83626476b09e011ee887ab4012a817f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
