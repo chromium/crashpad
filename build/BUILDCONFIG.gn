@@ -52,8 +52,6 @@ if (current_os == "mac") {
   is_fuchsia = true
 }
 
-is_posix = is_mac || is_linux || is_android || is_fuchsia
-
 if (is_win) {
   set_default_toolchain(
       "//third_party/mini_chromium/mini_chromium/build:msvc_toolchain")

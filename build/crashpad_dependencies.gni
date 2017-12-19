@@ -28,6 +28,16 @@ crashpad_is_in_fuchsia = crashpad_dependencies == "fuchsia"
 crashpad_is_standalone = crashpad_dependencies == "standalone"
 
 if (crashpad_is_in_chromium) {
+  crashpad_is_posix = is_posix
+} else if (crashpad_is_in_fuchsia) {
+  import("//third_party/mini_chromium/build/is_posix.gni")
+  crashpad_is_posix = mini_chromium_is_posix
+} else if (crashpad_is_standalone) {
+  import("../third_party/mini_chromium/mini_chromium/build/is_posix.gni")
+  crashpad_is_posix = mini_chromium_is_posix
+}
+
+if (crashpad_is_in_chromium) {
   import("//testing/test.gni")
 } else {
   template("test") {
@@ -38,6 +48,6 @@ if (crashpad_is_in_chromium) {
   }
 
   set_defaults("test") {
-    configs = default_configs
+    configs = _default_configs
   }
 }
