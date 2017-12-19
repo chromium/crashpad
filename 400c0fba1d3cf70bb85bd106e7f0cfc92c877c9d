@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d3e7c8f9_a0929f12",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-19T00:05:25Z",
+      "side": 1,
+      "message": "This is OK, we\u0027ll just have to be sure we really mean clang when we use this to handle Chromium Windows being clang-built.",
+      "revId": "400c0fba1d3cf70bb85bd106e7f0cfc92c877c9d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3aa7d5b5_8ee50a6f",
         "filename": "snapshot/BUILD.gn",
         "patchSetId": 2
