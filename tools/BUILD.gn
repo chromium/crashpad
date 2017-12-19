@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import("../build/crashpad_buildconfig.gni")
+
 source_set("tool_support") {
   sources = [
     "tool_support.cc",
@@ -69,7 +71,7 @@ executable("generate_dump") {
     "../util",
   ]
 
-  if (is_mac) {
+  if (crashpad_is_mac) {
     # This would be better as a config so that it could be shared with
     # exception_port_tool, but configs can’t alter “inputs”.
     # https://crbug.com/781858.
@@ -84,12 +86,12 @@ executable("generate_dump") {
     ]
   }
 
-  if (is_win) {
+  if (crashpad_is_win) {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
   }
 }
 
-if (is_mac) {
+if (crashpad_is_mac) {
   executable("catch_exception_tool") {
     sources = [
       "mac/catch_exception_tool.cc",
