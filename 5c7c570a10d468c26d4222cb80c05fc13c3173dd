@@ -16,6 +16,58 @@
       "revId": "5c7c570a10d468c26d4222cb80c05fc13c3173dd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd347c87_1cd86646",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 12
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T23:06:55Z",
+      "side": 1,
+      "message": "\u003e As a compromise, keep these in here, but _ prefix them (so they\u0027re not accessible outside of this file).\n\u003e \n\u003e Set the defaults for test() here, since they\u0027re set by name anyway, and we require a test() template it doesn\u0027t really seem worth exposing these variables.\n\nI think this should work for now.",
+      "parentUuid": "bdd7d1a7_f4c93f45",
+      "revId": "5c7c570a10d468c26d4222cb80c05fc13c3173dd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31a8b4c4_2ed22d59",
+        "filename": "build/test.gni",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T23:06:55Z",
+      "side": 1,
+      "message": "Who’s in charge of set_defaults(\"test\") for crashpad_is_in_fuchsia?",
+      "revId": "5c7c570a10d468c26d4222cb80c05fc13c3173dd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3185b2be_9950e7bc",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 12
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-19T23:06:55Z",
+      "side": 1,
+      "message": "This still needs \u0026\u0026 is crashpad_is_in_chromium\n\n(I commented on this before, did you miss it?)",
+      "revId": "5c7c570a10d468c26d4222cb80c05fc13c3173dd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
