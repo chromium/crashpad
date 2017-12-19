@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import("../build/crashpad_buildconfig.gni")
+
 static_library("handler") {
   sources = [
     "crash_report_upload_thread.cc",
@@ -26,7 +28,7 @@ static_library("handler") {
     "user_stream_data_source.h",
   ]
 
-  if (is_mac) {
+  if (crashpad_is_mac) {
     sources += [
       "mac/crash_report_exception_handler.cc",
       "mac/crash_report_exception_handler.h",
@@ -37,14 +39,14 @@ static_library("handler") {
     ]
   }
 
-  if (is_win) {
+  if (crashpad_is_win) {
     sources += [
       "win/crash_report_exception_handler.cc",
       "win/crash_report_exception_handler.h",
     ]
   }
 
-  if (is_fuchsia) {
+  if (crashpad_is_fuchsia) {
     sources += [
       "fuchsia/crash_report_exception_handler.cc",
       "fuchsia/crash_report_exception_handler.h",
@@ -65,7 +67,7 @@ static_library("handler") {
     "../util",
   ]
 
-  if (is_win) {
+  if (crashpad_is_win) {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
   }
 }
@@ -89,7 +91,7 @@ source_set("handler_test") {
     "../util",
   ]
 
-  if (is_win) {
+  if (crashpad_is_win) {
     sources += [ "crashpad_handler_test.cc" ]
 
     data_deps = [
@@ -110,23 +112,25 @@ executable("crashpad_handler") {
     "../third_party/mini_chromium:base",
   ]
 
-  if (is_mac && is_component_build) {
-    ldflags = [
-      # The handler is in
-      # Chromium.app/Contents/Versions/X/Chromium Framework.framework/Versions/A/Helpers/
-      # so set rpath up to the base.
-      "-rpath",
-      "@loader_path/../../../../../../../..",
+  if (crashpad_is_mac && crashpad_is_in_chromium) {
+    if (is_component_build) {
+      ldflags = [
+        # The handler is in
+        # Chromium.app/Contents/Versions/X/Chromium Framework.framework/Versions/A/Helpers/
+        # so set rpath up to the base.
+        "-rpath",
+        "@loader_path/../../../../../../../..",
 
-      # The handler is also in
-      # Content Shell.app/Contents/Frameworks/Content Shell Framework.framework/Helpers/
-      # so set the rpath for that too.
-      "-rpath",
-      "@loader_path/../../../../..",
-    ]
+        # The handler is also in
+        # Content Shell.app/Contents/Frameworks/Content Shell Framework.framework/Helpers/
+        # so set the rpath for that too.
+        "-rpath",
+        "@loader_path/../../../../..",
+      ]
+    }
   }
 
-  if (is_win) {
+  if (crashpad_is_win) {
     configs -= [ "//build/config/win:console" ]
     configs += [ "//build/config/win:windowed" ]
   }
@@ -149,7 +153,7 @@ executable("crashpad_handler_test_extended_handler") {
   ]
 }
 
-if (is_win) {
+if (crashpad_is_win) {
   executable("crashpad_handler_com") {
     sources = [
       "main.cc",
