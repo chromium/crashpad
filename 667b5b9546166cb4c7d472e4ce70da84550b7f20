@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fb27a6e_0a6b7511",
+        "filename": "minidump/minidump_memory_info_writer_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-20T01:39:22Z",
+      "side": 1,
+      "message": "We fully initialize mmi below, with the exception of the two reserved-for-alignment fields. But the test shouldn’t care about those, and even if it does (or you do), we could just initialize them to 0 right here.",
+      "revId": "667b5b9546166cb4c7d472e4ce70da84550b7f20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e404d8de_462db606",
+        "filename": "minidump/minidump_string_writer_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-20T01:39:22Z",
+      "side": 1,
+      "message": "We don’t do anything with this one. In fact, we even go so far as to ALLOW_UNUSED_LOCAL it. So leaving it totally uninitialized should be OK.\n\nSame with the other two “tmp”s.",
+      "revId": "667b5b9546166cb4c7d472e4ce70da84550b7f20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
