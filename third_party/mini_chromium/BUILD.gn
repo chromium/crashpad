@@ -33,7 +33,7 @@ group("base") {
 group("base_test_support") {
   if (crashpad_is_in_chromium) {
     public_deps = [
-      "//base:test_support",
+      "//base/test:test_support",
     ]
   }
 }
