@@ -110,8 +110,6 @@ source_set("handler_test") {
   ]
 
   if (crashpad_is_win) {
-    sources += [ "crashpad_handler_test.cc" ]
-
     data_deps = [
       ":crashpad_handler_test_extended_handler",
     ]
