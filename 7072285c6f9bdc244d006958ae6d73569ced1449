@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd411672_9d863837",
+        "filename": "compat/android/dlfcn.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-20T05:03:19Z",
+      "side": 1,
+      "message": "Preferable to avoid base in compat also.",
+      "revId": "7072285c6f9bdc244d006958ae6d73569ced1449",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78a01c1c_aaa6fbf5",
+        "filename": "compat/android/dlfcn.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-20T05:03:19Z",
+      "side": 1,
+      "message": "Oh my. Do we really need to spin up a thread to do this? Surely we can catch the signal and resume after dlsym() on a single thread.\n\n1. The thread is heavyweight and kind of dirty.\n\n2. It breaks dlerror().\n\nThe typical solution involves a siglongjmp() from the signal handler.",
+      "revId": "7072285c6f9bdc244d006958ae6d73569ced1449",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85f003e6_42252023",
+        "filename": "compat/android/dlfcn.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-20T05:03:19Z",
+      "side": 1,
+      "message": "Speaking of dlerror(), can we set it ourselves if we catch a signal? Bionic uses a TLS slot to point to the thread’s dlerror() string, TLS_SLOT_DLERROR. It’s a little bit of poking to write our own message there, but if we’re replacing dlsym(), we should replace it fully and properly.",
+      "revId": "7072285c6f9bdc244d006958ae6d73569ced1449",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "225b33aa_63eb69f1",
+        "filename": "compat/android/dlfcn.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-20T05:03:19Z",
+      "side": 1,
+      "message": "compat is intended for fill-ins only. crashpad::Dlsym() is its own function. We should be providing a bug-fixed dlsym() here.",
+      "revId": "7072285c6f9bdc244d006958ae6d73569ced1449",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c89a166_36cd82d4",
+        "filename": "compat/compat.gyp",
+        "patchSetId": 8
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-20T05:03:19Z",
+      "side": 1,
+      "message": "This is surprising: we have -pthread in ldflags (mini_chromium’s build/common.gypi), which should supplant the need for this. We use pthreads elsewhere without -lpthread too.",
+      "revId": "7072285c6f9bdc244d006958ae6d73569ced1449",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
