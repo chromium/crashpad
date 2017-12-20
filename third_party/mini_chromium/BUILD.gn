@@ -31,6 +31,8 @@ group("base") {
 }
 
 group("base_test_support") {
+  testonly = true
+
   if (crashpad_is_in_chromium) {
     public_deps = [
       "//base/test:test_support",
