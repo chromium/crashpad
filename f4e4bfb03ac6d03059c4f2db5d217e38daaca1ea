@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "562c672d_4bb85768",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-12-20T01:17:23Z",
+      "side": 1,
+      "message": "I think this means that I was wrong about the \u0026\u0026 chaining with undefined variables not working, so we can probably de-nest these.\n\nBut I\u0027m going to keep them like this for now to (hopefully) get things rolled into Chrome before I disappear.",
+      "revId": "f4e4bfb03ac6d03059c4f2db5d217e38daaca1ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
