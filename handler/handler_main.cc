@@ -54,7 +54,13 @@
 #include "util/string/split_string.h"
 #include "util/synchronization/semaphore.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+#include <unistd.h>
+
+#include "handler/linux/crash_report_exception_handler.h"
+#include "util/linux/address_types.h"
+#include "util/posix/signals.h"
+#elif defined(OS_MACOSX)
 #include <libgen.h>
 #include <signal.h>
 
@@ -84,53 +90,73 @@ namespace crashpad {
 namespace {
 
 void Usage(const base::FilePath& me) {
-  fprintf(stderr,
-"Usage: %" PRFilePath " [OPTION]...\n"
-"Crashpad's exception handler server.\n"
-"\n"
-"      --annotation=KEY=VALUE  set a process annotation in each crash report\n"
-"      --database=PATH         store the crash report database at PATH\n"
+  fprintf(
+      stderr,
+      "Usage: %" PRFilePath
+      " [OPTION]...\n"
+      "Crashpad's exception handler server.\n"
+      "\n"
+      "      --annotation=KEY=VALUE  set a process annotation in each crash "
+      "report\n"
+      "      --database=PATH         store the crash report database at PATH\n"
 #if defined(OS_MACOSX)
-"      --handshake-fd=FD       establish communication with the client over FD\n"
+      "      --handshake-fd=FD       establish communication with the client "
+      "over FD\n"
 #endif  // OS_MACOSX
 #if defined(OS_WIN)
-"      --initial-client-data=HANDLE_request_crash_dump,\n"
-"                            HANDLE_request_non_crash_dump,\n"
-"                            HANDLE_non_crash_dump_completed,\n"
-"                            HANDLE_pipe,\n"
-"                            HANDLE_client_process,\n"
-"                            Address_crash_exception_information,\n"
-"                            Address_non_crash_exception_information,\n"
-"                            Address_debug_critical_section\n"
-"                              use precreated data to register initial client\n"
+      "      --initial-client-data=HANDLE_request_crash_dump,\n"
+      "                            HANDLE_request_non_crash_dump,\n"
+      "                            HANDLE_non_crash_dump_completed,\n"
+      "                            HANDLE_pipe,\n"
+      "                            HANDLE_client_process,\n"
+      "                            Address_crash_exception_information,\n"
+      "                            Address_non_crash_exception_information,\n"
+      "                            Address_debug_critical_section\n"
+      "                              use precreated data to register initial "
+      "client\n"
 #endif  // OS_WIN
 #if defined(OS_MACOSX)
-"      --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
+      "      --mach-service=SERVICE  register SERVICE with the bootstrap "
+      "server\n"
 #endif  // OS_MACOSX
-"      --metrics-dir=DIR       store metrics files in DIR (only in Chromium)\n"
-"      --monitor-self          run a second handler to catch crashes in the first\n"
-"      --monitor-self-annotation=KEY=VALUE\n"
-"                              set a module annotation in the handler\n"
-"      --monitor-self-argument=ARGUMENT\n"
-"                              provide additional arguments to the second handler\n"
-"      --no-identify-client-via-url\n"
-"                              when uploading crash report, don't add\n"
-"                              client-identifying arguments to URL\n"
-"      --no-periodic-tasks     don't scan for new reports or prune the database\n"
-"      --no-rate-limit         don't rate limit crash uploads\n"
-"      --no-upload-gzip        don't use gzip compression when uploading\n"
+      "      --metrics-dir=DIR       store metrics files in DIR (only in "
+      "Chromium)\n"
+      "      --monitor-self          run a second handler to catch crashes in "
+      "the first\n"
+      "      --monitor-self-annotation=KEY=VALUE\n"
+      "                              set a module annotation in the handler\n"
+      "      --monitor-self-argument=ARGUMENT\n"
+      "                              provide additional arguments to the "
+      "second handler\n"
+      "      --no-identify-client-via-url\n"
+      "                              when uploading crash report, don't add\n"
+      "                              client-identifying arguments to URL\n"
+      "      --no-periodic-tasks     don't scan for new reports or prune the "
+      "database\n"
+      "      --no-rate-limit         don't rate limit crash uploads\n"
+      "      --no-upload-gzip        don't use gzip compression when "
+      "uploading\n"
 #if defined(OS_WIN)
-"      --pipe-name=PIPE        communicate with the client over PIPE\n"
+      "      --pipe-name=PIPE        communicate with the client over PIPE\n"
 #endif  // OS_WIN
 #if defined(OS_MACOSX)
-"      --reset-own-crash-exception-port-to-system-default\n"
-"                              reset the server's exception handler to default\n"
+      "      --reset-own-crash-exception-port-to-system-default\n"
+      "                              reset the server's exception handler to "
+      "default\n"
 #endif  // OS_MACOSX
-"      --url=URL               send crash reports to this Breakpad server URL,\n"
-"                              only if uploads are enabled for the database\n"
-"      --help                  display this help and exit\n"
-"      --version               output version information and exit\n",
-          me.value().c_str());
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+      "      --trace-parent-with-exception=exception_information_address\n"
+      "                             request a dump for the handler's parent "
+      "process\n"
+#endif  // OS_LINUX || OS_ANDROID
+
+      "      --url=URL               send crash reports to this Breakpad "
+      "server URL,\n"
+      "                              only if uploads are enabled for the "
+      "database\n"
+      "      --help                  display this help and exit\n"
+      "      --version               output version information and exit\n",
+      me.value().c_str());
   ToolSupport::UsageTail(me);
 }
 
@@ -145,6 +171,8 @@ struct Options {
   std::string mach_service;
   int handshake_fd;
   bool reset_own_crash_exception_port_to_system_default;
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+  LinuxVMAddress exception_information_address;
 #elif defined(OS_WIN)
   std::string pipe_name;
   InitialClientData initial_client_data;
@@ -211,7 +239,47 @@ class CallMetricsRecordNormalExit {
   DISALLOW_COPY_AND_ASSIGN(CallMetricsRecordNormalExit);
 };
 
-#if defined(OS_MACOSX)
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+
+Signals::OldActions g_old_crash_signal_handlers;
+
+void HandleCrashSignal(int sig, siginfo_t* siginfo, void* context) {
+  MetricsRecordExit(Metrics::LifetimeMilestone::kCrashed);
+  bool si_code_valid =
+      !(siginfo->si_code <= 0 || siginfo->si_code == SI_USER ||
+        siginfo->si_code == SI_QUEUE || siginfo->si_code == SI_TIMER ||
+        siginfo->si_code == SI_ASYNCIO || siginfo->si_code == SI_MESGQ);
+
+  int metrics_code = 0x53430000 | (InRangeCast<uint8_t>(sig, 0xff) << 8);
+  if (si_code_valid) {
+    metrics_code |= InRangeCast<uint8_t>(siginfo->si_code, 0xff);
+  }
+  Metrics::HandlerCrashed(metrics_code);
+
+  struct sigaction* old_action =
+      g_old_crash_signal_handlers.ActionForSignal(sig);
+  Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, old_action);
+}
+
+void HandleTerminateSignal(int sig, siginfo_t* siginfo, void* context) {
+  MetricsRecordExit(Metrics::LifetimeMilestone::kTerminated);
+  Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, nullptr);
+}
+
+void ReinstallCrashHandler() {
+  // This is used to re-enable the metrics-recording crash handler after
+  // MonitorSelf() sets up a Crashpad signal handler.
+  Signals::InstallCrashHandlers(
+      HandleCrashSignal, 0, &g_old_crash_signal_handlers);
+}
+
+void InstallCrashHandler() {
+  ReinstallCrashHandler();
+
+  Signals::InstallTerminateHandlers(HandleTerminateSignal, 0, nullptr);
+}
+
+#elif defined(OS_MACOSX)
 
 void HandleCrashSignal(int sig, siginfo_t* siginfo, void* context) {
   MetricsRecordExit(Metrics::LifetimeMilestone::kCrashed);
@@ -450,6 +518,9 @@ int HandlerMain(int argc,
 #if defined(OS_MACOSX)
     kOptionResetOwnCrashExceptionPortToSystemDefault,
 #endif  // OS_MACOSX
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+    kOptionTraceParentWithException,
+#endif
     kOptionURL,
 
     // Standard options.
@@ -498,6 +569,12 @@ int HandlerMain(int argc,
      nullptr,
      kOptionResetOwnCrashExceptionPortToSystemDefault},
 #endif  // OS_MACOSX
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+    {"trace-parent-with-exception",
+     no_argument,
+     nullptr,
+     kOptionTraceParentWithException},
+#endif  // OS_LINUX || OS_ANDROID
     {"url", required_argument, nullptr, kOptionURL},
     {"help", no_argument, nullptr, kOptionHelp},
     {"version", no_argument, nullptr, kOptionVersion},
@@ -512,6 +589,9 @@ int HandlerMain(int argc,
   options.periodic_tasks = true;
   options.rate_limit = true;
   options.upload_gzip = true;
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+  options.exception_information_address = 0;
+#endif
 
   int opt;
   while ((opt = getopt_long(argc, argv, "", long_options, nullptr)) != -1) {
@@ -601,6 +681,15 @@ int HandlerMain(int argc,
         break;
       }
 #endif  // OS_MACOSX
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+      case kOptionTraceParentWithException: {
+        if (!StringToNumber(optarg, &options.exception_information_address)) {
+          ToolSupport::UsageHint(
+              me, "failed to parse --trace-parent-with-exception");
+          return ExitFailure();
+        }
+      }
+#endif  // OS_LINUX || OS_ANDROID
       case kOptionURL: {
         options.url = optarg;
         break;
@@ -796,7 +885,14 @@ int HandlerMain(int argc,
   }
 #endif  // OS_WIN
 
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+  if (options.exception_information_address) {
+    exception_handler.HandleException(getppid(),
+                                      options.exception_information_address);
+  }
+#else
   exception_handler_server.Run(&exception_handler);
+#endif  // OS_LINUX || OS_ANDROID
 
   upload_thread.Stop();
   if (prune_thread) {
