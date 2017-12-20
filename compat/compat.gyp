@@ -21,6 +21,8 @@
       'target_name': 'crashpad_compat',
       'type': 'static_library',
       'sources': [
+        'android/dlfcn.cc',
+        'android/dlfcn.h',
         'android/elf.h',
         'android/linux/elf.h',
         'android/linux/prctl.h',
