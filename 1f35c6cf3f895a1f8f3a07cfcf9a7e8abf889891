@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48e03ecd_8b0f4b67",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-20T00:57:44Z",
+      "side": 1,
+      "message": "OK, gn format, if you insist.",
+      "revId": "1f35c6cf3f895a1f8f3a07cfcf9a7e8abf889891",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
