@@ -14,6 +14,10 @@
 
 import("../build/crashpad_buildconfig.gni")
 
+if (crashpad_is_in_chromium) {
+  import("//build/config/compiler/compiler.gni")
+}
+
 static_library("snapshot") {
   sources = [
     "annotation_snapshot.cc",
@@ -470,10 +474,13 @@ if (crashpad_is_win) {
       "../third_party/mini_chromium:base",
       "../util",
     ]
-    if (crashpad_is_in_chromium && symbol_level == 0) {
-      # The tests that use this executable rely on at least minimal debug info.
-      configs -= [ "//build/config/compiler:default_symbols" ]
-      configs += [ "//build/config/compiler:minimal_symbols" ]
+    if (crashpad_is_in_chromium) {
+      if (symbol_level == 0) {
+        # The tests that use this executable rely on at least minimal debug
+        # info.
+        configs -= [ "//build/config/compiler:default_symbols" ]
+        configs += [ "//build/config/compiler:minimal_symbols" ]
+      }
     }
   }
 
@@ -486,10 +493,12 @@ if (crashpad_is_win) {
       "../client",
       "../third_party/mini_chromium:base",
     ]
-    if (crashpad_is_in_chromium && symbol_level == 0) {
-      # The tests that use this module rely on at least minimal debug info.
-      configs -= [ "//build/config/compiler:default_symbols" ]
-      configs += [ "//build/config/compiler:minimal_symbols" ]
+    if (crashpad_is_in_chromium) {
+      if (symbol_level == 0) {
+        # The tests that use this module rely on at least minimal debug info.
+        configs -= [ "//build/config/compiler:default_symbols" ]
+        configs += [ "//build/config/compiler:minimal_symbols" ]
+      }
     }
   }
 }
