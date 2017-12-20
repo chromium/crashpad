@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "f1b4a550_7c4549f5",
+        "filename": "compat/android/dlfcn.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-20T17:14:52Z",
+      "side": 1,
+      "message": "Oh, that is what I wanted! I guess I should\u0027ve looked a little harder. Thanks!",
+      "parentUuid": "78a01c1c_aaa6fbf5",
+      "revId": "7072285c6f9bdc244d006958ae6d73569ced1449",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "85f003e6_42252023",
         "filename": "compat/android/dlfcn.cc",
         "patchSetId": 8
