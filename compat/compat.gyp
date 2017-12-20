@@ -21,6 +21,8 @@
       'target_name': 'crashpad_compat',
       'type': 'static_library',
       'sources': [
+        'android/dlfcn.cc',
+        'android/dlfcn.h',
         'android/elf.h',
         'android/linux/elf.h',
         'android/linux/prctl.h',
@@ -96,6 +98,9 @@
             'android',
             'linux',
           ],
+          'dependencies': [
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+          ],
           'direct_dependent_settings': {
             'include_dirs': [
               'android',
@@ -105,6 +110,7 @@
           'link_settings': {
             'libraries': [
               '-ldl',
+              '-lpthread',
             ],
           },
         }],

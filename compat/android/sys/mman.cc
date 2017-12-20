@@ -88,7 +88,7 @@ void* mmap(void* addr, size_t size, int prot, int flags, int fd, off_t offset) {
   // Android 5.0 (“Lollipop”) and later.
   using Mmap64Type = void* (*)(void*, size_t, int, int, int, off64_t);
   static const Mmap64Type mmap64 =
-      reinterpret_cast<Mmap64Type>(dlsym(RTLD_DEFAULT, "mmap64"));
+      reinterpret_cast<Mmap64Type>(crashpad::Dlsym(RTLD_DEFAULT, "mmap64"));
   if (mmap64) {
     return mmap64(addr, size, prot, flags, fd, offset);
   }
