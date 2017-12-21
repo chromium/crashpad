@@ -19,6 +19,8 @@
 #include <stdint.h>
 #include <unistd.h>
 
+#include "dlfcn_internal.h"
+
 #if defined(__USE_FILE_OFFSET64) && __ANDROID_API__ < 21
 
 // Bionic has provided a wrapper for __mmap2() since the beginning of time. See
@@ -87,8 +89,8 @@ void* mmap(void* addr, size_t size, int prot, int flags, int fd, off_t offset) {
   // Use the system’s mmap64() wrapper if available. It will be available on
   // Android 5.0 (“Lollipop”) and later.
   using Mmap64Type = void* (*)(void*, size_t, int, int, int, off64_t);
-  static const Mmap64Type mmap64 =
-      reinterpret_cast<Mmap64Type>(dlsym(RTLD_DEFAULT, "mmap64"));
+  static const Mmap64Type mmap64 = reinterpret_cast<Mmap64Type>(
+      crashpad::internal::Dlsym(RTLD_DEFAULT, "mmap64"));
   if (mmap64) {
     return mmap64(addr, size, prot, flags, fd, offset);
   }
