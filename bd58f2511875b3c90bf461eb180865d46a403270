@@ -1,0 +1,295 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ca5800b_feb83ba5",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-21T20:25:58Z",
+      "side": 1,
+      "message": "Nit: API",
+      "range": {
+        "startLine": 29,
+        "startChar": 19,
+        "endLine": 29,
+        "endChar": 22
+      },
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b942299_9063d755",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-21T20:25:58Z",
+      "side": 1,
+      "message": "You might want to reset valid_ and signo_ like this even if Reset() fails.",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3c4b50a_ec104923",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-21T20:25:58Z",
+      "side": 1,
+      "message": "Do we want NODEFER? (Not saying yes or no, just asking.)",
+      "range": {
+        "startLine": 62,
+        "startChar": 19,
+        "endLine": 62,
+        "endChar": 29
+      },
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35584641_8c109fa2",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-21T20:25:58Z",
+      "side": 1,
+      "message": "Why’s this a member variable? I don’t think that it needs to be one. (But if it does, it needs an underscore.)\n\nSince all SetErrmsg() ever does is fill this buffer with something that’s immediately fprintf()ed to stderr afterwards, why not replace SetErrmsg() with a function that does the fprintf() directly?",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8ce843e_9693fbce",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-21T20:25:58Z",
+      "side": 1,
+      "message": "dlsym_sigjmp_env gives a little more context to this name when it’s used elsewhere.",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5141be5f_36c3b33f",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-21T20:25:58Z",
+      "side": 1,
+      "message": "HandleSIGFPE",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "123f600c_b5946724",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-21T20:25:58Z",
+      "side": 1,
+      "message": "This is the value that sigsetjmp() will return when coming out of this siglongjmp(). You can’t use 0 because then you won’t be able to distinguish the return from the sigsetjmp() when setting up the jump from the return when a signal was raised and handled.\n\nThis makes it seem like this wasn’t fully tested. At least locally, you should force yourself into the K branch and raise(SIGFPE) before the dlsym() call. Test that without sigaction() first to establish that you can get a crash, and then again with sigaction() to establish that you’re able to catch it and proceed normally.",
+      "range": {
+        "startLine": 93,
+        "startChar": 24,
+        "endLine": 93,
+        "endChar": 25
+      },
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8be5945_d57b62ce",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-21T20:25:58Z",
+      "side": 1,
+      "message": "ro.build.version.sdk may be a more direct way to do this, and if just-K is really all you need, then you can match 19 exactly rather than prefix-matching 4.4.",
+      "range": {
+        "startLine": 98,
+        "startChar": 38,
+        "endLine": 98,
+        "endChar": 62
+      },
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f937529_5b649af2",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-21T20:25:58Z",
+      "side": 1,
+      "message": "It’s unlikely that this is really K, but I get that you want to fail safe, so add a “// Fail safe” to explain your reasoning (if that is in fact it).",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "286fe9b4_414241c8",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-21T20:25:58Z",
+      "side": 1,
+      "message": "static\n\n(unfortunately, C++ requires a local copy to be made otherwise, because its address is taken on the next line, and without static, each activation of a function needs unique addresses. clang doesn’t implement this properly, but it may be fixed in the future. GCC does implement this properly. “static” allows compiler to just use the address of the real const data, without any copies.)",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "276ce28c_5817d239",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-21T20:25:58Z",
+      "side": 1,
+      "message": "#include \u003cstring.h\u003e",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 45
+      },
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3caf113_5364f205",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-21T20:25:58Z",
+      "side": 1,
+      "message": "It’s unclear to me whether the SIGFPE is K-only or up-to-K. Did you peruse the history?",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b17bce33_a2079414",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-21T20:25:58Z",
+      "side": 1,
+      "message": "Sadly, we should protect this with a mutex because signal handlers are process-wide. That means that you can eschew the thread_local (which was otherwise a good idea) and just go with an ordinary global for the sigjmp_buf.",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbba8aaf_9feffbfc",
+        "filename": "compat/android/dlfcn_internal.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-21T20:25:58Z",
+      "side": 1,
+      "message": "//! \\doxygenate this comment.\n\nAlso, include a reference to the bug you dug up that talks about this crash.",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a1ce416_215b2cf9",
+        "filename": "compat/android/sys/epoll.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-21T20:25:58Z",
+      "side": 1,
+      "message": "The symbol really is epoll_create1, so why did you lose the 1?",
+      "range": {
+        "startLine": 28,
+        "startChar": 20,
+        "endLine": 28,
+        "endChar": 34
+      },
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
