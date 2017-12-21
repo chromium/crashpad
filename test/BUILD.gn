@@ -65,7 +65,7 @@ static_library("test") {
     ]
   }
 
-  if (crashpad_is_linux) {
+  if (crashpad_is_linux || crashpad_is_android) {
     sources += [
       "linux/fake_ptrace_connection.cc",
       "linux/fake_ptrace_connection.h",

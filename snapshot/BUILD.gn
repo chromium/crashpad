@@ -98,7 +98,7 @@ static_library("snapshot") {
     ]
   }
 
-  if (crashpad_is_linux) {
+  if (crashpad_is_linux || crashpad_is_android) {
     sources += [
       "elf/elf_dynamic_array_reader.cc",
       "elf/elf_dynamic_array_reader.h",
@@ -252,7 +252,7 @@ static_library("test_support") {
 
 config("snapshot_test_link") {
   visibility = [ ":*" ]
-  if (crashpad_is_linux) {
+  if (crashpad_is_linux || crashpad_is_android) {
     # There’s no way to make the link depend on this file. “inputs” doesn’t have
     # the intended effect in a config. https://crbug.com/781858,
     # https://crbug.com/796187.
@@ -283,7 +283,7 @@ source_set("snapshot_test") {
     ]
   }
 
-  if (crashpad_is_linux) {
+  if (crashpad_is_linux || crashpad_is_android) {
     sources += [
       "elf/elf_image_reader_test.cc",
       "elf/elf_image_reader_test_note.S",
@@ -345,7 +345,7 @@ source_set("snapshot_test") {
     ]
   }
 
-  if (crashpad_is_linux) {
+  if (crashpad_is_linux || crashpad_is_android) {
     libs = [ "dl" ]
   }
 

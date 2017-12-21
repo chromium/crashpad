@@ -241,6 +241,10 @@ static_library("util") {
   }
 
   if (crashpad_is_linux) {
+    sources += [ "net/http_transport_libcurl.cc" ]
+  }
+
+  if (crashpad_is_linux || crashpad_is_android) {
     sources += [
       "linux/address_types.h",
       "linux/auxiliary_vector.cc",
@@ -269,7 +273,6 @@ static_library("util") {
       "linux/thread_info.h",
       "linux/traits.h",
       "misc/paths_linux.cc",
-      "net/http_transport_libcurl.cc",
       "posix/process_info_linux.cc",
       "process/process_memory_linux.cc",
       "process/process_memory_linux.h",
@@ -450,11 +453,16 @@ source_set("util_test") {
     "thread/worker_thread_test.cc",
   ]
 
-  if (!crashpad_is_fuchsia) {
-    # TODO(scottmg): This requires an implementation of MultiprocessExec for
-    # testing, and a solution to http_transport_test_server.py -- either a port
-    # to non-Python, or method of forwarding those requests back to the builder
+  if (!crashpad_is_android && !crashpad_is_fuchsia) {
+    # Android and Fuchsia will each require an HTTPTransport implementation
+    # (libcurl isn’t in either’s SDK) and a solution to
+    # http_transport_test_server.py, because Python isn’t available on either.
+    # The latter could be ported to non-Python, or the test server could run on
+    # the build host with a method to forward requests from the device to the
     # host.
+    #
+    # TODO(scottmg): Fuchsia will also require an implementation of
+    # MultiprocessExec for testing.
     sources += [ "net/http_transport_test.cc" ]
   }
 
@@ -493,7 +501,7 @@ source_set("util_test") {
     ]
   }
 
-  if (crashpad_is_linux) {
+  if (crashpad_is_linux || crashpad_is_android) {
     sources += [
       "linux/auxiliary_vector_test.cc",
       "linux/memory_map_test.cc",
