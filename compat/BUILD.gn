@@ -21,8 +21,12 @@ config("compat_config") {
     include_dirs += [ "mac" ]
   }
 
-  if (crashpad_is_linux) {
+  if (crashpad_is_linux || crashpad_is_android) {
     include_dirs += [ "linux" ]
+  }
+
+  if (crashpad_is_android) {
+    include_dirs += [ "android" ]
   }
 
   if (crashpad_is_win) {
@@ -61,10 +65,26 @@ compat_target("compat") {
     sources += [ "non_mac/mach/mach.h" ]
   }
 
-  if (crashpad_is_linux) {
+  if (crashpad_is_linux || crashpad_is_android) {
     sources += [
       "linux/signal.h",
       "linux/sys/ptrace.h",
+    ]
+  }
+
+  if (crashpad_is_android) {
+    sources += [
+      "android/elf.h",
+      "android/linux/elf.h",
+      "android/linux/prctl.h",
+      "android/linux/ptrace.h",
+      "android/sched.h",
+      "android/sys/epoll.cc",
+      "android/sys/epoll.h",
+      "android/sys/mman.cc",
+      "android/sys/mman.h",
+      "android/sys/syscall.h",
+      "android/sys/user.h",
     ]
   }
 

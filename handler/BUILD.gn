@@ -37,7 +37,7 @@ static_library("handler") {
     ]
   }
 
-  if (crashpad_is_linux) {
+  if (crashpad_is_linux || crashpad_is_android) {
     sources += [
       "linux/exception_handler_server.cc",
       "linux/exception_handler_server.h",
@@ -89,7 +89,7 @@ source_set("handler_test") {
     "minidump_to_upload_parameters_test.cc",
   ]
 
-  if (crashpad_is_linux) {
+  if (crashpad_is_linux || crashpad_is_android) {
     sources += [ "linux/exception_handler_server_test.cc" ]
   }
 
