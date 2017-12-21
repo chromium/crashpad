@@ -12,26 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <sys/epoll.h>
+#ifndef CRASHPAD_COMPAT_ANDROID_DLFCN_INTERNAL_H_
+#define CRASHPAD_COMPAT_ANDROID_DLFCN_INTERNAL_H_
 
-#include <dlfcn.h>
-#include <stdio.h>
-#include <sys/syscall.h>
-#include <unistd.h>
+namespace crashpad {
+namespace internal {
 
-#include "dlfcn_internal.h"
+// dlsym on Android KitKat (4.4.*) raises SIGFPE when searching for a
+// non-existent symbol. This wrapper avoids crashing in this circumstance.
+void* Dlsym(void* handle, const char* symbol);
 
-#if __ANDROID_API__ < 21
+}  // namespace internal
+}  // namespace crashpad
 
-extern "C" {
-
-int epoll_create1(int flags) {
-  static const auto epoll_create_p = reinterpret_cast<int (*)(int)>(
-      crashpad::internal::Dlsym(RTLD_DEFAULT, "epoll_create1"));
-  return epoll_create_p ? epoll_create_p(flags)
-                        : syscall(SYS_epoll_create1, flags);
-}
-
-}  // extern "C"
-
-#endif  // __ANDROID_API__ < 21
+#endif  // CRASHPAD_COMPAT_ANDROID_DLFCN_INTERNAL_H_
