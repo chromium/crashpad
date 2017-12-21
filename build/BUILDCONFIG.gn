@@ -51,6 +51,7 @@ declare_args() {
 _default_configs = [
   "//third_party/mini_chromium/mini_chromium/build:default",
   "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
+  "//third_party/mini_chromium/mini_chromium/build:file_offset_bits_64",
 ]
 
 _default_executable_configs =
