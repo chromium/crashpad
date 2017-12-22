@@ -18,18 +18,17 @@
 #include <sys/syscall.h>
 #include <unistd.h>
 
+#include "dlfcn_internal.h"
+
 #if __ANDROID_API__ < 21
 
 extern "C" {
 
 int epoll_create1(int flags) {
-  static const auto epoll_create1_p =
-      reinterpret_cast<int (*)(int)>(dlsym(RTLD_DEFAULT, "epoll_create1"));
-  if (epoll_create1_p) {
-    return epoll_create1_p(flags);
-  }
-
-  return syscall(SYS_epoll_create1, flags);
+  static const auto epoll_create1_p = reinterpret_cast<int (*)(int)>(
+      crashpad::internal::Dlsym(RTLD_DEFAULT, "epoll_create1"));
+  return epoll_create1_p ? epoll_create1_p(flags)
+                         : syscall(SYS_epoll_create1, flags);
 }
 
 }  // extern "C"
