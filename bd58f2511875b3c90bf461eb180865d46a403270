@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "788baee1_a49db34d",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T02:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ca5800b_feb83ba5",
+      "range": {
+        "startLine": 29,
+        "startChar": 19,
+        "endLine": 29,
+        "endChar": 22
+      },
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b942299_9063d755",
         "filename": "compat/android/dlfcn_internal.cc",
         "patchSetId": 12
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "391061fd_df1ca634",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T02:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b942299_9063d755",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3c4b50a_ec104923",
         "filename": "compat/android/dlfcn_internal.cc",
         "patchSetId": 12
@@ -53,6 +95,30 @@
       "writtenOn": "2017-12-21T20:25:58Z",
       "side": 1,
       "message": "Do we want NODEFER? (Not saying yes or no, just asking.)",
+      "range": {
+        "startLine": 62,
+        "startChar": 19,
+        "endLine": 62,
+        "endChar": 29
+      },
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d87f41d8_ff44bf66",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T02:38:19Z",
+      "side": 1,
+      "message": "Good question.\n\nI originally did this because I wouldn\u0027t want the signal handler to breeze past another SIGFPE it encountered (though I neglected to handle the possible resulting recursion).\n\nAfter some more poking around...\n\nPOSIX says behavior is undefined after ignoring SIGFPE and possibly results in an endless loop.\n\nI didn\u0027t find anything in the Linux man pages about what is supposed to happen if SIGFPE is blocked, but with some experimentation and poking around in the kernel source, SIGFPE is at least sometimes unblockable, though I\u0027m not sure if that\u0027s true for all Linux versions and there is internet evidence that it can be blocked or ignored on other *nixes (where endless loops occurred). Without NODEFER, the kernel installs SIG_DFL which crashes immediately. With NODEFER, our handler would be called again until we eventually SEGV (unless we detect the recursion and exit).\n\n1. NODEFER+exit on recursion seems a bit uglier, but also more well defined.\n2. No NODEFER is probably also fine since we don\u0027t reaaaally expect siglongjmp to raise SIGFPE, right?",
+      "parentUuid": "f3c4b50a_ec104923",
       "range": {
         "startLine": 62,
         "startChar": 19,
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "27da961d_1311c055",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T02:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35584641_8c109fa2",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8ce843e_9693fbce",
         "filename": "compat/android/dlfcn_internal.cc",
         "patchSetId": 12
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "8bbbad35_61b9b36b",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T02:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8ce843e_9693fbce",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5141be5f_36c3b33f",
         "filename": "compat/android/dlfcn_internal.cc",
         "patchSetId": 12
@@ -113,6 +215,24 @@
       "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20066ae4_bb1b2d90",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T02:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5141be5f_36c3b33f",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -139,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "ec58a2cc_4a4b05bb",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T02:38:19Z",
+      "side": 1,
+      "message": "It was tested.\n\nsigsetjmp promises to return 1 if siglongjmp set val to 0, but I agree, explicitly setting val to 1 is more correct.",
+      "parentUuid": "123f600c_b5946724",
+      "range": {
+        "startLine": 93,
+        "startChar": 24,
+        "endLine": 93,
+        "endChar": 25
+      },
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8be5945_d57b62ce",
         "filename": "compat/android/dlfcn_internal.cc",
         "patchSetId": 12
@@ -162,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "f996c93d_351f9a79",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T02:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8be5945_d57b62ce",
+      "range": {
+        "startLine": 98,
+        "startChar": 38,
+        "endLine": 98,
+        "endChar": 62
+      },
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f937529_5b649af2",
         "filename": "compat/android/dlfcn_internal.cc",
         "patchSetId": 12
@@ -179,6 +347,24 @@
     },
     {
       "key": {
+        "uuid": "4c2330a9_9d2c0122",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T02:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f937529_5b649af2",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "286fe9b4_414241c8",
         "filename": "compat/android/dlfcn_internal.cc",
         "patchSetId": 12
@@ -193,6 +379,24 @@
       "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d763a3ca_704412e5",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T02:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "286fe9b4_414241c8",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -236,6 +440,48 @@
     },
     {
       "key": {
+        "uuid": "89df818d_a0209a34",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T02:38:19Z",
+      "side": 1,
+      "message": "It\u0027s up there. :)",
+      "parentUuid": "276ce28c_5817d239",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 45
+      },
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85656d20_68662192",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T02:38:19Z",
+      "side": 1,
+      "message": "Yep, only K. It looks like it was introduced in one of the last few commits on the K branch. I also tested on 4.1-4.3 and they pass.",
+      "parentUuid": "b3caf113_5364f205",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b17bce33_a2079414",
         "filename": "compat/android/dlfcn_internal.cc",
         "patchSetId": 12
@@ -253,6 +499,24 @@
     },
     {
       "key": {
+        "uuid": "f2857dd8_8b416c6e",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T02:38:19Z",
+      "side": 1,
+      "message": "Oh, right. Signal handlers are data too.",
+      "parentUuid": "b17bce33_a2079414",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bbba8aaf_9feffbfc",
         "filename": "compat/android/dlfcn_internal.h",
         "patchSetId": 12
@@ -267,6 +531,24 @@
       "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e0301ca_3f686da3",
+        "filename": "compat/android/dlfcn_internal.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T02:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbba8aaf_9feffbfc",
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -290,6 +572,30 @@
       "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c1996a9_7a5d9b72",
+        "filename": "compat/android/sys/epoll.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T02:38:19Z",
+      "side": 1,
+      "message": "Oops, lost while experimenting. Replaced.",
+      "parentUuid": "6a1ce416_215b2cf9",
+      "range": {
+        "startLine": 28,
+        "startChar": 20,
+        "endLine": 28,
+        "endChar": 34
+      },
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
