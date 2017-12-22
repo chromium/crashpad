@@ -16,6 +16,24 @@
       "revId": "59d446444d42a803d8e61caae9c4f6c94357b844",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e8684ea_c0235700",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T23:38:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a14eb417_a457223e",
+      "revId": "59d446444d42a803d8e61caae9c4f6c94357b844",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
