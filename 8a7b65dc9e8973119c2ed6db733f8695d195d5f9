@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33a939c7_e66b2899",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-22T21:15:03Z",
+      "side": 1,
+      "message": "ResetAndInstallHandler",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ce84192_f0c24fc4",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-22T21:15:03Z",
+      "side": 1,
+      "message": "Stick a colon in there.\n\nYou might want to do %s:%d: sigaction: %s, where the first two are formatted with __FILE__ and __LINE__. Since we’re not going through our standard logging stuff, that’d at least help point a finger at the culprit if this message does wind up being logged. It’s pretty bad when you have to try to figure out where a too-generic message is coming from.",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b6d822f_b9cfab84",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-22T21:15:03Z",
+      "side": 1,
+      "message": "I guess if 4.4W (Wear) is relevant (implied by the comment on line 32), we should check for both 19 and 20.",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c1c1e3c_3c289bef",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-22T21:15:03Z",
+      "side": 1,
+      "message": "Since we don’t need a strlen anymore, you can just write the \"19\" here as a literal.",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d65eb7d_89a10e3a",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-22T21:15:03Z",
+      "side": 1,
+      "message": "explicit",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b2e92cd_9b983748",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-22T21:15:03Z",
+      "side": 1,
+      "message": "When I suggested that we needed a mutex, I was expecting to see a pthread_mutex, but this is so much nicer. I welcome the new modern C++ world!",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9f7dbb2_5f2d751c",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-22T21:15:03Z",
+      "side": 1,
+      "message": "But is ScopedLock even necessary? The C++ library has std::lock_guard, which is exactly what this ScopedLock is. It also has more featured lock ownership managers, like unique_lock and scoped_lock, but lock_guard should be all that’s needed here.",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58c6facf_a3a61b54",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-22T21:15:03Z",
+      "side": 1,
+      "message": "As mentioned previously, let’s not do NODEFER, since we’re so exceedingly unlikely to raise a SIGFPE from our handler. If one is raised, it’s probably not ours, and it’d be better to crash and look like a crash, than exit(1) mysteriously with minimal tracing possible.\n\nIn fact, if there’s a decent and concise way we can be assured that the signal came from our own code (or at least just that the expected thread is the one that faulted), it’d be a nice improvement. A check of the siginfo (in the style of Signals::WillSignalReraiseAutonomously) to assure that the signal came from hardware, along with a thread identity check, would probably be enough. But I’m also happy to not do this now, or to do it just as a follow-up. We can get this in now and then gussy it up later. Signal handlers are tricky enough as it is, we don’t have to solve the world today.",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5c39350_9ad3b8f1",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-22T21:15:03Z",
+      "side": 1,
+      "message": "This results in a module initializer, and we don’t want that.\n\nFortunately, it’s really easy to avoid: since this one’s only used in a single function, Dlsym, you can just move it in-line into that function as a function-local “static”. Now it’ll be initialized (thread-safely!) at first use, but we won’t waste time or energy on it at load time (or, on non-K, ever).",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

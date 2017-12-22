@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "41a477fd_6605fa27",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-22T21:15:03Z",
+      "side": 1,
+      "message": "\u003e 2. No NODEFER is probably also fine since we don\u0027t reaaaally expect siglongjmp to raise SIGFPE, right?\n\nRight. I’d go with no NODEFER, since there really isn’t any other legit way to generate SIGFPE from our own code, but if someone else triggers SIGFPE, we’d surely handle it incorrectly.",
+      "parentUuid": "d87f41d8_ff44bf66",
+      "range": {
+        "startLine": 62,
+        "startChar": 19,
+        "endLine": 62,
+        "endChar": 29
+      },
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "35584641_8c109fa2",
         "filename": "compat/android/dlfcn_internal.cc",
         "patchSetId": 12
@@ -271,6 +295,30 @@
       "side": 1,
       "message": "It was tested.\n\nsigsetjmp promises to return 1 if siglongjmp set val to 0, but I agree, explicitly setting val to 1 is more correct.",
       "parentUuid": "123f600c_b5946724",
+      "range": {
+        "startLine": 93,
+        "startChar": 24,
+        "endLine": 93,
+        "endChar": 25
+      },
+      "revId": "bd58f2511875b3c90bf461eb180865d46a403270",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba1448c8_bc687c9b",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-12-22T21:15:03Z",
+      "side": 1,
+      "message": "\u003e sigsetjmp promises to return 1 if siglongjmp set val to 0, but I agree, explicitly setting val to 1 is more correct.\n\nHuh. Interesting, I didn’t know that. But yes, being explicit about the 1 is clearer.",
+      "parentUuid": "ec58a2cc_4a4b05bb",
       "range": {
         "startLine": 93,
         "startChar": 24,
