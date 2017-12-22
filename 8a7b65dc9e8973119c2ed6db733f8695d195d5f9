@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4c56d18e_6f114473",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T22:52:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33a939c7_e66b2899",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ce84192_f0c24fc4",
         "filename": "compat/android/dlfcn_internal.cc",
         "patchSetId": 15
@@ -33,6 +51,24 @@
       "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8601eb80_d6b27d45",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T22:52:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ce84192_f0c24fc4",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1006c921_c2f48984",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T22:52:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b6d822f_b9cfab84",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c1c1e3c_3c289bef",
         "filename": "compat/android/dlfcn_internal.cc",
         "patchSetId": 15
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "06523167_e5ca36e2",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T22:52:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c1c1e3c_3c289bef",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d65eb7d_89a10e3a",
         "filename": "compat/android/dlfcn_internal.cc",
         "patchSetId": 15
@@ -84,6 +156,24 @@
       "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7b37a4e_e139b8ec",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T22:52:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1d65eb7d_89a10e3a",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "e4873540_881f7a84",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T22:52:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9f7dbb2_5f2d751c",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58c6facf_a3a61b54",
         "filename": "compat/android/dlfcn_internal.cc",
         "patchSetId": 15
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "f38600f5_6f5e20e0",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T22:52:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58c6facf_a3a61b54",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5c39350_9ad3b8f1",
         "filename": "compat/android/dlfcn_internal.cc",
         "patchSetId": 15
@@ -152,6 +278,24 @@
       "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3ddce62_a9cb2c6c",
+        "filename": "compat/android/dlfcn_internal.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-12-22T22:52:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5c39350_9ad3b8f1",
+      "revId": "8a7b65dc9e8973119c2ed6db733f8695d195d5f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
