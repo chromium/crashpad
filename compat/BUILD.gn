@@ -74,6 +74,8 @@ compat_target("compat") {
 
   if (crashpad_is_android) {
     sources += [
+      "android/dlfcn_internal.cc",
+      "android/dlfcn_internal.h",
       "android/elf.h",
       "android/linux/elf.h",
       "android/linux/prctl.h",
