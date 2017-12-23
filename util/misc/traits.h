@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_LINUX_TRAITS_H_
-#define CRASHPAD_UTIL_LINUX_TRAITS_H_
+#ifndef CRASHPAD_UTIL_MISC_TRAITS_H_
+#define CRASHPAD_UTIL_MISC_TRAITS_H_
 
 #include <stdint.h>
 
@@ -45,4 +45,4 @@ struct Traits64 {
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_UTIL_LINUX_TRAITS_H_
+#endif  // CRASHPAD_UTIL_MISC_TRAITS_H_

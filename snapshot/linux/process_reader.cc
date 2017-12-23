@@ -14,6 +14,7 @@
 
 #include "snapshot/linux/process_reader.h"
 
+#include <elf.h>
 #include <errno.h>
 #include <sched.h>
 #include <stdio.h>
@@ -26,7 +27,10 @@
 #include "base/logging.h"
 #include "base/strings/string_number_conversions.h"
 #include "build/build_config.h"
+#include "snapshot/elf/elf_image_reader.h"
+#include "snapshot/linux/debug_rendezvous.h"
 #include "util/file/directory_reader.h"
+#include "util/linux/auxiliary_vector.h"
 #include "util/linux/proc_stat_reader.h"
 #include "util/misc/as_underlying_type.h"
 
@@ -174,6 +178,7 @@ ProcessReader::ProcessReader()
       process_memory_(),
       is_64_bit_(false),
       initialized_threads_(false),
+      initialized_modules_(false),
       initialized_() {}
 
 ProcessReader::~ProcessReader() {}
@@ -250,6 +255,14 @@ const std::vector<ProcessReader::Thread>& ProcessReader::Threads() {
   return threads_;
 }
 
+const std::vector<ProcessReader::Module>& ProcessReader::Modules() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  if (!initialized_modules_) {
+    InitializeModules();
+  }
+  return modules_;
+}
+
 void ProcessReader::InitializeThreads() {
   DCHECK(threads_.empty());
 
@@ -305,6 +318,88 @@ void ProcessReader::InitializeThreads() {
   DCHECK_EQ(AsUnderlyingType(result),
             AsUnderlyingType(DirectoryReader::Result::kNoMoreFiles));
   DCHECK(main_thread_found);
+}
+
+void ProcessReader::InitializeModules() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  AuxiliaryVector aux;
+  if (!aux.Initialize(ProcessID(), is_64_bit_)) {
+    return;
+  }
+
+  LinuxVMAddress phdrs;
+  if (!aux.GetValue(AT_PHDR, &phdrs)) {
+    return;
+  }
+
+  const MemoryMap::Mapping* phdr_mapping = GetMemoryMap()->FindMapping(phdrs);
+  if (!phdr_mapping) {
+    return;
+  }
+  const MemoryMap::Mapping* exe_mapping =
+      GetMemoryMap()->FindFileMmapStart(*phdr_mapping);
+  LinuxVMAddress elf_address = exe_mapping->range.Base();
+
+  ProcessMemoryRange range;
+  if (!range.Initialize(Memory(), is_64_bit_)) {
+    return;
+  }
+
+  auto exe_reader = std::make_unique<ElfImageReader>();
+  if (!exe_reader->Initialize(range, elf_address)) {
+    return;
+  }
+  LinuxVMAddress debug_address;
+  if (!exe_reader->GetDebugAddress(&debug_address)) {
+    return;
+  }
+
+  DebugRendezvous debug;
+  if (!debug.Initialize(range, debug_address)) {
+    return;
+  }
+
+  Module exe;
+  exe.elf_reader = exe_reader.get();
+  // TODO(jperaza): this isn't set by glibc.
+  exe.name = debug.Executable()->name;
+  exe.type = ModuleSnapshot::ModuleType::kModuleTypeExecutable;
+
+  modules_.push_back(exe);
+  elf_readers_.push_back(std::move(exe_reader));
+
+  for (const DebugRendezvous::LinkEntry& entry : debug.Modules()) {
+    const MemoryMap::Mapping* dyn_mapping =
+        memory_map_.FindMapping(entry.dynamic_array);
+    if (!dyn_mapping) {
+      continue;
+    }
+    const MemoryMap::Mapping* module_mapping =
+        memory_map_.FindFileMmapStart(*dyn_mapping);
+    if (!module_mapping) {
+      continue;
+    }
+    auto elf_reader = std::make_unique<ElfImageReader>();
+    if (!elf_reader->Initialize(range, module_mapping->range.Base())) {
+      continue;
+    }
+
+    Module module;
+    module.name = entry.name;
+    module.elf_reader = elf_reader.get();
+    module.type = ModuleSnapshot::kModuleTypeSharedLibrary;
+
+#if defined(OS_ANDROID)
+    if (module.name == "/system/bin/linker" ||
+        module.name == "/system/bin/linker64") {
+      module.type = ModuleSnapshot::ModuleType::kModuleTypeDynamicLoader;
+    }
+#endif
+
+    modules_.push_back(module);
+    elf_readers_.push_back(std::move(elf_reader));
+  }
 }
 
 }  // namespace crashpad

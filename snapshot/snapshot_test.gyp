@@ -87,6 +87,8 @@
         'mac/system_snapshot_mac_test.cc',
         'minidump/process_snapshot_minidump_test.cc',
         'posix/timezone_test.cc',
+        'process_types/annotation_reader_test.cc',
+        'process_types/crashpad_info_reader_test.cc',
         'win/cpu_context_win_test.cc',
         'win/exception_snapshot_win_test.cc',
         'win/extra_memory_ranges_test.cc',
@@ -139,6 +141,7 @@
         }, {  # else: OS!="linux" and OS!="android"
           'sources/': [
             ['exclude', '^elf/'],
+            ['exclude', '^process_types/'],
           ],
         }],
       ],

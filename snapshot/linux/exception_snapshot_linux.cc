@@ -20,8 +20,8 @@
 #include "snapshot/linux/cpu_context_linux.h"
 #include "snapshot/linux/process_reader.h"
 #include "snapshot/linux/signal_context.h"
-#include "util/linux/traits.h"
 #include "util/misc/reinterpret_bytes.h"
+#include "util/misc/traits.h"
 #include "util/numeric/safe_assignment.h"
 
 namespace crashpad {
