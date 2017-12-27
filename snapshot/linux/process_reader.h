@@ -21,6 +21,8 @@
 #include <vector>
 
 #include "base/macros.h"
+#include "snapshot/elf/elf_image_reader.h"
+#include "snapshot/module_snapshot.h"
 #include "util/linux/address_types.h"
 #include "util/linux/memory_map.h"
 #include "util/linux/ptrace_connection.h"
@@ -54,6 +56,12 @@ class ProcessReader {
 
     bool InitializePtrace(PtraceConnection* connection);
     void InitializeStack(ProcessReader* reader);
+  };
+
+  struct Module {
+    std::string name;
+    ElfImageReader* elf_reader;
+    ModuleSnapshot::ModuleType type;
   };
 
   ProcessReader();
@@ -107,16 +115,22 @@ class ProcessReader {
   //!     index `0`.
   const std::vector<Thread>& Threads();
 
+  const std::vector<Module>& Modules();
+
  private:
   void InitializeThreads();
+  void InitializeModules();
 
   PtraceConnection* connection_;  // weak
   ProcessInfo process_info_;
   MemoryMap memory_map_;
   std::vector<Thread> threads_;
+  std::vector<Module> modules_;
+  std::vector<std::unique_ptr<ElfImageReader>> elf_readers_;
   ProcessMemoryLinux process_memory_;
   bool is_64_bit_;
   bool initialized_threads_;
+  bool initialized_modules_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessReader);
