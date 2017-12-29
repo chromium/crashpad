@@ -39,6 +39,8 @@
         'cpu_context.h',
         'crashpad_info_client_options.cc',
         'crashpad_info_client_options.h',
+        'crashpad_types/crashpad_info_reader.cc',
+        'crashpad_types/crashpad_info_reader.h',
         'elf/elf_dynamic_array_reader.cc',
         'elf/elf_dynamic_array_reader.h',
         'elf/elf_image_reader.cc',
@@ -171,6 +173,7 @@
         }, {  # else: OS!="linux" and OS!="android"
           'sources/': [
             ['exclude', '^elf/'],
+            ['exclude', '^crashpad_types/'],
           ],
         }],
         ['target_arch!="ia32" and target_arch!="x64"', {
