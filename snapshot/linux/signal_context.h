@@ -19,7 +19,7 @@
 #include <sys/types.h>
 
 #include "build/build_config.h"
-#include "util/linux/traits.h"
+#include "util/misc/traits.h"
 
 namespace crashpad {
 namespace internal {
