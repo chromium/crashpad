@@ -105,7 +105,26 @@ class CrashpadClient {
                     bool restartable,
                     bool asynchronous_start);
 
-#if defined(OS_MACOSX) || DOXYGEN
+#if defined(OS_LINUX) || defined(OS_ANDROID) || DOXYGEN
+  bool StartHandlerAtCrash(
+      const base::FilePath& handler,
+      const base::FilePath& database,
+      const base::FilePath& metrics_dir,
+      const std::string& url,
+      const std::map<std::string, std::string>& annotations,
+      const std::vector<std::string>& arguments,
+      bool restartable);
+
+  bool StartHandlerForClient(
+      const base::FilePath& handler,
+      const base::FilePath& database,
+      const base::FilePath& metrics_dir,
+      const std::string& url,
+      const std::map<std::string, std::string>& annotations,
+      const std::vector<std::string>& arguments,
+      int socket);
+
+#elif defined(OS_MACOSX) || DOXYGEN
   //! \brief Sets the process’ crash handler to a Mach service registered with
   //!     the bootstrap server.
   //!
