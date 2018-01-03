@@ -25,6 +25,7 @@
 
 #include "base/macros.h"
 #include "snapshot/linux/exception_snapshot_linux.h"
+#include "snapshot/linux/module_snapshot_linux.h"
 #include "snapshot/linux/process_reader.h"
 #include "snapshot/linux/system_snapshot_linux.h"
 #include "snapshot/linux/thread_snapshot_linux.h"
@@ -108,12 +109,14 @@ class ProcessSnapshotLinux final : public ProcessSnapshot {
 
  private:
   void InitializeThreads();
+  void InitializeModules();
 
   std::map<std::string, std::string> annotations_simple_map_;
   timeval snapshot_time_;
   UUID report_id_;
   UUID client_id_;
   std::vector<std::unique_ptr<internal::ThreadSnapshotLinux>> threads_;
+  std::vector<std::unique_ptr<internal::ModuleSnapshotLinux>> modules_;
   std::unique_ptr<internal::ExceptionSnapshotLinux> exception_;
   internal::SystemSnapshotLinux system_;
   ProcessReader process_reader_;

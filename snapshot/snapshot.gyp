@@ -56,6 +56,8 @@
         'linux/exception_snapshot_linux.h',
         'linux/memory_snapshot_linux.cc',
         'linux/memory_snapshot_linux.h',
+        'linux/module_snapshot_linux.cc',
+        'linux/module_snapshot_linux.h',
         'linux/process_reader.cc',
         'linux/process_reader.h',
         'linux/process_snapshot_linux.cc',
@@ -119,6 +121,10 @@
         'posix/timezone.cc',
         'posix/timezone.h',
         'process_snapshot.h',
+        'crashpad_types/annotation_reader.cc',
+        'crashpad_types/annotation_reader.h',
+        'crashpad_types/crashpad_info_reader.cc',
+        'crashpad_types/crashpad_info_reader.h',
         'snapshot_constants.h',
         'system_snapshot.h',
         'thread_snapshot.h',
@@ -171,6 +177,7 @@
         }, {  # else: OS!="linux" and OS!="android"
           'sources/': [
             ['exclude', '^elf/'],
+            ['exclude', '^crashpad_types/'],
           ],
         }],
         ['target_arch!="ia32" and target_arch!="x64"', {

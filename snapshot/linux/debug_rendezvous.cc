@@ -137,6 +137,8 @@ bool DebugRendezvous::InitializeSpecific(const ProcessMemoryRange& memory,
     modules_.push_back(entry);
   }
 
+  LOG(INFO) << "Foudn loader base 0x" << std::hex << debug.r_ldbase;
+
   return true;
 }
 
