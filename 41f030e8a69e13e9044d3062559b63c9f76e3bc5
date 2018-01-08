@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51943d15_83519bd5",
+        "filename": "snapshot/elf/elf_dynamic_array_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-08T22:45:54Z",
+      "side": 1,
+      "message": "Good! Optionally, you may also want to static_assert that entry.d_un.d_val and entry.d_un.d_ptr share an address and have the same size. But since this is basically definitional, you can omit it too.",
+      "revId": "41f030e8a69e13e9044d3062559b63c9f76e3bc5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
