@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0ceaf55_13fc1a1f",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-08T22:39:13Z",
+      "side": 1,
+      "message": "TriState",
+      "range": {
+        "startLine": 32,
+        "startChar": 25,
+        "endLine": 32,
+        "endChar": 33
+      },
+      "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5acbb1cc_7e664c10",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-08T22:39:13Z",
+      "side": 1,
+      "message": "override",
+      "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfc699d3_a3f98cb3",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-08T22:39:13Z",
+      "side": 1,
+      "message": "I don’t think we’re this strict in the macOS or Windows readers. The three should be consistent. (You can tighten them up if that’s how you’d like to resolve this.)\n\nThe ideal behavior may actually be to treat any unknown value as “unset” with a non-fatal info-logged message, universally.",
+      "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb0d3e64_6fa07107",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-08T22:39:13Z",
+      "side": 1,
+      "message": "This nice assertion (114…122) should follow InfoContainerSpecific’s definition. It shouldn’t be inside the CrashpadInfoReader constructor, where it makes it appear that the constructor is doing some work in its body (it’s not).",
+      "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c19f9e1_38fc06b0",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-08T22:39:13Z",
+      "side": 1,
+      "message": "Either put a blank line before this, or write the declaration all on one line, so that it’s more obvious that it’s just talking about a single thing.",
+      "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7f3f033_9fdf228b",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-08T22:39:13Z",
+      "side": 1,
+      "message": "DISALLOW_COPY_AND_ASSIGN",
+      "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94e17ef7_c6f3dbaa",
+        "filename": "snapshot/snapshot.gyp",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-08T22:39:13Z",
+      "side": 1,
+      "message": "Can you update snapshot/BUILD.gn with these files and the test too?",
+      "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
