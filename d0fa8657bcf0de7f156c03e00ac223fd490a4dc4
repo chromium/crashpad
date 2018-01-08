@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b35bfc80_c82acee0",
+        "filename": "snapshot/crashpad_types/annotation_reader.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-08T22:43:10Z",
+      "side": 1,
+      "message": "FYI: these will likely be deprecated soon in favor of the new interface below, although this, the snapshot reader side, will stick around for a little while longer even after the client interface disappears.",
+      "revId": "d0fa8657bcf0de7f156c03e00ac223fd490a4dc4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73061f37_2f74bb55",
+        "filename": "snapshot/snapshot.gyp",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-08T22:43:10Z",
+      "side": 1,
+      "message": "GN too",
+      "revId": "d0fa8657bcf0de7f156c03e00ac223fd490a4dc4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
