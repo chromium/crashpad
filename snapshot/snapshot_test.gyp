@@ -72,6 +72,7 @@
         'api/module_annotations_win_test.cc',
         'cpu_context_test.cc',
         'crashpad_info_client_options_test.cc',
+        'crashpad_types/crashpad_info_reader_test.cc',
         'elf/elf_image_reader_test.cc',
         'elf/elf_image_reader_test_note.S',
         'linux/debug_rendezvous_test.cc',
@@ -139,6 +140,7 @@
         }, {  # else: OS!="linux" and OS!="android"
           'sources/': [
             ['exclude', '^elf/'],
+            ['exclude', '^crashpad_types/'],
           ],
         }],
       ],
