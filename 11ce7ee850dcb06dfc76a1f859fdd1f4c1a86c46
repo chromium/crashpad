@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "453a811a_bf433d88",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-09T01:20:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0ceaf55_13fc1a1f",
+      "range": {
+        "startLine": 32,
+        "startChar": 25,
+        "endLine": 32,
+        "endChar": 33
+      },
+      "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5acbb1cc_7e664c10",
         "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
         "patchSetId": 4
@@ -39,6 +63,24 @@
       "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a62c8f6_7ef10799",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-09T01:20:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5acbb1cc_7e664c10",
+      "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "cc6ec84e_6684fe85",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-09T01:20:26Z",
+      "side": 1,
+      "message": "Done.\n\nUnsetting invalid options is done on mac and windows already, except it\u0027s done by ModuleSnapshot*::GetCrashpadOptions, rather than by their CrashpadInfo readers.",
+      "parentUuid": "dfc699d3_a3f98cb3",
+      "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb0d3e64_6fa07107",
         "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
         "patchSetId": 4
@@ -73,6 +133,24 @@
       "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1089927e_800ae24e",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-09T01:20:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb0d3e64_6fa07107",
+      "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "4a7b0f34_3a32d4dc",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-09T01:20:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c19f9e1_38fc06b0",
+      "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7f3f033_9fdf228b",
         "filename": "snapshot/crashpad_types/crashpad_info_reader_test.cc",
         "patchSetId": 4
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "35216a5a_6bc3b9f3",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-09T01:20:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7f3f033_9fdf228b",
+      "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94e17ef7_c6f3dbaa",
         "filename": "snapshot/snapshot.gyp",
         "patchSetId": 4
@@ -124,6 +238,24 @@
       "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dfdb6b6_5bdcd3d6",
+        "filename": "snapshot/snapshot.gyp",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-09T01:20:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94e17ef7_c6f3dbaa",
+      "revId": "11ce7ee850dcb06dfc76a1f859fdd1f4c1a86c46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
