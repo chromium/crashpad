@@ -39,6 +39,10 @@ namespace crashpad {
 static_assert(std::is_standard_layout<CrashpadInfo>::value,
               "CrashpadInfo must be standard layout");
 
+#if defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FUCHSIA)
+extern "C" {
+#endif
+
 // This structure needs to be stored somewhere that is easy to find without
 // external information.
 //
@@ -54,10 +58,14 @@ static_assert(std::is_standard_layout<CrashpadInfo>::value,
 #if defined(OS_POSIX)
 __attribute__((
 
-    // Put the structure in a well-known section name where it can be easily
-    // found without having to consult the symbol table.
+// Put the structure in a well-known section name where it can be easily
+// found without having to consult the symbol table.
 #if defined(OS_MACOSX)
     section(SEG_DATA ",crashpad_info"),
+
+    // There’s no need to expose this as a public symbol from the symbol table.
+    // All accesses from the outside can locate the well-known section name.
+    visibility("hidden"),
 #elif defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FUCHSIA)
     section("crashpad_info"),
 #else
@@ -74,11 +82,7 @@ __attribute__((
 #endif  // defined(ADDRESS_SANITIZER)
 
     // The “used” attribute prevents the structure from being dead-stripped.
-    used,
-
-    // There’s no need to expose this as a public symbol from the symbol table.
-    // All accesses from the outside can locate the well-known section name.
-    visibility("hidden")))
+    used))
 
 #elif defined(OS_WIN)
 
@@ -92,6 +96,10 @@ __declspec(allocate("CPADinfo"))
 #endif  // !defined(OS_POSIX) && !defined(OS_WIN)
 
 CrashpadInfo g_crashpad_info;
+
+#if defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FUCHSIA)
+}  // extern "C"
+#endif
 
 // static
 CrashpadInfo* CrashpadInfo::GetCrashpadInfo() {
