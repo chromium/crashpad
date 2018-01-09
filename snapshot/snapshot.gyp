@@ -39,6 +39,8 @@
         'cpu_context.h',
         'crashpad_info_client_options.cc',
         'crashpad_info_client_options.h',
+        'crashpad_types/annotation_reader.cc',
+        'crashpad_types/annotation_reader.h',
         'crashpad_types/crashpad_info_reader.cc',
         'crashpad_types/crashpad_info_reader.h',
         'elf/elf_dynamic_array_reader.cc',
