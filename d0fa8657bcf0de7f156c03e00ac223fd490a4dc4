@@ -33,6 +33,24 @@
       "revId": "d0fa8657bcf0de7f156c03e00ac223fd490a4dc4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd610f35_d5ce9bfc",
+        "filename": "snapshot/snapshot.gyp",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-09T01:34:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73061f37_2f74bb55",
+      "revId": "d0fa8657bcf0de7f156c03e00ac223fd490a4dc4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
