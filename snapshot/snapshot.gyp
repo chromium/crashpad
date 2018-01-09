@@ -41,6 +41,8 @@
         'crashpad_info_client_options.h',
         'crashpad_types/crashpad_info_reader.cc',
         'crashpad_types/crashpad_info_reader.h',
+        'crashpad_types/image_annotation_reader.cc',
+        'crashpad_types/image_annotation_reader.h',
         'elf/elf_dynamic_array_reader.cc',
         'elf/elf_dynamic_array_reader.h',
         'elf/elf_image_reader.cc',
