@@ -24,7 +24,8 @@ namespace crashpad {
 //! \param[in] from The value to be casted.
 //! \return \a from casted to its underlying type.
 template <typename From>
-typename std::underlying_type<From>::type AsUnderlyingType(From from) {
+constexpr typename std::underlying_type<From>::type AsUnderlyingType(
+    From from) {
   return static_cast<typename std::underlying_type<From>::type>(from);
 }
 
