@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83b04b1a_6e539c6d",
+        "filename": "client/crashpad_info.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-10T16:27:22Z",
+      "side": 1,
+      "message": "Does the custom section name help us out at all, since we have to go through the dynamic symbol table to find it anyway?",
+      "revId": "b7f2f06b2e687be192b151869807bb887292569b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa182733_8f3c05e1",
+        "filename": "snapshot/linux/module_snapshot_linux.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-10T16:27:22Z",
+      "side": 1,
+      "message": "I know that Breakpad does some pretty weird handling here. Does it do this?\n\nUltimately, I think we’ll want to invent a new “CodeView” record type (not really CodeView, but something to use in the place of the 7.0 PDB link in minidumps) that just carries the full NT_GNU_BUILD_ID, however long it was. But for now, for compatibility with existing Breakpad symbols, we’ve kind of got to play along…",
+      "revId": "b7f2f06b2e687be192b151869807bb887292569b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
