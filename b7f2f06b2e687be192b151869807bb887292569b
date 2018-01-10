@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3c2d2123_7ab6dd75",
+        "filename": "client/crashpad_info.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-10T19:26:14Z",
+      "side": 1,
+      "message": "I don\u0027t think so. Removed.",
+      "parentUuid": "83b04b1a_6e539c6d",
+      "revId": "b7f2f06b2e687be192b151869807bb887292569b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aa182733_8f3c05e1",
         "filename": "snapshot/linux/module_snapshot_linux.cc",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2018-01-10T16:27:22Z",
       "side": 1,
       "message": "I know that Breakpad does some pretty weird handling here. Does it do this?\n\nUltimately, I think we’ll want to invent a new “CodeView” record type (not really CodeView, but something to use in the place of the 7.0 PDB link in minidumps) that just carries the full NT_GNU_BUILD_ID, however long it was. But for now, for compatibility with existing Breakpad symbols, we’ve kind of got to play along…",
+      "revId": "b7f2f06b2e687be192b151869807bb887292569b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9815f932_4bde4567",
+        "filename": "snapshot/linux/module_snapshot_linux.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-10T19:26:14Z",
+      "side": 1,
+      "message": "The Breakpad client returns the whole build-id (https://cs.chromium.org/chromium/src/third_party/breakpad/breakpad/src/common/linux/file_id.cc?rcl\u003d4a02ec03038d9d6f870f42d5070591512f488db0\u0026l\u003d87)\nwhich the processor then trims or pads into an MDGUID (https://cs.chromium.org/chromium/src/third_party/breakpad/breakpad/src/processor/minidump.cc?rcl\u003d4a02ec03038d9d6f870f42d5070591512f488db0\u0026l\u003d2153).\n\nThe client also falls back to hashing the start of the .text section which I don\u0027t think we can reliably find. (https://cs.chromium.org/chromium/src/third_party/breakpad/breakpad/src/common/linux/file_id.cc?rcl\u003d4a02ec03038d9d6f870f42d5070591512f488db0\u0026l\u003d121)",
+      "parentUuid": "aa182733_8f3c05e1",
       "revId": "b7f2f06b2e687be192b151869807bb887292569b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
