@@ -79,6 +79,45 @@ bool ProcessSnapshotLinux::InitializeException(
   return true;
 }
 
+void ProcessSnapshotLinux::GetCrashpadOptions(
+    CrashpadInfoClientOptions* options) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  CrashpadInfoClientOptions local_options;
+
+  for (const auto& module : modules_) {
+    CrashpadInfoClientOptions module_options;
+    if (!module->GetCrashpadOptions(&module_options)) {
+      continue;
+    }
+
+    if (local_options.crashpad_handler_behavior == TriState::kUnset) {
+      local_options.crashpad_handler_behavior =
+          module_options.crashpad_handler_behavior;
+    }
+    if (local_options.system_crash_reporter_forwarding == TriState::kUnset) {
+      local_options.system_crash_reporter_forwarding =
+          module_options.system_crash_reporter_forwarding;
+    }
+    if (local_options.gather_indirectly_referenced_memory == TriState::kUnset) {
+      local_options.gather_indirectly_referenced_memory =
+          module_options.gather_indirectly_referenced_memory;
+      local_options.indirectly_referenced_memory_cap =
+          module_options.indirectly_referenced_memory_cap;
+    }
+
+    // If non-default values have been found for all options, the loop can end
+    // early.
+    if (local_options.crashpad_handler_behavior != TriState::kUnset &&
+        local_options.system_crash_reporter_forwarding != TriState::kUnset &&
+        local_options.gather_indirectly_referenced_memory != TriState::kUnset) {
+      break;
+    }
+  }
+
+  *options = local_options;
+}
+
 pid_t ProcessSnapshotLinux::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return process_reader_.ProcessID();
