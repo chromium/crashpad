@@ -118,6 +118,8 @@ static_library("snapshot") {
       "linux/exception_snapshot_linux.h",
       "linux/memory_snapshot_linux.cc",
       "linux/memory_snapshot_linux.h",
+      "linux/module_snapshot_linux.cc",
+      "linux/module_snapshot_linux.h",
       "linux/process_reader.cc",
       "linux/process_reader.h",
       "linux/process_snapshot_linux.cc",

@@ -15,6 +15,7 @@
 #include "snapshot/linux/process_reader.h"
 
 #include <errno.h>
+#include <link.h>
 #include <pthread.h>
 #include <sched.h>
 #include <stdlib.h>
@@ -437,6 +438,89 @@ class ChildWithSplitStackTest : public Multiprocess {
 
 TEST(ProcessReader, ChildWithSplitStack) {
   ChildWithSplitStackTest test;
+  test.Run();
+}
+
+int ExpectFindModule(dl_phdr_info* info, size_t size, void* data) {
+  SCOPED_TRACE(
+      base::StringPrintf("module %s at 0x%" PRIx64 " phdrs 0x%" PRIx64,
+                         info->dlpi_name,
+                         LinuxVMAddress{info->dlpi_addr},
+                         FromPointerCast<LinuxVMAddress>(info->dlpi_phdr)));
+  auto modules =
+      reinterpret_cast<const std::vector<ProcessReader::Module>*>(data);
+
+  auto phdr_addr = FromPointerCast<LinuxVMAddress>(info->dlpi_phdr);
+
+#if defined(OS_ANDROID)
+  // Bionic includes a null entry.
+  if (!phdr_addr) {
+    EXPECT_EQ(info->dlpi_name, nullptr);
+    EXPECT_EQ(info->dlpi_addr, 0u);
+    EXPECT_EQ(info->dlpi_phnum, 0u);
+    return 0;
+  }
+#endif
+
+  // TODO(jperaza): This can use a range map when one is available.
+  bool found = false;
+  for (const auto& module : *modules) {
+    if (module.elf_reader && phdr_addr >= module.elf_reader->Address() &&
+        phdr_addr < module.elf_reader->Address() + module.elf_reader->Size()) {
+      found = true;
+      break;
+    }
+  }
+  EXPECT_TRUE(found);
+  return 0;
+}
+
+void ExpectModulesFromSelf(const std::vector<ProcessReader::Module>& modules) {
+  for (const auto& module : modules) {
+    EXPECT_FALSE(module.name.empty());
+    EXPECT_NE(module.type, ModuleSnapshot::kModuleTypeUnknown);
+  }
+
+  EXPECT_EQ(dl_iterate_phdr(
+                ExpectFindModule,
+                reinterpret_cast<void*>(
+                    const_cast<std::vector<ProcessReader::Module>*>(&modules))),
+            0);
+}
+
+TEST(ProcessReader, SelfModules) {
+  FakePtraceConnection connection;
+  connection.Initialize(getpid());
+
+  ProcessReader process_reader;
+  ASSERT_TRUE(process_reader.Initialize(&connection));
+
+  ExpectModulesFromSelf(process_reader.Modules());
+}
+
+class ChildModuleTest : public Multiprocess {
+ public:
+  ChildModuleTest() : Multiprocess() {}
+  ~ChildModuleTest() = default;
+
+ private:
+  void MultiprocessParent() override {
+    DirectPtraceConnection connection;
+    ASSERT_TRUE(connection.Initialize(ChildPID()));
+
+    ProcessReader process_reader;
+    ASSERT_TRUE(process_reader.Initialize(&connection));
+
+    ExpectModulesFromSelf(process_reader.Modules());
+  }
+
+  void MultiprocessChild() override { CheckedReadFileAtEOF(ReadPipeHandle()); }
+
+  DISALLOW_COPY_AND_ASSIGN(ChildModuleTest);
+};
+
+TEST(ProcessReader, ChildModules) {
+  ChildModuleTest test;
   test.Run();
 }
 

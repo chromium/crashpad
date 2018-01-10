@@ -14,6 +14,7 @@
 
 #include "snapshot/linux/process_reader.h"
 
+#include <elf.h>
 #include <errno.h>
 #include <sched.h>
 #include <stdio.h>
@@ -26,7 +27,9 @@
 #include "base/logging.h"
 #include "base/strings/string_number_conversions.h"
 #include "build/build_config.h"
+#include "snapshot/linux/debug_rendezvous.h"
 #include "util/file/directory_reader.h"
+#include "util/linux/auxiliary_vector.h"
 #include "util/linux/proc_stat_reader.h"
 #include "util/misc/as_underlying_type.h"
 
@@ -166,14 +169,22 @@ void ProcessReader::Thread::InitializeStack(ProcessReader* reader) {
   }
 }
 
+ProcessReader::Module::Module()
+    : name(), elf_reader(nullptr), type(ModuleSnapshot::kModuleTypeUnknown) {}
+
+ProcessReader::Module::~Module() = default;
+
 ProcessReader::ProcessReader()
     : connection_(),
       process_info_(),
       memory_map_(),
       threads_(),
+      modules_(),
+      elf_readers_(),
       process_memory_(),
       is_64_bit_(false),
       initialized_threads_(false),
+      initialized_modules_(false),
       initialized_() {}
 
 ProcessReader::~ProcessReader() {}
@@ -250,6 +261,14 @@ const std::vector<ProcessReader::Thread>& ProcessReader::Threads() {
   return threads_;
 }
 
+const std::vector<ProcessReader::Module>& ProcessReader::Modules() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  if (!initialized_modules_) {
+    InitializeModules();
+  }
+  return modules_;
+}
+
 void ProcessReader::InitializeThreads() {
   DCHECK(threads_.empty());
 
@@ -305,6 +324,80 @@ void ProcessReader::InitializeThreads() {
   DCHECK_EQ(AsUnderlyingType(result),
             AsUnderlyingType(DirectoryReader::Result::kNoMoreFiles));
   DCHECK(main_thread_found);
+}
+
+void ProcessReader::InitializeModules() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  AuxiliaryVector aux;
+  if (!aux.Initialize(ProcessID(), is_64_bit_)) {
+    return;
+  }
+
+  LinuxVMAddress phdrs;
+  if (!aux.GetValue(AT_PHDR, &phdrs)) {
+    return;
+  }
+
+  const MemoryMap::Mapping* exe_mapping;
+  if (!(exe_mapping = GetMemoryMap()->FindMapping(phdrs)) &&
+      !(exe_mapping = GetMemoryMap()->FindFileMmapStart(*exe_mapping))) {
+    return;
+  }
+
+  ProcessMemoryRange range;
+  if (!range.Initialize(Memory(), is_64_bit_)) {
+    return;
+  }
+
+  auto exe_reader = std::make_unique<ElfImageReader>();
+  if (!exe_reader->Initialize(range, exe_mapping->range.Base())) {
+    return;
+  }
+
+  LinuxVMAddress debug_address;
+  if (!exe_reader->GetDebugAddress(&debug_address)) {
+    return;
+  }
+
+  DebugRendezvous debug;
+  if (!debug.Initialize(range, debug_address)) {
+    return;
+  }
+
+  Module exe = {};
+  exe.name = !debug.Executable()->name.empty() ? debug.Executable()->name
+                                               : exe_mapping->name;
+  exe.elf_reader = exe_reader.get();
+  exe.type = ModuleSnapshot::ModuleType::kModuleTypeExecutable;
+
+  modules_.push_back(exe);
+  elf_readers_.push_back(std::move(exe_reader));
+
+  LinuxVMAddress loader_base = 0;
+  aux.GetValue(AT_BASE, &loader_base);
+
+  for (const DebugRendezvous::LinkEntry& entry : debug.Modules()) {
+    const MemoryMap::Mapping* mapping;
+    if (!(mapping = memory_map_.FindMapping(entry.dynamic_array)) ||
+        !(mapping = memory_map_.FindFileMmapStart(*mapping))) {
+      continue;
+    }
+
+    auto elf_reader = std::make_unique<ElfImageReader>();
+    if (!elf_reader->Initialize(range, mapping->range.Base())) {
+      continue;
+    }
+
+    Module module = {};
+    module.name = !entry.name.empty() ? entry.name : mapping->name;
+    module.elf_reader = elf_reader.get();
+    module.type = loader_base && elf_reader->Address() == loader_base
+                      ? ModuleSnapshot::kModuleTypeDynamicLoader
+                      : ModuleSnapshot::kModuleTypeSharedLibrary;
+    modules_.push_back(module);
+    elf_readers_.push_back(std::move(elf_reader));
+  }
 }
 
 }  // namespace crashpad

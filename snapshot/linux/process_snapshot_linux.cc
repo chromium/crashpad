@@ -49,6 +49,7 @@ bool ProcessSnapshotLinux::Initialize(PtraceConnection* connection) {
 
   system_.Initialize(&process_reader_, &snapshot_time_);
   InitializeThreads();
+  InitializeModules();
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -136,9 +137,11 @@ std::vector<const ThreadSnapshot*> ProcessSnapshotLinux::Threads() const {
 
 std::vector<const ModuleSnapshot*> ProcessSnapshotLinux::Modules() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  // TODO(jperaza): do this.
-  LOG(ERROR) << "Not implemented";
-  return std::vector<const ModuleSnapshot*>();
+  std::vector<const ModuleSnapshot*> modules;
+  for (const auto& module : modules_) {
+    modules.push_back(module.get());
+  }
+  return modules;
 }
 
 std::vector<UnloadedModuleSnapshot> ProcessSnapshotLinux::UnloadedModules()
@@ -178,6 +181,15 @@ void ProcessSnapshotLinux::InitializeThreads() {
     auto thread = std::make_unique<internal::ThreadSnapshotLinux>();
     if (thread->Initialize(&process_reader_, process_reader_thread)) {
       threads_.push_back(std::move(thread));
+    }
+  }
+}
+
+void ProcessSnapshotLinux::InitializeModules() {
+  for (const ProcessReader::Module& reader_module : process_reader_.Modules()) {
+    auto module = std::make_unique<internal::ModuleSnapshotLinux>();
+    if (module->Initialize(reader_module)) {
+      modules_.push_back(std::move(module));
     }
   }
 }

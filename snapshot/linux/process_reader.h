@@ -18,9 +18,13 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
+#include <memory>
+#include <string>
 #include <vector>
 
 #include "base/macros.h"
+#include "snapshot/elf/elf_image_reader.h"
+#include "snapshot/module_snapshot.h"
 #include "util/linux/address_types.h"
 #include "util/linux/memory_map.h"
 #include "util/linux/ptrace_connection.h"
@@ -54,6 +58,27 @@ class ProcessReader {
 
     bool InitializePtrace(PtraceConnection* connection);
     void InitializeStack(ProcessReader* reader);
+  };
+
+  //! \brief Contains information about a module loaded into a process.
+  struct Module {
+    Module();
+    ~Module();
+
+    //! \brief The pathname used to load the module from disk.
+    std::string name;
+
+    //! \brief An image reader for the module.
+    //!
+    //! The lifetime of this ElfImageReader is scoped to the lifetime of the
+    //! ProcessReader that created it.
+    //!
+    //! This field may be `nullptr` if a reader could not be created for the
+    //! module.
+    ElfImageReader* elf_reader;
+
+    //! \brief The module's type.
+    ModuleSnapshot::ModuleType type;
   };
 
   ProcessReader();
@@ -107,16 +132,24 @@ class ProcessReader {
   //!     index `0`.
   const std::vector<Thread>& Threads();
 
+  //! \return The modules loaded in the process. The first element (at index
+  //!     `0`) corresponds to the main executable.
+  const std::vector<Module>& Modules();
+
  private:
   void InitializeThreads();
+  void InitializeModules();
 
   PtraceConnection* connection_;  // weak
   ProcessInfo process_info_;
   MemoryMap memory_map_;
   std::vector<Thread> threads_;
+  std::vector<Module> modules_;
+  std::vector<std::unique_ptr<ElfImageReader>> elf_readers_;
   ProcessMemoryLinux process_memory_;
   bool is_64_bit_;
   bool initialized_threads_;
+  bool initialized_modules_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessReader);
