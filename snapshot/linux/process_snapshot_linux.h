@@ -24,6 +24,7 @@
 #include <vector>
 
 #include "base/macros.h"
+#include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/linux/exception_snapshot_linux.h"
 #include "snapshot/linux/module_snapshot_linux.h"
 #include "snapshot/linux/process_reader.h"
@@ -86,6 +87,13 @@ class ProcessSnapshotLinux final : public ProcessSnapshot {
       const std::map<std::string, std::string>& annotations_simple_map) {
     annotations_simple_map_ = annotations_simple_map;
   }
+
+  //! \brief Returns options from CrashpadInfo structures found in modules in
+  //!     the process.
+  //!
+  //! \param[out] options Options set in CrashpadInfo structures in modules in
+  //!     the process.
+  void GetCrashpadOptions(CrashpadInfoClientOptions* options);
 
   // ProcessSnapshot:
 
