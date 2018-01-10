@@ -39,11 +39,11 @@ void GetSystemInfoStream(const std::string& file_contents,
                          const MINIDUMP_SYSTEM_INFO** system_info,
                          const MINIDUMP_STRING** csd_version) {
   // The expected number of bytes for the CSD version’s MINIDUMP_STRING::Buffer.
-  MINIDUMP_STRING tmp = {0};
+  MINIDUMP_STRING* tmp;
   ALLOW_UNUSED_LOCAL(tmp);
-  const size_t kCSDVersionBytes = csd_version_length * sizeof(tmp.Buffer[0]);
+  const size_t kCSDVersionBytes = csd_version_length * sizeof(tmp->Buffer[0]);
   const size_t kCSDVersionBytesWithNUL =
-      kCSDVersionBytes + sizeof(tmp.Buffer[0]);
+      kCSDVersionBytes + sizeof(tmp->Buffer[0]);
 
   constexpr size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
   constexpr size_t kSystemInfoStreamOffset =
