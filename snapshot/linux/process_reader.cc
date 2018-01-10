@@ -340,7 +340,7 @@ void ProcessReader::InitializeModules() {
   }
 
   const MemoryMap::Mapping* exe_mapping;
-  if (!(exe_mapping = GetMemoryMap()->FindMapping(phdrs)) &&
+  if (!(exe_mapping = GetMemoryMap()->FindMapping(phdrs)) ||
       !(exe_mapping = GetMemoryMap()->FindFileMmapStart(*exe_mapping))) {
     return;
   }
