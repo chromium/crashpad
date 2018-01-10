@@ -51,17 +51,24 @@ static_assert(std::is_standard_layout<CrashpadInfo>::value,
 // This may result in a static module initializer in debug-mode builds, but
 // because it’s POD, no code should need to run to initialize this under
 // release-mode optimization.
+
+// Platforms that use ELF objects need to locate this structure via the dynamic
+// symbol table, so avoid name mangling.
+#if defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FUCHSIA)
+extern "C" {
+#endif
+
 #if defined(OS_POSIX)
 __attribute__((
 
+#if defined(OS_MACOSX)
     // Put the structure in a well-known section name where it can be easily
     // found without having to consult the symbol table.
-#if defined(OS_MACOSX)
     section(SEG_DATA ",crashpad_info"),
-#elif defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FUCHSIA)
-    section("crashpad_info"),
-#else
-#error Port
+
+    // There's no need to expose this as a public symbol from the symbol table.
+    // All accesses from the outside can locate the well-known section name.
+    visibility("hidden"),
 #endif
 
 #if defined(ADDRESS_SANITIZER)
@@ -74,11 +81,7 @@ __attribute__((
 #endif  // defined(ADDRESS_SANITIZER)
 
     // The “used” attribute prevents the structure from being dead-stripped.
-    used,
-
-    // There’s no need to expose this as a public symbol from the symbol table.
-    // All accesses from the outside can locate the well-known section name.
-    visibility("hidden")))
+    used))
 
 #elif defined(OS_WIN)
 
@@ -92,6 +95,10 @@ __declspec(allocate("CPADinfo"))
 #endif  // !defined(OS_POSIX) && !defined(OS_WIN)
 
 CrashpadInfo g_crashpad_info;
+
+#if defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FUCHSIA)
+}  // extern "C"
+#endif
 
 // static
 CrashpadInfo* CrashpadInfo::GetCrashpadInfo() {

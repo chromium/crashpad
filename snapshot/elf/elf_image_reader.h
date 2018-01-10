@@ -202,6 +202,11 @@ class ElfImageReader {
                                                    NoteReader::NoteType type,
                                                    ssize_t max_note_size);
 
+  //! \brief Return a ProcessMemoryRange restricted to the range of this image.
+  //!
+  //! The caller does not take ownership of the returned object.
+  const ProcessMemoryRange* Memory() const;
+
  private:
   template <typename PhdrType>
   class ProgramHeaderTableSpecific;
