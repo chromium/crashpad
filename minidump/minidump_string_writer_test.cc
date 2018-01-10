@@ -84,12 +84,11 @@ TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
 
     const size_t expected_utf16_units_with_nul =
         kTestData[index].output_length + 1;
-    MINIDUMP_STRING tmp = {0};
+    MINIDUMP_STRING* tmp;
     ALLOW_UNUSED_LOCAL(tmp);
     const size_t expected_utf16_bytes =
-        expected_utf16_units_with_nul * sizeof(tmp.Buffer[0]);
-    ASSERT_EQ(string_file.string().size(),
-              sizeof(MINIDUMP_STRING) + expected_utf16_bytes);
+        expected_utf16_units_with_nul * sizeof(tmp->Buffer[0]);
+    ASSERT_EQ(string_file.string().size(), sizeof(*tmp) + expected_utf16_bytes);
 
     const MINIDUMP_STRING* minidump_string =
         MinidumpStringAtRVA(string_file.string(), 0);
@@ -129,11 +128,11 @@ TEST(MinidumpStringWriter, ConvertInvalidUTF8ToUTF16) {
     const MINIDUMP_STRING* minidump_string =
         MinidumpStringAtRVA(string_file.string(), 0);
     EXPECT_TRUE(minidump_string);
-    MINIDUMP_STRING tmp = {0};
+    MINIDUMP_STRING* tmp;
     ALLOW_UNUSED_LOCAL(tmp);
-    EXPECT_EQ(minidump_string->Length,
-              string_file.string().size() - sizeof(MINIDUMP_STRING) -
-                  sizeof(tmp.Buffer[0]));
+    EXPECT_EQ(
+        minidump_string->Length,
+        string_file.string().size() - sizeof(*tmp) - sizeof(tmp->Buffer[0]));
     base::string16 output_string =
         MinidumpStringAtRVAAsString(string_file.string(), 0);
     EXPECT_FALSE(output_string.empty());
