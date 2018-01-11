@@ -27,6 +27,7 @@ import signal
 import subprocess
 import sys
 import tempfile
+import time
 
 try:
   from subprocess import DEVNULL
@@ -57,7 +58,7 @@ def _CheckForTun():
   if returncode != 0:
     print('To use QEMU with networking on Linux, configure TUN/TAP. See:',
           file=sys.stderr)
-    print('  https://fuchsia.googlesource.com/magenta/+/HEAD/docs/qemu.md#enabling-networking-under-qemu-x86_64-only',
+    print('  https://fuchsia.googlesource.com/zircon/+/HEAD/docs/qemu.md#enabling-networking-under-qemu-x86_64-only',
           file=sys.stderr)
     return 2
   return 0
@@ -98,6 +99,16 @@ def _Start(pid_file):
 
   with open(pid_file, 'wb') as f:
     f.write('%d\n' % popen.pid)
+
+  for i in range(10):
+    netaddr_path = os.path.join(fuchsia_dir, 'sdk', arch, 'tools', 'netaddr')
+    if subprocess.call([netaddr_path, '--nowait'],
+                       stdout=open(os.devnull), stderr=open(os.devnull)) == 0:
+      break
+    time.sleep(.5)
+  else:
+    print('instance did not respond after start', file=sys.stderr)
+    return 1
 
 
 def main(args):
