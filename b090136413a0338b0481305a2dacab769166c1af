@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "780487d4_2e6c5641",
+        "filename": "build/run_tests.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-11T22:13:11Z",
+      "side": 1,
+      "message": "Usually better to loop over the file a line at a time (“for line in f”) than to slurp the entire thing in (“f.read().splitlines()”). Probably doesn’t matter here, but it’s just as easy to write it the other way, and it’s a good habit.",
+      "revId": "b090136413a0338b0481305a2dacab769166c1af",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb2407d0_a9f61890",
+        "filename": "build/run_tests.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-11T22:13:11Z",
+      "side": 1,
+      "message": "return None if found_rule_gn and you see something other than (white?)space at line[0].",
+      "revId": "b090136413a0338b0481305a2dacab769166c1af",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e45f0de_5772c67c",
+        "filename": "build/run_tests.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-11T22:13:11Z",
+      "side": 1,
+      "message": "gn_path. Same on line 314.",
+      "revId": "b090136413a0338b0481305a2dacab769166c1af",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1186b73_691b7802",
+        "filename": "build/run_tests.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-11T22:13:11Z",
+      "side": 1,
+      "message": "This supposes that out/xxx is always at exactly that depth, but we don’t need to take such a hard stance. cwd\u003dCRASHPAD_DIR is probably more what you mean. Line 317 too.",
+      "revId": "b090136413a0338b0481305a2dacab769166c1af",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
