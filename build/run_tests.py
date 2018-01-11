@@ -30,19 +30,54 @@ CRASHPAD_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
 IS_WINDOWS_HOST = sys.platform.startswith('win')
 
 
+def _FindGNFromBinaryDir(binary_dir):
+  """Attempts to determine the path to a GN binary used to generate the build
+  files in the given binary_dir. This is necessary because `gn` might not be in
+  the path or might be in a non-standard location, particularly on build
+  machines."""
+
+  build_ninja = os.path.join(binary_dir, 'build.ninja')
+  if os.path.isfile(build_ninja):
+    with open(build_ninja, 'rb') as f:
+      # Look for the always-generated regeneration rule of the form:
+      #
+      # rule gn
+      #   command = <gn binary> ... arguments ...
+      #
+      # to extract the gn binary's full path.
+      found_rule_gn = False
+      for line in f:
+        if line.strip() == 'rule gn':
+          found_rule_gn = True
+          continue
+        if found_rule_gn:
+          if len(line) == 0 or line[0] != ' ':
+            return None
+          if line.startswith('  command = '):
+            gn_command_line_parts = line.strip().split(' ')
+            if len(gn_command_line_parts) > 2:
+              return gn_command_line_parts[2]
+
+  return None
+
+
 def _BinaryDirTargetOS(binary_dir):
   """Returns the apparent target OS of binary_dir, or None if none appear to be
   explicitly specified."""
 
-  # Look for a GN “target_os”.
-  popen = subprocess.Popen(
-      ['gn', 'args', binary_dir, '--list=target_os', '--short'],
-      shell=IS_WINDOWS_HOST, stdout=subprocess.PIPE, stderr=open(os.devnull))
-  value = popen.communicate()[0]
-  if popen.returncode == 0:
-    match = re.match('target_os = "(.*)"$', value.decode('utf-8'))
-    if match:
-      return match.group(1)
+  gn_path = _FindGNFromBinaryDir(binary_dir)
+
+  if gn_path:
+    # Look for a GN “target_os”.
+    popen = subprocess.Popen(
+        [gn_path, 'args', binary_dir, '--list=target_os', '--short'],
+        shell=IS_WINDOWS_HOST, stdout=subprocess.PIPE, stderr=open(os.devnull),
+        cwd=CRASHPAD_DIR)
+    value = popen.communicate()[0]
+    if popen.returncode == 0:
+      match = re.match('target_os = "(.*)"$', value.decode('utf-8'))
+      if match:
+        return match.group(1)
 
   # For GYP with Ninja, look for the appearance of “linux-android” in the path
   # to ar. This path is configured by gyp_crashpad_android.py.
@@ -277,8 +312,10 @@ def _GenerateFuchsiaRuntimeDepsFiles(binary_dir, tests):
   targets_file = os.path.abspath(os.path.join(binary_dir, 'targets.txt'))
   with open(targets_file, 'wb') as f:
     f.write('//:' + '\n//:'.join(tests) + '\n')
+  gn_path = _FindGNFromBinaryDir(binary_dir)
   subprocess.check_call(
-      ['gn', 'gen', binary_dir, '--runtime-deps-list-file=' + targets_file])
+      [gn_path, 'gen', binary_dir, '--runtime-deps-list-file=' + targets_file],
+      cwd=CRASHPAD_DIR)
 
 
 def _HandleOutputFromFuchsiaLogListener(process, done_message):
