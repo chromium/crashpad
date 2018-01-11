@@ -16,6 +16,24 @@
       "revId": "b343ad224544a789f1abc47229e89b4884c7a579",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fcacbc1_39a74351",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-11T23:45:02Z",
+      "side": 1,
+      "message": "\u003e Stringier?\n\u003e \n\u003e   \u0027\u0027.join(chr(random.randint(ord(\u0027A\u0027), ord(\u0027Z\u0027))) for x in range(1,8))\n\n(0, 8) really. Or (8) even.",
+      "parentUuid": "ef4d7936_6c0bf80b",
+      "revId": "b343ad224544a789f1abc47229e89b4884c7a579",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
