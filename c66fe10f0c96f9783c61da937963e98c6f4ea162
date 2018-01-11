@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e29d7536_d2d46ff8",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-11T23:27:16Z",
+      "side": 1,
+      "message": "It’d be nice to use netaddr --nowait hostname, to be sure that we wait for the right instance, but I guess we don’t know the hostname here. Could we start qemu and push a hostname in?",
+      "revId": "c66fe10f0c96f9783c61da937963e98c6f4ea162",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
