@@ -16,6 +16,24 @@
       "revId": "c66fe10f0c96f9783c61da937963e98c6f4ea162",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "564426e9_c9ede315",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-11T23:36:44Z",
+      "side": 1,
+      "message": "We have the technology! https://fuchsia.googlesource.com/zircon/+/master/docs/kernel_cmdline.md#zircon_nodename_name\n\nDone.",
+      "parentUuid": "e29d7536_d2d46ff8",
+      "revId": "c66fe10f0c96f9783c61da937963e98c6f4ea162",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
