@@ -86,7 +86,25 @@ __declspec(allocate("CPADinfo"))
 #else  // !defined(OS_POSIX) && !defined(OS_WIN)
 #error Port
 #endif  // !defined(OS_POSIX) && !defined(OS_WIN)
-TestCrashpadInfo g_test_crashpad_info = {'CPad', sizeof(TestCrashpadInfo), 1};
+TestCrashpadInfo g_test_crashpad_info = {'CPad',
+                                         sizeof(TestCrashpadInfo),
+                                         1,
+                                         0,
+                                         0,
+                                         0,
+                                         0,
+                                         0,
+                                         0,
+                                         nullptr,
+                                         nullptr,
+#if !defined(CRASHPAD_INFO_SIZE_TEST_MODULE_SMALL)
+                                         nullptr,
+                                         nullptr,
+#endif  // CRASHPAD_INFO_SIZE_TEST_MODULE_SMALL
+#if defined(CRASHPAD_INFO_SIZE_TEST_MODULE_LARGE)
+                                         {}
+#endif  // CRASHPAD_INFO_SIZE_TEST_MODULE_LARGE
+};
 
 }  // namespace
 }  // namespace crashpad
