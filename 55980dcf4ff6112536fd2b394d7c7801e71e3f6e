@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e34d37c_559e0cee",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-11T23:48:10Z",
+      "side": 1,
+      "message": "Just like this.",
+      "revId": "55980dcf4ff6112536fd2b394d7c7801e71e3f6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
