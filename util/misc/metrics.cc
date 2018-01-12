@@ -61,8 +61,7 @@ void Metrics::CrashReportPending(PendingReportReason reason) {
 }
 
 // static
-void Metrics::CrashReportSize(FileHandle file) {
-  const FileOffset size = LoggingFileSizeByHandle(file);
+void Metrics::CrashReportSize(FileOffset size) {
   UMA_HISTOGRAM_CUSTOM_COUNTS(
       "Crashpad.CrashReportSize", size, 0, 20 * 1024 * 1024, 50);
 }
