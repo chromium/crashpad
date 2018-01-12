@@ -17,6 +17,7 @@
 
 from __future__ import print_function
 
+import argparse
 import os
 import pipes
 import posixpath
@@ -132,7 +133,7 @@ def _EnableVTProcessingOnWindowsConsole():
   return True
 
 
-def _RunOnAndroidTarget(binary_dir, test, android_device):
+def _RunOnAndroidTarget(binary_dir, test, android_device, extra_command_line):
   local_test_path = os.path.join(binary_dir, test)
   MAYBE_UNSUPPORTED_TESTS = (
       'crashpad_client_test',
@@ -297,7 +298,7 @@ def _RunOnAndroidTarget(binary_dir, test, android_device):
       else:
         gtest_color = 'no'
     env['GTEST_COLOR'] = gtest_color
-    _adb_shell([posixpath.join(device_out_dir, test)], env)
+    _adb_shell([posixpath.join(device_out_dir, test)] + extra_command_line, env)
   finally:
     _adb_shell(['rm', '-rf', device_temp_dir])
 
@@ -337,7 +338,7 @@ def _HandleOutputFromFuchsiaLogListener(process, done_message):
   return success
 
 
-def _RunOnFuchsiaTarget(binary_dir, test, device_name):
+def _RunOnFuchsiaTarget(binary_dir, test, device_name, extra_command_line):
   """Runs the given Fuchsia |test| executable on the given |device_name|. The
   device must already be booted.
 
@@ -403,7 +404,7 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name):
     done_message = 'TERMINATED: ' + unique_id
     namespace_command = [
         'namespace', '/pkg=' + staging_root, '/tmp=' + tmp_root, '--',
-        staging_root + '/bin/' + test]
+        staging_root + '/bin/' + test] + extra_command_line
     netruncmd(namespace_command, ['echo', done_message])
 
     success = _HandleOutputFromFuchsiaLogListener(
@@ -418,12 +419,12 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name):
 # that are run is maintained in-tree, rather than in a separate infrastructure
 # location in the recipe.
 def main(args):
-  if len(args) != 1 and len(args) != 2:
-    print('usage: run_tests.py <binary_dir> [test_to_run]', file=sys.stderr)
-    return 1
-
-  binary_dir = args[0]
-  single_test = args[1] if len(args) == 2 else None
+  parser = argparse.ArgumentParser(description='Run Crashpad unittests.')
+  parser.add_argument('binary_dir', help='Root of build dir')
+  parser.add_argument('test', nargs='*', help='Specific test(s) to run.')
+  parser.add_argument('--gtest_filter',
+                      help='GTest filter applied to GTest binary runs.')
+  args = parser.parse_args()
 
   # Tell 64-bit Windows tests where to find 32-bit test executables, for
   # cross-bitted testing. This relies on the fact that the GYP build by default
@@ -431,13 +432,13 @@ def main(args):
   # 64-bit build. This is not a universally valid assumption, and if it’s not
   # met, 64-bit tests that require 32-bit build output will disable themselves
   # dynamically.
-  if (sys.platform == 'win32' and binary_dir.endswith('_x64') and
+  if (sys.platform == 'win32' and args.binary_dir.endswith('_x64') and
       'CRASHPAD_TEST_32_BIT_OUTPUT' not in os.environ):
-    binary_dir_32 = binary_dir[:-4]
+    binary_dir_32 = args.binary_dir[:-4]
     if os.path.isdir(binary_dir_32):
       os.environ['CRASHPAD_TEST_32_BIT_OUTPUT'] = binary_dir_32
 
-  target_os = _BinaryDirTargetOS(binary_dir)
+  target_os = _BinaryDirTargetOS(args.binary_dir)
   is_android = target_os == 'android'
   is_fuchsia = target_os == 'fuchsia'
 
@@ -482,15 +483,16 @@ def main(args):
       zircon_nodename = devices[0].strip().split()[1]
       print('Using autodetected Fuchsia device:', zircon_nodename)
     _GenerateFuchsiaRuntimeDepsFiles(
-        binary_dir, [t for t in tests if not t.endswith('.py')])
+        args.binary_dir, [t for t in tests if not t.endswith('.py')])
   elif IS_WINDOWS_HOST:
     tests.append('snapshot/win/end_to_end_test.py')
 
-  if single_test:
-    if single_test not in tests:
-      print('Unrecognized test:', single_test, file=sys.stderr)
-      return 3
-    tests = [single_test]
+  if args.test:
+    for t in args.test:
+      if t not in tests:
+        print('Unrecognized test:', t, file=sys.stderr)
+        return 3
+    tests = args.test
 
   for test in tests:
     print('-' * 80)
@@ -498,14 +500,20 @@ def main(args):
     print('-' * 80)
     if test.endswith('.py'):
       subprocess.check_call(
-          [sys.executable, os.path.join(CRASHPAD_DIR, test), binary_dir])
+          [sys.executable, os.path.join(CRASHPAD_DIR, test), args.binary_dir])
     else:
+      extra_command_line = []
+      if args.gtest_filter:
+        extra_command_line.append('--gtest_filter=' + args.gtest_filter)
       if is_android:
-        _RunOnAndroidTarget(binary_dir, test, android_device)
+        _RunOnAndroidTarget(args.binary_dir, test, android_device,
+                            extra_command_line)
       elif is_fuchsia:
-        _RunOnFuchsiaTarget(binary_dir, test, zircon_nodename)
+        _RunOnFuchsiaTarget(args.binary_dir, test, zircon_nodename,
+                            extra_command_line)
       else:
-        subprocess.check_call(os.path.join(binary_dir, test))
+        subprocess.check_call([os.path.join(args.binary_dir, test)] +
+                              extra_command_line)
 
   return 0
 
