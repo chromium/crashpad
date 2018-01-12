@@ -38,6 +38,7 @@ void PruneCrashReportThread::Stop() {
 }
 
 void PruneCrashReportThread::DoWork(const WorkerThread* thread) {
+  database_->CleanDatabase(60 * 60 * 24 * 3);
   PruneCrashReportDatabase(database_, condition_.get());
 }
 
