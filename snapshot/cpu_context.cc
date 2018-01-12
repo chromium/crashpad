@@ -164,6 +164,10 @@ uint64_t CPUContext::InstructionPointer() const {
       return x86->eip;
     case kCPUArchitectureX86_64:
       return x86_64->rip;
+    case kCPUArchitectureARM:
+      return arm->ip;
+    case kCPUArchitectureARM64:
+      return arm64->ip;
     default:
       NOTREACHED();
       return ~0ull;
