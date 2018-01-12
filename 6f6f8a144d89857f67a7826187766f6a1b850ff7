@@ -34,6 +34,24 @@
       "revId": "6f6f8a144d89857f67a7826187766f6a1b850ff7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5186082_4e6b08c1",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 70
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-12T19:36:28Z",
+      "side": 0,
+      "message": "I\u0027ve reinstated the Mac and Windows implementations and updated them to support the new interface.",
+      "parentUuid": "e9e8ef2b_c49215d9",
+      "revId": "6f6f8a144d89857f67a7826187766f6a1b850ff7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
