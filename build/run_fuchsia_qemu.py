@@ -112,6 +112,8 @@ def _Start(pid_file):
     print('instance did not respond after start', file=sys.stderr)
     return 1
 
+  return 0
+
 
 def main(args):
   if len(args) != 1 or args[0] not in ('start', 'stop'):
@@ -123,7 +125,7 @@ def main(args):
   pid_file = os.path.join(tempfile.gettempdir(), 'crashpad_fuchsia_qemu_pid')
   _Stop(pid_file)
   if command == 'start':
-    _Start(pid_file)
+    return _Start(pid_file)
 
   return 0
 
