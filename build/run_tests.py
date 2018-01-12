@@ -56,7 +56,7 @@ def _FindGNFromBinaryDir(binary_dir):
           if line.startswith('  command = '):
             gn_command_line_parts = line.strip().split(' ')
             if len(gn_command_line_parts) > 2:
-              return gn_command_line_parts[2]
+              return os.path.join(binary_dir, gn_command_line_parts[2])
 
   return None
 
