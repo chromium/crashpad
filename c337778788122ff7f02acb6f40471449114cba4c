@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d66b2db_13383d64",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-12T22:36:25Z",
+      "side": 1,
+      "message": "Just t",
+      "range": {
+        "startLine": 493,
+        "startChar": 36,
+        "endLine": 493,
+        "endChar": 42
+      },
+      "revId": "c337778788122ff7f02acb6f40471449114cba4c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
