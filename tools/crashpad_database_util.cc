@@ -40,6 +40,12 @@
 #include "util/misc/uuid.h"
 #include "util/stdlib/string_number_conversion.h"
 
+#if defined(OS_MACOSX)
+#include "client/crash_report_database_mac.h"
+#elif defined(OS_WIN)
+#include "client/crash_report_database_win.h"
+#endif  // OS_MACOSX
+
 namespace crashpad {
 namespace {
 
@@ -444,19 +450,21 @@ int DatabaseUtilMain(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
-  std::unique_ptr<CrashReportDatabase> database;
   base::FilePath database_path = base::FilePath(
       ToolSupport::CommandLineArgumentToFilePathStringType(options.database));
-  if (options.create) {
-    database = CrashReportDatabase::Initialize(database_path);
-  } else {
-    database = CrashReportDatabase::InitializeWithoutCreating(database_path);
-  }
-  if (!database) {
+
+#if defined(OS_MACOSX)
+  CrashReportDatabaseMac database;
+#elif defined(OS_WIN)
+  CrashReportDatabaseWin database;
+#else
+  CrashReportDatabase database;
+#endif  // OS_MACOSX
+  if (!database.Initialize(database_path, options.create)) {
     return EXIT_FAILURE;
   }
 
-  Settings* settings = database->GetSettings();
+  Settings* settings = database.GetSettings();
 
   // Handle the “show” options before the “set” options so that when they’re
   // specified together, the “show” option reflects the initial state.
@@ -500,7 +508,7 @@ int DatabaseUtilMain(int argc, char* argv[]) {
 
   if (options.show_pending_reports) {
     std::vector<CrashReportDatabase::Report> pending_reports;
-    if (database->GetPendingReports(&pending_reports) !=
+    if (database.GetPendingReports(&pending_reports) !=
         CrashReportDatabase::kNoError) {
       return EXIT_FAILURE;
     }
@@ -514,7 +522,7 @@ int DatabaseUtilMain(int argc, char* argv[]) {
 
   if (options.show_completed_reports) {
     std::vector<CrashReportDatabase::Report> completed_reports;
-    if (database->GetCompletedReports(&completed_reports) !=
+    if (database.GetCompletedReports(&completed_reports) !=
         CrashReportDatabase::kNoError) {
       return EXIT_FAILURE;
     }
@@ -529,7 +537,7 @@ int DatabaseUtilMain(int argc, char* argv[]) {
   for (const UUID& uuid : options.show_reports) {
     CrashReportDatabase::Report report;
     CrashReportDatabase::OperationStatus status =
-        database->LookUpCrashReport(uuid, &report);
+        database.LookUpCrashReport(uuid, &report);
     if (status == CrashReportDatabase::kNoError) {
       if (show_operations > 1) {
         printf("Report %s:\n", uuid.ToString().c_str());
@@ -584,15 +592,12 @@ int DatabaseUtilMain(int argc, char* argv[]) {
       file_reader = std::move(file_path_reader);
     }
 
-    CrashReportDatabase::NewReport* new_report;
+    std::unique_ptr<CrashReportDatabase::NewReport> new_report;
     CrashReportDatabase::OperationStatus status =
-        database->PrepareNewCrashReport(&new_report);
+        database.PrepareNewCrashReport(&new_report);
     if (status != CrashReportDatabase::kNoError) {
       return EXIT_FAILURE;
     }
-
-    CrashReportDatabase::CallErrorWritingCrashReport
-        call_error_writing_crash_report(database.get(), new_report);
 
     char buf[4096];
     FileOperationResult read_result;
@@ -601,16 +606,13 @@ int DatabaseUtilMain(int argc, char* argv[]) {
       if (read_result < 0) {
         return EXIT_FAILURE;
       }
-      if (read_result > 0 &&
-          !LoggingWriteFile(new_report->handle, buf, read_result)) {
+      if (read_result > 0 && !new_report->Writer()->Write(buf, read_result)) {
         return EXIT_FAILURE;
       }
     } while (read_result > 0);
 
-    call_error_writing_crash_report.Disarm();
-
     UUID uuid;
-    status = database->FinishedWritingCrashReport(new_report, &uuid);
+    status = database.FinishedWritingCrashReport(std::move(new_report), &uuid);
     if (status != CrashReportDatabase::kNoError) {
       return EXIT_FAILURE;
     }
