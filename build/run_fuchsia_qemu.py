@@ -99,6 +99,8 @@ def _Start(pid_file):
   with open(pid_file, 'wb') as f:
     f.write('%d\n' % popen.pid)
 
+  return 0
+
 
 def main(args):
   if len(args) != 1 or args[0] not in ('start', 'stop'):
@@ -110,7 +112,7 @@ def main(args):
   pid_file = os.path.join(tempfile.gettempdir(), 'crashpad_fuchsia_qemu_pid')
   _Stop(pid_file)
   if command == 'start':
-    _Start(pid_file)
+    return _Start(pid_file)
 
   return 0
 
