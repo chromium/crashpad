@@ -59,16 +59,13 @@ struct Settings::Data {
   UUID client_id;
 };
 
-Settings::Settings(const base::FilePath& file_path)
-    : file_path_(file_path),
-      initialized_() {
-}
+Settings::Settings() = default;
 
-Settings::~Settings() {
-}
+Settings::~Settings() = default;
 
-bool Settings::Initialize() {
+bool Settings::Initialize(const base::FilePath& file_path) {
   initialized_.set_invalid();
+  file_path_ = file_path;
 
   Data settings;
   if (!OpenForWritingAndReadSettings(&settings).is_valid())
