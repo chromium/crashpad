@@ -19,7 +19,7 @@ vars = {
 deps = {
   'buildtools':
       Var('chromium_git') + '/chromium/buildtools.git@' +
-      '505de88083136eefd056e5ee4ca0f01fe9b33de8',
+      '6fe4a3251488f7af86d64fc25cf442e817cf6133',
   'crashpad/third_party/gtest/gtest':
       Var('chromium_git') + '/external/github.com/google/googletest@' +
       'd175c8bf823e709d570772b038757fadf63bc632',
