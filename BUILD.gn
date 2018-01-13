@@ -19,7 +19,7 @@ config("crashpad_config") {
   include_dirs = [ "." ]
 }
 
-if (crashpad_is_in_chromium) {
+if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
   test("crashpad_tests") {
     deps = [
       "client:client_test",
@@ -31,7 +31,25 @@ if (crashpad_is_in_chromium) {
       "util:util_test",
     ]
   }
-} else {
+
+  if (crashpad_is_in_fuchsia) {
+    import("//build/package.gni")
+    package("crashpad_test") {
+      testonly = true
+      system_image = true
+
+      deps = [
+        ":crashpad_tests",
+      ]
+
+      tests = [
+        {
+          name = "crashpad_tests"
+        },
+      ]
+    }
+  }
+} else if (crashpad_is_standalone) {
   test("crashpad_client_test") {
     deps = [
       "client:client_test",

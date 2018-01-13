@@ -32,13 +32,14 @@ if (crashpad_is_in_chromium) {
   group("gtest") {
     testonly = true
     public_deps = [
-      "//third_party/gtest",
+      "//third_party/googletest:gtest",
     ]
   }
   group("gmock") {
     testonly = true
-    # TODO(scottmg): Fuchsia doesn't have a third_party/gmock, and has a
-    # pre-gmock-integration gtest.
+    public_deps = [
+      "//third_party/googletest:gmock",
+    ]
   }
 } else if (crashpad_is_standalone) {
   config("gtest_private_config") {
@@ -90,7 +91,9 @@ if (crashpad_is_in_chromium) {
     ]
     sources -= [ "gtest/googletest/src/gtest-all.cc" ]
     public_configs = [ ":gtest_public_config" ]
-    configs -= [ "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors" ]
+    configs -= [
+      "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
+    ]
     configs += [ ":gtest_private_config" ]
   }
 
@@ -127,7 +130,9 @@ if (crashpad_is_in_chromium) {
       "gtest/googletest/test/production.cc",
       "gtest/googletest/test/production.h",
     ]
-    configs -= [ "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors" ]
+    configs -= [
+      "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
+    ]
     configs += [ ":gtest_private_config" ]
     deps = [
       ":gtest",
@@ -169,7 +174,9 @@ if (crashpad_is_in_chromium) {
       "gtest/googletest/test/gtest-param-test_test.cc",
       "gtest/googletest/test/gtest-param-test_test.h",
     ]
-    configs -= [ "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors" ]
+    configs -= [
+      "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
+    ]
     configs += [ ":gtest_private_config" ]
     deps = [
       ":gtest",
@@ -297,7 +304,9 @@ if (crashpad_is_in_chromium) {
     ]
     sources -= [ "gtest/googlemock/src/gmock-all.cc" ]
     public_configs = [ ":gmock_public_config" ]
-    configs -= [ "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors" ]
+    configs -= [
+      "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
+    ]
     configs += [ ":gmock_private_config" ]
     deps = [
       ":gtest",
@@ -370,7 +379,9 @@ if (crashpad_is_in_chromium) {
     sources = [
       "gtest/googlemock/test/gmock_stress_test.cc",
     ]
-    configs -= [ "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors" ]
+    configs -= [
+      "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
+    ]
     configs += [ ":gmock_private_config" ]
     deps = [
       ":gmock",
