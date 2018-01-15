@@ -24,18 +24,6 @@
 
 namespace crashpad {
 
-namespace internal {
-
-// static
-void ScopedLockedFileHandleTraits::Free(FileHandle handle) {
-  if (handle != kInvalidFileHandle) {
-    LoggingUnlockFile(handle);
-    CheckedCloseFile(handle);
-  }
-}
-
-}  // namespace internal
-
 struct Settings::Data {
   static const uint32_t kSettingsMagic = 'CPds';
   static const uint32_t kSettingsVersion = 1;
@@ -61,8 +49,8 @@ struct Settings::Data {
 
 Settings::Settings(const base::FilePath& file_path)
     : file_path_(file_path),
-      initialized_() {
-}
+      lock_file_(file_path.value() + FILE_PATH_LITERAL(".lock")),
+      initialized_() {}
 
 Settings::~Settings() {
 }
@@ -79,13 +67,20 @@ bool Settings::Initialize() {
 }
 
 bool Settings::GetClientID(UUID* client_id) {
+  LOG(ERROR) << "b0";
   DCHECK(initialized_.is_valid());
+  LOG(ERROR) << "b1";
 
   Data settings;
-  if (!OpenAndReadSettings(&settings))
+  LOG(ERROR) << "b2";
+  if (!OpenAndReadSettings(&settings)){
+  LOG(ERROR) << "b3";
     return false;
+  }
+  LOG(ERROR) << "b4";
 
   *client_id = settings.client_id;
+  LOG(ERROR) << "b5";
   return true;
 }
 
@@ -113,7 +108,7 @@ bool Settings::SetUploadsEnabled(bool enabled) {
   else
     settings.options &= ~Data::Options::kUploadsEnabled;
 
-  return WriteSettings(handle.get(), settings);
+  return WriteSettings(handle.handle(), settings);
 }
 
 bool Settings::GetLastUploadAttemptTime(time_t* time) {
@@ -138,24 +133,36 @@ bool Settings::SetLastUploadAttemptTime(time_t time) {
 
   settings.last_upload_attempt_time = InRangeCast<int64_t>(time, 0);
 
-  return WriteSettings(handle.get(), settings);
+  return WriteSettings(handle.handle(), settings);
+}
+
+void Settings::ScopedLockedFileHandle::reset() {
+  if (handle_ != kInvalidFileHandle) {
+    LoggingUnlockFile(handle_, lock_file_);
+    CheckedCloseFile(handle_);
+  }
+}
+
+Settings::ScopedLockedFileHandle::~ScopedLockedFileHandle() {
+  reset();
 }
 
 // static
 Settings::ScopedLockedFileHandle Settings::MakeScopedLockedFileHandle(
     FileHandle file,
-    FileLocking locking) {
+    FileLocking locking,
+    const base::FilePath& lock_file_name) {
   ScopedFileHandle scoped(file);
   if (scoped.is_valid()) {
-    if (!LoggingLockFile(scoped.get(), locking))
+    if (!LoggingLockFile(scoped.get(), locking, lock_file_name))
       scoped.reset();
   }
-  return ScopedLockedFileHandle(scoped.release());
+  return ScopedLockedFileHandle(scoped.release(), lock_file_name);
 }
 
 Settings::ScopedLockedFileHandle Settings::OpenForReading() {
-  return MakeScopedLockedFileHandle(LoggingOpenFileForRead(file_path()),
-                                    FileLocking::kShared);
+  return MakeScopedLockedFileHandle(
+      LoggingOpenFileForRead(file_path()), FileLocking::kShared, lock_file());
 }
 
 Settings::ScopedLockedFileHandle Settings::OpenForReadingAndWriting(
@@ -171,21 +178,31 @@ Settings::ScopedLockedFileHandle Settings::OpenForReadingAndWriting(
         file_path(), mode, FilePermissions::kWorldReadable);
   }
 
-  return MakeScopedLockedFileHandle(handle, FileLocking::kExclusive);
+  return MakeScopedLockedFileHandle(
+      handle, FileLocking::kExclusive, lock_file());
 }
 
 bool Settings::OpenAndReadSettings(Data* out_data) {
+  LOG(ERROR) << "c0";
   ScopedLockedFileHandle handle = OpenForReading();
-  if (!handle.is_valid())
+  LOG(ERROR) << "c1";
+  if (!handle.is_valid()) {
+  LOG(ERROR) << "c2";
     return false;
+  }
+  LOG(ERROR) << "c3";
 
-  if (ReadSettings(handle.get(), out_data, true))
+  if (ReadSettings(handle.handle(), out_data, true)) {
+  LOG(ERROR) << "c4";
     return true;
+  }
 
   // The settings file is corrupt, so reinitialize it.
+  LOG(ERROR) << "c5";
   handle.reset();
 
   // The settings failed to be read, so re-initialize them.
+  LOG(ERROR) << "c6";
   return RecoverSettings(kInvalidFileHandle, out_data);
 }
 
@@ -232,8 +249,8 @@ Settings::ScopedLockedFileHandle Settings::OpenForWritingAndReadSettings(
   // took the lock. If the settings file was definitely just created, though,
   // don’t log any read errors. The expected non-race behavior in this case is a
   // zero-length read, with ReadSettings() failing.
-  if (!ReadSettings(handle.get(), out_data, !created)) {
-    if (!RecoverSettings(handle.get(), out_data))
+  if (!ReadSettings(handle.handle(), out_data, !created)) {
+    if (!RecoverSettings(handle.handle(), out_data))
       return ScopedLockedFileHandle();
   }
 
@@ -243,27 +260,39 @@ Settings::ScopedLockedFileHandle Settings::OpenForWritingAndReadSettings(
 bool Settings::ReadSettings(FileHandle handle,
                             Data* out_data,
                             bool log_read_error) {
-  if (LoggingSeekFile(handle, 0, SEEK_SET) != 0)
+  LOG(ERROR) << "e0";
+  if (LoggingSeekFile(handle, 0, SEEK_SET) != 0) {
+  LOG(ERROR) << "e1";
     return false;
+  }
 
+  LOG(ERROR) << "e2";
   bool read_result =
       log_read_error
           ? LoggingReadFileExactly(handle, out_data, sizeof(*out_data))
           : ReadFileExactly(handle, out_data, sizeof(*out_data));
+  LOG(ERROR) << "e3";
 
-  if (!read_result)
+  if (!read_result) {
+  LOG(ERROR) << "e4";
     return false;
+  }
 
+  LOG(ERROR) << "e5";
   if (out_data->magic != Data::kSettingsMagic) {
+  LOG(ERROR) << "e6";
     LOG(ERROR) << "Settings magic is not " << Data::kSettingsMagic;
     return false;
   }
 
+  LOG(ERROR) << "e7";
   if (out_data->version != Data::kSettingsVersion) {
+  LOG(ERROR) << "e8";
     LOG(ERROR) << "Settings version is not " << Data::kSettingsVersion;
     return false;
   }
 
+  LOG(ERROR) << "e9";
   return true;
 }
 
@@ -278,26 +307,40 @@ bool Settings::WriteSettings(FileHandle handle, const Data& data) {
 }
 
 bool Settings::RecoverSettings(FileHandle handle, Data* out_data) {
+  LOG(ERROR) << "d0";
   ScopedLockedFileHandle scoped_handle;
+  LOG(ERROR) << "d1";
   if (handle == kInvalidFileHandle) {
+  LOG(ERROR) << "d2";
     scoped_handle =
         OpenForReadingAndWriting(FileWriteMode::kReuseOrCreate, true);
-    handle = scoped_handle.get();
+  LOG(ERROR) << "d3";
+    handle = scoped_handle.handle();
+  LOG(ERROR) << "d4";
 
     // Test if the file has already been recovered now that the exclusive lock
     // is held.
-    if (ReadSettings(handle, out_data, true))
+  LOG(ERROR) << "d5";
+    if (ReadSettings(handle, out_data, true)) {
+  LOG(ERROR) << "d6";
       return true;
+    }
   }
+  LOG(ERROR) << "d7";
 
   if (handle == kInvalidFileHandle) {
+  LOG(ERROR) << "d8";
     LOG(ERROR) << "Invalid file handle";
     return false;
   }
 
-  if (!InitializeSettings(handle))
+  LOG(ERROR) << "d9";
+  if (!InitializeSettings(handle)) {
+  LOG(ERROR) << "d10";
     return false;
+  }
 
+  LOG(ERROR) << "d11";
   return ReadSettings(handle, out_data, true);
 }
 

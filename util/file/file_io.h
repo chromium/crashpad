@@ -420,7 +420,9 @@ FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
 //!     exclusive writer lock.
 //!
 //! \return `true` on success, or `false` and a message will be logged.
-bool LoggingLockFile(FileHandle file, FileLocking locking);
+bool LoggingLockFile(FileHandle file,
+                     FileLocking locking,
+                     const base::FilePath& lock_file_name);
 
 //! \brief Unlocks a file previously locked with LoggingLockFile().
 //!
@@ -431,7 +433,7 @@ bool LoggingLockFile(FileHandle file, FileLocking locking);
 //! \param[in] file The open locked file handle to be unlocked.
 //!
 //! \return `true` on success, or `false` and a message will be logged.
-bool LoggingUnlockFile(FileHandle file);
+bool LoggingUnlockFile(FileHandle file, const base::FilePath& lock_file_name);
 
 //! \brief Wraps `lseek()` or `SetFilePointerEx()`. Logs an error if the
 //!     operation fails.

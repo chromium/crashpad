@@ -14,6 +14,7 @@
 
 #include "client/settings.h"
 
+#include "base/logging.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
@@ -125,17 +126,27 @@ TEST_F(SettingsTest, BadFileOnInitialize) {
 }
 
 TEST_F(SettingsTest, BadFileOnGet) {
+LOG(ERROR) << "a0";
   InitializeBadFile();
+LOG(ERROR) << "a1";
 
   UUID client_id;
+LOG(ERROR) << "a2";
   EXPECT_TRUE(settings()->GetClientID(&client_id));
+LOG(ERROR) << "a3";
   EXPECT_NE(client_id, UUID());
+LOG(ERROR) << "a4";
 
   Settings local_settings(settings_path());
+LOG(ERROR) << "a5";
   EXPECT_TRUE(local_settings.Initialize());
+LOG(ERROR) << "a6";
   UUID actual;
+LOG(ERROR) << "a7";
   EXPECT_TRUE(local_settings.GetClientID(&actual));
+LOG(ERROR) << "a8";
   EXPECT_EQ(actual, client_id);
+LOG(ERROR) << "a9";
 }
 
 TEST_F(SettingsTest, BadFileOnSet) {

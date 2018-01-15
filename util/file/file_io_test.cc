@@ -527,6 +527,7 @@ TEST(FileIO, MultipleSharedLocks) {
   ScopedTempDir temp_dir;
   base::FilePath shared_file =
       temp_dir.path().Append(FILE_PATH_LITERAL("file_to_lock"));
+  base::FilePath lock_file(shared_file.value() + FILE_PATH_LITERAL(".lock"));
 
   {
     // Create an empty file to lock.
@@ -538,14 +539,14 @@ TEST(FileIO, MultipleSharedLocks) {
 
   auto handle1 = ScopedFileHandle(LoggingOpenFileForRead(shared_file));
   ASSERT_NE(handle1, kInvalidFileHandle);
-  EXPECT_TRUE(LoggingLockFile(handle1.get(), FileLocking::kShared));
+  EXPECT_TRUE(LoggingLockFile(handle1.get(), FileLocking::kShared, lock_file));
 
   auto handle2 = ScopedFileHandle(LoggingOpenFileForRead(shared_file));
   ASSERT_NE(handle1, kInvalidFileHandle);
-  EXPECT_TRUE(LoggingLockFile(handle2.get(), FileLocking::kShared));
+  EXPECT_TRUE(LoggingLockFile(handle2.get(), FileLocking::kShared, lock_file));
 
-  EXPECT_TRUE(LoggingUnlockFile(handle1.get()));
-  EXPECT_TRUE(LoggingUnlockFile(handle2.get()));
+  EXPECT_TRUE(LoggingUnlockFile(handle1.get(), lock_file));
+  EXPECT_TRUE(LoggingUnlockFile(handle2.get(), lock_file));
 }
 
 class LockingTestThread : public Thread {
@@ -555,11 +556,13 @@ class LockingTestThread : public Thread {
 
   void Init(FileHandle file,
             FileLocking lock_type,
+            const base::FilePath& lock_file,
             int iterations,
             base::subtle::Atomic32* actual_iterations) {
     ASSERT_NE(file, kInvalidFileHandle);
     file_ = ScopedFileHandle(file);
     lock_type_ = lock_type;
+    lock_file_ = lock_file;
     iterations_ = iterations;
     actual_iterations_ = actual_iterations;
   }
@@ -567,14 +570,15 @@ class LockingTestThread : public Thread {
  private:
   void ThreadMain() override {
     for (int i = 0; i < iterations_; ++i) {
-      EXPECT_TRUE(LoggingLockFile(file_.get(), lock_type_));
+      EXPECT_TRUE(LoggingLockFile(file_.get(), lock_type_, lock_file_));
       base::subtle::NoBarrier_AtomicIncrement(actual_iterations_, 1);
-      EXPECT_TRUE(LoggingUnlockFile(file_.get()));
+      EXPECT_TRUE(LoggingUnlockFile(file_.get(), lock_file_));
     }
   }
 
   ScopedFileHandle file_;
   FileLocking lock_type_;
+  base::FilePath lock_file_;
   int iterations_;
   base::subtle::Atomic32* actual_iterations_;
 
@@ -585,6 +589,7 @@ void LockingTest(FileLocking main_lock, FileLocking other_locks) {
   ScopedTempDir temp_dir;
   base::FilePath shared_file =
       temp_dir.path().Append(FILE_PATH_LITERAL("file_to_lock"));
+  base::FilePath lock_file(shared_file.value() + FILE_PATH_LITERAL(".lock"));
 
   {
     // Create an empty file to lock.
@@ -601,7 +606,7 @@ void LockingTest(FileLocking main_lock, FileLocking other_locks) {
                                     FileWriteMode::kReuseOrCreate,
                                     FilePermissions::kOwnerOnly));
   ASSERT_NE(initial, kInvalidFileHandle);
-  ASSERT_TRUE(LoggingLockFile(initial.get(), main_lock));
+  ASSERT_TRUE(LoggingLockFile(initial.get(), main_lock, lock_file));
 
   base::subtle::Atomic32 actual_iterations = 0;
 
@@ -616,6 +621,7 @@ void LockingTest(FileLocking main_lock, FileLocking other_locks) {
                                       FileWriteMode::kReuseOrCreate,
                                       FilePermissions::kOwnerOnly),
         other_locks,
+        lock_file,
         iterations_for_this_thread,
         &actual_iterations);
     expected_iterations += iterations_for_this_thread;
@@ -627,7 +633,7 @@ void LockingTest(FileLocking main_lock, FileLocking other_locks) {
       base::subtle::NoBarrier_Load(&actual_iterations);
   EXPECT_EQ(result, 0);
 
-  ASSERT_TRUE(LoggingUnlockFile(initial.get()));
+  ASSERT_TRUE(LoggingUnlockFile(initial.get(), lock_file));
 
   for (auto& t : threads)
     t.Join();

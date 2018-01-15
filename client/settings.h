@@ -28,15 +28,6 @@
 
 namespace crashpad {
 
-namespace internal {
-
-struct ScopedLockedFileHandleTraits {
-  static FileHandle InvalidValue() { return kInvalidFileHandle; }
-  static void Free(FileHandle handle);
-};
-
-}  // namespace internal
-
 //! \brief An interface for accessing and modifying the settings of a
 //!     CrashReportDatabase.
 //!
@@ -107,10 +98,43 @@ class Settings {
 
   // This must be constructed with MakeScopedLockedFileHandle(). It both unlocks
   // and closes the file on destruction.
-  using ScopedLockedFileHandle =
-      base::ScopedGeneric<FileHandle, internal::ScopedLockedFileHandleTraits>;
-  static ScopedLockedFileHandle MakeScopedLockedFileHandle(FileHandle file,
-                                                           FileLocking locking);
+  class ScopedLockedFileHandle {
+   public:
+    ScopedLockedFileHandle() : handle_(kInvalidFileHandle), lock_file_() {}
+    ScopedLockedFileHandle(FileHandle handle, const base::FilePath& lock_file)
+        : handle_(handle), lock_file_(lock_file) {}
+
+    ScopedLockedFileHandle(ScopedLockedFileHandle&& other)
+        : handle_(other.handle_), lock_file_(other.lock_file_) {
+      other.handle_ = kInvalidFileHandle;
+      other.lock_file_ = base::FilePath();
+    }
+
+    ScopedLockedFileHandle& operator=(ScopedLockedFileHandle&& other) {
+      handle_ = other.handle_;
+      lock_file_ = other.lock_file_;
+      other.handle_ = kInvalidFileHandle;
+      other.lock_file_ = base::FilePath();
+      return *this;
+    }
+
+    bool is_valid() const { return handle_ != kInvalidFileHandle; }
+    void reset();
+    FileHandle handle() { return handle_; }
+
+    ~ScopedLockedFileHandle();
+
+   private:
+    FileHandle handle_;
+    base::FilePath lock_file_;
+
+    DISALLOW_COPY_AND_ASSIGN(ScopedLockedFileHandle);
+  };
+
+  static ScopedLockedFileHandle MakeScopedLockedFileHandle(
+      FileHandle file,
+      FileLocking locking,
+      const base::FilePath& lock_file_name);
 
   // Opens the settings file for reading. On error, logs a message and returns
   // the invalid handle.
@@ -170,8 +194,10 @@ class Settings {
   bool InitializeSettings(FileHandle handle);
 
   const base::FilePath& file_path() const { return file_path_; }
+  const base::FilePath& lock_file() const { return lock_file_; }
 
   base::FilePath file_path_;
+  base::FilePath lock_file_;
 
   InitializationState initialized_;
 

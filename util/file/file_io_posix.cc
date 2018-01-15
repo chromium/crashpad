@@ -157,17 +157,29 @@ FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
   return fd;
 }
 
-bool LoggingLockFile(FileHandle file, FileLocking locking) {
+bool LoggingLockFile(FileHandle file,
+                     FileLocking locking,
+                     const base::FilePath& lock_file) {
+#if defined(OS_FUCHSIA)
+  // There's no advisory locking on Fuchsia, emulate locks with a directory.
+  return mkdir(lock_file.value().c_str(), 0777) >= 0;
+#else
   int operation = (locking == FileLocking::kShared) ? LOCK_SH : LOCK_EX;
   int rv = HANDLE_EINTR(flock(file, operation));
   PLOG_IF(ERROR, rv != 0) << "flock";
   return rv == 0;
+#endif
 }
 
-bool LoggingUnlockFile(FileHandle file) {
+bool LoggingUnlockFile(FileHandle file, const base::FilePath& lock_file) {
+#if defined(OS_FUCHSIA)
+  // There's no advisory locking on Fuchsia, emulate locks with a directory.
+  return rmdir(lock_file.value().c_str()) >= 0;
+#else
   int rv = flock(file, LOCK_UN);
   PLOG_IF(ERROR, rv != 0) << "flock";
   return rv == 0;
+#endif
 }
 
 FileOffset LoggingSeekFile(FileHandle file, FileOffset offset, int whence) {
