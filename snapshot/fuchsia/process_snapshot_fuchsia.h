@@ -19,8 +19,10 @@
 
 #include "base/macros.h"
 #include "snapshot/crashpad_info_client_options.h"
+#include "snapshot/fuchsia/thread_snapshot_fuchsia.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/unloaded_module_snapshot.h"
+#include "util/misc/initialization_state_dcheck.h"
 
 namespace crashpad {
 
@@ -66,7 +68,17 @@ class ProcessSnapshotFuchsia : public ProcessSnapshot {
   std::vector<const MemorySnapshot*> ExtraMemory() const override;
 
  private:
+  // Initializes threads_ of behalf of Initialize().
+  void InitializeThreads();
+
+  // Initializes modules_ of behalf of Initialize().
+  void InitializeModules();
+
+  zx_handle_t process_;
+  std::vector<std::unique_ptr<internal::ThreadSnapshotFuchsia>> threads_;
   std::map<std::string, std::string> annotations_simple_map_;
+  timeval snapshot_time_;
+  InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessSnapshotFuchsia);
 };

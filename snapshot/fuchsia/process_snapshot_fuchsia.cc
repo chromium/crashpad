@@ -14,22 +14,75 @@
 
 #include "snapshot/fuchsia/process_snapshot_fuchsia.h"
 
+#include <zircon/syscalls.h>
+#include <zircon/syscalls/object.h>
+
+#include <memory>
+
 #include "base/logging.h"
+#include "base/fuchsia/fuchsia_logging.h"
 
 namespace crashpad {
 
-ProcessSnapshotFuchsia::ProcessSnapshotFuchsia() {}
+ProcessSnapshotFuchsia::ProcessSnapshotFuchsia()
+    : process_(ZX_HANDLE_INVALID) {}
 
 ProcessSnapshotFuchsia::~ProcessSnapshotFuchsia() {}
 
 bool ProcessSnapshotFuchsia::Initialize(zx_handle_t process) {
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
-  return false;
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+  process_ = process;
+
+  if (gettimeofday(&snapshot_time_, nullptr) != 0) {
+    PLOG(ERROR) << "gettimeofday";
+    return false;
+  }
+
+  InitializeThreads();
+  InitializeModules();
+
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
 }
 
 void ProcessSnapshotFuchsia::GetCrashpadOptions(
     CrashpadInfoClientOptions* options) {
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  CrashpadInfoClientOptions local_options;
+
+  /*
+  for (const auto& module : modules_) {
+    CrashpadInfoClientOptions module_options;
+    module->GetCrashpadOptions(&module_options);
+
+    if (local_options.crashpad_handler_behavior == TriState::kUnset) {
+      local_options.crashpad_handler_behavior =
+          module_options.crashpad_handler_behavior;
+    }
+    if (local_options.system_crash_reporter_forwarding == TriState::kUnset) {
+      local_options.system_crash_reporter_forwarding =
+          module_options.system_crash_reporter_forwarding;
+    }
+    if (local_options.gather_indirectly_referenced_memory == TriState::kUnset) {
+      local_options.gather_indirectly_referenced_memory =
+          module_options.gather_indirectly_referenced_memory;
+      local_options.indirectly_referenced_memory_cap =
+          module_options.indirectly_referenced_memory_cap;
+    }
+
+    // If non-default values have been found for all options, the loop can end
+    // early.
+    if (local_options.crashpad_handler_behavior != TriState::kUnset &&
+        local_options.system_crash_reporter_forwarding != TriState::kUnset &&
+        local_options.gather_indirectly_referenced_memory != TriState::kUnset) {
+      break;
+    }
+  }
+  */
+
+  *options = local_options;
 }
 
 pid_t ProcessSnapshotFuchsia::ProcessID() const {
@@ -109,6 +162,32 @@ std::vector<HandleSnapshot> ProcessSnapshotFuchsia::Handles() const {
 std::vector<const MemorySnapshot*> ProcessSnapshotFuchsia::ExtraMemory() const {
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return std::vector<const MemorySnapshot*>();
+}
+
+void ProcessSnapshotFuchsia::InitializeThreads() {
+  size_t num_threads;
+  zx_status_t status = zx_object_get_info(
+      process_, ZX_INFO_PROCESS_THREADS, nullptr, 0, nullptr, &num_threads);
+  if (status != ZX_OK) {
+    ZX_LOG(ERROR, status) << "zx_object_get_info ZX_INFO_PROCESS_THREADS";
+    return;
+  }
+
+  auto threads = std::make_unique<zx_koid_t[]>(num_threads);
+  size_t records_read;
+  status = zx_object_get_info(process_,
+                              ZX_INFO_PROCESS_THREADS,
+                              threads.get(),
+                              num_threads * sizeof(threads[0]),
+                              &records_read,
+                              nullptr);
+  if (status != ZX_OK) {
+    ZX_LOG(ERROR, status) << "zx_object_get_info ZX_INFO_PROCESS_THREADS";
+    return;
+  }
+}
+
+void ProcessSnapshotFuchsia::InitializeModules() {
 }
 
 }  // namespace crashpad
