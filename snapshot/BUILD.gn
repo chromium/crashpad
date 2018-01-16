@@ -167,8 +167,11 @@ static_library("snapshot") {
 
   if (crashpad_is_fuchsia) {
     sources += [
+      "fuchsia/module_snapshot_fuchsia.cc",
+      "fuchsia/module_snapshot_fuchsia.h",
       "fuchsia/process_snapshot_fuchsia.cc",
       "fuchsia/process_snapshot_fuchsia.h",
+      "fuchsia/thread_snapshot_fuchsia.h",
     ]
   }
 
