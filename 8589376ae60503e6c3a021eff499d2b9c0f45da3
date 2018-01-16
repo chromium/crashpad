@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cd1c597e_d1a1ff07",
+        "filename": "BUILD.gn",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-16T22:20:59Z",
+      "side": 1,
+      "message": "\"If true, the package is stored in the system boot image rather than in a Fuchsia Archive.\"\n\nI think \"real\" applications are packaged into FARs (and perhaps everything eventually will be?), but it seems that at the moment, leaving test binaries loose in /system/bin is the normal way of things (i.e. this is copied from other test packages).",
+      "parentUuid": "630eb0df_dc6811a1",
+      "revId": "8589376ae60503e6c3a021eff499d2b9c0f45da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eaffa8e2_7af5efa0",
         "filename": "BUILD.gn",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2018-01-16T21:48:35Z",
       "side": 1,
       "message": "Trailing comma",
+      "range": {
+        "startLine": 48,
+        "startChar": 9,
+        "endLine": 48,
+        "endChar": 10
+      },
+      "revId": "8589376ae60503e6c3a021eff499d2b9c0f45da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c861abe_279a0d48",
+        "filename": "BUILD.gn",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-16T22:20:59Z",
+      "side": 1,
+      "message": "gn format always adds a trailing comma for items in multiline lists.",
+      "parentUuid": "eaffa8e2_7af5efa0",
       "range": {
         "startLine": 48,
         "startChar": 9,
