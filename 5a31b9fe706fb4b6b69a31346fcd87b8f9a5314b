@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "df8d8998_23e92178",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-16T22:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8502472_d36724f2",
+      "revId": "5a31b9fe706fb4b6b69a31346fcd87b8f9a5314b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6bb3e9f_71b93c12",
         "filename": "util/process/process_memory_fuchsia.cc",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "8f0aa86f_105ace40",
+        "filename": "util/process/process_memory_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-16T22:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6bb3e9f_71b93c12",
+      "range": {
+        "startLine": 46,
+        "startChar": 19,
+        "endLine": 46,
+        "endChar": 41
+      },
+      "revId": "5a31b9fe706fb4b6b69a31346fcd87b8f9a5314b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9d72794_250f4f05",
         "filename": "util/process/process_memory_fuchsia.cc",
         "patchSetId": 1
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "d2c25fcd_0404cc78",
+        "filename": "util/process/process_memory_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-16T22:47:45Z",
+      "side": 1,
+      "message": "Done (I thought at first the read loop was a bit different when the fd couldn\u0027t return all the bytes, but I believe it\u0027s actually the same, and would result in an \"unterminated string\" error either way.)",
+      "parentUuid": "f9d72794_250f4f05",
+      "revId": "5a31b9fe706fb4b6b69a31346fcd87b8f9a5314b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14bb81e9_487b57f7",
         "filename": "util/process/process_memory_fuchsia.h",
         "patchSetId": 1
@@ -73,6 +133,24 @@
       "revId": "5a31b9fe706fb4b6b69a31346fcd87b8f9a5314b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c2c9bd0_a5d822f6",
+        "filename": "util/process/process_memory_fuchsia.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-16T22:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14bb81e9_487b57f7",
+      "revId": "5a31b9fe706fb4b6b69a31346fcd87b8f9a5314b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +183,24 @@
       "side": 1,
       "message": "\u003e I\u0027ll have to figure out what to do about fork() next, I think.\n\nI think we probably need a large and sweeping revision to do away with all of our fork()-based children anyway.\n\nIs there a solution for gtest death tests yet? It should be possible to implement death tests on Fuchsia according to the “threadsafe” death test style as is done on Windows.",
       "parentUuid": "7dca300d_9fc48107",
+      "revId": "5a31b9fe706fb4b6b69a31346fcd87b8f9a5314b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52ca1bda_ebbcf086",
+        "filename": "util/process/process_memory_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-16T22:47:45Z",
+      "side": 1,
+      "message": "I haven\u0027t looked at death tests yet, I was just working on a MultiprocessExec implementation for Fuchsia, but I got waylaid with the silly not-being-able-to-get-argv0 problem.\n\nBut yeah, it\u0027d be nice if we could move all the fork()y tests to be exec-like instead.",
+      "parentUuid": "efa21c82_83ecd8a3",
       "revId": "5a31b9fe706fb4b6b69a31346fcd87b8f9a5314b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
