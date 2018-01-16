@@ -2,6 +2,80 @@
   "comments": [
     {
       "key": {
+        "uuid": "b8502472_d36724f2",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-16T21:59:17Z",
+      "side": 1,
+      "message": "Having the order of these sections be (L, L+A+F, L+A) may be the least optimal. Since it’s possible to go from most to least general (or the other way around), we should.",
+      "revId": "5a31b9fe706fb4b6b69a31346fcd87b8f9a5314b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6bb3e9f_71b93c12",
+        "filename": "util/process/process_memory_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-16T21:59:17Z",
+      "side": 1,
+      "message": "Stick a colon in there.",
+      "range": {
+        "startLine": 46,
+        "startChar": 19,
+        "endLine": 46,
+        "endChar": 41
+      },
+      "revId": "5a31b9fe706fb4b6b69a31346fcd87b8f9a5314b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9d72794_250f4f05",
+        "filename": "util/process/process_memory_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-16T21:59:17Z",
+      "side": 1,
+      "message": "This looks like it’s fundamentally very similar to ProcessMemoryLinux::ReadCStringInternal(), if not totally identical save for the call to the underlying read operation. Is it possible to write this function in terms of Read() instead of the underlying operation like zx_process_read_memory(), and move it out to the base ProcessMemory?",
+      "revId": "5a31b9fe706fb4b6b69a31346fcd87b8f9a5314b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14bb81e9_487b57f7",
+        "filename": "util/process/process_memory_fuchsia.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-16T21:59:17Z",
+      "side": 1,
+      "message": "We should probably have an IntializationStateDcheck protect this. Same in ProcessMemoryLinux, actually. More important there, in fact, since its implementation actually can fail.",
+      "revId": "5a31b9fe706fb4b6b69a31346fcd87b8f9a5314b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7dca300d_9fc48107",
         "filename": "util/process/process_memory_test.cc",
         "patchSetId": 1
@@ -13,6 +87,24 @@
       "writtenOn": "2018-01-16T19:22:26Z",
       "side": 1,
       "message": "I\u0027ll have to figure out what to do about fork() next, I think.",
+      "revId": "5a31b9fe706fb4b6b69a31346fcd87b8f9a5314b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efa21c82_83ecd8a3",
+        "filename": "util/process/process_memory_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-16T21:59:17Z",
+      "side": 1,
+      "message": "\u003e I\u0027ll have to figure out what to do about fork() next, I think.\n\nI think we probably need a large and sweeping revision to do away with all of our fork()-based children anyway.\n\nIs there a solution for gtest death tests yet? It should be possible to implement death tests on Fuchsia according to the “threadsafe” death test style as is done on Windows.",
+      "parentUuid": "7dca300d_9fc48107",
       "revId": "5a31b9fe706fb4b6b69a31346fcd87b8f9a5314b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
