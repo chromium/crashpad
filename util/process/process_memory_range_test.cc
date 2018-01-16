@@ -22,7 +22,14 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "util/misc/from_pointer_cast.h"
+
+#if defined(OS_FUCHSIA)
+#include <zircon/process.h>
+
+#include "util/process/process_memory_fuchsia.h"
+#else
 #include "util/process/process_memory_linux.h"
+#endif
 
 namespace crashpad {
 namespace test {
@@ -34,6 +41,11 @@ struct TestObject {
 } kTestObject = {"string1", "string2"};
 
 TEST(ProcessMemoryRange, Basic) {
+#if defined(OS_FUCHSIA)
+  ProcessMemoryFuchsia memory;
+  ASSERT_TRUE(memory.Initialize(zx_process_self()));
+  constexpr bool is_64_bit = true;
+#else
   pid_t pid = getpid();
 #if defined(ARCH_CPU_64_BITS)
   constexpr bool is_64_bit = true;
@@ -43,6 +55,7 @@ TEST(ProcessMemoryRange, Basic) {
 
   ProcessMemoryLinux memory;
   ASSERT_TRUE(memory.Initialize(pid));
+#endif  // OS_FUCHSIA
 
   ProcessMemoryRange range;
   ASSERT_TRUE(range.Initialize(&memory, is_64_bit));

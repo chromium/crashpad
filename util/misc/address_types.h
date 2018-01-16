@@ -27,6 +27,8 @@
 #include "util/win/address_types.h"
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
 #include "util/linux/address_types.h"
+#elif defined(OS_FUCHSIA)
+#include <zircon/types.h>
 #else
 #error "Unhandled OS type"
 #endif
@@ -57,6 +59,11 @@ using VMSize = WinVMSize;
 
 using VMAddress = LinuxVMAddress;
 using VMSize = LinuxVMSize;
+
+#elif defined(OS_FUCHSIA)
+
+using VMAddress = zx_vaddr_t;
+using VMSize = size_t;
 
 #endif
 
