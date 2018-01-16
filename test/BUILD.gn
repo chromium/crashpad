@@ -42,13 +42,13 @@ static_library("test") {
   ]
 
   if (crashpad_is_posix) {
-    sources += [
-      "multiprocess_posix.cc",
-      "scoped_temp_dir_posix.cc",
-    ]
+    sources += [ "scoped_temp_dir_posix.cc" ]
 
     if (!crashpad_is_fuchsia) {
-      sources += [ "multiprocess_exec_posix.cc" ]
+      sources += [
+        "multiprocess_exec_posix.cc",
+        "multiprocess_posix.cc",
+      ]
     }
   }
 
@@ -91,6 +91,11 @@ static_library("test") {
     ]
   }
 
+  if (crashpad_is_fuchsia) {
+    sources += [ "multiprocess_exec_fuchsia.cc" ]
+    libs = [ "launchpad" ]
+  }
+
   public_configs = [ "..:crashpad_config" ]
 
   configs += [ "../build:crashpad_is_in_chromium" ]
@@ -121,6 +126,7 @@ source_set("test_test") {
   sources = [
     "hex_string_test.cc",
     "main_arguments_test.cc",
+    "multiprocess_exec_test.cc",
     "scoped_temp_dir_test.cc",
     "test_paths_test.cc",
   ]
@@ -141,11 +147,6 @@ source_set("test_test") {
   }
 
   if (!crashpad_is_fuchsia) {
-    sources += [
-      # TODO(scottmg): A MultiprocessExecFuchsia is probably desirable, but
-      # hasn't been implemented yet.
-      "multiprocess_exec_test.cc",
-    ]
   }
 
   deps = [
