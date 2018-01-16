@@ -102,7 +102,7 @@ class ProcessMemory {
   virtual bool ReadCStringInternal(VMAddress address,
                                    bool has_size,
                                    size_t size,
-                                   std::string* string) const = 0;
+                                   std::string* string) const;
 };
 
 }  // namespace crashpad

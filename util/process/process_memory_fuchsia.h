@@ -1,4 +1,4 @@
-// Copyright 2017 The Crashpad Authors. All rights reserved.
+// Copyright 2018 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_LINUX_H_
-#define CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_LINUX_H_
+#ifndef CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_FUCHSIA_H_
+#define CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_FUCHSIA_H_
 
-#include <sys/types.h>
+#include <zircon/types.h>
 
 #include <string>
 
-#include "base/files/scoped_file.h"
 #include "base/macros.h"
 #include "util/misc/address_types.h"
 #include "util/misc/initialization_state_dcheck.h"
@@ -27,33 +26,31 @@
 
 namespace crashpad {
 
-//! \brief Accesses the memory of another Linux process.
-class ProcessMemoryLinux final : public ProcessMemory {
+//! \brief Accesses the memory of another Fuchsia process.
+class ProcessMemoryFuchsia final : public ProcessMemory {
  public:
-  ProcessMemoryLinux();
-  ~ProcessMemoryLinux();
+  ProcessMemoryFuchsia();
+  ~ProcessMemoryFuchsia();
 
-  //! \brief Initializes this object to read the memory of a process whose ID
-  //!     is \a pid.
+  //! \brief Initializes this object to read the memory of a process by handle.
   //!
   //! This method must be called successfully prior to calling any other method
   //! in this class.
   //!
-  //! \param[in] pid The process ID of a target process.
+  //! \param[in] pid The handle to the target process.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
-  bool Initialize(pid_t pid);
+  bool Initialize(zx_handle_t process);
 
   bool Read(VMAddress address, size_t size, void* buffer) const override;
 
  private:
-  base::ScopedFD mem_fd_;
-  pid_t pid_;
+  zx_handle_t process_;
   InitializationStateDcheck initialized_;
 
-  DISALLOW_COPY_AND_ASSIGN(ProcessMemoryLinux);
+  DISALLOW_COPY_AND_ASSIGN(ProcessMemoryFuchsia);
 };
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_LINUX_H_
+#endif  // CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_FUCHSIA_H_

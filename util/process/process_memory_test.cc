@@ -32,6 +32,10 @@ namespace crashpad {
 namespace test {
 namespace {
 
+// TODO(scottmg): https://crashpad.chromium.org/bug/196. Multiprocess isn't
+// ported yet.
+#if !defined(OS_FUCHSIA)
+
 class TargetProcessTest : public Multiprocess {
  public:
   TargetProcessTest() : Multiprocess() {}
@@ -399,6 +403,8 @@ TEST(ProcessMemory, ReadCStringSizeLimitedUnmappedForked) {
   ASSERT_FALSE(testing::Test::HasFailure());
   test.RunAgainstForked();
 }
+
+#endif  // !defined(OS_FUCHSIA)
 
 }  // namespace
 }  // namespace test
