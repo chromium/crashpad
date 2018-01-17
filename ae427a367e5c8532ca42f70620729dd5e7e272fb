@@ -52,6 +52,24 @@
       "revId": "ae427a367e5c8532ca42f70620729dd5e7e272fb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18ac70e4_a3964c0c",
+        "filename": "test/multiprocess_exec_test_child.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-17T18:23:06Z",
+      "side": 1,
+      "message": "Alright, let\u0027s keep it then, since the code is already there anyway.",
+      "parentUuid": "e472094c_95c0f4fc",
+      "revId": "ae427a367e5c8532ca42f70620729dd5e7e272fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
