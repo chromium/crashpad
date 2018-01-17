@@ -77,6 +77,8 @@ class TestExceptionSnapshot final : public ExceptionSnapshot {
   union {
     CPUContextX86 x86;
     CPUContextX86_64 x86_64;
+    CPUContextARM arm;
+    CPUContextARM64 arm64;
   } context_union_;
   CPUContext context_;
   uint64_t thread_id_;

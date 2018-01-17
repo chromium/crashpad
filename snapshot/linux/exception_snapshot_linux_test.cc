@@ -92,6 +92,28 @@ void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
         reinterpret_cast<const char*>(&expected.__fpregs_mem)[byte_offset]);
   }
 }
+#elif defined(ARCH_CPU_ARMEL)
+using NativeCPUContext = ucontext_t;
+
+void InitializeContext(NativeCPUContext* context) {
+  // TODO
+}
+
+void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
+  EXPECT_EQ(actual.architecture, kCPUArchitectureARM);
+}
+
+#elif defined(ARCH_CPU_ARM64)
+using NativeCPUContext = ucontext_t;
+
+void InitializeContext(NativeCPUContext* context) {
+  // TODO
+}
+
+void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
+  EXPECT_EQ(actual.architecture, kCPUArchitectureARM64);
+}
+
 #else
 #error Port.
 #endif

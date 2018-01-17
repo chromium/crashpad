@@ -91,6 +91,45 @@ bool ExceptionSnapshotLinux::ReadContext<ContextTraits64>(
       ucontext.mcontext.gprs, ucontext.fprs, context_.x86_64);
   return true;
 }
+#elif defined(ARCH_CPU_ARM_FAMILY)
+
+template <>
+bool ExceptionSnapshotLinux::ReadContext<ContextTraits32>(
+    ProcessReader* reader,
+    LinuxVMAddress context_address) {
+  UContext<ContextTraits32> ucontext;
+  if (!reader->Memory()->Read(context_address, sizeof(ucontext), &ucontext)) {
+    LOG(ERROR) << "Couldn't read ucontext";
+    return false;
+  }
+
+  context_.architecture = kCPUArchitectureARM;
+  context_.arm = &context_union_.arm;
+
+  InitializeCPUContextARM_NoFloatingPoint(
+      ucontext.mcontext32.gprs, context_.arm);
+
+  return true;
+}
+
+template <>
+bool ExceptionSnapshotLinux::ReadContext<ContextTraits64>(
+    ProcessReader* reader,
+    LinuxVMAddress context_address) {
+  UContext<ContextTraits64> ucontext;
+  if (!reader->Memory()->Read(context_address, sizeof(ucontext), &ucontext)) {
+    LOG(ERROR) << "Couldn't read ucontext";
+    return false;
+  }
+
+  context_.architecture = kCPUArchitectureARM64;
+  context_.arm64 = &context_union_.arm64;
+
+
+  return true;
+
+}
+
 #endif  // ARCH_CPU_X86_FAMILY
 
 bool ExceptionSnapshotLinux::Initialize(ProcessReader* process_reader,
