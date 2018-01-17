@@ -43,6 +43,10 @@
 #include "util/misc/from_pointer_cast.h"
 #include "util/synchronization/semaphore.h"
 
+#if defined(OS_ANDROID)
+#include <android/api-level.h>
+#endif
+
 namespace crashpad {
 namespace test {
 namespace {
@@ -441,6 +445,8 @@ TEST(ProcessReader, ChildWithSplitStack) {
   test.Run();
 }
 
+// Android doesn't provide dl_iterate_phdr on ARM until API 21.
+#if !defined(OS_ANDROID) || !defined(ARCH_CPU_ARMEL) || __ANDROID_API__ >= 21
 int ExpectFindModule(dl_phdr_info* info, size_t size, void* data) {
   SCOPED_TRACE(
       base::StringPrintf("module %s at 0x%" PRIx64 " phdrs 0x%" PRIx64,
@@ -474,6 +480,7 @@ int ExpectFindModule(dl_phdr_info* info, size_t size, void* data) {
   EXPECT_TRUE(found);
   return 0;
 }
+#endif  // !OS_ANDROID || !ARCH_CPU_ARMEL || __ANDROID_API__ >= 21
 
 void ExpectModulesFromSelf(const std::vector<ProcessReader::Module>& modules) {
   for (const auto& module : modules) {
@@ -481,11 +488,14 @@ void ExpectModulesFromSelf(const std::vector<ProcessReader::Module>& modules) {
     EXPECT_NE(module.type, ModuleSnapshot::kModuleTypeUnknown);
   }
 
+// Android doesn't provide dl_iterate_phdr on ARM until API 21.
+#if !defined(OS_ANDROID) || !defined(ARCH_CPU_ARMEL) || __ANDROID_API__ >= 21
   EXPECT_EQ(dl_iterate_phdr(
                 ExpectFindModule,
                 reinterpret_cast<void*>(
                     const_cast<std::vector<ProcessReader::Module>*>(&modules))),
             0);
+#endif  // !OS_ANDROID || !ARCH_CPU_ARMEL || __ANDROID_API__ >= 21
 }
 
 TEST(ProcessReader, SelfModules) {
