@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "b5cad373_7b4ffe1c",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-17T23:39:07Z",
+      "side": 1,
+      "message": "Yeah, the return values do make usage less clear. It does cut down on the verbosity a lot to only check at the end, at the expense of diagnosing the problem a bit later as you say.\n\nI guess a better framing is that error checking for each call is optional. I suppose the first thing we\u0027ll do if it ever fails in here is add all those checks though.",
+      "parentUuid": "50b0271f_6fcedb8e",
+      "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8432d68_b4ae9c0e",
         "filename": "test/multiprocess_exec_fuchsia.cc",
         "patchSetId": 14
@@ -172,6 +190,24 @@
       "side": 1,
       "message": "\u003e But we ZX_CHECK that, so we shouldn\u0027t make it here in that case?\n\nWell, who’s the doofus now? I’ve managed to mess up reading something simple like this in everything I’ve read for you today.",
       "parentUuid": "afd37663_07826813",
+      "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98eb6f68_d9d33604",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-17T23:39:07Z",
+      "side": 1,
+      "message": "Definitely still me!",
+      "parentUuid": "30441b8f_d14b2aca",
       "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
