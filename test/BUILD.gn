@@ -166,6 +166,10 @@ executable("crashpad_test_test_multiprocess_exec_test_child") {
   sources = [
     "multiprocess_exec_test_child.cc",
   ]
+
+  deps = [
+    "../third_party/mini_chromium:base",
+  ]
 }
 
 static_library("gmock_main") {
