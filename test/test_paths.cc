@@ -20,6 +20,7 @@
 #include "base/logging.h"
 #include "build/build_config.h"
 #include "util/misc/paths.h"
+#include "test/main_arguments.h"
 
 namespace crashpad {
 namespace test {
@@ -154,6 +155,9 @@ base::FilePath TestPaths::BuildArtifact(
     const base::FilePath::StringType& artifact,
     FileType file_type,
     Architecture architecture) {
+#if defined(OS_FUCHSIA)
+  base::FilePath directory("/pkg/bin");
+#else
   base::FilePath directory;
   switch (architecture) {
     case Architecture::kDefault:
@@ -167,10 +171,11 @@ base::FilePath TestPaths::BuildArtifact(
       break;
 #endif  // OS_WIN && ARCH_CPU_64_BITS
   }
+#endif  // OS_FUCHSIA
 
   base::FilePath::StringType test_name =
       FILE_PATH_LITERAL("crashpad_") + module + FILE_PATH_LITERAL("_test");
-#if !defined(CRASHPAD_IS_IN_CHROMIUM)
+#if !defined(CRASHPAD_IS_IN_CHROMIUM) && !defined(OS_FUCHSIA)
   CHECK(Executable().BaseName().RemoveFinalExtension().value() == test_name);
 #endif  // !CRASHPAD_IS_IN_CHROMIUM
 
