@@ -26,9 +26,8 @@ namespace crashpad {
 bool Paths::Executable(base::FilePath* path) {
   // Assume the environment has been set up following
   // https://fuchsia.googlesource.com/docs/+/master/namespaces.md#typical-directory-structure
-  // . The actual executable name is not known, but it's conceptually in this
-  // location.
-  *path = base::FilePath("/pkg/bin/unknown");
+  // .
+  *path = base::FilePath("/pkg/bin/app");
   return true;
 }
 

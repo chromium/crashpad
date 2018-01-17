@@ -61,10 +61,6 @@ Multiprocess::~Multiprocess() {
   delete info_;
 }
 
-void Multiprocess::PreFork() {
-  NOTREACHED();
-}
-
 FileHandle Multiprocess::ReadPipeHandle() const {
   // This is the parent case, it's stdin in the child.
   return info_->pipe_c2p_read.get();

@@ -36,8 +36,8 @@ struct MultiprocessInfo;
 //! Subclasses are expected to implement the parent and child by overriding the
 //! appropriate methods.
 //!
-//! On Windows, this class is only an internal implementation detail of
-//! MultiprocessExec and all tests must use that class.
+//! On Windows and Fuchsia, this class is only an internal implementation
+//! detail of MultiprocessExec and all tests must use that class.
 class Multiprocess {
  public:
   //! \brief The termination type for a child process.
@@ -110,14 +110,18 @@ class Multiprocess {
   //!
   //! Subclass implementations may signal failure by raising their own fatal
   //! gtest assertions.
-  virtual void PreFork();
+  virtual void PreFork()
+#if defined(OS_WIN) || defined(OS_FUCHSIA)
+      = 0
+#endif  // OS_WIN || OS_FUCHSIA
+      ;
 
-#if !defined(OS_WIN)
+#if !defined(OS_WIN) && !defined(OS_FUCHSIA)
   //! \brief Returns the child process’ process ID.
   //!
   //! This method may only be called by the parent process.
   pid_t ChildPID() const;
-#endif  // !OS_WIN
+#endif  // !OS_WIN && !OS_FUCHSIA
 
   //! \brief Returns the read pipe’s file handle.
   //!
