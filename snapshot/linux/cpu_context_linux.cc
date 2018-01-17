@@ -151,6 +151,32 @@ void InitializeCPUContextX86_64(const SignalThreadContext64& thread_context,
   context->dr6 = 0;
   context->dr7 = 0;
 }
+
+#elif defined(ARCH_CPU_ARM_FAMILY)
+
+void InitializeCPUContextARM(const ThreadContext::t32_t& thread_context,
+                             const FloatContext::f32_t& float_context,
+                             CPUContextARM* context) {
+  static_assert(sizeof(context->regs) == sizeof(thread_context.regs),
+                "registers size mismatch");
+  memcpy(&context->regs, &thread_context.regs, sizeof(context->regs));
+  context->fp = thread_context.fp;
+  context->ip = thread_context.ip;
+  context->sp = thread_context.sp;
+  context->lr = thread_context.lr;
+  context->pc = thread_context.pc;
+  context->cpsr = thread_context.cpsr;
+
+  // TODO
+}
+
+void InitializeCPUContextARM64(const ThreadContext::t64_t& thread_context,
+                               const FloatContext::f64_t& float_context,
+                               CPUContextARM64* context) {
+  // TODO
+}
+
+
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY || DOXYGEN

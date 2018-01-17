@@ -91,6 +91,14 @@ bool ExceptionSnapshotLinux::ReadContext<ContextTraits64>(
       ucontext.mcontext.gprs, ucontext.fprs, context_.x86_64);
   return true;
 }
+#elif defined(ARCH_CPU_ARM_FAMILY)
+
+template<typename ContextTraits>
+bool ExceptionSnapshotLinux::ReadContext(
+    ProcessReader* reader,
+    LinuxVMAddress context_address) {
+  // TODO
+}
 #endif  // ARCH_CPU_X86_FAMILY
 
 bool ExceptionSnapshotLinux::Initialize(ProcessReader* process_reader,
