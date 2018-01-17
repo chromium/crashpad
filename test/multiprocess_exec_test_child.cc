@@ -15,16 +15,12 @@
 #include <errno.h>
 #include <limits.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <sys/types.h>
 
 #include <algorithm>
 
-#if defined(__APPLE__) || defined(__linux__)
-#define OS_POSIX 1
-#elif defined(_WIN32)
-#define OS_WIN 1
-#endif
+#include "base/logging.h"
+#include "build/build_config.h"
 
 #if defined(OS_POSIX)
 #include <sys/resource.h>
@@ -35,18 +31,26 @@
 
 int main(int argc, char* argv[]) {
 #if defined(OS_POSIX)
+
+#if defined(OS_FUCHSIA)
+  // getrlimit() is not implemented on Fuchsia. By construction, the child only
+  // receieves specific fds that it's given, but check low values as mild
+  // verification.
+  int last_fd = 1024;
+#else
+  rlimit rlimit_nofile;
+  if (getrlimit(RLIMIT_NOFILE, &rlimit_nofile) != 0) {
+    LOG(FATAL) << "getrlimit";
+  }
+  int last_fd = static_cast<int>(rlimit_nofile.rlim_cur);
+#endif  // OS_FUCHSIA
+
   // Make sure that there’s nothing open at any FD higher than 3. All FDs other
   // than stdin, stdout, and stderr should have been closed prior to or at
   // exec().
-  rlimit rlimit_nofile;
-  if (getrlimit(RLIMIT_NOFILE, &rlimit_nofile) != 0) {
-    abort();
-  }
-  for (int fd = STDERR_FILENO + 1;
-       fd < static_cast<int>(rlimit_nofile.rlim_cur);
-       ++fd) {
+  for (int fd = STDERR_FILENO + 1; fd < last_fd; ++fd) {
     if (close(fd) == 0 || errno != EBADF) {
-      abort();
+      LOG(FATAL) << "close";
     }
   }
 
@@ -54,14 +58,14 @@ int main(int argc, char* argv[]) {
   char c;
   ssize_t rv = read(STDIN_FILENO, &c, 1);
   if (rv != 1 || c != 'z') {
-    abort();
+    LOG(FATAL) << "read";
   }
 
   // Write a byte to stdout.
   c = 'Z';
   rv = write(STDOUT_FILENO, &c, 1);
   if (rv != 1) {
-    abort();
+    LOG(FATAL) << "write";
   }
 #elif defined(OS_WIN)
   // TODO(scottmg): Verify that only the handles we expect to be open, are.
@@ -72,7 +76,7 @@ int main(int argc, char* argv[]) {
   HANDLE stdin_handle = GetStdHandle(STD_INPUT_HANDLE);
   if (!ReadFile(stdin_handle, &c, 1, &bytes_read, nullptr) ||
       bytes_read != 1 || c != 'z') {
-    abort();
+    LOG(FATAL) << "ReadFile";
   }
 
   // Write a byte to stdout.
@@ -81,7 +85,7 @@ int main(int argc, char* argv[]) {
   if (!WriteFile(
           GetStdHandle(STD_OUTPUT_HANDLE), &c, 1, &bytes_written, nullptr) ||
       bytes_written != 1) {
-    abort();
+    LOG(FATAL) << "WriteFile";
   }
 #endif  // OS_POSIX
 
