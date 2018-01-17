@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "42430c09_e661fc0c",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-17T22:03:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff6d7a09_ed86b1d2",
+      "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4392b008_b4f06592",
         "filename": "test/multiprocess_exec_fuchsia.cc",
         "patchSetId": 14
@@ -30,6 +48,24 @@
       "writtenOn": "2018-01-17T21:43:11Z",
       "side": 1,
       "message": "A lot of these return a zx_status_t that you should at least be ZX_CHECKing or ASSERT_NEing, but you’ve only ZX_CHECKed the launchpad_go().\n\n(Learnin’ based on my exploratory work at https://chromium-review.googlesource.com/c/crashpad/crashpad/+/820532/4/test/fuchsia/run_and_log.cc#226, which isn’t ready for anything yet.)",
+      "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29d4cdc0_de364648",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-17T22:03:49Z",
+      "side": 1,
+      "message": "Based on my reading of the docs, the intended use is that you don\u0027t error check all the way down, but instead only check at launchpad_go(), at it calls _destroy() whether in an error state or a successful launch.\n\nSo, if lp enters an error condition, it stays that way until destruction, and reports the first error when _go() is called and fails.",
+      "parentUuid": "4392b008_b4f06592",
       "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ed4ffe6a_6f3ff9d1",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-17T22:03:49Z",
+      "side": 1,
+      "message": "Seems reasonable.\n\nEven from looking at the code, I\u0027m not certain what happens if you first clone FDIO_STDIO and then replace some, so I went with clone_fd of STDERR.",
+      "parentUuid": "e8432d68_b4ae9c0e",
+      "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "54ac29e5_6400f0a4",
         "filename": "test/multiprocess_exec_fuchsia.cc",
         "patchSetId": 14
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "afd37663_07826813",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-17T22:03:49Z",
+      "side": 1,
+      "message": "But we ZX_CHECK that, so we shouldn\u0027t make it here in that case?",
+      "parentUuid": "54ac29e5_6400f0a4",
+      "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3aaf899f_22e0f472",
         "filename": "test/test_paths.cc",
         "patchSetId": 14
@@ -81,6 +153,24 @@
       "writtenOn": "2018-01-17T21:43:11Z",
       "side": 1,
       "message": "Now I’m extra-glad that we did this!",
+      "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f83135a5_1fbe715d",
+        "filename": "test/test_paths.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-17T22:03:49Z",
+      "side": 1,
+      "message": "Yeah, nice that there\u0027s a central location to futz these.",
+      "parentUuid": "3aaf899f_22e0f472",
       "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
