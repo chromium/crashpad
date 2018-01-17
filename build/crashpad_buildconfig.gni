@@ -19,6 +19,12 @@ declare_args() {
   crashpad_dependencies = "standalone"
 }
 
+if (defined(is_fuchsia_tree) && is_fuchsia_tree) {
+  # Use `is_fuchsia_tree` which is globally set in the Fuchsia build to
+  # configure the correct default behavior.
+  crashpad_dependencies = "fuchsia"
+}
+
 assert(
     crashpad_dependencies == "chromium" || crashpad_dependencies == "fuchsia" ||
     crashpad_dependencies == "standalone")
