@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3f791fd_7ddf23ed",
+        "filename": "test/multiprocess_exec_test_child.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-17T16:23:40Z",
+      "side": 1,
+      "message": "This is intended to circumvent the stupid POSIX default of inheriting all FDs, but as you point out in the comment above, Fuchsia (via Launchpad) forces the program to be much more deliberate. Maybe we don’t even need this on Fuchsia at all?",
+      "revId": "ae427a367e5c8532ca42f70620729dd5e7e272fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
