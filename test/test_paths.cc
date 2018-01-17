@@ -20,6 +20,7 @@
 #include "base/logging.h"
 #include "build/build_config.h"
 #include "util/misc/paths.h"
+#include "test/main_arguments.h"
 
 namespace crashpad {
 namespace test {
@@ -119,9 +120,13 @@ base::FilePath Output32BitDirectory() {
 
 // static
 base::FilePath TestPaths::Executable() {
+#if defined(OS_FUCHSIA)
+  return base::FilePath(GetMainArguments()[0]);
+#else
   base::FilePath executable_path;
   CHECK(Paths::Executable(&executable_path));
   return executable_path;
+#endif
 }
 
 // static
