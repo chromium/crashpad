@@ -92,6 +92,72 @@ void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
         reinterpret_cast<const char*>(&expected.__fpregs_mem)[byte_offset]);
   }
 }
+#elif defined(ARCH_CPU_ARMEL)
+using NativeCPUContext = ucontext_t;
+
+void InitializeContext(NativeCPUContext* context) {
+  // TODO
+}
+
+void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
+  EXPECT_EQ(actual.architecture, kCPUArchitectureARM);
+}
+
+#elif defined(ARCH_CPU_ARM64)
+using NativeCPUContext = ucontext_t;
+
+void InitializeContext(NativeCPUContext* context) {
+  memset(context, 0, sizeof(*context));
+
+  unsigned char* context_space = context->uc_mcontext.__reserved;
+
+  auto esr = reinterpret_cast<esr_context*>(context_space);
+
+  LOG(INFO) << "Placing esr at 0x" << std::hex << esr;
+  esr->head.magic = ESR_MAGIC;
+  esr->head.size = sizeof(esr_context);
+  esr->esr = 0;
+  context_space += esr->head.size;
+
+  auto fpsimd = reinterpret_cast<fpsimd_context*>(context_space);
+  fpsimd->head.magic = FPSIMD_MAGIC;
+  fpsimd->head.size = sizeof(fpsimd_context);
+  fpsimd->fpsr = 1;
+  fpsimd->fpcr = 2;
+  for (size_t reg = 0; reg < arraysize(fpsimd->vregs); ++reg) {
+    fpsimd->vregs[reg] = reg;
+  }
+  context_space += fpsimd->head.size;
+
+  auto terminator = reinterpret_cast<_aarch64_ctx*>(context_space);
+  terminator->magic = 0;
+  terminator->size = 0;
+}
+
+void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
+  EXPECT_EQ(actual.architecture, kCPUArchitectureARM64);
+
+  EXPECT_EQ(memcmp(actual.arm64->regs,
+                   expected.uc_mcontext.regs,
+                   sizeof(actual.arm64->regs)),
+            0);
+  EXPECT_EQ(actual.arm64->sp, expected.uc_mcontext.sp);
+  EXPECT_EQ(actual.arm64->pc, expected.uc_mcontext.pc);
+  EXPECT_EQ(actual.arm64->pstate, expected.uc_mcontext.pstate);
+
+  const unsigned char* context_space = expected.uc_mcontext.__reserved;
+
+  auto esr = reinterpret_cast<const esr_context*>(context_space);
+  context_space += esr->head.size;
+
+  auto fpsimd = reinterpret_cast<const fpsimd_context*>(context_space);
+  EXPECT_EQ(actual.arm64->fpsr, fpsimd->fpsr);
+  EXPECT_EQ(actual.arm64->fpcr, fpsimd->fpcr);
+  EXPECT_EQ(
+      memcmp(actual.arm64->fpsimd, fpsimd->vregs, sizeof(actual.arm64->fpsimd)),
+      0);
+}
+
 #else
 #error Port.
 #endif

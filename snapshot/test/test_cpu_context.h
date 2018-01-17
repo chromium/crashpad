@@ -40,6 +40,8 @@ namespace test {
 //! \{
 void InitializeCPUContextX86(CPUContext* context, uint32_t seed);
 void InitializeCPUContextX86_64(CPUContext* context, uint32_t seed);
+void InitializeCPUContextARM(CPUContext* context, uint32_t seed);
+void InitializeCPUContextARM64(CPUContext* context, uint32_t seed);
 //! \}
 
 //! \brief Initializes an `fxsave` context substructure for testing.

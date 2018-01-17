@@ -24,4 +24,20 @@
 #endif
 #endif  // __x86_64__ || __i386__
 
+#if defined(__aarch64__) || defined(__arm__)
+
+#if !defined(FPSIMD_MAGIC)
+#define FPSIMD_MAGIC 0x46508001
+#endif
+
+#if !defined(ESR_MAGIC)
+#define ESR_MAGIC 0x45535201
+#endif
+
+#if !defined(EXTRA_MAGIC)
+#define EXTRA_MAGIC 0x45585401
+#endif
+
+#endif  // __aarch64__ || __arm__
+
 #endif  // CRASHPAD_COMPAT_LINUX_SIGNAL_H_

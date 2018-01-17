@@ -68,8 +68,33 @@ void InitializeCPUContextX86_64(const SignalThreadContext64& thread_context,
                                 const SignalFloatContext64& float_context,
                                 CPUContextX86_64* context);
 //! \}
+
+#elif defined(ARCH_CPU_ARM_FAMILY)
+
+void InitializeCPUContextARM(const ThreadContext::t32_t& thread_context,
+                             const FloatContext::f32_t& float_context,
+                             CPUContextARM* context);
+
+void InitializeCPUContextARM_NoFloatingPoint(
+    const SignalThreadContext32& thread_context,
+    CPUContextARM* context);
+
+void InitializeCPUContextARM64(const ThreadContext::t64_t& thread_context,
+                               const FloatContext::f64_t& float_context,
+                               CPUContextARM64* context);
+
+void InitializeCPUContextARM64_NoFloatingPoint(
+    const ThreadContext::t64_t& thread_context,
+    CPUContextARM64* context);
+
+void InitializeCPUContextARM64_NoGeneralPurpose(
+    const SignalFPSIMDContext& float_context,
+    CPUContextARM64* context);
+
+void InitializeCPUContextARM64_ClearFloatingPoint(CPUContextARM64* context);
+
 #else
-#error Port.  // TODO(jperaza): ARM
+#error Port.
 #endif  // ARCH_CPU_X86_FAMILY || DOXYGEN
 
 }  // namespace internal
