@@ -244,6 +244,14 @@ static_library("util") {
     sources += [ "net/http_transport_libcurl.cc" ]
   }
 
+  if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
+    sources += [
+      # TODO: Port to all platforms.
+      "process/process_memory_range.cc",
+      "process/process_memory_range.h",
+    ]
+  }
+
   if (crashpad_is_linux || crashpad_is_android) {
     sources += [
       "linux/address_types.h",
@@ -283,10 +291,6 @@ static_library("util") {
     sources += [
       "process/process_memory.cc",
       "process/process_memory.h",
-
-      # TODO: Port to all platforms.
-      "process/process_memory_range.cc",
-      "process/process_memory_range.h",
     ]
   }
 
@@ -510,6 +514,14 @@ source_set("util_test") {
     ]
   }
 
+  if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
+    sources += [
+      # TODO: Port to all platforms.
+      "process/process_memory_range_test.cc",
+      "process/process_memory_test.cc",
+    ]
+  }
+
   if (crashpad_is_linux || crashpad_is_android) {
     sources += [
       "linux/auxiliary_vector_test.cc",
@@ -523,9 +535,6 @@ source_set("util_test") {
 
   if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
     sources += [
-      # TODO: Port to all platforms.
-      "process/process_memory_range_test.cc",
-      "process/process_memory_test.cc",
     ]
   }
 
