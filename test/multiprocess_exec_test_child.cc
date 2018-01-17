@@ -20,11 +20,7 @@
 
 #include <algorithm>
 
-#if defined(__APPLE__) || defined(__linux__)
-#define OS_POSIX 1
-#elif defined(_WIN32)
-#define OS_WIN 1
-#endif
+#include "build/build_config.h"
 
 #if defined(OS_POSIX)
 #include <sys/resource.h>
