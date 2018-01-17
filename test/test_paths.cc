@@ -20,6 +20,7 @@
 #include "base/logging.h"
 #include "build/build_config.h"
 #include "util/misc/paths.h"
+#include "test/main_arguments.h"
 
 namespace crashpad {
 namespace test {
@@ -170,7 +171,7 @@ base::FilePath TestPaths::BuildArtifact(
 
   base::FilePath::StringType test_name =
       FILE_PATH_LITERAL("crashpad_") + module + FILE_PATH_LITERAL("_test");
-#if !defined(CRASHPAD_IS_IN_CHROMIUM)
+#if !defined(CRASHPAD_IS_IN_CHROMIUM) && !defined(OS_FUCHSIA)
   CHECK(Executable().BaseName().RemoveFinalExtension().value() == test_name);
 #endif  // !CRASHPAD_IS_IN_CHROMIUM
 
@@ -182,6 +183,8 @@ base::FilePath TestPaths::BuildArtifact(
     case FileType::kExecutable:
 #if defined(OS_WIN)
       extension = FILE_PATH_LITERAL(".exe");
+#elif defined(OS_FUCHSIA)
+      directory = base::FilePath(FILE_PATH_LITERAL("/pkg/bin"));
 #endif  // OS_WIN
       break;
 
@@ -191,6 +194,10 @@ base::FilePath TestPaths::BuildArtifact(
 #else  // OS_WIN
       extension = FILE_PATH_LITERAL(".so");
 #endif  // OS_WIN
+
+#if defined(OS_FUCHSIA)
+      directory = base::FilePath(FILE_PATH_LITERAL("/pkg/lib"));
+#endif
       break;
   }
 
