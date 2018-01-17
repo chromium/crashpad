@@ -244,6 +244,14 @@ static_library("util") {
     sources += [ "net/http_transport_libcurl.cc" ]
   }
 
+  if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
+    sources += [
+      # TODO: Port to all platforms.
+      "process/process_memory_range.cc",
+      "process/process_memory_range.h",
+    ]
+  }
+
   if (crashpad_is_linux || crashpad_is_android) {
     sources += [
       "linux/address_types.h",
@@ -276,10 +284,6 @@ static_library("util") {
       "posix/process_info_linux.cc",
       "process/process_memory_linux.cc",
       "process/process_memory_linux.h",
-
-      # TODO: Port to all platforms.
-      "process/process_memory_range.cc",
-      "process/process_memory_range.h",
     ]
   }
 
@@ -364,6 +368,8 @@ static_library("util") {
     sources += [
       "misc/paths_fuchsia.cc",
       "net/http_transport_fuchsia.cc",
+      "process/process_memory_fuchsia.cc",
+      "process/process_memory_fuchsia.h",
     ]
   }
 
@@ -501,6 +507,14 @@ source_set("util_test") {
     ]
   }
 
+  if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
+    sources += [
+      # TODO: Port to all platforms.
+      "process/process_memory_range_test.cc",
+      "process/process_memory_test.cc",
+    ]
+  }
+
   if (crashpad_is_linux || crashpad_is_android) {
     sources += [
       "linux/auxiliary_vector_test.cc",
@@ -509,10 +523,6 @@ source_set("util_test") {
       "linux/ptrace_broker_test.cc",
       "linux/ptracer_test.cc",
       "linux/scoped_ptrace_attach_test.cc",
-
-      # TODO: Port to all platforms.
-      "process/process_memory_range_test.cc",
-      "process/process_memory_test.cc",
     ]
   }
 

@@ -29,7 +29,8 @@ class TestMultiprocessExec final : public MultiprocessExec {
  public:
   TestMultiprocessExec() : MultiprocessExec() {}
 
-  ~TestMultiprocessExec() {}
+  ~TestMultiprocessExec() {
+  }
 
  private:
   void MultiprocessParent() override {
@@ -52,6 +53,8 @@ TEST(MultiprocessExec, MultiprocessExec) {
       FILE_PATH_LITERAL("test"),
       FILE_PATH_LITERAL("multiprocess_exec_test_child"),
       TestPaths::FileType::kExecutable);
+  child_test_executable = base::FilePath(
+      "/pkg/bin/crashpad_test_test_multiprocess_exec_test_child");
   multiprocess_exec.SetChildCommand(child_test_executable, nullptr);
   multiprocess_exec.Run();
 }
