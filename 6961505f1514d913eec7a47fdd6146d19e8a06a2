@@ -16,6 +16,24 @@
       "revId": "6961505f1514d913eec7a47fdd6146d19e8a06a2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94290fef_11b9c9ab",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-17T18:50:29Z",
+      "side": 1,
+      "message": "Didn\u0027t even think of it, good idea.\n\nOne drawback of doing that is that the help text gets lost, as it tracks the comment where the last value of the variable was set in declare_args. So I duplicated the part about the possible values, and added a sentence to say why it\u0027s been set to \u0027fuchsia\u0027.",
+      "parentUuid": "03288f1c_835d639a",
+      "revId": "6961505f1514d913eec7a47fdd6146d19e8a06a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
