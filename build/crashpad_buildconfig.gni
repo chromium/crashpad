@@ -17,6 +17,14 @@ declare_args() {
   # targets to use for dependencies. Valid values are "standalone", "chromium",
   # and "fuchsia".
   crashpad_dependencies = "standalone"
+
+  if (defined(is_fuchsia_tree) && is_fuchsia_tree) {
+    # Determines various flavors of build configuration, and which concrete
+    # targets to use for dependencies. Valid values are "standalone",
+    # "chromium", and "fuchsia". Defaulted to "fuchsia" because
+    # "is_fuchsia_tree" is set.
+    crashpad_dependencies = "fuchsia"
+  }
 }
 
 assert(
