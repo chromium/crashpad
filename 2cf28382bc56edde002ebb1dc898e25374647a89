@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff6d7a09_ed86b1d2",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-17T21:43:11Z",
+      "side": 1,
+      "message": "Is it easier to just do “virtual void PreFork() \u003d 0;” in the base class on Windows and Fuchsia? We already need to special-case-remove ChildPID() in the base class declaration on those platforms.",
+      "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4392b008_b4f06592",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-17T21:43:11Z",
+      "side": 1,
+      "message": "A lot of these return a zx_status_t that you should at least be ZX_CHECKing or ASSERT_NEing, but you’ve only ZX_CHECKed the launchpad_go().\n\n(Learnin’ based on my exploratory work at https://chromium-review.googlesource.com/c/crashpad/crashpad/+/820532/4/test/fuchsia/run_and_log.cc#226, which isn’t ready for anything yet.)",
+      "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8432d68_b4ae9c0e",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-17T21:43:11Z",
+      "side": 1,
+      "message": "Do you want to launchpad_clone() anything here?\n\nThe only thing you definitely don’t want is LP_CLONE_FDIO_ALL.\n\nI don’t know how LP_CLONE_FDIO_STDIO behaves in conjunction with launchpad_add_pipe() that replaces stdin and stdout. It might be fine and would be an easy way to bring stderr into the child. Otherwise, please arrange to bring stderr to the child yourself, otherwise we’ll lose children’s useful diagnostics.\n\nYou definitely do want LP_CLONE_ENVIRON, almost certainly want LP_CLONE_FDIO_NAMESPACE, and based on my understanding, probably want LP_CLONE_DEFAULT_JOB too.",
+      "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54ac29e5_6400f0a4",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-17T21:43:11Z",
+      "side": 1,
+      "message": "If launchpad_go wasn’t ZX_OK, |child| is toxic waste. Kaboom!",
+      "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3aaf899f_22e0f472",
+        "filename": "test/test_paths.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-17T21:43:11Z",
+      "side": 1,
+      "message": "Now I’m extra-glad that we did this!",
+      "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
