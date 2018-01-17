@@ -20,11 +20,7 @@
 
 #include <algorithm>
 
-#if defined(__APPLE__) || defined(__linux__)
-#define OS_POSIX 1
-#elif defined(_WIN32)
-#define OS_WIN 1
-#endif
+#include "build/build_config.h"
 
 #if defined(OS_POSIX)
 #include <sys/resource.h>
@@ -35,16 +31,24 @@
 
 int main(int argc, char* argv[]) {
 #if defined(OS_POSIX)
-  // Make sure that there’s nothing open at any FD higher than 3. All FDs other
-  // than stdin, stdout, and stderr should have been closed prior to or at
-  // exec().
+
+#if defined(OS_FUCHSIA)
+  // getrlimit() is not implemented on Fuchsia. By construction, the child only
+  // receieves specific fds that it's given, but check low values as mild
+  // verification.
+  int last_fd = 1024;
+#else
   rlimit rlimit_nofile;
   if (getrlimit(RLIMIT_NOFILE, &rlimit_nofile) != 0) {
     abort();
   }
-  for (int fd = STDERR_FILENO + 1;
-       fd < static_cast<int>(rlimit_nofile.rlim_cur);
-       ++fd) {
+  int last_fd = static_cast<int>(rlimit_nofile.rlim_cur);
+#endif  // OS_FUCHSIA
+
+  // Make sure that there’s nothing open at any FD higher than 3. All FDs other
+  // than stdin, stdout, and stderr should have been closed prior to or at
+  // exec().
+  for (int fd = STDERR_FILENO + 1; fd < last_fd; ++fd) {
     if (close(fd) == 0 || errno != EBADF) {
       abort();
     }
