@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "50b0271f_6fcedb8e",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-17T23:29:09Z",
+      "side": 1,
+      "message": "\u003e Based on my reading of the docs, the intended use is that you don\u0027t error check all the way down, but instead only check at launchpad_go(), at it calls _destroy() whether in an error state or a successful launch.\n\nWell, the existence of those zx_status_t return types gave me pause.\n\nLooking again at launchpad.h and launchpad.c, I see what you mean, in the form of lp-\u003eerror and lp_error(). And waiting for launchpad_go() with its easy errmsg out-param means that you get something a little more descriptive from the internals, at the expense of not knowing which of your launchpad_add_pipe()s is blameworthy.\n\nI usually like to trap failures as soon as possible, particularly in tests, but I guess this is OK.",
+      "parentUuid": "29d4cdc0_de364648",
+      "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8432d68_b4ae9c0e",
         "filename": "test/multiprocess_exec_fuchsia.cc",
         "patchSetId": 14
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "But we ZX_CHECK that, so we shouldn\u0027t make it here in that case?",
       "parentUuid": "54ac29e5_6400f0a4",
+      "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30441b8f_d14b2aca",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-17T23:29:09Z",
+      "side": 1,
+      "message": "\u003e But we ZX_CHECK that, so we shouldn\u0027t make it here in that case?\n\nWell, who’s the doofus now? I’ve managed to mess up reading something simple like this in everything I’ve read for you today.",
+      "parentUuid": "afd37663_07826813",
       "revId": "2cf28382bc56edde002ebb1dc898e25374647a89",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
