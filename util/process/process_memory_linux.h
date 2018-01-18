@@ -44,9 +44,9 @@ class ProcessMemoryLinux final : public ProcessMemory {
   //! \return `true` on success, `false` on failure with a message logged.
   bool Initialize(pid_t pid);
 
-  bool Read(VMAddress address, size_t size, void* buffer) const override;
-
  private:
+  ssize_t ReadUpTo(VMAddress address, size_t size, void* buffer) const override;
+
   base::ScopedFD mem_fd_;
   pid_t pid_;
   InitializationStateDcheck initialized_;

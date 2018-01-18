@@ -16,6 +16,8 @@
 
 #include <zircon/syscalls.h>
 
+#include <limits>
+
 #include "base/logging.h"
 #include "base/fuchsia/fuchsia_logging.h"
 
@@ -33,25 +35,22 @@ bool ProcessMemoryFuchsia::Initialize(zx_handle_t process) {
   return true;
 }
 
-bool ProcessMemoryFuchsia::Read(VMAddress address,
-                                size_t size,
-                                void* buffer) const {
+ssize_t ProcessMemoryFuchsia::ReadUpTo(VMAddress address,
+                                       size_t size,
+                                       void* buffer) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  DCHECK_LE(size, size_t{std::numeric_limits<ssize_t>::max()});
+
   size_t actual;
   zx_status_t status =
       zx_process_read_memory(process_, address, buffer, size, &actual);
 
   if (status != ZX_OK) {
     ZX_LOG(ERROR, status) << "zx_process_read_memory";
-    return false;
+    return -1;
   }
 
-  if (actual != size) {
-    LOG(ERROR) << "zx_process_read_memory: short read";
-    return false;
-  }
-
-  return true;
+  return actual;
 }
 
 }  // namespace crashpad

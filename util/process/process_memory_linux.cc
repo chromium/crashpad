@@ -20,6 +20,7 @@
 #include <unistd.h>
 
 #include <algorithm>
+#include <limits>
 
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
@@ -45,30 +46,19 @@ bool ProcessMemoryLinux::Initialize(pid_t pid) {
   return true;
 }
 
-bool ProcessMemoryLinux::Read(VMAddress address,
-                              size_t size,
-                              void* buffer) const {
+ssize_t ProcessMemoryLinux::ReadUpTo(VMAddress address,
+                                     size_t size,
+                                     void* buffer) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   DCHECK(mem_fd_.is_valid());
+  DCHECK_LE(size, size_t{std::numeric_limits<ssize_t>::max()});
 
-  char* buffer_c = static_cast<char*>(buffer);
-  while (size > 0) {
-    ssize_t bytes_read =
-        HANDLE_EINTR(pread64(mem_fd_.get(), buffer_c, size, address));
-    if (bytes_read < 0) {
-      PLOG(ERROR) << "pread64";
-      return false;
-    }
-    if (bytes_read == 0) {
-      LOG(ERROR) << "unexpected eof";
-      return false;
-    }
-    DCHECK_LE(static_cast<size_t>(bytes_read), size);
-    size -= bytes_read;
-    address += bytes_read;
-    buffer_c += bytes_read;
+  ssize_t bytes_read =
+      HANDLE_EINTR(pread64(mem_fd_.get(), buffer, size, address));
+  if (bytes_read < 0) {
+    PLOG(ERROR) << "pread64";
   }
-  return true;
+  return bytes_read;
 }
 
 }  // namespace crashpad
