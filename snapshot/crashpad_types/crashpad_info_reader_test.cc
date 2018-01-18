@@ -26,11 +26,30 @@
 #include "test/multiprocess.h"
 #include "util/file/file_io.h"
 #include "util/misc/from_pointer_cast.h"
+
+#if defined(OS_FUCHSIA)
+#include <zircon/process.h>
+
+#include "util/process/process_memory_fuchsia.h"
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
 #include "util/process/process_memory_linux.h"
+#else
+#error Port.
+#endif
 
 namespace crashpad {
 namespace test {
 namespace {
+
+#if defined(OS_FUCHSIA)
+using ProcessHandle = zx_handle_t;
+ProcessHandle GetSelf() { return zx_process_self(); }
+#elif defined(OS_POSIX)
+using ProcessHandle = pid_t;
+ProcessHandle GetSelf() { return getpid(); }
+#else
+#error Port.
+#endif
 
 constexpr TriState kCrashpadHandlerBehavior = TriState::kEnabled;
 constexpr TriState kSystemCrashReporterForwarding = TriState::kDisabled;
@@ -52,9 +71,15 @@ class CrashpadInfoTest {
         kGatherIndirectlyReferencedMemory, kIndirectlyReferencedMemoryCap);
   }
 
-  void ExpectCrashpadInfo(pid_t pid, bool is_64_bit) {
+  void ExpectCrashpadInfo(ProcessHandle process, bool is_64_bit) {
+#if defined(OS_FUCHSIA)
+    ProcessMemoryFuchsia memory;
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
     ProcessMemoryLinux memory;
-    ASSERT_TRUE(memory.Initialize(pid));
+#else
+#error Port.
+#endif
+    ASSERT_TRUE(memory.Initialize(process));
 
     ProcessMemoryRange range;
     ASSERT_TRUE(range.Initialize(&memory, is_64_bit));
@@ -95,8 +120,12 @@ TEST(CrashpadInfoReader, ReadFromSelf) {
   constexpr bool am_64_bit = false;
 #endif
 
-  test.ExpectCrashpadInfo(getpid(), am_64_bit);
+  test.ExpectCrashpadInfo(GetSelf(), am_64_bit);
 }
+
+// TODO(scottmg): This needs to be be ported to use MultiprocessExec instead of
+// relying on fork() to have the same pointers in parent and child.
+#if !defined(OS_FUCHSIA)
 
 class ReadFromChildTest : public Multiprocess {
  public:
@@ -126,6 +155,8 @@ TEST(CrashpadInfoReader, ReadFromChild) {
   ReadFromChildTest test;
   test.Run();
 }
+
+#endif  // !defined(OS_FUCHSIA)
 
 }  // namespace
 }  // namespace test
