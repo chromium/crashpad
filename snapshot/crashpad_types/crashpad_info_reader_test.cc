@@ -23,14 +23,32 @@
 #include "client/simple_address_range_bag.h"
 #include "client/simple_string_dictionary.h"
 #include "gtest/gtest.h"
-#include "test/multiprocess.h"
+#include "test/multiprocess_exec.h"
+#include "test/test_paths.h"
 #include "util/file/file_io.h"
 #include "util/misc/from_pointer_cast.h"
+
+#if defined(OS_FUCHSIA)
+#include <zircon/process.h>
+
+#include "util/process/process_memory_fuchsia.h"
+#elif defined(OS_POSIX)
 #include "util/process/process_memory_linux.h"
+#else
+#error Port.
+#endif
 
 namespace crashpad {
 namespace test {
 namespace {
+
+#if defined(OS_FUCHSIA)
+ProcessHandle GetSelf() { return zx_process_self(); }
+#elif defined(OS_POSIX)
+ProcessHandle GetSelf() { return getpid(); }
+#else
+#error Port.
+#endif
 
 constexpr TriState kCrashpadHandlerBehavior = TriState::kEnabled;
 constexpr TriState kSystemCrashReporterForwarding = TriState::kDisabled;
@@ -52,17 +70,25 @@ class CrashpadInfoTest {
         kGatherIndirectlyReferencedMemory, kIndirectlyReferencedMemoryCap);
   }
 
-  void ExpectCrashpadInfo(pid_t pid, bool is_64_bit) {
+  void ExpectCrashpadInfo(ProcessHandle process,
+                          bool is_64_bit,
+                          VMAddress info_address,
+                          VMAddress simple_annotations_address,
+                          VMAddress annotations_list_address) {
+#if defined(OS_FUCHSIA)
+    ProcessMemoryFuchsia memory;
+#elif defined(OS_POSIX)
     ProcessMemoryLinux memory;
-    ASSERT_TRUE(memory.Initialize(pid));
+#else
+#error Port.
+#endif
+    ASSERT_TRUE(memory.Initialize(process));
 
     ProcessMemoryRange range;
     ASSERT_TRUE(range.Initialize(&memory, is_64_bit));
 
-    CrashpadInfo* info = CrashpadInfo::GetCrashpadInfo();
-
     CrashpadInfoReader reader;
-    ASSERT_TRUE(reader.Initialize(&range, FromPointerCast<VMAddress>(info)));
+    ASSERT_TRUE(reader.Initialize(&range, info_address));
     EXPECT_EQ(reader.CrashpadHandlerBehavior(), kCrashpadHandlerBehavior);
     EXPECT_EQ(reader.SystemCrashReporterForwarding(),
               kSystemCrashReporterForwarding);
@@ -72,10 +98,8 @@ class CrashpadInfoTest {
               kIndirectlyReferencedMemoryCap);
     EXPECT_EQ(reader.ExtraMemoryRanges(),
               FromPointerCast<VMAddress>(&extra_memory_));
-    EXPECT_EQ(reader.SimpleAnnotations(),
-              FromPointerCast<VMAddress>(info->simple_annotations()));
-    EXPECT_EQ(reader.AnnotationsList(),
-              FromPointerCast<VMAddress>(info->annotations_list()));
+    EXPECT_EQ(reader.SimpleAnnotations(), simple_annotations_address);
+    EXPECT_EQ(reader.AnnotationsList(), annotations_list_address);
   }
 
  private:
@@ -95,12 +119,18 @@ TEST(CrashpadInfoReader, ReadFromSelf) {
   constexpr bool am_64_bit = false;
 #endif
 
-  test.ExpectCrashpadInfo(getpid(), am_64_bit);
+  CrashpadInfo* info = CrashpadInfo::GetCrashpadInfo();
+  test.ExpectCrashpadInfo(
+      GetSelf(),
+      am_64_bit,
+      FromPointerCast<VMAddress>(info),
+      FromPointerCast<VMAddress>(info->simple_annotations()),
+      FromPointerCast<VMAddress>(info->annotations_list()));
 }
 
-class ReadFromChildTest : public Multiprocess {
+class ReadFromChildTest : public MultiprocessExec {
  public:
-  ReadFromChildTest() : Multiprocess(), info_test_() {}
+  ReadFromChildTest() : MultiprocessExec(), info_test_() {}
 
   ~ReadFromChildTest() = default;
 
@@ -112,18 +142,46 @@ class ReadFromChildTest : public Multiprocess {
     constexpr bool am_64_bit = false;
 #endif
 
-    info_test_.ExpectCrashpadInfo(ChildPID(), am_64_bit);
+    VMAddress info, simple_annotations, annotations_list;
+    CheckedReadFileExactly(ReadPipeHandle(), &info, sizeof(info));
+    CheckedReadFileExactly(
+        ReadPipeHandle(), &simple_annotations, sizeof(simple_annotations));
+    CheckedReadFileExactly(
+        ReadPipeHandle(), &annotations_list, sizeof(annotations_list));
+    info_test_.ExpectCrashpadInfo(GetChildHandle(),
+                                  am_64_bit,
+                                  info,
+                                  simple_annotations,
+                                  annotations_list);
   }
-
-  void MultiprocessChild() { CheckedReadFileAtEOF(ReadPipeHandle()); }
 
   CrashpadInfoTest info_test_;
 
   DISALLOW_COPY_AND_ASSIGN(ReadFromChildTest);
 };
 
+TEST(CrashpadInfoReader, DISABLED_CHILD_ReadFromChild) {
+  CrashpadInfo* info = CrashpadInfo::GetCrashpadInfo();
+  auto* simple_annotations  = info->simple_annotations();
+  auto* annotations_list  = info->annotations_list();
+  CheckedWriteFile(STDOUT_FILENO, &info, sizeof(info));
+  CheckedWriteFile(
+      STDOUT_FILENO, &simple_annotations, sizeof(simple_annotations));
+  CheckedWriteFile(STDOUT_FILENO, &annotations_list, sizeof(annotations_list));
+  sleep(1);
+  CheckedReadFileAtEOF(STDIN_FILENO);
+}
+
 TEST(CrashpadInfoReader, ReadFromChild) {
   ReadFromChildTest test;
+
+  std::vector<std::string> args;
+  args.push_back(
+      "--gtest_filter=CrashpadInfoReader.DISABLED_CHILD_ReadFromChild");
+  args.push_back("--gtest_also_run_disabled_tests");
+  test.SetChildCommand(TestPaths::BuildArtifact(
+                           "snapshot", "", TestPaths::FileType::kExecutable),
+                       &args);
   test.Run();
 }
 

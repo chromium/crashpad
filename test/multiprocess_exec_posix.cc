@@ -50,6 +50,10 @@ void MultiprocessExec::SetChildCommand(
   }
 }
 
+ProcessHandle MultiprocessExec::GetChildHandle() {
+  return ChildPID();
+}
+
 MultiprocessExec::~MultiprocessExec() {
 }
 

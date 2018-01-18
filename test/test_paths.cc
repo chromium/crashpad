@@ -200,7 +200,9 @@ base::FilePath TestPaths::BuildArtifact(
       break;
   }
 
-  return directory.Append(test_name + FILE_PATH_LITERAL("_") + artifact +
+  return directory.Append(test_name +
+                          (!artifact.empty() ? FILE_PATH_LITERAL("_") + artifact
+                                             : FILE_PATH_LITERAL("")) +
                           extension);
 }
 

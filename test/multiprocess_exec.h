@@ -23,8 +23,26 @@
 #include "build/build_config.h"
 #include "test/multiprocess.h"
 
+#if defined(OS_FUCHSIA)
+#include <zircon/types.h>
+#elif defined(OS_POSIX)
+#include <sys/types.h>
+#elif defined(OS_WIN)
+#include <windows.h>
+#endif
+
 namespace crashpad {
 namespace test {
+
+#if defined(OS_FUCHSIA)
+using ProcessHandle = zx_handle_t;
+#elif defined(OS_POSIX)
+using ProcessHandle = pid_t;
+#elif defined(OS_WIN)
+using ProcessHandle = HANDLE;
+#else
+#error Port.
+#endif
 
 //! \brief Manages an `exec()`-based multiprocess test.
 //!
@@ -51,6 +69,10 @@ class MultiprocessExec : public Multiprocess {
   //!     `nullptr` if no command-line arguments are to be passed.
   void SetChildCommand(const base::FilePath& command,
                        const std::vector<std::string>* arguments);
+
+  //! \brief Gets a ProcessHandle to the child, valid only during
+  //!     MultiprocessParent().
+  ProcessHandle GetChildHandle();
 
  protected:
   ~MultiprocessExec();
