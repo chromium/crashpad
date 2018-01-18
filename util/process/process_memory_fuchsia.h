@@ -42,7 +42,9 @@ class ProcessMemoryFuchsia final : public ProcessMemory {
   //! \return `true` on success, `false` on failure with a message logged.
   bool Initialize(zx_handle_t process);
 
-  bool Read(VMAddress address, size_t size, void* buffer) const override;
+  ssize_t ReadSizeLimited(VMAddress address,
+                          size_t size,
+                          void* buffer) const override;
 
  private:
   zx_handle_t process_;

@@ -44,7 +44,9 @@ class ProcessMemoryLinux final : public ProcessMemory {
   //! \return `true` on success, `false` on failure with a message logged.
   bool Initialize(pid_t pid);
 
-  bool Read(VMAddress address, size_t size, void* buffer) const override;
+  ssize_t ReadSizeLimited(VMAddress address,
+                          size_t size,
+                          void* buffer) const override;
 
  private:
   base::ScopedFD mem_fd_;
