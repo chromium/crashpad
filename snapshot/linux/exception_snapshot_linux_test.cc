@@ -26,6 +26,7 @@
 #include "gtest/gtest.h"
 #include "snapshot/cpu_architecture.h"
 #include "snapshot/linux/process_reader.h"
+#include "snapshot/linux/signal_context.h"
 #include "sys/syscall.h"
 #include "test/errors.h"
 #include "test/linux/fake_ptrace_connection.h"
@@ -92,6 +93,109 @@ void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
         reinterpret_cast<const char*>(&expected.__fpregs_mem)[byte_offset]);
   }
 }
+#elif defined(ARCH_CPU_ARMEL)
+using NativeCPUContext = ucontext_t;
+
+void InitializeContext(NativeCPUContext* context) {
+  memset(context, 0, sizeof(*context));
+
+  auto context_space = reinterpret_cast<unsigned char*>(context->uc_regspace);
+
+  auto header =
+      reinterpret_cast<internal::CoprocessorContextHead*>(context_space);
+  header->magic = VFP_MAGIC;
+  header->size = sizeof(internal::CoprocessorContextHead) + sizeof(user_vfp) +
+                 sizeof(user_vfp_exc);
+  context_space += sizeof(internal::CoprocessorContextHead);
+  auto vfp = reinterpret_cast<user_vfp*>(context_space);
+  for (size_t reg = 0; reg < arraysize(vfp->fpregs); ++reg) {
+    vfp->fpregs[reg] = reg;
+  }
+  vfp->fpscr = 42;
+}
+
+void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
+  EXPECT_EQ(actual.architecture, kCPUArchitectureARM);
+
+  EXPECT_EQ(memcmp(actual.arm->regs,
+                   &expected.uc_mcontext.arm_r0,
+                   sizeof(actual.arm->regs)),
+            0);
+  EXPECT_EQ(actual.arm->fp, expected.uc_mcontext.arm_fp);
+  EXPECT_EQ(actual.arm->ip, expected.uc_mcontext.arm_ip);
+  EXPECT_EQ(actual.arm->sp, expected.uc_mcontext.arm_sp);
+  EXPECT_EQ(actual.arm->lr, expected.uc_mcontext.arm_lr);
+  EXPECT_EQ(actual.arm->pc, expected.uc_mcontext.arm_pc);
+  EXPECT_EQ(actual.arm->cpsr, expected.uc_mcontext.arm_cpsr);
+
+  EXPECT_FALSE(actual.arm->have_fpa_regs);
+
+  EXPECT_TRUE(actual.arm->have_vfp_regs);
+
+  auto context_space =
+      reinterpret_cast<const unsigned char*>(expected.uc_regspace);
+  context_space += sizeof(internal::CoprocessorContextHead);
+  auto vfp = reinterpret_cast<const user_vfp*>(context_space);
+  EXPECT_EQ(
+      memcmp(actual.arm->vfp_regs.vfp, vfp, sizeof(actual.arm->vfp_regs.vfp)),
+      0);
+}
+
+#elif defined(ARCH_CPU_ARM64)
+using NativeCPUContext = ucontext_t;
+
+void InitializeContext(NativeCPUContext* context) {
+  memset(context, 0, sizeof(*context));
+
+  unsigned char* context_space = context->uc_mcontext.__reserved;
+
+  auto esr = reinterpret_cast<esr_context*>(context_space);
+
+  LOG(INFO) << "Placing esr at 0x" << std::hex << esr;
+  esr->head.magic = ESR_MAGIC;
+  esr->head.size = sizeof(esr_context);
+  esr->esr = 0;
+  context_space += esr->head.size;
+
+  auto fpsimd = reinterpret_cast<fpsimd_context*>(context_space);
+  fpsimd->head.magic = FPSIMD_MAGIC;
+  fpsimd->head.size = sizeof(fpsimd_context);
+  fpsimd->fpsr = 1;
+  fpsimd->fpcr = 2;
+  for (size_t reg = 0; reg < arraysize(fpsimd->vregs); ++reg) {
+    fpsimd->vregs[reg] = reg;
+  }
+  context_space += fpsimd->head.size;
+
+  auto terminator = reinterpret_cast<_aarch64_ctx*>(context_space);
+  terminator->magic = 0;
+  terminator->size = 0;
+}
+
+void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
+  EXPECT_EQ(actual.architecture, kCPUArchitectureARM64);
+
+  EXPECT_EQ(memcmp(actual.arm64->regs,
+                   expected.uc_mcontext.regs,
+                   sizeof(actual.arm64->regs)),
+            0);
+  EXPECT_EQ(actual.arm64->sp, expected.uc_mcontext.sp);
+  EXPECT_EQ(actual.arm64->pc, expected.uc_mcontext.pc);
+  EXPECT_EQ(actual.arm64->pstate, expected.uc_mcontext.pstate);
+
+  const unsigned char* context_space = expected.uc_mcontext.__reserved;
+
+  auto esr = reinterpret_cast<const esr_context*>(context_space);
+  context_space += esr->head.size;
+
+  auto fpsimd = reinterpret_cast<const fpsimd_context*>(context_space);
+  EXPECT_EQ(actual.arm64->fpsr, fpsimd->fpsr);
+  EXPECT_EQ(actual.arm64->fpcr, fpsimd->fpcr);
+  EXPECT_EQ(
+      memcmp(actual.arm64->fpsimd, fpsimd->vregs, sizeof(actual.arm64->fpsimd)),
+      0);
+}
+
 #else
 #error Port.
 #endif
