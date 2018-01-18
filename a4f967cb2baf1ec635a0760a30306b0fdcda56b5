@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "114f7422_c0c63b64",
+        "filename": "util/process/process_memory.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-18T19:38:20Z",
+      "side": 1,
+      "message": "Changed to \"short read\" and specified in docs that 0 indicates there is nothing left to read.",
+      "parentUuid": "79f093aa_f7531efd",
+      "revId": "a4f967cb2baf1ec635a0760a30306b0fdcda56b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76033a81_89fd0dd6",
         "filename": "util/process/process_memory.h",
         "patchSetId": 4
@@ -39,6 +57,30 @@
       "revId": "a4f967cb2baf1ec635a0760a30306b0fdcda56b5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7330e030_adc3c2c2",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-18T19:38:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76033a81_89fd0dd6",
+      "range": {
+        "startLine": 32,
+        "startChar": 32,
+        "endLine": 32,
+        "endChar": 33
+      },
+      "revId": "a4f967cb2baf1ec635a0760a30306b0fdcda56b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -79,6 +121,48 @@
       "revId": "a4f967cb2baf1ec635a0760a30306b0fdcda56b5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "144f100c_bbafad4e",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-18T19:38:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fe10969_8f967d12",
+      "revId": "a4f967cb2baf1ec635a0760a30306b0fdcda56b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91f2146_23caed42",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-18T19:38:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cebb56c2_ceb795c3",
+      "range": {
+        "startLine": 42,
+        "startChar": 18,
+        "endLine": 42,
+        "endChar": 33
+      },
+      "revId": "a4f967cb2baf1ec635a0760a30306b0fdcda56b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
