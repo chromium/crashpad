@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d601148e_b3c90eb6",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-18T22:34:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f743356d_2692329a",
+      "revId": "4c3a9ae0b4c0d304bd9c2c4f570b9252240e7cc1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf9d472a_8ec9fd43",
         "filename": "snapshot/crashpad_types/crashpad_info_reader_test.cc",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "4c3a9ae0b4c0d304bd9c2c4f570b9252240e7cc1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1245262e_e98d0a90",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-18T22:34:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf9d472a_8ec9fd43",
+      "revId": "4c3a9ae0b4c0d304bd9c2c4f570b9252240e7cc1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
