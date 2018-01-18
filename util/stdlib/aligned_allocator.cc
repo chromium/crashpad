@@ -18,7 +18,7 @@
 
 #include "build/build_config.h"
 
-#if defined(OS_POSIX)
+#if defined(OS_POSIX) || defined(_LIBCPP_STD_VER)
 #include <stdlib.h>
 #elif defined(OS_WIN)
 #include <malloc.h>
@@ -31,7 +31,7 @@ namespace {
 // library to do so. This works even if C++ exceptions are disabled, causing
 // program termination if uncaught.
 void ThrowBadAlloc() {
-#if defined(OS_POSIX)
+#if defined(OS_POSIX) || defined(_LIBCPP_STD_VER)
   // This works with both libc++ and libstdc++.
   std::__throw_bad_alloc();
 #elif defined(OS_WIN)
