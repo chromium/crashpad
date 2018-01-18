@@ -33,9 +33,9 @@ bool ProcessMemoryFuchsia::Initialize(zx_handle_t process) {
   return true;
 }
 
-bool ProcessMemoryFuchsia::Read(VMAddress address,
-                                size_t size,
-                                void* buffer) const {
+ssize_t ProcessMemoryFuchsia::ReadSizeLimited(VMAddress address,
+                                              size_t size,
+                                              void* buffer) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   size_t actual;
   zx_status_t status =
@@ -43,15 +43,10 @@ bool ProcessMemoryFuchsia::Read(VMAddress address,
 
   if (status != ZX_OK) {
     ZX_LOG(ERROR, status) << "zx_process_read_memory";
-    return false;
+    return -1;
   }
 
-  if (actual != size) {
-    LOG(ERROR) << "zx_process_read_memory: short read";
-    return false;
-  }
-
-  return true;
+  return actual;
 }
 
 }  // namespace crashpad

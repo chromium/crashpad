@@ -40,7 +40,22 @@ class ProcessMemory {
   //!
   //! \return `true` on success, with \a buffer filled appropriately. `false` on
   //!     failure, with a message logged.
-  virtual bool Read(VMAddress address, size_t size, void* buffer) const = 0;
+  bool Read(VMAddress address, size_t size, void* buffer) const;
+
+  //! \brief Copies memory from the target process into a caller-provided buffer
+  //!     in the current process.
+  //!
+  //! \param[in] address The address, in the target process' address space, of
+  //!     the memory region to copy.
+  //! \param[in] size The maximum size, in bytes, of the memory region to copy.
+  //!     \a buffer must be at least this size.
+  //! \param[out] buffer The buffer into which the contents of the other
+  //!     process' memory will be copied.
+  //!
+  //! \return the number of bytes copied or -1 on failure with a message logged.
+  virtual ssize_t ReadSizeLimited(VMAddress address,
+                                  size_t size,
+                                  void* buffer) const = 0;
 
   //! \brief Reads a `NUL`-terminated C string from the target process into a
   //!     string in the current process.
