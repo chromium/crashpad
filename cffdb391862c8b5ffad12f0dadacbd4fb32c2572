@@ -16,6 +16,24 @@
       "revId": "cffdb391862c8b5ffad12f0dadacbd4fb32c2572",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5573953b_f9c3fc4c",
+        "filename": "util/process/process_memory_fuchsia.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-18T19:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab0ee9c7_70d9700d",
+      "revId": "cffdb391862c8b5ffad12f0dadacbd4fb32c2572",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
