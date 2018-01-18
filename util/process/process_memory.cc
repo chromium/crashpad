@@ -18,6 +18,25 @@
 
 namespace crashpad {
 
+bool ProcessMemory::Read(VMAddress address, size_t size, void* buffer) const {
+  char* buffer_c = static_cast<char*>(buffer);
+  while (size > 0) {
+    ssize_t bytes_read = ReadUpTo(address, size, buffer_c);
+    if (bytes_read < 0) {
+      return false;
+    }
+    if (bytes_read == 0) {
+      LOG(ERROR) << "short read";
+      return false;
+    }
+    DCHECK_LE(static_cast<size_t>(bytes_read), size);
+    size -= bytes_read;
+    address += bytes_read;
+    buffer_c += bytes_read;
+  }
+  return true;
+}
+
 bool ProcessMemory::ReadCStringInternal(VMAddress address,
                                         bool has_size,
                                         size_t size,
@@ -33,19 +52,23 @@ bool ProcessMemory::ReadCStringInternal(VMAddress address,
       read_size = sizeof(buffer);
     }
 
-    if (!Read(address, read_size, buffer)) {
+    ssize_t bytes_read = ReadUpTo(address, read_size, buffer);
+    if (bytes_read < 0) {
+      return false;
+    }
+    if (bytes_read == 0) {
       break;
     }
 
-    char* nul = static_cast<char*>(memchr(buffer, '\0', read_size));
+    char* nul = static_cast<char*>(memchr(buffer, '\0', bytes_read));
     if (nul != nullptr) {
       string->append(buffer, nul - buffer);
       return true;
     }
-    string->append(buffer, read_size);
+    string->append(buffer, bytes_read);
 
-    address += read_size;
-    size -= read_size;
+    address += bytes_read;
+    size -= bytes_read;
   } while (!has_size || size > 0);
 
   LOG(ERROR) << "unterminated string";
