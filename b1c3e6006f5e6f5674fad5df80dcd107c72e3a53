@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2ccbecc_0965df7c",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-19T20:42:11Z",
+      "side": 1,
+      "message": "Surprisingly, it was this `if` that I spent the most time tracking down... I fiddled around thinking it was some deep-down incompatibility in symbol tables or sections or something, but no, just a build file (as usual!).",
+      "revId": "b1c3e6006f5e6f5674fad5df80dcd107c72e3a53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
