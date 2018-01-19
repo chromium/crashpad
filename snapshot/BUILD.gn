@@ -102,12 +102,6 @@ static_library("snapshot") {
     sources += [
       "crashpad_types/image_annotation_reader.cc",
       "crashpad_types/image_annotation_reader.h",
-      "elf/elf_dynamic_array_reader.cc",
-      "elf/elf_dynamic_array_reader.h",
-      "elf/elf_image_reader.cc",
-      "elf/elf_image_reader.h",
-      "elf/elf_symbol_table_reader.cc",
-      "elf/elf_symbol_table_reader.h",
       "linux/cpu_context_linux.cc",
       "linux/cpu_context_linux.h",
       "linux/debug_rendezvous.cc",
@@ -134,6 +128,12 @@ static_library("snapshot") {
     sources += [
       "crashpad_types/crashpad_info_reader.cc",
       "crashpad_types/crashpad_info_reader.h",
+      "elf/elf_dynamic_array_reader.cc",
+      "elf/elf_dynamic_array_reader.h",
+      "elf/elf_image_reader.cc",
+      "elf/elf_image_reader.h",
+      "elf/elf_symbol_table_reader.cc",
+      "elf/elf_symbol_table_reader.h",
     ]
   }
 
@@ -263,7 +263,7 @@ static_library("test_support") {
 
 config("snapshot_test_link") {
   visibility = [ ":*" ]
-  if (crashpad_is_linux || crashpad_is_android) {
+  if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
     # There’s no way to make the link depend on this file. “inputs” doesn’t have
     # the intended effect in a config. https://crbug.com/781858,
     # https://crbug.com/796187.
@@ -297,9 +297,6 @@ source_set("snapshot_test") {
   if (crashpad_is_linux || crashpad_is_android) {
     sources += [
       "crashpad_types/image_annotation_reader_test.cc",
-      "elf/elf_image_reader_test.cc",
-      "elf/elf_image_reader_test_note.S",
-      "elf/test_exported_symbols.sym",
       "linux/debug_rendezvous_test.cc",
       "linux/exception_snapshot_linux_test.cc",
       "linux/process_reader_test.cc",
@@ -310,7 +307,12 @@ source_set("snapshot_test") {
   }
 
   if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
-    sources += [ "crashpad_types/crashpad_info_reader_test.cc" ]
+    sources += [
+      "crashpad_types/crashpad_info_reader_test.cc",
+      "elf/elf_image_reader_test.cc",
+      "elf/elf_image_reader_test_note.S",
+      "elf/test_exported_symbols.sym",
+    ]
   }
 
   if (crashpad_is_win) {
