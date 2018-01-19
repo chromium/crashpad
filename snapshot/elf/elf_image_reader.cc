@@ -614,8 +614,22 @@ bool ElfImageReader::InitializeDynamicSymbolTable() {
     return false;
   }
 
+  VMAddress hash_address;
+  if (!GetAddressFromDynamicArray(DT_HASH, &hash_address)) {
+    LOG(ERROR) << "no hash";
+    return false;
+  }
+  // nchain is the second word in the DT_HASH table.
+  const auto word_size =
+      memory_.Is64Bit() ? sizeof(Elf64_Word) : sizeof(Elf32_Word);
+  VMSize nchain;
+  if (!memory_.Read(hash_address + word_size, word_size, &nchain)) {
+    LOG(ERROR) << "nchain";
+    return false;
+  }
+
   symbol_table_.reset(
-      new ElfSymbolTableReader(&memory_, this, symbol_table_address));
+      new ElfSymbolTableReader(&memory_, this, symbol_table_address, nchain));
   symbol_table_initialized_.set_valid();
   return true;
 }
