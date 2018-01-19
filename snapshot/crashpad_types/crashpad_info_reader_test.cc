@@ -24,6 +24,7 @@
 #include "client/simple_string_dictionary.h"
 #include "gtest/gtest.h"
 #include "test/multiprocess.h"
+#include "test/process_handle.h"
 #include "util/file/file_io.h"
 #include "util/misc/from_pointer_cast.h"
 
@@ -40,16 +41,6 @@
 namespace crashpad {
 namespace test {
 namespace {
-
-#if defined(OS_FUCHSIA)
-using ProcessHandle = zx_handle_t;
-ProcessHandle GetSelf() { return zx_process_self(); }
-#elif defined(OS_POSIX)
-using ProcessHandle = pid_t;
-ProcessHandle GetSelf() { return getpid(); }
-#else
-#error Port.
-#endif
 
 constexpr TriState kCrashpadHandlerBehavior = TriState::kEnabled;
 constexpr TriState kSystemCrashReporterForwarding = TriState::kDisabled;
@@ -120,7 +111,7 @@ TEST(CrashpadInfoReader, ReadFromSelf) {
   constexpr bool am_64_bit = false;
 #endif
 
-  test.ExpectCrashpadInfo(GetSelf(), am_64_bit);
+  test.ExpectCrashpadInfo(GetSelfProcessHandle(), am_64_bit);
 }
 
 // TODO(scottmg): This needs to be be ported to use MultiprocessExec instead of
