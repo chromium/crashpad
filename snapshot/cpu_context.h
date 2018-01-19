@@ -18,6 +18,7 @@
 #include <stdint.h>
 
 #include "snapshot/cpu_architecture.h"
+#include "util/numeric/int128.h"
 
 namespace crashpad {
 
@@ -258,6 +259,53 @@ struct CPUContextX86_64 {
   uint64_t dr7;
 };
 
+//! \brief A context structure carrying ARM CPU state.
+struct CPUContextARM {
+  uint32_t regs[11];
+  uint32_t fp;  // r11
+  uint32_t ip;  // r12
+  uint32_t sp;  // r13
+  uint32_t lr;  // r14
+  uint32_t pc;  // r15
+  uint32_t cpsr;
+
+  struct {
+    struct fp_reg {
+      uint32_t sign1 : 1;
+      uint32_t unused : 15;
+      uint32_t sign2 : 1;
+      uint32_t exponent : 14;
+      uint32_t j : 1;
+      uint32_t mantissa1 : 31;
+      uint32_t mantisss0 : 32;
+    } fpregs[8];
+    uint32_t fpsr : 32;
+    uint32_t fpcr : 32;
+    uint8_t type[8];
+    uint32_t init_flag;
+  } fpa_regs;
+
+  struct {
+    uint64_t vfp[32];
+    uint32_t fpscr;
+  } vfp_regs;
+
+  bool have_fpa_regs;
+  bool have_vfp_regs;
+};
+
+//! \brief A context structure carrying ARM64 CPU state.
+struct CPUContextARM64 {
+  uint64_t regs[31];
+  uint64_t sp;
+  uint64_t pc;
+  uint64_t pstate;
+
+  uint128_struct fpsimd[32];
+  uint32_t fpsr;
+  uint32_t fpcr;
+};
+
 //! \brief A context structure capable of carrying the context of any supported
 //!     CPU architecture.
 struct CPUContext {
@@ -274,6 +322,8 @@ struct CPUContext {
   union {
     CPUContextX86* x86;
     CPUContextX86_64* x86_64;
+    CPUContextARM* arm;
+    CPUContextARM64* arm64;
   };
 };
 
