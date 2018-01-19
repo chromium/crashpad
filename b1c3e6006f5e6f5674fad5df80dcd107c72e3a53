@@ -16,6 +16,24 @@
       "revId": "b1c3e6006f5e6f5674fad5df80dcd107c72e3a53",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd65f5b3_79c0d4cc",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-19T21:06:56Z",
+      "side": 1,
+      "message": "\u003e Surprisingly, it was this `if` that I spent the most time tracking down... I fiddled around thinking it was some deep-down incompatibility in symbol tables or sections or something, but no, just a build file (as usual!).\n\nThis befuddled me when I wrote this BUILD.gn too\n\n(https://chromium-review.googlesource.com/c/crashpad/crashpad/+/833408/2/snapshot/BUILD.gn#271)\n\neven though I watched Joshua implement it in GYP and we had a long conversation about it\n\n(https://chromium-review.googlesource.com/c/crashpad/crashpad/+/508836/25/snapshot/linux/test_exported_symbols.sym#17)",
+      "parentUuid": "d2ccbecc_0965df7c",
+      "revId": "b1c3e6006f5e6f5674fad5df80dcd107c72e3a53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

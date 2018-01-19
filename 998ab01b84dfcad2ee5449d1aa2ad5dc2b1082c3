@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb3384c7_10ae3f99",
+        "filename": "snapshot/elf/elf_image_reader_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-19T21:06:56Z",
+      "side": 1,
+      "message": "Since there are blankies inside the #ifs, we should probably have blankies around the #elif, #else, and just after/before the #if and #endif, so that all of these silly #-beginning lines don’t look like they’re one long horrible slab of universal applicability.",
+      "revId": "998ab01b84dfcad2ee5449d1aa2ad5dc2b1082c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "503c3f14_82287f72",
+        "filename": "snapshot/elf/elf_image_reader_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-19T21:06:56Z",
+      "side": 1,
+      "message": "It’s nicer to fail a test than to crash it. Instead of CHECKs, this should use gtest ASSERTs as the Linux/Android equivalent does. You can ASSERT_NO_FATAL_FAILURE() if needed out in the caller after calling this function.",
+      "revId": "998ab01b84dfcad2ee5449d1aa2ad5dc2b1082c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ff0c2eb_edc2e22c",
+        "filename": "snapshot/elf/elf_image_reader_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-19T21:06:56Z",
+      "side": 1,
+      "message": "Since you do this a couple of times, maybe we should isolate it to a file-local “using ProcessMemoryNative \u003d ProcessMemoryFuchsia/Linux” in an #ifdef, to limit the amount of local #ifdefs.",
+      "revId": "998ab01b84dfcad2ee5449d1aa2ad5dc2b1082c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f3504d7_21bdb628",
+        "filename": "snapshot/elf/elf_image_reader_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-19T21:06:56Z",
+      "side": 1,
+      "message": "Similarly, we can limit this local #ifdef by making both Fuchsia and Linux variants take the same parameters, and just ignore the ones that they don’t need. That should be fine since we do have everything available on all platforms by this point anyway.",
+      "revId": "998ab01b84dfcad2ee5449d1aa2ad5dc2b1082c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa3e18ee_d745f747",
+        "filename": "test/process_handle.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-19T21:06:56Z",
+      "side": 1,
+      "message": "A pid isn’t a process “handle” at all, though. (And a handle isn’t really an “id” either).\n\nProcessType? NativeProcess?",
+      "revId": "998ab01b84dfcad2ee5449d1aa2ad5dc2b1082c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
