@@ -56,6 +56,20 @@ bool ThreadSnapshotLinux::Initialize(
                             thread.thread_info.float_context.f32,
                             context_.x86);
   }
+#elif defined(ARCH_CPU_ARM_FAMILY)
+  if (process_reader->Is64Bit()) {
+    context_.architecture = kCPUArchitectureARM64;
+    context_.arm64 = &context_union_.arm64;
+    InitializeCPUContextARM64(thread.thread_info.thread_context.t64,
+                              thread.thread_info.float_context.f64,
+                              context_.arm64);
+  } else {
+    context_.architecture = kCPUArchitectureARM;
+    context_.arm = &context_union_.arm;
+    InitializeCPUContextARM(thread.thread_info.thread_context.t32,
+                            thread.thread_info.float_context.f32,
+                            context_.arm);
+  }
 #else
 #error Port.
 #endif

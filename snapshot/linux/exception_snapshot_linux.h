@@ -73,12 +73,15 @@ class ExceptionSnapshotLinux final : public ExceptionSnapshot {
   template <typename Traits>
   bool ReadContext(ProcessReader* reader, LinuxVMAddress context_address);
 
-#if defined(ARCH_CPU_X86_FAMILY)
   union {
+#if defined(ARCH_CPU_X86_FAMILY)
     CPUContextX86 x86;
     CPUContextX86_64 x86_64;
-  } context_union_;
+#elif defined(ARCH_CPU_ARM_FAMILY)
+    CPUContextARM arm;
+    CPUContextARM64 arm64;
 #endif
+  } context_union_;
   CPUContext context_;
   std::vector<uint64_t> codes_;
   uint64_t thread_id_;
