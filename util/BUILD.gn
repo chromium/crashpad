@@ -283,6 +283,7 @@ static_library("util") {
     sources += [
       "process/process_memory.cc",
       "process/process_memory.h",
+      "process/process_memory_native.h",
 
       # TODO: Port to all platforms.
       "process/process_memory_range.cc",

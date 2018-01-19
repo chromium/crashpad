@@ -62,6 +62,8 @@
         'multiprocess_exec_posix.cc',
         'multiprocess_exec_win.cc',
         'multiprocess_posix.cc',
+        'process_type.cc',
+        'process_type.h',
         'scoped_module_handle.cc',
         'scoped_module_handle.h',
         'scoped_temp_dir.cc',

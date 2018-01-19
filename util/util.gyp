@@ -203,6 +203,7 @@
         'process/process_memory.h',
         'process/process_memory_linux.cc',
         'process/process_memory_linux.h',
+        'process/process_memory_native.h',
         'process/process_memory_range.cc',
         'process/process_memory_range.h',
         'stdlib/aligned_allocator.cc',
