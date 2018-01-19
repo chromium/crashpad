@@ -101,6 +101,26 @@ void InitializeCPUContextX86_64(CPUContext* context, uint32_t seed) {
   context->x86_64->dr7 = value++;
 }
 
+void InitializeCPUContextARM(CPUContext* context, uint32_t seed) {
+  context->architecture = kCPUArchitectureARM;
+
+  if (seed == 0) {
+    memset(context->arm, 0, sizeof(*context->arm));
+    return;
+  }
+  // TODO(jperaza): complete me!
+}
+
+void InitializeCPUContextARM64(CPUContext* context, uint32_t seed) {
+  context->architecture = kCPUArchitectureARM64;
+
+  if (seed == 0) {
+    memset(context->arm64, 0, sizeof(*context->arm64));
+    return;
+  }
+  // TODO(jperaza): complete me!
+}
+
 namespace {
 
 // This is templatized because the CPUContextX86::Fxsave and

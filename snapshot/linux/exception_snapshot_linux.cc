@@ -91,6 +91,159 @@ bool ExceptionSnapshotLinux::ReadContext<ContextTraits64>(
       ucontext.mcontext.gprs, ucontext.fprs, context_.x86_64);
   return true;
 }
+#elif defined(ARCH_CPU_ARM_FAMILY)
+
+template <>
+bool ExceptionSnapshotLinux::ReadContext<ContextTraits32>(
+    ProcessReader* reader,
+    LinuxVMAddress context_address) {
+  context_.architecture = kCPUArchitectureARM;
+  context_.arm = &context_union_.arm;
+
+  CPUContextARM* dest_context = context_.arm;
+  ProcessMemory* memory = reader->Memory();
+
+  LinuxVMAddress gprs_address =
+      context_address + offsetof(UContext<ContextTraits32>, mcontext32) +
+      offsetof(MContext32, gprs);
+
+  SignalThreadContext32 thread_context;
+  if (!memory->Read(gprs_address, sizeof(thread_context), &thread_context)) {
+    LOG(ERROR) << "Couldn't read gprs";
+    return false;
+  }
+  InitializeCPUContextARM_NoFloatingPoint(thread_context, dest_context);
+
+  dest_context->have_fpa_regs = false;
+  memset(&dest_context->fpa_regs, 0, sizeof(dest_context->fpa_regs));
+
+  LinuxVMAddress reserved_address =
+      context_address + offsetof(UContext<ContextTraits32>, reserved);
+  DCHECK_EQ(reserved_address & 7, 0u);
+
+  constexpr VMSize kMaxContextSpace = 1024;
+
+  ProcessMemoryRange range;
+  if (!range.Initialize(memory, false, reserved_address, kMaxContextSpace)) {
+    return false;
+  }
+
+  bool continue_reading = true;
+  dest_context->have_vfp_regs = false;
+
+  CoprocessorContextHead head;
+  while (continue_reading &&
+         range.Read(reserved_address, sizeof(head), &head)) {
+    reserved_address += sizeof(head);
+
+    switch (head.magic) {
+      case VFP_MAGIC:
+        if (!range.Read(reserved_address,
+                        sizeof(dest_context->vfp_regs),
+                        &dest_context->vfp_regs)) {
+          LOG(ERROR) << "Couldn't read vfp";
+          return false;
+        }
+        dest_context->have_vfp_regs = true;
+        continue_reading = false;
+        break;
+
+      case CRUNCH_MAGIC:
+      case IWMMXT_MAGIC:
+      case DUMMY_MAGIC:
+        reserved_address += head.size - sizeof(head);
+        break;
+
+      case 0:
+        continue_reading = false;
+        break;
+
+      default:
+        LOG(ERROR) << "invalid magic number 0x" << std::hex << head.magic;
+        return false;
+    }
+  }
+
+  return true;
+}
+
+template <>
+bool ExceptionSnapshotLinux::ReadContext<ContextTraits64>(
+    ProcessReader* reader,
+    LinuxVMAddress context_address) {
+  context_.architecture = kCPUArchitectureARM64;
+  context_.arm64 = &context_union_.arm64;
+
+  CPUContextARM64* dest_context = context_.arm64;
+  ProcessMemory* memory = reader->Memory();
+
+  LinuxVMAddress gprs_address =
+      context_address + offsetof(UContext<ContextTraits64>, mcontext64) +
+      offsetof(MContext64, gprs);
+
+  ThreadContext::t64_t thread_context;
+  if (!memory->Read(gprs_address, sizeof(thread_context), &thread_context)) {
+    LOG(ERROR) << "Couldn't read gprs";
+    return false;
+  }
+  InitializeCPUContextARM64_NoFloatingPoint(thread_context, dest_context);
+
+  LinuxVMAddress reserved_address =
+      context_address + offsetof(UContext<ContextTraits64>, reserved);
+  DCHECK_EQ(reserved_address & 15, 0u);
+
+  constexpr VMSize kMaxContextSpace = 4096;
+
+  ProcessMemoryRange range;
+  if (!range.Initialize(memory, true, reserved_address, kMaxContextSpace)) {
+    return false;
+  }
+
+  bool found_fpsimd = false;
+  bool continue_reading = true;
+
+  CoprocessorContextHead head;
+  while (continue_reading &&
+         range.Read(reserved_address, sizeof(head), &head)) {
+    reserved_address += sizeof(head);
+
+    switch (head.magic) {
+      case FPSIMD_MAGIC:
+        SignalFPSIMDContext fpsimd;
+        if (!range.Read(reserved_address, sizeof(fpsimd), &fpsimd)) {
+          LOG(ERROR) << "Couldn't read fpsimd";
+          return false;
+        }
+        InitializeCPUContextARM64_OnlyFPSIMD(fpsimd, dest_context);
+        found_fpsimd = true;
+        continue_reading = false;
+        break;
+
+      case ESR_MAGIC:
+        reserved_address += sizeof(SignalESRContext);
+        break;
+
+      case EXTRA_MAGIC:
+      case 0:
+        // If an extra context appears, it must be followed by the null
+        // terminator so quit reading early.
+        continue_reading = false;
+        break;
+
+      default:
+        LOG(ERROR) << "invalid magic number 0x" << std::hex << head.magic;
+        return false;
+    }
+  }
+
+  if (!found_fpsimd) {
+    LOG(WARNING) << "fpsimd not found";
+    InitializeCPUContextARM64_ClearFPSIMD(dest_context);
+  }
+
+  return true;
+}
+
 #endif  // ARCH_CPU_X86_FAMILY
 
 bool ExceptionSnapshotLinux::Initialize(ProcessReader* process_reader,

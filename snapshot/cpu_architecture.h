@@ -32,6 +32,12 @@ enum CPUArchitecture {
 
   //! \brief x86_64.
   kCPUArchitectureX86_64,
+
+  //! \brief 32-bit ARM.
+  kCPUArchitectureARM,
+
+  //! \brief 64-bit ARM.
+  kCPUArchitectureARM64
 };
 
 }  // namespace crashpad
