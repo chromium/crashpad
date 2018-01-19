@@ -64,6 +64,7 @@ class ElfImageReader::ProgramHeaderTableSpecific
     if (!memory.Read(address, sizeof(PhdrType) * num_segments, table_.data())) {
       return false;
     }
+    LOG(ERROR) << "num_segments=" << num_segments;
 
     if (!VerifyLoadSegments()) {
       return false;
@@ -465,17 +466,25 @@ bool ElfImageReader::GetDynamicSymbol(const std::string& name,
                                       VMAddress* address,
                                       VMSize* size) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  LOG(ERROR) << "zip0";
   if (!InitializeDynamicSymbolTable()) {
+  LOG(ERROR) << "zip1";
     return false;
   }
+  LOG(ERROR) << "zip2";
 
   ElfSymbolTableReader::SymbolInformation info;
+  LOG(ERROR) << "zip3";
   if (!symbol_table_->GetSymbol(name, &info)) {
+  LOG(ERROR) << "zip4";
     return false;
   }
+  LOG(ERROR) << "zip5";
   if (info.shndx == SHN_UNDEF || info.shndx == SHN_COMMON) {
+  LOG(ERROR) << "zip6";
     return false;
   }
+  LOG(ERROR) << "zip7";
 
   switch (info.binding) {
     case STB_GLOBAL:
@@ -487,6 +496,7 @@ bool ElfImageReader::GetDynamicSymbol(const std::string& name,
       return false;
   }
 
+  LOG(ERROR) << "info.type=" << info.type;
   switch (info.type) {
     case STT_OBJECT:
     case STT_FUNC:
@@ -501,6 +511,7 @@ bool ElfImageReader::GetDynamicSymbol(const std::string& name,
       return false;
   }
 
+  LOG(ERROR) << "zip8";
   if (info.shndx != SHN_ABS) {
     info.address += GetLoadBias();
   }
@@ -625,9 +636,9 @@ bool ElfImageReader::GetAddressFromDynamicArray(uint64_t tag,
   if (!dynamic_array_->GetValue(tag, address)) {
     return false;
   }
-#if defined(OS_ANDROID)
-  // The GNU loader updates the dynamic array according to the load bias while
-  // the Android loader only updates the debug address.
+#if defined(OS_ANDROID) || defined(OS_FUCHSIA)
+  // The GNU loader updates the dynamic array according to the load bias.
+  // The Android and Fuchsia loaders only update the debug address.
   if (tag != DT_DEBUG) {
     *address += GetLoadBias();
   }

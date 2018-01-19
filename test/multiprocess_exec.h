@@ -22,6 +22,7 @@
 #include "base/macros.h"
 #include "build/build_config.h"
 #include "test/multiprocess.h"
+#include "test/process_handle.h"
 
 namespace crashpad {
 namespace test {
@@ -51,6 +52,10 @@ class MultiprocessExec : public Multiprocess {
   //!     `nullptr` if no command-line arguments are to be passed.
   void SetChildCommand(const base::FilePath& command,
                        const std::vector<std::string>* arguments);
+
+  //! \brief Gets a ProcessHandle to the child, valid only during
+  //!     MultiprocessParent().
+  ProcessHandle GetChildHandle();
 
  protected:
   ~MultiprocessExec();

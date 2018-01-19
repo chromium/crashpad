@@ -70,6 +70,7 @@ bool ElfSymbolTableReader::ScanSymbolTable(const std::string& name,
   std::string string;
   while (memory_->Read(address, sizeof(entry), &entry) &&
          elf_reader_->ReadDynamicStringTableAtOffset(entry.st_name, &string)) {
+    LOG(ERROR) << "Scan for " << name << ", string=" << string;
     if (string == name) {
       info_out->address = entry.st_value;
       info_out->size = entry.st_size;
