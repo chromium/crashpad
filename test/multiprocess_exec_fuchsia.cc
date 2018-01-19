@@ -106,6 +106,10 @@ void MultiprocessExec::SetChildCommand(
   }
 }
 
+ProcessHandle MultiprocessExec::GetChildHandle() {
+  return info()->child.get();
+}
+
 MultiprocessExec::~MultiprocessExec() {}
 
 void MultiprocessExec::PreFork() {

@@ -108,6 +108,10 @@ void MultiprocessExec::SetChildCommand(
   }
 }
 
+ProcessHandle MultiprocessExec::GetChildHandle() {
+  return info()->process_info.hProcess;
+}
+
 MultiprocessExec::~MultiprocessExec() {
 }
 
