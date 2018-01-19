@@ -30,7 +30,8 @@ namespace test {
 
 #if defined(OS_FUCHSIA)
 using ProcessType = zx_handle_t;
-#elif defined(OS_POSIX)
+#elif defined(OS_POSIX) || DOXYGEN
+//! \brief Alias for platform-specific type to represent a process.
 using ProcessType = pid_t;
 #elif defined(OS_WIN)
 using ProcessType = HANDLE;
@@ -38,6 +39,7 @@ using ProcessType = HANDLE;
 #error Port.
 #endif
 
+//! \brief Get a ProcessType representing the current process.
 ProcessType GetSelfProcess();
 
 }  // namespace test
