@@ -21,12 +21,29 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/multiprocess.h"
+#include "test/process_type.h"
 #include "util/file/file_io.h"
-#include "util/linux/auxiliary_vector.h"
-#include "util/linux/memory_map.h"
 #include "util/misc/address_types.h"
 #include "util/misc/from_pointer_cast.h"
-#include "util/process/process_memory_linux.h"
+#include "util/process/process_memory_native.h"
+
+#if defined(OS_FUCHSIA)
+
+#include <link.h>
+#include <zircon/syscalls.h>
+
+#include "base/fuchsia/fuchsia_logging.h"
+
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+
+#include "util/linux/auxiliary_vector.h"
+#include "util/linux/memory_map.h"
+
+#else
+
+#error Port.
+
+#endif  // OS_FUCHSIA
 
 extern "C" {
 __attribute__((visibility("default"))) void
@@ -37,15 +54,49 @@ namespace crashpad {
 namespace test {
 namespace {
 
-void LocateExecutable(pid_t pid, bool is_64_bit, VMAddress* elf_address) {
+
+#if defined(OS_FUCHSIA)
+
+void LocateExecutable(ProcessType process,
+                      ProcessMemory* memory,
+                      bool is_64_bit,
+                      VMAddress* elf_address) {
+  uintptr_t debug_address;
+  zx_status_t status = zx_object_get_property(process,
+                                              ZX_PROP_PROCESS_DEBUG_ADDR,
+                                              &debug_address,
+                                              sizeof(debug_address));
+  ASSERT_EQ(status, ZX_OK)
+      << "zx_object_get_property: ZX_PROP_PROCESS_DEBUG_ADDR";
+
+  constexpr auto k_r_debug_map_offset = offsetof(r_debug, r_map);
+  uintptr_t map;
+  ASSERT_TRUE(
+      memory->Read(debug_address + k_r_debug_map_offset, sizeof(map), &map))
+      << "read link_map";
+
+  constexpr auto k_link_map_addr_offset = offsetof(link_map, l_addr);
+  uintptr_t base;
+  ASSERT_TRUE(memory->Read(map + k_link_map_addr_offset, sizeof(base), &base))
+      << "read base";
+
+  *elf_address = base;
+}
+
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+
+void LocateExecutable(ProcessType process,
+                      ProcessMemory* memory,
+                      bool is_64_bit,
+                      VMAddress* elf_address) {
   AuxiliaryVector aux;
-  ASSERT_TRUE(aux.Initialize(pid, is_64_bit));
+  ASSERT_TRUE(aux.Initialize(process, is_64_bit));
 
   VMAddress phdrs;
   ASSERT_TRUE(aux.GetValue(AT_PHDR, &phdrs));
 
   MemoryMap memory_map;
-  ASSERT_TRUE(memory_map.Initialize(pid));
+  ASSERT_TRUE(memory_map.Initialize(process));
   const MemoryMap::Mapping* phdr_mapping = memory_map.FindMapping(phdrs);
   ASSERT_TRUE(phdr_mapping);
   const MemoryMap::Mapping* exe_mapping =
@@ -53,6 +104,8 @@ void LocateExecutable(pid_t pid, bool is_64_bit, VMAddress* elf_address) {
   ASSERT_TRUE(exe_mapping);
   *elf_address = exe_mapping->range.Base();
 }
+
+#endif  // OS_FUCHSIA
 
 void ExpectSymbol(ElfImageReader* reader,
                   const std::string& symbol_name,
@@ -67,20 +120,21 @@ void ExpectSymbol(ElfImageReader* reader,
       reader->GetDynamicSymbol("notasymbol", &symbol_address, &symbol_size));
 }
 
-void ReadThisExecutableInTarget(pid_t pid) {
+void ReadThisExecutableInTarget(ProcessType process) {
 #if defined(ARCH_CPU_64_BITS)
   constexpr bool am_64_bit = true;
 #else
   constexpr bool am_64_bit = false;
 #endif  // ARCH_CPU_64_BITS
 
-  VMAddress elf_address;
-  LocateExecutable(pid, am_64_bit, &elf_address);
-
-  ProcessMemoryLinux memory;
-  ASSERT_TRUE(memory.Initialize(pid));
+  ProcessMemoryNative memory;
+  ASSERT_TRUE(memory.Initialize(process));
   ProcessMemoryRange range;
   ASSERT_TRUE(range.Initialize(&memory, am_64_bit));
+
+  VMAddress elf_address;
+  LocateExecutable(process, &memory, am_64_bit, &elf_address);
+  ASSERT_NO_FATAL_FAILURE();
 
   ElfImageReader reader;
   ASSERT_TRUE(reader.Initialize(range, elf_address));
@@ -123,7 +177,7 @@ void ReadThisExecutableInTarget(pid_t pid) {
 
 // Assumes that libc is loaded at the same address in this process as in the
 // target, which it is for the fork test below.
-void ReadLibcInTarget(pid_t pid) {
+void ReadLibcInTarget(ProcessType process) {
 #if defined(ARCH_CPU_64_BITS)
   constexpr bool am_64_bit = true;
 #else
@@ -135,8 +189,8 @@ void ReadLibcInTarget(pid_t pid) {
                                                               << dlerror();
   VMAddress elf_address = FromPointerCast<VMAddress>(info.dli_fbase);
 
-  ProcessMemoryLinux memory;
-  ASSERT_TRUE(memory.Initialize(pid));
+  ProcessMemoryNative memory;
+  ASSERT_TRUE(memory.Initialize(process));
   ProcessMemoryRange range;
   ASSERT_TRUE(range.Initialize(&memory, am_64_bit));
 
@@ -146,6 +200,11 @@ void ReadLibcInTarget(pid_t pid) {
   ExpectSymbol(&reader, "getpid", FromPointerCast<VMAddress>(getpid));
 }
 
+TEST(ElfImageReader, MainExecutableSelf) {
+  ReadThisExecutableInTarget(GetSelfProcess());
+}
+
+#if !defined(OS_FUCHSIA)  // TODO(scottmg): Port to MultiprocessExec.
 class ReadExecutableChildTest : public Multiprocess {
  public:
   ReadExecutableChildTest() : Multiprocess() {}
@@ -156,19 +215,17 @@ class ReadExecutableChildTest : public Multiprocess {
   void MultiprocessChild() { CheckedReadFileAtEOF(ReadPipeHandle()); }
 };
 
-TEST(ElfImageReader, MainExecutableSelf) {
-  ReadThisExecutableInTarget(getpid());
-}
-
 TEST(ElfImageReader, MainExecutableChild) {
   ReadExecutableChildTest test;
   test.Run();
 }
+#endif  // !OS_FUCHSIA
 
 TEST(ElfImageReader, OneModuleSelf) {
-  ReadLibcInTarget(getpid());
+  ReadLibcInTarget(GetSelfProcess());
 }
 
+#if !defined(OS_FUCHSIA)  // TODO(scottmg): Port to MultiprocessExec.
 class ReadLibcChildTest : public Multiprocess {
  public:
   ReadLibcChildTest() : Multiprocess() {}
@@ -183,6 +240,7 @@ TEST(ElfImageReader, OneModuleChild) {
   ReadLibcChildTest test;
   test.Run();
 }
+#endif  // !OS_FUCHSIA
 
 }  // namespace
 }  // namespace test
