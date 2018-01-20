@@ -15,10 +15,14 @@
 #ifndef CRASHPAD_SNAPSHOT_LINUX_SNAPSHOT_SIGNAL_CONTEXT_LINUX_H_
 #define CRASHPAD_SNAPSHOT_LINUX_SNAPSHOT_SIGNAL_CONTEXT_LINUX_H_
 
+#include <signal.h>
 #include <stdint.h>
 #include <sys/types.h>
 
+#include <type_traits>
+
 #include "build/build_config.h"
+#include "util/linux/thread_info.h"
 #include "util/linux/traits.h"
 
 namespace crashpad {
@@ -84,6 +88,40 @@ struct Siginfo {
     };
   };
 };
+
+template <typename Traits>
+struct SignalStack {
+  typename Traits::Address stack_pointer;
+  uint32_t flags;
+  typename Traits::UInteger32_64Only padding;
+  typename Traits::Size size;
+};
+
+template <typename Traits, typename Enable = void>
+struct Sigset {};
+
+template <typename Traits>
+struct Sigset<
+    Traits,
+    typename std::enable_if<std::is_base_of<Traits32, Traits>::value>::type> {
+  uint64_t val;
+};
+
+#if defined(OS_ANDROID)
+template <typename Traits>
+struct Sigset<
+    Traits,
+    typename std::enable_if<std::is_base_of<Traits64, Traits>::value>::type> {
+  uint64_t val;
+};
+#else
+template <typename Traits>
+struct Sigset<
+    Traits,
+    typename std::enable_if<std::is_base_of<Traits64, Traits>::value>::type> {
+  typename Traits::ULong val[16];
+};
+#endif  // OS_ANDROID
 
 #if defined(ARCH_CPU_X86_FAMILY)
 
@@ -167,34 +205,6 @@ struct MContext {
 };
 
 template <typename Traits>
-struct SignalStack {
-  typename Traits::Address stack_pointer;
-  uint32_t flags;
-  typename Traits::UInteger32_64Only padding;
-  typename Traits::Size size;
-};
-
-template <typename Traits>
-struct Sigset {};
-
-template <>
-struct Sigset<ContextTraits32> {
-  uint64_t val;
-};
-
-#if defined(OS_ANDROID)
-template <>
-struct Sigset<ContextTraits64> {
-  uint64_t val;
-};
-#else
-template <>
-struct Sigset<ContextTraits64> {
-  ContextTraits64::ULong val[16];
-};
-#endif  // OS_ANDROID
-
-template <typename Traits>
 struct UContext {
   typename Traits::ULong flags;
   typename Traits::Address link;
@@ -203,6 +213,100 @@ struct UContext {
   Sigset<Traits> sigmask;
   typename Traits::FloatContext fprs;
 };
+
+#elif defined(ARCH_CPU_ARM_FAMILY)
+
+struct CoprocessorContextHead {
+  uint32_t magic;
+  uint32_t size;
+};
+
+struct SignalFPSIMDContext {
+  uint32_t fpsr;
+  uint32_t fpcr;
+  uint128_struct vregs[32];
+};
+
+struct SignalESRContext {
+  uint64_t esr;
+};
+
+struct SignalCrunchContext {
+  uint32_t mvdx[16][2];
+  uint32_t mvax[4][3];
+  uint32_t dspsc[2];
+};
+
+struct SignalIWMMXTContext {
+  uint32_t save[38];
+};
+
+struct SignalThreadContext32 {
+  uint32_t regs[11];
+  uint32_t fp;
+  uint32_t ip;
+  uint32_t sp;
+  uint32_t lr;
+  uint32_t pc;
+  uint32_t cpsr;
+};
+
+using SignalThreadContext64 = ThreadContext::t64_t;
+
+struct MContext32 {
+  uint32_t trap_no;
+  uint32_t error_code;
+  uint32_t oldmask;
+  SignalThreadContext32 gprs;
+  uint32_t fault_address;
+};
+
+struct MContext64 {
+  uint64_t fault_address;
+  SignalThreadContext64 gprs;
+};
+
+struct ContextTraits32 : public Traits32 {
+  using MContext32 = MContext32;
+  using MContext64 = Nothing;
+};
+
+struct ContextTraits64 : public Traits64 {
+  using MContext32 = Nothing;
+  using MContext64 = MContext64;
+};
+
+template <typename Traits>
+struct UContext {
+  typename Traits::ULong flags;
+  typename Traits::Address link;
+  SignalStack<Traits> stack;
+  typename Traits::MContext32 mcontext32;
+  Sigset<Traits> sigmask;
+  char padding[128 - sizeof(sigmask)];
+  typename Traits::Char_64Only padding2[8];
+  typename Traits::MContext64 mcontext64;
+  typename Traits::Char_64Only padding3[8];
+  char reserved[0];
+};
+
+#if defined(ARCH_CPU_ARMEL)
+static_assert(offsetof(UContext<ContextTraits32>, mcontext32) ==
+                  offsetof(ucontext_t, uc_mcontext),
+              "context offset mismatch");
+static_assert(offsetof(UContext<ContextTraits32>, reserved) ==
+                  offsetof(ucontext_t, uc_regspace),
+              "regspace offset mismatch");
+
+#elif defined(ARCH_CPU_ARM64)
+static_assert(offsetof(UContext<ContextTraits64>, mcontext64) ==
+                  offsetof(ucontext_t, uc_mcontext),
+              "context offset mismtach");
+static_assert(offsetof(UContext<ContextTraits64>, reserved) ==
+                  offsetof(ucontext_t, uc_mcontext) +
+                      offsetof(mcontext_t, __reserved),
+              "reserved space offset mismtach");
+#endif
 
 #else
 #error Port.
