@@ -51,8 +51,12 @@ uint8_t GetVisibility(const Elf64_Sym& sym) {
 
 ElfSymbolTableReader::ElfSymbolTableReader(const ProcessMemoryRange* memory,
                                            ElfImageReader* elf_reader,
-                                           VMAddress address)
-    : memory_(memory), elf_reader_(elf_reader), base_address_(address) {}
+                                           VMAddress address,
+                                           size_t num_entries)
+    : memory_(memory),
+      elf_reader_(elf_reader),
+      base_address_(address),
+      num_entries_(num_entries) {}
 
 ElfSymbolTableReader::~ElfSymbolTableReader() {}
 
@@ -68,7 +72,8 @@ bool ElfSymbolTableReader::ScanSymbolTable(const std::string& name,
   VMAddress address = base_address_;
   SymEnt entry;
   std::string string;
-  while (memory_->Read(address, sizeof(entry), &entry) &&
+  size_t i = 0;
+  while (i < num_entries_ && memory_->Read(address, sizeof(entry), &entry) &&
          elf_reader_->ReadDynamicStringTableAtOffset(entry.st_name, &string)) {
     if (string == name) {
       info_out->address = entry.st_value;
@@ -80,6 +85,7 @@ bool ElfSymbolTableReader::ScanSymbolTable(const std::string& name,
       return true;
     }
     address += sizeof(entry);
+    ++i;
   }
   return false;
 }
