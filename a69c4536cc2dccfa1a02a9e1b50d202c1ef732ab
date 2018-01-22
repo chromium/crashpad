@@ -1,0 +1,237 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b448176b_9c583c15",
+        "filename": "snapshot/elf/elf_dynamic_array_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T22:03:02Z",
+      "side": 1,
+      "message": "\\param[in] log",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc3ac507_d1b69b6b",
+        "filename": "snapshot/elf/elf_dynamic_array_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T22:03:02Z",
+      "side": 1,
+      "message": "And reorder to put the “in” parameters together before the “out” one.",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b78d3ffc_6fa1caf2",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T22:03:02Z",
+      "side": 1,
+      "message": "\u0026\u0026-chain these instead of nesting.",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cdb7666_63dd4fb2",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T22:03:02Z",
+      "side": 1,
+      "message": "I’d rather see this done through a struct. The custom arithmetic (and required commentary) isn’t great form.",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27b74606_d2c23424",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T22:03:02Z",
+      "side": 1,
+      "message": "This struct can be totally anonymous, and you can write sizeof(header) instead of sizeof(GnuHashHeader) below. Generally it’s better to use sizeof on a variable than a type when you have one handy anyway.",
+      "range": {
+        "startLine": 675,
+        "startChar": 9,
+        "endLine": 675,
+        "endChar": 22
+      },
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50aca705_e1d6835a",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T22:03:02Z",
+      "side": 1,
+      "message": "The links that describe the DT_GNU_HASH format from the commit message belong here too.",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37069ac4_f403919e",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T22:03:02Z",
+      "side": 1,
+      "message": "This is an alloca() equivalent, no good. You need to dynamically allocate the memory instead.",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b4a42af_08bc5896",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T22:03:02Z",
+      "side": 1,
+      "message": "std::max",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10c7f005_ed72b280",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T22:03:02Z",
+      "side": 1,
+      "message": "Reorder parameters here too.",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae57cd04_c5f81f7e",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T22:03:02Z",
+      "side": 1,
+      "message": "Even if you’re moderately familiar with ELF, “from hash” is kinda like “what hash? how can you read into a hash at all?”\n\nGetNumberOfSymbolEntriesFromDtHash? And then the same with the next one, FromDtGnuHash?",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73f49a1e_7534c814",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T22:03:02Z",
+      "side": 1,
+      "message": "It’d be nice to have a test that ensures that if both of these are present (as they normally are on Linux, at least), that they produce consistent results.",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73f2d60a_6689efc8",
+        "filename": "snapshot/elf/elf_symbol_table_reader.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T22:03:02Z",
+      "side": 1,
+      "message": "This clause was primarily intended to detect the end of the symbol table before, but that’s wholly unnecessary now.\n\nNow that we know how large the table is supposed to be, I think that this should move inside the “while” to the “if”. Failure to read a symbol’s name from the string table shouldn’t stop the symbol table scan altogether.",
+      "range": {
+        "startLine": 77,
+        "startChar": 9,
+        "endLine": 77,
+        "endChar": 76
+      },
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ac66e79_f19b2262",
+        "filename": "snapshot/elf/elf_symbol_table_reader.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T22:03:02Z",
+      "side": 1,
+      "message": "Leave a TODO here to implement this using DT_SYMENT if present instead of sizeof(entry). You don’t have to actually implement that in this change.",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
