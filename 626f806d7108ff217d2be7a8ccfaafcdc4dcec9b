@@ -1,0 +1,237 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c13c994b_610d4d0b",
+        "filename": "test/gtest_main.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T23:11:06Z",
+      "side": 1,
+      "message": "std::string::compare() is better than making a temporary string with std::string::substr(). You can use the form that accepts a “len”, which behaves like strncmp().",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5375fc9_7e41a630",
+        "filename": "test/multiprocess_exec.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T23:11:06Z",
+      "side": 1,
+      "message": "This ought to fail pretty spectacularly if multiple tests are registered with the same name. You can CHECK on !MapInsertOrReplace().",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a26ab33_afa76b23",
+        "filename": "test/multiprocess_exec.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T23:11:06Z",
+      "side": 1,
+      "message": "Maybe the \u003d should just be part of this string. It looks like you put the \u003d on it everywhere it’s used.",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "266a2c1d_63e302f0",
+        "filename": "test/multiprocess_exec.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T23:11:06Z",
+      "side": 1,
+      "message": "Maybe this should CHECK() instead of hoping that the -1 bubbles up to where it has to go.\n\n(On POSIX, exit codes are weird, because main() returns int, and exit() accepts int, but usually only 8 bits are visible to other processes. So I’m not really talking about our own care in propagating the exit code as much as I’m thinking about the OS handling.)",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c311397_24bf769d",
+        "filename": "test/multiprocess_exec.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T23:11:06Z",
+      "side": 1,
+      "message": "This might be a bug.",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 72
+      },
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfb081f2_5aa6643b",
+        "filename": "test/multiprocess_exec.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T23:11:06Z",
+      "side": 1,
+      "message": "How’s this skip \u003crandom_location\u003e?",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c4546c4_c6acc076",
+        "filename": "test/multiprocess_exec.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T23:11:06Z",
+      "side": 1,
+      "message": "Should be possible to be “constexpr char” without “extern” if you stick the definition here.",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8871e753_a93d749e",
+        "filename": "test/multiprocess_exec.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T23:11:06Z",
+      "side": 1,
+      "message": "//! \\return\n\nThe return value’s basically obvious given how you’ve declared main_function_pointer above, but what does this return if test_name isn’t registered?",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e4f70d4_5ad94ad8",
+        "filename": "test/multiprocess_exec.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T23:11:06Z",
+      "side": 1,
+      "message": "You need a \\file Doxygen comment in order for this docstring to be slurped up and turned into something useful. Examples throughout the codebase.",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da09632e_5254ac26",
+        "filename": "test/multiprocess_exec.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T23:11:06Z",
+      "side": 1,
+      "message": "/* namespace */ (since // comments don’t work inside a macro).",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd556a9b_e1429457",
+        "filename": "test/multiprocess_exec.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T23:11:06Z",
+      "side": 1,
+      "message": "“main()” or “main function”.",
+      "range": {
+        "startLine": 98,
+        "startChar": 57,
+        "endLine": 98,
+        "endChar": 61
+      },
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06dad65b_c3695b4d",
+        "filename": "test/multiprocess_exec.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T23:11:06Z",
+      "side": 1,
+      "message": "My understanding is that we’re keeping SetChildCommand() just for the cases where we need special linker flags or other “whacking” that has the child in a distinct executable. If that’s true, we should write it down in the documentation for SetChildCommand(), since this SetChildTestMainFunction() would be preferable in all other cases.",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ca2e923_f372b97b",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-22T23:11:06Z",
+      "side": 1,
+      "message": "Should we make it #if !OS_FUCHSIA then, to make attempts to use it a compile-time error, instead of a debug-only run-time error (and not even really a time-of-use one at that)?",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
