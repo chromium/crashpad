@@ -214,7 +214,11 @@ class ElfImageReader {
   bool InitializeProgramHeaders();
   bool InitializeDynamicArray();
   bool InitializeDynamicSymbolTable();
-  bool GetAddressFromDynamicArray(uint64_t tag, VMAddress* address);
+  bool GetAddressFromDynamicArray(uint64_t tag, VMAddress* address, bool log);
+
+  bool GetNumberOfSymbolEntriesFromHash(VMSize* number_of_symbol_table_entries);
+  bool GetNumberOfSymbolEntriesFromGnuHash(
+      VMSize* number_of_symbol_table_entries);
 
   union {
     Elf32_Ehdr header_32_;

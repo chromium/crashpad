@@ -53,10 +53,10 @@ class ElfDynamicArrayReader {
   //! \param[out] value The value, casted to an appropriate type, if found.
   //! \return `true` if the value is found.
   template <typename V>
-  bool GetValue(uint64_t tag, V* value) {
+  bool GetValue(uint64_t tag, V* value, bool log) {
     auto iter = values_.find(tag);
     if (iter == values_.end()) {
-      LOG(ERROR) << "tag not found";
+      LOG_IF(ERROR, log) << "tag not found";
       return false;
     }
     return ReinterpretBytes(iter->second, value);
