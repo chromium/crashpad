@@ -26,6 +26,29 @@
 namespace crashpad {
 namespace test {
 
+namespace internal {
+
+extern const char kChildTestProcess[];
+
+class AppendMultiprocessTest {
+ public:
+  AppendMultiprocessTest(const std::string& test_name,
+                         int (*main_function_pointer)());
+};
+
+int InvokeMultiprocessChild(const std::string& test_name);
+
+}  // namespace internal
+
+//! \brief TODO(scottmg)
+#define CRASHPAD_CHILD_TEST_MAIN(test_main)                       \
+  int test_main();                                                \
+  namespace {                                                     \
+  ::crashpad::test::internal::AppendMultiprocessTest              \
+      AddMultiprocessTest##_##test_main(#test_main, (test_main)); \
+  }                                                               \
+  int test_main()
+
 //! \brief Manages an `exec()`-based multiprocess test.
 //!
 //! These tests are based on `fork()` and `exec()`. The parent process is able
@@ -49,8 +72,19 @@ class MultiprocessExec : public Multiprocess {
   //!     process in its `argv[]` vector. This vector must begin at `argv[1]`,
   //!     as \a command is implicitly used as `argv[0]`. This argument may be
   //!     `nullptr` if no command-line arguments are to be passed.
+  //!
+  //! \sa SetChildTestMainProc
   void SetChildCommand(const base::FilePath& command,
                        const std::vector<std::string>* arguments);
+
+  //! \brief Calls SetChildCommand() to run a child test main registered with
+  //!     CRASHPAD_CHILD_TEST_MAIN.
+  //!
+  //! This uses the same launch mechanism as SetChildCommand(), but coordinates
+  //! with test/gtest_main.cc to allow for simple registration of a child
+  //! processes' entry point via the helper macro, rather than creating a
+  //! separate target.
+  void SetChildTestMainProc(const std::string& procname);
 
  protected:
   ~MultiprocessExec();
