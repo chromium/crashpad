@@ -399,6 +399,24 @@
     },
     {
       "key": {
+        "uuid": "ee3fc0f4_34321e8b",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-22T23:43:09Z",
+      "side": 1,
+      "message": "Got it building on Linux and added a test to the latest patchset, but at least in crashpad_snapshot_test I don\u0027t have a .gnu.hash, only .hash.\n\nhttps://gist.github.com/anonymous/75ef73afdf8fae6f3d8fea9f0c51408c\n\nI guess what I\u0027ll need to do is track down how to force .hash, .gnu.hash, or both and then build separate targets for all 3 that the test can inspect.",
+      "parentUuid": "497ef8a5_3eb06fed",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "73f2d60a_6689efc8",
         "filename": "snapshot/elf/elf_symbol_table_reader.cc",
         "patchSetId": 7
