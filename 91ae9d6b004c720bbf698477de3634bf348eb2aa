@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "644ffebe_b8994feb",
+        "filename": "snapshot/elf/elf_dynamic_array_reader.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-22T20:06:25Z",
+      "side": 1,
+      "message": "*\"LOG_IF(...\"",
+      "parentUuid": "cffdccea_5a060928",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 60,
+        "endChar": 19
+      },
+      "revId": "91ae9d6b004c720bbf698477de3634bf348eb2aa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e62dfe70_d24f1011",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 6
