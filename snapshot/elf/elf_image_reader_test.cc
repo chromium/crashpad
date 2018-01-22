@@ -242,6 +242,42 @@ TEST(ElfImageReader, OneModuleChild) {
 }
 #endif  // !OS_FUCHSIA
 
+#if defined(OS_LINUX)
+
+// This test is only run on Linux as on Android currently it seems that only
+// DT_HASH is present, and on Fuchsia, only DT_GNU_HASH is present. Linux
+// builds appear to generally emit both.
+TEST(ElfImageReader, DtHashAndDtGnuHashMatch) {
+#if defined(ARCH_CPU_64_BITS)
+  constexpr bool am_64_bit = true;
+#else
+  constexpr bool am_64_bit = false;
+#endif  // ARCH_CPU_64_BITS
+
+  ProcessMemoryNative memory;
+  ASSERT_TRUE(memory.Initialize(test::GetSelfProcess()));
+  ProcessMemoryRange range;
+  ASSERT_TRUE(range.Initialize(&memory, am_64_bit));
+
+  VMAddress elf_address;
+  test::LocateExecutable(
+      test::GetSelfProcess(), &memory, am_64_bit, &elf_address);
+  ASSERT_NO_FATAL_FAILURE();
+
+  ElfImageReader reader;
+  ASSERT_TRUE(reader.Initialize(range, elf_address));
+
+  VMSize from_dt_hash;
+  ASSERT_TRUE(reader.GetNumberOfSymbolEntriesFromDtHash(&from_dt_hash));
+
+  VMSize from_dt_gnu_hash;
+  ASSERT_TRUE(reader.GetNumberOfSymbolEntriesFromDtGnuHash(&from_dt_gnu_hash));
+
+  EXPECT_EQ(from_dt_hash, from_dt_gnu_hash);
+}
+
+#endif  // OS_LINUX
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
