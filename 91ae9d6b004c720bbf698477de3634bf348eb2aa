@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "caf684d6_5aafaf3b",
+        "filename": "snapshot/elf/elf_dynamic_array_reader.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-22T20:31:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "644ffebe_b8994feb",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 60,
+        "endChar": 19
+      },
+      "revId": "91ae9d6b004c720bbf698477de3634bf348eb2aa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e62dfe70_d24f1011",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 6
@@ -60,6 +84,30 @@
       "writtenOn": "2018-01-22T20:01:06Z",
       "side": 1,
       "message": "GetNumberOfSymbolEntriesFromGnuHash also has access to memory_ and only uses the WordSize once. I\u0027d consider making this check there, rather than templatizing the whole method.",
+      "range": {
+        "startLine": 621,
+        "startChar": 9,
+        "endLine": 621,
+        "endChar": 27
+      },
+      "revId": "91ae9d6b004c720bbf698477de3634bf348eb2aa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b2a37ef_167b7336",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-22T20:31:48Z",
+      "side": 1,
+      "message": "Done.\n\n(When I started writing it, I thought Elf32_Word and Elf64_Word were different sizes. Oh, to be so naive and carefree again...)",
+      "parentUuid": "e62dfe70_d24f1011",
       "range": {
         "startLine": 621,
         "startChar": 9,
@@ -92,6 +140,30 @@
       "revId": "91ae9d6b004c720bbf698477de3634bf348eb2aa",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "142912dd_89d3ec4c",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-22T20:31:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdf1c157_debb7528",
+      "range": {
+        "startLine": 219,
+        "startChar": 40,
+        "endLine": 219,
+        "endChar": 46
+      },
+      "revId": "91ae9d6b004c720bbf698477de3634bf348eb2aa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
