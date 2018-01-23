@@ -176,7 +176,7 @@ union FloatContext {
     } fpregs;
 
     // Reflects user_vfp in sys/user.h.
-    struct vfp {
+    struct vfp_t {
       uint64_t fpregs[32];
       uint32_t fpscr;
     } vfp;
