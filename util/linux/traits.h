@@ -26,6 +26,7 @@ struct Traits32 {
   using ULong = uint32_t;
   using Clock = Long;
   using Size = uint32_t;
+  using Char_64Only = Nothing;
   using ULong_32Only = ULong;
   using ULong_64Only = Nothing;
   using UInteger32_64Only = Nothing;
@@ -38,6 +39,7 @@ struct Traits64 {
   using ULong = uint64_t;
   using Clock = Long;
   using Size = uint64_t;
+  using Char_64Only = char;
   using ULong_32Only = Nothing;
   using ULong_64Only = ULong;
   using UInteger32_64Only = uint32_t;
