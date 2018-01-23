@@ -368,8 +368,9 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name, extra_command_line):
 
   try:
     unique_id = uuid.uuid4().hex
-    tmp_root = '/tmp/%s_%s/tmp' % (test, unique_id)
-    staging_root = '/tmp/%s_%s/pkg' % (test, unique_id)
+    test_root = '/tmp/%s_%s' % (test, unique_id)
+    tmp_root = test_root + '/tmp'
+    staging_root = test_root + '/pkg'
 
     # Make a staging directory tree on the target.
     directories_to_create = [tmp_root, '%s/bin' % staging_root,
@@ -378,12 +379,15 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name, extra_command_line):
 
     def netcp(local_path):
       """Uses `netcp` to copy a file or directory to the device. Files located
-      inside the build dir are stored to /pkg/bin, otherwise to /pkg/assets.
+      inside the build dir are stored to /pkg/bin, or /pkg/lib (if .so),
+      otherwise to /pkg/assets.
       """
       in_binary_dir = local_path.startswith(binary_dir + '/')
       if in_binary_dir:
-        target_path = os.path.join(
-            staging_root, 'bin', local_path[len(binary_dir)+1:])
+        is_so = local_path.endswith('.so')
+        target_path = os.path.join(staging_root,
+                                   'lib' if is_so else 'bin',
+                                   local_path[len(binary_dir)+1:])
       else:
         target_path = os.path.join(staging_root, 'assets', local_path)
       netcp_path = os.path.join(sdk_root, 'tools', 'netcp')
@@ -412,7 +416,7 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name, extra_command_line):
     if not success:
       raise subprocess.CalledProcessError(1, test)
   finally:
-    netruncmd(['rm', '-rf', tmp_root, staging_root])
+    netruncmd(['rm', '-rf', test_root])
 
 
 # This script is primarily used from the waterfall so that the list of tests
