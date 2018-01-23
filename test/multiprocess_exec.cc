@@ -57,16 +57,6 @@ void MultiprocessExec::SetChildTestMainFunction(
   std::vector<std::string> rest(GetMainArguments().begin() + 1,
                                 GetMainArguments().end());
   rest.push_back(internal::kChildTestFunction + function_name);
-#if defined(OS_FUCHSIA)
-  // Fuchsia's `namespace` command passes argv[0] as the non-namespaced path to
-  // the binary, e.g. /tmp/<random_location>/pkg/bin/crashpad_test_test, whereas
-  // to reinvoke, we need to use /pkg/bin/crashpad_test_test. Fix argv[0] here.
-  const auto it = argv0.find("/pkg/");
-  if (it != std::string::npos) {
-    argv0 = argv0.substr(it);
-  }
-#endif  // OS_FUCHSIA
-
   SetChildCommand(base::FilePath(argv0), &rest);
 }
 
