@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1ceb5d71_5fc114b0",
+        "filename": "test/gtest_main.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-23T19:42:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c13c994b_610d4d0b",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5375fc9_7e41a630",
         "filename": "test/multiprocess_exec.cc",
         "patchSetId": 9
@@ -33,6 +51,24 @@
       "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57d4a647_9affdc90",
+        "filename": "test/multiprocess_exec.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-23T19:42:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5375fc9_7e41a630",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "91a22393_617dc484",
+        "filename": "test/multiprocess_exec.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-23T19:42:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a26ab33_afa76b23",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "266a2c1d_63e302f0",
         "filename": "test/multiprocess_exec.cc",
         "patchSetId": 9
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "84bafeb5_fdc635ce",
+        "filename": "test/multiprocess_exec.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-23T19:42:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "266a2c1d_63e302f0",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c311397_24bf769d",
         "filename": "test/multiprocess_exec.cc",
         "patchSetId": 9
@@ -81,6 +153,30 @@
       "writtenOn": "2018-01-22T23:11:06Z",
       "side": 1,
       "message": "This might be a bug.",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 72
+      },
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ef05506_9898d3b4",
+        "filename": "test/multiprocess_exec.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-23T19:42:38Z",
+      "side": 1,
+      "message": "Agreed, it was filed as US-408, which resulted in https://fuchsia-review.googlesource.com/c/garnet/+/108305, but that only affects appmgr launched binaries... and it would actually make things worse if it affected `namespace` because it hardcodes argv[0] to \"/pkg/bin/app\", rather than the real name of the binary. (I\u0027m not sure sure why it\u0027s called \"arv0\" in the code either.)\n\nIt seems Fuchsia really doesn\u0027t want us to know anything about our binary name or where it is on the file system or if it\u0027s even on a file system. Which seems nice in theory, but impractical in non-final-deployment situations. I\u0027ll follow up on the bug anyway.",
+      "parentUuid": "6c311397_24bf769d",
       "range": {
         "startLine": 63,
         "startChar": 0,
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "f0ca62f3_94afc679",
+        "filename": "test/multiprocess_exec.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-23T19:42:38Z",
+      "side": 1,
+      "message": "The idea was that we store the test binary a \"real\" path of the form \"/tmp/\u003cguid\u003e/pkg/bin/crashpad_xyz\". So, search from the left for \"/pkg/\" and keep everything to the right of that, which corresponds to the mapping that run_tests.py sets up for /pkg.",
+      "parentUuid": "bfb081f2_5aa6643b",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1c4546c4_c6acc076",
         "filename": "test/multiprocess_exec.h",
         "patchSetId": 9
@@ -124,6 +238,24 @@
       "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69bdf92e_10f19eea",
+        "filename": "test/multiprocess_exec.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-23T19:42:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c4546c4_c6acc076",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "99f6d5c2_c682a20f",
+        "filename": "test/multiprocess_exec.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-23T19:42:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8871e753_a93d749e",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e4f70d4_5ad94ad8",
         "filename": "test/multiprocess_exec.h",
         "patchSetId": 9
@@ -161,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "9d743975_2c6711a6",
+        "filename": "test/multiprocess_exec.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-23T19:42:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e4f70d4_5ad94ad8",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da09632e_5254ac26",
         "filename": "test/multiprocess_exec.h",
         "patchSetId": 9
@@ -175,6 +343,24 @@
       "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c58f73af_ec7fca5a",
+        "filename": "test/multiprocess_exec.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-23T19:42:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da09632e_5254ac26",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -218,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "1e1d98a1_d793fc45",
+        "filename": "test/multiprocess_exec.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-23T19:42:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06dad65b_c3695b4d",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ca2e923_f372b97b",
         "filename": "test/multiprocess_exec_fuchsia.cc",
         "patchSetId": 9
@@ -232,6 +436,24 @@
       "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc65bc06_61a2c16d",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-23T19:42:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ca2e923_f372b97b",
+      "revId": "626f806d7108ff217d2be7a8ccfaafcdc4dcec9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
