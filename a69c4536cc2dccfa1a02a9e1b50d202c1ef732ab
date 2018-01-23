@@ -435,6 +435,24 @@
     },
     {
       "key": {
+        "uuid": "b83ec164_9cf49202",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-23T19:00:20Z",
+      "side": 1,
+      "message": "OK, there\u0027s a working Linux test now. I\u0027ve run into some weirdness that I can\u0027t explain, as well as a variety of problems that would be good to fix, but I haven\u0027t, yet:\n\n- BuildArtifact() doesn\u0027t include a \u0027lib\u0027 prefix on Linux which loadable_module in gyp adds (?) so the test dlopen()s an executable instead, which is fine, but a bit unusual. I\u0027m not sure if it should be added there or removed in the build?\n- dlopen() doesn\u0027t return a link_map on Android, so the test doesn\u0027t work on Android, but I think it could otherwise with another way to find the elf base.\n- dlopen() always seems to fail on Fuchsia (in other tests too). I haven\u0027t tracked down why that is.\n- Fuchsia would probably fail for the link_map reason too.\n- I accidentally didn\u0027t export any symbols from the test binary at first (forgetting the whole --dynamic-list\u003dtest_exported_symbols.sym thing almost right away!) and after some debugging, I *think* `ld` isn\u0027t emitting a correct .gnu.hash. Or rather, I guess since there\u0027s no spec, it\u0027s correct-by-definition, but I don\u0027t understand how it would be possible to get the correct count for DT_SYMTAB. With no explicit exported symbols, there\u0027s 8 things in the symbol table afaict:\n\nhttps://gist.github.com/sgraham/2e6dcfb459bb7367a0ce636a7e66198e\n\n.hash says nbuckets is 8 (the second word), but .gnu.hash looks basically empty, so I don\u0027t know how I could derive an \"8\" from that.\n\nWhen there\u0027s 1 (or more) exported symbols it looks like this:\n\nhttps://gist.github.com/sgraham/b459cfc5b1793c804dac92b8c7739cdf\n\nwhere .hash reports 9, and .gnu.hash has a single bucket entry, + the 8 non-hashed symbols, so also resulting in 9 as expected.\n\nSo, the test binary exports a single symbol. :/\n\nI don\u0027t think the no-exports case works with .gnu.hash (i.e. on Fuchsia), but I guess that\u0027s probably not a huge problem in practice.\n\n(Alternatively, I\u0027m totally misunderstanding something about the section\u0027s format which is very much possible.)",
+      "parentUuid": "7be142f4_60bab3ac",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "73f2d60a_6689efc8",
         "filename": "snapshot/elf/elf_symbol_table_reader.cc",
         "patchSetId": 7
