@@ -58,6 +58,7 @@
         'main_arguments.cc',
         'main_arguments.h',
         'multiprocess.h',
+        'multiprocess_exec.cc',
         'multiprocess_exec.h',
         'multiprocess_exec_posix.cc',
         'multiprocess_exec_win.cc',
