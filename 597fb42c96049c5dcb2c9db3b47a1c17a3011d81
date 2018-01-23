@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8074ffd_e880ffef",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-23T15:34:41Z",
+      "side": 1,
+      "message": "reserved_address is based on context_address, which is “untrusted” - should this be a DCHECK, or should we just fail and return false?",
+      "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17adf73b_3aa6c7b8",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-23T15:34:41Z",
+      "side": 1,
+      "message": "Seems a little brittle: since each “head” has its own “head.size”, why don’t you just walk the list based on those values? I don’t think you need to bother validating the sizes of structs that you’re not going to interpret. That should simplify this block considerably, since you’ll really only need to handle VFP_MAGIC and 0. You’d also be able to remove the unused struct definitions.",
+      "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aad248eb_6de8208d",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-23T15:34:41Z",
+      "side": 1,
+      "message": "Do you even need these two lines following a while-true that has no “break”?\n\nIf you do, NOTREACHED() is more documentary than DCHECK(false).",
+      "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86aa2a20_1f2e9e45",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-23T15:34:41Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f137cb5_79b88a6a",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-23T15:34:41Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80578270_67c8e542",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-23T15:34:41Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a65b5cf_88ab3a29",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-23T15:34:41Z",
+      "side": 1,
+      "message": "Link to https://crashpad.chromium.org/bug/30 too on these three TODOs.",
+      "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ab58ffd_bae71ae4",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-23T15:34:41Z",
+      "side": 1,
+      "message": "We have “struct fxsave fxsave” and “struct fpregs fpregs” above (and below). Are those problems too?",
+      "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
