@@ -58,14 +58,17 @@ class ThreadSnapshotLinux final : public ThreadSnapshot {
   std::vector<const MemorySnapshot*> ExtraMemory() const override;
 
  private:
-#if defined(ARCH_CPU_X86_FAMILY)
   union {
+#if defined(ARCH_CPU_X86_FAMILY)
     CPUContextX86 x86;
     CPUContextX86_64 x86_64;
-  } context_union_;
+#elif defined(ARCH_CPU_ARM_FAMILY)
+    CPUContextARM arm;
+    CPUContextARM64 arm64;
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
+  } context_union_;
   CPUContext context_;
   MemorySnapshotLinux stack_;
   LinuxVMAddress thread_specific_data_address_;

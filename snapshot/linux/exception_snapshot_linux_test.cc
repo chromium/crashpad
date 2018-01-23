@@ -26,6 +26,7 @@
 #include "gtest/gtest.h"
 #include "snapshot/cpu_architecture.h"
 #include "snapshot/linux/process_reader.h"
+#include "snapshot/linux/signal_context.h"
 #include "sys/syscall.h"
 #include "test/errors.h"
 #include "test/linux/fake_ptrace_connection.h"
@@ -91,6 +92,176 @@ void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
         reinterpret_cast<const char*>(&actual.x86_64->fxsave)[byte_offset],
         reinterpret_cast<const char*>(&expected.__fpregs_mem)[byte_offset]);
   }
+}
+#elif defined(ARCH_CPU_ARMEL)
+// A native ucontext_t on ARM doesn't have enough regspace (yet) to hold all of
+// the different possible coprocessor contexts at once. However, the ABI allows
+// it and the native regspace may be expanded in the future. Append some extra
+// space so this is testable now.
+struct NativeCPUContext {
+  ucontext_t ucontext;
+  char extra[1024];
+};
+
+struct CrunchContext {
+  uint32_t mvdx[16][2];
+  uint32_t mvax[4][3];
+  uint32_t dspsc[2];
+};
+
+struct IWMMXTContext {
+  uint32_t save[38];
+};
+
+struct TestCoprocessorContext {
+  struct {
+    internal::CoprocessorContextHead head;
+    CrunchContext context;
+  } crunch;
+  struct {
+    internal::CoprocessorContextHead head;
+    IWMMXTContext context;
+  } iwmmxt;
+  struct {
+    internal::CoprocessorContextHead head;
+    IWMMXTContext context;
+  } dummy;
+  struct {
+    internal::CoprocessorContextHead head;
+    internal::SignalVFPContext context;
+  } vfp;
+  internal::CoprocessorContextHead terminator;
+};
+
+void InitializeContext(NativeCPUContext* context) {
+  memset(context, 'x', sizeof(*context));
+
+  for (int index = 0; index < (&context->ucontext.uc_mcontext.fault_address -
+                               &context->ucontext.uc_mcontext.arm_r0);
+       ++index) {
+    (&context->ucontext.uc_mcontext.arm_r0)[index] = index;
+  }
+
+  static_assert(
+      sizeof(TestCoprocessorContext) <=
+          sizeof(context->ucontext.uc_regspace) + sizeof(context->extra),
+      "Insufficient context space");
+  auto test_context =
+      reinterpret_cast<TestCoprocessorContext*>(context->ucontext.uc_regspace);
+
+  test_context->crunch.head.magic = CRUNCH_MAGIC;
+  test_context->crunch.head.size = sizeof(test_context->crunch);
+  memset(
+      &test_context->crunch.context, 'c', sizeof(test_context->crunch.context));
+
+  test_context->iwmmxt.head.magic = IWMMXT_MAGIC;
+  test_context->iwmmxt.head.size = sizeof(test_context->iwmmxt);
+  memset(
+      &test_context->iwmmxt.context, 'i', sizeof(test_context->iwmmxt.context));
+
+  test_context->dummy.head.magic = DUMMY_MAGIC;
+  test_context->dummy.head.size = sizeof(test_context->dummy);
+  memset(
+      &test_context->dummy.context, 'd', sizeof(test_context->dummy.context));
+
+  test_context->vfp.head.magic = VFP_MAGIC;
+  test_context->vfp.head.size = sizeof(test_context->vfp);
+  memset(&test_context->vfp.context, 'v', sizeof(test_context->vfp.context));
+  for (size_t reg = 0; reg < arraysize(test_context->vfp.context.vfp.fpregs);
+       ++reg) {
+    test_context->vfp.context.vfp.fpregs[reg] = reg;
+  }
+  test_context->vfp.context.vfp.fpscr = 42;
+
+  test_context->terminator.magic = 0;
+  test_context->terminator.size = 0;
+}
+
+void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
+  EXPECT_EQ(actual.architecture, kCPUArchitectureARM);
+
+  EXPECT_EQ(memcmp(actual.arm->regs,
+                   &expected.ucontext.uc_mcontext.arm_r0,
+                   sizeof(actual.arm->regs)),
+            0);
+  EXPECT_EQ(actual.arm->fp, expected.ucontext.uc_mcontext.arm_fp);
+  EXPECT_EQ(actual.arm->ip, expected.ucontext.uc_mcontext.arm_ip);
+  EXPECT_EQ(actual.arm->sp, expected.ucontext.uc_mcontext.arm_sp);
+  EXPECT_EQ(actual.arm->lr, expected.ucontext.uc_mcontext.arm_lr);
+  EXPECT_EQ(actual.arm->pc, expected.ucontext.uc_mcontext.arm_pc);
+  EXPECT_EQ(actual.arm->cpsr, expected.ucontext.uc_mcontext.arm_cpsr);
+
+  EXPECT_FALSE(actual.arm->have_fpa_regs);
+
+  EXPECT_TRUE(actual.arm->have_vfp_regs);
+
+  auto test_context = reinterpret_cast<const TestCoprocessorContext*>(
+      expected.ucontext.uc_regspace);
+
+  EXPECT_EQ(memcmp(actual.arm->vfp_regs.vfp,
+                   &test_context->vfp.context.vfp,
+                   sizeof(actual.arm->vfp_regs.vfp)),
+            0);
+}
+#elif defined(ARCH_CPU_ARM64)
+using NativeCPUContext = ucontext_t;
+
+struct TestCoprocessorContext {
+  esr_context esr;
+  fpsimd_context fpsimd;
+  _aarch64_ctx terminator;
+};
+
+void InitializeContext(NativeCPUContext* context) {
+  memset(context, 'x', sizeof(*context));
+
+  for (size_t index = 0; index < arraysize(context->uc_mcontext.regs);
+       ++index) {
+    context->uc_mcontext.regs[index] = index;
+  }
+  context->uc_mcontext.sp = 1;
+  context->uc_mcontext.pc = 2;
+  context->uc_mcontext.pstate = 3;
+
+  auto test_context = reinterpret_cast<TestCoprocessorContext*>(
+      context->uc_mcontext.__reserved);
+
+  test_context->esr.head.magic = ESR_MAGIC;
+  test_context->esr.head.size = sizeof(test_context->esr);
+  memset(&test_context->esr.esr, 'e', sizeof(test_context->esr.esr));
+
+  test_context->fpsimd.head.magic = FPSIMD_MAGIC;
+  test_context->fpsimd.head.size = sizeof(test_context->fpsimd);
+  test_context->fpsimd.fpsr = 1;
+  test_context->fpsimd.fpcr = 2;
+  for (size_t reg = 0; reg < arraysize(test_context->fpsimd.vregs); ++reg) {
+    test_context->fpsimd.vregs[reg] = reg;
+  }
+
+  test_context->terminator.magic = 0;
+  test_context->terminator.size = 0;
+}
+
+void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
+  EXPECT_EQ(actual.architecture, kCPUArchitectureARM64);
+
+  EXPECT_EQ(memcmp(actual.arm64->regs,
+                   expected.uc_mcontext.regs,
+                   sizeof(actual.arm64->regs)),
+            0);
+  EXPECT_EQ(actual.arm64->sp, expected.uc_mcontext.sp);
+  EXPECT_EQ(actual.arm64->pc, expected.uc_mcontext.pc);
+  EXPECT_EQ(actual.arm64->pstate, expected.uc_mcontext.pstate);
+
+  auto test_context = reinterpret_cast<const TestCoprocessorContext*>(
+      expected.uc_mcontext.__reserved);
+
+  EXPECT_EQ(actual.arm64->fpsr, test_context->fpsimd.fpsr);
+  EXPECT_EQ(actual.arm64->fpcr, test_context->fpsimd.fpcr);
+  EXPECT_EQ(memcmp(actual.arm64->fpsimd,
+                   &test_context->fpsimd.vregs,
+                   sizeof(actual.arm64->fpsimd)),
+            0);
 }
 #else
 #error Port.

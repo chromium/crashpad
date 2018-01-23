@@ -197,6 +197,9 @@ CPUArchitecture SystemSnapshotLinux::GetCPUArchitecture() const {
 #if defined(ARCH_CPU_X86_FAMILY)
   return process_reader_->Is64Bit() ? kCPUArchitectureX86_64
                                     : kCPUArchitectureX86;
+#elif defined(ARCH_CPU_ARM_FAMILY)
+  return process_reader_->Is64Bit() ? kCPUArchitectureARM64
+                                    : kCPUArchitectureARM;
 #else
 #error port to your architecture
 #endif
@@ -206,6 +209,9 @@ uint32_t SystemSnapshotLinux::CPURevision() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 #if defined(ARCH_CPU_X86_FAMILY)
   return cpuid_.Revision();
+#elif defined(ARCH_CPU_ARM_FAMILY)
+  // TODO(jperaza): do this. https://crashpad.chromium.org/bug/30
+  return 0;
 #else
 #error port to your architecture
 #endif
@@ -220,6 +226,9 @@ std::string SystemSnapshotLinux::CPUVendor() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 #if defined(ARCH_CPU_X86_FAMILY)
   return cpuid_.Vendor();
+#elif defined(ARCH_CPU_ARM_FAMILY)
+  // TODO(jperaza): do this. https://crashpad.chromium.org/bug/30
+  return std::string();
 #else
 #error port to your architecture
 #endif
@@ -264,7 +273,12 @@ uint64_t SystemSnapshotLinux::CPUX86Features() const {
 
 uint64_t SystemSnapshotLinux::CPUX86ExtendedFeatures() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+#if defined(ARCH_CPU_X86_FAMILY)
   return cpuid_.ExtendedFeatures();
+#else
+  NOTREACHED();
+  return 0;
+#endif
 }
 
 uint32_t SystemSnapshotLinux::CPUX86Leaf7Features() const {
@@ -340,7 +354,14 @@ std::string SystemSnapshotLinux::MachineDescription() const {
 
 bool SystemSnapshotLinux::NXEnabled() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+#if defined(ARCH_CPU_X86_FAMILY)
   return cpuid_.NXEnabled();
+#elif defined(ARCH_CPU_ARM_FAMILY)
+  // TODO(jperaza): do this. https://crashpad.chromium.org/bug/30
+  return false;
+#else
+#error Port.
+#endif  // ARCH_CPU_X86_FAMILY
 }
 
 void SystemSnapshotLinux::TimeZone(DaylightSavingTimeStatus* dst_status,

@@ -68,9 +68,72 @@ void InitializeCPUContextX86_64(const SignalThreadContext64& thread_context,
                                 const SignalFloatContext64& float_context,
                                 CPUContextX86_64* context);
 //! \}
-#else
-#error Port.  // TODO(jperaza): ARM
+
 #endif  // ARCH_CPU_X86_FAMILY || DOXYGEN
+
+#if defined(ARCH_CPU_ARM_FAMILY) || DOXYGEN
+
+//! \brief Initializes a CPUContextARM structure from native context structures
+//!     on Linux.
+//!
+//! \param[in] thread_context The native thread context.
+//! \param[in] float_context The native float context.
+//! \param[out] context The CPUContextARM structure to initialize.
+void InitializeCPUContextARM(const ThreadContext::t32_t& thread_context,
+                             const FloatContext::f32_t& float_context,
+                             CPUContextARM* context);
+
+//! \brief Initializes GPR state in a CPUContextARM from a native signal context
+//!     structure on Linux.
+//!
+//! Floating point state is not initialized.
+//!
+//! \param[in] thread_context The native thread context.
+//! \param[out] context The CPUContextARM structure to initialize.
+void InitializeCPUContextARM_NoFloatingPoint(
+    const SignalThreadContext32& thread_context,
+    CPUContextARM* context);
+
+//! \brief Initializes a CPUContextARM64 structure from native context
+//!     structures on Linux.
+//!
+//! \param[in] thread_context The native thread context.
+//! \param[in] float_context The native float context.
+//! \param[out] context The CPUContextARM64 structure to initialize.
+void InitializeCPUContextARM64(const ThreadContext::t64_t& thread_context,
+                               const FloatContext::f64_t& float_context,
+                               CPUContextARM64* context);
+
+//! \brief Initializes GPR state in a CPUContextARM64 from a native context
+//!     structure on Linux.
+//!
+//! Floating point state is not initialized.
+//!
+//! \param[in] thread_context The native thread context.
+//! \param[out] context The CPUContextARM64 structure to initialize.
+void InitializeCPUContextARM64_NoFloatingPoint(
+    const ThreadContext::t64_t& thread_context,
+    CPUContextARM64* context);
+
+//! \brief Initializes FPSIMD state in a CPUContextARM64 from a native fpsimd
+//!     signal context structure on Linux.
+//!
+//! General purpose registers are not initialized.
+//!
+//! \param[in] thread_context The native fpsimd context.
+//! \param[out] context The CPUContextARM64 structure to initialize.
+void InitializeCPUContextARM64_OnlyFPSIMD(
+    const SignalFPSIMDContext& float_context,
+    CPUContextARM64* context);
+
+//! \brief Initializes FPSIMD state in a CPUContextARM64 to zero.
+//!
+//! General purpose registers are not initialized.
+//!
+//! \param[out] context The CPUContextARM64 structure to initialize.
+void InitializeCPUContextARM64_ClearFPSIMD(CPUContextARM64* context);
+
+#endif  // ARCH_CPU_ARM_FAMILY || DOXYGEN
 
 }  // namespace internal
 }  // namespace crashpad
