@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d6ccbd2_e9a21aa9",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-23T23:28:56Z",
+      "side": 1,
+      "message": "Changed to an ERROR here, in the 64-bit ARM reader, and for a similar DCHECK in the x86 reader.",
+      "parentUuid": "f8074ffd_e880ffef",
+      "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17adf73b_3aa6c7b8",
         "filename": "snapshot/linux/exception_snapshot_linux.cc",
         "patchSetId": 16
@@ -33,6 +51,24 @@
       "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb3d6290_d3ddddb8",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-23T23:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17adf73b_3aa6c7b8",
+      "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c362f263_8a66bea5",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-23T23:28:56Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "aad248eb_6de8208d",
+      "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86aa2a20_1f2e9e45",
         "filename": "snapshot/linux/exception_snapshot_linux.cc",
         "patchSetId": 16
@@ -67,6 +121,24 @@
       "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9e65970_182b91fb",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-23T23:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86aa2a20_1f2e9e45",
+      "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "f37b7922_9c89c541",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-23T23:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f137cb5_79b88a6a",
+      "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80578270_67c8e542",
         "filename": "snapshot/linux/exception_snapshot_linux.cc",
         "patchSetId": 16
@@ -101,6 +191,24 @@
       "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55509bc2_cd1da0a3",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-23T23:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80578270_67c8e542",
+      "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "9db40f1d_f063cb9b",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-23T23:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a65b5cf_88ab3a29",
+      "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ab58ffd_bae71ae4",
         "filename": "util/linux/thread_info.h",
         "patchSetId": 16
@@ -132,6 +258,24 @@
       "writtenOn": "2018-01-23T15:34:41Z",
       "side": 1,
       "message": "We have “struct fxsave fxsave” and “struct fpregs fpregs” above (and below). Are those problems too?",
+      "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fba86f3c_215ce9fc",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-23T23:28:56Z",
+      "side": 1,
+      "message": "The fxsave and fpregs structs could (and maybe should?) just be anonymous structs. I need to differentiate the type vfp_t from the member name vfp in order to use this struct elsewhere, since otherwise the member name shadows it. These particular definitions for fxsave and fpregs structs haven\u0027t needed to be used elsewhere yet.",
+      "parentUuid": "2ab58ffd_bae71ae4",
       "revId": "597fb42c96049c5dcb2c9db3b47a1c17a3011d81",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
