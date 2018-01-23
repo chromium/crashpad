@@ -417,6 +417,24 @@
     },
     {
       "key": {
+        "uuid": "7be142f4_60bab3ac",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-23T01:20:11Z",
+      "side": 1,
+      "message": "(I\u0027m off in the weeds sorting this out, but I think the DT_GNU_HASH reading isn\u0027t quite right. I\u0027ll ping when this is ready for another look.)",
+      "parentUuid": "ee3fc0f4_34321e8b",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "73f2d60a_6689efc8",
         "filename": "snapshot/elf/elf_symbol_table_reader.cc",
         "patchSetId": 7
