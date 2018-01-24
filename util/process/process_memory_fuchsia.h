@@ -37,7 +37,7 @@ class ProcessMemoryFuchsia final : public ProcessMemory {
   //! This method must be called successfully prior to calling any other method
   //! in this class.
   //!
-  //! \param[in] pid The handle to the target process.
+  //! \param[in] process The handle to the target process.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
   bool Initialize(zx_handle_t process);

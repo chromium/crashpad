@@ -120,7 +120,7 @@ void InitializeCPUContextARM64_NoFloatingPoint(
 //!
 //! General purpose registers are not initialized.
 //!
-//! \param[in] thread_context The native fpsimd context.
+//! \param[in] float_context The native fpsimd context.
 //! \param[out] context The CPUContextARM64 structure to initialize.
 void InitializeCPUContextARM64_OnlyFPSIMD(
     const SignalFPSIMDContext& float_context,
