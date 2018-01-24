@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef CRASHPAD_UTIL_WIN_NT_INTERNALS_H_
+#define CRASHPAD_UTIL_WIN_NT_INTERNALS_H_
+
 #include <windows.h>
 #include <winternl.h>
 
@@ -92,3 +95,5 @@ void RtlGetUnloadEventTraceEx(ULONG** element_size,
                               void** event_trace);
 
 }  // namespace crashpad
+
+#endif  // CRASHPAD_UTIL_WIN_NT_INTERNALS_H_

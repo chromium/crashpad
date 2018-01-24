@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef CRASHPAD_SNAPSHOT_X86_CPUID_READER_H_
+#define CRASHPAD_SNAPSHOT_X86_CPUID_READER_H_
+
 #include <stdint.h>
 
 #include <string>
@@ -61,3 +64,5 @@ class CpuidReader {
 
 }  // namespace internal
 }  // namespace crashpad
+
+#endif  // CRASHPAD_SNAPSHOT_X86_CPUID_READER_H_
