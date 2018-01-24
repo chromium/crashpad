@@ -46,15 +46,10 @@ if (crashpad_is_in_chromium) {
 
   crashpad_is_clang = is_clang
 } else {
-  # Using mini_chromium, but in different locations depending on whether in
-  # Fuchsia, or standalone.
-  if (crashpad_is_in_fuchsia) {
-    import("//third_party/mini_chromium/build/compiler.gni")
-    import("//third_party/mini_chromium/build/platform.gni")
-  } else {
-    import("../third_party/mini_chromium/mini_chromium/build/compiler.gni")
-    import("../third_party/mini_chromium/mini_chromium/build/platform.gni")
-  }
+  # Both standalone and in Fuchsia tree use mini_chromium, and it's mapped into
+  # the same location in both cases.
+  import("../third_party/mini_chromium/mini_chromium/build/compiler.gni")
+  import("../third_party/mini_chromium/mini_chromium/build/platform.gni")
   crashpad_is_mac = mini_chromium_is_mac
   crashpad_is_win = mini_chromium_is_win
   crashpad_is_linux = mini_chromium_is_linux
