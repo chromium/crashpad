@@ -22,6 +22,30 @@
       "revId": "894f99835a6db4aaa143be4a921d7b57c756e565",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca39e92d_43014787",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-24T18:51:51Z",
+      "side": 1,
+      "message": "Should I capitalize The to make it more serious? :)",
+      "parentUuid": "d590374d_5a1d2abe",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "894f99835a6db4aaa143be4a921d7b57c756e565",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
