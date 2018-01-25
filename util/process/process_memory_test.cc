@@ -22,35 +22,39 @@
 
 #include "gtest/gtest.h"
 #include "test/errors.h"
-#include "test/multiprocess.h"
+#include "test/multiprocess_exec.h"
+#include "test/process_type.h"
 #include "util/file/file_io.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/posix/scoped_mmap.h"
-#include "util/process/process_memory_linux.h"
+#include "util/process/process_memory_native.h"
 
 namespace crashpad {
 namespace test {
 namespace {
 
-// TODO(scottmg): https://crashpad.chromium.org/bug/196. Multiprocess isn't
-// ported yet.
-#if !defined(OS_FUCHSIA)
+CRASHPAD_CHILD_TEST_MAIN(TestProcessTestMain) {
+  CheckedReadFileAtEOF(StdioFileHandle(StdioStream::kStandardInput));
+  return 0;
+}
 
-class TargetProcessTest : public Multiprocess {
+class TargetProcessTest : public MultiprocessExec {
  public:
-  TargetProcessTest() : Multiprocess() {}
+  TargetProcessTest() : MultiprocessExec() {
+    SetChildTestMainFunction("TestProcessTestMain");
+  }
   ~TargetProcessTest() {}
 
-  void RunAgainstSelf() { DoTest(getpid()); }
+  void RunAgainstSelf() { DoTest(GetSelfProcess()); }
 
-  void RunAgainstForked() { Run(); }
+  void RunAgainstChild() { Run(); }
 
  private:
-  void MultiprocessParent() override { DoTest(ChildPID()); }
+  void MultiprocessParent() override {
+    DoTest(ChildProcess());
+  }
 
-  void MultiprocessChild() override { CheckedReadFileAtEOF(ReadPipeHandle()); }
-
-  virtual void DoTest(pid_t pid) = 0;
+  virtual void DoTest(ProcessType process) = 0;
 
   DISALLOW_COPY_AND_ASSIGN(TargetProcessTest);
 };
@@ -68,9 +72,9 @@ class ReadTest : public TargetProcessTest {
   }
 
  private:
-  void DoTest(pid_t pid) override {
-    ProcessMemoryLinux memory;
-    ASSERT_TRUE(memory.Initialize(pid));
+  void DoTest(ProcessType process) override {
+    ProcessMemoryNative memory;
+    ASSERT_TRUE(memory.Initialize(process));
 
     VMAddress address = FromPointerCast<VMAddress>(region_.get());
     std::unique_ptr<char[]> result(new char[region_size_]);
@@ -121,9 +125,9 @@ TEST(ProcessMemory, ReadSelf) {
   test.RunAgainstSelf();
 }
 
-TEST(ProcessMemory, ReadForked) {
+TEST(ProcessMemory, ReadChild) {
   ReadTest test;
-  test.RunAgainstForked();
+  test.RunAgainstChild();
 }
 
 bool ReadCString(const ProcessMemory& memory,
@@ -158,9 +162,9 @@ class ReadCStringTest : public TargetProcessTest {
   }
 
  private:
-  void DoTest(pid_t pid) override {
-    ProcessMemoryLinux memory;
-    ASSERT_TRUE(memory.Initialize(pid));
+  void DoTest(ProcessType process) override {
+    ProcessMemoryNative memory;
+    ASSERT_TRUE(memory.Initialize(process));
 
     std::string result;
 
@@ -221,9 +225,9 @@ TEST(ProcessMemory, ReadCStringSelf) {
   test.RunAgainstSelf();
 }
 
-TEST(ProcessMemory, ReadCStringForked) {
+TEST(ProcessMemory, ReadCStringChild) {
   ReadCStringTest test(/* limit_size= */ false);
-  test.RunAgainstForked();
+  test.RunAgainstChild();
 }
 
 TEST(ProcessMemory, ReadCStringSizeLimitedSelf) {
@@ -231,9 +235,9 @@ TEST(ProcessMemory, ReadCStringSizeLimitedSelf) {
   test.RunAgainstSelf();
 }
 
-TEST(ProcessMemory, ReadCStringSizeLimitedForked) {
+TEST(ProcessMemory, ReadCStringSizeLimitedChild) {
   ReadCStringTest test(/* limit_size= */ true);
-  test.RunAgainstForked();
+  test.RunAgainstChild();
 }
 
 class ReadUnmappedTest : public TargetProcessTest {
@@ -262,9 +266,9 @@ class ReadUnmappedTest : public TargetProcessTest {
   }
 
  private:
-  void DoTest(pid_t pid) override {
-    ProcessMemoryLinux memory;
-    ASSERT_TRUE(memory.Initialize(pid));
+  void DoTest(ProcessType process) override {
+    ProcessMemoryNative memory;
+    ASSERT_TRUE(memory.Initialize(process));
 
     VMAddress page_addr1 = pages_.addr_as<VMAddress>();
     VMAddress page_addr2 = page_addr1 + page_size_;
@@ -291,10 +295,10 @@ TEST(ProcessMemory, ReadUnmappedSelf) {
   test.RunAgainstSelf();
 }
 
-TEST(ProcessMemory, ReadUnmappedForked) {
+TEST(ProcessMemory, ReadUnmappedChild) {
   ReadUnmappedTest test;
   ASSERT_FALSE(testing::Test::HasFailure());
-  test.RunAgainstForked();
+  test.RunAgainstChild();
 }
 
 class ReadCStringUnmappedTest : public TargetProcessTest {
@@ -341,9 +345,9 @@ class ReadCStringUnmappedTest : public TargetProcessTest {
   }
 
  private:
-  void DoTest(pid_t pid) {
-    ProcessMemoryLinux memory;
-    ASSERT_TRUE(memory.Initialize(pid));
+  void DoTest(ProcessType process) {
+    ProcessMemoryNative memory;
+    ASSERT_TRUE(memory.Initialize(process));
 
     if (limit_size_) {
       ASSERT_TRUE(ReadCStringSizeLimited(
@@ -386,10 +390,10 @@ TEST(ProcessMemory, ReadCStringUnmappedSelf) {
   test.RunAgainstSelf();
 }
 
-TEST(ProcessMemory, ReadCStringUnmappedForked) {
+TEST(ProcessMemory, ReadCStringUnmappedChild) {
   ReadCStringUnmappedTest test(/* limit_size= */ false);
   ASSERT_FALSE(testing::Test::HasFailure());
-  test.RunAgainstForked();
+  test.RunAgainstChild();
 }
 
 TEST(ProcessMemory, ReadCStringSizeLimitedUnmappedSelf) {
@@ -398,13 +402,11 @@ TEST(ProcessMemory, ReadCStringSizeLimitedUnmappedSelf) {
   test.RunAgainstSelf();
 }
 
-TEST(ProcessMemory, ReadCStringSizeLimitedUnmappedForked) {
+TEST(ProcessMemory, ReadCStringSizeLimitedUnmappedChild) {
   ReadCStringUnmappedTest test(/* limit_size= */ true);
   ASSERT_FALSE(testing::Test::HasFailure());
-  test.RunAgainstForked();
+  test.RunAgainstChild();
 }
-
-#endif  // !defined(OS_FUCHSIA)
 
 }  // namespace
 }  // namespace test
