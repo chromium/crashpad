@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a9a86f1_c349647e",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-25T22:48:55Z",
+      "side": 1,
+      "message": "Is “struct {” OK here? That’s what I meant by “anonymous” before. Same on line 659.",
+      "revId": "cffd944264ce770ed4889224cf649cdf91574304",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

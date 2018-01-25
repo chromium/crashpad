@@ -453,6 +453,24 @@
     },
     {
       "key": {
+        "uuid": "1481b0fe_01f55134",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-25T22:48:55Z",
+      "side": 1,
+      "message": "\u003e OK, there\u0027s a working Linux test now. I\u0027ve run into some weirdness that I can\u0027t explain, as well as a variety of problems that would be good to fix, but I haven\u0027t, yet:\n\u003e \n\u003e - BuildArtifact() doesn\u0027t include a \u0027lib\u0027 prefix on Linux which loadable_module in gyp adds (?) so the test dlopen()s an executable instead, which is fine, but a bit unusual. I\u0027m not sure if it should be added there or removed in the build?\n\nAs opposed to shared_library, I think it’s intended for loadable_module to never include a “lib” prefix. If one meta-build system or another doesn’t do this, we can manually clear out the prefix.\n\n\u003e - dlopen() doesn\u0027t return a link_map on Android, so the test doesn\u0027t work on Android, but I think it could otherwise with another way to find the elf base.\n\u003e - dlopen() always seems to fail on Fuchsia (in other tests too). I haven\u0027t tracked down why that is.\n\nUh-oh.\n\n\u003e - Fuchsia would probably fail for the link_map reason too.\n\u003e - I accidentally didn\u0027t export any symbols from the test binary at first (forgetting the whole --dynamic-list\u003dtest_exported_symbols.sym thing almost right away!) and after some debugging, I *think* `ld` isn\u0027t emitting a correct .gnu.hash. Or rather, I guess since there\u0027s no spec, it\u0027s correct-by-definition, but I don\u0027t understand how it would be possible to get the correct count for DT_SYMTAB. With no explicit exported symbols, there\u0027s 8 things in the symbol table afaict:\n\u003e \n\u003e https://gist.github.com/sgraham/2e6dcfb459bb7367a0ce636a7e66198e\n\u003e \n\u003e .hash says nbuckets is 8 (the second word), but .gnu.hash looks basically empty, so I don\u0027t know how I could derive an \"8\" from that.\n\u003e \n\u003e When there\u0027s 1 (or more) exported symbols it looks like this:\n\u003e \n\u003e https://gist.github.com/sgraham/b459cfc5b1793c804dac92b8c7739cdf\n\u003e \n\u003e where .hash reports 9, and .gnu.hash has a single bucket entry, + the 8 non-hashed symbols, so also resulting in 9 as expected.\n\u003e \n\u003e So, the test binary exports a single symbol. :/\n\u003e \n\u003e I don\u0027t think the no-exports case works with .gnu.hash (i.e. on Fuchsia), but I guess that\u0027s probably not a huge problem in practice.\n\nMeaning that this is broken for a module that only imports things (has undefined symbols)?\n\n\u003e (Alternatively, I\u0027m totally misunderstanding something about the section\u0027s format which is very much possible.)\n\nI think the next thing to do is look at how the linker is generating DT_GNU_HASH/.gnu.hash. I can help look. Is it gold or lld? (And, if it’s easily switchable, does that change anything?)\n\nThis may even be a linker bug.",
+      "parentUuid": "b83ec164_9cf49202",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "73f2d60a_6689efc8",
         "filename": "snapshot/elf/elf_symbol_table_reader.cc",
         "patchSetId": 7
