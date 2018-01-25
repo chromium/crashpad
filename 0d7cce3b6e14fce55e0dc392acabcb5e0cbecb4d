@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "081ef69f_13edd726",
+        "filename": "test/multiprocess_exec.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-25T22:37:17Z",
+      "side": 1,
+      "message": "Pointer itself can be const.",
+      "revId": "0d7cce3b6e14fce55e0dc392acabcb5e0cbecb4d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7b42125_e0f365fd",
+        "filename": "test/multiprocess_exec.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-25T22:37:17Z",
+      "side": 1,
+      "message": "In test code, drop util/misc/paths.h, replacing with test/test_paths.h. Then, use TestPaths::Executable(), which does the CHECK() for you and returns the path. Much more convenient, and you can make the variable const, or forgo the variable altogether and just use the return value as the argument to SetChildCommand().",
+      "revId": "0d7cce3b6e14fce55e0dc392acabcb5e0cbecb4d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ea57564_982f7f64",
+        "filename": "test/multiprocess_exec.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-25T22:37:17Z",
+      "side": 1,
+      "message": "spaced out",
+      "range": {
+        "startLine": 50,
+        "startChar": 47,
+        "endLine": 50,
+        "endChar": 53
+      },
+      "revId": "0d7cce3b6e14fce55e0dc392acabcb5e0cbecb4d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "583dbd85_343a9c23",
+        "filename": "test/multiprocess_exec_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-25T22:37:17Z",
+      "side": 1,
+      "message": "DISALLOW_COPY_AND_ASSIGN",
+      "revId": "0d7cce3b6e14fce55e0dc392acabcb5e0cbecb4d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
