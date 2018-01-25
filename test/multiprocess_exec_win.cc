@@ -57,6 +57,14 @@ void Multiprocess::Run() {
   CloseHandle(info_->process_info.hProcess);
 }
 
+void Multiprocess::SetExpectedChildTermination(TerminationReason reason,
+                                               int code) {
+  EXPECT_EQ(info_, nullptr)
+      << "SetExpectedChildTermination() must be called before Run()";
+  reason_ = reason;
+  code_ = code;
+}
+
 Multiprocess::~Multiprocess() {
   delete info_;
 }
