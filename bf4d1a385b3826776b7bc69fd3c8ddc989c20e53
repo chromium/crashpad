@@ -16,6 +16,24 @@
       "revId": "bf4d1a385b3826776b7bc69fd3c8ddc989c20e53",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ed822fe_c03c7a93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-25T22:33:09Z",
+      "side": 1,
+      "message": "Ha! Not at all, it was more to remind me not to try to land it without getting the other one in first.\n\nHope you weren\u0027t too swamped as punishment for taking a Whole Day off.\n\nAs long as you\u0027re roughly OK with the approach for CRASHPAD_CHILD_TEST_MAIN (and I think we agreed on the high-level already), I\u0027m not blocked, as there\u0027s lots of tests to be worked through. So no problem to wait until tomorrow or next week if you\u0027re busy.",
+      "parentUuid": "5dc0fccd_8a17e57b",
+      "revId": "bf4d1a385b3826776b7bc69fd3c8ddc989c20e53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
