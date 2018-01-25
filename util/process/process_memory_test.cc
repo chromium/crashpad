@@ -22,31 +22,27 @@
 
 #include "gtest/gtest.h"
 #include "test/errors.h"
-#include "test/multiprocess.h"
+#include "test/multiprocess_exec.h"
 #include "util/file/file_io.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/posix/scoped_mmap.h"
-#include "util/process/process_memory_linux.h"
+#include "util/process/process_memory_native.h"
 
 namespace crashpad {
 namespace test {
 namespace {
 
-// TODO(scottmg): https://crashpad.chromium.org/bug/196. Multiprocess isn't
-// ported yet.
-#if !defined(OS_FUCHSIA)
-
-class TargetProcessTest : public Multiprocess {
+class TargetProcessTest : public MultiprocessExec {
  public:
-  TargetProcessTest() : Multiprocess() {}
+  TargetProcessTest() : MultiprocessExec() {}
   ~TargetProcessTest() {}
 
-  void RunAgainstSelf() { DoTest(getpid()); }
+  void RunAgainstSelf() { DoTest(GetSelfProcess()); }
 
   void RunAgainstForked() { Run(); }
 
  private:
-  void MultiprocessParent() override { DoTest(ChildPID()); }
+  void MultiprocessParent() override { DoTest(ChildProcess()); }
 
   void MultiprocessChild() override { CheckedReadFileAtEOF(ReadPipeHandle()); }
 
@@ -69,7 +65,7 @@ class ReadTest : public TargetProcessTest {
 
  private:
   void DoTest(pid_t pid) override {
-    ProcessMemoryLinux memory;
+    ProcessMemoryNative memory;
     ASSERT_TRUE(memory.Initialize(pid));
 
     VMAddress address = FromPointerCast<VMAddress>(region_.get());
@@ -125,6 +121,10 @@ TEST(ProcessMemory, ReadForked) {
   ReadTest test;
   test.RunAgainstForked();
 }
+
+// TODO(scottmg): https://crashpad.chromium.org/bug/196. Multiprocess isn't
+// ported yet.
+#if !defined(OS_FUCHSIA)
 
 bool ReadCString(const ProcessMemory& memory,
                  const char* pointer,
