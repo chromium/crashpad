@@ -162,5 +162,9 @@ void MultiprocessExec::MultiprocessChild() {
                        &info()->process_info));
 }
 
+ProcessType MultiprocessExec::ChildProcess() {
+  return info()->process_info.hProcess;
+}
+
 }  // namespace test
 }  // namespace crashpad
