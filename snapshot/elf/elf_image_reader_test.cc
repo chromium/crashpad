@@ -21,6 +21,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/multiprocess.h"
+#include "test/multiprocess_exec.h"
 #include "test/process_type.h"
 #include "util/file/file_io.h"
 #include "util/misc/address_types.h"
@@ -68,6 +69,7 @@ void LocateExecutable(ProcessType process,
                                               sizeof(debug_address));
   ASSERT_EQ(status, ZX_OK)
       << "zx_object_get_property: ZX_PROP_PROCESS_DEBUG_ADDR";
+  LOG(ERROR) << "debug_address=" << debug_address;
 
   constexpr auto k_r_debug_map_offset = offsetof(r_debug, r_map);
   uintptr_t map;
@@ -204,22 +206,36 @@ TEST(ElfImageReader, MainExecutableSelf) {
   ReadThisExecutableInTarget(GetSelfProcess());
 }
 
-#if !defined(OS_FUCHSIA)  // TODO(scottmg): Port to MultiprocessExec.
-class ReadExecutableChildTest : public Multiprocess {
+CRASHPAD_CHILD_TEST_MAIN(ReadExecutableChild) {
+  char c = ' ';
+  CheckedWriteFile(StdioFileHandle(StdioStream::kStandardOutput), &c, 1);
+  CheckedReadFileAtEOF(StdioFileHandle(StdioStream::kStandardInput));
+  return 0;
+}
+
+class ReadExecutableChildTest : public MultiprocessExec {
  public:
-  ReadExecutableChildTest() : Multiprocess() {}
-  ~ReadExecutableChildTest() {}
+  ReadExecutableChildTest() : MultiprocessExec() {}
 
  private:
-  void MultiprocessParent() { ReadThisExecutableInTarget(ChildPID()); }
-  void MultiprocessChild() { CheckedReadFileAtEOF(ReadPipeHandle()); }
+  void MultiprocessParent() {
+    // This read serves two purposes -- on Fuchsia, the loader may have not
+    // filled in debug address as soon as the child process handle is valid, so
+    // this causes a wait at least until the main() of the child, at which point
+    // it will always be valid. Secondarily, the address of the symbol to be
+    // looked up needs to be communicated. XXX XXX XXX XXX
+    char c;
+    CheckedReadFileExactly(ReadPipeHandle(), &c, 1);
+    EXPECT_EQ(c, ' ');
+    ReadThisExecutableInTarget(ChildProcess());
+  }
 };
 
 TEST(ElfImageReader, MainExecutableChild) {
   ReadExecutableChildTest test;
+  test.SetChildTestMainFunction("ReadExecutableChild");
   test.Run();
 }
-#endif  // !OS_FUCHSIA
 
 TEST(ElfImageReader, OneModuleSelf) {
   ReadLibcInTarget(GetSelfProcess());

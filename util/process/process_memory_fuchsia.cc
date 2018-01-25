@@ -41,6 +41,8 @@ ssize_t ProcessMemoryFuchsia::ReadUpTo(VMAddress address,
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   DCHECK_LE(size, size_t{std::numeric_limits<ssize_t>::max()});
 
+  //LOG(ERROR) << "going to try to read from address=" << address
+             //<< " to get size=" << size;
   size_t actual;
   zx_status_t status =
       zx_process_read_memory(process_, address, buffer, size, &actual);
