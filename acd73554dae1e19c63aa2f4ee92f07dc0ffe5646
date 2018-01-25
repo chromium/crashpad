@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1978b753_81fee5a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-25T22:29:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0ba19ae_00f422a0",
+      "revId": "acd73554dae1e19c63aa2f4ee92f07dc0ffe5646",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d32bb174_9028b14b",
         "filename": "snapshot/elf/elf_image_reader_test.cc",
         "patchSetId": 2
