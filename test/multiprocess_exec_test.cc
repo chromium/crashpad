@@ -14,6 +14,7 @@
 
 #include "test/multiprocess_exec.h"
 
+#include "base/logging.h"
 #include "base/macros.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
@@ -55,6 +56,47 @@ TEST(MultiprocessExec, MultiprocessExec) {
   multiprocess_exec.SetChildCommand(child_test_executable, nullptr);
   multiprocess_exec.Run();
 }
+
+
+CRASHPAD_CHILD_TEST_MAIN(SimpleMultiprocess) {
+  char c;
+  CheckedReadFileExactly(StdioFileHandle(StdioStream::kStandardInput), &c, 1);
+  LOG_IF(FATAL, c != 'z');
+
+  c = 'Z';
+  CheckedWriteFile(StdioFileHandle(StdioStream::kStandardOutput), &c, 1);
+  return 0;
+}
+
+TEST(MultiprocessExec, MultiprocessExecSimpleChild) {
+  TestMultiprocessExec exec;
+  exec.SetChildTestMainFunction("SimpleMultiprocess");
+  exec.Run();
+};
+
+
+CRASHPAD_CHILD_TEST_MAIN(SimpleMultiprocessReturnsNonZero) {
+  return 123;
+}
+
+class TestMultiprocessExecEmpty final : public MultiprocessExec {
+ public:
+  TestMultiprocessExecEmpty() = default;
+  ~TestMultiprocessExecEmpty() = default;
+
+ private:
+  void MultiprocessParent() override {}
+
+  DISALLOW_COPY_AND_ASSIGN(TestMultiprocessExecEmpty);
+};
+
+TEST(MultiprocessExec, MultiprocessExecSimpleChildReturnsNonZero) {
+  TestMultiprocessExecEmpty exec;
+  exec.SetChildTestMainFunction("SimpleMultiprocessReturnsNonZero");
+  exec.SetExpectedChildTermination(
+      Multiprocess::TerminationReason::kTerminationNormal, 123);
+  exec.Run();
+};
 
 }  // namespace
 }  // namespace test
