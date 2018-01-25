@@ -20,7 +20,6 @@
 #include "base/logging.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
-#include "test/multiprocess.h"
 #include "test/multiprocess_exec.h"
 #include "test/process_type.h"
 #include "util/file/file_io.h"
@@ -178,19 +177,14 @@ void ReadThisExecutableInTarget(ProcessType process,
             ElfImageReader::NoteReader::Result::kNoMoreNotes);
 }
 
-// Assumes that libc is loaded at the same address in this process as in the
-// target, which it is for the fork test below.
-void ReadLibcInTarget(ProcessType process) {
+void ReadLibcInTarget(ProcessType process,
+                      VMAddress elf_address,
+                      VMAddress getpid_address) {
 #if defined(ARCH_CPU_64_BITS)
   constexpr bool am_64_bit = true;
 #else
   constexpr bool am_64_bit = false;
 #endif  // ARCH_CPU_64_BITS
-
-  Dl_info info;
-  ASSERT_TRUE(dladdr(reinterpret_cast<void*>(getpid), &info)) << "dladdr:"
-                                                              << dlerror();
-  VMAddress elf_address = FromPointerCast<VMAddress>(info.dli_fbase);
 
   ProcessMemoryNative memory;
   ASSERT_TRUE(memory.Initialize(process));
@@ -200,7 +194,7 @@ void ReadLibcInTarget(ProcessType process) {
   ElfImageReader reader;
   ASSERT_TRUE(reader.Initialize(range, elf_address));
 
-  ExpectSymbol(&reader, "getpid", FromPointerCast<VMAddress>(getpid));
+  ExpectSymbol(&reader, "getpid", getpid_address);
 }
 
 TEST(ElfImageReader, MainExecutableSelf) {
@@ -245,25 +239,54 @@ TEST(ElfImageReader, MainExecutableChild) {
 }
 
 TEST(ElfImageReader, OneModuleSelf) {
-  ReadLibcInTarget(GetSelfProcess());
+  Dl_info info;
+  ASSERT_TRUE(dladdr(reinterpret_cast<void*>(getpid), &info)) << "dladdr:"
+                                                              << dlerror();
+  VMAddress elf_address = FromPointerCast<VMAddress>(info.dli_fbase);
+  ReadLibcInTarget(
+      GetSelfProcess(), elf_address, FromPointerCast<VMAddress>(getpid));
 }
 
-#if !defined(OS_FUCHSIA)  // TODO(scottmg): Port to MultiprocessExec.
-class ReadLibcChildTest : public Multiprocess {
+CRASHPAD_CHILD_TEST_MAIN(ReadLibcChild) {
+  // Get the address of libc (by using getpid() as a representative member),
+  // and also the address of getpid() itself, and write them to the parent, so
+  // it can validate reading this information back out.
+  Dl_info info;
+  EXPECT_TRUE(dladdr(reinterpret_cast<void*>(getpid), &info))
+      << "dladdr:" << dlerror();
+  VMAddress elf_address = FromPointerCast<VMAddress>(info.dli_fbase);
+  VMAddress getpid_address = FromPointerCast<VMAddress>(getpid);
+
+  CheckedWriteFile(StdioFileHandle(StdioStream::kStandardOutput),
+                   &elf_address,
+                   sizeof(elf_address));
+  CheckedWriteFile(StdioFileHandle(StdioStream::kStandardOutput),
+                   &getpid_address,
+                   sizeof(getpid_address));
+  CheckedReadFileAtEOF(StdioFileHandle(StdioStream::kStandardInput));
+  return 0;
+}
+
+class ReadLibcChildTest : public MultiprocessExec {
  public:
-  ReadLibcChildTest() : Multiprocess() {}
+  ReadLibcChildTest() : MultiprocessExec() {}
   ~ReadLibcChildTest() {}
 
  private:
-  void MultiprocessParent() { ReadLibcInTarget(ChildPID()); }
-  void MultiprocessChild() { CheckedReadFileAtEOF(ReadPipeHandle()); }
+  void MultiprocessParent() {
+    VMAddress elf_address, getpid_address;
+    CheckedReadFileExactly(ReadPipeHandle(), &elf_address, sizeof(elf_address));
+    CheckedReadFileExactly(
+        ReadPipeHandle(), &getpid_address, sizeof(getpid_address));
+    ReadLibcInTarget(ChildProcess(), elf_address, getpid_address);
+  }
 };
 
 TEST(ElfImageReader, OneModuleChild) {
   ReadLibcChildTest test;
+  test.SetChildTestMainFunction("ReadLibcChild");
   test.Run();
 }
-#endif  // !OS_FUCHSIA
 
 }  // namespace
 }  // namespace test
