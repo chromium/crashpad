@@ -22,6 +22,7 @@
 #include "base/macros.h"
 #include "build/build_config.h"
 #include "test/multiprocess.h"
+#include "test/process_type.h"
 
 //! \file
 
@@ -116,6 +117,9 @@ class MultiprocessExec : public Multiprocess {
   //! \param[in] function_name The name of the function as passed to
   //!     CRASHPAD_CHILD_TEST_MAIN().
   void SetChildTestMainFunction(const std::string& function_name);
+
+  //! \brief TODO(scottmg).
+  ProcessType ChildProcess();
 
  protected:
   ~MultiprocessExec();
