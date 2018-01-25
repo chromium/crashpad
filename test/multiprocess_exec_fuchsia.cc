@@ -51,13 +51,39 @@ void Multiprocess::Run() {
   // And then run the parent actions in this process.
   RunParent();
 
-  // Reap the child.
+  // Wait until the child exits.
   zx_signals_t signals;
   ASSERT_EQ(
       zx_object_wait_one(
           info_->child.get(), ZX_TASK_TERMINATED, ZX_TIME_INFINITE, &signals),
       ZX_OK);
   ASSERT_EQ(signals, ZX_TASK_TERMINATED);
+
+  // Get the child's exit code.
+  zx_info_process_t proc_info;
+  zx_status_t status = zx_object_get_info(info_->child.get(),
+                                          ZX_INFO_PROCESS,
+                                          &proc_info,
+                                          sizeof(proc_info),
+                                          nullptr,
+                                          nullptr);
+  if (status != ZX_OK) {
+    ZX_LOG(ERROR, status) << "zx_object_get_info";
+    ADD_FAILURE() << "Unable to get exit code of child";
+  } else {
+    if (code_ != proc_info.return_code) {
+      ADD_FAILURE() << "Child exited with code " << proc_info.return_code
+                    << ", expected exit with code " << code_;
+    }
+  }
+}
+
+void Multiprocess::SetExpectedChildTermination(TerminationReason reason,
+                                               int code) {
+  EXPECT_EQ(info_, nullptr)
+      << "SetExpectedChildTermination() must be called before Run()";
+  reason_ = reason;
+  code_ = code;
 }
 
 Multiprocess::~Multiprocess() {

@@ -16,6 +16,7 @@
 #include "gtest/gtest.h"
 #include "test/gtest_disabled.h"
 #include "test/main_arguments.h"
+#include "test/multiprocess_exec.h"
 
 #if defined(CRASHPAD_TEST_LAUNCHER_GMOCK)
 #include "gmock/gmock.h"
@@ -31,10 +32,33 @@
 #include "base/test/test_suite.h"
 #endif  // CRASHPAD_IS_IN_CHROMIUM
 
+namespace {
+
+bool GetChildTestFunctionName(std::string* child_func_name) {
+  constexpr size_t arg_length =
+      sizeof(crashpad::test::internal::kChildTestFunction) - 1;
+  for (const auto& it : crashpad::test::GetMainArguments()) {
+    if (it.compare(
+            0, arg_length, crashpad::test::internal::kChildTestFunction) == 0) {
+      *child_func_name = it.substr(arg_length);
+      return true;
+    }
+  }
+  return false;
+}
+
+}  // namespace
+
 int main(int argc, char* argv[]) {
   crashpad::test::InitializeMainArguments(argc, argv);
   testing::AddGlobalTestEnvironment(
       crashpad::test::DisabledTestGtestEnvironment::Get());
+
+  std::string child_func_name;
+  if (GetChildTestFunctionName(&child_func_name)) {
+    return crashpad::test::internal::CheckedInvokeMultiprocessChild(
+        child_func_name);
+  }
 
 #if defined(CRASHPAD_IS_IN_CHROMIUM)
 
