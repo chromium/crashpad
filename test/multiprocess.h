@@ -49,11 +49,13 @@ class Multiprocess {
     //! that call `exit()` or `_exit()`.
     kTerminationNormal = false,
 
+#if !defined(OS_FUCHSIA)  // There are no signals on Fuchsia.
     //! \brief The child terminated by signal.
     //!
     //! Signal termination happens as a result of a crash, a call to `abort()`,
     //! assertion failure (including gtest assertions), etc.
     kTerminationSignal,
+#endif  // !defined(OS_FUCHSIA)
   };
 
   Multiprocess();

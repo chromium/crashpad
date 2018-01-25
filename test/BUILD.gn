@@ -32,6 +32,7 @@ static_library("test") {
     "main_arguments.cc",
     "main_arguments.h",
     "multiprocess.h",
+    "multiprocess_exec.cc",
     "multiprocess_exec.h",
     "process_type.cc",
     "process_type.h",
