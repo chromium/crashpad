@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dc0fccd_8a17e57b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-25T22:25:47Z",
+      "side": 1,
+      "message": "Yeah, I get it. Nudge nudge. :)\n\nI was so excited to see how well you guys managed without me yesterday that I forgot I still owed you things from two days ago. I’m on it…",
+      "revId": "bf4d1a385b3826776b7bc69fd3c8ddc989c20e53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
