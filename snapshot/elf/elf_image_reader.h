@@ -207,6 +207,30 @@ class ElfImageReader {
   //! The caller does not take ownership of the returned object.
   const ProcessMemoryRange* Memory() const;
 
+  //! \brief Retrieves the number of symbol table entries in `DT_SYMTAB`
+  //!     according to the data in the `DT_HASH` section.
+  //!
+  //! \note Exposed for testing, not normally otherwise useful.
+  //!
+  //! \param[out] number_of_symbol_table_entries The number of entries expected
+  //!     in `DT_SYMTAB`.
+  //! \return `true` if a `DT_HASH` section was found, and was read
+  //!     successfully, otherwise `false` with an error logged.
+  bool GetNumberOfSymbolEntriesFromDtHash(
+      VMSize* number_of_symbol_table_entries);
+
+  //! \brief Retrieves the number of symbol table entries in `DT_SYMTAB`
+  //!     according to the data in the `DT_GNU_HASH` section.
+  //!
+  //! \note Exposed for testing, not normally otherwise useful.
+  //!
+  //! \param[out] number_of_symbol_table_entries The number of entries expected
+  //!     in `DT_SYMTAB`.
+  //! \return `true` if a `DT_GNU_HASH` section was found, and was read
+  //!     successfully, otherwise `false` with an error logged.
+  bool GetNumberOfSymbolEntriesFromDtGnuHash(
+      VMSize* number_of_symbol_table_entries);
+
  private:
   template <typename PhdrType>
   class ProgramHeaderTableSpecific;
@@ -214,7 +238,7 @@ class ElfImageReader {
   bool InitializeProgramHeaders();
   bool InitializeDynamicArray();
   bool InitializeDynamicSymbolTable();
-  bool GetAddressFromDynamicArray(uint64_t tag, VMAddress* address);
+  bool GetAddressFromDynamicArray(uint64_t tag, bool log, VMAddress* address);
 
   union {
     Elf32_Ehdr header_32_;

@@ -15,6 +15,7 @@
 #include "snapshot/elf/elf_image_reader.h"
 
 #include <dlfcn.h>
+#include <link.h>
 #include <unistd.h>
 
 #include "base/logging.h"
@@ -22,6 +23,8 @@
 #include "gtest/gtest.h"
 #include "test/multiprocess.h"
 #include "test/process_type.h"
+#include "test/scoped_module_handle.h"
+#include "test/test_paths.h"
 #include "util/file/file_io.h"
 #include "util/misc/address_types.h"
 #include "util/misc/from_pointer_cast.h"
@@ -29,7 +32,6 @@
 
 #if defined(OS_FUCHSIA)
 
-#include <link.h>
 #include <zircon/syscalls.h>
 
 #include "base/fuchsia/fuchsia_logging.h"
@@ -241,6 +243,55 @@ TEST(ElfImageReader, OneModuleChild) {
   test.Run();
 }
 #endif  // !OS_FUCHSIA
+
+#if defined(OS_LINUX)
+
+// crashpad_snapshot_test_both_dt_hash_styles is specially built and forced to
+// include both .hash and .gnu.hash sections. Linux, Android, and Fuchsia have
+// different defaults for which of these sections should be included; this test
+// confirms that we get the same count from both sections.
+//
+// TODO(scottmg): This test could be made to work on both Android and Fuchsia:
+// - On Android it requires a different way of finding the ELF base, as the
+//   return of dlopen isn't a link_map.
+// - On Fuchsia, there's currently undiagnosed issues with dlopen() succeeding
+//   at all.
+TEST(ElfImageReader, DtHashAndDtGnuHashMatch) {
+  base::FilePath module_path =
+      TestPaths::BuildArtifact(FILE_PATH_LITERAL("snapshot"),
+                               FILE_PATH_LITERAL("both_dt_hash_styles"),
+                               TestPaths::FileType::kExecutable);
+  ScopedModuleHandle module(
+      dlopen(module_path.value().c_str(), RTLD_LAZY | RTLD_LOCAL));
+  ASSERT_TRUE(module.valid()) << "dlopen " << module_path.value() << ": "
+                              << dlerror();
+
+#if defined(ARCH_CPU_64_BITS)
+  constexpr bool am_64_bit = true;
+#else
+  constexpr bool am_64_bit = false;
+#endif  // ARCH_CPU_64_BITS
+
+  ProcessMemoryNative memory;
+  ASSERT_TRUE(memory.Initialize(GetSelfProcess()));
+  ProcessMemoryRange range;
+  ASSERT_TRUE(range.Initialize(&memory, am_64_bit));
+
+  struct link_map* lm = reinterpret_cast<struct link_map*>(module.get());
+
+  ElfImageReader reader;
+  ASSERT_TRUE(reader.Initialize(range, lm->l_addr));
+
+  VMSize from_dt_hash;
+  ASSERT_TRUE(reader.GetNumberOfSymbolEntriesFromDtHash(&from_dt_hash));
+
+  VMSize from_dt_gnu_hash;
+  ASSERT_TRUE(reader.GetNumberOfSymbolEntriesFromDtGnuHash(&from_dt_gnu_hash));
+
+  EXPECT_EQ(from_dt_hash, from_dt_gnu_hash);
+}
+
+#endif  // OS_LINUX
 
 }  // namespace
 }  // namespace test
