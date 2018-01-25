@@ -407,7 +407,8 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name, extra_command_line):
 
     done_message = 'TERMINATED: ' + unique_id
     namespace_command = [
-        'namespace', '/pkg=' + staging_root, '/tmp=' + tmp_root, '--',
+        'namespace', '/pkg=' + staging_root, '/tmp=' + tmp_root,
+        '--replace-child-argv0=/pkg/bin/' + test, '--',
         staging_root + '/bin/' + test] + extra_command_line
     netruncmd(namespace_command, ['echo', done_message])
 

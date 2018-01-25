@@ -23,8 +23,56 @@
 #include "build/build_config.h"
 #include "test/multiprocess.h"
 
+//! \file
+
 namespace crashpad {
 namespace test {
+
+namespace internal {
+
+//! \brief Command line argument used to indicate that a child test function
+//!     should be run.
+constexpr char kChildTestFunction[] = "--child-test-function=";
+
+
+//! \brief Helper class used by CRASHPAD_CHILD_TEST_MAIN() to insert a child
+//!     function into the global mapping.
+class AppendMultiprocessTest {
+ public:
+  AppendMultiprocessTest(const std::string& test_name,
+                         int (*main_function_pointer)());
+};
+
+//! \brief Used to run a child test function by name, registered by
+//!     CRASHPAD_CHILD_TEST_MAIN().
+//!
+//! \return The exit code of the child process after running the function named
+//!     by \a test_name. Aborts with a CHECK() if \a test_name wasn't
+//!     registered.
+int CheckedInvokeMultiprocessChild(const std::string& test_name);
+
+}  // namespace internal
+
+//! \brief Registers a function that can be invoked as a child process by
+//!     MultiprocessExec.
+//!
+//! Used as:
+//!
+//! \code
+//! CRASHPAD_CHILD_TEST_MAIN(MyChildTestBody) {
+//!    ... child body ...
+//! }
+//! \endcode
+//!
+//! In the main (parent) test body, this function can be run in a child process
+//! via MultiprocessExec::SetChildTestMainFunction().
+#define CRASHPAD_CHILD_TEST_MAIN(test_main)                       \
+  int test_main();                                                \
+  namespace {                                                     \
+  ::crashpad::test::internal::AppendMultiprocessTest              \
+      AddMultiprocessTest##_##test_main(#test_main, (test_main)); \
+  } /* namespace */                                               \
+  int test_main()
 
 //! \brief Manages an `exec()`-based multiprocess test.
 //!
@@ -44,13 +92,30 @@ class MultiprocessExec : public Multiprocess {
   //!
   //! This method must be called before the test can be Run().
   //!
+  //! This method is useful when a custom executable is required for the child
+  //! binary, however, SetChildTestMainFunction() should generally be preferred.
+  //!
   //! \param[in] command The executable’s pathname.
   //! \param[in] arguments The command-line arguments to pass to the child
   //!     process in its `argv[]` vector. This vector must begin at `argv[1]`,
   //!     as \a command is implicitly used as `argv[0]`. This argument may be
   //!     `nullptr` if no command-line arguments are to be passed.
+  //!
+  //! \sa SetChildTestMainFunction
   void SetChildCommand(const base::FilePath& command,
                        const std::vector<std::string>* arguments);
+
+  //! \brief Calls SetChildCommand() to run a child test main function
+  //!     registered with CRASHPAD_CHILD_TEST_MAIN().
+  //!
+  //! This uses the same launch mechanism as SetChildCommand(), but coordinates
+  //! with test/gtest_main.cc to allow for simple registration of a child
+  //! processes' entry point via the helper macro, rather than needing to
+  //! create a separate build target.
+  //!
+  //! \param[in] function_name The name of the function as passed to
+  //!     CRASHPAD_CHILD_TEST_MAIN().
+  void SetChildTestMainFunction(const std::string& function_name);
 
  protected:
   ~MultiprocessExec();
