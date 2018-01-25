@@ -21,6 +21,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/multiprocess.h"
+#include "test/multiprocess_exec.h"
 #include "test/process_type.h"
 #include "util/file/file_io.h"
 #include "util/misc/address_types.h"
@@ -68,6 +69,8 @@ void LocateExecutable(ProcessType process,
                                               sizeof(debug_address));
   ASSERT_EQ(status, ZX_OK)
       << "zx_object_get_property: ZX_PROP_PROCESS_DEBUG_ADDR";
+  // Can be 0 if requested before the loader has loaded anything.
+  EXPECT_NE(debug_address, 0u);
 
   constexpr auto k_r_debug_map_offset = offsetof(r_debug, r_map);
   uintptr_t map;
@@ -120,7 +123,7 @@ void ExpectSymbol(ElfImageReader* reader,
       reader->GetDynamicSymbol("notasymbol", &symbol_address, &symbol_size));
 }
 
-void ReadThisExecutableInTarget(ProcessType process) {
+void ReadThisExecutableInTarget(ProcessType process, VMAddress symbol_address) {
 #if defined(ARCH_CPU_64_BITS)
   constexpr bool am_64_bit = true;
 #else
@@ -139,9 +142,7 @@ void ReadThisExecutableInTarget(ProcessType process) {
   ElfImageReader reader;
   ASSERT_TRUE(reader.Initialize(range, elf_address));
 
-  ExpectSymbol(&reader,
-               "ElfImageReaderTestExportedSymbol",
-               FromPointerCast<VMAddress>(ElfImageReaderTestExportedSymbol));
+  ExpectSymbol(&reader, "ElfImageReaderTestExportedSymbol", symbol_address);
 
   ElfImageReader::NoteReader::Result result;
   std::string note_name;
@@ -201,25 +202,44 @@ void ReadLibcInTarget(ProcessType process) {
 }
 
 TEST(ElfImageReader, MainExecutableSelf) {
-  ReadThisExecutableInTarget(GetSelfProcess());
+  ReadThisExecutableInTarget(
+      GetSelfProcess(),
+      FromPointerCast<VMAddress>(ElfImageReaderTestExportedSymbol));
 }
 
-#if !defined(OS_FUCHSIA)  // TODO(scottmg): Port to MultiprocessExec.
-class ReadExecutableChildTest : public Multiprocess {
+CRASHPAD_CHILD_TEST_MAIN(ReadExecutableChild) {
+  VMAddress symbol_address =
+      FromPointerCast<VMAddress>(ElfImageReaderTestExportedSymbol);
+  CheckedWriteFile(StdioFileHandle(StdioStream::kStandardOutput),
+                   &symbol_address,
+                   sizeof(symbol_address));
+  CheckedReadFileAtEOF(StdioFileHandle(StdioStream::kStandardInput));
+  return 0;
+}
+
+class ReadExecutableChildTest : public MultiprocessExec {
  public:
-  ReadExecutableChildTest() : Multiprocess() {}
-  ~ReadExecutableChildTest() {}
+  ReadExecutableChildTest() : MultiprocessExec() {}
 
  private:
-  void MultiprocessParent() { ReadThisExecutableInTarget(ChildPID()); }
-  void MultiprocessChild() { CheckedReadFileAtEOF(ReadPipeHandle()); }
+  void MultiprocessParent() {
+    // This read serves two purposes -- on Fuchsia, the loader may have not
+    // filled in debug address as soon as the child process handle is valid, so
+    // this causes a wait at least until the main() of the child, at which point
+    // it will always be valid. Secondarily, the address of the symbol to be
+    // looked up needs to be communicated.
+    VMAddress symbol_address;
+    CheckedReadFileExactly(
+        ReadPipeHandle(), &symbol_address, sizeof(symbol_address));
+    ReadThisExecutableInTarget(ChildProcess(), symbol_address);
+  }
 };
 
 TEST(ElfImageReader, MainExecutableChild) {
   ReadExecutableChildTest test;
+  test.SetChildTestMainFunction("ReadExecutableChild");
   test.Run();
 }
-#endif  // !OS_FUCHSIA
 
 TEST(ElfImageReader, OneModuleSelf) {
   ReadLibcInTarget(GetSelfProcess());

@@ -177,5 +177,9 @@ void MultiprocessExec::MultiprocessChild() {
   info()->child.reset(child);
 }
 
+ProcessType MultiprocessExec::ChildProcess() {
+  return info()->child.get();
+}
+
 }  // namespace test
 }  // namespace crashpad
