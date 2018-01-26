@@ -525,6 +525,24 @@
     },
     {
       "key": {
+        "uuid": "af354431_2ee36f7b",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-26T00:53:35Z",
+      "side": 1,
+      "message": "Missed your comment, and Gerrit can\u0027t quote the non-last comment, awesomely.\n\n\u003e binutils-2.29/bfd/elflink.c:7016\n\nAh, thank you!!! (But whyyyy) It seems like the length dt_symtab isn\u0027t derivable from that data though... or am I missing something obvious?",
+      "parentUuid": "ec20be2f_6bc1103d",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "73f2d60a_6689efc8",
         "filename": "snapshot/elf/elf_symbol_table_reader.cc",
         "patchSetId": 7
