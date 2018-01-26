@@ -61,7 +61,8 @@ class ElfSymbolTableReader {
   // lookup.
   ElfSymbolTableReader(const ProcessMemoryRange* memory,
                        ElfImageReader* elf_reader,
-                       VMAddress address);
+                       VMAddress address,
+                       VMSize num_entries);
   ~ElfSymbolTableReader();
 
   //! \brief Lookup information about a symbol.
@@ -78,6 +79,7 @@ class ElfSymbolTableReader {
   const ProcessMemoryRange* const memory_;  // weak
   ElfImageReader* const elf_reader_;  // weak
   const VMAddress base_address_;
+  const VMSize num_entries_;
 
   DISALLOW_COPY_AND_ASSIGN(ElfSymbolTableReader);
 };
