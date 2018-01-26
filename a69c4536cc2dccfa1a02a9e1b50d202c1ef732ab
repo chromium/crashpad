@@ -489,6 +489,24 @@
     },
     {
       "key": {
+        "uuid": "b890a72c_c02a87c8",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-26T00:44:09Z",
+      "side": 1,
+      "message": "binutils-2.29/bfd/elflink.c:7016\n          if (cinfo.nsyms \u003d\u003d 0)\n            {\n              /* Empty .gnu.hash section is special.  */\n              BFD_ASSERT (cinfo.min_dynindx \u003d\u003d -1);\n              free (cinfo.hashcodes);\n              s-\u003esize \u003d 5 * 4 + bed-\u003es-\u003earch_size / 8;\n              contents \u003d (unsigned char *) bfd_zalloc (output_bfd, s-\u003esize);\n              if (contents \u003d\u003d NULL)\n                return FALSE;\n              s-\u003econtents \u003d contents;\n              /* 1 empty bucket.  */\n              bfd_put_32 (output_bfd, 1, contents);\n              /* SYMIDX above the special symbol 0.  */\n              bfd_put_32 (output_bfd, 1, contents + 4);\n              /* Just one word for bitmask.  */\n              bfd_put_32 (output_bfd, 1, contents + 8);\n              /* Only hash fn bloom filter.  */\n              bfd_put_32 (output_bfd, 0, contents + 12);\n              /* No hashes are valid - empty bitmask.  */\n              bfd_put (bed-\u003es-\u003earch_size, output_bfd, 0, contents + 16);\n              /* No hashes in the only bucket.  */\n              bfd_put_32 (output_bfd, 0,\n                          contents + 16 + bed-\u003es-\u003earch_size / 8);\n            }",
+      "parentUuid": "f9039840_c9498280",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "73f2d60a_6689efc8",
         "filename": "snapshot/elf/elf_symbol_table_reader.cc",
         "patchSetId": 7
