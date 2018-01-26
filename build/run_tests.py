@@ -412,7 +412,8 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name, extra_command_line):
     if not success:
       raise subprocess.CalledProcessError(1, test)
   finally:
-    netruncmd(['rm', '-rf', tmp_root, staging_root])
+    pass
+    #netruncmd(['rm', '-rf', tmp_root, staging_root])
 
 
 # This script is primarily used from the waterfall so that the list of tests
