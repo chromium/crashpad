@@ -61,6 +61,26 @@ void InitializeCPUContextX86_64Fxsave(
     CPUContextX86_64::Fxsave* fxsave, uint32_t* seed);
 //! \}
 
+//! \brief Initializes a context structure for testing.
+//!
+//! Initialization is compatible with the initialization used by minidump
+//! context test initialization functions such as InitializeMinidumpContextARM()
+//! and InitializeMinidumpContextARM64() for identical \a seed values.
+//!
+//! \param[out] context The structure to initialize.
+//! \param[in] seed The seed value. Initializing two context structures of the
+//!     same type with identical seed values should produce identical context
+//!     structures. Initialization with a different seed value should produce
+//!     a different context structure. If \a seed is `0`, \a context is zeroed
+//!     out entirely except for the CPUContext::architecture field, which will
+//!     identify the context type. If \a seed is nonzero, \a context will be
+//!     populated entirely with nonzero values.
+//!
+//! \{
+void InitializeCPUContextARM(CPUContext* context, uint32_t seed);
+void InitializeCPUContextARM64(CPUContext* context, uint32_t seed);
+//! \}
+
 }  // namespace test
 }  // namespace crashpad
 

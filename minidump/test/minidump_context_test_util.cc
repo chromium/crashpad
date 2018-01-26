@@ -350,5 +350,110 @@ void ExpectMinidumpContextAMD64(
   }
 }
 
+void InitializeMinidumpContextARM(MinidumpContextARM* context, uint32_t seed) {
+  if (seed == 0) {
+    memset(context, 0, sizeof(*context));
+    context->context_flags = kMinidumpContextARM;
+    return;
+  }
+
+  context->context_flags = kMinidumpContextARMAll;
+
+  uint32_t value = seed;
+
+  for (size_t index = 0; index < arraysize(context->regs); ++index) {
+    context->regs[index] = value++;
+  }
+  context->fp = value++;
+  context->ip = value++;
+  context->ip = value++;
+  context->sp = value++;
+  context->lr = value++;
+  context->pc = value++;
+  context->cpsr = value++;
+
+  for (size_t index = 0; index < arraysize(context->vfp); ++index) {
+    context->vfp[index] = value++;
+  }
+  context->fpscr = value++;
+}
+
+void InitializeMinidumpContextARM64(MinidumpContextARM64* context,
+                                    uint32_t seed) {
+  if (seed == 0) {
+    memset(context, 0, sizeof(*context));
+    context->context_flags = kMinidumpContextARM64;
+    return;
+  }
+
+  context->context_flags = kMinidumpContextARM64All;
+
+  uint32_t value = seed;
+
+  for (size_t index = 0; index < arraysize(context->regs); ++index) {
+    context->regs[index] = value++;
+  }
+  context->sp = value++;
+  context->pc = value++;
+
+  // TODO fixme
+  // context->pstate = value++;
+
+  for (size_t index = 0; index < arraysize(context->fpsimd); ++index) {
+    context->fpsimd[index].lo = value++;
+    context->fpsimd[index].hi = value++;
+  }
+  context->fpsr = value++;
+  context->fpcr = value++;
+}
+
+void ExpectMinidumpContextARM(uint32_t expect_seed,
+                              const MinidumpContextARM* observed,
+                              bool snapshot) {
+  MinidumpContextARM expected;
+  InitializeMinidumpContextARM(&expected, expect_seed);
+
+  EXPECT_EQ(expected.context_flags, observed->context_flags);
+
+  for (size_t index = 0; index < arraysize(expected.regs); ++index) {
+    EXPECT_EQ(expected.regs[index], observed->regs[index]);
+  }
+  EXPECT_EQ(expected.fp, observed->fp);
+  EXPECT_EQ(expected.ip, observed->ip);
+  EXPECT_EQ(expected.sp, observed->sp);
+  EXPECT_EQ(expected.lr, observed->lr);
+  EXPECT_EQ(expected.pc, observed->pc);
+  EXPECT_EQ(expected.cpsr, observed->cpsr);
+
+  EXPECT_EQ(expected.fpscr, observed->fpscr);
+  for (size_t index = 0; index < arraysize(expected.vfp); ++index) {
+    EXPECT_EQ(expected.vfp[index], observed->vfp[index]);
+  }
+  for (size_t index = 0; index < arraysize(expected.extra); ++index) {
+    EXPECT_EQ(expected.extra[index], observed->extra[index]);
+  }
+}
+
+void ExpectMinidumpContextARM64(uint32_t expect_seed,
+                                const MinidumpContextARM64* observed,
+                                bool snapshot) {
+  MinidumpContextARM64 expected;
+  InitializeMinidumpContextARM64(&expected, expect_seed);
+
+  EXPECT_EQ(expected.context_flags, observed->context_flags);
+
+  for (size_t index = 0; index < arraysize(expected.regs); ++index) {
+    EXPECT_EQ(expected.regs[index], observed->regs[index]);
+  }
+  EXPECT_EQ(expected.cpsr, observed->cpsr);
+
+  EXPECT_EQ(expected.fpsr, observed->fpsr);
+  EXPECT_EQ(expected.fpcr, observed->fpcr);
+  for (size_t index = 0; index < arraysize(expected.fpsimd); ++index) {
+    EXPECT_EQ(expected.fpsimd[index].lo, observed->fpsimd[index].lo);
+    EXPECT_EQ(expected.fpsimd[index].hi, observed->fpsimd[index].hi);
+  }
+}
+
 }  // namespace test
 }  // namespace crashpad

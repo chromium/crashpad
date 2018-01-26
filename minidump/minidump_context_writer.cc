@@ -239,4 +239,40 @@ size_t MinidumpContextAMD64Writer::ContextSize() const {
   return sizeof(context_);
 }
 
+MinidumpContextARMWriter::MinidumpContextARMWriter()
+    : MinidumpContextWriter(), context_() {}
+
+MinidumpContextARMWriter::~MinidumpContextARMWriter() = default;
+
+void MinidumpContextARMWriter::InitializeFromSnapshot(
+    const CPUContextARM* context_snapshot) {
+  // TODO
+}
+
+bool MinidumpContextARMWriter::WriteObject(FileWriterInterface* file_writer) {
+  return false;  // TODO
+}
+
+size_t MinidumpContextARMWriter::ContextSize() const {
+  return 0;  // TODO
+}
+
+MinidumpContextARM64Writer::MinidumpContextARM64Writer()
+    : MinidumpContextWriter(), context_() {}
+
+MinidumpContextARM64Writer::~MinidumpContextARM64Writer() = default;
+
+void MinidumpContextARM64Writer::InitializeFromSnapshot(
+    const CPUContextARM64* context_snapshot) {
+  // TODO
+}
+
+bool MinidumpContextARM64Writer::WriteObject(FileWriterInterface* file_writer) {
+  return false;  // TODO
+}
+
+size_t MinidumpContextARM64Writer::ContextSize() const {
+  return 0;  // TODO
+}
+
 }  // namespace crashpad
