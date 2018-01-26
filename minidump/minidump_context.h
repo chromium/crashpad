@@ -336,6 +336,70 @@ struct alignas(16) MinidumpContextAMD64 {
   //! \}
 };
 
+//! \brief 32-bit ARM-specifc flags for MinidumpContextARM::context_flags.
+enum MinidumpContextARMFlags : uint32_t {
+  //! \brief Identifies the context structure as 32-bit ARM.
+  kMinidumpContextARM = 0x40000000,
+
+  kMinidumpContextARMInteger = kMinidumpContextARM | 0x00000002,
+
+  // TODO VFP versions?
+  kMinidumpContextARMVFP = kMinidumpContextARM | 0x00000004,
+
+  // TODO how does this change with extensions?
+  kMinidumpContextARMAll = kMinidumpContextARMInteger | kMinidumpContextARMVFP,
+};
+
+//! \brief A 32-bit ARM CPU context (register state) carried in a minidump file.
+struct MinidumpContextARM {
+  //! \brief A bitfield composed of values of #MinidumpContextFlags and
+  //!     #MinidumpContextARMFlags.
+  //!
+  //! This field identifies the context structure as a 32-bit ARM CPU context,
+  //! and indicates which other fields in the structure are valid.
+  uint32_t context_flags;
+
+  uint32_t regs[11];
+  uint32_t fp;  // r11
+  uint32_t ip;  // r12
+  uint32_t sp;  // r13
+  uint32_t lr;  // r14
+  uint32_t pc;  // r15
+  uint32_t cpsr;
+
+  uint32_t fpscr;
+  uint64_t vfp[32];
+  uint32_t extra[8];
+};
+
+//! \brief 64-bit ARM-specifc flags for MinidumpContextARM64::context_flags.
+enum MinidumpContextARM64Flags : uint32_t {
+  //! \brief Identifies the context structure as 64-bit ARM.
+  kMinidumpContextARM64 = 0x80000000,
+
+  kMinidumpContextARM64Integer = kMinidumpContextARM64 | 0x00000002,
+
+  kMinidumpContextARM64Fpsimd = kMinidumpContextARM64 | 0x00000004,
+
+  // TODO how does this change with extensions?
+  kMinidumpContextARM64All =
+      kMinidumpContextARM64Integer | kMinidumpContextARM64Fpsimd,
+};
+
+//! \brief A 64-bit ARM CPU context (register state) carried in a minidump file.
+struct MinidumpContextARM64 {
+  uint64_t context_flags;
+
+  uint64_t regs[31];
+  uint64_t sp;
+  uint64_t pc;
+  uint32_t cpsr;
+
+  uint32_t fpsr;
+  uint32_t fpcr;
+  uint128_struct fpsimd[32];
+};
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_H_

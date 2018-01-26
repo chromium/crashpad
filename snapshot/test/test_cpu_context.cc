@@ -165,5 +165,62 @@ void InitializeCPUContextX86_64Fxsave(CPUContextX86_64::Fxsave* fxsave,
   return InitializeCPUContextFxsave(fxsave, seed);
 }
 
+void InitializeCPUContextARM(CPUContext* context, uint32_t seed) {
+  context->architecture = kCPUArchitectureARM;
+  CPUContextARM* arm = context->arm;
+
+  if (seed == 0) {
+    memset(arm, 0, sizeof(*arm));
+    return;
+  }
+
+  uint32_t value = seed;
+
+  for (size_t index = 0; index < arraysize(arm->regs); ++index) {
+    arm->regs[index] = value++;
+  }
+  arm->fp = value++;
+  arm->ip = value++;
+  arm->ip = value++;
+  arm->sp = value++;
+  arm->lr = value++;
+  arm->pc = value++;
+  arm->cpsr = value++;
+
+  for (size_t index = 0; index < arraysize(arm->vfp_regs.vfp); ++index) {
+    arm->vfp_regs.vfp[index] = value++;
+  }
+  arm->vfp_regs.fpscr = value++;
+
+  arm->have_fpa_regs = false;
+  arm->have_vfp_regs = true;
+}
+
+void InitializeCPUContextARM64(CPUContext* context, uint32_t seed) {
+  context->architecture = kCPUArchitectureARM64;
+  CPUContextARM64* arm64 = context->arm64;
+
+  if (seed == 0) {
+    memset(arm64, 0, sizeof(*arm64));
+    return;
+  }
+
+  uint32_t value = seed;
+
+  for (size_t index = 0; index < arraysize(arm64->regs); ++index) {
+    arm64->regs[index] = value++;
+  }
+  arm64->sp = value++;
+  arm64->pc = value++;
+  arm64->pstate = value++;
+
+  for (size_t index = 0; index < arraysize(arm64->fpsimd); ++index) {
+    arm64->fpsimd[index].lo = value++;
+    arm64->fpsimd[index].hi = value++;
+  }
+  arm64->fpsr = value++;
+  arm64->fpcr = value++;
+}
+
 }  // namespace test
 }  // namespace crashpad
