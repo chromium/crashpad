@@ -507,6 +507,24 @@
     },
     {
       "key": {
+        "uuid": "ec20be2f_6bc1103d",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-26T00:50:26Z",
+      "side": 1,
+      "message": "OK, here\u0027s a verbose log of a simplified case (trying the no-exports a variety of ways): https://gist.github.com/sgraham/43511c7f2467143398e71514f7fff406\n\n- Fuchsia\u0027s clang (which defaults to lld)\n- Chrome\u0027s clang (which defaults to ld)\n- Chrome\u0027s clang, with -fuse-ld\u003dlld\n- Chrome\u0027s clang, with -fuse-ld\u003dgold\n\nThe summary is: lld and gold has a .gnu.hash that lgtm, ld generates what I believe is a broken one, or at least it follows some sort of different rules that I don\u0027t understand.\n\nSo! For the task at hand (assuming it\u0027s relatively fruitless to attempt to upstream and downstream an ld.bfd change):\n- Only actually read .hash on Linux the runtime code, since we have to expect ld modules (Not sure about Android.)\n- Once the test works on Fuchsia, have a no-exports and a one-exports case, that compares sizes from .hash and .gnu.hash.\n- If we can decide/rely on the linker being lld or gold on Linux internally for Crashpad, then enable that test on Linux, but that\u0027d be test-only.\n\nWhew! And yuck!",
+      "parentUuid": "f9039840_c9498280",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "73f2d60a_6689efc8",
         "filename": "snapshot/elf/elf_symbol_table_reader.cc",
         "patchSetId": 7
