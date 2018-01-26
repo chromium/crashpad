@@ -543,6 +543,24 @@
     },
     {
       "key": {
+        "uuid": "f7d27a3f_bbfae7e3",
+        "filename": "snapshot/elf/elf_image_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-26T00:57:33Z",
+      "side": 1,
+      "message": "I think the length of the symbol table isn\u0027t really intended to be derived from the .gnu.hash section. It\u0027s just meant for lookup, which works because bloom is zero, indicating no exported symbols. Tools like readelf that do list all the symbols do it by dividing the section size by the symbol entry size, which we can\u0027t do without section headers.",
+      "parentUuid": "af354431_2ee36f7b",
+      "revId": "a69c4536cc2dccfa1a02a9e1b50d202c1ef732ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "73f2d60a_6689efc8",
         "filename": "snapshot/elf/elf_symbol_table_reader.cc",
         "patchSetId": 7
