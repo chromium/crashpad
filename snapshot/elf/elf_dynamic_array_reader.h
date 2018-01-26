@@ -50,13 +50,15 @@ class ElfDynamicArrayReader {
   //!
   //! \param[in] tag Specifies which value should be retrieved. The possible
   //!     values for this parameter are the `DT_*` values from `<elf.h>`.
+  //! \param[in] log Specifies whether an error should be logged if \a tag is
+  //!     not found.
   //! \param[out] value The value, casted to an appropriate type, if found.
   //! \return `true` if the value is found.
   template <typename V>
-  bool GetValue(uint64_t tag, V* value) {
+  bool GetValue(uint64_t tag, bool log, V* value) {
     auto iter = values_.find(tag);
     if (iter == values_.end()) {
-      LOG(ERROR) << "tag not found";
+      LOG_IF(ERROR, log) << "tag not found";
       return false;
     }
     return ReinterpretBytes(iter->second, value);
