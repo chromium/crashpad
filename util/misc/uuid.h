@@ -63,6 +63,7 @@ struct UUID {
   //!     been initialized with the data. `false` if the string could not be
   //!     parsed, with the object state untouched.
   bool InitializeFromString(const base::StringPiece& string);
+  bool InitializeFromString(const base::StringPiece16& string);
 
   //! \brief Initializes the %UUID using a standard system facility to generate
   //!     the value.
