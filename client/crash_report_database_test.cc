@@ -14,13 +14,17 @@
 
 #include "client/crash_report_database.h"
 
+#include <sys/time.h>
+
 #include "build/build_config.h"
 #include "client/settings.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/file.h"
+#include "test/filesystem.h"
 #include "test/scoped_temp_dir.h"
 #include "util/file/file_io.h"
+#include "util/file/filesystem.h"
 
 namespace crashpad {
 namespace test {
@@ -34,8 +38,7 @@ class CrashReportDatabaseTest : public testing::Test {
  protected:
   // testing::Test:
   void SetUp() override {
-    db_ = CrashReportDatabase::Initialize(path());
-    ASSERT_TRUE(db_);
+    db_ = CrashReportDatabase::BuildDatabase(path(), /* may_create= */ true);
   }
 
   void ResetDatabase() {
@@ -48,20 +51,19 @@ class CrashReportDatabaseTest : public testing::Test {
   }
 
   void CreateCrashReport(CrashReportDatabase::Report* report) {
-    CrashReportDatabase::NewReport* new_report = nullptr;
+    std::unique_ptr<CrashReportDatabase::NewReport> new_report;
     ASSERT_EQ(db_->PrepareNewCrashReport(&new_report),
               CrashReportDatabase::kNoError);
     static constexpr char kTest[] = "test";
-    ASSERT_TRUE(LoggingWriteFile(new_report->handle, kTest, sizeof(kTest)));
+    ASSERT_TRUE(new_report->Writer()->Write(kTest, sizeof(kTest)));
 
     UUID uuid;
-    EXPECT_EQ(db_->FinishedWritingCrashReport(new_report, &uuid),
+    EXPECT_EQ(db_->FinishedWritingCrashReport(std::move(new_report), &uuid),
               CrashReportDatabase::kNoError);
 
     EXPECT_EQ(db_->LookUpCrashReport(uuid, report),
               CrashReportDatabase::kNoError);
     ExpectPreparedCrashReport(*report);
-    ASSERT_TRUE(FileExists(report->file_path));
   }
 
   void UploadReport(const UUID& uuid, bool successful, const std::string& id) {
@@ -70,15 +72,17 @@ class CrashReportDatabaseTest : public testing::Test {
     time_t times[2];
     ASSERT_TRUE(settings->GetLastUploadAttemptTime(&times[0]));
 
-    const CrashReportDatabase::Report* report = nullptr;
+    std::unique_ptr<const CrashReportDatabase::UploadReport> report;
     ASSERT_EQ(db_->GetReportForUploading(uuid, &report),
               CrashReportDatabase::kNoError);
     EXPECT_NE(report->uuid, UUID());
-    EXPECT_FALSE(report->file_path.empty());
-    EXPECT_TRUE(FileExists(report->file_path)) << report->file_path.value();
     EXPECT_GT(report->creation_time, 0);
-    EXPECT_EQ(db_->RecordUploadAttempt(report, successful, id),
-              CrashReportDatabase::kNoError);
+    if (successful) {
+      EXPECT_EQ(db_->RecordUploadComplete(std::move(report), id),
+                CrashReportDatabase::kNoError);
+    } else {
+      report.reset();
+    }
 
     ASSERT_TRUE(settings->GetLastUploadAttemptTime(&times[1]));
     EXPECT_NE(times[1], 0);
@@ -87,8 +91,6 @@ class CrashReportDatabaseTest : public testing::Test {
 
   void ExpectPreparedCrashReport(const CrashReportDatabase::Report& report) {
     EXPECT_NE(report.uuid, UUID());
-    EXPECT_FALSE(report.file_path.empty());
-    EXPECT_TRUE(FileExists(report.file_path)) << report.file_path.value();
     EXPECT_TRUE(report.id.empty());
     EXPECT_GT(report.creation_time, 0);
     EXPECT_FALSE(report.uploaded);
@@ -137,52 +139,60 @@ TEST_F(CrashReportDatabaseTest, Initialize) {
   // Close and reopen the database at the same path.
   ResetDatabase();
   EXPECT_FALSE(db());
-  auto db = CrashReportDatabase::InitializeWithoutCreating(path());
-  ASSERT_TRUE(db);
 
-  settings = db->GetSettings();
+  {
+    auto db =
+        CrashReportDatabase::BuildDatabase(path(), /* may_create= */ false);
+    ASSERT_TRUE(db);
 
-  ASSERT_TRUE(settings->GetClientID(&client_ids[1]));
-  EXPECT_EQ(client_ids[1], client_ids[0]);
+    settings = db->GetSettings();
 
-  ASSERT_TRUE(settings->GetLastUploadAttemptTime(&last_upload_attempt_time));
-  EXPECT_EQ(last_upload_attempt_time, 0);
+    ASSERT_TRUE(settings->GetClientID(&client_ids[1]));
+    EXPECT_EQ(client_ids[1], client_ids[0]);
+
+    ASSERT_TRUE(settings->GetLastUploadAttemptTime(&last_upload_attempt_time));
+    EXPECT_EQ(last_upload_attempt_time, 0);
+  }
 
   // Check that the database can also be opened by the method that is permitted
   // to create it.
-  db = CrashReportDatabase::Initialize(path());
-  ASSERT_TRUE(db);
+  {
+    auto db =
+        CrashReportDatabase::BuildDatabase(path(), /* may_create= */ true);
+    ASSERT_TRUE(db);
 
-  settings = db->GetSettings();
+    settings = db->GetSettings();
 
-  ASSERT_TRUE(settings->GetClientID(&client_ids[2]));
-  EXPECT_EQ(client_ids[2], client_ids[0]);
+    ASSERT_TRUE(settings->GetClientID(&client_ids[2]));
+    EXPECT_EQ(client_ids[2], client_ids[0]);
 
-  ASSERT_TRUE(settings->GetLastUploadAttemptTime(&last_upload_attempt_time));
-  EXPECT_EQ(last_upload_attempt_time, 0);
+    ASSERT_TRUE(settings->GetLastUploadAttemptTime(&last_upload_attempt_time));
+    EXPECT_EQ(last_upload_attempt_time, 0);
 
-  std::vector<CrashReportDatabase::Report> reports;
-  EXPECT_EQ(db->GetPendingReports(&reports), CrashReportDatabase::kNoError);
-  EXPECT_TRUE(reports.empty());
-  reports.clear();
-  EXPECT_EQ(db->GetCompletedReports(&reports), CrashReportDatabase::kNoError);
-  EXPECT_TRUE(reports.empty());
+    std::vector<CrashReportDatabase::Report> reports;
+    EXPECT_EQ(db->GetPendingReports(&reports), CrashReportDatabase::kNoError);
+    EXPECT_TRUE(reports.empty());
+    reports.clear();
+    EXPECT_EQ(db->GetCompletedReports(&reports), CrashReportDatabase::kNoError);
+    EXPECT_TRUE(reports.empty());
+  }
 
-  // InitializeWithoutCreating() shouldn’t create a nonexistent database.
-  base::FilePath non_database_path =
-      path().DirName().Append(FILE_PATH_LITERAL("not_a_database"));
-  db = CrashReportDatabase::InitializeWithoutCreating(non_database_path);
-  EXPECT_FALSE(db);
+  {
+    base::FilePath non_database_path =
+        path().DirName().Append(FILE_PATH_LITERAL("not_a_database"));
+
+    EXPECT_FALSE(CrashReportDatabase::BuildDatabase(non_database_path,
+                                                    /* may_create= */ false));
+  }
 }
 
 TEST_F(CrashReportDatabaseTest, NewCrashReport) {
-  CrashReportDatabase::NewReport* new_report;
+  std::unique_ptr<CrashReportDatabase::NewReport> new_report;
   EXPECT_EQ(db()->PrepareNewCrashReport(&new_report),
             CrashReportDatabase::kNoError);
-  UUID expect_uuid = new_report->uuid;
-  EXPECT_TRUE(FileExists(new_report->path)) << new_report->path.value();
+  UUID expect_uuid = new_report->ReportID();
   UUID uuid;
-  EXPECT_EQ(db()->FinishedWritingCrashReport(new_report, &uuid),
+  EXPECT_EQ(db()->FinishedWritingCrashReport(std::move(new_report), &uuid),
             CrashReportDatabase::kNoError);
   EXPECT_EQ(uuid, expect_uuid);
 
@@ -201,17 +211,6 @@ TEST_F(CrashReportDatabaseTest, NewCrashReport) {
   EXPECT_TRUE(reports.empty());
 }
 
-TEST_F(CrashReportDatabaseTest, ErrorWritingCrashReport) {
-  CrashReportDatabase::NewReport* new_report = nullptr;
-  ASSERT_EQ(db()->PrepareNewCrashReport(&new_report),
-            CrashReportDatabase::kNoError);
-  base::FilePath new_report_path = new_report->path;
-  EXPECT_TRUE(FileExists(new_report_path)) << new_report_path.value();
-  EXPECT_EQ(db()->ErrorWritingCrashReport(new_report),
-            CrashReportDatabase::kNoError);
-  EXPECT_FALSE(FileExists(new_report_path)) << new_report_path.value();
-}
-
 TEST_F(CrashReportDatabaseTest, LookUpCrashReport) {
   UUID uuid;
 
@@ -226,7 +225,6 @@ TEST_F(CrashReportDatabaseTest, LookUpCrashReport) {
     EXPECT_EQ(db()->LookUpCrashReport(uuid, &report),
               CrashReportDatabase::kNoError);
     EXPECT_EQ(report.uuid, uuid);
-    EXPECT_NE(report.file_path.value().find(path().value()), std::string::npos);
     EXPECT_EQ(report.id, std::string());
     EXPECT_FALSE(report.uploaded);
     EXPECT_EQ(report.last_upload_attempt_time, 0);
@@ -241,7 +239,6 @@ TEST_F(CrashReportDatabaseTest, LookUpCrashReport) {
     EXPECT_EQ(db()->LookUpCrashReport(uuid, &report),
               CrashReportDatabase::kNoError);
     EXPECT_EQ(report.uuid, uuid);
-    EXPECT_NE(report.file_path.value().find(path().value()), std::string::npos);
     EXPECT_EQ(report.id, "test");
     EXPECT_TRUE(report.uploaded);
     EXPECT_NE(report.last_upload_attempt_time, 0);
@@ -372,7 +369,6 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
 
   for (const auto& report : pending) {
     EXPECT_NE(report.uuid, report_1_uuid);
-    EXPECT_FALSE(report.file_path.empty());
   }
   EXPECT_EQ(completed[0].uuid, report_1_uuid);
   EXPECT_EQ(completed[0].id, "report1");
@@ -399,7 +395,6 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
       EXPECT_FALSE(report.uploaded);
       EXPECT_TRUE(report.id.empty());
     }
-    EXPECT_FALSE(report.file_path.empty());
   }
 
   // Upload a second report.
@@ -428,7 +423,6 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
 
   for (const auto& report : pending) {
     EXPECT_TRUE(report.uuid == report_0_uuid || report.uuid == report_3_uuid);
-    EXPECT_FALSE(report.file_path.empty());
   }
 
   // Skip upload for one report.
@@ -457,7 +451,6 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
       EXPECT_GT(report.upload_attempts, 0);
       EXPECT_GT(report.last_upload_attempt_time, 0);
     }
-    EXPECT_FALSE(report.file_path.empty());
   }
 }
 
@@ -465,16 +458,16 @@ TEST_F(CrashReportDatabaseTest, DuelingUploads) {
   CrashReportDatabase::Report report;
   CreateCrashReport(&report);
 
-  const CrashReportDatabase::Report* upload_report;
+  std::unique_ptr<const CrashReportDatabase::UploadReport> upload_report;
   EXPECT_EQ(db()->GetReportForUploading(report.uuid, &upload_report),
             CrashReportDatabase::kNoError);
 
-  const CrashReportDatabase::Report* upload_report_2 = nullptr;
+  std::unique_ptr<const CrashReportDatabase::UploadReport> upload_report_2;
   EXPECT_EQ(db()->GetReportForUploading(report.uuid, &upload_report_2),
             CrashReportDatabase::kBusyError);
   EXPECT_FALSE(upload_report_2);
 
-  EXPECT_EQ(db()->RecordUploadAttempt(upload_report, true, std::string()),
+  EXPECT_EQ(db()->RecordUploadComplete(std::move(upload_report), std::string()),
             CrashReportDatabase::kNoError);
 }
 
@@ -482,25 +475,24 @@ TEST_F(CrashReportDatabaseTest, UploadAlreadyUploaded) {
   CrashReportDatabase::Report report;
   CreateCrashReport(&report);
 
-  const CrashReportDatabase::Report* upload_report;
+  std::unique_ptr<const CrashReportDatabase::UploadReport> upload_report;
   EXPECT_EQ(db()->GetReportForUploading(report.uuid, &upload_report),
             CrashReportDatabase::kNoError);
-  EXPECT_EQ(db()->RecordUploadAttempt(upload_report, true, std::string()),
+  EXPECT_EQ(db()->RecordUploadComplete(std::move(upload_report), std::string()),
             CrashReportDatabase::kNoError);
 
-  const CrashReportDatabase::Report* upload_report_2 = nullptr;
+  std::unique_ptr<const CrashReportDatabase::UploadReport> upload_report_2;
   EXPECT_EQ(db()->GetReportForUploading(report.uuid, &upload_report_2),
             CrashReportDatabase::kReportNotFound);
-  EXPECT_FALSE(upload_report_2);
+  EXPECT_FALSE(upload_report_2.get());
 }
 
 TEST_F(CrashReportDatabaseTest, MoveDatabase) {
-  CrashReportDatabase::NewReport* new_report;
+  std::unique_ptr<CrashReportDatabase::NewReport> new_report;
   EXPECT_EQ(db()->PrepareNewCrashReport(&new_report),
             CrashReportDatabase::kNoError);
-  EXPECT_TRUE(FileExists(new_report->path)) << new_report->path.value();
   UUID uuid;
-  EXPECT_EQ(db()->FinishedWritingCrashReport(new_report, &uuid),
+  EXPECT_EQ(db()->FinishedWritingCrashReport(std::move(new_report), &uuid),
             CrashReportDatabase::kNoError);
 
   RelocateDatabase();
@@ -509,31 +501,6 @@ TEST_F(CrashReportDatabaseTest, MoveDatabase) {
   EXPECT_EQ(db()->LookUpCrashReport(uuid, &report),
             CrashReportDatabase::kNoError);
   ExpectPreparedCrashReport(report);
-  EXPECT_TRUE(FileExists(report.file_path)) << report.file_path.value();
-}
-
-TEST_F(CrashReportDatabaseTest, ReportRemoved) {
-  CrashReportDatabase::NewReport* new_report;
-  EXPECT_EQ(db()->PrepareNewCrashReport(&new_report),
-            CrashReportDatabase::kNoError);
-  EXPECT_TRUE(FileExists(new_report->path)) << new_report->path.value();
-  UUID uuid;
-  EXPECT_EQ(db()->FinishedWritingCrashReport(new_report, &uuid),
-            CrashReportDatabase::kNoError);
-
-  CrashReportDatabase::Report report;
-  EXPECT_EQ(db()->LookUpCrashReport(uuid, &report),
-            CrashReportDatabase::kNoError);
-
-#if defined(OS_WIN)
-  EXPECT_EQ(_wunlink(report.file_path.value().c_str()), 0);
-#else
-  EXPECT_EQ(unlink(report.file_path.value().c_str()), 0)
-      << ErrnoMessage("unlink");
-#endif
-
-  EXPECT_EQ(db()->LookUpCrashReport(uuid, &report),
-            CrashReportDatabase::kReportNotFound);
 }
 
 TEST_F(CrashReportDatabaseTest, DeleteReport) {
@@ -547,11 +514,6 @@ TEST_F(CrashReportDatabaseTest, DeleteReport) {
   CreateCrashReport(&keep_completed);
   CreateCrashReport(&delete_completed);
 
-  EXPECT_TRUE(FileExists(keep_pending.file_path));
-  EXPECT_TRUE(FileExists(delete_pending.file_path));
-  EXPECT_TRUE(FileExists(keep_completed.file_path));
-  EXPECT_TRUE(FileExists(delete_completed.file_path));
-
   UploadReport(keep_completed.uuid, true, "1");
   UploadReport(delete_completed.uuid, true, "2");
 
@@ -560,12 +522,8 @@ TEST_F(CrashReportDatabaseTest, DeleteReport) {
   EXPECT_EQ(db()->LookUpCrashReport(delete_completed.uuid, &delete_completed),
             CrashReportDatabase::kNoError);
 
-  EXPECT_TRUE(FileExists(keep_completed.file_path));
-  EXPECT_TRUE(FileExists(delete_completed.file_path));
-
   EXPECT_EQ(db()->DeleteReport(delete_pending.uuid),
             CrashReportDatabase::kNoError);
-  EXPECT_FALSE(FileExists(delete_pending.file_path));
   EXPECT_EQ(db()->LookUpCrashReport(delete_pending.uuid, &delete_pending),
             CrashReportDatabase::kReportNotFound);
   EXPECT_EQ(db()->DeleteReport(delete_pending.uuid),
@@ -573,7 +531,6 @@ TEST_F(CrashReportDatabaseTest, DeleteReport) {
 
   EXPECT_EQ(db()->DeleteReport(delete_completed.uuid),
             CrashReportDatabase::kNoError);
-  EXPECT_FALSE(FileExists(delete_completed.file_path));
   EXPECT_EQ(db()->LookUpCrashReport(delete_completed.uuid, &delete_completed),
             CrashReportDatabase::kReportNotFound);
   EXPECT_EQ(db()->DeleteReport(delete_completed.uuid),
@@ -589,18 +546,13 @@ TEST_F(CrashReportDatabaseTest, DeleteReportEmptyingDatabase) {
   CrashReportDatabase::Report report;
   CreateCrashReport(&report);
 
-  EXPECT_TRUE(FileExists(report.file_path));
-
   UploadReport(report.uuid, true, "1");
 
   EXPECT_EQ(db()->LookUpCrashReport(report.uuid, &report),
             CrashReportDatabase::kNoError);
 
-  EXPECT_TRUE(FileExists(report.file_path));
-
   // This causes an empty database to be written, make sure this is handled.
   EXPECT_EQ(db()->DeleteReport(report.uuid), CrashReportDatabase::kNoError);
-  EXPECT_FALSE(FileExists(report.file_path));
 }
 
 TEST_F(CrashReportDatabaseTest, ReadEmptyDatabase) {
@@ -682,6 +634,106 @@ TEST_F(CrashReportDatabaseTest, RequestUpload) {
   EXPECT_EQ(RequestUpload(report_0_uuid),
             CrashReportDatabase::kCannotRequestUpload);
 }
+
+// This test uses knowledge of the database format to break it, so it only
+// applies to the unfified database implementation.
+#if !defined(OS_MACOSX) && !defined(OS_WIN)
+TEST_F(CrashReportDatabaseTest, CleanBrokenDatabase) {
+  // Remove report files if metadata goes missing.
+  CrashReportDatabase::Report report;
+  ASSERT_NO_FATAL_FAILURE(CreateCrashReport(&report));
+
+  const base::FilePath metadata(
+      report.file_path.RemoveFinalExtension().value() +
+      FILE_PATH_LITERAL(".meta"));
+  ASSERT_TRUE(PathExists(report.file_path));
+  ASSERT_TRUE(PathExists(metadata));
+
+  ASSERT_TRUE(LoggingRemoveFile(metadata));
+  EXPECT_EQ(db()->CleanDatabase(0), 1);
+
+  EXPECT_FALSE(PathExists(report.file_path));
+  EXPECT_FALSE(PathExists(metadata));
+
+  // Remove metadata files if reports go missing.
+  ASSERT_NO_FATAL_FAILURE(CreateCrashReport(&report));
+  const base::FilePath metadata2(
+      report.file_path.RemoveFinalExtension().value() +
+      FILE_PATH_LITERAL(".meta"));
+  ASSERT_TRUE(PathExists(report.file_path));
+  ASSERT_TRUE(PathExists(metadata2));
+
+  ASSERT_TRUE(LoggingRemoveFile(report.file_path));
+  EXPECT_EQ(db()->CleanDatabase(0), 1);
+
+  EXPECT_FALSE(PathExists(report.file_path));
+  EXPECT_FALSE(PathExists(metadata2));
+
+  // Remove stale new files.
+  std::unique_ptr<CrashReportDatabase::NewReport> new_report;
+  EXPECT_EQ(db()->PrepareNewCrashReport(&new_report),
+            CrashReportDatabase::kNoError);
+  new_report->Writer()->Close();
+  EXPECT_EQ(db()->CleanDatabase(0), 1);
+
+  // Remove stale lock files and their associated reports.
+  ASSERT_NO_FATAL_FAILURE(CreateCrashReport(&report));
+  const base::FilePath metadata3(
+      report.file_path.RemoveFinalExtension().value() +
+      FILE_PATH_LITERAL(".meta"));
+  ASSERT_TRUE(PathExists(report.file_path));
+  ASSERT_TRUE(PathExists(metadata3));
+
+  const base::FilePath lockpath(
+      report.file_path.RemoveFinalExtension().value() +
+      FILE_PATH_LITERAL(".lock"));
+  ScopedFileHandle handle(LoggingOpenFileForWrite(
+      lockpath, FileWriteMode::kCreateOrFail, FilePermissions::kOwnerOnly));
+  ASSERT_TRUE(handle.is_valid());
+
+  time_t expired_timestamp = time(nullptr) - 60 * 60 * 24 * 3;
+
+  ASSERT_TRUE(LoggingWriteFile(
+      handle.get(), &expired_timestamp, sizeof(expired_timestamp)));
+  ASSERT_TRUE(LoggingCloseFile(handle.get()));
+  ignore_result(handle.release());
+
+  EXPECT_EQ(db()->CleanDatabase(0), 1);
+
+  EXPECT_FALSE(PathExists(report.file_path));
+  EXPECT_FALSE(PathExists(metadata3));
+}
+#endif  // !OS_MACOSX && !OS_WIN
+
+#if defined(OS_WIN)
+TEST(CrashReportDatabaseTest_NoFixture, CleanOldWindowsDatabase) {
+  ScopedTempDir temp_dir;
+
+  const base::FilePath db_path(temp_dir.path().Append(L"test_database"));
+  ASSERT_TRUE(
+      LoggingCreateDirectory(db_path, FilePermissions::kWorldReadable, false));
+
+  const base::FilePath reports_dir(db_path.Append(L"reports"));
+  ASSERT_TRUE(LoggingCreateDirectory(
+      reports_dir, FilePermissions::kWorldReadable, false));
+
+  UUID uuid;
+  ASSERT_TRUE(uuid.InitializeWithNew());
+  const base::FilePath test_report(
+      reports_dir.Append(uuid.ToString16() + L".dmp"));
+  ASSERT_TRUE(CreateFile(test_report));
+
+  const base::FilePath metadata(db_path.Append(L"metadata"));
+  ASSERT_TRUE(CreateFile(metadata));
+
+  CrashReportDatabase db;
+  ASSERT_TRUE(db.Initialize(db_path, /* may_create= */ true));
+
+  EXPECT_TRUE(IsDirectory(db_path, false));
+  EXPECT_FALSE(IsDirectory(reports_dir, true));
+  EXPECT_FALSE(PathExists(metadata));
+}
+#endif  // OS_WIN
 
 }  // namespace
 }  // namespace test
