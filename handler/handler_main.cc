@@ -757,8 +757,8 @@ int HandlerMain(int argc,
 
   Metrics::HandlerLifetimeMilestone(Metrics::LifetimeMilestone::kStarted);
 
-  std::unique_ptr<CrashReportDatabase> database(
-      CrashReportDatabase::Initialize(options.database));
+  auto database = CrashReportDatabase::BuildDatabase(options.database,
+                                                     /* may_create= */ true);
   if (!database) {
     return ExitFailure();
   }
@@ -772,9 +772,8 @@ int HandlerMain(int argc,
   upload_thread_options.rate_limit = options.rate_limit;
   upload_thread_options.upload_gzip = options.upload_gzip;
   upload_thread_options.watch_pending_reports = options.periodic_tasks;
-  CrashReportUploadThread upload_thread(database.get(),
-                                        options.url,
-                                        upload_thread_options);
+  CrashReportUploadThread upload_thread(
+      database.get(), options.url, upload_thread_options);
   upload_thread.Start();
 
   std::unique_ptr<PruneCrashReportThread> prune_thread;
