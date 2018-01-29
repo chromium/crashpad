@@ -34,6 +34,7 @@
 #include "base/logging.h"
 #include "base/metrics/persistent_histogram_allocator.h"
 #include "base/scoped_generic.h"
+#include "base/strings/string_number_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
@@ -46,6 +47,7 @@
 #include "handler/prune_crash_reports_thread.h"
 #include "tools/tool_support.h"
 #include "util/file/file_io.h"
+#include "util/misc/address_types.h"
 #include "util/misc/metrics.h"
 #include "util/misc/paths.h"
 #include "util/numeric/in_range_cast.h"
@@ -54,7 +56,13 @@
 #include "util/string/split_string.h"
 #include "util/synchronization/semaphore.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+#include <unistd.h>
+
+#include "handler/linux/crash_report_exception_handler.h"
+#include "handler/linux/exception_handler_server.h"
+#include "util/posix/signals.h"
+#elif defined(OS_MACOSX)
 #include <libgen.h>
 #include <signal.h>
 
@@ -85,7 +93,8 @@ namespace {
 
 void Usage(const base::FilePath& me) {
   fprintf(stderr,
-"Usage: %" PRFilePath " [OPTION]...\n"
+"Usage: %" PRFilePath
+" [OPTION]...\n"
 "Crashpad's exception handler server.\n"
 "\n"
 "      --annotation=KEY=VALUE  set a process annotation in each crash report\n"
@@ -126,11 +135,16 @@ void Usage(const base::FilePath& me) {
 "      --reset-own-crash-exception-port-to-system-default\n"
 "                              reset the server's exception handler to default\n"
 #endif  // OS_MACOSX
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+"      --trace-parent-with-exception=exception_information_address\n"
+"                             request a dump for the handler's parent process\n"
+"      --initial-client-fd=a socket connected to a client.\n"
+#endif  // OS_LINUX || OS_ANDROID
 "      --url=URL               send crash reports to this Breakpad server URL,\n"
 "                              only if uploads are enabled for the database\n"
 "      --help                  display this help and exit\n"
 "      --version               output version information and exit\n",
-          me.value().c_str());
+      me.value().c_str());
   ToolSupport::UsageTail(me);
 }
 
@@ -145,6 +159,9 @@ struct Options {
   std::string mach_service;
   int handshake_fd;
   bool reset_own_crash_exception_port_to_system_default;
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+  VMAddress exception_information_address;
+  int initial_client_fd;
 #elif defined(OS_WIN)
   std::string pipe_name;
   InitialClientData initial_client_data;
@@ -211,7 +228,47 @@ class CallMetricsRecordNormalExit {
   DISALLOW_COPY_AND_ASSIGN(CallMetricsRecordNormalExit);
 };
 
-#if defined(OS_MACOSX)
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+
+Signals::OldActions g_old_crash_signal_handlers;
+
+void HandleCrashSignal(int sig, siginfo_t* siginfo, void* context) {
+  MetricsRecordExit(Metrics::LifetimeMilestone::kCrashed);
+  bool si_code_valid =
+      !(siginfo->si_code <= 0 || siginfo->si_code == SI_USER ||
+        siginfo->si_code == SI_QUEUE || siginfo->si_code == SI_TIMER ||
+        siginfo->si_code == SI_ASYNCIO || siginfo->si_code == SI_MESGQ);
+
+  int metrics_code = 0x53430000 | (InRangeCast<uint8_t>(sig, 0xff) << 8);
+  if (si_code_valid) {
+    metrics_code |= InRangeCast<uint8_t>(siginfo->si_code, 0xff);
+  }
+  Metrics::HandlerCrashed(metrics_code);
+
+  struct sigaction* old_action =
+      g_old_crash_signal_handlers.ActionForSignal(sig);
+  Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, old_action);
+}
+
+void HandleTerminateSignal(int sig, siginfo_t* siginfo, void* context) {
+  MetricsRecordExit(Metrics::LifetimeMilestone::kTerminated);
+  Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, nullptr);
+}
+
+void ReinstallCrashHandler() {
+  // This is used to re-enable the metrics-recording crash handler after
+  // MonitorSelf() sets up a Crashpad signal handler.
+  Signals::InstallCrashHandlers(
+      HandleCrashSignal, 0, &g_old_crash_signal_handlers);
+}
+
+void InstallCrashHandler() {
+  ReinstallCrashHandler();
+
+  Signals::InstallTerminateHandlers(HandleTerminateSignal, 0, nullptr);
+}
+
+#elif defined(OS_MACOSX)
 
 void HandleCrashSignal(int sig, siginfo_t* siginfo, void* context) {
   MetricsRecordExit(Metrics::LifetimeMilestone::kCrashed);
@@ -450,6 +507,10 @@ int HandlerMain(int argc,
 #if defined(OS_MACOSX)
     kOptionResetOwnCrashExceptionPortToSystemDefault,
 #endif  // OS_MACOSX
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+    kOptionTraceParentWithException,
+    kOptionInitialClientFD,
+#endif
     kOptionURL,
 
     // Standard options.
@@ -498,6 +559,13 @@ int HandlerMain(int argc,
      nullptr,
      kOptionResetOwnCrashExceptionPortToSystemDefault},
 #endif  // OS_MACOSX
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+    {"trace-parent-with-exception",
+     no_argument,
+     nullptr,
+     kOptionTraceParentWithException},
+    {"initial-client-fd", no_argument, nullptr, kOptionInitialClientFD},
+#endif  // OS_LINUX || OS_ANDROID
     {"url", required_argument, nullptr, kOptionURL},
     {"help", no_argument, nullptr, kOptionHelp},
     {"version", no_argument, nullptr, kOptionVersion},
@@ -512,6 +580,10 @@ int HandlerMain(int argc,
   options.periodic_tasks = true;
   options.rate_limit = true;
   options.upload_gzip = true;
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+  options.exception_information_address = 0;
+  options.initial_client_fd = kInvalidFileHandle;
+#endif
 
   int opt;
   while ((opt = getopt_long(argc, argv, "", long_options, nullptr)) != -1) {
@@ -601,6 +673,21 @@ int HandlerMain(int argc,
         break;
       }
 #endif  // OS_MACOSX
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+      case kOptionTraceParentWithException: {
+        if (!StringToNumber(optarg, &options.exception_information_address)) {
+          ToolSupport::UsageHint(
+              me, "failed to parse --trace-parent-with-exception");
+          return ExitFailure();
+        }
+      }
+      case kOptionInitialClientFD: {
+        if (!base::StringToInt(optarg, &options.initial_client_fd)) {
+          ToolSupport::UsageHint(me, "failed to parse --initial-client-fd");
+          return ExitFailure();
+        }
+      }
+#endif  // OS_LINUX || OS_ANDROID
       case kOptionURL: {
         options.url = optarg;
         break;
@@ -740,7 +827,7 @@ int HandlerMain(int argc,
   if (!options.pipe_name.empty()) {
     exception_handler_server.SetPipeName(base::UTF8ToUTF16(options.pipe_name));
   }
-#elif defined(OS_FUCHSIA)
+#elif defined(LINUX) || defined(OS_ANDROID) || defined(OS_FUCHSIA)
   ExceptionHandlerServer exception_handler_server;
 #endif  // OS_MACOSX
 
@@ -795,6 +882,20 @@ int HandlerMain(int argc,
         options.initial_client_data, &exception_handler);
   }
 #endif  // OS_WIN
+
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+  if (options.exception_information_address) {
+    exception_handler.HandleException(getppid(),
+                                      options.exception_information_address);
+    // TODO(jperaza): stop threads?
+    return EXIT_SUCCESS;
+  } else if (options.initial_client_fd == kInvalidFileHandle ||
+             !exception_handler_server.InitializeWithClient(
+                 ScopedFileHandle(options.initial_client_fd))) {
+    ;
+    return ExitFailure();
+  }
+#endif  // OS_LINUX || OS_ANDROID
 
   exception_handler_server.Run(&exception_handler);
 
