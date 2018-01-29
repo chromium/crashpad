@@ -395,6 +395,11 @@ in filesystem extended attributes.
 The Windows implementation stores database properties in a binary file named
 “metadata” at the top level of the database directory.
 
+#### Linux, Android, and Fuchsia
+
+The Linux, Android, and Fuchsia implementations use a separate metadata file per
+report to store database properties for that report.
+
 ### Report Format
 
 Crash reports are recorded in the Windows minidump format with
