@@ -336,6 +336,102 @@ struct alignas(16) MinidumpContextAMD64 {
   //! \}
 };
 
+//! \brief 32-bit ARM-specifc flags for MinidumpContextARM::context_flags.
+enum MinidumpContextARMFlags : uint32_t {
+  //! \brief Identifies the context structure as 32-bit ARM.
+  kMinidumpContextARM = 0x40000000,
+
+  //! \brief Indicates the validity of integer regsiters.
+  //!
+  //! Regsiters `r0`-`r15` and `cpsr` are valid.
+  kMinidumpContextARMInteger = kMinidumpContextARM | 0x00000002,
+
+  //! \brief Inidicates the validity of VFP regsiters.
+  //!
+  //! Registers `d0`-`d31` and `fpscr` are valid.
+  kMinidumpContextARMVFP = kMinidumpContextARM | 0x00000004,
+
+  //! \brief Indicates the validity of all registers.
+  kMinidumpContextARMAll = kMinidumpContextARMInteger | kMinidumpContextARMVFP,
+};
+
+//! \brief A 32-bit ARM CPU context (register state) carried in a minidump file.
+struct MinidumpContextARM {
+  //! \brief A bitfield composed of values of #MinidumpContextFlags and
+  //!     #MinidumpContextARMFlags.
+  //!
+  //! This field identifies the context structure as a 32-bit ARM CPU context,
+  //! and indicates which other fields in the structure are valid.
+  uint32_t context_flags;
+
+  //! \brief General-purpose registers `r0`-`r15`.
+  uint32_t regs[11];
+  uint32_t fp;  // r11
+  uint32_t ip;  // r12
+  uint32_t sp;  // r13
+  uint32_t lr;  // r14
+  uint32_t pc;  // r15
+
+  //! \brief Current program status register.
+  uint32_t cpsr;
+
+  //! \brief Floating-point status and control register.
+  uint32_t fpscr;
+
+  //! \brief VFP registers `d0`-`d31`.
+  uint64_t vfp[32];
+
+  //! \brief This space is unused. It is included for compatibility with
+  //!     breakpad (which also doesn't use it).
+  uint32_t extra[8];
+};
+
+//! \brief 64-bit ARM-specifc flags for MinidumpContextARM64::context_flags.
+enum MinidumpContextARM64Flags : uint32_t {
+  //! \brief Identifies the context structure as 64-bit ARM.
+  kMinidumpContextARM64 = 0x80000000,
+
+  //! \brief Indicates the validty of integer registers.
+  //!
+  //! Registers `x0`-`x31`, `pc`, and `cpsr`.
+  kMinidumpContextARM64Integer = kMinidumpContextARM64 | 0x00000002,
+
+  //! \brief Indicates the validity of fpsimd registers.
+  //!
+  //! Registers `v0`-`v31`, `fpsr`, and `fpcr` are valid.
+  kMinidumpContextARM64Fpsimd = kMinidumpContextARM64 | 0x00000004,
+
+  //! \brief Indicates the validity of all registers.
+  kMinidumpContextARM64All =
+      kMinidumpContextARM64Integer | kMinidumpContextARM64Fpsimd,
+};
+
+//! \brief A 64-bit ARM CPU context (register state) carried in a minidump file.
+struct MinidumpContextARM64 {
+  uint64_t context_flags;
+
+  //! \brief General-purpose registers `x0`-`x30`.
+  uint64_t regs[31];
+
+  //! \brief Stack pointer or `x31`.
+  uint64_t sp;
+
+  //! \brief Program counter.
+  uint64_t pc;
+
+  //! \brief Current program status register.
+  uint32_t cpsr;
+
+  //! \brief Floating-point status register.
+  uint32_t fpsr;
+
+  //! \brief Floating-point control register.
+  uint32_t fpcr;
+
+  //! \brief NEON registers `v0`-`v31`.
+  uint128_struct fpsimd[32];
+};
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_H_
