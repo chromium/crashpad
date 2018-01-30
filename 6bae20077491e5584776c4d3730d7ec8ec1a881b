@@ -16,6 +16,24 @@
       "revId": "6bae20077491e5584776c4d3730d7ec8ec1a881b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7699e319_bc67488f",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-01-30T22:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24ea5383_a7d1c96b",
+      "revId": "6bae20077491e5584776c4d3730d7ec8ec1a881b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
