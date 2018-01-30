@@ -23,7 +23,7 @@
 #include "client/simple_address_range_bag.h"
 #include "client/simple_string_dictionary.h"
 #include "gtest/gtest.h"
-#include "test/multiprocess.h"
+#include "test/multiprocess_exec.h"
 #include "test/process_type.h"
 #include "util/file/file_io.h"
 #include "util/misc/from_pointer_cast.h"
@@ -43,11 +43,11 @@ constexpr TriState kGatherIndirectlyReferencedMemory = TriState::kUnset;
 
 constexpr uint32_t kIndirectlyReferencedMemoryCap = 42;
 
-class CrashpadInfoTest {
+class CrashpadInfoTestDataSetup {
  public:
-  CrashpadInfoTest()
-      : extra_memory_(), simple_annotations_(), annotation_list_() {
+  CrashpadInfoTestDataSetup() {
     CrashpadInfo* info = CrashpadInfo::GetCrashpadInfo();
+
     info->set_extra_memory_ranges(&extra_memory_);
     info->set_simple_annotations(&simple_annotations_);
     info->set_annotations_list(&annotation_list_);
@@ -57,30 +57,15 @@ class CrashpadInfoTest {
         kGatherIndirectlyReferencedMemory, kIndirectlyReferencedMemoryCap);
   }
 
-  void ExpectCrashpadInfo(ProcessType process, bool is_64_bit) {
-    ProcessMemoryNative memory;
-    ASSERT_TRUE(memory.Initialize(process));
-
-    ProcessMemoryRange range;
-    ASSERT_TRUE(range.Initialize(&memory, is_64_bit));
-
-    CrashpadInfo* info = CrashpadInfo::GetCrashpadInfo();
-
-    CrashpadInfoReader reader;
-    ASSERT_TRUE(reader.Initialize(&range, FromPointerCast<VMAddress>(info)));
-    EXPECT_EQ(reader.CrashpadHandlerBehavior(), kCrashpadHandlerBehavior);
-    EXPECT_EQ(reader.SystemCrashReporterForwarding(),
-              kSystemCrashReporterForwarding);
-    EXPECT_EQ(reader.GatherIndirectlyReferencedMemory(),
-              kGatherIndirectlyReferencedMemory);
-    EXPECT_EQ(reader.IndirectlyReferencedMemoryCap(),
-              kIndirectlyReferencedMemoryCap);
-    EXPECT_EQ(reader.ExtraMemoryRanges(),
-              FromPointerCast<VMAddress>(&extra_memory_));
-    EXPECT_EQ(reader.SimpleAnnotations(),
-              FromPointerCast<VMAddress>(info->simple_annotations()));
-    EXPECT_EQ(reader.AnnotationsList(),
-              FromPointerCast<VMAddress>(info->annotations_list()));
+  void GetAddresses(VMAddress* info_address,
+                    VMAddress* extra_memory_address,
+                    VMAddress* simple_annotations_address,
+                    VMAddress* annotations_list_address) {
+    *info_address = FromPointerCast<VMAddress>(CrashpadInfo::GetCrashpadInfo());
+    *extra_memory_address = FromPointerCast<VMAddress>(&extra_memory_);
+    *simple_annotations_address =
+        FromPointerCast<VMAddress>(&simple_annotations_);
+    *annotations_list_address = FromPointerCast<VMAddress>(&annotation_list_);
   }
 
  private:
@@ -88,28 +73,86 @@ class CrashpadInfoTest {
   SimpleStringDictionary simple_annotations_;
   AnnotationList annotation_list_;
 
-  DISALLOW_COPY_AND_ASSIGN(CrashpadInfoTest);
+  DISALLOW_COPY_AND_ASSIGN(CrashpadInfoTestDataSetup);
 };
 
-TEST(CrashpadInfoReader, ReadFromSelf) {
-  CrashpadInfoTest test;
+void ExpectCrashpadInfo(ProcessType process,
+                        bool is_64_bit,
+                        VMAddress info_address,
+                        VMAddress extra_memory_address,
+                        VMAddress simple_annotations_address,
+                        VMAddress annotations_list_address) {
+  ProcessMemoryNative memory;
+  ASSERT_TRUE(memory.Initialize(process));
 
+  ProcessMemoryRange range;
+  ASSERT_TRUE(range.Initialize(&memory, is_64_bit));
+
+  CrashpadInfoReader reader;
+  ASSERT_TRUE(reader.Initialize(&range, info_address));
+  EXPECT_EQ(reader.CrashpadHandlerBehavior(), kCrashpadHandlerBehavior);
+  EXPECT_EQ(reader.SystemCrashReporterForwarding(),
+            kSystemCrashReporterForwarding);
+  EXPECT_EQ(reader.GatherIndirectlyReferencedMemory(),
+            kGatherIndirectlyReferencedMemory);
+  EXPECT_EQ(reader.IndirectlyReferencedMemoryCap(),
+            kIndirectlyReferencedMemoryCap);
+  EXPECT_EQ(reader.ExtraMemoryRanges(), extra_memory_address);
+  EXPECT_EQ(reader.SimpleAnnotations(), simple_annotations_address);
+  EXPECT_EQ(reader.AnnotationsList(), annotations_list_address);
+}
+
+TEST(CrashpadInfoReader, ReadFromSelf) {
 #if defined(ARCH_CPU_64_BITS)
   constexpr bool am_64_bit = true;
 #else
   constexpr bool am_64_bit = false;
 #endif
 
-  test.ExpectCrashpadInfo(GetSelfProcess(), am_64_bit);
+  CrashpadInfoTestDataSetup test_data_setup;
+  VMAddress info_address;
+  VMAddress extra_memory_address;
+  VMAddress simple_annotations_address;
+  VMAddress annotations_list_address;
+  test_data_setup.GetAddresses(&info_address,
+                               &extra_memory_address,
+                               &simple_annotations_address,
+                               &annotations_list_address);
+  ExpectCrashpadInfo(GetSelfProcess(),
+                     am_64_bit,
+                     info_address,
+                     extra_memory_address,
+                     simple_annotations_address,
+                     annotations_list_address);
 }
 
-// TODO(scottmg): This needs to be be ported to use MultiprocessExec instead of
-// relying on fork() to have the same pointers in parent and child.
-#if !defined(OS_FUCHSIA)
+CRASHPAD_CHILD_TEST_MAIN(ReadFromChildTestMain) {
+  CrashpadInfoTestDataSetup test_data_setup;
+  VMAddress info_address;
+  VMAddress extra_memory_address;
+  VMAddress simple_annotations_address;
+  VMAddress annotations_list_address;
+  test_data_setup.GetAddresses(&info_address,
+                               &extra_memory_address,
+                               &simple_annotations_address,
+                               &annotations_list_address);
 
-class ReadFromChildTest : public Multiprocess {
+  FileHandle out = StdioFileHandle(StdioStream::kStandardOutput);
+  CheckedWriteFile(out, &info_address, sizeof(info_address));
+  CheckedWriteFile(out, &extra_memory_address, sizeof(extra_memory_address));
+  CheckedWriteFile(
+      out, &simple_annotations_address, sizeof(simple_annotations_address));
+  CheckedWriteFile(
+      out, &annotations_list_address, sizeof(annotations_list_address));
+  CheckedReadFileAtEOF(StdioFileHandle(StdioStream::kStandardInput));
+  return 0;
+}
+
+class ReadFromChildTest : public MultiprocessExec {
  public:
-  ReadFromChildTest() : Multiprocess(), info_test_() {}
+  ReadFromChildTest() : MultiprocessExec() {
+    SetChildTestMainFunction("ReadFromChildTestMain");
+  }
 
   ~ReadFromChildTest() = default;
 
@@ -121,12 +164,27 @@ class ReadFromChildTest : public Multiprocess {
     constexpr bool am_64_bit = false;
 #endif
 
-    info_test_.ExpectCrashpadInfo(ChildPID(), am_64_bit);
+    VMAddress info_address;
+    VMAddress extra_memory_address;
+    VMAddress simple_annotations_address;
+    VMAddress annotations_list_address;
+    ASSERT_TRUE(
+        ReadFileExactly(ReadPipeHandle(), &info_address, sizeof(info_address)));
+    ASSERT_TRUE(ReadFileExactly(
+        ReadPipeHandle(), &extra_memory_address, sizeof(extra_memory_address)));
+    ASSERT_TRUE(ReadFileExactly(ReadPipeHandle(),
+                                &simple_annotations_address,
+                                sizeof(simple_annotations_address)));
+    ASSERT_TRUE(ReadFileExactly(ReadPipeHandle(),
+                                &annotations_list_address,
+                                sizeof(annotations_list_address)));
+    ExpectCrashpadInfo(ChildProcess(),
+                       am_64_bit,
+                       info_address,
+                       extra_memory_address,
+                       simple_annotations_address,
+                       annotations_list_address);
   }
-
-  void MultiprocessChild() { CheckedReadFileAtEOF(ReadPipeHandle()); }
-
-  CrashpadInfoTest info_test_;
 
   DISALLOW_COPY_AND_ASSIGN(ReadFromChildTest);
 };
@@ -135,8 +193,6 @@ TEST(CrashpadInfoReader, ReadFromChild) {
   ReadFromChildTest test;
   test.Run();
 }
-
-#endif  // !defined(OS_FUCHSIA)
 
 }  // namespace
 }  // namespace test
