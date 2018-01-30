@@ -28,6 +28,20 @@ namespace crashpad {
 namespace test {
 namespace {
 
+template <typename Writer, typename Context>
+void EmptyContextTest(void (*expect_context)(uint32_t, const Context*, bool)) {
+  Writer context_writer;
+  StringFile string_file;
+  EXPECT_TRUE(context_writer.WriteEverything(&string_file));
+  ASSERT_EQ(string_file.string().size(), sizeof(Context));
+
+  const Context* observed =
+      MinidumpWritableAtRVA<Context>(string_file.string(), 0);
+  ASSERT_TRUE(observed);
+
+  expect_context(0, observed, false);
+}
+
 TEST(MinidumpContextWriter, MinidumpContextX86Writer) {
   StringFile string_file;
 
@@ -36,16 +50,8 @@ TEST(MinidumpContextWriter, MinidumpContextX86Writer) {
     // context.
     SCOPED_TRACE("zero");
 
-    MinidumpContextX86Writer context_writer;
-
-    EXPECT_TRUE(context_writer.WriteEverything(&string_file));
-    ASSERT_EQ(string_file.string().size(), sizeof(MinidumpContextX86));
-
-    const MinidumpContextX86* observed =
-        MinidumpWritableAtRVA<MinidumpContextX86>(string_file.string(), 0);
-    ASSERT_TRUE(observed);
-
-    ExpectMinidumpContextX86(0, observed, false);
+    EmptyContextTest<MinidumpContextX86Writer, MinidumpContextX86>(
+        ExpectMinidumpContextX86);
   }
 
   {
@@ -85,16 +91,8 @@ TEST(MinidumpContextWriter, MinidumpContextAMD64Writer) {
     // context.
     SCOPED_TRACE("zero");
 
-    MinidumpContextAMD64Writer context_writer;
-
-    EXPECT_TRUE(context_writer.WriteEverything(&string_file));
-    ASSERT_EQ(string_file.string().size(), sizeof(MinidumpContextAMD64));
-
-    const MinidumpContextAMD64* observed =
-        MinidumpWritableAtRVA<MinidumpContextAMD64>(string_file.string(), 0);
-    ASSERT_TRUE(observed);
-
-    ExpectMinidumpContextAMD64(0, observed, false);
+    EmptyContextTest<MinidumpContextAMD64Writer, MinidumpContextAMD64>(
+        ExpectMinidumpContextAMD64);
   }
 
   {
@@ -117,48 +115,72 @@ TEST(MinidumpContextWriter, MinidumpContextAMD64Writer) {
   }
 }
 
-TEST(MinidumpContextWriter, CreateFromSnapshot_X86) {
-  constexpr uint32_t kSeed = 32;
-
-  CPUContextX86 context_snapshot_x86;
-  CPUContext context_snapshot;
-  context_snapshot.x86 = &context_snapshot_x86;
-  InitializeCPUContextX86(&context_snapshot, kSeed);
-
+template <typename Writer, typename Context>
+void FromSnapshotTest(const CPUContext& snapshot_context,
+                      void (*expect_context)(uint32_t, const Context*, bool),
+                      uint32_t seed) {
   std::unique_ptr<MinidumpContextWriter> context_writer =
-      MinidumpContextWriter::CreateFromSnapshot(&context_snapshot);
+      MinidumpContextWriter::CreateFromSnapshot(&snapshot_context);
   ASSERT_TRUE(context_writer);
 
   StringFile string_file;
   ASSERT_TRUE(context_writer->WriteEverything(&string_file));
 
-  const MinidumpContextX86* observed =
-      MinidumpWritableAtRVA<MinidumpContextX86>(string_file.string(), 0);
+  const Context* observed =
+      MinidumpWritableAtRVA<Context>(string_file.string(), 0);
   ASSERT_TRUE(observed);
 
-  ExpectMinidumpContextX86(kSeed, observed, true);
+  expect_context(seed, observed, true);
 }
 
-TEST(MinidumpContextWriter, CreateFromSnapshot_AMD64) {
+TEST(MinidumpContextWriter, X86_FromSnapshot) {
+  constexpr uint32_t kSeed = 32;
+  CPUContextX86 context_x86;
+  CPUContext context;
+  context.x86 = &context_x86;
+  InitializeCPUContextX86(&context, kSeed);
+  FromSnapshotTest<MinidumpContextX86Writer, MinidumpContextX86>(
+      context, ExpectMinidumpContextX86, kSeed);
+}
+
+TEST(MinidumpContextWriter, AMD64_FromSnapshot) {
   constexpr uint32_t kSeed = 64;
+  CPUContextX86_64 context_x86_64;
+  CPUContext context;
+  context.x86_64 = &context_x86_64;
+  InitializeCPUContextX86_64(&context, kSeed);
+  FromSnapshotTest<MinidumpContextAMD64Writer, MinidumpContextAMD64>(
+      context, ExpectMinidumpContextAMD64, kSeed);
+}
 
-  CPUContextX86_64 context_snapshot_x86_64;
-  CPUContext context_snapshot;
-  context_snapshot.x86_64 = &context_snapshot_x86_64;
-  InitializeCPUContextX86_64(&context_snapshot, kSeed);
+TEST(MinidumpContextWriter, ARM_Zeros) {
+  EmptyContextTest<MinidumpContextARMWriter, MinidumpContextARM>(
+      ExpectMinidumpContextARM);
+}
 
-  std::unique_ptr<MinidumpContextWriter> context_writer =
-      MinidumpContextWriter::CreateFromSnapshot(&context_snapshot);
-  ASSERT_TRUE(context_writer);
+TEST(MinidumpContextWRiter, ARM64_Zeros) {
+  EmptyContextTest<MinidumpContextARM64Writer, MinidumpContextARM64>(
+      ExpectMinidumpContextARM64);
+}
 
-  StringFile string_file;
-  ASSERT_TRUE(context_writer->WriteEverything(&string_file));
+TEST(MinidumpContextWriter, ARM_FromSnapshot) {
+  constexpr uint32_t kSeed = 32;
+  CPUContextARM context_arm;
+  CPUContext context;
+  context.arm = &context_arm;
+  InitializeCPUContextARM(&context, kSeed);
+  FromSnapshotTest<MinidumpContextARMWriter, MinidumpContextARM>(
+      context, ExpectMinidumpContextARM, kSeed);
+}
 
-  const MinidumpContextAMD64* observed =
-      MinidumpWritableAtRVA<MinidumpContextAMD64>(string_file.string(), 0);
-  ASSERT_TRUE(observed);
-
-  ExpectMinidumpContextAMD64(kSeed, observed, true);
+TEST(MinidumpContextWriter, ARM64_FromSnapshot) {
+  constexpr uint32_t kSeed = 64;
+  CPUContextARM64 context_arm64;
+  CPUContext context;
+  context.arm64 = &context_arm64;
+  InitializeCPUContextARM64(&context, kSeed);
+  FromSnapshotTest<MinidumpContextARM64Writer, MinidumpContextARM64>(
+      context, ExpectMinidumpContextARM64, kSeed);
 }
 
 }  // namespace
