@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3646ae0f_08545db7",
+        "filename": "util/process/process_memory_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-30T21:32:38Z",
+      "side": 1,
+      "message": "These were available as members, which are now unused.\nIt may be a good idea to read them from the child, or define them as constants to ensure they are kept in sync with DoReadUnmappedChildMainSetup.",
+      "range": {
+        "startLine": 388,
+        "startChar": 4,
+        "endLine": 389,
+        "endChar": 44
+      },
+      "revId": "987e689fee0577b7d87c0157ff2bdaf1dd676b23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
