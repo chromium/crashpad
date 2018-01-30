@@ -15,6 +15,7 @@
 #include "snapshot/elf/elf_image_reader.h"
 
 #include <dlfcn.h>
+#include <link.h>
 #include <unistd.h>
 
 #include "base/logging.h"
@@ -22,6 +23,8 @@
 #include "gtest/gtest.h"
 #include "test/multiprocess_exec.h"
 #include "test/process_type.h"
+#include "test/scoped_module_handle.h"
+#include "test/test_paths.h"
 #include "util/file/file_io.h"
 #include "util/misc/address_types.h"
 #include "util/misc/from_pointer_cast.h"
@@ -29,7 +32,6 @@
 
 #if defined(OS_FUCHSIA)
 
-#include <link.h>
 #include <zircon/syscalls.h>
 
 #include "base/fuchsia/fuchsia_logging.h"
@@ -287,6 +289,63 @@ TEST(ElfImageReader, OneModuleChild) {
   test.SetChildTestMainFunction("ReadLibcChild");
   test.Run();
 }
+
+#if defined(OS_FUCHSIA)
+
+// crashpad_snapshot_test_both_dt_hash_styles is specially built and forced to
+// include both .hash and .gnu.hash sections. Linux, Android, and Fuchsia have
+// different defaults for which of these sections should be included; this test
+// confirms that we get the same count from both sections.
+//
+// TODO(scottmg): Investigation in https://crrev.com/c/876879 resulted in
+// realizing that ld.bfd does not emit a .gnu.hash that is very useful for this
+// purpose when there's 0 exported entries in the module. This is not likely to
+// be too important, as there's little need to look up non-exported symbols.
+// However, it makes this test not work on Linux, where the default build uses
+// ld.bfd. On Fuchsia, the only linker in use is lld, and it generates the
+// expected .gnu.hash. So, for now, this test is only run on Fuchsia, not Linux.
+//
+// TODO(scottmg): Separately, the location of the ELF on Android needs some
+// work, and then the test could also be enabled there.
+TEST(ElfImageReader, DtHashAndDtGnuHashMatch) {
+  base::FilePath module_path =
+      TestPaths::BuildArtifact(FILE_PATH_LITERAL("snapshot"),
+                               FILE_PATH_LITERAL("both_dt_hash_styles"),
+                               TestPaths::FileType::kLoadableModule);
+  // TODO(scottmg): Remove this when upstream Fuchsia bug ZX-1619 is resolved.
+  // See also explanation in build/run_tests.py for Fuchsia .so files.
+  module_path = module_path.BaseName();
+  ScopedModuleHandle module(
+      dlopen(module_path.value().c_str(), RTLD_LAZY | RTLD_LOCAL));
+  ASSERT_TRUE(module.valid()) << "dlopen " << module_path.value() << ": "
+                              << dlerror();
+
+#if defined(ARCH_CPU_64_BITS)
+  constexpr bool am_64_bit = true;
+#else
+  constexpr bool am_64_bit = false;
+#endif  // ARCH_CPU_64_BITS
+
+  ProcessMemoryNative memory;
+  ASSERT_TRUE(memory.Initialize(GetSelfProcess()));
+  ProcessMemoryRange range;
+  ASSERT_TRUE(range.Initialize(&memory, am_64_bit));
+
+  struct link_map* lm = reinterpret_cast<struct link_map*>(module.get());
+
+  ElfImageReader reader;
+  ASSERT_TRUE(reader.Initialize(range, lm->l_addr));
+
+  VMSize from_dt_hash;
+  ASSERT_TRUE(reader.GetNumberOfSymbolEntriesFromDtHash(&from_dt_hash));
+
+  VMSize from_dt_gnu_hash;
+  ASSERT_TRUE(reader.GetNumberOfSymbolEntriesFromDtGnuHash(&from_dt_gnu_hash));
+
+  EXPECT_EQ(from_dt_hash, from_dt_gnu_hash);
+}
+
+#endif  // OS_FUCHSIA
 
 }  // namespace
 }  // namespace test
