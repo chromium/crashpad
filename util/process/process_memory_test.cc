@@ -322,6 +322,101 @@ TEST(ProcessMemory, ReadCStringSizeLimitedChild) {
   test.RunAgainstChild();
 }
 
+void DoReadUnmappedChildMainSetup(ScopedMmap* pages, VMAddress* address) {
+  const size_t page_size = getpagesize();
+  const size_t region_size = 2 * page_size;
+  if (!pages->ResetMmap(nullptr,
+                        region_size,
+                        PROT_READ | PROT_WRITE,
+                        MAP_PRIVATE | MAP_ANONYMOUS,
+                        -1,
+                        0)) {
+    ADD_FAILURE();
+    return;
+  }
+
+  *address = pages->addr_as<VMAddress>();
+
+  char* region = pages->addr_as<char*>();
+  for (size_t index = 0; index < region_size; ++index) {
+    region[index] = index % 256;
+  }
+
+  EXPECT_TRUE(pages->ResetAddrLen(region, page_size));
+}
+
+CRASHPAD_CHILD_TEST_MAIN(ReadUnmappedChildMain) {
+  ScopedMmap pages;
+  VMAddress address;
+  DoReadUnmappedChildMainSetup(&pages, &address);
+  CheckedWriteFile(
+      StdioFileHandle(StdioStream::kStandardOutput), &address, sizeof(address));
+  CheckedReadFileAtEOF(StdioFileHandle(StdioStream::kStandardInput));
+  return 0;
+}
+
+class ReadUnmappedTest : public MultiprocessExec {
+ public:
+  ReadUnmappedTest()
+      : MultiprocessExec(),
+        page_size_(getpagesize()),
+        region_size_(2 * page_size_),
+        result_(new char[region_size_]) {
+    SetChildTestMainFunction("ReadUnmappedChildMain");
+  }
+
+  void RunAgainstSelf() {
+    ScopedMmap pages;
+    VMAddress address;
+    DoReadUnmappedChildMainSetup(&pages, &address);
+    DoTest(GetSelfProcess(), address);
+  }
+
+  void RunAgainstChild() { Run(); }
+
+ private:
+  void MultiprocessParent() override {
+    VMAddress address;
+    ASSERT_TRUE(ReadFileExactly(ReadPipeHandle(), &address, sizeof(address)));
+    DoTest(ChildProcess(), address);
+  }
+
+  void DoTest(ProcessType process, VMAddress address) {
+    ProcessMemoryNative memory;
+    ASSERT_TRUE(memory.Initialize(process));
+
+    const size_t page_size = getpagesize();
+    const size_t region_size = 2 * page_size;
+    VMAddress page_addr1 = address;
+    VMAddress page_addr2 = page_addr1 + page_size;
+
+    EXPECT_TRUE(memory.Read(page_addr1, page_size, result_.get()));
+    EXPECT_TRUE(memory.Read(page_addr2 - 1, 1, result_.get()));
+
+    EXPECT_FALSE(memory.Read(page_addr1, region_size, result_.get()));
+    EXPECT_FALSE(memory.Read(page_addr2, page_size, result_.get()));
+    EXPECT_FALSE(memory.Read(page_addr2 - 1, 2, result_.get()));
+  }
+
+  size_t page_size_;
+  size_t region_size_;
+  std::unique_ptr<char[]> result_;
+
+  DISALLOW_COPY_AND_ASSIGN(ReadUnmappedTest);
+};
+
+TEST(ProcessMemory, ReadUnmappedSelf) {
+  ReadUnmappedTest test;
+  ASSERT_FALSE(testing::Test::HasFailure());
+  test.RunAgainstSelf();
+}
+
+TEST(ProcessMemory, ReadUnmappedChild) {
+  ReadUnmappedTest test;
+  ASSERT_FALSE(testing::Test::HasFailure());
+  test.RunAgainstChild();
+}
+
 // TODO(scottmg): Need to be ported to MultiprocessExec and not rely on fork().
 #if !defined(OS_FUCHSIA)
 
@@ -356,67 +451,6 @@ bool ReadCStringSizeLimited(const ProcessMemory& memory,
                             std::string* result) {
   return memory.ReadCStringSizeLimited(
       FromPointerCast<VMAddress>(pointer), size, result);
-}
-
-class ReadUnmappedTest : public TargetProcessTest {
- public:
-  ReadUnmappedTest()
-      : TargetProcessTest(),
-        page_size_(getpagesize()),
-        region_size_(2 * page_size_),
-        result_(new char[region_size_]) {
-    if (!pages_.ResetMmap(nullptr,
-                          region_size_,
-                          PROT_READ | PROT_WRITE,
-                          MAP_PRIVATE | MAP_ANONYMOUS,
-                          -1,
-                          0)) {
-      ADD_FAILURE();
-      return;
-    }
-
-    char* region = pages_.addr_as<char*>();
-    for (size_t index = 0; index < region_size_; ++index) {
-      region[index] = index % 256;
-    }
-
-    EXPECT_TRUE(pages_.ResetAddrLen(region, page_size_));
-  }
-
- private:
-  void DoTest(pid_t pid) override {
-    ProcessMemoryNative memory;
-    ASSERT_TRUE(memory.Initialize(pid));
-
-    VMAddress page_addr1 = pages_.addr_as<VMAddress>();
-    VMAddress page_addr2 = page_addr1 + page_size_;
-
-    EXPECT_TRUE(memory.Read(page_addr1, page_size_, result_.get()));
-    EXPECT_TRUE(memory.Read(page_addr2 - 1, 1, result_.get()));
-
-    EXPECT_FALSE(memory.Read(page_addr1, region_size_, result_.get()));
-    EXPECT_FALSE(memory.Read(page_addr2, page_size_, result_.get()));
-    EXPECT_FALSE(memory.Read(page_addr2 - 1, 2, result_.get()));
-  }
-
-  ScopedMmap pages_;
-  const size_t page_size_;
-  const size_t region_size_;
-  std::unique_ptr<char[]> result_;
-
-  DISALLOW_COPY_AND_ASSIGN(ReadUnmappedTest);
-};
-
-TEST(ProcessMemory, ReadUnmappedSelf) {
-  ReadUnmappedTest test;
-  ASSERT_FALSE(testing::Test::HasFailure());
-  test.RunAgainstSelf();
-}
-
-TEST(ProcessMemory, ReadUnmappedForked) {
-  ReadUnmappedTest test;
-  ASSERT_FALSE(testing::Test::HasFailure());
-  test.RunAgainstForked();
 }
 
 class ReadCStringUnmappedTest : public TargetProcessTest {
