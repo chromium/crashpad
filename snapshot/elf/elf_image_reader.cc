@@ -519,8 +519,8 @@ bool ElfImageReader::ReadDynamicStringTableAtOffset(VMSize offset,
 
   VMAddress string_table_address;
   VMSize string_table_size;
-  if (!GetAddressFromDynamicArray(DT_STRTAB, &string_table_address) ||
-      !dynamic_array_->GetValue(DT_STRSZ, &string_table_size)) {
+  if (!GetAddressFromDynamicArray(DT_STRTAB, true, &string_table_address) ||
+      !dynamic_array_->GetValue(DT_STRSZ, true, &string_table_size)) {
     LOG(ERROR) << "missing string table info";
     return false;
   }
@@ -542,7 +542,7 @@ bool ElfImageReader::GetDebugAddress(VMAddress* debug) {
   if (!InitializeDynamicArray()) {
     return false;
   }
-  return GetAddressFromDynamicArray(DT_DEBUG, debug);
+  return GetAddressFromDynamicArray(DT_DEBUG, true, debug);
 }
 
 bool ElfImageReader::InitializeProgramHeaders() {
@@ -609,20 +609,35 @@ bool ElfImageReader::InitializeDynamicSymbolTable() {
   }
 
   VMAddress symbol_table_address;
-  if (!GetAddressFromDynamicArray(DT_SYMTAB, &symbol_table_address)) {
+  if (!GetAddressFromDynamicArray(DT_SYMTAB, true, &symbol_table_address)) {
     LOG(ERROR) << "no symbol table";
     return false;
   }
 
-  symbol_table_.reset(
-      new ElfSymbolTableReader(&memory_, this, symbol_table_address));
+  // Try both DT_HASH and DT_GNU_HASH. They're completely different, but both
+  // circuitously offer a way to find the number of entries in the symbol table.
+  // DT_HASH is specifically checked first, because depending on the linker, the
+  // count maybe be incorrect for zero-export cases. In practice, it is believed
+  // that the zero-export case is probably not particularly useful, so this
+  // incorrect count will only occur in constructed test cases (see
+  // ElfImageReader.DtHashAndDtGnuHashMatch).
+  VMSize number_of_symbol_table_entries;
+  if (!GetNumberOfSymbolEntriesFromDtHash(&number_of_symbol_table_entries) &&
+      !GetNumberOfSymbolEntriesFromDtGnuHash(&number_of_symbol_table_entries)) {
+    LOG(ERROR) << "could not retrieve number of symbol table entries";
+    return false;
+  }
+
+  symbol_table_.reset(new ElfSymbolTableReader(
+      &memory_, this, symbol_table_address, number_of_symbol_table_entries));
   symbol_table_initialized_.set_valid();
   return true;
 }
 
 bool ElfImageReader::GetAddressFromDynamicArray(uint64_t tag,
+                                                bool log,
                                                 VMAddress* address) {
-  if (!dynamic_array_->GetValue(tag, address)) {
+  if (!dynamic_array_->GetValue(tag, log, address)) {
     return false;
   }
 #if defined(OS_ANDROID) || defined(OS_FUCHSIA)
@@ -632,6 +647,100 @@ bool ElfImageReader::GetAddressFromDynamicArray(uint64_t tag,
     *address += GetLoadBias();
   }
 #endif  // OS_ANDROID
+  return true;
+}
+
+bool ElfImageReader::GetNumberOfSymbolEntriesFromDtHash(
+    VMSize* number_of_symbol_table_entries) {
+  if (!InitializeDynamicArray()) {
+    return false;
+  }
+
+  VMAddress dt_hash_address;
+  if (!GetAddressFromDynamicArray(DT_HASH, false, &dt_hash_address)) {
+    return false;
+  }
+
+  struct {
+    uint32_t nbucket;
+    uint32_t nchain;
+  } header;
+
+  if (!memory_.Read(dt_hash_address, sizeof(header), &header)) {
+    LOG(ERROR) << "failed to read DT_HASH header";
+    return false;
+  }
+
+  *number_of_symbol_table_entries = header.nchain;
+  return true;
+}
+
+bool ElfImageReader::GetNumberOfSymbolEntriesFromDtGnuHash(
+    VMSize* number_of_symbol_table_entries) {
+  if (!InitializeDynamicArray()) {
+    return false;
+  }
+
+  VMAddress dt_gnu_hash_address;
+  if (!GetAddressFromDynamicArray(DT_GNU_HASH, false, &dt_gnu_hash_address)) {
+    return false;
+  }
+
+  // See https://flapenguin.me/2017/05/10/elf-lookup-dt-gnu-hash/ and
+  // https://sourceware.org/ml/binutils/2006-10/msg00377.html.
+  struct {
+    uint32_t nbuckets;
+    uint32_t symoffset;
+    uint32_t bloom_size;
+    uint32_t bloom_shift;
+  } header;
+  if (!memory_.Read(dt_gnu_hash_address, sizeof(header), &header)) {
+    LOG(ERROR) << "failed to read DT_GNU_HASH header";
+    return false;
+  }
+
+  std::vector<uint32_t> buckets(header.nbuckets);
+  const size_t kNumBytesForBuckets = sizeof(buckets[0]) * buckets.size();
+  const size_t kWordSize =
+      memory_.Is64Bit() ? sizeof(uint64_t) : sizeof(uint32_t);
+  const VMAddress buckets_address =
+      dt_gnu_hash_address + sizeof(header) + (kWordSize * header.bloom_size);
+  if (!memory_.Read(buckets_address, kNumBytesForBuckets, buckets.data())) {
+    LOG(ERROR) << "read buckets";
+    return false;
+  }
+
+  // Locate the chain that handles the largest index bucket.
+  uint32_t last_symbol = 0;
+  for (uint32_t i = 0; i < header.nbuckets; ++i) {
+    last_symbol = std::max(buckets[i], last_symbol);
+  }
+
+  if (last_symbol < header.symoffset) {
+    *number_of_symbol_table_entries = header.symoffset;
+    return true;
+  }
+
+  // Walk the bucket's chain to add the chain length to the total.
+  const VMAddress chains_base_address = buckets_address + kNumBytesForBuckets;
+  for (;;) {
+    uint32_t chain_entry;
+    if (!memory_.Read(chains_base_address + (last_symbol - header.symoffset) *
+                                                sizeof(chain_entry),
+                      sizeof(chain_entry),
+                      &chain_entry)) {
+      LOG(ERROR) << "read chain entry";
+      return false;
+    }
+
+    ++last_symbol;
+
+    // If the low bit is set, this entry is the end of the chain.
+    if (chain_entry & 1)
+      break;
+  }
+
+  *number_of_symbol_table_entries = last_symbol;
   return true;
 }
 

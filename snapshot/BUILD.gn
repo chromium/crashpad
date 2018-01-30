@@ -352,6 +352,7 @@ source_set("snapshot_test") {
     ":crashpad_snapshot_test_module",
     ":crashpad_snapshot_test_module_large",
     ":crashpad_snapshot_test_module_small",
+    ":crashpad_snapshot_test_both_dt_hash_styles",
   ]
 
   if (crashpad_is_mac) {
@@ -412,6 +413,18 @@ loadable_module("crashpad_snapshot_test_module_small") {
   deps = [
     "../third_party/mini_chromium:base",
   ]
+}
+
+if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
+  loadable_module("crashpad_snapshot_test_both_dt_hash_styles") {
+    testonly = true
+    sources = [
+      "hash_types_test.cc",
+    ]
+
+    # This makes `ld` emit both .hash and .gnu.hash sections.
+    ldflags = [ "-Wl,--hash-style=both" ]
+  }
 }
 
 if (crashpad_is_mac) {

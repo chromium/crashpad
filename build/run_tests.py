@@ -379,15 +379,22 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name, extra_command_line):
 
     def netcp(local_path):
       """Uses `netcp` to copy a file or directory to the device. Files located
-      inside the build dir are stored to /pkg/bin, or /pkg/lib (if .so),
-      otherwise to /pkg/assets.
+      inside the build dir are stored to /pkg/bin, otherwise to /pkg/assets.
+      .so files are stored somewhere completely different, into /boot/lib (!).
+      This is because the loader service does not yet correctly handle the
+      namespace in which the caller is being run, and so can only load .so files
+      from a couple hardcoded locations, the only writable one of which is
+      /boot/lib, so we copy all .so files there. This bug is filed upstream as
+      ZX-1619.
       """
       in_binary_dir = local_path.startswith(binary_dir + '/')
       if in_binary_dir:
-        is_so = local_path.endswith('.so')
-        target_path = os.path.join(staging_root,
-                                   'lib' if is_so else 'bin',
-                                   local_path[len(binary_dir)+1:])
+        if local_path.endswith('.so'):
+          target_path = os.path.join(
+              '/boot/lib', local_path[len(binary_dir)+1:])
+        else:
+          target_path = os.path.join(
+              staging_root, 'bin', local_path[len(binary_dir)+1:])
       else:
         target_path = os.path.join(staging_root, 'assets', local_path)
       netcp_path = os.path.join(sdk_root, 'tools', 'netcp')
