@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24ea5383_a7d1c96b",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-30T19:44:44Z",
+      "side": 1,
+      "message": "Comment that you’re trying DT_HASH first because DT_GNU_HASH can be incorrect, but waffle by saying that it’s hopefully not incorrect in any situation that counts.\n\nIn fact, you may want to list this limitation in the //! doxygen documentation for the DT_GNU_HASH variant.",
+      "revId": "6bae20077491e5584776c4d3730d7ec8ec1a881b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
