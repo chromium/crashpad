@@ -23,6 +23,9 @@
 #include <dispatch/dispatch.h>
 #elif defined(OS_WIN)
 #include <windows.h>
+#elif defined(OS_ANDROID)
+#include <condition_variable>
+#include <mutex>
 #else
 #include <semaphore.h>
 #endif
@@ -77,6 +80,10 @@ class Semaphore {
   dispatch_semaphore_t semaphore_;
 #elif defined(OS_WIN)
   HANDLE semaphore_;
+#elif defined(OS_ANDROID)
+  std::condition_variable cv_;
+  std::mutex mutex_;
+  int value_;
 #else
   sem_t semaphore_;
 #endif
