@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09a5c1b3_a4cbf094",
+        "filename": "util/process/process_memory_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-30T17:08:50Z",
+      "side": 1,
+      "message": "Look at Mr. Lambda over here! I like it.",
+      "revId": "f60b93962c66042bc566bd4d57b55d4df0a2a0a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
