@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3022ed3b_078bbdb8",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-31T23:09:15Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "45025ad6_fbc73933",
+      "revId": "ab4d1f257d8f4b94a270a82afda41ae5be023c59",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "824a8060_4760110e",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 11
@@ -33,6 +51,24 @@
       "revId": "ab4d1f257d8f4b94a270a82afda41ae5be023c59",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2680b324_c737c31c",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-01-31T23:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "824a8060_4760110e",
+      "revId": "ab4d1f257d8f4b94a270a82afda41ae5be023c59",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
