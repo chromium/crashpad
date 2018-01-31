@@ -758,4 +758,8 @@ ElfImageReader::NotesWithNameAndType(const std::string& name,
       this, &memory_, program_headers_.get(), max_note_size, name, type, true);
 }
 
+const ProcessMemoryRange* ElfImageReader::Memory() const {
+  return &memory_;
+}
+
 }  // namespace crashpad
