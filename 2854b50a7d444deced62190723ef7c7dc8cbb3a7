@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad5cdd8_7ccc53f2",
+        "filename": "util/process/process_memory_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-31T22:19:54Z",
+      "side": 1,
+      "message": "You’re already in an unnamed namespace, no “static” needed.",
+      "range": {
+        "startLine": 426,
+        "startChar": 0,
+        "endLine": 426,
+        "endChar": 6
+      },
+      "revId": "2854b50a7d444deced62190723ef7c7dc8cbb3a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
