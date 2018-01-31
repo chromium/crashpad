@@ -52,6 +52,8 @@ class MemorySnapshotWin final : public MemorySnapshot {
   uint64_t Address() const override;
   size_t Size() const override;
   bool Read(Delegate* delegate) const override;
+  const MemorySnapshot* MergeWithOtherSnapshot(
+      const MemorySnapshot* other) const override;
 
  private:
   ProcessReaderWin* process_reader_;  // weak

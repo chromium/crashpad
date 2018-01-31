@@ -18,6 +18,8 @@
 #include <stdint.h>
 #include <sys/types.h>
 
+#include "util/numeric/checked_range.h"
+
 namespace crashpad {
 
 //! \brief An abstract interface to a snapshot representing a region of memory
@@ -70,8 +72,41 @@ class MemorySnapshot {
   //!     Delegate::MemorySnapshotDelegateRead(), which should be `true` on
   //!     success and `false` on failure.
   virtual bool Read(Delegate* delegate) const = 0;
+
+  //! \brief Creates a new MemorySnapshot based on merging this one with \a
+  //!     other.
+  //!
+  //! The ranges described by the two snapshots must either overlap or abut, and
+  //! must be of the same concrete type.
+  //!
+  //! \return A newly allocated MemorySnapshot representing the merged range, or
+  //!     `nullptr` with an error logged.
+  virtual const MemorySnapshot* MergeWithOtherSnapshot(
+      const MemorySnapshot* other) const = 0;
 };
 
+//! \brief Given two memory snapshots, checks if they're overlapping or
+//!     abutting, and if so, returns the result of merging the two ranges.
+//!
+//! This function is useful to implement MemorySnapshot::MergeMemorySnapshots.
+//!
+//! \param[in] a The first range.
+//! \param[in] b The second range.
+//! \param[out] merged The resulting merged range. May be `nullptr` if only a
+//!     characterization of the ranges is desired.
+//!
+//! \return `true` if the input ranges overlap or abut, with \a merged filled
+//!     out, otherwise, `false` with an error logged if \a log is `true`.
+bool LoggingDetermineMergedRange(const MemorySnapshot* a,
+                                 const MemorySnapshot* b,
+                                 CheckedRange<uint64_t, size_t>* merged);
+
+//! \brief The same as LoggingDetermineMergedRange but with no errors logged.
+//!
+//! \sa LoggingDetermineMergedRange
+bool DetermineMergedRange(const MemorySnapshot* a,
+                          const MemorySnapshot* b,
+                          CheckedRange<uint64_t, size_t>* merged);
 }  // namespace crashpad
 
 #endif  // CRASHPAD_SNAPSHOT_MEMORY_SNAPSHOT_H_
