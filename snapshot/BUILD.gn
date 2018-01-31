@@ -32,6 +32,7 @@ static_library("snapshot") {
     "exception_snapshot.h",
     "handle_snapshot.cc",
     "handle_snapshot.h",
+    "memory_snapshot.cc",
     "memory_snapshot.h",
     "minidump/minidump_annotation_reader.cc",
     "minidump/minidump_annotation_reader.h",
@@ -279,6 +280,7 @@ source_set("snapshot_test") {
 
   sources = [
     "cpu_context_test.cc",
+    "memory_snapshot_test.cc",
     "minidump/process_snapshot_minidump_test.cc",
   ]
 
