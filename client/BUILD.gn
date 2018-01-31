@@ -45,6 +45,10 @@ static_library("client") {
     ]
   }
 
+  if (crashpad_is_linux || crashpad_is_android) {
+    sources += [ "crashpad_client_linux.cc" ]
+  }
+
   if (crashpad_is_win) {
     sources += [
       "crash_report_database_win.cc",
