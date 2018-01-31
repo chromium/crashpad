@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a15857f_3fac2181",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-31T21:46:00Z",
+      "side": 1,
+      "message": "I don’t know if I believe this, but it’s what the bug says. At least Breakpad normally doesn’t have any problem with overlapping ranges and in fact doesn’t really even care about MINIDUMP_MEMORY_LIST at all. There may be something else in the crash pipeline that, using Breakpad to harness the data in the minidump, is intolerant.",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8027c52b_23387c71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-31T21:46:00Z",
+      "side": 1,
+      "message": "This last sentence doesn’t apply to all Chrome minidumps, only those with gather_indirectly_referenced_memory.\n\n(I guess memory-around-instruction-pointer is another way to get extra memory, but even with all of Chrome’s threads, I wouldn’t call the bloat from that “substantial”, especially when compared to gather_indirectly_referenced_memory.)",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93c58018_10d8a091",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-31T21:46:00Z",
+      "side": 1,
+      "message": "Use Bug: now.",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dee008e_95880d55",
+        "filename": "minidump/minidump_memory_writer.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-31T21:46:00Z",
+      "side": 1,
+      "message": "Three uses of children_[i] within this loop: handy to just have a local “child” referring to it.",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16682101_a2abec7a",
+        "filename": "minidump/minidump_memory_writer.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-31T21:46:00Z",
+      "side": 1,
+      "message": "Note that this will also sort memory ranges.",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a0a66fe_b40f3aac",
+        "filename": "minidump/minidump_memory_writer.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-31T21:46:00Z",
+      "side": 1,
+      "message": "How about non-owned memory (associated with thread stacks)? That’ll be much trickier to solve, but it’s necessary for a complete fix. You should call that out here, and either point to the existing bug or have a new one on file for just this problem.\n\nLow-priority and it doesn’t need to happen in this change: given what we do elsewhere in Crashpad, I don’t think we’ll ever try to add extra memory based on something that points into some thread’s stack.",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfff5f89_1b676b6c",
+        "filename": "minidump/minidump_memory_writer_test.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-31T21:46:00Z",
+      "side": 1,
+      "message": "This line and the next one test this configuration\n\n\n  r1  .........\n  r2         .......\n\nBut we should also test different arrangements\n\n  r1         .......\n  r2  .........\n\n  r1     ...\n  r2  .........\n\n  r1  .........\n  r2     ...\n\n  r1  ...\n  r2  .........\n\n  r1  .........\n  r2  ...\n\n  r1        ...\n  r2  .........\n\n  r1  .........\n  r2        ...\n\nFinally, you don’t have any explicit test for regions that shouldn’t ever coalesce at all\n\n  r1  ...\n  r2      ...\n\n  r1      ...\n  r2  ...",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37fa1e54_3131dc7e",
+        "filename": "snapshot/memory_snapshot.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-31T21:46:00Z",
+      "side": 1,
+      "message": "Since your parameters are “a” and “b”, it’d be easier to keep track of things in the function if you had “a/b_range” or “range_a/b” instead of “this/other_range”.\n\nOutside of a member method where there is no one true “this”, it’s a little weird to give one a more preferential name and treat the other as an alien invader.",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "120ff194_39d5ddb6",
+        "filename": "snapshot/memory_snapshot.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-31T21:46:00Z",
+      "side": 1,
+      "message": "Instead of if (log) LOG, you should use LOG_IF throughout.",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8ba140c_5c5c0aef",
+        "filename": "snapshot/memory_snapshot.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-31T21:46:00Z",
+      "side": 1,
+      "message": "If it’s OK for either a or b to be 0-sized, why is it bad for both to be 0-sized?",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52e4bcd9_22b4db3b",
+        "filename": "snapshot/memory_snapshot.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-31T21:46:00Z",
+      "side": 1,
+      "message": "Sucks that this needs divergent per-platform implementations.",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a02e1659_6818518d",
+        "filename": "snapshot/memory_snapshot.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-31T21:46:00Z",
+      "side": 1,
+      "message": "Blank line before this.",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7caf04a1_36015dab",
+        "filename": "snapshot/memory_snapshot_test.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-31T21:46:00Z",
+      "side": 1,
+      "message": "Try a few different arrangements as suggested in the other test. Applies to all of the functions. The reverse-y tests should be easy here because you can just do a DetermineMergedRange(\u0026b, \u0026a, \u0026range) and revalidate.",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
