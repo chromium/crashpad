@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45025ad6_fbc73933",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-31T19:54:10Z",
+      "side": 1,
+      "message": "Don’t want these static constructors here. Let’s not have any initializers for these, but instead create the objects and set the pointers up in StartHandlerAtCrash().",
+      "revId": "ab4d1f257d8f4b94a270a82afda41ae5be023c59",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "824a8060_4760110e",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-01-31T19:54:10Z",
+      "side": 1,
+      "message": "Another option is to make these three fields nonstatic members. Then they don’t even need to be pointers, you can just let them be objects that initialize normally in a non-deleted constructor. You’d then add a single static “instance” variable, which LaunchAtCrashHandler::HandleCrash would use to get at the singleton.",
+      "revId": "ab4d1f257d8f4b94a270a82afda41ae5be023c59",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
