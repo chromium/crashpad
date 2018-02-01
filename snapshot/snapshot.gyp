@@ -108,6 +108,7 @@
         'mac/system_snapshot_mac.h',
         'mac/thread_snapshot_mac.cc',
         'mac/thread_snapshot_mac.h',
+        'memory_snapshot.cc',
         'memory_snapshot.h',
         'minidump/minidump_annotation_reader.cc',
         'minidump/minidump_annotation_reader.h',
