@@ -105,6 +105,71 @@ class CrashpadClient {
                     bool restartable,
                     bool asynchronous_start);
 
+#if defined(OS_LINUX) || defined(OS_ANDROID) || DOXYGEN
+  //! \brief Installs a signal handler to launch a handler process in reponse to
+  //!     a crash.
+  //!
+  //! The handler process will create a crash dump for this process and exit.
+  //!
+  //! \param[in] handler The path to a Crashpad handler executable.
+  //! \param[in] database The path to a Crashpad database. The handler will be
+  //!     started with this path as its `--database` argument.
+  //! \param[in] metrics_dir The path to an already existing directory where
+  //!     metrics files can be stored. The handler will be started with this
+  //!     path as its `--metrics-dir` argument.
+  //! \param[in] url The URL of an upload server. The handler will be started
+  //!     with this URL as its `--url` argument.
+  //! \param[in] annotations Process annotations to set in each crash report.
+  //!     The handler will be started with an `--annotation` argument for each
+  //!     element in this map.
+  //! \param[in] arguments Additional arguments to pass to the Crashpad handler.
+  //!     Arguments passed in other parameters and arguments required to perform
+  //!     the handshake are the responsibility of this method, and must not be
+  //!     specified in this parameter.
+  //!
+  //! \return `true` on success, `false` on failure with a message logged.
+  bool StartHandlerAtCrash(
+      const base::FilePath& handler,
+      const base::FilePath& database,
+      const base::FilePath& metrics_dir,
+      const std::string& url,
+      const std::map<std::string, std::string>& annotations,
+      const std::vector<std::string>& arguments);
+
+  //! \brief Starts a handler process with an initial client.
+  //!
+  //! This method allows a process to launch the handler process on behalf of
+  //! another process.
+  //!
+  //! \param[in] handler The path to a Crashpad handler executable.
+  //! \param[in] database The path to a Crashpad database. The handler will be
+  //!     started with this path as its `--database` argument.
+  //! \param[in] metrics_dir The path to an already existing directory where
+  //!     metrics files can be stored. The handler will be started with this
+  //!     path as its `--metrics-dir` argument.
+  //! \param[in] url The URL of an upload server. The handler will be started
+  //!     with this URL as its `--url` argument.
+  //! \param[in] annotations Process annotations to set in each crash report.
+  //!     The handler will be started with an `--annotation` argument for each
+  //!     element in this map.
+  //! \param[in] arguments Additional arguments to pass to the Crashpad handler.
+  //!     Arguments passed in other parameters and arguments required to perform
+  //!     the handshake are the responsibility of this method, and must not be
+  //!     specified in this parameter.
+  //! \param[in] socket The server end of a socket pair. The client end should
+  //!     be used with an ExceptionHandlerClient.
+  //!
+  //! \return `true` on success, `false` on failure with a message logged.
+  bool StartHandlerForClient(
+      const base::FilePath& handler,
+      const base::FilePath& database,
+      const base::FilePath& metrics_dir,
+      const std::string& url,
+      const std::map<std::string, std::string>& annotations,
+      const std::vector<std::string>& arguments,
+      int socket);
+#endif  // OS_LINUX || OS_ANDROID || DOXYGEN
+
 #if defined(OS_MACOSX) || DOXYGEN
   //! \brief Sets the process’ crash handler to a Mach service registered with
   //!     the bootstrap server.
