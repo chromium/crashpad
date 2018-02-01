@@ -164,6 +164,8 @@ void MinidumpFileWriter::InitializeFromSnapshot(
     }
   }
 
+  memory_list->CoalesceOwnedMemory();
+
   // The memory list stream should be added last. This keeps the “extra memory”
   // at the end so that if the minidump file is truncated, other, more critical
   // data is more likely to be preserved. Note that non-“extra” memory regions
