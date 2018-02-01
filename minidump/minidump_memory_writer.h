@@ -60,7 +60,15 @@ class SnapshotMinidumpMemoryWriter : public internal::MinidumpWritable,
   //! \note Valid in #kStateFrozen or any preceding state.
   void RegisterMemoryDescriptor(MINIDUMP_MEMORY_DESCRIPTOR* memory_descriptor);
 
+  //! \brief Sets the underlying memory snapshot. Does not take ownership of \a
+  //!     memory_snapshot.
+  void SetSnapshot(const MemorySnapshot* memory_snapshot) {
+    memory_snapshot_ = memory_snapshot;
+  }
+
  private:
+  friend class MinidumpMemoryListWriter;
+
   // MemorySnapshot::Delegate:
   bool MemorySnapshotDelegateRead(void* data, size_t size) override;
 
@@ -95,7 +103,7 @@ class SnapshotMinidumpMemoryWriter : public internal::MinidumpWritable,
 
   //! \brief Gets the underlying memory snapshot that the memory writer will
   //!     write to the minidump.
-  const MemorySnapshot& UnderlyingSnapshot() const { return *memory_snapshot_; }
+  const MemorySnapshot* UnderlyingSnapshot() const { return memory_snapshot_; }
 
   MINIDUMP_MEMORY_DESCRIPTOR memory_descriptor_;
 
@@ -147,7 +155,25 @@ class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
   //! a SnapshotMinidumpMemoryWriter for thread stack memory, is an example.
   //!
   //! \note Valid in #kStateMutable.
-  void AddExtraMemory(SnapshotMinidumpMemoryWriter* memory_writer);
+  void AddNonOwnedMemory(SnapshotMinidumpMemoryWriter* memory_writer);
+
+  //! \brief Merges any overlapping memory ranges that were added via
+  //!     AddFromSnapshot() and AddMemory() into a single entry.
+  //!
+  //! This should be called once just before writing.
+  //!
+  //! This function has the side-effect of merging non-owned ranges, and sorting
+  //! by address.
+  //!
+  //! Per its name, this coalesces owned memory, however, this is not a complete
+  //! solution for ensuring that no overlapping memory ranges are emitted in the
+  //! minidump. In particular, if AddNonOwnedMemory() is used to add multiple
+  //! overlapping ranges, then overlapping ranges will still be emitted to the
+  //! minidump. Currently, AddNonOwnedMemory() is used only for adding thread
+  //! stacks, so overlapping shouldn't be a problem in practice. For more
+  //! details see https://crashpad.chromium.org/bug/61 and
+  //! https://crrev.com/c/374539.
+  void CoalesceOwnedMemory();
 
  protected:
   // MinidumpWritable:
@@ -160,8 +186,14 @@ class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
   MinidumpStreamType StreamType() const override;
 
  private:
-  std::vector<SnapshotMinidumpMemoryWriter*> memory_writers_;  // weak
+  //! \brief Drops children_ ranges that overlap non_owned_memory_writers_.
+  void DropRangesThatOverlapNonOwned();
+
+  std::vector<SnapshotMinidumpMemoryWriter*> non_owned_memory_writers_;  // weak
   std::vector<std::unique_ptr<SnapshotMinidumpMemoryWriter>> children_;
+  std::vector<std::unique_ptr<const MemorySnapshot>>
+      snapshots_created_during_merge_;
+  std::vector<SnapshotMinidumpMemoryWriter*> all_memory_writers_;  // weak
   MINIDUMP_MEMORY_LIST memory_list_base_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpMemoryListWriter);

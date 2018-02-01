@@ -16,7 +16,6 @@
 
 #include "snapshot/win/memory_snapshot_win.h"
 
-
 namespace crashpad {
 namespace internal {
 
@@ -65,6 +64,11 @@ bool MemorySnapshotWin::Read(Delegate* delegate) const {
     return false;
   }
   return delegate->MemorySnapshotDelegateRead(buffer.get(), size_);
+}
+
+const MemorySnapshot* MemorySnapshotWin::MergeWithOtherSnapshot(
+    const MemorySnapshot* other) const {
+  return MergeWithOtherSnapshotImpl(this, other);
 }
 
 }  // namespace internal
