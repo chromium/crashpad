@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4beb31fb_ad88b689",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T20:21:40Z",
+      "side": 1,
+      "message": "This one I remember debugging in the crash processor long ago, with chrisha. You\u0027re right, it\u0027s not Breakpad specifically, it\u0027s more like the \"processing pipeline\", I wasn\u0027t really distinguishing. It was failing when the ASAN plugin (? code blob? dunno) tried to display a hexdump of the red zone and whatever memory it had detected as corrupted.",
+      "parentUuid": "5a15857f_3fac2181",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8027c52b_23387c71",
         "filename": "/COMMIT_MSG",
         "patchSetId": 22
@@ -33,6 +51,24 @@
       "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8997ef44_3f7c3748",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T20:21:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8027c52b_23387c71",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "eb110af1_5f0f8231",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T20:21:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93c58018_10d8a091",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dee008e_95880d55",
         "filename": "minidump/minidump_memory_writer.cc",
         "patchSetId": 22
@@ -67,6 +121,24 @@
       "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da3d3f3c_c91a1311",
+        "filename": "minidump/minidump_memory_writer.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T20:21:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dee008e_95880d55",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "1a85de84_2d68fc98",
+        "filename": "minidump/minidump_memory_writer.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T20:21:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16682101_a2abec7a",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a0a66fe_b40f3aac",
         "filename": "minidump/minidump_memory_writer.h",
         "patchSetId": 22
@@ -98,6 +188,24 @@
       "writtenOn": "2018-01-31T21:46:00Z",
       "side": 1,
       "message": "How about non-owned memory (associated with thread stacks)? That’ll be much trickier to solve, but it’s necessary for a complete fix. You should call that out here, and either point to the existing bug or have a new one on file for just this problem.\n\nLow-priority and it doesn’t need to happen in this change: given what we do elsewhere in Crashpad, I don’t think we’ll ever try to add extra memory based on something that points into some thread’s stack.",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c77256f_28967733",
+        "filename": "minidump/minidump_memory_writer.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T20:21:40Z",
+      "side": 1,
+      "message": "Right, if we added multiple non-owned ranges that overlap, we would still emit a bad dump. Hopefully in practice this doesn\u0027t happen as it should just be stacks and some select relevant code memory that we capture.\n\n(We do drop owned that overlap non-owned as I\u0027m sure you saw, so at least that is handled.)\n\nTaking another look at AddMemorySnapshot() callers, another way it could break (Windows-only :() is via CrashpadInfo::set_extra_memory_ranges(). If the user points into somewhere we\u0027re already gathering, I think we could emit overlapping ranges. It doesn\u0027t look like that\u0027s actually used in Chromium though. There may be other cases though. Anyway, added some notes here.\n\n...\n\n...\n\nWait, scratch all that! AddMemorySnapshot() is what we _want_ to use, oops. I was confused. OK, yes, this is fairly minor then, as the only non-owned memory is from MinidumpThreadWriter for the stack, so in practice we shouldn\u0027t have a problem.",
+      "parentUuid": "3a0a66fe_b40f3aac",
       "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "8e68827e_46b6c3ee",
+        "filename": "minidump/minidump_memory_writer_test.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T20:21:40Z",
+      "side": 1,
+      "message": "That\u0027s some pretty sweet ASCII art! :) I decided to steal it to make the tests more write-able/read-able. Also made it obvious that some multi-way coalescing tests would be useful.",
+      "parentUuid": "dfff5f89_1b676b6c",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37fa1e54_3131dc7e",
         "filename": "snapshot/memory_snapshot.cc",
         "patchSetId": 22
@@ -135,6 +261,24 @@
       "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c094413_0379634c",
+        "filename": "snapshot/memory_snapshot.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T20:21:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37fa1e54_3131dc7e",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "bf2cd7f1_fb592d35",
+        "filename": "snapshot/memory_snapshot.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T20:21:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "120ff194_39d5ddb6",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8ba140c_5c5c0aef",
         "filename": "snapshot/memory_snapshot.cc",
         "patchSetId": 22
@@ -166,6 +328,24 @@
       "writtenOn": "2018-01-31T21:46:00Z",
       "side": 1,
       "message": "If it’s OK for either a or b to be 0-sized, why is it bad for both to be 0-sized?",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb1330a2_c4cc0df3",
+        "filename": "snapshot/memory_snapshot.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T20:21:40Z",
+      "side": 1,
+      "message": "Good question, I\u0027m not exactly sure what I was thinking.\n\nLooking back at how it\u0027s used in CoalesceOwnedMemory(), my theory for what I was thinking way back is probably that I didn\u0027t want any zero-sized ranges in the final output... Letting either-but-not-both be zero-sized works beacuse it collapses away the zero-sized one.\n\nBoth-zero almost works, but then doesn\u0027t quite in the degenerate case if there\u0027s only empty ranges because then the last one wouldn\u0027t collapse... So, it probably makes more sense to completely disallow empty ranges in this function, and have CoalesceOwnedMemory() filter empty ranges beforehand. I think.",
+      "parentUuid": "f8ba140c_5c5c0aef",
       "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "4e360d37_08a8bb64",
+        "filename": "snapshot/memory_snapshot.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T20:21:40Z",
+      "side": 1,
+      "message": "Yeah, especially since they\u0027re ~identical.\n\n...\n\nHmm, actually, non-test versions *are* identical other than concrete types, so I templated them out at least. Still not the prettiest, but less duplication.",
+      "parentUuid": "52e4bcd9_22b4db3b",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a02e1659_6818518d",
         "filename": "snapshot/memory_snapshot.h",
         "patchSetId": 22
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "e04cb38b_6d782baf",
+        "filename": "snapshot/memory_snapshot.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T20:21:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a02e1659_6818518d",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7caf04a1_36015dab",
         "filename": "snapshot/memory_snapshot_test.cc",
         "patchSetId": 22
@@ -220,6 +436,24 @@
       "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a36fae3c_4b1baced",
+        "filename": "snapshot/memory_snapshot_test.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T20:21:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7caf04a1_36015dab",
+      "revId": "dc681b6f74bcf72f9659840b48f45974ec12466e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
