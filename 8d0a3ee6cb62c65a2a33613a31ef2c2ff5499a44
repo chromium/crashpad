@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27eea581_cb4e6202",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-01T18:42:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40e569b1_ea82d812",
+      "revId": "8d0a3ee6cb62c65a2a33613a31ef2c2ff5499a44",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d7ec720_bdc4928c",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 12
@@ -33,6 +51,24 @@
       "revId": "8d0a3ee6cb62c65a2a33613a31ef2c2ff5499a44",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9471f25d_872bc1d0",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-01T18:42:12Z",
+      "side": 1,
+      "message": "I was on the fence about that before, but now it\u0027s even more protected since it\u0027s private.",
+      "parentUuid": "1d7ec720_bdc4928c",
+      "revId": "8d0a3ee6cb62c65a2a33613a31ef2c2ff5499a44",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "cec2e2a1_82424b43",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-01T18:42:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a56e8185_8a469ecf",
+      "revId": "8d0a3ee6cb62c65a2a33613a31ef2c2ff5499a44",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a0e5040_51c00760",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 12
@@ -67,6 +121,24 @@
       "revId": "8d0a3ee6cb62c65a2a33613a31ef2c2ff5499a44",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92fdd333_f32defcf",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-01T18:42:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a0e5040_51c00760",
+      "revId": "8d0a3ee6cb62c65a2a33613a31ef2c2ff5499a44",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
