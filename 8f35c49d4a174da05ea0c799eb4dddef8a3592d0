@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4138a097_9636fa0e",
+        "filename": "minidump/minidump_memory_writer.h",
+        "patchSetId": 30
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-01T22:32:56Z",
+      "side": 1,
+      "message": "overlapping and adjacent/abutting (right?)",
+      "range": {
+        "startLine": 160,
+        "startChar": 24,
+        "endLine": 160,
+        "endChar": 35
+      },
+      "revId": "8f35c49d4a174da05ea0c799eb4dddef8a3592d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "604a4c48_e492087d",
+        "filename": "minidump/minidump_memory_writer.h",
+        "patchSetId": 30
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-01T22:32:56Z",
+      "side": 1,
+      "message": "Should we just move this into Freeze() and not require an outside call?",
+      "revId": "8f35c49d4a174da05ea0c799eb4dddef8a3592d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a96900a8_d59a37c4",
+        "filename": "minidump/minidump_memory_writer.h",
+        "patchSetId": 30
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-01T22:32:56Z",
+      "side": 1,
+      "message": "Wait. Non-owned means thread. This isn’t touching those, right?",
+      "range": {
+        "startLine": 165,
+        "startChar": 28,
+        "endLine": 165,
+        "endChar": 67
+      },
+      "revId": "8f35c49d4a174da05ea0c799eb4dddef8a3592d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9fac3ea_29906dff",
+        "filename": "minidump/minidump_memory_writer.h",
+        "patchSetId": 30
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-01T22:32:56Z",
+      "side": 1,
+      "message": "It also now drops any owned (non-thread) range that has any overlap with a non-owned (thread).",
+      "revId": "8f35c49d4a174da05ea0c799eb4dddef8a3592d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a206b2e_2522d874",
+        "filename": "minidump/minidump_memory_writer_test.cc",
+        "patchSetId": 30
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-01T22:32:56Z",
+      "side": 1,
+      "message": "Cute!",
+      "revId": "8f35c49d4a174da05ea0c799eb4dddef8a3592d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf16cefe_52bad44d",
+        "filename": "minidump/minidump_memory_writer_test.cc",
+        "patchSetId": 30
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-01T22:32:56Z",
+      "side": 1,
+      "message": "enum class? Or maybe those can’t be anonymous. Also: kNone, kSpace, kDot?",
+      "revId": "8f35c49d4a174da05ea0c799eb4dddef8a3592d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a916b239_f98aa220",
+        "filename": "minidump/minidump_memory_writer_test.cc",
+        "patchSetId": 30
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-01T22:32:56Z",
+      "side": 1,
+      "message": "This makes it a little hard to find the test, I’d still call it MinidumpMemoryWriter, and put CoalesceSpecHelperParse on the right side.",
+      "range": {
+        "startLine": 465,
+        "startChar": 5,
+        "endLine": 465,
+        "endChar": 23
+      },
+      "revId": "8f35c49d4a174da05ea0c799eb4dddef8a3592d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
