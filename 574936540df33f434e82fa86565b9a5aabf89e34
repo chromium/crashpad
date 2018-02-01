@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "807428fb_558a37f7",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-01T18:59:54Z",
+      "side": 1,
+      "message": "As I was introducing this function, I considered un-introducing it.\n\nhttps://chromium-review.googlesource.com/c/crashpad/crashpad/+/777859#message-501b425848e26f1302022c895860caa2f4941cba\n\nGlad I didn’t and you were able to reuse it!",
+      "revId": "574936540df33f434e82fa86565b9a5aabf89e34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
