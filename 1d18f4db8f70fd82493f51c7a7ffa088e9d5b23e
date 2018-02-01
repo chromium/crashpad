@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb80994e_b8ceee3d",
+        "filename": "minidump/minidump_memory_writer_test.cc",
+        "patchSetId": 31
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T23:44:34Z",
+      "side": 1,
+      "message": "This makes it non-abutting with #0.",
+      "range": {
+        "startLine": 308,
+        "startChar": 54,
+        "endLine": 308,
+        "endChar": 55
+      },
+      "revId": "1d18f4db8f70fd82493f51c7a7ffa088e9d5b23e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e40f764_c67b6dfa",
+        "filename": "minidump/minidump_memory_writer_test.cc",
+        "patchSetId": 31
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T23:44:34Z",
+      "side": 1,
+      "message": "The test output was a bit confusing, I thought at first it might have something to do with large addresses, so I added these. (The code was fine it turned out though.)",
+      "revId": "1d18f4db8f70fd82493f51c7a7ffa088e9d5b23e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70399d92_0f9db723",
+        "filename": "minidump/minidump_thread_writer_test.cc",
+        "patchSetId": 31
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T23:44:34Z",
+      "side": 1,
+      "message": "The Teb block of memory is captured as extra memory in this test, unrelated to the stack/owned capture.\n\nThe verification walks these blocks in order, so because coalesce during Freeze() sorts them, the Tebs need to be listed in order. We could also duplicate the expected descriptors in the correct (now sorted) order if it seems important to have these non-sorted here, but I didn\u0027t think it was.",
+      "revId": "1d18f4db8f70fd82493f51c7a7ffa088e9d5b23e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2700334_b4e9bdee",
+        "filename": "minidump/minidump_thread_writer_test.cc",
+        "patchSetId": 31
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T23:44:34Z",
+      "side": 1,
+      "message": "Oops (self-review), fixed in next patchset.",
+      "revId": "1d18f4db8f70fd82493f51c7a7ffa088e9d5b23e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

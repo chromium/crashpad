@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e3f43a84_8a9ecd22",
+        "filename": "minidump/minidump_memory_writer.h",
+        "patchSetId": 30
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T23:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4138a097_9636fa0e",
+      "range": {
+        "startLine": 160,
+        "startChar": 24,
+        "endLine": 160,
+        "endChar": 35
+      },
+      "revId": "8f35c49d4a174da05ea0c799eb4dddef8a3592d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "604a4c48_e492087d",
         "filename": "minidump/minidump_memory_writer.h",
         "patchSetId": 30
@@ -36,6 +60,24 @@
       "writtenOn": "2018-02-01T22:32:56Z",
       "side": 1,
       "message": "Should we just move this into Freeze() and not require an outside call?",
+      "revId": "8f35c49d4a174da05ea0c799eb4dddef8a3592d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db30d712_6e7062a1",
+        "filename": "minidump/minidump_memory_writer.h",
+        "patchSetId": 30
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T23:44:34Z",
+      "side": 1,
+      "message": "That seems like a reasonable idea.\n\nDoing so causes a few failures in other tests that aren\u0027t expecting ranges to get merged and/or sorted. I annotated them, maybe you can take a quick look.",
+      "parentUuid": "604a4c48_e492087d",
       "revId": "8f35c49d4a174da05ea0c799eb4dddef8a3592d0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "685bd4ad_a98c10ed",
+        "filename": "minidump/minidump_memory_writer.h",
+        "patchSetId": 30
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T23:44:34Z",
+      "side": 1,
+      "message": "Yeah, just a (very confusing) typo. Fixed.",
+      "parentUuid": "a96900a8_d59a37c4",
+      "range": {
+        "startLine": 165,
+        "startChar": 28,
+        "endLine": 165,
+        "endChar": 67
+      },
+      "revId": "8f35c49d4a174da05ea0c799eb4dddef8a3592d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a9fac3ea_29906dff",
         "filename": "minidump/minidump_memory_writer.h",
         "patchSetId": 30
@@ -79,6 +145,24 @@
       "revId": "8f35c49d4a174da05ea0c799eb4dddef8a3592d0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a7a1fb7_99277600",
+        "filename": "minidump/minidump_memory_writer.h",
+        "patchSetId": 30
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T23:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9fac3ea_29906dff",
+      "revId": "8f35c49d4a174da05ea0c799eb4dddef8a3592d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -116,6 +200,24 @@
     },
     {
       "key": {
+        "uuid": "e947cfbc_b3a2c7e8",
+        "filename": "minidump/minidump_memory_writer_test.cc",
+        "patchSetId": 30
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T23:44:34Z",
+      "side": 1,
+      "message": "Yeah, I thought the anonymous was nicer inside the function. Added ks.",
+      "parentUuid": "bf16cefe_52bad44d",
+      "revId": "8f35c49d4a174da05ea0c799eb4dddef8a3592d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a916b239_f98aa220",
         "filename": "minidump/minidump_memory_writer_test.cc",
         "patchSetId": 30
@@ -136,6 +238,30 @@
       "revId": "8f35c49d4a174da05ea0c799eb4dddef8a3592d0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b1bf687_15c5bef4",
+        "filename": "minidump/minidump_memory_writer_test.cc",
+        "patchSetId": 30
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T23:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a916b239_f98aa220",
+      "range": {
+        "startLine": 465,
+        "startChar": 5,
+        "endLine": 465,
+        "endChar": 23
+      },
+      "revId": "8f35c49d4a174da05ea0c799eb4dddef8a3592d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
