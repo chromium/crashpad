@@ -53,8 +53,15 @@ class MemorySnapshotLinux final : public MemorySnapshot {
   uint64_t Address() const override;
   size_t Size() const override;
   bool Read(Delegate* delegate) const override;
+  const MemorySnapshot* MergeWithOtherSnapshot(
+      const MemorySnapshot* other) const override;
 
  private:
+  template <class T>
+  friend const MemorySnapshot* MergeWithOtherSnapshotImpl(
+      const T* self,
+      const MemorySnapshot* other);
+
   ProcessReader* process_reader_;  // weak
   uint64_t address_;
   size_t size_;

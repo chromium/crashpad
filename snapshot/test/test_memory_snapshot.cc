@@ -14,6 +14,7 @@
 
 #include "snapshot/test/test_memory_snapshot.h"
 
+#include <memory>
 #include <string>
 
 namespace crashpad {
@@ -41,6 +42,19 @@ bool TestMemorySnapshot::Read(Delegate* delegate) const {
 
   std::string buffer(size_, value_);
   return delegate->MemorySnapshotDelegateRead(&buffer[0], size_);
+}
+
+const MemorySnapshot* TestMemorySnapshot::MergeWithOtherSnapshot(
+    const MemorySnapshot* other) const {
+  CheckedRange<uint64_t, size_t> merged(0, 0);
+  if (!DetermineMergedRange(this, other, &merged))
+    return nullptr;
+
+  std::unique_ptr<TestMemorySnapshot> result(new TestMemorySnapshot());
+  result->SetAddress(merged.base());
+  result->SetSize(merged.size());
+  result->SetValue(value_);
+  return result.release();
 }
 
 }  // namespace test
