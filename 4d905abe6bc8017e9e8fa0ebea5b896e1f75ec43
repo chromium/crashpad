@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da48735f_a1927fb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 98
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-01T22:15:11Z",
+      "side": 1,
+      "message": "Thanks for including Fuchsia in the default case here. It compiles!\n\nUnfortunately there\u0027s no lockfiles on Fuchsia. I filed https://bugs.chromium.org/p/crashpad/issues/detail?id\u003d217 with more details.\n\nI wanted to mention it here as it seemed relevant, but I don\u0027t mean to derail this CL. I think this is a good change and we should get it landed as it helps homogenize things. (I likely should have done this when writing the Windows database initially.) But I guess don\u0027t worry about Fuchsia too much. :)",
+      "range": {
+        "startLine": 14,
+        "startChar": 34,
+        "endLine": 16,
+        "endChar": 12
+      },
+      "revId": "4d905abe6bc8017e9e8fa0ebea5b896e1f75ec43",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
