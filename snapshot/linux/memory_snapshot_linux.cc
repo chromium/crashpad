@@ -64,5 +64,22 @@ bool MemorySnapshotLinux::Read(Delegate* delegate) const {
   return delegate->MemorySnapshotDelegateRead(buffer.get(), size_);
 }
 
+const MemorySnapshot* MemorySnapshotLinux::MergeWithOtherSnapshot(
+    const MemorySnapshot* other) const {
+  const MemorySnapshotLinux* other_as_memory_snapshot_linux =
+      reinterpret_cast<const MemorySnapshotLinux*>(other);
+  if (process_reader_ != other_as_memory_snapshot_linux->process_reader_) {
+    LOG(ERROR) << "different process_reader_ for snapshots";
+    return nullptr;
+  }
+  CheckedRange<uint64_t, size_t> merged(0, 0);
+  if (!LoggingDetermineMergedRange(this, other, &merged))
+    return nullptr;
+
+  std::unique_ptr<MemorySnapshotLinux> result(new MemorySnapshotLinux());
+  result->Initialize(this->process_reader_, merged.base(), merged.size());
+  return result.release();
+}
+
 }  // namespace internal
 }  // namespace crashpad

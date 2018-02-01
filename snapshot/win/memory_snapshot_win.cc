@@ -16,7 +16,6 @@
 
 #include "snapshot/win/memory_snapshot_win.h"
 
-
 namespace crashpad {
 namespace internal {
 

@@ -18,6 +18,8 @@
 #include <stdint.h>
 #include <sys/types.h>
 
+#include "util/numeric/checked_range.h"
+
 namespace crashpad {
 
 //! \brief An abstract interface to a snapshot representing a region of memory
@@ -70,7 +72,56 @@ class MemorySnapshot {
   //!     Delegate::MemorySnapshotDelegateRead(), which should be `true` on
   //!     success and `false` on failure.
   virtual bool Read(Delegate* delegate) const = 0;
+
+  //! \brief Creates a new MemorySnapshot based on merging this one with \a
+  //!     other.
+  //!
+  //! The ranges described by the two snapshots must either overlap or abut, and
+  //! must be of the same concrete type.
+  //!
+  //! \return A newly allocated MemorySnapshot representing the merged range, or
+  //!     `nullptr` with an error logged.
+  template <class T>
+  const MemorySnapshot* MergeWithOtherSnapshot(
+      const MemorySnapshot* other) const {
+    const T* other_as_memory_snapshot_concrete =
+        reinterpret_cast<const T*>(other);
+    if (process_reader_ != other_as_memory_snapshot_concrete->process_reader_) {
+      LOG(ERROR) << "different process_reader_ for snapshots";
+      return nullptr;
+    }
+    CheckedRange<uint64_t, size_t> merged(0, 0);
+    if (!LoggingDetermineMergedRange(this, other, &merged))
+      return nullptr;
+
+    std::unique_ptr<T> result(new T());
+    result->Initialize(this->process_reader_, merged.base(), merged.size());
+    return result.release();
+  }
 };
+
+//! \brief Given two memory snapshots, checks if they're overlapping or
+//!     abutting, and if so, returns the result of merging the two ranges.
+//!
+//! This function is useful to implement MemorySnapshot::MergeMemorySnapshots.
+//!
+//! \param[in] a The first range.
+//! \param[in] b The second range.
+//! \param[out] merged The resulting merged range. May be `nullptr` if only a
+//!     characterization of the ranges is desired.
+//!
+//! \return `true` if the input ranges overlap or abut, with \a merged filled
+//!     out, otherwise, `false` with an error logged if \a log is `true`.
+bool LoggingDetermineMergedRange(const MemorySnapshot* a,
+                                 const MemorySnapshot* b,
+                                 CheckedRange<uint64_t, size_t>* merged);
+
+//! \brief The same as LoggingDetermineMergedRange but with no errors logged.
+//!
+//! \sa LoggingDetermineMergedRange
+bool DetermineMergedRange(const MemorySnapshot* a,
+                          const MemorySnapshot* b,
+                          CheckedRange<uint64_t, size_t>* merged);
 
 }  // namespace crashpad
 
