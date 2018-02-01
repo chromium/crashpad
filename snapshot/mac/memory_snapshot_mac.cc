@@ -66,5 +66,10 @@ bool MemorySnapshotMac::Read(Delegate* delegate) const {
   return delegate->MemorySnapshotDelegateRead(buffer.get(), size_);
 }
 
+const MemorySnapshot* MemorySnapshotMac::MergeWithOtherSnapshot(
+    const MemorySnapshot* other) const {
+  return MergeWithOtherSnapshotImpl(this, other);
+}
+
 }  // namespace internal
 }  // namespace crashpad
