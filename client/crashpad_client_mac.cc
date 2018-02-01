@@ -331,17 +331,6 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
     }
     argv.push_back(FormatArgumentInt("handshake-fd", server_write_fd.get()));
 
-    // argv_c contains const char* pointers and is terminated by nullptr. argv
-    // is required because the pointers in argv_c need to point somewhere, and
-    // they can’t point to temporaries such as those returned by
-    // FormatArgumentString().
-    std::vector<const char*> argv_c;
-    argv_c.reserve(argv.size() + 1);
-    for (const std::string& argument : argv) {
-      argv_c.push_back(argument.c_str());
-    }
-    argv_c.push_back(nullptr);
-
     // When restarting, reset the system default crash handler first. Otherwise,
     // the crash exception port in the handler will have been inherited from
     // this parent process, which was probably using the exception server now
