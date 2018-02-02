@@ -790,9 +790,10 @@ void CrashpadClient::DumpAndCrash(EXCEPTION_POINTERS* exception_pointers) {
   UnhandledExceptionHandler(exception_pointers);
 }
 
+// static
 bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
                                                HANDLE blame_thread,
-                                               DWORD exception_code) const {
+                                               DWORD exception_code) {
   // Confirm we're on Vista or later.
   const DWORD version = GetVersion();
   const DWORD major_version = LOBYTE(LOWORD(version));
