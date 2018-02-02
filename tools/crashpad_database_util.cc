@@ -444,14 +444,11 @@ int DatabaseUtilMain(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
-  std::unique_ptr<CrashReportDatabase> database;
   base::FilePath database_path = base::FilePath(
       ToolSupport::CommandLineArgumentToFilePathStringType(options.database));
-  if (options.create) {
-    database = CrashReportDatabase::Initialize(database_path);
-  } else {
-    database = CrashReportDatabase::InitializeWithoutCreating(database_path);
-  }
+
+  auto database =
+      CrashReportDatabase::BuildDatabase(database_path, options.create);
   if (!database) {
     return EXIT_FAILURE;
   }
@@ -584,15 +581,12 @@ int DatabaseUtilMain(int argc, char* argv[]) {
       file_reader = std::move(file_path_reader);
     }
 
-    CrashReportDatabase::NewReport* new_report;
+    std::unique_ptr<CrashReportDatabase::NewReport> new_report;
     CrashReportDatabase::OperationStatus status =
         database->PrepareNewCrashReport(&new_report);
     if (status != CrashReportDatabase::kNoError) {
       return EXIT_FAILURE;
     }
-
-    CrashReportDatabase::CallErrorWritingCrashReport
-        call_error_writing_crash_report(database.get(), new_report);
 
     char buf[4096];
     FileOperationResult read_result;
@@ -601,16 +595,13 @@ int DatabaseUtilMain(int argc, char* argv[]) {
       if (read_result < 0) {
         return EXIT_FAILURE;
       }
-      if (read_result > 0 &&
-          !LoggingWriteFile(new_report->handle, buf, read_result)) {
+      if (read_result > 0 && !new_report->Writer()->Write(buf, read_result)) {
         return EXIT_FAILURE;
       }
     } while (read_result > 0);
 
-    call_error_writing_crash_report.Disarm();
-
     UUID uuid;
-    status = database->FinishedWritingCrashReport(new_report, &uuid);
+    status = database->FinishedWritingCrashReport(std::move(new_report), &uuid);
     if (status != CrashReportDatabase::kNoError) {
       return EXIT_FAILURE;
     }

@@ -16,6 +16,7 @@
 
 #include <fcntl.h>
 #include <stdlib.h>
+#include <sys/prctl.h>
 #include <sys/socket.h>
 #include <sys/syscall.h>
 #include <sys/types.h>
@@ -82,7 +83,7 @@ void BuildHandlerArgvStrings(
   }
 }
 
-void ConvertArgvStrings(const std::vector<std::string> argv_strings,
+void ConvertArgvStrings(const std::vector<std::string>& argv_strings,
                         std::vector<const char*>* argv) {
   argv->clear();
   argv->reserve(argv_strings.size() + 1);
@@ -127,6 +128,8 @@ class LaunchAtCrashHandler {
             context);
     exception_information->thread_id = syscall(SYS_gettid);
 
+    prctl(PR_SET_PTRACER, getpid(), 0, 0, 0);
+
     pid_t pid = fork();
     if (pid < 0) {
       return;
@@ -138,6 +141,9 @@ class LaunchAtCrashHandler {
 
     int status;
     waitpid(pid, &status, 0);
+
+    // Terminate this process in case it hasn't been killed by the handler.
+    _exit(EXIT_FAILURE);
   }
 
   std::vector<std::string> argv_strings_;
