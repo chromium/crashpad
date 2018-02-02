@@ -304,9 +304,9 @@ class CrashpadClient {
   //!     used as the exception code in the exception record.
   //!
   //! \return `true` if the exception was triggered successfully.
-  bool DumpAndCrashTargetProcess(HANDLE process,
-                                 HANDLE blame_thread,
-                                 DWORD exception_code) const;
+  static bool DumpAndCrashTargetProcess(HANDLE process,
+                                        HANDLE blame_thread,
+                                        DWORD exception_code);
 
   enum : uint32_t {
     //! \brief The exception code (roughly "Client called") used when
