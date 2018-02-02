@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2cb722e_f506d630",
+        "filename": "handler/win/crash_other_program.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-02T03:12:09Z",
+      "side": 1,
+      "message": "Now this is unused.",
+      "range": {
+        "startLine": 36,
+        "startChar": 24,
+        "endLine": 36,
+        "endChar": 52
+      },
+      "revId": "af1b96a28c24df0ee009b0fa16a0ca4a39051752",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
