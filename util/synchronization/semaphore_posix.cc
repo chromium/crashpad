@@ -22,6 +22,7 @@
 
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
+#include "build/build_config.h"
 #include "util/misc/time.h"
 
 namespace crashpad {

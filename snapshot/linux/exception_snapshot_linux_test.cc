@@ -23,6 +23,7 @@
 
 #include "base/macros.h"
 #include "base/strings/stringprintf.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "snapshot/cpu_architecture.h"
 #include "snapshot/linux/process_reader.h"
