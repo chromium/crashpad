@@ -33,7 +33,7 @@ namespace {
 
 constexpr DWORD kCrashAndDumpTargetExitCode = 0xdeadbea7;
 
-bool CrashAndDumpTarget(const CrashpadClient& client, HANDLE process) {
+bool CrashAndDumpTarget(HANDLE process) {
   DWORD target_pid = GetProcessId(process);
 
   ScopedFileHANDLE thread_snap(CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0));
@@ -61,7 +61,7 @@ bool CrashAndDumpTarget(const CrashpadClient& client, HANDLE process) {
           PLOG(ERROR) << "OpenThread";
           return false;
         }
-        if (!client.DumpAndCrashTargetProcess(
+        if (!CrashpadClient::DumpAndCrashTargetProcess(
                 process, thread.get(), kCrashAndDumpTargetExitCode)) {
           return false;
         }
@@ -109,11 +109,12 @@ int CrashOtherProgram(int argc, wchar_t* argv[]) {
   DWORD expect_exit_code;
   if (argc == 3 && wcscmp(argv[2], L"noexception") == 0) {
     expect_exit_code = CrashpadClient::kTriggeredExceptionCode;
-    if (!client.DumpAndCrashTargetProcess(child.process_handle(), 0, 0))
+    if (!CrashpadClient::DumpAndCrashTargetProcess(
+            child.process_handle(), 0, 0))
       return EXIT_FAILURE;
   } else {
     expect_exit_code = kCrashAndDumpTargetExitCode;
-    if (!CrashAndDumpTarget(client, child.process_handle())) {
+    if (!CrashAndDumpTarget(child.process_handle())) {
       return EXIT_FAILURE;
     }
   }
