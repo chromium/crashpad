@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bb1ce27_f4022aff",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-02T22:01:03Z",
+      "side": 1,
+      "message": "Move this to be after the (crashpad_is_linux || crashpad_is_android) section on line 372. Or before that section, if you like that better.",
+      "revId": "1a326a656f319c69d27cacc5695c3dc1b27eb8a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
