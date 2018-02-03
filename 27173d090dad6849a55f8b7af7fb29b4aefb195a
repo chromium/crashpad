@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a37ba7fc_d01c075e",
+        "filename": "minidump/minidump_context_writer.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-03T02:26:16Z",
+      "side": 1,
+      "message": "oops",
+      "revId": "27173d090dad6849a55f8b7af7fb29b4aefb195a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
