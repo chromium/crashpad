@@ -84,6 +84,7 @@ MinidumpContextWriter::CreateFromSnapshot(const CPUContext* context_snapshot) {
       context = std::make_unique<MinidumpContextARM64Writer>();
       reinterpret_cast<MinidumpContextARM64Writer*>(context.get())
           ->InitializeFromSnapshot(context_snapshot->arm64);
+      break;
     }
 
     default: {
