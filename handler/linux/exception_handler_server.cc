@@ -24,6 +24,7 @@
 
 #include <utility>
 
+#include "base/compiler_specific.h"
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/strings/string_number_conversions.h"
@@ -150,7 +151,7 @@ class PtraceStrategyDeciderImpl : public PtraceStrategyDecider {
         if (HaveCapSysPtrace()) {
           return Strategy::kDirectPtrace;
         }
-      // fallthrough
+        FALLTHROUGH;
       case PtraceScope::kNoAttach:
         LOG(WARNING) << "no ptrace";
         return Strategy::kNoPtrace;
