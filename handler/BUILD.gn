@@ -206,4 +206,106 @@ if (crashpad_is_win) {
       "$root_out_dir/crashpad_handler.com",
     ]
   }
+
+  executable("crash_other_program") {
+    testonly = true
+
+    sources = [
+      "win/crash_other_program.cc",
+    ]
+
+    deps = [
+      "../client",
+      "../test",
+      "../third_party/gtest:gtest",
+      "../third_party/mini_chromium:base",
+    ]
+  }
+
+  executable("crashy_program") {
+    testonly = true
+
+    sources = [
+      "win/crashy_test_program.cc",
+    ]
+
+    deps = [
+      "../client",
+      "../third_party/mini_chromium:base",
+    ]
+  }
+
+  executable("crashy_signal") {
+    testonly = true
+
+    sources = [
+      "win/crashy_signal.cc",
+    ]
+
+    deps = [
+      "../client",
+      "../third_party/mini_chromium:base",
+    ]
+  }
+
+  executable("fake_handler_that_crashes_at_startup") {
+    testonly = true
+
+    sources = [
+      "win/fake_handler_that_crashes_at_startup.cc",
+    ]
+  }
+
+  executable("hanging_program") {
+    testonly = true
+
+    sources = [
+      "win/hanging_program.cc",
+    ]
+
+    deps = [
+      "../client",
+      "../third_party/mini_chromium:base",
+    ]
+  }
+
+  loadable_module("loader_lock_dll") {
+    testonly = true
+
+    sources = [
+      "win/loader_lock_dll.cc",
+    ]
+  }
+
+  executable("self_destroying_program") {
+    testonly = true
+
+    sources = [
+      "win/self_destroying_test_program.cc",
+    ]
+
+    deps = [
+      "../client",
+      "../compat",
+      "../snapshot",
+      "../third_party/mini_chromium:base",
+    ]
+  }
+
+  if (current_cpu == "x86") {
+    # Cannot create an x64 DLL with embedded debug info.
+    executable("crashy_z7_loader") {
+      testonly = true
+
+      sources = [
+        "win/crashy_test_z7_loader.cc",
+      ]
+
+      deps = [
+        "../client",
+        "../test",
+        "../third_party/mini_chromium:base",
+      ]
+    }
+  }
 }
