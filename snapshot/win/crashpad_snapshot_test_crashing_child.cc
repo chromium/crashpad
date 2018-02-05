@@ -15,20 +15,11 @@
 #include <intrin.h>
 #include <windows.h>
 
-#include "base/files/file_path.h"
 #include "base/logging.h"
 #include "client/crashpad_client.h"
-#include "util/file/file_io.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/win/address_types.h"
-
-namespace {
-
-__declspec(noinline) crashpad::WinVMAddress CurrentAddress() {
-  return crashpad::FromPointerCast<crashpad::WinVMAddress>(_ReturnAddress());
-}
-
-}  // namespace
+#include "util/win/capture_context.h"
 
 int wmain(int argc, wchar_t* argv[]) {
   CHECK_EQ(argc, 2);
@@ -38,8 +29,16 @@ int wmain(int argc, wchar_t* argv[]) {
 
   HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
   PCHECK(out != INVALID_HANDLE_VALUE) << "GetStdHandle";
-  crashpad::WinVMAddress break_address = CurrentAddress();
-  crashpad::CheckedWriteFile(out, &break_address, sizeof(break_address));
+
+  CONTEXT context;
+  crashpad::CaptureContext(&context);
+#if defined(ARCH_CPU_64_BITS)
+  crashpad::WinVMAddress break_address = context.Rip;
+#else
+  crashpad::WinVMAddress break_address = context.Eip;
+#endif
+
+  WriteFile(out, &break_address, sizeof(break_address), nullptr, nullptr);
 
   __debugbreak();
 
