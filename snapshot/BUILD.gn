@@ -47,8 +47,6 @@ static_library("snapshot") {
     "minidump/process_snapshot_minidump.cc",
     "minidump/process_snapshot_minidump.h",
     "module_snapshot.h",
-    "posix/timezone.cc",
-    "posix/timezone.h",
     "process_snapshot.h",
     "snapshot_constants.h",
     "system_snapshot.h",
@@ -56,6 +54,13 @@ static_library("snapshot") {
     "unloaded_module_snapshot.cc",
     "unloaded_module_snapshot.h",
   ]
+
+  if (crashpad_is_posix) {
+    sources += [
+      "posix/timezone.cc",
+      "posix/timezone.h",
+    ]
+  }
 
   if (crashpad_is_mac) {
     sources += [
