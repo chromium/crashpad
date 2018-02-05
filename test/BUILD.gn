@@ -92,6 +92,8 @@ static_library("test") {
       "win/win_multiprocess_with_temp_dir.cc",
       "win/win_multiprocess_with_temp_dir.h",
     ]
+
+    libs = [ "shell32.lib" ]
   }
 
   if (crashpad_is_fuchsia) {
