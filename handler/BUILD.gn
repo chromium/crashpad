@@ -147,8 +147,15 @@ executable("crashpad_handler") {
   }
 
   if (crashpad_is_win) {
-    configs -= [ "//build/config/win:console" ]
-    configs += [ "//build/config/win:windowed" ]
+    if (crashpad_is_in_chromium) {
+      configs -= [ "//build/config/win:console" ]
+      configs += [ "//build/config/win:windowed" ]
+    } else {
+      configs -=
+          [ "//third_party/mini_chromium/mini_chromium/build:win_console" ]
+      configs +=
+          [ "//third_party/mini_chromium/mini_chromium/build:win_windowed" ]
+    }
   }
 }
 
