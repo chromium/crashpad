@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa8a7b24_1f7e7c25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-06T19:41:56Z",
+      "side": 1,
+      "message": "Keep the summary line within 72 without wrapping if you can, for nice git logs.",
+      "revId": "dd891a299e483239074f6cef240713c2753785bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
