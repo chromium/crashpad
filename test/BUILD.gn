@@ -96,7 +96,6 @@ static_library("test") {
 
   if (crashpad_is_fuchsia) {
     sources += [ "multiprocess_exec_fuchsia.cc" ]
-    libs = [ "launchpad" ]
   }
 
   public_configs = [ "..:crashpad_config" ]
@@ -120,6 +119,14 @@ static_library("test") {
       "../handler",
       "../snapshot",
     ]
+  }
+
+  if (crashpad_is_win) {
+    libs = [ "shell32.lib" ]
+  }
+
+  if (crashpad_is_fuchsia) {
+    libs = [ "launchpad" ]
   }
 }
 
