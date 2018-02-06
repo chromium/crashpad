@@ -407,11 +407,11 @@ static_library("util") {
   }
 
   if (crashpad_is_win) {
-    cflags = [
-      "/wd4201",  # nonstandard extension used : nameless struct/union.
-      "/wd4577",  # 'noexcept' used with no exception handling mode specified.
+    libs = [
+      "mincore.lib",
+      "user32.lib",
+      "winhttp.lib",
     ]
-    libs = [ "winhttp.lib" ]
 
     if (current_cpu == "x86") {
       asmflags = [ "/safeseh" ]
@@ -568,7 +568,10 @@ source_set("util_test") {
   }
 
   if (crashpad_is_win) {
-    libs = [ "rpcrt4.lib" ]
+    libs = [
+      "rpcrt4.lib",
+      "dbghelp.lib",
+    ]
     data_deps = [
       ":crashpad_util_test_process_info_test_child",
       ":crashpad_util_test_safe_terminate_process_test_child",

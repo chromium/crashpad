@@ -54,8 +54,10 @@ _default_configs = [
 ]
 
 _default_executable_configs =
-    _default_configs +
-    [ "//third_party/mini_chromium/mini_chromium/build:executable" ]
+    _default_configs + [
+      "//third_party/mini_chromium/mini_chromium/build:executable",
+      "//third_party/mini_chromium/mini_chromium/build:win_console",
+    ]
 
 set_defaults("source_set") {
   configs = _default_configs
