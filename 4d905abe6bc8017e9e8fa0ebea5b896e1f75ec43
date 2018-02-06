@@ -22,6 +22,30 @@
       "revId": "4d905abe6bc8017e9e8fa0ebea5b896e1f75ec43",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b5b8737_1d06d907",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 98
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-06T01:31:00Z",
+      "side": 1,
+      "message": "Doh! I\u0027m a goof, I saw \"ScopedLockFile\" and assumed it corresponded to flock() or lockf() or fcntl(F_SETLKW).\n\nBut now that I actually *look at the code* I see it\u0027s O_EXCL-based. I think this ought to work fine on Fuchsia, so I\u0027ll consider myself extra lucky that you did all this work just in time. :)",
+      "parentUuid": "da48735f_a1927fb8",
+      "range": {
+        "startLine": 14,
+        "startChar": 34,
+        "endLine": 16,
+        "endChar": 12
+      },
+      "revId": "4d905abe6bc8017e9e8fa0ebea5b896e1f75ec43",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
