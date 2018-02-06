@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80b60a55_5f34a4cc",
+        "filename": "snapshot/win/crashpad_snapshot_test_crashing_child.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-06T15:58:57Z",
+      "side": 1,
+      "message": "#include \"build/build_config.h\"",
+      "revId": "cbfaf42a1e9dd25f9bd81b563b35516392d718b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49d1c2ca_65e99a82",
+        "filename": "snapshot/win/crashpad_snapshot_test_crashing_child.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-06T15:58:57Z",
+      "side": 1,
+      "message": "Why did this lose the crashpad::Checked?",
+      "revId": "cbfaf42a1e9dd25f9bd81b563b35516392d718b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2b2cf2c_84504b69",
+        "filename": "snapshot/win/crashpad_snapshot_test_dump_without_crashing.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-06T15:58:57Z",
+      "side": 1,
+      "message": "“context” is a natural name to use for this variable, so let’s rename the one inside CRASHPAD_SIMULATE_CRASH to make it easier to use.",
+      "revId": "cbfaf42a1e9dd25f9bd81b563b35516392d718b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "644cc7d3_f0db6ffb",
+        "filename": "snapshot/win/crashpad_snapshot_test_dump_without_crashing.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-06T15:58:57Z",
+      "side": 1,
+      "message": "Plus the same comments carried over from the other file.",
+      "revId": "cbfaf42a1e9dd25f9bd81b563b35516392d718b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
