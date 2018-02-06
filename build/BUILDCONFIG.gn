@@ -35,7 +35,7 @@ if (current_cpu == "") {
 
 if (current_os == "win") {
   set_default_toolchain(
-      "//third_party/mini_chromium/mini_chromium/build:msvc_toolchain")
+      "//third_party/mini_chromium/mini_chromium/build:msvc_toolchain_$current_cpu")
 } else {
   set_default_toolchain(
       "//third_party/mini_chromium/mini_chromium/build:gcc_like_toolchain")
