@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c2181819_09913308",
+        "filename": "client/simulate_crash_win.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-06T21:22:27Z",
+      "side": 1,
+      "message": "I copied Mac, but I guess there\u0027s no shadowing warning by default there. Done.",
+      "parentUuid": "d6c5fe29_e0e157ec",
+      "revId": "9ea216bcff8d62c46766c14f6d8bb3c7606045db",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fb149680_b9f3ea97",
         "filename": "snapshot/win/crashpad_snapshot_test_crashing_child.cc",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2018-02-06T21:15:50Z",
       "side": 1,
       "message": "aside from an indication of what broke while the other end experiences a ReadFile() error. (Hopefully it doesn’t just hang without indicating a problem.)",
+      "revId": "9ea216bcff8d62c46766c14f6d8bb3c7606045db",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4288b890_6d23366b",
+        "filename": "snapshot/win/crashpad_snapshot_test_crashing_child.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-06T21:22:27Z",
+      "side": 1,
+      "message": "Yeah, the pipe closes so the ReadFile() fails on the other side.",
+      "parentUuid": "fb149680_b9f3ea97",
       "revId": "9ea216bcff8d62c46766c14f6d8bb3c7606045db",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
