@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea273e7b_102c853b",
+        "filename": "test/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-06T16:05:14Z",
+      "side": 1,
+      "message": "The general principle was to first do a section of sources only, and then to put all other stuff in a section below. But it looks like you found a Fuchsia straggler that mixed sources and libs.",
+      "revId": "6ec3456362e8e155803c37ab947ab69c2874d941",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c804f2b_c17903bf",
+        "filename": "test/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-06T16:05:14Z",
+      "side": 1,
+      "message": "I’d bring both of those libs sections down to appropriate conditionals here.",
+      "revId": "6ec3456362e8e155803c37ab947ab69c2874d941",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
