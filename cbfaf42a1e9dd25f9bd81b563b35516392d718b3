@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "17cdb80e_678aa2bf",
+        "filename": "snapshot/win/crashpad_snapshot_test_crashing_child.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-06T20:13:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80b60a55_5f34a4cc",
+      "revId": "cbfaf42a1e9dd25f9bd81b563b35516392d718b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49d1c2ca_65e99a82",
         "filename": "snapshot/win/crashpad_snapshot_test_crashing_child.cc",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2018-02-06T15:58:57Z",
       "side": 1,
       "message": "Why did this lose the crashpad::Checked?",
+      "revId": "cbfaf42a1e9dd25f9bd81b563b35516392d718b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1aa1c0d_05313af6",
+        "filename": "snapshot/win/crashpad_snapshot_test_crashing_child.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-06T20:13:32Z",
+      "side": 1,
+      "message": "Added comment.",
+      "parentUuid": "49d1c2ca_65e99a82",
       "revId": "cbfaf42a1e9dd25f9bd81b563b35516392d718b3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5443f362_4268d25e",
+        "filename": "snapshot/win/crashpad_snapshot_test_dump_without_crashing.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-06T20:13:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2b2cf2c_84504b69",
+      "revId": "cbfaf42a1e9dd25f9bd81b563b35516392d718b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "644cc7d3_f0db6ffb",
         "filename": "snapshot/win/crashpad_snapshot_test_dump_without_crashing.cc",
         "patchSetId": 3
@@ -67,6 +121,24 @@
       "revId": "cbfaf42a1e9dd25f9bd81b563b35516392d718b3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd664896_8898b5a7",
+        "filename": "snapshot/win/crashpad_snapshot_test_dump_without_crashing.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-06T20:13:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "644cc7d3_f0db6ffb",
+      "revId": "cbfaf42a1e9dd25f9bd81b563b35516392d718b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

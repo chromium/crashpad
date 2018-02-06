@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc0555d8_0587ce2d",
+        "filename": "snapshot/win/crashpad_snapshot_test_crashing_child.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-06T20:13:32Z",
+      "side": 1,
+      "message": "Pro-tip! Win7 doesn\u0027t accept null here, despite it being documented as\n\n  _Out_opt_   LPDWORD      lpNumberOfBytesWritten,\n\n(The Remarks section does indeed clarify that it\u0027s only optional when lpOverlapped is non-null, but I have a(n apparently bad) habit of jumping to the windows.h definition to determine arguments because it\u0027s faster than MSDN.)",
+      "range": {
+        "startLine": 49,
+        "startChar": 50,
+        "endLine": 49,
+        "endChar": 64
+      },
+      "revId": "440bc5f902d73f7ab87b83f9e2dd9b9320e3b1da",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
