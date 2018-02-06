@@ -23,11 +23,12 @@
 //! \file
 
 //! \brief Captures the CPU context and captures a dump without an exception.
-#define CRASHPAD_SIMULATE_CRASH()                        \
-  do {                                                   \
-    CONTEXT context;                                     \
-    crashpad::CaptureContext(&context);                  \
-    crashpad::CrashpadClient::DumpWithoutCrash(context); \
+#define CRASHPAD_SIMULATE_CRASH()                                           \
+  do {                                                                      \
+    /* Not "context" to avoid variable shadowing warnings. */               \
+    CONTEXT simulate_crash_cpu_context;                                     \
+    crashpad::CaptureContext(&simulate_crash_cpu_context);                  \
+    crashpad::CrashpadClient::DumpWithoutCrash(simulate_crash_cpu_context); \
   } while (false)
 
 #endif  // CRASHPAD_CLIENT_SIMULATE_CRASH_WIN_H_
