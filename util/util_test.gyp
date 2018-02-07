@@ -42,6 +42,7 @@
         'file/filesystem_test.cc',
         'file/string_file_test.cc',
         'linux/auxiliary_vector_test.cc',
+        'linux/capture_context_test.cc',
         'linux/memory_map_test.cc',
         'linux/proc_stat_reader_test.cc',
         'linux/ptrace_broker_test.cc',

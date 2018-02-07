@@ -55,6 +55,8 @@
         'linux/address_types.h',
         'linux/auxiliary_vector.cc',
         'linux/auxiliary_vector.h',
+        'linux/capture_context.S',
+        'linux/capture_context.h',
         'linux/checked_address_range.h',
         'linux/direct_ptrace_connection.cc',
         'linux/direct_ptrace_connection.h',
