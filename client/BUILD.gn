@@ -38,6 +38,7 @@ static_library("client") {
     sources += [
       "capture_context_mac.S",
       "capture_context_mac.h",
+      "crash_report_database_mac.h",
       "crash_report_database_mac.mm",
       "crashpad_client_mac.cc",
       "simulate_crash_mac.cc",
@@ -52,16 +53,14 @@ static_library("client") {
   if (crashpad_is_win) {
     sources += [
       "crash_report_database_win.cc",
+      "crash_report_database_win.h",
       "crashpad_client_win.cc",
       "simulate_crash_win.h",
     ]
   }
 
   if (crashpad_is_fuchsia) {
-    sources += [
-      "crash_report_database_fuchsia.cc",
-      "crashpad_client_fuchsia.cc",
-    ]
+    sources += [ "crashpad_client_fuchsia.cc" ]
   }
 
   public_configs = [ "..:crashpad_config" ]
