@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c20327b8_53fb981a",
+        "filename": "client/settings_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-08T06:02:23Z",
+      "side": 1,
+      "message": "Oops. Well, it\u0027s commented out at least.",
+      "range": {
+        "startLine": 54,
+        "startChar": 24,
+        "endLine": 54,
+        "endChar": 28
+      },
+      "revId": "dd4e6655158c10cfccf2d192c1296bb8e36b21fa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
