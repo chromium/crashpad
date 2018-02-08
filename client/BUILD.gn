@@ -36,8 +36,6 @@ static_library("client") {
 
   if (crashpad_is_mac) {
     sources += [
-      "capture_context_mac.S",
-      "capture_context_mac.h",
       "crash_report_database_mac.mm",
       "crashpad_client_mac.cc",
       "simulate_crash_mac.cc",
@@ -92,10 +90,7 @@ source_set("client_test") {
   ]
 
   if (crashpad_is_mac) {
-    sources += [
-      "capture_context_mac_test.cc",
-      "simulate_crash_mac_test.cc",
-    ]
+    sources += [ "simulate_crash_mac_test.cc" ]
   }
 
   if (crashpad_is_win) {
