@@ -45,6 +45,30 @@
       "revId": "dd4e6655158c10cfccf2d192c1296bb8e36b21fa",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a5ad2b4_ffe5755b",
+        "filename": "client/settings_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-08T18:43:18Z",
+      "side": 1,
+      "message": "Hmm, good question. This is definitely the yuckiest part of this implementation.\n\nGetUploadsEnabled() \u0026 GetLastUploadAttemptTime() definitely seem fine to lazy init, I agree.\n\nI was mostly worried about the client id... Assuming we had a GenerateClientID() called from GetClientID() (when it doesn\u0027t exist) that does the write-and-rename, I think it almost-but-not-quite works to have lazy init. The trouble case I\u0027m thinking of is two callers racing to init at Get time:\n\nA                               B\n----------------------------------------------------------\nInitialize()                    \n...                             Initialize()\n...                             ...\nGetClientID()                   ...\ncheck, need to generate         ...\n...                             GetClientID()\n...                             check, need to generate\n               ...now we\u0027re in trouble...\nGenerateClientID()              ...\nreturn client_id;               ...\n...                             GenerateClientID()\n...                             return client_id;\n\nwhich would mean that A gets a different client id than later calls. There\u0027s no corruption or anything, but the client id is a bit special in that it\u0027s sort-of-immutable. Racy writes to the other Sets are fine because if two places are racing on setting those, well, there\u0027s no guarantee which was going to get set first/second anyway. But the client id is intended to be stable.\n\nNow that I write that and ponder some more, another way the \"loser\" case could be written is to use https://fuchsia.googlesource.com/zircon/+/master/system/ulib/fdio/include/fdio/watcher.h to wait for the client_id file to be created. Unfortunately that\u0027d part would become Fuchsia-only, so we\u0027d need something equivalent for Linux/Android.",
+      "parentUuid": "d5c12d1a_0455e788",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 5
+      },
+      "revId": "dd4e6655158c10cfccf2d192c1296bb8e36b21fa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
