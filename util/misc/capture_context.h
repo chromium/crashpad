@@ -12,18 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_CLIENT_CAPTURE_CONTEXT_MAC_H_
-#define CRASHPAD_CLIENT_CAPTURE_CONTEXT_MAC_H_
-
-#include <mach/mach.h>
+#ifndef CRASHPAD_UTIL_MISC_CAPTURE_CONTEXT_H_
+#define CRASHPAD_UTIL_MISC_CAPTURE_CONTEXT_H_
 
 #include "build/build_config.h"
 
+#if defined(OS_MACOSX)
+#include <mach/mach.h>
+#elif defined(OS_WIN)
+#include <windows.h>
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+#include <ucontext.h>
+#endif  // OS_MACOSX
+
 namespace crashpad {
 
+#if defined(OS_MACOSX)
 #if defined(ARCH_CPU_X86_FAMILY)
 using NativeCPUContext = x86_thread_state;
 #endif
+#elif defined(OS_WIN)
+using NativeCPUContext = CONTEXT;
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+using NativeCPUContext = ucontext_t;
+#endif  // OS_MACOSX
 
 //! \brief Saves the CPU context.
 //!
@@ -31,8 +43,18 @@ using NativeCPUContext = x86_thread_state;
 //! containing an atomic snapshot at the point of this function’s return. This
 //! function does not modify any registers.
 //!
+//! This function is a replacement for `RtlCaptureContext()`, and `getcontext()`
+//! which contain bugs and/or limitations.
+//!
+//! On 32-bit x86, `RtlCaptureContext()` requires that `ebp` be used as a frame
+//! pointer, and returns `ebp`, `esp`, and `eip` out of sync with the other\
+//! registers. Both the 32-bit x86 and 64-bit x86_64 versions of
+//! `RtlCaptureContext()` capture only the state of the integer registers,
+//! ignoring floating-point and vector state.
+//!
 //! \param[out] cpu_context The structure to store the context in.
 //!
+//! TODO rcx on win
 //! \note On x86_64, the value for `%%rdi` will be populated with the address of
 //!     this function’s argument, as mandated by the ABI. If the value of
 //!     `%%rdi` prior to calling this function is needed, it must be obtained
@@ -45,4 +67,4 @@ void CaptureContext(NativeCPUContext* cpu_context);
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_CLIENT_CAPTURE_CONTEXT_MAC_H_
+#endif  // CRASHPAD_UTIL_MISC_CAPTURE_CONTEXT_H_

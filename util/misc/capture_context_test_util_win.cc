@@ -1,4 +1,4 @@
-// Copyright 2015 The Crashpad Authors. All rights reserved.
+// Copyright 2018 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/win/capture_context.h"
-
-#include <stdint.h>
-#include <sys/types.h>
-
-#include <algorithm>
-
-#include "base/macros.h"
-#include "build/build_config.h"
-#include "gtest/gtest.h"
+#include "util/misc/capture_context_test_util.h"
 
 namespace crashpad {
 namespace test {
-namespace {
 
 // If the context structure has fields that tell whether it’s valid, such as
 // magic numbers or size fields, sanity-checks those fields for validity with
@@ -34,18 +24,17 @@ namespace {
 // gtest assertions.
 void SanityCheckContext(const CONTEXT& context) {
 #if defined(ARCH_CPU_X86)
-  constexpr uint32_t must_have = CONTEXT_i386 |
-                                 CONTEXT_CONTROL |
-                                 CONTEXT_INTEGER |
-                                 CONTEXT_SEGMENTS |
+  constexpr uint32_t must_have = CONTEXT_i386 | CONTEXT_CONTROL |
+                                 CONTEXT_INTEGER | CONTEXT_SEGMENTS |
                                  CONTEXT_FLOATING_POINT;
   ASSERT_EQ(context.ContextFlags & must_have, must_have);
   constexpr uint32_t may_have = CONTEXT_EXTENDED_REGISTERS;
   ASSERT_EQ(context.ContextFlags & ~(must_have | may_have), 0u);
 #elif defined(ARCH_CPU_X86_64)
-  ASSERT_EQ(context.ContextFlags,
-            static_cast<DWORD>(CONTEXT_AMD64 | CONTEXT_CONTROL |
-                CONTEXT_INTEGER | CONTEXT_SEGMENTS | CONTEXT_FLOATING_POINT));
+  ASSERT_EQ(
+      context.ContextFlags,
+      static_cast<DWORD>(CONTEXT_AMD64 | CONTEXT_CONTROL | CONTEXT_INTEGER |
+                         CONTEXT_SEGMENTS | CONTEXT_FLOATING_POINT));
 #endif
 
 #if defined(ARCH_CPU_X86_FAMILY)
@@ -125,56 +114,5 @@ uintptr_t StackPointerFromContext(const CONTEXT& context) {
 #endif
 }
 
-void TestCaptureContext() {
-  CONTEXT context_1;
-  CaptureContext(&context_1);
-
-  {
-    SCOPED_TRACE("context_1");
-    ASSERT_NO_FATAL_FAILURE(SanityCheckContext(context_1));
-  }
-
-  // The program counter reference value is this function’s address. The
-  // captured program counter should be slightly greater than or equal to the
-  // reference program counter.
-  uintptr_t pc = ProgramCounterFromContext(context_1);
-
-  // Declare sp and context_2 here because all local variables need to be
-  // declared before computing the stack pointer reference value, so that the
-  // reference value can be the lowest value possible.
-  uintptr_t sp;
-  CONTEXT context_2;
-
-  // The stack pointer reference value is the lowest address of a local variable
-  // in this function. The captured program counter will be slightly less than
-  // or equal to the reference stack pointer.
-  const uintptr_t kReferenceSP =
-      std::min(std::min(reinterpret_cast<uintptr_t>(&context_1),
-                        reinterpret_cast<uintptr_t>(&context_2)),
-               std::min(reinterpret_cast<uintptr_t>(&pc),
-                        reinterpret_cast<uintptr_t>(&sp)));
-  sp = StackPointerFromContext(context_1);
-  EXPECT_LT(kReferenceSP - sp, 512u);
-
-  // Capture the context again, expecting that the stack pointer stays the same
-  // and the program counter increases. Strictly speaking, there’s no guarantee
-  // that these conditions will hold, although they do for known compilers even
-  // under typical optimization.
-  CaptureContext(&context_2);
-
-  {
-    SCOPED_TRACE("context_2");
-    ASSERT_NO_FATAL_FAILURE(SanityCheckContext(context_2));
-  }
-
-  EXPECT_EQ(StackPointerFromContext(context_2), sp);
-  EXPECT_GT(ProgramCounterFromContext(context_2), pc);
-}
-
-TEST(CaptureContextWin, CaptureContext) {
-  ASSERT_NO_FATAL_FAILURE(TestCaptureContext());
-}
-
-}  // namespace
 }  // namespace test
 }  // namespace crashpad
