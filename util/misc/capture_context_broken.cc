@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/win/capture_context.h"
+#include "util/misc/capture_context.h"
 
 #include "base/logging.h"
 
 namespace crashpad {
 
-void CaptureContext(CONTEXT* context) {
+void CaptureContext(NativeCPUContext* context) {
   // Don't use this file in production.
   CHECK(false)
       << "Don't use this! For cross builds only. See https://crbug.com/762167.";
