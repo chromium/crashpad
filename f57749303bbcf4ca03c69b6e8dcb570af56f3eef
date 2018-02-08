@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "11f01ea4_8963e563",
+        "filename": "util/misc/capture_context_linux.S",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-08T23:17:35Z",
+      "side": 1,
+      "message": "\u003e It looks like, without any special flags, clang++ aligns x86/x86_64 at 16 bytes\n\nOh, that makes sense given how they do prefetching and instruction caching.",
+      "parentUuid": "acc91c42_5abf617f",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "f57749303bbcf4ca03c69b6e8dcb570af56f3eef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "166ea813_551adb11",
         "filename": "util/misc/capture_context_test_util.h",
         "patchSetId": 8
