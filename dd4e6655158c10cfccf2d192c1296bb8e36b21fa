@@ -22,6 +22,29 @@
       "revId": "dd4e6655158c10cfccf2d192c1296bb8e36b21fa",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5c12d1a_0455e788",
+        "filename": "client/settings_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-08T18:10:03Z",
+      "side": 1,
+      "message": "Do we actually have to wait for initialization to complete here?\n\nThe setters don\u0027t read the existing data before updating it so they don\u0027t care if it\u0027s missing.\n\nGetUploadsEnabled/GetLastUploadAttemptTime can just return 0 if the file doesn\u0027t exist.\n\nGetClientId can fall back to attempting to complete initialization of the client id file if it doesn\u0027t exist.",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 5
+      },
+      "revId": "dd4e6655158c10cfccf2d192c1296bb8e36b21fa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
