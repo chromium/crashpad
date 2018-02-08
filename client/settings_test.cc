@@ -14,15 +14,41 @@
 
 #include "client/settings.h"
 
+#include "base/logging.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/scoped_temp_dir.h"
+#include "util/file/directory_reader.h"
 #include "util/file/file_io.h"
+#include "util/file/filesystem.h"
 
 namespace crashpad {
 namespace test {
 namespace {
+
+// If path names a file, unlink it. If it's a directory, remove all files
+// directly contained in that directory (i.e. non-recursively) and then attempt
+// to remove the directory.
+void RemoveFileOrSingleLevelDirectory(const base::FilePath& path) {
+  if (IsRegularFile(path)) {
+    EXPECT_TRUE(LoggingRemoveFile(path));
+  } else {
+    ASSERT_TRUE(IsDirectory(path, false));
+    DirectoryReader directory_reader;
+    ASSERT_TRUE(directory_reader.Open(path));
+
+    base::FilePath filename;
+    DirectoryReader::Result result;
+    while ((result = directory_reader.NextFile(&filename)) ==
+           DirectoryReader::Result::kSuccess) {
+      base::FilePath to_remove(path.Append(filename));
+      EXPECT_TRUE(IsRegularFile(to_remove));
+      LoggingRemoveFile(to_remove);
+    }
+    EXPECT_TRUE(LoggingRemoveDirectory(path));
+  }
+}
 
 class SettingsTest : public testing::Test {
  public:
@@ -35,6 +61,7 @@ class SettingsTest : public testing::Test {
   Settings* settings() { return &settings_; }
 
   void InitializeBadFile() {
+    RemoveFileOrSingleLevelDirectory(settings_path());
     ScopedFileHandle handle(
         LoggingOpenFileForWrite(settings_path(),
                                 FileWriteMode::kTruncateOrCreate,
@@ -147,19 +174,13 @@ TEST_F(SettingsTest, BadFileOnSet) {
   EXPECT_TRUE(enabled);
 }
 
-TEST_F(SettingsTest, UnlinkFile) {
+TEST_F(SettingsTest, Unlink) {
   UUID client_id;
   EXPECT_TRUE(settings()->GetClientID(&client_id));
   EXPECT_TRUE(settings()->SetUploadsEnabled(true));
   EXPECT_TRUE(settings()->SetLastUploadAttemptTime(time(nullptr)));
 
-#if defined(OS_WIN)
-  EXPECT_EQ(_wunlink(settings_path().value().c_str()), 0)
-      << ErrnoMessage("_wunlink");
-#else
-  EXPECT_EQ(unlink(settings_path().value().c_str()), 0)
-      << ErrnoMessage("unlink");
-#endif
+  RemoveFileOrSingleLevelDirectory(settings_path());
 
   Settings local_settings;
   EXPECT_TRUE(local_settings.Initialize(settings_path()));
