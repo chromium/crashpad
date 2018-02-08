@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57ad7db5_0345437c",
+        "filename": "client/settings_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-08T21:01:13Z",
+      "side": 1,
+      "message": "I didn\u0027t consider having a regular file in the way of the settings directory until these tests failed!\n\nI will add some tests here that put bogus directory structures in place too, but I expect the non-Fuchsia implementation will need some work to handle recovering from that situation.",
+      "revId": "9935821e1340e76a19e799b009b6814163f0bb0f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
