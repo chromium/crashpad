@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6069a374_7f74b41d",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-08T22:00:04Z",
+      "side": 1,
+      "message": "List the header here.",
+      "revId": "f57749303bbcf4ca03c69b6e8dcb570af56f3eef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87665536_d93cf5d8",
+        "filename": "util/misc/capture_context.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-08T22:00:04Z",
+      "side": 1,
+      "message": "This is an x86 register. Or is the top half preserved?",
+      "range": {
+        "startLine": 63,
+        "startChar": 38,
+        "endLine": 63,
+        "endChar": 43
+      },
+      "revId": "f57749303bbcf4ca03c69b6e8dcb570af56f3eef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4afc8bb4_989e6c54",
+        "filename": "util/misc/capture_context.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-08T22:00:04Z",
+      "side": 1,
+      "message": "macOS now, lowercase M. :(",
+      "range": {
+        "startLine": 64,
+        "startChar": 8,
+        "endLine": 64,
+        "endChar": 13
+      },
+      "revId": "f57749303bbcf4ca03c69b6e8dcb570af56f3eef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6710ed3_44524ca4",
+        "filename": "util/misc/capture_context_linux.S",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-08T22:00:04Z",
+      "side": 1,
+      "message": "Do 64-bit platforms normally .balign 4 or 8?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "f57749303bbcf4ca03c69b6e8dcb570af56f3eef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "166ea813_551adb11",
+        "filename": "util/misc/capture_context_test_util.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-08T22:00:04Z",
+      "side": 1,
+      "message": "Can you document these?",
+      "revId": "f57749303bbcf4ca03c69b6e8dcb570af56f3eef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a19449a_f005fed4",
+        "filename": "util/misc/capture_context_test_util_linux.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-08T22:00:04Z",
+      "side": 1,
+      "message": "Anything to sanity-check on 32-bit x86? At least leave a comment if there isn’t.",
+      "revId": "f57749303bbcf4ca03c69b6e8dcb570af56f3eef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d485d75b_3b2eab6e",
+        "filename": "util/util.gyp",
+        "patchSetId": 8
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-08T22:00:04Z",
+      "side": 1,
+      "message": "Tab.",
+      "revId": "f57749303bbcf4ca03c69b6e8dcb570af56f3eef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a0682d4_c485a7df",
+        "filename": "util/util_test.gyp",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-08T22:00:04Z",
+      "side": 1,
+      "message": "Sort.",
+      "revId": "f57749303bbcf4ca03c69b6e8dcb570af56f3eef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
