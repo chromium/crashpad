@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3384c1bc_a663022d",
+        "filename": "client/settings_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-09T20:11:34Z",
+      "side": 1,
+      "message": "IsRegularFile() should only return true for non-directory files, but LoggingRemoveDirectory() only works on directories.",
+      "range": {
+        "startLine": 163,
+        "startChar": 2,
+        "endLine": 163,
+        "endChar": 31
+      },
+      "revId": "3a318d9711ff8132435525a28b0c3f2bc4572c73",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ecade5e_f530666c",
+        "filename": "client/settings_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-09T20:11:34Z",
+      "side": 1,
+      "message": "What happens if something created the directory and then died before finishing with client_id?",
+      "range": {
+        "startLine": 193,
+        "startChar": 48,
+        "endLine": 193,
+        "endChar": 64
+      },
+      "revId": "3a318d9711ff8132435525a28b0c3f2bc4572c73",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "561a5a20_dcf5f87f",
+        "filename": "client/settings_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-09T20:11:34Z",
+      "side": 1,
+      "message": "util/posix/scoped_dir.h",
+      "range": {
+        "startLine": 195,
+        "startChar": 6,
+        "endLine": 195,
+        "endChar": 20
+      },
+      "revId": "3a318d9711ff8132435525a28b0c3f2bc4572c73",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
