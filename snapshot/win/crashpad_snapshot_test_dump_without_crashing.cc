@@ -18,8 +18,8 @@
 #include "base/logging.h"
 #include "client/crashpad_client.h"
 #include "client/simulate_crash.h"
+#include "util/misc/capture_context.h"
 #include "util/win/address_types.h"
-#include "util/win/capture_context.h"
 
 int wmain(int argc, wchar_t* argv[]) {
   CHECK_EQ(argc, 2);
