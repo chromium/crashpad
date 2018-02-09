@@ -523,6 +523,8 @@ TEST(FileIO, FileShareMode_Write_Write) {
   FileShareModeTest(ReadOrWrite::kWrite, ReadOrWrite::kWrite);
 }
 
+#if !defined(OS_FUCHSIA)  // Fuchsia does not support file system locks.
+
 TEST(FileIO, MultipleSharedLocks) {
   ScopedTempDir temp_dir;
   base::FilePath shared_file =
@@ -647,6 +649,8 @@ TEST(FileIO, ExclusiveVsShareds) {
 TEST(FileIO, SharedVsExclusives) {
   LockingTest(FileLocking::kShared, FileLocking::kExclusive);
 }
+
+#endif  // !defined(OS_FUCHSIA)
 
 TEST(FileIO, FileSizeByHandle) {
   EXPECT_EQ(LoggingFileSizeByHandle(kInvalidFileHandle), -1);
