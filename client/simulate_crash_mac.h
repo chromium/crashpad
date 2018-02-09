@@ -17,7 +17,7 @@
 
 #include <mach/mach.h>
 
-#include "client/capture_context_mac.h"
+#include "util/misc/capture_context.h"
 
 //! \file
 

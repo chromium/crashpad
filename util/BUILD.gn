@@ -83,6 +83,7 @@ static_library("util") {
     "misc/address_types.h",
     "misc/arraysize_unsafe.h",
     "misc/as_underlying_type.h",
+    "misc/capture_context.h",
     "misc/clock.h",
     "misc/from_pointer_cast.h",
     "misc/implicit_cast.h",
@@ -231,6 +232,7 @@ static_library("util") {
       "mach/task_for_pid.h",
       "mach/task_memory.cc",
       "mach/task_memory.h",
+      "misc/capture_context_mac.S",
       "misc/clock_mac.cc",
       "misc/paths_mac.cc",
       "net/http_transport_mac.mm",
@@ -272,6 +274,7 @@ static_library("util") {
       "linux/thread_info.cc",
       "linux/thread_info.h",
       "linux/traits.h",
+      "misc/capture_context_linux.S",
       "misc/paths_linux.cc",
       "posix/process_info_linux.cc",
       "process/process_memory_linux.cc",
@@ -303,7 +306,6 @@ static_library("util") {
       "synchronization/semaphore_win.cc",
       "thread/thread_win.cc",
       "win/address_types.h",
-      "win/capture_context.h",
       "win/checked_win_address_range.h",
       "win/command_line.cc",
       "win/command_line.h",
@@ -357,12 +359,12 @@ static_library("util") {
     # https://crbug.com/762167.
     if (host_os == "win") {
       sources += [
-        "win/capture_context.asm",
+        "misc/capture_context_win.asm",
         "win/safe_terminate_process.asm",
       ]
     } else {
       sources += [
-        "win/capture_context_broken.cc",
+        "misc/capture_context_broken.cc",
         "win/safe_terminate_process_broken.cc",
       ]
     }
@@ -430,6 +432,8 @@ source_set("util_test") {
     "file/filesystem_test.cc",
     "file/string_file_test.cc",
     "misc/arraysize_unsafe_test.cc",
+    "misc/capture_context_test.cc",
+    "misc/capture_context_test_util.h",
     "misc/clock_test.cc",
     "misc/from_pointer_cast_test.cc",
     "misc/initialization_state_dcheck_test.cc",
@@ -508,6 +512,7 @@ source_set("util_test") {
       "mach/scoped_task_suspend_test.cc",
       "mach/symbolic_constants_mach_test.cc",
       "mach/task_memory_test.cc",
+      "misc/capture_context_test_util_mac.cc",
     ]
   }
 
@@ -519,6 +524,7 @@ source_set("util_test") {
       "linux/ptrace_broker_test.cc",
       "linux/ptracer_test.cc",
       "linux/scoped_ptrace_attach_test.cc",
+      "misc/capture_context_test_util_linux.cc",
     ]
   }
 
@@ -532,7 +538,7 @@ source_set("util_test") {
 
   if (crashpad_is_win) {
     sources += [
-      "win/capture_context_test.cc",
+      "misc/capture_context_test_util_win.cc",
       "win/command_line_test.cc",
       "win/critical_section_with_debug_info_test.cc",
       "win/exception_handler_server_test.cc",

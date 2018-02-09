@@ -33,8 +33,6 @@
         'annotation.h',
         'annotation_list.cc',
         'annotation_list.h',
-        'capture_context_mac.S',
-        'capture_context_mac.h',
         'crash_report_database.cc',
         'crash_report_database.h',
         'crash_report_database_mac.mm',
@@ -63,11 +61,6 @@
               '-lrpcrt4.lib',
             ],
           },
-        }],
-        ['OS!="mac"', {
-          'sources!': [
-            'capture_context_mac.S',
-          ],
         }],
       ],
       'direct_dependent_settings': {

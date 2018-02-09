@@ -28,7 +28,7 @@
 #include "test/test_paths.h"
 #include "test/win/win_multiprocess_with_temp_dir.h"
 #include "util/file/file_reader.h"
-#include "util/win/capture_context.h"
+#include "util/misc/capture_context.h"
 
 namespace crashpad {
 namespace test {

@@ -67,6 +67,11 @@
         'mach/symbolic_constants_mach_test.cc',
         'mach/task_memory_test.cc',
         'misc/arraysize_unsafe_test.cc',
+        'misc/capture_context_test.cc',
+        'misc/capture_context_test_util.h',
+        'misc/capture_context_test_util_linux.cc',
+        'misc/capture_context_test_util_mac.cc',
+        'misc/capture_context_test_util_win.cc',
         'misc/clock_test.cc',
         'misc/from_pointer_cast_test.cc',
         'misc/initialization_state_dcheck_test.cc',
@@ -105,7 +110,6 @@
         'thread/thread_log_messages_test.cc',
         'thread/thread_test.cc',
         'thread/worker_thread_test.cc',
-        'win/capture_context_test.cc',
         'win/command_line_test.cc',
         'win/critical_section_with_debug_info_test.cc',
         'win/exception_handler_server_test.cc',
@@ -156,6 +160,7 @@
         ['OS=="android"', {
           'sources/': [
             ['include', '^linux/'],
+            ['include', '^misc/capture_context_test_util_linux\\.cc$'],
           ],
         }],
       ],

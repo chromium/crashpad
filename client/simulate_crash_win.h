@@ -18,7 +18,7 @@
 #include <windows.h>
 
 #include "client/crashpad_client.h"
-#include "util/win/capture_context.h"
+#include "util/misc/capture_context.h"
 
 //! \file
 
