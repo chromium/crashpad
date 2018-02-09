@@ -451,10 +451,13 @@ def main(args):
       'crashpad_client_test',
       'crashpad_handler_test',
       'crashpad_minidump_test',
-      'crashpad_snapshot_test',
       'crashpad_test_test',
       'crashpad_util_test',
   ]
+
+  if not is_fuchsia:
+    # Not fully working on Fuchsia yet. https://crashpad.chromium.org/bug/196.
+    tests.append('crashpad_snapshot_test')
 
   if is_android:
     android_device = os.environ.get('ANDROID_DEVICE')
