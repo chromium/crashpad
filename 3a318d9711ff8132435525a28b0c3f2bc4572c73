@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f2631b5d_1a23a770",
+        "filename": "client/settings_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-09T21:00:58Z",
+      "side": 1,
+      "message": "Oof! I looked into why it happened to work:\n\nhttps://fuchsia.googlesource.com/zircon/+/master/system/ulib/fdio/stubs.c#112\n\nBut that\u0027s probably \"a bit\" too Fuchsia-implementation-specific to depend on. :)",
+      "parentUuid": "3384c1bc_a663022d",
+      "range": {
+        "startLine": 163,
+        "startChar": 2,
+        "endLine": 163,
+        "endChar": 31
+      },
+      "revId": "3a318d9711ff8132435525a28b0c3f2bc4572c73",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ecade5e_f530666c",
         "filename": "client/settings_fuchsia.cc",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-02-09T20:11:34Z",
       "side": 1,
       "message": "What happens if something created the directory and then died before finishing with client_id?",
+      "range": {
+        "startLine": 193,
+        "startChar": 48,
+        "endLine": 193,
+        "endChar": 64
+      },
+      "revId": "3a318d9711ff8132435525a28b0c3f2bc4572c73",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24085f04_80a98e17",
+        "filename": "client/settings_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-09T21:00:58Z",
+      "side": 1,
+      "message": "Good question. I guess it\u0027s worth trying to recover after a timeout.",
+      "parentUuid": "3ecade5e_f530666c",
       "range": {
         "startLine": 193,
         "startChar": 48,
@@ -68,6 +116,30 @@
       "revId": "3a318d9711ff8132435525a28b0c3f2bc4572c73",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a90b638_4bfb52ee",
+        "filename": "client/settings_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-09T21:00:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "561a5a20_dcf5f87f",
+      "range": {
+        "startLine": 195,
+        "startChar": 6,
+        "endLine": 195,
+        "endChar": 20
+      },
+      "revId": "3a318d9711ff8132435525a28b0c3f2bc4572c73",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
