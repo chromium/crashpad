@@ -98,7 +98,7 @@ bool IsDirectory(const base::FilePath& path, bool allow_symlinks);
 //! \return `true` on success. `false` on failure with a message logged.
 bool LoggingRemoveFile(const base::FilePath& path);
 
-//! \brief Non-recurseively removes an empty directory, logging a message on
+//! \brief Non-recursively removes an empty directory, logging a message on
 //!     failure.
 //!
 //! This function will not remove symbolic links to directories.
