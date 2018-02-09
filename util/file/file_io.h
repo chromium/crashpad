@@ -404,6 +404,8 @@ FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
                                           FileWriteMode mode,
                                           FilePermissions permissions);
 
+#if !defined(OS_FUCHSIA)  // Fuchsia does not support file system locks.
+
 //! \brief Locks the given \a file using `flock()` on POSIX or `LockFileEx()` on
 //!     Windows.
 //!
@@ -432,6 +434,8 @@ bool LoggingLockFile(FileHandle file, FileLocking locking);
 //!
 //! \return `true` on success, or `false` and a message will be logged.
 bool LoggingUnlockFile(FileHandle file);
+
+#endif  // !defined(OS_FUCHSIA)
 
 //! \brief Wraps `lseek()` or `SetFilePointerEx()`. Logs an error if the
 //!     operation fails.
