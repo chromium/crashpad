@@ -34,7 +34,10 @@ static_library("client") {
   ]
 
   if (crashpad_is_fuchsia) {
-    sources += [ "settings_fuchsia.cc" ]
+    sources += [
+      "crashpad_info_note.S",
+      "settings_fuchsia.cc",
+    ]
   } else {
     sources += [ "settings.cc" ]
   }
