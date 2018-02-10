@@ -1,0 +1,36 @@
+// Copyright 2018 The Crashpad Authors. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// This note section is used on ELF platforms to give ElfImageReader a method of
+// finding g_crashpad_info without requiring that symbol to be in the dynamic
+// symbol table.
+
+#define CRASHPAD_INFO_SYMBOL _ZN8crashpad15g_crashpad_infoE
+#define NOTE_ALIGN 4
+  .section .note.crashpad.info,"aw",%note
+  .balign NOTE_ALIGN
+  .globl CRASHPAD_NOTE_REFERENCE
+  .type CRASHPAD_NOTE_REFERENCE, %object
+CRASHPAD_NOTE_REFERENCE:
+  .long name_end - name  // namesz
+  .long desc_end - desc  // descsz
+  .long 1  // type
+name:
+  .ascii "CrashpadInfo\0"
+name_end:
+  .balign NOTE_ALIGN
+desc:
+  .quad CRASHPAD_INFO_SYMBOL
+desc_end:
+  .size CRASHPAD_NOTE_REFERENCE, .-CRASHPAD_NOTE_REFERENCE
