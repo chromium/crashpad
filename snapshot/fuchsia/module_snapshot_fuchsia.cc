@@ -38,6 +38,19 @@ bool ModuleSnapshotFuchsia::Initialize(
     return false;
   }
 
+  // XXX XXX XXX
+  // TODO(scottmg): Testing to see if the note makes it into the final binary.
+  // XXX XXX XXX
+  std::unique_ptr<ElfImageReader::NoteReader> notes =
+      elf_image_reader_->NotesWithNameAndType("CrashpadInfo", 1, -1);
+  std::string desc;
+  if (notes->NextNote(nullptr, nullptr, &desc) ==
+      ElfImageReader::NoteReader::Result::kSuccess) {
+    uintptr_t p = *reinterpret_cast<uintptr_t*>(&desc[0]);
+    LOG(ERROR) << "desc=0x" << std::hex << p;
+  }
+
+#if 0
   VMAddress info_address;
   VMSize info_size;
   if (elf_image_reader_->GetDynamicSymbol(
@@ -51,6 +64,7 @@ bool ModuleSnapshotFuchsia::Initialize(
       }
     }
   }
+#endif
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
