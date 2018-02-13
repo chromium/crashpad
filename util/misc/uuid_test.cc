@@ -214,6 +214,15 @@ TEST(UUID, FromString) {
   // Mixed case.
   uuid.InitializeFromString("5762C15D-50b5-4171-a2e9-7429C9EC6CAB");
   EXPECT_EQ(uuid.ToString(), "5762c15d-50b5-4171-a2e9-7429c9ec6cab");
+
+#if defined(OS_WIN)
+  // Test accepting a StringPiece16 too.
+  uuid.InitializeFromString(L"F32E5BDC-2681-4C73-A4E6-911FFD89B846");
+  EXPECT_EQ(uuid.ToString(), "f32e5bdc-2681-4c73-a4e6-911ffd89b846");
+
+  uuid.InitializeFromString(L"5762C15D-50b5-4171-a2e9-7429C9EC6CAB");
+  EXPECT_EQ(uuid.ToString(), "5762c15d-50b5-4171-a2e9-7429c9ec6cab");
+#endif  // OS_WIN
 }
 
 #if defined(OS_WIN)
