@@ -26,7 +26,7 @@ namespace {
 
 class SettingsTest : public testing::Test {
  public:
-  SettingsTest() : settings_(settings_path()) {}
+  SettingsTest() = default;
 
   base::FilePath settings_path() {
     return temp_dir_.path().Append(FILE_PATH_LITERAL("settings"));
@@ -49,7 +49,7 @@ class SettingsTest : public testing::Test {
  protected:
   // testing::Test:
   void SetUp() override {
-    ASSERT_TRUE(settings()->Initialize());
+    ASSERT_TRUE(settings()->Initialize(settings_path()));
   }
 
  private:
@@ -64,8 +64,8 @@ TEST_F(SettingsTest, ClientID) {
   EXPECT_TRUE(settings()->GetClientID(&client_id));
   EXPECT_NE(client_id, UUID());
 
-  Settings local_settings(settings_path());
-  EXPECT_TRUE(local_settings.Initialize());
+  Settings local_settings;
+  EXPECT_TRUE(local_settings.Initialize(settings_path()));
   UUID actual;
   EXPECT_TRUE(local_settings.GetClientID(&actual));
   EXPECT_EQ(actual, client_id);
@@ -81,8 +81,8 @@ TEST_F(SettingsTest, UploadsEnabled) {
   EXPECT_TRUE(settings()->GetUploadsEnabled(&enabled));
   EXPECT_TRUE(enabled);
 
-  Settings local_settings(settings_path());
-  EXPECT_TRUE(local_settings.Initialize());
+  Settings local_settings;
+  EXPECT_TRUE(local_settings.Initialize(settings_path()));
   enabled = false;
   EXPECT_TRUE(local_settings.GetUploadsEnabled(&enabled));
   EXPECT_TRUE(enabled);
@@ -107,8 +107,8 @@ TEST_F(SettingsTest, LastUploadAttemptTime) {
   EXPECT_TRUE(settings()->GetLastUploadAttemptTime(&actual));
   EXPECT_EQ(actual, expected);
 
-  Settings local_settings(settings_path());
-  EXPECT_TRUE(local_settings.Initialize());
+  Settings local_settings;
+  EXPECT_TRUE(local_settings.Initialize(settings_path()));
   actual = -1;
   EXPECT_TRUE(local_settings.GetLastUploadAttemptTime(&actual));
   EXPECT_EQ(actual, expected);
@@ -120,8 +120,8 @@ TEST_F(SettingsTest, LastUploadAttemptTime) {
 TEST_F(SettingsTest, BadFileOnInitialize) {
   InitializeBadFile();
 
-  Settings settings(settings_path());
-  EXPECT_TRUE(settings.Initialize());
+  Settings settings;
+  EXPECT_TRUE(settings.Initialize(settings_path()));
 }
 
 TEST_F(SettingsTest, BadFileOnGet) {
@@ -131,8 +131,8 @@ TEST_F(SettingsTest, BadFileOnGet) {
   EXPECT_TRUE(settings()->GetClientID(&client_id));
   EXPECT_NE(client_id, UUID());
 
-  Settings local_settings(settings_path());
-  EXPECT_TRUE(local_settings.Initialize());
+  Settings local_settings;
+  EXPECT_TRUE(local_settings.Initialize(settings_path()));
   UUID actual;
   EXPECT_TRUE(local_settings.GetClientID(&actual));
   EXPECT_EQ(actual, client_id);
@@ -161,8 +161,8 @@ TEST_F(SettingsTest, UnlinkFile) {
       << ErrnoMessage("unlink");
 #endif
 
-  Settings local_settings(settings_path());
-  EXPECT_TRUE(local_settings.Initialize());
+  Settings local_settings;
+  EXPECT_TRUE(local_settings.Initialize(settings_path()));
   UUID new_client_id;
   EXPECT_TRUE(local_settings.GetClientID(&new_client_id));
   EXPECT_NE(new_client_id, client_id);
