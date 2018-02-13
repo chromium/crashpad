@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "8ff05a33_184f0022",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-13T22:47:19Z",
+      "side": 1,
+      "message": "I think file_remover_ is the only sticking point.\n\nIt needs to be disarmable by the database during FinishedWritingCrashReport().\nWe could make it a public member or have a public Disarm().\nThat would let us get rid of the friends, but then it\u0027d also be possible for other non-database things to disarm it.",
+      "parentUuid": "729e47e9_f8104201",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 40
+      },
+      "revId": "74c258ec4fa59f33c8d97f8d06c7736111c95b46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b1af327d_a838ef9b",
         "filename": "client/crash_report_database.h",
         "patchSetId": 9
