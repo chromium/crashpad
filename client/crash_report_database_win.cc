@@ -610,11 +610,7 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
 };
 
 CrashReportDatabaseWin::CrashReportDatabaseWin(const base::FilePath& path)
-    : CrashReportDatabase(),
-      base_dir_(path),
-      settings_(base_dir_.Append(kSettings)),
-      initialized_() {
-}
+    : CrashReportDatabase(), base_dir_(path), settings_(), initialized_() {}
 
 CrashReportDatabaseWin::~CrashReportDatabaseWin() {
 }
@@ -634,7 +630,7 @@ bool CrashReportDatabaseWin::Initialize(bool may_create) {
   if (!CreateDirectoryIfNecessary(base_dir_.Append(kReportsDirectory)))
     return false;
 
-  if (!settings_.Initialize())
+  if (!settings_.Initialize(base_dir_.Append(kSettings)))
     return false;
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
