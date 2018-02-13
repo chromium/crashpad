@@ -90,6 +90,30 @@
     },
     {
       "key": {
+        "uuid": "6e81424d_57cef5a4",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-13T23:09:31Z",
+      "side": 1,
+      "message": "Gotcha. I feel like having initialization inside the object would better at least, for uuid_ and writer_.\n\nWhatever you think is better for file_remover_ is fine with me.\n\n(Maybe a protected method in CrashReportDatabase that disarms it, so that it only has to be friends with that one class? Dunno, maybe that\u0027s getting bit too convoluted.)",
+      "parentUuid": "8ff05a33_184f0022",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 40
+      },
+      "revId": "74c258ec4fa59f33c8d97f8d06c7736111c95b46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b1af327d_a838ef9b",
         "filename": "client/crash_report_database.h",
         "patchSetId": 9
