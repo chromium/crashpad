@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "729e47e9_f8104201",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-13T22:36:20Z",
+      "side": 1,
+      "message": "Even better (if the loss of the O_EXLOCK is OK) then since both implementations determine the file name right after creating this object, initialization could also create the writer and file remover too.",
+      "parentUuid": "8b3cdc6a_34b5d6fb",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 40
+      },
+      "revId": "74c258ec4fa59f33c8d97f8d06c7736111c95b46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b1af327d_a838ef9b",
         "filename": "client/crash_report_database.h",
         "patchSetId": 9
