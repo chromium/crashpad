@@ -108,6 +108,24 @@
       "revId": "74c258ec4fa59f33c8d97f8d06c7736111c95b46",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "895036c7_d8db25fc",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-13T22:13:20Z",
+      "side": 1,
+      "message": "\u003e It looks like LookUpCrashReport() and DeleteReport() could attempt to access it since LocateCrashReport() with kReportStateAny allows searching the new reports directory, but that shouldn\u0027t happen with normal usage. We could also prevent this by not making the new reports directory searchable, which is my strategy for the unified implementation.\n\nAh, but at some point we’ll want to write something to purge orphaned (unlocked?) “new” files, which requires a searchable directory.\n\nAlso, I’m not so sure how portable “deny search” is across filesystems, especially important since the unified implementation will need to run on a variety of filesystems.",
+      "parentUuid": "2242ed6f_698656dc",
+      "revId": "74c258ec4fa59f33c8d97f8d06c7736111c95b46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
