@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8b3cdc6a_34b5d6fb",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-13T21:54:53Z",
+      "side": 1,
+      "message": "It\u0027d be nice to get rid of these now that it\u0027s more of a real class. There\u0027s some reads of e.g. uuid_ that could use ReportID().\n\nCould PrepareNewCrashReport() or even NewReport::NewReport() just generate the uuid? I think that would work on Mac and Windows at least.\n\nSimilar for direct access to writer_ I think. I\u0027m less certain about file_remover_ without some poking, but a getter would be a bit tidier at least.",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 40
+      },
+      "revId": "74c258ec4fa59f33c8d97f8d06c7736111c95b46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b1af327d_a838ef9b",
         "filename": "client/crash_report_database.h",
         "patchSetId": 9
