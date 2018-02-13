@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1af327d_a838ef9b",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-13T21:45:11Z",
+      "side": 1,
+      "message": "At first, I wasn’t 100% sure that this should consume the NewReport as an API design sort of thing. But I like that this provides code-level enforcement of the already-documented existing behavior.",
+      "revId": "74c258ec4fa59f33c8d97f8d06c7736111c95b46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f585d9a3_957e98fe",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-13T21:45:11Z",
+      "side": 1,
+      "message": "Why did CrashReportDatabaseMac (and CrashReportDatabaseWin in the other file) need to be exposed more broadly? Seems unnecessary given that these two classes aren’t declared except in their respective implementation files.",
+      "revId": "74c258ec4fa59f33c8d97f8d06c7736111c95b46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "864029a6_93599688",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-13T21:45:11Z",
+      "side": 1,
+      "message": "You’re losing O_EXLOCK here. That may be OK because this is only for reports in the “new” state, and I don’t think we care about locking until the report has graduated to at least the “pending” state. Do you agree?",
+      "revId": "74c258ec4fa59f33c8d97f8d06c7736111c95b46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
