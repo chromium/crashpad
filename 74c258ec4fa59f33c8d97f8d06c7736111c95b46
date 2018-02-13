@@ -144,6 +144,24 @@
       "revId": "74c258ec4fa59f33c8d97f8d06c7736111c95b46",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c3b4fb0_ef85addc",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-13T22:31:08Z",
+      "side": 1,
+      "message": "\u003e By searchable I mean can be searched via the public database methods that return report information. The unified implementation is still allowed to peek in the new report directory while attempting to delete lost lock files (new reports are themselves lock files, opened with O_EXCL).\n\nOK, that’s workable.",
+      "parentUuid": "0797d387_e3166f69",
+      "revId": "74c258ec4fa59f33c8d97f8d06c7736111c95b46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
