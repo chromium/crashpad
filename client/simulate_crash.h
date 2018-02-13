@@ -21,6 +21,17 @@
 #include "client/simulate_crash_mac.h"
 #elif defined(OS_WIN)
 #include "client/simulate_crash_win.h"
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+#include "client/crashpad_client.h"
+#include "util/misc/capture_context.h"
+
+#define CRASHPAD_SIMULATE_CRASH() \
+    do { \
+      NativeCPUContext simulate_crash_cpu_context; \
+      crashpad::CaptureContext(&simulate_crash_cpu_context); \
+      crashpad::CrashpadClient::DumpWithoutCrash(simulate_crash_cpu_context); \
+    } while (false)
+
 #endif
 
 #endif  // CRASHPAD_CLIENT_SIMULATE_CRASH_H_
