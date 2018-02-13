@@ -432,7 +432,6 @@ source_set("util_test") {
     "file/filesystem_test.cc",
     "file/string_file_test.cc",
     "misc/arraysize_unsafe_test.cc",
-    "misc/capture_context_test.cc",
     "misc/capture_context_test_util.h",
     "misc/clock_test.cc",
     "misc/from_pointer_cast_test.cc",
@@ -466,6 +465,14 @@ source_set("util_test") {
     "thread/thread_test.cc",
     "thread/worker_thread_test.cc",
   ]
+
+  if (!crashpad_is_fuchsia) {
+    sources += [
+      # No NativeCPUContext defined for Fuchsia yet.
+      # https://crashpad.chromium.org/bug/196.
+      "misc/capture_context_test.cc",
+    ]
+  }
 
   if (!crashpad_is_android && !crashpad_is_fuchsia) {
     # Android and Fuchsia will each require an HTTPTransport implementation
