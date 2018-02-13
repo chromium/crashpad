@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec1e59d1_960a9d15",
+        "filename": "client/settings.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-13T21:49:45Z",
+      "side": 1,
+      "message": "Since this isn’t an InitializationStateDcheck, we need to provide our own DCHECK(initialized_.is_uninitialized()) before calling initialized_.set_invalid().",
+      "revId": "5816e884edb319097cc703b8785f074d65b84159",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
