@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d57099d1_87ad32a0",
+        "filename": "util/misc/uuid_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-13T20:05:32Z",
+      "side": 1,
+      "message": "For arrays, static too",
+      "revId": "aad3bec940812c0c62531ec624d57ca07d6439f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
