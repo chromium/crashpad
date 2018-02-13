@@ -52,6 +52,24 @@
       "revId": "aad3bec940812c0c62531ec624d57ca07d6439f8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d140eba_79de4936",
+        "filename": "util/misc/uuid_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-13T21:38:02Z",
+      "side": 1,
+      "message": "Good times! Thanks for the explanation.",
+      "parentUuid": "a7cb5944_497b4eca",
+      "revId": "aad3bec940812c0c62531ec624d57ca07d6439f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
