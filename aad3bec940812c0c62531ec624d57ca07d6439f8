@@ -16,6 +16,24 @@
       "revId": "aad3bec940812c0c62531ec624d57ca07d6439f8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fbcd253_84f3a4ee",
+        "filename": "util/misc/uuid_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-13T20:13:30Z",
+      "side": 1,
+      "message": "Done.\n\n(For my edification... why is static needed? For a fixed array, can\u0027t it just generate a bucket of bytes in rodata either way?)",
+      "parentUuid": "d57099d1_87ad32a0",
+      "revId": "aad3bec940812c0c62531ec624d57ca07d6439f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
