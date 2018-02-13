@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "4837a602_d75212ce",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-13T22:08:56Z",
+      "side": 1,
+      "message": "These friends answer one of my questions. I’m positive I looked through the whole patch for other mentions of CrashReportDatabaseMac and didn’t find this. Maybe I mistyped. :(",
+      "revId": "74c258ec4fa59f33c8d97f8d06c7736111c95b46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b3cdc6a_34b5d6fb",
         "filename": "client/crash_report_database.h",
         "patchSetId": 9
