@@ -25,6 +25,30 @@
 
 namespace crashpad {
 
+namespace {
+
+bool CreateDirectoryImpl(const base::FilePath& path,
+                         FilePermissions permissions,
+                         bool may_reuse,
+                         bool log) {
+  if (mkdir(path.value().c_str(),
+            permissions == FilePermissions::kWorldReadable ? 0755 : 0700) ==
+      0) {
+    return true;
+  }
+  if (may_reuse && errno == EEXIST) {
+    if (!IsDirectory(path, true)) {
+      LOG_IF(ERROR, log) << path.value() << " not a directory";
+      return false;
+    }
+    return true;
+  }
+  PLOG_IF(ERROR, log) << "mkdir " << path.value();
+  return false;
+}
+
+}  // namespace
+
 bool FileModificationTime(const base::FilePath& path, timespec* mtime) {
   struct stat st;
   if (lstat(path.value().c_str(), &st) != 0) {
@@ -44,23 +68,16 @@ bool FileModificationTime(const base::FilePath& path, timespec* mtime) {
   return true;
 }
 
+bool CreateDirectory(const base::FilePath& path,
+                     FilePermissions permissions,
+                     bool may_reuse) {
+  return CreateDirectoryImpl(path, permissions, may_reuse, false);
+}
+
 bool LoggingCreateDirectory(const base::FilePath& path,
                             FilePermissions permissions,
                             bool may_reuse) {
-  if (mkdir(path.value().c_str(),
-            permissions == FilePermissions::kWorldReadable ? 0755 : 0700) ==
-      0) {
-    return true;
-  }
-  if (may_reuse && errno == EEXIST) {
-    if (!IsDirectory(path, true)) {
-      LOG(ERROR) << path.value() << " not a directory";
-      return false;
-    }
-    return true;
-  }
-  PLOG(ERROR) << "mkdir " << path.value();
-  return false;
+  return CreateDirectoryImpl(path, permissions, may_reuse, true);
 }
 
 bool MoveFileOrDirectory(const base::FilePath& source,

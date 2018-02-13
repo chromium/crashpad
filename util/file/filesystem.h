@@ -30,7 +30,7 @@ namespace crashpad {
 //! \return `true` on success. `false` on failure with a message logged.
 bool FileModificationTime(const base::FilePath& path, timespec* mtime);
 
-//! \brief Creates a directory, logging a message on failure.
+//! \brief Creates a directory.
 //!
 //! \param[in] path The path to the directory to create.
 //! \param[in] permissions The permissions to use if the directory is created.
@@ -40,6 +40,13 @@ bool FileModificationTime(const base::FilePath& path, timespec* mtime);
 //!     from \a permissions.
 //! \return `true` if the directory is successfully created or it already
 //!     existed and \a may_reuse is `true`. Otherwise, `false`.
+bool CreateDirectory(const base::FilePath& path,
+                     FilePermissions permissions,
+                     bool may_reuse);
+
+//! \copydoc CreateDirectory
+//!
+//! On failure, logs a message.
 bool LoggingCreateDirectory(const base::FilePath& path,
                             FilePermissions permissions,
                             bool may_reuse);
@@ -98,7 +105,7 @@ bool IsDirectory(const base::FilePath& path, bool allow_symlinks);
 //! \return `true` on success. `false` on failure with a message logged.
 bool LoggingRemoveFile(const base::FilePath& path);
 
-//! \brief Non-recurseively removes an empty directory, logging a message on
+//! \brief Non-recursively removes an empty directory, logging a message on
 //!     failure.
 //!
 //! This function will not remove symbolic links to directories.
