@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ec3066b_81c1333f",
+        "filename": "util/misc/uuid_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-13T19:34:55Z",
+      "side": 1,
+      "message": "The interface isn’t Windows-only, just the convenience that L\"\" literals are compatible with StringPiece16.\n\nYou could also go the more painstaking route of doing a char16_t[] \u003d {…} to let the test run everywhere.",
+      "revId": "a83464571fd43d1fab3d6617233f226a9a851b0a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
