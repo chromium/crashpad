@@ -243,7 +243,7 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
 CrashReportDatabaseMac::CrashReportDatabaseMac(const base::FilePath& path)
     : CrashReportDatabase(),
       base_dir_(path),
-      settings_(base_dir_.Append(kSettings)),
+      settings_(),
       xattr_new_names_(false),
       initialized_() {
 }
@@ -268,7 +268,7 @@ bool CrashReportDatabaseMac::Initialize(bool may_create) {
       return false;
   }
 
-  if (!settings_.Initialize())
+  if (!settings_.Initialize(base_dir_.Append(kSettings)))
     return false;
 
   // Do an xattr operation as the last step, to ensure the filesystem has
