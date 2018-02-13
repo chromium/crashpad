@@ -34,6 +34,24 @@
       "revId": "aad3bec940812c0c62531ec624d57ca07d6439f8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7cb5944_497b4eca",
+        "filename": "util/misc/uuid_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-13T21:31:35Z",
+      "side": 1,
+      "message": "\u003e (For my edification... why is static needed? For a fixed array, can\u0027t it just generate a bucket of bytes in rodata either way?)\n\nUnfortunately not. C++ (and C) require that addresses of local variables be unique for each call into a function. Where addresses don’t “leak” outside of the function (typically into a callee), the compiler is able to “as-if” optimize this away, because it can see that it’s safe. But in cases like this, there is a “leak” into a callee, and it’s not provably safe, so your pristine rodata is just used as the source side of a memcpy() into a stack buffer. Gross! So you say “static” to avoid that, but of course that’s also a little scary for its own reasons. The “constexpr” keeps it safe and honest. Just “constexpr” alone is safe and honest but not optimize-able.\n\nI spent a day and a half banging my head against this with Leonard this past summer.\n\nThis little surprise is courtesy of the letter C++11 and the numbers 1.8/6 and 1.9/7.\n\nPEE ESS: Clang actually will optimize this by default without the “static”, although it’s intentionally deviating from C++11 in doing so. https://bugs.llvm.org/show_bug.cgi?id\u003d18538. Neither GCC nor MSVC will perform this optimization by default without “static” (and I don’t think Clang should be doing it either).",
+      "parentUuid": "7fbcd253_84f3a4ee",
+      "revId": "aad3bec940812c0c62531ec624d57ca07d6439f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
