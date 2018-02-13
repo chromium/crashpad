@@ -26,22 +26,4 @@ CrashReportDatabase::Report::Report()
       upload_attempts(0),
       upload_explicitly_requested(false) {}
 
-CrashReportDatabase::CallErrorWritingCrashReport::CallErrorWritingCrashReport(
-    CrashReportDatabase* database,
-    NewReport* new_report)
-    : database_(database),
-      new_report_(new_report) {
-}
-
-CrashReportDatabase::CallErrorWritingCrashReport::
-    ~CallErrorWritingCrashReport() {
-  if (new_report_) {
-    database_->ErrorWritingCrashReport(new_report_);
-  }
-}
-
-void CrashReportDatabase::CallErrorWritingCrashReport::Disarm() {
-  new_report_ = nullptr;
-}
-
 }  // namespace crashpad

@@ -107,6 +107,8 @@ std::string XattrNameInternal(const base::StringPiece& name, bool new_name) {
                             name.data());
 }
 
+}  // namespace
+
 //! \brief A CrashReportDatabase that uses HFS+ extended attributes to store
 //!     report metadata.
 //!
@@ -130,10 +132,10 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
 
   // CrashReportDatabase:
   Settings* GetSettings() override;
-  OperationStatus PrepareNewCrashReport(NewReport** report) override;
-  OperationStatus FinishedWritingCrashReport(NewReport* report,
+  OperationStatus PrepareNewCrashReport(
+      std::unique_ptr<NewReport>* report) override;
+  OperationStatus FinishedWritingCrashReport(std::unique_ptr<NewReport> report,
                                              UUID* uuid) override;
-  OperationStatus ErrorWritingCrashReport(NewReport* report) override;
   OperationStatus LookUpCrashReport(const UUID& uuid, Report* report) override;
   OperationStatus GetPendingReports(std::vector<Report>* reports) override;
   OperationStatus GetCompletedReports(std::vector<Report>* reports) override;
@@ -301,36 +303,32 @@ Settings* CrashReportDatabaseMac::GetSettings() {
 }
 
 CrashReportDatabase::OperationStatus
-CrashReportDatabaseMac::PrepareNewCrashReport(NewReport** out_report) {
+CrashReportDatabaseMac::PrepareNewCrashReport(
+    std::unique_ptr<NewReport>* out_report) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   std::unique_ptr<NewReport> report(new NewReport());
 
   uuid_t uuid_gen;
   uuid_generate(uuid_gen);
-  report->uuid.InitializeFromBytes(uuid_gen);
+  report->uuid_.InitializeFromBytes(uuid_gen);
 
-  report->path =
+  const base::FilePath path =
       base_dir_.Append(kWriteDirectory)
-          .Append(report->uuid.ToString() + "." + kCrashReportFileExtension);
+          .Append(report->uuid_.ToString() + "." + kCrashReportFileExtension);
 
-  report->handle = HANDLE_EINTR(
-      open(report->path.value().c_str(),
-           O_WRONLY | O_EXLOCK | O_CREAT | O_EXCL | O_NOCTTY | O_CLOEXEC,
-           0600));
-  if (report->handle < 0) {
-    PLOG(ERROR) << "open " << report->path.value();
+  if (!report->writer_->Open(
+          path, FileWriteMode::kCreateOrFail, FilePermissions::kOwnerOnly)) {
     return kFileSystemError;
   }
+  report->file_remover_.reset(path);
 
   // TODO(rsesek): Potentially use an fsetxattr() here instead.
-  if (!WriteXattr(
-          report->path, XattrName(kXattrUUID), report->uuid.ToString())) {
-    PLOG_IF(ERROR, IGNORE_EINTR(close(report->handle)) != 0) << "close";
+  if (!WriteXattr(path, XattrName(kXattrUUID), report->uuid_.ToString())) {
     return kDatabaseError;
   }
 
-  *out_report = report.release();
+  out_report->reset(report.release());
 
   return kNoError;
 }
@@ -340,64 +338,40 @@ CrashReportDatabaseMac::FinishedWritingCrashReport(NewReport* report,
                                                    UUID* uuid) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  // Takes ownership of the |handle| and the O_EXLOCK.
-  base::ScopedFD lock(report->handle);
-
-  // Take ownership of the report.
-  std::unique_ptr<NewReport> scoped_report(report);
+  const base::FilePath& path = report->file_remover_.get();
 
   // Get the report's UUID to return.
   std::string uuid_string;
-  if (ReadXattr(report->path, XattrName(kXattrUUID),
-                &uuid_string) != XattrStatus::kOK ||
+  if (ReadXattr(path, XattrName(kXattrUUID), &uuid_string) !=
+          XattrStatus::kOK ||
       !uuid->InitializeFromString(uuid_string)) {
-    LOG(ERROR) << "Failed to read UUID for crash report "
-               << report->path.value();
+    LOG(ERROR) << "Failed to read UUID for crash report " << path.value();
     return kDatabaseError;
   }
 
-  if (*uuid != report->uuid) {
-    LOG(ERROR) << "UUID mismatch for crash report " << report->path.value();
+  if (*uuid != report->uuid_) {
+    LOG(ERROR) << "UUID mismatch for crash report " << path.value();
     return kDatabaseError;
   }
 
   // Record the creation time of this report.
-  if (!WriteXattrTimeT(report->path, XattrName(kXattrCreationTime),
-                       time(nullptr))) {
+  if (!WriteXattrTimeT(path, XattrName(kXattrCreationTime), time(nullptr))) {
     return kDatabaseError;
   }
 
+  FileOffset size = report->writer_->Seek(0, SEEK_END);
+
   // Move the report to its new location for uploading.
   base::FilePath new_path =
-      base_dir_.Append(kUploadPendingDirectory).Append(report->path.BaseName());
-  if (rename(report->path.value().c_str(), new_path.value().c_str()) != 0) {
-    PLOG(ERROR) << "rename " << report->path.value() << " to "
-                << new_path.value();
+      base_dir_.Append(kUploadPendingDirectory).Append(path.BaseName());
+  if (rename(path.value().c_str(), new_path.value().c_str()) != 0) {
+    PLOG(ERROR) << "rename " << path.value() << " to " << new_path.value();
     return kFileSystemError;
   }
+  ignore_result(report->file_remover_.release());
 
   Metrics::CrashReportPending(Metrics::PendingReportReason::kNewlyCreated);
-  Metrics::CrashReportSize(report->handle);
-
-  return kNoError;
-}
-
-CrashReportDatabase::OperationStatus
-CrashReportDatabaseMac::ErrorWritingCrashReport(NewReport* report) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-
-  // Takes ownership of the |handle| and the O_EXLOCK.
-  base::ScopedFD lock(report->handle);
-
-  // Take ownership of the report.
-  std::unique_ptr<NewReport> scoped_report(report);
-
-  // Remove the file that the report would have been written to had no error
-  // occurred.
-  if (unlink(report->path.value().c_str()) != 0) {
-    PLOG(ERROR) << "unlink " << report->path.value();
-    return kFileSystemError;
-  }
+  Metrics::CrashReportSize(size);
 
   return kNoError;
 }
@@ -773,8 +747,6 @@ std::unique_ptr<CrashReportDatabase> InitializeInternal(
 
   return std::unique_ptr<CrashReportDatabase>(database_mac.release());
 }
-
-}  // namespace
 
 // static
 std::unique_ptr<CrashReportDatabase> CrashReportDatabase::Initialize(
