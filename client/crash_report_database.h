@@ -24,6 +24,8 @@
 #include "base/files/file_path.h"
 #include "base/macros.h"
 #include "util/file/file_io.h"
+#include "util/file/file_writer.h"
+#include "util/file/scoped_remove_file.h"
 #include "util/misc/metrics.h"
 #include "util/misc/uuid.h"
 
@@ -98,44 +100,32 @@ class CrashReportDatabase {
 
   //! \brief A crash report that is in the process of being written.
   //!
-  //! An instance of this struct should be created via PrepareNewCrashReport()
-  //! and destroyed with FinishedWritingCrashReport().
-  struct NewReport {
-    //! The file handle to which the report should be written.
-    FileHandle handle;
+  //! An instance of this struct should be created via PrepareNewCrashReport().
+  class NewReport {
+   public:
+    NewReport();
+    ~NewReport();
+
+    //! An open FileWriter with which to write the report.
+    FileWriter* Writer() const { return writer_.get(); }
 
     //! A unique identifier by which this report will always be known to the
     //! database.
-    UUID uuid;
-
-    //! The path to the crash report being written.
-    base::FilePath path;
-  };
-
-  //! \brief A scoper to cleanly handle the interface requirement imposed by
-  //!     PrepareNewCrashReport().
-  //!
-  //! Calls ErrorWritingCrashReport() upon destruction unless disarmed by
-  //! calling Disarm(). Armed upon construction.
-  class CallErrorWritingCrashReport {
-   public:
-    //! \brief Arms the object to call ErrorWritingCrashReport() on \a database
-    //!     with an argument of \a new_report on destruction.
-    CallErrorWritingCrashReport(CrashReportDatabase* database,
-                                NewReport* new_report);
-
-    //! \brief Calls ErrorWritingCrashReport() if the object is armed.
-    ~CallErrorWritingCrashReport();
-
-    //! \brief Disarms the object so that CallErrorWritingCrashReport() will not
-    //!     be called upon destruction.
-    void Disarm();
+    const UUID& ReportID() { return uuid_; }
 
    private:
-    CrashReportDatabase* database_;  // weak
-    NewReport* new_report_;  // weak
+    friend class CrashReportDatabase;
+    friend class CrashReportDatabaseMac;
+    friend class CrashReportDatabaseWin;
 
-    DISALLOW_COPY_AND_ASSIGN(CallErrorWritingCrashReport);
+    bool Initialize(const base::FilePath& directory,
+                    const base::FilePath::StringType& extension);
+
+    std::unique_ptr<FileWriter> writer_;
+    UUID uuid_;
+    ScopedRemoveFile file_remover_;
+
+    DISALLOW_COPY_AND_ASSIGN(NewReport);
   };
 
   //! \brief The result code for operations performed on a database.
@@ -217,49 +207,31 @@ class CrashReportDatabase {
 
   //! \brief Creates a record of a new crash report.
   //!
-  //! Callers can then write the crash report using the file handle provided.
-  //! The caller does not own the new crash report record or its file handle,
-  //! both of which must be explicitly disposed of by calling
-  //! FinishedWritingCrashReport() or ErrorWritingCrashReport().
+  //! Callers should write the crash report using the FileWriter provided.
+  //! Callers should then call FinishedWritingCrashReport() to complete report
+  //! creation. If an error is encountered while writing the crash report, no
+  //! special action needs to be taken. If FinishedWritingCrashReport() is not
+  //! called, the report will be removed from the database when \a report is
+  //! destroyed.
   //!
-  //! To arrange to call ErrorWritingCrashReport() during any early return, use
-  //! CallErrorWritingCrashReport.
-  //!
-  //! \param[out] report A NewReport object containing a file handle to which
-  //!     the crash report data should be written. Only valid if this returns
-  //!     #kNoError. The caller must not delete the NewReport object or close
-  //!     the file handle within.
+  //! \param[out] report A NewReport object containing a FileWriter with which
+  //!     to write the report data. Only valid if this returns #kNoError.
   //!
   //! \return The operation status code.
-  virtual OperationStatus PrepareNewCrashReport(NewReport** report) = 0;
+  virtual OperationStatus PrepareNewCrashReport(
+      std::unique_ptr<NewReport>* report) = 0;
 
-  //! \brief Informs the database that a crash report has been written.
-  //!
-  //! After calling this method, the database is permitted to move and rename
-  //! the file at NewReport::path.
+  //! \brief Informs the database that a crash report has been successfully
+  //!     written.
   //!
   //! \param[in] report A NewReport obtained with PrepareNewCrashReport(). The
-  //!     NewReport object and file handle within will be invalidated as part of
-  //!     this call.
+  //!     NewReport object will be invalidated as part of this call.
   //! \param[out] uuid The UUID of this crash report.
   //!
   //! \return The operation status code.
-  virtual OperationStatus FinishedWritingCrashReport(NewReport* report,
-                                                     UUID* uuid) = 0;
-
-  //! \brief Informs the database that an error occurred while attempting to
-  //!     write a crash report, and that any resources associated with it should
-  //!     be cleaned up.
-  //!
-  //! After calling this method, the database is permitted to remove the file at
-  //! NewReport::path.
-  //!
-  //! \param[in] report A NewReport obtained with PrepareNewCrashReport(). The
-  //!     NewReport object and file handle within will be invalidated as part of
-  //!     this call.
-  //!
-  //! \return The operation status code.
-  virtual OperationStatus ErrorWritingCrashReport(NewReport* report) = 0;
+  virtual OperationStatus FinishedWritingCrashReport(
+      std::unique_ptr<NewReport> report,
+      UUID* uuid) = 0;
 
   //! \brief Returns the crash report record for the unique identifier.
   //!
