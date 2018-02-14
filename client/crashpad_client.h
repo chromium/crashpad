@@ -24,12 +24,15 @@
 #include "base/files/file_path.h"
 #include "base/macros.h"
 #include "build/build_config.h"
+#include "util/misc/capture_context.h"
 
 #if defined(OS_MACOSX)
 #include "base/mac/scoped_mach_port.h"
 #elif defined(OS_WIN)
 #include <windows.h>
 #include "util/win/scoped_handle.h"
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+#include "util/posix/signals.h"
 #endif
 
 namespace crashpad {
@@ -168,6 +171,9 @@ class CrashpadClient {
       const std::map<std::string, std::string>& annotations,
       const std::vector<std::string>& arguments,
       int socket);
+
+  static void DumpWithoutCrash(NativeCPUContext* context);
+
 #endif  // OS_LINUX || OS_ANDROID || DOXYGEN
 
 #if defined(OS_MACOSX) || DOXYGEN

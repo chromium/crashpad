@@ -160,6 +160,12 @@ void MinidumpSystemInfoWriter::InitializeFromSnapshot(
     case SystemSnapshot::kOperatingSystemWindows:
       operating_system = kMinidumpOSWin32NT;
       break;
+    case SystemSnapshot::kOperatingSystemLinux:
+      operating_system = kMinidumpOSLinux;
+      break;
+    case SystemSnapshot::kOperatingSystemAndroid:
+      operating_system = kMinidumpOSAndroid;
+      break;
     default:
       NOTREACHED();
       operating_system = kMinidumpOSUnknown;
