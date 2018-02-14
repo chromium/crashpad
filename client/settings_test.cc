@@ -14,19 +14,45 @@
 
 #include "client/settings.h"
 
+#include "base/logging.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/scoped_temp_dir.h"
+#include "util/file/directory_reader.h"
 #include "util/file/file_io.h"
+#include "util/file/filesystem.h"
 
 namespace crashpad {
 namespace test {
 namespace {
 
+// If path names a file, unlink it. If it's a directory, remove all files
+// directly contained in that directory (i.e. non-recursively) and then attempt
+// to remove the directory.
+void RemoveFileOrSingleLevelDirectory(const base::FilePath& path) {
+  if (IsRegularFile(path)) {
+    EXPECT_TRUE(LoggingRemoveFile(path));
+  } else {
+    ASSERT_TRUE(IsDirectory(path, false));
+    DirectoryReader directory_reader;
+    ASSERT_TRUE(directory_reader.Open(path));
+
+    base::FilePath filename;
+    DirectoryReader::Result result;
+    while ((result = directory_reader.NextFile(&filename)) ==
+           DirectoryReader::Result::kSuccess) {
+      base::FilePath to_remove(path.Append(filename));
+      EXPECT_TRUE(IsRegularFile(to_remove));
+      LoggingRemoveFile(to_remove);
+    }
+    EXPECT_TRUE(LoggingRemoveDirectory(path));
+  }
+}
+
 class SettingsTest : public testing::Test {
  public:
-  SettingsTest() : settings_(settings_path()) {}
+  SettingsTest() = default;
 
   base::FilePath settings_path() {
     return temp_dir_.path().Append(FILE_PATH_LITERAL("settings"));
@@ -35,6 +61,7 @@ class SettingsTest : public testing::Test {
   Settings* settings() { return &settings_; }
 
   void InitializeBadFile() {
+    RemoveFileOrSingleLevelDirectory(settings_path());
     ScopedFileHandle handle(
         LoggingOpenFileForWrite(settings_path(),
                                 FileWriteMode::kTruncateOrCreate,
@@ -46,10 +73,34 @@ class SettingsTest : public testing::Test {
     handle.reset();
   }
 
+  void InitializeBadDirectory() {
+    InitializeEmptyDirectory();
+
+    // Write short junk to this one.
+    ScopedFileHandle client_id(LoggingOpenFileForWrite(
+        settings_path().Append(FILE_PATH_LITERAL("client_id")),
+        FileWriteMode::kTruncateOrCreate,
+        FilePermissions::kWorldReadable));
+    static constexpr char kJunk[] = "xyz";
+    ASSERT_TRUE(LoggingWriteFile(client_id.get(), kJunk, sizeof(kJunk)));
+
+    // Leave this one empty.
+    ScopedFileHandle uploads_enabled(LoggingOpenFileForWrite(
+        settings_path().Append(FILE_PATH_LITERAL("uploads_enabled")),
+        FileWriteMode::kTruncateOrCreate,
+        FilePermissions::kWorldReadable));
+  }
+
+  void InitializeEmptyDirectory() {
+    RemoveFileOrSingleLevelDirectory(settings_path());
+    ASSERT_TRUE(LoggingCreateDirectory(
+        settings_path(), FilePermissions::kWorldReadable, false));
+  }
+
  protected:
   // testing::Test:
   void SetUp() override {
-    ASSERT_TRUE(settings()->Initialize());
+    ASSERT_TRUE(settings()->Initialize(settings_path()));
   }
 
  private:
@@ -64,8 +115,8 @@ TEST_F(SettingsTest, ClientID) {
   EXPECT_TRUE(settings()->GetClientID(&client_id));
   EXPECT_NE(client_id, UUID());
 
-  Settings local_settings(settings_path());
-  EXPECT_TRUE(local_settings.Initialize());
+  Settings local_settings;
+  EXPECT_TRUE(local_settings.Initialize(settings_path()));
   UUID actual;
   EXPECT_TRUE(local_settings.GetClientID(&actual));
   EXPECT_EQ(actual, client_id);
@@ -81,8 +132,8 @@ TEST_F(SettingsTest, UploadsEnabled) {
   EXPECT_TRUE(settings()->GetUploadsEnabled(&enabled));
   EXPECT_TRUE(enabled);
 
-  Settings local_settings(settings_path());
-  EXPECT_TRUE(local_settings.Initialize());
+  Settings local_settings;
+  EXPECT_TRUE(local_settings.Initialize(settings_path()));
   enabled = false;
   EXPECT_TRUE(local_settings.GetUploadsEnabled(&enabled));
   EXPECT_TRUE(enabled);
@@ -107,8 +158,8 @@ TEST_F(SettingsTest, LastUploadAttemptTime) {
   EXPECT_TRUE(settings()->GetLastUploadAttemptTime(&actual));
   EXPECT_EQ(actual, expected);
 
-  Settings local_settings(settings_path());
-  EXPECT_TRUE(local_settings.Initialize());
+  Settings local_settings;
+  EXPECT_TRUE(local_settings.Initialize(settings_path()));
   actual = -1;
   EXPECT_TRUE(local_settings.GetLastUploadAttemptTime(&actual));
   EXPECT_EQ(actual, expected);
@@ -120,8 +171,8 @@ TEST_F(SettingsTest, LastUploadAttemptTime) {
 TEST_F(SettingsTest, BadFileOnInitialize) {
   InitializeBadFile();
 
-  Settings settings(settings_path());
-  EXPECT_TRUE(settings.Initialize());
+  Settings settings;
+  EXPECT_TRUE(settings.Initialize(settings_path()));
 }
 
 TEST_F(SettingsTest, BadFileOnGet) {
@@ -131,8 +182,8 @@ TEST_F(SettingsTest, BadFileOnGet) {
   EXPECT_TRUE(settings()->GetClientID(&client_id));
   EXPECT_NE(client_id, UUID());
 
-  Settings local_settings(settings_path());
-  EXPECT_TRUE(local_settings.Initialize());
+  Settings local_settings;
+  EXPECT_TRUE(local_settings.Initialize(settings_path()));
   UUID actual;
   EXPECT_TRUE(local_settings.GetClientID(&actual));
   EXPECT_EQ(actual, client_id);
@@ -147,22 +198,16 @@ TEST_F(SettingsTest, BadFileOnSet) {
   EXPECT_TRUE(enabled);
 }
 
-TEST_F(SettingsTest, UnlinkFile) {
+TEST_F(SettingsTest, Unlink) {
   UUID client_id;
   EXPECT_TRUE(settings()->GetClientID(&client_id));
   EXPECT_TRUE(settings()->SetUploadsEnabled(true));
   EXPECT_TRUE(settings()->SetLastUploadAttemptTime(time(nullptr)));
 
-#if defined(OS_WIN)
-  EXPECT_EQ(_wunlink(settings_path().value().c_str()), 0)
-      << ErrnoMessage("_wunlink");
-#else
-  EXPECT_EQ(unlink(settings_path().value().c_str()), 0)
-      << ErrnoMessage("unlink");
-#endif
+  RemoveFileOrSingleLevelDirectory(settings_path());
 
-  Settings local_settings(settings_path());
-  EXPECT_TRUE(local_settings.Initialize());
+  Settings local_settings;
+  EXPECT_TRUE(local_settings.Initialize(settings_path()));
   UUID new_client_id;
   EXPECT_TRUE(local_settings.GetClientID(&new_client_id));
   EXPECT_NE(new_client_id, client_id);
@@ -176,6 +221,51 @@ TEST_F(SettingsTest, UnlinkFile) {
   EXPECT_TRUE(local_settings.GetLastUploadAttemptTime(&time));
   EXPECT_EQ(time, 0);
 }
+
+#if defined(OS_FUCHSIA)
+// TODO(scottmg): Non-Fuchsia (settings.cc) needs some fixing to recover from
+// a directory in the way of its settings file.
+
+TEST_F(SettingsTest, BadDirectoryOnInitialize) {
+  InitializeBadDirectory();
+
+  Settings settings;
+  EXPECT_TRUE(settings.Initialize(settings_path()));
+}
+
+TEST_F(SettingsTest, BadEmptyDirectoryOnInitialize) {
+  // Having an empty directory in place exercises the race-loser case in
+  // Initialize().
+  InitializeEmptyDirectory();
+
+  Settings settings;
+  EXPECT_TRUE(settings.Initialize(settings_path()));
+}
+
+TEST_F(SettingsTest, BadDirectoryOnGet) {
+  InitializeBadDirectory();
+
+  UUID client_id;
+  EXPECT_TRUE(settings()->GetClientID(&client_id));
+  EXPECT_NE(client_id, UUID());
+
+  Settings local_settings;
+  EXPECT_TRUE(local_settings.Initialize(settings_path()));
+  UUID actual;
+  EXPECT_TRUE(local_settings.GetClientID(&actual));
+  EXPECT_EQ(actual, client_id);
+}
+
+TEST_F(SettingsTest, BadDirectoryOnSet) {
+  InitializeBadDirectory();
+
+  EXPECT_TRUE(settings()->SetUploadsEnabled(true));
+  bool enabled = false;
+  EXPECT_TRUE(settings()->GetUploadsEnabled(&enabled));
+  EXPECT_TRUE(enabled);
+}
+
+#endif  // OS_FUCHSIA
 
 }  // namespace
 }  // namespace test

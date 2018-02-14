@@ -44,10 +44,18 @@ struct ScopedLockedFileHandleTraits {
 //! should be retrieved via CrashReportDatabase::GetSettings().
 class Settings {
  public:
-  explicit Settings(const base::FilePath& file_path);
+  Settings();
   ~Settings();
 
-  bool Initialize();
+  //! \brief Initializes the settings data store.
+  //!
+  //! This method must be called only once, and must be successfully called
+  //! before any other method in this class may be called.
+  //!
+  //! \param[in] path The location to store the settings data.
+  //! \return `true` if the data store was initialized successfully, otherwise
+  //!     `false` with an error logged.
+  bool Initialize(const base::FilePath& path);
 
   //! \brief Retrieves the immutable identifier for this client, which is used
   //!     on a server to locate all crash reports from a specific Crashpad
