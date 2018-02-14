@@ -14,6 +14,8 @@
 
 #include "client/crash_report_database.h"
 
+#include "build/build_config.h"
+
 namespace crashpad {
 
 CrashReportDatabase::Report::Report()
@@ -26,22 +28,31 @@ CrashReportDatabase::Report::Report()
       upload_attempts(0),
       upload_explicitly_requested(false) {}
 
-CrashReportDatabase::CallErrorWritingCrashReport::CallErrorWritingCrashReport(
-    CrashReportDatabase* database,
-    NewReport* new_report)
-    : database_(database),
-      new_report_(new_report) {
-}
+CrashReportDatabase::NewReport::NewReport()
+    : writer_(std::make_unique<FileWriter>()), uuid_(), file_remover_() {}
 
-CrashReportDatabase::CallErrorWritingCrashReport::
-    ~CallErrorWritingCrashReport() {
-  if (new_report_) {
-    database_->ErrorWritingCrashReport(new_report_);
+CrashReportDatabase::NewReport::~NewReport() = default;
+
+bool CrashReportDatabase::NewReport::Initialize(
+    const base::FilePath& directory,
+    const base::FilePath::StringType& extension) {
+  if (!uuid_.InitializeWithNew()) {
+    return false;
   }
-}
 
-void CrashReportDatabase::CallErrorWritingCrashReport::Disarm() {
-  new_report_ = nullptr;
+#if defined(OS_WIN)
+  const std::wstring uuid_string = uuid_.ToString16();
+#else
+  const std::string uuid_string = uuid_.ToString();
+#endif
+
+  const base::FilePath path = directory.Append(uuid_string + extension);
+  if (!writer_->Open(
+          path, FileWriteMode::kCreateOrFail, FilePermissions::kOwnerOnly)) {
+    return false;
+  }
+  file_remover_.reset(path);
+  return true;
 }
 
 }  // namespace crashpad
