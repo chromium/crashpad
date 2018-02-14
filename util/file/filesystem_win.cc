@@ -50,6 +50,25 @@ bool LoggingRemoveDirectoryImpl(const base::FilePath& path) {
   return true;
 }
 
+bool CreateDirectoryImpl(const base::FilePath& path,
+                         FilePermissions permissions,
+                         bool may_reuse,
+                         bool log) {
+  if (::CreateDirectoryW(path.value().c_str(), nullptr)) {
+    return true;
+  }
+  if (may_reuse && GetLastError() == ERROR_ALREADY_EXISTS) {
+    if (!IsDirectory(path, true)) {
+      LOG_IF(ERROR, log) << base::UTF16ToUTF8(path.value())
+                         << " not a directory";
+      return false;
+    }
+    return true;
+  }
+  PLOG_IF(ERROR, log) << "CreateDirectory " << base::UTF16ToUTF8(path.value());
+  return false;
+}
+
 }  // namespace
 
 bool FileModificationTime(const base::FilePath& path, timespec* mtime) {
@@ -81,21 +100,16 @@ bool FileModificationTime(const base::FilePath& path, timespec* mtime) {
   return true;
 }
 
+bool CreateDirectory(const base::FilePath& path,
+                     FilePermissions permissions,
+                     bool may_reuse) {
+  return CreateDirectoryImpl(path, permissions, may_reuse, false);
+}
+
 bool LoggingCreateDirectory(const base::FilePath& path,
                             FilePermissions permissions,
                             bool may_reuse) {
-  if (CreateDirectory(path.value().c_str(), nullptr)) {
-    return true;
-  }
-  if (may_reuse && GetLastError() == ERROR_ALREADY_EXISTS) {
-    if (!IsDirectory(path, true)) {
-      LOG(ERROR) << base::UTF16ToUTF8(path.value()) << " not a directory";
-      return false;
-    }
-    return true;
-  }
-  PLOG(ERROR) << "CreateDirectory " << base::UTF16ToUTF8(path.value());
-  return false;
+  return CreateDirectoryImpl(path, permissions, may_reuse, true);
 }
 
 bool MoveFileOrDirectory(const base::FilePath& source,
