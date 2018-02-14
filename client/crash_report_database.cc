@@ -55,4 +55,19 @@ bool CrashReportDatabase::NewReport::Initialize(
   return true;
 }
 
+CrashReportDatabase::UploadReport::UploadReport()
+    : Report(), reader_(std::make_unique<FileReader>()), database_() {}
+
+CrashReportDatabase::UploadReport::~UploadReport() {
+  if (database_) {
+    database_->RecordUploadAttempt(this, false, std::string());
+  }
+}
+
+OperationStatus CrashReportDatabase::RecordUploadComplete(
+    std::unique_ptr<const UploadReport> report,
+    const std::string& id) {
+  return RecordUploadAttempt(const_cast<UploadReport*>(report.get()), true, id);
+}
+
 }  // namespace crashpad
