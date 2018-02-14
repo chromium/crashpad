@@ -139,17 +139,20 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   OperationStatus LookUpCrashReport(const UUID& uuid, Report* report) override;
   OperationStatus GetPendingReports(std::vector<Report>* reports) override;
   OperationStatus GetCompletedReports(std::vector<Report>* reports) override;
-  OperationStatus GetReportForUploading(const UUID& uuid,
-                                        const Report** report) override;
-  OperationStatus RecordUploadAttempt(const Report* report,
-                                      bool successful,
-                                      const std::string& id) override;
+  OperationStatus GetReportForUploading(
+      const UUID& uuid,
+      std::unique_ptr<const UploadReport>* report) override;
   OperationStatus SkipReportUpload(const UUID& uuid,
                                    Metrics::CrashSkippedReason reason) override;
   OperationStatus DeleteReport(const UUID& uuid) override;
   OperationStatus RequestUpload(const UUID& uuid) override;
 
  private:
+  // CrashReportDatabase:
+  OperationStatus RecordUploadAttempt(UploadReport* report,
+                                      bool successful,
+                                      const std::string& id) override;
+
   //! \brief Report states for use with LocateCrashReport().
   //!
   //! ReportState may be considered to be a bitfield.
@@ -163,10 +166,10 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
 
   //! \brief A private extension of the Report class that maintains bookkeeping
   //!    information of the database.
-  struct UploadReport : public Report {
+  struct UploadReportMac : public UploadReport {
     //! \brief Stores the flock of the file for the duration of
     //!     GetReportForUploading() and RecordUploadAttempt().
-    int lock_fd;
+    base::ScopedFD lock_fd;
   };
 
   //! \brief Locates a crash report in the database by UUID.
@@ -406,31 +409,36 @@ CrashReportDatabaseMac::GetCompletedReports(
 }
 
 CrashReportDatabase::OperationStatus
-CrashReportDatabaseMac::GetReportForUploading(const UUID& uuid,
-                                              const Report** report) {
+CrashReportDatabaseMac::GetReportForUploading(
+    const UUID& uuid,
+    std::unique_ptr<const UploadReport>* report) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  base::FilePath report_path = LocateCrashReport(uuid, kReportStatePending);
-  if (report_path.empty())
+  auto upload_report = std::make_unique<UploadReportMac>();
+
+  upload_report->file_path = LocateCrashReport(uuid, kReportStatePending);
+  if (upload_report->file_path.empty())
     return kReportNotFound;
 
-  std::unique_ptr<UploadReport> upload_report(new UploadReport());
-  upload_report->file_path = report_path;
-
-  base::ScopedFD lock(ObtainReportLock(report_path));
+  base::ScopedFD lock(ObtainReportLock(upload_report->file_path));
   if (!lock.is_valid())
     return kBusyError;
 
-  if (!ReadReportMetadataLocked(report_path, upload_report.get()))
+  if (!ReadReportMetadataLocked(upload_report->file_path, upload_report.get()))
     return kDatabaseError;
 
-  upload_report->lock_fd = lock.release();
-  *report = upload_report.release();
+  if (!upload_report->reader_->Open(upload_report->file_path)) {
+    return kFileSystemError;
+  }
+
+  upload_report->database_ = this;
+  upload_report->lock_fd.reset(lock.release());
+  report->reset(upload_report.release());
   return kNoError;
 }
 
 CrashReportDatabase::OperationStatus
-CrashReportDatabaseMac::RecordUploadAttempt(const Report* report,
+CrashReportDatabaseMac::RecordUploadAttempt(UploadReport* report,
                                             bool successful,
                                             const std::string& id) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
@@ -444,13 +452,6 @@ CrashReportDatabaseMac::RecordUploadAttempt(const Report* report,
       LocateCrashReport(report->uuid, kReportStatePending);
   if (report_path.empty())
     return kReportNotFound;
-
-  std::unique_ptr<const UploadReport> upload_report(
-      static_cast<const UploadReport*>(report));
-
-  base::ScopedFD lock(upload_report->lock_fd);
-  if (!lock.is_valid())
-    return kBusyError;
 
   if (successful) {
     CrashReportDatabase::OperationStatus os =
