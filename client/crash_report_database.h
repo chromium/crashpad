@@ -24,6 +24,7 @@
 #include "base/files/file_path.h"
 #include "base/macros.h"
 #include "util/file/file_io.h"
+#include "util/file/file_reader.h"
 #include "util/file/file_writer.h"
 #include "util/file/scoped_remove_file.h"
 #include "util/misc/metrics.h"
@@ -49,7 +50,7 @@ class Settings;
 //!      processed, or it was has been brought back from 'Completed' state by
 //!      user request.
 //!   3. Completed: The report has been locally processed, either by uploading
-//!      it to a collection server and calling RecordUploadAttempt(), or by
+//!      it to a collection server and calling RecordUploadComplete(), or by
 //!      calling SkipReportUpload().
 class CrashReportDatabase {
  public:
@@ -100,7 +101,7 @@ class CrashReportDatabase {
 
   //! \brief A crash report that is in the process of being written.
   //!
-  //! An instance of this struct should be created via PrepareNewCrashReport().
+  //! An instance of this class should be created via PrepareNewCrashReport().
   class NewReport {
    public:
     NewReport();
@@ -126,6 +127,30 @@ class CrashReportDatabase {
     ScopedRemoveFile file_remover_;
 
     DISALLOW_COPY_AND_ASSIGN(NewReport);
+  };
+
+  //! \brief A crash report that is in the process of being uploaded.
+  //!
+  //! An instance of this class should be created via GetReportForUploading().
+  class UploadReport : public Report {
+   public:
+    UploadReport();
+    virtual ~UploadReport();
+
+    // An open FileReader with which to read the report.
+    FileReader* Reader() const { return reader_.get(); }
+
+   private:
+    friend class CrashReportDatabase;
+    friend class CrashReportDatabaseMac;
+    friend class CrashReportDatabaseWin;
+
+    bool Initialize(const base::FilePath path, CrashReportDatabase* database);
+
+    std::unique_ptr<FileReader> reader_;
+    CrashReportDatabase* database_;
+
+    DISALLOW_COPY_AND_ASSIGN(UploadReport);
   };
 
   //! \brief The result code for operations performed on a database.
@@ -260,42 +285,38 @@ class CrashReportDatabase {
   //! \return The operation status code.
   virtual OperationStatus GetCompletedReports(std::vector<Report>* reports) = 0;
 
-  //! \brief Obtains a report object for uploading to a collection server.
+  //! \brief Obtains and locks a report object for uploading to a collection
+  //!     server.
   //!
-  //! The file at Report::file_path should be uploaded by the caller, and then
-  //! the returned Report object must be disposed of via a call to
-  //! RecordUploadAttempt().
-  //!
-  //! A subsequent call to this method with the same \a uuid is illegal until
-  //! RecordUploadAttempt() has been called.
+  //! Callers should upload the crash report using the FileReader provided.
+  //! Callers should then call RecordUploadComplete() to record a successful
+  //! upload. If RecordUploadComplete() is not called, the upload attempt will
+  //! be recorded as unsuccessful and the report lock released when \a report is
+  //! destroyed.
   //!
   //! \param[in] uuid The unique identifier for the crash report record.
   //! \param[out] report A crash report record for the report to be uploaded.
-  //!     The caller does not own this object. Only valid if this returns
-  //!     #kNoError.
+  //!     Only valid if this returns #kNoError.
   //!
   //! \return The operation status code.
-  virtual OperationStatus GetReportForUploading(const UUID& uuid,
-                                                const Report** report) = 0;
+  virtual OperationStatus GetReportForUploading(
+      const UUID& uuid,
+      std::unique_ptr<const UploadReport>* report) = 0;
 
-  //! \brief Adjusts a crash report record’s metadata to account for an upload
-  //!     attempt, and updates the last upload attempt time as returned by
+  //! \brief Records a successful upload for a report and updates the last
+  //!     upload attempt time as returned by
   //!     Settings::GetLastUploadAttemptTime().
   //!
-  //! After calling this method, the database is permitted to move and rename
-  //! the file at Report::file_path.
-  //!
-  //! \param[in] report The report object obtained from
-  //!     GetReportForUploading(). This object is invalidated after this call.
-  //! \param[in] successful Whether the upload attempt was successful.
-  //! \param[in] id The identifier assigned to this crash report by the
-  //!     collection server. Must be empty if \a successful is `false`; may be
-  //!     empty if it is `true`.
+  //! \param[in] report A UploadReport object obtained from
+  //!     GetReportForUploading(). The UploadReport object will be invalidated
+  //!     and the report unlocked as part of this call.
+  //! \param[in] id The possibly empty identifier assigned to this crash report
+  //!     by the collection server.
   //!
   //! \return The operation status code.
-  virtual OperationStatus RecordUploadAttempt(const Report* report,
-                                              bool successful,
-                                              const std::string& id) = 0;
+  OperationStatus RecordUploadComplete(
+      std::unique_ptr<const UploadReport> report,
+      const std::string& id);
 
   //! \brief Moves a report from the pending state to the completed state, but
   //!     without the report being uploaded.
@@ -331,6 +352,22 @@ class CrashReportDatabase {
   CrashReportDatabase() {}
 
  private:
+  //! \brief Adjusts a crash report record’s metadata to account for an upload
+  //!     attempt, and updates the last upload attempt time as returned by
+  //!     Settings::GetLastUploadAttemptTime().
+  //!
+  //! \param[in] report The report object obtained from
+  //!     GetReportForUploading().
+  //! \param[in] successful Whether the upload attempt was successful.
+  //! \param[in] id The identifier assigned to this crash report by the
+  //!     collection server. Must be empty if \a successful is `false`; may be
+  //!     empty if it is `true`.
+  //!
+  //! \return The operation status code.
+  virtual OperationStatus RecordUploadAttempt(UploadReport* report,
+                                              bool successful,
+                                              const std::string& id) = 0;
+
   DISALLOW_COPY_AND_ASSIGN(CrashReportDatabase);
 };
 

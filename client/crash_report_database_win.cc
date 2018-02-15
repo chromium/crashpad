@@ -29,6 +29,7 @@
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "client/settings.h"
+#include "util/misc/implicit_cast.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/metrics.h"
 
@@ -591,17 +592,20 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
   OperationStatus LookUpCrashReport(const UUID& uuid, Report* report) override;
   OperationStatus GetPendingReports(std::vector<Report>* reports) override;
   OperationStatus GetCompletedReports(std::vector<Report>* reports) override;
-  OperationStatus GetReportForUploading(const UUID& uuid,
-                                        const Report** report) override;
-  OperationStatus RecordUploadAttempt(const Report* report,
-                                      bool successful,
-                                      const std::string& id) override;
+  OperationStatus GetReportForUploading(
+      const UUID& uuid,
+      std::unique_ptr<const UploadReport>* report) override;
   OperationStatus SkipReportUpload(const UUID& uuid,
                                    Metrics::CrashSkippedReason reason) override;
   OperationStatus DeleteReport(const UUID& uuid) override;
   OperationStatus RequestUpload(const UUID& uuid) override;
 
  private:
+  // CrashReportDatabase:
+  OperationStatus RecordUploadAttempt(UploadReport* report,
+                                      bool successful,
+                                      const std::string& id) override;
+
   std::unique_ptr<Metadata> AcquireMetadata();
 
   base::FilePath base_dir_;
@@ -716,44 +720,38 @@ OperationStatus CrashReportDatabaseWin::GetCompletedReports(
 
 OperationStatus CrashReportDatabaseWin::GetReportForUploading(
     const UUID& uuid,
-    const Report** report) {
+    std::unique_ptr<const UploadReport>* report) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   std::unique_ptr<Metadata> metadata(AcquireMetadata());
   if (!metadata)
     return kDatabaseError;
-  // TODO(scottmg): After returning this report to the client, there is no way
-  // to reap this report if the uploader fails to call RecordUploadAttempt() or
-  // SkipReportUpload() (if it crashed or was otherwise buggy). To resolve this,
-  // one possibility would be to change the interface to be FileHandle based, so
-  // that instead of giving the file_path back to the client and changing state
-  // to kUploading, we return an exclusive access handle, and use that as the
-  // signal that the upload is pending, rather than an update to state in the
-  // metadata. Alternatively, there could be a "garbage collection" at startup
-  // where any reports that are orphaned in the kUploading state are either
-  // reset to kPending to retry, or discarded.
+
   ReportDisk* report_disk;
   OperationStatus os = metadata->FindSingleReportAndMarkDirty(
       uuid, ReportState::kPending, &report_disk);
   if (os == kNoError) {
     report_disk->state = ReportState::kUploading;
-    // Create a copy for passing back to client. This will be freed in
-    // RecordUploadAttempt.
-    *report = new Report(*report_disk);
+    auto upload_report = std::make_unique<UploadReport>();
+    *implicit_cast<Report*>(upload_report.get()) = *report_disk;
+
+    if (!upload_report->Initialize(upload_report->file_path, this)) {
+      return kFileSystemError;
+    }
+
+    report->reset(upload_report.release());
   }
   return os;
 }
 
 OperationStatus CrashReportDatabaseWin::RecordUploadAttempt(
-    const Report* report,
+    UploadReport* report,
     bool successful,
     const std::string& id) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   Metrics::CrashUploadAttempted(successful);
 
-  // Take ownership, allocated in GetReportForUploading.
-  std::unique_ptr<const Report> upload_report(report);
   std::unique_ptr<Metadata> metadata(AcquireMetadata());
   if (!metadata)
     return kDatabaseError;
