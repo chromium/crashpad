@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "841c821d_0f314bfd",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-15T18:28:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0f9e684_09721c1c",
+      "revId": "833876687f895fab7bbd460781b2569993077678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4db9e72b_0c1e807f",
         "filename": "client/crash_report_database_generic.cc",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "833876687f895fab7bbd460781b2569993077678",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e01bab1_6517c6f1",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-15T18:28:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4db9e72b_0c1e807f",
+      "revId": "833876687f895fab7bbd460781b2569993077678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
