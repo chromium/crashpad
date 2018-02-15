@@ -16,6 +16,24 @@
       "revId": "f772071652e59336963a0e128b21e17e65a6fc45",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5663b8f8_0b9bc17c",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-15T19:02:05Z",
+      "side": 1,
+      "message": "Reports will have an empty id at least until RecordUploadAttempt() is called, and then it may still be empty. I\u0027ve updated ReadRestOfFileAsString() to return a bool and now check for failure here.",
+      "parentUuid": "af4f031f_e56efed7",
+      "revId": "f772071652e59336963a0e128b21e17e65a6fc45",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
