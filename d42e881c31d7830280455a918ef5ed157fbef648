@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "875af2e6_88c99431",
+        "filename": "snapshot/fuchsia/module_snapshot_fuchsia.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-15T21:17:42Z",
+      "side": 1,
+      "message": "INITIALIZATION_STATE_DCHECK_VALID even these NOTREACHEDs, so that we don’t forget it later? You did INITIALIZATION_STATE_DCHECK_VALID with NOTREACHED in process_snapshot_fuchsia.cc.",
+      "revId": "d42e881c31d7830280455a918ef5ed157fbef648",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
