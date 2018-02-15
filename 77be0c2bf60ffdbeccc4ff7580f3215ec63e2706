@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94e374a4_00e0964d",
+        "filename": "client/crashpad_info.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-15T16:50:53Z",
+      "side": 1,
+      "message": "But it’s not really finding g_crashpad_info anymore, right? Aren’t you removing the need to go through the dynamic symbol table altogether?\n\nI think that talking about things in terms of the symbol name is confusing when we’re no longer accessing it through that mechanism or even exposing that symbol. On Mac and Windows, we just talk about finding the section, not about g_crashpad_info. Is there something better we can call it here?\n\n(Applies to a few other comments in this change too.)",
+      "range": {
+        "startLine": 102,
+        "startChar": 55,
+        "endLine": 102,
+        "endChar": 70
+      },
+      "revId": "77be0c2bf60ffdbeccc4ff7580f3215ec63e2706",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
