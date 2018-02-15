@@ -241,6 +241,12 @@ void CrashReportUploadThread::ProcessPendingReport(
 CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
     const CrashReportDatabase::UploadReport* report,
     std::string* response_body) {
+#if defined(OS_ANDROID)
+  // TODO(jperaza): This method can be enabled on Android after HTTPTransport is
+  // implemented and Crashpad takes over upload responsibilty on Android.
+  NOTREACHED();
+  return UploadResult::kPermanentFailure;
+#else
   std::map<std::string, std::string> parameters;
 
   FileReader* reader = report->Reader();
@@ -322,6 +328,7 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
   }
 
   return UploadResult::kSuccess;
+#endif  // OS_ANDROID
 }
 
 void CrashReportUploadThread::DoWork(const WorkerThread* thread) {
