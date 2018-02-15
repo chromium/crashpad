@@ -133,6 +133,7 @@
         'misc/clock_mac.cc',
         'misc/clock_posix.cc',
         'misc/clock_win.cc',
+        'misc/elf_note_types.h',
         'misc/from_pointer_cast.h',
         'misc/implicit_cast.h',
         'misc/initialization_state.h',

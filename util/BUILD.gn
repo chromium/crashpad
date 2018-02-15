@@ -85,6 +85,7 @@ static_library("util") {
     "misc/as_underlying_type.h",
     "misc/capture_context.h",
     "misc/clock.h",
+    "misc/elf_note_types.h",
     "misc/from_pointer_cast.h",
     "misc/implicit_cast.h",
     "misc/initialization_state.h",

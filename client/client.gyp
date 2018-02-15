@@ -62,6 +62,11 @@
             ],
           },
         }],
+        ['OS=="linux" or OS=="android"', {
+          'sources': [
+            'crashpad_info_note.S',
+          ],
+        }],
       ],
       'direct_dependent_settings': {
         'include_dirs': [

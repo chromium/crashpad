@@ -27,6 +27,7 @@
 #include "test/test_paths.h"
 #include "util/file/file_io.h"
 #include "util/misc/address_types.h"
+#include "util/misc/elf_note_types.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/process/process_memory_native.h"
 
@@ -163,14 +164,14 @@ void ReadThisExecutableInTarget(ProcessType process,
             ElfImageReader::NoteReader::Result::kNoMoreNotes);
 
   // Find the note defined in elf_image_reader_test_note.S.
-  constexpr char kCrashpadNoteName[] = "Crashpad";
-  constexpr ElfImageReader::NoteReader::NoteType kCrashpadNoteType = 1;
   constexpr uint32_t kCrashpadNoteDesc = 42;
-  notes = reader.NotesWithNameAndType(kCrashpadNoteName, kCrashpadNoteType, -1);
+  notes = reader.NotesWithNameAndType(
+      CRASHPAD_ELF_NOTE_NAME, CRASHPAD_ELF_NOTE_TYPE_SNAPSHOT_TEST, -1);
   ASSERT_EQ(notes->NextNote(&note_name, &note_type, &note_desc),
             ElfImageReader::NoteReader::Result::kSuccess);
-  EXPECT_EQ(note_name, kCrashpadNoteName);
-  EXPECT_EQ(note_type, kCrashpadNoteType);
+  EXPECT_EQ(note_name, CRASHPAD_ELF_NOTE_NAME);
+  EXPECT_EQ(note_type,
+            implicit_cast<unsigned int>(CRASHPAD_ELF_NOTE_TYPE_SNAPSHOT_TEST));
   EXPECT_EQ(note_desc.size(), sizeof(kCrashpadNoteDesc));
   EXPECT_EQ(*reinterpret_cast<decltype(kCrashpadNoteDesc)*>(&note_desc[0]),
             kCrashpadNoteDesc);
