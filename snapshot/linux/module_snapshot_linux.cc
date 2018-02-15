@@ -58,13 +58,13 @@ bool ModuleSnapshotLinux::Initialize(
   if (notes->NextNote(nullptr, nullptr, &desc) ==
       ElfImageReader::NoteReader::Result::kSuccess) {
     info_address = *reinterpret_cast<VMAddress*>(&desc[0]);
-  }
 
-  ProcessMemoryRange range;
-  if (range.Initialize(*elf_reader_->Memory())) {
-    auto info = std::make_unique<CrashpadInfoReader>();
-    if (info->Initialize(&range, info_address)) {
-      crashpad_info_ = std::move(info);
+    ProcessMemoryRange range;
+    if (range.Initialize(*elf_reader_->Memory())) {
+      auto info = std::make_unique<CrashpadInfoReader>();
+      if (info->Initialize(&range, info_address)) {
+        crashpad_info_ = std::move(info);
+      }
     }
   }
 
