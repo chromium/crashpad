@@ -127,6 +127,10 @@ base::FilePath TestPaths::Executable() {
 // static
 base::FilePath TestPaths::ExpectedExecutableBasename(
     const base::FilePath::StringType& name) {
+#if defined(OS_FUCHSIA)
+  // Apps in Fuchsia packages are always named "app".
+  return base::FilePath("app");
+#else  // OS_FUCHSIA
 #if defined(CRASHPAD_IS_IN_CHROMIUM)
   base::FilePath::StringType executable_name(
       FILE_PATH_LITERAL("crashpad_tests"));
@@ -139,6 +143,7 @@ base::FilePath TestPaths::ExpectedExecutableBasename(
 #endif  // OS_WIN
 
   return base::FilePath(executable_name);
+#endif  // OS_FUCHSIA
 }
 
 // static
@@ -195,7 +200,11 @@ base::FilePath TestPaths::BuildArtifact(
 #endif  // OS_WIN
 
 #if defined(OS_FUCHSIA)
-      directory = base::FilePath(FILE_PATH_LITERAL("/pkg/lib"));
+      // TODO(scottmg): .so files are currently deployed into /boot/lib, where
+      // they'll be found (without a path) by the loader. Application packaging
+      // infrastructure is in progress, so this will likely change again in the
+      // future.
+      directory = base::FilePath();
 #endif
       break;
   }
