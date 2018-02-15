@@ -69,15 +69,19 @@ class CrashReportDatabaseTest : public testing::Test {
     time_t times[2];
     ASSERT_TRUE(settings->GetLastUploadAttemptTime(&times[0]));
 
-    const CrashReportDatabase::Report* report = nullptr;
+    std::unique_ptr<const CrashReportDatabase::UploadReport> report;
     ASSERT_EQ(db_->GetReportForUploading(uuid, &report),
               CrashReportDatabase::kNoError);
     EXPECT_NE(report->uuid, UUID());
     EXPECT_FALSE(report->file_path.empty());
     EXPECT_TRUE(FileExists(report->file_path)) << report->file_path.value();
     EXPECT_GT(report->creation_time, 0);
-    EXPECT_EQ(db_->RecordUploadAttempt(report, successful, id),
-              CrashReportDatabase::kNoError);
+    if (successful) {
+      EXPECT_EQ(db_->RecordUploadComplete(std::move(report), id),
+                CrashReportDatabase::kNoError);
+    } else {
+      report.reset();
+    }
 
     ASSERT_TRUE(settings->GetLastUploadAttemptTime(&times[1]));
     EXPECT_NE(times[1], 0);
@@ -452,16 +456,16 @@ TEST_F(CrashReportDatabaseTest, DuelingUploads) {
   CrashReportDatabase::Report report;
   CreateCrashReport(&report);
 
-  const CrashReportDatabase::Report* upload_report;
+  std::unique_ptr<const CrashReportDatabase::UploadReport> upload_report;
   EXPECT_EQ(db()->GetReportForUploading(report.uuid, &upload_report),
             CrashReportDatabase::kNoError);
 
-  const CrashReportDatabase::Report* upload_report_2 = nullptr;
+  std::unique_ptr<const CrashReportDatabase::UploadReport> upload_report_2;
   EXPECT_EQ(db()->GetReportForUploading(report.uuid, &upload_report_2),
             CrashReportDatabase::kBusyError);
   EXPECT_FALSE(upload_report_2);
 
-  EXPECT_EQ(db()->RecordUploadAttempt(upload_report, true, std::string()),
+  EXPECT_EQ(db()->RecordUploadComplete(std::move(upload_report), std::string()),
             CrashReportDatabase::kNoError);
 }
 
@@ -469,16 +473,16 @@ TEST_F(CrashReportDatabaseTest, UploadAlreadyUploaded) {
   CrashReportDatabase::Report report;
   CreateCrashReport(&report);
 
-  const CrashReportDatabase::Report* upload_report;
+  std::unique_ptr<const CrashReportDatabase::UploadReport> upload_report;
   EXPECT_EQ(db()->GetReportForUploading(report.uuid, &upload_report),
             CrashReportDatabase::kNoError);
-  EXPECT_EQ(db()->RecordUploadAttempt(upload_report, true, std::string()),
+  EXPECT_EQ(db()->RecordUploadComplete(std::move(upload_report), std::string()),
             CrashReportDatabase::kNoError);
 
-  const CrashReportDatabase::Report* upload_report_2 = nullptr;
+  std::unique_ptr<const CrashReportDatabase::UploadReport> upload_report_2;
   EXPECT_EQ(db()->GetReportForUploading(report.uuid, &upload_report_2),
             CrashReportDatabase::kReportNotFound);
-  EXPECT_FALSE(upload_report_2);
+  EXPECT_FALSE(upload_report_2.get());
 }
 
 TEST_F(CrashReportDatabaseTest, MoveDatabase) {
