@@ -69,6 +69,13 @@
           ],
         }],
       ],
+      'target_conditions': [
+        ['OS=="android"', {
+          'sources/': [
+            ['include', '^crashpad_client_linux\\.cc$'],
+          ],
+        }],
+      ],
       'direct_dependent_settings': {
         'include_dirs': [
           '..',
