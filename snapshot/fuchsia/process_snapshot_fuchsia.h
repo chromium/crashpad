@@ -19,8 +19,12 @@
 
 #include "base/macros.h"
 #include "snapshot/crashpad_info_client_options.h"
+#include "snapshot/elf/elf_image_reader.h"
+#include "snapshot/fuchsia/module_snapshot_fuchsia.h"
+#include "snapshot/fuchsia/process_reader.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/unloaded_module_snapshot.h"
+#include "util/misc/initialization_state_dcheck.h"
 
 namespace crashpad {
 
@@ -66,7 +70,13 @@ class ProcessSnapshotFuchsia : public ProcessSnapshot {
   std::vector<const MemorySnapshot*> ExtraMemory() const override;
 
  private:
+  // Initializes modules_ on behalf of Initialize().
+  void InitializeModules();
+
+  std::vector<std::unique_ptr<internal::ModuleSnapshotFuchsia>> modules_;
+  ProcessReader process_reader_;
   std::map<std::string, std::string> annotations_simple_map_;
+  InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessSnapshotFuchsia);
 };

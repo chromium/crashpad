@@ -23,92 +23,160 @@ ProcessSnapshotFuchsia::ProcessSnapshotFuchsia() {}
 ProcessSnapshotFuchsia::~ProcessSnapshotFuchsia() {}
 
 bool ProcessSnapshotFuchsia::Initialize(zx_handle_t process) {
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
-  return false;
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+  if (!process_reader_.Initialize(process)) {
+    return false;
+  }
+
+  InitializeModules();
+
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
 }
 
 void ProcessSnapshotFuchsia::GetCrashpadOptions(
     CrashpadInfoClientOptions* options) {
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  CrashpadInfoClientOptions local_options;
+
+  for (const auto& module : modules_) {
+    CrashpadInfoClientOptions module_options;
+    module->GetCrashpadOptions(&module_options);
+
+    if (local_options.crashpad_handler_behavior == TriState::kUnset) {
+      local_options.crashpad_handler_behavior =
+          module_options.crashpad_handler_behavior;
+    }
+    if (local_options.system_crash_reporter_forwarding == TriState::kUnset) {
+      local_options.system_crash_reporter_forwarding =
+          module_options.system_crash_reporter_forwarding;
+    }
+    if (local_options.gather_indirectly_referenced_memory == TriState::kUnset) {
+      local_options.gather_indirectly_referenced_memory =
+          module_options.gather_indirectly_referenced_memory;
+      local_options.indirectly_referenced_memory_cap =
+          module_options.indirectly_referenced_memory_cap;
+    }
+
+    // If non-default values have been found for all options, the loop can end
+    // early.
+    if (local_options.crashpad_handler_behavior != TriState::kUnset &&
+        local_options.system_crash_reporter_forwarding != TriState::kUnset &&
+        local_options.gather_indirectly_referenced_memory != TriState::kUnset) {
+      break;
+    }
+  }
+
+  *options = local_options;
 }
 
 pid_t ProcessSnapshotFuchsia::ProcessID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return 0;
 }
 
 pid_t ProcessSnapshotFuchsia::ParentProcessID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return 0;
 }
 
 void ProcessSnapshotFuchsia::SnapshotTime(timeval* snapshot_time) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
 }
 
 void ProcessSnapshotFuchsia::ProcessStartTime(timeval* start_time) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
 }
 
 void ProcessSnapshotFuchsia::ProcessCPUTimes(timeval* user_time,
                                              timeval* system_time) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
 }
 
 void ProcessSnapshotFuchsia::ReportID(UUID* report_id) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
 }
 
 void ProcessSnapshotFuchsia::ClientID(UUID* client_id) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
 }
 
 const std::map<std::string, std::string>&
 ProcessSnapshotFuchsia::AnnotationsSimpleMap() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return annotations_simple_map_;
 }
 
 const SystemSnapshot* ProcessSnapshotFuchsia::System() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return nullptr;
 }
 
 std::vector<const ThreadSnapshot*> ProcessSnapshotFuchsia::Threads() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return std::vector<const ThreadSnapshot*>();
 }
 
 std::vector<const ModuleSnapshot*> ProcessSnapshotFuchsia::Modules() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return std::vector<const ModuleSnapshot*>();
 }
 
 std::vector<UnloadedModuleSnapshot> ProcessSnapshotFuchsia::UnloadedModules()
     const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return std::vector<UnloadedModuleSnapshot>();
 }
 
 const ExceptionSnapshot* ProcessSnapshotFuchsia::Exception() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return nullptr;
 }
 
 std::vector<const MemoryMapRegionSnapshot*> ProcessSnapshotFuchsia::MemoryMap()
     const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return std::vector<const MemoryMapRegionSnapshot*>();
 }
 
 std::vector<HandleSnapshot> ProcessSnapshotFuchsia::Handles() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return std::vector<HandleSnapshot>();
 }
 
 std::vector<const MemorySnapshot*> ProcessSnapshotFuchsia::ExtraMemory() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return std::vector<const MemorySnapshot*>();
+}
+
+void ProcessSnapshotFuchsia::InitializeModules() {
+  const std::vector<ProcessReader::Module>& process_reader_modules =
+      process_reader_.Modules();
+  for (const ProcessReader::Module& process_reader_module :
+       process_reader_modules) {
+    auto module = std::make_unique<internal::ModuleSnapshotFuchsia>();
+    if (module->Initialize(&process_reader_, process_reader_module)) {
+      modules_.push_back(std::move(module));
+    }
+  }
 }
 
 }  // namespace crashpad
