@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ec78c0f_91055d8f",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-15T23:57:17Z",
+      "side": 1,
+      "message": "Wait, actually. This fixes the overwrite, but it\u0027s memset()ing from the beginning of info, I think it\u0027s supposed to be clearing from the alleged size to the end of the actual info size, right?",
+      "revId": "898fe3a98fbe258f5c5ec9ddf181ac903cbc9b84",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
