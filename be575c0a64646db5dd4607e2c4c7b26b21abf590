@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7ab9453_a91de9c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-15T21:39:06Z",
+      "side": 1,
+      "message": "Leave a little more context here: upload on Android is currently the embedding client’s (Chrome’s) responsibility.\n\nOtherwise, this commit could be misinterpreted as anti-progress.",
+      "revId": "be575c0a64646db5dd4607e2c4c7b26b21abf590",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
