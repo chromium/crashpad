@@ -14,10 +14,12 @@
 
 #include "client/crash_report_database.h"
 
+#include "build/build_config.h"
 #include "client/settings.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/file.h"
+#include "test/filesystem.h"
 #include "test/scoped_temp_dir.h"
 #include "util/file/file_io.h"
 #include "util/file/filesystem.h"
@@ -666,6 +668,76 @@ TEST_F(CrashReportDatabaseTest, RequestUpload) {
   EXPECT_EQ(RequestUpload(report_0_uuid),
             CrashReportDatabase::kCannotRequestUpload);
 }
+
+// This test uses knowledge of the database format to break it, so it only
+// applies to the unfified database implementation.
+#if !defined(OS_MACOSX) && !defined(OS_WIN)
+TEST_F(CrashReportDatabaseTest, CleanBrokenDatabase) {
+  // Remove report files if metadata goes missing.
+  CrashReportDatabase::Report report;
+  ASSERT_NO_FATAL_FAILURE(CreateCrashReport(&report));
+
+  const base::FilePath metadata(
+      report.file_path.RemoveFinalExtension().value() +
+      FILE_PATH_LITERAL(".meta"));
+  ASSERT_TRUE(PathExists(report.file_path));
+  ASSERT_TRUE(PathExists(metadata));
+
+  ASSERT_TRUE(LoggingRemoveFile(metadata));
+  EXPECT_EQ(db()->CleanDatabase(0), 1);
+
+  EXPECT_FALSE(PathExists(report.file_path));
+  EXPECT_FALSE(PathExists(metadata));
+
+  // Remove metadata files if reports go missing.
+  ASSERT_NO_FATAL_FAILURE(CreateCrashReport(&report));
+  const base::FilePath metadata2(
+      report.file_path.RemoveFinalExtension().value() +
+      FILE_PATH_LITERAL(".meta"));
+  ASSERT_TRUE(PathExists(report.file_path));
+  ASSERT_TRUE(PathExists(metadata2));
+
+  ASSERT_TRUE(LoggingRemoveFile(report.file_path));
+  EXPECT_EQ(db()->CleanDatabase(0), 1);
+
+  EXPECT_FALSE(PathExists(report.file_path));
+  EXPECT_FALSE(PathExists(metadata2));
+
+  // Remove stale new files.
+  std::unique_ptr<CrashReportDatabase::NewReport> new_report;
+  EXPECT_EQ(db()->PrepareNewCrashReport(&new_report),
+            CrashReportDatabase::kNoError);
+  new_report->Writer()->Close();
+  EXPECT_EQ(db()->CleanDatabase(0), 1);
+
+  // Remove stale lock files and their associated reports.
+  ASSERT_NO_FATAL_FAILURE(CreateCrashReport(&report));
+  const base::FilePath metadata3(
+      report.file_path.RemoveFinalExtension().value() +
+      FILE_PATH_LITERAL(".meta"));
+  ASSERT_TRUE(PathExists(report.file_path));
+  ASSERT_TRUE(PathExists(metadata3));
+
+  const base::FilePath lockpath(
+      report.file_path.RemoveFinalExtension().value() +
+      FILE_PATH_LITERAL(".lock"));
+  ScopedFileHandle handle(LoggingOpenFileForWrite(
+      lockpath, FileWriteMode::kCreateOrFail, FilePermissions::kOwnerOnly));
+  ASSERT_TRUE(handle.is_valid());
+
+  time_t expired_timestamp = time(nullptr) - 60 * 60 * 24 * 3;
+
+  ASSERT_TRUE(LoggingWriteFile(
+      handle.get(), &expired_timestamp, sizeof(expired_timestamp)));
+  ASSERT_TRUE(LoggingCloseFile(handle.get()));
+  ignore_result(handle.release());
+
+  EXPECT_EQ(db()->CleanDatabase(0), 1);
+
+  EXPECT_FALSE(PathExists(report.file_path));
+  EXPECT_FALSE(PathExists(metadata3));
+}
+#endif  // !OS_MACOSX && !OS_WIN
 
 }  // namespace
 }  // namespace test
