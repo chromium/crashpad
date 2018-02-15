@@ -39,6 +39,8 @@
         'crash_report_upload_thread.h',
         'handler_main.cc',
         'handler_main.h',
+        'linux/crash_report_exception_handler.cc',
+        'linux/crash_report_exception_handler.h',
         'linux/exception_handler_server.cc',
         'linux/exception_handler_server.h',
         'mac/crash_report_exception_handler.cc',
