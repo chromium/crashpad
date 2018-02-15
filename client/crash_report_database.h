@@ -115,7 +115,7 @@ class CrashReportDatabase {
     const UUID& ReportID() { return uuid_; }
 
    private:
-    friend class CrashReportDatabase;
+    friend class CrashReportDatabaseGeneric;
     friend class CrashReportDatabaseMac;
     friend class CrashReportDatabaseWin;
 
@@ -142,6 +142,7 @@ class CrashReportDatabase {
 
    private:
     friend class CrashReportDatabase;
+    friend class CrashReportDatabaseGeneric;
     friend class CrashReportDatabaseMac;
     friend class CrashReportDatabaseWin;
 
@@ -347,6 +348,17 @@ class CrashReportDatabase {
   //!
   //! \return The operation status code.
   virtual OperationStatus RequestUpload(const UUID& uuid) = 0;
+
+  //! \brief Cleans the database of expired lockfiles, metadata without report
+  //!     files, and report files without metadata.
+  //!
+  //! This method does nothing on the macOS and Windows implementations of the
+  //! database.
+  //!
+  //! \param[in] lockfile_ttl The number of seconds at which lockfiles or new
+  //!     report files are considered expired.
+  //! \return The number of reports cleaned.
+  virtual int CleanDatabase(time_t lockfile_ttl) { return 0; }
 
  protected:
   CrashReportDatabase() {}
