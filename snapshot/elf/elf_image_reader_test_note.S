@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "util/misc/elf_note_types.h"
+
 #define NOTE_ALIGN 4
   .section .note.crashpad.test,"a",%note
   .balign NOTE_ALIGN
@@ -19,9 +21,9 @@
 testnote:
   .long name_end - name  // namesz
   .long desc_end - desc  // descsz
-  .long 1  // type
+  .long CRASHPAD_ELF_NOTE_TYPE_SNAPSHOT_TEST  // type
 name:
-  .ascii "Crashpad\0"
+  .asciz CRASHPAD_ELF_NOTE_NAME
 name_end:
   .balign NOTE_ALIGN
 desc:
