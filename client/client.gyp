@@ -43,6 +43,7 @@
         'crashpad_client_win.cc',
         'crashpad_info.cc',
         'crashpad_info.h',
+        'crashpad_info_note.S',
         'prune_crash_reports.cc',
         'prune_crash_reports.h',
         'settings.cc',
