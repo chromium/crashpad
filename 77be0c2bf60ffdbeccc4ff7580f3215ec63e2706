@@ -22,6 +22,30 @@
       "revId": "77be0c2bf60ffdbeccc4ff7580f3215ec63e2706",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91436959_52e4b957",
+        "filename": "client/crashpad_info.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-15T18:39:29Z",
+      "side": 1,
+      "message": "I was thinking it ends up still being that object, so it\u0027s a name for it, but it\u0027s a bit confusing since we\u0027re getting the address a different way. I switched to referring to a CrashpadInfo structure.\n\nIt\u0027s slightly different from Windows/Mac in that the thing we look up only has a pointer to CrashpadInfo (g_crashpad_info), rather than having the data actually being embedded into the section/note. So I think it\u0027s somewhat useful to mention the name of the symbol too, even though it\u0027s only the source-level name, nothing to do with the dynamic symbol table.",
+      "parentUuid": "94e374a4_00e0964d",
+      "range": {
+        "startLine": 102,
+        "startChar": 55,
+        "endLine": 102,
+        "endChar": 70
+      },
+      "revId": "77be0c2bf60ffdbeccc4ff7580f3215ec63e2706",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
