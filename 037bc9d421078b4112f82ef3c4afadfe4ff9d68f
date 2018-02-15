@@ -163,6 +163,30 @@
       "revId": "037bc9d421078b4112f82ef3c4afadfe4ff9d68f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "687c0a88_4aec21e0",
+        "filename": "snapshot/linux/module_snapshot_linux.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-15T16:43:47Z",
+      "side": 1,
+      "message": "That\u0027s how I\u0027d do it. Just add up the bits we expect to find. I don\u0027t think there\u0027s any reason it needs to be tightly bounded.",
+      "parentUuid": "fcc6f1b4_e0c5246f",
+      "range": {
+        "startLine": 49,
+        "startChar": 59,
+        "endLine": 49,
+        "endChar": 61
+      },
+      "revId": "037bc9d421078b4112f82ef3c4afadfe4ff9d68f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
