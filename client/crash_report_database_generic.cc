@@ -156,6 +156,8 @@ class ScopedLockFile {
 
  private:
   ScopedRemoveFile lock_file_;
+
+  DISALLOW_COPY_AND_ASSIGN(ScopedLockFile);
 };
 
 }  // namespace
@@ -273,8 +275,8 @@ bool CrashReportDatabaseGeneric::Initialize(const base::FilePath& path,
     return false;
   }
 
-  for (size_t i = 0; i < arraysize(kReportDirectories); ++i) {
-    if (!LoggingCreateDirectory(base_dir_.Append(kReportDirectories[i]),
+  for (const base::FilePath::CharType* subdir : kReportDirectories) {
+    if (!LoggingCreateDirectory(base_dir_.Append(subdir),
                                 FilePermissions::kOwnerOnly,
                                 true)) {
       return false;
