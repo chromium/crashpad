@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d453e8c1_0576eebe",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-02-15T16:00:14Z",
+      "side": 1,
+      "message": "nit: spare ;",
+      "range": {
+        "startLine": 740,
+        "startChar": 5,
+        "endLine": 740,
+        "endChar": 6
+      },
+      "revId": "af6494569607102e3ab8668ea7319ff125f9846a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
