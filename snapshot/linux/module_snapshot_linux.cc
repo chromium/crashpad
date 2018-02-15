@@ -45,17 +45,20 @@ bool ModuleSnapshotLinux::Initialize(
   elf_reader_ = process_reader_module.elf_reader;
   type_ = process_reader_module.type;
 
+  std::unique_ptr<ElfImageReader::NoteReader> notes =
+      elf_reader_->NotesWithNameAndType("CrashpadInfo", 1, -1);
+  std::string desc;
   VMAddress info_address;
-  VMSize info_size;
-  if (elf_reader_->GetDynamicSymbol(
-          "g_crashpad_info", &info_address, &info_size)) {
-    ProcessMemoryRange range;
-    if (range.Initialize(*elf_reader_->Memory()) &&
-        range.RestrictRange(info_address, info_size)) {
-      auto info = std::make_unique<CrashpadInfoReader>();
-      if (info->Initialize(&range, info_address)) {
-        crashpad_info_ = std::move(info);
-      }
+  if (notes->NextNote(nullptr, nullptr, &desc) ==
+      ElfImageReader::NoteReader::Result::kSuccess) {
+    info_address = *reinterpret_cast<VMAddress*>(&desc[0]);
+  }
+
+  ProcessMemoryRange range;
+  if (range.Initialize(*elf_reader_->Memory())) {
+    auto info = std::make_unique<CrashpadInfoReader>();
+    if (info->Initialize(&range, info_address)) {
+      crashpad_info_ = std::move(info);
     }
   }
 
