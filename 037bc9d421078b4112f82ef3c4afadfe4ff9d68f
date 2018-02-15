@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dddb902_c91d978d",
+        "filename": "client/crashpad_info.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-15T01:53:19Z",
+      "side": 1,
+      "message": "Nifty!",
+      "range": {
+        "startLine": 104,
+        "startChar": 2,
+        "endLine": 104,
+        "endChar": 73
+      },
+      "revId": "037bc9d421078b4112f82ef3c4afadfe4ff9d68f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "138350c3_3cabfa0e",
+        "filename": "client/crashpad_info_note.S",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-15T01:53:19Z",
+      "side": 1,
+      "message": "Maybe worth it to define type and name in a header.",
+      "range": {
+        "startLine": 36,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 9
+      },
+      "revId": "037bc9d421078b4112f82ef3c4afadfe4ff9d68f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72220168_e05fd008",
+        "filename": "client/crashpad_info_note.S",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-15T01:53:19Z",
+      "side": 1,
+      "message": "Name is conventionally the name of the owner, e.g. \"GNU\", with type differentiating between the the different notes for the owner.",
+      "range": {
+        "startLine": 38,
+        "startChar": 10,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "037bc9d421078b4112f82ef3c4afadfe4ff9d68f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "550dbaad_14e032f9",
+        "filename": "snapshot/linux/module_snapshot_linux.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-15T01:53:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure how trusting we want to be of notes.\nI think a malicious module could cause the handler to allocate an arbitrarily large buffer without an upper bound here.",
+      "range": {
+        "startLine": 49,
+        "startChar": 59,
+        "endLine": 49,
+        "endChar": 61
+      },
+      "revId": "037bc9d421078b4112f82ef3c4afadfe4ff9d68f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
