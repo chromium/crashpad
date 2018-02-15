@@ -81,7 +81,11 @@ class CrashpadInfoReader::InfoContainerSpecific : public InfoContainer {
       return false;
     }
 
-    memset(reinterpret_cast<char*>(&info), 0, sizeof(info) - info.size);
+    if (sizeof(info) > info.size) {
+      memset(reinterpret_cast<char*>(&info) + info.size,
+             0,
+             sizeof(info) - info.size);
+    }
 
     UnsetIfNotValidTriState(&info.crashpad_handler_behavior);
     UnsetIfNotValidTriState(&info.system_crash_reporter_forwarding);
