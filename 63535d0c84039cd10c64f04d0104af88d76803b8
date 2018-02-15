@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cff1a96d_e788d021",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-15T18:43:40Z",
+      "side": 1,
+      "message": "Less critical because the commit message has the context of the transition, but you can say CrashpadInfo here too.",
+      "revId": "63535d0c84039cd10c64f04d0104af88d76803b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
