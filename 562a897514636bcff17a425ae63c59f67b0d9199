@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "daab51ad_43e24649",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-15T22:28:44Z",
+      "side": 1,
+      "message": "This and the equivalent in HandleExceptionWithBroker() should probably record something via Metrics::ExceptionCaptureResult(). I think we do want a result for every Metrics::ExceptionEncountered(). That does appear to be how we do things on macOS and Windows.\n\nFeel free to add something to the Metrics::CaptureResult enum to encompass these failures. Because this is used for an UMA metric, the rules are (1) don’t change existing values, and (2) when this rolls into Chrome, update tools/metrics/histograms/histograms.xml too. (Actually, you can update Chrome before this rolls into it if you’re not planning a Crashpad roll soon and are afraid of losing track.)",
+      "revId": "562a897514636bcff17a425ae63c59f67b0d9199",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "804aa33d_bb9e20d3",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-15T22:28:44Z",
+      "side": 1,
+      "message": "Do we need this? Looks like all of the paths through ProcessSnapshotLinux::Initialize() will log something on failure, and you don’t log anything from this function for ProcessSnapshotLinux::InitializeException() below.\n\nIt looks like this LOG(WARNING) may have been cribbed from the Windows equivalent, which also shouldn’t need it.",
+      "revId": "562a897514636bcff17a425ae63c59f67b0d9199",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8647cad9_3dc7bda0",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-15T22:28:44Z",
+      "side": 1,
+      "message": "Every return from this function needs to be recorded via metrics. Here, it should be:\n\n  Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kExceptionInitializationFailed);\n\nSince I’ve already got the Windows file up: I’m also noticing that we actually treat the equivalent as Metrics::CaptureResult::kSnapshotFailed on Windows, by virtue of having only ProcessSnapshotWin::Initialize() and no InitializeException(). We could fix that too, here or in a separate change.",
+      "revId": "562a897514636bcff17a425ae63c59f67b0d9199",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
