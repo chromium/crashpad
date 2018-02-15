@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "97918010_b8230e26",
+        "filename": "client/crashpad_info_note.S",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-15T05:12:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "138350c3_3cabfa0e",
+      "range": {
+        "startLine": 36,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 9
+      },
+      "revId": "037bc9d421078b4112f82ef3c4afadfe4ff9d68f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72220168_e05fd008",
         "filename": "client/crashpad_info_note.S",
         "patchSetId": 10
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "210802fc_6bfdba28",
+        "filename": "client/crashpad_info_note.S",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-15T05:12:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72220168_e05fd008",
+      "range": {
+        "startLine": 38,
+        "startChar": 10,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "037bc9d421078b4112f82ef3c4afadfe4ff9d68f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "550dbaad_14e032f9",
         "filename": "snapshot/linux/module_snapshot_linux.cc",
         "patchSetId": 10
@@ -82,6 +130,30 @@
       "writtenOn": "2018-02-15T01:53:19Z",
       "side": 1,
       "message": "I\u0027m not sure how trusting we want to be of notes.\nI think a malicious module could cause the handler to allocate an arbitrarily large buffer without an upper bound here.",
+      "range": {
+        "startLine": 49,
+        "startChar": 59,
+        "endLine": 49,
+        "endChar": 61
+      },
+      "revId": "037bc9d421078b4112f82ef3c4afadfe4ff9d68f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcc6f1b4_e0c5246f",
+        "filename": "snapshot/linux/module_snapshot_linux.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-15T05:12:39Z",
+      "side": 1,
+      "message": "Good point. I wasn\u0027t sure how big to make it, so I just picked \"a bit\" bigger than the 8 bytes of actual data. Is there a better way to estimate/calculate that?",
+      "parentUuid": "550dbaad_14e032f9",
       "range": {
         "startLine": 49,
         "startChar": 59,
