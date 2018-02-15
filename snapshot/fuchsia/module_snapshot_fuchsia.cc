@@ -127,53 +127,45 @@ void ModuleSnapshotFuchsia::SourceVersion(uint16_t* version_0,
 }
 
 ModuleSnapshot::ModuleType ModuleSnapshotFuchsia::GetModuleType() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return kModuleTypeUnknown;
 }
 
 void ModuleSnapshotFuchsia::UUIDAndAge(crashpad::UUID* uuid,
                                        uint32_t* age) const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
 }
 
 std::string ModuleSnapshotFuchsia::DebugFileName() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return std::string();
 }
 
 std::vector<std::string> ModuleSnapshotFuchsia::AnnotationsVector() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return std::vector<std::string>();
 }
 
 std::map<std::string, std::string> ModuleSnapshotFuchsia::AnnotationsSimpleMap()
     const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return std::map<std::string, std::string>();
 }
 
 std::vector<AnnotationSnapshot> ModuleSnapshotFuchsia::AnnotationObjects()
     const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return std::vector<AnnotationSnapshot>();
 }
 
 std::set<CheckedRange<uint64_t>> ModuleSnapshotFuchsia::ExtraMemoryRanges()
     const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return std::set<CheckedRange<uint64_t>>();
 }
 
 std::vector<const UserMinidumpStream*>
 ModuleSnapshotFuchsia::CustomMinidumpStreams() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return std::vector<const UserMinidumpStream*>();
 }
