@@ -23,7 +23,6 @@
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/scoped_module_handle.h"
-#include "test/scoped_unset_crashpad_info.h"
 #include "test/test_paths.h"
 
 #if defined(OS_MACOSX)
@@ -58,6 +57,25 @@ TEST(CrashpadInfoClientOptions, TriStateFromCrashpadInfo) {
             TriState::kUnset);
 }
 
+class ScopedUnsetCrashpadInfoOptions {
+ public:
+  explicit ScopedUnsetCrashpadInfoOptions(CrashpadInfo* crashpad_info)
+      : crashpad_info_(crashpad_info) {
+  }
+
+  ~ScopedUnsetCrashpadInfoOptions() {
+    crashpad_info_->set_crashpad_handler_behavior(TriState::kUnset);
+    crashpad_info_->set_system_crash_reporter_forwarding(TriState::kUnset);
+    crashpad_info_->set_gather_indirectly_referenced_memory(TriState::kUnset,
+                                                            0);
+  }
+
+ private:
+  CrashpadInfo* crashpad_info_;
+
+  DISALLOW_COPY_AND_ASSIGN(ScopedUnsetCrashpadInfoOptions);
+};
+
 CrashpadInfoClientOptions SelfProcessSnapshotAndGetCrashpadOptions() {
 #if defined(OS_MACOSX)
   ProcessSnapshotMac process_snapshot;
@@ -91,7 +109,7 @@ TEST(CrashpadInfoClientOptions, OneModule) {
   ASSERT_TRUE(crashpad_info);
 
   {
-    ScopedUnsetCrashpadInfo unset(crashpad_info);
+    ScopedUnsetCrashpadInfoOptions unset(crashpad_info);
 
     crashpad_info->set_crashpad_handler_behavior(TriState::kEnabled);
 
@@ -103,7 +121,7 @@ TEST(CrashpadInfoClientOptions, OneModule) {
   }
 
   {
-    ScopedUnsetCrashpadInfo unset(crashpad_info);
+    ScopedUnsetCrashpadInfoOptions unset(crashpad_info);
 
     crashpad_info->set_system_crash_reporter_forwarding(TriState::kDisabled);
 
@@ -115,7 +133,7 @@ TEST(CrashpadInfoClientOptions, OneModule) {
   }
 
   {
-    ScopedUnsetCrashpadInfo unset(crashpad_info);
+    ScopedUnsetCrashpadInfoOptions unset(crashpad_info);
 
     crashpad_info->set_gather_indirectly_referenced_memory(TriState::kEnabled,
                                                            1234);
@@ -170,8 +188,8 @@ TEST(CrashpadInfoClientOptions, TwoModules) {
   ASSERT_TRUE(remote_crashpad_info);
 
   {
-    ScopedUnsetCrashpadInfo unset_local(local_crashpad_info);
-    ScopedUnsetCrashpadInfo unset_remote(remote_crashpad_info);
+    ScopedUnsetCrashpadInfoOptions unset_local(local_crashpad_info);
+    ScopedUnsetCrashpadInfoOptions unset_remote(remote_crashpad_info);
 
     // When only one module sets a value, it applies to the entire process.
     remote_crashpad_info->set_crashpad_handler_behavior(TriState::kEnabled);
@@ -193,8 +211,8 @@ TEST(CrashpadInfoClientOptions, TwoModules) {
   }
 
   {
-    ScopedUnsetCrashpadInfo unset_local(local_crashpad_info);
-    ScopedUnsetCrashpadInfo unset_remote(remote_crashpad_info);
+    ScopedUnsetCrashpadInfoOptions unset_local(local_crashpad_info);
+    ScopedUnsetCrashpadInfoOptions unset_remote(remote_crashpad_info);
 
     // When only one module sets a value, it applies to the entire process.
     remote_crashpad_info->set_system_crash_reporter_forwarding(
@@ -263,7 +281,7 @@ TEST_P(CrashpadInfoSizes_ClientOptions, DifferentlySizedStruct) {
   ASSERT_TRUE(remote_crashpad_info);
 
   {
-    ScopedUnsetCrashpadInfo unset_remote(remote_crashpad_info);
+    ScopedUnsetCrashpadInfoOptions unset_remote(remote_crashpad_info);
 
     // Make sure that a change in the remote structure can be read back out,
     // even though it’s a different size.
@@ -278,7 +296,7 @@ TEST_P(CrashpadInfoSizes_ClientOptions, DifferentlySizedStruct) {
   }
 
   {
-    ScopedUnsetCrashpadInfo unset_remote(remote_crashpad_info);
+    ScopedUnsetCrashpadInfoOptions unset_remote(remote_crashpad_info);
 
     // Make sure that the portion of the remote structure lying beyond its
     // declared size reads as zero.
