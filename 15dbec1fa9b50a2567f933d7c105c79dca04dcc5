@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c587c9c0_65a481c7",
+        "filename": "client/settings.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-16T20:19:01Z",
+      "side": 1,
+      "message": "My thinking was that I didn\u0027t want this class to cause CHECKs that the real implementation wouldn\u0027t cause. The creation of the file only DCHECKs, so it seemed like the flip-side should be the same.",
+      "parentUuid": "7a614c06_9f69f1ed",
+      "revId": "15dbec1fa9b50a2567f933d7c105c79dca04dcc5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "701fb264_a3493843",
         "filename": "client/settings.h",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "15dbec1fa9b50a2567f933d7c105c79dca04dcc5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d22c6d6_db2340ee",
+        "filename": "client/settings.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-16T20:19:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "701fb264_a3493843",
+      "revId": "15dbec1fa9b50a2567f933d7c105c79dca04dcc5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
