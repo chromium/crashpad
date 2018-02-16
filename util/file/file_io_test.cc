@@ -22,6 +22,7 @@
 #include "base/atomicops.h"
 #include "base/files/file_path.h"
 #include "base/macros.h"
+#include "build/build_config.h"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
@@ -29,6 +30,10 @@
 #include "test/scoped_temp_dir.h"
 #include "util/misc/implicit_cast.h"
 #include "util/thread/thread.h"
+
+#if defined(OS_FUCHSIA)
+#include "util/fuchsia/lockfile.h"
+#endif
 
 namespace crashpad {
 namespace test {
@@ -523,6 +528,9 @@ TEST(FileIO, FileShareMode_Write_Write) {
   FileShareModeTest(ReadOrWrite::kWrite, ReadOrWrite::kWrite);
 }
 
+// Shared locks are not supported by the Fuchsia lockfile emulation.
+// See https://crashpad.chromium.org/bug/217.
+#if !defined(OS_FUCHSIA)
 TEST(FileIO, MultipleSharedLocks) {
   ScopedTempDir temp_dir;
   base::FilePath shared_file =
@@ -547,6 +555,7 @@ TEST(FileIO, MultipleSharedLocks) {
   EXPECT_TRUE(LoggingUnlockFile(handle1.get()));
   EXPECT_TRUE(LoggingUnlockFile(handle2.get()));
 }
+#endif  // !OS_FUCHSIA
 
 class LockingTestThread : public Thread {
  public:
@@ -640,6 +649,9 @@ TEST(FileIO, ExclusiveVsExclusives) {
   LockingTest(FileLocking::kExclusive, FileLocking::kExclusive);
 }
 
+// Shared locks are not supported by the Fuchsia lockfile emulation.
+// See https://crashpad.chromium.org/bug/217.
+#if !defined(OS_FUCHSIA)
 TEST(FileIO, ExclusiveVsShareds) {
   LockingTest(FileLocking::kExclusive, FileLocking::kShared);
 }
@@ -647,6 +659,7 @@ TEST(FileIO, ExclusiveVsShareds) {
 TEST(FileIO, SharedVsExclusives) {
   LockingTest(FileLocking::kShared, FileLocking::kExclusive);
 }
+#endif  // !OS_FUCHSIA
 
 TEST(FileIO, FileSizeByHandle) {
   EXPECT_EQ(LoggingFileSizeByHandle(kInvalidFileHandle), -1);

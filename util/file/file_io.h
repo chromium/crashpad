@@ -404,6 +404,8 @@ FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
                                           FileWriteMode mode,
                                           FilePermissions permissions);
 
+#if !defined(OS_FUCHSIA)
+
 //! \brief Locks the given \a file using `flock()` on POSIX or `LockFileEx()` on
 //!     Windows.
 //!
@@ -414,6 +416,9 @@ FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
 //! If \a locking is FileLocking::kShared, \a file must have been opened for
 //! reading, and if it's FileLocking::kExclusive, \a file must have been opened
 //! for writing.
+//!
+//! This method is not supported on Fuchsia, however, BlockingLockFileFuchsia()
+//! may be used in some circumstances instead.
 //!
 //! \param[in] file The open file handle to be locked.
 //! \param[in] locking Controls whether the lock is a shared reader lock, or an
@@ -428,10 +433,15 @@ bool LoggingLockFile(FileHandle file, FileLocking locking);
 //! A previously-locked file should be unlocked before closing the file handle,
 //! otherwise on some OSs the lock may not be released immediately.
 //!
+//! This method is not supported on Fuchsia, however,
+//! BlockingUnlockFileFuchsia() may be used in some circumstances instead.
+//!
 //! \param[in] file The open locked file handle to be unlocked.
 //!
 //! \return `true` on success, or `false` and a message will be logged.
 bool LoggingUnlockFile(FileHandle file);
+
+#endif  // !OS_FUCHSIA
 
 //! \brief Wraps `lseek()` or `SetFilePointerEx()`. Logs an error if the
 //!     operation fails.
