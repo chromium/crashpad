@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70b399cf_078bfed7",
+        "filename": "util/file/filesystem_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-16T15:11:53Z",
+      "side": 1,
+      "message": "This won’t catch equal but non-canonical paths (extra slashes, absolute vs. relative, etc.) but it’s probably good enough for now, assuming ZX-1729 gets fixed.",
+      "revId": "e8b368823bcf77479aafc29386fcbec67972c5c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
