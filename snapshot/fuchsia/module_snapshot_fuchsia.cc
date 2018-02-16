@@ -75,6 +75,7 @@ bool ModuleSnapshotFuchsia::GetCrashpadOptions(
 
   options->crashpad_handler_behavior =
       crashpad_info_->CrashpadHandlerBehavior();
+  LOG(ERROR) << "handler_b: " << (int)options->crashpad_handler_behavior;
   options->system_crash_reporter_forwarding =
       crashpad_info_->SystemCrashReporterForwarding();
   options->gather_indirectly_referenced_memory =

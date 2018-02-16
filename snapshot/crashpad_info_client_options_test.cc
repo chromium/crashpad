@@ -313,13 +313,16 @@ TEST_P(CrashpadInfoSizes_ClientOptions, DifferentlySizedStruct) {
     // size. Storage has actually been allocated for it, so it’s safe to set
     // here.
     remote_crashpad_info->set_crashpad_handler_behavior(TriState::kEnabled);
+    printf("after set: %d\n", *(((char*)remote_crashpad_info) + 20));
     remote_crashpad_info->set_system_crash_reporter_forwarding(
         TriState::kDisabled);
+
 
     // Since system_crash_reporter_forwarding_ is beyond the struct’s declared
     // size, it should read as 0 (TriState::kUnset), even though it was set to
     // a different value above.
     options = SelfProcessSnapshotAndGetCrashpadOptions();
+    printf("later??: %d\n", *(((char*)remote_crashpad_info) + 20));
     EXPECT_EQ(options.crashpad_handler_behavior, TriState::kEnabled);
     EXPECT_EQ(options.system_crash_reporter_forwarding, TriState::kUnset);
     EXPECT_EQ(options.gather_indirectly_referenced_memory, TriState::kUnset);

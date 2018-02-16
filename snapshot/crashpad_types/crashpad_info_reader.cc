@@ -55,11 +55,13 @@ class CrashpadInfoReader::InfoContainerSpecific : public InfoContainer {
   ~InfoContainerSpecific() override = default;
 
   bool Read(const ProcessMemoryRange* memory, VMAddress address) override {
+    LOG(ERROR) << "Read():";
     if (!memory->Read(address,
                       offsetof(decltype(info), size) + sizeof(info.size),
                       &info)) {
       return false;
     }
+    LOG(ERROR) << "  info.size=" << info.size;
 
     if (info.signature != CrashpadInfo::kSignature) {
       LOG(ERROR) << "invalid signature 0x" << std::hex << info.signature;
@@ -131,6 +133,7 @@ bool CrashpadInfoReader::Initialize(const ProcessMemoryRange* memory,
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   is_64_bit_ = memory->Is64Bit();
+  LOG(ERROR) << "is64=" << is_64_bit_;
 
   std::unique_ptr<InfoContainer> new_container;
   if (is_64_bit_) {

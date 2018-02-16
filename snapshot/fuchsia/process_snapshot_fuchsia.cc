@@ -45,9 +45,14 @@ void ProcessSnapshotFuchsia::GetCrashpadOptions(
     CrashpadInfoClientOptions module_options;
     module->GetCrashpadOptions(&module_options);
 
+    LOG(ERROR) << "module.name=" << module->Name();
+
     if (local_options.crashpad_handler_behavior == TriState::kUnset) {
+      LOG(ERROR) << "local unset, now setting";
       local_options.crashpad_handler_behavior =
           module_options.crashpad_handler_behavior;
+      LOG(ERROR) << "  local set to "
+                 << (int)local_options.crashpad_handler_behavior;
     }
     if (local_options.system_crash_reporter_forwarding == TriState::kUnset) {
       local_options.system_crash_reporter_forwarding =
@@ -68,6 +73,8 @@ void ProcessSnapshotFuchsia::GetCrashpadOptions(
       break;
     }
   }
+
+  LOG(ERROR) << "DONE";
 
   *options = local_options;
 }
