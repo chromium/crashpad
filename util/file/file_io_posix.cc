@@ -157,18 +157,7 @@ FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
   return fd;
 }
 
-#if defined(OS_FUCHSIA)
-int flock(int, int) {
-  // TODO(scottmg): https://crashpad.chromium.org/bug/196:
-  // This was removed from the libc of Fuchsia recently. A new implementation of
-  // Settings is being worked on that doesn't require flock(), but until then,
-  // it's more useful to have it link, but fail at runtime than it is to exclude
-  // a lot of code (Settings, which requires excludes the CrashReportDatabase,
-  // which requires excluding a variety of tests, the handler, and so on.).
-  NOTREACHED();
-  return ENOSYS;
-}
-#endif  // OS_FUCHSIA
+#if !defined(OS_FUCHSIA)
 
 bool LoggingLockFile(FileHandle file, FileLocking locking) {
   int operation = (locking == FileLocking::kShared) ? LOCK_SH : LOCK_EX;
@@ -182,6 +171,8 @@ bool LoggingUnlockFile(FileHandle file) {
   PLOG_IF(ERROR, rv != 0) << "flock";
   return rv == 0;
 }
+
+#endif  // !OS_FUCHSIA
 
 FileOffset LoggingSeekFile(FileHandle file, FileOffset offset, int whence) {
   off_t rv = lseek(file, offset, whence);

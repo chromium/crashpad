@@ -404,6 +404,11 @@ FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
                                           FileWriteMode mode,
                                           FilePermissions permissions);
 
+// Fuchsia does not currently support any sort of file locking. See
+// https://crashpad.chromium.org/bug/196 and
+// https://crashpad.chromium.org/bug/217.
+#if !defined(OS_FUCHSIA)
+
 //! \brief Locks the given \a file using `flock()` on POSIX or `LockFileEx()` on
 //!     Windows.
 //!
@@ -432,6 +437,8 @@ bool LoggingLockFile(FileHandle file, FileLocking locking);
 //!
 //! \return `true` on success, or `false` and a message will be logged.
 bool LoggingUnlockFile(FileHandle file);
+
+#endif  // !OS_FUCHSIA
 
 //! \brief Wraps `lseek()` or `SetFilePointerEx()`. Logs an error if the
 //!     operation fails.
