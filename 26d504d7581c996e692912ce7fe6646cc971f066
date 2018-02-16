@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19a4eb5c_18921cb4",
+        "filename": "infra/config/cq.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-16T22:04:18Z",
+      "side": 1,
+      "message": "Our standard OS sort instead of alphabetic?",
+      "revId": "26d504d7581c996e692912ce7fe6646cc971f066",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
