@@ -65,6 +65,12 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     return kTerminationCodeSnapshotFailed;
   }
 
+  if (!process_snapshot.InitializeException(exception_information_address)) {
+    Metrics::ExceptionCaptureResult(
+        Metrics::CaptureResult::kExceptionInitializationFailed);
+    return kTerminationCodeSnapshotFailed;
+  }
+
   // Now that we have the exception information, even if something else fails we
   // can terminate the process with the correct exit code.
   const unsigned int termination_code =
