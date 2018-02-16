@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "984f2e02_331ae19b",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-16T01:20:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daab51ad_43e24649",
+      "revId": "562a897514636bcff17a425ae63c59f67b0d9199",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "804aa33d_bb9e20d3",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c521d2e6_51cf280b",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-16T01:20:34Z",
+      "side": 1,
+      "message": "Removed, here and from the Windows version.",
+      "parentUuid": "804aa33d_bb9e20d3",
+      "revId": "562a897514636bcff17a425ae63c59f67b0d9199",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8647cad9_3dc7bda0",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "562a897514636bcff17a425ae63c59f67b0d9199",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e09b761e_0bbe92c7",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-16T01:20:34Z",
+      "side": 1,
+      "message": "Done. I\u0027ll do the windows version in another change.",
+      "parentUuid": "8647cad9_3dc7bda0",
+      "revId": "562a897514636bcff17a425ae63c59f67b0d9199",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
