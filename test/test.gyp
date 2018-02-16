@@ -71,7 +71,6 @@
         'scoped_temp_dir.h',
         'scoped_temp_dir_posix.cc',
         'scoped_temp_dir_win.cc',
-        'scoped_unset_crashpad_info.h',
         'test_paths.cc',
         'test_paths.h',
         'win/child_launcher.cc',
