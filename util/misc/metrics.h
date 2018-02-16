@@ -119,6 +119,16 @@ class Metrics {
     //! \brief There was a database error in attempt to complete the report.
     kFinishedWritingCrashReportFailed = 7,
 
+    //! \brief An attempt to directly `ptrace` the target failed.
+    //!
+    //! This value is only used on Linux/Android.
+    kDirectPtraceFailed = 8,
+
+    //! \brief An attempt to `ptrace` via a PtraceBroker failed.
+    //!
+    //! This value is only used on Linux/Android.
+    kBrokeredPtraceFailed = 9,
+
     //! \brief The number of values in this enumeration; not a valid value.
     kMaxValue
   };
