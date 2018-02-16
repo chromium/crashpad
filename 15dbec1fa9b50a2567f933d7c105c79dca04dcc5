@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ace61d80_f4a82f49",
+        "filename": "client/settings.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-16T20:24:40Z",
+      "side": 1,
+      "message": "Oh, but I could of course actually *do* the DCHECK, rather than just logging. Done.",
+      "parentUuid": "c587c9c0_65a481c7",
+      "revId": "15dbec1fa9b50a2567f933d7c105c79dca04dcc5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "701fb264_a3493843",
         "filename": "client/settings.h",
         "patchSetId": 6
