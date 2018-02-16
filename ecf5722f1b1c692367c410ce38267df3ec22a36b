@@ -16,6 +16,24 @@
       "revId": "ecf5722f1b1c692367c410ce38267df3ec22a36b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "421da80d_08a649f5",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2018-02-16T22:54:09Z",
+      "side": 1,
+      "message": "Also, I\u0027d suggest using a unique_ptr member instead of deriving from it.",
+      "parentUuid": "8019b73f_5e81d15e",
+      "revId": "ecf5722f1b1c692367c410ce38267df3ec22a36b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
