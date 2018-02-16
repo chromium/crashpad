@@ -16,6 +16,24 @@
       "revId": "67f2c725810842f7140da86d6b38e2a727365da8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e57168f_8fb8f7fe",
+        "filename": "snapshot/crashpad_info_size_test_module.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-16T17:56:24Z",
+      "side": 1,
+      "message": "Good question, I was just making it match what we have in crashpad_info.cc. I\u0027ll investigate if both can be hidden.\n\n...\n\nNope, hidden seems fine, fixed both locations.",
+      "parentUuid": "88c7371c_42596cf7",
+      "revId": "67f2c725810842f7140da86d6b38e2a727365da8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
