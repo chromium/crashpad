@@ -57,7 +57,8 @@ def _FindGNFromBinaryDir(binary_dir):
           if line.startswith('  command = '):
             gn_command_line_parts = line.strip().split(' ')
             if len(gn_command_line_parts) > 2:
-              return os.path.join(binary_dir, gn_command_line_parts[2])
+              return os.path.abspath(os.path.join(
+                  binary_dir, gn_command_line_parts[2]))
 
   return None
 
@@ -373,7 +374,8 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name, extra_command_line):
     staging_root = test_root + '/pkg'
 
     # Make a staging directory tree on the target.
-    directories_to_create = [tmp_root, '%s/bin' % staging_root,
+    directories_to_create = [tmp_root,
+                             '%s/bin' % staging_root,
                              '%s/assets' % staging_root]
     netruncmd(['mkdir', '-p'] + directories_to_create)
 
@@ -396,7 +398,8 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name, extra_command_line):
           target_path = os.path.join(
               staging_root, 'bin', local_path[len(binary_dir)+1:])
       else:
-        target_path = os.path.join(staging_root, 'assets', local_path)
+        relative_path = os.path.relpath(local_path, CRASHPAD_DIR)
+        target_path = os.path.join(staging_root, 'assets', relative_path)
       netcp_path = os.path.join(sdk_root, 'tools', 'netcp')
       subprocess.check_call([netcp_path, local_path,
                              device_name + ':' + target_path],
@@ -437,6 +440,8 @@ def main(args):
   parser.add_argument('--gtest_filter',
                       help='GTest filter applied to GTest binary runs.')
   args = parser.parse_args()
+
+  args.binary_dir = os.path.abspath(args.binary_dir)
 
   # Tell 64-bit Windows tests where to find 32-bit test executables, for
   # cross-bitted testing. This relies on the fact that the GYP build by default
