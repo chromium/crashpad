@@ -25,6 +25,7 @@
 #include "gtest/gtest.h"
 #include "test/multiprocess_exec.h"
 #include "test/process_type.h"
+#include "test/scoped_unset_crashpad_info.h"
 #include "util/file/file_io.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/process/process_memory_native.h"
@@ -47,6 +48,7 @@ class CrashpadInfoTestDataSetup {
  public:
   CrashpadInfoTestDataSetup() {
     CrashpadInfo* info = CrashpadInfo::GetCrashpadInfo();
+    unset_.reset(new ScopedUnsetCrashpadInfo(info));
 
     info->set_extra_memory_ranges(&extra_memory_);
     info->set_simple_annotations(&simple_annotations_);
@@ -69,6 +71,7 @@ class CrashpadInfoTestDataSetup {
   }
 
  private:
+  std::unique_ptr<ScopedUnsetCrashpadInfo> unset_;
   SimpleAddressRangeBag extra_memory_;
   SimpleStringDictionary simple_annotations_;
   AnnotationList annotation_list_;
