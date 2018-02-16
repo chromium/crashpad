@@ -31,7 +31,10 @@
   // be performed.
   .section .note.crashpad.info,"aw",%note
   .balign NOTE_ALIGN
+  # .globl indicates that it's available to link against other .o files. .hidden
+  # indicates that it will not appear in the executable's symbol table.
   .globl CRASHPAD_NOTE_REFERENCE
+  .hidden CRASHPAD_NOTE_REFERENCE
   .type CRASHPAD_NOTE_REFERENCE, %object
 CRASHPAD_NOTE_REFERENCE:
   .long name_end - name  // namesz
