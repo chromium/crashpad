@@ -410,6 +410,26 @@ void MonitorSelf(const Options& options) {
   ReinstallCrashHandler();
 }
 
+template <typename Stoppable>
+class ScopedStop : public std::unique_ptr<Stoppable> {
+ public:
+  ScopedStop() = default;
+
+  ~ScopedStop() {
+    if (this->get()) {
+      this->get()->Stop();
+    }
+  }
+
+  ScopedStop& operator=(std::unique_ptr<Stoppable>&& other) {
+    this->reset(other.release());
+    return *this;
+  }
+
+ private:
+  DISALLOW_COPY_AND_ASSIGN(ScopedStop);
+};
+
 }  // namespace
 
 int HandlerMain(int argc,
@@ -763,21 +783,24 @@ int HandlerMain(int argc,
     return ExitFailure();
   }
 
-  // TODO(scottmg): options.rate_limit should be removed when we have a
-  // configurable database setting to control upload limiting.
-  // See https://crashpad.chromium.org/bug/23.
-  CrashReportUploadThread::Options upload_thread_options;
-  upload_thread_options.identify_client_via_url =
-      options.identify_client_via_url;
-  upload_thread_options.rate_limit = options.rate_limit;
-  upload_thread_options.upload_gzip = options.upload_gzip;
-  upload_thread_options.watch_pending_reports = options.periodic_tasks;
-  CrashReportUploadThread upload_thread(database.get(),
-                                        options.url,
-                                        upload_thread_options);
-  upload_thread.Start();
+  ScopedStop<CrashReportUploadThread> upload_thread;
+  if (!options.url.empty()) {
+    // TODO(scottmg): options.rate_limit should be removed when we have a
+    // configurable database setting to control upload limiting.
+    // See https://crashpad.chromium.org/bug/23.
+    CrashReportUploadThread::Options upload_thread_options;
+    upload_thread_options.identify_client_via_url =
+        options.identify_client_via_url;
+    upload_thread_options.rate_limit = options.rate_limit;
+    upload_thread_options.upload_gzip = options.upload_gzip;
+    upload_thread_options.watch_pending_reports = options.periodic_tasks;
 
-  std::unique_ptr<PruneCrashReportThread> prune_thread;
+    upload_thread = std::make_unique<CrashReportUploadThread>(
+        database.get(), options.url, upload_thread_options);
+    upload_thread->Start();
+  }
+
+  ScopedStop<PruneCrashReportThread> prune_thread;
   if (options.periodic_tasks) {
     prune_thread.reset(new PruneCrashReportThread(
         database.get(), PruneCondition::GetDefault()));
@@ -785,7 +808,7 @@ int HandlerMain(int argc,
   }
 
   CrashReportExceptionHandler exception_handler(database.get(),
-                                                &upload_thread,
+                                                upload_thread.get(),
                                                 &options.annotations,
                                                 user_stream_sources);
 
@@ -797,11 +820,6 @@ int HandlerMain(int argc,
 #endif  // OS_WIN
 
   exception_handler_server.Run(&exception_handler);
-
-  upload_thread.Stop();
-  if (prune_thread) {
-    prune_thread->Stop();
-  }
 
   return EXIT_SUCCESS;
 }
