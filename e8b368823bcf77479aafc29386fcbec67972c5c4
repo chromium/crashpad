@@ -16,6 +16,24 @@
       "revId": "e8b368823bcf77479aafc29386fcbec67972c5c4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83af0da1_f91e20d5",
+        "filename": "util/file/filesystem_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-16T16:14:11Z",
+      "side": 1,
+      "message": "Yeah, good point. I guess the failure isn\u0027t too bad in that it\u0027s no worse than it was before (i.e. we still fail some cases that should succeed, but we don\u0027t cause new failures.)\n\nIt looks like realpath() is implemented, and since there\u0027s no links, it should be able to make a solidly canonical path. I could call that here on both paths before comparing if you think that\u0027s worthwhile.",
+      "parentUuid": "70b399cf_078bfed7",
+      "revId": "e8b368823bcf77479aafc29386fcbec67972c5c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
