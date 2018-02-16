@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8019b73f_5e81d15e",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-16T22:46:58Z",
+      "side": 1,
+      "message": "Maybe instead of making this a template, we should have both CrashReportUploadThread and PruneCrashReportThread inherit from a common ancestor that defines a pure virtual Stop() (and I guess Start() too).",
+      "revId": "ecf5722f1b1c692367c410ce38267df3ec22a36b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
