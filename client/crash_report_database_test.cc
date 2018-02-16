@@ -628,21 +628,21 @@ TEST_F(CrashReportDatabaseTest, RequestUpload) {
   ASSERT_EQ(pending_reports.size(), 2u);
 
   // Check individual reports.
-  const CrashReportDatabase::Report* expicitly_requested_report;
+  const CrashReportDatabase::Report* explicitly_requested_report;
   const CrashReportDatabase::Report* pending_report;
   if (pending_reports[0].uuid == report_0_uuid) {
     pending_report = &pending_reports[0];
-    expicitly_requested_report = &pending_reports[1];
+    explicitly_requested_report = &pending_reports[1];
   } else {
     pending_report = &pending_reports[1];
-    expicitly_requested_report = &pending_reports[0];
+    explicitly_requested_report = &pending_reports[0];
   }
 
   EXPECT_EQ(pending_report->uuid, report_0_uuid);
   EXPECT_FALSE(pending_report->upload_explicitly_requested);
 
-  EXPECT_EQ(expicitly_requested_report->uuid, report_1_uuid);
-  EXPECT_TRUE(expicitly_requested_report->upload_explicitly_requested);
+  EXPECT_EQ(explicitly_requested_report->uuid, report_1_uuid);
+  EXPECT_TRUE(explicitly_requested_report->upload_explicitly_requested);
 
   // Explicitly requested reports will not have upload_explicitly_requested bit
   // after getting skipped.
