@@ -59,10 +59,6 @@ __attribute__((
     // Put the structure in a well-known section name where it can be easily
     // found without having to consult the symbol table.
     section(SEG_DATA ",crashpad_info"),
-
-    // There's no need to expose this as a public symbol from the symbol table.
-    // All accesses from the outside can locate the well-known section name.
-    visibility("hidden"),
 #endif
 
 #if defined(ADDRESS_SANITIZER)
@@ -73,6 +69,10 @@ __attribute__((
     // greater than the red zone size, the red zone will be suppressed.
     aligned(64),
 #endif  // defined(ADDRESS_SANITIZER)
+
+    // There's no need to expose this as a public symbol from the symbol table.
+    // All accesses from the outside can locate the well-known section name.
+    visibility("hidden"),
 
     // The “used” attribute prevents the structure from being dead-stripped.
     used))

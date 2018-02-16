@@ -412,10 +412,15 @@ loadable_module("crashpad_snapshot_test_module_large") {
   sources = [
     "crashpad_info_size_test_module.cc",
   ]
+
+  deps = []
+  if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
+    sources += [ "crashpad_info_size_test_note.S" ]
+    deps += [ "../util" ]
+  }
+
   defines = [ "CRASHPAD_INFO_SIZE_TEST_MODULE_LARGE" ]
-  deps = [
-    "../third_party/mini_chromium:base",
-  ]
+  deps += [ "../third_party/mini_chromium:base" ]
 }
 
 loadable_module("crashpad_snapshot_test_module_small") {
@@ -423,10 +428,15 @@ loadable_module("crashpad_snapshot_test_module_small") {
   sources = [
     "crashpad_info_size_test_module.cc",
   ]
+
+  deps = []
+  if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
+    sources += [ "crashpad_info_size_test_note.S" ]
+    deps += [ "../util" ]
+  }
+
   defines = [ "CRASHPAD_INFO_SIZE_TEST_MODULE_SMALL" ]
-  deps = [
-    "../third_party/mini_chromium:base",
-  ]
+  deps += [ "../third_party/mini_chromium:base" ]
 }
 
 if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
