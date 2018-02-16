@@ -1,4 +1,4 @@
-// Copyright 2015 The Crashpad Authors. All rights reserved.
+// Copyright 2018 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,22 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "handler/win/crash_report_exception_handler.h"
+#include "handler/linux/crash_report_exception_handler.h"
 
-#include <type_traits>
-#include <utility>
+#include <vector>
 
-#include "client/crash_report_database.h"
+#include "base/logging.h"
 #include "client/settings.h"
-#include "handler/crash_report_upload_thread.h"
 #include "minidump/minidump_file_writer.h"
-#include "minidump/minidump_user_extension_stream_data_source.h"
-#include "snapshot/win/process_snapshot_win.h"
-#include "util/file/file_writer.h"
+#include "snapshot/crashpad_info_client_options.h"
+#include "snapshot/linux/process_snapshot_linux.h"
+#include "util/linux/direct_ptrace_connection.h"
+#include "util/linux/ptrace_client.h"
 #include "util/misc/metrics.h"
-#include "util/win/registration_protocol_win.h"
-#include "util/win/scoped_process_suspend.h"
-#include "util/win/termination_codes.h"
+#include "util/misc/tri_state.h"
+#include "util/misc/uuid.h"
 
 namespace crashpad {
 
@@ -41,39 +39,55 @@ CrashReportExceptionHandler::CrashReportExceptionHandler(
       process_annotations_(process_annotations),
       user_stream_data_sources_(user_stream_data_sources) {}
 
-CrashReportExceptionHandler::~CrashReportExceptionHandler() {
-}
+CrashReportExceptionHandler::~CrashReportExceptionHandler() = default;
 
-void CrashReportExceptionHandler::ExceptionHandlerServerStarted() {
-}
-
-unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
-    HANDLE process,
-    WinVMAddress exception_information_address,
-    WinVMAddress debug_critical_section_address) {
+bool CrashReportExceptionHandler::HandleException(
+    pid_t client_process_id,
+    VMAddress exception_info_address) {
   Metrics::ExceptionEncountered();
 
-  ScopedProcessSuspend suspend(process);
-
-  ProcessSnapshotWin process_snapshot;
-  if (!process_snapshot.Initialize(process,
-                                   ProcessSuspensionState::kSuspended,
-                                   exception_information_address,
-                                   debug_critical_section_address)) {
-    Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSnapshotFailed);
-    return kTerminationCodeSnapshotFailed;
+  DirectPtraceConnection connection;
+  if (!connection.Initialize(client_process_id)) {
+    Metrics::ExceptionCaptureResult(
+        Metrics::CaptureResult::kDirectPtraceFailed);
+    return false;
   }
 
-  // Now that we have the exception information, even if something else fails we
-  // can terminate the process with the correct exit code.
-  const unsigned int termination_code =
-      process_snapshot.Exception()->Exception();
-  static_assert(
-      std::is_same<std::remove_const<decltype(termination_code)>::type,
-                   decltype(process_snapshot.Exception()->Exception())>::value,
-      "expected ExceptionCode() and process termination code to match");
+  return HandleExceptionWithConnection(&connection, exception_info_address);
+}
 
-  Metrics::ExceptionCode(termination_code);
+bool CrashReportExceptionHandler::HandleExceptionWithBroker(
+    pid_t client_process_id,
+    VMAddress exception_info_address,
+    int broker_sock) {
+  Metrics::ExceptionEncountered();
+
+  PtraceClient client;
+  if (client.Initialize(broker_sock, client_process_id)) {
+    Metrics::ExceptionCaptureResult(
+        Metrics::CaptureResult::kBrokeredPtraceFailed);
+    return false;
+  }
+
+  return HandleExceptionWithConnection(&client, exception_info_address);
+}
+
+bool CrashReportExceptionHandler::HandleExceptionWithConnection(
+    PtraceConnection* connection,
+    VMAddress exception_info_address) {
+  ProcessSnapshotLinux process_snapshot;
+  if (!process_snapshot.Initialize(connection)) {
+    Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSnapshotFailed);
+    return false;
+  }
+
+  if (!process_snapshot.InitializeException(exception_info_address)) {
+    Metrics::ExceptionCaptureResult(
+        Metrics::CaptureResult::kExceptionInitializationFailed);
+    return false;
+  }
+
+  Metrics::ExceptionCode(process_snapshot.Exception()->Exception());
 
   CrashpadInfoClientOptions client_options;
   process_snapshot.GetCrashpadOptions(&client_options);
@@ -97,7 +111,7 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
       LOG(ERROR) << "PrepareNewCrashReport failed";
       Metrics::ExceptionCaptureResult(
           Metrics::CaptureResult::kPrepareNewCrashReportFailed);
-      return termination_code;
+      return false;
     }
 
     process_snapshot.SetReportID(new_report->ReportID());
@@ -111,7 +125,7 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
       LOG(ERROR) << "WriteEverything failed";
       Metrics::ExceptionCaptureResult(
           Metrics::CaptureResult::kMinidumpWriteFailed);
-      return termination_code;
+      return false;
     }
 
     UUID uuid;
@@ -121,14 +135,19 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
       LOG(ERROR) << "FinishedWritingCrashReport failed";
       Metrics::ExceptionCaptureResult(
           Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
-      return termination_code;
+      return false;
     }
 
-    upload_thread_->ReportPending(uuid);
+    if (upload_thread_) {
+      upload_thread_->ReportPending(uuid);
+    } else {
+      database_->SkipReportUpload(
+          uuid, Metrics::CrashSkippedReason::kUploadsDisabled);
+    }
   }
 
   Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSuccess);
-  return termination_code;
+  return true;
 }
 
 }  // namespace crashpad
