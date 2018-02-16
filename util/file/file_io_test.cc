@@ -523,6 +523,11 @@ TEST(FileIO, FileShareMode_Write_Write) {
   FileShareModeTest(ReadOrWrite::kWrite, ReadOrWrite::kWrite);
 }
 
+// Fuchsia does not currently support any sort of file locking. See
+// https://crashpad.chromium.org/bug/196 and
+// https://crashpad.chromium.org/bug/217.
+#if !defined(OS_FUCHSIA)
+
 TEST(FileIO, MultipleSharedLocks) {
   ScopedTempDir temp_dir;
   base::FilePath shared_file =
@@ -647,6 +652,8 @@ TEST(FileIO, ExclusiveVsShareds) {
 TEST(FileIO, SharedVsExclusives) {
   LockingTest(FileLocking::kShared, FileLocking::kExclusive);
 }
+
+#endif  // !OS_FUCHSIA
 
 TEST(FileIO, FileSizeByHandle) {
   EXPECT_EQ(LoggingFileSizeByHandle(kInvalidFileHandle), -1);
