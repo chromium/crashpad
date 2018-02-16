@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88c7371c_42596cf7",
+        "filename": "snapshot/crashpad_info_size_test_module.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-16T15:17:59Z",
+      "side": 1,
+      "message": "Why can’t this be hidden on non-Mac POSIX?",
+      "revId": "67f2c725810842f7140da86d6b38e2a727365da8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
