@@ -27,6 +27,10 @@
 #include "base/posix/eintr_wrapper.h"
 #include "build/build_config.h"
 
+#if defined(OS_FUCHSIA)
+#include "util/fuchsia/lockfile.h"
+#endif  // OS_FUCHSIA
+
 namespace crashpad {
 
 namespace {
@@ -157,30 +161,27 @@ FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
   return fd;
 }
 
-#if defined(OS_FUCHSIA)
-int flock(int, int) {
-  // TODO(scottmg): https://crashpad.chromium.org/bug/196:
-  // This was removed from the libc of Fuchsia recently. A new implementation of
-  // Settings is being worked on that doesn't require flock(), but until then,
-  // it's more useful to have it link, but fail at runtime than it is to exclude
-  // a lot of code (Settings, which requires excludes the CrashReportDatabase,
-  // which requires excluding a variety of tests, the handler, and so on.).
-  NOTREACHED();
-  return ENOSYS;
-}
-#endif  // OS_FUCHSIA
-
 bool LoggingLockFile(FileHandle file, FileLocking locking) {
+#if defined(OS_FUCHSIA)
+  (void)locking;
+  // AH CRAP.
+  return BlockingLockFileFuchsia(file);
+#else
   int operation = (locking == FileLocking::kShared) ? LOCK_SH : LOCK_EX;
   int rv = HANDLE_EINTR(flock(file, operation));
   PLOG_IF(ERROR, rv != 0) << "flock";
   return rv == 0;
+#endif  // OS_FUCHSIA
 }
 
 bool LoggingUnlockFile(FileHandle file) {
+#if defined(OS_FUCHSIA)
+  return BlockingUnlockFileFuchsia(file);
+#else
   int rv = flock(file, LOCK_UN);
   PLOG_IF(ERROR, rv != 0) << "flock";
   return rv == 0;
+#endif  // OS_FUCHSIA
 }
 
 FileOffset LoggingSeekFile(FileHandle file, FileOffset offset, int whence) {

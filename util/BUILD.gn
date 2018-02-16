@@ -373,6 +373,8 @@ static_library("util") {
 
   if (crashpad_is_fuchsia) {
     sources += [
+      "fuchsia/lockfile.cc",
+      "fuchsia/lockfile.h",
       "misc/paths_fuchsia.cc",
       "net/http_transport_fuchsia.cc",
       "process/process_memory_fuchsia.cc",
