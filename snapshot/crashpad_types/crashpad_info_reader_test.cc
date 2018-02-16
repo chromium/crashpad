@@ -17,6 +17,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include <memory>
+
 #include "build/build_config.h"
 #include "client/annotation_list.h"
 #include "client/crashpad_info.h"
@@ -43,10 +45,32 @@ constexpr TriState kGatherIndirectlyReferencedMemory = TriState::kUnset;
 
 constexpr uint32_t kIndirectlyReferencedMemoryCap = 42;
 
+class ScopedUnsetCrashpadInfo {
+ public:
+  explicit ScopedUnsetCrashpadInfo(CrashpadInfo* crashpad_info)
+      : crashpad_info_(crashpad_info) {}
+
+  ~ScopedUnsetCrashpadInfo() {
+    crashpad_info_->set_crashpad_handler_behavior(TriState::kUnset);
+    crashpad_info_->set_system_crash_reporter_forwarding(TriState::kUnset);
+    crashpad_info_->set_gather_indirectly_referenced_memory(TriState::kUnset,
+                                                            0);
+    crashpad_info_->set_extra_memory_ranges(nullptr);
+    crashpad_info_->set_simple_annotations(nullptr);
+    crashpad_info_->set_annotations_list(nullptr);
+  }
+
+ private:
+  CrashpadInfo* crashpad_info_;
+
+  DISALLOW_COPY_AND_ASSIGN(ScopedUnsetCrashpadInfo);
+};
+
 class CrashpadInfoTestDataSetup {
  public:
   CrashpadInfoTestDataSetup() {
     CrashpadInfo* info = CrashpadInfo::GetCrashpadInfo();
+    unset_.reset(new ScopedUnsetCrashpadInfo(info));
 
     info->set_extra_memory_ranges(&extra_memory_);
     info->set_simple_annotations(&simple_annotations_);
@@ -69,6 +93,7 @@ class CrashpadInfoTestDataSetup {
   }
 
  private:
+  std::unique_ptr<ScopedUnsetCrashpadInfo> unset_;
   SimpleAddressRangeBag extra_memory_;
   SimpleStringDictionary simple_annotations_;
   AnnotationList annotation_list_;
