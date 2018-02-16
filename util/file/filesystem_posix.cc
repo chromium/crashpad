@@ -65,6 +65,13 @@ bool LoggingCreateDirectory(const base::FilePath& path,
 
 bool MoveFileOrDirectory(const base::FilePath& source,
                          const base::FilePath& dest) {
+#if defined(OS_FUCHSIA)
+  // Fuchsia fails and sets errno to EINVAL if source and dest are the same.
+  if (!source.empty() && source == dest) {
+    return true;
+  }
+#endif  // OS_FUCHSIA
+
   if (rename(source.value().c_str(), dest.value().c_str()) != 0) {
     PLOG(ERROR) << "rename " << source.value().c_str() << ", "
                 << dest.value().c_str();
