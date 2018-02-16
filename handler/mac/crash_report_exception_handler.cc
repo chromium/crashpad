@@ -187,7 +187,12 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
       return KERN_FAILURE;
     }
 
-    upload_thread_->ReportPending(uuid);
+    if (upload_thread_) {
+      upload_thread_->ReportPending(uuid);
+    } else {
+      database_->SkipReportUpload(
+          uuid, Metrics::CrashSkippedReason::kUploadsDisabled);
+    }
   }
 
   if (client_options.system_crash_reporter_forwarding != TriState::kDisabled &&
