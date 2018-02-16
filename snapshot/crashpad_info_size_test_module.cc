@@ -23,7 +23,6 @@
 #endif  // OS_MACOSX
 
 namespace crashpad {
-namespace {
 
 #if defined(CRASHPAD_INFO_SIZE_TEST_MODULE_SMALL) == \
     defined(CRASHPAD_INFO_SIZE_TEST_MODULE_LARGE)
@@ -70,16 +69,12 @@ struct TestCrashpadInfo {
 __attribute__((
 #if defined(OS_MACOSX)
     section(SEG_DATA ",crashpad_info"),
-#elif defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FUCHSIA)
-    section("crashpad_info"),
-#else
-#error Port
 #endif
 #if defined(ADDRESS_SANITIZER)
     aligned(64),
 #endif  // defined(ADDRESS_SANITIZER)
-    used,
-    visibility("hidden")))
+    visibility("hidden"),
+    used))
 #elif defined(OS_WIN)
 #pragma section("CPADinfo", read, write)
 __declspec(allocate("CPADinfo"))
@@ -106,7 +101,6 @@ TestCrashpadInfo g_test_crashpad_info = {'CPad',
 #endif  // CRASHPAD_INFO_SIZE_TEST_MODULE_LARGE
 };
 
-}  // namespace
 }  // namespace crashpad
 
 extern "C" {
@@ -119,6 +113,9 @@ __declspec(dllexport)
 #error Port
 #endif  // OS_POSIX
 crashpad::TestCrashpadInfo* TestModule_GetCrashpadInfo() {
+  // Note that there's no need to do the back-reference here to the note on
+  // POSIX like CrashpadInfo::GetCrashpadInfo() because the note .S file is
+  // directly included into this test binary.
   return &crashpad::g_test_crashpad_info;
 }
 
