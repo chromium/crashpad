@@ -182,6 +182,19 @@
       'sources': [
         'crashpad_info_size_test_module.cc',
       ],
+      'include_dirs': [
+        '..',
+      ],
+      'conditions': [
+        ['OS=="linux" or OS=="android"', {
+          'sources': [
+            'crashpad_info_size_test_note.S',
+          ],
+          'dependencies': [
+            '../util/util.gyp:crashpad_util',
+          ],
+        }],
+      ],
     },
     {
       'target_name': 'crashpad_snapshot_test_module_small',
@@ -194,6 +207,19 @@
       ],
       'sources': [
         'crashpad_info_size_test_module.cc',
+      ],
+      'include_dirs': [
+        '..',
+      ],
+      'conditions': [
+        ['OS=="linux" or OS=="android"', {
+          'sources': [
+            'crashpad_info_size_test_note.S',
+          ],
+          'dependencies': [
+            '../util/util.gyp:crashpad_util',
+          ],
+        }],
       ],
     },
     {
