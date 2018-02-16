@@ -14,6 +14,7 @@
 
 #include "client/settings.h"
 
+#include "base/logging.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
