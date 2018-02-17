@@ -59,7 +59,7 @@
         'win/crash_report_exception_handler.h',
       ],
       'conditions': [
-        ['OS=="linux" or OS=="android"', {
+        ['OS=="android"', {
           'sources!': [
             'handler_main.cc',
           ],
