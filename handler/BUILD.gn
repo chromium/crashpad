@@ -18,6 +18,8 @@ static_library("handler") {
   sources = [
     "crash_report_upload_thread.cc",
     "crash_report_upload_thread.h",
+    "handler_main.cc",
+    "handler_main.h",
     "minidump_to_upload_parameters.cc",
     "minidump_to_upload_parameters.h",
     "prune_crash_reports_thread.cc",
@@ -43,11 +45,6 @@ static_library("handler") {
       "linux/crash_report_exception_handler.h",
       "linux/exception_handler_server.cc",
       "linux/exception_handler_server.h",
-    ]
-  } else {
-    sources += [
-      "handler_main.cc",
-      "handler_main.h",
     ]
   }
 

@@ -77,6 +77,9 @@
 #elif defined(OS_FUCHSIA)
 #include "handler/fuchsia/crash_report_exception_handler.h"
 #include "handler/fuchsia/exception_handler_server.h"
+#elif defined(OS_LINUX)
+#include "handler/linux/crash_report_exception_handler.h"
+#include "handler/linux/exception_handler_server.h"
 #endif  // OS_MACOSX
 
 namespace crashpad {
@@ -348,14 +351,18 @@ void InstallCrashHandler() {
   ALLOW_UNUSED_LOCAL(terminate_handler);
 }
 
-#elif defined(OS_FUCHSIA)
+#elif defined(OS_FUCHSIA) || defined(OS_LINUX)
 
 void InstallCrashHandler() {
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
+  // TODO(scottmg): Fuchsia: https://crashpad.chromium.org/bug/196
+  // TODO(jperaza): Linux: https://crashpad.chromium.org/bug/30
+  NOTREACHED();
 }
 
 void ReinstallCrashHandler() {
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
+  // TODO(scottmg): Fuchsia: https://crashpad.chromium.org/bug/196
+  // TODO(jperaza): Linux: https://crashpad.chromium.org/bug/30
+  NOTREACHED();
 }
 
 #endif  // OS_MACOSX
@@ -740,7 +747,7 @@ int HandlerMain(int argc,
   if (!options.pipe_name.empty()) {
     exception_handler_server.SetPipeName(base::UTF8ToUTF16(options.pipe_name));
   }
-#elif defined(OS_FUCHSIA)
+#elif defined(OS_FUCHSIA) || defined(OS_LINUX)
   ExceptionHandlerServer exception_handler_server;
 #endif  // OS_MACOSX
 
