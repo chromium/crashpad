@@ -94,8 +94,20 @@ void CaptureMemory::PointedToByContext(const CPUContext& context,
     MaybeCaptureMemoryAround(delegate, context.x86->ebp);
     MaybeCaptureMemoryAround(delegate, context.x86->eip);
   }
+#elif defined(ARCH_CPU_ARM_FAMILY)
+  if (context.architecture == kCPUArchitectureARM64) {
+    MaybeCaptureMemoryAround(delegate, context.arm64->pc);
+    for (size_t i = 0; i < arraysize(context.arm64->regs); ++i) {
+      MaybeCaptureMemoryAround(delegate, context.arm64->regs[i]);
+    }
+  } else {
+    MaybeCaptureMemoryAround(delegate, context.arm->pc);
+    for (size_t i = 0; i < arraysize(context.arm->regs); ++i) {
+      MaybeCaptureMemoryAround(delegate, context.arm->regs[i]);
+    }
+  }
 #else
-#error non-x86
+#error Port.
 #endif
 }
 
