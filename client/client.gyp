@@ -35,7 +35,6 @@
         'annotation_list.h',
         'crash_report_database.cc',
         'crash_report_database.h',
-        'crash_report_database_generic.cc',
         'crash_report_database_mac.mm',
         'crash_report_database_win.cc',
         'crashpad_client.h',
@@ -66,6 +65,7 @@
         ['OS=="linux" or OS=="android"', {
           'sources': [
             'crashpad_info_note.S',
+            'crash_report_database_generic.cc',
           ],
         }],
       ],
