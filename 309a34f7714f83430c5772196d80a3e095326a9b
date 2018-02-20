@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "162a6338_8cc612f8",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-20T23:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14df19b4_f1709fe3",
+      "revId": "309a34f7714f83430c5772196d80a3e095326a9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74f0c3fa_2d0746ad",
         "filename": "util/posix/signals.h",
         "patchSetId": 9
@@ -51,6 +69,24 @@
       "revId": "309a34f7714f83430c5772196d80a3e095326a9b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "727c1d47_a5471a2a",
+        "filename": "util/posix/signals.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-20T23:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd96730c_61a1414d",
+      "revId": "309a34f7714f83430c5772196d80a3e095326a9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
