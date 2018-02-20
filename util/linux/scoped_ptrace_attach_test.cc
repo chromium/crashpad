@@ -20,9 +20,9 @@
 
 #include "gtest/gtest.h"
 #include "test/errors.h"
-#include "test/linux/scoped_pr_set_ptracer.h"
 #include "test/multiprocess.h"
 #include "util/file/file_io.h"
+#include "util/linux/scoped_pr_set_ptracer.h"
 
 namespace crashpad {
 namespace test {
@@ -75,7 +75,7 @@ class AttachToChildTest : public AttachTest {
   }
 
   void MultiprocessChild() override {
-    ScopedPrSetPtracer set_ptracer(getppid());
+    ScopedPrSetPtracer set_ptracer(getppid(), /* may_log= */ true);
 
     char c = '\0';
     CheckedWriteFile(WritePipeHandle(), &c, sizeof(c));
@@ -98,7 +98,7 @@ class AttachToParentResetTest : public AttachTest {
 
  private:
   void MultiprocessParent() override {
-    ScopedPrSetPtracer set_ptracer(ChildPID());
+    ScopedPrSetPtracer set_ptracer(ChildPID(), /* may_log= */ true);
     char c = '\0';
     CheckedWriteFile(WritePipeHandle(), &c, sizeof(c));
 
@@ -140,7 +140,7 @@ class AttachToParentDestructorTest : public AttachTest {
 
  private:
   void MultiprocessParent() override {
-    ScopedPrSetPtracer set_ptracer(ChildPID());
+    ScopedPrSetPtracer set_ptracer(ChildPID(), /* may_log= */ true);
     char c = '\0';
     CheckedWriteFile(WritePipeHandle(), &c, sizeof(c));
 
