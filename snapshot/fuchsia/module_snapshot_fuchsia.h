@@ -44,15 +44,12 @@ class ModuleSnapshotFuchsia final : public ModuleSnapshot {
 
   //! \brief Initializes the object.
   //!
-  //! \param[in] process_reader A ProcessReader for the process containing the
-  //!     module.
   //! \param[in] process_reader_module The module within the ProcessReader for
   //!     which the snapshot should be created.
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  bool Initialize(ProcessReader* process_reader,
-                  const ProcessReader::Module& process_reader_module);
+  bool Initialize(const ProcessReader::Module& process_reader_module);
 
   //! \brief Returns options from the module’s CrashpadInfo structure.
   //!
@@ -87,8 +84,8 @@ class ModuleSnapshotFuchsia final : public ModuleSnapshot {
  private:
   std::string name_;
   ElfImageReader* elf_image_reader_;  // weak
-  ProcessReader* process_reader_;  // weak
   std::unique_ptr<CrashpadInfoReader> crashpad_info_;
+  ModuleType type_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ModuleSnapshotFuchsia);
