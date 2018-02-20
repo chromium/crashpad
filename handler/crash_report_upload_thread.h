@@ -22,6 +22,7 @@
 #include "client/crash_report_database.h"
 #include "util/misc/uuid.h"
 #include "util/stdlib/thread_safe_vector.h"
+#include "util/thread/stoppable.h"
 #include "util/thread/worker_thread.h"
 
 namespace crashpad {
@@ -39,7 +40,8 @@ namespace crashpad {
 //! It also catches reports that are added without a ReportPending() signal
 //! being caught. This may happen if crash reports are added to the database by
 //! other processes.
-class CrashReportUploadThread : public WorkerThread::Delegate {
+class CrashReportUploadThread : public WorkerThread::Delegate,
+                                public Stoppable {
  public:
    //! \brief Options to be passed to the CrashReportUploadThread constructor.
    struct Options {
@@ -74,7 +76,7 @@ class CrashReportUploadThread : public WorkerThread::Delegate {
   //!
   //! This method may only be be called on a newly-constructed object or after
   //! a call to Stop().
-  void Start();
+  void Start() override;
 
   //! \brief Stops the upload thread.
   //!
@@ -88,7 +90,7 @@ class CrashReportUploadThread : public WorkerThread::Delegate {
   //!
   //! This method may be called from any thread other than the upload thread.
   //! It is expected to only be called from the same thread that called Start().
-  void Stop();
+  void Stop() override;
 
   //! \brief Informs the upload thread that a new pending report has been added
   //!     to the database.
