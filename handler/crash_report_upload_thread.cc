@@ -58,7 +58,9 @@ CrashReportUploadThread::CrashReportUploadThread(CrashReportDatabase* database,
                                             : WorkerThread::kIndefiniteWait,
               this),
       known_pending_report_uuids_(),
-      database_(database) {}
+      database_(database) {
+  DCHECK(!url_.empty());
+}
 
 CrashReportUploadThread::~CrashReportUploadThread() {
 }
@@ -140,9 +142,8 @@ void CrashReportUploadThread::ProcessPendingReport(
   Settings* const settings = database_->GetSettings();
 
   bool uploads_enabled;
-  if (url_.empty() ||
-      (!report.upload_explicitly_requested &&
-       (!settings->GetUploadsEnabled(&uploads_enabled) || !uploads_enabled))) {
+  if (!report.upload_explicitly_requested &&
+      (!settings->GetUploadsEnabled(&uploads_enabled) || !uploads_enabled)) {
     // Don’t attempt an upload if there’s no URL to upload to. Allow upload if
     // it has been explicitly requested by the user, otherwise, respect the
     // upload-enabled state stored in the database’s settings.
