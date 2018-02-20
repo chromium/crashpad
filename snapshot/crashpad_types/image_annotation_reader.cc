@@ -26,7 +26,16 @@
 #include "client/annotation_list.h"
 #include "client/simple_string_dictionary.h"
 #include "snapshot/snapshot_constants.h"
+
+#if defined(OS_LINUX) || defined(OS_ANDROID)
 #include "util/linux/traits.h"
+#elif defined(OS_FUCHSIA)
+struct Traits64 {
+  using Address = zx_vaddr_t;
+};
+// There's no 32-bit Fuchsia, but this lets code below compile.
+using Traits32 = Traits64;
+#endif
 
 namespace crashpad {
 
