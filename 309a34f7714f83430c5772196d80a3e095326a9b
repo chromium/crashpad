@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14df19b4_f1709fe3",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-20T22:14:17Z",
+      "side": 1,
+      "message": "DCHECK that nothing’s already set?",
+      "revId": "309a34f7714f83430c5772196d80a3e095326a9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74f0c3fa_2d0746ad",
+        "filename": "util/posix/signals.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-20T22:14:17Z",
+      "side": 1,
+      "message": "I think we should go beyond “invalid” and define a fake signal number that actually means “simulated”. Really, that means that the code you’ve written can stay the same, just that this variable should be renamed and a couple of words shuffled in its \\brief.",
+      "revId": "309a34f7714f83430c5772196d80a3e095326a9b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
