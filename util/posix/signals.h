@@ -24,6 +24,9 @@ namespace crashpad {
 //! \brief Utilities for handling POSIX signals.
 class Signals {
  public:
+  //! \brief An invalid signal number.
+  static constexpr int kInvalidSigno = -1;
+
   //! \brief The type used for `struct sigaction::sa_sigaction`.
   using Handler = void (*)(int, siginfo_t*, void*);
 
