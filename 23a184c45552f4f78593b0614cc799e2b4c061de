@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c3999e7_62209100",
+        "filename": "handler/prune_crash_reports_thread.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-20T18:28:59Z",
+      "side": 1,
+      "message": "// Stoppable:\n\nalso in the other header.",
+      "revId": "23a184c45552f4f78593b0614cc799e2b4c061de",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
