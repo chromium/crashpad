@@ -58,13 +58,6 @@
         'win/crash_report_exception_handler.cc',
         'win/crash_report_exception_handler.h',
       ],
-      'conditions': [
-        ['OS=="android"', {
-          'sources!': [
-            'handler_main.cc',
-          ],
-        }],
-      ],
       'target_conditions': [
         ['OS=="android"', {
           'sources/': [
