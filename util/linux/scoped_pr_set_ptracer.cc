@@ -12,29 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "test/linux/scoped_pr_set_ptracer.h"
+#include "util/linux/scoped_pr_set_ptracer.h"
 
 #include <errno.h>
 #include <sys/prctl.h>
 
-#include "gtest/gtest.h"
-#include "test/errors.h"
+#include "base/logging.h"
 
 namespace crashpad {
-namespace test {
 
-ScopedPrSetPtracer::ScopedPrSetPtracer(pid_t pid) {
+ScopedPrSetPtracer::ScopedPrSetPtracer(pid_t pid, bool may_log)
+    : success_(false), may_log_(may_log) {
   success_ = prctl(PR_SET_PTRACER, pid, 0, 0, 0) == 0;
-  if (!success_) {
-    EXPECT_EQ(errno, EINVAL) << ErrnoMessage("prctl");
-  }
+  PLOG_IF(ERROR, !success_ && may_log && errno != EINVAL) << "prctl";
 }
 
 ScopedPrSetPtracer::~ScopedPrSetPtracer() {
   if (success_) {
-    EXPECT_EQ(prctl(PR_SET_PTRACER, 0, 0, 0, 0), 0) << ErrnoMessage("prctl");
+    int res = prctl(PR_SET_PTRACER, 0, 0, 0, 0);
+    PLOG_IF(ERROR, res != 0 && may_log_) << "prctl";
   }
 }
 
-}  // namespace test
 }  // namespace crashpad

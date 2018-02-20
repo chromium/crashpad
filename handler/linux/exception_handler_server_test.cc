@@ -20,11 +20,11 @@
 #include "base/logging.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
-#include "test/linux/scoped_pr_set_ptracer.h"
 #include "test/multiprocess.h"
 #include "util/linux/direct_ptrace_connection.h"
 #include "util/linux/exception_handler_client.h"
 #include "util/linux/ptrace_client.h"
+#include "util/linux/scoped_pr_set_ptracer.h"
 #include "util/synchronization/semaphore.h"
 #include "util/thread/thread.h"
 
@@ -205,7 +205,7 @@ class ExceptionHandlerServerTest : public testing::Test {
       // If the current ptrace_scope is restricted, the broker needs to be set
       // as the ptracer for this process. Setting this process as its own
       // ptracer allows the broker to inherit this condition.
-      ScopedPrSetPtracer set_ptracer(getpid());
+      ScopedPrSetPtracer set_ptracer(getpid(), /* may_log= */ true);
 
       ExceptionHandlerClient client(server_test_->SockToHandler());
       ASSERT_EQ(client.RequestCrashDump(info), 0);
