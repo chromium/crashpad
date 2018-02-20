@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5eb1869_ad792e07",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-20T19:31:22Z",
+      "side": 1,
+      "message": "This should look like\n\n\"      --initial-client-fd\u003dFD  a socket connected to the initial client\\n\"",
+      "revId": "8c105b1ecd97cc5a7d8df00e9b9eeaafb297f058",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
