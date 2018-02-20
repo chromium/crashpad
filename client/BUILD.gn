@@ -44,7 +44,10 @@ static_library("client") {
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
-    sources += [ "crashpad_client_linux.cc" ]
+    sources += [
+      "crashpad_client_linux.cc",
+      "simulate_crash_linux.h",
+    ]
   }
 
   if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
