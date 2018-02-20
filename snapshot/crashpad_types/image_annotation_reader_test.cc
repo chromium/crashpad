@@ -27,10 +27,11 @@
 #include "client/simple_string_dictionary.h"
 #include "gtest/gtest.h"
 #include "test/multiprocess.h"
+#include "test/process_type.h"
 #include "util/file/file_io.h"
 #include "util/misc/as_underlying_type.h"
 #include "util/misc/from_pointer_cast.h"
-#include "util/process/process_memory_linux.h"
+#include "util/process/process_memory_native.h"
 
 namespace crashpad {
 namespace test {
@@ -60,67 +61,64 @@ void ExpectAnnotationList(const std::vector<AnnotationSnapshot>& list,
   }
 }
 
-class AnnotationTest {
- public:
-  AnnotationTest()
-      : expected_simple_map_(),
-        test_annotations_(),
-        expected_annotation_list_() {
-    expected_simple_map_.SetKeyValue("key", "value");
-    expected_simple_map_.SetKeyValue("key2", "value2");
+void BuildTestStructures(
+    std::vector<std::unique_ptr<Annotation>>* annotations_storage,
+    SimpleStringDictionary* into_map,
+    AnnotationList* into_annotation_list) {
+  into_map->SetKeyValue("key", "value");
+  into_map->SetKeyValue("key2", "value2");
 
-    static constexpr char kAnnotationName[] = "test annotation";
-    static constexpr char kAnnotationValue[] = "test annotation value";
-    test_annotations_.push_back(std::make_unique<Annotation>(
-        Annotation::Type::kString,
-        kAnnotationName,
-        reinterpret_cast<void*>(const_cast<char*>(kAnnotationValue))));
-    test_annotations_.back()->SetSize(sizeof(kAnnotationValue));
-    expected_annotation_list_.Add(test_annotations_.back().get());
+  static constexpr char kAnnotationName[] = "test annotation";
+  static constexpr char kAnnotationValue[] = "test annotation value";
+  annotations_storage->push_back(std::make_unique<Annotation>(
+      Annotation::Type::kString,
+      kAnnotationName,
+      reinterpret_cast<void*>(const_cast<char*>(kAnnotationValue))));
+  annotations_storage->back()->SetSize(sizeof(kAnnotationValue));
+  into_annotation_list->Add(annotations_storage->back().get());
 
-    static constexpr char kAnnotationName2[] = "test annotation2";
-    static constexpr char kAnnotationValue2[] = "test annotation value2";
-    test_annotations_.push_back(std::make_unique<Annotation>(
-        Annotation::Type::kString,
-        kAnnotationName2,
-        reinterpret_cast<void*>(const_cast<char*>(kAnnotationValue2))));
-    test_annotations_.back()->SetSize(sizeof(kAnnotationValue2));
-    expected_annotation_list_.Add(test_annotations_.back().get());
-  }
+  static constexpr char kAnnotationName2[] = "test annotation2";
+  static constexpr char kAnnotationValue2[] = "test annotation value2";
+  annotations_storage->push_back(std::make_unique<Annotation>(
+      Annotation::Type::kString,
+      kAnnotationName2,
+      reinterpret_cast<void*>(const_cast<char*>(kAnnotationValue2))));
+  annotations_storage->back()->SetSize(sizeof(kAnnotationValue2));
+  into_annotation_list->Add(annotations_storage->back().get());
+}
 
-  ~AnnotationTest() = default;
+void ExpectAnnotations(ProcessType process,
+                       bool is_64_bit,
+                       VMAddress simple_map_address,
+                       VMAddress annotation_list_address) {
+  ProcessMemoryNative memory;
+  ASSERT_TRUE(memory.Initialize(process));
 
-  void ExpectAnnotations(pid_t pid, bool is_64_bit) {
-    ProcessMemoryLinux memory;
-    ASSERT_TRUE(memory.Initialize(pid));
+  ProcessMemoryRange range;
+  ASSERT_TRUE(range.Initialize(&memory, is_64_bit));
 
-    ProcessMemoryRange range;
-    ASSERT_TRUE(range.Initialize(&memory, is_64_bit));
+  SimpleStringDictionary expected_simple_map;
+  std::vector<std::unique_ptr<Annotation>> storage;
+  AnnotationList expected_annotations;
+  BuildTestStructures(&storage, &expected_simple_map, &expected_annotations);
 
-    ImageAnnotationReader reader(&range);
+  ImageAnnotationReader reader(&range);
 
-    std::map<std::string, std::string> simple_map;
-    ASSERT_TRUE(reader.SimpleMap(
-        FromPointerCast<VMAddress>(&expected_simple_map_), &simple_map));
-    ExpectSimpleMap(simple_map, expected_simple_map_);
+  std::map<std::string, std::string> simple_map;
+  ASSERT_TRUE(reader.SimpleMap(simple_map_address, &simple_map));
+  ExpectSimpleMap(simple_map, expected_simple_map);
 
-    std::vector<AnnotationSnapshot> annotation_list;
-    ASSERT_TRUE(reader.AnnotationsList(
-        FromPointerCast<VMAddress>(&expected_annotation_list_),
-        &annotation_list));
-    ExpectAnnotationList(annotation_list, expected_annotation_list_);
-  }
-
- private:
-  SimpleStringDictionary expected_simple_map_;
-  std::vector<std::unique_ptr<Annotation>> test_annotations_;
-  AnnotationList expected_annotation_list_;
-
-  DISALLOW_COPY_AND_ASSIGN(AnnotationTest);
-};
+  std::vector<AnnotationSnapshot> annotation_list;
+  ASSERT_TRUE(
+      reader.AnnotationsList(annotation_list_address, &annotation_list));
+  ExpectAnnotationList(annotation_list, expected_annotations);
+}
 
 TEST(ImageAnnotationReader, ReadFromSelf) {
-  AnnotationTest test;
+  SimpleStringDictionary map;
+  std::vector<std::unique_ptr<Annotation>> storage;
+  AnnotationList annotations;
+  BuildTestStructures(&storage, &map, &annotations);
 
 #if defined(ARCH_CPU_64_BITS)
   constexpr bool am_64_bit = true;
@@ -128,14 +126,24 @@ TEST(ImageAnnotationReader, ReadFromSelf) {
   constexpr bool am_64_bit = false;
 #endif
 
-  test.ExpectAnnotations(getpid(), am_64_bit);
+  ExpectAnnotations(GetSelfProcess(),
+                    am_64_bit,
+                    FromPointerCast<VMAddress>(&map),
+                    FromPointerCast<VMAddress>(&annotations));
 }
 
-class ReadFromChildTest : public Multiprocess {
- public:
-  ReadFromChildTest() : Multiprocess(), annotation_test_() {}
+#if 0
+CRASHPAD_CHILD_TEST_MAIN(ReadAnnotationsFromChildTestMain) {
+  return 0;
+}
 
-  ~ReadFromChildTest() {}
+class ReadFromChildTest : public MultiprocessExec {
+ public:
+  ReadFromChildTest() : MultiprocessExec() {
+    SetChildTestMainFunction("ReadAnnotationsFromChildTestMain");
+  }
+
+  ~ReadFromChildTest() = default;
 
  private:
   void MultiprocessParent() {
@@ -144,7 +152,7 @@ class ReadFromChildTest : public Multiprocess {
 #else
     constexpr bool am_64_bit = false;
 #endif
-    annotation_test_.ExpectAnnotations(ChildPID(), am_64_bit);
+    annotation_test_.ExpectAnnotations(ChildProcess(), am_64_bit);
   }
 
   void MultiprocessChild() { CheckedReadFileAtEOF(ReadPipeHandle()); }
@@ -158,6 +166,7 @@ TEST(ImageAnnotationReader, ReadFromChild) {
   ReadFromChildTest test;
   test.Run();
 }
+#endif
 
 }  // namespace
 }  // namespace test
