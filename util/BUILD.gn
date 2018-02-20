@@ -144,6 +144,7 @@ static_library("util") {
     "string/split_string.cc",
     "string/split_string.h",
     "synchronization/semaphore.h",
+    "thread/stoppable.h",
     "thread/thread.cc",
     "thread/thread.h",
     "thread/thread_log_messages.cc",

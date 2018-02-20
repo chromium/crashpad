@@ -124,7 +124,12 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
       return termination_code;
     }
 
-    upload_thread_->ReportPending(uuid);
+    if (upload_thread_) {
+      upload_thread_->ReportPending(uuid);
+    } else {
+      database_->SkipReportUpload(
+          uuid, Metrics::CrashSkippedReason::kUploadsDisabled);
+    }
   }
 
   Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSuccess);

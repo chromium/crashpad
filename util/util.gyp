@@ -228,6 +228,7 @@
         'synchronization/semaphore_posix.cc',
         'synchronization/semaphore_win.cc',
         'synchronization/semaphore.h',
+        'thread/stoppable.h',
         'thread/thread.cc',
         'thread/thread.h',
         'thread/thread_log_messages.cc',
