@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97c45b8e_403d3699",
+        "filename": "handler/crashpad_handler.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-20T22:53:16Z",
+      "side": 1,
+      "message": "Ought to be a 3-space indent, not 2. (To line up with the ** above.)",
+      "revId": "6e32f33823520046b41effbc14fa78968466c4d4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0eaf007_261a43bf",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-20T22:53:16Z",
+      "side": 1,
+      "message": "Capitalize on the right side of the \u003d, as everything else in here does.",
+      "range": {
+        "startLine": 141,
+        "startChar": 37,
+        "endLine": 141,
+        "endChar": 66
+      },
+      "revId": "6e32f33823520046b41effbc14fa78968466c4d4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1021c565_665c2d24",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-20T22:53:16Z",
+      "side": 1,
+      "message": "Looks like you need one more space before “request” on this line, and one more space before “a socket” on the next, to keep the right-side descriptions all aligned with what’s in the existing help text.",
+      "revId": "6e32f33823520046b41effbc14fa78968466c4d4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
