@@ -32,6 +32,14 @@ namespace crashpad {
 //!     process.
 class ProcessReader {
  public:
+  //! \brief Contains information about a thread that belongs to a process.
+  struct Thread {
+    Thread();
+    ~Thread();
+
+    
+  };
+
   //! \brief Contains information about a module loaded into a process.
   struct Module {
     Module();
