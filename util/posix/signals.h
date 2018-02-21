@@ -24,6 +24,9 @@ namespace crashpad {
 //! \brief Utilities for handling POSIX signals.
 class Signals {
  public:
+  //! \brief A signal number used by Crashpad to simulate signals.
+  static constexpr int kSimulatedSigno = -1;
+
   //! \brief The type used for `struct sigaction::sa_sigaction`.
   using Handler = void (*)(int, siginfo_t*, void*);
 
