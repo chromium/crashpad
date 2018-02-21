@@ -16,6 +16,24 @@
       "revId": "b8fe63791dff12d44b722fa6438b1b5fae2fa937",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4619cf8_a7ee573c",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-21T20:27:53Z",
+      "side": 1,
+      "message": "I was thinking we could almost track unloaded modules... They don\u0027t intend to do anything at all on dlclose(), so the module will always be in the link_map chain. So with a little cooperation we could track a refcount for the client. But, given that nothing is going to unload anyway, it\u0027s largely irrelevant if dlclose()s are properly matched with dlopen()s.",
+      "parentUuid": "7fc822fb_254d59d3",
+      "revId": "b8fe63791dff12d44b722fa6438b1b5fae2fa937",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
