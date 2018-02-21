@@ -168,12 +168,10 @@ std::vector<const MemorySnapshot*> ProcessSnapshotFuchsia::ExtraMemory() const {
 }
 
 void ProcessSnapshotFuchsia::InitializeModules() {
-  const std::vector<ProcessReader::Module>& process_reader_modules =
-      process_reader_.Modules();
-  for (const ProcessReader::Module& process_reader_module :
-       process_reader_modules) {
-    auto module = std::make_unique<internal::ModuleSnapshotFuchsia>();
-    if (module->Initialize(process_reader_module)) {
+  for (const ProcessReader::Module& reader_module : process_reader_.Modules()) {
+    auto module = std::make_unique<internal::ModuleSnapshotElf>(
+        reader_module.name, reader_module.reader, reader_module.type);
+    if (module->Initialize()) {
       modules_.push_back(std::move(module));
     }
   }

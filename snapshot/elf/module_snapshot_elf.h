@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_FUCHSIA_MODULE_SNAPSHOT_FUCHSIA_H_
-#define CRASHPAD_SNAPSHOT_FUCHSIA_MODULE_SNAPSHOT_FUCHSIA_H_
+#ifndef CRASHPAD_SNAPSHOT_ELF_MODULE_SNAPSHOT_ELF_H_
+#define CRASHPAD_SNAPSHOT_ELF_MODULE_SNAPSHOT_ELF_H_
 
 #include <stdint.h>
 #include <sys/types.h>
 
 #include <map>
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -28,33 +27,34 @@
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/crashpad_types/crashpad_info_reader.h"
 #include "snapshot/elf/elf_image_reader.h"
-#include "snapshot/fuchsia/process_reader.h"
 #include "snapshot/module_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
 
 namespace crashpad {
+
 namespace internal {
 
 //! \brief A ModuleSnapshot of a code module (binary image) loaded into a
-//!     running (or crashed) process on a Fuchsia system.
-class ModuleSnapshotFuchsia final : public ModuleSnapshot {
+//!     running (or crashed) process on a system that uses ELF modules.
+class ModuleSnapshotElf final : public ModuleSnapshot {
  public:
-  ModuleSnapshotFuchsia();
-  ~ModuleSnapshotFuchsia() override;
+  //! \param[in] name The pathname used to load the module from disk.
+  //! \param[in] elf_reader An image reader for the module.
+  //! \param[in] type The module's type.
+  ModuleSnapshotElf(const std::string& name,
+                    ElfImageReader* elf_reader,
+                    ModuleSnapshot::ModuleType type);
+  ~ModuleSnapshotElf() override;
 
   //! \brief Initializes the object.
   //!
-  //! \param[in] process_reader_module The module within the ProcessReader for
-  //!     which the snapshot should be created.
-  //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  bool Initialize(const ProcessReader::Module& process_reader_module);
+  bool Initialize();
 
   //! \brief Returns options from the module’s CrashpadInfo structure.
   //!
   //! \param[out] options Options set in the module’s CrashpadInfo structure.
-  //!
   //! \return `true` if there were options returned. Otherwise `false`.
   bool GetCrashpadOptions(CrashpadInfoClientOptions* options);
 
@@ -83,15 +83,15 @@ class ModuleSnapshotFuchsia final : public ModuleSnapshot {
 
  private:
   std::string name_;
-  ElfImageReader* elf_image_reader_;  // weak
+  ElfImageReader* elf_reader_;
   std::unique_ptr<CrashpadInfoReader> crashpad_info_;
   ModuleType type_;
   InitializationStateDcheck initialized_;
 
-  DISALLOW_COPY_AND_ASSIGN(ModuleSnapshotFuchsia);
+  DISALLOW_COPY_AND_ASSIGN(ModuleSnapshotElf);
 };
 
 }  // namespace internal
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_FUCHSIA_MODULE_SNAPSHOT_FUCHSIA_H_
+#endif  // CRASHPAD_SNAPSHOT_ELF_MODULE_SNAPSHOT_ELF_H_

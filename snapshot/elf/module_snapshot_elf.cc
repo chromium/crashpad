@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/linux/module_snapshot_linux.h"
+#include "snapshot/elf/module_snapshot_elf.h"
 
 #include <algorithm>
 
@@ -23,28 +23,25 @@
 namespace crashpad {
 namespace internal {
 
-ModuleSnapshotLinux::ModuleSnapshotLinux()
+ModuleSnapshotElf::ModuleSnapshotElf(const std::string& name,
+                                     ElfImageReader* elf_reader,
+                                     ModuleSnapshot::ModuleType type)
     : ModuleSnapshot(),
-      name_(),
-      elf_reader_(nullptr),
+      name_(name),
+      elf_reader_(elf_reader),
       crashpad_info_(),
-      type_(kModuleTypeUnknown),
+      type_(type),
       initialized_() {}
 
-ModuleSnapshotLinux::~ModuleSnapshotLinux() = default;
+ModuleSnapshotElf::~ModuleSnapshotElf() = default;
 
-bool ModuleSnapshotLinux::Initialize(
-    const ProcessReader::Module& process_reader_module) {
+bool ModuleSnapshotElf::Initialize() {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
-  if (!process_reader_module.elf_reader) {
+  if (!elf_reader_) {
     LOG(ERROR) << "no elf reader";
     return false;
   }
-
-  name_ = process_reader_module.name;
-  elf_reader_ = process_reader_module.elf_reader;
-  type_ = process_reader_module.type;
 
   // The data payload is only sizeof(VMAddress) in the note, but add a bit to
   // account for the name, header, and padding.
@@ -72,8 +69,7 @@ bool ModuleSnapshotLinux::Initialize(
   return true;
 }
 
-bool ModuleSnapshotLinux::GetCrashpadOptions(
-    CrashpadInfoClientOptions* options) {
+bool ModuleSnapshotElf::GetCrashpadOptions(CrashpadInfoClientOptions* options) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   if (!crashpad_info_) {
@@ -91,27 +87,38 @@ bool ModuleSnapshotLinux::GetCrashpadOptions(
   return true;
 }
 
-std::string ModuleSnapshotLinux::Name() const {
+std::string ModuleSnapshotElf::Name() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return name_;
 }
 
-uint64_t ModuleSnapshotLinux::Address() const {
+uint64_t ModuleSnapshotElf::Address() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return elf_reader_->Address();
 }
 
-uint64_t ModuleSnapshotLinux::Size() const {
+uint64_t ModuleSnapshotElf::Size() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return elf_reader_->Size();
 }
 
-time_t ModuleSnapshotLinux::Timestamp() const {
+time_t ModuleSnapshotElf::Timestamp() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return 0;
 }
 
-void ModuleSnapshotLinux::FileVersion(uint16_t* version_0,
+void ModuleSnapshotElf::FileVersion(uint16_t* version_0,
+                                    uint16_t* version_1,
+                                    uint16_t* version_2,
+                                    uint16_t* version_3) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  *version_0 = 0;
+  *version_1 = 0;
+  *version_2 = 0;
+  *version_3 = 0;
+}
+
+void ModuleSnapshotElf::SourceVersion(uint16_t* version_0,
                                       uint16_t* version_1,
                                       uint16_t* version_2,
                                       uint16_t* version_3) const {
@@ -122,24 +129,12 @@ void ModuleSnapshotLinux::FileVersion(uint16_t* version_0,
   *version_3 = 0;
 }
 
-void ModuleSnapshotLinux::SourceVersion(uint16_t* version_0,
-                                        uint16_t* version_1,
-                                        uint16_t* version_2,
-                                        uint16_t* version_3) const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  *version_0 = 0;
-  *version_1 = 0;
-  *version_2 = 0;
-  *version_3 = 0;
-}
-
-ModuleSnapshot::ModuleType ModuleSnapshotLinux::GetModuleType() const {
+ModuleSnapshot::ModuleType ModuleSnapshotElf::GetModuleType() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return type_;
 }
 
-void ModuleSnapshotLinux::UUIDAndAge(crashpad::UUID* uuid,
-                                     uint32_t* age) const {
+void ModuleSnapshotElf::UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   *age = 0;
 
@@ -151,17 +146,17 @@ void ModuleSnapshotLinux::UUIDAndAge(crashpad::UUID* uuid,
   uuid->InitializeFromBytes(reinterpret_cast<const uint8_t*>(&desc[0]));
 }
 
-std::string ModuleSnapshotLinux::DebugFileName() const {
+std::string ModuleSnapshotElf::DebugFileName() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return base::FilePath(Name()).BaseName().value();
 }
 
-std::vector<std::string> ModuleSnapshotLinux::AnnotationsVector() const {
+std::vector<std::string> ModuleSnapshotElf::AnnotationsVector() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return std::vector<std::string>();
 }
 
-std::map<std::string, std::string> ModuleSnapshotLinux::AnnotationsSimpleMap()
+std::map<std::string, std::string> ModuleSnapshotElf::AnnotationsSimpleMap()
     const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   std::map<std::string, std::string> annotations;
@@ -172,7 +167,7 @@ std::map<std::string, std::string> ModuleSnapshotLinux::AnnotationsSimpleMap()
   return annotations;
 }
 
-std::vector<AnnotationSnapshot> ModuleSnapshotLinux::AnnotationObjects() const {
+std::vector<AnnotationSnapshot> ModuleSnapshotElf::AnnotationObjects() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   std::vector<AnnotationSnapshot> annotations;
   if (crashpad_info_ && crashpad_info_->AnnotationsList()) {
@@ -182,14 +177,13 @@ std::vector<AnnotationSnapshot> ModuleSnapshotLinux::AnnotationObjects() const {
   return annotations;
 }
 
-std::set<CheckedRange<uint64_t>> ModuleSnapshotLinux::ExtraMemoryRanges()
-    const {
+std::set<CheckedRange<uint64_t>> ModuleSnapshotElf::ExtraMemoryRanges() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return std::set<CheckedRange<uint64_t>>();
 }
 
 std::vector<const UserMinidumpStream*>
-ModuleSnapshotLinux::CustomMinidumpStreams() const {
+ModuleSnapshotElf::CustomMinidumpStreams() const {
   return std::vector<const UserMinidumpStream*>();
 }
 

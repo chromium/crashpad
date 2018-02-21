@@ -23,7 +23,7 @@
 #include "base/macros.h"
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/elf/elf_image_reader.h"
-#include "snapshot/fuchsia/module_snapshot_fuchsia.h"
+#include "snapshot/elf/module_snapshot_elf.h"
 #include "snapshot/fuchsia/process_reader.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/unloaded_module_snapshot.h"
@@ -76,7 +76,7 @@ class ProcessSnapshotFuchsia : public ProcessSnapshot {
   // Initializes modules_ on behalf of Initialize().
   void InitializeModules();
 
-  std::vector<std::unique_ptr<internal::ModuleSnapshotFuchsia>> modules_;
+  std::vector<std::unique_ptr<internal::ModuleSnapshotElf>> modules_;
   ProcessReader process_reader_;
   std::map<std::string, std::string> annotations_simple_map_;
   InitializationStateDcheck initialized_;
