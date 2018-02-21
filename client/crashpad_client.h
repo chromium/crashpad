@@ -24,6 +24,7 @@
 #include "base/files/file_path.h"
 #include "base/macros.h"
 #include "build/build_config.h"
+#include "util/misc/capture_context.h"
 
 #if defined(OS_MACOSX)
 #include "base/mac/scoped_mach_port.h"
@@ -168,6 +169,17 @@ class CrashpadClient {
       const std::map<std::string, std::string>& annotations,
       const std::vector<std::string>& arguments,
       int socket);
+
+  //! \brief Requests that the handler capture a dump even though there hasn't
+  //!     been a crash.
+  //!
+  //! TODO(jperaza): Floating point information in the context is zeroed out
+  //! until CaptureContext() supports collecting that information.
+  //!
+  //! \param[in] context A NativeCPUContext, generally captured by
+  //!     CaptureContext() or similar.
+  static void DumpWithoutCrash(NativeCPUContext* context);
+
 #endif  // OS_LINUX || OS_ANDROID || DOXYGEN
 
 #if defined(OS_MACOSX) || DOXYGEN
