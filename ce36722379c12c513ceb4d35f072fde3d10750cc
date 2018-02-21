@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "465dc7b2_a8030a9c",
+        "filename": "snapshot/fuchsia/memory_snapshot_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-21T19:42:52Z",
+      "side": 1,
+      "message": "I guess this right here is why you were thinking about rationalizing the ProcessReaders?\n\nIt does stink that we have all these different platform-specific MemorySnapshot implementations, each one being a very thin wrapper around some other platform-dependent code, and otherwise being a bunch of repetititive boilerplate.",
+      "range": {
+        "startLine": 31,
+        "startChar": 39,
+        "endLine": 31,
+        "endChar": 68
+      },
+      "revId": "ce36722379c12c513ceb4d35f072fde3d10750cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
