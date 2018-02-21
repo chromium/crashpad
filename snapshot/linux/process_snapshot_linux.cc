@@ -226,8 +226,9 @@ void ProcessSnapshotLinux::InitializeThreads() {
 
 void ProcessSnapshotLinux::InitializeModules() {
   for (const ProcessReader::Module& reader_module : process_reader_.Modules()) {
-    auto module = std::make_unique<internal::ModuleSnapshotLinux>();
-    if (module->Initialize(reader_module)) {
+    auto module = std::make_unique<internal::ModuleSnapshotElf>(
+        reader_module.name, reader_module.elf_reader, reader_module.type);
+    if (module->Initialize()) {
       modules_.push_back(std::move(module));
     }
   }

@@ -131,14 +131,17 @@ std::vector<const ThreadSnapshot*> ProcessSnapshotFuchsia::Threads() const {
 
 std::vector<const ModuleSnapshot*> ProcessSnapshotFuchsia::Modules() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
-  return std::vector<const ModuleSnapshot*>();
+  std::vector<const ModuleSnapshot*> modules;
+  for (const auto& module : modules_) {
+    modules.push_back(module.get());
+  }
+  return modules;
 }
 
 std::vector<UnloadedModuleSnapshot> ProcessSnapshotFuchsia::UnloadedModules()
     const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
+  // dlclose() never unloads on Fuchsia. ZX-1728 upstream.
   return std::vector<UnloadedModuleSnapshot>();
 }
 
@@ -168,12 +171,10 @@ std::vector<const MemorySnapshot*> ProcessSnapshotFuchsia::ExtraMemory() const {
 }
 
 void ProcessSnapshotFuchsia::InitializeModules() {
-  const std::vector<ProcessReader::Module>& process_reader_modules =
-      process_reader_.Modules();
-  for (const ProcessReader::Module& process_reader_module :
-       process_reader_modules) {
-    auto module = std::make_unique<internal::ModuleSnapshotFuchsia>();
-    if (module->Initialize(&process_reader_, process_reader_module)) {
+  for (const ProcessReader::Module& reader_module : process_reader_.Modules()) {
+    auto module = std::make_unique<internal::ModuleSnapshotElf>(
+        reader_module.name, reader_module.reader, reader_module.type);
+    if (module->Initialize()) {
       modules_.push_back(std::move(module));
     }
   }

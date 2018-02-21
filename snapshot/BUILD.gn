@@ -34,6 +34,7 @@ static_library("snapshot") {
     "handle_snapshot.h",
     "memory_snapshot.cc",
     "memory_snapshot.h",
+    "memory_snapshot_generic.h",
     "minidump/minidump_annotation_reader.cc",
     "minidump/minidump_annotation_reader.h",
     "minidump/minidump_simple_string_dictionary_reader.cc",
@@ -76,8 +77,6 @@ static_library("snapshot") {
       "mac/mach_o_image_segment_reader.h",
       "mac/mach_o_image_symbol_table_reader.cc",
       "mac/mach_o_image_symbol_table_reader.h",
-      "mac/memory_snapshot_mac.cc",
-      "mac/memory_snapshot_mac.h",
       "mac/module_snapshot_mac.cc",
       "mac/module_snapshot_mac.h",
       "mac/process_reader.cc",
@@ -106,18 +105,12 @@ static_library("snapshot") {
 
   if (crashpad_is_linux || crashpad_is_android) {
     sources += [
-      "crashpad_types/image_annotation_reader.cc",
-      "crashpad_types/image_annotation_reader.h",
       "linux/cpu_context_linux.cc",
       "linux/cpu_context_linux.h",
       "linux/debug_rendezvous.cc",
       "linux/debug_rendezvous.h",
       "linux/exception_snapshot_linux.cc",
       "linux/exception_snapshot_linux.h",
-      "linux/memory_snapshot_linux.cc",
-      "linux/memory_snapshot_linux.h",
-      "linux/module_snapshot_linux.cc",
-      "linux/module_snapshot_linux.h",
       "linux/process_reader.cc",
       "linux/process_reader.h",
       "linux/process_snapshot_linux.cc",
@@ -134,12 +127,16 @@ static_library("snapshot") {
     sources += [
       "crashpad_types/crashpad_info_reader.cc",
       "crashpad_types/crashpad_info_reader.h",
+      "crashpad_types/image_annotation_reader.cc",
+      "crashpad_types/image_annotation_reader.h",
       "elf/elf_dynamic_array_reader.cc",
       "elf/elf_dynamic_array_reader.h",
       "elf/elf_image_reader.cc",
       "elf/elf_image_reader.h",
       "elf/elf_symbol_table_reader.cc",
       "elf/elf_symbol_table_reader.h",
+      "elf/module_snapshot_elf.cc",
+      "elf/module_snapshot_elf.h",
     ]
   }
 
@@ -178,8 +175,6 @@ static_library("snapshot") {
 
   if (crashpad_is_fuchsia) {
     sources += [
-      "fuchsia/module_snapshot_fuchsia.cc",
-      "fuchsia/module_snapshot_fuchsia.h",
       "fuchsia/process_reader.cc",
       "fuchsia/process_reader.h",
       "fuchsia/process_snapshot_fuchsia.cc",
@@ -307,7 +302,6 @@ source_set("snapshot_test") {
 
   if (crashpad_is_linux || crashpad_is_android) {
     sources += [
-      "crashpad_types/image_annotation_reader_test.cc",
       "linux/debug_rendezvous_test.cc",
       "linux/exception_snapshot_linux_test.cc",
       "linux/process_reader_test.cc",
@@ -320,6 +314,7 @@ source_set("snapshot_test") {
   if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
     sources += [
       "crashpad_types/crashpad_info_reader_test.cc",
+      "crashpad_types/image_annotation_reader_test.cc",
       "elf/elf_image_reader_test.cc",
       "elf/elf_image_reader_test_note.S",
       "elf/test_exported_symbols.sym",
