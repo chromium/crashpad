@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9f64b03_5fb107ce",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-21T23:15:13Z",
+      "side": 1,
+      "message": "Optimizers can catch on to this trick, even with “volatile.” I’d suggest using __builtin_trap() since we don’t really care which hardware fault is taken, although SetExpectedChildTermination() does want a specific signal to match, and __builtin_trap() will sometimes be SIGILL and sometimes SIGTRAP (and in theory, sometimes other values). util/posix/signals_test.cc has a refresher.\n\n(Along the same lines of that parenthetical theory, the SIGSEGV that you’ve used here could also be other things, most likely SIGBUS, depending mostly on CPU.)\n\nWe can still use __builtin_trap() but provide a constant near SetExpectedChildTermination() that contains the signal number effectively raised by __builtin_trap(). If a constant won’t do because there’s a runtime dependency (kernel version, kernel bitness, etc.), we could do a runtime function to calculate the value where needed, or we could roll it into a new SetExpectedChildTerminationBuiltinTrap() function instead of exposing a constant.\n\nSame at line 285, with implications on lines 105 and 268.",
+      "revId": "ce933133f52783d117913f8d7af6268d824dbff6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
