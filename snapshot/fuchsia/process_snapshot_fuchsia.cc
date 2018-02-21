@@ -173,7 +173,7 @@ void ProcessSnapshotFuchsia::InitializeModules() {
   for (const ProcessReader::Module& process_reader_module :
        process_reader_modules) {
     auto module = std::make_unique<internal::ModuleSnapshotFuchsia>();
-    if (module->Initialize(&process_reader_, process_reader_module)) {
+    if (module->Initialize(process_reader_module)) {
       modules_.push_back(std::move(module));
     }
   }

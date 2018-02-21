@@ -14,8 +14,9 @@
 
 #include "snapshot/fuchsia/module_snapshot_fuchsia.h"
 
+#include <algorithm>
+
 #include "base/logging.h"
-#include "client/crashpad_info.h"
 #include "snapshot/crashpad_types/image_annotation_reader.h"
 #include "util/misc/elf_note_types.h"
 
@@ -27,13 +28,12 @@ ModuleSnapshotFuchsia::ModuleSnapshotFuchsia() = default;
 ModuleSnapshotFuchsia::~ModuleSnapshotFuchsia() = default;
 
 bool ModuleSnapshotFuchsia::Initialize(
-    ProcessReader* process_reader,
     const ProcessReader::Module& process_reader_module) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
-  process_reader_ = process_reader;
   name_ = process_reader_module.name;
   elf_image_reader_ = process_reader_module.reader;
+  type_ = process_reader_module.type;
   if (!elf_image_reader_) {
     return false;
   }
@@ -128,14 +128,21 @@ void ModuleSnapshotFuchsia::SourceVersion(uint16_t* version_0,
 
 ModuleSnapshot::ModuleType ModuleSnapshotFuchsia::GetModuleType() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
-  return kModuleTypeUnknown;
+  return type_;
 }
 
 void ModuleSnapshotFuchsia::UUIDAndAge(crashpad::UUID* uuid,
                                        uint32_t* age) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
+  *age = 0;
+
+  std::unique_ptr<ElfImageReader::NoteReader> notes =
+      elf_image_reader_->NotesWithNameAndType(
+          ELF_NOTE_GNU, NT_GNU_BUILD_ID, 64);
+  std::string desc;
+  notes->NextNote(nullptr, nullptr, &desc);
+  desc.insert(desc.end(), 16 - std::min(desc.size(), size_t{16}), '\0');
+  uuid->InitializeFromBytes(reinterpret_cast<const uint8_t*>(&desc[0]));
 }
 
 std::string ModuleSnapshotFuchsia::DebugFileName() const {
@@ -153,15 +160,23 @@ std::vector<std::string> ModuleSnapshotFuchsia::AnnotationsVector() const {
 std::map<std::string, std::string> ModuleSnapshotFuchsia::AnnotationsSimpleMap()
     const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
-  return std::map<std::string, std::string>();
+  std::map<std::string, std::string> annotations;
+  if (crashpad_info_ && crashpad_info_->SimpleAnnotations()) {
+    ImageAnnotationReader reader(elf_image_reader_->Memory());
+    reader.SimpleMap(crashpad_info_->SimpleAnnotations(), &annotations);
+  }
+  return annotations;
 }
 
 std::vector<AnnotationSnapshot> ModuleSnapshotFuchsia::AnnotationObjects()
     const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
-  return std::vector<AnnotationSnapshot>();
+  std::vector<AnnotationSnapshot> annotations;
+  if (crashpad_info_ && crashpad_info_->AnnotationsList()) {
+    ImageAnnotationReader reader(elf_image_reader_->Memory());
+    reader.AnnotationsList(crashpad_info_->AnnotationsList(), &annotations);
+  }
+  return annotations;
 }
 
 std::set<CheckedRange<uint64_t>> ModuleSnapshotFuchsia::ExtraMemoryRanges()

@@ -21,6 +21,7 @@
 #include "base/macros.h"
 #include "build/build_config.h"
 #include "snapshot/elf/elf_image_reader.h"
+#include "snapshot/module_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/process/process_memory_fuchsia.h"
 #include "util/process/process_memory_range.h"
@@ -48,6 +49,9 @@ class ProcessReader {
     //! This field may be `nullptr` if a reader could not be created for the
     //! module.
     ElfImageReader* reader;
+
+    //! \brief The module's type.
+    ModuleSnapshot::ModuleType type = ModuleSnapshot::kModuleTypeUnknown;
   };
 
   ProcessReader();

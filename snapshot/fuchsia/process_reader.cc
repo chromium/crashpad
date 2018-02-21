@@ -137,7 +137,14 @@ void ProcessReader::InitializeModules() {
     }
 
     Module module;
-    module.name = dsoname.empty() ? app_name : dsoname;
+    if (dsoname.empty()) {
+      module.name = app_name;
+      module.type = ModuleSnapshot::kModuleTypeExecutable;
+    } else {
+      module.name = dsoname;
+      // TODO(scottmg): Handle kModuleTypeDynamicLoader.
+      module.type = ModuleSnapshot::kModuleTypeSharedLibrary;
+    }
 
     std::unique_ptr<ElfImageReader> reader(new ElfImageReader());
 
