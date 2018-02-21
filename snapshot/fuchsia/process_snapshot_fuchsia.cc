@@ -131,14 +131,17 @@ std::vector<const ThreadSnapshot*> ProcessSnapshotFuchsia::Threads() const {
 
 std::vector<const ModuleSnapshot*> ProcessSnapshotFuchsia::Modules() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
-  return std::vector<const ModuleSnapshot*>();
+  std::vector<const ModuleSnapshot*> modules;
+  for (const auto& module : modules_) {
+    modules.push_back(module.get());
+  }
+  return modules;
 }
 
 std::vector<UnloadedModuleSnapshot> ProcessSnapshotFuchsia::UnloadedModules()
     const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
+  // dlclose() never unloads on Fuchsia. ZX-1728 upstream.
   return std::vector<UnloadedModuleSnapshot>();
 }
 
