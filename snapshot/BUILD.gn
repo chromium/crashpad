@@ -184,6 +184,8 @@ static_library("snapshot") {
       "fuchsia/process_reader.h",
       "fuchsia/process_snapshot_fuchsia.cc",
       "fuchsia/process_snapshot_fuchsia.h",
+      "fuchsia/thread_snapshot_fuchsia.cc",
+      "fuchsia/thread_snapshot_fuchsia.h",
     ]
   }
 
@@ -320,6 +322,7 @@ source_set("snapshot_test") {
     sources += [
       "crashpad_types/crashpad_info_reader_test.cc",
       "crashpad_types/image_annotation_reader_test.cc",
+      "fuchsia/process_reader_test.cc",
       "elf/elf_image_reader_test.cc",
       "elf/elf_image_reader_test_note.S",
       "elf/test_exported_symbols.sym",
