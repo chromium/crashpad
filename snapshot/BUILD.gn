@@ -178,6 +178,8 @@ static_library("snapshot") {
 
   if (crashpad_is_fuchsia) {
     sources += [
+      "fuchsia/memory_snapshot_fuchsia.cc",
+      "fuchsia/memory_snapshot_fuchsia.h",
       "fuchsia/process_reader.cc",
       "fuchsia/process_reader.h",
       "fuchsia/process_snapshot_fuchsia.cc",

@@ -72,6 +72,9 @@ class ProcessReader {
   //!     `0`) corresponds to the main executable.
   const std::vector<Module>& Modules();
 
+  //! \brief Return a memory reader for the target process.
+  ProcessMemory* Memory() { return process_memory_.get(); }
+
  private:
   void InitializeModules();
 
