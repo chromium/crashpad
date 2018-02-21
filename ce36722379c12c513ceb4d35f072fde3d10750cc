@@ -22,6 +22,30 @@
       "revId": "ce36722379c12c513ceb4d35f072fde3d10750cc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46b7a36b_24e138a5",
+        "filename": "snapshot/fuchsia/memory_snapshot_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-21T20:05:15Z",
+      "side": 1,
+      "message": "Right, I tried by passing in ProcessMemory here instead since that has a base/derived structure, thinking that on Mac, Linux/Android, and Fuchsia we only used process_reader_-\u003eMemory() below and that that could be treated as a base \"ProcessMemory\". But:\n\n1) Memory() is a TaskMemory on Mac, and;\n2) I didn\u0027t look at the body of MergeWithOtherSnapshotImpl() which is a friend and it uses process_reader_, and needs the real type, and;\n3) Fuchsia didn\u0027t actually have a Memory() method anyway (though that one is addable).\n\nI could probably share Fuchsia\u0027s with Linux\u0027s, but it\u0027d still need to be a template then to handle ProcessReader, so it seemed less worthwhile since shoving it all in the header sort of sucks. (I also couldn\u0027t think of a name for the template... MemorySnapshotLinuxAndroidFuchsia isn\u0027t exactly pretty.)\n\nThe rename of ProcessReader -\u003e ProcessReaderWhatever was mostly because I it doesn\u0027t work as well for grep/TAGS though. :) We\u0027d still have process_reader_ members though, so there\u0027d still be some of that problem.",
+      "parentUuid": "465dc7b2_a8030a9c",
+      "range": {
+        "startLine": 31,
+        "startChar": 39,
+        "endLine": 31,
+        "endChar": 68
+      },
+      "revId": "ce36722379c12c513ceb4d35f072fde3d10750cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
