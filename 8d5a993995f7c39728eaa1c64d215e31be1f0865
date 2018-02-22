@@ -16,6 +16,24 @@
       "revId": "8d5a993995f7c39728eaa1c64d215e31be1f0865",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cb24c48_fc448330",
+        "filename": "snapshot/mac/process_types.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-22T21:26:06Z",
+      "side": 1,
+      "message": "\u003e Bleh, clang-format pooched this one. Smart Quotes Mentovai strikes again! Filed 73776083 internally.\n\n:)",
+      "parentUuid": "85fe2b37_a49a7163",
+      "revId": "8d5a993995f7c39728eaa1c64d215e31be1f0865",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
