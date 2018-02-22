@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04c09812_8a3b6f64",
+        "filename": "snapshot/fuchsia/process_reader.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-22T18:19:26Z",
+      "side": 1,
+      "message": "What’s default for Thread::name? It’s important because if zx_object_get_property() can’t read the name on line 234, nothing else will try to set it, and we don’t want it to be garbage in that case.",
+      "revId": "0bb1ed86c47aad481bdd7d93f7a51dc139862d3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5743a7ab_b2310870",
+        "filename": "snapshot/fuchsia/process_reader.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-22T18:19:26Z",
+      "side": 1,
+      "message": "Do you want to start with a reasonable number of empty thread “holes” in here, so that the common case involves just a single call to zx_get_object_info()?",
+      "revId": "0bb1ed86c47aad481bdd7d93f7a51dc139862d3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c756177f_323054a7",
+        "filename": "snapshot/fuchsia/process_reader.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-22T18:19:26Z",
+      "side": 1,
+      "message": "Is that a bug or is it intentionally weird?",
+      "revId": "0bb1ed86c47aad481bdd7d93f7a51dc139862d3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f76aad99_647c8b6c",
+        "filename": "snapshot/fuchsia/process_reader.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-22T18:19:26Z",
+      "side": 1,
+      "message": "Maybe we should *\u003d 2 it. But even better, since you have available_num_threads, why don’t you base your new size on it instead of the old threads.size()? You can still add some slop in case more threads show up between calls.",
+      "revId": "0bb1ed86c47aad481bdd7d93f7a51dc139862d3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc32e24a_0e55c9e1",
+        "filename": "snapshot/fuchsia/process_reader.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-22T18:19:26Z",
+      "side": 1,
+      "message": "It’d be useful to know why the zx_object_get_info() might succeed but this zx_object_get_child() would then fail. Are there legitimate reasons other than just racing thread destruction? If it’s just destruction, then there probably isn’t any need to account for anything.",
+      "revId": "0bb1ed86c47aad481bdd7d93f7a51dc139862d3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eebd2eb5_64c0ab47",
+        "filename": "snapshot/fuchsia/process_reader.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-22T18:19:26Z",
+      "side": 1,
+      "message": "0 is the same as ZX_THREAD_STATE_NEW. To avoid conflicting, maybe we should use -1 instead.",
+      "revId": "0bb1ed86c47aad481bdd7d93f7a51dc139862d3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
