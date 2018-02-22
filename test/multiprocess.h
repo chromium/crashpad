@@ -92,6 +92,12 @@ class Multiprocess {
   //!     expected to kill the child.
   void SetExpectedChildTermination(TerminationReason reason, int code);
 
+#if !defined(OS_WIN)
+  //! \brief Sets termination reason and code appropriately for a child that
+  //!     terminates via `__builtin_trap()`.
+  void SetExpectedChildTerminationBuiltinTrap();
+#endif  // !OS_WIN
+
  protected:
   ~Multiprocess();
 
