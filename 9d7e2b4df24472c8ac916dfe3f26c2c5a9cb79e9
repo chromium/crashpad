@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d67cd6e3_da49aa25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-22T16:10:31Z",
+      "side": 1,
+      "message": "Is there a bug on file for either of those? Reference it in the comment in run_tests.py.",
+      "revId": "9d7e2b4df24472c8ac916dfe3f26c2c5a9cb79e9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
