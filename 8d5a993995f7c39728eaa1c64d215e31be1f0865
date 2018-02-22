@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85fe2b37_a49a7163",
+        "filename": "snapshot/mac/process_types.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-22T20:13:20Z",
+      "side": 1,
+      "message": "Bleh, clang-format pooched this one. Smart Quotes Mentovai strikes again! Filed 73776083 internally.",
+      "revId": "8d5a993995f7c39728eaa1c64d215e31be1f0865",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
