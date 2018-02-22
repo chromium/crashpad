@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95c745d0_83ed41da",
+        "filename": "test/multiprocess.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-22T20:23:25Z",
+      "side": 1,
+      "message": "\u0026\u0026 DOXYGEN",
+      "revId": "f73c2cfea7b30d7c930cc5f5b07cf26dcba567dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5476fdb_2fda9d0c",
+        "filename": "test/multiprocess_posix.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-22T20:23:25Z",
+      "side": 1,
+      "message": "You should duplicate the EXPECT_EQ() here, as you did in the Fuchsia file\n\nOR\n\nyou can just have this call straight through to SetExpectedChildTermination() (and in that case, do the same in the Fuchsia file).",
+      "revId": "f73c2cfea7b30d7c930cc5f5b07cf26dcba567dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
