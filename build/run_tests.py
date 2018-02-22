@@ -319,6 +319,11 @@ def _GenerateFuchsiaRuntimeDepsFiles(binary_dir, tests):
       [gn_path,  '--root=' + CRASHPAD_DIR, 'gen', binary_dir,
        '--runtime-deps-list-file=' + targets_file])
 
+  # Run again so that --runtime-deps-list-file isn't in the regen rule. See
+  # https://crbug.com/814816.
+  subprocess.check_call(
+      [gn_path,  '--root=' + CRASHPAD_DIR, 'gen', binary_dir])
+
 
 def _HandleOutputFromFuchsiaLogListener(process, done_message):
   """Pass through the output from |process| (which should be an instance of
