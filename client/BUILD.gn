@@ -107,6 +107,10 @@ source_set("client_test") {
     sources += [ "crashpad_client_win_test.cc" ]
   }
 
+  if (crashpad_is_linux || crashpad_is_android) {
+    sources += [ "crashpad_client_linux_test.cc" ]
+  }
+
   deps = [
     ":client",
     "../compat",
