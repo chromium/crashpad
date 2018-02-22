@@ -25,7 +25,7 @@
 #include "base/macros.h"
 #include "client/crashpad_info.h"
 #include "snapshot/crashpad_info_client_options.h"
-#include "snapshot/mac/process_reader.h"
+#include "snapshot/mac/process_reader_mac.h"
 #include "snapshot/module_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
 
@@ -45,15 +45,15 @@ class ModuleSnapshotMac final : public ModuleSnapshot {
 
   //! \brief Initializes the object.
   //!
-  //! \param[in] process_reader A ProcessReader for the task containing the
+  //! \param[in] process_reader A ProcessReaderMac for the task containing the
   //!     module.
-  //! \param[in] process_reader_module The module within the ProcessReader for
-  //!     which the snapshot should be created.
+  //! \param[in] process_reader_module The module within the ProcessReaderMac
+  //!     for which the snapshot should be created.
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  bool Initialize(ProcessReader* process_reader,
-                  const ProcessReader::Module& process_reader_module);
+  bool Initialize(ProcessReaderMac* process_reader,
+                  const ProcessReaderMac::Module& process_reader_module);
 
   //! \brief Returns options from the module’s CrashpadInfo structure.
   //!
@@ -87,7 +87,7 @@ class ModuleSnapshotMac final : public ModuleSnapshot {
   std::string name_;
   time_t timestamp_;
   const MachOImageReader* mach_o_image_reader_;  // weak
-  ProcessReader* process_reader_;  // weak
+  ProcessReaderMac* process_reader_;  // weak
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ModuleSnapshotMac);

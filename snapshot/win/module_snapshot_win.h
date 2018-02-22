@@ -47,10 +47,10 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
 
   //! \brief Initializes the object.
   //!
-  //! \param[in] process_reader A ProcessReader for the task containing the
-  //!     module.
-  //! \param[in] process_reader_module The module within the ProcessReader for
-  //!     which the snapshot should be created.
+  //! \param[in] process_reader A ProcessReaderWin for the process containing
+  //!     the module.
+  //! \param[in] process_reader_module The module within the ProcessReaderWin
+  //!     for which the snapshot should be created.
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/linux/process_reader.h"
+#include "snapshot/linux/process_reader_linux.h"
 
 #include <errno.h>
 #include <link.h>
@@ -55,11 +55,11 @@ pid_t gettid() {
   return syscall(SYS_gettid);
 }
 
-TEST(ProcessReader, SelfBasic) {
+TEST(ProcessReaderLinux, SelfBasic) {
   FakePtraceConnection connection;
   connection.Initialize(getpid());
 
-  ProcessReader process_reader;
+  ProcessReaderLinux process_reader;
   ASSERT_TRUE(process_reader.Initialize(&connection));
 
 #if defined(ARCH_CPU_64_BITS)
@@ -92,7 +92,7 @@ class BasicChildTest : public Multiprocess {
     DirectPtraceConnection connection;
     ASSERT_TRUE(connection.Initialize(ChildPID()));
 
-    ProcessReader process_reader;
+    ProcessReaderLinux process_reader;
     ASSERT_TRUE(process_reader.Initialize(&connection));
 
 #if !defined(ARCH_CPU_64_BITS)
@@ -115,7 +115,7 @@ class BasicChildTest : public Multiprocess {
   DISALLOW_COPY_AND_ASSIGN(BasicChildTest);
 };
 
-TEST(ProcessReader, ChildBasic) {
+TEST(ProcessReaderLinux, ChildBasic) {
   BasicChildTest test;
   test.Run();
 }
@@ -241,7 +241,7 @@ class TestThreadPool {
 using ThreadMap = std::map<pid_t, TestThreadPool::ThreadExpectation>;
 
 void ExpectThreads(const ThreadMap& thread_map,
-                   const std::vector<ProcessReader::Thread>& threads,
+                   const std::vector<ProcessReaderLinux::Thread>& threads,
                    const pid_t pid) {
   ASSERT_EQ(threads.size(), thread_map.size());
   MemoryMap memory_map;
@@ -302,9 +302,9 @@ class ChildThreadTest : public Multiprocess {
     DirectPtraceConnection connection;
     ASSERT_TRUE(connection.Initialize(ChildPID()));
 
-    ProcessReader process_reader;
+    ProcessReaderLinux process_reader;
     ASSERT_TRUE(process_reader.Initialize(&connection));
-    const std::vector<ProcessReader::Thread>& threads =
+    const std::vector<ProcessReaderLinux::Thread>& threads =
         process_reader.Threads();
     ExpectThreads(thread_map, threads, ChildPID());
   }
@@ -350,12 +350,12 @@ class ChildThreadTest : public Multiprocess {
   DISALLOW_COPY_AND_ASSIGN(ChildThreadTest);
 };
 
-TEST(ProcessReader, ChildWithThreads) {
+TEST(ProcessReaderLinux, ChildWithThreads) {
   ChildThreadTest test;
   test.Run();
 }
 
-TEST(ProcessReader, ChildThreadsWithSmallUserStacks) {
+TEST(ProcessReaderLinux, ChildThreadsWithSmallUserStacks) {
   ChildThreadTest test(PTHREAD_STACK_MIN);
   test.Run();
 }
@@ -379,10 +379,10 @@ class ChildWithSplitStackTest : public Multiprocess {
     DirectPtraceConnection connection;
     ASSERT_TRUE(connection.Initialize(ChildPID()));
 
-    ProcessReader process_reader;
+    ProcessReaderLinux process_reader;
     ASSERT_TRUE(process_reader.Initialize(&connection));
 
-    const std::vector<ProcessReader::Thread>& threads =
+    const std::vector<ProcessReaderLinux::Thread>& threads =
         process_reader.Threads();
     ASSERT_EQ(threads.size(), 1u);
 
@@ -440,7 +440,7 @@ class ChildWithSplitStackTest : public Multiprocess {
   DISALLOW_COPY_AND_ASSIGN(ChildWithSplitStackTest);
 };
 
-TEST(ProcessReader, ChildWithSplitStack) {
+TEST(ProcessReaderLinux, ChildWithSplitStack) {
   ChildWithSplitStackTest test;
   test.Run();
 }
@@ -454,7 +454,7 @@ int ExpectFindModule(dl_phdr_info* info, size_t size, void* data) {
                          LinuxVMAddress{info->dlpi_addr},
                          FromPointerCast<LinuxVMAddress>(info->dlpi_phdr)));
   auto modules =
-      reinterpret_cast<const std::vector<ProcessReader::Module>*>(data);
+      reinterpret_cast<const std::vector<ProcessReaderLinux::Module>*>(data);
 
   auto phdr_addr = FromPointerCast<LinuxVMAddress>(info->dlpi_phdr);
 
@@ -482,7 +482,8 @@ int ExpectFindModule(dl_phdr_info* info, size_t size, void* data) {
 }
 #endif  // !OS_ANDROID || !ARCH_CPU_ARMEL || __ANDROID_API__ >= 21
 
-void ExpectModulesFromSelf(const std::vector<ProcessReader::Module>& modules) {
+void ExpectModulesFromSelf(
+    const std::vector<ProcessReaderLinux::Module>& modules) {
   for (const auto& module : modules) {
     EXPECT_FALSE(module.name.empty());
     EXPECT_NE(module.type, ModuleSnapshot::kModuleTypeUnknown);
@@ -490,19 +491,20 @@ void ExpectModulesFromSelf(const std::vector<ProcessReader::Module>& modules) {
 
 // Android doesn't provide dl_iterate_phdr on ARM until API 21.
 #if !defined(OS_ANDROID) || !defined(ARCH_CPU_ARMEL) || __ANDROID_API__ >= 21
-  EXPECT_EQ(dl_iterate_phdr(
-                ExpectFindModule,
-                reinterpret_cast<void*>(
-                    const_cast<std::vector<ProcessReader::Module>*>(&modules))),
-            0);
+  EXPECT_EQ(
+      dl_iterate_phdr(
+          ExpectFindModule,
+          reinterpret_cast<void*>(
+              const_cast<std::vector<ProcessReaderLinux::Module>*>(&modules))),
+      0);
 #endif  // !OS_ANDROID || !ARCH_CPU_ARMEL || __ANDROID_API__ >= 21
 }
 
-TEST(ProcessReader, SelfModules) {
+TEST(ProcessReaderLinux, SelfModules) {
   FakePtraceConnection connection;
   connection.Initialize(getpid());
 
-  ProcessReader process_reader;
+  ProcessReaderLinux process_reader;
   ASSERT_TRUE(process_reader.Initialize(&connection));
 
   ExpectModulesFromSelf(process_reader.Modules());
@@ -518,7 +520,7 @@ class ChildModuleTest : public Multiprocess {
     DirectPtraceConnection connection;
     ASSERT_TRUE(connection.Initialize(ChildPID()));
 
-    ProcessReader process_reader;
+    ProcessReaderLinux process_reader;
     ASSERT_TRUE(process_reader.Initialize(&connection));
 
     ExpectModulesFromSelf(process_reader.Modules());
@@ -529,7 +531,7 @@ class ChildModuleTest : public Multiprocess {
   DISALLOW_COPY_AND_ASSIGN(ChildModuleTest);
 };
 
-TEST(ProcessReader, ChildModules) {
+TEST(ProcessReaderLinux, ChildModules) {
   ChildModuleTest test;
   test.Run();
 }
