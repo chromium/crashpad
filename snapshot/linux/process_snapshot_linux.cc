@@ -213,9 +213,9 @@ std::vector<const MemorySnapshot*> ProcessSnapshotLinux::ExtraMemory() const {
 }
 
 void ProcessSnapshotLinux::InitializeThreads() {
-  const std::vector<ProcessReader::Thread>& process_reader_threads =
+  const std::vector<ProcessReaderLinux::Thread>& process_reader_threads =
       process_reader_.Threads();
-  for (const ProcessReader::Thread& process_reader_thread :
+  for (const ProcessReaderLinux::Thread& process_reader_thread :
        process_reader_threads) {
     auto thread = std::make_unique<internal::ThreadSnapshotLinux>();
     if (thread->Initialize(&process_reader_, process_reader_thread)) {
@@ -225,7 +225,8 @@ void ProcessSnapshotLinux::InitializeThreads() {
 }
 
 void ProcessSnapshotLinux::InitializeModules() {
-  for (const ProcessReader::Module& reader_module : process_reader_.Modules()) {
+  for (const ProcessReaderLinux::Module& reader_module :
+       process_reader_.Modules()) {
     auto module = std::make_unique<internal::ModuleSnapshotElf>(
         reader_module.name, reader_module.elf_reader, reader_module.type);
     if (module->Initialize()) {

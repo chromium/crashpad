@@ -30,7 +30,7 @@ namespace crashpad {
 
 //! \brief Accesses information about another process, identified by a Fuchsia
 //!     process.
-class ProcessReader {
+class ProcessReaderFuchsia {
  public:
   //! \brief Contains information about a module loaded into a process.
   struct Module {
@@ -44,7 +44,7 @@ class ProcessReader {
     //! \brief An image reader for the module.
     //!
     //! The lifetime of this ElfImageReader is scoped to the lifetime of the
-    //! ProcessReader that created it.
+    //! ProcessReaderFuchsia that created it.
     //!
     //! This field may be `nullptr` if a reader could not be created for the
     //! module.
@@ -70,8 +70,8 @@ class ProcessReader {
     std::string name;
   };
 
-  ProcessReader();
-  ~ProcessReader();
+  ProcessReaderFuchsia();
+  ~ProcessReaderFuchsia();
 
   //! \brief Initializes this object. This method must be called before any
   //!     other.
@@ -113,7 +113,7 @@ class ProcessReader {
   bool initialized_threads_ = false;
   InitializationStateDcheck initialized_;
 
-  DISALLOW_COPY_AND_ASSIGN(ProcessReader);
+  DISALLOW_COPY_AND_ASSIGN(ProcessReaderFuchsia);
 };
 
 }  // namespace crashpad
