@@ -71,7 +71,7 @@ kern_return_t MachVMRegionRecurseDeepest(task_t task,
 
 namespace crashpad {
 
-ProcessReader::Thread::Thread()
+ProcessReaderMac::Thread::Thread()
     : thread_context(),
       float_context(),
       debug_context(),
@@ -81,16 +81,13 @@ ProcessReader::Thread::Thread()
       thread_specific_data_address(0),
       port(THREAD_NULL),
       suspend_count(0),
-      priority(0) {
-}
+      priority(0) {}
 
-ProcessReader::Module::Module() : name(), reader(nullptr), timestamp(0) {
-}
+ProcessReaderMac::Module::Module() : name(), reader(nullptr), timestamp(0) {}
 
-ProcessReader::Module::~Module() {
-}
+ProcessReaderMac::Module::~Module() {}
 
-ProcessReader::ProcessReader()
+ProcessReaderMac::ProcessReaderMac()
     : process_info_(),
       threads_(),
       modules_(),
@@ -100,17 +97,16 @@ ProcessReader::ProcessReader()
       initialized_(),
       is_64_bit_(false),
       initialized_threads_(false),
-      initialized_modules_(false) {
-}
+      initialized_modules_(false) {}
 
-ProcessReader::~ProcessReader() {
+ProcessReaderMac::~ProcessReaderMac() {
   for (const Thread& thread : threads_) {
     kern_return_t kr = mach_port_deallocate(mach_task_self(), thread.port);
     MACH_LOG_IF(ERROR, kr != KERN_SUCCESS, kr) << "mach_port_deallocate";
   }
 }
 
-bool ProcessReader::Initialize(task_t task) {
+bool ProcessReaderMac::Initialize(task_t task) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   if (!process_info_.InitializeWithTask(task)) {
@@ -126,12 +122,13 @@ bool ProcessReader::Initialize(task_t task) {
   return true;
 }
 
-void ProcessReader::StartTime(timeval* start_time) const {
+void ProcessReaderMac::StartTime(timeval* start_time) const {
   bool rv = process_info_.StartTime(start_time);
   DCHECK(rv);
 }
 
-bool ProcessReader::CPUTimes(timeval* user_time, timeval* system_time) const {
+bool ProcessReaderMac::CPUTimes(timeval* user_time,
+                                timeval* system_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   // Calculate user and system time the same way the kernel does for
@@ -177,7 +174,7 @@ bool ProcessReader::CPUTimes(timeval* user_time, timeval* system_time) const {
   return true;
 }
 
-const std::vector<ProcessReader::Thread>& ProcessReader::Threads() {
+const std::vector<ProcessReaderMac::Thread>& ProcessReader::Threads() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   if (!initialized_threads_) {
@@ -187,7 +184,7 @@ const std::vector<ProcessReader::Thread>& ProcessReader::Threads() {
   return threads_;
 }
 
-const std::vector<ProcessReader::Module>& ProcessReader::Modules() {
+const std::vector<ProcessReaderMac::Module>& ProcessReader::Modules() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   if (!initialized_modules_) {
@@ -197,7 +194,7 @@ const std::vector<ProcessReader::Module>& ProcessReader::Modules() {
   return modules_;
 }
 
-mach_vm_address_t ProcessReader::DyldAllImageInfo(
+mach_vm_address_t ProcessReaderMac::DyldAllImageInfo(
     mach_vm_size_t* all_image_info_size) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
@@ -237,7 +234,7 @@ mach_vm_address_t ProcessReader::DyldAllImageInfo(
   return dyld_info.all_image_info_addr;
 }
 
-void ProcessReader::InitializeThreads() {
+void ProcessReaderMac::InitializeThreads() {
   DCHECK(!initialized_threads_);
   DCHECK(threads_.empty());
 
@@ -378,7 +375,7 @@ void ProcessReader::InitializeThreads() {
   threads_need_owners.Disarm();
 }
 
-void ProcessReader::InitializeModules() {
+void ProcessReaderMac::InitializeModules() {
   DCHECK(!initialized_modules_);
   DCHECK(modules_.empty());
 
@@ -563,7 +560,7 @@ void ProcessReader::InitializeModules() {
   }
 }
 
-mach_vm_address_t ProcessReader::CalculateStackRegion(
+mach_vm_address_t ProcessReaderMac::CalculateStackRegion(
     mach_vm_address_t stack_pointer,
     mach_vm_size_t* stack_region_size) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
@@ -675,10 +672,10 @@ mach_vm_address_t ProcessReader::CalculateStackRegion(
   return region_base;
 }
 
-void ProcessReader::LocateRedZone(mach_vm_address_t* const start_address,
-                                  mach_vm_address_t* const region_base,
-                                  mach_vm_address_t* const region_size,
-                                  const unsigned int user_tag) {
+void ProcessReaderMac::LocateRedZone(mach_vm_address_t* const start_address,
+                                     mach_vm_address_t* const region_base,
+                                     mach_vm_address_t* const region_size,
+                                     const unsigned int user_tag) {
 #if defined(ARCH_CPU_X86_FAMILY)
   if (Is64Bit()) {
     // x86_64 has a red zone. See AMD64 ABI 0.99.8,

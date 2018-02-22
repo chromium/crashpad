@@ -143,7 +143,7 @@ class ProcessSnapshotMac final : public ProcessSnapshot {
   std::vector<std::unique_ptr<internal::ThreadSnapshotMac>> threads_;
   std::vector<std::unique_ptr<internal::ModuleSnapshotMac>> modules_;
   std::unique_ptr<internal::ExceptionSnapshotMac> exception_;
-  ProcessReader process_reader_;
+  ProcessReaderMac process_reader_;
   UUID report_id_;
   UUID client_id_;
   std::map<std::string, std::string> annotations_simple_map_;

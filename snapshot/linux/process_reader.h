@@ -38,7 +38,7 @@ namespace crashpad {
 
 //! \brief Accesses information about another process, identified by a process
 //!     ID.
-class ProcessReader {
+class ProcessReaderLinux {
  public:
   //! \brief Contains information about a thread that belongs to a process.
   struct Thread {
@@ -54,10 +54,10 @@ class ProcessReader {
     int nice_value;
 
    private:
-    friend class ProcessReader;
+    friend class ProcessReaderLinux;
 
     bool InitializePtrace(PtraceConnection* connection);
-    void InitializeStack(ProcessReader* reader);
+    void InitializeStack(ProcessReaderLinux* reader);
   };
 
   //! \brief Contains information about a module loaded into a process.
@@ -71,7 +71,7 @@ class ProcessReader {
     //! \brief An image reader for the module.
     //!
     //! The lifetime of this ElfImageReader is scoped to the lifetime of the
-    //! ProcessReader that created it.
+    //! ProcessReaderLinux that created it.
     //!
     //! This field may be `nullptr` if a reader could not be created for the
     //! module.
@@ -81,8 +81,8 @@ class ProcessReader {
     ModuleSnapshot::ModuleType type;
   };
 
-  ProcessReader();
-  ~ProcessReader();
+  ProcessReaderLinux();
+  ~ProcessReaderLinux();
 
   //! \brief Initializes this object.
   //!
@@ -152,7 +152,7 @@ class ProcessReader {
   bool initialized_modules_;
   InitializationStateDcheck initialized_;
 
-  DISALLOW_COPY_AND_ASSIGN(ProcessReader);
+  DISALLOW_COPY_AND_ASSIGN(ProcessReaderLinux);
 };
 
 }  // namespace crashpad

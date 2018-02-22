@@ -127,7 +127,7 @@ class ProcessSnapshotLinux final : public ProcessSnapshot {
   std::vector<std::unique_ptr<internal::ModuleSnapshotElf>> modules_;
   std::unique_ptr<internal::ExceptionSnapshotLinux> exception_;
   internal::SystemSnapshotLinux system_;
-  ProcessReader process_reader_;
+  ProcessReaderLinux process_reader_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessSnapshotLinux);

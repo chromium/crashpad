@@ -29,7 +29,7 @@
 
 namespace crashpad {
 
-class ProcessReader;
+class ProcessReaderMac;
 
 namespace internal {
 
@@ -45,8 +45,8 @@ class ExceptionSnapshotMac final : public ExceptionSnapshot {
   //! Other than \a process_reader, the parameters may be passed directly
   //! through from a Mach exception handler.
   //!
-  //! \param[in] process_reader A ProcessReader for the task that sustained the
-  //!     exception.
+  //! \param[in] process_reader A ProcessReaderMac for the task that sustained
+  //!     the exception.
   //! \param[in] behavior
   //! \param[in] exception_thread
   //! \param[in] exception
@@ -58,7 +58,7 @@ class ExceptionSnapshotMac final : public ExceptionSnapshot {
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  bool Initialize(ProcessReader* process_reader,
+  bool Initialize(ProcessReaderMac* process_reader,
                   exception_behavior_t behavior,
                   thread_t exception_thread,
                   exception_type_t exception,

@@ -345,7 +345,7 @@ source_set("snapshot_test") {
     sources += [ "fuchsia/process_reader_test.cc" ]
   }
 
-  # public_configs isn’t quite right. snapshot_test_link sets ldflags, and
+  #Linux public_configs isn’t quite right. snapshot_test_link sets ldflags, and
   # what’s really needed is a way to push ldflags to dependent targets that
   # produce linker output. Luckily in this case, all dependents do produce
   # linker output. https://crbug.com/796183.
