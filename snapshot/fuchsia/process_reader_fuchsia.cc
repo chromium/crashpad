@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/fuchsia/process_reader.h"
+#include "snapshot/fuchsia/process_reader_fuchsia.h"
 
 #include <link.h>
 #include <zircon/syscalls.h>
@@ -23,19 +23,19 @@
 
 namespace crashpad {
 
-ProcessReader::Module::Module() = default;
+ProcessReaderFuchsia::Module::Module() = default;
 
-ProcessReader::Module::~Module() = default;
+ProcessReaderFuchsia::Module::~Module() = default;
 
-ProcessReader::Thread::Thread() = default;
+ProcessReaderFuchsia::Thread::Thread() = default;
 
-ProcessReader::Thread::~Thread() = default;
+ProcessReaderFuchsia::Thread::~Thread() = default;
 
-ProcessReader::ProcessReader() = default;
+ProcessReaderFuchsia::ProcessReaderFuchsia() = default;
 
-ProcessReader::~ProcessReader() = default;
+ProcessReaderFuchsia::~ProcessReaderFuchsia() = default;
 
-bool ProcessReader::Initialize(zx_handle_t process) {
+bool ProcessReaderFuchsia::Initialize(zx_handle_t process) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   process_ = process;
@@ -47,7 +47,7 @@ bool ProcessReader::Initialize(zx_handle_t process) {
   return true;
 }
 
-const std::vector<ProcessReader::Module>& ProcessReader::Modules() {
+const std::vector<ProcessReaderFuchsia::Module>& ProcessReaderFuchsia::Modules() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   if (!initialized_modules_) {
@@ -57,7 +57,7 @@ const std::vector<ProcessReader::Module>& ProcessReader::Modules() {
   return modules_;
 }
 
-const std::vector<ProcessReader::Thread>& ProcessReader::Threads() {
+const std::vector<ProcessReaderFuchsia::Thread>& ProcessReaderFuchsia::Threads() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   if (!initialized_threads_) {
@@ -67,7 +67,7 @@ const std::vector<ProcessReader::Thread>& ProcessReader::Threads() {
   return threads_;
 }
 
-void ProcessReader::InitializeModules() {
+void ProcessReaderFuchsia::InitializeModules() {
   DCHECK(!initialized_modules_);
   DCHECK(modules_.empty());
 
@@ -181,7 +181,7 @@ void ProcessReader::InitializeModules() {
   }
 }
 
-void ProcessReader::InitializeThreads() {
+void ProcessReaderFuchsia::InitializeThreads() {
   DCHECK(!initialized_threads_);
   DCHECK(threads_.empty());
 

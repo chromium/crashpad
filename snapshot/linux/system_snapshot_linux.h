@@ -22,7 +22,7 @@
 
 #include "base/macros.h"
 #include "build/build_config.h"
-#include "snapshot/linux/process_reader.h"
+#include "snapshot/linux/process_reader_linux.h"
 #include "snapshot/system_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
 
@@ -44,9 +44,9 @@ class SystemSnapshotLinux final : public SystemSnapshot {
   //! \param[in] process_reader A reader for the process being snapshotted.
   //!     \n\n
   //!     It seems odd that a system snapshot implementation would need a
-  //!     ProcessReader, but some of the information reported about the system
-  //!     depends on the process it’s being reported for. For example, the
-  //!     architecture returned by GetCPUArchitecture() should be the
+  //!     ProcessReaderLinux, but some of the information reported about the
+  //!     system depends on the process it’s being reported for. For example,
+  //!     the architecture returned by GetCPUArchitecture() should be the
   //!     architecture of the process, which may be different than the native
   //!     architecture of the system: an x86_64 system can run both x86_64 and
   //!     32-bit x86 processes.
@@ -57,7 +57,8 @@ class SystemSnapshotLinux final : public SystemSnapshot {
   //!     Otherwise, it would need to base its determination on the current
   //!     time, which may be different than the snapshot time for snapshots
   //!     generated around the daylight saving transition time.
-  void Initialize(ProcessReader* process_reader, const timeval* snapshot_time);
+  void Initialize(ProcessReaderLinux* process_reader,
+                  const timeval* snapshot_time);
 
   // SystemSnapshot:
 
@@ -91,7 +92,7 @@ class SystemSnapshotLinux final : public SystemSnapshot {
 
   std::string os_version_full_;
   std::string os_version_build_;
-  ProcessReader* process_reader_;  // weak
+  ProcessReaderLinux* process_reader_;  // weak
   const timeval* snapshot_time_;  // weak
 #if defined(ARCH_CPU_X86_FAMILY)
   CpuidReader cpuid_;

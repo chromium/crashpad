@@ -21,7 +21,7 @@
 
 #include "build/build_config.h"
 #include "gtest/gtest.h"
-#include "snapshot/linux/process_reader.h"
+#include "snapshot/linux/process_reader_linux.h"
 #include "test/errors.h"
 #include "test/linux/fake_ptrace_connection.h"
 
@@ -33,7 +33,7 @@ TEST(SystemSnapshotLinux, Basic) {
   FakePtraceConnection connection;
   ASSERT_TRUE(connection.Initialize(getpid()));
 
-  ProcessReader process_reader;
+  ProcessReaderLinux process_reader;
   ASSERT_TRUE(process_reader.Initialize(&connection));
 
   timeval snapshot_time;
