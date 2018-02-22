@@ -20,9 +20,9 @@
 #include "base/macros.h"
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
-#include "snapshot/linux/memory_snapshot_linux.h"
 #include "snapshot/linux/process_reader.h"
 #include "snapshot/memory_snapshot.h"
+#include "snapshot/memory_snapshot_generic.h"
 #include "snapshot/thread_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
 
@@ -70,7 +70,7 @@ class ThreadSnapshotLinux final : public ThreadSnapshot {
 #endif  // ARCH_CPU_X86_FAMILY
   } context_union_;
   CPUContext context_;
-  MemorySnapshotLinux stack_;
+  MemorySnapshotGeneric<ProcessReader> stack_;
   LinuxVMAddress thread_specific_data_address_;
   pid_t thread_id_;
   int priority_;
