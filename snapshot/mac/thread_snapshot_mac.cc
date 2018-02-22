@@ -38,8 +38,8 @@ ThreadSnapshotMac::~ThreadSnapshotMac() {
 }
 
 bool ThreadSnapshotMac::Initialize(
-    ProcessReader* process_reader,
-    const ProcessReader::Thread& process_reader_thread) {
+    ProcessReaderMac* process_reader,
+    const ProcessReaderMac::Thread& process_reader_thread) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   thread_ = process_reader_thread.port;

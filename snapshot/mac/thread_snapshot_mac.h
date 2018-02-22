@@ -29,7 +29,7 @@
 
 namespace crashpad {
 
-class ProcessReader;
+class ProcessReaderMac;
 
 namespace internal {
 
@@ -42,15 +42,15 @@ class ThreadSnapshotMac final : public ThreadSnapshot {
 
   //! \brief Initializes the object.
   //!
-  //! \param[in] process_reader A ProcessReader for the task containing the
+  //! \param[in] process_reader A ProcessReaderMac for the task containing the
   //!     thread.
-  //! \param[in] process_reader_thread The thread within the ProcessReader for
-  //!     which the snapshot should be created.
+  //! \param[in] process_reader_thread The thread within the ProcessReaderMac
+  //!     for which the snapshot should be created.
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  bool Initialize(ProcessReader* process_reader,
-                  const ProcessReader::Thread& process_reader_thread);
+  bool Initialize(ProcessReaderMac* process_reader,
+                  const ProcessReaderMac::Thread& process_reader_thread);
 
   // ThreadSnapshot:
 
@@ -70,7 +70,7 @@ class ThreadSnapshotMac final : public ThreadSnapshot {
   } context_union_;
 #endif
   CPUContext context_;
-  MemorySnapshotGeneric<ProcessReader> stack_;
+  MemorySnapshotGeneric<ProcessReaderMac> stack_;
   uint64_t thread_id_;
   uint64_t thread_specific_data_address_;
   thread_t thread_;
