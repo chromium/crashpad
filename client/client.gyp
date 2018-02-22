@@ -50,7 +50,6 @@
         'simple_string_dictionary.h',
         'simple_address_range_bag.h',
         'simulate_crash.h',
-        'simulate_crash_linux.h',
         'simulate_crash_mac.cc',
         'simulate_crash_mac.h',
         'simulate_crash_win.h',
@@ -74,7 +73,6 @@
         ['OS=="android"', {
           'sources/': [
             ['include', '^crashpad_client_linux\\.cc$'],
-            ['include', '^simulate_crash_linux\\.h$'],
           ],
         }],
       ],

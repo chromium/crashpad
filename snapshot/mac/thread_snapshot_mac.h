@@ -21,9 +21,8 @@
 #include "base/macros.h"
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
-#include "snapshot/mac/process_reader.h"
+#include "snapshot/mac/memory_snapshot_mac.h"
 #include "snapshot/memory_snapshot.h"
-#include "snapshot/memory_snapshot_generic.h"
 #include "snapshot/thread_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
 
@@ -70,7 +69,7 @@ class ThreadSnapshotMac final : public ThreadSnapshot {
   } context_union_;
 #endif
   CPUContext context_;
-  MemorySnapshotGeneric<ProcessReader> stack_;
+  MemorySnapshotMac stack_;
   uint64_t thread_id_;
   uint64_t thread_specific_data_address_;
   thread_t thread_;

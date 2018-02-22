@@ -37,10 +37,6 @@ using NativeCPUContext = CONTEXT;
 using NativeCPUContext = ucontext_t;
 #endif  // OS_MACOSX
 
-// No NativeCPUContext defined for Fuchsia yet.
-// https://crashpad.chromium.org/bug/196.
-#if !defined(OS_FUCHSIA)
-
 //! \brief Saves the CPU context.
 //!
 //! The CPU context will be captured as accurately and completely as possible,
@@ -79,8 +75,6 @@ using NativeCPUContext = ucontext_t;
 //!       asm("movq %%rdi, %0" : "=m"(rdi));
 //!     \endcode
 void CaptureContext(NativeCPUContext* cpu_context);
-
-#endif  // !OS_FUCHSIA
 
 }  // namespace crashpad
 

@@ -1,4 +1,4 @@
-// Copyright 2017 The Crashpad Authors. All rights reserved.
+// Copyright 2018 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_LINUX_THREAD_SNAPSHOT_LINUX_H_
-#define CRASHPAD_SNAPSHOT_LINUX_THREAD_SNAPSHOT_LINUX_H_
+#ifndef CRASHPAD_SNAPSHOT_FUCHSIA_THREAD_SNAPSHOT_FUCHSIA_H_
+#define CRASHPAD_SNAPSHOT_FUCHSIA_THREAD_SNAPSHOT_FUCHSIA_H_
 
 #include <stdint.h>
 
 #include "base/macros.h"
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
-#include "snapshot/linux/memory_snapshot_linux.h"
-#include "snapshot/linux/process_reader.h"
+#include "snapshot/fuchsia/memory_snapshot_fuchsia.h"
+#include "snapshot/fuchsia/process_reader.h"
 #include "snapshot/memory_snapshot.h"
 #include "snapshot/thread_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
@@ -29,11 +29,11 @@
 namespace crashpad {
 namespace internal {
 
-//! \brief A ThreadSnapshot of a thread on a Linux system.
-class ThreadSnapshotLinux final : public ThreadSnapshot {
+//! \brief A ThreadSnapshot of a thread on a Fuchsia system.
+class ThreadSnapshotFuchsia final : public ThreadSnapshot {
  public:
-  ThreadSnapshotLinux();
-  ~ThreadSnapshotLinux() override;
+  ThreadSnapshotFuchsia();
+  ~ThreadSnapshotFuchsia() override;
 
   //! \brief Initializes the object.
   //!
@@ -70,16 +70,15 @@ class ThreadSnapshotLinux final : public ThreadSnapshot {
 #endif  // ARCH_CPU_X86_FAMILY
   } context_union_;
   CPUContext context_;
-  MemorySnapshotLinux stack_;
-  LinuxVMAddress thread_specific_data_address_;
-  pid_t thread_id_;
-  int priority_;
+  MemorySnapshotFuchsia stack_;
+  zx_vaddr_t thread_specific_data_address_;
+  zx_koid_t thread_id_;
   InitializationStateDcheck initialized_;
 
-  DISALLOW_COPY_AND_ASSIGN(ThreadSnapshotLinux);
+  DISALLOW_COPY_AND_ASSIGN(ThreadSnapshotFuchsia);
 };
 
 }  // namespace internal
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_LINUX_THREAD_SNAPSHOT_LINUX_H_
+#endif  // CRASHPAD_SNAPSHOT_FUCHSIA_THREAD_SNAPSHOT_FUCHSIA_H_
