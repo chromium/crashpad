@@ -218,9 +218,9 @@ std::vector<const MemorySnapshot*> ProcessSnapshotMac::ExtraMemory() const {
 }
 
 void ProcessSnapshotMac::InitializeThreads() {
-  const std::vector<ProcessReader::Thread>& process_reader_threads =
+  const std::vector<ProcessReaderMac::Thread>& process_reader_threads =
       process_reader_.Threads();
-  for (const ProcessReader::Thread& process_reader_thread :
+  for (const ProcessReaderMac::Thread& process_reader_thread :
        process_reader_threads) {
     auto thread = std::make_unique<internal::ThreadSnapshotMac>();
     if (thread->Initialize(&process_reader_, process_reader_thread)) {
@@ -230,9 +230,9 @@ void ProcessSnapshotMac::InitializeThreads() {
 }
 
 void ProcessSnapshotMac::InitializeModules() {
-  const std::vector<ProcessReader::Module>& process_reader_modules =
+  const std::vector<ProcessReaderMac::Module>& process_reader_modules =
       process_reader_.Modules();
-  for (const ProcessReader::Module& process_reader_module :
+  for (const ProcessReaderMac::Module& process_reader_module :
        process_reader_modules) {
     auto module = std::make_unique<internal::ModuleSnapshotMac>();
     if (module->Initialize(&process_reader_, process_reader_module)) {

@@ -20,7 +20,7 @@
 
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
-#include "snapshot/mac/process_reader.h"
+#include "snapshot/mac/process_reader_mac.h"
 #include "util/mac/checked_mach_address_range.h"
 #include "util/mac/mac_util.h"
 #include "util/stdlib/strnlen.h"
@@ -47,7 +47,7 @@ MachOImageSegmentReader::MachOImageSegmentReader()
 MachOImageSegmentReader::~MachOImageSegmentReader() {
 }
 
-bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
+bool MachOImageSegmentReader::Initialize(ProcessReaderMac* process_reader,
                                          mach_vm_address_t load_command_address,
                                          const std::string& load_command_info,
                                          const std::string& module_name,

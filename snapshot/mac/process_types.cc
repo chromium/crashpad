@@ -94,7 +94,7 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
   namespace process_types {                                               \
                                                                           \
   /* static */                                                            \
-  size_t struct_name::ExpectedSize(ProcessReader* process_reader) {       \
+  size_t struct_name::ExpectedSize(ProcessReaderMac* process_reader) {    \
     if (!process_reader->Is64Bit()) {                                     \
       return internal::struct_name<internal::Traits32>::Size();           \
     } else {                                                              \
@@ -103,7 +103,7 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
   }                                                                       \
                                                                           \
   /* static */                                                            \
-  bool struct_name::ReadInto(ProcessReader* process_reader,               \
+  bool struct_name::ReadInto(ProcessReaderMac* process_reader,            \
                              mach_vm_address_t address,                   \
                              struct_name* generic) {                      \
     if (!process_reader->Is64Bit()) {                                     \
@@ -117,7 +117,7 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
                                                                           \
   /* static */                                                            \
   template <typename T>                                                   \
-  bool struct_name::ReadIntoInternal(ProcessReader* process_reader,       \
+  bool struct_name::ReadIntoInternal(ProcessReaderMac* process_reader,    \
                                      mach_vm_address_t address,           \
                                      struct_name* generic) {              \
     T specific;                                                           \
@@ -166,22 +166,22 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
 // implementations in snapshot/mac/process_types/custom.cc.
 #define PROCESS_TYPE_STRUCT_IMPLEMENT_INTERNAL_READ_INTO 1
 
-#define PROCESS_TYPE_STRUCT_BEGIN(struct_name)                        \
-  namespace crashpad {                                                \
-  namespace process_types {                                           \
-  namespace internal {                                                \
-                                                                      \
-  /* static */                                                        \
-  template <typename Traits>                                          \
-  bool struct_name<Traits>::ReadInto(ProcessReader* process_reader,   \
-                                     mach_vm_address_t address,       \
-                                     struct_name<Traits>* specific) { \
-    return process_reader->Memory()->Read(                            \
-        address, sizeof(*specific), specific);                        \
-  }                                                                   \
-  }  /* namespace internal */                                         \
-  }  /* namespace process_types */                                    \
-  }  /* namespace crashpad */
+#define PROCESS_TYPE_STRUCT_BEGIN(struct_name)                         \
+  namespace crashpad {                                                 \
+  namespace process_types {                                            \
+  namespace internal {                                                 \
+                                                                       \
+  /* static */                                                         \
+  template <typename Traits>                                           \
+  bool struct_name<Traits>::ReadInto(ProcessReaderMac* process_reader, \
+                                     mach_vm_address_t address,        \
+                                     struct_name<Traits>* specific) {  \
+    return process_reader->Memory()->Read(                             \
+        address, sizeof(*specific), specific);                         \
+  }                                                                    \
+  } /* namespace internal */                                           \
+  } /* namespace process_types */                                      \
+  } /* namespace crashpad */
 
 #define PROCESS_TYPE_STRUCT_MEMBER(member_type, member_name, ...)
 
@@ -214,7 +214,7 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
                                                                                \
   /* static */                                                                 \
   template <typename Traits>                                                   \
-  bool struct_name<Traits>::ReadArrayInto(ProcessReader* process_reader,       \
+  bool struct_name<Traits>::ReadArrayInto(ProcessReaderMac* process_reader,    \
                                           mach_vm_address_t address,           \
                                           size_t count,                        \
                                           struct_name<Traits>* specific) {     \
@@ -225,7 +225,7 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
   } /* namespace internal */                                                   \
                                                                                \
   /* static */                                                                 \
-  bool struct_name::ReadArrayInto(ProcessReader* process_reader,               \
+  bool struct_name::ReadArrayInto(ProcessReaderMac* process_reader,            \
                                   mach_vm_address_t address,                   \
                                   size_t count,                                \
                                   struct_name* generic) {                      \
@@ -241,7 +241,7 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
                                                                                \
   /* static */                                                                 \
   template <typename T>                                                        \
-  bool struct_name::ReadArrayIntoInternal(ProcessReader* process_reader,       \
+  bool struct_name::ReadArrayIntoInternal(ProcessReaderMac* process_reader,    \
                                           mach_vm_address_t address,           \
                                           size_t count,                        \
                                           struct_name* generic) {              \
@@ -293,7 +293,7 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
                                                                   \
   /* static */                                                    \
   size_t struct_name::ExpectedSizeForVersion(                     \
-      ProcessReader* process_reader,                              \
+      ProcessReaderMac* process_reader,                           \
       decltype(struct_name::version_field) version) {             \
     if (!process_reader->Is64Bit()) {                             \
       return internal::struct_name<                               \
@@ -304,8 +304,8 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
     }                                                             \
   }                                                               \
                                                                   \
-  }  /* namespace process_types */                                \
-  }  /* namespace crashpad */
+  } /* namespace process_types */                                 \
+  } /* namespace crashpad */
 
 #define PROCESS_TYPE_STRUCT_SIZED(struct_name, size_field)
 
@@ -354,7 +354,7 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
   } /* namespace internal */                                           \
                                                                        \
   /* static */                                                         \
-  size_t struct_name::MinimumSize(ProcessReader* process_reader) {     \
+  size_t struct_name::MinimumSize(ProcessReaderMac* process_reader) {  \
     if (!process_reader->Is64Bit()) {                                  \
       return internal::struct_name<internal::Traits32>::MinimumSize(); \
     } else {                                                           \

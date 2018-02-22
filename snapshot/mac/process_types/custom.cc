@@ -75,7 +75,7 @@ bool FieldAddressIfInRange(mach_vm_address_t address,
 }
 
 template <typename T>
-bool ReadIntoVersioned(ProcessReader* process_reader,
+bool ReadIntoVersioned(ProcessReaderMac* process_reader,
                        mach_vm_address_t address,
                        T* specific) {
   mach_vm_address_t field_address;
@@ -95,7 +95,7 @@ bool ReadIntoVersioned(ProcessReader* process_reader,
 }
 
 template <typename T>
-bool ReadIntoSized(ProcessReader* process_reader,
+bool ReadIntoSized(ProcessReaderMac* process_reader,
                    mach_vm_address_t address,
                    T* specific) {
   mach_vm_address_t field_address;
@@ -156,7 +156,7 @@ size_t dyld_all_image_infos<Traits>::ExpectedSizeForVersion(
 // static
 template <typename Traits>
 bool dyld_all_image_infos<Traits>::ReadInto(
-    ProcessReader* process_reader,
+    ProcessReaderMac* process_reader,
     mach_vm_address_t address,
     dyld_all_image_infos<Traits>* specific) {
   return ReadIntoVersioned(process_reader, address, specific);
@@ -178,7 +178,7 @@ size_t crashreporter_annotations_t<Traits>::ExpectedSizeForVersion(
 // static
 template <typename Traits>
 bool crashreporter_annotations_t<Traits>::ReadInto(
-    ProcessReader* process_reader,
+    ProcessReaderMac* process_reader,
     mach_vm_address_t address,
     crashreporter_annotations_t<Traits>* specific) {
   return ReadIntoVersioned(process_reader, address, specific);
@@ -186,30 +186,30 @@ bool crashreporter_annotations_t<Traits>::ReadInto(
 
 // static
 template <typename Traits>
-bool CrashpadInfo<Traits>::ReadInto(ProcessReader* process_reader,
+bool CrashpadInfo<Traits>::ReadInto(ProcessReaderMac* process_reader,
                                     mach_vm_address_t address,
                                     CrashpadInfo<Traits>* specific) {
   return ReadIntoSized(process_reader, address, specific);
 }
 
 // Explicit template instantiation of the above.
-#define PROCESS_TYPE_FLAVOR_TRAITS(lp_bits)                                    \
-  template size_t                                                              \
-  dyld_all_image_infos<Traits##lp_bits>::ExpectedSizeForVersion(               \
-      decltype(dyld_all_image_infos<Traits##lp_bits>::version));               \
-  template bool dyld_all_image_infos<Traits##lp_bits>::ReadInto(               \
-      ProcessReader*,                                                          \
-      mach_vm_address_t,                                                       \
-      dyld_all_image_infos<Traits##lp_bits>*);                                 \
-  template size_t                                                              \
-  crashreporter_annotations_t<Traits##lp_bits>::ExpectedSizeForVersion(        \
-      decltype(crashreporter_annotations_t<Traits##lp_bits>::version));        \
-  template bool crashreporter_annotations_t<Traits##lp_bits>::ReadInto(        \
-      ProcessReader*,                                                          \
-      mach_vm_address_t,                                                       \
-      crashreporter_annotations_t<Traits##lp_bits>*);                          \
-  template bool CrashpadInfo<Traits##lp_bits>::ReadInto(                       \
-      ProcessReader*, mach_vm_address_t, CrashpadInfo<Traits##lp_bits>*);
+#define PROCESS_TYPE_FLAVOR_TRAITS(lp_bits)                             \
+  template size_t                                                       \
+  dyld_all_image_infos<Traits##lp_bits>::ExpectedSizeForVersion(        \
+      decltype(dyld_all_image_infos<Traits##lp_bits>::version));        \
+  template bool dyld_all_image_infos<Traits##lp_bits>::ReadInto(        \
+      ProcessReaderMac*,                                                \
+      mach_vm_address_t,                                                \
+      dyld_all_image_infos<Traits##lp_bits>*);                          \
+  template size_t                                                       \
+  crashreporter_annotations_t<Traits##lp_bits>::ExpectedSizeForVersion( \
+      decltype(crashreporter_annotations_t<Traits##lp_bits>::version)); \
+  template bool crashreporter_annotations_t<Traits##lp_bits>::ReadInto( \
+      ProcessReaderMac*,                                                \
+      mach_vm_address_t,                                                \
+      crashreporter_annotations_t<Traits##lp_bits>*);                   \
+  template bool CrashpadInfo<Traits##lp_bits>::ReadInto(                \
+      ProcessReaderMac*, mach_vm_address_t, CrashpadInfo<Traits##lp_bits>*);
 
 #include "snapshot/mac/process_types/flavors.h"
 
