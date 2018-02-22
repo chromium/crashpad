@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8762d89c_72de6d77",
+        "filename": "snapshot/fuchsia/process_reader.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-22T18:51:40Z",
+      "side": 1,
+      "message": "Probably better to be a real string anyway.",
+      "parentUuid": "04c09812_8a3b6f64",
+      "revId": "0bb1ed86c47aad481bdd7d93f7a51dc139862d3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5743a7ab_b2310870",
         "filename": "snapshot/fuchsia/process_reader.cc",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2018-02-22T18:19:26Z",
       "side": 1,
       "message": "Do you want to start with a reasonable number of empty thread “holes” in here, so that the common case involves just a single call to zx_get_object_info()?",
+      "revId": "0bb1ed86c47aad481bdd7d93f7a51dc139862d3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cda6385_3763498a",
+        "filename": "snapshot/fuchsia/process_reader.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-22T18:51:40Z",
+      "side": 1,
+      "message": "Oops, that was manual testing for the too-small buffer comment below. Done.",
+      "parentUuid": "5743a7ab_b2310870",
       "revId": "0bb1ed86c47aad481bdd7d93f7a51dc139862d3f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "03487c05_bca243e0",
+        "filename": "snapshot/fuchsia/process_reader.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-22T18:51:40Z",
+      "side": 1,
+      "message": "#fuchsia:\n\n\u003cscottmg\u003e when i call zx_object_get_info ZX_INFO_PROCESS_THREADS with a (e.g.) a zero sized buffer, it always returns ZX_OK, never ZX_ERR_BUFFER_TOO_SMALL (which i would sort of expect if avail \u003e actual)\n\u003cscottmg\u003e is that intentional behaviour, or should i file a bug about that?\n\u003c•swetland\u003e that is intentional\n\u003c•swetland\u003e it returns as many threads as it can in the provided buffer\n\u003c•swetland\u003e it tells you how many it *could* return at that moment in avail\n\nZX_ERR_BUFFER_TOO_SMALL seems to only be used for single-item return calls. /shrug",
+      "parentUuid": "c756177f_323054a7",
+      "revId": "0bb1ed86c47aad481bdd7d93f7a51dc139862d3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f76aad99_647c8b6c",
         "filename": "snapshot/fuchsia/process_reader.cc",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2018-02-22T18:19:26Z",
       "side": 1,
       "message": "Maybe we should *\u003d 2 it. But even better, since you have available_num_threads, why don’t you base your new size on it instead of the old threads.size()? You can still add some slop in case more threads show up between calls.",
+      "revId": "0bb1ed86c47aad481bdd7d93f7a51dc139862d3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f0595d6_56e7965b",
+        "filename": "snapshot/fuchsia/process_reader.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-22T18:51:40Z",
+      "side": 1,
+      "message": "Duh, that makes a lot more sense.",
+      "parentUuid": "f76aad99_647c8b6c",
       "revId": "0bb1ed86c47aad481bdd7d93f7a51dc139862d3f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "a58b3b8d_5c678088",
+        "filename": "snapshot/fuchsia/process_reader.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-22T18:51:40Z",
+      "side": 1,
+      "message": "I was wondering if there might be a permissions-related case where we could get the koid but not the handle. I squinted at kernel/syscalls/object.cpp for a bit, and I believe that in both cases the only required permission is ZX_RIGHT_ENUMERATE which is checked in the same way in both places. So I believe it\u0027s only the destruction race.",
+      "parentUuid": "dc32e24a_0e55c9e1",
+      "revId": "0bb1ed86c47aad481bdd7d93f7a51dc139862d3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eebd2eb5_64c0ab47",
         "filename": "snapshot/fuchsia/process_reader.h",
         "patchSetId": 9
@@ -101,6 +191,24 @@
       "revId": "0bb1ed86c47aad481bdd7d93f7a51dc139862d3f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "804628e5_aa6dd83f",
+        "filename": "snapshot/fuchsia/process_reader.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-22T18:51:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eebd2eb5_64c0ab47",
+      "revId": "0bb1ed86c47aad481bdd7d93f7a51dc139862d3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
