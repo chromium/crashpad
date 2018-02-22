@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b89b9226_06e77430",
+        "filename": "snapshot/memory_snapshot_generic.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-22T00:12:19Z",
+      "side": 1,
+      "message": "Locally git recognizes this as a move\n\n snapshot/{mac/memory_snapshot_mac.h \u003d\u003e memory_snapshot_generic.h} | 66 +++++++++++++++++++++++++++++++++++++++++++++++++-----------------\n\nbut it doesn\u0027t in Gerrit for whatever reason. The only change is to make it a template over the concrete ProcessReader type.",
+      "revId": "d381b56e34bd32fde2790b680abd4463afc0f21b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
