@@ -86,6 +86,10 @@ void Multiprocess::SetExpectedChildTermination(TerminationReason reason,
   code_ = code;
 }
 
+void Multiprocess::SetExpectedChildTerminationBuiltinTrap() {
+  SetExpectedChildTermination(kTerminationNormal, -1);
+}
+
 Multiprocess::~Multiprocess() {
   delete info_;
 }

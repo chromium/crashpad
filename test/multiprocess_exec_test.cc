@@ -98,6 +98,35 @@ TEST(MultiprocessExec, MultiprocessExecSimpleChildReturnsNonZero) {
   exec.Run();
 };
 
+#if !defined(OS_WIN)
+
+CRASHPAD_CHILD_TEST_MAIN(BuiltinTrapChild) {
+  __builtin_trap();
+  return EXIT_SUCCESS;
+}
+
+class TestBuiltinTrapTermination final : public MultiprocessExec {
+ public:
+  TestBuiltinTrapTermination() {
+    SetChildTestMainFunction("BuiltinTrapChild");
+    SetExpectedChildTerminationBuiltinTrap();
+  }
+
+  ~TestBuiltinTrapTermination() = default;
+
+ private:
+  void MultiprocessParent() override {}
+
+  DISALLOW_COPY_AND_ASSIGN(TestBuiltinTrapTermination);
+};
+
+TEST(MultiprocessExec, BuiltinTrapTermination) {
+  TestBuiltinTrapTermination test;
+  test.Run();
+}
+
+#endif  // !OS_WIN
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
