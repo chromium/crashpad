@@ -25,7 +25,7 @@
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
-#include "snapshot/mac/process_reader.h"
+#include "snapshot/mac/process_reader_mac.h"
 #include "snapshot/posix/timezone.h"
 #include "util/mac/mac_util.h"
 #include "util/numeric/in_range_cast.h"
@@ -104,7 +104,7 @@ SystemSnapshotMac::SystemSnapshotMac()
 SystemSnapshotMac::~SystemSnapshotMac() {
 }
 
-void SystemSnapshotMac::Initialize(ProcessReader* process_reader,
+void SystemSnapshotMac::Initialize(ProcessReaderMac* process_reader,
                                    const timeval* snapshot_time) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_H_
-#define CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_H_
+#ifndef CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_FUCHSIA_H_
+#define CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_FUCHSIA_H_
 
 #include <memory>
 #include <vector>
@@ -30,7 +30,7 @@ namespace crashpad {
 
 //! \brief Accesses information about another process, identified by a Fuchsia
 //!     process.
-class ProcessReader {
+class ProcessReaderFuchsia {
  public:
   //! \brief Contains information about a module loaded into a process.
   struct Module {
@@ -44,7 +44,7 @@ class ProcessReader {
     //! \brief An image reader for the module.
     //!
     //! The lifetime of this ElfImageReader is scoped to the lifetime of the
-    //! ProcessReader that created it.
+    //! ProcessReaderFuchsia that created it.
     //!
     //! This field may be `nullptr` if a reader could not be created for the
     //! module.
@@ -54,8 +54,23 @@ class ProcessReader {
     ModuleSnapshot::ModuleType type = ModuleSnapshot::kModuleTypeUnknown;
   };
 
-  ProcessReader();
-  ~ProcessReader();
+  //! \brief Contains information about a thread that belongs to a process.
+  struct Thread {
+    Thread();
+    ~Thread();
+
+    //! \brief The kernel identifier for the thread.
+    zx_koid_t id = ZX_KOID_INVALID;
+
+    //! \brief The state of the thread, the `ZX_THREAD_STATE_*` value.
+    uint32_t state = 0;
+
+    //! \brief The `ZX_PROP_NAME` property of the thread. This may be empty.
+    char name[ZX_MAX_NAME_LEN];
+  };
+
+  ProcessReaderFuchsia();
+  ~ProcessReaderFuchsia();
 
   //! \brief Initializes this object. This method must be called before any
   //!     other.
@@ -72,20 +87,34 @@ class ProcessReader {
   //!     `0`) corresponds to the main executable.
   const std::vector<Module>& Modules();
 
+  //! \return The threads that are in the process.
+  const std::vector<Thread>& Threads();
+
+  //! \brief Return a memory reader for the target process.
+  ProcessMemory* Memory() { return process_memory_.get(); }
+
  private:
+  //! Performs lazy initialization of the \a modules_ vector on behalf of
+  //! Modules().
   void InitializeModules();
 
+  //! Performs lazy initialization of the \a threads_ vector on behalf of
+  //! Threads().
+  void InitializeThreads();
+
   std::vector<Module> modules_;
+  std::vector<Thread> threads_;
   std::vector<std::unique_ptr<ElfImageReader>> module_readers_;
   std::vector<std::unique_ptr<ProcessMemoryRange>> process_memory_ranges_;
   std::unique_ptr<ProcessMemoryFuchsia> process_memory_;
   zx_handle_t process_;
   bool initialized_modules_ = false;
+  bool initialized_threads_ = false;
   InitializationStateDcheck initialized_;
 
-  DISALLOW_COPY_AND_ASSIGN(ProcessReader);
+  DISALLOW_COPY_AND_ASSIGN(ProcessReaderFuchsia);
 };
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_H_
+#endif  // CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_FUCHSIA_H_

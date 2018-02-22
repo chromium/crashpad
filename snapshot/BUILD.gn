@@ -34,6 +34,7 @@ static_library("snapshot") {
     "handle_snapshot.h",
     "memory_snapshot.cc",
     "memory_snapshot.h",
+    "memory_snapshot_generic.h",
     "minidump/minidump_annotation_reader.cc",
     "minidump/minidump_annotation_reader.h",
     "minidump/minidump_simple_string_dictionary_reader.cc",
@@ -76,12 +77,10 @@ static_library("snapshot") {
       "mac/mach_o_image_segment_reader.h",
       "mac/mach_o_image_symbol_table_reader.cc",
       "mac/mach_o_image_symbol_table_reader.h",
-      "mac/memory_snapshot_mac.cc",
-      "mac/memory_snapshot_mac.h",
       "mac/module_snapshot_mac.cc",
       "mac/module_snapshot_mac.h",
-      "mac/process_reader.cc",
-      "mac/process_reader.h",
+      "mac/process_reader_mac.cc",
+      "mac/process_reader_mac.h",
       "mac/process_snapshot_mac.cc",
       "mac/process_snapshot_mac.h",
       "mac/process_types.cc",
@@ -112,10 +111,8 @@ static_library("snapshot") {
       "linux/debug_rendezvous.h",
       "linux/exception_snapshot_linux.cc",
       "linux/exception_snapshot_linux.h",
-      "linux/memory_snapshot_linux.cc",
-      "linux/memory_snapshot_linux.h",
-      "linux/process_reader.cc",
-      "linux/process_reader.h",
+      "linux/process_reader_linux.cc",
+      "linux/process_reader_linux.h",
       "linux/process_snapshot_linux.cc",
       "linux/process_snapshot_linux.h",
       "linux/signal_context.h",
@@ -178,8 +175,8 @@ static_library("snapshot") {
 
   if (crashpad_is_fuchsia) {
     sources += [
-      "fuchsia/process_reader.cc",
-      "fuchsia/process_reader.h",
+      "fuchsia/process_reader_fuchsia.cc",
+      "fuchsia/process_reader_fuchsia.h",
       "fuchsia/process_snapshot_fuchsia.cc",
       "fuchsia/process_snapshot_fuchsia.h",
     ]
@@ -297,7 +294,7 @@ source_set("snapshot_test") {
       "mac/mach_o_image_annotations_reader_test.cc",
       "mac/mach_o_image_reader_test.cc",
       "mac/mach_o_image_segment_reader_test.cc",
-      "mac/process_reader_test.cc",
+      "mac/process_reader_mac_test.cc",
       "mac/process_types_test.cc",
       "mac/system_snapshot_mac_test.cc",
     ]
@@ -307,7 +304,7 @@ source_set("snapshot_test") {
     sources += [
       "linux/debug_rendezvous_test.cc",
       "linux/exception_snapshot_linux_test.cc",
-      "linux/process_reader_test.cc",
+      "linux/process_reader_linux_test.cc",
       "linux/system_snapshot_linux_test.cc",
     ]
   } else {
@@ -342,6 +339,10 @@ source_set("snapshot_test") {
     # https://crashpad.chromium.org/bug/196. Relevant upstream bugs are ZX-337
     # and ZX-1731.
     sources += [ "posix/timezone_test.cc" ]
+  }
+
+  if (crashpad_is_fuchsia) {
+    sources += [ "fuchsia/process_reader_fuchsia_test.cc" ]
   }
 
   # public_configs isn’t quite right. snapshot_test_link sets ldflags, and

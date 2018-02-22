@@ -21,7 +21,7 @@
 #include <stdint.h>
 
 #include "base/logging.h"
-#include "snapshot/mac/process_reader.h"
+#include "snapshot/mac/process_reader_mac.h"
 #include "test/scoped_module_handle.h"
 #include "util/numeric/safe_assignment.h"
 
@@ -74,7 +74,7 @@ const dyld_all_image_infos* DyldGetAllImageInfos() {
 #endif
 
   // On 10.13 and later, do it the hard way.
-  ProcessReader process_reader;
+  ProcessReaderMac process_reader;
   if (!process_reader.Initialize(mach_task_self())) {
     return nullptr;
   }
