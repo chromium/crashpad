@@ -77,7 +77,7 @@ class ProcessSnapshotFuchsia : public ProcessSnapshot {
   void InitializeModules();
 
   std::vector<std::unique_ptr<internal::ModuleSnapshotElf>> modules_;
-  ProcessReader process_reader_;
+  ProcessReaderFuchsia process_reader_;
   std::map<std::string, std::string> annotations_simple_map_;
   InitializationStateDcheck initialized_;
 

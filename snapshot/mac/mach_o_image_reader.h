@@ -33,7 +33,7 @@ namespace crashpad {
 
 class MachOImageSegmentReader;
 class MachOImageSymbolTableReader;
-class ProcessReader;
+class ProcessReaderMac;
 
 //! \brief A reader for Mach-O images mapped into another process.
 //!
@@ -64,7 +64,7 @@ class MachOImageReader {
   //!
   //! \return `true` if the image was read successfully, including all load
   //!     commands. `false` otherwise, with an appropriate message logged.
-  bool Initialize(ProcessReader* process_reader,
+  bool Initialize(ProcessReaderMac* process_reader,
                   mach_vm_address_t address,
                   const std::string& name);
 
@@ -337,7 +337,7 @@ class MachOImageReader {
   mutable std::unique_ptr<MachOImageSymbolTableReader> symbol_table_;
 
   std::unique_ptr<process_types::dylib_command> id_dylib_command_;
-  ProcessReader* process_reader_;  // weak
+  ProcessReaderMac* process_reader_;  // weak
   uint32_t file_type_;
   InitializationStateDcheck initialized_;
 

@@ -101,7 +101,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
   }
 #endif
 
-  ProcessReader process_reader;
+  ProcessReaderMac process_reader;
   ASSERT_TRUE(process_reader.Initialize(mach_task_self()));
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_13

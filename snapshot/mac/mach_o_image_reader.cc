@@ -26,7 +26,7 @@
 #include "client/crashpad_info.h"
 #include "snapshot/mac/mach_o_image_segment_reader.h"
 #include "snapshot/mac/mach_o_image_symbol_table_reader.h"
-#include "snapshot/mac/process_reader.h"
+#include "snapshot/mac/process_reader_mac.h"
 #include "util/mac/checked_mach_address_range.h"
 #include "util/misc/implicit_cast.h"
 
@@ -62,7 +62,7 @@ MachOImageReader::MachOImageReader()
 MachOImageReader::~MachOImageReader() {
 }
 
-bool MachOImageReader::Initialize(ProcessReader* process_reader,
+bool MachOImageReader::Initialize(ProcessReaderMac* process_reader,
                                   mach_vm_address_t address,
                                   const std::string& name) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);

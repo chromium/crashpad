@@ -24,8 +24,8 @@ namespace crashpad {
 namespace test {
 namespace {
 
-TEST(ProcessReader, SelfBasic) {
-  ProcessReader process_reader;
+TEST(ProcessReaderFuchsia, SelfBasic) {
+  ProcessReaderFuchsia process_reader;
   ASSERT_TRUE(process_reader.Initialize(zx_process_self()));
 
   static constexpr char kTestMemory[] = "Some test memory";
@@ -73,7 +73,7 @@ class BasicChildTest : public MultiprocessExec {
 
  private:
   void MultiprocessParent() override {
-    ProcessReader process_reader;
+    ProcessReaderFuchsia process_reader;
     ASSERT_TRUE(process_reader.Initialize(zx_process_self()));
 
     std::string read_string;
@@ -85,7 +85,7 @@ class BasicChildTest : public MultiprocessExec {
   DISALLOW_COPY_AND_ASSIGN(BasicChildTest);
 };
 
-TEST(ProcessReader, ChildBasic) {
+TEST(ProcessReaderFuchsia, ChildBasic) {
   BasicChildTest test;
   test.Run();
 }
