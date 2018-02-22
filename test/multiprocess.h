@@ -92,6 +92,8 @@ class Multiprocess {
   //!     expected to kill the child.
   void SetExpectedChildTermination(TerminationReason reason, int code);
 
+  void SetExpectedChildTerminationBuiltinTrap();
+
  protected:
   ~Multiprocess();
 

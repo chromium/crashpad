@@ -157,6 +157,15 @@ void Multiprocess::SetExpectedChildTermination(TerminationReason reason,
   code_ = code;
 }
 
+void Multiprocess::SetExpectedChildTerminationBuiltinTrap() {
+  reason_ = kTerminationSignal;
+#if defined(ARCH_CPU_ARM64)
+  code_ = SIGTRAP;
+#else
+  code_ = SIGILL;
+#endif
+}
+
 Multiprocess::~Multiprocess() {
 }
 
