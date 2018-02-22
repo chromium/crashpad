@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38402929_27358d7a",
+        "filename": "snapshot/fuchsia/process_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-22T18:55:43Z",
+      "side": 1,
+      "message": "Since you’re not treating this as fatal in any way, make it WARNING instead of ERROR. Same on line 255.",
+      "revId": "d78e185c7ec626d4567a6b003f54373e9ff986be",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69e2ebaa_69321cb4",
+        "filename": "snapshot/fuchsia/process_reader.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-22T18:55:43Z",
+      "side": 1,
+      "message": "The optimizer should usually be able to make this not suck, but thread.name.assign() is more direct.",
+      "revId": "d78e185c7ec626d4567a6b003f54373e9ff986be",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
