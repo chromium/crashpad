@@ -62,7 +62,7 @@ MachOImageReader::MachOImageReader()
 MachOImageReader::~MachOImageReader() {
 }
 
-bool MachOImageReader::Initialize(ProcessReader* process_reader,
+bool MachOImageReader::Initialize(ProcessReaderMac* process_reader,
                                   mach_vm_address_t address,
                                   const std::string& name) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);

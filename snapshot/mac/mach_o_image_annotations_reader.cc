@@ -32,13 +32,12 @@
 namespace crashpad {
 
 MachOImageAnnotationsReader::MachOImageAnnotationsReader(
-    ProcessReader* process_reader,
+    ProcessReaderMac* process_reader,
     const MachOImageReader* image_reader,
     const std::string& name)
     : name_(name),
       process_reader_(process_reader),
-      image_reader_(image_reader) {
-}
+      image_reader_(image_reader) {}
 
 std::vector<std::string> MachOImageAnnotationsReader::Vector() const {
   std::vector<std::string> vector_annotations;

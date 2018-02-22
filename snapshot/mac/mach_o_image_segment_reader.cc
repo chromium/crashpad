@@ -47,7 +47,7 @@ MachOImageSegmentReader::MachOImageSegmentReader()
 MachOImageSegmentReader::~MachOImageSegmentReader() {
 }
 
-bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
+bool MachOImageSegmentReader::Initialize(ProcessReaderMac* process_reader,
                                          mach_vm_address_t load_command_address,
                                          const std::string& load_command_info,
                                          const std::string& module_name,

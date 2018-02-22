@@ -30,7 +30,7 @@ namespace {
 
 // SystemSnapshotMac objects would be cumbersome to construct in each test that
 // requires one, because of the repetitive and mechanical work necessary to set
-// up a ProcessReader and timeval, along with the checks to verify that these
+// up a ProcessReaderMac and timeval, along with the checks to verify that these
 // operations succeed. This test fixture class handles the initialization work
 // so that individual tests don’t have to.
 class SystemSnapshotMacTest : public testing::Test {
@@ -55,7 +55,7 @@ class SystemSnapshotMacTest : public testing::Test {
   }
 
  private:
-  ProcessReader process_reader_;
+  ProcessReaderMac process_reader_;
   timeval snapshot_time_;
   internal::SystemSnapshotMac system_snapshot_;
 

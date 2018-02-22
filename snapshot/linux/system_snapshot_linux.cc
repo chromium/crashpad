@@ -151,7 +151,7 @@ SystemSnapshotLinux::SystemSnapshotLinux()
 
 SystemSnapshotLinux::~SystemSnapshotLinux() {}
 
-void SystemSnapshotLinux::Initialize(ProcessReader* process_reader,
+void SystemSnapshotLinux::Initialize(ProcessReaderLinux* process_reader,
                                      const timeval* snapshot_time) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
   process_reader_ = process_reader;

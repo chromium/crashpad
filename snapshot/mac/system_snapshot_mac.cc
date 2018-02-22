@@ -104,7 +104,7 @@ SystemSnapshotMac::SystemSnapshotMac()
 SystemSnapshotMac::~SystemSnapshotMac() {
 }
 
-void SystemSnapshotMac::Initialize(ProcessReader* process_reader,
+void SystemSnapshotMac::Initialize(ProcessReaderMac* process_reader,
                                    const timeval* snapshot_time) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 

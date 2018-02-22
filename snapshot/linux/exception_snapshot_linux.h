@@ -24,7 +24,7 @@
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/exception_snapshot.h"
-#include "snapshot/linux/process_reader.h"
+#include "snapshot/linux/process_reader_linux.h"
 #include "snapshot/memory_snapshot.h"
 #include "util/linux/address_types.h"
 #include "util/misc/initialization_state_dcheck.h"
@@ -41,7 +41,8 @@ class ExceptionSnapshotLinux final : public ExceptionSnapshot {
 
   //! \brief Initializes the object.
   //!
-  //! \param[in] process_reader A ProcessReader for the process that received
+  //! \param[in] process_reader A ProcessReaderLinux for the process that
+  //! received
   //!     the signal.
   //! \param[in] siginfo_address The address in the target process' address
   //!     space of the siginfo_t passed to the signal handler.
@@ -51,7 +52,7 @@ class ExceptionSnapshotLinux final : public ExceptionSnapshot {
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  bool Initialize(ProcessReader* process_reader,
+  bool Initialize(ProcessReaderLinux* process_reader,
                   LinuxVMAddress siginfo_address,
                   LinuxVMAddress context_address,
                   pid_t thread_id);
@@ -68,10 +69,10 @@ class ExceptionSnapshotLinux final : public ExceptionSnapshot {
 
  private:
   template <typename Traits>
-  bool ReadSiginfo(ProcessReader* reader, LinuxVMAddress siginfo_address);
+  bool ReadSiginfo(ProcessReaderLinux* reader, LinuxVMAddress siginfo_address);
 
   template <typename Traits>
-  bool ReadContext(ProcessReader* reader, LinuxVMAddress context_address);
+  bool ReadContext(ProcessReaderLinux* reader, LinuxVMAddress context_address);
 
   union {
 #if defined(ARCH_CPU_X86_FAMILY)
