@@ -86,6 +86,13 @@ void Multiprocess::SetExpectedChildTermination(TerminationReason reason,
   code_ = code;
 }
 
+void Multiprocess::SetExpectedChildTerminationBuiltinTrap() {
+  EXPECT_EQ(info_, nullptr)
+      << "SetExpectedChildTerminationBuiltinTrap() must be called before Run()";
+  reason_ = kTerminationNormal;
+  code_ = -1;
+}
+
 Multiprocess::~Multiprocess() {
   delete info_;
 }
