@@ -24,7 +24,7 @@
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/elf/elf_image_reader.h"
 #include "snapshot/elf/module_snapshot_elf.h"
-#include "snapshot/fuchsia/process_reader.h"
+#include "snapshot/fuchsia/process_reader_fuchsia.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/unloaded_module_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
@@ -77,7 +77,7 @@ class ProcessSnapshotFuchsia : public ProcessSnapshot {
   void InitializeModules();
 
   std::vector<std::unique_ptr<internal::ModuleSnapshotElf>> modules_;
-  ProcessReader process_reader_;
+  ProcessReaderFuchsia process_reader_;
   std::map<std::string, std::string> annotations_simple_map_;
   InitializationStateDcheck initialized_;
 

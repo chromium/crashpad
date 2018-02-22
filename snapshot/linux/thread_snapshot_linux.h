@@ -20,7 +20,7 @@
 #include "base/macros.h"
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
-#include "snapshot/linux/process_reader.h"
+#include "snapshot/linux/process_reader_linux.h"
 #include "snapshot/memory_snapshot.h"
 #include "snapshot/memory_snapshot_generic.h"
 #include "snapshot/thread_snapshot.h"
@@ -37,15 +37,15 @@ class ThreadSnapshotLinux final : public ThreadSnapshot {
 
   //! \brief Initializes the object.
   //!
-  //! \param[in] process_reader A ProcessReader for the process containing the
-  //!     thread.
-  //! \param[in] thread The thread within the ProcessReader for
+  //! \param[in] process_reader A ProcessReaderLinux for the process containing
+  //!     the thread.
+  //! \param[in] thread The thread within the ProcessReaderLinux for
   //!     which the snapshot should be created.
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     a message logged.
-  bool Initialize(ProcessReader* process_reader,
-                  const ProcessReader::Thread& thread);
+  bool Initialize(ProcessReaderLinux* process_reader,
+                  const ProcessReaderLinux::Thread& thread);
 
   // ThreadSnapshot:
 
@@ -70,7 +70,7 @@ class ThreadSnapshotLinux final : public ThreadSnapshot {
 #endif  // ARCH_CPU_X86_FAMILY
   } context_union_;
   CPUContext context_;
-  MemorySnapshotGeneric<ProcessReader> stack_;
+  MemorySnapshotGeneric<ProcessReaderLinux> stack_;
   LinuxVMAddress thread_specific_data_address_;
   pid_t thread_id_;
   int priority_;

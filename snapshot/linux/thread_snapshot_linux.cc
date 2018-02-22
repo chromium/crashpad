@@ -37,9 +37,8 @@ ThreadSnapshotLinux::ThreadSnapshotLinux()
 ThreadSnapshotLinux::~ThreadSnapshotLinux() {
 }
 
-bool ThreadSnapshotLinux::Initialize(
-    ProcessReader* process_reader,
-    const ProcessReader::Thread& thread) {
+bool ThreadSnapshotLinux::Initialize(ProcessReaderLinux* process_reader,
+                                     const ProcessReaderLinux::Thread& thread) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
 #if defined(ARCH_CPU_X86_FAMILY)
