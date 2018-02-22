@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_H_
-#define CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_H_
+#ifndef CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_FUCHSIA_H_
+#define CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_FUCHSIA_H_
 
 #include <memory>
 #include <vector>
@@ -30,7 +30,7 @@ namespace crashpad {
 
 //! \brief Accesses information about another process, identified by a Fuchsia
 //!     process.
-class ProcessReader {
+class ProcessReaderFuchsia {
  public:
   //! \brief Contains information about a module loaded into a process.
   struct Module {
@@ -44,7 +44,7 @@ class ProcessReader {
     //! \brief An image reader for the module.
     //!
     //! The lifetime of this ElfImageReader is scoped to the lifetime of the
-    //! ProcessReader that created it.
+    //! ProcessReaderFuchsia that created it.
     //!
     //! This field may be `nullptr` if a reader could not be created for the
     //! module.
@@ -62,16 +62,15 @@ class ProcessReader {
     //! \brief The kernel identifier for the thread.
     zx_koid_t id = ZX_KOID_INVALID;
 
-    //! \brief The state of the thread, the `ZX_THREAD_STATE_*` value or `-1` if
-    //!     the value could not be retrieved.
-    uint32_t state = -1;
+    //! \brief The state of the thread, the `ZX_THREAD_STATE_*` value.
+    uint32_t state = 0;
 
     //! \brief The `ZX_PROP_NAME` property of the thread. This may be empty.
-    std::string name;
+    char name[ZX_MAX_NAME_LEN];
   };
 
-  ProcessReader();
-  ~ProcessReader();
+  ProcessReaderFuchsia();
+  ~ProcessReaderFuchsia();
 
   //! \brief Initializes this object. This method must be called before any
   //!     other.
@@ -113,9 +112,9 @@ class ProcessReader {
   bool initialized_threads_ = false;
   InitializationStateDcheck initialized_;
 
-  DISALLOW_COPY_AND_ASSIGN(ProcessReader);
+  DISALLOW_COPY_AND_ASSIGN(ProcessReaderFuchsia);
 };
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_H_
+#endif  // CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_FUCHSIA_H_

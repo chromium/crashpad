@@ -37,7 +37,7 @@ class MachOImageReader;
 
 //! \brief Accesses information about another process, identified by a Mach
 //!     task.
-class ProcessReader {
+class ProcessReaderMac {
  public:
   //! \brief Contains information about a thread that belongs to a task
   //!     (process).
@@ -83,7 +83,7 @@ class ProcessReader {
     //! \brief An image reader for the module.
     //!
     //! The lifetime of this MachOImageReader is scoped to the lifetime of the
-    //! ProcessReader that created it.
+    //! ProcessReaderMac that created it.
     //!
     //! This field may be `nullptr` if a reader could not be created for the
     //! module.
@@ -97,8 +97,8 @@ class ProcessReader {
     time_t timestamp;
   };
 
-  ProcessReader();
-  ~ProcessReader();
+  ProcessReaderMac();
+  ~ProcessReaderMac();
 
   //! \brief Initializes this object. This method must be called before any
   //!     other.
@@ -244,7 +244,7 @@ class ProcessReader {
   bool initialized_threads_;
   bool initialized_modules_;
 
-  DISALLOW_COPY_AND_ASSIGN(ProcessReader);
+  DISALLOW_COPY_AND_ASSIGN(ProcessReaderMac);
 };
 
 }  // namespace crashpad

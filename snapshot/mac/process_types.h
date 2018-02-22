@@ -21,7 +21,7 @@
 #include <stdint.h>
 #include <sys/types.h>
 
-#include "snapshot/mac/process_reader.h"
+#include "snapshot/mac/process_reader_mac.h"
 
 namespace crashpad {
 namespace process_types {
@@ -80,14 +80,14 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
                                                                                \
     /* Initializes an object with data read from |process_reader| at           \
      * |address|, properly genericized. */                                     \
-    bool Read(ProcessReader* process_reader, mach_vm_address_t address) {      \
+    bool Read(ProcessReaderMac* process_reader, mach_vm_address_t address) {   \
       return ReadInto(process_reader, address, this);                          \
     }                                                                          \
                                                                                \
     /* Reads |count| objects from |process_reader| beginning at |address|, and \
      * genericizes the objects. The caller must provide storage for |count|    \
      * objects in |generic|. */                                                \
-    static bool ReadArrayInto(ProcessReader* process_reader,                   \
+    static bool ReadArrayInto(ProcessReaderMac* process_reader,                \
                               mach_vm_address_t address,                       \
                               size_t count,                                    \
                               struct_name* generic);                           \
@@ -99,10 +99,10 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
     size_t Size() const { return size_; }                                      \
                                                                                \
     /* Similar to Size(), but computes the expected size of a structure based  \
-     * on the process’ bitness. This can be used prior to reading any data     \
+     * on the process’ bitness. This can be used prior to reading any data   \
      * from a process. For versioned and sized structures,                     \
      * ExpectedSizeForVersion() and MinimumSize() may also be useful. */       \
-    static size_t ExpectedSize(ProcessReader* process_reader);
+    static size_t ExpectedSize(ProcessReaderMac* process_reader);
 
 #define PROCESS_TYPE_STRUCT_MEMBER(member_type, member_name, ...)              \
     member_type member_name __VA_ARGS__;
@@ -113,7 +113,7 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
      * structure version number. This can be used prior to reading any data    \
      * from a process. */                                                      \
     static size_t ExpectedSizeForVersion(                                      \
-        ProcessReader* process_reader,                                         \
+        ProcessReaderMac* process_reader,                                      \
         decltype(struct_name::version_field) version);
 
 #define PROCESS_TYPE_STRUCT_SIZED(struct_name, size_field)                     \
@@ -121,21 +121,21 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
    * structure based on the process’ bitness, typically including enough of    \
    * a structure to contain its size field. This can be used prior to          \
    * reading any data from a process. */                                       \
-  static size_t MinimumSize(ProcessReader* process_reader);
+  static size_t MinimumSize(ProcessReaderMac* process_reader);
 
 #define PROCESS_TYPE_STRUCT_END(struct_name)                                   \
    private:                                                                    \
     /* The static form of Read(). Populates the struct at |generic|. */        \
-    static bool ReadInto(ProcessReader* process_reader,                        \
+    static bool ReadInto(ProcessReaderMac* process_reader,                     \
                          mach_vm_address_t address,                            \
                          struct_name* generic);                                \
                                                                                \
     template <typename T>                                                      \
-    static bool ReadIntoInternal(ProcessReader* process_reader,                \
+    static bool ReadIntoInternal(ProcessReaderMac* process_reader,             \
                                  mach_vm_address_t address,                    \
                                  struct_name* generic);                        \
     template <typename T>                                                      \
-    static bool ReadArrayIntoInternal(ProcessReader* process_reader,           \
+    static bool ReadArrayIntoInternal(ProcessReaderMac* process_reader,        \
                                       mach_vm_address_t address,               \
                                       size_t count,                            \
                                       struct_name* generic);                   \
@@ -182,10 +182,10 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
                                                                                \
     /* Read(), ReadArrayInto(), and Size() are as in the generic user-visible  \
      * struct above. */                                                        \
-    bool Read(ProcessReader* process_reader, mach_vm_address_t address) {      \
+    bool Read(ProcessReaderMac* process_reader, mach_vm_address_t address) {   \
       return ReadInto(process_reader, address, this);                          \
     }                                                                          \
-    static bool ReadArrayInto(ProcessReader* process_reader,                   \
+    static bool ReadArrayInto(ProcessReaderMac* process_reader,                \
                               mach_vm_address_t address,                       \
                               size_t count,                                    \
                               struct_name<Traits>* specific);                  \
@@ -212,7 +212,7 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
 #define PROCESS_TYPE_STRUCT_END(struct_name)                                   \
    private:                                                                    \
     /* ReadInto() is as in the generic user-visible struct above. */           \
-    static bool ReadInto(ProcessReader* process_reader,                        \
+    static bool ReadInto(ProcessReaderMac* process_reader,                     \
                          mach_vm_address_t address,                            \
                          struct_name<Traits>* specific);                       \
   };                                                                           \

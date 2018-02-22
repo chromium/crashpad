@@ -18,7 +18,7 @@
 
 #include "base/logging.h"
 #include "snapshot/linux/cpu_context_linux.h"
-#include "snapshot/linux/process_reader.h"
+#include "snapshot/linux/process_reader_linux.h"
 #include "snapshot/linux/signal_context.h"
 #include "util/linux/traits.h"
 #include "util/misc/reinterpret_bytes.h"
@@ -43,7 +43,7 @@ ExceptionSnapshotLinux::~ExceptionSnapshotLinux() {}
 #if defined(ARCH_CPU_X86_FAMILY)
 template <>
 bool ExceptionSnapshotLinux::ReadContext<ContextTraits32>(
-    ProcessReader* reader,
+    ProcessReaderLinux* reader,
     LinuxVMAddress context_address) {
   UContext<ContextTraits32> ucontext;
   if (!reader->Memory()->Read(context_address, sizeof(ucontext), &ucontext)) {
@@ -79,7 +79,7 @@ bool ExceptionSnapshotLinux::ReadContext<ContextTraits32>(
 
 template <>
 bool ExceptionSnapshotLinux::ReadContext<ContextTraits64>(
-    ProcessReader* reader,
+    ProcessReaderLinux* reader,
     LinuxVMAddress context_address) {
   UContext<ContextTraits64> ucontext;
   if (!reader->Memory()->Read(context_address, sizeof(ucontext), &ucontext)) {
@@ -99,7 +99,7 @@ bool ExceptionSnapshotLinux::ReadContext<ContextTraits64>(
 
 template <>
 bool ExceptionSnapshotLinux::ReadContext<ContextTraits32>(
-    ProcessReader* reader,
+    ProcessReaderLinux* reader,
     LinuxVMAddress context_address) {
   context_.architecture = kCPUArchitectureARM;
   context_.arm = &context_union_.arm;
@@ -179,7 +179,7 @@ bool ExceptionSnapshotLinux::ReadContext<ContextTraits32>(
 
 template <>
 bool ExceptionSnapshotLinux::ReadContext<ContextTraits64>(
-    ProcessReader* reader,
+    ProcessReaderLinux* reader,
     LinuxVMAddress context_address) {
   context_.architecture = kCPUArchitectureARM64;
   context_.arm64 = &context_union_.arm64;
@@ -253,7 +253,7 @@ bool ExceptionSnapshotLinux::ReadContext<ContextTraits64>(
 
 #endif  // ARCH_CPU_X86_FAMILY
 
-bool ExceptionSnapshotLinux::Initialize(ProcessReader* process_reader,
+bool ExceptionSnapshotLinux::Initialize(ProcessReaderLinux* process_reader,
                                         LinuxVMAddress siginfo_address,
                                         LinuxVMAddress context_address,
                                         pid_t thread_id) {
@@ -278,7 +278,7 @@ bool ExceptionSnapshotLinux::Initialize(ProcessReader* process_reader,
 }
 
 template <typename Traits>
-bool ExceptionSnapshotLinux::ReadSiginfo(ProcessReader* reader,
+bool ExceptionSnapshotLinux::ReadSiginfo(ProcessReaderLinux* reader,
                                          LinuxVMAddress siginfo_address) {
   Siginfo<Traits> siginfo;
   if (!reader->Memory()->Read(siginfo_address, sizeof(siginfo), &siginfo)) {

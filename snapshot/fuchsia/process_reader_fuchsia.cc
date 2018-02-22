@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/fuchsia/process_reader.h"
+#include "snapshot/fuchsia/process_reader_fuchsia.h"
 
 #include <link.h>
 #include <zircon/syscalls.h>
@@ -23,19 +23,19 @@
 
 namespace crashpad {
 
-ProcessReader::Module::Module() = default;
+ProcessReaderFuchsia::Module::Module() = default;
 
-ProcessReader::Module::~Module() = default;
+ProcessReaderFuchsia::Module::~Module() = default;
 
-ProcessReader::Thread::Thread() = default;
+ProcessReaderFuchsia::Thread::Thread() = default;
 
-ProcessReader::Thread::~Thread() = default;
+ProcessReaderFuchsia::Thread::~Thread() = default;
 
-ProcessReader::ProcessReader() = default;
+ProcessReaderFuchsia::ProcessReaderFuchsia() = default;
 
-ProcessReader::~ProcessReader() = default;
+ProcessReaderFuchsia::~ProcessReaderFuchsia() = default;
 
-bool ProcessReader::Initialize(zx_handle_t process) {
+bool ProcessReaderFuchsia::Initialize(zx_handle_t process) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   process_ = process;
@@ -47,7 +47,7 @@ bool ProcessReader::Initialize(zx_handle_t process) {
   return true;
 }
 
-const std::vector<ProcessReader::Module>& ProcessReader::Modules() {
+const std::vector<ProcessReaderFuchsia::Module>& ProcessReaderFuchsia::Modules() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   if (!initialized_modules_) {
@@ -57,7 +57,7 @@ const std::vector<ProcessReader::Module>& ProcessReader::Modules() {
   return modules_;
 }
 
-const std::vector<ProcessReader::Thread>& ProcessReader::Threads() {
+const std::vector<ProcessReaderFuchsia::Thread>& ProcessReaderFuchsia::Threads() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   if (!initialized_threads_) {
@@ -67,7 +67,7 @@ const std::vector<ProcessReader::Thread>& ProcessReader::Threads() {
   return threads_;
 }
 
-void ProcessReader::InitializeModules() {
+void ProcessReaderFuchsia::InitializeModules() {
   DCHECK(!initialized_modules_);
   DCHECK(modules_.empty());
 
@@ -181,7 +181,7 @@ void ProcessReader::InitializeModules() {
   }
 }
 
-void ProcessReader::InitializeThreads() {
+void ProcessReaderFuchsia::InitializeThreads() {
   DCHECK(!initialized_threads_);
   DCHECK(threads_.empty());
 
@@ -192,7 +192,7 @@ void ProcessReader::InitializeThreads() {
   // maximum, this needs to be retried in a loop until the actual threads
   // retrieved is equal to the available threads.
 
-  std::vector<zx_koid_t> threads(100);
+  std::vector<zx_koid_t> threads;
   size_t actual_num_threads, available_num_threads;
   for (;;) {
     zx_status_t status = zx_object_get_info(process_,
@@ -212,9 +212,7 @@ void ProcessReader::InitializeThreads() {
       break;
     }
 
-    // Resize to the expected number next time with a bit extra to attempt to
-    // handle the race between here and the next request.
-    threads.resize(available_num_threads + 10);
+    threads.resize(threads.size() + 100);
   }
 
   for (const zx_koid_t thread_koid : threads) {
@@ -224,9 +222,7 @@ void ProcessReader::InitializeThreads() {
     if (status != ZX_OK) {
       ZX_LOG(ERROR, status) << "zx_object_get_child";
       // TODO(scottmg): Decide if it's worthwhile adding a mostly-empty Thread
-      // here, consisting only of the koid, but no other information. The only
-      // time this is expected to happen is when there's a race between getting
-      // the koid above, and requesting the handle here.
+      // here, consisting only of the koid, but no other information.
       continue;
     }
 
@@ -235,13 +231,10 @@ void ProcessReader::InitializeThreads() {
     Thread thread;
     thread.id = thread_koid;
 
-    char name[ZX_MAX_NAME_LEN] = {0};
     status = zx_object_get_property(
-        thread_handle.get(), ZX_PROP_NAME, &name, sizeof(name));
+        thread_handle.get(), ZX_PROP_NAME, thread.name, sizeof(thread.name));
     if (status != ZX_OK) {
-      ZX_LOG(WARNING, status) << "zx_object_get_property ZX_PROP_NAME";
-    } else {
-      thread.name.assign(name);
+      ZX_LOG(ERROR, status) << "zx_object_get_property ZX_PROP_NAME";
     }
 
     zx_info_thread_t thread_info;
@@ -252,7 +245,7 @@ void ProcessReader::InitializeThreads() {
                                 nullptr,
                                 nullptr);
     if (status != ZX_OK) {
-      ZX_LOG(WARNING, status) << "zx_object_get_info ZX_INFO_THREAD";
+      ZX_LOG(ERROR, status) << "zx_object_get_info ZX_INFO_THREAD";
     } else {
       thread.state = thread_info.state;
     }
