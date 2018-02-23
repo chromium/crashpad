@@ -180,6 +180,19 @@ class CrashpadClient {
   //!     CaptureContext() or similar.
   static void DumpWithoutCrash(NativeCPUContext* context);
 
+  //! \brief The type for custom handlers installed by clients.
+  using FirstChanceHandler = bool (*)(int, siginfo_t*, ucontext_t*);
+
+  //! \brief Installs a custom crash signal handler which runs before any
+  //!     currently installed Crashpad handler.
+  //!
+  //! If the custom handler returns `true`, the signal is considered handled and
+  //! the signal handler returns. Otherwise, any currently installed Crashpad
+  //! signal handler is run.
+  //!
+  //! \param[in] handler The custom crash signal handler to install.
+  void SetFirstChanceExceptionHandler(FirstChanceHandler handler);
+
 #endif  // OS_LINUX || OS_ANDROID || DOXYGEN
 
 #if defined(OS_MACOSX) || DOXYGEN
