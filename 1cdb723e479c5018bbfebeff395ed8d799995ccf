@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "70e149bb_0e9e4c00",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-23T19:33:12Z",
+      "side": 1,
+      "message": "Done.\n\nThanks for the background!",
+      "parentUuid": "d24c180b_931290d3",
+      "revId": "1cdb723e479c5018bbfebeff395ed8d799995ccf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b5d4ecf_e71b9224",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 2
@@ -101,6 +119,24 @@
       "writtenOn": "2018-02-23T18:49:53Z",
       "side": 1,
       "message": "We’ve also done some initializers at the member variable declarations lately, which would let you keep “\u003d default” here if you wanted it. Optional, up to you.",
+      "revId": "1cdb723e479c5018bbfebeff395ed8d799995ccf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6dd158fe_42e554bd",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-23T19:33:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b5d4ecf_e71b9224",
       "revId": "1cdb723e479c5018bbfebeff395ed8d799995ccf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -121,6 +157,24 @@
       "revId": "1cdb723e479c5018bbfebeff395ed8d799995ccf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55697cbe_4349e448",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-23T19:33:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0662f093_20138923",
+      "revId": "1cdb723e479c5018bbfebeff395ed8d799995ccf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
