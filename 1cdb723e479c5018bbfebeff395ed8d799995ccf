@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b81d8c1d_a0945c0e",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2018-02-23T02:27:49Z",
+      "side": 1,
+      "message": "what are the use cases? it seems a bit outside the scope of capturing crash dumps.",
+      "range": {
+        "startLine": 189,
+        "startChar": 13,
+        "endLine": 190,
+        "endChar": 47
+      },
+      "revId": "1cdb723e479c5018bbfebeff395ed8d799995ccf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
