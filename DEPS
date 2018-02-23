@@ -14,6 +14,7 @@
 
 vars = {
   'chromium_git': 'https://chromium.googlesource.com',
+  'pull_linux_clang': False
 }
 
 deps = {
@@ -115,8 +116,25 @@ hooks = [
   },
   {
     # This uses “cipd install” so that mac-amd64 and linux-amd64 can coexist
-    # peacefully. “cipd ensure” would remove the Linux package when running on a
-    # macOS build host and vice-versa. https://crbug.com/789364.
+    # peacefully. “cipd ensure” would remove the macOS package when running on a
+    # Linux build host and vice-versa. https://crbug.com/789364.
+    'name': 'clang_linux',
+    'pattern': '.',
+    'condition': 'checkout_linux and pull_linux_clang',
+    'action': [
+      'cipd',
+      'install',
+      # sic, using Fuchsia team's generic build of clang for linux-amd64 to
+      # build for linux-amd64 target too.
+      'fuchsia/clang/linux-amd64',
+      'latest',
+      '-root', 'crashpad/third_party/linux/clang/linux-amd64',
+      '-log-level', 'info',
+    ],
+  },
+  {
+    # Same rationale for using "install" rather than "ensure" as for first clang
+    # package. https://crbug.com/789364.
     'name': 'fuchsia_clang_mac',
     'pattern': '.',
     'condition': 'checkout_fuchsia and host_os == "mac"',
@@ -130,9 +148,8 @@ hooks = [
     ],
   },
   {
-    # This uses “cipd install” so that mac-amd64 and linux-amd64 can coexist
-    # peacefully. “cipd ensure” would remove the macOS package when running on a
-    # Linux build host and vice-versa. https://crbug.com/789364.
+    # Same rationale for using "install" rather than "ensure" as for first clang
+    # package. https://crbug.com/789364.
     'name': 'fuchsia_clang_linux',
     'pattern': '.',
     'condition': 'checkout_fuchsia and host_os == "linux"',
