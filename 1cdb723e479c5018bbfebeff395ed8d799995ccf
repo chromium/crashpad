@@ -70,6 +70,57 @@
       "revId": "1cdb723e479c5018bbfebeff395ed8d799995ccf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24c180b_931290d3",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-23T18:49:53Z",
+      "side": 1,
+      "message": "We should also include a warning that FirstChanceHandler will run in signal handler context and must be safe for that purpose.\n\nI’d also be in favor of something strongly urging people not to use this.\n\nSome more background: As Leonard pointed out, this is absolutely out of place. We only relented and added this to Breakpad because it really was the best way to handle the V8 situation, where they had a good reason to need user-space fault handling, and (after we chatted with them) a decent way to handle it safely from a signal handler. The alternative would have been to have them install their own signal handler instead of hanging off of ours, and since they’d be superseding ours, we’d just have to hope that they’d delegate signals they didn’t want properly back to us. That was even rougher, so we went with this model instead, where at least we could own the tricky signal handler code. I don’t really want anyone else to use this interface in Chrome without talking to us first. As it stands now, V8 shouldn’t be making any changes to their side of the signal handler without getting a review from someone well-versed in the finer points.",
+      "revId": "1cdb723e479c5018bbfebeff395ed8d799995ccf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b5d4ecf_e71b9224",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-23T18:49:53Z",
+      "side": 1,
+      "message": "We’ve also done some initializers at the member variable declarations lately, which would let you keep “\u003d default” here if you wanted it. Optional, up to you.",
+      "revId": "1cdb723e479c5018bbfebeff395ed8d799995ccf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0662f093_20138923",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-23T18:49:53Z",
+      "side": 1,
+      "message": "DumpWithoutCrash is another static method on CrashpadClient, and it has LOG(WARNING) and early return if !g_crash_handler. Unless there’s a reason to do otherwise, we should be consistent.\n\nIf you like the DCHECK better, you can go with that for both. In that case, make sure that you document that a handler must already be established before calling these functions.",
+      "revId": "1cdb723e479c5018bbfebeff395ed8d799995ccf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
