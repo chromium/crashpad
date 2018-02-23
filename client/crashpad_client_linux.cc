@@ -98,13 +98,19 @@ class SignalHandler {
   virtual void HandleCrashFatal(int signo,
                                 siginfo_t* siginfo,
                                 void* context) = 0;
-  virtual void HandleCrashNonFatal(int signo,
+  virtual bool HandleCrashNonFatal(int signo,
                                    siginfo_t* siginfo,
                                    void* context) = 0;
+
+  void SetFirstChanceHandler(CrashpadClient::FirstChanceHandler handler) {
+    first_chance_handler_ = handler;
+  }
 
  protected:
   SignalHandler() = default;
   ~SignalHandler() = default;
+
+  CrashpadClient::FirstChanceHandler first_chance_handler_ = nullptr;
 };
 
 // Launches a single use handler to snapshot this process.
@@ -125,9 +131,15 @@ class LaunchAtCrashHandler : public SignalHandler {
     return Signals::InstallCrashHandlers(HandleCrash, 0, nullptr);
   }
 
-  void HandleCrashNonFatal(int signo,
+  bool HandleCrashNonFatal(int signo,
                            siginfo_t* siginfo,
                            void* context) override {
+    if (first_chance_handler_ &&
+        first_chance_handler_(
+            signo, siginfo, static_cast<ucontext_t*>(context))) {
+      return true;
+    }
+
     exception_information_.siginfo_address =
         FromPointerCast<decltype(exception_information_.siginfo_address)>(
             siginfo);
@@ -140,7 +152,7 @@ class LaunchAtCrashHandler : public SignalHandler {
 
     pid_t pid = fork();
     if (pid < 0) {
-      return;
+      return false;
     }
     if (pid == 0) {
       execv(argv_[0], const_cast<char* const*>(argv_.data()));
@@ -149,10 +161,13 @@ class LaunchAtCrashHandler : public SignalHandler {
 
     int status;
     waitpid(pid, &status, 0);
+    return false;
   }
 
   void HandleCrashFatal(int signo, siginfo_t* siginfo, void* context) override {
-    HandleCrashNonFatal(signo, siginfo, context);
+    if (HandleCrashNonFatal(signo, siginfo, context)) {
+      return;
+    }
     Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, nullptr);
   }
 
@@ -239,10 +254,7 @@ bool CrashpadClient::StartHandlerForClient(
 
 // static
 void CrashpadClient::DumpWithoutCrash(NativeCPUContext* context) {
-  if (!g_crash_handler) {
-    LOG(WARNING) << "No crash handler installed";
-    return;
-  }
+  DCHECK(g_crash_handler);
 
 #if defined(ARCH_CPU_X86)
   memset(&context->__fpregs_mem, 0, sizeof(context->__fpregs_mem));
@@ -265,6 +277,13 @@ void CrashpadClient::DumpWithoutCrash(NativeCPUContext* context) {
   siginfo.si_code = 0;
   g_crash_handler->HandleCrashNonFatal(
       siginfo.si_signo, &siginfo, reinterpret_cast<void*>(context));
+}
+
+// static
+void CrashpadClient::SetFirstChanceExceptionHandler(
+    FirstChanceHandler handler) {
+  DCHECK(g_crash_handler);
+  g_crash_handler->SetFirstChanceHandler(handler);
 }
 
 }  // namespace crashpad
