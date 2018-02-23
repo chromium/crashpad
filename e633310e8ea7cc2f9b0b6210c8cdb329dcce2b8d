@@ -16,6 +16,24 @@
       "revId": "e633310e8ea7cc2f9b0b6210c8cdb329dcce2b8d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aab1166e_322d5312",
+        "filename": "snapshot/fuchsia/thread_snapshot_fuchsia.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-23T00:49:14Z",
+      "side": 1,
+      "message": "\u003e You don’t need a union at all as things stand now.\n\u003e \n\u003e If Fuchsia has a plan to support 32-on-64 at some point, then you can leave the union alone, although since the #ifdefs are wrong for that, it doesn’t seem to be helping much. (You’d want ARCH_CPU_X86_FAMILY and ARCH_CPU_ARM_FAMILY to be prepared for that.) Linux is the model in this case.\n\nNever 32 bit for Fuchsia.\n\n\u003e \n\u003e If you get rid of the union surrounding these context fields, you’d leave the #ifdefs as they stand now, and rename the subfields to just be context_. We don’t currently have a model for this because every other OS we have does support 32-on-64.\n\nI kept context_ so that it\u0027s available for return by Context(), and made them both context_arch_ to avoid #ifs in the constructor assuming that\u0027s what you were thinking.",
+      "parentUuid": "d15f2e4d_700b6929",
+      "revId": "e633310e8ea7cc2f9b0b6210c8cdb329dcce2b8d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
