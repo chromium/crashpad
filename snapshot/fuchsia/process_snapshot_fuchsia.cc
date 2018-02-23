@@ -29,6 +29,7 @@ bool ProcessSnapshotFuchsia::Initialize(zx_handle_t process) {
     return false;
   }
 
+  InitializeThreads();
   InitializeModules();
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
@@ -168,6 +169,18 @@ std::vector<const MemorySnapshot*> ProcessSnapshotFuchsia::ExtraMemory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
   return std::vector<const MemorySnapshot*>();
+}
+
+void ProcessSnapshotFuchsia::InitializeThreads() {
+  const std::vector<ProcessReaderFuchsia::Thread>& process_reader_threads =
+      process_reader_.Threads();
+  for (const ProcessReaderFuchsia::Thread& process_reader_thread :
+       process_reader_threads) {
+    auto thread = std::make_unique<internal::ThreadSnapshotFuchsia>();
+    if (thread->Initialize(&process_reader_, process_reader_thread)) {
+      threads_.push_back(std::move(thread));
+    }
+  }
 }
 
 void ProcessSnapshotFuchsia::InitializeModules() {
