@@ -22,6 +22,30 @@
       "revId": "1cdb723e479c5018bbfebeff395ed8d799995ccf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80988d9b_0c8addea",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-02-23T16:30:28Z",
+      "side": 1,
+      "message": "It allows clients to install temporary or special case crash signal handlers without tinkering with the real signal handler state which, assuming threads, is probably a risky operation.\n\nSpeaking concretely, V8 uses guard pages.\nhttps://cs.chromium.org/chromium/src/chrome/app/chrome_main_delegate.cc?rcl\u003dde7e59605f3184e374b3c5cf027eee4b85e7cab8\u0026l\u003d553",
+      "parentUuid": "b81d8c1d_a0945c0e",
+      "range": {
+        "startLine": 189,
+        "startChar": 13,
+        "endLine": 190,
+        "endChar": 47
+      },
+      "revId": "1cdb723e479c5018bbfebeff395ed8d799995ccf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
