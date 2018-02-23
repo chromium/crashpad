@@ -39,6 +39,10 @@ namespace crashpad {
 namespace test {
 namespace {
 
+bool HandleCrashSuccessfully(int, siginfo_t*, ucontext_t*) {
+  return true;
+}
+
 TEST(CrashpadClient, SimulateCrash) {
   ScopedTempDir temp_dir;
 
@@ -53,21 +57,41 @@ TEST(CrashpadClient, SimulateCrash) {
                                          std::map<std::string, std::string>(),
                                          std::vector<std::string>()));
 
-  CRASHPAD_SIMULATE_CRASH();
-
   auto database =
       CrashReportDatabase::InitializeWithoutCreating(temp_dir.path());
   ASSERT_TRUE(database);
 
-  std::vector<CrashReportDatabase::Report> reports;
-  ASSERT_EQ(database->GetPendingReports(&reports),
-            CrashReportDatabase::kNoError);
-  EXPECT_EQ(reports.size(), 0u);
+  {
+    CrashpadClient::SetFirstChanceExceptionHandler(HandleCrashSuccessfully);
 
-  reports.clear();
-  ASSERT_EQ(database->GetCompletedReports(&reports),
-            CrashReportDatabase::kNoError);
-  EXPECT_EQ(reports.size(), 1u);
+    CRASHPAD_SIMULATE_CRASH();
+
+    std::vector<CrashReportDatabase::Report> reports;
+    ASSERT_EQ(database->GetPendingReports(&reports),
+              CrashReportDatabase::kNoError);
+    EXPECT_EQ(reports.size(), 0u);
+
+    reports.clear();
+    ASSERT_EQ(database->GetCompletedReports(&reports),
+              CrashReportDatabase::kNoError);
+    EXPECT_EQ(reports.size(), 0u);
+  }
+
+  {
+    CrashpadClient::SetFirstChanceExceptionHandler(nullptr);
+
+    CRASHPAD_SIMULATE_CRASH();
+
+    std::vector<CrashReportDatabase::Report> reports;
+    ASSERT_EQ(database->GetPendingReports(&reports),
+              CrashReportDatabase::kNoError);
+    EXPECT_EQ(reports.size(), 0u);
+
+    reports.clear();
+    ASSERT_EQ(database->GetCompletedReports(&reports),
+              CrashReportDatabase::kNoError);
+    EXPECT_EQ(reports.size(), 1u);
+  }
 }
 
 CRASHPAD_CHILD_TEST_MAIN(StartHandlerAtCrashChild) {
