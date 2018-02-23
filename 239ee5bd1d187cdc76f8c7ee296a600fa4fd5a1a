@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b83ee849_b94d765a",
+        "filename": "DEPS",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-23T21:47:54Z",
+      "side": 1,
+      "message": "Since we’re going with using the system-default compiler in the default configuration, we don’t really need this toolchain in the default checkout. Is there something that we can add to this condition?\n\n(default default default)",
+      "revId": "239ee5bd1d187cdc76f8c7ee296a600fa4fd5a1a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
