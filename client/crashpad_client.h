@@ -31,6 +31,9 @@
 #elif defined(OS_WIN)
 #include <windows.h>
 #include "util/win/scoped_handle.h"
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+#include <signal.h>
+#include <ucontext.h>
 #endif
 
 namespace crashpad {
@@ -179,6 +182,19 @@ class CrashpadClient {
   //! \param[in] context A NativeCPUContext, generally captured by
   //!     CaptureContext() or similar.
   static void DumpWithoutCrash(NativeCPUContext* context);
+
+  //! \brief The type for custom handlers installed by clients.
+  using FirstChanceHandler = bool (*)(int, siginfo_t*, ucontext_t*);
+
+  //! \brief Installs a custom crash signal handler which runs before the
+  //!     currently installed Crashpad handler.
+  //!
+  //! If the custom handler returns `true`, the signal is considered handled and
+  //! the signal handler returns. Otherwise, the currently installed Crashpad
+  //! signal handler is run.
+  //!
+  //! \param[in] handler The custom crash signal handler to install.
+  void SetFirstChanceExceptionHandler(FirstChanceHandler handler);
 
 #endif  // OS_LINUX || OS_ANDROID || DOXYGEN
 
