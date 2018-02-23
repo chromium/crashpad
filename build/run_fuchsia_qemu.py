@@ -112,6 +112,8 @@ def _Start(pid_file):
     print('instance did not respond after start', file=sys.stderr)
     return 1
 
+  print('started instance named \'%s\'' % instance_name)
+
   return 0
 
 

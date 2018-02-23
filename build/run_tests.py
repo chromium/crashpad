@@ -429,6 +429,7 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name, extra_command_line):
 
     success = _HandleOutputFromFuchsiaLogListener(
         loglistener_process, done_message)
+    loglistener_process.terminate()
     if not success:
       raise subprocess.CalledProcessError(1, test)
   finally:
