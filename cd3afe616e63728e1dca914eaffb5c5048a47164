@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc6d845a_df198535",
+        "filename": "client/simple_string_dictionary_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-02-24T04:42:13Z",
+      "side": 0,
+      "message": "I\u0027m not sure why the first line was duplicated here so that seems fine to remove, but I guess you could keep the map.RemoveKey(\"hi\") and the check that the map becomes empty.",
+      "range": {
+        "startLine": 264,
+        "startChar": 2,
+        "endLine": 266,
+        "endChar": 32
+      },
+      "revId": "cd3afe616e63728e1dca914eaffb5c5048a47164",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
