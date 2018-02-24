@@ -22,6 +22,30 @@
       "revId": "cd3afe616e63728e1dca914eaffb5c5048a47164",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f3d1cfe_d251b6d5",
+        "filename": "client/simple_string_dictionary_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1163599
+      },
+      "writtenOn": "2018-02-24T11:41:17Z",
+      "side": 0,
+      "message": "I added a separate test for that, because it seems like it\u0027s covering a different failure condition from the death test. Does this seem reasonable?",
+      "parentUuid": "cc6d845a_df198535",
+      "range": {
+        "startLine": 264,
+        "startChar": 2,
+        "endLine": 266,
+        "endChar": 32
+      },
+      "revId": "cd3afe616e63728e1dca914eaffb5c5048a47164",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
