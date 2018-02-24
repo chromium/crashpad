@@ -135,6 +135,16 @@ hooks = [
     ],
   },
   {
+    # If using a local clang ("pull_linux_clang" above), also pull down a
+    # sysroot.
+    'name': 'clang_linux',
+    'pattern': '.',
+    'condition': 'checkout_linux and pull_linux_clang',
+    'action': [
+      'crashpad/build/install_linux_sysroot.py',
+    ],
+  },
+  {
     # Same rationale for using "install" rather than "ensure" as for first clang
     # package. https://crbug.com/789364.
     'name': 'fuchsia_clang_mac',
