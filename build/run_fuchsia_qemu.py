@@ -97,7 +97,7 @@ def _Start(pid_file):
     '-netdev', 'type=tap,ifname=qemu,script=no,downscript=no,id=net0',
     '-device', 'e1000,netdev=net0,mac=52:54:00:' + mac_tail,
     '-append', 'TERM=dumb zircon.nodename=' + instance_name,
-  ], stdin=DEVNULL, stdout=DEVNULL, stderr=DEVNULL)
+  ], stdin=DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
   with open(pid_file, 'wb') as f:
     f.write('%d\n' % popen.pid)
@@ -109,8 +109,13 @@ def _Start(pid_file):
       break
     time.sleep(.5)
   else:
-    print('instance did not respond after start', file=sys.stderr)
+    print('instance did not respond after start, dumping stdout',
+           file=sys.stderr)
+    out, _ = popen.communicate()
+    print(out, file=sys.stderr)
     return 1
+
+  print('started instance %s' % instance_name)
 
   return 0
 
