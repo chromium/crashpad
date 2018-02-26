@@ -22,6 +22,30 @@
       "revId": "e5d9d98d3c3d8068faeb2e15ac040acf22504de5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02d4ed19_a4e43340",
+        "filename": "client/simple_string_dictionary_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1163599
+      },
+      "writtenOn": "2018-02-26T07:20:28Z",
+      "side": 1,
+      "message": "Done.\n\nThank you for catching this!",
+      "parentUuid": "57578f6c_9c0ed6c2",
+      "range": {
+        "startLine": 271,
+        "startChar": 59,
+        "endLine": 271,
+        "endChar": 60
+      },
+      "revId": "e5d9d98d3c3d8068faeb2e15ac040acf22504de5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
