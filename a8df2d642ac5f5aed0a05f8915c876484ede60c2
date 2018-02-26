@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b0928b2_d2db49bd",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-26T22:03:39Z",
+      "side": 1,
+      "message": ".\n Whether…implementation should be built.\n ^^^^^^^                ^^^^^^\n\n(otherwise, it’s a question, but it probably shouldn’t be for a string that shows up in the help text.)",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 19,
+        "endChar": 12
+      },
+      "revId": "a8df2d642ac5f5aed0a05f8915c876484ede60c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4746d67_c75ce62e",
+        "filename": "util/net/http_transport_none.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-26T22:03:39Z",
+      "side": 1,
+      "message": "I’m a little surprised that this works, I thought that HTTPTransport had at least one \u003d0 in it, but I guess not.",
+      "revId": "a8df2d642ac5f5aed0a05f8915c876484ede60c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
