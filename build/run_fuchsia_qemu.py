@@ -88,12 +88,11 @@ def _Start(pid_file):
     '-nographic',
     '-kernel', kernel_path,
     '-initrd', initrd_path,
-    '-smp', '4',
+    '-smp', '4,threads=2',
     '-serial', 'stdio',
     '-monitor', 'none',
     '-machine', 'q35',
-    '-cpu', 'host,migratable=no',
-    '-enable-kvm',
+    '-cpu', 'Haswell,+smap,-check,-fsgsbase',
     '-netdev', 'type=tap,ifname=qemu,script=no,downscript=no,id=net0',
     '-device', 'e1000,netdev=net0,mac=52:54:00:' + mac_tail,
     '-append', 'TERM=dumb zircon.nodename=' + instance_name,
@@ -111,6 +110,8 @@ def _Start(pid_file):
   else:
     print('instance did not respond after start', file=sys.stderr)
     return 1
+
+  print('started instance %s' % instance_name)
 
   return 0
 
