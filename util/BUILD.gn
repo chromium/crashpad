@@ -14,6 +14,13 @@
 
 import("../build/crashpad_buildconfig.gni")
 
+declare_args() {
+  if (crashpad_is_linux) {
+    # Whether the libcurl-based HTTPTransport implementation should be built.
+    enable_http_transport_libcurl = true
+  }
+}
+
 if (crashpad_is_mac) {
   if (crashpad_is_in_chromium) {
     import("//build/config/sysroot.gni")
@@ -245,7 +252,11 @@ static_library("util") {
   }
 
   if (crashpad_is_linux) {
-    sources += [ "net/http_transport_libcurl.cc" ]
+    if (enable_http_transport_libcurl) {
+      sources += [ "net/http_transport_libcurl.cc" ]
+    } else {
+      sources += [ "net/http_transport_none.cc" ]
+    }
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
@@ -377,7 +388,7 @@ static_library("util") {
   if (crashpad_is_fuchsia) {
     sources += [
       "misc/paths_fuchsia.cc",
-      "net/http_transport_fuchsia.cc",
+      "net/http_transport_none.cc",
       "process/process_memory_fuchsia.cc",
       "process/process_memory_fuchsia.h",
     ]
@@ -408,7 +419,7 @@ static_library("util") {
     include_dirs += [ "$root_build_dir/gen" ]
   }
 
-  if (crashpad_is_linux) {
+  if (crashpad_is_linux && enable_http_transport_libcurl) {
     libs = [ "curl" ]
   }
 
@@ -478,7 +489,8 @@ source_set("util_test") {
     ]
   }
 
-  if (!crashpad_is_android && !crashpad_is_fuchsia) {
+  if (!crashpad_is_android && !crashpad_is_fuchsia &&
+      (!crashpad_is_linux || enable_http_transport_libcurl)) {
     # Android and Fuchsia will each require an HTTPTransport implementation
     # (libcurl isn’t in either’s SDK) and a solution to
     # http_transport_test_server.py, because Python isn’t available on either.
@@ -486,8 +498,10 @@ source_set("util_test") {
     # the build host with a method to forward requests from the device to the
     # host.
     #
-    # TODO(scottmg): Fuchsia will also require an implementation of
-    # MultiprocessExec for testing.
+    # Linux optionally compiles in a libcurl-based HTTPTransport, but since curl
+    # isn't in a base Debian sysroot (which is what Chromium builds against),
+    # maintain an option to exclude that, for now.
+    # https://crashpad.chromium.org/bug/220.
     sources += [ "net/http_transport_test.cc" ]
   }
 
