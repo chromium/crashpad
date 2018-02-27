@@ -241,6 +241,8 @@ if (crashpad_is_win) {
       "win/crashy_signal.cc",
     ]
 
+    cflags = [ "/wd4702" ]  # Unreachable code.
+
     deps = [
       "../client",
       "../third_party/mini_chromium:base",
