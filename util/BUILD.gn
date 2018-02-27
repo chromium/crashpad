@@ -430,6 +430,8 @@ static_library("util") {
       "winhttp.lib",
     ]
 
+    cflags = [ "/wd4201" ]  # nonstandard extension used: nameless struct/union.
+
     if (current_cpu == "x86") {
       asmflags = [ "/safeseh" ]
     }
