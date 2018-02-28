@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59eef851_7eb611fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-02-28T15:00:42Z",
+      "side": 1,
+      "message": "Are we going to remove them from mini_chromium now too? It’s advantageous to have mini_chromium’s warnings match Chromium’s, so that we don’t hit any surprises when we roll things into Chromium.",
+      "revId": "7dae11c1dd6ce62af8d037ed5f8e14a2362c9139",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
