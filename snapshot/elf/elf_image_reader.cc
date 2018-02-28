@@ -164,7 +164,7 @@ class ElfImageReader::ProgramHeaderTableSpecific
                       VMSize* size) const override {
     INITIALIZATION_STATE_DCHECK_VALID(initialized_);
     for (size_t index = *start_index; index < table_.size(); ++index) {
-      if (table_[index].p_type == PT_NOTE) {
+      if (table_[index].p_type == PT_NOTE && table_[index].p_vaddr != 0) {
         *start_index = index + 1;
         *address = table_[index].p_vaddr;
         *size = table_[index].p_memsz;
