@@ -271,6 +271,8 @@ if (crashpad_is_win) {
   loadable_module("loader_lock_dll") {
     testonly = true
 
+    cflags = [ "/wd4477" ]
+
     sources = [
       "win/loader_lock_dll.cc",
     ]
