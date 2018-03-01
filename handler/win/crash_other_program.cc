@@ -122,7 +122,7 @@ int CrashOtherProgram(int argc, wchar_t* argv[]) {
   DWORD exit_code = child.WaitForExit();
   if (exit_code != expect_exit_code) {
     LOG(ERROR) << base::StringPrintf(
-        "incorrect exit code, expected 0x%x, observed 0x%x",
+        "incorrect exit code, expected 0x%lx, observed 0x%lx",
         expect_exit_code,
         exit_code);
     return EXIT_FAILURE;

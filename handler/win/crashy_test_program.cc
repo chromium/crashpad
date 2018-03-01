@@ -145,7 +145,7 @@ void AllocateExtraMemoryToBeSaved(
   constexpr size_t kNumInts = 2000;
   int* extra_memory = new int[kNumInts];
   g_extra_memory_pointer = extra_memory;
-  for (int i = 0; i < kNumInts; ++i)
+  for (size_t i = 0; i < kNumInts; ++i)
     extra_memory[i] = i * 13 + 2;
   extra_ranges->Insert(extra_memory, sizeof(extra_memory[0]) * kNumInts);
   extra_ranges->Insert(&g_extra_memory_pointer, sizeof(g_extra_memory_pointer));
@@ -157,7 +157,7 @@ void AllocateExtraUnsavedMemory(crashpad::SimpleAddressRangeBag* extra_ranges) {
   constexpr size_t kNumInts = 2000;
   int* extra_memory = new int[kNumInts];
   g_extra_memory_not_saved = extra_memory;
-  for (int i = 0; i < kNumInts; ++i)
+  for (size_t i = 0; i < kNumInts; ++i)
     extra_memory[i] = i * 17 + 7;
   extra_ranges->Insert(extra_memory, sizeof(extra_memory[0]) * kNumInts);
   extra_ranges->Insert(&g_extra_memory_not_saved,
