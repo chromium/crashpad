@@ -145,6 +145,11 @@ void AllocateExtraMemoryToBeSaved(
   constexpr size_t kNumInts = 2000;
   int* extra_memory = new int[kNumInts];
   g_extra_memory_pointer = extra_memory;
+  static_assert(sizeof(size_t) == 4, "size_t not 4?");
+  static_assert(sizeof(int) == 4, "int not 4?");
+#if defined(ARCH_CPU_64_BITS)
+  static_assert(false, "building 64-bit");
+#endif
   for (size_t i = 0; i < kNumInts; ++i)
     extra_memory[i] = i * 13 + 2;
   extra_ranges->Insert(extra_memory, sizeof(extra_memory[0]) * kNumInts);
