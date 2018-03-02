@@ -145,6 +145,8 @@ void AllocateExtraMemoryToBeSaved(
   constexpr size_t kNumInts = 2000;
   int* extra_memory = new int[kNumInts];
   g_extra_memory_pointer = extra_memory;
+  static_assert(sizeof(size_t) == 8, "not 8?");
+  static_assert(sizeof(int) == 4, "not 4?");
   for (size_t i = 0; i < kNumInts; ++i)
     extra_memory[i] = i * 13 + 2;
   extra_ranges->Insert(extra_memory, sizeof(extra_memory[0]) * kNumInts);
