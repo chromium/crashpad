@@ -48,6 +48,9 @@ UniqueMallocPtr UncheckedAllocate(size_t size) {
   if (!base::UncheckedMalloc(size, &raw_ptr))
     return UniqueMallocPtr();
 
+#if defined(ARCH_CPU_64_BITS)
+  static_assert(false, "64-bit");
+#endif
   return UniqueMallocPtr(new (raw_ptr) uint8_t[size]);
 }
 
