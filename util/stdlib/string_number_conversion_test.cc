@@ -114,13 +114,9 @@ TEST(StringNumberConversion, StringToInt) {
   // is split to avoid MSVC warning:
   //   "decimal digit terminates octal escape sequence".
   static constexpr char input[] = "6\000" "6";
-  base::StringPiece input_string(input, arraysize(input) - 1);
+  std::string input_string(input, arraysize(input) - 1);
   int output;
   EXPECT_FALSE(StringToNumber(input_string, &output));
-
-  // Ensure that a NUL is not required at the end of the string.
-  EXPECT_TRUE(StringToNumber(base::StringPiece("66", 1), &output));
-  EXPECT_EQ(output, 6);
 }
 
 TEST(StringNumberConversion, StringToUnsignedInt) {
@@ -212,13 +208,9 @@ TEST(StringNumberConversion, StringToUnsignedInt) {
   // is split to avoid MSVC warning:
   //   "decimal digit terminates octal escape sequence".
   static constexpr char input[] = "6\000" "6";
-  base::StringPiece input_string(input, arraysize(input) - 1);
+  std::string input_string(input, arraysize(input) - 1);
   unsigned int output;
   EXPECT_FALSE(StringToNumber(input_string, &output));
-
-  // Ensure that a NUL is not required at the end of the string.
-  EXPECT_TRUE(StringToNumber(base::StringPiece("66", 1), &output));
-  EXPECT_EQ(output, 6u);
 }
 
 TEST(StringNumberConversion, StringToInt64) {
