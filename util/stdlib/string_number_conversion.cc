@@ -116,7 +116,7 @@ struct StringToUnsignedInt64Traits
 };
 
 template <typename Traits>
-bool StringToIntegerInternal(const base::StringPiece& string,
+bool StringToIntegerInternal(const std::string& string,
                              typename Traits::IntType* number) {
   using IntType = typename Traits::IntType;
   using LongType = typename Traits::LongType;
@@ -125,14 +125,6 @@ bool StringToIntegerInternal(const base::StringPiece& string,
 
   if (string.empty() || isspace(string[0])) {
     return false;
-  }
-
-  if (string[string.length()] != '\0') {
-    // The implementations use the C standard library’s conversion routines,
-    // which rely on the strings having a trailing NUL character. std::string
-    // will NUL-terminate.
-    std::string terminated_string(string.data(), string.length());
-    return StringToIntegerInternal<Traits>(terminated_string, number);
   }
 
   errno = 0;
@@ -152,19 +144,19 @@ bool StringToIntegerInternal(const base::StringPiece& string,
 
 namespace crashpad {
 
-bool StringToNumber(const base::StringPiece& string, int* number) {
+bool StringToNumber(const std::string& string, int* number) {
   return StringToIntegerInternal<StringToIntTraits>(string, number);
 }
 
-bool StringToNumber(const base::StringPiece& string, unsigned int* number) {
+bool StringToNumber(const std::string& string, unsigned int* number) {
   return StringToIntegerInternal<StringToUnsignedIntTraits>(string, number);
 }
 
-bool StringToNumber(const base::StringPiece& string, int64_t* number) {
+bool StringToNumber(const std::string& string, int64_t* number) {
   return StringToIntegerInternal<StringToInt64Traits>(string, number);
 }
 
-bool StringToNumber(const base::StringPiece& string, uint64_t* number) {
+bool StringToNumber(const std::string& string, uint64_t* number) {
   return StringToIntegerInternal<StringToUnsignedInt64Traits>(string, number);
 }
 
