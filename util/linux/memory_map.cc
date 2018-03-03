@@ -36,7 +36,7 @@ namespace {
 // Simply adding a StringToNumber for longs doesn't work since sometimes long
 // and int64_t are actually the same type, resulting in a redefinition error.
 template <typename Type>
-bool LocalStringToNumber(const base::StringPiece& string, Type* number) {
+bool LocalStringToNumber(const std::string& string, Type* number) {
   static_assert(sizeof(Type) == sizeof(int) || sizeof(Type) == sizeof(int64_t),
                 "Unexpected Type size");
 
