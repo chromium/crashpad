@@ -127,13 +127,11 @@ bool StringToIntegerInternal(const base::StringPiece& string,
     return false;
   }
 
-  if (string[string.length()] != '\0') {
-    // The implementations use the C standard library’s conversion routines,
-    // which rely on the strings having a trailing NUL character. std::string
-    // will NUL-terminate.
-    std::string terminated_string(string.data(), string.length());
-    return StringToIntegerInternal<Traits>(terminated_string, number);
-  }
+  // The implementations use the C standard library’s conversion routines, which
+  // rely on the strings having a trailing NUL character. std::string will
+  // NUL-terminate.
+  std::string terminated_string(string.data(), string.length());
+  return StringToIntegerInternal<Traits>(terminated_string, number);
 
   errno = 0;
   char* end;
