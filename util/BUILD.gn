@@ -425,8 +425,10 @@ static_library("util") {
 
   if (crashpad_is_win) {
     libs = [
-      "mincore.lib",
       "user32.lib",
+      # TODO(jperaza): version.lib is needed for Windows 7. Windows 8+ uses
+      # mincore.lib instead.
+      "version.lib",
       "winhttp.lib",
     ]
 
