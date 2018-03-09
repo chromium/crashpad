@@ -15,6 +15,10 @@
 import("../../build/crashpad_buildconfig.gni")
 import("../../build/test.gni")
 
+if (crashpad_is_win) {
+  cflags += ["/wd4702"]
+}
+
 if (crashpad_is_in_chromium) {
   group("gtest") {
     testonly = true
