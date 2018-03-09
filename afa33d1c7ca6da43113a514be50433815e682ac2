@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b04eeb6_e03478d1",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-03-09T17:20:53Z",
+      "side": 1,
+      "message": "Do a blank line before this so that it stands out and that it’s clear that it applies only to version.lib. Then, a blank line after version.lib for the same reason.",
+      "revId": "afa33d1c7ca6da43113a514be50433815e682ac2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3d66944_7fe0839f",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-03-09T17:20:53Z",
+      "side": 1,
+      "message": "“uses” isn’t totally accurate, because (1) does it mean SDK or runtime?, and (2) in either case, I think that version.lib is still fine for newer Windowses, it’s just that mincore.lib is the newer way to do it if you don’t need compatibility with older Windowses.",
+      "revId": "afa33d1c7ca6da43113a514be50433815e682ac2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
