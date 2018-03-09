@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "60b74570_02ba8801",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-03-09T17:56:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b04eeb6_e03478d1",
+      "revId": "afa33d1c7ca6da43113a514be50433815e682ac2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3d66944_7fe0839f",
         "filename": "util/BUILD.gn",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-03-09T17:20:53Z",
       "side": 1,
       "message": "“uses” isn’t totally accurate, because (1) does it mean SDK or runtime?, and (2) in either case, I think that version.lib is still fine for newer Windowses, it’s just that mincore.lib is the newer way to do it if you don’t need compatibility with older Windowses.",
+      "revId": "afa33d1c7ca6da43113a514be50433815e682ac2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99609020_7fdb90c5",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-03-09T17:56:53Z",
+      "side": 1,
+      "message": "Language updated.",
+      "parentUuid": "d3d66944_7fe0839f",
       "revId": "afa33d1c7ca6da43113a514be50433815e682ac2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
