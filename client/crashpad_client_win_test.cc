@@ -56,14 +56,14 @@ class StartWithInvalidHandles final : public WinMultiprocessWithTempDir {
   void WinMultiprocessParent() override {}
 
   void WinMultiprocessChild() override {
-    HANDLE original_stdout = GetStdHandle(STD_OUTPUT_HANDLE);
+    //HANDLE original_stdout = GetStdHandle(STD_OUTPUT_HANDLE);
     HANDLE original_stderr = GetStdHandle(STD_ERROR_HANDLE);
-    SetStdHandle(STD_OUTPUT_HANDLE, INVALID_HANDLE_VALUE);
+    //SetStdHandle(STD_OUTPUT_HANDLE, INVALID_HANDLE_VALUE);
     SetStdHandle(STD_ERROR_HANDLE, INVALID_HANDLE_VALUE);
 
     StartAndUseHandler(GetTempDirPath());
 
-    SetStdHandle(STD_OUTPUT_HANDLE, original_stdout);
+    //SetStdHandle(STD_OUTPUT_HANDLE, original_stdout);
     SetStdHandle(STD_ERROR_HANDLE, original_stderr);
   }
 };
