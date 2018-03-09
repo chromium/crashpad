@@ -462,6 +462,7 @@ bool StartHandlerProcess(
                                          startup_info.StartupInfo.hStdOutput);
     AddHandleToListIfValidAndInheritable(&handle_list,
                                          startup_info.StartupInfo.hStdError);
+    LOG(INFO) << "handle list size " << handle_list.size();
     rv = update_proc_thread_attribute(
         startup_info.lpAttributeList,
         0,
