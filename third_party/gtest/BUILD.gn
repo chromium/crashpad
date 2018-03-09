@@ -138,6 +138,10 @@ if (crashpad_is_in_chromium) {
       ":gtest",
       ":gtest_main",
     ]
+
+    if (crashpad_is_win) {
+      cflags = [ "/wd4702" ]  # unreachable code
+    }
   }
 
   test("gtest_environment_test") {
