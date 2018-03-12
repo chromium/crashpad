@@ -16,6 +16,24 @@
       "revId": "07da37aec70e2180bd4c1b4b406f3beaae3bc4e2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bf95544_7a717a9b",
+        "filename": "handler/win/crashy_test_program.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-03-12T21:27:43Z",
+      "side": 1,
+      "message": "Yup. I was also thinking about doing a checked AssignIfInRange().\nIt seemed like overkill, but it might make it more readable...",
+      "parentUuid": "9fa87d1f_2d40ef17",
+      "revId": "07da37aec70e2180bd4c1b4b406f3beaae3bc4e2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
