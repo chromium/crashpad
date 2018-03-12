@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3c272e7_bf8b34de",
+        "filename": "handler/win/crashy_test_program.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-03-12T19:47:17Z",
+      "side": 1,
+      "message": "This should still properly be a size_t, as it defines the size of an array. Same for “i” in the loop below, used to index it. Also in AllocateExtraUnsavedMemory() below.",
+      "revId": "fb110f1912c54550ef66c64e6bc4fd6fde3eaefd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
