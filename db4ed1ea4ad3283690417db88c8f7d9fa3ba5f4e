@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b17a31c0_471392e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-03-12T21:19:02Z",
+      "side": 1,
+      "message": "Space before -W",
+      "revId": "db4ed1ea4ad3283690417db88c8f7d9fa3ba5f4e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
