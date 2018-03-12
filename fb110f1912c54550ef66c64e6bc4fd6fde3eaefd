@@ -16,6 +16,24 @@
       "revId": "fb110f1912c54550ef66c64e6bc4fd6fde3eaefd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71614e4d_7a26dd9a",
+        "filename": "handler/win/crashy_test_program.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-03-12T20:10:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3c272e7_bf8b34de",
+      "revId": "fb110f1912c54550ef66c64e6bc4fd6fde3eaefd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
