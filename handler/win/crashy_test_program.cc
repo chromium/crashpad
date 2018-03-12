@@ -39,8 +39,8 @@
 
 namespace crashpad {
 
-size_t* g_extra_memory_pointer;
-size_t* g_extra_memory_not_saved;
+uint32_t* g_extra_memory_pointer;
+uint32_t* g_extra_memory_not_saved;
 
 namespace {
 
@@ -143,10 +143,10 @@ void SomeCrashyFunction() {
 void AllocateExtraMemoryToBeSaved(
     crashpad::SimpleAddressRangeBag* extra_ranges) {
   constexpr size_t kNumVals = 2000;
-  size_t* extra_memory = new size_t[kNumVals];
+  auto extra_memory = new uint32_t[kNumVals];
   g_extra_memory_pointer = extra_memory;
   for (size_t i = 0; i < kNumVals; ++i)
-    extra_memory[i] = i * 13 + 2;
+    extra_memory[i] = static_cast<decltype(extra_memory[0])>(i * 13 + 2);
   extra_ranges->Insert(extra_memory, sizeof(extra_memory[0]) * kNumVals);
   extra_ranges->Insert(&g_extra_memory_pointer, sizeof(g_extra_memory_pointer));
 }
@@ -155,10 +155,10 @@ void AllocateExtraUnsavedMemory(crashpad::SimpleAddressRangeBag* extra_ranges) {
   // Allocate some extra memory, and then Insert() but also Remove() it so we
   // can confirm it doesn't get saved.
   constexpr size_t kNumVals = 2000;
-  size_t* extra_memory = new size_t[kNumVals];
+  auto extra_memory = new uint32_t[kNumVals];
   g_extra_memory_not_saved = extra_memory;
   for (size_t i = 0; i < kNumVals; ++i)
-    extra_memory[i] = i * 17 + 7;
+    extra_memory[i] = static_cast<decltype(extra_memory[0])>(i * 17 + 7);
   extra_ranges->Insert(extra_memory, sizeof(extra_memory[0]) * kNumVals);
   extra_ranges->Insert(&g_extra_memory_not_saved,
                        sizeof(g_extra_memory_not_saved));
