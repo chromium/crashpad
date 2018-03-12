@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fa87d1f_2d40ef17",
+        "filename": "handler/win/crashy_test_program.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-03-12T21:20:04Z",
+      "side": 1,
+      "message": "LGTM. Yuck. At this point, it’s a toss-up between static_cast\u003cuint32_t\u003e() and what you have here.",
+      "revId": "07da37aec70e2180bd4c1b4b406f3beaae3bc4e2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
