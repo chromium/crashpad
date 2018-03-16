@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b99031b_266c13cd",
+        "filename": "client/crashpad_info_note.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-03-16T18:34:19Z",
+      "side": 1,
+      "message": "You might want to leave a note in elf_note_types.h that warns against doing anything other than #defining macros.",
+      "revId": "36bf6d235bb2f55f77e072fc0365f91571a0f2d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e5d35a4_190a64ef",
+        "filename": "client/crashpad_info_note.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-03-16T18:34:19Z",
+      "side": 1,
+      "message": "I think we usually use defined(__LP64__) when we can’t use defined(ARCH_CPU_64_BITS) for some reason.\n\nThis is how ARCH_CPU_64_BITS is implemented, and it’s the first thing I’d think to “git grep” for if I needed it.",
+      "revId": "36bf6d235bb2f55f77e072fc0365f91571a0f2d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
