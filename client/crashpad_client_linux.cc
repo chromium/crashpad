@@ -215,6 +215,7 @@ bool CrashpadClient::StartHandler(
   return false;
 }
 
+// static
 bool CrashpadClient::StartHandlerAtCrash(
     const base::FilePath& handler,
     const base::FilePath& database,
@@ -235,6 +236,7 @@ bool CrashpadClient::StartHandlerAtCrash(
   return false;
 }
 
+// static
 bool CrashpadClient::StartHandlerForClient(
     const base::FilePath& handler,
     const base::FilePath& database,

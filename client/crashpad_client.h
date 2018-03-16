@@ -132,7 +132,7 @@ class CrashpadClient {
   //!     specified in this parameter.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
-  bool StartHandlerAtCrash(
+  static bool StartHandlerAtCrash(
       const base::FilePath& handler,
       const base::FilePath& database,
       const base::FilePath& metrics_dir,
@@ -164,7 +164,7 @@ class CrashpadClient {
   //!     be used with an ExceptionHandlerClient.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
-  bool StartHandlerForClient(
+  static bool StartHandlerForClient(
       const base::FilePath& handler,
       const base::FilePath& database,
       const base::FilePath& metrics_dir,
