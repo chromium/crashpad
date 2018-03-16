@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f3bb6345_b16fb4b2",
+        "filename": "client/crashpad_info_note.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-03-16T18:39:32Z",
+      "side": 1,
+      "message": "Scott\u0027s already left one. :)",
+      "parentUuid": "7b99031b_266c13cd",
+      "revId": "36bf6d235bb2f55f77e072fc0365f91571a0f2d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e5d35a4_190a64ef",
         "filename": "client/crashpad_info_note.S",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "36bf6d235bb2f55f77e072fc0365f91571a0f2d5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b89acf3f_5d665bab",
+        "filename": "client/crashpad_info_note.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-03-16T18:39:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e5d35a4_190a64ef",
+      "revId": "36bf6d235bb2f55f77e072fc0365f91571a0f2d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
