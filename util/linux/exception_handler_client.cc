@@ -92,7 +92,7 @@ int ExceptionHandlerClient::SendCrashDumpRequest(
   cmsg->cmsg_len = CMSG_LEN(sizeof(creds));
   *reinterpret_cast<ucred*>(CMSG_DATA(cmsg)) = creds;
 
-  if (sendmsg(server_sock_, &msg, MSG_NOSIGNAL) < 0) {
+  if (HANDLE_EINTR(sendmsg(server_sock_, &msg, MSG_NOSIGNAL)) < 0) {
     PLOG(ERROR) << "sendmsg";
     return errno;
   }
