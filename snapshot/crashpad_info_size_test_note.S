@@ -16,7 +16,6 @@
 // of finding the instance of CrashpadInfo g_crashpad_info without requiring
 // that symbol to be in the dynamic symbol table.
 
-#include "build/build_config.h"
 #include "util/misc/elf_note_types.h"
 
 // namespace crashpad {
@@ -41,16 +40,16 @@ name:
 name_end:
   .balign NOTE_ALIGN
 desc:
-#if defined(ARCH_CPU_64_BITS)
+#if defined(__LP64__)
   .quad TEST_CRASHPAD_INFO_SYMBOL
 #else
-#if defined(ARCH_CPU_LITTLE_ENDIAN)
+#if defined(__LITTLE_ENDIAN__)
   .long TEST_CRASHPAD_INFO_SYMBOL
   .long 0
 #else
   .long 0
   .long TEST_CRASHPAD_INFO_SYMBOL
-#endif  // ARCH_CPU_LITTLE_ENDIAN
-#endif  // ARCH_CPU_64_BITS
+#endif  // __LITTLE_ENDIAN__
+#endif  // __LP64__
 desc_end:
   .size info_size_test_note, .-info_size_test_note
