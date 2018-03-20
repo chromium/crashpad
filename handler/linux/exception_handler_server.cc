@@ -348,7 +348,7 @@ bool ExceptionHandlerServer::ReceiveClientMessage(Event* event) {
   msg.msg_controllen = sizeof(cmsg_buf);
   msg.msg_flags = 0;
 
-  int res = recvmsg(event->fd.get(), &msg, 0);
+  int res = HANDLE_EINTR(recvmsg(event->fd.get(), &msg, 0));
   if (res < 0) {
     PLOG(ERROR) << "recvmsg";
     return false;
