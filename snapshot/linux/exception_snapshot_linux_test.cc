@@ -21,6 +21,7 @@
 #include <ucontext.h>
 #include <unistd.h>
 
+#include "base/bit_cast.h"
 #include "base/macros.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
