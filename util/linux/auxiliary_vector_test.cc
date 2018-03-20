@@ -20,6 +20,7 @@
 
 #include <limits>
 
+#include "base/bit_cast.h"
 #include "base/macros.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
