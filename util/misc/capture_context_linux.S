@@ -15,10 +15,13 @@
 // namespace crashpad {
 // void CaptureContext(ucontext_t* context);
 // }  // namespace crashpad
-#define CAPTURECONTEXT_SYMBOL _ZN8crashpad14CaptureContextEP8ucontext
+#define CAPTURECONTEXT_SYMBOL _ZN8crashpad14CaptureContextEP10ucontext_t
+#define CAPTURECONTEXT_SYMBOL2 _ZN8crashpad14CaptureContextEP8ucontext
+
 
   .text
   .globl CAPTURECONTEXT_SYMBOL
+  .globl CAPTURECONTEXT_SYMBOL2
 #if defined(__i386__) || defined(__x86_64__)
   .balign 16, 0x90
 #elif defined(__arm__) || defined(__aarch64__)
@@ -26,6 +29,7 @@
 #endif
 
 CAPTURECONTEXT_SYMBOL:
+CAPTURECONTEXT_SYMBOL2:
 
 #if defined(__i386__)
 
