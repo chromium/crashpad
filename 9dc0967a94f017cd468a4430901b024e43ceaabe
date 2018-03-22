@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "aeda4e86_48a37170",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-03-22T21:01:25Z",
+      "side": 1,
+      "message": "\u003e That doesn\u0027t seem to work. I got the impression that build/BUILDCONFIG.gn was only used in the standalone build. I also tried out putting set_defaults() in build/crashpad_buildconfig.gni, but got an error about it clobbering other defaults, maybe from chromium/src/build/config/BUILDCONFIG.gn.\n\nThat’s right, we only use our own build/BUILDCONFIG.gn in a standalone build. I think this would need to go into build/crashpad_buildconfig.gni. The documentation for set_defaults() seems to say that it should be possible to use there, but that it’ll replace (rather than add to) a set_defaults() already otherwise in effect.\n\nSince all that Chromium’s build/config/BUILDCONFIG.gn does is set “configs” to default_executable_configs and default_shared_library_configs for executable and loadable_module, perhaps we could get away with duplicating that in our own build/BUILDCONFIG.gn for the crashpad_is_in_chromium case. That’s a little fragile in its own way, but it’s at least a centralized form of fragility. That’s not to say that your initial proposal isn’t—it is—but that your initial form also requires us to do the very decentralized rewrite of executable and loadable_module declarations, and that’s one thing I’m afraid it’ll be easy to forget, say, a month from now. (To put it more clearly: nothing aside from reviewer diligence will prevent me from writing loadable_module(\"my_excellent_module\") in the future and having it work properly in the standalone build, only to cause trouble when rolled into Chrome—but only for certain build types.)",
+      "parentUuid": "5bc6399c_af8b73bb",
+      "revId": "9dc0967a94f017cd468a4430901b024e43ceaabe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "36a7a999_7e0d1174",
         "filename": "handler/BUILD.gn",
         "patchSetId": 7
