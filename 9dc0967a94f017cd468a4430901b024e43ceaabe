@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36a7a999_7e0d1174",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-03-22T03:40:46Z",
+      "side": 1,
+      "message": "This feels a bit unnatural.",
+      "revId": "9dc0967a94f017cd468a4430901b024e43ceaabe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ffa9bd2_74c9925b",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-03-22T03:40:46Z",
+      "side": 1,
+      "message": "Highly unnatural.",
+      "revId": "9dc0967a94f017cd468a4430901b024e43ceaabe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79ab02af_caed3f51",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-03-22T03:40:46Z",
+      "side": 1,
+      "message": "Chromium really makes *everybody* declare their own dependency on exe_and_shlib_deps, rather than having it be an automatic factor of being an executable, shared_library, or loadable_module? That’s…suboptimal.",
+      "revId": "9dc0967a94f017cd468a4430901b024e43ceaabe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
