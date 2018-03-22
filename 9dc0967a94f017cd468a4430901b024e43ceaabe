@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "90a217d9_6c2ffec5",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-03-22T21:04:31Z",
+      "side": 1,
+      "message": "\u003e That’s right, we only use our own build/BUILDCONFIG.gn in a standalone build. I think this would need to go into build/crashpad_buildconfig.gni. The documentation for set_defaults() seems to say that it should be possible to use there, but that it’ll replace (rather than add to) a set_defaults() already otherwise in effect.\n\nThe docs I’m talking about:\n\nhttps://chromium.googlesource.com/chromium/src/+/master/tools/gn/docs/reference.md#set_defaults\n\n\u003e   It can be called more than once and the most recent call in any scope will\n\u003e   apply, but there is no way to refer to the previous defaults and modify them\n\u003e   (each call to set_defaults must supply a complete list of all defaults it\n\u003e   wants). If you want to share defaults, store them in a separate variable.\n\nChrome (fortunately) already stores them in a separate variable, and I do see this variable referenced several other times in the Chrome tree, which makes it seem less likely that doing this will set us up to be the cause of future breakage. The most we can say is that doing this will set us up to be one of the many other locations that needs to be fixed if someone decides to redo Chrome’s own set_defaults().",
+      "parentUuid": "aeda4e86_48a37170",
+      "revId": "9dc0967a94f017cd468a4430901b024e43ceaabe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "36a7a999_7e0d1174",
         "filename": "handler/BUILD.gn",
         "patchSetId": 7
