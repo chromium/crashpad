@@ -115,7 +115,7 @@ source_set("handler_test") {
   }
 }
 
-executable("crashpad_handler") {
+crashpad_executable("crashpad_handler") {
   sources = [
     "main.cc",
   ]
@@ -147,18 +147,18 @@ executable("crashpad_handler") {
 
   if (crashpad_is_win) {
     if (crashpad_is_in_chromium) {
-      configs -= [ "//build/config/win:console" ]
-      configs += [ "//build/config/win:windowed" ]
+      remove_configs = [ "//build/config/win:console" ]
+      configs = [ "//build/config/win:windowed" ]
     } else {
-      configs -=
+      remove_configs =
           [ "//third_party/mini_chromium/mini_chromium/build:win_console" ]
-      configs +=
+      configs =
           [ "//third_party/mini_chromium/mini_chromium/build:win_windowed" ]
     }
   }
 }
 
-executable("crashpad_handler_test_extended_handler") {
+crashpad_executable("crashpad_handler_test_extended_handler") {
   testonly = true
 
   sources = [
@@ -176,7 +176,7 @@ executable("crashpad_handler_test_extended_handler") {
 }
 
 if (crashpad_is_win) {
-  executable("crashpad_handler_com") {
+  crashpad_executable("crashpad_handler_com") {
     sources = [
       "main.cc",
     ]
@@ -206,7 +206,7 @@ if (crashpad_is_win) {
     ]
   }
 
-  executable("crash_other_program") {
+  crashpad_executable("crash_other_program") {
     testonly = true
 
     sources = [
@@ -221,7 +221,7 @@ if (crashpad_is_win) {
     ]
   }
 
-  executable("crashy_program") {
+  crashpad_executable("crashy_program") {
     testonly = true
 
     sources = [
@@ -234,7 +234,7 @@ if (crashpad_is_win) {
     ]
   }
 
-  executable("crashy_signal") {
+  crashpad_executable("crashy_signal") {
     testonly = true
 
     sources = [
@@ -249,7 +249,7 @@ if (crashpad_is_win) {
     ]
   }
 
-  executable("fake_handler_that_crashes_at_startup") {
+  crashpad_executable("fake_handler_that_crashes_at_startup") {
     testonly = true
 
     sources = [
@@ -257,7 +257,7 @@ if (crashpad_is_win) {
     ]
   }
 
-  executable("hanging_program") {
+  crashpad_executable("hanging_program") {
     testonly = true
 
     sources = [
@@ -270,7 +270,7 @@ if (crashpad_is_win) {
     ]
   }
 
-  loadable_module("loader_lock_dll") {
+  crashpad_loadable_module("loader_lock_dll") {
     testonly = true
 
     sources = [
@@ -278,7 +278,7 @@ if (crashpad_is_win) {
     ]
   }
 
-  executable("self_destroying_program") {
+  crashpad_executable("self_destroying_program") {
     testonly = true
 
     sources = [
@@ -295,7 +295,7 @@ if (crashpad_is_win) {
 
   if (current_cpu == "x86") {
     # Cannot create an x64 DLL with embedded debug info.
-    executable("crashy_z7_loader") {
+    crashpad_executable("crashy_z7_loader") {
       testonly = true
 
       sources = [
