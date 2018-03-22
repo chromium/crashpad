@@ -27,7 +27,7 @@ source_set("tool_support") {
   ]
 }
 
-executable("crashpad_database_util") {
+crashpad_executable("crashpad_database_util") {
   sources = [
     "crashpad_database_util.cc",
   ]
@@ -42,7 +42,7 @@ executable("crashpad_database_util") {
   ]
 }
 
-executable("crashpad_http_upload") {
+crashpad_executable("crashpad_http_upload") {
   sources = [
     "crashpad_http_upload.cc",
   ]
@@ -56,7 +56,7 @@ executable("crashpad_http_upload") {
   ]
 }
 
-executable("generate_dump") {
+crashpad_executable("generate_dump") {
   sources = [
     "generate_dump.cc",
   ]
@@ -92,7 +92,7 @@ executable("generate_dump") {
 }
 
 if (crashpad_is_mac) {
-  executable("catch_exception_tool") {
+  crashpad_executable("catch_exception_tool") {
     sources = [
       "mac/catch_exception_tool.cc",
     ]
@@ -105,7 +105,7 @@ if (crashpad_is_mac) {
     ]
   }
 
-  executable("exception_port_tool") {
+  crashpad_executable("exception_port_tool") {
     sources = [
       "mac/exception_port_tool.cc",
     ]
@@ -130,7 +130,7 @@ if (crashpad_is_mac) {
     ]
   }
 
-  executable("on_demand_service_tool") {
+  crashpad_executable("on_demand_service_tool") {
     sources = [
       "mac/on_demand_service_tool.mm",
     ]
@@ -148,7 +148,7 @@ if (crashpad_is_mac) {
     ]
   }
 
-  executable("run_with_crashpad") {
+  crashpad_executable("run_with_crashpad") {
     sources = [
       "mac/run_with_crashpad.cc",
     ]

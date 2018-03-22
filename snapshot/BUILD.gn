@@ -401,7 +401,7 @@ source_set("snapshot_test") {
   }
 }
 
-loadable_module("crashpad_snapshot_test_module") {
+crashpad_loadable_module("crashpad_snapshot_test_module") {
   testonly = true
   sources = [
     "crashpad_info_client_options_test_module.cc",
@@ -412,7 +412,7 @@ loadable_module("crashpad_snapshot_test_module") {
   ]
 }
 
-loadable_module("crashpad_snapshot_test_module_large") {
+crashpad_loadable_module("crashpad_snapshot_test_module_large") {
   testonly = true
   sources = [
     "crashpad_info_size_test_module.cc",
@@ -428,7 +428,7 @@ loadable_module("crashpad_snapshot_test_module_large") {
   deps += [ "../third_party/mini_chromium:base" ]
 }
 
-loadable_module("crashpad_snapshot_test_module_small") {
+crashpad_loadable_module("crashpad_snapshot_test_module_small") {
   testonly = true
   sources = [
     "crashpad_info_size_test_module.cc",
@@ -445,7 +445,7 @@ loadable_module("crashpad_snapshot_test_module_small") {
 }
 
 if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
-  loadable_module("crashpad_snapshot_test_both_dt_hash_styles") {
+  crashpad_loadable_module("crashpad_snapshot_test_both_dt_hash_styles") {
     testonly = true
     sources = [
       "hash_types_test.cc",
@@ -457,14 +457,14 @@ if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
 }
 
 if (crashpad_is_mac) {
-  loadable_module("crashpad_snapshot_test_module_crashy_initializer") {
+  crashpad_loadable_module("crashpad_snapshot_test_module_crashy_initializer") {
     testonly = true
     sources = [
       "mac/mach_o_image_annotations_reader_test_module_crashy_initializer.cc",
     ]
   }
 
-  executable("crashpad_snapshot_test_no_op") {
+  crashpad_executable("crashpad_snapshot_test_no_op") {
     testonly = true
     sources = [
       "mac/mach_o_image_annotations_reader_test_no_op.cc",
@@ -473,7 +473,7 @@ if (crashpad_is_mac) {
 }
 
 if (crashpad_is_win) {
-  executable("crashpad_snapshot_test_annotations") {
+  crashpad_executable("crashpad_snapshot_test_annotations") {
     testonly = true
     sources = [
       "win/crashpad_snapshot_test_annotations.cc",
@@ -485,7 +485,7 @@ if (crashpad_is_win) {
     ]
   }
 
-  executable("crashpad_snapshot_test_crashing_child") {
+  crashpad_executable("crashpad_snapshot_test_crashing_child") {
     testonly = true
     sources = [
       "win/crashpad_snapshot_test_crashing_child.cc",
@@ -498,7 +498,7 @@ if (crashpad_is_win) {
     ]
   }
 
-  executable("crashpad_snapshot_test_dump_without_crashing") {
+  crashpad_executable("crashpad_snapshot_test_dump_without_crashing") {
     testonly = true
     sources = [
       "win/crashpad_snapshot_test_dump_without_crashing.cc",
@@ -511,7 +511,7 @@ if (crashpad_is_win) {
     ]
   }
 
-  executable("crashpad_snapshot_test_extra_memory_ranges") {
+  crashpad_executable("crashpad_snapshot_test_extra_memory_ranges") {
     testonly = true
     sources = [
       "win/crashpad_snapshot_test_extra_memory_ranges.cc",
@@ -523,7 +523,7 @@ if (crashpad_is_win) {
     ]
   }
 
-  executable("crashpad_snapshot_test_image_reader") {
+  crashpad_executable("crashpad_snapshot_test_image_reader") {
     testonly = true
     sources = [
       "win/crashpad_snapshot_test_image_reader.cc",
@@ -544,7 +544,7 @@ if (crashpad_is_win) {
     }
   }
 
-  loadable_module("crashpad_snapshot_test_image_reader_module") {
+  crashpad_loadable_module("crashpad_snapshot_test_image_reader_module") {
     testonly = true
     sources = [
       "win/crashpad_snapshot_test_image_reader_module.cc",
