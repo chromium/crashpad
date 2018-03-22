@@ -18,7 +18,7 @@ if (crashpad_is_in_chromium) {
   import("//testing/test.gni")
 } else {
   template("test") {
-    executable(target_name) {
+    crashpad_executable(target_name) {
       testonly = true
       forward_variables_from(invoker, "*")
     }
