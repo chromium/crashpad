@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5bc6399c_af8b73bb",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-03-22T15:25:29Z",
+      "side": 1,
+      "message": "That doesn\u0027t seem to work. I got the impression that build/BUILDCONFIG.gn was only used in the standalone build. I also tried out putting set_defaults() in build/crashpad_buildconfig.gni, but got an error about it clobbering other defaults, maybe from chromium/src/build/config/BUILDCONFIG.gn.",
+      "parentUuid": "8e348981_f04d0938",
+      "revId": "9dc0967a94f017cd468a4430901b024e43ceaabe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "36a7a999_7e0d1174",
         "filename": "handler/BUILD.gn",
         "patchSetId": 7
