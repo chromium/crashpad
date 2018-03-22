@@ -617,14 +617,14 @@ source_set("util_test") {
 }
 
 if (crashpad_is_win) {
-  executable("crashpad_util_test_process_info_test_child") {
+  crashpad_executable("crashpad_util_test_process_info_test_child") {
     testonly = true
     sources = [
       "win/process_info_test_child.cc",
     ]
   }
 
-  executable("crashpad_util_test_safe_terminate_process_test_child") {
+  crashpad_executable("crashpad_util_test_safe_terminate_process_test_child") {
     testonly = true
     sources = [
       "win/safe_terminate_process_test_child.cc",
