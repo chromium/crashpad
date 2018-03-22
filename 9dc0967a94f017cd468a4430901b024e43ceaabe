@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "5ec06aea_84d64aa6",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-03-22T22:06:55Z",
+      "side": 1,
+      "message": "It seems set_defaults() is only sometimes allowed to override other calls to set_defaults().\n\nIf I put the calls to set_defaults() in handler/BUILD.gn the override is allowed.\n\nIf the calls to set_defaults() are included from crashpad_buildconfig.gni, gn fails here:\nhttps://cs.chromium.org/chromium/src/tools/gn/scope.cc?rcl\u003d621ca021db508e6616607abd3e1d582bd8ff0477\u0026l\u003d341\n\nAlso, if we go the set_defaults() route, we will need to remember to avoid doing:\ndeps \u003d []\nwhich will clobber our default deps. gn will fail if it sees us overwrite the default deps using a non-empty list:\ndeps \u003d [ \"//somedep\" ]\nbut overwriting with an empty list (and then presumably appending to it) is silently allowed.",
+      "parentUuid": "90a217d9_6c2ffec5",
+      "revId": "9dc0967a94f017cd468a4430901b024e43ceaabe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "36a7a999_7e0d1174",
         "filename": "handler/BUILD.gn",
         "patchSetId": 7
