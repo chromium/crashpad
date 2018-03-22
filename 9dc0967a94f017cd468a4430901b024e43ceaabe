@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "8e348981_f04d0938",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-03-22T15:00:35Z",
+      "side": 1,
+      "message": "Did you look at modifying set_defaults() in //crashpad/build/BUILDCONFIG.gn? That\u0027s traditionally where this should go.",
+      "revId": "9dc0967a94f017cd468a4430901b024e43ceaabe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "36a7a999_7e0d1174",
         "filename": "handler/BUILD.gn",
         "patchSetId": 7
