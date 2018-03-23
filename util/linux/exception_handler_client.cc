@@ -112,11 +112,14 @@ int ExceptionHandlerClient::WaitForCrashDumpComplete() {
         Signals::InstallDefaultHandler(SIGCHLD);
 
         pid_t pid = fork();
-        if (pid < 0) {
-          Errno error = errno;
+        if (pid <= 0) {
+          Errno error = pid < 0 ? errno : 0;
           if (!WriteFile(server_sock_, &error, sizeof(error))) {
             return errno;
           }
+        }
+
+        if (pid < 0) {
           continue;
         }
 

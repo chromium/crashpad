@@ -126,8 +126,10 @@ class PtraceStrategyDeciderImpl : public PtraceStrategyDecider {
   Strategy ChooseStrategy(int sock, const ucred& client_credentials) override {
     switch (GetPtraceScope()) {
       case PtraceScope::kClassic:
-        return getuid() == client_credentials.uid ? Strategy::kDirectPtrace
-                                                  : Strategy::kForkBroker;
+        if (getuid() == client_credentials.uid) {
+          return Strategy::kDirectPtrace;
+        }
+        return TryForkingBroker(sock);
 
       case PtraceScope::kRestricted:
         if (!SendMessageToClient(sock,
@@ -143,7 +145,7 @@ class PtraceStrategyDeciderImpl : public PtraceStrategyDecider {
         if (status != 0) {
           errno = status;
           PLOG(ERROR) << "Handler Client SetPtracer";
-          return Strategy::kForkBroker;
+          return TryForkingBroker(sock);
         }
         return Strategy::kDirectPtrace;
 
@@ -162,6 +164,26 @@ class PtraceStrategyDeciderImpl : public PtraceStrategyDecider {
     }
 
     DCHECK(false);
+  }
+
+ private:
+  static Strategy TryForkingBroker(int client_sock) {
+    if (!SendMessageToClient(client_sock,
+                             ServerToClientMessage::kTypeForkBroker)) {
+      return Strategy::kError;
+    }
+
+    Errno status;
+    if (!LoggingReadFileExactly(client_sock, &status, sizeof(status))) {
+      return Strategy::kError;
+    }
+
+    if (status != 0) {
+      errno = status;
+      PLOG(ERROR) << "Handler Client ForkBroker";
+      return Strategy::kNoPtrace;
+    }
+    return Strategy::kUseBroker;
   }
 };
 
@@ -427,12 +449,7 @@ bool ExceptionHandlerServer::HandleCrashDumpRequest(
                                  client_info.exception_information_address);
       break;
 
-    case PtraceStrategyDecider::Strategy::kForkBroker:
-      if (!SendMessageToClient(client_sock,
-                               ServerToClientMessage::kTypeForkBroker)) {
-        return false;
-      }
-
+    case PtraceStrategyDecider::Strategy::kUseBroker:
       delegate_->HandleExceptionWithBroker(
           client_process_id,
           client_info.exception_information_address,
