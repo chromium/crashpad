@@ -289,7 +289,7 @@ TEST_F(ExceptionHandlerServerTest, RequestCrashDumpNoPtrace) {
 }
 
 TEST_F(ExceptionHandlerServerTest, RequestCrashDumpForkBroker) {
-  ExpectCrashDumpUsingStrategy(PtraceStrategyDecider::Strategy::kForkBroker,
+  ExpectCrashDumpUsingStrategy(PtraceStrategyDecider::Strategy::kUseBroker,
                                true);
 }
 
