@@ -46,8 +46,8 @@ class PtraceStrategyDecider {
     //! \brief The handler should `ptrace`-attach the client directly.
     kDirectPtrace,
 
-    //! \brief The client should `fork` a PtraceBroker for the handler.
-    kForkBroker,
+    //! \brief The client has `fork`ed a PtraceBroker for the handler.
+    kUseBroker,
   };
 
   //! \brief Chooses an appropriate `ptrace` strategy.
