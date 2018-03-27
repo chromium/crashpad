@@ -539,8 +539,8 @@ if (crashpad_is_win) {
       if (symbol_level == 0) {
         # The tests that use this executable rely on at least minimal debug
         # info.
-        configs -= [ "//build/config/compiler:default_symbols" ]
-        configs += [ "//build/config/compiler:minimal_symbols" ]
+        remove_configs = [ "//build/config/compiler:default_symbols" ]
+        configs = [ "//build/config/compiler:minimal_symbols" ]
       }
     }
   }
@@ -557,8 +557,8 @@ if (crashpad_is_win) {
     if (crashpad_is_in_chromium) {
       if (symbol_level == 0) {
         # The tests that use this module rely on at least minimal debug info.
-        configs -= [ "//build/config/compiler:default_symbols" ]
-        configs += [ "//build/config/compiler:minimal_symbols" ]
+        remove_configs = [ "//build/config/compiler:default_symbols" ]
+        configs = [ "//build/config/compiler:minimal_symbols" ]
       }
     }
   }
