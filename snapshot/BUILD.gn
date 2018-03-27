@@ -104,6 +104,7 @@ static_library("snapshot") {
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
+    set_sources_assignment_filter([])
     sources += [
       "linux/cpu_context_linux.cc",
       "linux/cpu_context_linux.h",
