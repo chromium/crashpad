@@ -69,6 +69,7 @@ static_library("test") {
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
+    set_sources_assignment_filter([])
     sources += [
       "linux/fake_ptrace_connection.cc",
       "linux/fake_ptrace_connection.h",

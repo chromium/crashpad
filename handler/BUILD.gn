@@ -40,6 +40,7 @@ static_library("handler") {
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
+    set_sources_assignment_filter([])
     sources += [
       "linux/crash_report_exception_handler.cc",
       "linux/crash_report_exception_handler.h",
