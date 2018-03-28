@@ -47,7 +47,7 @@
 #include "util/win/xp_compat.h"
 #elif defined(OS_FUCHSIA)
 #include "snapshot/fuchsia/process_snapshot_fuchsia.h"
-#elif defined(OS_LINUX)
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
 #include "snapshot/linux/process_snapshot_linux.h"
 #endif  // OS_MACOSX
 
@@ -201,7 +201,7 @@ int GenerateDumpMain(int argc, char* argv[]) {
     if (!process_snapshot.Initialize(ZX_HANDLE_INVALID)) {
       return EXIT_FAILURE;
     }
-#elif defined(OS_LINUX)
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
     // TODO(jperaza): https://crashpad.chromium.org/bug/30.
     ProcessSnapshotLinux process_snapshot;
     if (!process_snapshot.Initialize(nullptr)) {
