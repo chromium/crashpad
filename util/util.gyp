@@ -177,6 +177,7 @@
         'net/http_transport.h',
         'net/http_transport_libcurl.cc',
         'net/http_transport_mac.mm',
+        'net/http_transport_none.cc',
         'net/http_transport_win.cc',
         'net/url.cc',
         'net/url.h',
@@ -391,6 +392,11 @@
           'sources!': [
             'misc/capture_context_linux.S',
             'net/http_transport_libcurl.cc',
+          ],
+        }],
+        ['OS!="android"', {
+          'sources!': [
+            'net/http_transport_none.cc',
           ],
         }],
         ['OS!="linux" and OS!="android"', {
