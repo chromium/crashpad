@@ -17,7 +17,7 @@ import("../build/crashpad_buildconfig.gni")
 declare_args() {
   if (crashpad_is_linux) {
     # Whether the libcurl-based HTTPTransport implementation should be built.
-    crashpad_enable_http_transport_libcurl = true
+    crashpad_enable_http_transport_libcurl = !crashpad_is_in_chromium
   }
 }
 
