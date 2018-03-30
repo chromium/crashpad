@@ -68,7 +68,9 @@ int main(int argc, char* argv[]) {
   // runner.
   const bool use_chromium_test_launcher =
       !crashpad::test::WinChildProcess::IsChildProcess();
-#else  // OS_WIN
+#elif defined(OS_ANDROID)
+  constexpr bool use_chromium_test_launcher = false;
+#else
   constexpr bool use_chromium_test_launcher = true;
 #endif  // OS_WIN
 
