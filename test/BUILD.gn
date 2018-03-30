@@ -44,7 +44,7 @@ static_library("test") {
     "test_paths.h",
   ]
 
-  if (crashpad_is_posix) {
+  if (crashpad_is_posix || crashpad_is_fuchsia) {
     sources += [ "scoped_temp_dir_posix.cc" ]
 
     if (!crashpad_is_fuchsia) {

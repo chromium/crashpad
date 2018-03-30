@@ -56,7 +56,7 @@ static_library("snapshot") {
     "unloaded_module_snapshot.h",
   ]
 
-  if (crashpad_is_posix) {
+  if (crashpad_is_posix || crashpad_is_fuchsia) {
     sources += [
       "posix/timezone.cc",
       "posix/timezone.h",
