@@ -27,9 +27,14 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       "minidump:minidump_test",
       "snapshot:snapshot_test",
       "test:gmock_main",
+      "test:gtest_main",
       "test:test_test",
       "util:util_test",
     ]
+
+    if (crashpad_is_android) {
+      use_raw_android_executable = true
+    }
   }
 
   if (crashpad_is_in_fuchsia) {
