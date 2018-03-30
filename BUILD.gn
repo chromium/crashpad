@@ -31,6 +31,10 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       "test:test_test",
       "util:util_test",
     ]
+
+    if (crashpad_is_android) {
+      use_raw_android_executable = true
+    }
   }
 
   if (crashpad_is_in_fuchsia) {
