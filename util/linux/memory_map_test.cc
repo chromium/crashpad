@@ -26,10 +26,11 @@
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/file.h"
+#include "test/linux/fake_ptrace_connection.h"
 #include "test/multiprocess.h"
 #include "test/scoped_temp_dir.h"
 #include "util/file/file_io.h"
-#include "util/linux/scoped_ptrace_attach.h"
+#include "util/linux/direct_ptrace_connection.h"
 #include "util/misc/clock.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/posix/scoped_mmap.h"
@@ -46,8 +47,9 @@ TEST(MemoryMap, SelfBasic) {
                                  MAP_SHARED | MAP_ANON,
                                  -1,
                                  0));
+
   MemoryMap map;
-  ASSERT_TRUE(map.Initialize(getpid()));
+  ASSERT_TRUE(map.InitializeWithProcessID(getpid()));
 
   auto stack_address = FromPointerCast<LinuxVMAddress>(&map);
   const MemoryMap::Mapping* mapping = map.FindMapping(stack_address);
@@ -118,11 +120,11 @@ class MapChildTest : public Multiprocess {
     std::string mapped_file_name(path_length, std::string::value_type());
     CheckedReadFileExactly(ReadPipeHandle(), &mapped_file_name[0], path_length);
 
-    ScopedPtraceAttach attachment;
-    attachment.ResetAttach(ChildPID());
+    DirectPtraceConnection connection;
+    ASSERT_TRUE(connection.Initialize(ChildPID()));
 
     MemoryMap map;
-    ASSERT_TRUE(map.Initialize(ChildPID()));
+    ASSERT_TRUE(map.InitializeWithConnection(&connection));
 
     const MemoryMap::Mapping* mapping = map.FindMapping(code_address);
     ASSERT_TRUE(mapping);
@@ -269,7 +271,7 @@ TEST(MemoryMap, SelfLargeMapFile) {
       InitializeMappings(&mappings, kNumMappings, page_size));
 
   MemoryMap map;
-  ASSERT_TRUE(map.Initialize(getpid()));
+  ASSERT_TRUE(map.InitializeWithProcessID(getpid()));
 
   ExpectMappings(
       map, mappings.addr_as<LinuxVMAddress>(), kNumMappings, page_size);
@@ -292,11 +294,11 @@ class MapRunningChildTest : public Multiprocess {
       // Let the child get back to its work
       SleepNanoseconds(1000);
 
-      ScopedPtraceAttach attachment;
-      attachment.ResetAttach(ChildPID());
+      DirectPtraceConnection connection;
+      ASSERT_TRUE(connection.Initialize(ChildPID()));
 
       MemoryMap map;
-      ASSERT_TRUE(map.Initialize(ChildPID()));
+      ASSERT_TRUE(map.InitializeWithConnection(&connection));
 
       // We should at least find the original mappings. The extra mappings may
       // or not be found depending on scheduling.
@@ -350,7 +352,7 @@ TEST(MemoryMap, MapRunningChild) {
 void ExpectFindFileMmapStart(LinuxVMAddress mapping_start,
                              LinuxVMSize page_size) {
   MemoryMap map;
-  ASSERT_TRUE(map.Initialize(getpid()));
+  ASSERT_TRUE(map.InitializeWithProcessID(getpid()));
 
   auto mapping1 = map.FindMapping(mapping_start);
   ASSERT_TRUE(mapping1);
@@ -392,7 +394,7 @@ TEST(MemoryMap, FindFileMmapStart) {
   // Basic
   {
     MemoryMap map;
-    ASSERT_TRUE(map.Initialize(getpid()));
+    ASSERT_TRUE(map.InitializeWithProcessID(getpid()));
 
     auto mapping1 = map.FindMapping(mapping_start);
     ASSERT_TRUE(mapping1);

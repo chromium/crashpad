@@ -14,9 +14,11 @@
 
 #include "util/linux/ptrace_broker.h"
 
+#include <fcntl.h>
 #include <unistd.h>
 
 #include "base/logging.h"
+#include "base/posix/eintr_wrapper.h"
 #include "util/file/file_io.h"
 
 namespace crashpad {
@@ -114,6 +116,21 @@ int PtraceBroker::RunImpl() {
         continue;
       }
 
+      case Request::kTypeReadFile: {
+        char path_buffer[1024];
+        DCHECK_GE(sizeof(path_buffer), request.path.path_length);
+
+        if (!ReadFileExactly(sock_, path_buffer, request.path.path_length)) {
+          return errno;
+        }
+
+        int result = SendFileContents(path_buffer);
+        if (result != 0) {
+          return result;
+        }
+        continue;
+      }
+
       case Request::kTypeReadMemory: {
         int result =
             SendMemory(request.tid, request.iov.base, request.iov.size);
@@ -130,6 +147,39 @@ int PtraceBroker::RunImpl() {
     DCHECK(false);
     return EINVAL;
   }
+}
+
+int PtraceBroker::SendError(Errno err) {
+  return WriteFile(sock_, &err, sizeof(err)) ? 0 : errno;
+}
+
+int PtraceBroker::SendFileContents(char* path) {
+  ScopedFileHandle handle(HANDLE_EINTR(open(path, O_RDONLY | O_CLOEXEC | O_NOCTTY)));
+  if (!handle.is_valid()) {
+    return SendError(errno);
+  }
+
+  char buffer[4096];
+  int32_t rv;
+  do {
+    rv = ReadFile(handle.get(), buffer, sizeof(buffer));
+
+    if (!WriteFile(sock_, &rv, sizeof(rv))) {
+      return errno;
+    }
+
+    if (rv < 0) {
+      return SendError(errno);
+    }
+
+    if (rv > 0) {
+      if (!WriteFile(sock_, buffer, static_cast<size_t>(rv))) {
+        return errno;
+      }
+    }
+  } while (rv > 0);
+
+  return 0;
 }
 
 int PtraceBroker::SendMemory(pid_t pid, VMAddress address, VMSize size) {

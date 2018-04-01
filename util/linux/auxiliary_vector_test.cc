@@ -53,8 +53,11 @@ void TestAgainstCloneOrSelf(pid_t pid) {
   AuxiliaryVector aux;
   ASSERT_TRUE(aux.Initialize(pid, am_64_bit));
 
+  FakePtraceConnection connection;
+  ASSERT_TRUE(connection.Initialize(pid));
+
   MemoryMap mappings;
-  ASSERT_TRUE(mappings.Initialize(pid));
+  ASSERT_TRUE(mappings.Initialize(&connection));
 
   LinuxVMAddress phdrs;
   ASSERT_TRUE(aux.GetValue(AT_PHDR, &phdrs));
