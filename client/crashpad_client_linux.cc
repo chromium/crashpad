@@ -165,6 +165,7 @@ class LaunchAtCrashHandler : public SignalHandler {
   }
 
   void HandleCrashFatal(int signo, siginfo_t* siginfo, void* context) override {
+    LOG(INFO) << "**************************** HANDLING BROWSER CRASH **************";
     if (HandleCrashNonFatal(signo, siginfo, context)) {
       return;
     }
@@ -251,6 +252,7 @@ bool CrashpadClient::StartHandlerForClient(
 
   argv.push_back(FormatArgumentInt("initial-client", socket));
 
+  LOG(INFO) << "******************************* HANDLING NON-BROWSER CRASH ****************";
   return DoubleForkAndExec(argv, socket, true, nullptr);
 }
 

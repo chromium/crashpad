@@ -69,6 +69,9 @@ class PtraceBroker {
       //!     to zero, followed by an Errno.
       kTypeReadMemory,
 
+      //! \brief Read a files contents
+      kTypeReadFile,
+
       //! \brief Causes the broker to return from Run(), detaching all attached
       //!     threads. Does not respond.
       kTypeExit
@@ -86,6 +89,9 @@ class PtraceBroker {
       //! \brief The size of the memory region.
       VMSize size;
     } iov;
+
+    VMSize path_length;
+    char path[];
   };
 
   //! \brief The response sent for a Request with type kTypeGetThreadInfo.
@@ -122,6 +128,8 @@ class PtraceBroker {
 
  private:
   int RunImpl();
+  int SendError(Errno err);
+  int SendFileContents(char* path);
   int SendMemory(pid_t pid, VMAddress address, VMSize size);
   bool AllocateAttachments();
   void ReleaseAttachments();

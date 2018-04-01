@@ -80,21 +80,22 @@ bool DoubleForkAndExec(const std::vector<std::string>& argv,
     // original client’s process group could be harmful in that case.
     PCHECK(setsid() != -1) << "setsid";
 
-    pid = fork();
-    if (pid < 0) {
-      PLOG(FATAL) << "fork";
-    }
+    //pid = fork();
+    //if (pid < 0) {
+    //  _exit(1);
+    //  PLOG(FATAL) << "fork";
+    //}
 
-    if (pid > 0) {
-      // Child process.
+    //if (pid > 0) {
+    //  // Child process.
 
-      // _exit() instead of exit(), because fork() was called.
-      _exit(EXIT_SUCCESS);
-    }
+    //  // _exit() instead of exit(), because fork() was called.
+    //  _exit(EXIT_SUCCESS);
+    //}
 
     // Grandchild process.
 
-    CloseMultipleNowOrOnExec(STDERR_FILENO + 1, preserve_fd);
+    //CloseMultipleNowOrOnExec(STDERR_FILENO + 1, preserve_fd);
 
     // &argv_c[0] is a pointer to a pointer to const char data, but because of
     // how C (not C++) works, execvp() wants a pointer to a const pointer to
@@ -104,10 +105,12 @@ bool DoubleForkAndExec(const std::vector<std::string>& argv,
 
     if (use_path) {
       execvp(argv_for_execv[0], argv_for_execv);
+      _exit(3);
       PLOG(FATAL) << "execvp " << argv_for_execv[0];
     }
 
     execv(argv_for_execv[0], argv_for_execv);
+    _exit(4);
     PLOG(FATAL) << "execv " << argv_for_execv[0];
   }
 
@@ -125,6 +128,7 @@ bool DoubleForkAndExec(const std::vector<std::string>& argv,
   }
   DCHECK_EQ(wait_pid, pid);
 
+  LOG(INFO) << "Child reaped with status 0x" << std::hex << status;
   if (WIFSIGNALED(status)) {
     int sig = WTERMSIG(status);
     LOG(WARNING) << base::StringPrintf(

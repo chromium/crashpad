@@ -195,21 +195,25 @@ bool ProcessReaderLinux::Initialize(PtraceConnection* connection) {
   DCHECK(connection);
   connection_ = connection;
 
+  LOG(INFO) << "initializing process info";
   if (!process_info_.InitializeWithPtrace(connection_)) {
     return false;
   }
 
-  pid_t pid = connection->GetProcessID();
-  if (!memory_map_.Initialize(pid)) {
+  LOG(INFO) << "initializing memory map";
+  if (!memory_map_.Initialize(connection_)) {
     return false;
   }
 
+  pid_t pid = connection->GetProcessID();
+  LOG(INFO) << "initializeing process memory";
   if (!process_memory_.Initialize(pid)) {
     return false;
   }
 
   is_64_bit_ = process_info_.Is64Bit();
 
+  LOG(INFO) << "process reader initialized";
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
 }
@@ -284,6 +288,8 @@ void ProcessReaderLinux::InitializeThreads() {
     return;
   }
 
+  LOG(INFO) << "initializing threads";
+
   Thread main_thread;
   main_thread.tid = pid;
   if (main_thread.InitializePtrace(connection_)) {
@@ -326,11 +332,14 @@ void ProcessReaderLinux::InitializeThreads() {
   DCHECK_EQ(AsUnderlyingType(result),
             AsUnderlyingType(DirectoryReader::Result::kNoMoreFiles));
   DCHECK(main_thread_found);
+
+  LOG(INFO) << "threads initialized";
 }
 
 void ProcessReaderLinux::InitializeModules() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
+  LOG(INFO) << "initializing modules";
   AuxiliaryVector aux;
   if (!aux.Initialize(ProcessID(), is_64_bit_)) {
     return;
@@ -400,6 +409,7 @@ void ProcessReaderLinux::InitializeModules() {
     modules_.push_back(module);
     elf_readers_.push_back(std::move(elf_reader));
   }
+  LOG(INFO) << "modules initialized";
 }
 
 }  // namespace crashpad

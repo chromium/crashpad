@@ -17,6 +17,9 @@
 
 #include <sys/types.h>
 
+#include <string>
+
+#include "base/files/file_path.h"
 #include "util/linux/thread_info.h"
 
 namespace crashpad {
@@ -45,6 +48,9 @@ class PtraceConnection {
   //! \param[out] info Information about the thread.
   //! \return `true` on success. `false` on failure with a message logged.
   virtual bool GetThreadInfo(pid_t tid, ThreadInfo* info) = 0;
+
+  virtual bool ReadFileContents(const base::FilePath path,
+                                std::string* contents) = 0;
 };
 
 }  // namespace crashpad
