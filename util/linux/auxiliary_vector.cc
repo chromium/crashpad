@@ -20,6 +20,7 @@
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "util/file/file_reader.h"
+#include "util/file/string_file.h"
 #include "util/stdlib/map_insert.h"
 
 namespace crashpad {
@@ -28,18 +29,22 @@ AuxiliaryVector::AuxiliaryVector() : values_() {}
 
 AuxiliaryVector::~AuxiliaryVector() {}
 
-bool AuxiliaryVector::Initialize(pid_t pid, bool is_64_bit) {
-  return is_64_bit ? Read<uint64_t>(pid) : Read<uint32_t>(pid);
+bool AuxiliaryVector::Initialize(PtraceConnection* connection) {
+  return connection->Is64Bit() ? Read<uint64_t>(connection)
+                               : Read<uint32_t>(connection);
 }
 
 template <typename ULong>
-bool AuxiliaryVector::Read(pid_t pid) {
+bool AuxiliaryVector::Read(PtraceConnection* connection) {
   char path[32];
-  snprintf(path, sizeof(path), "/proc/%d/auxv", pid);
-  FileReader aux_file;
-  if (!aux_file.Open(base::FilePath(path))) {
+  snprintf(path, sizeof(path), "/proc/%d/auxv", connection->GetProcessID());
+
+  std::string contents;
+  if (!connection->ReadFileContents(base::FilePath(path), &contents)) {
     return false;
   }
+  StringFile aux_file;
+  aux_file.SetString(contents);
 
   ULong type;
   ULong value;
