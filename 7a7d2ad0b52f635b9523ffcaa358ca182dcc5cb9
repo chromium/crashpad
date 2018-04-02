@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c16c5af8_a4621d9e",
+        "filename": "util/linux/auxiliary_vector.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-02T18:51:51Z",
+      "side": 1,
+      "message": "I thought that it might be nicer to expose the result as a FileReaderInterface instead of a std::string, but it looks like this is the only place where that would be handy.\n\n(The ferried-over-ptrace version would still want to read into a StringFile, but the local in-process version could be a FileReader.)",
+      "revId": "7a7d2ad0b52f635b9523ffcaa358ca182dcc5cb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f36bcbf6_31a78be3",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-02T18:51:51Z",
+      "side": 1,
+      "message": "You know how I feel about fixed-size path buffers, but I know that we’re also kind of restricted against allocation here in this code. But “what if PATH_MAX is ever sorta right, and big?” For that, you could use std::max(4096, PATH_MAX).",
+      "revId": "7a7d2ad0b52f635b9523ffcaa358ca182dcc5cb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dee5a8ab_e655a504",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-02T18:51:51Z",
+      "side": 1,
+      "message": "SendFileContents() expects path_buffer to be NUL-terminated. Who ensures NUL-termination?",
+      "revId": "7a7d2ad0b52f635b9523ffcaa358ca182dcc5cb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29b993c0_7fa4577d",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-02T18:51:51Z",
+      "side": 1,
+      "message": "It’s also a pretty powerful interface. Is it possible to whitelist certain paths? May be difficult given the context that this runs in. Certainly requiring path to begin with \"/proc/\" should be feasible though.",
+      "revId": "7a7d2ad0b52f635b9523ffcaa358ca182dcc5cb9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
