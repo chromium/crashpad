@@ -25,6 +25,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
+#include "test/linux/fake_ptrace_connection.h"
 #include "test/multiprocess.h"
 #include "util/linux/address_types.h"
 #include "util/linux/memory_map.h"
@@ -53,8 +54,11 @@ void TestAgainstCloneOrSelf(pid_t pid) {
   AuxiliaryVector aux;
   ASSERT_TRUE(aux.Initialize(pid, am_64_bit));
 
+  FakePtraceConnection connection;
+  ASSERT_TRUE(connection.Initialize(pid));
+
   MemoryMap mappings;
-  ASSERT_TRUE(mappings.Initialize(pid));
+  ASSERT_TRUE(mappings.Initialize(&connection));
 
   LinuxVMAddress phdrs;
   ASSERT_TRUE(aux.GetValue(AT_PHDR, &phdrs));
