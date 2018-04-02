@@ -69,6 +69,13 @@ class PtraceBroker {
       //!     to zero, followed by an Errno.
       kTypeReadMemory,
 
+      //! \brief Read a file's contents. The data is returned in a series of
+      //!     messages. Each message begins with ReadResult indicating the
+      //!     number of bytes read, -1 on failure, or 0 at EOF, indicating the
+      //!     last message in the series. On failure, an Errno follows,
+      //!     otherwise the bytes read follow.
+      kTypeReadFile,
+
       //! \brief Causes the broker to return from Run(), detaching all attached
       //!     threads. Does not respond.
       kTypeExit
@@ -78,14 +85,41 @@ class PtraceBroker {
     //!     kTypeGetThreadInfo, and kTypeReadMemory.
     pid_t tid;
 
-    //! \brief Specifies the memory region to read for a kTypeReadMemory request.
-    struct {
-      //! \brief The base address of the memory region.
-      VMAddress base;
+    union {
+      //! \brief Specifies the memory region to read for a kTypeReadMemory
+      //! request.
+      struct {
+        //! \brief The base address of the memory region.
+        VMAddress base;
 
-      //! \brief The size of the memory region.
-      VMSize size;
-    } iov;
+        //! \brief The size of the memory region.
+        VMSize size;
+      } iov;
+
+      // \brief Specifies the file path to read for a kTypeReadFile request.
+      struct {
+        //! \brief The number of bytes in #path, including the `NUL`-terminator.
+        VMSize path_length;
+
+        //! \brief The file path to read.
+        char path[];
+      } path;
+    };
+  };
+
+  //! \brief The result of a read operation.
+  enum ReadResult : int32_t {
+    //! \brief Access to the path is denied.
+    kReadResultAccessDenied = -3,
+
+    //! \brief The path name is too long.
+    kReadResultPathTooLong = -2,
+
+    //! \brief An Errno follows.
+    kReadResultErrno = -1,
+
+    //! \brief The end-of-file was reached.
+    kReadResultEOF = 0,
   };
 
   //! \brief The response sent for a Request with type kTypeGetThreadInfo.
@@ -109,6 +143,17 @@ class PtraceBroker {
 
   ~PtraceBroker();
 
+  //! \brief Restricts the broker to serving the contents of files under \a
+  //!     root.
+  //!
+  //! If this method is not called, the broker defaults to only serving files
+  //! under "/proc/".
+  //!
+  //! \param[in] root A NUL-terminated c-string containing the path to the new
+  //!     root. \a root must not be `nullptr` and the caller should ensure that
+  //!     \a root reamins valid for the lifetime of the broker.
+  void SetFileRoot(const char* root);
+
   //! \brief Begin serving requests on the configured socket.
   //!
   //! This method returns when a PtraceBrokerRequest with type kTypeExit is
@@ -122,11 +167,16 @@ class PtraceBroker {
 
  private:
   int RunImpl();
+  int SendError(Errno err);
+  int SendReadError(ReadResult rv, Errno err);
+  int SendFileContents(char* path);
   int SendMemory(pid_t pid, VMAddress address, VMSize size);
   bool AllocateAttachments();
   void ReleaseAttachments();
+  bool ReadFileAllowed(const char* path);
 
   Ptracer ptracer_;
+  const char* file_root_;
   ScopedPtraceAttach* attachments_;
   size_t attach_count_;
   size_t attach_capacity_;
