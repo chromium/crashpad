@@ -22,6 +22,7 @@
 
 #include "util/linux/address_types.h"
 #include "util/linux/checked_linux_address_range.h"
+#include "util/linux/ptrace_connection.h"
 #include "util/misc/initialization_state_dcheck.h"
 
 namespace crashpad {
@@ -62,7 +63,7 @@ class MemoryMap {
   //! \param[in] pid The process ID to obtain information for.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
-  bool Initialize(pid_t pid);
+  bool Initialize(PtraceConnection* connection);
 
   //! \return The Mapping containing \a address or `nullptr` if no match is
   //!     found. The caller does not take ownership of this object. It is scoped

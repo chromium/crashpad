@@ -82,6 +82,7 @@ bool DoubleForkAndExec(const std::vector<std::string>& argv,
 
     pid = fork();
     if (pid < 0) {
+      _exit(1);
       PLOG(FATAL) << "fork";
     }
 
