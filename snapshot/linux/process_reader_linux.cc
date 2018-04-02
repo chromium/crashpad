@@ -199,11 +199,11 @@ bool ProcessReaderLinux::Initialize(PtraceConnection* connection) {
     return false;
   }
 
-  pid_t pid = connection->GetProcessID();
-  if (!memory_map_.Initialize(pid)) {
+  if (!memory_map_.Initialize(connection_)) {
     return false;
   }
 
+  pid_t pid = connection->GetProcessID();
   if (!process_memory_.Initialize(pid)) {
     return false;
   }
