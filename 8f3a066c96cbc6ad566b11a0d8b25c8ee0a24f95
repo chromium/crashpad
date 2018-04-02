@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30834bb8_853fd665",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-02T21:49:05Z",
+      "side": 1,
+      "message": "I’d choose a better, more unique error code, perhaps even something not ordinarily used for an errno value. Otherwise, the usual interpretation on the other side might be that the open() or first read() failed with EINVAL.\n\n(Or another negative result other than -1? Seems more obscure, though.)",
+      "revId": "8f3a066c96cbc6ad566b11a0d8b25c8ee0a24f95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5ef62a5_86a7c6dc",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-02T21:49:05Z",
+      "side": 1,
+      "message": "Perhaps you’d like to consolidate WriteFile() of an rv and SendError() into a single function too?",
+      "revId": "8f3a066c96cbc6ad566b11a0d8b25c8ee0a24f95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "791347f2_2dad4ee0",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-02T21:49:05Z",
+      "side": 1,
+      "message": "But you never actually zeroed out path (path_buffer in the caller), so it might contain random stack garbage at [path_length - 1].\n\nI’d go with\n\n  DCHECK_GT(sizeof(path_buffer), request.path.path_length);  // instead of GE\n  path_buffer[request.path.path_length] \u003d \u0027\\0\u0027;\n\nActually, since this involves moving things across an IPC boundary, I’d upgrade that from a DCHECK to a real always-firing runtime check. Instead of CHECK(), I’d probably just have it return an error if the path that comes in to the broker is too long to deal with. This can be something that ReadFileAllowed() does if that’s how you want to deal with it.",
+      "range": {
+        "startLine": 264,
+        "startChar": 45,
+        "endLine": 264,
+        "endChar": 74
+      },
+      "revId": "8f3a066c96cbc6ad566b11a0d8b25c8ee0a24f95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
