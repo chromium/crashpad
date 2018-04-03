@@ -20,6 +20,7 @@
 #include <sys/types.h>
 
 #include "base/macros.h"
+#include "util/file/file_io.h"
 #include "util/linux/exception_handler_protocol.h"
 #include "util/linux/ptrace_connection.h"
 #include "util/linux/ptracer.h"
@@ -69,6 +70,14 @@ class PtraceBroker {
       //!     to zero, followed by an Errno.
       kTypeReadMemory,
 
+      //! \brief Read a file's contents. The data is returned in a series of
+      //!     messages. The first message is an OpenResult, indicating the
+      //!     validity of the received file path. If the OpenResult is
+      //!     kOpenResultSuccess, each subsequent message begins with an int32_t
+      //!     indicating the number of bytes read, 0 for end-of-file, or -1 for
+      //!     errors, followed by an Errno. On success, the bytes read follow.
+      kTypeReadFile,
+
       //! \brief Causes the broker to return from Run(), detaching all attached
       //!     threads. Does not respond.
       kTypeExit
@@ -78,14 +87,41 @@ class PtraceBroker {
     //!     kTypeGetThreadInfo, and kTypeReadMemory.
     pid_t tid;
 
-    //! \brief Specifies the memory region to read for a kTypeReadMemory request.
-    struct {
-      //! \brief The base address of the memory region.
-      VMAddress base;
+    union {
+      //! \brief Specifies the memory region to read for a kTypeReadMemory
+      //! request.
+      struct {
+        //! \brief The base address of the memory region.
+        VMAddress base;
 
-      //! \brief The size of the memory region.
-      VMSize size;
-    } iov;
+        //! \brief The size of the memory region.
+        VMSize size;
+      } iov;
+
+      // \brief Specifies the file path to read for a kTypeReadFile request.
+      struct {
+        //! \brief The number of bytes in #path. The path should not include a
+        //!     `NUL`-terminator.
+        VMSize path_length;
+
+        //! \brief The file path to read.
+        char path[];
+      } path;
+    };
+  };
+
+  //! \brief A result used in operations that accept paths.
+  //!
+  //! Positive values of this enum are reserved for sending errno values.
+  enum OpenResult : int32_t {
+    //! \brief Access to the path is denied.
+    kOpenResultAccessDenied = -2,
+
+    //! \brief The path name is too long.
+    kOpenResultTooLong = -1,
+
+    //! \brief The file was successfully opened.
+    kOpenResultSuccess = 0,
   };
 
   //! \brief The response sent for a Request with type kTypeGetThreadInfo.
@@ -109,6 +145,18 @@ class PtraceBroker {
 
   ~PtraceBroker();
 
+  //! \brief Restricts the broker to serving the contents of files under \a
+  //!     root.
+  //!
+  //! If this method is not called, the broker defaults to only serving files
+  //! under "/proc/".
+  //!
+  //! \param[in] root A NUL-terminated c-string containing the path to the new
+  //!     root. \a root must not be `nullptr`, must end in a '/', and the caller
+  //!     should ensure that \a root remains valid for the lifetime of the
+  //!     broker.
+  void SetFileRoot(const char* root);
+
   //! \brief Begin serving requests on the configured socket.
   //!
   //! This method returns when a PtraceBrokerRequest with type kTypeExit is
@@ -121,12 +169,18 @@ class PtraceBroker {
   int Run();
 
  private:
-  int RunImpl();
-  int SendMemory(pid_t pid, VMAddress address, VMSize size);
   bool AllocateAttachments();
   void ReleaseAttachments();
+  int RunImpl();
+  int SendError(Errno err);
+  int SendReadError(Errno err);
+  int SendOpenResult(OpenResult result);
+  int SendFileContents(FileHandle handle);
+  int SendMemory(pid_t pid, VMAddress address, VMSize size);
+  int ReceiveAndOpenFilePath(VMSize path_length, ScopedFileHandle* handle);
 
   Ptracer ptracer_;
+  const char* file_root_;
   ScopedPtraceAttach* attachments_;
   size_t attach_count_;
   size_t attach_capacity_;
