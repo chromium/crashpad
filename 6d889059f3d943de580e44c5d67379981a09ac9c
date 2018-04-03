@@ -22,6 +22,30 @@
       "revId": "6d889059f3d943de580e44c5d67379981a09ac9c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ed0a482_949da6db",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-03T02:12:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba223ee2_d095a9ec",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 32
+      },
+      "revId": "6d889059f3d943de580e44c5d67379981a09ac9c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
