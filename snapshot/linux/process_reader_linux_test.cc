@@ -242,10 +242,11 @@ using ThreadMap = std::map<pid_t, TestThreadPool::ThreadExpectation>;
 
 void ExpectThreads(const ThreadMap& thread_map,
                    const std::vector<ProcessReaderLinux::Thread>& threads,
-                   const pid_t pid) {
+                   PtraceConnection* connection) {
   ASSERT_EQ(threads.size(), thread_map.size());
+
   MemoryMap memory_map;
-  ASSERT_TRUE(memory_map.Initialize(pid));
+  ASSERT_TRUE(memory_map.Initialize(connection));
 
   for (const auto& thread : threads) {
     SCOPED_TRACE(
@@ -306,7 +307,7 @@ class ChildThreadTest : public Multiprocess {
     ASSERT_TRUE(process_reader.Initialize(&connection));
     const std::vector<ProcessReaderLinux::Thread>& threads =
         process_reader.Threads();
-    ExpectThreads(thread_map, threads, ChildPID());
+    ExpectThreads(thread_map, threads, &connection);
   }
 
   void MultiprocessChild() override {
