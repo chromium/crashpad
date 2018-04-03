@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab31b2d5_f2ef79e8",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-03T16:30:46Z",
+      "side": 0,
+      "message": "You’re not saving this as a fallback?",
+      "revId": "e81c3457ced2ed54a8cf516e882c234007c36a8a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
