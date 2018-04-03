@@ -61,6 +61,7 @@ bool AttachImpl(int sock, pid_t tid) {
 
 PtraceClient::PtraceClient()
     : PtraceConnection(),
+      memory_(this),
       sock_(kInvalidFileHandle),
       pid_(-1),
       is_64_bit_(false),
@@ -97,11 +98,17 @@ bool PtraceClient::Initialize(int sock, pid_t pid) {
   }
   is_64_bit_ = is_64_bit == kBoolTrue;
 
+  if (!memory_.Initialize(sock_, pid_)) {
+    return false;
+  }
+
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
 }
 
-bool PtraceClient::Read(VMAddress address, size_t size, void* buffer) {
+ssize_t PtraceClient::ReadUpTo(VMAddress address,
+                               size_t size,
+                               void* buffer) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   char* buffer_c = reinterpret_cast<char*>(buffer);
 
@@ -115,26 +122,32 @@ bool PtraceClient::Read(VMAddress address, size_t size, void* buffer) {
     return false;
   }
 
+  ssize_t total_read = 0;
   while (size > 0) {
-    VMSize bytes_read;
+    VMSSize bytes_read;
     if (!LoggingReadFileExactly(sock_, &bytes_read, sizeof(bytes_read))) {
-      return false;
+      return -1;
     }
 
-    if (!bytes_read) {
+    if (bytes_read < 0) {
       ReceiveAndLogError(sock_, "PtraceBroker ReadMemory");
-      return false;
+      return -1;
+    }
+
+    if (bytes_read == 0) {
+      return total_read;
     }
 
     if (!LoggingReadFileExactly(sock_, buffer_c, bytes_read)) {
-      return false;
+      return -1;
     }
 
     size -= bytes_read;
     buffer_c += bytes_read;
+    total_read += bytes_read;
   }
 
-  return true;
+  return total_read;
 }
 
 pid_t PtraceClient::GetProcessID() {
@@ -213,6 +226,48 @@ bool PtraceClient::ReadFileContents(const base::FilePath& path,
 
   contents->swap(local_contents);
   return true;
+}
+
+ProcessMemory* PtraceClient::Memory() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return &memory_;
+}
+
+PtraceClient::BrokeredMemory::BrokeredMemory(PtraceClient* client)
+    : ProcessMemory(), client_(client) {}
+
+PtraceClient::BrokeredMemory::~BrokeredMemory() = default;
+
+bool PtraceClient::BrokeredMemory::Initialize(int sock, pid_t pid) {
+  char path[32];
+  snprintf(path, sizeof(path), "/proc/%d/mem", pid);
+
+  PtraceBroker::Request request;
+  request.type = PtraceBroker::Request::kTypeSetMemoryFile;
+  request.path.path_length = strnlen(path, sizeof(path));
+
+  if (!LoggingWriteFile(sock, &request, sizeof(request)) ||
+      !client_->SendFilePath(path, request.path.path_length)) {
+    return false;
+  }
+
+  Bool result;
+  if (!LoggingReadFileExactly(sock, &result, sizeof(result))) {
+    return false;
+  }
+
+  if (result != kBoolTrue) {
+    ReceiveAndLogError(sock, "SetMemoryFile");
+    return false;
+  }
+
+  return true;
+}
+
+ssize_t PtraceClient::BrokeredMemory::ReadUpTo(VMAddress address,
+                                               size_t size,
+                                               void* buffer) const {
+  return client_->ReadUpTo(address, size, buffer);
 }
 
 bool PtraceClient::SendFilePath(const char* path, size_t length) {
