@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "edfee429_1b9846ab",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-03T17:24:29Z",
+      "side": 1,
+      "message": "\u003e Hmmm. I was comparing this to the safety of the file reading protocol, but I guess file reading is actually a little bit safer than the memory reading protocol since it only supports reading the entire file, which is conveniently nothing on systems that don\u0027t map a page at address 0.\n\nMy thought exactly!",
+      "parentUuid": "4fdb4b56_50d4ae95",
+      "revId": "5d735d20bb097c58ab1eebfe592da970cd2128c1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ddb55dc0_a60557d3",
         "filename": "util/linux/ptrace_broker.h",
         "patchSetId": 10
