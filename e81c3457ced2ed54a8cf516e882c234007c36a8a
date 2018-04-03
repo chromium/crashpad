@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3d832ec_7bb87545",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-03T16:27:01Z",
+      "side": 1,
+      "message": "Optional, but since you refactored ReceiveFilePath() out into its own function, you may want to do the open() there too, which would afford you the opportunity to disambiguate open() errors from read() errors on the receiving end.\n\nYou could easily adapt this by making PathResult into OpenResult, using negative values for path validation errors, 0 for success, and positive values for errnos.",
+      "revId": "e81c3457ced2ed54a8cf516e882c234007c36a8a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8587fff6_fe776640",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-03T16:27:01Z",
+      "side": 1,
+      "message": "kPathResultSuccess",
+      "range": {
+        "startLine": 75,
+        "startChar": 14,
+        "endLine": 75,
+        "endChar": 33
+      },
+      "revId": "e81c3457ced2ed54a8cf516e882c234007c36a8a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d53250af_e8cb7685",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-03T16:27:01Z",
+      "side": 1,
+      "message": "Perhaps require that “root” end in a \u0027/\u0027, and DCHECK for this.",
+      "revId": "e81c3457ced2ed54a8cf516e882c234007c36a8a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
