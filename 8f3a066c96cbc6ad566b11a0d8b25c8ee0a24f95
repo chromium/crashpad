@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1526d930_16d460e5",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-03T01:11:53Z",
+      "side": 1,
+      "message": "Results for read operations now use a enum ReadResult instead of int32_t. The ReadResult may indicate an errno needs to be read or a non-errno error.",
+      "parentUuid": "30834bb8_853fd665",
+      "revId": "8f3a066c96cbc6ad566b11a0d8b25c8ee0a24f95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e5ef62a5_86a7c6dc",
         "filename": "util/linux/ptrace_broker.cc",
         "patchSetId": 13
@@ -33,6 +51,24 @@
       "revId": "8f3a066c96cbc6ad566b11a0d8b25c8ee0a24f95",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8cdfc71_b073d168",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-03T01:11:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5ef62a5_86a7c6dc",
+      "revId": "8f3a066c96cbc6ad566b11a0d8b25c8ee0a24f95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "8f3a066c96cbc6ad566b11a0d8b25c8ee0a24f95",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adf4b12b_29c28e8a",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-03T01:11:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "791347f2_2dad4ee0",
+      "range": {
+        "startLine": 264,
+        "startChar": 45,
+        "endLine": 264,
+        "endChar": 74
+      },
+      "revId": "8f3a066c96cbc6ad566b11a0d8b25c8ee0a24f95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
