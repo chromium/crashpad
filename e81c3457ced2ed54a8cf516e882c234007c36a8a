@@ -34,6 +34,24 @@
       "revId": "e81c3457ced2ed54a8cf516e882c234007c36a8a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3006b13f_4572cbca",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-03T16:49:41Z",
+      "side": 0,
+      "message": "\u003e Ptracer\u0027s ReadMemory still needs to be updated to allow short reads. My plan was to add that as a fallback later, but start with /proc/pid/mem reading since it\u0027s easier, probably faster, and maybe sufficient for Android.\n\nMaybe. But I’m afraid of running into cases where we’re out of FDs, or almost out of FDs.\n\nFor file reads, for example, it’s best to not have to go through the broker, but to do it all from the handler. We should only try to use the broker if we can’t get at the files ourselves.\n\nFor memory reads, it’s a similar deal. Even if we need a broker for ptrace, if we’re able to access “mem” directly from the handler, that’d be best, followed by accessing it from the broker, and of course in last place, the ptrace peek.",
+      "parentUuid": "4260d612_99445406",
+      "revId": "e81c3457ced2ed54a8cf516e882c234007c36a8a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
