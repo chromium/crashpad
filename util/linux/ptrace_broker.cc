@@ -14,15 +14,21 @@
 
 #include "util/linux/ptrace_broker.h"
 
+#include <fcntl.h>
+#include <limits.h>
 #include <unistd.h>
 
+#include <algorithm>
+
 #include "base/logging.h"
+#include "base/posix/eintr_wrapper.h"
 #include "util/file/file_io.h"
 
 namespace crashpad {
 
 PtraceBroker::PtraceBroker(int sock, bool is_64_bit)
     : ptracer_(is_64_bit, /* can_log= */ false),
+      file_root_("/proc/"),
       attachments_(nullptr),
       attach_count_(0),
       attach_capacity_(0),
@@ -32,10 +38,37 @@ PtraceBroker::PtraceBroker(int sock, bool is_64_bit)
 
 PtraceBroker::~PtraceBroker() = default;
 
+void PtraceBroker::SetFileRoot(const char* new_root) {
+  file_root_ = new_root;
+}
+
 int PtraceBroker::Run() {
   int result = RunImpl();
   ReleaseAttachments();
   return result;
+}
+
+bool PtraceBroker::AllocateAttachments() {
+  constexpr size_t page_size = 4096;
+  constexpr size_t alloc_size =
+      (sizeof(ScopedPtraceAttach) + page_size - 1) & ~(page_size - 1);
+  void* alloc = sbrk(alloc_size);
+  if (reinterpret_cast<intptr_t>(alloc) == -1) {
+    return false;
+  }
+
+  if (attachments_ == nullptr) {
+    attachments_ = reinterpret_cast<ScopedPtraceAttach*>(alloc);
+  }
+
+  attach_capacity_ += alloc_size / sizeof(ScopedPtraceAttach);
+  return true;
+}
+
+void PtraceBroker::ReleaseAttachments() {
+  for (size_t index = 0; index < attach_count_; ++index) {
+    attachments_[index].Reset();
+  }
 }
 
 int PtraceBroker::RunImpl() {
@@ -114,6 +147,29 @@ int PtraceBroker::RunImpl() {
         continue;
       }
 
+      case Request::kTypeReadFile: {
+        char path_buffer[std::max(4096, PATH_MAX)];
+
+        bool valid_path;
+        int result = ReceiveFilePath(request.path.path_length,
+                                     path_buffer,
+                                     sizeof(path_buffer),
+                                     &valid_path);
+        if (result != 0) {
+          return result;
+        }
+
+        if (!valid_path) {
+          continue;
+        }
+
+        result = SendFileContents(path_buffer);
+        if (result != 0) {
+          return result;
+        }
+        continue;
+      }
+
       case Request::kTypeReadMemory: {
         int result =
             SendMemory(request.tid, request.iov.base, request.iov.size);
@@ -130,6 +186,52 @@ int PtraceBroker::RunImpl() {
     DCHECK(false);
     return EINVAL;
   }
+}
+
+int PtraceBroker::SendError(Errno err) {
+  return WriteFile(sock_, &err, sizeof(err)) ? 0 : errno;
+}
+
+int PtraceBroker::SendReadError(Errno err) {
+  int32_t rv = -1;
+  if (!WriteFile(sock_, &rv, sizeof(rv))) {
+    return errno;
+  }
+  return SendError(err);
+}
+
+int PtraceBroker::SendPathResult(PathResult result) {
+  return WriteFile(sock_, &result, sizeof(result)) ? 0 : errno;
+}
+
+int PtraceBroker::SendFileContents(char* path) {
+  ScopedFileHandle handle(
+      HANDLE_EINTR(open(path, O_RDONLY | O_CLOEXEC | O_NOCTTY)));
+  if (!handle.is_valid()) {
+    return SendReadError(errno);
+  }
+
+  char buffer[4096];
+  int32_t rv;
+  do {
+    rv = ReadFile(handle.get(), buffer, sizeof(buffer));
+
+    if (rv < 0) {
+      return SendReadError(errno);
+    }
+
+    if (!WriteFile(sock_, &rv, sizeof(rv))) {
+      return errno;
+    }
+
+    if (rv > 0) {
+      if (!WriteFile(sock_, buffer, static_cast<size_t>(rv))) {
+        return errno;
+      }
+    }
+  } while (rv > 0);
+
+  return 0;
 }
 
 int PtraceBroker::SendMemory(pid_t pid, VMAddress address, VMSize size) {
@@ -161,27 +263,27 @@ int PtraceBroker::SendMemory(pid_t pid, VMAddress address, VMSize size) {
   return 0;
 }
 
-bool PtraceBroker::AllocateAttachments() {
-  constexpr size_t page_size = 4096;
-  constexpr size_t alloc_size =
-      (sizeof(ScopedPtraceAttach) + page_size - 1) & ~(page_size - 1);
-  void* alloc = sbrk(alloc_size);
-  if (reinterpret_cast<intptr_t>(alloc) == -1) {
-    return false;
+int PtraceBroker::ReceiveFilePath(VMSize path_length,
+                                  char* buffer,
+                                  size_t buffer_size,
+                                  bool* valid_path) {
+  if (path_length >= buffer_size) {
+    *valid_path = false;
+    return SendPathResult(kPathResultTooLong);
   }
 
-  if (attachments_ == nullptr) {
-    attachments_ = reinterpret_cast<ScopedPtraceAttach*>(alloc);
+  if (!ReadFileExactly(sock_, buffer, path_length)) {
+    return errno;
+  }
+  buffer[path_length] = '\0';
+
+  if (strncmp(buffer, file_root_, strlen(file_root_)) != 0) {
+    *valid_path = false;
+    return SendPathResult(kPathResultAccessDenied);
   }
 
-  attach_capacity_ += alloc_size / sizeof(ScopedPtraceAttach);
-  return true;
-}
-
-void PtraceBroker::ReleaseAttachments() {
-  for (size_t index = 0; index < attach_count_; ++index) {
-    attachments_[index].Reset();
-  }
+  *valid_path = true;
+  return SendPathResult(kPathResultSuccess);
 }
 
 }  // namespace crashpad
