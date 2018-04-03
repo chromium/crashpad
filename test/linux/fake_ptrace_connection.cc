@@ -44,6 +44,10 @@ bool FakePtraceConnection::Initialize(pid_t pid) {
   is_64_bit_ = false;
 #endif
 
+  if (!memory_.Initialize(pid)) {
+    return false;
+  }
+
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
 }
@@ -75,6 +79,11 @@ bool FakePtraceConnection::ReadFileContents(const base::FilePath& path,
                                             std::string* contents) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return LoggingReadEntireFile(path, contents);
+}
+
+ProcessMemory* FakePtraceConnection::Memory() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return &memory_;
 }
 
 }  // namespace test
