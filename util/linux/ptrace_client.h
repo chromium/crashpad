@@ -49,10 +49,6 @@ class PtraceClient : public PtraceConnection {
   //! \brief Copies memory from the target process into a caller-provided buffer
   //!     in the current process.
   //!
-  //! TODO(jperaza): In order for this to be usable, PtraceConnection will need
-  //! to surface it, possibly by inheriting from ProcessMemory, or providing a
-  //! method to return a ProcessMemory*.
-  //!
   //! \param[in] address The address, in the target process' address space, of
   //!     the memory region to copy.
   //! \param[in] size The size, in bytes, of the memory region to copy.
@@ -62,7 +58,7 @@ class PtraceClient : public PtraceConnection {
   //!
   //! \return `true` on success, with \a buffer filled appropriately. `false` on
   //!     failure, with a message logged.
-  bool Read(VMAddress address, size_t size, void* buffer);
+  ssize_t ReadUpTo(VMAddress address, size_t size, void* buffer) const;
 
   // PtraceConnection:
 
@@ -72,8 +68,25 @@ class PtraceClient : public PtraceConnection {
   bool GetThreadInfo(pid_t tid, ThreadInfo* info) override;
   bool ReadFileContents(const base::FilePath& path,
                         std::string* contents) override;
+  ProcessMemory* Memory() override;
 
  private:
+  class BrokeredMemory : public ProcessMemory {
+   public:
+    explicit BrokeredMemory(PtraceClient* client);
+    ~BrokeredMemory();
+
+    bool Initialize(int sock, pid_t pid);
+
+    ssize_t ReadUpTo(VMAddress address, size_t size, void* buffer) const override;
+
+   private:
+    PtraceClient* client_;
+
+    DISALLOW_COPY_AND_ASSIGN(BrokeredMemory);
+  };
+
+  BrokeredMemory memory_;
   int sock_;
   pid_t pid_;
   bool is_64_bit_;

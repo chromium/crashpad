@@ -71,6 +71,9 @@ using VMSize = size_t;
 //!     across bitness.
 using VMOffset = std::make_signed<VMSize>::type;
 
+//! \brief Type used to represent a signed VMSize.
+using VMSSize = std::make_signed<VMSize>::type;
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_MISC_ADDRESS_TYPES_H_

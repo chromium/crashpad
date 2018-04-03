@@ -60,6 +60,9 @@ class PtraceBroker {
       //!     followed by an Errno.
       kTypeGetThreadInfo,
 
+      //! \brief Initialize a memory reader using the specified file path.
+      kTypeSetMemoryFile,
+
       //! \brief Reads memory from the attached process. The data is returned in
       //!     a series of messages. Each message begins with a VMSize indicating
       //!     the number of bytes being returned in this message, followed by
@@ -182,6 +185,7 @@ class PtraceBroker {
   ScopedPtraceAttach* attachments_;
   size_t attach_count_;
   size_t attach_capacity_;
+  ScopedFileHandle memory_file_;
   int sock_;
 
   DISALLOW_COPY_AND_ASSIGN(PtraceBroker);

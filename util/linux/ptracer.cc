@@ -376,9 +376,9 @@ bool Ptracer::GetThreadInfo(pid_t tid, ThreadInfo* info) {
 }
 
 bool Ptracer::ReadMemory(pid_t pid,
-                         LinuxVMAddress address,
-                         size_t size,
-                         char* buffer) {
+                          LinuxVMAddress address,
+                          size_t size,
+                          char* buffer) {
   while (size > 0) {
     errno = 0;
 

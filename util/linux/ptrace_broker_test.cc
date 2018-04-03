@@ -188,8 +188,11 @@ class SameBitnessTest : public Multiprocess {
       ASSERT_TRUE(client.GetThreadInfo(child2_tid, &info2));
       EXPECT_EQ(info2.thread_specific_data_address, child2_tls);
 
+      ProcessMemory* memory = client.Memory();
+      ASSERT_TRUE(memory);
+
       auto buffer = std::make_unique<char[]>(mapping_.len());
-      ASSERT_TRUE(client.Read(
+      ASSERT_TRUE(memory->Read(
           mapping_.addr_as<VMAddress>(), mapping_.len(), buffer.get()));
       auto expected_buffer = mapping_.addr_as<char*>();
       for (size_t index = 0; index < mapping_.len(); ++index) {
@@ -198,18 +201,18 @@ class SameBitnessTest : public Multiprocess {
 
       char first;
       ASSERT_TRUE(
-          client.Read(mapping_.addr_as<VMAddress>(), sizeof(first), &first));
+          memory->Read(mapping_.addr_as<VMAddress>(), sizeof(first), &first));
       EXPECT_EQ(first, expected_buffer[0]);
 
       char last;
       ASSERT_TRUE(
-          client.Read(mapping_.addr_as<VMAddress>() + mapping_.len() - 1,
+          memory->Read(mapping_.addr_as<VMAddress>() + mapping_.len() - 1,
                       sizeof(last),
                       &last));
       EXPECT_EQ(last, expected_buffer[mapping_.len() - 1]);
 
       char unmapped;
-      EXPECT_FALSE(client.Read(mapping_.addr_as<VMAddress>() + mapping_.len(),
+      EXPECT_FALSE(memory->Read(mapping_.addr_as<VMAddress>() + mapping_.len(),
                                sizeof(unmapped),
                                &unmapped));
 
