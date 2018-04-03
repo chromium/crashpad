@@ -77,5 +77,10 @@ bool FakePtraceConnection::ReadFileContents(const base::FilePath& path,
   return LoggingReadEntireFile(path, contents);
 }
 
+ProcessMemory* FakePtraceConnection::Memory() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return nullptr;
+}
+
 }  // namespace test
 }  // namespace crashpad
