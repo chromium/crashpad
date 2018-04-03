@@ -101,6 +101,42 @@ bool PtraceClient::Initialize(int sock, pid_t pid) {
   return true;
 }
 
+bool PtraceClient::Read(VMAddress address, size_t size, void* buffer) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  char* buffer_c = reinterpret_cast<char*>(buffer);
+
+  PtraceBroker::Request request;
+  request.type = PtraceBroker::Request::kTypeReadMemory;
+  request.tid = pid_;
+  request.iov.base = address;
+  request.iov.size = size;
+
+  if (!LoggingWriteFile(sock_, &request, sizeof(request))) {
+    return false;
+  }
+
+  while (size > 0) {
+    VMSize bytes_read;
+    if (!LoggingReadFileExactly(sock_, &bytes_read, sizeof(bytes_read))) {
+      return false;
+    }
+
+    if (!bytes_read) {
+      ReceiveAndLogError(sock_, "PtraceBroker ReadMemory");
+      return false;
+    }
+
+    if (!LoggingReadFileExactly(sock_, buffer_c, bytes_read)) {
+      return false;
+    }
+
+    size -= bytes_read;
+    buffer_c += bytes_read;
+  }
+
+  return true;
+}
+
 pid_t PtraceClient::GetProcessID() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return pid_;
@@ -140,39 +176,56 @@ bool PtraceClient::GetThreadInfo(pid_t tid, ThreadInfo* info) {
   return false;
 }
 
-bool PtraceClient::Read(VMAddress address, size_t size, void* buffer) {
+bool PtraceClient::ReadFileContents(const base::FilePath& path,
+                                    std::string* contents) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  char* buffer_c = reinterpret_cast<char*>(buffer);
 
   PtraceBroker::Request request;
-  request.type = PtraceBroker::Request::kTypeReadMemory;
-  request.tid = pid_;
-  request.iov.base = address;
-  request.iov.size = size;
+  request.type = PtraceBroker::Request::kTypeReadFile;
+  request.path.path_length = path.value().size();
 
-  if (!LoggingWriteFile(sock_, &request, sizeof(request))) {
+  if (!LoggingWriteFile(sock_, &request, sizeof(request)) ||
+      !LoggingWriteFile(
+          sock_, path.value().c_str(), request.path.path_length)) {
     return false;
   }
 
-  while (size > 0) {
-    VMSize bytes_read;
-    if (!LoggingReadFileExactly(sock_, &bytes_read, sizeof(bytes_read))) {
+  std::string local_contents;
+  PtraceBroker::ReadResult read_result;
+  do {
+    if (!LoggingReadFileExactly(sock_, &read_result, sizeof(read_result))) {
       return false;
     }
 
-    if (!bytes_read) {
-      ReceiveAndLogError(sock_, "PtraceBroker ReadMemory");
-      return false;
+    switch (read_result) {
+      case PtraceBroker::kReadResultAccessDenied:
+        LOG(ERROR) << "access denied";
+        return false;
+      case PtraceBroker::kReadResultPathTooLong:
+        LOG(ERROR) << "path too long";
+        return false;
+      case PtraceBroker::kReadResultErrno:
+        ReceiveAndLogError(sock_, "ReadFileContents");
+        return false;
+      default:
+        if (read_result < 0) {
+          LOG(ERROR) << "invalid result " << read_result;
+          DCHECK(false);
+          return false;
+        }
     }
 
-    if (!LoggingReadFileExactly(sock_, buffer_c, bytes_read)) {
-      return false;
+    if (read_result > 0) {
+      size_t old_length = local_contents.size();
+      local_contents.resize(old_length + read_result);
+      if (!LoggingReadFileExactly(
+              sock_, &local_contents[old_length], read_result)) {
+        return false;
+      }
     }
+  } while (read_result > 0);
 
-    size -= bytes_read;
-    buffer_c += bytes_read;
-  }
-
+  contents->swap(local_contents);
   return true;
 }
 

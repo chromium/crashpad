@@ -53,6 +53,9 @@ class FakePtraceConnection : public PtraceConnection {
   //! \brief Does not modify \a info.
   bool GetThreadInfo(pid_t tid, ThreadInfo* info) override;
 
+  bool ReadFileContents(const base::FilePath& path,
+                        std::string* contents) override;
+
  private:
   std::set<pid_t> attachments_;
   pid_t pid_;
