@@ -60,13 +60,17 @@ class PtraceBroker {
       //!     followed by an Errno.
       kTypeGetThreadInfo,
 
+      //! \brief Directs the broker to open a memory file for subsequent
+      //!     kTypeReadMemory requests. Responds with a PathResult, indicating
+      //!     the validity of the received path. If the PathResult is valid, it
+      //!     is followed by a Bool indicating whether the file was successfully
+      //!     opened. If kBoolFalse, an Errno follows.
+      kTypeSetMemoryFile,
+
       //! \brief Reads memory from the attached process. The data is returned in
-      //!     a series of messages. Each message begins with a VMSize indicating
-      //!     the number of bytes being returned in this message, followed by
-      //!     the requested bytes. The broker continues to send messages until
-      //!     either all of the requested memory has been sent or an error
-      //!     occurs, in which case it sends a message containing a VMSize equal
-      //!     to zero, followed by an Errno.
+      //!     a series of messages. Each message begins with an int32_t
+      //!     indicating the number of bytes read, 0 for end-of-file, or -1 for
+      //!     errors, followed by an Errno. On success the bytes read follow.
       kTypeReadMemory,
 
       //! \brief Read a file's contents. The data is returned in a series of
@@ -98,9 +102,10 @@ class PtraceBroker {
         VMSize size;
       } iov;
 
-      // \brief Specifies the file path to read for a kTypeReadFile request.
+      //! \brief Specifies the file path to read for a kTypeReadFile or
+      //!     kTypeSetMemoryFile request.
       struct {
-        //! \brief The number of bytes in #path, including the `NUL`-terminator.
+        //! \brief The number of bytes in #path.
         VMSize path_length;
 
         //! \brief The file path to read.
@@ -183,6 +188,7 @@ class PtraceBroker {
   ScopedPtraceAttach* attachments_;
   size_t attach_count_;
   size_t attach_capacity_;
+  ScopedFileHandle memory_file_;
   int sock_;
 
   DISALLOW_COPY_AND_ASSIGN(PtraceBroker);

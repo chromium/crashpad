@@ -77,5 +77,18 @@ bool FakePtraceConnection::ReadFileContents(const base::FilePath& path,
   return LoggingReadEntireFile(path, contents);
 }
 
+ProcessMemory* FakePtraceConnection::Memory() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  if (!memory_) {
+    auto mem = std::make_unique<ProcessMemoryLinux>();
+    if (mem->Initialize(pid_)) {
+      memory_ = std::move(mem);
+    } else {
+      ADD_FAILURE();
+    }
+  }
+  return memory_.get();
+}
+
 }  // namespace test
 }  // namespace crashpad
