@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38a9fee0_d0c78431",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-03T18:48:29Z",
+      "side": 1,
+      "message": "You might want to further narrow this to /proc/nnn/, but you mentioned wanting to avoid formatting strings from the broker. I guess it’s OK as-is. Maybe just leave a rainy-day TODO.",
+      "revId": "42e31255e48401497a6c3c83c96f6c336f44fe6c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12c15a07_6fa6d3d3",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-03T18:48:29Z",
+      "side": 1,
+      "message": "If this string logs “Broker Open: errno_stuff”, then the others should also share the “Broker Open” prefix.",
+      "revId": "42e31255e48401497a6c3c83c96f6c336f44fe6c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
