@@ -23,8 +23,10 @@
 
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "test/filesystem.h"
 #include "test/linux/get_tls.h"
 #include "test/multiprocess.h"
+#include "test/scoped_temp_dir.h"
 #include "util/file/file_io.h"
 #include "util/linux/ptrace_client.h"
 #include "util/posix/scoped_mmap.h"
@@ -143,12 +145,30 @@ class SameBitnessTest : public Multiprocess {
     ScopedFileHandle broker_sock(socks[0]);
     ScopedFileHandle client_sock(socks[1]);
 
+    ScopedTempDir temp_dir;
+    base::FilePath file_path(temp_dir.path().Append("test_file"));
+    std::string expected_file_contents;
+    {
+      expected_file_contents.resize(4097);
+      for (size_t i = 0; i < expected_file_contents.size(); ++i) {
+        expected_file_contents[i] = static_cast<char>(i % 256);
+      }
+      ScopedFileHandle handle(
+          LoggingOpenFileForWrite(file_path,
+                                  FileWriteMode::kCreateOrFail,
+                                  FilePermissions::kWorldReadable));
+      ASSERT_TRUE(LoggingWriteFile(handle.get(),
+                                   expected_file_contents.data(),
+                                   expected_file_contents.size()));
+    }
+
 #if defined(ARCH_CPU_64_BITS)
     constexpr bool am_64_bit = true;
 #else
     constexpr bool am_64_bit = false;
 #endif  // ARCH_CPU_64_BITS
     PtraceBroker broker(broker_sock.get(), am_64_bit);
+    broker.SetFileRoot(temp_dir.path().value().c_str());
     RunBrokerThread broker_thread(&broker);
     broker_thread.Start();
 
@@ -192,6 +212,15 @@ class SameBitnessTest : public Multiprocess {
       EXPECT_FALSE(client.Read(mapping_.addr_as<VMAddress>() + mapping_.len(),
                                sizeof(unmapped),
                                &unmapped));
+
+      std::string file_contents;
+      ASSERT_TRUE(client.ReadFileContents(file_path, &file_contents));
+      EXPECT_EQ(file_contents, expected_file_contents);
+
+      ScopedTempDir temp_dir2;
+      base::FilePath test_file2(temp_dir2.path().Append("test_file2"));
+      ASSERT_TRUE(CreateFile(test_file2));
+      EXPECT_FALSE(client.ReadFileContents(test_file2, &file_contents));
     }
   }
 
