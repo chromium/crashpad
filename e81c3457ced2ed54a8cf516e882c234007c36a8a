@@ -16,6 +16,24 @@
       "revId": "e81c3457ced2ed54a8cf516e882c234007c36a8a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4260d612_99445406",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-03T16:41:34Z",
+      "side": 0,
+      "message": "Ptracer\u0027s ReadMemory still needs to be updated to allow short reads. My plan was to add that as a fallback later, but start with /proc/pid/mem reading since it\u0027s easier, probably faster, and maybe sufficient for Android.",
+      "parentUuid": "ab31b2d5_f2ef79e8",
+      "revId": "e81c3457ced2ed54a8cf516e882c234007c36a8a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
