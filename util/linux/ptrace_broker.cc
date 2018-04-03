@@ -22,7 +22,6 @@
 
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
-#include "util/file/file_io.h"
 
 namespace crashpad {
 
@@ -32,6 +31,7 @@ PtraceBroker::PtraceBroker(int sock, bool is_64_bit)
       attachments_(nullptr),
       attach_count_(0),
       attach_capacity_(0),
+      memory_file_(),
       sock_(sock) {
   AllocateAttachments();
 }
@@ -170,6 +170,40 @@ int PtraceBroker::RunImpl() {
         continue;
       }
 
+      case Request::kTypeSetMemoryFile: {
+        char path_buffer[std::max(4096, PATH_MAX)];
+
+        bool valid_path;
+        int result = ReceiveFilePath(request.path.path_length,
+                                     path_buffer,
+                                     sizeof(path_buffer),
+                                     &valid_path);
+
+        if (result != 0) {
+          return result;
+        }
+
+        if (!valid_path) {
+          continue;
+        }
+
+        memory_file_.reset(
+            HANDLE_EINTR(open(path_buffer, O_RDONLY | O_CLOEXEC | O_NOCTTY)));
+
+        Bool opened = memory_file_.is_valid() ? kBoolTrue : kBoolFalse;
+        if (!WriteFile(sock_, &opened, sizeof(opened))) {
+          return errno;
+        }
+
+        if (!memory_file_.is_valid()) {
+          int result = SendError(errno);
+          if (result != 0) {
+            return result;
+          }
+        }
+        continue;
+      }
+
       case Request::kTypeReadMemory: {
         int result =
             SendMemory(request.tid, request.iov.base, request.iov.size);
@@ -235,22 +269,25 @@ int PtraceBroker::SendFileContents(char* path) {
 }
 
 int PtraceBroker::SendMemory(pid_t pid, VMAddress address, VMSize size) {
+  DCHECK(memory_file_.is_valid());
+
   char buffer[4096];
   while (size > 0) {
-    VMSize bytes_read = std::min(size, VMSize{sizeof(buffer)});
+    size_t to_read = std::min(size, VMSize{sizeof(buffer)});
 
-    if (!ptracer_.ReadMemory(pid, address, bytes_read, buffer)) {
-      bytes_read = 0;
-      Errno error = errno;
-      if (!WriteFile(sock_, &bytes_read, sizeof(bytes_read)) ||
-          !WriteFile(sock_, &error, sizeof(error))) {
-        return errno;
-      }
-      return 0;
+    int32_t bytes_read =
+        HANDLE_EINTR(pread64(memory_file_.get(), buffer, to_read, address));
+
+    if (bytes_read < 0) {
+      return SendReadError(errno);
     }
 
     if (!WriteFile(sock_, &bytes_read, sizeof(bytes_read))) {
       return errno;
+    }
+
+    if (bytes_read == 0) {
+      return 0;
     }
 
     if (!WriteFile(sock_, buffer, bytes_read)) {
