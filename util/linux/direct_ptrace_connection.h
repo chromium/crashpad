@@ -52,6 +52,8 @@ class DirectPtraceConnection : public PtraceConnection {
   bool Attach(pid_t tid) override;
   bool Is64Bit() override;
   bool GetThreadInfo(pid_t tid, ThreadInfo* info) override;
+  bool ReadFileContents(const base::FilePath& path,
+                        std::string* contents) override;
 
  private:
   std::vector<std::unique_ptr<ScopedPtraceAttach>> attachments_;

@@ -39,6 +39,7 @@
 
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
 
+#include "test/linux/fake_ptrace_connection.h"
 #include "util/linux/auxiliary_vector.h"
 #include "util/linux/memory_map.h"
 
@@ -62,7 +63,6 @@ namespace {
 
 void LocateExecutable(ProcessType process,
                       ProcessMemory* memory,
-                      bool is_64_bit,
                       VMAddress* elf_address) {
   uintptr_t debug_address;
   zx_status_t status = zx_object_get_property(process,
@@ -90,18 +90,17 @@ void LocateExecutable(ProcessType process,
 
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
 
-void LocateExecutable(ProcessType process,
+void LocateExecutable(PtraceConnection* connection,
                       ProcessMemory* memory,
-                      bool is_64_bit,
                       VMAddress* elf_address) {
   AuxiliaryVector aux;
-  ASSERT_TRUE(aux.Initialize(process, is_64_bit));
+  ASSERT_TRUE(aux.Initialize(connection));
 
   VMAddress phdrs;
   ASSERT_TRUE(aux.GetValue(AT_PHDR, &phdrs));
 
   MemoryMap memory_map;
-  ASSERT_TRUE(memory_map.Initialize(process));
+  ASSERT_TRUE(memory_map.Initialize(connection));
   const MemoryMap::Mapping* phdr_mapping = memory_map.FindMapping(phdrs);
   ASSERT_TRUE(phdr_mapping);
   const MemoryMap::Mapping* exe_mapping =
@@ -139,7 +138,13 @@ void ReadThisExecutableInTarget(ProcessType process,
   ASSERT_TRUE(range.Initialize(&memory, am_64_bit));
 
   VMAddress elf_address;
-  LocateExecutable(process, &memory, am_64_bit, &elf_address);
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+  FakePtraceConnection connection;
+  ASSERT_TRUE(connection.Initialize(process));
+  LocateExecutable(&connection, &memory, &elf_address);
+#elif defined(OS_FUCHSIA)
+  LocateExecutable(process, &memory, &elf_address);
+#endif
   ASSERT_NO_FATAL_FAILURE();
 
   ElfImageReader reader;

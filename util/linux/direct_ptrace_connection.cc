@@ -16,6 +16,8 @@
 
 #include <utility>
 
+#include "util/file/file_io.h"
+
 namespace crashpad {
 
 DirectPtraceConnection::DirectPtraceConnection()
@@ -61,6 +63,12 @@ bool DirectPtraceConnection::Is64Bit() {
 bool DirectPtraceConnection::GetThreadInfo(pid_t tid, ThreadInfo* info) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return ptracer_.GetThreadInfo(tid, info);
+}
+
+bool DirectPtraceConnection::ReadFileContents(const base::FilePath& path,
+                                              std::string* contents) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return LoggingReadEntireFile(path, contents);
 }
 
 }  // namespace crashpad

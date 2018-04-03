@@ -25,6 +25,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
+#include "test/linux/fake_ptrace_connection.h"
 #include "test/multiprocess.h"
 #include "util/linux/address_types.h"
 #include "util/linux/memory_map.h"
@@ -45,16 +46,14 @@ namespace test {
 namespace {
 
 void TestAgainstCloneOrSelf(pid_t pid) {
-#if defined(ARCH_CPU_64_BITS)
-  constexpr bool am_64_bit = true;
-#else
-  constexpr bool am_64_bit = false;
-#endif
+  FakePtraceConnection connection;
+  ASSERT_TRUE(connection.Initialize(pid));
+
   AuxiliaryVector aux;
-  ASSERT_TRUE(aux.Initialize(pid, am_64_bit));
+  ASSERT_TRUE(aux.Initialize(&connection));
 
   MemoryMap mappings;
-  ASSERT_TRUE(mappings.Initialize(pid));
+  ASSERT_TRUE(mappings.Initialize(&connection));
 
   LinuxVMAddress phdrs;
   ASSERT_TRUE(aux.GetValue(AT_PHDR, &phdrs));
@@ -168,13 +167,11 @@ class AuxVecTester : public AuxiliaryVector {
 };
 
 TEST(AuxiliaryVector, SignedBit) {
-#if defined(ARCH_CPU_64_BITS)
-  constexpr bool am_64_bit = true;
-#else
-  constexpr bool am_64_bit = false;
-#endif
+  FakePtraceConnection connection;
+  ASSERT_TRUE(connection.Initialize(getpid()));
+
   AuxVecTester aux;
-  ASSERT_TRUE(aux.Initialize(getpid(), am_64_bit));
+  ASSERT_TRUE(&connection);
   constexpr uint64_t type = 0x0000000012345678;
 
   constexpr int32_t neg1_32 = -1;

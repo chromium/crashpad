@@ -21,6 +21,7 @@
 
 #include "base/logging.h"
 #include "base/macros.h"
+#include "util/linux/ptrace_connection.h"
 #include "util/misc/reinterpret_bytes.h"
 
 namespace crashpad {
@@ -32,16 +33,15 @@ class AuxiliaryVector {
   ~AuxiliaryVector();
 
   //! \brief Initializes this object with the auxiliary vector for the process
-  //!     with process ID \a pid.
+  //!     connected via \a connection.
   //!
   //! This method must be called successfully prior to calling any other method
   //! in this class.
   //!
-  //! \param[in] pid The process ID of a target process.
-  //! \param[in] is_64_bit Whether the target process is 64-bit.
+  //! \param[in] connection A connection to the target process.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
-  bool Initialize(pid_t pid, bool is_64_bit);
+  bool Initialize(PtraceConnection* connection);
 
   //! \brief Retrieve a value from the vector.
   //!
@@ -64,7 +64,7 @@ class AuxiliaryVector {
 
  private:
   template <typename ULong>
-  bool Read(pid_t pid);
+  bool Read(PtraceConnection* connection);
 
   DISALLOW_COPY_AND_ASSIGN(AuxiliaryVector);
 };
