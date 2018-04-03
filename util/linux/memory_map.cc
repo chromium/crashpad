@@ -221,7 +221,7 @@ bool MemoryMap::Mapping::Equals(const Mapping& other) const {
          shareable == other.shareable;
 }
 
-bool MemoryMap::Initialize(pid_t pid) {
+bool MemoryMap::Initialize(PtraceConnection* connection) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   // If the maps file is not read atomically, entries can be read multiple times
@@ -235,8 +235,8 @@ bool MemoryMap::Initialize(pid_t pid) {
   do {
     std::string contents;
     char path[32];
-    snprintf(path, sizeof(path), "/proc/%d/maps", pid);
-    if (!LoggingReadEntireFile(base::FilePath(path), &contents)) {
+    snprintf(path, sizeof(path), "/proc/%d/maps", connection->GetProcessID());
+    if (!connection->ReadFileContents(base::FilePath(path), &contents)) {
       return false;
     }
 
