@@ -120,6 +120,8 @@ hooks = [
     # Linux build host and vice-versa. https://crbug.com/789364. This package is
     # only updated when the solution in .gclient includes an entry like:
     #   "custom_vars": { "pull_linux_clang": True }
+    # The ref used is "goma". This is like "latest", but is considered a more
+    # stable latest by the Fuchsia toolchain team.
     'name': 'clang_linux',
     'pattern': '.',
     'condition': 'checkout_linux and pull_linux_clang',
@@ -129,7 +131,7 @@ hooks = [
       # sic, using Fuchsia team's generic build of clang for linux-amd64 to
       # build for linux-amd64 target too.
       'fuchsia/clang/linux-amd64',
-      'latest',
+      'goma',
       '-root', 'crashpad/third_party/linux/clang/linux-amd64',
       '-log-level', 'info',
     ],
@@ -137,7 +139,7 @@ hooks = [
   {
     # If using a local clang ("pull_linux_clang" above), also pull down a
     # sysroot.
-    'name': 'clang_linux',
+    'name': 'sysroot_linux',
     'pattern': '.',
     'condition': 'checkout_linux and pull_linux_clang',
     'action': [
@@ -147,6 +149,7 @@ hooks = [
   {
     # Same rationale for using "install" rather than "ensure" as for first clang
     # package. https://crbug.com/789364.
+    # Same rationale for using "goma" instead of "latest" as clang_linux above.
     'name': 'fuchsia_clang_mac',
     'pattern': '.',
     'condition': 'checkout_fuchsia and host_os == "mac"',
@@ -154,7 +157,7 @@ hooks = [
       'cipd',
       'install',
       'fuchsia/clang/mac-amd64',
-      'latest',
+      'goma',
       '-root', 'crashpad/third_party/fuchsia/clang/mac-amd64',
       '-log-level', 'info',
     ],
@@ -162,6 +165,7 @@ hooks = [
   {
     # Same rationale for using "install" rather than "ensure" as for first clang
     # package. https://crbug.com/789364.
+    # Same rationale for using "goma" instead of "latest" as clang_linux above.
     'name': 'fuchsia_clang_linux',
     'pattern': '.',
     'condition': 'checkout_fuchsia and host_os == "linux"',
@@ -169,7 +173,7 @@ hooks = [
       'cipd',
       'install',
       'fuchsia/clang/linux-amd64',
-      'latest',
+      'goma',
       '-root', 'crashpad/third_party/fuchsia/clang/linux-amd64',
       '-log-level', 'info',
     ],
