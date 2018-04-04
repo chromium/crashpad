@@ -83,9 +83,17 @@ class Ptracer {
   //! \param[out] buffer The buffer to fill with the data read.
   //! \return `true` on success. `false` on failure with a message logged, if
   //!     enabled.
-  bool ReadMemory(pid_t pid, LinuxVMAddress address, size_t size, char* buffer);
+  ssize_t ReadUpTo(pid_t pid,
+                   LinuxVMAddress address,
+                   size_t size,
+                   char* buffer);
 
  private:
+  ssize_t ReadLastBytes(pid_t pid,
+                        LinuxVMAddress address,
+                        size_t size,
+                        char* buffer);
+
   bool is_64_bit_;
   bool can_log_;
   InitializationStateDcheck initialized_;
