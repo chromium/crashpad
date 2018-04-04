@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84802397_79042d64",
+        "filename": "DEPS",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-04T21:56:26Z",
+      "side": 1,
+      "message": "I think we meant to give this a different name.",
+      "revId": "09f36322d6459a3390e150db8c1324fec05a53f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53fabe6a_6eb5f4a6",
+        "filename": "DEPS",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-04T21:56:26Z",
+      "side": 1,
+      "message": "and same rationale for using \"goma\" instead of \"latest\". Line 166 too.",
+      "revId": "09f36322d6459a3390e150db8c1324fec05a53f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
