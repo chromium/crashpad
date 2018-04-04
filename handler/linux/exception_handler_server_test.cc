@@ -141,6 +141,25 @@ class MockPtraceStrategyDecider : public PtraceStrategyDecider {
   ~MockPtraceStrategyDecider() {}
 
   Strategy ChooseStrategy(int sock, const ucred& client_credentials) override {
+    if (strategy_ == Strategy::kUseBroker) {
+      ServerToClientMessage message = {};
+      message.type = ServerToClientMessage::kTypeForkBroker;
+
+      Errno status;
+      bool result = LoggingWriteFile(sock, &message, sizeof(message)) &&
+                    LoggingReadFileExactly(sock, &status, sizeof(status));
+      EXPECT_TRUE(result);
+
+      if (!result) {
+        return Strategy::kError;
+      }
+
+      if (status != 0) {
+        errno = status;
+        ADD_FAILURE() << ErrnoMessage("Handler Client ForkBroker");
+        return Strategy::kNoPtrace;
+      }
+    }
     return strategy_;
   }
 
