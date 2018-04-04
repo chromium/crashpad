@@ -44,7 +44,7 @@ static_library("test") {
     "test_paths.h",
   ]
 
-  if (crashpad_is_posix) {
+  if (crashpad_is_posix || crashpad_is_fuchsia) {
     sources += [ "scoped_temp_dir_posix.cc" ]
 
     if (!crashpad_is_fuchsia) {
@@ -140,6 +140,8 @@ source_set("test_test") {
     "test_paths_test.cc",
   ]
 
+  # TODO(crbug.com/812974): Remove !crashpad_is_fuchsia when Fuchsia is no
+  # longer treated as a posix platform.
   if (crashpad_is_posix && !crashpad_is_fuchsia) {
     sources += [ "multiprocess_posix_test.cc" ]
   }
@@ -153,9 +155,6 @@ source_set("test_test") {
       "win/win_child_process_test.cc",
       "win/win_multiprocess_test.cc",
     ]
-  }
-
-  if (!crashpad_is_fuchsia) {
   }
 
   deps = [
