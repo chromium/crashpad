@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62c5b5fb_e71867d4",
+        "filename": "DEPS",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-04T22:06:04Z",
+      "side": 1,
+      "message": "If you roll this to 6e0fdb2e4966ec44b1ce7b8464fd7c80d1b59203 instead, the Linux trybot should be fixed, in theory. (Or just force-submit, and I can do that next.)",
+      "range": {
+        "startLine": 32,
+        "startChar": 7,
+        "endLine": 32,
+        "endChar": 47
+      },
+      "revId": "fb36fd27b288c613872aafc9b43ff1a5dc077dc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
