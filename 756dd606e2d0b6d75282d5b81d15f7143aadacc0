@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2c01702_c0252ea3",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-04T20:01:57Z",
+      "side": 1,
+      "message": "Not that you shouldn’t feel welcome to list yourself in this file, but if this contribution meets the bar, then certainly Joshua’s do as well. Joshua, please feel free to add yourself.",
+      "revId": "756dd606e2d0b6d75282d5b81d15f7143aadacc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c510435_a2990aec",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-04T20:01:57Z",
+      "side": 1,
+      "message": "Feel free to use UTF-8 in this file if you’d like. (I mention it because you’ve gone beyond ASCII for your name as presented in the code review tool, and you might not realize that you’re allowed to do the same for any text file in this repository.)",
+      "revId": "756dd606e2d0b6d75282d5b81d15f7143aadacc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa2fbb46_404d7888",
+        "filename": "compat/linux/sys/ptrace.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-04T20:01:57Z",
+      "side": 1,
+      "message": "Leave this line alone.",
+      "revId": "756dd606e2d0b6d75282d5b81d15f7143aadacc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
