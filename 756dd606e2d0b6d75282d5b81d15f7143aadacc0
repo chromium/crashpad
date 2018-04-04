@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "61740f0b_9eb1a5fe",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1250986
+      },
+      "writtenOn": "2018-04-04T20:22:05Z",
+      "side": 1,
+      "message": "Let\u0027s leave this out of the change. Definitely if I contribute more in the future I can revisit that, and the important thing is the AUTHORS update.",
+      "parentUuid": "d2c01702_c0252ea3",
+      "revId": "756dd606e2d0b6d75282d5b81d15f7143aadacc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8c510435_a2990aec",
         "filename": "CONTRIBUTORS",
         "patchSetId": 2
