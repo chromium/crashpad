@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49e7de66_02b4c599",
+        "filename": "test/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-04T21:43:04Z",
+      "side": 1,
+      "message": "Add a TODO reminding us to clean this up once Fuchsia is no longer considered crashpad_is_posix. The TODO should refer to https://crbug.com/812974.",
+      "revId": "f2f1c7e55a938bf86010318130e268b3ae221ecc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
