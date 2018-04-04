@@ -20,11 +20,24 @@
 #include <sys/cdefs.h>
 
 // https://sourceware.org/bugzilla/show_bug.cgi?id=22433
-#if !defined(PTRACE_GET_THREAD_AREA) && \
-    defined(__GLIBC__) && (defined(__i386__) || defined(__x86_64__))
+#if !defined(PTRACE_GET_THREAD_AREA) && defined(__GLIBC__)
+#if defined(__i386__) || defined(__x86_64__)
 static constexpr __ptrace_request PTRACE_GET_THREAD_AREA =
     static_cast<__ptrace_request>(25);
 #define PTRACE_GET_THREAD_AREA PTRACE_GET_THREAD_AREA
-#endif  // !PTRACE_GET_THREAD_AREA && __GLIBC__ && (__i386__ || __x86_64__)
+#elif defined(__arm__) || defined(__arm64__)
+static constexpr __ptrace_request PTRACE_GET_THREAD_AREA =
+    static_cast<__ptrace_request>(22);
+#define PTRACE_GET_THREAD_AREA PTRACE_GET_THREAD_AREA
+#endif
+#endif  // !PTRACE_GET_THREAD_AREA && defined(__GLIBC__)
+
+// https://sourceware.org/bugzilla/show_bug.cgi?id=22433
+#if !defined(PTRACE_GETVFPREGS) && \
+    defined(__GLIBC__) && (defined(__arm__) || defined(__arm64__))
+static constexpr __ptrace_request PTRACE_GETVFPREGS =
+    static_cast<__ptrace_request>(27);
+#define PTRACE_GETVFPREGS PTRACE_GETVFPREGS
+#endif
 
 #endif  // CRASHPAD_COMPAT_LINUX_SYS_PTRACE_H_
