@@ -20,7 +20,8 @@
 #include <sys/cdefs.h>
 
 // https://sourceware.org/bugzilla/show_bug.cgi?id=22433
-#if !defined(PTRACE_GET_THREAD_AREA) && defined(__GLIBC__)
+#if !defined(PTRACE_GET_THREAD_AREA) && !defined(PT_GET_THREAD_AREA) && \
+    defined(__GLIBC__)
 #if defined(__i386__) || defined(__x86_64__)
 static constexpr __ptrace_request PTRACE_GET_THREAD_AREA =
     static_cast<__ptrace_request>(25);
