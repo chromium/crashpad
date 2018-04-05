@@ -127,6 +127,85 @@ class SameBitnessTest : public Multiprocess {
   }
 
  private:
+  void BrokerTests(bool set_broker_pid,
+                   LinuxVMAddress child1_tls,
+                   LinuxVMAddress child2_tls,
+                   pid_t child2_tid,
+                   const base::FilePath& file_dir,
+                   const base::FilePath& test_file,
+                   const std::string& expected_file_contents) {
+    int socks[2];
+    ASSERT_EQ(socketpair(AF_UNIX, SOCK_STREAM, 0, socks), 0);
+    ScopedFileHandle broker_sock(socks[0]);
+    ScopedFileHandle client_sock(socks[1]);
+
+#if defined(ARCH_CPU_64_BITS)
+    constexpr bool am_64_bit = true;
+#else
+    constexpr bool am_64_bit = false;
+#endif  // ARCH_CPU_64_BITS
+
+    PtraceBroker broker(
+        broker_sock.get(), set_broker_pid ? ChildPID() : -1, am_64_bit);
+    RunBrokerThread broker_thread(&broker);
+    broker_thread.Start();
+
+    PtraceClient client;
+    ASSERT_TRUE(client.Initialize(
+        client_sock.get(), ChildPID(), /* try_direct_memory= */ false));
+
+    EXPECT_EQ(client.GetProcessID(), ChildPID());
+    EXPECT_TRUE(client.Attach(child2_tid));
+    EXPECT_EQ(client.Is64Bit(), am_64_bit);
+
+    ThreadInfo info1;
+    ASSERT_TRUE(client.GetThreadInfo(ChildPID(), &info1));
+    EXPECT_EQ(info1.thread_specific_data_address, child1_tls);
+
+    ThreadInfo info2;
+    ASSERT_TRUE(client.GetThreadInfo(child2_tid, &info2));
+    EXPECT_EQ(info2.thread_specific_data_address, child2_tls);
+
+    ProcessMemory* memory = client.Memory();
+    ASSERT_TRUE(memory);
+
+    auto buffer = std::make_unique<char[]>(mapping_.len());
+    ASSERT_TRUE(memory->Read(
+        mapping_.addr_as<VMAddress>(), mapping_.len(), buffer.get()));
+    auto expected_buffer = mapping_.addr_as<char*>();
+    for (size_t index = 0; index < mapping_.len(); ++index) {
+      EXPECT_EQ(buffer[index], expected_buffer[index]);
+    }
+
+    char first;
+    ASSERT_TRUE(
+        memory->Read(mapping_.addr_as<VMAddress>(), sizeof(first), &first));
+    EXPECT_EQ(first, expected_buffer[0]);
+
+    char last;
+    ASSERT_TRUE(memory->Read(mapping_.addr_as<VMAddress>() + mapping_.len() - 1,
+                             sizeof(last),
+                             &last));
+    EXPECT_EQ(last, expected_buffer[mapping_.len() - 1]);
+
+    char unmapped;
+    EXPECT_FALSE(memory->Read(mapping_.addr_as<VMAddress>() + mapping_.len(),
+                              sizeof(unmapped),
+                              &unmapped));
+
+    std::string file_root = file_dir.value() + '/';
+    broker.SetFileRoot(file_root.c_str());
+
+    std::string file_contents;
+    ASSERT_TRUE(client.ReadFileContents(test_file, &file_contents));
+    EXPECT_EQ(file_contents, expected_file_contents);
+
+    ScopedTempDir temp_dir2;
+    base::FilePath test_file2(temp_dir2.path().Append("test_file2"));
+    ASSERT_TRUE(CreateFile(test_file2));
+    EXPECT_FALSE(client.ReadFileContents(test_file2, &file_contents));
+  }
+
   void MultiprocessParent() override {
     LinuxVMAddress child1_tls;
     ASSERT_TRUE(LoggingReadFileExactly(
@@ -139,11 +218,6 @@ class SameBitnessTest : public Multiprocess {
     LinuxVMAddress child2_tls;
     ASSERT_TRUE(LoggingReadFileExactly(
         ReadPipeHandle(), &child2_tls, sizeof(child2_tls)));
-
-    int socks[2];
-    ASSERT_EQ(socketpair(AF_UNIX, SOCK_STREAM, 0, socks), 0);
-    ScopedFileHandle broker_sock(socks[0]);
-    ScopedFileHandle client_sock(socks[1]);
 
     ScopedTempDir temp_dir;
     base::FilePath file_path(temp_dir.path().Append("test_file"));
@@ -162,67 +236,20 @@ class SameBitnessTest : public Multiprocess {
                                    expected_file_contents.size()));
     }
 
-#if defined(ARCH_CPU_64_BITS)
-    constexpr bool am_64_bit = true;
-#else
-    constexpr bool am_64_bit = false;
-#endif  // ARCH_CPU_64_BITS
-    PtraceBroker broker(broker_sock.get(), am_64_bit);
-    RunBrokerThread broker_thread(&broker);
-    broker_thread.Start();
-
-    {
-      PtraceClient client;
-      ASSERT_TRUE(client.Initialize(client_sock.get(), ChildPID()));
-
-      EXPECT_EQ(client.GetProcessID(), ChildPID());
-      EXPECT_TRUE(client.Attach(child2_tid));
-      EXPECT_EQ(client.Is64Bit(), am_64_bit);
-
-      ThreadInfo info1;
-      ASSERT_TRUE(client.GetThreadInfo(ChildPID(), &info1));
-      EXPECT_EQ(info1.thread_specific_data_address, child1_tls);
-
-      ThreadInfo info2;
-      ASSERT_TRUE(client.GetThreadInfo(child2_tid, &info2));
-      EXPECT_EQ(info2.thread_specific_data_address, child2_tls);
-
-      auto buffer = std::make_unique<char[]>(mapping_.len());
-      ASSERT_TRUE(client.Read(
-          mapping_.addr_as<VMAddress>(), mapping_.len(), buffer.get()));
-      auto expected_buffer = mapping_.addr_as<char*>();
-      for (size_t index = 0; index < mapping_.len(); ++index) {
-        EXPECT_EQ(buffer[index], expected_buffer[index]);
-      }
-
-      char first;
-      ASSERT_TRUE(
-          client.Read(mapping_.addr_as<VMAddress>(), sizeof(first), &first));
-      EXPECT_EQ(first, expected_buffer[0]);
-
-      char last;
-      ASSERT_TRUE(
-          client.Read(mapping_.addr_as<VMAddress>() + mapping_.len() - 1,
-                      sizeof(last),
-                      &last));
-      EXPECT_EQ(last, expected_buffer[mapping_.len() - 1]);
-
-      char unmapped;
-      EXPECT_FALSE(client.Read(mapping_.addr_as<VMAddress>() + mapping_.len(),
-                               sizeof(unmapped),
-                               &unmapped));
-
-      std::string file_root = temp_dir.path().value() + '/';
-      broker.SetFileRoot(file_root.c_str());
-      std::string file_contents;
-      ASSERT_TRUE(client.ReadFileContents(file_path, &file_contents));
-      EXPECT_EQ(file_contents, expected_file_contents);
-
-      ScopedTempDir temp_dir2;
-      base::FilePath test_file2(temp_dir2.path().Append("test_file2"));
-      ASSERT_TRUE(CreateFile(test_file2));
-      EXPECT_FALSE(client.ReadFileContents(test_file2, &file_contents));
-    }
+    BrokerTests(true,
+                child1_tls,
+                child2_tls,
+                child2_tid,
+                temp_dir.path(),
+                file_path,
+                expected_file_contents);
+    BrokerTests(false,
+                child1_tls,
+                child2_tls,
+                child2_tid,
+                temp_dir.path(),
+                file_path,
+                expected_file_contents);
   }
 
   void MultiprocessChild() override {

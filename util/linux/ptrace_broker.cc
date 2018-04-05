@@ -23,24 +23,65 @@
 
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
-#include "util/file/file_io.h"
 
 namespace crashpad {
 
-PtraceBroker::PtraceBroker(int sock, bool is_64_bit)
+namespace {
+
+size_t FormatPID(char* buffer, pid_t pid) {
+  DCHECK_GE(pid, 0);
+
+  char pid_buf[16];
+  size_t length = 0;
+  do {
+    DCHECK_LT(length, sizeof(pid_buf));
+
+    pid_buf[length] = '0' + pid % 10;
+    pid /= 10;
+    ++length;
+  } while (pid > 0);
+
+  for (size_t index = 0; index < length; ++index) {
+    buffer[index] = pid_buf[length - index - 1];
+  }
+
+  return length;
+}
+
+}  // namespace
+
+PtraceBroker::PtraceBroker(int sock, pid_t pid, bool is_64_bit)
     : ptracer_(is_64_bit, /* can_log= */ false),
-      file_root_("/proc/"),
+      file_root_(file_root_buffer_),
       attachments_(nullptr),
       attach_count_(0),
       attach_capacity_(0),
-      sock_(sock) {
+      memory_file_(),
+      sock_(sock),
+      memory_pid_(pid),
+      tried_opening_mem_file_(false) {
   AllocateAttachments();
+
+  static constexpr char kProc[] = "/proc/";
+  size_t root_length = strlen(kProc);
+  memcpy(file_root_buffer_, kProc, root_length);
+
+  if (pid >= 0) {
+    root_length += FormatPID(file_root_buffer_ + root_length, pid);
+    DCHECK_LT(root_length, sizeof(file_root_buffer_));
+    file_root_buffer_[root_length] = '/';
+    ++root_length;
+  }
+
+  DCHECK_LT(root_length, sizeof(file_root_buffer_));
+  file_root_buffer_[root_length] = '\0';
 }
 
 PtraceBroker::~PtraceBroker() = default;
 
 void PtraceBroker::SetFileRoot(const char* new_root) {
   DCHECK_EQ(new_root[strlen(new_root) - 1], '/');
+  memory_pid_ = -1;
   file_root_ = new_root;
 }
 
@@ -189,12 +230,12 @@ int PtraceBroker::SendError(Errno err) {
   return WriteFile(sock_, &err, sizeof(err)) ? 0 : errno;
 }
 
-int PtraceBroker::SendReadError(Errno err) {
+int PtraceBroker::SendReadError(ReadError error) {
   int32_t rv = -1;
-  if (!WriteFile(sock_, &rv, sizeof(rv))) {
-    return errno;
-  }
-  return SendError(err);
+  return WriteFile(sock_, &rv, sizeof(rv)) &&
+                 WriteFile(sock_, &error, sizeof(error))
+             ? 0
+             : errno;
 }
 
 int PtraceBroker::SendOpenResult(OpenResult result) {
@@ -208,7 +249,7 @@ int PtraceBroker::SendFileContents(FileHandle handle) {
     rv = ReadFile(handle, buffer, sizeof(buffer));
 
     if (rv < 0) {
-      return SendReadError(errno);
+      return SendReadError(static_cast<ReadError>(errno));
     }
 
     if (!WriteFile(sock_, &rv, sizeof(rv))) {
@@ -225,23 +266,57 @@ int PtraceBroker::SendFileContents(FileHandle handle) {
   return 0;
 }
 
+void PtraceBroker::TryOpeningMemFile() {
+  if (tried_opening_mem_file_) {
+    return;
+  }
+  tried_opening_mem_file_ = true;
+
+  if (memory_pid_ < 0) {
+    return;
+  }
+
+  char mem_path[32];
+  size_t root_length = strlen(file_root_buffer_);
+  static constexpr char kMem[] = "mem";
+
+  DCHECK_LT(root_length + strlen(kMem) + 1, sizeof(mem_path));
+  memcpy(mem_path, file_root_buffer_, root_length);
+  // Include the trailing NUL.
+  memcpy(mem_path + root_length, kMem, strlen(kMem) + 1);
+  memory_file_.reset(
+      HANDLE_EINTR(open(mem_path, O_RDONLY | O_CLOEXEC | O_NOCTTY)));
+}
+
 int PtraceBroker::SendMemory(pid_t pid, VMAddress address, VMSize size) {
+  if (memory_pid_ >= 0 && pid != memory_pid_) {
+    return SendReadError(kReadErrorAccessDenied);
+  }
+
+  TryOpeningMemFile();
+  auto read_memory = [this, pid](VMAddress address, size_t size, char* buffer) {
+    return this->memory_file_.is_valid()
+               ? HANDLE_EINTR(
+                     pread64(this->memory_file_.get(), buffer, size, address))
+               : this->ptracer_.ReadUpTo(pid, address, size, buffer);
+  };
+
   char buffer[4096];
   while (size > 0) {
-    VMSize bytes_read = std::min(size, VMSize{sizeof(buffer)});
+    size_t to_read = std::min(size, VMSize{sizeof(buffer)});
 
-    if (!ptracer_.ReadMemory(pid, address, bytes_read, buffer)) {
-      bytes_read = 0;
-      Errno error = errno;
-      if (!WriteFile(sock_, &bytes_read, sizeof(bytes_read)) ||
-          !WriteFile(sock_, &error, sizeof(error))) {
-        return errno;
-      }
-      return 0;
+    int32_t bytes_read = read_memory(address, to_read, buffer);
+
+    if (bytes_read < 0) {
+      return SendReadError(static_cast<ReadError>(errno));
     }
 
     if (!WriteFile(sock_, &bytes_read, sizeof(bytes_read))) {
       return errno;
+    }
+
+    if (bytes_read == 0) {
+      return 0;
     }
 
     if (!WriteFile(sock_, buffer, bytes_read)) {
