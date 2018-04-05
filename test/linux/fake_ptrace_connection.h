@@ -17,11 +17,13 @@
 
 #include <sys/types.h>
 
+#include <memory>
 #include <set>
 
 #include "base/macros.h"
 #include "util/linux/ptrace_connection.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/process/process_memory_linux.h"
 
 namespace crashpad {
 namespace test {
@@ -56,8 +58,13 @@ class FakePtraceConnection : public PtraceConnection {
   bool ReadFileContents(const base::FilePath& path,
                         std::string* contents) override;
 
+  //! \brief Attempts to create a ProcessMemory when called, calling
+  //!     ADD_FAILURE() and returning `nullptr` on failure.
+  ProcessMemory* Memory() override;
+
  private:
   std::set<pid_t> attachments_;
+  std::unique_ptr<ProcessMemoryLinux> memory_;
   pid_t pid_;
   bool is_64_bit_;
   InitializationStateDcheck initialized_;

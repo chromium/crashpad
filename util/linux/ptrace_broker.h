@@ -62,12 +62,9 @@ class PtraceBroker {
       kTypeGetThreadInfo,
 
       //! \brief Reads memory from the attached process. The data is returned in
-      //!     a series of messages. Each message begins with a VMSize indicating
-      //!     the number of bytes being returned in this message, followed by
-      //!     the requested bytes. The broker continues to send messages until
-      //!     either all of the requested memory has been sent or an error
-      //!     occurs, in which case it sends a message containing a VMSize equal
-      //!     to zero, followed by an Errno.
+      //!     a series of messages. Each message begins with an int32_t
+      //!     indicating the number of bytes read, 0 for end-of-file, or -1 for
+      //!     errors, followed by a ReadError. On success the bytes read follow.
       kTypeReadMemory,
 
       //! \brief Read a file's contents. The data is returned in a series of
@@ -98,7 +95,7 @@ class PtraceBroker {
         VMSize size;
       } iov;
 
-      // \brief Specifies the file path to read for a kTypeReadFile request.
+      //! \brief Specifies the file path to read for a kTypeReadFile request.
       struct {
         //! \brief The number of bytes in #path. The path should not include a
         //!     `NUL`-terminator.
@@ -124,6 +121,14 @@ class PtraceBroker {
     kOpenResultSuccess = 0,
   };
 
+  //! \brief A result used in operations that read from memory or files.
+  //!
+  //! Positive values of this enum are reserved for sending errno values.
+  enum ReadError : int32_t {
+    //! \brief Access to this data is denied.
+    kReadErrorAccessDenied = -1,
+  };
+
   //! \brief The response sent for a Request with type kTypeGetThreadInfo.
   struct GetThreadInfoResponse {
     //! \brief Information about the specified thread. Only valid if #success
@@ -139,9 +144,15 @@ class PtraceBroker {
   //!
   //! \param[in] sock A socket on which to read requests from a connected
   //!     PtraceClient. Does not take ownership of the socket.
+  //! \param[in] pid The process ID of the process the broker is expected to
+  //!     trace. Setting this value exends the default file root to
+  //!     "/proc/[pid]/" and enables memory reading via /proc/[pid]/mem. The
+  //!     broker will deny any requests to read memory from processes whose
+  //!     processID is not \a pid. If pid is -1, the broker will serve requests
+  //!     to read memory from any process it is able to via `ptrace PEEKDATA`.
   //! \param[in] is_64_bit Whether this broker should be configured to trace a
   //!     64-bit process.
-  PtraceBroker(int sock, bool is_64_bit);
+  PtraceBroker(int sock, pid_t pid, bool is_64_bit);
 
   ~PtraceBroker();
 
@@ -149,7 +160,10 @@ class PtraceBroker {
   //!     root.
   //!
   //! If this method is not called, the broker defaults to only serving files
-  //! under "/proc/".
+  //! under "/proc/" or "/proc/[pid]/" if a pid was set.
+  //!
+  //! Calling this function disables reading from a memory file if one has not
+  //! already been opened.
   //!
   //! \param[in] root A NUL-terminated c-string containing the path to the new
   //!     root. \a root must not be `nullptr`, must end in a '/', and the caller
@@ -173,18 +187,23 @@ class PtraceBroker {
   void ReleaseAttachments();
   int RunImpl();
   int SendError(Errno err);
-  int SendReadError(Errno err);
+  int SendReadError(ReadError err);
   int SendOpenResult(OpenResult result);
   int SendFileContents(FileHandle handle);
+  void TryOpeningMemFile();
   int SendMemory(pid_t pid, VMAddress address, VMSize size);
   int ReceiveAndOpenFilePath(VMSize path_length, ScopedFileHandle* handle);
 
+  char file_root_buffer_[32];
   Ptracer ptracer_;
   const char* file_root_;
   ScopedPtraceAttach* attachments_;
   size_t attach_count_;
   size_t attach_capacity_;
+  ScopedFileHandle memory_file_;
   int sock_;
+  pid_t memory_pid_;
+  bool tried_opening_mem_file_;
 
   DISALLOW_COPY_AND_ASSIGN(PtraceBroker);
 };

@@ -375,10 +375,11 @@ bool Ptracer::GetThreadInfo(pid_t tid, ThreadInfo* info) {
                          can_log_);
 }
 
-bool Ptracer::ReadMemory(pid_t pid,
-                         LinuxVMAddress address,
-                         size_t size,
-                         char* buffer) {
+ssize_t Ptracer::ReadUpTo(pid_t pid,
+                          LinuxVMAddress address,
+                          size_t size,
+                          char* buffer) {
+  size_t bytes_read = 0;
   while (size > 0) {
     errno = 0;
 
@@ -386,46 +387,66 @@ bool Ptracer::ReadMemory(pid_t pid,
       *reinterpret_cast<long*>(buffer) =
           ptrace(PTRACE_PEEKDATA, pid, address, nullptr);
 
+      if (errno == EIO) {
+        ssize_t last_bytes = ReadLastBytes(pid, address, size, buffer);
+        return last_bytes >= 0 ? bytes_read + last_bytes : -1;
+      }
+
       if (errno != 0) {
         PLOG_IF(ERROR, can_log_) << "ptrace";
-        return false;
+        return -1;
       }
 
       size -= sizeof(long);
       buffer += sizeof(long);
       address += sizeof(long);
+      bytes_read += sizeof(long);
     } else {
       long word = ptrace(PTRACE_PEEKDATA, pid, address, nullptr);
 
       if (errno == 0) {
         memcpy(buffer, reinterpret_cast<char*>(&word), size);
-        return true;
+        return bytes_read + size;
       }
 
-      if (errno != EIO) {
-        PLOG_IF(ERROR, can_log_);
-        return false;
-      }
-
-      // A read smaller than a word at the end of a mapping might spill over
-      // into unmapped memory. Try aligning the read so that the requested
-      // data is at the end of the word instead.
-      errno = 0;
-      word =
-          ptrace(PTRACE_PEEKDATA, pid, address - sizeof(word) + size, nullptr);
-
-      if (errno == 0) {
-        memcpy(
-            buffer, reinterpret_cast<char*>(&word) + sizeof(word) - size, size);
-        return true;
+      if (errno == EIO) {
+        ssize_t last_bytes = ReadLastBytes(pid, address, size, buffer);
+        return last_bytes >= 0 ? bytes_read + last_bytes : -1;
       }
 
       PLOG_IF(ERROR, can_log_);
-      return false;
+      return -1;
     }
   }
 
-  return true;
+  return bytes_read;
+}
+
+// Handles an EIO by reading at most size bytes from address into buffer if
+// address was within a word of a possible page boundary, by aligning to read
+// the last word of the page and extracting the desired bytes.
+ssize_t Ptracer::ReadLastBytes(pid_t pid,
+                               LinuxVMAddress address,
+                               size_t size,
+                               char* buffer) {
+  LinuxVMAddress aligned = ((address + 4095) & ~4095) - sizeof(long);
+  if (aligned >= address || aligned == address - sizeof(long)) {
+    PLOG_IF(ERROR, can_log_) << "ptrace";
+    return -1;
+  }
+  DCHECK_GT(aligned, address - sizeof(long));
+
+  errno = 0;
+  long word = ptrace(PTRACE_PEEKDATA, pid, aligned, nullptr);
+  if (errno != 0) {
+    PLOG_IF(ERROR, can_log_) << "ptrace";
+    return -1;
+  }
+
+  size_t bytes_read = address - aligned;
+  size_t last_bytes = std::min(sizeof(long) - bytes_read, size);
+  memcpy(buffer, reinterpret_cast<char*>(&word) + bytes_read, last_bytes);
+  return last_bytes;
 }
 
 }  // namespace crashpad
