@@ -17,10 +17,13 @@
 
 #include <sys/types.h>
 
+#include <memory>
+
 #include "base/macros.h"
 #include "util/linux/ptrace_connection.h"
 #include "util/misc/address_types.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/process/process_memory.h"
 
 namespace crashpad {
 
@@ -43,26 +46,11 @@ class PtraceClient : public PtraceConnection {
   //!     ownership of the socket.
   //! \param[in] pid The process ID of the process to form a PtraceConnection
   //!     with.
+  //! \param[in] try_direct_memory If `true` the client will attempt to support
+  //!     memory reading operations by directly acessing the target process'
+  //!     /proc/[pid]/mem file.
   //! \return `true` on success. `false` on failure with a message logged.
-  bool Initialize(int sock, pid_t pid);
-
-  //! \brief Copies memory from the target process into a caller-provided buffer
-  //!     in the current process.
-  //!
-  //! TODO(jperaza): In order for this to be usable, PtraceConnection will need
-  //! to surface it, possibly by inheriting from ProcessMemory, or providing a
-  //! method to return a ProcessMemory*.
-  //!
-  //! \param[in] address The address, in the target process' address space, of
-  //!     the memory region to copy.
-  //! \param[in] size The size, in bytes, of the memory region to copy.
-  //!     \a buffer must be at least this size.
-  //! \param[out] buffer The buffer into which the contents of the other
-  //!     process' memory will be copied.
-  //!
-  //! \return `true` on success, with \a buffer filled appropriately. `false` on
-  //!     failure, with a message logged.
-  bool Read(VMAddress address, size_t size, void* buffer);
+  bool Initialize(int sock, pid_t pid, bool try_direct_memory = true);
 
   // PtraceConnection:
 
@@ -72,10 +60,28 @@ class PtraceClient : public PtraceConnection {
   bool GetThreadInfo(pid_t tid, ThreadInfo* info) override;
   bool ReadFileContents(const base::FilePath& path,
                         std::string* contents) override;
+  ProcessMemory* Memory() override;
 
  private:
+  class BrokeredMemory : public ProcessMemory {
+   public:
+    explicit BrokeredMemory(PtraceClient* client);
+    ~BrokeredMemory();
+
+    ssize_t ReadUpTo(VMAddress address,
+                     size_t size,
+                     void* buffer) const override;
+
+   private:
+    PtraceClient* client_;
+
+    DISALLOW_COPY_AND_ASSIGN(BrokeredMemory);
+  };
+
+  ssize_t ReadUpTo(VMAddress address, size_t size, void* buffer) const;
   bool SendFilePath(const char* path, size_t length);
 
+  std::unique_ptr<ProcessMemory> memory_;
   int sock_;
   pid_t pid_;
   bool is_64_bit_;
