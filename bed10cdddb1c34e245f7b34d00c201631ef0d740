@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d9182d3_a57816a5",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-05T16:33:41Z",
+      "side": 1,
+      "message": "Either DCHECK that pid is \u003e\u003d 0, or make the type std::make_unsigned\u003cpid_t\u003e::type.",
+      "revId": "bed10cdddb1c34e245f7b34d00c201631ef0d740",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f871897_6db0f9b8",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-05T16:33:41Z",
+      "side": 1,
+      "message": "Otherwise an errant negative number will give you one trash digit before stopping, which would be very misleading to debug.",
+      "revId": "bed10cdddb1c34e245f7b34d00c201631ef0d740",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c4eceba_3cd6d34d",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-05T16:33:41Z",
+      "side": 1,
+      "message": "Well, to be fair, you did have this check here. But we should still encourage correct use or behavior of the FormatPID() function.",
+      "revId": "bed10cdddb1c34e245f7b34d00c201631ef0d740",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "203dccc7_0a4a504b",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-05T16:33:41Z",
+      "side": 1,
+      "message": "DCHECK that this is in the range of file_root_buffer_ too. It always should be given how you’ve sized it and written the code here, but this is definitely the kind of thing you should be DCHECKing for.",
+      "revId": "bed10cdddb1c34e245f7b34d00c201631ef0d740",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "982ad5a6_62c5c7ee",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-05T16:33:41Z",
+      "side": 1,
+      "message": "I think we shouldn’t even bother trying this unless we know we have the /proc/pid/ form of file_root_buffer_. /proc/ alone or anything else shouldn’t cut it. In fact, I don’t even know what I’d expect to happen if file_root_ pointed somewhere other than file_root_buffer_.",
+      "revId": "bed10cdddb1c34e245f7b34d00c201631ef0d740",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef9e3159_a73ae8e2",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-05T16:33:41Z",
+      "side": 1,
+      "message": "// Include trailing NUL.",
+      "revId": "bed10cdddb1c34e245f7b34d00c201631ef0d740",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0d77820_6a35b033",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-05T16:33:41Z",
+      "side": 1,
+      "message": "Is there a reason to even have an explicit open-memory-file request now, especially now that it’s parameter-less? If we’re already set up with the /proc/pid form, we can just make our policy be “try to open mem on the first SendMemory, if it works, keep using it, otherwise, fall back to the ptracer and keep using that.”",
+      "revId": "bed10cdddb1c34e245f7b34d00c201631ef0d740",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
