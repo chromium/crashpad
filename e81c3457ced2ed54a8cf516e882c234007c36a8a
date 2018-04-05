@@ -52,6 +52,24 @@
       "revId": "e81c3457ced2ed54a8cf516e882c234007c36a8a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9be9738_36724351",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-05T00:53:58Z",
+      "side": 0,
+      "message": "The client now makes an attempt to open the memory file itself. If that fails, it sends a kOpenMemoryFile request to the broker and creates a BrokeredMemory. The result of the open isn\u0027t currently used, but maybe it would be interesting to record to know how often we\u0027re falling back to ptrace peek.",
+      "parentUuid": "3006b13f_4572cbca",
+      "revId": "e81c3457ced2ed54a8cf516e882c234007c36a8a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }

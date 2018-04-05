@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "2a5133fd_1762cbb7",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-05T00:53:58Z",
+      "side": 1,
+      "message": "kTypeOpenMemoryFile now advises the broker to try opening a file named \"mem\" under its current file root, which is set to \"/proc/[pid]/\" during construction.",
+      "parentUuid": "edfee429_1b9846ab",
+      "revId": "5d735d20bb097c58ab1eebfe592da970cd2128c1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddb55dc0_a60557d3",
         "filename": "util/linux/ptrace_broker.h",
         "patchSetId": 10
@@ -105,6 +123,24 @@
       "revId": "5d735d20bb097c58ab1eebfe592da970cd2128c1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f740fdab_d4fa6002",
+        "filename": "util/linux/ptrace_broker.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-05T00:53:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddb55dc0_a60557d3",
+      "revId": "5d735d20bb097c58ab1eebfe592da970cd2128c1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
