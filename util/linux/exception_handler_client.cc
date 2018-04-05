@@ -130,7 +130,7 @@ int ExceptionHandlerClient::WaitForCrashDumpComplete() {
           constexpr bool am_64_bit = false;
 #endif  // ARCH_CPU_64_BITS
 
-          PtraceBroker broker(server_sock_, am_64_bit);
+          PtraceBroker broker(server_sock_, getppid(), am_64_bit);
           _exit(broker.Run());
         }
 
