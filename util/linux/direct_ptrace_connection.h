@@ -25,6 +25,7 @@
 #include "util/linux/ptracer.h"
 #include "util/linux/scoped_ptrace_attach.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/process/process_memory_linux.h"
 
 namespace crashpad {
 
@@ -54,9 +55,11 @@ class DirectPtraceConnection : public PtraceConnection {
   bool GetThreadInfo(pid_t tid, ThreadInfo* info) override;
   bool ReadFileContents(const base::FilePath& path,
                         std::string* contents) override;
+  ProcessMemory* Memory() override;
 
  private:
   std::vector<std::unique_ptr<ScopedPtraceAttach>> attachments_;
+  ProcessMemoryLinux memory_;
   pid_t pid_;
   Ptracer ptracer_;
   InitializationStateDcheck initialized_;

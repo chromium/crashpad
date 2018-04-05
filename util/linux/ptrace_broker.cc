@@ -23,18 +23,52 @@
 
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
-#include "util/file/file_io.h"
 
 namespace crashpad {
 
-PtraceBroker::PtraceBroker(int sock, bool is_64_bit)
+namespace {
+
+size_t FormatPID(char* buffer, pid_t pid) {
+  char pid_buf[16];
+  size_t length = 0;
+  do {
+    DCHECK_LT(length, sizeof(pid_buf));
+
+    pid_buf[length] = '0' + pid % 10;
+    pid /= 10;
+    ++length;
+  } while (pid > 0);
+
+  for (size_t index = 0; index < length; ++index) {
+    buffer[index] = pid_buf[length - index - 1];
+  }
+
+  return length;
+}
+
+}  // namespace
+
+PtraceBroker::PtraceBroker(int sock, pid_t pid, bool is_64_bit)
     : ptracer_(is_64_bit, /* can_log= */ false),
-      file_root_("/proc/"),
+      file_root_(file_root_buffer_),
       attachments_(nullptr),
       attach_count_(0),
       attach_capacity_(0),
+      memory_file_(),
       sock_(sock) {
   AllocateAttachments();
+
+  static constexpr char kProc[] = "/proc/";
+  size_t root_length = strlen(kProc);
+  memcpy(file_root_buffer_, kProc, root_length);
+
+  if (pid >= 0) {
+    root_length += FormatPID(file_root_buffer_ + root_length, pid);
+    file_root_buffer_[root_length] = '/';
+    ++root_length;
+  }
+
+  file_root_buffer_[root_length] = '\0';
 }
 
 PtraceBroker::~PtraceBroker() = default;
@@ -167,6 +201,30 @@ int PtraceBroker::RunImpl() {
         continue;
       }
 
+      case Request::kTypeOpenMemoryFile: {
+        char mem_path[32];
+        size_t root_length = strlen(file_root_buffer_);
+        static constexpr char kMem[] = "mem";
+
+        OpenResult open_rv;
+        if (root_length + strlen(kMem) + 1 > sizeof(mem_path)) {
+          open_rv = kOpenResultTooLong;
+        } else {
+          memcpy(mem_path, file_root_buffer_, root_length);
+          memcpy(mem_path + root_length, kMem, strlen(kMem) + 1);
+          memory_file_.reset(
+              HANDLE_EINTR(open(mem_path, O_RDONLY | O_CLOEXEC | O_NOCTTY)));
+          open_rv = memory_file_.is_valid() ? kOpenResultSuccess
+                                            : static_cast<OpenResult>(errno);
+        }
+
+        int result = SendOpenResult(open_rv);
+        if (result != 0) {
+          return result;
+        }
+        continue;
+      }
+
       case Request::kTypeReadMemory: {
         int result =
             SendMemory(request.tid, request.iov.base, request.iov.size);
@@ -226,22 +284,29 @@ int PtraceBroker::SendFileContents(FileHandle handle) {
 }
 
 int PtraceBroker::SendMemory(pid_t pid, VMAddress address, VMSize size) {
+  auto read_memory = [this, pid](VMAddress address, size_t size, char* buffer) {
+    return this->memory_file_.is_valid()
+               ? HANDLE_EINTR(
+                     pread64(this->memory_file_.get(), buffer, size, address))
+               : this->ptracer_.ReadUpTo(pid, address, size, buffer);
+  };
+
   char buffer[4096];
   while (size > 0) {
-    VMSize bytes_read = std::min(size, VMSize{sizeof(buffer)});
+    size_t to_read = std::min(size, VMSize{sizeof(buffer)});
 
-    if (!ptracer_.ReadMemory(pid, address, bytes_read, buffer)) {
-      bytes_read = 0;
-      Errno error = errno;
-      if (!WriteFile(sock_, &bytes_read, sizeof(bytes_read)) ||
-          !WriteFile(sock_, &error, sizeof(error))) {
-        return errno;
-      }
-      return 0;
+    int32_t bytes_read = read_memory(address, to_read, buffer);
+
+    if (bytes_read < 0) {
+      return SendReadError(errno);
     }
 
     if (!WriteFile(sock_, &bytes_read, sizeof(bytes_read))) {
       return errno;
+    }
+
+    if (bytes_read == 0) {
+      return 0;
     }
 
     if (!WriteFile(sock_, buffer, bytes_read)) {
