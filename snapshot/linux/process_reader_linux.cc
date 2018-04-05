@@ -182,7 +182,6 @@ ProcessReaderLinux::ProcessReaderLinux()
       threads_(),
       modules_(),
       elf_readers_(),
-      process_memory_(),
       is_64_bit_(false),
       initialized_threads_(false),
       initialized_modules_(false),
@@ -200,11 +199,6 @@ bool ProcessReaderLinux::Initialize(PtraceConnection* connection) {
   }
 
   if (!memory_map_.Initialize(connection_)) {
-    return false;
-  }
-
-  pid_t pid = connection->GetProcessID();
-  if (!process_memory_.Initialize(pid)) {
     return false;
   }
 

@@ -23,6 +23,7 @@ namespace crashpad {
 DirectPtraceConnection::DirectPtraceConnection()
     : PtraceConnection(),
       attachments_(),
+      memory_(),
       pid_(-1),
       ptracer_(/* can_log= */ true),
       initialized_() {}
@@ -36,6 +37,10 @@ bool DirectPtraceConnection::Initialize(pid_t pid) {
     return false;
   }
   pid_ = pid;
+
+  if (!memory_.Initialize(pid)) {
+    return false;
+  }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -69,6 +74,11 @@ bool DirectPtraceConnection::ReadFileContents(const base::FilePath& path,
                                               std::string* contents) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return LoggingReadEntireFile(path, contents);
+}
+
+ProcessMemory* DirectPtraceConnection::Memory() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return &memory_;
 }
 
 }  // namespace crashpad

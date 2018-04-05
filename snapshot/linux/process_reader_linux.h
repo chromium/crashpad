@@ -32,7 +32,6 @@
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/posix/process_info.h"
 #include "util/process/process_memory.h"
-#include "util/process/process_memory_linux.h"
 
 namespace crashpad {
 
@@ -103,7 +102,7 @@ class ProcessReaderLinux {
   pid_t ParentProcessID() const { return process_info_.ParentProcessID(); }
 
   //! \brief Return a memory reader for the target process.
-  ProcessMemory* Memory() { return &process_memory_; }
+  ProcessMemory* Memory() { return connection_->Memory(); }
 
   //! \brief Return a memory map of the target process.
   MemoryMap* GetMemoryMap() { return &memory_map_; }
@@ -146,7 +145,6 @@ class ProcessReaderLinux {
   std::vector<Thread> threads_;
   std::vector<Module> modules_;
   std::vector<std::unique_ptr<ElfImageReader>> elf_readers_;
-  ProcessMemoryLinux process_memory_;
   bool is_64_bit_;
   bool initialized_threads_;
   bool initialized_modules_;

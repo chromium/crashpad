@@ -78,9 +78,10 @@ class ProcessMemory {
     return ReadCStringInternal(address, true, size, string);
   }
 
+  virtual ~ProcessMemory() = default;
+
  protected:
   ProcessMemory() = default;
-  ~ProcessMemory() = default;
 
  private:
   //! \brief Copies memory from the target process into a caller-provided buffer
