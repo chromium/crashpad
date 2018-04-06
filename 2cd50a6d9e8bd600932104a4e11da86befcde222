@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bc48d4c_bfcfc1ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-06T00:53:46Z",
+      "side": 1,
+      "message": "This sentence makes it seem like the snippet that follows is supposed to show the macro…",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 29
+      },
+      "revId": "2cd50a6d9e8bd600932104a4e11da86befcde222",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbf81a4b_db05244c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-06T00:53:46Z",
+      "side": 1,
+      "message": "…but it’s not here. The next line is\n\n#define PT_GET_THREAD_AREA PTRACE_GET_THREAD_AREA\n\nand should be included.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 0
+      },
+      "revId": "2cd50a6d9e8bd600932104a4e11da86befcde222",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6465f58_b75d6c04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-06T00:53:46Z",
+      "side": 1,
+      "message": "As it is now, this is the first time the macro name is introduced.",
+      "range": {
+        "startLine": 26,
+        "startChar": 62,
+        "endLine": 26,
+        "endChar": 80
+      },
+      "revId": "2cd50a6d9e8bd600932104a4e11da86befcde222",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031215a5_890681d8",
+        "filename": "compat/linux/sys/ptrace.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-06T00:53:46Z",
+      "side": 1,
+      "message": "This should agree with line 23.",
+      "revId": "2cd50a6d9e8bd600932104a4e11da86befcde222",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
