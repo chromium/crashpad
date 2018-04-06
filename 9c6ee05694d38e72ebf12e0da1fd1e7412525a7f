@@ -16,6 +16,24 @@
       "revId": "9c6ee05694d38e72ebf12e0da1fd1e7412525a7f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "701feef1_5207d896",
+        "filename": "snapshot/linux/debug_rendezvous.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-06T02:11:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c1018fd_18246d34",
+      "revId": "9c6ee05694d38e72ebf12e0da1fd1e7412525a7f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
