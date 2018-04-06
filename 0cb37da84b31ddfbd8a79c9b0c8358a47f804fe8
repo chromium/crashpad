@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "069f7bde_2753ac91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-06T01:44:41Z",
+      "side": 1,
+      "message": "Yep. I\u0027m guessing it has something to do with the stack that follows. Maybe a bug, but maybe also hard to track down and this would be needed regardless.",
+      "parentUuid": "6db7b4af_b387735c",
+      "revId": "0cb37da84b31ddfbd8a79c9b0c8358a47f804fe8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18ee15ed_4c580fd3",
         "filename": "util/linux/memory_map.cc",
         "patchSetId": 5
