@@ -23,6 +23,8 @@
 #include <windows.h>
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
 #include <ucontext.h>
+#elif defined(OS_FUCHSIA)
+#include <signal.h>
 #endif  // OS_MACOSX
 
 namespace crashpad {
@@ -33,13 +35,9 @@ using NativeCPUContext = x86_thread_state;
 #endif
 #elif defined(OS_WIN)
 using NativeCPUContext = CONTEXT;
-#elif defined(OS_LINUX) || defined(OS_ANDROID)
+#elif defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FUCHSIA)
 using NativeCPUContext = ucontext_t;
 #endif  // OS_MACOSX
-
-// No NativeCPUContext defined for Fuchsia yet.
-// https://crashpad.chromium.org/bug/196.
-#if !defined(OS_FUCHSIA)
 
 //! \brief Saves the CPU context.
 //!
@@ -62,11 +60,11 @@ using NativeCPUContext = ucontext_t;
 //!     register, preventing this fuction from saving the original value of that
 //!     register. This occurs in the following circumstances:
 //!
-//!     OS          | Architecture | Register
-//!     ------------|--------------|---------
-//!     Win         | x86_64       | `%%rcx`
-//!     macOS/Linux | x86_64       | `%%rdi`
-//!     Linux       | ARM/ARM64    | `r0`/`x0`
+//!     OS                  | Architecture | Register
+//!     --------------------|--------------|---------
+//!     Win                 | x86_64       | `%%rcx`
+//!     macOS/Linux/Fuchsia | x86_64       | `%%rdi`
+//!     Linux               | ARM/ARM64    | `r0`/`x0`
 //!
 //!     Additionally, the value `LR` on ARM/ARM64 will be the return address of
 //!     this function.
@@ -79,8 +77,6 @@ using NativeCPUContext = ucontext_t;
 //!       asm("movq %%rdi, %0" : "=m"(rdi));
 //!     \endcode
 void CaptureContext(NativeCPUContext* cpu_context);
-
-#endif  // !OS_FUCHSIA
 
 }  // namespace crashpad
 
