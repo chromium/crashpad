@@ -21,7 +21,7 @@
 #include <mach/mach.h>
 #elif defined(OS_WIN)
 #include <windows.h>
-#elif defined(OS_LINUX) || defined(OS_ANDROID)
+#elif defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FUCHSIA)
 #include <ucontext.h>
 #endif  // OS_MACOSX
 
@@ -33,13 +33,9 @@ using NativeCPUContext = x86_thread_state;
 #endif
 #elif defined(OS_WIN)
 using NativeCPUContext = CONTEXT;
-#elif defined(OS_LINUX) || defined(OS_ANDROID)
+#elif defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FUCHSIA)
 using NativeCPUContext = ucontext_t;
 #endif  // OS_MACOSX
-
-// No NativeCPUContext defined for Fuchsia yet.
-// https://crashpad.chromium.org/bug/196.
-#if !defined(OS_FUCHSIA)
 
 //! \brief Saves the CPU context.
 //!
@@ -79,8 +75,6 @@ using NativeCPUContext = ucontext_t;
 //!       asm("movq %%rdi, %0" : "=m"(rdi));
 //!     \endcode
 void CaptureContext(NativeCPUContext* cpu_context);
-
-#endif  // !OS_FUCHSIA
 
 }  // namespace crashpad
 
