@@ -102,9 +102,19 @@ ParseResult ParseMapsLine(DelimitedFileReader* maps_file_reader,
     LOG(ERROR) << "format error";
     return ParseResult::kError;
   }
-  if (end_address <= start_address) {
+  if (end_address < start_address) {
     LOG(ERROR) << "format error";
     return ParseResult::kError;
+  }
+  // Skip zero-length mappings.
+  if (end_address == start_address) {
+    std::string rest_of_line;
+    if (maps_file_reader->GetLine(&rest_of_line) !=
+        DelimitedFileReader::Result::kSuccess) {
+      LOG(ERROR) << "format error";
+      return ParseResult::kError;
+    }
+    return ParseResult::kSuccess;
   }
 
   // TODO(jperaza): set bitness properly
