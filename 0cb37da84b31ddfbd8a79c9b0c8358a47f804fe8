@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6db7b4af_b387735c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-06T00:56:05Z",
+      "side": 1,
+      "message": "Weird. That’s a little surprising, but I guess also not really.",
+      "revId": "0cb37da84b31ddfbd8a79c9b0c8358a47f804fe8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18ee15ed_4c580fd3",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-04-06T00:56:05Z",
+      "side": 1,
+      "message": "Put a comment in here saying something about skipping zero-length entries.",
+      "revId": "0cb37da84b31ddfbd8a79c9b0c8358a47f804fe8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
