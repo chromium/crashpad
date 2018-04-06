@@ -26,6 +26,15 @@ namespace crashpad {
 namespace test {
 namespace {
 
+#if defined(OS_FUCHSIA)
+// Fuchsia uses -fsanitize=safe-stack by default, which splits local variables
+// and the call stack into separate regions (see
+// https://clang.llvm.org/docs/SafeStack.html). Because this test would like to
+// find an approximately valid stack pointer by comparing locals to the
+// captured one, disable safe-stack for this function.
+__attribute__((no_sanitize("safe-stack")))
+#endif
+
 void TestCaptureContext() {
   NativeCPUContext context_1;
   CaptureContext(&context_1);
