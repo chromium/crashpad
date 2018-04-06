@@ -74,6 +74,10 @@ def _Start(pid_file):
   qemu_path = os.path.join(fuchsia_dir, 'qemu', arch, 'bin',
                            'qemu-system-x86_64')
   kernel_data_dir = os.path.join(fuchsia_dir, 'sdk', arch, 'target', 'x86_64')
+
+  # XXX HACK
+  #kernel_data_dir = '/work/cr/src/third_party/fuchsia-sdk/sdk/target/x86_64'
+
   kernel_path = os.path.join(kernel_data_dir, 'zircon.bin')
   initrd_path = os.path.join(kernel_data_dir, 'bootdata.bin')
 
@@ -96,20 +100,22 @@ def _Start(pid_file):
     '-enable-kvm',
     '-netdev', 'type=tap,ifname=qemu,script=no,downscript=no,id=net0',
     '-device', 'e1000,netdev=net0,mac=52:54:00:' + mac_tail,
-    '-append', 'TERM=dumb zircon.nodename=' + instance_name,
-  ], stdin=DEVNULL, stdout=DEVNULL, stderr=DEVNULL)
+    '-append', 'TERM=dumb zircon.nodename=' + instance_name + ' driver.pci.log=+0xff devmgr.verbose=true driver.acpi.log=+trace,+spew'
+  ])
 
   with open(pid_file, 'wb') as f:
     f.write('%d\n' % popen.pid)
 
-  for i in range(10):
+  for i in range(20):
     netaddr_path = os.path.join(fuchsia_dir, 'sdk', arch, 'tools', 'netaddr')
     if subprocess.call([netaddr_path, '--nowait', instance_name],
                        stdout=open(os.devnull), stderr=open(os.devnull)) == 0:
       break
     time.sleep(.5)
   else:
-    print('instance did not respond after start', file=sys.stderr)
+    print('instance did not respond after start, going to sleep, console connected', file=sys.stderr)
+    os.system("beep")
+    popen.wait()
     return 1
 
   return 0
