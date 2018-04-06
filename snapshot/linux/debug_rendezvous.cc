@@ -63,7 +63,7 @@ bool ReadLinkEntry(const ProcessMemoryRange& memory,
 
   std::string name;
   if (!memory.ReadCStringSizeLimited(entry.l_name, 4096, &name)) {
-    return false;
+    name.clear();
   }
 
   entry_out->load_bias = entry.l_addr;
