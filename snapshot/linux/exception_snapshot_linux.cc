@@ -41,6 +41,13 @@ ExceptionSnapshotLinux::ExceptionSnapshotLinux()
 ExceptionSnapshotLinux::~ExceptionSnapshotLinux() {}
 
 #if defined(ARCH_CPU_X86_FAMILY)
+
+void hexdump(uint32_t* buf, size_t size) {
+  for (size_t index = 0; index < size / sizeof(uint32_t); ++index) {
+    LOG(INFO) << "0x" << std::hex << buf[index];
+  }
+}
+
 template <>
 bool ExceptionSnapshotLinux::ReadContext<ContextTraits32>(
     ProcessReaderLinux* reader,
@@ -54,12 +61,23 @@ bool ExceptionSnapshotLinux::ReadContext<ContextTraits32>(
   context_.architecture = kCPUArchitectureX86;
   context_.x86 = &context_union_.x86;
 
-  if (ucontext.fprs.magic == X86_FXSR_MAGIC) {
-    if (!reader->Memory()->Read(context_address +
-                                    offsetof(UContext<ContextTraits32>, fprs) +
-                                    offsetof(SignalFloatContext32, fxsave),
-                                sizeof(CPUContextX86::Fxsave),
-                                &context_.x86->fxsave)) {
+  if (!ucontext.mcontext.fpptr) {
+    InitializeCPUContextX86_NoFloatingPoint(ucontext.mcontext.gprs,
+                                            context_.x86);
+    return true;
+  }
+
+  SignalFloatContext32 fprs;
+  if (!reader->Memory()->Read(ucontext.mcontext.fpptr, sizeof(fprs), &fprs)) {
+    LOG(ERROR) << "Couldn't read float context";
+    return false;
+  }
+
+  if (fprs.magic == X86_FXSR_MAGIC) {
+    if (!reader->Memory()->Read(
+            ucontext.mcontext.fpptr + offsetof(SignalFloatContext32, fxsave),
+            sizeof(CPUContextX86::Fxsave),
+            &context_.x86->fxsave)) {
       LOG(ERROR) << "Couldn't read fxsave";
       return false;
     }
@@ -67,12 +85,13 @@ bool ExceptionSnapshotLinux::ReadContext<ContextTraits32>(
                                             context_.x86);
 
   } else {
-    if (ucontext.fprs.magic != 0xffff) {
-      LOG(ERROR) << "unexpected magic 0x" << std::hex << ucontext.fprs.magic;
+    if (fprs.magic != 0xffff) {
+      LOG(ERROR) << "unexpected magic 0x" << std::hex << fprs.magic;
+      LOG(ERROR) << "dumping ucontext";
+      hexdump(reinterpret_cast<uint32_t*>(&ucontext), sizeof(ucontext));
       return false;
     }
-    InitializeCPUContextX86(
-        ucontext.mcontext.gprs, ucontext.fprs, context_.x86);
+    InitializeCPUContextX86(ucontext.mcontext.gprs, fprs, context_.x86);
   }
   return true;
 }
@@ -90,8 +109,20 @@ bool ExceptionSnapshotLinux::ReadContext<ContextTraits64>(
   context_.architecture = kCPUArchitectureX86_64;
   context_.x86_64 = &context_union_.x86_64;
 
-  InitializeCPUContextX86_64(
-      ucontext.mcontext.gprs, ucontext.fprs, context_.x86_64);
+  if (!ucontext.mcontext.fpptr) {
+    InitializeCPUContextX86_64_NoFloatingPoint(ucontext.mcontext.gprs,
+                                               context_.x86_64);
+    InitializeCPUContextX86_64_ClearFloatingPoint(context_.x86_64);
+    return true;
+  }
+
+  SignalFloatContext64 fprs;
+  if (!reader->Memory()->Read(ucontext.mcontext.fpptr, sizeof(fprs), &fprs)) {
+    LOG(ERROR) << "Couldn't read float context";
+    return false;
+  }
+
+  InitializeCPUContextX86_64(ucontext.mcontext.gprs, fprs, context_.x86_64);
   return true;
 }
 
