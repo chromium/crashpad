@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "281b8e63_c940d3f1",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-09T21:06:33Z",
+      "side": 0,
+      "message": "StringPrintf is still used in the other formatting functions.",
+      "range": {
+        "startLine": 26,
+        "startChar": 10,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "a3ba96c0d4c780ab7f19ade6121266916712baaf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
