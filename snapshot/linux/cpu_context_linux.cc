@@ -77,6 +77,8 @@ void InitializeCPUContextX86_NoFloatingPoint(
     CPUContextX86* context) {
   SET_GPRS32();
 
+  memset(&context->fxsave, 0, sizeof(context->fxsave));
+
   context->dr0 = 0;
   context->dr1 = 0;
   context->dr2 = 0;
@@ -152,6 +154,23 @@ void InitializeCPUContextX86_64(const SignalThreadContext64& thread_context,
   context->dr7 = 0;
 }
 
+void InitializeCPUContextX86_64_NoFloatingPoint(
+    const SignalThreadContext64& thread_context,
+    CPUContextX86_64* context) {
+  SET_GPRS64();
+
+  memset(&context->fxsave, 0, sizeof(context->fxsave));
+
+  context->dr0 = 0;
+  context->dr1 = 0;
+  context->dr2 = 0;
+  context->dr3 = 0;
+  context->dr4 = 0;
+  context->dr5 = 0;
+  context->dr6 = 0;
+  context->dr7 = 0;
+}
+
 #elif defined(ARCH_CPU_ARM_FAMILY)
 
 void InitializeCPUContextARM(const ThreadContext::t32_t& thread_context,
@@ -195,6 +214,11 @@ void InitializeCPUContextARM_NoFloatingPoint(
   context->lr = thread_context.lr;
   context->pc = thread_context.pc;
   context->cpsr = thread_context.cpsr;
+
+  memset(&context->fpa_regs, 0, sizeof(context->fpa_regs));
+  memset(&context->vfp_regs, 0, sizeof(context->vfp_regs));
+  context->have_fpa_regs = false;
+  context->have_vfp_regs = false;
 }
 
 void InitializeCPUContextARM64(const ThreadContext::t64_t& thread_context,
@@ -218,6 +242,10 @@ void InitializeCPUContextARM64_NoFloatingPoint(
   context->sp = thread_context.sp;
   context->pc = thread_context.pc;
   context->pstate = thread_context.pstate;
+
+  memset(&context->fpsimd, 0, sizeof(context->fpsimd));
+  context->fpsr = 0;
+  context->fpcr = 0;
 }
 
 void InitializeCPUContextARM64_OnlyFPSIMD(
@@ -228,12 +256,6 @@ void InitializeCPUContextARM64_OnlyFPSIMD(
   memcpy(context->fpsimd, float_context.vregs, sizeof(context->fpsimd));
   context->fpsr = float_context.fpsr;
   context->fpcr = float_context.fpcr;
-}
-
-void InitializeCPUContextARM64_ClearFPSIMD(CPUContextARM64* context) {
-  memset(context->fpsimd, 0, sizeof(context->fpsimd));
-  context->fpsr = 0;
-  context->fpcr = 0;
 }
 
 #endif  // ARCH_CPU_X86_FAMILY
