@@ -109,9 +109,9 @@ class CrashpadClient {
                     bool restartable,
                     bool asynchronous_start);
 
-#if defined(OS_LINUX) || defined(OS_ANDROID) || DOXYGEN
-  //! \brief Installs a signal handler to launch a handler process in reponse to
-  //!     a crash.
+#if defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FUCHSIA) || DOXYGEN
+  //! \brief Installs a signal or exception handler to launch a handler process
+  //!     in response to a crash.
   //!
   //! The handler process will create a crash dump for this process and exit.
   //!
@@ -184,7 +184,9 @@ class CrashpadClient {
   //! \param[in] context A NativeCPUContext, generally captured by
   //!     CaptureContext() or similar.
   static void DumpWithoutCrash(NativeCPUContext* context);
+#endif  // OS_LINUX || OS_ANDROID || OS_FUCHSIA || DOXYGEN
 
+#if defined(OS_LINUX) || defined(OS_ANDROID) || DOXYGEN
   //! \brief The type for custom handlers installed by clients.
   using FirstChanceHandler = bool (*)(int, siginfo_t*, ucontext_t*);
 
