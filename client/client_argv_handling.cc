@@ -62,13 +62,16 @@ void BuildHandlerArgvStrings(
 }
 
 void ConvertArgvStrings(const std::vector<std::string>& argv_strings,
+                        bool trailing_null,
                         std::vector<const char*>* argv) {
   argv->clear();
   argv->reserve(argv_strings.size() + 1);
   for (const auto& arg : argv_strings) {
     argv->push_back(arg.c_str());
   }
-  argv->push_back(nullptr);
+  if (trailing_null) {
+    argv->push_back(nullptr);
+  }
 }
 
 }  // namespace crashpad

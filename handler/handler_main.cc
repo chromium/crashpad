@@ -931,6 +931,7 @@ int HandlerMain(int argc,
   }
 #endif  // OS_WIN
 
+  LOG(ERROR) << "hai!";
   exception_handler_server.Run(&exception_handler);
 
   return EXIT_SUCCESS;

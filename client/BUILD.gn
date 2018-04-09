@@ -45,10 +45,7 @@ static_library("client") {
 
   if (crashpad_is_linux || crashpad_is_android) {
     set_sources_assignment_filter([])
-    sources += [
-      "crashpad_client_linux.cc",
-      "simulate_crash_linux.h",
-    ]
+    sources += [ "crashpad_client_linux.cc" ]
   }
 
   if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
@@ -56,6 +53,7 @@ static_library("client") {
       "client_argv_handling.cc",
       "client_argv_handling.h",
       "crashpad_info_note.S",
+      "simulate_crash_generic.h",
     ]
   }
 
@@ -112,6 +110,10 @@ source_set("client_test") {
 
   if (crashpad_is_linux || crashpad_is_android) {
     sources += [ "crashpad_client_linux_test.cc" ]
+  }
+
+  if (crashpad_is_fuchsia) {
+    sources += [ "crashpad_client_fuchsia_test.cc" ]
   }
 
   deps = [
