@@ -54,6 +54,7 @@ using NativeCPUContext = FxsaveUContext;
 
 void InitializeContext(NativeCPUContext* context) {
   context->ucontext.uc_mcontext.gregs[REG_EAX] = 0xabcd1234;
+  context->ucontext.uc_mcontext.fpregs = &context->ucontext.__fpregs_mem;
   // glibc and bionic use an unsigned long for status, but the kernel treats
   // status as two uint16_t, with the upper 16 bits called "magic" which, if set
   // to X86_FXSR_MAGIC, indicate that an fxsave follows.
@@ -78,6 +79,7 @@ using NativeCPUContext = ucontext_t;
 
 void InitializeContext(NativeCPUContext* context) {
   context->uc_mcontext.gregs[REG_RAX] = 0xabcd1234abcd1234;
+  context->uc_mcontext.fpregs = &context->__fpregs_mem;
   memset(&context->__fpregs_mem, 44, sizeof(context->__fpregs_mem));
 }
 

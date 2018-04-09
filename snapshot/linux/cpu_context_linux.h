@@ -44,8 +44,7 @@ void InitializeCPUContextX86(const SignalThreadContext32& thread_context,
 //! \brief Initializes GPR and debug state in a CPUContextX86 from a native
 //!     signal context structure on Linux.
 //!
-//! Floating point state is not initialized. Debug registers are initialized to
-//! zero.
+//! Floating point state and debug registers are initialized to zero.
 //!
 //! \param[in] thread_context The native thread context.
 //! \param[out] context The CPUContextX86 structure to initialize.
@@ -69,6 +68,17 @@ void InitializeCPUContextX86_64(const SignalThreadContext64& thread_context,
                                 CPUContextX86_64* context);
 //! \}
 
+//! \brief Initializes GPR and debug state in a CPUContextX86_64 from a native
+//!     signal context structure on Linux.
+//!
+//! Floating point state and debug registers are initialized to zero.
+//!
+//! \param[in] thread_context The native thread context.
+//! \param[out] context The CPUContextX86_64 structure to initialize.
+void InitializeCPUContextX86_64_NoFloatingPoint(
+    const SignalThreadContext64& thread_context,
+    CPUContextX86_64* context);
+
 #endif  // ARCH_CPU_X86_FAMILY || DOXYGEN
 
 #if defined(ARCH_CPU_ARM_FAMILY) || DOXYGEN
@@ -86,7 +96,7 @@ void InitializeCPUContextARM(const ThreadContext::t32_t& thread_context,
 //! \brief Initializes GPR state in a CPUContextARM from a native signal context
 //!     structure on Linux.
 //!
-//! Floating point state is not initialized.
+//! Floating point state is initialized to zero.
 //!
 //! \param[in] thread_context The native thread context.
 //! \param[out] context The CPUContextARM structure to initialize.
@@ -107,7 +117,7 @@ void InitializeCPUContextARM64(const ThreadContext::t64_t& thread_context,
 //! \brief Initializes GPR state in a CPUContextARM64 from a native context
 //!     structure on Linux.
 //!
-//! Floating point state is not initialized.
+//! Floating point state is initialized to zero.
 //!
 //! \param[in] thread_context The native thread context.
 //! \param[out] context The CPUContextARM64 structure to initialize.
@@ -125,13 +135,6 @@ void InitializeCPUContextARM64_NoFloatingPoint(
 void InitializeCPUContextARM64_OnlyFPSIMD(
     const SignalFPSIMDContext& float_context,
     CPUContextARM64* context);
-
-//! \brief Initializes FPSIMD state in a CPUContextARM64 to zero.
-//!
-//! General purpose registers are not initialized.
-//!
-//! \param[out] context The CPUContextARM64 structure to initialize.
-void InitializeCPUContextARM64_ClearFPSIMD(CPUContextARM64* context);
 
 #endif  // ARCH_CPU_ARM_FAMILY || DOXYGEN
 
