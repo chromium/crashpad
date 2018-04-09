@@ -52,7 +52,11 @@ static_library("client") {
   }
 
   if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
-    sources += [ "crashpad_info_note.S" ]
+    sources += [
+      "client_argv_handling.cc",
+      "client_argv_handling.h",
+      "crashpad_info_note.S",
+    ]
   }
 
   if (crashpad_is_win) {
@@ -64,9 +68,7 @@ static_library("client") {
   }
 
   if (crashpad_is_fuchsia) {
-    sources += [
-      "crashpad_client_fuchsia.cc",
-    ]
+    sources += [ "crashpad_client_fuchsia.cc" ]
   }
 
   if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
