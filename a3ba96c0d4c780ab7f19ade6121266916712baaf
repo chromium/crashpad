@@ -22,6 +22,30 @@
       "revId": "a3ba96c0d4c780ab7f19ade6121266916712baaf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cf7616b_bb5a5a2e",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-09T21:21:23Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "281b8e63_c940d3f1",
+      "range": {
+        "startLine": 26,
+        "startChar": 10,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "a3ba96c0d4c780ab7f19ade6121266916712baaf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
