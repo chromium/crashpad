@@ -53,6 +53,13 @@ void InitializeCPUContextX86_NoFloatingPoint(
     const SignalThreadContext32& thread_context,
     CPUContextX86* context);
 
+//! \brief Initializes fxsave state to zero.
+//!
+//! General purpose and debug registers are not initialized.
+//!
+//! \param[out] context The CPUContextX86 structure to initialize.
+void InitializeCPUContextX86_ClearFloatingPoint(CPUContextX86* context);
+
 //! \{
 //! \brief Initializes a CPUContextX86_64 structure from native context
 //!     structures on Linux.
@@ -68,6 +75,25 @@ void InitializeCPUContextX86_64(const SignalThreadContext64& thread_context,
                                 const SignalFloatContext64& float_context,
                                 CPUContextX86_64* context);
 //! \}
+
+//! \brief Initializes GPR and debug state in a CPUContextX86_64 from a native
+//!     signal context structure on Linux.
+//!
+//! Floating point state is not initialized. Debug registers are initialized to
+//! zero.
+//!
+//! \param[in] thread_context The native thread context.
+//! \param[out] context The CPUContextX86_64 structure to initialize.
+void InitializeCPUContextX86_64_NoFloatingPoint(
+    const SignalThreadContext64& thread_context,
+    CPUContextX86_64* context);
+
+//! \brief Initializes fxsave state to zero.
+//!
+//! General purpose and debug registers are not initialized.
+//!
+//! \param[out] context The CPUContextX86_64 structure to initialize.
+void InitializeCPUContextX86_64_ClearFloatingPoint(CPUContextX86_64* context);
 
 #endif  // ARCH_CPU_X86_FAMILY || DOXYGEN
 

@@ -87,6 +87,10 @@ void InitializeCPUContextX86_NoFloatingPoint(
   context->dr7 = 0;
 }
 
+void InitializeCPUContextX86_ClearFloatingPoint(CPUContextX86* context) {
+  memset(&context->fxsave, 0, sizeof(context->fxsave));
+}
+
 #define SET_GPRS64()                         \
   do {                                       \
     context->rax = thread_context.rax;       \
@@ -150,6 +154,25 @@ void InitializeCPUContextX86_64(const SignalThreadContext64& thread_context,
   context->dr5 = 0;
   context->dr6 = 0;
   context->dr7 = 0;
+}
+
+void InitializeCPUContextX86_64_NoFloatingPoint(
+    const SignalThreadContext64& thread_context,
+    CPUContextX86_64* context) {
+  SET_GPRS64();
+
+  context->dr0 = 0;
+  context->dr1 = 0;
+  context->dr2 = 0;
+  context->dr3 = 0;
+  context->dr4 = 0;
+  context->dr5 = 0;
+  context->dr6 = 0;
+  context->dr7 = 0;
+}
+
+void InitializeCPUContextX86_64_ClearFloatingPoint(CPUContextX86_64* context) {
+  memset(&context->fxsave, 0, sizeof(context->fxsave));
 }
 
 #elif defined(ARCH_CPU_ARM_FAMILY)

@@ -206,7 +206,7 @@ struct UContext {
   SignalStack<Traits> stack;
   MContext<Traits> mcontext;
   Sigset<Traits> sigmask;
-  typename Traits::FloatContext fprs;
+  char fpregs_mem[0];
 };
 
 #elif defined(ARCH_CPU_ARM_FAMILY)
