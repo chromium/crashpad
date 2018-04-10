@@ -18,12 +18,17 @@
 
 namespace crashpad {
 
-ProcessSnapshotFuchsia::ProcessSnapshotFuchsia() {}
+ProcessSnapshotFuchsia::ProcessSnapshotFuchsia() = default;
 
-ProcessSnapshotFuchsia::~ProcessSnapshotFuchsia() {}
+ProcessSnapshotFuchsia::~ProcessSnapshotFuchsia() = default;
 
 bool ProcessSnapshotFuchsia::Initialize(zx_handle_t process) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+  if (gettimeofday(&snapshot_time_, nullptr) != 0) {
+    PLOG(ERROR) << "gettimeofday";
+    return false;
+  }
 
   if (!process_reader_.Initialize(process)) {
     return false;
@@ -87,7 +92,7 @@ pid_t ProcessSnapshotFuchsia::ParentProcessID() const {
 
 void ProcessSnapshotFuchsia::SnapshotTime(timeval* snapshot_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
+  *snapshot_time = snapshot_time_;
 }
 
 void ProcessSnapshotFuchsia::ProcessStartTime(timeval* start_time) const {
