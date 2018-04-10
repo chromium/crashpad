@@ -174,7 +174,8 @@ std::string SystemSnapshotFuchsia::OSVersionFull() const {
 
 std::string SystemSnapshotFuchsia::MachineDescription() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  // TODO(scottmg): https://crashpad.chromium.org/bug/196. Not yet available,
+  // upstream ZX-1775.
   return std::string();
 }
 
