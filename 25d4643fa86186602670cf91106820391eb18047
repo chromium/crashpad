@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3531c653_f664eb73",
+        "filename": "util/fuchsia/process_from_koid.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-10T21:19:09Z",
+      "side": 1,
+      "message": "Intentionally starting with a zero-sized result vector?",
+      "range": {
+        "startLine": 54,
+        "startChar": 7,
+        "endLine": 54,
+        "endChar": 27
+      },
+      "revId": "25d4643fa86186602670cf91106820391eb18047",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78ed2476_ac1b9a76",
+        "filename": "util/fuchsia/process_from_koid.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-10T21:19:09Z",
+      "side": 1,
+      "message": "Is this expected to not be ZX_OK? Might be good to log something, even if we can try continuing on with what we were able to collect.",
+      "range": {
+        "startLine": 62,
+        "startChar": 8,
+        "endLine": 62,
+        "endChar": 23
+      },
+      "revId": "25d4643fa86186602670cf91106820391eb18047",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "297b2de4_7c8f5159",
+        "filename": "util/fuchsia/process_from_koid.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-10T21:19:09Z",
+      "side": 1,
+      "message": "It looks like nothing is logged if the process wasn\u0027t found.",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 102,
+        "endChar": 15
+      },
+      "revId": "25d4643fa86186602670cf91106820391eb18047",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
