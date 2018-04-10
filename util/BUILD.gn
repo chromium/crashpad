@@ -388,8 +388,8 @@ static_library("util") {
 
   if (crashpad_is_fuchsia) {
     sources += [
-      "fuchsia/koid_utilities.cc",
-      "fuchsia/koid_utilities.h",
+      "fuchsia/process_from_koid.cc",
+      "fuchsia/process_from_koid.h",
       "misc/capture_context_fuchsia.S",
       "misc/paths_fuchsia.cc",
       "net/http_transport_none.cc",

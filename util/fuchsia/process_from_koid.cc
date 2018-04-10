@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/fuchsia/koid_utilities.h"
+#include "util/fuchsia/process_from_koid.h"
 
 #include <zircon/device/sysinfo.h>
 

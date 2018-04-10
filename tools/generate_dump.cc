@@ -48,7 +48,7 @@
 #elif defined(OS_FUCHSIA)
 #include "base/fuchsia/scoped_zx_handle.h"
 #include "snapshot/fuchsia/process_snapshot_fuchsia.h"
-#include "util/fuchsia/koid_utilities.h"
+#include "util/fuchsia/process_from_koid.h"
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
 #include "snapshot/linux/process_snapshot_linux.h"
 #endif  // OS_MACOSX

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_FUCHSIA_KOID_UTILITIES_H_
-#define CRASHPAD_UTIL_FUCHSIA_KOID_UTILITIES_H_
+#ifndef CRASHPAD_UTIL_FUCHSIA_PROCESS_FROM_KOID_H_
+#define CRASHPAD_UTIL_FUCHSIA_PROCESS_FROM_KOID_H_
 
 #include <zircon/types.h>
 
@@ -36,4 +36,4 @@ zx_koid_t GetKoidForHandle(zx_handle_t object);
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_UTIL_FUCHSIA_KOID_UTILITIES_H_
+#endif  // CRASHPAD_UTIL_FUCHSIA_PROCESS_FROM_KOID_H_
