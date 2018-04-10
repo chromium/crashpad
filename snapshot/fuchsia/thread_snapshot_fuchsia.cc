@@ -49,6 +49,7 @@ bool ThreadSnapshotFuchsia::Initialize(
 
   // TODO(scottmg): https://crashpad.chromium.org/bug/196. Initialize stack_ and
   // TLS address here. API request for stack range filed upstream at ZX-1748.
+  stack_.Initialize(process_reader, 0, 0);
 
   thread_id_ = thread.id;
 
