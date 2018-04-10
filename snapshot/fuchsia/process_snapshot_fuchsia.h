@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_SNAPSHOT_FUCHSIA_H_
 #define CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_SNAPSHOT_FUCHSIA_H_
 
+#include <sys/time.h>
 #include <zircon/types.h>
 
 #include <memory>
@@ -84,6 +85,7 @@ class ProcessSnapshotFuchsia : public ProcessSnapshot {
   std::vector<std::unique_ptr<internal::ModuleSnapshotElf>> modules_;
   ProcessReaderFuchsia process_reader_;
   std::map<std::string, std::string> annotations_simple_map_;
+  timeval snapshot_time_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessSnapshotFuchsia);
