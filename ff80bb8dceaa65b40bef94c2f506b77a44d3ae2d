@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cab159b6_b47504b3",
+        "filename": "snapshot/fuchsia/system_snapshot_fuchsia.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-10T22:34:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac845f61_0179fc04",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "ff80bb8dceaa65b40bef94c2f506b77a44d3ae2d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "787e9e39_fe104637",
         "filename": "snapshot/fuchsia/system_snapshot_fuchsia.h",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "ff80bb8dceaa65b40bef94c2f506b77a44d3ae2d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc7e8d15_606a7bd8",
+        "filename": "snapshot/fuchsia/system_snapshot_fuchsia.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-10T22:34:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "787e9e39_fe104637",
+      "range": {
+        "startLine": 36,
+        "startChar": 18,
+        "endLine": 36,
+        "endChar": 46
+      },
+      "revId": "ff80bb8dceaa65b40bef94c2f506b77a44d3ae2d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
