@@ -26,6 +26,7 @@
 #include "snapshot/elf/elf_image_reader.h"
 #include "snapshot/elf/module_snapshot_elf.h"
 #include "snapshot/fuchsia/process_reader_fuchsia.h"
+#include "snapshot/fuchsia/system_snapshot_fuchsia.h"
 #include "snapshot/fuchsia/thread_snapshot_fuchsia.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/unloaded_module_snapshot.h"
@@ -81,6 +82,7 @@ class ProcessSnapshotFuchsia : public ProcessSnapshot {
   // Initializes modules_ on behalf of Initialize().
   void InitializeModules();
 
+  internal::SystemSnapshotFuchsia system_;
   std::vector<std::unique_ptr<internal::ThreadSnapshotFuchsia>> threads_;
   std::vector<std::unique_ptr<internal::ModuleSnapshotElf>> modules_;
   ProcessReaderFuchsia process_reader_;

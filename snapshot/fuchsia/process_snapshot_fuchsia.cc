@@ -34,6 +34,8 @@ bool ProcessSnapshotFuchsia::Initialize(zx_handle_t process) {
     return false;
   }
 
+  system_.Initialize(&snapshot_time_);
+
   InitializeThreads();
   InitializeModules();
 
@@ -125,8 +127,7 @@ ProcessSnapshotFuchsia::AnnotationsSimpleMap() const {
 
 const SystemSnapshot* ProcessSnapshotFuchsia::System() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
-  return nullptr;
+  return &system_;
 }
 
 std::vector<const ThreadSnapshot*> ProcessSnapshotFuchsia::Threads() const {
