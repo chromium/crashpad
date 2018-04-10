@@ -79,7 +79,7 @@ class LaunchAtCrashHandler : public SignalHandler {
     argv_strings_.push_back(FormatArgumentAddress("trace-parent-with-exception",
                                                   &exception_information_));
 
-    ConvertArgvStrings(argv_strings_, &argv_);
+    ConvertArgvStrings(argv_strings_, true, &argv_);
     return Signals::InstallCrashHandlers(HandleCrash, 0, nullptr);
   }
 

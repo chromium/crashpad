@@ -44,8 +44,11 @@ void BuildHandlerArgvStrings(
 //!
 //! \param[in] argv_strings Arguments to be passed to child process, typically
 //!     created by BuildHandlerArgvStrings().
+//! \param[in] trailing_null `true` if an extra nullptr argument should be
+//!     added to the end of the output vector.
 //! \param[out] argv argv suitable for starting the child process.
 void ConvertArgvStrings(const std::vector<std::string>& argv_strings,
+                        bool trailing_null,
                         std::vector<const char*>* argv);
 
 }  // namespace crashpad

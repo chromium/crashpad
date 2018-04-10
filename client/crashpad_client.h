@@ -110,8 +110,8 @@ class CrashpadClient {
                     bool asynchronous_start);
 
 #if defined(OS_LINUX) || defined(OS_ANDROID) || DOXYGEN
-  //! \brief Installs a signal handler to launch a handler process in reponse to
-  //!     a crash.
+  //! \brief Installs a signal or exception handler to launch a handler process
+  //!     in response to a crash.
   //!
   //! The handler process will create a crash dump for this process and exit.
   //!

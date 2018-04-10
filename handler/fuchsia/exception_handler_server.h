@@ -22,11 +22,13 @@ namespace crashpad {
 class CrashReportExceptionHandler;
 
 //! \brief Runs the main exception-handling server in Crashpad's handler
-//!     process. This class is not yet implemented.
+//!     process.
 class ExceptionHandlerServer {
  public:
   //! \brief Constructs an ExceptionHandlerServer object.
-  ExceptionHandlerServer();
+  //!
+  //! \param[in] task The task to be monitored.
+  ExceptionHandlerServer(zx_handle_t task, zx_handle_t exception_port);
   ~ExceptionHandlerServer();
 
   //! \brief Runs the exception-handling server.
