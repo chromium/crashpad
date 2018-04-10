@@ -51,7 +51,7 @@ std::vector<zx_koid_t> GetChildKoids(zx_handle_t parent, uint32_t child_kind) {
   // This is inherently racy, but we retry with a bit of slop to try to get a
   // complete list.
   for (int pass = 0; pass < 5; pass++) {
-    if (actual <= available)
+    if (actual < available)
       result.resize(available + kNumExtraKoids);
     zx_status_t status = zx_object_get_info(parent,
                                             child_kind,
@@ -59,15 +59,9 @@ std::vector<zx_koid_t> GetChildKoids(zx_handle_t parent, uint32_t child_kind) {
                                             result.size() * sizeof(zx_koid_t),
                                             &actual,
                                             &available);
-    if (actual == available) {
+    if (status != ZX_OK || actual == available)
       break;
-    }
-    if (status != ZX_OK) {
-      ZX_LOG(ERROR, status) << "zx_object_get_info";
-      break;
-    }
   }
-
   result.resize(actual);
   return result;
 }
@@ -127,9 +121,7 @@ zx_koid_t GetKoidForHandle(zx_handle_t object) {
 // zx_debug_something() syscall.
 base::ScopedZxHandle GetProcessFromKoid(zx_koid_t koid) {
   base::ScopedZxHandle result;
-  if (!FindProcess(GetRootJob(), koid, &result)) {
-    LOG(ERROR) << "process " << koid << " not found";
-  }
+  FindProcess(GetRootJob(), koid, &result);
   return result;
 }
 

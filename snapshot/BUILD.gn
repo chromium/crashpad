@@ -180,6 +180,8 @@ static_library("snapshot") {
       "fuchsia/process_reader_fuchsia.h",
       "fuchsia/process_snapshot_fuchsia.cc",
       "fuchsia/process_snapshot_fuchsia.h",
+      "fuchsia/system_snapshot_fuchsia.cc",
+      "fuchsia/system_snapshot_fuchsia.h",
       "fuchsia/thread_snapshot_fuchsia.cc",
       "fuchsia/thread_snapshot_fuchsia.h",
     ]
