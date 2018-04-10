@@ -14,7 +14,10 @@
 
 #include "snapshot/fuchsia/process_snapshot_fuchsia.h"
 
+#include <zircon/process.h>
+
 #include "base/logging.h"
+#include "util/fuchsia/koid_utilities.h"
 
 namespace crashpad {
 
@@ -82,8 +85,7 @@ void ProcessSnapshotFuchsia::GetCrashpadOptions(
 
 pid_t ProcessSnapshotFuchsia::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
-  return 0;
+  return GetKoidForHandle(zx_process_self());
 }
 
 pid_t ProcessSnapshotFuchsia::ParentProcessID() const {
@@ -99,13 +101,16 @@ void ProcessSnapshotFuchsia::SnapshotTime(timeval* snapshot_time) const {
 
 void ProcessSnapshotFuchsia::ProcessStartTime(timeval* start_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
+  // TODO(scottmg): https://crashpad.chromium.org/bug/196. Nothing available.
+  *start_time = timeval{};
 }
 
 void ProcessSnapshotFuchsia::ProcessCPUTimes(timeval* user_time,
                                              timeval* system_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
+  // TODO(scottmg): https://crashpad.chromium.org/bug/196. Nothing available.
+  *user_time = timeval{};
+  *system_time = timeval{};
 }
 
 void ProcessSnapshotFuchsia::ReportID(UUID* report_id) const {
@@ -132,8 +137,11 @@ const SystemSnapshot* ProcessSnapshotFuchsia::System() const {
 
 std::vector<const ThreadSnapshot*> ProcessSnapshotFuchsia::Threads() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
-  return std::vector<const ThreadSnapshot*>();
+  std::vector<const ThreadSnapshot*> threads;
+  for (const auto& thread : threads_) {
+    threads.push_back(thread.get());
+  }
+  return threads;
 }
 
 std::vector<const ModuleSnapshot*> ProcessSnapshotFuchsia::Modules() const {
