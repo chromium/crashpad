@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac845f61_0179fc04",
+        "filename": "snapshot/fuchsia/system_snapshot_fuchsia.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-10T22:26:13Z",
+      "side": 1,
+      "message": "build_config.h",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "ff80bb8dceaa65b40bef94c2f506b77a44d3ae2d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "787e9e39_fe104637",
+        "filename": "snapshot/fuchsia/system_snapshot_fuchsia.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-10T22:26:13Z",
+      "side": 1,
+      "message": "Missing documentation\nand\ntime.h",
+      "range": {
+        "startLine": 36,
+        "startChar": 18,
+        "endLine": 36,
+        "endChar": 46
+      },
+      "revId": "ff80bb8dceaa65b40bef94c2f506b77a44d3ae2d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
