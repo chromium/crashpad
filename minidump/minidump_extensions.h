@@ -248,6 +248,9 @@ enum MinidumpOS : uint32_t {
   //! \brief Native Client (NaCl).
   kMinidumpOSNaCl = 0x8205,
 
+  //! \brief Fuchsia.
+  kMinidumpOSFuchsia = 0x8206,
+
   //! \brief Unknown operating system.
   kMinidumpOSUnknown = 0xffffffff,
 };
