@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7ce554fa_5c6d41af",
+        "filename": "util/fuchsia/process_from_koid.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-10T21:26:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3531c653_f664eb73",
+      "range": {
+        "startLine": 54,
+        "startChar": 7,
+        "endLine": 54,
+        "endChar": 27
+      },
+      "revId": "25d4643fa86186602670cf91106820391eb18047",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78ed2476_ac1b9a76",
         "filename": "util/fuchsia/process_from_koid.cc",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f824c58a_4e975e9d",
+        "filename": "util/fuchsia/process_from_koid.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-10T21:26:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78ed2476_ac1b9a76",
+      "range": {
+        "startLine": 62,
+        "startChar": 8,
+        "endLine": 62,
+        "endChar": 23
+      },
+      "revId": "25d4643fa86186602670cf91106820391eb18047",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "297b2de4_7c8f5159",
         "filename": "util/fuchsia/process_from_koid.cc",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "25d4643fa86186602670cf91106820391eb18047",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7848a463_75019bb4",
+        "filename": "util/fuchsia/process_from_koid.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-10T21:26:31Z",
+      "side": 1,
+      "message": "Done (in the externally visible function instead of this helper)",
+      "parentUuid": "297b2de4_7c8f5159",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 102,
+        "endChar": 15
+      },
+      "revId": "25d4643fa86186602670cf91106820391eb18047",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
