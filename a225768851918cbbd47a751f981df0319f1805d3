@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38a7aba3_3e782c3c",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-11T22:35:30Z",
+      "side": 1,
+      "message": "There\u0027s an extra \u0027SNAPSHOT\u0027 here... and in the mac and linux versions too!",
+      "range": {
+        "startLine": 15,
+        "startChar": 34,
+        "endLine": 15,
+        "endChar": 42
+      },
+      "revId": "a225768851918cbbd47a751f981df0319f1805d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed12c491_65809ff1",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-11T22:35:30Z",
+      "side": 1,
+      "message": "These are used to make the DOXYGEN docs apply to all the functions between them, so are unnecessary here.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 6
+      },
+      "revId": "a225768851918cbbd47a751f981df0319f1805d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6addd660_62bcd7ff",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-11T22:35:30Z",
+      "side": 1,
+      "message": "zircon/syscall/debug.h",
+      "range": {
+        "startLine": 37,
+        "startChar": 10,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "a225768851918cbbd47a751f981df0319f1805d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "010395e6_ea67bde3",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-11T22:35:30Z",
+      "side": 1,
+      "message": "indent 4 more spaces",
+      "range": {
+        "startLine": 75,
+        "startChar": 7,
+        "endLine": 75,
+        "endChar": 8
+      },
+      "revId": "a225768851918cbbd47a751f981df0319f1805d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
