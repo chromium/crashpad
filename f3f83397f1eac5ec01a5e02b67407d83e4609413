@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00791f85_a46c9c47",
+        "filename": "util/fuchsia/scoped_task_suspend.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-11T21:06:24Z",
+      "side": 1,
+      "message": "This is getting to be a pattern, here, in process_reader_fuchsia.cc, and koid_utilities.cc. Maybe it\u0027s worth factoring this loop out?",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 3
+      },
+      "revId": "f3f83397f1eac5ec01a5e02b67407d83e4609413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d68a9da_5e8ff6fe",
+        "filename": "util/fuchsia/scoped_task_suspend.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-11T21:06:24Z",
+      "side": 1,
+      "message": "extra empty line here",
+      "revId": "f3f83397f1eac5ec01a5e02b67407d83e4609413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09a0ae43_55844fb5",
+        "filename": "util/fuchsia/scoped_task_suspend.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-11T21:06:24Z",
+      "side": 1,
+      "message": "This could be \u0027types\u0027 instead. This header also gets re-included in scoped_task_suspend.cc.",
+      "range": {
+        "startLine": 18,
+        "startChar": 17,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "f3f83397f1eac5ec01a5e02b67407d83e4609413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
