@@ -251,12 +251,13 @@ static_library("util") {
     sources += get_target_outputs(":mig")
   }
 
-  if (crashpad_is_linux || crashpad_is_android) {
-    if (crashpad_is_linux && crashpad_enable_http_transport_libcurl) {
-      sources += [ "net/http_transport_libcurl.cc" ]
-    } else {
-      sources += [ "net/http_transport_none.cc" ]
-    }
+  if (crashpad_is_linux && crashpad_enable_http_transport_libcurl) {
+    sources += [ "net/http_transport_libcurl.cc" ]
+  } else if (crashpad_is_linux) {
+    sources += [ "net/http_transport_boringssl.cc" ]
+    libs = [ "ssl" ]
+  } else if (crashpad_is_android) {
+    sources += [ "net/http_transport_none.cc" ]
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
@@ -492,8 +493,7 @@ source_set("util_test") {
     "thread/worker_thread_test.cc",
   ]
 
-  if (!crashpad_is_android && !crashpad_is_fuchsia &&
-      (!crashpad_is_linux || crashpad_enable_http_transport_libcurl)) {
+  if (!crashpad_is_android && !crashpad_is_fuchsia) {
     # Android and Fuchsia will each require an HTTPTransport implementation
     # (libcurl isn’t in either’s SDK) and a solution to
     # http_transport_test_server.py, because Python isn’t available on either.
