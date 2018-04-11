@@ -15,6 +15,7 @@
 #include "snapshot/fuchsia/thread_snapshot_fuchsia.h"
 
 #include "base/logging.h"
+#include "snapshot/fuchsia/cpu_context_fuchsia.h"
 
 namespace crashpad {
 namespace internal {
@@ -38,11 +39,13 @@ bool ThreadSnapshotFuchsia::Initialize(
 #if defined(ARCH_CPU_X86_64)
   context_.architecture = kCPUArchitectureX86_64;
   context_.x86_64 = &context_arch_;
-// TODO(scottmg): Implement context capture for x64.
+  // TODO(scottmg): Float context, once Fuchsia has a debug API to capture
+  // floating point registers. ZX-1750 upstream.
+  InitializeCPUContextX86_64(thread.general_registers, context_.x86_64);
 #elif defined(ARCH_CPU_ARM64)
   context_.architecture = kCPUArchitectureARM64;
   context_.arm64 = &context_arch_;
-// TODO(scottmg): Implement context capture for arm64.
+  // TODO(scottmg): Implement context capture for arm64.
 #else
 #error Port.
 #endif
