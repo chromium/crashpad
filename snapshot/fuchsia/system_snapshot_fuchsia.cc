@@ -14,9 +14,9 @@
 
 #include "snapshot/fuchsia/system_snapshot_fuchsia.h"
 
-#include <sys/utsname.h>
 #include <zircon/syscalls.h>
 
+#include "base/fuchsia/fuchsia_logging.h"
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/strings/stringprintf.h"
@@ -34,17 +34,24 @@ void SystemSnapshotFuchsia::Initialize(const timeval* snapshot_time) {
 
   snapshot_time_ = snapshot_time;
 
-  std::string uname_string;
-  utsname uts;
-  if (uname(&uts) != 0) {
-    PLOG(WARNING) << "uname";
-  } else {
-    uname_string = base::StringPrintf("%s %s", uts.sysname, uts.machine);
-  }
+  // This version string mirrors `uname -a` as written by
+  // garnet/bin/uname/uname.c, however, this information isn't provided by
+  // uname(). Additionally, uname() seems to hang if the network is in a bad
+  // state when attempting to retrieve the nodename, so avoid it for now.
+  char kernel_version[256] = {};
+  zx_status_t status =
+      zx_system_get_version(kernel_version, sizeof(kernel_version));
+  ZX_LOG_IF(ERROR, status != ZX_OK, status) << "zx_system_get_version";
 
-  // TODO(scottmg): There's no version available to be reported yet.
-
-  os_version_full_ = uname_string;
+#if defined(ARCH_CPU_X86_64)
+  static constexpr const char kArch[] = "x86_64";
+#elif defined(ARCH_CPU_ARM64)
+  static constexpr const char kArch[] = "aarch64";
+#else
+  static constexpr const char kArch[] = "unknown";
+#endif
+  os_version_full_ =
+      base::StringPrintf("Zircon prerelease %s %s", kernel_version, kArch);
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
 }
