@@ -42,6 +42,61 @@ TEST(URLEncode, SimpleAddress) {
       "3Dvalue");
 }
 
+TEST(CrackURL, Unsupported) {
+  std::string scheme, host, port, rest;
+
+  // Not HTTP.
+  EXPECT_FALSE(CrackURL("file://stuff/things", &scheme, &host, &port, &rest));
+
+  // No resource.
+  EXPECT_FALSE(CrackURL("file://stuff", &scheme, &host, &port, &rest));
+  EXPECT_FALSE(CrackURL("http://stuff", &scheme, &host, &port, &rest));
+  EXPECT_FALSE(CrackURL("https://stuff", &scheme, &host, &port, &rest));
+}
+
+TEST(CrackURL, BasicWithDefaultPort) {
+  std::string scheme, host, port, rest;
+
+  EXPECT_TRUE(CrackURL("http://stuff/things", &scheme, &host, &port, &rest));
+  EXPECT_EQ(scheme, "http");
+  EXPECT_EQ(host, "stuff");
+  EXPECT_EQ(port, "80");
+  EXPECT_EQ(rest, "/things");
+
+  EXPECT_TRUE(CrackURL("https://stuff/things", &scheme, &host, &port, &rest));
+  EXPECT_EQ(scheme, "https");
+  EXPECT_EQ(host, "stuff");
+  EXPECT_EQ(port, "443");
+  EXPECT_EQ(rest, "/things");
+}
+
+TEST(CrackURL, BasicWithExplicitPort) {
+  std::string scheme, host, port, rest;
+
+  EXPECT_TRUE(CrackURL("http://stuff:999/things", &scheme, &host, &port, &rest));
+  EXPECT_EQ(scheme, "http");
+  EXPECT_EQ(host, "stuff");
+  EXPECT_EQ(port, "999");
+  EXPECT_EQ(rest, "/things");
+
+  EXPECT_TRUE(CrackURL("https://stuff:1010/things", &scheme, &host, &port, &rest));
+  EXPECT_EQ(scheme, "https");
+  EXPECT_EQ(host, "stuff");
+  EXPECT_EQ(port, "1010");
+  EXPECT_EQ(rest, "/things");
+}
+
+TEST(CrackURL, WithURLParams) {
+  std::string scheme, host, port, rest;
+
+  EXPECT_TRUE(CrackURL(
+      "http://stuff:999/things?blah=stuff:3", &scheme, &host, &port, &rest));
+  EXPECT_EQ(scheme, "http");
+  EXPECT_EQ(host, "stuff");
+  EXPECT_EQ(port, "999");
+  EXPECT_EQ(rest, "/things?blah=stuff:3");
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
