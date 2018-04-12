@@ -210,19 +210,12 @@ bool CrashpadClient::StartHandlerForClient(
 void CrashpadClient::DumpWithoutCrash(NativeCPUContext* context) {
   DCHECK(g_crash_handler);
 
-#if defined(ARCH_CPU_X86)
-  memset(&context->__fpregs_mem, 0, sizeof(context->__fpregs_mem));
-  context->__fpregs_mem.status = 0xffff0000;
-#elif defined(ARCH_CPU_X86_64)
-  memset(&context->__fpregs_mem, 0, sizeof(context->__fpregs_mem));
-#elif defined(ARCH_CPU_ARMEL)
+#if defined(ARCH_CPU_ARMEL)
   memset(context->uc_regspace, 0, sizeof(context->uc_regspace));
 #elif defined(ARCH_CPU_ARM64)
   memset(context->uc_mcontext.__reserved,
          0,
          sizeof(context->uc_mcontext.__reserved));
-#else
-#error Port.
 #endif
 
   siginfo_t siginfo;

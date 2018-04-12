@@ -128,6 +128,8 @@ CAPTURECONTEXT_SYMBOL2:
   movl %ecx, 0x5c(%eax)  // context->uc_mcontext.xss
 
   // TODO(jperaza): save floating-point registers.
+  xorl %ecx, %ecx
+  movl %ecx, 0x60(%eax)  // context->uc_mcontext.fpregs
 
   // Clean up by restoring clobbered registers, even those considered volatile
   // by the ABI, so that the captured context represents the state at this
@@ -224,13 +226,14 @@ CAPTURECONTEXT_SYMBOL2:
   movq %r8, 0xd0(%rdi)  // context->uc_mcontext.oldmask
   movq %r8, 0xd8(%rdi)  // context->uc_mcontext.cr2
 
+  // TODO(jperaza): save floating-point registers.
+  movq %r8, 0xe0(%rdi)  // context->uc_mcontext.fpregs
+
   // Clean up by restoring clobbered registers, even those considered volatile
   // by the ABI, so that the captured context represents the state at this
   // function’s exit.
   movq 0x90(%rdi), %rax
   movq 0x28(%rdi), %r8
-
-  // TODO(jperaza): save floating-point registers.
 
   popfq
 
