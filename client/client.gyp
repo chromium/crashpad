@@ -65,6 +65,8 @@
         }],
         ['OS=="linux" or OS=="android"', {
           'sources': [
+            'client_argv_handling.cc',
+            'client_argv_handling.h',
             'crashpad_info_note.S',
             'crash_report_database_generic.cc',
           ],
