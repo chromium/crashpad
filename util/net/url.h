@@ -17,6 +17,8 @@
 
 #include <string>
 
+#include "build/build_config.h"
+
 namespace crashpad {
 
 //! \brief Performs percent-encoding (URL encoding) on the input string,

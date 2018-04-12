@@ -73,15 +73,13 @@ TEST(CrackURL, BasicWithDefaultPort) {
 TEST(CrackURL, BasicWithExplicitPort) {
   std::string scheme, host, port, rest;
 
-  EXPECT_TRUE(
-      CrackURL("http://stuff:999/things", &scheme, &host, &port, &rest));
+  EXPECT_TRUE(CrackURL("http://stuff:999/things", &scheme, &host, &port, &rest));
   EXPECT_EQ(scheme, "http");
   EXPECT_EQ(host, "stuff");
   EXPECT_EQ(port, "999");
   EXPECT_EQ(rest, "/things");
 
-  EXPECT_TRUE(
-      CrackURL("https://stuff:1010/things", &scheme, &host, &port, &rest));
+  EXPECT_TRUE(CrackURL("https://stuff:1010/things", &scheme, &host, &port, &rest));
   EXPECT_EQ(scheme, "https");
   EXPECT_EQ(host, "stuff");
   EXPECT_EQ(port, "1010");
