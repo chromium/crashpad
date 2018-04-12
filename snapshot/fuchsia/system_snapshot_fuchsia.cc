@@ -44,11 +44,11 @@ void SystemSnapshotFuchsia::Initialize(const timeval* snapshot_time) {
   ZX_LOG_IF(ERROR, status != ZX_OK, status) << "zx_system_get_version";
 
 #if defined(ARCH_CPU_X86_64)
-  static constexpr const char kArch[] = "x86_64";
+  constexpr const char kArch[] = "x86_64";
 #elif defined(ARCH_CPU_ARM64)
-  static constexpr const char kArch[] = "aarch64";
+  constexpr const char kArch[] = "aarch64";
 #else
-  static constexpr const char kArch[] = "unknown";
+  constexpr const char kArch[] = "unknown";
 #endif
   os_version_full_ =
       base::StringPrintf("Zircon prerelease %s %s", kernel_version, kArch);
