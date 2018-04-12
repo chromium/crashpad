@@ -16,6 +16,7 @@
 
 #include <string.h>
 
+#include "base/logging.h"
 #include "base/strings/stringprintf.h"
 
 namespace crashpad {
@@ -39,6 +40,53 @@ std::string URLEncode(const std::string& url) {
   }
 
   return encoded;
+}
+
+bool CrackURL(const std::string& url,
+              std::string* scheme,
+              std::string* host,
+              std::string* port,
+              std::string* rest) {
+  std::string result_scheme;
+  std::string result_port;
+
+  size_t host_start;
+  static constexpr const char kHttp[] = "http://";
+  static constexpr const char kHttps[] = "https://";
+  if (url.compare(0, strlen(kHttp), kHttp) == 0) {
+    result_scheme = "http";
+    result_port = "80";
+    host_start = strlen(kHttp);
+  } else if (url.compare(0, strlen(kHttps), kHttps) == 0) {
+    result_scheme = "https";
+    result_port = "443";
+    host_start = strlen(kHttps);
+  } else {
+    LOG(ERROR) << "expecting http or https";
+    return false;
+  }
+
+  // Find the start of the resource.
+  size_t resource_start = url.find('/', host_start);
+  if (resource_start == std::string::npos) {
+    LOG(ERROR) << "no resource component";
+    return false;
+  }
+
+  scheme->swap(result_scheme);
+  port->swap(result_port);
+  std::string host_and_possible_port =
+      url.substr(host_start, resource_start - host_start);
+  size_t colon = host_and_possible_port.find(':');
+  if (colon == std::string::npos) {
+    *host = host_and_possible_port;
+  } else {
+    *host = host_and_possible_port.substr(0, colon);
+    *port = host_and_possible_port.substr(colon + 1);
+  }
+
+  *rest = url.substr(resource_start);
+  return true;
 }
 
 }  // namespace crashpad
