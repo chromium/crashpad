@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_LINUX_SNAPSHOT_CPU_CONTEXT_LINUX_H_
-#define CRASHPAD_SNAPSHOT_LINUX_SNAPSHOT_CPU_CONTEXT_LINUX_H_
+#ifndef CRASHPAD_SNAPSHOT_LINUX_CPU_CONTEXT_LINUX_H_
+#define CRASHPAD_SNAPSHOT_LINUX_CPU_CONTEXT_LINUX_H_
 
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
@@ -141,4 +141,4 @@ void InitializeCPUContextARM64_OnlyFPSIMD(
 }  // namespace internal
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_LINUX_SNAPSHOT_CPU_CONTEXT_LINUX_H_
+#endif  // CRASHPAD_SNAPSHOT_LINUX_CPU_CONTEXT_LINUX_H_
