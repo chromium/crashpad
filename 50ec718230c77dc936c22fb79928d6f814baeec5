@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2ec7904_5b01d86a",
+        "filename": "util/net/url.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-12T21:00:59Z",
+      "side": 1,
+      "message": "Docs should state when out-params can be expected to be valid. Usual crashpad style is to use local strings and swap out to the out-params on success. Otherwise, they\u0027re left untouched.",
+      "range": {
+        "startLine": 35,
+        "startChar": 1,
+        "endLine": 39,
+        "endChar": 74
+      },
+      "revId": "50ec718230c77dc936c22fb79928d6f814baeec5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bebac08c_884c3674",
+        "filename": "util/net/url_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-12T21:00:59Z",
+      "side": 1,
+      "message": "We usually use ASSERT_TRUE when success is needed for the following EXPECTs to succeed.",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 8
+      },
+      "revId": "50ec718230c77dc936c22fb79928d6f814baeec5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
