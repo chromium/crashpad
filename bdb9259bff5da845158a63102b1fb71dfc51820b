@@ -22,6 +22,30 @@
       "revId": "bdb9259bff5da845158a63102b1fb71dfc51820b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c47ddb7e_fc14401b",
+        "filename": "util/net/http_transport_xssl.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-12T18:56:56Z",
+      "side": 1,
+      "message": "Thanks! I eventually learned about SNI. :)",
+      "parentUuid": "3c427b91_a398a4a6",
+      "range": {
+        "startLine": 135,
+        "startChar": 19,
+        "endLine": 136,
+        "endChar": 51
+      },
+      "revId": "bdb9259bff5da845158a63102b1fb71dfc51820b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
