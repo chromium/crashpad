@@ -15,7 +15,7 @@
 #ifndef CRASHPAD_UTIL_FUCHSIA_SCOPED_TASK_SUSPEND_H_
 #define CRASHPAD_UTIL_FUCHSIA_SCOPED_TASK_SUSPEND_H_
 
-#include <zircon/types.h>
+#include <zircon/syscalls.h>
 
 #include "base/macros.h"
 

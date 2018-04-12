@@ -15,6 +15,8 @@
 #ifndef CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_H_
 #define CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_H_
 
+#include <zircon/syscalls/debug.h>
+
 #include <memory>
 #include <vector>
 
@@ -68,6 +70,10 @@ class ProcessReaderFuchsia {
 
     //! \brief The `ZX_PROP_NAME` property of the thread. This may be empty.
     std::string name;
+
+    //! \brief The raw architecture-specific `zx_thread_state_general_regs_t` as
+    //!     returned by `zx_thread_read_state()`.
+    zx_thread_state_general_regs_t general_registers = {};
   };
 
   ProcessReaderFuchsia();
