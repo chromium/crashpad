@@ -213,8 +213,10 @@ void CrashpadClient::DumpWithoutCrash(NativeCPUContext* context) {
 #if defined(ARCH_CPU_X86)
   memset(&context->__fpregs_mem, 0, sizeof(context->__fpregs_mem));
   context->__fpregs_mem.status = 0xffff0000;
+  context->uc_mcontext.fpregs = nullptr;
 #elif defined(ARCH_CPU_X86_64)
   memset(&context->__fpregs_mem, 0, sizeof(context->__fpregs_mem));
+  context->uc_mcontext.fpregs = nullptr;
 #elif defined(ARCH_CPU_ARMEL)
   memset(context->uc_regspace, 0, sizeof(context->uc_regspace));
 #elif defined(ARCH_CPU_ARM64)
