@@ -189,11 +189,7 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
 
     if (upload_thread_) {
       upload_thread_->ReportPending(uuid);
-    } else {
-      database_->SkipReportUpload(
-          uuid, Metrics::CrashSkippedReason::kUploadsDisabled);
     }
-  }
 
   if (client_options.system_crash_reporter_forwarding != TriState::kDisabled &&
       (exception == EXC_CRASH ||
