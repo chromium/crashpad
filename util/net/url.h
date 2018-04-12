@@ -26,6 +26,23 @@ namespace crashpad {
 //! \return The encoded string.
 std::string URLEncode(const std::string& url);
 
+//! \brief Crack a URL into component parts.
+//!
+//! This is not a general function, and works only on the limited style of URLs
+//! that are expected to be used by HTTPTransport::SetURL().
+//!
+//! \param[in] url The URL to crack.
+//! \param[out] scheme The request scheme, either http or https.
+//! \param[out] host The hostname.
+//! \param[out] port The port.
+//! \param[out] rest The remainder of the URL (both resource and URL params).
+//! \return `true` on success, or `false` on failure with an error logged.
+bool CrackURL(const std::string& url,
+              std::string* scheme,
+              std::string* host,
+              std::string* port,
+              std::string* rest);
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_NET_URL_H_
