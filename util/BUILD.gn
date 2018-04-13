@@ -390,6 +390,8 @@ static_library("util") {
     sources += [
       "fuchsia/koid_utilities.cc",
       "fuchsia/koid_utilities.h",
+      "fuchsia/scoped_task_suspend.cc",
+      "fuchsia/scoped_task_suspend.h",
       "misc/capture_context_fuchsia.S",
       "misc/paths_fuchsia.cc",
       "net/http_transport_none.cc",

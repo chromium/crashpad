@@ -15,11 +15,58 @@
 #ifndef CRASHPAD_UTIL_FUCHSIA_KOID_UTILITIES_H_
 #define CRASHPAD_UTIL_FUCHSIA_KOID_UTILITIES_H_
 
+#include <zircon/syscalls/object.h>
 #include <zircon/types.h>
+
+#include <vector>
 
 #include "base/fuchsia/scoped_zx_handle.h"
 
 namespace crashpad {
+
+//! \brief Get a list of child koids for a parent handle.
+//!
+//! For example, the list of processes in jobs, or the list of threads in a
+//! process.
+//!
+//! \param[in] parent The handle to the parent object.
+//! \param[in] child_kind The type of children to retrieve from \a parent. Valid
+//!     values depend on the type of \a parent, but include
+//!     `ZX_INFO_JOB_CHILDREN` (child jobs of a job), `ZX_INFO_JOB_PROCESSES`
+//!     (child processes of a job), and `ZX_INFO_PROCESS_THREADS` (child threads
+//!     of a process).
+//! \return A vector of the koids representing the child objects.
+//!
+//! \sa GetChildHandles
+std::vector<zx_koid_t> GetChildKoids(zx_handle_t parent,
+                                     zx_object_info_topic_t child_kind);
+
+//! \brief Get handles representing a list of child objects of a given parent.
+//!
+//! \param[in] parent The handle to the parent object.
+//! \param[in] child_kind The type of children to retrieve from \a parent. Valid
+//!     values depend on the type of \a parent, but include
+//!     `ZX_INFO_JOB_CHILDREN` (child jobs of a job), `ZX_INFO_JOB_PROCESSES`
+//!     (child processes of a job), and `ZX_INFO_PROCESS_THREADS` (child threads
+//!     of a process).
+//! \return The resulting list of handles corresponding to the child objects.
+//!
+//! \sa GetChildKoids
+std::vector<base::ScopedZxHandle> GetChildHandles(
+    zx_handle_t parent,
+    zx_object_info_topic_t child_kind);
+
+//! \brief Convert a list of koids that are all children of a particular object
+//!     into handles.
+//!
+//! \param[in] parent The parent object to which the koids belong.
+//! \param[in] koids The list of koids.
+//! \return The resulting list of handles corresponding to the koids. If an
+//!     element of \a koids is invalid or can't be retrieved, there will be a
+//!     corresponding `ZX_HANDLE_INVALID` entry in the return.
+std::vector<base::ScopedZxHandle> GetHandlesForChildKoids(
+    zx_handle_t parent,
+    const std::vector<zx_koid_t>& koids);
 
 //! \brief Gets a process handle given the process' koid.
 //!

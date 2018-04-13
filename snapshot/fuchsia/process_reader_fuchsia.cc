@@ -20,6 +20,7 @@
 #include "base/fuchsia/fuchsia_logging.h"
 #include "base/fuchsia/scoped_zx_handle.h"
 #include "base/logging.h"
+#include "util/fuchsia/koid_utilities.h"
 
 namespace crashpad {
 
@@ -189,74 +190,38 @@ void ProcessReaderFuchsia::InitializeThreads() {
 
   initialized_threads_ = true;
 
-  // Retrieve the thread koids. This is racy; better if the process is suspended
-  // itself, but threads could still be externally created. As there's no
-  // maximum, this needs to be retried in a loop until the actual threads
-  // retrieved is equal to the available threads.
+  std::vector<zx_koid_t> thread_koids =
+      GetChildKoids(process_, ZX_INFO_PROCESS_THREADS);
+  std::vector<base::ScopedZxHandle> thread_handles =
+      GetHandlesForChildKoids(process_, thread_koids);
+  DCHECK_EQ(thread_koids.size(), thread_handles.size());
 
-  std::vector<zx_koid_t> threads(100);
-  size_t actual_num_threads, available_num_threads;
-  for (;;) {
-    zx_status_t status = zx_object_get_info(process_,
-                                            ZX_INFO_PROCESS_THREADS,
-                                            &threads[0],
-                                            sizeof(threads[0]) * threads.size(),
-                                            &actual_num_threads,
-                                            &available_num_threads);
-    // If the buffer is too small (even zero), the result is still ZX_OK, not
-    // ZX_ERR_BUFFER_TOO_SMALL.
-    if (status != ZX_OK) {
-      ZX_LOG(ERROR, status) << "zx_object_get_info ZX_INFO_PROCESS_THREADS";
-      break;
-    }
-    if (actual_num_threads == available_num_threads) {
-      threads.resize(actual_num_threads);
-      break;
-    }
-
-    // Resize to the expected number next time with a bit extra to attempt to
-    // handle the race between here and the next request.
-    threads.resize(available_num_threads + 10);
-  }
-
-  for (const zx_koid_t thread_koid : threads) {
-    zx_handle_t raw_handle;
-    zx_status_t status = zx_object_get_child(
-        process_, thread_koid, ZX_RIGHT_SAME_RIGHTS, &raw_handle);
-    if (status != ZX_OK) {
-      ZX_LOG(ERROR, status) << "zx_object_get_child";
-      // TODO(scottmg): Decide if it's worthwhile adding a mostly-empty Thread
-      // here, consisting only of the koid, but no other information. The only
-      // time this is expected to happen is when there's a race between getting
-      // the koid above, and requesting the handle here.
-      continue;
-    }
-
-    base::ScopedZxHandle thread_handle(raw_handle);
-
+  for (size_t i = 0; i < thread_handles.size(); ++i) {
     Thread thread;
-    thread.id = thread_koid;
+    thread.id = thread_koids[i];
 
-    char name[ZX_MAX_NAME_LEN] = {0};
-    status = zx_object_get_property(
-        thread_handle.get(), ZX_PROP_NAME, &name, sizeof(name));
-    if (status != ZX_OK) {
-      ZX_LOG(WARNING, status) << "zx_object_get_property ZX_PROP_NAME";
-    } else {
-      thread.name.assign(name);
-    }
+    if (thread_handles[i].is_valid()) {
+      char name[ZX_MAX_NAME_LEN] = {0};
+      zx_status_t status = zx_object_get_property(
+          thread_handles[i].get(), ZX_PROP_NAME, &name, sizeof(name));
+      if (status != ZX_OK) {
+        ZX_LOG(WARNING, status) << "zx_object_get_property ZX_PROP_NAME";
+      } else {
+        thread.name.assign(name);
+      }
 
-    zx_info_thread_t thread_info;
-    status = zx_object_get_info(thread_handle.get(),
-                                ZX_INFO_THREAD,
-                                &thread_info,
-                                sizeof(thread_info),
-                                nullptr,
-                                nullptr);
-    if (status != ZX_OK) {
-      ZX_LOG(WARNING, status) << "zx_object_get_info ZX_INFO_THREAD";
-    } else {
-      thread.state = thread_info.state;
+      zx_info_thread_t thread_info;
+      status = zx_object_get_info(thread_handles[i].get(),
+                                  ZX_INFO_THREAD,
+                                  &thread_info,
+                                  sizeof(thread_info),
+                                  nullptr,
+                                  nullptr);
+      if (status != ZX_OK) {
+        ZX_LOG(WARNING, status) << "zx_object_get_info ZX_INFO_THREAD";
+      } else {
+        thread.state = thread_info.state;
+      }
     }
 
     threads_.push_back(thread);

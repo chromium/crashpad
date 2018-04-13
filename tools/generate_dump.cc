@@ -49,6 +49,7 @@
 #include "base/fuchsia/scoped_zx_handle.h"
 #include "snapshot/fuchsia/process_snapshot_fuchsia.h"
 #include "util/fuchsia/koid_utilities.h"
+#include "util/fuchsia/scoped_task_suspend.h"
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
 #include "snapshot/linux/process_snapshot_linux.h"
 #endif  // OS_MACOSX
@@ -185,6 +186,11 @@ int GenerateDumpMain(int argc, char* argv[]) {
     std::unique_ptr<ScopedProcessSuspend> suspend;
     if (options.suspend) {
       suspend.reset(new ScopedProcessSuspend(process.get()));
+    }
+#elif defined(OS_FUCHSIA)
+    std::unique_ptr<ScopedTaskSuspend> suspend;
+    if (options.suspend) {
+      suspend.reset(new ScopedTaskSuspend(task.get()));
     }
 #endif  // OS_MACOSX
 
