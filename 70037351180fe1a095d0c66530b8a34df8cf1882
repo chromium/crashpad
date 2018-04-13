@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7bdadb3d_24f90392",
+        "filename": "build/go_binary.gni",
+        "patchSetId": 15
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-13T21:50:27Z",
+      "side": 1,
+      "message": "Oops, I was thinking of executable()s magic.\n\nIt\u0027s really hard to run from the command line, but it actually does generate a binary named without .exe, and then the _test.cc happily invokes it since it calling CreateProcess() directly. :)\n\nDone",
+      "parentUuid": "ec2e16d5_966521f0",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 13
+      },
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1d5dfb73_80736fb9",
         "filename": "util/BUILD.gn",
         "patchSetId": 15
@@ -39,6 +63,24 @@
       "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa4478b0_66869163",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 15
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-13T21:50:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d5dfb73_80736fb9",
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "1cc58ec4_960642b9",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-13T21:50:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91a6e9e0_c4089020",
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bee54cd4_94b664ad",
         "filename": "util/net/http_transport_test_server.go",
         "patchSetId": 15
@@ -73,6 +133,24 @@
       "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd408b0c_6b710837",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-13T21:50:27Z",
+      "side": 1,
+      "message": "Done\n\n(I was wondering why it didn\u0027t automatically sort in my wrong style.)",
+      "parentUuid": "bee54cd4_94b664ad",
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "e53761ac_d8d9d850",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-13T21:50:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2ae58ca_5058a6ba",
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0fe8b52_e57c3ba9",
         "filename": "util/net/http_transport_test_server.go",
         "patchSetId": 15
@@ -104,6 +200,24 @@
       "writtenOn": "2018-04-13T20:42:26Z",
       "side": 1,
       "message": "How much of this and the block from lines 35-44 do we need?",
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71d77b6b_f997ddc6",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-13T21:50:27Z",
+      "side": 1,
+      "message": "Nuked all of it... I suppose we have limited connection to the original version in httputil version now, but perhaps it\u0027s useful to keep a pointer to that if we need to add more to the dump in the future.",
+      "parentUuid": "a0fe8b52_e57c3ba9",
       "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -124,6 +238,24 @@
       "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36e0a85c_5da417fc",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-13T21:50:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6fe0dc7_1d7a59ce",
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -150,6 +282,30 @@
     },
     {
       "key": {
+        "uuid": "808dfeda_8ba082f6",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-13T21:50:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4f2a33a6_3f532e99",
+      "range": {
+        "startLine": 95,
+        "startChar": 7,
+        "endLine": 95,
+        "endChar": 25
+      },
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "133651bd_ee8023db",
         "filename": "util/net/http_transport_test_server.go",
         "patchSetId": 15
@@ -170,6 +326,30 @@
       "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20e0a13f_299dfd84",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-13T21:50:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "133651bd_ee8023db",
+      "range": {
+        "startLine": 101,
+        "startChar": 30,
+        "endLine": 101,
+        "endChar": 40
+      },
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -196,6 +376,30 @@
     },
     {
       "key": {
+        "uuid": "7e883dd4_eb950ae9",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-13T21:50:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a71896d_d380602d",
+      "range": {
+        "startLine": 105,
+        "startChar": 38,
+        "endLine": 105,
+        "endChar": 55
+      },
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d543fd0a_06450795",
         "filename": "util/net/http_transport_test_server.go",
         "patchSetId": 15
@@ -207,6 +411,30 @@
       "writtenOn": "2018-04-13T20:42:26Z",
       "side": 1,
       "message": "net/url.Parse could work here, or take the alternate comment at line 95.",
+      "range": {
+        "startLine": 113,
+        "startChar": 10,
+        "endLine": 113,
+        "endChar": 23
+      },
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4694b47_82fb0c6d",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-13T21:50:27Z",
+      "side": 1,
+      "message": "I went with Parse; I\u0027m going to switch to NewTLSServer() subsequently which does a bit more.",
+      "parentUuid": "d543fd0a_06450795",
       "range": {
         "startLine": 113,
         "startChar": 10,
