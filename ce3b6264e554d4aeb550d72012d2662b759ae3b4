@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbe80a82_689e1b9c",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-13T00:56:09Z",
+      "side": 1,
+      "message": "Probably not super important if we expect that this will be replaced with a system call, but are limitations on open handles something we should be concerned about?",
+      "range": {
+        "startLine": 55,
+        "startChar": 7,
+        "endLine": 56,
+        "endChar": 19
+      },
+      "revId": "ce3b6264e554d4aeb550d72012d2662b759ae3b4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4092c53_78dac5d8",
+        "filename": "util/fuchsia/koid_utilities.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-13T00:56:09Z",
+      "side": 1,
+      "message": "\u003cvector\u003e",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 11
+      },
+      "revId": "ce3b6264e554d4aeb550d72012d2662b759ae3b4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
