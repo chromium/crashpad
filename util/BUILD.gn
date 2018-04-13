@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import("../build/crashpad_buildconfig.gni")
+import("../build/go_binary.gni")
 
 declare_args() {
   if (crashpad_is_linux) {
@@ -448,6 +449,12 @@ static_library("util") {
   }
 }
 
+go_binary("http_transport_test_server") {
+  sources = [
+    "net/http_transport_test_server.go",
+  ]
+}
+
 source_set("util_test") {
   testonly = true
 
@@ -589,7 +596,6 @@ source_set("util_test") {
   }
 
   data = [
-    "net/http_transport_test_server.py",
     "net/testdata/",
   ]
 
@@ -604,6 +610,10 @@ source_set("util_test") {
     "../third_party/zlib",
   ]
 
+  data_deps = [
+    ":http_transport_test_server",
+  ]
+
   if (crashpad_is_mac) {
     libs = [ "Foundation.framework" ]
   }
@@ -613,7 +623,7 @@ source_set("util_test") {
       "rpcrt4.lib",
       "dbghelp.lib",
     ]
-    data_deps = [
+    data_deps += [
       ":crashpad_util_test_process_info_test_child",
       ":crashpad_util_test_safe_terminate_process_test_child",
     ]
