@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ad7cb70_391023fa",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 19
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-13T22:23:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "138cb140_b62a9411",
+      "range": {
+        "startLine": 599,
+        "startChar": 45,
+        "endLine": 599,
+        "endChar": 46
+      },
+      "revId": "3225d381bac9913d79e8e31da8e5314cb3c6d67e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "798b52be_2e17c550",
         "filename": "util/net/http_transport_test_server.go",
         "patchSetId": 19
@@ -36,6 +60,24 @@
       "writtenOn": "2018-04-13T22:12:20Z",
       "side": 1,
       "message": "Put this right above \"package main\" on line 15.",
+      "revId": "3225d381bac9913d79e8e31da8e5314cb3c6d67e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d0a636d_88d669b2",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-13T22:23:28Z",
+      "side": 1,
+      "message": "Oops, I think I lost some changes with git cl patch and git cl upload back and forth for Windows testing. Done",
+      "parentUuid": "798b52be_2e17c550",
       "revId": "3225d381bac9913d79e8e31da8e5314cb3c6d67e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
