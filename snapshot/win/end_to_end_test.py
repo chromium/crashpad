@@ -155,7 +155,7 @@ def GetDumpFromProgram(
     out = subprocess.check_output([
         os.path.join(out_dir, 'crashpad_database_util.exe'),
         '--database=' + test_database,
-        '--show-completed-reports',
+        '--show-pending-reports',
         '--show-all-report-info',
     ])
     for line in out.splitlines():
