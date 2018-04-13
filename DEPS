@@ -115,6 +115,45 @@ hooks = [
     ],
   },
   {
+    'name': 'go_toolchain_mac',
+    'condition': 'host_os == "mac"',
+    'pattern': '.',
+    'action': [
+      'cipd',
+      'install',
+      'infra/go/mac-amd64',
+      'latest',
+      '-root', 'crashpad/third_party/go/mac-amd64',
+      '-log-level', 'info',
+    ],
+  },
+  {
+    'name': 'go_toolchain_linux',
+    'condition': 'host_os == "linux"',
+    'pattern': '.',
+    'action': [
+      'cipd',
+      'install',
+      'infra/go/linux-amd64',
+      'latest',
+      '-root', 'crashpad/third_party/go/linux-amd64',
+      '-log-level', 'info',
+    ],
+  },
+  {
+    'name': 'go_toolchain_win',
+    'condition': 'host_os == "win"',
+    'pattern': '.',
+    'action': [
+      'cipd',
+      'install',
+      'infra/go/windows-amd64',
+      'latest',
+      '-root', 'crashpad/third_party/go/windows-amd64',
+      '-log-level', 'info',
+    ],
+  },
+  {
     # This uses “cipd install” so that mac-amd64 and linux-amd64 can coexist
     # peacefully. “cipd ensure” would remove the macOS package when running on a
     # Linux build host and vice-versa. https://crbug.com/789364. This package is
