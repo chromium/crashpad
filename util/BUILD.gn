@@ -15,13 +15,6 @@
 import("../build/crashpad_buildconfig.gni")
 import("../build/go_binary.gni")
 
-declare_args() {
-  if (crashpad_is_linux) {
-    # Whether the libcurl-based HTTPTransport implementation should be built.
-    crashpad_enable_http_transport_libcurl = !crashpad_is_in_chromium
-  }
-}
-
 if (crashpad_is_mac) {
   if (crashpad_is_in_chromium) {
     import("//build/config/sysroot.gni")
@@ -252,12 +245,14 @@ static_library("util") {
     sources += get_target_outputs(":mig")
   }
 
-  if (crashpad_is_linux || crashpad_is_android) {
-    if (crashpad_is_linux && crashpad_enable_http_transport_libcurl) {
-      sources += [ "net/http_transport_libcurl.cc" ]
-    } else {
-      sources += [ "net/http_transport_none.cc" ]
-    }
+  if (crashpad_is_linux) {
+    sources += [ "net/http_transport_boringssl.cc" ]
+    libs = [
+      "crypto",
+      "ssl",
+    ]
+  } else if (crashpad_is_android || crashpad_is_fuchsia) {
+    sources += [ "net/http_transport_none.cc" ]
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
@@ -426,10 +421,6 @@ static_library("util") {
     include_dirs += [ "$root_build_dir/gen" ]
   }
 
-  if (crashpad_is_linux && crashpad_enable_http_transport_libcurl) {
-    libs = [ "curl" ]
-  }
-
   if (crashpad_is_win) {
     libs = [
       "user32.lib",
@@ -501,8 +492,7 @@ source_set("util_test") {
     "thread/worker_thread_test.cc",
   ]
 
-  if (!crashpad_is_android && !crashpad_is_fuchsia &&
-      (!crashpad_is_linux || crashpad_enable_http_transport_libcurl)) {
+  if (!crashpad_is_android && !crashpad_is_fuchsia) {
     # Android and Fuchsia will each require an HTTPTransport implementation
     # (libcurl isn’t in either’s SDK) and a solution to
     # http_transport_test_server.py, because Python isn’t available on either.

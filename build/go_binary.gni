@@ -16,6 +16,7 @@ template("go_binary") {
   output_name = target_name
   output_path = "${root_out_dir}/${output_name}"
   action(target_name) {
+    sources = invoker.sources
     outputs = [
       output_path,
     ]
