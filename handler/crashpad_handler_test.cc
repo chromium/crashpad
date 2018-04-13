@@ -93,7 +93,7 @@ void CrashWithExtendedHandler::ValidateGeneratedDump() {
   ASSERT_TRUE(database);
 
   std::vector<CrashReportDatabase::Report> reports;
-  ASSERT_EQ(database->GetCompletedReports(&reports),
+  ASSERT_EQ(database->GetPendingReports(&reports),
             CrashReportDatabase::kNoError);
   ASSERT_EQ(reports.size(), 1u);
 

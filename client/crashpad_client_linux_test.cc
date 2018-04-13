@@ -85,12 +85,12 @@ TEST(CrashpadClient, SimulateCrash) {
     std::vector<CrashReportDatabase::Report> reports;
     ASSERT_EQ(database->GetPendingReports(&reports),
               CrashReportDatabase::kNoError);
-    EXPECT_EQ(reports.size(), 0u);
+    EXPECT_EQ(reports.size(), 1u);
 
     reports.clear();
     ASSERT_EQ(database->GetCompletedReports(&reports),
               CrashReportDatabase::kNoError);
-    EXPECT_EQ(reports.size(), 1u);
+    EXPECT_EQ(reports.size(), 0u);
   }
 }
 
@@ -147,11 +147,12 @@ class StartHandlerAtCrashTest : public MultiprocessExec {
     std::vector<CrashReportDatabase::Report> reports;
     ASSERT_EQ(database->GetPendingReports(&reports),
               CrashReportDatabase::kNoError);
-    EXPECT_EQ(reports.size(), 0u);
+    EXPECT_EQ(reports.size(), 1u);
 
+    reports.clear();
     ASSERT_EQ(database->GetCompletedReports(&reports),
               CrashReportDatabase::kNoError);
-    EXPECT_EQ(reports.size(), 1u);
+    EXPECT_EQ(reports.size(), 0u);
   }
 
   DISALLOW_COPY_AND_ASSIGN(StartHandlerAtCrashTest);
@@ -213,11 +214,12 @@ class StartHandlerForClientTest {
     std::vector<CrashReportDatabase::Report> reports;
     ASSERT_EQ(database->GetPendingReports(&reports),
               CrashReportDatabase::kNoError);
-    EXPECT_EQ(reports.size(), 0u);
+    EXPECT_EQ(reports.size(), 1u);
 
+    reports.clear();
     ASSERT_EQ(database->GetCompletedReports(&reports),
               CrashReportDatabase::kNoError);
-    EXPECT_EQ(reports.size(), 1u);
+    EXPECT_EQ(reports.size(), 0u);
   }
 
   bool InstallHandler() {
