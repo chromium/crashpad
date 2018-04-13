@@ -1,0 +1,221 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec2e16d5_966521f0",
+        "filename": "build/go_binary.gni",
+        "patchSetId": 15
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-13T20:42:26Z",
+      "side": 1,
+      "message": "Does Windows not want this to end in .exe?",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 13
+      },
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d5dfb73_80736fb9",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 15
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-13T20:42:26Z",
+      "side": 1,
+      "message": "The test server should still be listed in data, since it\u0027s a runtime dependency that needs to be listed for swarming.",
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91a6e9e0_c4089020",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-13T20:42:26Z",
+      "side": 1,
+      "message": "Copyright",
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bee54cd4_94b664ad",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-13T20:42:26Z",
+      "side": 1,
+      "message": "import (\n)\n\n... and then just list the imports without repeating \"import\"",
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2ae58ca_5058a6ba",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-13T20:42:26Z",
+      "side": 1,
+      "message": "nit: no blank line",
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0fe8b52_e57c3ba9",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-13T20:42:26Z",
+      "side": 1,
+      "message": "How much of this and the block from lines 35-44 do we need?",
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6fe0dc7_1d7a59ce",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-13T20:42:26Z",
+      "side": 1,
+      "message": "This should move up above the package line. Commentary guidelines here:\n\nhttps://golang.org/doc/effective_go.html#commentary\n\nThe first line should read like, \"http_transport_test_server is a one-shot testing web server.\"",
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f2a33a6_3f532e99",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-13T20:42:26Z",
+      "side": 1,
+      "message": "An alternative to httptest.NewServer would be to create a new net.Listener, and then call http.Serve() directly. That way you could skip the parsing the port out of the URL.",
+      "range": {
+        "startLine": 95,
+        "startChar": 7,
+        "endLine": 95,
+        "endChar": 25
+      },
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "133651bd_ee8023db",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-13T20:42:26Z",
+      "side": 1,
+      "message": "Just : for the whole slice.",
+      "range": {
+        "startLine": 101,
+        "startChar": 30,
+        "endLine": 101,
+        "endChar": 40
+      },
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a71896d_d380602d",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-13T20:42:26Z",
+      "side": 1,
+      "message": "Same, just :",
+      "range": {
+        "startLine": 105,
+        "startChar": 38,
+        "endLine": 105,
+        "endChar": 55
+      },
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d543fd0a_06450795",
+        "filename": "util/net/http_transport_test_server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-13T20:42:26Z",
+      "side": 1,
+      "message": "net/url.Parse could work here, or take the alternate comment at line 95.",
+      "range": {
+        "startLine": 113,
+        "startChar": 10,
+        "endLine": 113,
+        "endChar": 23
+      },
+      "revId": "70037351180fe1a095d0c66530b8a34df8cf1882",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
