@@ -15,7 +15,7 @@
 #ifndef CRASHPAD_SNAPSHOT_FUCHSIA_CPU_CONTEXT_FUCHSIA_H_
 #define CRASHPAD_SNAPSHOT_FUCHSIA_CPU_CONTEXT_FUCHSIA_H_
 
-#include <zircon/syscall/debug.h>
+#include <zircon/syscalls/debug.h>
 
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
