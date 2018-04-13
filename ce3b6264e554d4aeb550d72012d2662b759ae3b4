@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "584b63bb_64882240",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-13T16:42:44Z",
+      "side": 1,
+      "message": "Good question! There\u0027s no documented limit that I\u0027m aware of, but you\u0027re right that this could be pretty heavy at the bottom of a deep tree.\n\nI added a TODO here, but ioctl for the root job is going to go away soon, so hopefully we\u0027ll have the replacement syscall soonish too.",
+      "parentUuid": "fbe80a82_689e1b9c",
+      "range": {
+        "startLine": 55,
+        "startChar": 7,
+        "endLine": 56,
+        "endChar": 19
+      },
+      "revId": "ce3b6264e554d4aeb550d72012d2662b759ae3b4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a4092c53_78dac5d8",
         "filename": "util/fuchsia/koid_utilities.h",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "ce3b6264e554d4aeb550d72012d2662b759ae3b4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89afc392_2dc82fe1",
+        "filename": "util/fuchsia/koid_utilities.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-13T16:42:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4092c53_78dac5d8",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 11
+      },
+      "revId": "ce3b6264e554d4aeb550d72012d2662b759ae3b4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
