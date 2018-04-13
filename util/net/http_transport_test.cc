@@ -56,19 +56,9 @@ class HTTPTransportTestFixture : public MultiprocessExec {
         body_stream_(std::move(body_stream)),
         response_code_(http_response_code),
         request_validator_(request_validator) {
-    base::FilePath server_path = TestPaths::TestDataRoot().Append(
-        FILE_PATH_LITERAL("util/net/http_transport_test_server.py"));
-#if defined(OS_POSIX)
-    SetChildCommand(server_path, nullptr);
-#elif defined(OS_WIN)
-    // Explicitly invoke a shell and python so that python can be found in the
-    // path, and run the test script.
-    std::vector<std::string> args;
-    args.push_back("/c");
-    args.push_back("python");
-    args.push_back(base::UTF16ToUTF8(server_path.value()));
-    SetChildCommand(base::FilePath(_wgetenv(L"COMSPEC")), &args);
-#endif  // OS_POSIX
+    SetChildCommand(TestPaths::Executable().DirName().Append(
+                        FILE_PATH_LITERAL("http_transport_test_server")),
+                    nullptr);
   }
 
   const HTTPHeaders& headers() { return headers_; }
