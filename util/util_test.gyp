@@ -122,6 +122,27 @@
         'win/scoped_process_suspend_test.cc',
         'win/session_end_watcher_test.cc',
       ],
+      'actions': [
+        {
+          'action_name': 'build test server',
+          'inputs': [
+            '../build/go_build.py',
+            'net/http_transport_test_server.go',
+          ],
+          'outputs': [
+            '<(PRODUCT_DIR)/http_transport_test_server',
+          ],
+          'action': [
+            'python',
+            '<@(_inputs)',
+            '--root-out-dir', '.',
+            '--current-cpu', 'x64',
+            '--current-os', '<(OS)',
+            '--binname', '<@(_outputs)',
+          ],
+          'quote_cmd': '0',
+        },
+      ],
       'conditions': [
         ['OS=="mac"', {
           'link_settings': {
