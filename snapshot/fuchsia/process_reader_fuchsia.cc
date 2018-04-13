@@ -222,15 +222,17 @@ void ProcessReaderFuchsia::InitializeThreads() {
       } else {
         thread.state = thread_info.state;
       }
-    }
 
-    zx_thread_state_general_regs_t regs;
-    status = zx_thread_read_state(
-        thread_handle.get(), ZX_THREAD_STATE_GENERAL_REGS, &regs, sizeof(regs));
-    if (status != ZX_OK) {
-      ZX_LOG(WARNING, status) << "zx_thread_read_state";
-    } else {
-      thread.general_registers = regs;
+      zx_thread_state_general_regs_t regs;
+      status = zx_thread_read_state(thread_handles[i].get(),
+                                    ZX_THREAD_STATE_GENERAL_REGS,
+                                    &regs,
+                                    sizeof(regs));
+      if (status != ZX_OK) {
+        ZX_LOG(WARNING, status) << "zx_thread_read_state";
+      } else {
+        thread.general_registers = regs;
+      }
     }
 
     threads_.push_back(thread);
