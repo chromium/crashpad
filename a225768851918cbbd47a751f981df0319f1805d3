@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "f5b6c18e_03d4a272",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-13T01:32:28Z",
+      "side": 1,
+      "message": "I think \\file gets used in some things (simulate_crash_*.h) so that globals are documented.\n\nFrom here: https://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdfile\nThe important part being:\n\"The documentation of global functions, variables, typedefs, and enums will only be included in the output if the file they are in is documented as well.\"\n\nYou can also use crashpad/doc/support/generate_doxygen.py to try things out.",
+      "parentUuid": "ca58b834_40978a5c",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 6
+      },
+      "revId": "a225768851918cbbd47a751f981df0319f1805d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6addd660_62bcd7ff",
         "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
         "patchSetId": 6
