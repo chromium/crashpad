@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import("../build/crashpad_buildconfig.gni")
+import("../build/go_binary.gni")
 
 declare_args() {
   if (crashpad_is_linux) {
@@ -446,6 +447,12 @@ static_library("util") {
   }
 }
 
+go_binary("http_transport_test_server") {
+  sources = [
+    "net/http_transport_test_server.go",
+  ]
+}
+
 source_set("util_test") {
   testonly = true
 
@@ -587,11 +594,11 @@ source_set("util_test") {
   }
 
   data = [
-    "net/http_transport_test_server.py",
     "net/testdata/",
   ]
 
   deps = [
+    ":http_transport_test_server",
     ":util",
     "../client",
     "../compat",
