@@ -95,7 +95,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     // Now execute the HTTP request.
     std::unique_ptr<HTTPTransport> transport(HTTPTransport::Create());
     transport->SetMethod("POST");
-    transport->SetURL(base::StringPrintf("http://127.0.0.1:%d/upload", port));
+    transport->SetURL(base::StringPrintf("https://127.0.0.1:%d/upload", port));
     for (const auto& pair : headers_) {
       transport->SetHeader(pair.first, pair.second);
     }

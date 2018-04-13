@@ -87,7 +87,7 @@ func main() {
 	var responseBody [16]byte
 	var wholeRequest string
 	done := make(chan int)
-	ts := httptest.NewServer(
+	ts := httptest.NewTLSServer(
 		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			dump, err := consumeBodyAndDumpRequest(r)
 			if err != nil {
