@@ -350,7 +350,7 @@ void DoReadUnmappedChildMainSetup(ScopedMmap* pages,
 
 CRASHPAD_CHILD_TEST_MAIN(ReadUnmappedChildMain) {
   ScopedMmap pages;
-  VMAddress address;
+  VMAddress address = 0;
   size_t page_size, region_size;
   DoReadUnmappedChildMainSetup(&pages, &address, &page_size, &region_size);
   FileHandle out = StdioFileHandle(StdioStream::kStandardOutput);
@@ -369,7 +369,7 @@ class ReadUnmappedTest : public MultiprocessExec {
 
   void RunAgainstSelf() {
     ScopedMmap pages;
-    VMAddress address;
+    VMAddress address = 0;
     size_t page_size, region_size;
     DoReadUnmappedChildMainSetup(&pages, &address, &page_size, &region_size);
     DoTest(GetSelfProcess(), address, page_size, region_size);
@@ -379,7 +379,7 @@ class ReadUnmappedTest : public MultiprocessExec {
 
  private:
   void MultiprocessParent() override {
-    VMAddress address;
+    VMAddress address = 0;
     size_t page_size, region_size;
     ASSERT_TRUE(ReadFileExactly(ReadPipeHandle(), &address, sizeof(address)));
     ASSERT_TRUE(
