@@ -22,6 +22,30 @@
       "revId": "8620015f36982f05a6f181f2405cf9d40c334ed8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74ec0ad8_380d22e6",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2018-04-16T18:02:48Z",
+      "side": 1,
+      "message": "Yes. GCC doesn\u0027t \"see\" through the checks in GetPtraceScope(). At the same time it seems a bit fragile to depend on static analysis to catch mistakes here and for human readers it\u0027s even harder (the DCHECK(false) sends mixed signals: either that path can absolutely never be hit, so the DCHECK is useless, or it might get hit, then it would be possible to return a indeterminate value in release builds)\n\nDo you want me to remove this change?",
+      "parentUuid": "058bcddb_611460bd",
+      "range": {
+        "startLine": 167,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 28
+      },
+      "revId": "8620015f36982f05a6f181f2405cf9d40c334ed8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
