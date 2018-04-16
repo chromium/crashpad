@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "058bcddb_611460bd",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-16T17:35:21Z",
+      "side": 1,
+      "message": "Was this an error about not having a return for a non-void function? I think we intentionally omitted this so that we\u0027d get an error if one of the cases above forget to return a result, but it looks like all control paths do already return something.",
+      "range": {
+        "startLine": 167,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 28
+      },
+      "revId": "8620015f36982f05a6f181f2405cf9d40c334ed8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
