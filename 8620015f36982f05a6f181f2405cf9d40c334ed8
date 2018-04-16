@@ -46,6 +46,30 @@
       "revId": "8620015f36982f05a6f181f2405cf9d40c334ed8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e523dc5c_495e36bf",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-16T18:24:45Z",
+      "side": 1,
+      "message": "I agree the DCHECK without the return seems wrong.\n\nNow that I take a closer look at it, I\u0027m not sure whether GCC is being too smart or not smart enough. PtraceScope is an enum class, which should serve as a hint to the compiler that there are no other possible values, so no need for a default, but GetPtraceScope() also creates its return value by static casting an int. I suspect GCC just doesn\u0027t assume types of \"enum class\" only have values of the enum.\n\nEither way, it\u0027s probably safer to have the return, and making it friendlier to GCC is nice too.",
+      "parentUuid": "74ec0ad8_380d22e6",
+      "range": {
+        "startLine": 167,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 28
+      },
+      "revId": "8620015f36982f05a6f181f2405cf9d40c334ed8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
