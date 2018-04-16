@@ -164,6 +164,7 @@ class PtraceStrategyDeciderImpl : public PtraceStrategyDecider {
     }
 
     DCHECK(false);
+    return Strategy::kError;
   }
 
  private:
