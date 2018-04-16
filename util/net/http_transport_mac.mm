@@ -173,6 +173,7 @@ class HTTPBodyStreamCFReadStream {
 
     FileOperationResult bytes_read =
         GetStream(info)->GetBytesBuffer(buffer, buffer_length);
+    LOG(ERROR) << "read " << bytes_read << " from user buffeR";
     if (bytes_read < 0) {
       error->error = -1;
       error->domain = kCFStreamErrorDomainCustom;
