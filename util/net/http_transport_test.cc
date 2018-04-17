@@ -56,19 +56,13 @@ class HTTPTransportTestFixture : public MultiprocessExec {
         body_stream_(std::move(body_stream)),
         response_code_(http_response_code),
         request_validator_(request_validator) {
-    base::FilePath server_path = TestPaths::TestDataRoot().Append(
-        FILE_PATH_LITERAL("util/net/http_transport_test_server.py"));
-#if defined(OS_POSIX)
+    base::FilePath server_path = TestPaths::Executable().DirName().Append(
+        FILE_PATH_LITERAL("http_transport_test_server")
+#if defined(OS_WIN)
+            FILE_PATH_LITERAL(".exe")
+#endif
+        );
     SetChildCommand(server_path, nullptr);
-#elif defined(OS_WIN)
-    // Explicitly invoke a shell and python so that python can be found in the
-    // path, and run the test script.
-    std::vector<std::string> args;
-    args.push_back("/c");
-    args.push_back("python");
-    args.push_back(base::UTF16ToUTF8(server_path.value()));
-    SetChildCommand(base::FilePath(_wgetenv(L"COMSPEC")), &args);
-#endif  // OS_POSIX
   }
 
   const HTTPHeaders& headers() { return headers_; }
@@ -298,7 +292,7 @@ void RunUpload33k(bool has_content_length) {
   // when enough is available to fill this buffer, requiring more than one
   // Read().
 
-  std::string request_string(33 * 1024, 'a');
+  std::string request_string(3, 'a');
   std::unique_ptr<HTTPBodyStream> body_stream(
       new StringHTTPBodyStream(request_string));
 
@@ -314,7 +308,7 @@ void RunUpload33k(bool has_content_length) {
       200,
       [](HTTPTransportTestFixture* fixture, const std::string& request) {
         size_t body_start = request.rfind("\r\n");
-        EXPECT_EQ(request.size() - body_start, 33 * 1024u + 2);
+        EXPECT_EQ(request.size() - body_start, 3u + 2);
       });
   test.Run();
 }
