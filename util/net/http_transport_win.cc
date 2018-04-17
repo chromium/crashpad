@@ -308,6 +308,8 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
 
       unsigned int data_bytes_ui = base::checked_cast<unsigned int>(data_bytes);
 
+      fprintf(stderr, "WRITE %u\n", data_bytes_ui);
+
       // snprintf() would NUL-terminate, but _snprintf() won’t.
       int rv = _snprintf(buf.size, sizeof(buf.size), "%08x", data_bytes_ui);
       DCHECK_GE(rv, 0);
