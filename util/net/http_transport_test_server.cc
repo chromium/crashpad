@@ -33,6 +33,7 @@
 #pragma warning(disable: 4244 4245 4267 4702)
 #endif
 
+#define CPPHTTPLIB_OPENSSL_SUPPORT
 #define CPPHTTPLIB_ZLIB_SUPPORT
 #include "third_party/cpp-httplib/cpp-httplib/httplib.h"
 
@@ -44,9 +45,11 @@ namespace crashpad {
 namespace {
 
 int HttpTransportTestServerMain(int argc, char* argv[]) {
-  httplib::Server svr(httplib::HttpVersion::v1_0);
+  static constexpr const char kCertPath[] = "out/lin/cert.pem";
+  static constexpr const char kPrivateKeyPath[] = "out/lin/key.pem";
+  httplib::SSLServer server(kCertPath, kPrivateKeyPath);
 
-  if (!svr.is_valid()) {
+  if (!server.is_valid()) {
     LOG(ERROR) << "server creation failed";
     return 1;
   }
@@ -56,28 +59,28 @@ int HttpTransportTestServerMain(int argc, char* argv[]) {
 
   std::string to_stdout;
 
-  svr.post("/upload",
-           [&response, &response_code, &svr, &to_stdout](
-               const httplib::Request& req, httplib::Response& res) {
-             res.status = response_code;
-             if (response_code == 200) {
-               res.set_content(std::string(response, 16) + "\r\n",
-                               "text/plain");
-             } else {
-               res.set_content("error", "text/plain");
-             }
+  server.post("/upload",
+              [&response, &response_code, &server, &to_stdout](
+                  const httplib::Request& req, httplib::Response& res) {
+                res.status = response_code;
+                if (response_code == 200) {
+                  res.set_content(std::string(response, 16) + "\r\n",
+                                  "text/plain");
+                } else {
+                  res.set_content("error", "text/plain");
+                }
 
-             for (const auto& h : req.headers) {
-               to_stdout += base::StringPrintf(
-                   "%s: %s\r\n", h.first.c_str(), h.second.c_str());
-             }
-             to_stdout += "\r\n";
-             to_stdout += req.body;
+                for (const auto& h : req.headers) {
+                  to_stdout += base::StringPrintf(
+                      "%s: %s\r\n", h.first.c_str(), h.second.c_str());
+                }
+                to_stdout += "\r\n";
+                to_stdout += req.body;
 
-             svr.stop();
-           });
+                server.stop();
+              });
 
-  int port = svr.bind_to_any_port("127.0.0.1");
+  int port = server.bind_to_any_port("localhost");
 
   CheckedWriteFile(
       StdioFileHandle(StdioStream::kStandardOutput), &port, sizeof(port));
@@ -90,7 +93,7 @@ int HttpTransportTestServerMain(int argc, char* argv[]) {
                          &response,
                          sizeof(response));
 
-  svr.listen_after_bind();
+  server.listen_after_bind();
 
   LoggingWriteFile(StdioFileHandle(StdioStream::kStandardOutput),
                    to_stdout.data(),
