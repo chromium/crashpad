@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "646954ba_c94a2cfa",
+        "filename": "third_party/cpp-httplib/cpp-httplib/httplib.h",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-18T18:54:15Z",
+      "side": 1,
+      "message": "Added chromium-third-party@google.com for OS licensing and I\u0027ll start a thread on security@.",
+      "parentUuid": "b9efa286_cf742930",
+      "revId": "ebc19daf99f78fe4c94bfbeb1281f4d5a7c2a419",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4631be80_f15051a9",
         "filename": "util/BUILD.gn",
         "patchSetId": 26
@@ -39,6 +57,30 @@
       "revId": "ebc19daf99f78fe4c94bfbeb1281f4d5a7c2a419",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f990b45_42412732",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 26
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-18T18:54:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4631be80_f15051a9",
+      "range": {
+        "startLine": 451,
+        "startChar": 0,
+        "endLine": 451,
+        "endChar": 10
+      },
+      "revId": "ebc19daf99f78fe4c94bfbeb1281f4d5a7c2a419",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "666076d2_86e21b29",
+        "filename": "util/net/http_transport_test_server.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-18T18:54:15Z",
+      "side": 1,
+      "message": "I could probably use bug:227. But... removed the comment for now as we don\u0027t have https in .py and I\u0027m not sure if adding that will be the easiest solution to having a non-libcurl transport or not.",
+      "parentUuid": "a53c650a_f7c655f2",
+      "range": {
+        "startLine": 47,
+        "startChar": 5,
+        "endLine": 47,
+        "endChar": 18
+      },
+      "revId": "ebc19daf99f78fe4c94bfbeb1281f4d5a7c2a419",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a7b76e8e_d93541fb",
         "filename": "util/net/http_transport_test_server.cc",
         "patchSetId": 26
@@ -76,6 +142,24 @@
       "writtenOn": "2018-04-18T18:15:11Z",
       "side": 1,
       "message": "Will this still cover OS_FUCHSIA ?",
+      "revId": "ebc19daf99f78fe4c94bfbeb1281f4d5a7c2a419",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "553acec6_d76890fe",
+        "filename": "util/net/http_transport_test_server.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-18T18:54:15Z",
+      "side": 1,
+      "message": "Ah, good call. It does at the moment but fdegans is trying to change that so added Fuchsia here.",
+      "parentUuid": "a7b76e8e_d93541fb",
       "revId": "ebc19daf99f78fe4c94bfbeb1281f4d5a7c2a419",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
