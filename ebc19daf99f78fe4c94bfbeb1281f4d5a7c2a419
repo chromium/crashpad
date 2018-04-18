@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "fb3801de_2c79692d",
+        "filename": "third_party/cpp-httplib/cpp-httplib/httplib.h",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-18T19:19:23Z",
+      "side": 1,
+      "message": "palmer@ replied to security@ thread with\n\n\"Test-only is ok. LGTM.\"\n\n(But I\u0027m not a member of that group so I can\u0027t link to a thread here.)",
+      "parentUuid": "646954ba_c94a2cfa",
+      "revId": "ebc19daf99f78fe4c94bfbeb1281f4d5a7c2a419",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4631be80_f15051a9",
         "filename": "util/BUILD.gn",
         "patchSetId": 26
