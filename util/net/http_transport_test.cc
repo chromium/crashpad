@@ -62,7 +62,22 @@ class HTTPTransportTestFixture : public MultiprocessExec {
             FILE_PATH_LITERAL(".exe")
 #endif
         );
+
+#if defined(OS_LINUX) || defined(OS_FUCHSIA)
+    // https is only enabled on Linux and Fuchsia currently.
+    std::vector<std::string> args;
+    cert_ = TestPaths::BuildArtifact(
+        "util", "cert", TestPaths::FileType::kCertificate);
+    args.push_back(cert_.value());
+    args.emplace_back(TestPaths::BuildArtifact(
+                          "util", "key", TestPaths::FileType::kCertificate)
+                          .value());
+    SetChildCommand(server_path, &args);
+    scheme_ = "https";
+#else
+    scheme_ = "http";
     SetChildCommand(server_path, nullptr);
+#endif
   }
 
   const HTTPHeaders& headers() { return headers_; }
@@ -94,7 +109,12 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     // Now execute the HTTP request.
     std::unique_ptr<HTTPTransport> transport(HTTPTransport::Create());
     transport->SetMethod("POST");
-    transport->SetURL(base::StringPrintf("http://127.0.0.1:%d/upload", port));
+
+    if (!cert_.value().empty()) {
+      transport->SetCertificateFile(cert_.value());
+    }
+    transport->SetURL(
+        base::StringPrintf("%s://localhost:%d/upload", scheme_.c_str(), port));
     for (const auto& pair : headers_) {
       transport->SetHeader(pair.first, pair.second);
     }
@@ -128,6 +148,8 @@ class HTTPTransportTestFixture : public MultiprocessExec {
   std::unique_ptr<HTTPBodyStream> body_stream_;
   uint16_t response_code_;
   RequestValidator request_validator_;
+  base::FilePath cert_;
+  std::string scheme_;
 };
 
 constexpr char kMultipartFormData[] = "multipart/form-data";

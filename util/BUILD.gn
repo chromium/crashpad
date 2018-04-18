@@ -448,6 +448,16 @@ static_library("util") {
   }
 }
 
+if (crashpad_is_linux || crashpad_is_fuchsia) {
+  action("generate_test_server_key") {
+    script = "net/generate_test_server_key.py"
+    outputs = [
+      "$root_out_dir/crashpad_util_test_cert.pem",
+      "$root_out_dir/crashpad_util_test_key.pem",
+    ]
+  }
+}
+
 crashpad_executable("http_transport_test_server") {
   testonly = true
   sources = [
@@ -462,12 +472,21 @@ crashpad_executable("http_transport_test_server") {
     "../tools:tool_support",
   ]
 
+  if (crashpad_is_linux || crashpad_is_fuchsia) {
+    deps += [ ":generate_test_server_key" ]
+  }
+
   remove_configs = [
     "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
   ]
 
   if (crashpad_is_win) {
     libs = [ "ws2_32.lib" ]
+  } else if (crashpad_is_linux) {
+    libs = [
+      "crypto",
+      "ssl",
+    ]
   }
 }
 
