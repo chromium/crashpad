@@ -94,7 +94,6 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     // Now execute the HTTP request.
     std::unique_ptr<HTTPTransport> transport(HTTPTransport::Create());
     transport->SetMethod("POST");
-
 #if defined(OS_LINUX)
 #define SCHEME "https"
     transport->SetCertificateFile("out/lin/cert.pem");

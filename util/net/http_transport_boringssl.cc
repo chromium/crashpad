@@ -1,0 +1,256 @@
+// Copyright 2018 The Crashpad Authors. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#include "util/net/http_transport.h"
+
+#include <openssl/err.h>
+#include <openssl/ssl.h>
+
+#include "base/logging.h"
+#include "base/scoped_generic.h"
+#include "base/strings/stringprintf.h"
+#include "util/file/file_io.h"
+#include "util/net/http_body.h"
+#include "util/net/url.h"
+
+namespace crashpad {
+
+namespace {
+
+struct ScopedSSLCTXTraits {
+  static SSL_CTX* InvalidValue() { return nullptr; }
+  static void Free(SSL_CTX* ctx) { SSL_CTX_free(ctx); }
+};
+using ScopedSSLCTX = base::ScopedGeneric<SSL_CTX*, ScopedSSLCTXTraits>;
+
+struct ScopedBIOTraits {
+  static BIO* InvalidValue() { return nullptr; }
+  static void Free(BIO* bio) { BIO_free_all(bio); }
+};
+using ScopedBIO = base::ScopedGeneric<BIO*, ScopedBIOTraits>;
+
+class HTTPTransportBoringSSL final : public HTTPTransport {
+ public:
+  HTTPTransportBoringSSL() = default;
+  ~HTTPTransportBoringSSL() override = default;
+
+  bool ExecuteSynchronously(std::string* response_body) override;
+
+ private:
+  DISALLOW_COPY_AND_ASSIGN(HTTPTransportBoringSSL);
+};
+
+#define SSL_ERROR(func) \
+  LOG(ERROR) << func << ": " << ERR_error_string(ERR_get_error(), nullptr);
+
+ScopedSSLCTX CreateSSLContext(const std::string& cert) {
+  ScopedSSLCTX ctx(SSL_CTX_new(TLS_method()));
+  if (!ctx.is_valid()) {
+    SSL_ERROR("SSL_CTX_new");
+    return ScopedSSLCTX();
+  }
+
+  if (SSL_CTX_set_min_proto_version(ctx.get(), TLS1_2_VERSION) <= 0) {
+    SSL_ERROR("SSL_CTX_set_min_proto_version");
+    return ScopedSSLCTX();
+  }
+
+  SSL_CTX_set_verify(ctx.get(), SSL_VERIFY_PEER, nullptr);
+  SSL_CTX_set_verify_depth(ctx.get(), 5);
+
+  if (!cert.empty()) {
+    if (SSL_CTX_load_verify_locations(ctx.get(), cert.c_str(), nullptr) <=
+        0) {
+      SSL_ERROR("SSL_CTX_load_verify_locations");
+      return ScopedSSLCTX();
+    }
+  } else {
+    // TODO(scottmg): https://crashpad.chromium.org/bug/196, need Fuchsia to
+    // expose a .pem store.
+    if (SSL_CTX_load_verify_locations(ctx.get(), nullptr, "/etc/ssl/certs") <=
+        0) {
+      SSL_ERROR("SSL_CTX_load_verify_locations");
+      return ScopedSSLCTX();
+    }
+  }
+
+  return ctx;
+}
+
+ScopedBIO OpenSSLConnection(SSL_CTX* ctx,
+                            const std::string& hostname,
+                            const std::string& port) {
+  ScopedBIO bio(BIO_new_ssl_connect(ctx));
+  if (!bio.is_valid()) {
+    SSL_ERROR("BIO_new_ssl_connect");
+    return ScopedBIO();
+  }
+
+  if (BIO_set_conn_hostname(bio.get(), (hostname + ":" + port).c_str()) <= 0) {
+    SSL_ERROR("BIO_set_conn_hostname");
+    return ScopedBIO();
+  }
+
+  SSL* ssl;
+  if (BIO_get_ssl(bio.get(), &ssl) <= 0) {
+    SSL_ERROR("BIO_get_ssl");
+    return ScopedBIO();
+  }
+
+  if (SSL_set_tlsext_host_name(ssl, hostname.c_str()) <= 0) {
+    SSL_ERROR("SSL_set_tlsext_host_name");
+    return ScopedBIO();
+  }
+
+  if (BIO_do_connect(bio.get()) <= 0) {
+    SSL_ERROR("BIO_do_connect");
+    return ScopedBIO();
+  }
+
+  return bio;
+}
+
+int ReadLine(BIO* bio, std::string* line) {
+  line->clear();
+  int count = 0;
+  for (;;) {
+    char c;
+    int read = BIO_read(bio, &c, 1);
+    if (read != 1) {
+      return -1;
+    }
+    line->operator+=(c);
+    ++count;
+    if (c == '\n') {
+      return count;
+    }
+  }
+}
+
+bool ReadHeaders(BIO* bio) {
+  std::string line;
+
+  if (ReadLine(bio, &line) <= 0 ||
+      (line != "HTTP/1.0 200 OK\r\n" && line != "HTTP/1.1 200 OK\r\n")) {
+    return false;
+  }
+
+  for (;;) {
+    int bytes_read = ReadLine(bio, &line);
+    if (bytes_read < 0) {
+      return false;
+    }
+    if (bytes_read == 2 && line[0] == '\r' && line[1] == '\n') {
+      return true;
+    }
+  }
+}
+
+bool HTTPTransportBoringSSL::ExecuteSynchronously(std::string* response_body) {
+  // TODO(scottmg): This is needed for OpenSSL or maybe with
+  // BoringSSL-but-only-in-Chrome? Or something?
+  SSL_library_init();
+  SSL_load_error_strings();
+
+  std::string scheme, hostname, port, resource;
+  if (!CrackURL(url(), &scheme, &hostname, &port, &resource)) {
+    return false;
+  }
+
+  ScopedSSLCTX ctx(CreateSSLContext(cert()));
+  if (!ctx.is_valid()) {
+    return false;
+  }
+
+  ScopedBIO bio(OpenSSLConnection(ctx.get(), hostname.c_str(), port.c_str()));
+  if (!bio.is_valid()) {
+    return false;
+  }
+
+  std::string prelude(method() + " " + resource + " HTTP/1.1\r\n"
+                      "Host: " + hostname + "\r\n"
+                      "Connection: close\r\n");
+
+  bool chunked = headers().find(kContentLength) == headers().end();
+  if (chunked) {
+    prelude += "Transfer-Encoding: chunked\r\n";
+  }
+
+  for (const auto& kv : headers()) {
+    prelude += kv.first + ": " + kv.second + "\r\n";
+  }
+  prelude += "\r\n";
+
+  BIO_write(bio.get(), prelude.c_str(), prelude.size());
+
+  if (chunked) {
+    for (;;) {
+      // Read next block of data from client.
+      uint8_t buf[4096];
+      FileOperationResult size =
+          body_stream()->GetBytesBuffer(buf, sizeof(buf));
+
+      // Write chunk size to stream.
+      std::string chunked(base::StringPrintf("%zx\r\n", size));
+      BIO_write(bio.get(), chunked.c_str(), chunked.size());
+      if (size == 0)  // Note, break after writing 0-length terminator chunk.
+        break;
+
+      // Write chunk data, followed by chunk terminator.
+      BIO_write(bio.get(), buf, size);
+      BIO_write(bio.get(), "\r\n", 2);  // Chunk terminator.
+    }
+
+    // Terminator for chunked transfer.
+    BIO_write(bio.get(), "\r\n", 2);  // Chunked body terminator.
+  } else {
+    // Buffer the whole thing to write non-chunked.
+    std::string request;
+    for (;;) {
+      uint8_t buf[4096];
+      FileOperationResult size =
+          body_stream()->GetBytesBuffer(buf, sizeof(buf));
+      if (size == 0)
+        break;
+      request += std::string(reinterpret_cast<char*>(buf), size);
+    }
+    BIO_write(bio.get(), request.data(), request.size());
+  }
+
+  bool ok = ReadHeaders(bio.get());
+  if (ok && response_body) {
+    response_body->clear();
+
+    int bytes_read = 0;
+    do {
+      char read_buffer[4096];
+
+      bytes_read = BIO_read(bio.get(), read_buffer, sizeof(read_buffer));
+      if (bytes_read > 0) {
+        response_body->append(read_buffer, bytes_read);
+      }
+    } while (bytes_read > 0);
+  }
+
+  return ok;
+}
+
+}  // namespace
+
+// static
+std::unique_ptr<HTTPTransport> HTTPTransport::Create() {
+  return std::unique_ptr<HTTPTransportBoringSSL>(new HTTPTransportBoringSSL);
+}
+
+}  // namespace crashpad
