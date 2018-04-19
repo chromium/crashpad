@@ -262,6 +262,12 @@ bool HTTPTransportLibcurl::ExecuteSynchronously(std::string* response_body) {
                        CURLOPT_TIMEOUT_MS,
                        static_cast<long>(timeout() * kMillisecondsPerSecond));
 
+  if (!cert().empty()) {
+    TRY_CURL_EASY_SETOPT(curl.get(), CURLOPT_SSL_VERIFYPEER, 1);
+    TRY_CURL_EASY_SETOPT(curl.get(), CURLOPT_SSL_VERIFYHOST, 2);
+    TRY_CURL_EASY_SETOPT(curl.get(), CURLOPT_CAINFO, cert().value().c_str());
+  }
+
   // If the request body size is known ahead of time, a Content-Length header
   // field will be present. Store that to use as CURLOPT_POSTFIELDSIZE_LARGE,
   // which will both set the Content-Length field in the request header and

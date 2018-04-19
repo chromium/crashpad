@@ -55,14 +55,31 @@ class HTTPTransportTestFixture : public MultiprocessExec {
         headers_(headers),
         body_stream_(std::move(body_stream)),
         response_code_(http_response_code),
-        request_validator_(request_validator) {
+        request_validator_(request_validator),
+        cert_(),
+        scheme_and_host_() {
     base::FilePath server_path = TestPaths::Executable().DirName().Append(
         FILE_PATH_LITERAL("http_transport_test_server")
 #if defined(OS_WIN)
             FILE_PATH_LITERAL(".exe")
 #endif
         );
+
+#if defined(OS_LINUX)
+    // https is only enabled on Linux currently.
+    std::vector<std::string> args;
+    cert_ = TestPaths::BuildArtifact(
+        "util", "cert", TestPaths::FileType::kCertificate);
+    args.push_back(cert_.value());
+    args.emplace_back(TestPaths::BuildArtifact(
+                          "util", "key", TestPaths::FileType::kCertificate)
+                          .value());
+    SetChildCommand(server_path, &args);
+    scheme_and_host_ = "https://localhost";
+#else
+    scheme_and_host_ = "http://127.0.0.1";
     SetChildCommand(server_path, nullptr);
+#endif
   }
 
   const HTTPHeaders& headers() { return headers_; }
@@ -94,7 +111,12 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     // Now execute the HTTP request.
     std::unique_ptr<HTTPTransport> transport(HTTPTransport::Create());
     transport->SetMethod("POST");
-    transport->SetURL(base::StringPrintf("http://127.0.0.1:%d/upload", port));
+
+    if (!cert_.empty()) {
+      transport->SetCertificateFile(cert_);
+    }
+    transport->SetURL(
+        base::StringPrintf("%s:%d/upload", scheme_and_host_.c_str(), port));
     for (const auto& pair : headers_) {
       transport->SetHeader(pair.first, pair.second);
     }
@@ -128,6 +150,8 @@ class HTTPTransportTestFixture : public MultiprocessExec {
   std::unique_ptr<HTTPBodyStream> body_stream_;
   uint16_t response_code_;
   RequestValidator request_validator_;
+  base::FilePath cert_;
+  std::string scheme_and_host_;
 };
 
 constexpr char kMultipartFormData[] = "multipart/form-data";
