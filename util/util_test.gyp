@@ -165,6 +165,30 @@
         }],
       ],
     },
+    {
+      'target_name': 'http_transport_test_server',
+      'type': 'executable',
+      'dependencies': [
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
+        '../third_party/zlib/zlib.gyp:zlib',
+        '../tools/tools.gyp:crashpad_tool_support',
+        '../util/util.gyp:crashpad_util',
+      ],
+      'sources': [
+        'net/http_transport_test_server.cc',
+      ],
+      'include_dirs': [
+        '..',
+      ],
+      'xcode_settings': {
+        'WARNING_CFLAGS!': [
+          '-Wexit-time-destructors',
+        ],
+      },
+      'cflags!': [
+        '-Wexit-time-destructors',
+      ],
+    },
   ],
   'conditions': [
     ['OS=="win"', {
