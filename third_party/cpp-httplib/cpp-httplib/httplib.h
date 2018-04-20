@@ -486,6 +486,7 @@ inline bool read_and_close_socket(socket_t sock, bool keep_alive, T callback)
     bool ret = false;
 
     if (keep_alive) {
+        fprintf(stderr, "IN KEEPALIVE\n");
         auto count = CPPHTTPLIB_KEEPALIVE_MAX_COUNT;
         while (count > 0 &&
                detail::select_read(sock,
@@ -500,10 +501,13 @@ inline bool read_and_close_socket(socket_t sock, bool keep_alive, T callback)
             count--;
         }
     } else {
+        fprintf(stderr, "IN NOT KEEPALIVE\n");
         SocketStream strm(sock);
         ret = callback(strm, true);
+        fprintf(stderr, "NOT KEEPALIVE callback returned %d\n",ret );
     }
 
+    fprintf(stderr, "csllaing close_socket\n");
     close_socket(sock);
     return ret;
 }
@@ -1346,6 +1350,7 @@ inline void Response::set_content(const char* s, size_t n, const char* content_t
 inline void Response::set_content(const std::string& s, const char* content_type)
 {
     body = s;
+    fprintf(stderr, "content = %zu long\n", body.size());
     set_header("Content-Type", content_type);
 }
 
@@ -1396,7 +1401,11 @@ inline int SocketStream::read(char* ptr, size_t size)
 
 inline int SocketStream::write(const char* ptr, size_t size)
 {
-    return send(sock_, ptr, size, 0);
+  fprintf(stderr,
+          "SocketStream sending %zu: '''%s'''\n",
+          size,
+          std::string(ptr, size).c_str());
+  return send(sock_, ptr, size, 0);
 }
 
 inline int SocketStream::write(const char* ptr)
@@ -1528,7 +1537,8 @@ inline void Server::write_response(Stream& strm, bool last_connection, const Req
     }
 
     if (!res.body.empty()) {
-#ifdef CPPHTTPLIB_ZLIB_SUPPORT
+#if 0 //def CPPHTTPLIB_ZLIB_SUPPORT
+        fprintf(stderr, "COMPRESSING\n");
         detail::compress(req, res);
 #endif
 
@@ -1538,17 +1548,20 @@ inline void Server::write_response(Stream& strm, bool last_connection, const Req
 
         auto length = std::to_string(res.body.size());
         res.set_header("Content-Length", length.c_str());
+        fprintf(stderr, "c-l set to '%s'\n", length.c_str());
     }
 
     detail::write_headers(strm, res);
 
     // Body
     if (!res.body.empty() && req.method != "HEAD") {
+        fprintf(stderr, "writing %lu for body\n", res.body.size());
         strm.write(res.body.c_str(), res.body.size());
     }
 
     // Log
     if (logger_) {
+        fprintf(stderr, "DOING LOGGER\n");
         logger_(req, res);
     }
 }
@@ -1759,6 +1772,7 @@ inline bool Server::process_request(Stream& strm, bool last_connection)
                 !detail::parse_multipart_formdata(boundary, req.body, req.files)) {
                 res.status = 400;
                 write_response(strm, last_connection, req, res);
+                fprintf(stderr, "RETURN 0 ret=%d\n", ret);
                 return ret;
             }
         }
@@ -1773,6 +1787,7 @@ inline bool Server::process_request(Stream& strm, bool last_connection)
     }
 
     write_response(strm, last_connection, req, res);
+    fprintf(stderr, "RETURN 1 ret=%d\n", ret);
     return ret;
 }
 
@@ -1789,7 +1804,9 @@ inline bool Server::read_and_close_socket(socket_t sock)
         sock,
         keep_alive,
         [this](Stream& strm, bool last_connection) {
-            return process_request(strm, last_connection);
+            bool result = process_request(strm, last_connection);
+            fprintf(stderr, "read_and_close_socket: %d\n", result);
+            return result;
         });
 }
 

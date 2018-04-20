@@ -117,8 +117,18 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     FileOperationResult bytes_read;
     while ((bytes_read = ReadFile(ReadPipeHandle(), buf, sizeof(buf))) != 0) {
       ASSERT_GE(bytes_read, 0);
+      fprintf(stderr, "read %zd bytes\n", bytes_read);
+      if (bytes_read == 2) {
+        fprintf(stderr, "byutes are %d %d\n", buf[0], buf[1]);
+      }
       request.append(buf, bytes_read);
+      fprintf(stderr, "buf: '%s'\n", std::string(buf, bytes_read).c_str());
+      LOG(ERROR) << "CHILD CURRENT REQUEST BYTES " << request.size();
+      fprintf(stderr, "request: '%s'\n", request.c_str());
     }
+
+    LOG(ERROR) << "CHILD READ FULL REQUEST BYTES " << request.size();
+    fprintf(stderr, "request: '%s'\n", request.c_str());
 
     if (request_validator_)
       request_validator_(this, request);
@@ -135,6 +145,9 @@ constexpr char kMultipartFormData[] = "multipart/form-data";
 void GetHeaderField(const std::string& request,
                     const std::string& header,
                     std::string* value) {
+  LOG(ERROR) << "GetHeaderField";
+  LOG(ERROR) << "request="<<request;
+  LOG(ERROR) << "header="<<header;
   size_t index = request.find(header);
   ASSERT_NE(index, std::string::npos);
   // Since the header is never the first line of the request, it should always

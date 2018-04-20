@@ -394,7 +394,7 @@ static_library("util") {
       "fuchsia/scoped_task_suspend.h",
       "misc/capture_context_fuchsia.S",
       "misc/paths_fuchsia.cc",
-      "net/http_transport_none.cc",
+      "net/http_transport_socket.cc",
       "process/process_memory_fuchsia.cc",
       "process/process_memory_fuchsia.h",
     ]
@@ -517,14 +517,10 @@ source_set("util_test") {
     "thread/worker_thread_test.cc",
   ]
 
-  if (!crashpad_is_android && !crashpad_is_fuchsia &&
+  if (!crashpad_is_android &&
       (!crashpad_is_linux || crashpad_enable_http_transport_libcurl)) {
-    # Android and Fuchsia will each require an HTTPTransport implementation
-    # (libcurl isn’t in either’s SDK) and a solution to
-    # http_transport_test_server.py, because Python isn’t available on either.
-    # The latter could be ported to non-Python, or the test server could run on
-    # the build host with a method to forward requests from the device to the
-    # host.
+    # Android requires an HTTPTransport implementation (libcurl isn’t in the
+    # SDK)
     #
     # Linux optionally compiles in a libcurl-based HTTPTransport, but since curl
     # isn't in a base Debian sysroot (which is what Chromium builds against),

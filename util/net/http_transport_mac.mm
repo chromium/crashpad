@@ -31,94 +31,94 @@
 
 namespace crashpad {
 
-namespace {
+  namespace {
 
-NSString* AppendEscapedFormat(NSString* base,
-                              NSString* format,
-                              NSString* data) {
-  return [base stringByAppendingFormat:
-                   format,
-                   [data stringByAddingPercentEncodingWithAllowedCharacters:
-                             [[NSCharacterSet
-                                 characterSetWithCharactersInString:
-                                     @"()<>@,;:\\\"/[]?={} \t"] invertedSet]]];
-}
-
-// This builds the same User-Agent string that CFNetwork would build internally,
-// but it uses PACKAGE_NAME and PACKAGE_VERSION in place of values obtained from
-// the main bundle’s Info.plist.
-NSString* UserAgentString() {
-  NSString* user_agent = [NSString string];
-
-  // CFNetwork would use the main bundle’s CFBundleName, or the main
-  // executable’s filename if none.
-  user_agent = AppendEscapedFormat(
-      user_agent, @"%@", [NSString stringWithUTF8String:PACKAGE_NAME]);
-
-  // CFNetwork would use the main bundle’s CFBundleVersion, or the string
-  // “(unknown version)” if none.
-  user_agent = AppendEscapedFormat(
-      user_agent, @"/%@", [NSString stringWithUTF8String:PACKAGE_VERSION]);
-
-  // Expected to be CFNetwork.
-  NSBundle* nsurl_bundle = [NSBundle bundleForClass:[NSURLRequest class]];
-  NSString* bundle_name = base::mac::ObjCCast<NSString>([nsurl_bundle
-      objectForInfoDictionaryKey:base::mac::CFToNSCast(kCFBundleNameKey)]);
-  if (bundle_name) {
-    user_agent = AppendEscapedFormat(user_agent, @" %@", bundle_name);
-
-    NSString* bundle_version = base::mac::ObjCCast<NSString>([nsurl_bundle
-        objectForInfoDictionaryKey:base::mac::CFToNSCast(kCFBundleVersionKey)]);
-    if (bundle_version) {
-      user_agent = AppendEscapedFormat(user_agent, @"/%@", bundle_version);
+    NSString* AppendEscapedFormat(NSString* base,
+        NSString* format,
+        NSString* data) {
+      return [base stringByAppendingFormat:
+        format,
+      [data stringByAddingPercentEncodingWithAllowedCharacters:
+        [[NSCharacterSet
+          characterSetWithCharactersInString:
+            @"()<>@,;:\\\"/[]?={} \t"] invertedSet]]];
     }
-  }
 
-  utsname os;
-  if (uname(&os) != 0) {
-    PLOG(WARNING) << "uname";
-  } else {
-    user_agent = AppendEscapedFormat(
-        user_agent, @" %@", [NSString stringWithUTF8String:os.sysname]);
-    user_agent = AppendEscapedFormat(
-        user_agent, @"/%@", [NSString stringWithUTF8String:os.release]);
+    // This builds the same User-Agent string that CFNetwork would build internally,
+    // but it uses PACKAGE_NAME and PACKAGE_VERSION in place of values obtained from
+    // the main bundle’s Info.plist.
+    NSString* UserAgentString() {
+      NSString* user_agent = [NSString string];
 
-    // CFNetwork just uses the equivalent of os.machine to obtain the native
-    // (kernel) architecture. Here, give the process’ architecture as well as
-    // the native architecture. Use the same strings that the kernel would, so
-    // that they can be de-duplicated.
+      // CFNetwork would use the main bundle’s CFBundleName, or the main
+      // executable’s filename if none.
+      user_agent = AppendEscapedFormat(
+          user_agent, @"%@", [NSString stringWithUTF8String:PACKAGE_NAME]);
+
+      // CFNetwork would use the main bundle’s CFBundleVersion, or the string
+      // “(unknown version)” if none.
+      user_agent = AppendEscapedFormat(
+          user_agent, @"/%@", [NSString stringWithUTF8String:PACKAGE_VERSION]);
+
+      // Expected to be CFNetwork.
+      NSBundle* nsurl_bundle = [NSBundle bundleForClass:[NSURLRequest class]];
+      NSString* bundle_name = base::mac::ObjCCast<NSString>([nsurl_bundle
+          objectForInfoDictionaryKey:base::mac::CFToNSCast(kCFBundleNameKey)]);
+      if (bundle_name) {
+        user_agent = AppendEscapedFormat(user_agent, @" %@", bundle_name);
+
+        NSString* bundle_version = base::mac::ObjCCast<NSString>([nsurl_bundle
+            objectForInfoDictionaryKey:base::mac::CFToNSCast(kCFBundleVersionKey)]);
+        if (bundle_version) {
+          user_agent = AppendEscapedFormat(user_agent, @"/%@", bundle_version);
+        }
+      }
+
+      utsname os;
+      if (uname(&os) != 0) {
+        PLOG(WARNING) << "uname";
+      } else {
+        user_agent = AppendEscapedFormat(
+            user_agent, @" %@", [NSString stringWithUTF8String:os.sysname]);
+        user_agent = AppendEscapedFormat(
+            user_agent, @"/%@", [NSString stringWithUTF8String:os.release]);
+
+        // CFNetwork just uses the equivalent of os.machine to obtain the native
+        // (kernel) architecture. Here, give the process’ architecture as well as
+        // the native architecture. Use the same strings that the kernel would, so
+        // that they can be de-duplicated.
 #if defined(ARCH_CPU_X86)
-    NSString* arch = @"i386";
+        NSString* arch = @"i386";
 #elif defined(ARCH_CPU_X86_64)
-    NSString* arch = @"x86_64";
+        NSString* arch = @"x86_64";
 #else
 #error Port
 #endif
-    user_agent = AppendEscapedFormat(user_agent, @" (%@", arch);
+        user_agent = AppendEscapedFormat(user_agent, @" (%@", arch);
 
-    NSString* machine = [NSString stringWithUTF8String:os.machine];
-    if (![machine isEqualToString:arch]) {
-      user_agent = AppendEscapedFormat(user_agent, @"; %@", machine);
+        NSString* machine = [NSString stringWithUTF8String:os.machine];
+        if (![machine isEqualToString:arch]) {
+          user_agent = AppendEscapedFormat(user_agent, @"; %@", machine);
+        }
+
+        user_agent = [user_agent stringByAppendingString:@")"];
+      }
+
+      return user_agent;
     }
 
-    user_agent = [user_agent stringByAppendingString:@")"];
-  }
+    // An implementation of CFReadStream. This implements the V0 callback
+    // scheme.
+    class HTTPBodyStreamCFReadStream {
+      public:
+        explicit HTTPBodyStreamCFReadStream(HTTPBodyStream* body_stream)
+          : body_stream_(body_stream) {
+          }
 
-  return user_agent;
-}
-
-// An implementation of CFReadStream. This implements the V0 callback
-// scheme.
-class HTTPBodyStreamCFReadStream {
- public:
-  explicit HTTPBodyStreamCFReadStream(HTTPBodyStream* body_stream)
-      : body_stream_(body_stream) {
-  }
-
-  // Creates a new NSInputStream, which the caller owns.
-  NSInputStream* CreateInputStream() {
-    CFStreamClientContext context = {
-        .version = 0,
+        // Creates a new NSInputStream, which the caller owns.
+        NSInputStream* CreateInputStream() {
+          CFStreamClientContext context = {
+            .version = 0,
         .info = this,
         .retain = nullptr,
         .release = nullptr,
