@@ -1396,7 +1396,7 @@ inline int SocketStream::read(char* ptr, size_t size)
 
 inline int SocketStream::write(const char* ptr, size_t size)
 {
-    return send(sock_, ptr, size, 0);
+  return send(sock_, ptr, size, 0);
 }
 
 inline int SocketStream::write(const char* ptr)
@@ -1789,7 +1789,8 @@ inline bool Server::read_and_close_socket(socket_t sock)
         sock,
         keep_alive,
         [this](Stream& strm, bool last_connection) {
-            return process_request(strm, last_connection);
+            bool result = process_request(strm, last_connection);
+            return result;
         });
 }
 

@@ -77,7 +77,7 @@ int HttpTransportTestServerMain(int argc, char* argv[]) {
              svr.stop();
            });
 
-  int port = svr.bind_to_any_port("127.0.0.1");
+  uint16_t port = svr.bind_to_any_port("127.0.0.1");
 
   CheckedWriteFile(
       StdioFileHandle(StdioStream::kStandardOutput), &port, sizeof(port));
