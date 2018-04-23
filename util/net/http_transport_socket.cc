@@ -1,0 +1,436 @@
+// Copyright 2018 The Crashpad Authors. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#include "util/net/http_transport.h"
+
+#include <fcntl.h>
+#include <netdb.h>
+#include <sys/socket.h>
+
+#include "base/logging.h"
+#include "base/numerics/safe_conversions.h"
+#include "base/posix/eintr_wrapper.h"
+#include "base/scoped_generic.h"
+#include "base/strings/string_number_conversions.h"
+#include "base/strings/stringprintf.h"
+#include "util/net/http_body.h"
+#include "util/net/url.h"
+#include "util/stdlib/string_number_conversion.h"
+#include "util/string/split_string.h"
+
+namespace crashpad {
+
+namespace {
+
+class HTTPTransportSocket final : public HTTPTransport {
+ public:
+  HTTPTransportSocket() = default;
+  ~HTTPTransportSocket() override = default;
+
+  bool ExecuteSynchronously(std::string* response_body) override;
+
+ private:
+  DISALLOW_COPY_AND_ASSIGN(HTTPTransportSocket);
+};
+
+struct ScopedAddrinfoTraits {
+  static struct addrinfo* InvalidValue() { return nullptr; }
+  static void Free(struct addrinfo* ai) { freeaddrinfo(ai); }
+};
+using ScopedAddrinfo =
+    base::ScopedGeneric<struct addrinfo*, ScopedAddrinfoTraits>;
+
+bool WaitUntilSocketIsReady(int sock) {
+  fd_set fds_read;
+  FD_ZERO(&fds_read);
+  FD_SET(sock, &fds_read);
+
+  fd_set fds_write = fds_read;
+  fd_set fds_error = fds_read;
+
+  timeval timeout = {};
+  timeout.tv_sec = 1;
+  if (HANDLE_EINTR(
+          select(sock + 1, &fds_read, &fds_write, &fds_error, &timeout)) < 0) {
+    PLOG(ERROR) << "select";
+    return false;
+  } else if (FD_ISSET(sock, &fds_read) || FD_ISSET(sock, &fds_write)) {
+    int error = 0;
+    socklen_t len = sizeof(error);
+    if (getsockopt(
+            sock, SOL_SOCKET, SO_ERROR, reinterpret_cast<char*>(&error), &len) <
+            0 ||
+        error) {
+      return false;
+    }
+  } else {
+    return false;
+  }
+
+  return true;
+}
+
+class ScopedSetNonblocking {
+ public:
+  explicit ScopedSetNonblocking(int sock) : sock_(sock) {
+    int flags = fcntl(sock, F_GETFL, 0);
+    if (fcntl(sock_, F_SETFL, flags | O_NONBLOCK) < 0) {
+      PLOG(ERROR) << "fcntl";
+      sock_ = -1;
+    }
+  }
+
+  ~ScopedSetNonblocking() {
+    if (sock_ >= 0) {
+      int flags = fcntl(sock_, F_GETFL, 0);
+      if (fcntl(sock_, F_SETFL, flags & (~O_NONBLOCK)) < 0) {
+        PLOG(ERROR) << "fcntl";
+      }
+    }
+  }
+
+ private:
+  int sock_;
+};
+
+base::ScopedFD CreateSocket(const std::string& hostname,
+                            const std::string& port) {
+  struct addrinfo hints = {};
+  hints.ai_family = AF_UNSPEC;
+  hints.ai_socktype = SOCK_STREAM;
+  hints.ai_protocol = 0;
+  hints.ai_flags = 0;
+
+  struct addrinfo* addrinfo_raw;
+  int ret = getaddrinfo(hostname.c_str(), port.c_str(), &hints, &addrinfo_raw);
+  if (ret < 0) {
+    PLOG(ERROR) << "getaddrinfo";
+    return base::ScopedFD();
+  }
+  ScopedAddrinfo addrinfo(addrinfo_raw);
+
+  for (const auto* ap = addrinfo.get(); ap; ap = ap->ai_next) {
+    const auto sock_raw =
+        socket(ap->ai_family, ap->ai_socktype, ap->ai_protocol);
+    if (sock_raw == -1) {
+      continue;
+    }
+    base::ScopedFD result(sock_raw);
+
+    int yes = 1;
+    setsockopt(result.get(),
+               SOL_SOCKET,
+               SO_REUSEADDR,
+               reinterpret_cast<char*>(&yes),
+               sizeof(yes));
+
+    {
+      ScopedSetNonblocking nonblocking(result.get());
+
+      int ret =
+          HANDLE_EINTR(connect(result.get(), ap->ai_addr, ap->ai_addrlen));
+      if (ret < 0) {
+        if (errno != EINPROGRESS || !WaitUntilSocketIsReady(result.get())) {
+          PLOG(ERROR) << "connect";
+          return base::ScopedFD();
+        }
+      }
+
+      return result;
+    }
+  }
+
+  return base::ScopedFD();
+}
+
+bool WriteRequest(int sock,
+                  const std::string& method,
+                  const std::string& resource,
+                  const HTTPHeaders& headers,
+                  HTTPBodyStream* body_stream) {
+  std::string request_line = base::StringPrintf(
+      "%s %s HTTP/1.0\r\n", method.c_str(), resource.c_str());
+  if (HANDLE_EINTR(send(sock, request_line.data(), request_line.size(), 0)) <
+      0) {
+    PLOG(ERROR) << "send";
+      return false;
+  }
+
+  // Write headers, and determine if Content-Length has been specified.
+  bool chunked = true;
+  size_t content_length = 0;
+  for (const auto& header : headers) {
+    std::string header_str = base::StringPrintf(
+        "%s: %s\r\n", header.first.c_str(), header.second.c_str());
+    if (header.first == kContentLength) {
+      chunked = !base::StringToSizeT(header.second, &content_length);
+      DCHECK(!chunked);
+    }
+
+    if (HANDLE_EINTR(send(sock, header_str.data(), header_str.size(), 0)) < 0) {
+      PLOG(ERROR) << "send";
+      return false;
+    }
+  }
+
+  // If no Content-Length, then encode as chunked, so add that header too.
+  if (chunked) {
+    static constexpr const char kTransferEncodingChunked[] =
+        "Transfer-Encoding: chunked\r\n";
+    if (HANDLE_EINTR(send(sock,
+                          kTransferEncodingChunked,
+                          sizeof(kTransferEncodingChunked) /
+                                  sizeof(kTransferEncodingChunked[0]) -
+                              1,
+                          0)) < 0) {
+      PLOG(ERROR) << "send";
+      return false;
+    }
+  }
+
+  static constexpr const char kEndOfHeaders[] = "\r\n";
+  if (HANDLE_EINTR(send(sock,
+                        kEndOfHeaders,
+                        sizeof(kEndOfHeaders) / sizeof(kEndOfHeaders[0]) - 1,
+                        0)) < 0) {
+    PLOG(ERROR) << "send";
+    return false;
+  }
+
+  size_t total_written = 0;
+  FileOperationResult data_bytes;
+  do {
+    struct {
+      char size[8];
+      char crlf0[2];
+      uint8_t data[32 * 1024];
+      char crlf1[2];
+    } buf;
+    static_assert(sizeof(buf) == sizeof(buf.size) +
+                                 sizeof(buf.crlf0) +
+                                 sizeof(buf.data) +
+                                 sizeof(buf.crlf1),
+                  "buf should not have padding");
+
+    // Read a block of data.
+    data_bytes = body_stream->GetBytesBuffer(buf.data, sizeof(buf.data));
+    if (data_bytes == -1) {
+      return false;
+    }
+    DCHECK_GE(data_bytes, 0);
+    DCHECK_LE(static_cast<size_t>(data_bytes), sizeof(buf.data));
+
+    void* write_start;
+    unsigned int write_size;
+
+    if (chunked) {
+      // Chunked encoding uses the entirety of buf. buf.size is presented in
+      // hexadecimal without any leading "0x". The terminating CR and LF will be
+      // placed immediately following the used portion of buf.data, even if
+      // buf.data is not full, and not necessarily in buf.crlf1.
+
+      unsigned int data_bytes_ui = base::checked_cast<unsigned int>(data_bytes);
+
+      // Not snprintf because non-null terminated is desired.
+      int rv = sprintf(buf.size, "%08x", data_bytes_ui);
+      DCHECK_GE(rv, 0);
+      DCHECK_EQ(static_cast<size_t>(rv), sizeof(buf.size));
+      DCHECK_NE(buf.size[sizeof(buf.size) - 1], '\0');
+
+      buf.crlf0[0] = '\r';
+      buf.crlf0[1] = '\n';
+      buf.data[data_bytes] = '\r';
+      buf.data[data_bytes + 1] = '\n';
+
+      // Skip leading zeroes in the chunk size.
+      unsigned int size_len;
+      for (size_len = sizeof(buf.size); size_len > 1; --size_len) {
+        if (buf.size[sizeof(buf.size) - size_len] != '0') {
+          break;
+        }
+      }
+
+      write_start = buf.crlf0 - size_len;
+      write_size = base::checked_cast<unsigned int>(
+          size_len + sizeof(buf.crlf0) + data_bytes + sizeof(buf.crlf1));
+    } else {
+      // When not using chunked encoding, only use buf.data.
+      write_start = buf.data;
+      write_size = base::checked_cast<unsigned int>(data_bytes);
+    }
+
+    // write_size will be 0 at EOF in non-chunked mode. Skip the write in that
+    // case. In contrast, at EOF in chunked mode, a zero-length chunk must be
+    // sent to signal EOF. This will happen when processing the EOF indicated by
+    // a 0 return from body_stream()->GetBytesBuffer() above.
+    if (write_size != 0) {
+      ssize_t written = HANDLE_EINTR(send(sock, write_start, write_size, 0));
+      if (written < 0) {
+        PLOG(ERROR) << "send";
+        return false;
+      }
+      total_written += written;
+    }
+  } while (data_bytes > 0);
+
+  return true;
+}
+
+bool ReadLine(int sock, std::string* line) {
+  ssize_t bytes_read;
+  line->clear();
+  for (;;) {
+    char byte;
+    bytes_read = HANDLE_EINTR(recv(sock, &byte, 1, 0));
+    if (bytes_read <= 0) {  // Shouldn't have gotten EOF before \n.
+      PLOG(ERROR) << "recv";
+      return false;
+    }
+
+    line->append(&byte, 1);
+    if (byte == '\n')
+      return true;
+  }
+}
+
+bool StartsWith(const std::string& str, const char* with, size_t len) {
+  return str.compare(0, len, with) == 0;
+}
+
+bool ReadResponseLine(int sock) {
+  std::string response_line;
+  if (!ReadLine(sock, &response_line)) {
+    LOG(ERROR) << "ReadLine";
+    return false;
+  }
+  static constexpr const char kHttp10[] = "HTTP/1.0 200 ";
+  static constexpr const char kHttp11[] = "HTTP/1.1 200 ";
+  return StartsWith(response_line, kHttp10, arraysize(kHttp10) - 1) ||
+         StartsWith(response_line, kHttp11, arraysize(kHttp11) - 1);
+}
+
+bool ReadResponseHeaders(int sock, HTTPHeaders* headers) {
+  for (;;) {
+    std::string line;
+    if (!ReadLine(sock, &line)) {
+      return false;
+    }
+
+    if (line == "\r\n") {
+      return true;
+    }
+
+    std::string left, right;
+    if (!SplitStringFirst(line, ':', &left, &right)) {
+      LOG(ERROR) << "SplitStringFirst";
+      return false;
+    }
+    DCHECK_EQ(right[right.size() - 1], '\n');
+    DCHECK_EQ(right[right.size() - 2], '\r');
+    DCHECK_EQ(right[0], ' ');
+    DCHECK_NE(right[1], ' ');
+    right = right.substr(1, right.size() - 3);
+    (*headers)[left] = right;
+  }
+}
+
+bool ReadContentWithLength(int sock, size_t len, std::string* body) {
+  body->resize(len, 0);
+  size_t received = 0;
+  while (received < len) {
+    ssize_t read = HANDLE_EINTR(recv(
+        sock, reinterpret_cast<void*>(&body->at(received)), len - received, 0));
+    if (read <= 0) {
+      return false;
+    }
+    received += read;
+  }
+  return true;
+}
+
+bool ReadContentChunked(int sock, std::string* body) {
+  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  LOG(ERROR) << "TODO(scottmg): chunked response read";
+  return false;
+}
+
+bool ReadResponse(int sock, std::string* response_body) {
+  response_body->clear();
+
+  if (!ReadResponseLine(sock)) {
+    return false;
+  }
+
+  HTTPHeaders response_headers;
+  if (!ReadResponseHeaders(sock, &response_headers)) {
+    return false;
+  }
+
+  auto it = response_headers.find("Content-Length");
+  size_t len = 0;
+  if (it != response_headers.end()) {
+    if (!base::StringToSizeT(it->second, &len)) {
+      LOG(ERROR) << "invalid Content-Length";
+    }
+  }
+
+  if (len) {
+    return ReadContentWithLength(sock, len, response_body);
+  } else {
+    it = response_headers.find("Transfer-Encoding");
+    bool chunked = false;
+    if (it != response_headers.end() && it->second == "chunked") {
+      chunked = true;
+    }
+    if (!chunked) {
+      // TODO(scottmg): https://crashpad.chromium.org/bug/196. Doesn't happen
+      // in practice, but is possible.
+      LOG(ERROR) << "unimplemented non-chunked without Content-Length";
+      return false;
+    }
+
+    return ReadContentChunked(sock, response_body);
+  }
+}
+
+bool HTTPTransportSocket::ExecuteSynchronously(std::string* response_body) {
+  std::string scheme, hostname, port, resource;
+  if (!CrackURL(url(), &scheme, &hostname, &port, &resource)) {
+    return false;
+  }
+
+  base::ScopedFD sock(CreateSocket(hostname, port));
+  if (!sock.is_valid()) {
+    return false;
+  }
+
+  if (!WriteRequest(sock.get(), method(), resource, headers(), body_stream())) {
+    return false;
+  }
+
+  if (!ReadResponse(sock.get(), response_body)) {
+    return false;
+  }
+
+  return true;
+}
+
+}  // namespace
+
+// static
+std::unique_ptr<HTTPTransport> HTTPTransport::Create() {
+  return std::unique_ptr<HTTPTransportSocket>(new HTTPTransportSocket);
+}
+
+}  // namespace crashpad
