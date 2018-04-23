@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "432839b6_d00e35b4",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-23T20:20:00Z",
+      "side": 1,
+      "message": "Oh jeez, I have no idea what I\u0027m doing! It looks like maybe I should be using poll/ppoll for this instead, is that better?",
+      "parentUuid": "3149494b_f75940ff",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 25
+      },
+      "revId": "6ebb5737d7b209ce7a4fd3732207934fe5a1c4db",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "15c69f20_2dfb9930",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 11
@@ -45,6 +69,30 @@
       "revId": "6ebb5737d7b209ce7a4fd3732207934fe5a1c4db",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d6e5977_94036da9",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-23T20:20:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15c69f20_2dfb9930",
+      "range": {
+        "startLine": 65,
+        "startChar": 9,
+        "endLine": 65,
+        "endChar": 16
+      },
+      "revId": "6ebb5737d7b209ce7a4fd3732207934fe5a1c4db",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0cbc2d9e_dc66a89f",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-23T20:20:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7a2f641_88723e32",
+      "range": {
+        "startLine": 87,
+        "startChar": 8,
+        "endLine": 87,
+        "endChar": 21
+      },
+      "revId": "6ebb5737d7b209ce7a4fd3732207934fe5a1c4db",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a42065d1_7430e1a4",
         "filename": "util/net/http_transport_test_server.cc",
         "patchSetId": 11
@@ -91,6 +163,30 @@
       "revId": "6ebb5737d7b209ce7a4fd3732207934fe5a1c4db",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3aeb4714_5585c892",
+        "filename": "util/net/http_transport_test_server.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-23T20:20:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a42065d1_7430e1a4",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 23
+      },
+      "revId": "6ebb5737d7b209ce7a4fd3732207934fe5a1c4db",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
