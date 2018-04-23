@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b926fb4_0c00590f",
+        "filename": "build/run_tests.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-23T16:11:44Z",
+      "side": 1,
+      "message": "This lets the test binaries have access to the network service, otherwise they can\u0027t open sockets.",
+      "revId": "fc47266a97d6a3c63072ddf508e4affab77a4819",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "835536bb_11adcc29",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-23T16:11:44Z",
+      "side": 1,
+      "message": "This might (?) already work on Android, I just didn\u0027t test it yet in favour of not breaking everything at once.",
+      "range": {
+        "startLine": 507,
+        "startChar": 6,
+        "endLine": 507,
+        "endChar": 13
+      },
+      "revId": "fc47266a97d6a3c63072ddf508e4affab77a4819",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30b28aac_b6740850",
+        "filename": "util/net/http_transport_test_server.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-23T16:11:44Z",
+      "side": 1,
+      "message": "This was wrong in the original CL (the child is only expecting a uint16_t), but it\u0027s mostly hidden by buffering between parent and child and the fact that the entire request body is read after the real response body, so the return of the request just started with two NULs.",
+      "revId": "fc47266a97d6a3c63072ddf508e4affab77a4819",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
