@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ebd0fd6d_e48608a5",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-23T22:57:22Z",
+      "side": 1,
+      "message": "Yeah, I think poll is better.",
+      "parentUuid": "432839b6_d00e35b4",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 25
+      },
+      "revId": "6ebb5737d7b209ce7a4fd3732207934fe5a1c4db",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15c69f20_2dfb9930",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 11

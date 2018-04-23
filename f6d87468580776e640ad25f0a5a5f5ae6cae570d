@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6638bf47_bb8227b7",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-23T22:57:22Z",
+      "side": 1,
+      "message": "errno might\u0027ve been clobbered by WaitUntilSocketIsReady().",
+      "range": {
+        "startLine": 141,
+        "startChar": 10,
+        "endLine": 141,
+        "endChar": 34
+      },
+      "revId": "f6d87468580776e640ad25f0a5a5f5ae6cae570d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "862f65e1_65ae9434",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-23T22:57:22Z",
+      "side": 1,
+      "message": "size_t?",
+      "range": {
+        "startLine": 231,
+        "startChar": 4,
+        "endLine": 231,
+        "endChar": 16
+      },
+      "revId": "f6d87468580776e640ad25f0a5a5f5ae6cae570d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df793b25_e69b49be",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-23T22:57:22Z",
+      "side": 1,
+      "message": "LoggingWriteFile could work here. When flags\u003d0 send is equivalent to write.",
+      "range": {
+        "startLine": 274,
+        "startChar": 6,
+        "endLine": 277,
+        "endChar": 21
+      },
+      "revId": "f6d87468580776e640ad25f0a5a5f5ae6cae570d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6cc822c_a858ba88",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-23T22:57:22Z",
+      "side": 1,
+      "message": "This doesn\u0027t need to be outside the loop (and could be eliminated entirely).",
+      "range": {
+        "startLine": 287,
+        "startChar": 2,
+        "endLine": 287,
+        "endChar": 21
+      },
+      "revId": "f6d87468580776e640ad25f0a5a5f5ae6cae570d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61e643c5_9d21292c",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-23T22:57:22Z",
+      "side": 1,
+      "message": "Similarly, read is (mostly) equivalent to recv, so LoggingReadFileExactly could work here.",
+      "range": {
+        "startLine": 291,
+        "startChar": 3,
+        "endLine": 294,
+        "endChar": 19
+      },
+      "revId": "f6d87468580776e640ad25f0a5a5f5ae6cae570d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
