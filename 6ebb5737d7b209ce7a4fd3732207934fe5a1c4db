@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3149494b_f75940ff",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-23T17:47:45Z",
+      "side": 1,
+      "message": "select is limited to file descriptors less than FD_SETSIZE, which for glibc is 1024. Maybe this is enough for Crashpad? We should probably at least check that sock is less than FD_SETSIZE, otherwise behavior is undefined.",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 25
+      },
+      "revId": "6ebb5737d7b209ce7a4fd3732207934fe5a1c4db",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15c69f20_2dfb9930",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-23T17:47:45Z",
+      "side": 1,
+      "message": "sys/select.h",
+      "range": {
+        "startLine": 65,
+        "startChar": 9,
+        "endLine": 65,
+        "endChar": 16
+      },
+      "revId": "6ebb5737d7b209ce7a4fd3732207934fe5a1c4db",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7a2f641_88723e32",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-23T17:47:45Z",
+      "side": 1,
+      "message": "Check for errors here too?",
+      "range": {
+        "startLine": 87,
+        "startChar": 8,
+        "endLine": 87,
+        "endChar": 21
+      },
+      "revId": "6ebb5737d7b209ce7a4fd3732207934fe5a1c4db",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a42065d1_7430e1a4",
+        "filename": "util/net/http_transport_test_server.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-23T17:47:45Z",
+      "side": 1,
+      "message": "not quite sorted",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 23
+      },
+      "revId": "6ebb5737d7b209ce7a4fd3732207934fe5a1c4db",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
