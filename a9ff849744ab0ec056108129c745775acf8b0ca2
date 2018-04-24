@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e905b5f7_0ee22f76",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-24T16:39:42Z",
+      "side": 1,
+      "message": "I just removed the whole thing, it was from some example, but reading the docs on REUSEADDR I don\u0027t think it actually has much utility for client connections.",
+      "parentUuid": "aa73df6a_4f1fed2e",
+      "range": {
+        "startLine": 133,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 14
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f75fe173_4719c41f",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 16
@@ -45,6 +69,30 @@
       "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf5b98d8_3de0fb80",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-24T16:39:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f75fe173_4719c41f",
+      "range": {
+        "startLine": 136,
+        "startChar": 15,
+        "endLine": 136,
+        "endChar": 38
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b791d1c6_c07c4d0c",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-24T16:39:42Z",
+      "side": 1,
+      "message": "Done\n\n(It does all kinds of wild things at O3, and turns this whole file into one function, never mind string lengths. :)",
+      "parentUuid": "2a1c471c_6765eb65",
+      "range": {
+        "startLine": 188,
+        "startChar": 26,
+        "endLine": 190,
+        "endChar": 32
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a65f058_e6e3c65a",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 16
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "a61ec066_9527c4f2",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-24T16:39:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a65f058_e6e3c65a",
+      "range": {
+        "startLine": 198,
+        "startChar": 24,
+        "endLine": 198,
+        "endChar": 77
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "781bd4b6_dc0b70c2",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 16
@@ -111,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "164c07ba_389d77b3",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-24T16:39:42Z",
+      "side": 1,
+      "message": "The static_assert covers it, I think, but sure.",
+      "parentUuid": "781bd4b6_dc0b70c2",
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec6d381b_764678cd",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 16
@@ -122,6 +236,30 @@
       "writtenOn": "2018-04-24T15:06:56Z",
       "side": 1,
       "message": "crlf1 is never touched directly. Are we relying below on buf.data[data_bytes] overflowing the write into it?",
+      "range": {
+        "startLine": 230,
+        "startChar": 35,
+        "endLine": 230,
+        "endChar": 63
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c326d29_e92804ca",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-24T16:39:42Z",
+      "side": 1,
+      "message": "Right, if a full buf.data was read (i.e. data_bytes is exactly 32k), then the addition of the \\r\\n termination overflows into crlf1, otherwise, it\u0027s at the end of the data, after the actual data.",
+      "parentUuid": "ec6d381b_764678cd",
       "range": {
         "startLine": 230,
         "startChar": 35,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "46fe8f5a_dd2d4089",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-24T16:39:42Z",
+      "side": 1,
+      "message": "Yeah, it sucks. :( Adding a separate buffer would make all the reads awkward, so I was sort of hoping that the OS would save me and it\u0027s \"only\" for a couple lines of text (initial response line and some response headers).",
+      "parentUuid": "1a6e819a_ebc7473d",
+      "range": {
+        "startLine": 280,
+        "startChar": 8,
+        "endLine": 280,
+        "endChar": 47
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "46ec8561_d55ae3a0",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 16
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "3d00c6a4_0ac40072",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-24T16:39:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46ec8561_d55ae3a0",
+      "range": {
+        "startLine": 302,
+        "startChar": 44,
+        "endLine": 302,
+        "endChar": 67
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d927ae8_1d28b3c7",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 16
@@ -194,6 +380,24 @@
       "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5f6de1c_49ce4056",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-24T16:39:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d927ae8_1d28b3c7",
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
