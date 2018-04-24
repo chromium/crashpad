@@ -36,7 +36,7 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
     import("//build/package.gni")
     package("crashpad_test") {
       testonly = true
-      system_image = true
+      deprecated_system_image = true
 
       deps = [
         ":crashpad_tests",
@@ -46,6 +46,14 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
         {
           name = "crashpad_tests"
         },
+      ]
+    }
+
+    package("crashpad_handler") {
+      deprecated_system_image = true
+
+      deps = [
+        "handler:crashpad_handler",
       ]
     }
   }
