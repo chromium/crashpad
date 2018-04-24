@@ -23,6 +23,7 @@
 // client, and write the entire request to stdout. It will then terminate.
 
 #include "base/logging.h"
+#include "base/numerics/safe_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "tools/tool_support.h"
@@ -67,6 +68,7 @@ int HttpTransportTestServerMain(int argc, char* argv[]) {
                res.set_content("error", "text/plain");
              }
 
+             to_stdout += "POST /upload HTTP/1.0\r\n";
              for (const auto& h : req.headers) {
                to_stdout += base::StringPrintf(
                    "%s: %s\r\n", h.first.c_str(), h.second.c_str());
@@ -77,7 +79,8 @@ int HttpTransportTestServerMain(int argc, char* argv[]) {
              svr.stop();
            });
 
-  int port = svr.bind_to_any_port("127.0.0.1");
+  uint16_t port =
+      base::checked_cast<uint16_t>(svr.bind_to_any_port("127.0.0.1"));
 
   CheckedWriteFile(
       StdioFileHandle(StdioStream::kStandardOutput), &port, sizeof(port));
