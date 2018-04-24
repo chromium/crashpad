@@ -159,6 +159,26 @@ crashpad_executable("crashpad_handler") {
   }
 }
 
+# There is not any normal way to package native executables in an Android APK.
+# It is normal to package native code as a loadable module but Android's APK
+# installer will ignore files not named like a shared object, so give the
+# handler executable an acceptable name.
+if (crashpad_is_android) {
+  copy("crashpad_handler_module") {
+    deps = [
+      ":crashpad_handler",
+    ]
+
+    sources = [
+      "$root_out_dir/crashpad_handler",
+    ]
+
+    outputs = [
+      "$root_out_dir/libcrashpad_handler.so",
+    ]
+  }
+}
+
 crashpad_executable("crashpad_handler_test_extended_handler") {
   testonly = true
 
