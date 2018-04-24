@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b475f434_2db4a2b3",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-24T18:40:02Z",
+      "side": 1,
+      "message": "Leave a comment here about this?",
+      "revId": "757b4b9ada4897de833d89f3562ffd5172d4d7b2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
