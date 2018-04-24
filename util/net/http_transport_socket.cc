@@ -17,7 +17,7 @@
 #include <fcntl.h>
 #include <netdb.h>
 #include <poll.h>
-#include <sys/select.h>
+#include <sys/socket.h>
 
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
@@ -345,6 +345,21 @@ bool ReadContentChunked(int sock, std::string* body) {
   return false;
 }
 
+bool ReadContentNoLength(int sock, std::string* body) {
+  for (;;) {
+    char byte;
+    int ret = HANDLE_EINTR(recv(sock, &byte, 1, 0));
+    if (ret < 0) {
+      return false;
+    } else if (ret == 0) {
+      return true;
+    }
+    (*body) += byte;
+  }
+
+  return true;
+}
+
 bool ReadResponse(int sock, std::string* response_body) {
   response_body->clear();
 
@@ -374,10 +389,7 @@ bool ReadResponse(int sock, std::string* response_body) {
       chunked = true;
     }
     if (!chunked) {
-      // TODO(scottmg): https://crashpad.chromium.org/bug/196. Doesn't happen
-      // in practice, but is possible.
-      LOG(ERROR) << "unimplemented non-chunked without Content-Length";
-      return false;
+      return ReadContentNoLength(sock, response_body);
     }
 
     return ReadContentChunked(sock, response_body);
