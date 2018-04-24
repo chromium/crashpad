@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0f132e38_366a5c41",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-24T19:04:45Z",
+      "side": 1,
+      "message": "Yeah, REUSEADDR is mostly useful on servers where you want to bind to a known port.",
+      "parentUuid": "e905b5f7_0ee22f76",
+      "range": {
+        "startLine": 133,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 14
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f75fe173_4719c41f",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 16
@@ -260,6 +284,30 @@
       "side": 1,
       "message": "Right, if a full buf.data was read (i.e. data_bytes is exactly 32k), then the addition of the \\r\\n termination overflows into crlf1, otherwise, it\u0027s at the end of the data, after the actual data.",
       "parentUuid": "ec6d381b_764678cd",
+      "range": {
+        "startLine": 230,
+        "startChar": 35,
+        "endLine": 230,
+        "endChar": 63
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86947a8e_2e6720a7",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-24T19:04:45Z",
+      "side": 1,
+      "message": "I\u0027m not going to (read: \"can\u0027t\") quote the C++ standard at you, but this seems a bit undefined-behavior-y.",
+      "parentUuid": "7c326d29_e92804ca",
       "range": {
         "startLine": 230,
         "startChar": 35,

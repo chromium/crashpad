@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "143c339f_e98a7452",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-24T19:04:45Z",
+      "side": 1,
+      "message": "DISALLOW_COPY_AND_ASSIGN",
+      "revId": "65e3165b627a85c300ab1a48500d8cbc7f81cf6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
