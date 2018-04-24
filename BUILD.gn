@@ -48,6 +48,14 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
         },
       ]
     }
+
+    package("crashpad_handler") {
+      deprecated_system_image = true
+
+      deps = [
+        "handler:crashpad_handler",
+      ]
+    }
   }
 } else if (crashpad_is_standalone) {
   test("crashpad_client_test") {
