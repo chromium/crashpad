@@ -320,6 +320,30 @@
     },
     {
       "key": {
+        "uuid": "3c69d845_92f0be18",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-24T19:15:06Z",
+      "side": 1,
+      "message": "I don\u0027t particularly disagree. My only (weak) defense is that I actually copy-pasted this bit that was written by a known language-lawyer. :) https://chromium-review.googlesource.com/c/crashpad/crashpad/+/439644\n\nTo me it feels about the same as the \"struct hack\" so I thought it was probably OK. I can see how messy it gets to add and subtract 2 in a few places if you prefer though.\n\n(I should probably extract out this bit to share between _win and _socket, but it has some different types so it was a bit fussy.)",
+      "parentUuid": "86947a8e_2e6720a7",
+      "range": {
+        "startLine": 230,
+        "startChar": 35,
+        "endLine": 230,
+        "endChar": 63
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a6e819a_ebc7473d",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 16

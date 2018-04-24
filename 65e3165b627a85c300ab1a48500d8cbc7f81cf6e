@@ -16,6 +16,24 @@
       "revId": "65e3165b627a85c300ab1a48500d8cbc7f81cf6e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc274b7f_f835ed0a",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-24T19:15:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "143c339f_e98a7452",
+      "revId": "65e3165b627a85c300ab1a48500d8cbc7f81cf6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
