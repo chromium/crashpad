@@ -462,9 +462,11 @@ crashpad_executable("http_transport_test_server") {
     "../tools:tool_support",
   ]
 
-  remove_configs = [
-    "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
-  ]
+  if (crashpad_is_standalone) {
+    remove_configs = [
+      "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
+    ]
+  }
 
   if (crashpad_is_win) {
     libs = [ "ws2_32.lib" ]

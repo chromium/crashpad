@@ -125,7 +125,13 @@ static_library("test") {
   }
 
   if (crashpad_is_fuchsia) {
-    libs = [ "launchpad" ]
+    if (crashpad_is_in_fuchsia) {
+      deps += [
+        "//zircon/public/lib/launchpad",
+      ]
+    } else {
+      libs = [ "launchpad" ]
+    }
   }
 }
 
