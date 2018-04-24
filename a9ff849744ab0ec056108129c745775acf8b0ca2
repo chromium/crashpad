@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa73df6a_4f1fed2e",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-24T15:06:56Z",
+      "side": 1,
+      "message": "Do you care about the result of this?",
+      "range": {
+        "startLine": 133,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 14
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f75fe173_4719c41f",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-24T15:06:56Z",
+      "side": 1,
+      "message": "This is documented as taking const void*, so do you need this cast?",
+      "range": {
+        "startLine": 136,
+        "startChar": 15,
+        "endLine": 136,
+        "endChar": 38
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a1c471c_6765eb65",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-24T15:06:56Z",
+      "side": 1,
+      "message": "How about strlen? Clang should be able to turn it into a constant.",
+      "range": {
+        "startLine": 188,
+        "startChar": 26,
+        "endLine": 190,
+        "endChar": 32
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a65f058_e6e3c65a",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-24T15:06:56Z",
+      "side": 1,
+      "message": "Same, strlen() ?",
+      "range": {
+        "startLine": 198,
+        "startChar": 24,
+        "endLine": 198,
+        "endChar": 77
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "781bd4b6_dc0b70c2",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-24T15:06:56Z",
+      "side": 1,
+      "message": "Perhaps a #pragma pack is warranted here?",
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec6d381b_764678cd",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-24T15:06:56Z",
+      "side": 1,
+      "message": "crlf1 is never touched directly. Are we relying below on buf.data[data_bytes] overflowing the write into it?",
+      "range": {
+        "startLine": 230,
+        "startChar": 35,
+        "endLine": 230,
+        "endChar": 63
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a6e819a_ebc7473d",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-24T15:06:56Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem terribly efficient from a syscall perspective, but I also understand not wanting to manually buffer the read result.",
+      "range": {
+        "startLine": 280,
+        "startChar": 8,
+        "endLine": 280,
+        "endChar": 47
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46ec8561_d55ae3a0",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-24T15:06:56Z",
+      "side": 1,
+      "message": "strlen() here? If not strlen, then why not arraysize above?",
+      "range": {
+        "startLine": 302,
+        "startChar": 44,
+        "endLine": 302,
+        "endChar": 67
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d927ae8_1d28b3c7",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-24T15:06:56Z",
+      "side": 1,
+      "message": "return false here ?",
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
