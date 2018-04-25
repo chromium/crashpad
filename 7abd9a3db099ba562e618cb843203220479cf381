@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f5d04e31_e37fe6de",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-25T23:21:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37e3db4f_45628be2",
+      "revId": "7abd9a3db099ba562e618cb843203220479cf381",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bca26cf0_7155435e",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 20
@@ -30,6 +48,30 @@
       "writtenOn": "2018-04-25T23:07:56Z",
       "side": 1,
       "message": "You could combine use of kEndOfHeaders and kTerminatingCRLFSize and then storing it in .data ?",
+      "range": {
+        "startLine": 188,
+        "startChar": 30,
+        "endLine": 188,
+        "endChar": 43
+      },
+      "revId": "7abd9a3db099ba562e618cb843203220479cf381",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd7004b7_8b00d188",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-25T23:21:08Z",
+      "side": 1,
+      "message": "Done (I think that\u0027s what you meant?)",
+      "parentUuid": "bca26cf0_7155435e",
       "range": {
         "startLine": 188,
         "startChar": 30,
@@ -62,6 +104,30 @@
       "revId": "7abd9a3db099ba562e618cb843203220479cf381",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0ac6683_0b717b25",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-25T23:21:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "304183d9_661d1005",
+      "range": {
+        "startLine": 306,
+        "startChar": 16,
+        "endLine": 306,
+        "endChar": 22
+      },
+      "revId": "7abd9a3db099ba562e618cb843203220479cf381",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
