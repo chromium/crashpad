@@ -344,6 +344,30 @@
     },
     {
       "key": {
+        "uuid": "339c6054_9fef208c",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-25T15:29:37Z",
+      "side": 1,
+      "message": "Ha! Well I asked around in Chat and both dcheng@ and jyasskin@ think this counts as undefined behavior (accessing off the end of an array).\n\nAs an alternative, could we just use a std::string, resize it, and then push_back the \\r\\n ?",
+      "parentUuid": "3c69d845_92f0be18",
+      "range": {
+        "startLine": 230,
+        "startChar": 35,
+        "endLine": 230,
+        "endChar": 63
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a6e819a_ebc7473d",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 16
