@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37e3db4f_45628be2",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-25T23:07:56Z",
+      "side": 1,
+      "message": "Add a comment about why we set the socket to nonblocking before connect() ?",
+      "revId": "7abd9a3db099ba562e618cb843203220479cf381",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bca26cf0_7155435e",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-25T23:07:56Z",
+      "side": 1,
+      "message": "You could combine use of kEndOfHeaders and kTerminatingCRLFSize and then storing it in .data ?",
+      "range": {
+        "startLine": 188,
+        "startChar": 30,
+        "endLine": 188,
+        "endChar": 43
+      },
+      "revId": "7abd9a3db099ba562e618cb843203220479cf381",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "304183d9_661d1005",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-04-25T23:07:56Z",
+      "side": 1,
+      "message": "Could use a crlf constant here, too.",
+      "range": {
+        "startLine": 306,
+        "startChar": 16,
+        "endLine": 306,
+        "endChar": 22
+      },
+      "revId": "7abd9a3db099ba562e618cb843203220479cf381",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
