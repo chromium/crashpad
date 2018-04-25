@@ -368,6 +368,30 @@
     },
     {
       "key": {
+        "uuid": "de09d9f5_4a08dd92",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-25T17:30:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "339c6054_9fef208c",
+      "range": {
+        "startLine": 230,
+        "startChar": 35,
+        "endLine": 230,
+        "endChar": 63
+      },
+      "revId": "a9ff849744ab0ec056108129c745775acf8b0ca2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a6e819a_ebc7473d",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 16
