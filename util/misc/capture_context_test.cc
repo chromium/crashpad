@@ -76,7 +76,7 @@ void TestCaptureContext() {
                         reinterpret_cast<uintptr_t>(&sp)));
   sp = StackPointerFromContext(context_1);
   EXPECT_PRED2([](uintptr_t actual,
-                  uintptr_t reference) { return reference - actual < 512u; },
+                  uintptr_t reference) { return reference - actual < 768u; },
                sp,
                kReferenceSP);
 
