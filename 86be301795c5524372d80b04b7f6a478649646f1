@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c33c54ef_eefbbf41",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-26T21:44:57Z",
+      "side": 1,
+      "message": "This being in a anonymous namespace makes it static implicitly.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 6
+      },
+      "revId": "86be301795c5524372d80b04b7f6a478649646f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66926785_7e34ca97",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-26T21:44:57Z",
+      "side": 1,
+      "message": "`struct` isn\u0027t necessary since it\u0027s not ambiguous.",
+      "range": {
+        "startLine": 53,
+        "startChar": 9,
+        "endLine": 53,
+        "endChar": 15
+      },
+      "revId": "86be301795c5524372d80b04b7f6a478649646f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cabb024_a80b123a",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-26T21:44:57Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 8
+      },
+      "revId": "86be301795c5524372d80b04b7f6a478649646f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f346c2a8_a061d2af",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-26T21:44:57Z",
+      "side": 1,
+      "message": "static isn\u0027t necessary here since it\u0027s only used by value. We use static for constexpr char[] declared in function scope because otherwise C++ requires* copying the string at each invocation.\n\n*According to Mark, gcc does this, but Clang does not, yet.",
+      "range": {
+        "startLine": 63,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 8
+      },
+      "revId": "86be301795c5524372d80b04b7f6a478649646f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "559a451b_80108b9d",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-26T21:44:57Z",
+      "side": 1,
+      "message": "We normally omit the else if all the other paths return something.",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 8
+      },
+      "revId": "86be301795c5524372d80b04b7f6a478649646f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5732c9b_664f8e4b",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-26T21:44:57Z",
+      "side": 1,
+      "message": "You could put the result directly into a ScopedFD and then check is_valid()",
+      "range": {
+        "startLine": 130,
+        "startChar": 15,
+        "endLine": 130,
+        "endChar": 23
+      },
+      "revId": "86be301795c5524372d80b04b7f6a478649646f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38467456_36cc3fad",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-26T21:44:57Z",
+      "side": 1,
+      "message": "It\u0027d be a shame to lose that errno!",
+      "range": {
+        "startLine": 145,
+        "startChar": 10,
+        "endLine": 145,
+        "endChar": 33
+      },
+      "revId": "86be301795c5524372d80b04b7f6a478649646f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72ef888d_482bf6f4",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-26T21:44:57Z",
+      "side": 1,
+      "message": "Optional:\nThis loop might be simpler structured as:\n\nsize_t data_bytes;\nwhile (AssignIfInRange(\u0026data_bytes, body_stream-\u003eGetBytesBuffer(...))) {\n  if (data_bytes \u003d\u003d 0) {\n    return true;\n  }\n}\nreturn false;\n\nIt eliminates the need for DCHECKS, casting data_bytes around, and skipping zero-length writes.",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 6
+      },
+      "revId": "86be301795c5524372d80b04b7f6a478649646f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7d0d60e_11eef05f",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-26T21:44:57Z",
+      "side": 1,
+      "message": "If you do re-organize the loop with a size_t data_bytes, this can be \"%08zx\".",
+      "range": {
+        "startLine": 230,
+        "startChar": 37,
+        "endLine": 230,
+        "endChar": 38
+      },
+      "revId": "86be301795c5524372d80b04b7f6a478649646f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46f39baa_ee959b2d",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-26T21:44:57Z",
+      "side": 1,
+      "message": "This looks equivalent to \"return ReadFileExactly(sock, \u0026body[0], len)\"",
+      "range": {
+        "startLine": 325,
+        "startChar": 0,
+        "endLine": 334,
+        "endChar": 14
+      },
+      "revId": "86be301795c5524372d80b04b7f6a478649646f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23b91029_684b4755",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-26T21:44:57Z",
+      "side": 1,
+      "message": "else isn\u0027t necessary",
+      "range": {
+        "startLine": 366,
+        "startChar": 4,
+        "endLine": 366,
+        "endChar": 9
+      },
+      "revId": "86be301795c5524372d80b04b7f6a478649646f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
