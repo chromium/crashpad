@@ -331,6 +331,30 @@
     },
     {
       "key": {
+        "uuid": "c0088565_ab1ab7f5",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-26T23:54:59Z",
+      "side": 1,
+      "message": "I\u0027d probably just go with:\n\nif (HANDLE_EINTR(connect) \u003c 0) {\n  if (errno !\u003d EINPROGRESS) {\n    PLOG(ERROR) \u003c\u003c \"connect\";\n  } else if (Wait()) {\n    return result;\n  }\n  return ScopedFD();\n}\n\nIt may not be maximally terse, but it reads easy and puts the right error messages in all the right places.",
+      "parentUuid": "bc161f8e_e2b03160",
+      "range": {
+        "startLine": 145,
+        "startChar": 10,
+        "endLine": 145,
+        "endChar": 33
+      },
+      "revId": "86be301795c5524372d80b04b7f6a478649646f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72ef888d_482bf6f4",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 21
@@ -366,6 +390,30 @@
       "side": 1,
       "message": "I\u0027m not sure if I understood your suggestion. The slightly tricky part is that for chunked only, we need a write a zero-length chunk at the end.",
       "parentUuid": "72ef888d_482bf6f4",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 6
+      },
+      "revId": "86be301795c5524372d80b04b7f6a478649646f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b6886af_709b213a",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-04-26T23:54:59Z",
+      "side": 1,
+      "message": "Ah, I see. I must\u0027ve elided write_size and data_bytes.",
+      "parentUuid": "e4ab59aa_ede5fb14",
       "range": {
         "startLine": 198,
         "startChar": 2,
