@@ -128,6 +128,46 @@ CAPTURECONTEXT_SYMBOL:
 
 #elif defined(__aarch64__)
 
-  #error TODO implement
+  // Zero out fault_address, which is unused.
+  str x31, [x0, #0xb0]  // context->uc_mcontext.fault_address
+
+  // Save general purpose registers in context->uc_mcontext.regs[i].
+  // The original x0 can't be recovered.
+  stp x0, x1, [x0, #0xb8]
+  stp x2, x3, [x0, #0xc8]
+  stp x4, x5, [x0, #0xd8]
+  stp x6, x7, [x0, #0xe8]
+  stp x8, x9, [x0, #0xf8]
+  stp x10, x11, [x0, #0x108]
+  stp x12, x13, [x0, #0x118]
+  stp x14, x15, [x0, #0x128]
+  stp x16, x17, [x0, #0x138]
+  stp x18, x19, [x0, #0x148]
+  stp x20, x21, [x0, #0x158]
+  stp x22, x23, [x0, #0x168]
+  stp x24, x25, [x0, #0x178]
+  stp x26, x27, [x0, #0x188]
+  stp x28, x29, [x0, #0x198]
+
+  // The original LR can't be recovered.
+  str LR, [x0, #0x1a8]
+
+  // Use x1 as a scratch register.
+  mov x1, SP
+  str x1, [x0, #0x1b0] // context->uc_mcontext.sp
+
+  // The link register holds the return address for this function.
+  str LR, [x0, #0x1b8]  // context->uc_mcontext.pc
+
+  // NZCV, pstate, and CPSR are synonyms.
+  mrs x1, NZCV
+  str x1, [x0, #0x1c0]  // context->uc_mcontext.pstate
+
+  // Restore x1 from the saved context.
+  ldr x1, [x0, #0xc0]
+
+  // TODO(scottmg): save floating-point registers.
+
+  ret
 
 #endif  // __x86_64__
