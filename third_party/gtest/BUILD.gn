@@ -50,6 +50,14 @@ if (crashpad_is_in_chromium) {
 
   config("gtest_public_config") {
     include_dirs = [ "gtest/googletest/include" ]
+    if (crashpad_is_win) {
+      # Suppresses warning C4309: 'static_cast': truncation of constant value
+      # in gtest-port_test.cc. This is fixed closer to HEAD, but then building
+      # without RTTI is broken https://github.com/google/googletest/issues/1554
+      # so this is a relatively straightforward way of getting a working build
+      # for now.
+      cflags = [ "/wd4309" ]
+    }
   }
 
   static_library("gtest") {
