@@ -60,6 +60,9 @@ TEST(ProcessReaderFuchsia, SelfBasic) {
 constexpr char kTestMemory[] = "Read me from another process";
 
 CRASHPAD_CHILD_TEST_MAIN(ProcessReaderBasicChildTestMain) {
+  zx_vaddr_t addr = reinterpret_cast<zx_vaddr_t>(kTestMemory);
+  CheckedWriteFile(
+      StdioFileHandle(StdioStream::kStandardOutput), &addr, sizeof(addr));
   CheckedReadFileAtEOF(StdioFileHandle(StdioStream::kStandardInput));
   return 0;
 }
@@ -74,11 +77,13 @@ class BasicChildTest : public MultiprocessExec {
  private:
   void MultiprocessParent() override {
     ProcessReaderFuchsia process_reader;
-    ASSERT_TRUE(process_reader.Initialize(zx_process_self()));
+    ASSERT_TRUE(process_reader.Initialize(ChildProcess()));
+
+    zx_vaddr_t addr;
+    ASSERT_TRUE(ReadFileExactly(ReadPipeHandle(), &addr, sizeof(addr)));
 
     std::string read_string;
-    ASSERT_TRUE(process_reader.Memory()->ReadCString(
-        reinterpret_cast<zx_vaddr_t>(kTestMemory), &read_string));
+    ASSERT_TRUE(process_reader.Memory()->ReadCString(addr, &read_string));
     EXPECT_EQ(read_string, kTestMemory);
   }
 
