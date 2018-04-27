@@ -368,10 +368,7 @@ bool ReadResponse(int sock, std::string* response_body) {
     chunked = true;
   }
   if (!chunked) {
-    // TODO(scottmg): https://crashpad.chromium.org/bug/196. Doesn't happen
-    // in practice, but is possible.
-    LOG(ERROR) << "unimplemented non-chunked without Content-Length";
-    return false;
+    return LoggingReadToEOF(sock, response_body);
   }
 
   return ReadContentChunked(sock, response_body);

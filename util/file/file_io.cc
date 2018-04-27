@@ -156,12 +156,7 @@ void CheckedReadFileAtEOF(FileHandle file) {
   }
 }
 
-bool LoggingReadEntireFile(const base::FilePath& path, std::string* contents) {
-  ScopedFileHandle handle(LoggingOpenFileForRead(path));
-  if (!handle.is_valid()) {
-    return false;
-  }
-
+bool LoggingReadToEOF(FileHandle file) {
   char buffer[4096];
   FileOperationResult rv;
   std::string local_contents;
@@ -175,6 +170,15 @@ bool LoggingReadEntireFile(const base::FilePath& path, std::string* contents) {
   }
   contents->swap(local_contents);
   return true;
+}
+
+bool LoggingReadEntireFile(const base::FilePath& path, std::string* contents) {
+  ScopedFileHandle handle(LoggingOpenFileForRead(path));
+  if (!handle.is_valid()) {
+    return false;
+  }
+
+  return LoggingReadToEOF(handle.get(), contents);
 }
 
 void CheckedCloseFile(FileHandle file) {
