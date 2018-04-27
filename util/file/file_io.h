@@ -318,7 +318,13 @@ void CheckedWriteFile(FileHandle file, const void* buffer, size_t size);
 //! \sa ReadFile
 void CheckedReadFileAtEOF(FileHandle file);
 
-//! brief Wraps LoggingOpenFileForRead() and ReadFile() reading the entire file
+//! \brief Wraps ReadFile() to read from the current file position to the end of
+//!     the file into \a contents.
+//!
+//! \return `true` on success, or `false` with a message logged.
+bool LoggingReadToEOF(FileHandle file, std::string* contents);
+
+//! \brief Wraps LoggingOpenFileForRead() and ReadFile() reading the entire file
 //!     into \a contents.
 //!
 //! \return `true` on success, or `false` with a message logged.
