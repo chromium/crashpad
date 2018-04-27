@@ -175,7 +175,6 @@
         'net/http_multipart_builder.h',
         'net/http_transport.cc',
         'net/http_transport.h',
-        'net/http_transport_libcurl.cc',
         'net/http_transport_mac.mm',
         'net/http_transport_none.cc',
         'net/http_transport_win.cc',
@@ -383,15 +382,12 @@
           ],
         }],
         ['OS=="linux"', {
-          'link_settings': {
-            'libraries': [
-              '-lcurl',
-            ],
-          },
+          'sources': [
+            'net/http_transport_socket.cc',
+          ],
         }, {  # else: OS!="linux"
           'sources!': [
             'misc/capture_context_linux.S',
-            'net/http_transport_libcurl.cc',
           ],
         }],
         ['OS!="android"', {
