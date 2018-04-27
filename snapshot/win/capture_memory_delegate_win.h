@@ -54,7 +54,8 @@ class CaptureMemoryDelegateWin : public CaptureMemory::Delegate {
   bool ReadMemory(uint64_t at, uint64_t num_bytes, void* into) const override;
   std::vector<CheckedRange<uint64_t>> GetReadableRanges(
       const CheckedRange<uint64_t, uint64_t>& range) const override;
-  void AddNewMemorySnapshot(const CheckedRange<uint64_t, uint64_t>& range);
+  void AddNewMemorySnapshot(
+      const CheckedRange<uint64_t, uint64_t>& range) override;
 
  private:
   CheckedRange<uint64_t, uint64_t> stack_;
