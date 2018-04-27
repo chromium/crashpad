@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "693a43be_4d3cae67",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 23
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-27T00:05:03Z",
+      "side": 1,
+      "message": "Could be useful, done.",
+      "parentUuid": "212541ba_309762a6",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 35
+      },
+      "revId": "619fe1c56ede1c00ace4d4a1439bb7e801497464",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b3c77f62_aac0ea4d",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 23
@@ -45,6 +69,30 @@
       "revId": "619fe1c56ede1c00ace4d4a1439bb7e801497464",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b647396_2856952b",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 23
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-27T00:05:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3c77f62_aac0ea4d",
+      "range": {
+        "startLine": 263,
+        "startChar": 6,
+        "endLine": 263,
+        "endChar": 19
+      },
+      "revId": "619fe1c56ede1c00ace4d4a1439bb7e801497464",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
