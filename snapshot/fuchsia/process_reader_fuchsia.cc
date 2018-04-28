@@ -24,6 +24,57 @@
 
 namespace crashpad {
 
+namespace {
+
+// Based on the thread's SP and the process's memory map, attempts to figure out
+// the stack regions for the thread. Fuchsia's C ABI specifies
+// https://fuchsia.googlesource.com/zircon/+/master/docs/safestack.md so the
+// callstack and locals-that-have-their-address-taken are in two different
+// stacks.
+void GetStackRegions(
+    const zx_thread_state_general_regs_t& regs,
+    const std::vector<zx_info_maps_t>& maps,
+    std::vector<CheckedRange<zx_vaddr_t, size_t>>* stack_regions) {
+  stack_regions->clear();
+
+  uint64_t sp;
+#if defined(ARCH_CPU_X86_64)
+  sp = regs.rsp;
+#elif defined(ARCH_CPU_ARM64)
+  sp = regs.sp;
+#else
+#error Port
+#endif
+
+  zx_info_maps_t range_with_sp = {};
+  for (const auto& m : maps) {
+    CheckedRange<zx_vaddr_t, size_t> range(m.base, m.size);
+    if (range.ContainsValue(sp)) {
+      if (m.depth > range_with_sp.depth) {
+        range_with_sp = m;
+      }
+    }
+  }
+
+  if (range_with_sp.type != ZX_INFO_MAPS_TYPE_MAPPING) {
+    LOG(ERROR) << "stack range has unexpected type, continuing anyway";
+  }
+
+  if (range_with_sp.u.mapping.mmu_flags & ZX_VM_FLAG_PERM_EXECUTE) {
+    LOG(ERROR)
+        << "stack range is unexpectedly marked executable, continuing anyway";
+  }
+
+  stack_regions->push_back(
+      CheckedRange<zx_vaddr_t, size_t>(range_with_sp.base, range_with_sp.size));
+
+  // TODO(scottmg): https://crashpad.chromium.org/bug/196, once the retrievable
+  // registers include FS and similar for ARM, retrieve the region for the
+  // unsafe part of the stack too.
+}
+
+}  // namespace
+
 ProcessReaderFuchsia::Module::Module() = default;
 
 ProcessReaderFuchsia::Module::~Module() = default;
@@ -43,6 +94,8 @@ bool ProcessReaderFuchsia::Initialize(zx_handle_t process) {
 
   process_memory_.reset(new ProcessMemoryFuchsia());
   process_memory_->Initialize(process_);
+
+  InitializeMaps();
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -68,6 +121,35 @@ ProcessReaderFuchsia::Threads() {
   }
 
   return threads_;
+}
+
+bool ProcessReaderFuchsia::InitializeMaps() {
+  process_maps_.resize(4096);
+  int tries = 5;
+  for (;;) {
+    size_t actual;
+    size_t available;
+    zx_status_t status =
+        zx_object_get_info(process_,
+                           ZX_INFO_PROCESS_MAPS,
+                           &process_maps_[0],
+                           process_maps_.size() * sizeof(process_maps_[0]),
+                           &actual,
+                           &available);
+    if (status != ZX_OK) {
+      ZX_LOG(ERROR, status) << "zx_object_get_info ZX_INFO_PROCESS_MAPS";
+      process_maps_.clear();
+      return false;
+    }
+    if (actual < available && tries-- > 0) {
+      process_maps_.resize(available + 20);
+      continue;
+    }
+
+    process_maps_.resize(actual);
+
+    return true;
+  }
 }
 
 void ProcessReaderFuchsia::InitializeModules() {
@@ -232,6 +314,8 @@ void ProcessReaderFuchsia::InitializeThreads() {
         ZX_LOG(WARNING, status) << "zx_thread_read_state";
       } else {
         thread.general_registers = regs;
+
+        GetStackRegions(regs, process_maps_, &thread.stack_regions);
       }
     }
 
