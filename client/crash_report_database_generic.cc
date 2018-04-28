@@ -30,22 +30,6 @@ namespace crashpad {
 
 namespace {
 
-// Reads from the current file position to EOF and returns as a string of bytes.
-bool ReadRestOfFileAsString(FileHandle handle, std::string* contents) {
-  char buffer[4096];
-  FileOperationResult rv;
-  std::string local_contents;
-  while ((rv = ReadFile(handle, buffer, sizeof(buffer))) > 0) {
-    local_contents.append(buffer, rv);
-  }
-  if (rv < 0) {
-    PLOG(ERROR) << "ReadFile";
-    return false;
-  }
-  contents->swap(local_contents);
-  return true;
-}
-
 base::FilePath ReplaceFinalExtension(
     const base::FilePath& path,
     const base::FilePath::StringType extension) {
@@ -768,7 +752,7 @@ bool CrashReportDatabaseGeneric::ReadMetadata(const base::FilePath& path,
     return false;
   }
 
-  if (!ReadRestOfFileAsString(handle.get(), &report->id)) {
+  if (!LoggingReadToEOF(handle.get(), &report->id)) {
     return false;
   }
 
