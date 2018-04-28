@@ -14,6 +14,8 @@
 
 #include "snapshot/elf/module_snapshot_elf.h"
 
+#include <arpa/inet.h>
+
 #include <algorithm>
 
 #include "base/files/file_path.h"
@@ -144,6 +146,9 @@ void ModuleSnapshotElf::UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const {
   notes->NextNote(nullptr, nullptr, &desc);
   desc.insert(desc.end(), 16 - std::min(desc.size(), size_t{16}), '\0');
   uuid->InitializeFromBytes(reinterpret_cast<const uint8_t*>(&desc[0]));
+  uuid->data_1 = htonl(uuid->data_1);
+  uuid->data_2 = htons(uuid->data_2);
+  uuid->data_3 = htons(uuid->data_3);
 }
 
 std::string ModuleSnapshotElf::DebugFileName() const {
