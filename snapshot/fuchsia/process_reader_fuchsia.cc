@@ -24,6 +24,53 @@
 
 namespace crashpad {
 
+namespace {
+
+// Based on the thread's SP and the process's memory map, attempts to figure out
+// the stack regions for the thread. Fuchsia's C ABI specifies
+// https://fuchsia.googlesource.com/zircon/+/master/docs/safestack.md so the
+// callstack and locals-that-have-their-address-taken are in two different
+// stacks.
+void GetStackRegions(
+    const zx_thread_state_general_regs_t& regs,
+    const MemoryMapFuchsia& memory_map,
+    std::vector<CheckedRange<zx_vaddr_t, size_t>>* stack_regions) {
+  stack_regions->clear();
+
+  uint64_t sp;
+#if defined(ARCH_CPU_X86_64)
+  sp = regs.rsp;
+#elif defined(ARCH_CPU_ARM64)
+  sp = regs.sp;
+#else
+#error Port
+#endif
+
+  zx_info_maps_t range_with_sp;
+  if (!memory_map.FindMappingForAddress(sp, &range_with_sp)) {
+    LOG(ERROR) << "stack pointer not found in mapping";
+    return;
+  }
+
+  if (range_with_sp.type != ZX_INFO_MAPS_TYPE_MAPPING) {
+    LOG(ERROR) << "stack range has unexpected type, continuing anyway";
+  }
+
+  if (range_with_sp.u.mapping.mmu_flags & ZX_VM_FLAG_PERM_EXECUTE) {
+    LOG(ERROR)
+        << "stack range is unexpectedly marked executable, continuing anyway";
+  }
+
+  stack_regions->push_back(
+      CheckedRange<zx_vaddr_t, size_t>(range_with_sp.base, range_with_sp.size));
+
+  // TODO(scottmg): https://crashpad.chromium.org/bug/196, once the retrievable
+  // registers include FS and similar for ARM, retrieve the region for the
+  // unsafe part of the stack too.
+}
+
+}  // namespace
+
 ProcessReaderFuchsia::Module::Module() = default;
 
 ProcessReaderFuchsia::Module::~Module() = default;
@@ -43,6 +90,8 @@ bool ProcessReaderFuchsia::Initialize(zx_handle_t process) {
 
   process_memory_.reset(new ProcessMemoryFuchsia());
   process_memory_->Initialize(process_);
+
+  memory_map_.Initialize(process_);
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -232,6 +281,8 @@ void ProcessReaderFuchsia::InitializeThreads() {
         ZX_LOG(WARNING, status) << "zx_thread_read_state";
       } else {
         thread.general_registers = regs;
+
+        GetStackRegions(regs, memory_map_, &thread.stack_regions);
       }
     }
 

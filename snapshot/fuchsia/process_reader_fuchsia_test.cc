@@ -14,11 +14,13 @@
 
 #include "snapshot/fuchsia/process_reader_fuchsia.h"
 
+#include <pthread.h>
 #include <zircon/process.h>
 #include <zircon/syscalls.h>
 
 #include "gtest/gtest.h"
 #include "test/multiprocess_exec.h"
+#include "util/fuchsia/scoped_task_suspend.h"
 
 namespace crashpad {
 namespace test {
@@ -92,6 +94,72 @@ class BasicChildTest : public MultiprocessExec {
 
 TEST(ProcessReaderFuchsia, ChildBasic) {
   BasicChildTest test;
+  test.Run();
+}
+
+void* SignalAndSleep(void* arg) {
+  zx_object_signal(*reinterpret_cast<zx_handle_t*>(arg), 0, ZX_EVENT_SIGNALED);
+  zx_nanosleep(UINT64_MAX);
+  return nullptr;
+}
+
+CRASHPAD_CHILD_TEST_MAIN(ProcessReaderChildThreadsTestMain) {
+  // Create 5 threads with stack sizes of 4096, 8192, ...
+  zx_handle_t events[5];
+  zx_wait_item_t items[arraysize(events)];
+  for (size_t i = 0; i < arraysize(events); ++i) {
+    pthread_t thread;
+    EXPECT_EQ(zx_event_create(0, &events[i]), ZX_OK);
+    pthread_attr_t attr;
+    EXPECT_EQ(pthread_attr_init(&attr), 0);
+    EXPECT_EQ(pthread_attr_setstacksize(&attr, (i + 1) * 4096), 0);
+    EXPECT_EQ(pthread_create(&thread, &attr, &SignalAndSleep, &events[i]), 0);
+    items[i].waitfor = ZX_EVENT_SIGNALED;
+    items[i].handle = events[i];
+  }
+
+  EXPECT_EQ(zx_object_wait_many(items, arraysize(items), ZX_TIME_INFINITE),
+            ZX_OK);
+
+  char c = ' ';
+  CheckedWriteFile(
+      StdioFileHandle(StdioStream::kStandardOutput), &c, sizeof(c));
+  CheckedReadFileAtEOF(StdioFileHandle(StdioStream::kStandardInput));
+  return 0;
+}
+
+class ThreadsChildTest : public MultiprocessExec {
+ public:
+  ThreadsChildTest() : MultiprocessExec() {
+    SetChildTestMainFunction("ProcessReaderChildThreadsTestMain");
+  }
+  ~ThreadsChildTest() {}
+
+ private:
+  void MultiprocessParent() override {
+    char c;
+    ASSERT_TRUE(ReadFileExactly(ReadPipeHandle(), &c, 1));
+    ASSERT_EQ(c, ' ');
+
+    ScopedTaskSuspend suspend(ChildProcess());
+
+    ProcessReaderFuchsia process_reader;
+    ASSERT_TRUE(process_reader.Initialize(ChildProcess()));
+
+    const auto& threads = process_reader.Threads();
+    EXPECT_EQ(threads.size(), 6u);
+
+    for (size_t i = 1; i < 6; ++i) {
+      ASSERT_GT(threads[i].stack_regions.size(), 0u);
+      EXPECT_EQ(threads[i].stack_regions[0].size(), i * 4096u);
+    }
+  }
+
+  DISALLOW_COPY_AND_ASSIGN(ThreadsChildTest);
+};
+
+TEST(ProcessReaderFuchsia, ChildThreads) {
+  ThreadsChildTest test;
   test.Run();
 }
 
