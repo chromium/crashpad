@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "981e3cdc_3291c91e",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2018-04-30T17:26:17Z",
+      "side": 1,
+      "message": "just curious, where do the logs go on Fuchsia?",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "5c363c48c890f7472a50304b53aa23c3fd0cbd6d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29afa82d_d9606767",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2018-04-30T17:26:17Z",
+      "side": 1,
+      "message": "comment and/or symbolic constant to explain the meaning of 5 and 4096 above?",
+      "range": {
+        "startLine": 128,
+        "startChar": 14,
+        "endLine": 128,
+        "endChar": 16
+      },
+      "revId": "5c363c48c890f7472a50304b53aa23c3fd0cbd6d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cabd149e_49628c73",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2018-04-30T17:26:17Z",
+      "side": 1,
+      "message": "pls initialize both",
+      "range": {
+        "startLine": 130,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 21
+      },
+      "revId": "5c363c48c890f7472a50304b53aa23c3fd0cbd6d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef95e2ff_d8d5f3b0",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2018-04-30T17:26:17Z",
+      "side": 1,
+      "message": "comment explaining why 20?",
+      "range": {
+        "startLine": 145,
+        "startChar": 39,
+        "endLine": 145,
+        "endChar": 41
+      },
+      "revId": "5c363c48c890f7472a50304b53aa23c3fd0cbd6d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
