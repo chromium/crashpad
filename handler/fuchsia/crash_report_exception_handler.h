@@ -68,6 +68,11 @@ class CrashReportExceptionHandler {
   bool HandleException(uint32_t type, uint64_t pid, uint64_t tid);
 
  private:
+  CrashReportDatabase* database_;  // weak
+  CrashReportUploadThread* upload_thread_;  // weak
+  const std::map<std::string, std::string>* process_annotations_;  // weak
+  const UserStreamDataSources* user_stream_data_sources_;  // weak
+
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
 };
 

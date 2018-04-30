@@ -49,6 +49,20 @@ class ProcessSnapshotFuchsia : public ProcessSnapshot {
   //!     an appropriate message logged.
   bool Initialize(zx_handle_t process);
 
+  //! \brief Initializes the object's exception.
+  //!
+  //! This populates the data to be returned by Exception(). The parameters may
+  //! be passed directly through from a Zircon exception handler.
+  //!
+  //! This method must not be called until after a successful call to
+  //! Initialize().
+  //!
+  //! \return `true` if the exception information could be initialized, `false`
+  //!     otherwise with an appropriate message logged. When this method returns
+  //!     `false`, the ProcessSnapshotFuchsia object’s validity remains
+  //!     unchanged.
+  bool InitializeException(uint32_t type, uint64_t tid);
+
   //! \brief Returns options from CrashpadInfo structures found in modules in
   //!     the process.
   //!
