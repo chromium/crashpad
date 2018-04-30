@@ -14,6 +14,8 @@
 
 #include "snapshot/elf/module_snapshot_elf.h"
 
+#include <endian.h>
+
 #include <algorithm>
 
 #include "base/files/file_path.h"
@@ -144,6 +146,13 @@ void ModuleSnapshotElf::UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const {
   notes->NextNote(nullptr, nullptr, &desc);
   desc.insert(desc.end(), 16 - std::min(desc.size(), size_t{16}), '\0');
   uuid->InitializeFromBytes(reinterpret_cast<const uint8_t*>(&desc[0]));
+
+  // TODO(scottmg): https://crashpad.chromium.org/bug/229. These are
+  // endian-swapped to match FileID::ConvertIdentifierToUUIDString() in
+  // Breakpad. This is necessary as this identifier is used for symbol lookup.
+  uuid->data_1 = htobe32(uuid->data_1);
+  uuid->data_2 = htobe16(uuid->data_2);
+  uuid->data_3 = htobe16(uuid->data_3);
 }
 
 std::string ModuleSnapshotElf::DebugFileName() const {

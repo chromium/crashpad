@@ -41,8 +41,7 @@ class ProcessReaderFuchsia {
     Module();
     ~Module();
 
-    //! \brief The `ZX_PROP_NAME` of the module. Will be prepended with "app:"
-    //!     for the main executable.
+    //! \brief The `ZX_PROP_NAME` of the module.
     std::string name;
 
     //! \brief An image reader for the module.

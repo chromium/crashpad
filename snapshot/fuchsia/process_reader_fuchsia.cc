@@ -130,7 +130,7 @@ void ProcessReaderFuchsia::InitializeModules() {
   // retrieves (some of) the data into internal structures. It may be worth
   // trying to refactor/upstream some of this into Fuchsia.
 
-  std::string app_name("app:");
+  std::string app_name;
   {
     char name[ZX_MAX_NAME_LEN];
     zx_status_t status =
@@ -140,7 +140,7 @@ void ProcessReaderFuchsia::InitializeModules() {
       return;
     }
 
-    app_name += name;
+    app_name = name;
   }
 
   // Starting from the ld.so's _dl_debug_addr, read the link_map structure and
@@ -204,6 +204,16 @@ void ProcessReaderFuchsia::InitializeModules() {
       // In this case, it could be reasonable to continue on to the next module
       // as this data isn't strictly in the link_map.
       LOG(ERROR) << "ReadCString name";
+    }
+
+    // The vDSO is libzircon.so, but it's not actually loaded normally, it's
+    // injected by the kernel, so doesn't have a normal name. When dump_syms is
+    // run on libzircon.so, it uses that file name, and in order for the crash
+    // server to match symbols both the debug id and the name of the binary have
+    // to match. So, map from "<vDSO>" to "libzircon.so" so that symbol
+    // resolution works correctly.
+    if (dsoname == "<vDSO>") {
+      dsoname = "libzircon.so";
     }
 
     Module module;
