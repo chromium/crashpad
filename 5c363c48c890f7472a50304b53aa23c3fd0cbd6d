@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "31883e62_67c085b3",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-30T17:37:09Z",
+      "side": 1,
+      "message": "It just goes to stderr right now. There is a debuglog API which we might want to have logging.h send (a copy?) to.\n\n`dlog` reads the system log, we\u0027ll likely want to include the tail of that in a crash report stream at some point too, ref: https://fuchsia.googlesource.com/zircon/+/master/system/uapp/dlog/dlog.c.",
+      "parentUuid": "981e3cdc_3291c91e",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "5c363c48c890f7472a50304b53aa23c3fd0cbd6d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29afa82d_d9606767",
         "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2018-04-30T17:26:17Z",
       "side": 1,
       "message": "comment and/or symbolic constant to explain the meaning of 5 and 4096 above?",
+      "range": {
+        "startLine": 128,
+        "startChar": 14,
+        "endLine": 128,
+        "endChar": 16
+      },
+      "revId": "5c363c48c890f7472a50304b53aa23c3fd0cbd6d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c849646c_f710c671",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-30T17:37:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29afa82d_d9606767",
       "range": {
         "startLine": 128,
         "startChar": 14,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "28ff179f_153d1d46",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-30T17:37:09Z",
+      "side": 1,
+      "message": "They\u0027re both for outparams, do we normally value initialize those?",
+      "parentUuid": "cabd149e_49628c73",
+      "range": {
+        "startLine": 130,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 21
+      },
+      "revId": "5c363c48c890f7472a50304b53aa23c3fd0cbd6d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef95e2ff_d8d5f3b0",
         "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2018-04-30T17:26:17Z",
       "side": 1,
       "message": "comment explaining why 20?",
+      "range": {
+        "startLine": 145,
+        "startChar": 39,
+        "endLine": 145,
+        "endChar": 41
+      },
+      "revId": "5c363c48c890f7472a50304b53aa23c3fd0cbd6d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12ab7025_e2dda15c",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-30T17:37:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef95e2ff_d8d5f3b0",
       "range": {
         "startLine": 145,
         "startChar": 39,
