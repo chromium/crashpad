@@ -46,6 +46,30 @@
       "revId": "2e00542a4e396f10b8aee52a2f2cb5e336e0beac",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de833338_f504a0fe",
+        "filename": "snapshot/elf/module_snapshot_elf.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-04-30T20:58:07Z",
+      "side": 1,
+      "message": "OK, sounds good. I guess just keep this in mind when you do try that as it took me a while to figure out why the symbol ids sort of vaguely similar, but were also totally wrong. :)",
+      "parentUuid": "395ab8d3_c663f07b",
+      "range": {
+        "startLine": 150,
+        "startChar": 5,
+        "endLine": 150,
+        "endChar": 57
+      },
+      "revId": "2e00542a4e396f10b8aee52a2f2cb5e336e0beac",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
