@@ -83,8 +83,12 @@
 #include "util/win/initial_client_data.h"
 #include "util/win/session_end_watcher.h"
 #elif defined(OS_FUCHSIA)
+#include <zircon/process.h>
+#include <zircon/processargs.h>
+
 #include "handler/fuchsia/crash_report_exception_handler.h"
 #include "handler/fuchsia/exception_handler_server.h"
+#include "util/fuchsia/exception_port_key.h"
 #elif defined(OS_LINUX)
 #include "handler/linux/crash_report_exception_handler.h"
 #include "handler/linux/exception_handler_server.h"
@@ -390,16 +394,59 @@ void InstallCrashHandler() {
   ALLOW_UNUSED_LOCAL(terminate_handler);
 }
 
-#elif defined(OS_FUCHSIA) || defined(OS_LINUX)
+#elif defined(OS_FUCHSIA)
+
+// These handles are logically "moved" into these variables when retrieved by
+// zx_get_startup_handle(). g_target_process is then leaked until
+// crashpad_handler terminates. g_exception_port is passed to and owned by
+// the ExceptionHandlerServer.
+zx_handle_t g_target_process;
+zx_handle_t g_exception_port;
 
 void InstallCrashHandler() {
+  g_target_process = zx_get_startup_handle(PA_HND(PA_USER0, 0));
+  if (g_target_process == ZX_HANDLE_INVALID) {
+    LOG(ERROR) << "no child handle passed in process handle 0";
+    return;
+  }
+
+  // First, unbind any exception port that was bound for the process already.
+  zx_status_t status = zx_task_bind_exception_port(
+      g_target_process, ZX_HANDLE_INVALID, kExceptionPortKey, 0);
+  if (status != ZX_OK) {
+    ZX_LOG(ERROR, status) << "zx_task_bind_exception_port unbind";
+    return;
+  }
+
+  // TODO(scottmg): Thread for self monitoring here?
+
+  g_exception_port = zx_get_startup_handle(PA_HND(PA_USER0, 1));
+  if (g_exception_port == ZX_HANDLE_INVALID) {
+    LOG(ERROR) << "no exception port passed in process handle 1";
+    return;
+  }
+
+  status = zx_task_bind_exception_port(
+      g_target_process, g_exception_port, kExceptionPortKey, 0);
+  if (status != ZX_OK) {
+    ZX_LOG(ERROR, status) << "zx_task_bind_exception_port;";
+    return;
+  }
+}
+
+void ReinstallCrashHandler() {
   // TODO(scottmg): Fuchsia: https://crashpad.chromium.org/bug/196
+  NOTREACHED();
+}
+
+#elif defined(OS_LINUX)
+
+void InstallCrashHandler() {
   // TODO(jperaza): Linux: https://crashpad.chromium.org/bug/30
   NOTREACHED();
 }
 
 void ReinstallCrashHandler() {
-  // TODO(scottmg): Fuchsia: https://crashpad.chromium.org/bug/196
   // TODO(jperaza): Linux: https://crashpad.chromium.org/bug/30
   NOTREACHED();
 }
@@ -901,7 +948,9 @@ int HandlerMain(int argc,
   if (!options.pipe_name.empty()) {
     exception_handler_server.SetPipeName(base::UTF8ToUTF16(options.pipe_name));
   }
-#elif defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FUCHSIA)
+#elif defined(OS_FUCHSIA)
+  ExceptionHandlerServer exception_handler_server(g_exception_port);
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
   ExceptionHandlerServer exception_handler_server;
 #endif  // OS_MACOSX
 
