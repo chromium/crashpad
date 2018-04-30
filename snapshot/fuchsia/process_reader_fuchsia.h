@@ -23,8 +23,10 @@
 #include "base/macros.h"
 #include "build/build_config.h"
 #include "snapshot/elf/elf_image_reader.h"
+#include "snapshot/fuchsia/memory_map_fuchsia.h"
 #include "snapshot/module_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/numeric/checked_range.h"
 #include "util/process/process_memory_fuchsia.h"
 #include "util/process/process_memory_range.h"
 
@@ -74,6 +76,11 @@ class ProcessReaderFuchsia {
     //! \brief The raw architecture-specific `zx_thread_state_general_regs_t` as
     //!     returned by `zx_thread_read_state()`.
     zx_thread_state_general_regs_t general_registers = {};
+
+    //! \brief The regions representing the stack. The first entry in the vector
+    //!     represents the callstack, and further entries optionally identify
+    //!     other stack data when the thread uses a split stack representation.
+    std::vector<CheckedRange<zx_vaddr_t, size_t>> stack_regions;
   };
 
   ProcessReaderFuchsia();
@@ -114,6 +121,7 @@ class ProcessReaderFuchsia {
   std::vector<std::unique_ptr<ElfImageReader>> module_readers_;
   std::vector<std::unique_ptr<ProcessMemoryRange>> process_memory_ranges_;
   std::unique_ptr<ProcessMemoryFuchsia> process_memory_;
+  MemoryMapFuchsia memory_map_;
   zx_handle_t process_;
   bool initialized_modules_ = false;
   bool initialized_threads_ = false;
