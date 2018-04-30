@@ -107,6 +107,16 @@ if (crashpad_is_mac || crashpad_is_fuchsia) {
   }
 }
 
+if (crashpad_is_fuchsia) {
+  crashpad_executable("crasher") {
+    sources = [
+      "crasher.cc",
+    ]
+
+    libs = [ "zircon" ]
+  }
+}
+
 if (crashpad_is_mac) {
   crashpad_executable("catch_exception_tool") {
     sources = [
