@@ -50,9 +50,14 @@ bool ThreadSnapshotFuchsia::Initialize(
 #error Port.
 #endif
 
-  // TODO(scottmg): https://crashpad.chromium.org/bug/196. Initialize stack_ and
-  // TLS address here. API request for stack range filed upstream at ZX-1748.
-  stack_.Initialize(process_reader, 0, 0);
+  if (thread.stack_regions.empty()) {
+    stack_.Initialize(process_reader, 0, 0);
+  } else {
+    stack_.Initialize(process_reader,
+                      thread.stack_regions[0].base(),
+                      thread.stack_regions[0].size());
+    // TODO(scottmg): Handle split stack by adding other parts to ExtraMemory().
+  }
 
   thread_id_ = thread.id;
 

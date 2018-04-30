@@ -178,6 +178,8 @@ static_library("snapshot") {
     sources += [
       "fuchsia/cpu_context_fuchsia.cc",
       "fuchsia/cpu_context_fuchsia.h",
+      "fuchsia/memory_map_fuchsia.cc",
+      "fuchsia/memory_map_fuchsia.h",
       "fuchsia/process_reader_fuchsia.cc",
       "fuchsia/process_reader_fuchsia.h",
       "fuchsia/process_snapshot_fuchsia.cc",
