@@ -22,6 +22,30 @@
       "revId": "a387e1b8733d6e0c8eacdb805f7a502c30ea6f63",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feb20fb2_ac9d3639",
+        "filename": "util/fuchsia/exception_port_key.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-01T21:56:07Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean by system level exceptions, do you mean exceptions that are for system processes? Or exception types that are not user-thrown? Either way, I\u0027m not really sure tbh!\n\nI don\u0027t think it\u0027s specifically supposed to be system-only. Right now the only exception handler is crashlogger, and it registers on the root job to dump backtraces to stdout for all processes, and it uses this key.\n\nSo the practical reason I want to use this key is to later add a boot command line flag to have Fuchsia run crashpad_handler at startup instead of running crashlogger, which could then be set for \"shipping\" builds vs. \"local dev\" builds.",
+      "parentUuid": "6517e06a_04e7a0f4",
+      "range": {
+        "startLine": 23,
+        "startChar": 19,
+        "endLine": 23,
+        "endChar": 36
+      },
+      "revId": "a387e1b8733d6e0c8eacdb805f7a502c30ea6f63",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
