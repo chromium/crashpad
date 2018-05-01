@@ -25,10 +25,19 @@
 
 #include "base/files/file_path.h"
 #include "base/logging.h"
+#include "build/build_config.h"
 #include "client/crashpad_client.h"
 #include "tools/tool_support.h"
 #include "util/stdlib/map_insert.h"
 #include "util/string/split_string.h"
+
+#if defined(OS_FUCHSIA)
+#include <launchpad/launchpad.h>
+#include <zircon/process.h>
+#include <zircon/syscalls.h>
+
+#include "base/fuchsia/fuchsia_logging.h"
+#endif
 
 namespace crashpad {
 namespace {
@@ -37,6 +46,13 @@ void Usage(const std::string& me) {
   fprintf(stderr,
 "Usage: %s [OPTION]... COMMAND [ARG]...\n"
 "Start a Crashpad handler and have it handle crashes from COMMAND.\n"
+"\n"
+#if defined(OS_FUCHSIA)
+"COMMAND is run via launchpad, so must be a qualified path to the subprocess to\n"
+"be executed.\n"
+#else
+"COMMAND is run via execvp() so the PATH will be searched.\n"
+#endif
 "\n"
 "  -h, --handler=HANDLER       invoke HANDLER instead of crashpad_handler\n"
 "      --annotation=KEY=VALUE  passed to the handler as an --annotation argument\n"
@@ -173,11 +189,49 @@ int RunWithCrashpadMain(int argc, char* argv[]) {
     return kExitFailure;
   }
 
+#if defined(OS_FUCHSIA)
+  // Fuchsia doesn't implement execvp(), launch with launchpad here.
+  launchpad_t* lp;
+  launchpad_create(zx_job_default(), argv[0], &lp);
+  launchpad_load_from_file(lp, argv[0]);
+  launchpad_set_args(lp, argc, argv);
+  launchpad_clone(lp, LP_CLONE_ALL);
+  const char* error_message;
+  zx_handle_t child;
+  zx_status_t status = launchpad_go(lp, &child, &error_message);
+  if (status != ZX_OK) {
+    ZX_LOG(ERROR, status) << "launchpad_go: " << error_message;
+    return status == ZX_ERR_IO ? kExitExecENOENT : kExitExecFailure;
+  }
+
+  zx_signals_t observed;
+  status = zx_object_wait_one(
+      child, ZX_TASK_TERMINATED, ZX_TIME_INFINITE, &observed);
+  if (status != ZX_OK) {
+    ZX_LOG(ERROR, status) << "zx_object_wait_one";
+    return kExitExecFailure;
+  }
+  if (!(observed & ZX_TASK_TERMINATED)) {
+    LOG(ERROR) << "did not observe ZX_TASK_TERMINATED";
+    return kExitExecFailure;
+  }
+
+  zx_info_process_t proc_info;
+  status = zx_object_get_info(
+      child, ZX_INFO_PROCESS, &proc_info, sizeof(proc_info), nullptr, nullptr);
+  if (status != ZX_OK) {
+    ZX_LOG(ERROR, status) << "zx_object_get_info";
+    return kExitExecFailure;
+  }
+
+  return proc_info.return_code;
+#else
   // Using the remaining arguments, start a new program with the new exception
   // port in effect.
   execvp(argv[0], argv);
   PLOG(ERROR) << "execvp " << argv[0];
   return errno == ENOENT ? kExitExecENOENT : kExitExecFailure;
+#endif
 }
 
 }  // namespace
