@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc2765ec_92701773",
+        "filename": "tools/run_with_crashpad.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-01T20:29:57Z",
+      "side": 1,
+      "message": "execvp will search PATH for matching executables when the input path doesn\u0027t contain a \u0027/\u0027. It\u0027s probably  not worth it at this point to try to do all that here, but maybe a mention of the major differences from the mac version in the help string. In this case, that Fuchsia requires a path argument, rather than a COMMAND.",
+      "range": {
+        "startLine": 188,
+        "startChar": 31,
+        "endLine": 188,
+        "endChar": 38
+      },
+      "revId": "fd951aa4fde44c8c231a02f9b1d3513666028c3b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
