@@ -46,6 +46,11 @@ bool ProcessSnapshotFuchsia::Initialize(zx_handle_t process) {
   return true;
 }
 
+bool ProcessSnapshotFuchsia::InitializeException(uint32_t type, uint64_t tid) {
+  LOG(ERROR) << "TODO InitializeException type=" << type << ", tid=" << tid;
+  return true;
+}
+
 void ProcessSnapshotFuchsia::GetCrashpadOptions(
     CrashpadInfoClientOptions* options) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
