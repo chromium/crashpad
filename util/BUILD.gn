@@ -379,6 +379,7 @@ static_library("util") {
 
   if (crashpad_is_fuchsia) {
     sources += [
+      "fuchsia/system_exception_port_key.h",
       "fuchsia/koid_utilities.cc",
       "fuchsia/koid_utilities.h",
       "fuchsia/scoped_task_suspend.cc",
