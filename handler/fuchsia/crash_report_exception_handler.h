@@ -21,12 +21,13 @@
 #include "base/macros.h"
 #include "client/crash_report_database.h"
 #include "handler/crash_report_upload_thread.h"
+#include "handler/fuchsia/exception_handler_server.h"
 #include "handler/user_stream_data_source.h"
 
 namespace crashpad {
 
 //! \brief An exception handler that writes crash reports for exception messages
-//!     to a CrashReportDatabase. This class is not yet implemented.
+//!     to a CrashReportDatabase.
 class CrashReportExceptionHandler {
  public:
   //! \brief Creates a new object that will store crash reports in \a database.
@@ -56,7 +57,22 @@ class CrashReportExceptionHandler {
 
   ~CrashReportExceptionHandler();
 
+  //! \brief Called when the exception handler server has caught an exception
+  //!     and so wants a crash dump to be taken.
+  //!
+  //! \param[in] type The type of exception, a `ZX_EXCP_*` value from
+  //! `<zircon/syscalls/exception.h>`.
+  //! \param[in] pid The pid koid from `zx_packet_exception_t`.
+  //! \param[in] tid The tid koid from `zx_packet_exception_t`.
+  //! \return `true` on success, or `false` with an error logged.
+  bool HandleException(uint32_t type, uint64_t pid, uint64_t tid);
+
  private:
+  CrashReportDatabase* database_;  // weak
+  CrashReportUploadThread* upload_thread_;  // weak
+  const std::map<std::string, std::string>* process_annotations_;  // weak
+  const UserStreamDataSources* user_stream_data_sources_;  // weak
+
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
 };
 

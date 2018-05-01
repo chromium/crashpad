@@ -37,6 +37,9 @@ On macOS, the exception port is configured to receive exceptions of type
 configured as `EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES`. The thread
 state flavor is set to `MACHINE_THREAD_STATE`.
 
+On Fuchsia, the exception port is bound using a key of `1166444` which matches
+the current adhoc protocol between `devmgr` and `crashlogger` in Zircon.
+
 Programs that use the Crashpad client library directly will not normally use
 this tool. This tool exists to allow programs that are unaware of Crashpad to be
 run with a Crashpad exception handler.
