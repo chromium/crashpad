@@ -91,6 +91,22 @@ crashpad_executable("generate_dump") {
   }
 }
 
+if (crashpad_is_mac || crashpad_is_fuchsia) {
+  crashpad_executable("run_with_crashpad") {
+    sources = [
+      "run_with_crashpad.cc",
+    ]
+
+    deps = [
+      ":tool_support",
+      "../client",
+      "../compat",
+      "../third_party/mini_chromium:base",
+      "../util",
+    ]
+  }
+}
+
 if (crashpad_is_mac) {
   crashpad_executable("catch_exception_tool") {
     sources = [
@@ -142,20 +158,6 @@ if (crashpad_is_mac) {
 
     deps = [
       ":tool_support",
-      "../compat",
-      "../third_party/mini_chromium:base",
-      "../util",
-    ]
-  }
-
-  crashpad_executable("run_with_crashpad") {
-    sources = [
-      "mac/run_with_crashpad.cc",
-    ]
-
-    deps = [
-      ":tool_support",
-      "../client",
       "../compat",
       "../third_party/mini_chromium:base",
       "../util",
