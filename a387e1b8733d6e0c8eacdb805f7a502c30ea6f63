@@ -46,6 +46,30 @@
       "revId": "a387e1b8733d6e0c8eacdb805f7a502c30ea6f63",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e3000ca_fc423164",
+        "filename": "util/fuchsia/exception_port_key.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-01T22:22:07Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure what you mean by system level exceptions, do you mean exceptions that are for system processes? Or exception types that are not user-thrown? Either way, I\u0027m not really sure tbh!\n\nHaha, yeah, the first one.\n\n\u003e \n\u003e I don\u0027t think it\u0027s specifically supposed to be system-only. Right now the only exception handler is crashlogger, and it registers on the root job to dump backtraces to stdout for all processes, and it uses this key.\n\u003e \n\nI think this clarifies it a little. I saw that the exception port was bound to the root job, but I wasn\u0027t sure if that meant it gets exceptions for all child jobs/objects as well.\n\n\u003e So the practical reason I want to use this key is to later add a boot command line flag to have Fuchsia run crashpad_handler at startup instead of running crashlogger, which could then be set for \"shipping\" builds vs. \"local dev\" builds.\n\nI\u0027m also not entirely sure on the appropriate uses for the key. I saw that you can bind a port to multiple objects. Is the key just used to map a packet to a particular binding? Is re-using a key for multiple bindings allowed? I also saw that devmgr passes a pre-bound port to crashlogger:\nhttps://fuchsia.googlesource.com/zircon/+/HEAD/system/core/crashlogger/crashlogger.cpp#570\nwhich made me wonder why crashlogger needs to know the key at all (aside from verifying that it\u0027s receiving packets corresponding to an expected binding).\n\nAnyhoo, the reason I asked is I was wondering if there was a more specific name to use than kExceptionPortKey.",
+      "parentUuid": "feb20fb2_ac9d3639",
+      "range": {
+        "startLine": 23,
+        "startChar": 19,
+        "endLine": 23,
+        "endChar": 36
+      },
+      "revId": "a387e1b8733d6e0c8eacdb805f7a502c30ea6f63",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
