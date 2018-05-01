@@ -200,7 +200,7 @@
             '..',
           ],
           'sources': [
-            'mac/run_with_crashpad.cc',
+            'run_with_crashpad.cc',
           ],
         },
       ],
