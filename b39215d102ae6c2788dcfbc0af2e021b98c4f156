@@ -22,6 +22,30 @@
       "revId": "b39215d102ae6c2788dcfbc0af2e021b98c4f156",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1feb0efd_5b44a182",
+        "filename": "snapshot/fuchsia/exception_snapshot_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-03T20:31:38Z",
+      "side": 1,
+      "message": "Oops, good catch. Done.",
+      "parentUuid": "4a3502b1_e6040d87",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 24
+      },
+      "revId": "b39215d102ae6c2788dcfbc0af2e021b98c4f156",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
