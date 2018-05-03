@@ -14,16 +14,75 @@
 
 #include "handler/fuchsia/exception_handler_server.h"
 
+#include <zircon/syscalls/exception.h>
+#include <zircon/syscalls/port.h>
+
+#include "base/fuchsia/fuchsia_logging.h"
 #include "base/logging.h"
+#include "handler/fuchsia/crash_report_exception_handler.h"
+#include "util/fuchsia/koid_utilities.h"
+#include "util/fuchsia/scoped_task_suspend.h"
+#include "util/fuchsia/system_exception_port_key.h"
 
 namespace crashpad {
 
-ExceptionHandlerServer::ExceptionHandlerServer() {}
+ExceptionHandlerServer::ExceptionHandlerServer(zx_handle_t root_job,
+                                               zx_handle_t exception_port)
+    : root_job_(root_job), exception_port_(exception_port) {}
 
-ExceptionHandlerServer::~ExceptionHandlerServer() {}
+ExceptionHandlerServer::~ExceptionHandlerServer() = default;
 
 void ExceptionHandlerServer::Run(CrashReportExceptionHandler* handler) {
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
+  while (true) {
+    zx_port_packet_t packet;
+    zx_status_t status =
+        zx_port_wait(exception_port_.get(), ZX_TIME_INFINITE, &packet, 1);
+    if (status != ZX_OK) {
+      ZX_LOG(ERROR, status) << "zx_port_wait, aborting";
+      return;
+    }
+
+    if (packet.key != kSystemExceptionPortKey) {
+      LOG(ERROR) << "unexpected packet key, ignoring";
+      continue;
+    }
+
+    // TODO(scottmg): Currently, just use the global helper
+    // GetProcessFromKoid(), but at some point that will probably break. At that
+    // point, root_job_ will need to be used instead to give the search
+    // somewhere to start.
+    base::ScopedZxHandle process(GetProcessFromKoid(packet.exception.pid));
+    if (!process.is_valid()) {
+      LOG(ERROR) << "unable to get process handle for process, ignoring";
+      continue;
+    }
+
+    ScopedTaskSuspend suspend(process.get());
+
+    zx_handle_t thread_raw;
+    status = zx_object_get_child(
+        process.get(), packet.exception.tid, ZX_RIGHT_SAME_RIGHTS, &thread_raw);
+    if (status != ZX_OK) {
+      ZX_LOG(ERROR, status) << "zx_object_get_child thread";
+      continue;
+    }
+    base::ScopedZxHandle thread(thread_raw);
+
+    bool result = handler->HandleException(
+        packet.type, process.get(), thread.get(), packet.exception.tid);
+    if (!result) {
+      LOG(ERROR) << "HandleException failed";
+    }
+
+    // Resuming with ZX_RESUME_TRY_NEXT chains to the next handler. In normal
+    // operation, there won't be another beyond this one, which will result in
+    // the kernel terminating the process.
+    status =
+        zx_task_resume(thread.get(), ZX_RESUME_EXCEPTION | ZX_RESUME_TRY_NEXT);
+    if (status != ZX_OK) {
+      ZX_LOG(ERROR, status) << "zx_task_resume";
+    }
+  }
 }
 
 }  // namespace crashpad

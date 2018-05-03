@@ -15,6 +15,8 @@
 #ifndef CRASHPAD_HANDLER_FUCHSIA_CRASH_REPORT_EXCEPTION_HANDLER_H_
 #define CRASHPAD_HANDLER_FUCHSIA_CRASH_REPORT_EXCEPTION_HANDLER_H_
 
+#include <zircon/types.h>
+
 #include <map>
 #include <string>
 
@@ -55,6 +57,29 @@ class CrashReportExceptionHandler {
       const UserStreamDataSources* user_stream_data_sources);
 
   ~CrashReportExceptionHandler();
+
+  //! \brief Called when the exception handler server has caught an exception
+  //!     and wants a crash dump to be taken.
+  //!
+  //! The process will already have been suspended via ScopedTaskSuspend. \a
+  //! thread and \a tid correspond to the same thread. After this function
+  //! returns, the thread will be `zx_task_resume()`d, regardless of the value
+  //! returned.
+  //!
+  //! \note TODO(scottmg): This is not yet implemented.
+  //!
+  //! \param[in] type The type of exception, a `ZX_EXCP_*` value.
+  //! \param[in] process A handle to the process which sustained the exception.
+  //! \param[in] thread A handle to the thread which sustained the exception.
+  //!     This is the thread identified by \a tid.
+  //! \param[in] tid The tid koid from `zx_packet_exception_t`.
+  //! \return `true` on success, or `false` with an error logged.
+  bool HandleException(uint32_t type,
+                       zx_handle_t process,
+                       zx_handle_t thread,
+                       uint64_t tid) {
+    return false;
+  }
 
  private:
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
