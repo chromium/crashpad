@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78b28f92_0a0aece2",
+        "filename": "snapshot/fuchsia/exception_snapshot_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-03T20:04:22Z",
+      "side": 1,
+      "message": "err_code is a uint64_t. I think it should actually contain a 32-bit error code, but maybe a checked_cast or DCHECK?",
+      "range": {
+        "startLine": 40,
+        "startChar": 59,
+        "endLine": 40,
+        "endChar": 67
+      },
+      "revId": "f31531709da139195e677a14b5cecaf57ddfb472",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff7a89bd_04f27c92",
+        "filename": "snapshot/fuchsia/exception_snapshot_fuchsia.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-03T20:04:22Z",
+      "side": 1,
+      "message": "It looks like this is already included in the exception_report  header?",
+      "range": {
+        "startLine": 50,
+        "startChar": 18,
+        "endLine": 50,
+        "endChar": 41
+      },
+      "revId": "f31531709da139195e677a14b5cecaf57ddfb472",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
