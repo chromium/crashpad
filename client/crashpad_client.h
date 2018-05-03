@@ -31,6 +31,8 @@
 #elif defined(OS_WIN)
 #include <windows.h>
 #include "util/win/scoped_handle.h"
+#elif defined(OS_FUCHSIA)
+#include "base/fuchsia/scoped_zx_handle.h"
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
 #include <signal.h>
 #include <ucontext.h>
@@ -74,6 +76,9 @@ class CrashpadClient {
   //! unhandled exception filter is set up, and all crashes will be handled by
   //! Crashpad. Optionally, use WaitForHandlerStart() to join with the
   //! background thread and retrieve the status of handler startup.
+  //!
+  //! On Fuchsia, this method starts a Crashpad handler and binds to the
+  //! exception port of the process.
   //!
   //! \param[in] handler The path to a Crashpad handler executable.
   //! \param[in] database The path to a Crashpad database. The handler will be
@@ -387,6 +392,8 @@ class CrashpadClient {
 #elif defined(OS_WIN)
   std::wstring ipc_pipe_;
   ScopedKernelHANDLE handler_start_thread_;
+#elif defined(OS_FUCHSIA)
+  base::ScopedZxHandle exception_port_;
 #endif  // OS_MACOSX
 
   DISALLOW_COPY_AND_ASSIGN(CrashpadClient);
