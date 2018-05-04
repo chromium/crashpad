@@ -23,12 +23,13 @@
 #include "base/macros.h"
 #include "client/crash_report_database.h"
 #include "handler/crash_report_upload_thread.h"
+#include "handler/fuchsia/exception_handler_server.h"
 #include "handler/user_stream_data_source.h"
 
 namespace crashpad {
 
 //! \brief An exception handler that writes crash reports for exception messages
-//!     to a CrashReportDatabase. This class is not yet implemented.
+//!     to a CrashReportDatabase.
 class CrashReportExceptionHandler {
  public:
   //! \brief Creates a new object that will store crash reports in \a database.
@@ -67,16 +68,18 @@ class CrashReportExceptionHandler {
   //! \note TODO(scottmg): This is not yet implemented.
   //!
   //! \param[in] type The type of exception, a `ZX_EXCP_*` value.
-  //! \param[in] pid The koid of the process which sustained the exception.
-  //! \param[in] tid The koid of the thread which sustained the exception.
+  //! \param[in] process_id The koid of the process which sustained the
+  //!     exception.
+  //! \param[in] thread_id The koid of the thread which sustained the exception.
   //! \return `true` on success, or `false` with an error logged.
-  bool HandleException(uint32_t type,
-                       uint64_t pid,
-                       uint64_t tid) {
-    return false;
-  }
+  bool HandleException(uint32_t type, uint64_t process_id, uint64_t thread_id);
 
  private:
+  CrashReportDatabase* database_;  // weak
+  CrashReportUploadThread* upload_thread_;  // weak
+  const std::map<std::string, std::string>* process_annotations_;  // weak
+  const UserStreamDataSources* user_stream_data_sources_;  // weak
+
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
 };
 
