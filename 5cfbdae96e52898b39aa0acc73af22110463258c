@@ -284,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "9da0c47d_08bbc263",
+        "filename": "handler/fuchsia/exception_handler_server.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-04T17:50:16Z",
+      "side": 1,
+      "message": "OK, I\u0027ve come around, just passes the raw data from the exception on now. It might need to also pass the the root job handle on eventually, but this is OK for now.",
+      "parentUuid": "752a5c60_3e38923f",
+      "range": {
+        "startLine": 81,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 22
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b41501e8_bb629140",
         "filename": "handler/fuchsia/exception_handler_server.h",
         "patchSetId": 9
