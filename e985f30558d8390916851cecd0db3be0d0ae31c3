@@ -22,6 +22,30 @@
       "revId": "e985f30558d8390916851cecd0db3be0d0ae31c3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b346e2f0_67af298b",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-04T23:50:51Z",
+      "side": 1,
+      "message": "It is! Done",
+      "parentUuid": "7eda60b2_d891e37a",
+      "range": {
+        "startLine": 54,
+        "startChar": 43,
+        "endLine": 54,
+        "endChar": 60
+      },
+      "revId": "e985f30558d8390916851cecd0db3be0d0ae31c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
