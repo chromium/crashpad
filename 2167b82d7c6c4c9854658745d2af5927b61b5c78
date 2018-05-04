@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "41db2b22_e6f3ea22",
+        "filename": "handler/fuchsia/exception_handler_server.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-04T19:21:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0cf922e_f172b488",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 45
+      },
+      "revId": "2167b82d7c6c4c9854658745d2af5927b61b5c78",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47a6fc91_872b2a42",
         "filename": "handler/fuchsia/exception_handler_server.cc",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "26e132e2_9d9ceb1a",
+        "filename": "handler/fuchsia/exception_handler_server.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-04T19:21:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47a6fc91_872b2a42",
+      "range": {
+        "startLine": 32,
+        "startChar": 16,
+        "endLine": 32,
+        "endChar": 26
+      },
+      "revId": "2167b82d7c6c4c9854658745d2af5927b61b5c78",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "159a6427_cd89eaff",
         "filename": "handler/handler_main.cc",
         "patchSetId": 11
@@ -59,6 +107,30 @@
       "writtenOn": "2018-05-04T19:06:41Z",
       "side": 1,
       "message": "These aren\u0027t actually used. Linux and Android already got theirs defined up above, right below the mac version. Mind cleaning them up for me? :D",
+      "range": {
+        "startLine": 409,
+        "startChar": 0,
+        "endLine": 419,
+        "endChar": 1
+      },
+      "revId": "2167b82d7c6c4c9854658745d2af5927b61b5c78",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ccf5f33_a066c8bb",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-04T19:21:27Z",
+      "side": 1,
+      "message": "Whoops! Done",
+      "parentUuid": "159a6427_cd89eaff",
       "range": {
         "startLine": 409,
         "startChar": 0,

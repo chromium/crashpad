@@ -447,6 +447,30 @@
       "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e49f7974_8300e653",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-04T19:21:27Z",
+      "side": 1,
+      "message": "Ah, yeah. Metrics realistically aren\u0027t going to do anything on Fuchsia for the foreseeable future, so I\u0027ll file a separate bug for \"add metrics to fuchsia\".",
+      "parentUuid": "9a5779e0_c7bb01c0",
+      "range": {
+        "startLine": 399,
+        "startChar": 0,
+        "endLine": 401,
+        "endChar": 43
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
