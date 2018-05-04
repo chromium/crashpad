@@ -15,6 +15,7 @@
 #include "snapshot/fuchsia/process_snapshot_fuchsia.h"
 
 #include <zircon/process.h>
+#include <zircon/syscalls/exception.h>
 
 #include "base/logging.h"
 #include "util/fuchsia/koid_utilities.h"
@@ -43,6 +44,28 @@ bool ProcessSnapshotFuchsia::Initialize(zx_handle_t process) {
   InitializeModules();
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
+
+bool ProcessSnapshotFuchsia::InitializeException(zx_handle_t thread_handle,
+                                                 zx_koid_t thread_id) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  zx_exception_report_t report;
+  zx_status_t status = zx_object_get_info(thread_handle,
+                                          ZX_INFO_THREAD_EXCEPTION_REPORT,
+                                          &report,
+                                          sizeof(report),
+                                          nullptr,
+                                          nullptr);
+  if (status != ZX_OK) {
+    ZX_LOG(ERROR, status)
+        << "zx_object_get_info ZX_INFO_THREAD_EXCEPTION_REPORT";
+    return false;
+  }
+
+  exception_.reset(new internal::ExceptionSnapshotFuchsia());
+  exception_->Initialize(&process_reader_, thread_id, report);
   return true;
 }
 
@@ -161,8 +184,7 @@ std::vector<UnloadedModuleSnapshot> ProcessSnapshotFuchsia::UnloadedModules()
 
 const ExceptionSnapshot* ProcessSnapshotFuchsia::Exception() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  // TODO(scottmg): https://crashpad.chromium.org/bug/196
-  return nullptr;
+  return exception_.get();
 }
 
 std::vector<const MemoryMapRegionSnapshot*> ProcessSnapshotFuchsia::MemoryMap()
