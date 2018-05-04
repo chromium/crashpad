@@ -113,17 +113,22 @@ std::vector<base::ScopedZxHandle> GetHandlesForChildKoids(
     const std::vector<zx_koid_t>& koids) {
   std::vector<base::ScopedZxHandle> result;
   result.reserve(koids.size());
-
   for (zx_koid_t koid : koids) {
-    zx_handle_t handle;
-    if (zx_object_get_child(parent, koid, ZX_RIGHT_SAME_RIGHTS, &handle) ==
-        ZX_OK) {
-      result.emplace_back(base::ScopedZxHandle(handle));
-    } else {
-      result.push_back(base::ScopedZxHandle());
-    }
+    result.emplace_back(GetChildHandleByKoid(parent, koid));
   }
   return result;
+}
+
+base::ScopedZxHandle GetChildHandleByKoid(zx_handle_t parent,
+                                          zx_koid_t child_koid) {
+  zx_handle_t handle;
+  zx_status_t status =
+      zx_object_get_child(parent, child_koid, ZX_RIGHT_SAME_RIGHTS, &handle);
+  if (status != ZX_OK) {
+    ZX_LOG(ERROR, status) << "zx_object_get_child";
+    return base::ScopedZxHandle();
+  }
+  return base::ScopedZxHandle(handle);
 }
 
 zx_koid_t GetKoidForHandle(zx_handle_t object) {
