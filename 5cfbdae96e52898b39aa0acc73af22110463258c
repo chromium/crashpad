@@ -308,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "3c62123e_1da69c14",
+        "filename": "handler/fuchsia/exception_handler_server.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-04T19:06:41Z",
+      "side": 1,
+      "message": "PtraceConnection implementations are responsible for detaching threads (which causes them to resume). The PtraceConnection Initialization methods called in Linux\u0027s CrashReportExceptionHandler actually only suspend the main thread since it doesn\u0027t know the other thread IDs yet. The other threads actually get suspended in ProcessReaderLinux::InitializeThreads and remain suspended until the PtraceConnection is destroyed.",
+      "parentUuid": "9da0c47d_08bbc263",
+      "range": {
+        "startLine": 81,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 22
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b41501e8_bb629140",
         "filename": "handler/fuchsia/exception_handler_server.h",
         "patchSetId": 9
@@ -390,6 +414,30 @@
       "side": 1,
       "message": "Oh I\u0027m a dope. (Maybe this file\u0027s getting a bit unwieldy too.)\n\nI agree with your expectation of what will happen. I\u0027m not sure we can do a lot better for the in-process case though, so I guess for now a correct comment?",
       "parentUuid": "3caa63c4_5448c065",
+      "range": {
+        "startLine": 399,
+        "startChar": 0,
+        "endLine": 401,
+        "endChar": 43
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a5779e0_c7bb01c0",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-04T19:06:41Z",
+      "side": 1,
+      "message": "I agree this file is unwieldy. I remember it taking me several read-through\u0027s to figure out what all these pieces were for.\n\nI think the important thing the other handlers do is just record metrics about why we crashed. i.e. calling MetricsRecordExit() and HandlerCrashed(), with a full-blown MonitorSelf() handler being optional.\n\nI\u0027m also cool with this being a TODO.",
+      "parentUuid": "47bcb3ab_7ae3bc15",
       "range": {
         "startLine": 399,
         "startChar": 0,
