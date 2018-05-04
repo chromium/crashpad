@@ -19,6 +19,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "test/gtest_disabled.h"
 #include "test/test_paths.h"
 #include "util/file/file_io.h"
 
@@ -48,6 +49,9 @@ class TestMultiprocessExec final : public MultiprocessExec {
 };
 
 TEST(MultiprocessExec, MultiprocessExec) {
+  if (TestPaths::ExternalFilesUnavailable())
+    DISABLED_TEST();
+
   TestMultiprocessExec multiprocess_exec;
   base::FilePath child_test_executable = TestPaths::BuildArtifact(
       FILE_PATH_LITERAL("test"),
