@@ -20,6 +20,7 @@
 
 #include "gtest/gtest.h"
 #include "test/gtest_death.h"
+#include "test/gtest_disabled.h"
 #include "test/test_paths.h"
 #include "util/net/http_body.h"
 #include "util/net/http_body_test_util.h"
@@ -99,6 +100,9 @@ TEST(HTTPMultipartBuilder, ThreeStringFields) {
 }
 
 TEST(HTTPMultipartBuilder, ThreeFileAttachments) {
+  if (TestPaths::ExternalFilesUnavailable())
+    DISABLED_TEST();
+
   HTTPMultipartBuilder builder;
   base::FilePath ascii_http_body_path = TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
@@ -183,6 +187,9 @@ TEST(HTTPMultipartBuilder, OverwriteFormDataWithEscapedKey) {
 }
 
 TEST(HTTPMultipartBuilder, OverwriteFileAttachment) {
+  if (TestPaths::ExternalFilesUnavailable())
+    DISABLED_TEST();
+
   HTTPMultipartBuilder builder;
   static constexpr char kValue[] = "1 2 3 test";
   builder.SetFormData("a key", kValue);
@@ -241,6 +248,9 @@ TEST(HTTPMultipartBuilder, OverwriteFileAttachment) {
 }
 
 TEST(HTTPMultipartBuilder, SharedFormDataAndAttachmentKeyNamespace) {
+  if (TestPaths::ExternalFilesUnavailable())
+    DISABLED_TEST();
+
   HTTPMultipartBuilder builder;
   static constexpr char kValue1[] = "11111";
   builder.SetFormData("one", kValue1);
