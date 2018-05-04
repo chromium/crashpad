@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1033d6e8_893456ad",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-04T02:04:02Z",
+      "side": 1,
+      "message": "I\u0027m becoming more convinced that this value doesn\u0027t actually matter. As long as Crashpad is creating the port itself, it can choose any key it wants. Nothing else needs to know the key unless Crashpad gives it the port.",
+      "range": {
+        "startLine": 63,
+        "startChar": 46,
+        "endLine": 63,
+        "endChar": 69
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66b1cbb1_73e73295",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-04T02:04:02Z",
+      "side": 1,
+      "message": "no client_argv_handling.h?",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 3
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be7f1a14_7bcf9d26",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-04T02:04:02Z",
+      "side": 1,
+      "message": "an extra \u0027process\u0027?",
+      "range": {
+        "startLine": 106,
+        "startChar": 55,
+        "endLine": 106,
+        "endChar": 63
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f52a05e7_13767ea4",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-04T02:04:02Z",
+      "side": 1,
+      "message": "I happen to know you\u0027re talking about devmgr and crashlogger, but anyone else reading will probably be wondering what the protocol is the same as.",
+      "range": {
+        "startLine": 106,
+        "startChar": 16,
+        "endLine": 106,
+        "endChar": 20
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "335d5a68_cab1c1b5",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-04T02:04:02Z",
+      "side": 1,
+      "message": "Actually, is Crashpad supposed to be \"dropped in\" by replacing all the stuff here:\nhttps://fuchsia.googlesource.com/zircon/+/HEAD/system/core/devmgr/devmgr.c#183\nwith a call to StartHandler()?\n\nIf so, I don\u0027t think there\u0027s any reason we actually have to maintain the same protocol, not that it\u0027s a bad one.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 16
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33124b97_0e2dc301",
+        "filename": "handler/fuchsia/exception_handler_server.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-04T02:04:02Z",
+      "side": 1,
+      "message": "The mac, linux, and win versions handle process suspension in CrashReportExceptionHandler. You\u0027re doing it here for this zx_task_resume()?",
+      "range": {
+        "startLine": 81,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 22
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b41501e8_bb629140",
+        "filename": "handler/fuchsia/exception_handler_server.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-04T02:04:02Z",
+      "side": 1,
+      "message": "Using ScopedZxHandles instead can help clarify ownership and minimizes the time that these handles are unmanaged. We also do similarly with mac and linux\u0027s ExceptionHandlerServers.",
+      "range": {
+        "startLine": 38,
+        "startChar": 25,
+        "endLine": 38,
+        "endChar": 73
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3caa63c4_5448c065",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-04T02:04:02Z",
+      "side": 1,
+      "message": "This is intended to install a crash handler for this process, not the target. I think as things are, crashpad_handler crashes will still get caught by the exception port set up by StartHandler since the handler is part of the same job as the client, but then those exceptions will be handled by ExceptionHandlerServer which might be in a bad state. This would be a corollary to crashlogger\u0027s self_dump_port.",
+      "range": {
+        "startLine": 399,
+        "startChar": 0,
+        "endLine": 401,
+        "endChar": 43
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
