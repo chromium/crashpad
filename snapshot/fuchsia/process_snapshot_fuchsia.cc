@@ -46,6 +46,15 @@ bool ProcessSnapshotFuchsia::Initialize(zx_handle_t process) {
   return true;
 }
 
+bool ProcessSnapshotFuchsia::InitializeException(
+    zx_koid_t thread_id,
+    const zx_exception_report_t& report) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  exception_.reset(new internal::ExceptionSnapshotFuchsia());
+  exception_->Initialize(&process_reader_, thread_id, report);
+  return true;
+}
+
 void ProcessSnapshotFuchsia::GetCrashpadOptions(
     CrashpadInfoClientOptions* options) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
@@ -161,8 +170,7 @@ std::vector<UnloadedModuleSnapshot> ProcessSnapshotFuchsia::UnloadedModules()
 
 const ExceptionSnapshot* ProcessSnapshotFuchsia::Exception() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  // TODO(scottmg): https://crashpad.chromium.org/bug/196
-  return nullptr;
+  return exception_.get();
 }
 
 std::vector<const MemoryMapRegionSnapshot*> ProcessSnapshotFuchsia::MemoryMap()

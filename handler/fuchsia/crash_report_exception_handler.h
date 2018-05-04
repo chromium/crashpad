@@ -26,7 +26,7 @@
 namespace crashpad {
 
 //! \brief An exception handler that writes crash reports for exception messages
-//!     to a CrashReportDatabase. This class is not yet implemented.
+//!     to a CrashReportDatabase.
 class CrashReportExceptionHandler {
  public:
   //! \brief Creates a new object that will store crash reports in \a database.
@@ -56,7 +56,25 @@ class CrashReportExceptionHandler {
 
   ~CrashReportExceptionHandler();
 
+  //! \brief Called when the exception handler server has caught an exception
+  //!     and wants a crash dump to be taken.
+  //!
+  //! This function is expected to call `zx_task_resume()` in order to complete
+  //! handling of the exception.
+  //!
+  //! \param[in] type The type of exception, a `ZX_EXCP_*` value.
+  //! \param[in] process_id The koid of the process which sustained the
+  //!     exception.
+  //! \param[in] thread_id The koid of the thread which sustained the exception.
+  //! \return `true` on success, or `false` with an error logged.
+  bool HandleException(uint32_t type, uint64_t process_id, uint64_t thread_id);
+
  private:
+  CrashReportDatabase* database_;  // weak
+  CrashReportUploadThread* upload_thread_;  // weak
+  const std::map<std::string, std::string>* process_annotations_;  // weak
+  const UserStreamDataSources* user_stream_data_sources_;  // weak
+
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
 };
 
