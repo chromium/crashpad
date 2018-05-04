@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7eda60b2_d891e37a",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-04T23:47:25Z",
+      "side": 1,
+      "message": "nit: it\u0027s a teensy bit weird that the parameter order is reversed between InitializeException() and ExceptionSnapshotFuchsia::Initialize()",
+      "range": {
+        "startLine": 54,
+        "startChar": 43,
+        "endLine": 54,
+        "endChar": 60
+      },
+      "revId": "e985f30558d8390916851cecd0db3be0d0ae31c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
