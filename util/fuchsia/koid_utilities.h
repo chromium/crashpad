@@ -68,6 +68,10 @@ std::vector<base::ScopedZxHandle> GetHandlesForChildKoids(
     zx_handle_t parent,
     const std::vector<zx_koid_t>& koids);
 
+//! XXX
+base::ScopedZxHandle GetChildHandleByKoid(zx_handle_t parent,
+                                          zx_koid_t child_koid);
+
 //! \brief Gets a process handle given the process' koid.
 //!
 //! \param[in] koid The process id.

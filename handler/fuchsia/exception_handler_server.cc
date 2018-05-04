@@ -20,7 +20,6 @@
 #include "base/fuchsia/fuchsia_logging.h"
 #include "base/logging.h"
 #include "handler/fuchsia/crash_report_exception_handler.h"
-#include "util/fuchsia/koid_utilities.h"
 #include "util/fuchsia/scoped_task_suspend.h"
 #include "util/fuchsia/system_exception_port_key.h"
 
