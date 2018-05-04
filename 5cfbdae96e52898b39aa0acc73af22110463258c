@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "43dc86d5_e717b4b2",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-04T17:31:27Z",
+      "side": 1,
+      "message": "Yeah, me too. I think I\u0027ll keep it for now? But maybe the exception handling loop should just entirely ignore the key.",
+      "parentUuid": "1033d6e8_893456ad",
+      "range": {
+        "startLine": 63,
+        "startChar": 46,
+        "endLine": 63,
+        "endChar": 69
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66b1cbb1_73e73295",
         "filename": "client/crashpad_client_fuchsia.cc",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2018-05-04T02:04:02Z",
       "side": 1,
       "message": "no client_argv_handling.h?",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 3
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b63c74f_caf0e8f7",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-04T17:31:27Z",
+      "side": 1,
+      "message": "Hey, look at that! Done.",
+      "parentUuid": "66b1cbb1_73e73295",
       "range": {
         "startLine": 69,
         "startChar": 0,
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "c81d98f3_bc1a2a83",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-04T17:31:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f52a05e7_13767ea4",
+      "range": {
+        "startLine": 106,
+        "startChar": 16,
+        "endLine": 106,
+        "endChar": 20
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1147365c_1abf4381",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-04T17:31:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be7f1a14_7bcf9d26",
+      "range": {
+        "startLine": 106,
+        "startChar": 55,
+        "endLine": 106,
+        "endChar": 63
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "335d5a68_cab1c1b5",
         "filename": "client/crashpad_client_fuchsia.cc",
         "patchSetId": 9
@@ -105,6 +201,30 @@
       "writtenOn": "2018-05-04T02:04:02Z",
       "side": 1,
       "message": "Actually, is Crashpad supposed to be \"dropped in\" by replacing all the stuff here:\nhttps://fuchsia.googlesource.com/zircon/+/HEAD/system/core/devmgr/devmgr.c#183\nwith a call to StartHandler()?\n\nIf so, I don\u0027t think there\u0027s any reason we actually have to maintain the same protocol, not that it\u0027s a bad one.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 16
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02a9f556_b17d92d8",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-04T17:31:27Z",
+      "side": 1,
+      "message": "I was hoping it could be as simple as runtime replacement of the binary, and not require changing the code in devmgr. Or maybe as small as an option to change only the binary name from \"crashlogger\" to \"crashpad_handler\" with a getenv() like is done nearby in that code). I\u0027m not sure about the command line arguments though.\n\nAs for \"why not just change the code?\"... Because Fuchsia builds in layers, and Zircon needs to be able to build standalone, crashlogger will continue to be the exception handler in Zircon-only builds. Zircon is plain C and no-standard-library C++, and so can\u0027t depend on Crashpad. Crashpad will live in the next layer up (Garnet), so for builds that are more than just the kernel, I wanted Crashpad to be a drop-in \"upgrade\" to get more full-featured crash reporting. That\u0027s why I was pursuing following the protocol that matches what devmgr currently does. It doesn\u0027t have to be done like that of course, but because the various layers attempt to be as independent as possible, and this will effectively be devmgr going \"upwards\" in layers (i.e. in the direction that it shouldn\u0027t have a dependency) it seemed like the best way to go.\n\nHaving said all that, I haven\u0027t actually tested this idea in practice yet, so it may end up not being workable.",
+      "parentUuid": "335d5a68_cab1c1b5",
       "range": {
         "startLine": 107,
         "startChar": 0,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "752a5c60_3e38923f",
+        "filename": "handler/fuchsia/exception_handler_server.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-04T17:31:27Z",
+      "side": 1,
+      "message": "Yeah, I don\u0027t love this either. In earlier versions in the rolled up CL, I had this simply pass the pid and tid through, which more closely matches other platforms.\n\nThe ScopedTaskSuspend up higher here is just because it was the first place that made sense after the process handle has been acquired, and I thought it made sense to that suspension before iterating the process to try to retrieve the thread handle. (Though the thread we\u0027re looking for, at least, is suspended by exception processing.)\n\nThis call to zx_task_resume() is unrelated to the ScopedTaskSuspend, it just happens to use the same kernel api to resume for general suspension as it does for continuing exception processing, just with the EXCEPTION flag.\n\nAnyway... I could avoid all this and go back to passing the pid/tid down farther, but then either this code would have to redundantly retrieve the thread handle (or have HandleException return it?). Or would have to rely on HandleException() to do the zx_task_resume(thread, ZX_RESUME_EXCEPTION), which is the main thing that I thought belonged here and with the idea of making it similar to at least Windows, e.g. https://cs.chromium.org/chromium/src/third_party/crashpad/crashpad/util/win/exception_handler_server.cc?rcl\u003d69feef31581454d944dae3970505209ef6b6563b\u0026l\u003d550.\n\n... Having said that, I just looked at Linux and Mac. I\u0027m not clear on what Linux does after handling it to release the process/thread. I guess something outside Crashpad automatically does that? On Mac it looks like it might be similar in that it\u0027s done be the kernel after the exception handler returns a KERN_ value? But, Mac does re-raise exceptions to send to the system handler in some cases, which I guess is similar to task_resume().\n\nHmm... I\u0027ll ponder a bit more.",
+      "parentUuid": "33124b97_0e2dc301",
+      "range": {
+        "startLine": 81,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 22
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b41501e8_bb629140",
         "filename": "handler/fuchsia/exception_handler_server.h",
         "patchSetId": 9
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "0984d173_9abcbd34",
+        "filename": "handler/fuchsia/exception_handler_server.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-04T17:31:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b41501e8_bb629140",
+      "range": {
+        "startLine": 38,
+        "startChar": 25,
+        "endLine": 38,
+        "endChar": 73
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3caa63c4_5448c065",
         "filename": "handler/handler_main.cc",
         "patchSetId": 9
@@ -174,6 +342,30 @@
       "writtenOn": "2018-05-04T02:04:02Z",
       "side": 1,
       "message": "This is intended to install a crash handler for this process, not the target. I think as things are, crashpad_handler crashes will still get caught by the exception port set up by StartHandler since the handler is part of the same job as the client, but then those exceptions will be handled by ExceptionHandlerServer which might be in a bad state. This would be a corollary to crashlogger\u0027s self_dump_port.",
+      "range": {
+        "startLine": 399,
+        "startChar": 0,
+        "endLine": 401,
+        "endChar": 43
+      },
+      "revId": "5cfbdae96e52898b39aa0acc73af22110463258c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47bcb3ab_7ae3bc15",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-04T17:31:27Z",
+      "side": 1,
+      "message": "Oh I\u0027m a dope. (Maybe this file\u0027s getting a bit unwieldy too.)\n\nI agree with your expectation of what will happen. I\u0027m not sure we can do a lot better for the in-process case though, so I guess for now a correct comment?",
+      "parentUuid": "3caa63c4_5448c065",
       "range": {
         "startLine": 399,
         "startChar": 0,
