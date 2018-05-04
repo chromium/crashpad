@@ -25,6 +25,7 @@
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/elf/elf_image_reader.h"
 #include "snapshot/elf/module_snapshot_elf.h"
+#include "snapshot/fuchsia/exception_snapshot_fuchsia.h"
 #include "snapshot/fuchsia/process_reader_fuchsia.h"
 #include "snapshot/fuchsia/system_snapshot_fuchsia.h"
 #include "snapshot/fuchsia/thread_snapshot_fuchsia.h"
@@ -48,6 +49,27 @@ class ProcessSnapshotFuchsia : public ProcessSnapshot {
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
   bool Initialize(zx_handle_t process);
+
+  //! \brief Initializes the object's exception.
+  //!
+  //! This populates the data to be returned by Exception(). The parameters are
+  //! generally expected to be passed through from a Zircon exception handler.
+  //! The thread identified by \a thread_id must be in an exception.
+  //!
+  //! This method must not be called until after a successful call to
+  //! Initialize().
+  //!
+  //! \param[in] type The `ZX_EXCP_*` exception type.
+  //! \param[in] process_handle Handle to the process which sustained the
+  //!     exception.
+  //! \param[in] thread_id Koid of the thread which sustained the exception.
+  //! \return `true` if the exception information could be initialized, `false`
+  //!     otherwise with an appropriate message logged. When this method returns
+  //!     `false`, the ProcessSnapshotFuchsia object’s validity remains
+  //!     unchanged.
+  bool InitializeException(uint32_t type,
+                           zx_handle_t process_handle,
+                           zx_koid_t thread_id);
 
   //! \brief Returns options from CrashpadInfo structures found in modules in
   //!     the process.
@@ -110,6 +132,7 @@ class ProcessSnapshotFuchsia : public ProcessSnapshot {
   internal::SystemSnapshotFuchsia system_;
   std::vector<std::unique_ptr<internal::ThreadSnapshotFuchsia>> threads_;
   std::vector<std::unique_ptr<internal::ModuleSnapshotElf>> modules_;
+  std::unique_ptr<internal::ExceptionSnapshotFuchsia> exception_;
   ProcessReaderFuchsia process_reader_;
   std::map<std::string, std::string> annotations_simple_map_;
   UUID report_id_;
