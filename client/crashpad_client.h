@@ -75,6 +75,9 @@ class CrashpadClient {
   //! Crashpad. Optionally, use WaitForHandlerStart() to join with the
   //! background thread and retrieve the status of handler startup.
   //!
+  //! On Fuchsia, this method binds to the exception port of the current default
+  //! job, and starts a Crashpad handler to monitor that port.
+  //!
   //! \param[in] handler The path to a Crashpad handler executable.
   //! \param[in] database The path to a Crashpad database. The handler will be
   //!     started with this path as its `--database` argument.

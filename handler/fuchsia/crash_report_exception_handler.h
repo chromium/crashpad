@@ -15,6 +15,8 @@
 #ifndef CRASHPAD_HANDLER_FUCHSIA_CRASH_REPORT_EXCEPTION_HANDLER_H_
 #define CRASHPAD_HANDLER_FUCHSIA_CRASH_REPORT_EXCEPTION_HANDLER_H_
 
+#include <stdint.h>
+
 #include <map>
 #include <string>
 
@@ -55,6 +57,24 @@ class CrashReportExceptionHandler {
       const UserStreamDataSources* user_stream_data_sources);
 
   ~CrashReportExceptionHandler();
+
+  //! \brief Called when the exception handler server has caught an exception
+  //!     and wants a crash dump to be taken.
+  //!
+  //! This function is expected to call `zx_task_resume()` in order to complete
+  //! handling of the exception.
+  //!
+  //! \note TODO(scottmg): This is not yet implemented.
+  //!
+  //! \param[in] type The type of exception, a `ZX_EXCP_*` value.
+  //! \param[in] pid The koid of the process which sustained the exception.
+  //! \param[in] tid The koid of the thread which sustained the exception.
+  //! \return `true` on success, or `false` with an error logged.
+  bool HandleException(uint32_t type,
+                       uint64_t pid,
+                       uint64_t tid) {
+    return false;
+  }
 
  private:
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);

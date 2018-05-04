@@ -14,16 +14,47 @@
 
 #include "handler/fuchsia/exception_handler_server.h"
 
+#include <zircon/syscalls/exception.h>
+#include <zircon/syscalls/port.h>
+
+#include <utility>
+
+#include "base/fuchsia/fuchsia_logging.h"
 #include "base/logging.h"
+#include "handler/fuchsia/crash_report_exception_handler.h"
+#include "util/fuchsia/system_exception_port_key.h"
 
 namespace crashpad {
 
-ExceptionHandlerServer::ExceptionHandlerServer() {}
+ExceptionHandlerServer::ExceptionHandlerServer(
+    base::ScopedZxHandle root_job,
+    base::ScopedZxHandle exception_port)
+    : root_job_(std::move(root_job)),
+      exception_port_(std::move(exception_port)) {}
 
-ExceptionHandlerServer::~ExceptionHandlerServer() {}
+ExceptionHandlerServer::~ExceptionHandlerServer() = default;
 
 void ExceptionHandlerServer::Run(CrashReportExceptionHandler* handler) {
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
+  while (true) {
+    zx_port_packet_t packet;
+    zx_status_t status =
+        zx_port_wait(exception_port_.get(), ZX_TIME_INFINITE, &packet, 1);
+    if (status != ZX_OK) {
+      ZX_LOG(ERROR, status) << "zx_port_wait, aborting";
+      return;
+    }
+
+    if (packet.key != kSystemExceptionPortKey) {
+      LOG(ERROR) << "unexpected packet key, ignoring";
+      continue;
+    }
+
+    bool result = handler->HandleException(
+        packet.type, packet.exception.pid, packet.exception.tid);
+    if (!result) {
+      LOG(ERROR) << "HandleException failed";
+    }
+  }
 }
 
 }  // namespace crashpad

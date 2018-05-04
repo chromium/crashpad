@@ -83,6 +83,9 @@
 #include "util/win/initial_client_data.h"
 #include "util/win/session_end_watcher.h"
 #elif defined(OS_FUCHSIA)
+#include <zircon/process.h>
+#include <zircon/processargs.h>
+
 #include "handler/fuchsia/crash_report_exception_handler.h"
 #include "handler/fuchsia/exception_handler_server.h"
 #elif defined(OS_LINUX)
@@ -390,17 +393,19 @@ void InstallCrashHandler() {
   ALLOW_UNUSED_LOCAL(terminate_handler);
 }
 
-#elif defined(OS_FUCHSIA) || defined(OS_LINUX)
+#elif defined(OS_FUCHSIA)
 
 void InstallCrashHandler() {
-  // TODO(scottmg): Fuchsia: https://crashpad.chromium.org/bug/196
-  // TODO(jperaza): Linux: https://crashpad.chromium.org/bug/30
-  NOTREACHED();
+  // There's nothing to do here. Crashes in this process will already be caught
+  // here because this handler process is in the same job that has had its
+  // exception port bound.
+
+  // TODO(scottmg): This should collect metrics on handler crashes, at a
+  // minimum. https://crashpad.chromium.org/bug/230.
 }
 
 void ReinstallCrashHandler() {
   // TODO(scottmg): Fuchsia: https://crashpad.chromium.org/bug/196
-  // TODO(jperaza): Linux: https://crashpad.chromium.org/bug/30
   NOTREACHED();
 }
 
@@ -901,7 +906,28 @@ int HandlerMain(int argc,
   if (!options.pipe_name.empty()) {
     exception_handler_server.SetPipeName(base::UTF8ToUTF16(options.pipe_name));
   }
-#elif defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FUCHSIA)
+#elif defined(OS_FUCHSIA)
+  // These handles are logically "moved" into these variables when retrieved by
+  // zx_get_startup_handle(). Both are given to ExceptionHandlerServer which
+  // owns them in this process. There is currently no "connect-later" mode on
+  // Fuchsia, all the binding must be done by the client before starting
+  // crashpad_handler.
+  base::ScopedZxHandle root_job(zx_get_startup_handle(PA_HND(PA_USER0, 0)));
+  if (!root_job.is_valid()) {
+    LOG(ERROR) << "no process handle passed in startup handle 0";
+    return EXIT_FAILURE;
+  }
+
+  base::ScopedZxHandle exception_port(
+      zx_get_startup_handle(PA_HND(PA_USER0, 1)));
+  if (!exception_port.is_valid()) {
+    LOG(ERROR) << "no exception port handle passed in startup handle 1";
+    return EXIT_FAILURE;
+  }
+
+  ExceptionHandlerServer exception_handler_server(std::move(root_job),
+                                                  std::move(exception_port));
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
   ExceptionHandlerServer exception_handler_server;
 #endif  // OS_MACOSX
 
