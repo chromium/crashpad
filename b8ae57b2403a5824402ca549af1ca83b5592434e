@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c8e67661_1abda238",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-04T21:51:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3893ce26_1446bb25",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 0
+      },
+      "revId": "b8ae57b2403a5824402ca549af1ca83b5592434e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad4b76a1_654f6216",
         "filename": "snapshot/fuchsia/process_snapshot_fuchsia.cc",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2018-05-04T20:46:17Z",
       "side": 1,
       "message": "Optional: I\u0027m uncertain of the value of passing the type parameter when it is only used for this DCHECK.",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 38
+      },
+      "revId": "b8ae57b2403a5824402ca549af1ca83b5592434e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b9f5edf_9e0bacf4",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-04T21:51:20Z",
+      "side": 1,
+      "message": "Yeah, it just made me itchy to get that uint32 from the exception handler and then not use it. But looking at the kernel code I\u0027m fairly satisfied that it\u0027s not too bad. One thing that we could do here is if ZX_INFO_THREAD_EXCEPTION_REPORT retrieval fails, it could make a minimal exception without having retrieved the report. But since we\u0027re not actually doing that... removed.",
+      "parentUuid": "ad4b76a1_654f6216",
       "range": {
         "startLine": 70,
         "startChar": 2,
