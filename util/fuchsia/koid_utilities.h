@@ -68,6 +68,15 @@ std::vector<base::ScopedZxHandle> GetHandlesForChildKoids(
     zx_handle_t parent,
     const std::vector<zx_koid_t>& koids);
 
+//! \brief Retrieve the child of a parent handle, based on koid.
+//!
+//! \param[in] parent The parent object to which the child belongs.
+//! \param[in] child_koid The koid of the child to retrieve.
+//! \return A handle representing \a child_koid, or `ZX_HANDLE_INVALID` if the
+//!     handle could not be retrieved, in which case an error will be logged.
+base::ScopedZxHandle GetChildHandleByKoid(zx_handle_t parent,
+                                          zx_koid_t child_koid);
+
 //! \brief Gets a process handle given the process' koid.
 //!
 //! \param[in] koid The process id.
