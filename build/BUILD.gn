@@ -24,6 +24,12 @@ config("crashpad_is_in_chromium") {
   }
 }
 
+config("crashpad_is_in_fuchsia") {
+  if (crashpad_is_in_fuchsia) {
+    defines = [ "CRASHPAD_IS_IN_FUCHSIA" ]
+  }
+}
+
 group("default_exe_manifest_win") {
   if (crashpad_is_in_chromium) {
     deps = [
