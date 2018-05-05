@@ -99,7 +99,10 @@ static_library("test") {
 
   public_configs = [ "..:crashpad_config" ]
 
-  configs += [ "../build:crashpad_is_in_chromium" ]
+  configs += [
+    "../build:crashpad_is_in_chromium",
+    "../build:crashpad_is_in_fuchsia"
+  ]
 
   data = [
     "test_paths_test_data_root.txt",

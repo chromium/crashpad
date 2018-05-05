@@ -222,5 +222,14 @@ bool TestPaths::Has32BitBuildArtifacts() {
 
 #endif  // defined(OS_WIN) && defined(ARCH_CPU_64_BITS)
 
+// static
+bool TestPaths::ExternalFilesUnavailable() {
+#if defined(OS_FUCHSIA) && defined(CRASHPAD_IS_IN_FUCHSIA)
+  return true;
+#else
+  return false;
+#endif
+}
+
 }  // namespace test
 }  // namespace crashpad

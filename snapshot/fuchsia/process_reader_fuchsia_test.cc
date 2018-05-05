@@ -19,7 +19,9 @@
 #include <zircon/syscalls.h>
 
 #include "gtest/gtest.h"
+#include "test/gtest_disabled.h"
 #include "test/multiprocess_exec.h"
+#include "test/test_paths.h"
 #include "util/fuchsia/scoped_task_suspend.h"
 
 namespace crashpad {
@@ -159,6 +161,9 @@ class ThreadsChildTest : public MultiprocessExec {
 };
 
 TEST(ProcessReaderFuchsia, ChildThreads) {
+  if (TestPaths::ExternalFilesUnavailable())
+    DISABLED_TEST();
+
   ThreadsChildTest test;
   test.Run();
 }
