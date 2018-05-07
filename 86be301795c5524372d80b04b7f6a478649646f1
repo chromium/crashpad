@@ -450,6 +450,30 @@
     },
     {
       "key": {
+        "uuid": "f5568b71_516fee66",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-07T22:05:56Z",
+      "side": 1,
+      "message": "Given the size of this method, it may be best to split out chunked vs content-length handling.",
+      "parentUuid": "0b6886af_709b213a",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 6
+      },
+      "revId": "86be301795c5524372d80b04b7f6a478649646f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b7d0d60e_11eef05f",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 21
