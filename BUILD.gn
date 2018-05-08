@@ -54,6 +54,16 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
 
       deps = [
         "handler:crashpad_handler",
+        "tools:crashpad_database_util",
+      ]
+
+      binaries = [
+        {
+          name = "crashpad_handler"
+        },
+        {
+          name = "crashpad_database_util"
+        },
       ]
     }
   }
