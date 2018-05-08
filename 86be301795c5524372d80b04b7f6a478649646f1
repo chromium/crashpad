@@ -474,6 +474,30 @@
     },
     {
       "key": {
+        "uuid": "7d89cc49_e9fc7259",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-08T19:36:24Z",
+      "side": 1,
+      "message": "Thanks, I\u0027ll take a look at breaking it up.",
+      "parentUuid": "f5568b71_516fee66",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 6
+      },
+      "revId": "86be301795c5524372d80b04b7f6a478649646f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b7d0d60e_11eef05f",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 21
