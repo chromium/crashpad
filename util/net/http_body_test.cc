@@ -17,7 +17,6 @@
 #include <string.h>
 
 #include "gtest/gtest.h"
-#include "test/gtest_disabled.h"
 #include "test/test_paths.h"
 #include "util/misc/implicit_cast.h"
 #include "util/net/http_body_test_util.h"
@@ -98,9 +97,6 @@ TEST(StringHTTPBodyStream, MultipleReads) {
 }
 
 TEST(FileReaderHTTPBodyStream, ReadASCIIFile) {
-  if (TestPaths::ExternalFilesUnavailable())
-    DISABLED_TEST();
-
   base::FilePath path = TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
 
@@ -121,9 +117,6 @@ TEST(FileReaderHTTPBodyStream, ReadASCIIFile) {
 }
 
 TEST(FileReaderHTTPBodyStream, ReadBinaryFile) {
-  if (TestPaths::ExternalFilesUnavailable())
-    DISABLED_TEST();
-
   // HEX contents of file: |FEEDFACE A11A15|.
   base::FilePath path = TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/binary_http_body.dat"));
@@ -194,9 +187,6 @@ TEST_P(CompositeHTTPBodyStreamBufferSize, ThreeStringParts) {
 }
 
 TEST_P(CompositeHTTPBodyStreamBufferSize, StringsAndFile) {
-  if (TestPaths::ExternalFilesUnavailable())
-    DISABLED_TEST();
-
   std::string string1("Hello! ");
   std::string string2(" Goodbye :)");
 
