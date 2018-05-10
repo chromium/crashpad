@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78406f0b_fd5f7b3c",
+        "filename": "util/fuchsia/scoped_task_suspend.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-10T17:21:22Z",
+      "side": 1,
+      "message": "I\u0027m a little concerned this might end up with a thread stuck suspended.\n\nhttps://fuchsia.googlesource.com/zircon/+/master/docs/syscalls/task_suspend.md\nmentions the task will be suspended unless it is blocked in the kernel, in which case it will be suspended when it becomes unblocked. If this is a long time, it might appear to fail in SuspendThread(), and then we\u0027ll never resume it.\n\nTrying the resume on destruction anyway will also be more similar to how ScopedTaskSuspend treats suspending multiple threads in a process.",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 31
+      },
+      "revId": "37c89ef17d98fe0265d63879362054b62ba33950",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
