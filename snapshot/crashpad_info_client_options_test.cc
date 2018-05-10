@@ -22,7 +22,6 @@
 #include "client/crashpad_info.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
-#include "test/gtest_disabled.h"
 #include "test/scoped_module_handle.h"
 #include "test/test_paths.h"
 
@@ -148,9 +147,6 @@ TEST(CrashpadInfoClientOptions, OneModule) {
 }
 
 TEST(CrashpadInfoClientOptions, TwoModules) {
-  if (TestPaths::ExternalFilesUnavailable())
-    DISABLED_TEST();
-
   // Open the module, which has its own CrashpadInfo structure.
   base::FilePath module_path =
       TestPaths::BuildArtifact(FILE_PATH_LITERAL("snapshot"),
@@ -244,9 +240,6 @@ class CrashpadInfoSizes_ClientOptions
     : public testing::TestWithParam<base::FilePath::StringType> {};
 
 TEST_P(CrashpadInfoSizes_ClientOptions, DifferentlySizedStruct) {
-  if (TestPaths::ExternalFilesUnavailable())
-    DISABLED_TEST();
-
   base::FilePath::StringType artifact(FILE_PATH_LITERAL("module_"));
   artifact += GetParam();
 
