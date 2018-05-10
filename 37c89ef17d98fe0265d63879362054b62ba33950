@@ -22,6 +22,30 @@
       "revId": "37c89ef17d98fe0265d63879362054b62ba33950",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37b276aa_0e0e74e3",
+        "filename": "util/fuchsia/scoped_task_suspend.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-10T17:28:11Z",
+      "side": 1,
+      "message": "Good point. Maybe what I should is distinguish between the zx_task_suspend() failing, and failing to actually suspend (where only the first would mark task_ as invalid).",
+      "parentUuid": "78406f0b_fd5f7b3c",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 31
+      },
+      "revId": "37c89ef17d98fe0265d63879362054b62ba33950",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
