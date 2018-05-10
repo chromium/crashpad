@@ -21,19 +21,9 @@
 
 namespace crashpad {
 
-ProcessSnapshotLinux::ProcessSnapshotLinux()
-    : ProcessSnapshot(),
-      annotations_simple_map_(),
-      snapshot_time_(),
-      report_id_(),
-      client_id_(),
-      threads_(),
-      exception_(),
-      system_(),
-      process_reader_(),
-      initialized_() {}
+ProcessSnapshotLinux::ProcessSnapshotLinux() = default;
 
-ProcessSnapshotLinux::~ProcessSnapshotLinux() {}
+ProcessSnapshotLinux::~ProcessSnapshotLinux() = default;
 
 bool ProcessSnapshotLinux::Initialize(PtraceConnection* connection) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
@@ -43,11 +33,14 @@ bool ProcessSnapshotLinux::Initialize(PtraceConnection* connection) {
     return false;
   }
 
-  if (!process_reader_.Initialize(connection)) {
+  if (!process_reader_.Initialize(connection) ||
+      !memory_range_.Initialize(process_reader_.Memory(),
+                                process_reader_.Is64Bit())) {
     return false;
   }
 
   system_.Initialize(&process_reader_, &snapshot_time_);
+
   InitializeThreads();
   InitializeModules();
 
@@ -227,8 +220,11 @@ void ProcessSnapshotLinux::InitializeThreads() {
 void ProcessSnapshotLinux::InitializeModules() {
   for (const ProcessReaderLinux::Module& reader_module :
        process_reader_.Modules()) {
-    auto module = std::make_unique<internal::ModuleSnapshotElf>(
-        reader_module.name, reader_module.elf_reader, reader_module.type);
+    auto module =
+        std::make_unique<internal::ModuleSnapshotElf>(reader_module.name,
+                                                      reader_module.elf_reader,
+                                                      reader_module.type,
+                                                      &memory_range_);
     if (module->Initialize()) {
       modules_.push_back(std::move(module));
     }
