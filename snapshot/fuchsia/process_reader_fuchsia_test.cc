@@ -127,10 +127,12 @@ CRASHPAD_CHILD_TEST_MAIN(ProcessReaderChildThreadsTestMain) {
     zx_port_packet_t packet;
     zx_port_wait(port, ZX_TIME_INFINITE, &packet, 1);
   }
+  LOG(ERROR) << "all threads signalled";
 
   char c = ' ';
   CheckedWriteFile(
       StdioFileHandle(StdioStream::kStandardOutput), &c, sizeof(c));
+  LOG(ERROR) << "child process signalled parent";
   CheckedReadFileAtEOF(StdioFileHandle(StdioStream::kStandardInput));
   return 0;
 }
@@ -147,8 +149,10 @@ class ThreadsChildTest : public MultiprocessExec {
     char c;
     ASSERT_TRUE(ReadFileExactly(ReadPipeHandle(), &c, 1));
     ASSERT_EQ(c, ' ');
+    LOG(ERROR) << "parent going now";
 
     ScopedTaskSuspend suspend(ChildProcess());
+    LOG(ERROR) << "zx_task_suspend on parent done";
 
     ProcessReaderFuchsia process_reader;
     ASSERT_TRUE(process_reader.Initialize(ChildProcess()));

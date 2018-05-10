@@ -64,7 +64,9 @@ ScopedTaskSuspend::ScopedTaskSuspend(zx_handle_t task) : task_(task) {
     }
   } else if (type == ZX_OBJ_TYPE_PROCESS) {
     for (const auto& thread : GetChildHandles(task_, ZX_INFO_PROCESS_THREADS)) {
-      SuspendThread(thread.get());
+      bool ok = SuspendThread(thread.get());
+      LOG(ERROR) << "suspend " << thread.get() << ", status=" << ok
+                 << ", koid=" << GetKoidForHandle(thread.get());
     }
   } else {
     LOG(ERROR) << "unexpected handle type";
