@@ -21,7 +21,6 @@
 #include "base/logging.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
-#include "test/gtest_disabled.h"
 #include "test/multiprocess_exec.h"
 #include "test/process_type.h"
 #include "test/scoped_module_handle.h"
@@ -315,9 +314,6 @@ TEST(ElfImageReader, OneModuleChild) {
 // TODO(scottmg): Separately, the location of the ELF on Android needs some
 // work, and then the test could also be enabled there.
 TEST(ElfImageReader, DtHashAndDtGnuHashMatch) {
-  if (TestPaths::ExternalFilesUnavailable())
-    DISABLED_TEST();
-
   base::FilePath module_path =
       TestPaths::BuildArtifact(FILE_PATH_LITERAL("snapshot"),
                                FILE_PATH_LITERAL("both_dt_hash_styles"),

@@ -30,7 +30,6 @@
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
-#include "test/gtest_disabled.h"
 #include "test/multiprocess_exec.h"
 #include "test/test_paths.h"
 #include "util/file/file_io.h"
@@ -211,9 +210,6 @@ void ValidFormData(HTTPTransportTestFixture* fixture,
 }
 
 TEST(HTTPTransport, ValidFormData) {
-  if (TestPaths::ExternalFilesUnavailable())
-    DISABLED_TEST();
-
   HTTPMultipartBuilder builder;
   builder.SetFormData("key1", "test");
   builder.SetFormData("key2", "--abcdefg123");
@@ -227,9 +223,6 @@ TEST(HTTPTransport, ValidFormData) {
 }
 
 TEST(HTTPTransport, ValidFormData_Gzip) {
-  if (TestPaths::ExternalFilesUnavailable())
-    DISABLED_TEST();
-
   HTTPMultipartBuilder builder;
   builder.SetGzipEnabled(true);
   builder.SetFormData("key1", "test");
@@ -253,9 +246,6 @@ void ErrorResponse(HTTPTransportTestFixture* fixture,
 }
 
 TEST(HTTPTransport, ErrorResponse) {
-  if (TestPaths::ExternalFilesUnavailable())
-    DISABLED_TEST();
-
   HTTPMultipartBuilder builder;
   HTTPHeaders headers;
   headers[kContentType] = kTextPlain;
@@ -284,9 +274,6 @@ void UnchunkedPlainText(HTTPTransportTestFixture* fixture,
 }
 
 TEST(HTTPTransport, UnchunkedPlainText) {
-  if (TestPaths::ExternalFilesUnavailable())
-    DISABLED_TEST();
-
   std::unique_ptr<HTTPBodyStream> body_stream(
       new StringHTTPBodyStream(kTextBody));
 
@@ -327,16 +314,10 @@ void RunUpload33k(bool has_content_length) {
 }
 
 TEST(HTTPTransport, Upload33k) {
-  if (TestPaths::ExternalFilesUnavailable())
-    DISABLED_TEST();
-
   RunUpload33k(true);
 }
 
 TEST(HTTPTransport, Upload33k_LengthUnknown) {
-  if (TestPaths::ExternalFilesUnavailable())
-    DISABLED_TEST();
-
   // The same as Upload33k, but without declaring Content-Length ahead of time.
   RunUpload33k(false);
 }

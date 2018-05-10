@@ -138,15 +138,6 @@ class TestPaths {
   static bool Has32BitBuildArtifacts();
 #endif  // OS_WIN && ARCH_CPU_64_BITS
 
-  //! \return `true` if no external data files are available.
-  //!
-  //! TODO(scottmg): https://crashpad.chromium.org/bug/196: This is a temporary
-  //! hack to disable tests that require external files, either to relaunch
-  //! subprocesses, or to load data files. The Fuchsia packaging system is in
-  //! flux (see PKG-46 upstream) and when that's resolved this should be
-  //! deleted.
-  static bool ExternalFilesUnavailable();
-
   DISALLOW_IMPLICIT_CONSTRUCTORS(TestPaths);
 };
 
