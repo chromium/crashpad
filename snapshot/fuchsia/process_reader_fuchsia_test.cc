@@ -17,9 +17,9 @@
 #include <pthread.h>
 #include <zircon/process.h>
 #include <zircon/syscalls.h>
+#include <zircon/syscalls/port.h>
 
 #include "gtest/gtest.h"
-#include "test/gtest_disabled.h"
 #include "test/multiprocess_exec.h"
 #include "test/test_paths.h"
 #include "util/fuchsia/scoped_task_suspend.h"
@@ -100,28 +100,33 @@ TEST(ProcessReaderFuchsia, ChildBasic) {
 }
 
 void* SignalAndSleep(void* arg) {
-  zx_object_signal(*reinterpret_cast<zx_handle_t*>(arg), 0, ZX_EVENT_SIGNALED);
+  zx_port_packet_t packet = {};
+  packet.type = ZX_PKT_TYPE_USER;
+  zx_port_queue(*reinterpret_cast<zx_handle_t*>(arg), &packet, 1);
   zx_nanosleep(UINT64_MAX);
   return nullptr;
 }
 
 CRASHPAD_CHILD_TEST_MAIN(ProcessReaderChildThreadsTestMain) {
   // Create 5 threads with stack sizes of 4096, 8192, ...
-  zx_handle_t events[5];
-  zx_wait_item_t items[arraysize(events)];
-  for (size_t i = 0; i < arraysize(events); ++i) {
-    pthread_t thread;
-    EXPECT_EQ(zx_event_create(0, &events[i]), ZX_OK);
+  zx_handle_t port;
+  zx_status_t status = zx_port_create(0, &port);
+  EXPECT_EQ(status, ZX_OK);
+
+  constexpr size_t kNumThreads = 5;
+  for (size_t i = 0; i < kNumThreads; ++i) {
     pthread_attr_t attr;
     EXPECT_EQ(pthread_attr_init(&attr), 0);
     EXPECT_EQ(pthread_attr_setstacksize(&attr, (i + 1) * 4096), 0);
-    EXPECT_EQ(pthread_create(&thread, &attr, &SignalAndSleep, &events[i]), 0);
-    items[i].waitfor = ZX_EVENT_SIGNALED;
-    items[i].handle = events[i];
+    pthread_t thread;
+    EXPECT_EQ(pthread_create(&thread, &attr, &SignalAndSleep, &port), 0);
   }
 
-  EXPECT_EQ(zx_object_wait_many(items, arraysize(items), ZX_TIME_INFINITE),
-            ZX_OK);
+  // Wait until all threads are ready.
+  for (size_t i = 0; i < kNumThreads; ++i) {
+    zx_port_packet_t packet;
+    zx_port_wait(port, ZX_TIME_INFINITE, &packet, 1);
+  }
 
   char c = ' ';
   CheckedWriteFile(
@@ -161,9 +166,6 @@ class ThreadsChildTest : public MultiprocessExec {
 };
 
 TEST(ProcessReaderFuchsia, ChildThreads) {
-  if (TestPaths::ExternalFilesUnavailable())
-    DISABLED_TEST();
-
   ThreadsChildTest test;
   test.Run();
 }

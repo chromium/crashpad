@@ -16,6 +16,7 @@
 
 #include <zircon/process.h>
 #include <zircon/syscalls.h>
+#include <zircon/syscalls/debug.h>
 
 #include <vector>
 
@@ -42,7 +43,24 @@ zx_obj_type_t GetHandleType(zx_handle_t handle) {
 bool SuspendThread(zx_handle_t thread) {
   zx_status_t status = zx_task_suspend(thread);
   ZX_LOG_IF(ERROR, status != ZX_OK, status) << "zx_task_suspend";
-  return status == ZX_OK;
+  if (status != ZX_OK)
+    return false;
+  // zx_task_suspend() suspends the thread "sometime soon", but it's hard to
+  // use when it's not guaranteed to be suspended after return. Try reading the
+  // thread state until the registers are retrievable, which means that the
+  // thread is actually suspended. Don't wait forever in case the suspend
+  // failed for whatever reason, but try a few times.
+  for (int i = 0; i < 5; ++i) {
+    zx_thread_state_general_regs_t regs;
+    status = zx_thread_read_state(
+        thread, ZX_THREAD_STATE_GENERAL_REGS, &regs, sizeof(regs));
+    if (status == ZX_OK) {
+      return true;
+    }
+    zx_nanosleep(zx_deadline_after(ZX_MSEC(10)));
+  }
+  LOG(ERROR) << "thread failed to suspend";
+  return false;
 }
 
 bool ResumeThread(zx_handle_t thread) {
