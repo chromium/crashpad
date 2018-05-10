@@ -39,6 +39,7 @@
 #include "util/linux/ptrace_connection.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/uuid.h"
+#include "util/process/process_memory_range.h"
 
 namespace crashpad {
 
@@ -128,6 +129,7 @@ class ProcessSnapshotLinux final : public ProcessSnapshot {
   std::unique_ptr<internal::ExceptionSnapshotLinux> exception_;
   internal::SystemSnapshotLinux system_;
   ProcessReaderLinux process_reader_;
+  ProcessMemoryRange memory_range_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessSnapshotLinux);

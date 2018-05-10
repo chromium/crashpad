@@ -24,6 +24,7 @@
         'client.gyp:crashpad_client',
         '../compat/compat.gyp:crashpad_compat',
         '../handler/handler.gyp:crashpad_handler',
+        '../snapshot/snapshot.gyp:crashpad_snapshot',
         '../test/test.gyp:crashpad_gmock_main',
         '../test/test.gyp:crashpad_test',
         '../third_party/gtest/gmock.gyp:gmock',
