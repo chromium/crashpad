@@ -288,7 +288,9 @@ void ProcessReaderFuchsia::InitializeThreads() {
                                     &regs,
                                     sizeof(regs));
       if (status != ZX_OK) {
-        ZX_LOG(WARNING, status) << "zx_thread_read_state";
+        ZX_LOG(WARNING, status)
+            << "zx_thread_read_state, handle=" << thread_handles[i].get()
+            << ", koid=" << thread.id;
       } else {
         thread.general_registers = regs;
 
