@@ -40,10 +40,10 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
 
       deps = [
         ":crashpad_tests",
-        "snapshot:crashpad_snapshot_test_both_dt_hash_styles(//build/toolchain/fuchsia:x64-shared)",
-        "snapshot:crashpad_snapshot_test_module(//build/toolchain/fuchsia:x64-shared)",
-        "snapshot:crashpad_snapshot_test_module_large(//build/toolchain/fuchsia:x64-shared)",
-        "snapshot:crashpad_snapshot_test_module_small(//build/toolchain/fuchsia:x64-shared)",
+        "snapshot:crashpad_snapshot_test_both_dt_hash_styles(//build/toolchain/fuchsia:$current_cpu-shared)",
+        "snapshot:crashpad_snapshot_test_module(//build/toolchain/fuchsia:$current_cpu-shared)",
+        "snapshot:crashpad_snapshot_test_module_large(//build/toolchain/fuchsia:$current_cpu-shared)",
+        "snapshot:crashpad_snapshot_test_module_small(//build/toolchain/fuchsia:$current_cpu-shared)",
         "test:crashpad_test_test_multiprocess_exec_test_child",
         "util:http_transport_test_server",
       ]
