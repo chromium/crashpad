@@ -40,11 +40,53 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
 
       deps = [
         ":crashpad_tests",
+        "snapshot:crashpad_snapshot_test_both_dt_hash_styles(//build/toolchain/fuchsia:x64-shared)",
+        "snapshot:crashpad_snapshot_test_module(//build/toolchain/fuchsia:x64-shared)",
+        "snapshot:crashpad_snapshot_test_module_large(//build/toolchain/fuchsia:x64-shared)",
+        "snapshot:crashpad_snapshot_test_module_small(//build/toolchain/fuchsia:x64-shared)",
+        "test:crashpad_test_test_multiprocess_exec_test_child",
+        "util:http_transport_test_server",
       ]
 
       tests = [
         {
           name = "crashpad_tests"
+        },
+        {
+          name = "crashpad_test_test_multiprocess_exec_test_child"
+        },
+        {
+          name = "http_transport_test_server"
+        },
+      ]
+
+      libraries = [
+        {
+          name = "crashpad_snapshot_test_both_dt_hash_styles.so"
+        },
+        {
+          name = "crashpad_snapshot_test_module.so"
+        },
+        {
+          name = "crashpad_snapshot_test_module_large.so"
+        },
+        {
+          name = "crashpad_snapshot_test_module_small.so"
+        },
+      ]
+
+      resources = [
+        {
+          path = rebase_path("util/net/testdata/ascii_http_body.txt")
+          dest = "crashpad_test_data/util/net/testdata/ascii_http_body.txt"
+        },
+        {
+          path = rebase_path("util/net/testdata/binary_http_body.dat")
+          dest = "crashpad_test_data/util/net/testdata/binary_http_body.dat"
+        },
+        {
+          path = rebase_path("test/test_paths_test_data_root.txt")
+          dest = "crashpad_test_data/test/test_paths_test_data_root.txt"
         },
       ]
     }

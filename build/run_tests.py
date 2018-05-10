@@ -444,6 +444,8 @@ def main(args):
   parser.add_argument('test', nargs='*', help='Specific test(s) to run.')
   parser.add_argument('--gtest_filter',
                       help='GTest filter applied to GTest binary runs.')
+  parser.add_argument('--gtest_repeat',
+                      help='GTest repeat applied to GTest binary runs.')
   args = parser.parse_args()
 
   # Tell 64-bit Windows tests where to find 32-bit test executables, for
@@ -525,6 +527,9 @@ def main(args):
       extra_command_line = []
       if args.gtest_filter:
         extra_command_line.append('--gtest_filter=' + args.gtest_filter)
+      if args.gtest_repeat:
+        extra_command_line.append('--gtest_repeat=' + args.gtest_repeat)
+        extra_command_line.append('--gtest_break_on_failure')
       if is_android:
         _RunOnAndroidTarget(args.binary_dir, test, android_device,
                             extra_command_line)
