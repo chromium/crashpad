@@ -48,6 +48,10 @@ bool ProcessSnapshotLinux::Initialize(PtraceConnection* connection) {
   }
 
   system_.Initialize(&process_reader_, &snapshot_time_);
+  if (!memory_range_.Initialize(process_reader_.Memory(),
+                                process_reader_.Is64Bit())) {
+    return false;
+  }
   InitializeThreads();
   InitializeModules();
 
@@ -227,8 +231,11 @@ void ProcessSnapshotLinux::InitializeThreads() {
 void ProcessSnapshotLinux::InitializeModules() {
   for (const ProcessReaderLinux::Module& reader_module :
        process_reader_.Modules()) {
-    auto module = std::make_unique<internal::ModuleSnapshotElf>(
-        reader_module.name, reader_module.elf_reader, reader_module.type);
+    auto module =
+        std::make_unique<internal::ModuleSnapshotElf>(reader_module.name,
+                                                      reader_module.elf_reader,
+                                                      reader_module.type,
+                                                      &memory_range_);
     if (module->Initialize()) {
       modules_.push_back(std::move(module));
     }
