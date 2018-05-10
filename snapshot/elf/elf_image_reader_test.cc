@@ -315,9 +315,6 @@ TEST(ElfImageReader, OneModuleChild) {
 // TODO(scottmg): Separately, the location of the ELF on Android needs some
 // work, and then the test could also be enabled there.
 TEST(ElfImageReader, DtHashAndDtGnuHashMatch) {
-  if (TestPaths::ExternalFilesUnavailable())
-    DISABLED_TEST();
-
   base::FilePath module_path =
       TestPaths::BuildArtifact(FILE_PATH_LITERAL("snapshot"),
                                FILE_PATH_LITERAL("both_dt_hash_styles"),

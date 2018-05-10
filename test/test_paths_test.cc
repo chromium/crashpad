@@ -24,9 +24,6 @@ namespace test {
 namespace {
 
 TEST(TestPaths, TestDataRoot) {
-  if (TestPaths::ExternalFilesUnavailable())
-    DISABLED_TEST();
-
   base::FilePath test_data_root = TestPaths::TestDataRoot();
   ScopedFileHandle file(LoggingOpenFileForRead(
       test_data_root.Append(FILE_PATH_LITERAL("test"))

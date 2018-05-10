@@ -49,9 +49,6 @@ class TestMultiprocessExec final : public MultiprocessExec {
 };
 
 TEST(MultiprocessExec, MultiprocessExec) {
-  if (TestPaths::ExternalFilesUnavailable())
-    DISABLED_TEST();
-
   TestMultiprocessExec multiprocess_exec;
   base::FilePath child_test_executable = TestPaths::BuildArtifact(
       FILE_PATH_LITERAL("test"),
