@@ -54,9 +54,11 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
         },
         {
           name = "crashpad_test_test_multiprocess_exec_test_child"
+          dest = "crashpad_test_data/crashpad_test_test_multiprocess_exec_test_child"
         },
         {
           name = "http_transport_test_server"
+          dest = "crashpad_test_data/http_transport_test_server"
         },
       ]
 

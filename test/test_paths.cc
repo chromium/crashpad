@@ -133,7 +133,7 @@ base::FilePath TestPaths::Executable() {
   // not appear as expected at /pkg/bin. Override the default of /pkg/bin/app
   // so that tests can find the correct location for now.
   // https://crashpad.chromium.org/bug/196.
-  executable_path = base::FilePath("/system/test/app");
+  executable_path = base::FilePath("/system/test/crashpad_test_data/app");
 #endif
   return executable_path;
 }
@@ -207,7 +207,8 @@ base::FilePath TestPaths::BuildArtifact(
       // binaries do not appear as expected at /pkg/bin. Override the default of
       // /pkg/bin/app so that tests can find the correct location for now.
       // https://crashpad.chromium.org/bug/196.
-      directory = base::FilePath(FILE_PATH_LITERAL("/system/test"));
+      directory =
+          base::FilePath(FILE_PATH_LITERAL("/system/test/crashpad_test_data"));
 #else
       directory = base::FilePath(FILE_PATH_LITERAL("/pkg/bin"));
 #endif
