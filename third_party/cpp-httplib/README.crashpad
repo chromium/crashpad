@@ -1,7 +1,7 @@
 Name: cpp-httplib
 Short Name: cpp-httplib
 URL: https://github.com/yhirose/cpp-httplib
-Revision: 4320d7ba3e8b7388e1443eb54c039a1304cf7a6b
+Revision: 37130cd7f9df4fb4454d94dd9f0a3bb7c6ccbad8
 License: MIT
 License File: cpp-httplib/LICENSE
 Security Critical: no (test only)
