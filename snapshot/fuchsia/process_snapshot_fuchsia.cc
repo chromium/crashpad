@@ -34,7 +34,7 @@ bool ProcessSnapshotFuchsia::Initialize(zx_handle_t process) {
   }
 
   if (!process_reader_.Initialize(process) ||
-      !memory_range_.Initialize(process_reader_->Memory(), true)) {
+      !memory_range_.Initialize(process_reader_.Memory(), true)) {
     return false;
   }
 
