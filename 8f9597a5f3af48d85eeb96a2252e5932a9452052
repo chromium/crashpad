@@ -22,6 +22,30 @@
       "revId": "8f9597a5f3af48d85eeb96a2252e5932a9452052",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6396316a_1949cbc7",
+        "filename": "test/test_paths.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-11T00:21:25Z",
+      "side": 1,
+      "message": "Yeah, in packages the main binary is supposed to always be called literally \"app\", renamed during packaging. The package is a self-contained thing, so that\u0027s the main entry point, and it can\u0027t generally see outside its package, and so all packages\u0027 binaries are called \"app\".\n\nHowever, when running in-tree, they\u0027re not using packages yet, hence all this hacking to find things in /system/ where the binaries live now.\n\nWhen running standalone, I\u0027m copying to /tmp and faking packages with the `namespace` command which is a command line way to create a directory view, to make it appear to the child that it\u0027s inside a package. But I wasn\u0027t sure how to do some of the self-invoking tests, so it \"fixes\" argv[0] with the --replace-child-argv0 argument to namespace (but I added that argument, so I\u0027m not sure it\u0027s going to be widely used!).\n\nBasically it\u0027s a bit of a mess right now, so hopefully it can get rationalized soon.",
+      "parentUuid": "90a28e34_5360f9b0",
+      "range": {
+        "startLine": 136,
+        "startChar": 68,
+        "endLine": 136,
+        "endChar": 71
+      },
+      "revId": "8f9597a5f3af48d85eeb96a2252e5932a9452052",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
