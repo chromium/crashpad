@@ -33,6 +33,7 @@
 #include "snapshot/process_snapshot.h"
 #include "snapshot/unloaded_module_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/process/process_memory_range.h"
 
 namespace crashpad {
 
@@ -132,6 +133,7 @@ class ProcessSnapshotFuchsia : public ProcessSnapshot {
   std::vector<std::unique_ptr<internal::ModuleSnapshotElf>> modules_;
   std::unique_ptr<internal::ExceptionSnapshotFuchsia> exception_;
   ProcessReaderFuchsia process_reader_;
+  ProcessMemoryRange memory_range_;
   std::map<std::string, std::string> annotations_simple_map_;
   UUID report_id_;
   UUID client_id_;

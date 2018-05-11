@@ -127,6 +127,7 @@ source_set("client_test") {
   deps = [
     ":client",
     "../compat",
+    "../snapshot",
     "../test",
     "../third_party/gtest:gmock",
     "../third_party/gtest:gtest",
