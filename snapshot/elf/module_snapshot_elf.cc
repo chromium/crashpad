@@ -27,10 +27,12 @@ namespace internal {
 
 ModuleSnapshotElf::ModuleSnapshotElf(const std::string& name,
                                      ElfImageReader* elf_reader,
-                                     ModuleSnapshot::ModuleType type)
+                                     ModuleSnapshot::ModuleType type,
+                                     ProcessMemoryRange* process_memory_range)
     : ModuleSnapshot(),
       name_(name),
       elf_reader_(elf_reader),
+      process_memory_range_(process_memory_range),
       crashpad_info_(),
       type_(type),
       initialized_() {}
@@ -170,7 +172,7 @@ std::map<std::string, std::string> ModuleSnapshotElf::AnnotationsSimpleMap()
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   std::map<std::string, std::string> annotations;
   if (crashpad_info_ && crashpad_info_->SimpleAnnotations()) {
-    ImageAnnotationReader reader(elf_reader_->Memory());
+    ImageAnnotationReader reader(process_memory_range_);
     reader.SimpleMap(crashpad_info_->SimpleAnnotations(), &annotations);
   }
   return annotations;
@@ -180,7 +182,7 @@ std::vector<AnnotationSnapshot> ModuleSnapshotElf::AnnotationObjects() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   std::vector<AnnotationSnapshot> annotations;
   if (crashpad_info_ && crashpad_info_->AnnotationsList()) {
-    ImageAnnotationReader reader(elf_reader_->Memory());
+    ImageAnnotationReader reader(process_memory_range_);
     reader.AnnotationsList(crashpad_info_->AnnotationsList(), &annotations);
   }
   return annotations;

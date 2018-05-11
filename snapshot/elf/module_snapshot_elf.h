@@ -41,9 +41,11 @@ class ModuleSnapshotElf final : public ModuleSnapshot {
   //! \param[in] name The pathname used to load the module from disk.
   //! \param[in] elf_reader An image reader for the module.
   //! \param[in] type The module's type.
+  //! \param[in] process_memory_range A memory reader for the target process.
   ModuleSnapshotElf(const std::string& name,
                     ElfImageReader* elf_reader,
-                    ModuleSnapshot::ModuleType type);
+                    ModuleSnapshot::ModuleType type,
+                    ProcessMemoryRange* process_memory_range);
   ~ModuleSnapshotElf() override;
 
   //! \brief Initializes the object.
@@ -84,6 +86,7 @@ class ModuleSnapshotElf final : public ModuleSnapshot {
  private:
   std::string name_;
   ElfImageReader* elf_reader_;
+  ProcessMemoryRange* process_memory_range_;
   std::unique_ptr<CrashpadInfoReader> crashpad_info_;
   ModuleType type_;
   InitializationStateDcheck initialized_;

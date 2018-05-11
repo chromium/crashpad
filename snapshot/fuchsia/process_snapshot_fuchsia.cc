@@ -33,7 +33,8 @@ bool ProcessSnapshotFuchsia::Initialize(zx_handle_t process) {
     return false;
   }
 
-  if (!process_reader_.Initialize(process)) {
+  if (!process_reader_.Initialize(process) ||
+      !memory_range_.Initialize(process_reader_->Memory(), true)) {
     return false;
   }
 
@@ -204,8 +205,11 @@ void ProcessSnapshotFuchsia::InitializeThreads() {
 void ProcessSnapshotFuchsia::InitializeModules() {
   for (const ProcessReaderFuchsia::Module& reader_module :
        process_reader_.Modules()) {
-    auto module = std::make_unique<internal::ModuleSnapshotElf>(
-        reader_module.name, reader_module.reader, reader_module.type);
+    auto module =
+        std::make_unique<internal::ModuleSnapshotElf>(reader_module.name,
+                                                      reader_module.reader,
+                                                      reader_module.type,
+                                                      &memory_range_);
     if (module->Initialize()) {
       modules_.push_back(std::move(module));
     }
