@@ -57,7 +57,7 @@ int HttpTransportTestServerMain(int argc, char* argv[]) {
 
   std::string to_stdout;
 
-  svr.post("/upload",
+  svr.Post("/upload",
            [&response, &response_code, &svr, &to_stdout](
                const httplib::Request& req, httplib::Response& res) {
              res.status = response_code;
