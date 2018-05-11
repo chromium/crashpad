@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5f2cf4d2_127743b0",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-11T00:16:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d64756cb_3e1d51df",
+      "range": {
+        "startLine": 103,
+        "startChar": 41,
+        "endLine": 103,
+        "endChar": 62
+      },
+      "revId": "6ccd50dbeb2d82b2128dea4aa4094da38e3aaa13",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b778cd55_ffa70530",
         "filename": "client/crashpad_client_linux_test.cc",
         "patchSetId": 4
@@ -39,6 +63,24 @@
       "revId": "6ccd50dbeb2d82b2128dea4aa4094da38e3aaa13",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f32fb9b_b2e8e5c0",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-11T00:16:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b778cd55_ffa70530",
+      "revId": "6ccd50dbeb2d82b2128dea4aa4094da38e3aaa13",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "6ccd50dbeb2d82b2128dea4aa4094da38e3aaa13",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3749f6e_f84b7c36",
+        "filename": "snapshot/elf/module_snapshot_elf.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-11T00:16:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1525fc2f_ab2c6ef0",
+      "range": {
+        "startLine": 44,
+        "startChar": 38,
+        "endLine": 44,
+        "endChar": 39
+      },
+      "revId": "6ccd50dbeb2d82b2128dea4aa4094da38e3aaa13",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
