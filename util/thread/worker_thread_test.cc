@@ -71,7 +71,18 @@ TEST(WorkerThread, DoWork) {
   thread.Stop();
   EXPECT_FALSE(thread.is_running());
 
-  EXPECT_GE(1 * kNanosecondsPerSecond, ClockMonotonicNanoseconds() - start);
+// Fuchsia's scheduler is very antagonistic. The assumption that the two work
+// items complete in some particular amount of time is strictly incorrect, but
+// also somewhat useful. The expected time "should" be ~40-50ms with a work
+// interval of 0.05s, but on Fuchsia, 1200ms was observed. So, on Fuchsia, use a
+// much larger timeout. See https://crashpad.chromium.org/bug/231.
+#if defined(OS_FUCHSIA)
+  constexpr uint64_t kUpperBoundTime = 10;
+#else
+  constexpr uint64_t kUpperBoundTime = 1;
+#endif
+  EXPECT_GE(kUpperBoundTime * kNanosecondsPerSecond,
+            ClockMonotonicNanoseconds() - start);
 }
 
 TEST(WorkerThread, StopBeforeDoWork) {
