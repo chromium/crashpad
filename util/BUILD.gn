@@ -604,9 +604,11 @@ source_set("util_test") {
     "../third_party/zlib",
   ]
 
-  data_deps = [
-    ":http_transport_test_server",
-  ]
+  if (!crashpad_is_android) {
+    data_deps = [
+      ":http_transport_test_server",
+    ]
+  }
 
   if (crashpad_is_mac) {
     libs = [ "Foundation.framework" ]
