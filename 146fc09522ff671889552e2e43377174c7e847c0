@@ -16,6 +16,24 @@
       "revId": "146fc09522ff671889552e2e43377174c7e847c0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dd84eec_25480ac0",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-11T15:32:29Z",
+      "side": 1,
+      "message": "It looks fixable if/when we need it. to_string and stoi were missing from std.",
+      "parentUuid": "71ac4a20_87e7a40e",
+      "revId": "146fc09522ff671889552e2e43377174c7e847c0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
