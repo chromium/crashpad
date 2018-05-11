@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90a28e34_5360f9b0",
+        "filename": "test/test_paths.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-11T00:06:26Z",
+      "side": 1,
+      "message": "More for my own curiosity, does fuchsia actually rename/link the executable to \"app\" on the filesystem? Does that mean you can\u0027t have some other file named \"app\" in that directory?",
+      "range": {
+        "startLine": 136,
+        "startChar": 68,
+        "endLine": 136,
+        "endChar": 71
+      },
+      "revId": "8f9597a5f3af48d85eeb96a2252e5932a9452052",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
