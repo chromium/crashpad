@@ -49,8 +49,8 @@ void ExceptionHandlerServer::Run(CrashReportExceptionHandler* handler) {
       continue;
     }
 
-    bool result = handler->HandleException(
-        packet.type, packet.exception.pid, packet.exception.tid);
+    bool result =
+        handler->HandleException(packet.exception.pid, packet.exception.tid);
     if (!result) {
       LOG(ERROR) << "HandleException failed";
     }
