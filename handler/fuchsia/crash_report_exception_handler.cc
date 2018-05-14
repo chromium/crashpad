@@ -60,8 +60,7 @@ CrashReportExceptionHandler::CrashReportExceptionHandler(
 
 CrashReportExceptionHandler::~CrashReportExceptionHandler() {}
 
-bool CrashReportExceptionHandler::HandleException(uint32_t type,
-                                                  uint64_t process_id,
+bool CrashReportExceptionHandler::HandleException(uint64_t process_id,
                                                   uint64_t thread_id) {
   // TODO(scottmg): This function needs to be instrumented with metrics calls,
   // https://crashpad.chromium.org/bug/230.
@@ -73,20 +72,23 @@ bool CrashReportExceptionHandler::HandleException(uint32_t type,
     return false;
   }
 
-  ScopedTaskSuspend suspend(process.get());
-
   base::ScopedZxHandle thread(GetChildHandleByKoid(process.get(), thread_id));
   if (!thread.is_valid()) {
     return false;
   }
 
+  return HandleExceptionHandles(process.get(), thread.get());
+}
+
+bool CrashReportExceptionHandler::HandleExceptionHandles(zx_handle_t process,
+                                                         zx_handle_t thread) {
   // Now that the thread has been successfully retrieved, it is possible to
   // correctly call zx_task_resume() to continue exception processing, even if
   // something else during this function fails.
-  ScopedZxTaskResumeAfterException resume(thread.get());
+  ScopedZxTaskResumeAfterException resume(thread);
 
   ProcessSnapshotFuchsia process_snapshot;
-  if (!process_snapshot.Initialize(process.get())) {
+  if (!process_snapshot.Initialize(process)) {
     return false;
   }
 
@@ -95,7 +97,7 @@ bool CrashReportExceptionHandler::HandleException(uint32_t type,
 
   if (client_options.crashpad_handler_behavior != TriState::kDisabled) {
     zx_exception_report_t report;
-    zx_status_t status = zx_object_get_info(thread.get(),
+    zx_status_t status = zx_object_get_info(thread,
                                             ZX_INFO_THREAD_EXCEPTION_REPORT,
                                             &report,
                                             sizeof(report),
@@ -107,8 +109,7 @@ bool CrashReportExceptionHandler::HandleException(uint32_t type,
       return false;
     }
 
-    DCHECK_EQ(type, report.header.type);
-
+    zx_koid_t thread_id = GetKoidForHandle(thread);
     if (!process_snapshot.InitializeException(thread_id, report)) {
       return false;
     }

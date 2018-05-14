@@ -16,6 +16,7 @@
 #define CRASHPAD_HANDLER_FUCHSIA_CRASH_REPORT_EXCEPTION_HANDLER_H_
 
 #include <stdint.h>
+#include <zircon/types.h>
 
 #include <map>
 #include <string>
@@ -64,12 +65,24 @@ class CrashReportExceptionHandler {
   //! This function is expected to call `zx_task_resume()` in order to complete
   //! handling of the exception.
   //!
-  //! \param[in] type The type of exception, a `ZX_EXCP_*` value.
   //! \param[in] process_id The koid of the process which sustained the
   //!     exception.
   //! \param[in] thread_id The koid of the thread which sustained the exception.
   //! \return `true` on success, or `false` with an error logged.
-  bool HandleException(uint32_t type, uint64_t process_id, uint64_t thread_id);
+  bool HandleException(uint64_t process_id, uint64_t thread_id);
+
+  //! \brief Called when the exception handler server has caught an exception
+  //!     and wants a crash dump to be taken.
+  //!
+  //! This function is expected to call `zx_task_resume()` in order to complete
+  //! handling of the exception.
+  //!
+  //! \param[in] process The handle to the process which sustained the
+  //!     exception.
+  //! \param[in] thread The handle to the thread of \a process which sustained
+  //!     the exception.
+  //! \return `true` on success, or `false` with an error logged.
+  bool HandleExceptionHandles(zx_handle_t process, zx_handle_t thread);
 
  private:
   CrashReportDatabase* database_;  // weak
