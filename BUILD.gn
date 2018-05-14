@@ -98,13 +98,23 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
 
       deps = [
         "handler:crashpad_handler",
-        "tools:crashpad_database_util",
       ]
 
       binaries = [
         {
           name = "crashpad_handler"
         },
+      ]
+    }
+
+    package("crashpad_database_util") {
+      deprecated_system_image = true
+
+      deps = [
+        "tools:crashpad_database_util",
+      ]
+
+      binaries = [
         {
           name = "crashpad_database_util"
         },
