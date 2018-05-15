@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87a49ee9_1485c58e",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-15T22:56:26Z",
+      "side": 1,
+      "message": "Rather than requiring this to be called between GetReportForUploading() and RecordUploadComplete(), we could put this interface into UploadReport itself, guaranteeing it\u0027s called correctly.",
+      "range": {
+        "startLine": 308,
+        "startChar": 0,
+        "endLine": 320,
+        "endChar": 64
+      },
+      "revId": "ead91dd29886c22c7ee91bfdafe563a2321174a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "873d416c_20e7ab4c",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-15T22:56:26Z",
+      "side": 1,
+      "message": "We\u0027ll also want to remove attachments for corrupted reports in CleaningReadMetadata() and CleanReportsInState().",
+      "range": {
+        "startLine": 494,
+        "startChar": 0,
+        "endLine": 495,
+        "endChar": 29
+      },
+      "revId": "ead91dd29886c22c7ee91bfdafe563a2321174a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27fc322e_e86c4a22",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-15T22:56:26Z",
+      "side": 1,
+      "message": "Probably a good idea to LocateAndLock() the report too.",
+      "range": {
+        "startLine": 583,
+        "startChar": 2,
+        "endLine": 583,
+        "endChar": 3
+      },
+      "revId": "ead91dd29886c22c7ee91bfdafe563a2321174a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78c53ce4_a33395ad",
+        "filename": "handler/fuchsia/crash_report_exception_handler.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-15T22:56:26Z",
+      "side": 1,
+      "message": "Probably not too big a deal since attachments are best effort and it\u0027d probably be super rare, but there\u0027s a race here if CrashReportUploadThread has watch_pending_reports set. It could upload and delete the report while we\u0027re writing attachments. More reason to have WriteAttachment lock the report. If it can\u0027t find/lock the report, it should avoid writing the attachment.",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 5
+      },
+      "revId": "ead91dd29886c22c7ee91bfdafe563a2321174a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
