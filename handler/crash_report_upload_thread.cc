@@ -219,9 +219,11 @@ void CrashReportUploadThread::ProcessPendingReport(
       return;
   }
 
+  const auto attachments = database_->GetAttachmentsForReport(report.uuid);
+
   std::string response_body;
   UploadResult upload_result =
-      UploadReport(upload_report.get(), &response_body);
+      UploadReport(upload_report.get(), attachments, &response_body);
   switch (upload_result) {
     case UploadResult::kSuccess:
       database_->RecordUploadComplete(std::move(upload_report), response_body);
@@ -241,6 +243,7 @@ void CrashReportUploadThread::ProcessPendingReport(
 
 CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
     const CrashReportDatabase::UploadReport* report,
+    const std::map<std::string, std::unique_ptr<FileReader>>& attachments,
     std::string* response_body) {
 #if defined(OS_ANDROID)
   // TODO(jperaza): This method can be enabled on Android after HTTPTransport is
@@ -282,6 +285,11 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
     } else {
       http_multipart_builder.SetFormData(kv.first, kv.second);
     }
+  }
+
+  for (const auto& it : attachments) {
+    http_multipart_builder.SetFileAttachment(
+        it.first, it.first, it.second.get(), "application/octet-stream");
   }
 
   http_multipart_builder.SetFileAttachment(kMinidumpKey,
