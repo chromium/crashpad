@@ -101,7 +101,12 @@ void ProcessReaderLinux::Thread::InitializeStack(ProcessReaderLinux* reader) {
 #else
 #error Port.
 #endif
+  InitializeStackFromSP(reader, stack_pointer);
+}
 
+void ProcessReaderLinux::Thread::InitializeStackFromSP(
+    ProcessReaderLinux* reader,
+    VMAddress stack_pointer) {
   const MemoryMap* memory_map = reader->GetMemoryMap();
 
   // If we can't find the mapping, it's probably a bad stack pointer
@@ -253,6 +258,7 @@ const std::vector<ProcessReaderLinux::Thread>& ProcessReaderLinux::Threads() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   if (!initialized_threads_) {
     InitializeThreads();
+    initialized_threads_ = true;
   }
   return threads_;
 }
@@ -261,6 +267,7 @@ const std::vector<ProcessReaderLinux::Module>& ProcessReaderLinux::Modules() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   if (!initialized_modules_) {
     InitializeModules();
+    initialized_modules_ = true;
   }
   return modules_;
 }
