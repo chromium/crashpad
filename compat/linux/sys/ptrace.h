@@ -34,7 +34,7 @@ static constexpr __ptrace_request PTRACE_GET_THREAD_AREA =
 #endif  // !PTRACE_GET_THREAD_AREA && !PT_GET_THREAD_AREA && defined(__GLIBC__)
 
 // https://sourceware.org/bugzilla/show_bug.cgi?id=22433
-#if !defined(PTRACE_GETVFPREGS) && \
+#if !defined(PTRACE_GETVFPREGS) && !defined(PT_GETVFPREGS) && \
     defined(__GLIBC__) && (defined(__arm__) || defined(__arm64__))
 static constexpr __ptrace_request PTRACE_GETVFPREGS =
     static_cast<__ptrace_request>(27);
