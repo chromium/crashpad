@@ -44,6 +44,20 @@ class ProcessReaderLinux {
     Thread();
     ~Thread();
 
+    //! \brief Initializes the thread's stack using \a stack_pointer instead of
+    //!   the stack pointer in \a thread_info.
+    //!
+    //! This method initializes \a stack_region_address and \a stack_region_size
+    //! overwriting any values they previously contained. This is useful, for
+    //! example, if the thread is currently in a signal handler context, which
+    //! may execute on a different stack than was used before the signal was
+    //! received.
+    //!
+    //! \param[in] reader A process reader for the target process.
+    //! \param[in] stack_pointer The stack pointer for the stack to initialize.
+    void InitializeStackFromSP(ProcessReaderLinux* reader,
+                               LinuxVMAddress stack_pointer);
+
     ThreadInfo thread_info;
     LinuxVMAddress stack_region_address;
     LinuxVMSize stack_region_size;

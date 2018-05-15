@@ -316,6 +316,13 @@ struct CPUContext {
   //! context structure.
   uint64_t InstructionPointer() const;
 
+  //! \brief Returns the stack pointer value from the context structure.
+  //!
+  //! This is a CPU architecture-independent method that is capable of
+  //! recovering the stack pointer from any supported CPU architecture’s
+  //! context structure.
+  uint64_t StackPointer() const;
+
   //! \brief The CPU architecture of a context structure. This field controls
   //!     the expression of the union.
   CPUArchitecture architecture;

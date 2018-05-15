@@ -174,4 +174,20 @@ uint64_t CPUContext::InstructionPointer() const {
   }
 }
 
+uint64_t CPUContext::StackPointer() const {
+  switch (architecture) {
+    case kCPUArchitectureX86:
+      return x86->esp;
+    case kCPUArchitectureX86_64:
+      return x86_64->rsp;
+    case kCPUArchitectureARM:
+      return arm->sp;
+    case kCPUArchitectureARM64:
+      return arm64->sp;
+    default:
+      NOTREACHED();
+      return ~0ull;
+  }
+}
+
 }  // namespace crashpad
