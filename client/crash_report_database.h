@@ -17,6 +17,7 @@
 
 #include <time.h>
 
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -112,7 +113,7 @@ class CrashReportDatabase {
 
     //! A unique identifier by which this report will always be known to the
     //! database.
-    const UUID& ReportID() { return uuid_; }
+    const UUID& ReportID() const { return uuid_; }
 
    private:
     friend class CrashReportDatabaseGeneric;
@@ -304,6 +305,21 @@ class CrashReportDatabase {
       const UUID& uuid,
       std::unique_ptr<const UploadReport>* report) = 0;
 
+  //! \brief Obtains names and file readers for any attachments for the report.
+  //!
+  //! Callers should use this method after calling GetReportForUploading() and
+  //! and before calling RecordUploadComplete(), reading the contents of the
+  //! attachment using the given FileReader, and using the name in the upload.
+  //!
+  //! \note This method is only implemented for the generic database
+  //! implementation which is used on platforms other than macOS and Windows.
+  //!
+  //! \return A map of base filenames to file readers.
+  virtual std::map<std::string, std::unique_ptr<FileReader>>
+  GetAttachmentsForReport(const UUID& uuid) {
+    return std::map<std::string, std::unique_ptr<FileReader>>();
+  }
+
   //! \brief Records a successful upload for a report and updates the last
   //!     upload attempt time as returned by
   //!     Settings::GetLastUploadAttemptTime().
@@ -359,6 +375,22 @@ class CrashReportDatabase {
   //!     report files are considered expired.
   //! \return The number of reports cleaned.
   virtual int CleanDatabase(time_t lockfile_ttl) { return 0; }
+
+  //! \brief Writes a file attachment associated with a report.
+  //!
+  //! \note This method is only implemented for the generic database
+  //! implementation which is used on platforms other than macOS and Windows.
+  //!
+  //! \param[in] uuid The UUID of the report.
+  //! \param[in] name The file name to use as the attachment's name. This should
+  //!     not be a path but rather a basename containing only the characters
+  //!     `[a-zA-Z0-9_-]`.
+  //! \param[in] contents The contents of the attachment.
+  virtual bool WriteAttachment(const UUID& uuid,
+                               const std::string& name,
+                               const std::string& contents) {
+    return false;
+  }
 
  protected:
   CrashReportDatabase() {}
