@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "75635edf_0c02a061",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-16T00:28:19Z",
+      "side": 1,
+      "message": "It already knows its UUID from Report. :)",
+      "parentUuid": "2aaa98c9_2e176ced",
+      "range": {
+        "startLine": 308,
+        "startChar": 0,
+        "endLine": 320,
+        "endChar": 64
+      },
+      "revId": "ead91dd29886c22c7ee91bfdafe563a2321174a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "873d416c_20e7ab4c",
         "filename": "client/crash_report_database_generic.cc",
         "patchSetId": 4
@@ -178,6 +202,30 @@
       "side": 1,
       "message": "Ah right, good catch. That kind of sucks. Maybe it\u0027d be better to add an optional attachments map to FinishedWritingCrashReport() so that it can be done atomically?\n\nThat\u0027d mean a bunch of nullptrs for all the non-using calls to that, and the drawback is that we\u0027d be reading all the contents of all the attachments into memory here.\n\nThat\u0027s probably not a huge problem at the moment, but not great. (On the other hand, I believe the http builder will be doing that when it builds the request too.)\n\nYet another way to go would be to follow the way that the main report is written. i.e. have PrepareNewCrashReport() include a request for a list of FileWriters that the database creates in the attachments directory, and then store a map in NewReport for the report creator to write. That seems like probably the way to go. But then we get into the complexity of scoped file removers for the already created files on failure.\n\nHmm... I\u0027ll ponder for a while, but I\u0027m leaning towards that last idea. WDYT?",
       "parentUuid": "78c53ce4_a33395ad",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 5
+      },
+      "revId": "ead91dd29886c22c7ee91bfdafe563a2321174a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e497c403_e6e34928",
+        "filename": "handler/fuchsia/crash_report_exception_handler.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-16T00:28:19Z",
+      "side": 1,
+      "message": "Could also do something like:\nFileWriter* NewReport::AddAttachment(std::string filename)\n\nand have NewReport keep unique_ptr vectors of FileWriters/ScopedRemoveFiles opened on the fly when AddAttachment is called.",
+      "parentUuid": "eadefd46_def495e8",
       "range": {
         "startLine": 156,
         "startChar": 0,
