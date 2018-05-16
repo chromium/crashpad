@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00a35f2a_c73c309a",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-16T21:38:02Z",
+      "side": 1,
+      "message": "and putting them all the in the same vector results in some funky situations. Defining kIndexOfMainReport suggests to me that it can be changed, but the hard-coded 1s here require that it remain 0.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 31
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd4fe873_e209f705",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-16T21:38:02Z",
+      "side": 1,
+      "message": "but if you do keep them in a shared vector, I think these would be more appropriate in NewReport\u0027s constructor, before assigning  to writers_/removers_ for the main report. If it\u0027s going to fail, I think it will be there.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 50
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed328686_f5588e3f",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-16T21:38:02Z",
+      "side": 1,
+      "message": "I think including the writer/remover for the main report in these vectors doesn\u0027t get us a whole lot. In all cases, we\u0027re either just looking at the main report or just looking at the attachments.",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 44
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccace154_4e30084a",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-16T21:38:02Z",
+      "side": 1,
+      "message": "Things like this read funky in isolation. It makes me wonder what\u0027s kept in the vector before the main report.",
+      "range": {
+        "startLine": 421,
+        "startChar": 0,
+        "endLine": 421,
+        "endChar": 51
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c982f033_76a3387d",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-16T21:38:02Z",
+      "side": 1,
+      "message": "I think we also need something here that purges attachments when both the metadata and report file are missing from the database.",
+      "range": {
+        "startLine": 603,
+        "startChar": 0,
+        "endLine": 603,
+        "endChar": 17
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89df9deb_3fbc5cdf",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-16T21:38:02Z",
+      "side": 1,
+      "message": "supported",
+      "range": {
+        "startLine": 675,
+        "startChar": 24,
+        "endLine": 675,
+        "endChar": 31
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "391732bb_e780c077",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-16T21:38:02Z",
+      "side": 1,
+      "message": "ASSERT",
+      "range": {
+        "startLine": 679,
+        "startChar": 2,
+        "endLine": 679,
+        "endChar": 8
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ccbf06b_f9335554",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-16T21:38:02Z",
+      "side": 1,
+      "message": "here too",
+      "range": {
+        "startLine": 692,
+        "startChar": 2,
+        "endLine": 692,
+        "endChar": 8
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb28023a_0a2b3b0d",
+        "filename": "handler/crash_report_upload_thread.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-16T21:38:02Z",
+      "side": 1,
+      "message": "No need to pass this anymore, right? UploadReport() can just grab them itself.",
+      "range": {
+        "startLine": 165,
+        "startChar": 6,
+        "endLine": 165,
+        "endChar": 76
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
