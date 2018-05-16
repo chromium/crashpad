@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ff0aa458_06f43649",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-16T23:42:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00a35f2a_c73c309a",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 31
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd4fe873_e209f705",
         "filename": "client/crash_report_database.cc",
         "patchSetId": 15
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "e4b84804_b592c3a9",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-16T23:42:41Z",
+      "side": 1,
+      "message": "Yeah, you\u0027re right. I was sort of hoping there would be some point where it which it was tidier, but it\u0027s just awkward. Separated.",
+      "parentUuid": "ed328686_f5588e3f",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 44
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ccace154_4e30084a",
         "filename": "client/crash_report_database_generic.cc",
         "patchSetId": 15
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "b353d8ab_692d2793",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-16T23:42:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccace154_4e30084a",
+      "range": {
+        "startLine": 421,
+        "startChar": 0,
+        "endLine": 421,
+        "endChar": 51
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c982f033_76a3387d",
         "filename": "client/crash_report_database_generic.cc",
         "patchSetId": 15
@@ -105,6 +177,30 @@
       "writtenOn": "2018-05-16T21:38:02Z",
       "side": 1,
       "message": "I think we also need something here that purges attachments when both the metadata and report file are missing from the database.",
+      "range": {
+        "startLine": 603,
+        "startChar": 0,
+        "endLine": 603,
+        "endChar": 17
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48cbbe99_8c3ae502",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-16T23:42:41Z",
+      "side": 1,
+      "message": "Tricky! So much state.\n\nJust to confirm, you mean the case where the attachments have become completely, uh, detached, so it\u0027d be a search across all attachments to see which attachment directory uuids have no corresponding report (in any state), is that right? Had a go at that.",
+      "parentUuid": "c982f033_76a3387d",
       "range": {
         "startLine": 603,
         "startChar": 0,
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "33f74eec_33abb12a",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-16T23:42:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89df9deb_3fbc5cdf",
+      "range": {
+        "startLine": 675,
+        "startChar": 24,
+        "endLine": 675,
+        "endChar": 31
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "391732bb_e780c077",
         "filename": "client/crash_report_database_test.cc",
         "patchSetId": 15
@@ -160,6 +280,30 @@
       "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c24478d4_11c7da11",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-16T23:42:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "391732bb_e780c077",
+      "range": {
+        "startLine": 679,
+        "startChar": 2,
+        "endLine": 679,
+        "endChar": 8
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -186,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "2fd3818a_b5f54101",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-16T23:42:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ccbf06b_f9335554",
+      "range": {
+        "startLine": 692,
+        "startChar": 2,
+        "endLine": 692,
+        "endChar": 8
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb28023a_0a2b3b0d",
         "filename": "handler/crash_report_upload_thread.h",
         "patchSetId": 15
@@ -197,6 +365,30 @@
       "writtenOn": "2018-05-16T21:38:02Z",
       "side": 1,
       "message": "No need to pass this anymore, right? UploadReport() can just grab them itself.",
+      "range": {
+        "startLine": 165,
+        "startChar": 6,
+        "endLine": 165,
+        "endChar": 76
+      },
+      "revId": "20bd9caf2ff242eb75344507d224e75025a2fd97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0988dea_54db2e6a",
+        "filename": "handler/crash_report_upload_thread.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-16T23:42:41Z",
+      "side": 1,
+      "message": "Duh, of course.",
+      "parentUuid": "cb28023a_0a2b3b0d",
       "range": {
         "startLine": 165,
         "startChar": 6,
