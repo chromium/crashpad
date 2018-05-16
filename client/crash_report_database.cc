@@ -14,6 +14,7 @@
 
 #include "client/crash_report_database.h"
 
+#include "base/logging.h"
 #include "build/build_config.h"
 
 namespace crashpad {
@@ -29,13 +30,19 @@ CrashReportDatabase::Report::Report()
       upload_explicitly_requested(false) {}
 
 CrashReportDatabase::NewReport::NewReport()
-    : writer_(std::make_unique<FileWriter>()), uuid_(), file_remover_() {}
+    : writers_(1), removers_(1), uuid_(), database_() {
+  writers_[kIndexOfMainReport] = std::make_unique<FileWriter>();
+  removers_[kIndexOfMainReport] = ScopedRemoveFile();
+}
 
 CrashReportDatabase::NewReport::~NewReport() = default;
 
 bool CrashReportDatabase::NewReport::Initialize(
+    CrashReportDatabase* database,
     const base::FilePath& directory,
     const base::FilePath::StringType& extension) {
+  database_ = database;
+
   if (!uuid_.InitializeWithNew()) {
     return false;
   }
@@ -46,12 +53,15 @@ bool CrashReportDatabase::NewReport::Initialize(
   const std::string uuid_string = uuid_.ToString();
 #endif
 
+  DCHECK_GT(writers_.size(), kIndexOfMainReport);
+  DCHECK_GT(removers_.size(), kIndexOfMainReport);
+
   const base::FilePath path = directory.Append(uuid_string + extension);
-  if (!writer_->Open(
+  if (!writers_[kIndexOfMainReport]->Open(
           path, FileWriteMode::kCreateOrFail, FilePermissions::kOwnerOnly)) {
     return false;
   }
-  file_remover_.reset(path);
+  removers_[kIndexOfMainReport].reset(path);
   return true;
 }
 
