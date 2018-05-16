@@ -14,6 +14,7 @@
 
 #include "client/crash_report_database.h"
 
+#include "base/logging.h"
 #include "build/build_config.h"
 
 namespace crashpad {
@@ -29,13 +30,21 @@ CrashReportDatabase::Report::Report()
       upload_explicitly_requested(false) {}
 
 CrashReportDatabase::NewReport::NewReport()
-    : writer_(std::make_unique<FileWriter>()), uuid_(), file_remover_() {}
+    : writer_(std::make_unique<FileWriter>()),
+      file_remover_(),
+      attachment_writers_(),
+      attachment_removers_(),
+      uuid_(),
+      database_() {}
 
 CrashReportDatabase::NewReport::~NewReport() = default;
 
 bool CrashReportDatabase::NewReport::Initialize(
+    CrashReportDatabase* database,
     const base::FilePath& directory,
     const base::FilePath::StringType& extension) {
+  database_ = database;
+
   if (!uuid_.InitializeWithNew()) {
     return false;
   }
