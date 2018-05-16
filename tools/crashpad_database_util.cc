@@ -586,7 +586,7 @@ int DatabaseUtilMain(int argc, char* argv[]) {
 
     std::unique_ptr<CrashReportDatabase::NewReport> new_report;
     CrashReportDatabase::OperationStatus status =
-        database->PrepareNewCrashReport(&new_report);
+        database->PrepareNewCrashReport(nullptr, &new_report);
     if (status != CrashReportDatabase::kNoError) {
       return EXIT_FAILURE;
     }

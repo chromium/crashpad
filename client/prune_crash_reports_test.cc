@@ -36,8 +36,9 @@ class MockDatabase : public CrashReportDatabase {
  public:
   // CrashReportDatabase:
   MOCK_METHOD0(GetSettings, Settings*());
-  MOCK_METHOD1(PrepareNewCrashReport,
-               OperationStatus(std::unique_ptr<NewReport>*));
+  MOCK_METHOD2(PrepareNewCrashReport,
+               OperationStatus(const std::vector<std::string>*,
+                               std::unique_ptr<NewReport>*));
   MOCK_METHOD2(LookUpCrashReport, OperationStatus(const UUID&, Report*));
   MOCK_METHOD1(GetPendingReports, OperationStatus(std::vector<Report>*));
   MOCK_METHOD1(GetCompletedReports, OperationStatus(std::vector<Report>*));

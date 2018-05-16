@@ -51,7 +51,7 @@ class CrashReportDatabaseTest : public testing::Test {
 
   void CreateCrashReport(CrashReportDatabase::Report* report) {
     std::unique_ptr<CrashReportDatabase::NewReport> new_report;
-    ASSERT_EQ(db_->PrepareNewCrashReport(&new_report),
+    ASSERT_EQ(db_->PrepareNewCrashReport(nullptr, &new_report),
               CrashReportDatabase::kNoError);
     static constexpr char kTest[] = "test";
     ASSERT_TRUE(new_report->Writer()->Write(kTest, sizeof(kTest)));
@@ -182,7 +182,7 @@ TEST_F(CrashReportDatabaseTest, Initialize) {
 
 TEST_F(CrashReportDatabaseTest, NewCrashReport) {
   std::unique_ptr<CrashReportDatabase::NewReport> new_report;
-  EXPECT_EQ(db()->PrepareNewCrashReport(&new_report),
+  EXPECT_EQ(db()->PrepareNewCrashReport(nullptr, &new_report),
             CrashReportDatabase::kNoError);
   UUID expect_uuid = new_report->ReportID();
   UUID uuid;
@@ -489,7 +489,7 @@ TEST_F(CrashReportDatabaseTest, UploadAlreadyUploaded) {
 
 TEST_F(CrashReportDatabaseTest, MoveDatabase) {
   std::unique_ptr<CrashReportDatabase::NewReport> new_report;
-  EXPECT_EQ(db()->PrepareNewCrashReport(&new_report),
+  EXPECT_EQ(db()->PrepareNewCrashReport(nullptr, &new_report),
             CrashReportDatabase::kNoError);
   UUID uuid;
   EXPECT_EQ(db()->FinishedWritingCrashReport(std::move(new_report), &uuid),
@@ -505,7 +505,7 @@ TEST_F(CrashReportDatabaseTest, MoveDatabase) {
 
 TEST_F(CrashReportDatabaseTest, ReportRemoved) {
   std::unique_ptr<CrashReportDatabase::NewReport> new_report;
-  EXPECT_EQ(db()->PrepareNewCrashReport(&new_report),
+  EXPECT_EQ(db()->PrepareNewCrashReport(nullptr, &new_report),
             CrashReportDatabase::kNoError);
 
   UUID uuid;
@@ -669,6 +669,39 @@ TEST_F(CrashReportDatabaseTest, RequestUpload) {
             CrashReportDatabase::kCannotRequestUpload);
 }
 
+TEST_F(CrashReportDatabaseTest, Attachments) {
+  std::vector<std::string> attachments;
+  attachments.push_back("some_file");
+  attachments.push_back("bad/ character$ in name");
+  attachments.push_back("another1");
+
+EXPECT_FALSE(true);
+#if 0
+  std::unique_ptr<CrashReportDatabase::NewReport> new_report;
+  EXPECT_EQ(db()->PrepareNewCrashReport(&attachments, &new_report),
+            CrashReportDatabase::kNoError);
+  UUID expect_uuid = new_report->ReportID();
+  UUID uuid;
+  EXPECT_EQ(db()->FinishedWritingCrashReport(std::move(new_report), &uuid),
+            CrashReportDatabase::kNoError);
+  EXPECT_EQ(uuid, expect_uuid);
+
+  CrashReportDatabase::Report report;
+  EXPECT_EQ(db()->LookUpCrashReport(uuid, &report),
+            CrashReportDatabase::kNoError);
+  ExpectPreparedCrashReport(report);
+
+  std::vector<CrashReportDatabase::Report> reports;
+  EXPECT_EQ(db()->GetPendingReports(&reports), CrashReportDatabase::kNoError);
+  ASSERT_EQ(reports.size(), 1u);
+  EXPECT_EQ(reports[0].uuid, report.uuid);
+
+  reports.clear();
+  EXPECT_EQ(db()->GetCompletedReports(&reports), CrashReportDatabase::kNoError);
+  EXPECT_TRUE(reports.empty());
+#endif
+}
+
 // This test uses knowledge of the database format to break it, so it only
 // applies to the unfified database implementation.
 #if !defined(OS_MACOSX) && !defined(OS_WIN)
@@ -705,7 +738,7 @@ TEST_F(CrashReportDatabaseTest, CleanBrokenDatabase) {
 
   // Remove stale new files.
   std::unique_ptr<CrashReportDatabase::NewReport> new_report;
-  EXPECT_EQ(db()->PrepareNewCrashReport(&new_report),
+  EXPECT_EQ(db()->PrepareNewCrashReport(nullptr, &new_report),
             CrashReportDatabase::kNoError);
   new_report->Writer()->Close();
   EXPECT_EQ(db()->CleanDatabase(0), 1);

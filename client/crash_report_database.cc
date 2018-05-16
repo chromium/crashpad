@@ -14,9 +14,22 @@
 
 #include "client/crash_report_database.h"
 
+#include "base/logging.h"
 #include "build/build_config.h"
 
 namespace crashpad {
+
+namespace {
+
+bool AttachmentNameIsOK(const std::string& name) {
+  for (const char c : name) {
+    if (c != '_' && c != '-' && !isalnum(c))
+      return false;
+  }
+  return true;
+}
+
+}  // namespace
 
 CrashReportDatabase::Report::Report()
     : uuid(),
@@ -40,6 +53,10 @@ bool CrashReportDatabase::NewReport::Initialize(
     return false;
   }
 
+#if defined(OS_MACOSX) || defined(OS_WIN)
+  DCHECK_EQ(attachments, nullptr);
+#endif
+
 #if defined(OS_WIN)
   const std::wstring uuid_string = uuid_.ToString16();
 #else
@@ -53,6 +70,26 @@ bool CrashReportDatabase::NewReport::Initialize(
   }
   file_remover_.reset(path);
   return true;
+}
+
+void CrashReportDatabase::NewReport::InitializeAttachments(
+    const base::FilePath& directory,
+    const std::vector<std::string>& attachments) {
+  for (const auto& name : attachments) {
+    if (!AttachmentNameIsOK(name)) {
+      LOG(ERROR) << "attachment " << name << " contains invalid characters";
+      continue;
+    }
+
+    const base::FilePath path = directory.Append(name);
+    std::unique_ptr<FileWriter> writer = std::make_unique<FileWriter>();
+    if (!writer->Open(
+            path, FileWriteMode::kCreateOrFail, FilePermissions::kOwnerOnly)) {
+      continue;
+    }
+    attachment_writers_[name] = std::move(writer);
+    attachment_file_removers_.push_back(ScopedRemoveFile(path));
+  }
 }
 
 CrashReportDatabase::UploadReport::UploadReport()

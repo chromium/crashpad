@@ -17,6 +17,7 @@
 
 #include <time.h>
 
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -112,7 +113,15 @@ class CrashReportDatabase {
 
     //! A unique identifier by which this report will always be known to the
     //! database.
-    const UUID& ReportID() { return uuid_; }
+    const UUID& ReportID() const { return uuid_; }
+
+    //! XXX
+    FileWriter* AttachmentWriter(const std::string& name) const {
+      const auto it = attachment_writers_.find(name);
+      if (it == attachment_writers_.end())
+        return nullptr;
+      return it->second.get();
+    }
 
    private:
     friend class CrashReportDatabaseGeneric;
@@ -122,9 +131,14 @@ class CrashReportDatabase {
     bool Initialize(const base::FilePath& directory,
                     const base::FilePath::StringType& extension);
 
+    void InitializeAttachments(const base::FilePath& directory,
+                               const std::vector<std::string>& attachments);
+
     std::unique_ptr<FileWriter> writer_;
     UUID uuid_;
     ScopedRemoveFile file_remover_;
+    std::map<std::string, std::unique_ptr<FileWriter>> attachment_writers_;
+    std::vector<ScopedRemoveFile> attachment_file_removers_;
 
     DISALLOW_COPY_AND_ASSIGN(NewReport);
   };
@@ -137,8 +151,14 @@ class CrashReportDatabase {
     UploadReport();
     virtual ~UploadReport();
 
-    // An open FileReader with which to read the report.
+    //! \brief An open FileReader with which to read the report.
     FileReader* Reader() const { return reader_.get(); }
+
+    //! \brief Obtains a mapping of names to file readers for any attachments
+    //!     for the report.
+    //!
+    //! This is not implemented on macOS or Windows.
+    std::map<std::string, std::unique_ptr<FileReader>> GetAttachments() const;
 
    private:
     friend class CrashReportDatabase;
@@ -240,11 +260,19 @@ class CrashReportDatabase {
   //! called, the report will be removed from the database when \a report is
   //! destroyed.
   //!
+  //! \param[in] attachments The list of attachments that will be attached to
+  //!     this report, or `nullptr` if none. \a report will contain an open
+  //!     FileWriter for each attachment requested on successful operation,
+  //!     though the FileWriter may not exist on file system failures, so the
+  //!     writer of the report should take care not to assume that all
+  //!     FileWriters will be available. This parameter is not current used on
+  //!     macOS or Windows, and must be `nullptr`.
   //! \param[out] report A NewReport object containing a FileWriter with which
   //!     to write the report data. Only valid if this returns #kNoError.
   //!
   //! \return The operation status code.
   virtual OperationStatus PrepareNewCrashReport(
+      const std::vector<std::string>* attachments,
       std::unique_ptr<NewReport>* report) = 0;
 
   //! \brief Informs the database that a crash report has been successfully

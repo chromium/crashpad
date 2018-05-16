@@ -133,6 +133,7 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   // CrashReportDatabase:
   Settings* GetSettings() override;
   OperationStatus PrepareNewCrashReport(
+      const std::vector<std::string>* attachments,
       std::unique_ptr<NewReport>* report) override;
   OperationStatus FinishedWritingCrashReport(std::unique_ptr<NewReport> report,
                                              UUID* uuid) override;
@@ -307,8 +308,11 @@ Settings* CrashReportDatabaseMac::GetSettings() {
 
 CrashReportDatabase::OperationStatus
 CrashReportDatabaseMac::PrepareNewCrashReport(
+    const std::vector<std::string>* attachments,
     std::unique_ptr<NewReport>* out_report) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  DCHECK_EQ(attachments, nullptr);
 
   std::unique_ptr<NewReport> report(new NewReport());
   if (!report->Initialize(base_dir_.Append(kWriteDirectory),
