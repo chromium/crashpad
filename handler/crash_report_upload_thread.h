@@ -159,8 +159,9 @@ class CrashReportUploadThread : public WorkerThread::Delegate,
   //!
   //! \return A member of UploadResult indicating the result of the upload
   //!    attempt.
-  UploadResult UploadReport(const CrashReportDatabase::UploadReport* report,
-                            std::string* response_body);
+  UploadResult UploadReport(
+      const CrashReportDatabase::UploadReport* report,
+      std::string* response_body);
 
   // WorkerThread::Delegate:
   //! \brief Calls ProcessPendingReports() in response to ReportPending() having

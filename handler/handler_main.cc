@@ -836,6 +836,10 @@ int HandlerMain(int argc,
       database.get(),
       static_cast<CrashReportUploadThread*>(upload_thread.Get()),
       &options.annotations,
+#if defined(OS_FUCHSIA)
+      // TODO(scottmg): Process level file attachments, and for all platforms.
+      nullptr,
+#endif
       user_stream_sources);
 
  #if defined(OS_LINUX) || defined(OS_ANDROID)
