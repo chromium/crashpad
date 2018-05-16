@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2aaa98c9_2e176ced",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-16T00:03:34Z",
+      "side": 1,
+      "message": "That makes a lot more sense!\n\n(It\u0027s a bit awkward because UploadReport needs to know the UUID in the _generic implementation, but not otherwise. I guess it\u0027s OK to add it to the cross-platform one, and then delegate back to a helper in _generic to actually do the work.)",
+      "parentUuid": "87a49ee9_1485c58e",
+      "range": {
+        "startLine": 308,
+        "startChar": 0,
+        "endLine": 320,
+        "endChar": 64
+      },
+      "revId": "ead91dd29886c22c7ee91bfdafe563a2321174a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "873d416c_20e7ab4c",
         "filename": "client/crash_report_database_generic.cc",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "ead91dd29886c22c7ee91bfdafe563a2321174a8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73500e40_e23e0af2",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-16T00:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "873d416c_20e7ab4c",
+      "range": {
+        "startLine": 494,
+        "startChar": 0,
+        "endLine": 495,
+        "endChar": 29
+      },
+      "revId": "ead91dd29886c22c7ee91bfdafe563a2321174a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "fa41fcc0_f1e28e39",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-16T00:03:34Z",
+      "side": 1,
+      "message": "Done (but maybe obviated by next comment)",
+      "parentUuid": "27fc322e_e86c4a22",
+      "range": {
+        "startLine": 583,
+        "startChar": 2,
+        "endLine": 583,
+        "endChar": 3
+      },
+      "revId": "ead91dd29886c22c7ee91bfdafe563a2321174a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78c53ce4_a33395ad",
         "filename": "handler/fuchsia/crash_report_exception_handler.cc",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2018-05-15T22:56:26Z",
       "side": 1,
       "message": "Probably not too big a deal since attachments are best effort and it\u0027d probably be super rare, but there\u0027s a race here if CrashReportUploadThread has watch_pending_reports set. It could upload and delete the report while we\u0027re writing attachments. More reason to have WriteAttachment lock the report. If it can\u0027t find/lock the report, it should avoid writing the attachment.",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 5
+      },
+      "revId": "ead91dd29886c22c7ee91bfdafe563a2321174a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eadefd46_def495e8",
+        "filename": "handler/fuchsia/crash_report_exception_handler.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-16T00:03:34Z",
+      "side": 1,
+      "message": "Ah right, good catch. That kind of sucks. Maybe it\u0027d be better to add an optional attachments map to FinishedWritingCrashReport() so that it can be done atomically?\n\nThat\u0027d mean a bunch of nullptrs for all the non-using calls to that, and the drawback is that we\u0027d be reading all the contents of all the attachments into memory here.\n\nThat\u0027s probably not a huge problem at the moment, but not great. (On the other hand, I believe the http builder will be doing that when it builds the request too.)\n\nYet another way to go would be to follow the way that the main report is written. i.e. have PrepareNewCrashReport() include a request for a list of FileWriters that the database creates in the attachments directory, and then store a map in NewReport for the report creator to write. That seems like probably the way to go. But then we get into the complexity of scoped file removers for the already created files on failure.\n\nHmm... I\u0027ll ponder for a while, but I\u0027m leaning towards that last idea. WDYT?",
+      "parentUuid": "78c53ce4_a33395ad",
       "range": {
         "startLine": 156,
         "startChar": 0,
