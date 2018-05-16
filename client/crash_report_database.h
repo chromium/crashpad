@@ -17,6 +17,7 @@
 
 #include <time.h>
 
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -108,23 +109,40 @@ class CrashReportDatabase {
     ~NewReport();
 
     //! An open FileWriter with which to write the report.
-    FileWriter* Writer() const { return writer_.get(); }
+    FileWriter* Writer() const { return writers_[kIndexOfMainReport].get(); }
 
     //! A unique identifier by which this report will always be known to the
     //! database.
-    const UUID& ReportID() { return uuid_; }
+    const UUID& ReportID() const { return uuid_; }
+
+    //! \brief Adds an attachment to the report.
+    //!
+    //! \note This function is not yet implemented on macOS or Windows.
+    //!
+    //! \param[in] name The key and name for the attachment, which will be
+    //!     included in the http upload. The attachment will not appear in the
+    //!     minidump report. \a name should only use characters from the set
+    //!     `[a-zA-Z0-9_-]`.
+    //! \return A FileWriter that the caller should use to write the contents of
+    //!     the attachment, or `nullptr` on failure with an error logged.
+    FileWriter* AddAttachment(const std::string& name);
 
    private:
     friend class CrashReportDatabaseGeneric;
     friend class CrashReportDatabaseMac;
     friend class CrashReportDatabaseWin;
 
-    bool Initialize(const base::FilePath& directory,
+    bool Initialize(CrashReportDatabase* database,
+                    const base::FilePath& directory,
                     const base::FilePath::StringType& extension);
 
-    std::unique_ptr<FileWriter> writer_;
+    enum { kIndexOfMainReport = 0 };
+    ScopedRemoveFile& Remover() { return removers_[kIndexOfMainReport]; }
+
+    std::vector<std::unique_ptr<FileWriter>> writers_;
+    std::vector<ScopedRemoveFile> removers_;
     UUID uuid_;
-    ScopedRemoveFile file_remover_;
+    CrashReportDatabase* database_;
 
     DISALLOW_COPY_AND_ASSIGN(NewReport);
   };
@@ -137,8 +155,14 @@ class CrashReportDatabase {
     UploadReport();
     virtual ~UploadReport();
 
-    // An open FileReader with which to read the report.
+    //! \brief An open FileReader with which to read the report.
     FileReader* Reader() const { return reader_.get(); }
+
+    //! \brief Obtains a mapping of names to file readers for any attachments
+    //!     for the report.
+    //!
+    //! This is not implemented on macOS or Windows.
+    std::map<std::string, std::unique_ptr<FileReader>> GetAttachments() const;
 
    private:
     friend class CrashReportDatabase;

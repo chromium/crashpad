@@ -671,11 +671,11 @@ OperationStatus CrashReportDatabaseWin::FinishedWritingCrashReport(
   if (!metadata)
     return kDatabaseError;
   metadata->AddNewRecord(ReportDisk(report->ReportID(),
-                                    report->file_remover_.get(),
+                                    report->Remover().get(),
                                     time(nullptr),
                                     ReportState::kPending));
 
-  ignore_result(report->file_remover_.release());
+  ignore_result(report->Remover().release());
 
   *uuid = report->ReportID();
 

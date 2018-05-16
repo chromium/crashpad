@@ -317,7 +317,7 @@ CrashReportDatabaseMac::PrepareNewCrashReport(
   }
 
   // TODO(rsesek): Potentially use an fsetxattr() here instead.
-  if (!WriteXattr(report->file_remover_.get(),
+  if (!WriteXattr(report->Remover().get(),
                   XattrName(kXattrUUID),
                   report->ReportID().ToString())) {
     return kDatabaseError;
@@ -333,7 +333,7 @@ CrashReportDatabaseMac::FinishedWritingCrashReport(
     UUID* uuid) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  const base::FilePath& path = report->file_remover_.get();
+  const base::FilePath& path = report->Remover().get();
 
   // Get the report's UUID to return.
   std::string uuid_string;
@@ -363,7 +363,7 @@ CrashReportDatabaseMac::FinishedWritingCrashReport(
     PLOG(ERROR) << "rename " << path.value() << " to " << new_path.value();
     return kFileSystemError;
   }
-  ignore_result(report->file_remover_.release());
+  ignore_result(report->Remover().release());
 
   Metrics::CrashReportPending(Metrics::PendingReportReason::kNewlyCreated);
   Metrics::CrashReportSize(size);

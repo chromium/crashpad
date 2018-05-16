@@ -153,14 +153,17 @@ class CrashReportUploadThread : public WorkerThread::Delegate,
   //!     calling CrashReportDatabase::GetReportForUploading() before calling
   //!     this method, and for calling
   //!     CrashReportDatabase::RecordUploadComplete() after calling this method.
+  //! \param[in] attachments The attachments for the report.
   //! \param[out] response_body If the upload attempt is successful, this will
   //!     be set to the response body sent by the server. Breakpad-type servers
   //!     provide the crash ID assigned by the server in the response body.
   //!
   //! \return A member of UploadResult indicating the result of the upload
   //!    attempt.
-  UploadResult UploadReport(const CrashReportDatabase::UploadReport* report,
-                            std::string* response_body);
+  UploadResult UploadReport(
+      const CrashReportDatabase::UploadReport* report,
+      const std::map<std::string, std::unique_ptr<FileReader>>& attachments,
+      std::string* response_body);
 
   // WorkerThread::Delegate:
   //! \brief Calls ProcessPendingReports() in response to ReportPending() having
