@@ -615,6 +615,18 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
   DISALLOW_COPY_AND_ASSIGN(CrashReportDatabaseWin);
 };
 
+FileWriter* CrashReportDatabase::NewReport::AddAttachment(
+    const std::string& name) {
+  // Attachments aren't implemented in the Windows database yet.
+  return nullptr;
+}
+
+std::map<std::string, std::unique_ptr<FileReader>>
+CrashReportDatabase::UploadReport::GetAttachments() const {
+  // Attachments aren't implemented in the Windows database yet.
+  return std::map<std::string, std::unique_ptr<FileReader>>();
+}
+
 CrashReportDatabaseWin::CrashReportDatabaseWin(const base::FilePath& path)
     : CrashReportDatabase(), base_dir_(path), settings_(), initialized_() {}
 
@@ -653,7 +665,8 @@ OperationStatus CrashReportDatabaseWin::PrepareNewCrashReport(
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   std::unique_ptr<NewReport> new_report(new NewReport());
-  if (!new_report->Initialize(base_dir_.Append(kReportsDirectory),
+  if (!new_report->Initialize(this,
+                              base_dir_.Append(kReportsDirectory),
                               std::wstring(L".") + kCrashReportFileExtension)) {
     return kFileSystemError;
   }
@@ -671,11 +684,11 @@ OperationStatus CrashReportDatabaseWin::FinishedWritingCrashReport(
   if (!metadata)
     return kDatabaseError;
   metadata->AddNewRecord(ReportDisk(report->ReportID(),
-                                    report->file_remover_.get(),
+                                    report->Remover().get(),
                                     time(nullptr),
                                     ReportState::kPending));
 
-  ignore_result(report->file_remover_.release());
+  ignore_result(report->Remover().release());
 
   *uuid = report->ReportID();
 
