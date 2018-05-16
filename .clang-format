@@ -16,4 +16,5 @@
   BasedOnStyle: Chromium,
   AlignTrailingComments: false,
   BinPackArguments: false,
+  Standard: Cpp11,
 }
