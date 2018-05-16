@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "6a925ef5_1acb639e",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-16T20:15:36Z",
+      "side": 1,
+      "message": "Oh, of course. I kept getting mixed up between NewReport and UploadReport.",
+      "parentUuid": "75635edf_0c02a061",
+      "range": {
+        "startLine": 308,
+        "startChar": 0,
+        "endLine": 320,
+        "endChar": 64
+      },
+      "revId": "ead91dd29886c22c7ee91bfdafe563a2321174a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "873d416c_20e7ab4c",
         "filename": "client/crash_report_database_generic.cc",
         "patchSetId": 4
@@ -226,6 +250,30 @@
       "side": 1,
       "message": "Could also do something like:\nFileWriter* NewReport::AddAttachment(std::string filename)\n\nand have NewReport keep unique_ptr vectors of FileWriters/ScopedRemoveFiles opened on the fly when AddAttachment is called.",
       "parentUuid": "eadefd46_def495e8",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 5
+      },
+      "revId": "ead91dd29886c22c7ee91bfdafe563a2321174a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4aefc05_e5dac0a8",
+        "filename": "handler/fuchsia/crash_report_exception_handler.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-16T20:15:36Z",
+      "side": 1,
+      "message": "That setup seems to work pretty well.",
+      "parentUuid": "e497c403_e6e34928",
       "range": {
         "startLine": 156,
         "startChar": 0,
