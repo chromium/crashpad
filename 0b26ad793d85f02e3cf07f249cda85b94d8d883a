@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fba823e2_4c665ff4",
+        "filename": ".clang-format",
+        "patchSetId": 18
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-17T00:56:02Z",
+      "side": 1,
+      "message": "I don\u0027t know if it\u0027s an option here, but we\u0027re up to c++14 now.",
+      "range": {
+        "startLine": 19,
+        "startChar": 12,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "0b26ad793d85f02e3cf07f249cda85b94d8d883a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d4ff4c7_72f691bd",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-17T00:56:02Z",
+      "side": 1,
+      "message": "It\u0027s a little inconsistent that this returns the FileReaders in their own unique_ptrs, rather than keeping them owned by the UploadReport like the report file\u0027s reader. Maybe it\u0027s overkill to put the file reader\u0027s in a vector like new report did? I think we\u0027ll at least want a comment specifying that the attachment file readers shouldn\u0027t be kept alive longer than the UploadReport is.",
+      "range": {
+        "startLine": 164,
+        "startChar": 4,
+        "endLine": 164,
+        "endChar": 54
+      },
+      "revId": "0b26ad793d85f02e3cf07f249cda85b94d8d883a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "623759e4_fb46d044",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-17T00:56:02Z",
+      "side": 1,
+      "message": "kSearchable means kPending or kCompleted, which means there\u0027s a race here if there\u0027s a call to CleanDatabase() while a new report with attachments is being written.\n\nYou could:\n1. Add a state which means kNew, kPending, or kCompleted. You wouldn\u0027t want to lock reports in new (they are treated like lock files themselves as long as they\u0027re in new since there\u0027s no interface for other database clients to see that they exist until they\u0027re moved to pending). You\u0027d probably also want to search in a new -\u003e pending -\u003e completed order, just in case the report is being moved between states.\n\n2. Create the attachments in the new directory and move them to the attachments directory when calling FinishedWritingCrashReport(), just like we do for the report files. Lost attachments in the new directory could be purged using timestamps, just like for the report files.\n\n3. Do nothing. Accept that in the unlikely event we are writing a new report with a file attachment when our timer for CleanDatabase() goes off, we might lose an attachment, which are best effort anyways. Maybe leave a comment.",
+      "range": {
+        "startLine": 859,
+        "startChar": 36,
+        "endLine": 859,
+        "endChar": 47
+      },
+      "revId": "0b26ad793d85f02e3cf07f249cda85b94d8d883a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d448f60_cd6e8afa",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-17T00:56:02Z",
+      "side": 1,
+      "message": "Probably better to leave the attachments unless it specifically returns kReportNotFound.",
+      "range": {
+        "startLine": 860,
+        "startChar": 10,
+        "endLine": 860,
+        "endChar": 24
+      },
+      "revId": "0b26ad793d85f02e3cf07f249cda85b94d8d883a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
