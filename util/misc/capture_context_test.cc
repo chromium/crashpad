@@ -44,6 +44,7 @@ void TestCaptureContext() {
     ASSERT_NO_FATAL_FAILURE(SanityCheckContext(context_1));
   }
 
+#if !defined(ARCH_CPU_MIPS_FAMILY)
   // The program counter reference value is this function’s address. The
   // captured program counter should be slightly greater than or equal to the
   // reference program counter.
@@ -59,6 +60,7 @@ void TestCaptureContext() {
                pc,
                kReferencePC);
 #endif  // !defined(ADDRESS_SANITIZER)
+#endif  // !defined(ARCH_CPU_MIPS_FAMILY)
 
   // Declare sp and context_2 here because all local variables need to be
   // declared before computing the stack pointer reference value, so that the
@@ -72,8 +74,12 @@ void TestCaptureContext() {
   const uintptr_t kReferenceSP =
       std::min(std::min(reinterpret_cast<uintptr_t>(&context_1),
                         reinterpret_cast<uintptr_t>(&context_2)),
+#if defined(ARCH_CPU_MIPS_FAMILY)
+               reinterpret_cast<uintptr_t>(&sp));
+#else
                std::min(reinterpret_cast<uintptr_t>(&pc),
                         reinterpret_cast<uintptr_t>(&sp)));
+#endif
   sp = StackPointerFromContext(context_1);
   EXPECT_PRED2([](uintptr_t actual,
                   uintptr_t reference) { return reference - actual < 768u; },
@@ -92,7 +98,9 @@ void TestCaptureContext() {
   }
 
   EXPECT_EQ(StackPointerFromContext(context_2), sp);
+#if !defined(ARCH_CPU_MIPS_FAMILY)
   EXPECT_GT(ProgramCounterFromContext(context_2), pc);
+#endif
 }
 
 TEST(CaptureContext, CaptureContext) {

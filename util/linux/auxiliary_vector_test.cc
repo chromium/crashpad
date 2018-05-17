@@ -37,7 +37,11 @@
 // TODO(jperaza): This symbol isn't defined when building in chromium for
 // Android. There may be another symbol to use.
 extern "C" {
+#if defined(ARCH_CPU_MIPS_FAMILY)
+extern void __start();
+#else
 extern void _start();
+#endif
 }  // extern "C"
 #endif
 
@@ -70,7 +74,11 @@ void TestAgainstCloneOrSelf(pid_t pid) {
 #if !defined(OS_ANDROID)
   LinuxVMAddress entry_addr;
   ASSERT_TRUE(aux.GetValue(AT_ENTRY, &entry_addr));
+#if defined(ARCH_CPU_MIPS_FAMILY)
+  EXPECT_EQ(entry_addr, FromPointerCast<LinuxVMAddress>(__start));
+#else
   EXPECT_EQ(entry_addr, FromPointerCast<LinuxVMAddress>(_start));
+#endif
 #endif
 
   uid_t uid;

@@ -28,7 +28,7 @@
   .globl CAPTURECONTEXT_SYMBOL2
 #if defined(__i386__) || defined(__x86_64__)
   .balign 16, 0x90
-#elif defined(__arm__) || defined(__aarch64__)
+#elif defined(__arm__) || defined(__aarch64__) || defined(__mips__)
   .balign 4, 0x0
 #endif
 
@@ -331,5 +331,55 @@ CAPTURECONTEXT_SYMBOL2:
   // TODO(jperaza): save floating-point registers.
 
   ret
+#elif defined(__mips__)
+
+#if _MIPS_SIM == _ABIO32
+
+#define MCONTEXT_REG_SIZE 8
+#define MCONTEXT_GREGS_OFFSET 40
+
+  move $a2, $sp
+#define _SP $a2
+
+  sw $s0, (16 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sw $s1, (17 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sw $s2, (18 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sw $s3, (19 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sw $s4, (20 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sw $s5, (21 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sw $s6, (22 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sw $s7, (23 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sw _SP, (29 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sw $fp, (30 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sw $ra, (31 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+
+  jr $ra
+
+#else // _MIPS_SIM == _ABIO32
+
+#define MCONTEXT_REG_SIZE 8
+#define MCONTEXT_GREGS_OFFSET 40
+
+  move  $a2, $sp
+#define _SP  $a2
+  move  $a3, $gp
+#define _GP  $a3
+
+  sd $s0, (16 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sd $s1, (17 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sd $s2, (18 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sd $s3, (19 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sd $s4, (20 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sd $s5, (21 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sd $s6, (22 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sd $s7, (23 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sd _GP, (28 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sd _SP, (29 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sd $s8, (30 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+  sd $ra, (31 * MCONTEXT_REG_SIZE + MCONTEXT_GREGS_OFFSET)($a0)
+
+  jr $ra
+
+#endif // _MIPS_SIM == _ABIO32
 
 #endif  // __i386__

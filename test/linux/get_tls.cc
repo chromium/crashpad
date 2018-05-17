@@ -35,6 +35,12 @@ LinuxVMAddress GetTLS() {
   tls = tls_32;
 #elif defined(ARCH_CPU_X86_64)
   asm("movq %%fs:0x0, %0" : "=r"(tls));
+#elif defined(ARCH_CPU_MIPSEL)
+  asm("rdhwr   $3,$29\n\t"
+      "move    %0,$3\n\t" : "=r"(tls));
+#elif defined(ARCH_CPU_MIPS64EL)
+  asm("rdhwr   $3,$29\n\t"
+      "move    %0,$3\n\t" : "=r"(tls));
 #else
 #error Port.
 #endif  // ARCH_CPU_ARMEL

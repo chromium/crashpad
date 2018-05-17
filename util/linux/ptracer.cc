@@ -269,6 +269,90 @@ bool GetThreadArea64(pid_t tid,
   }
   return true;
 }
+#elif defined(ARCH_CPU_MIPSEL)
+bool GetFloatingPointRegisters32(pid_t tid,
+                                 FloatContext* context,
+                                 bool can_log) {
+  iovec iov;
+  iov.iov_base = &context->f32.fpregs;
+  iov.iov_len = sizeof(context->f32.fpregs);
+  if (ptrace(PTRACE_GETFPREGS, tid, nullptr, &context->f32.fpregs) != 0) {
+    switch (errno) {
+      case EINVAL:
+        // fp may not be present
+        break;
+      default:
+        PLOG_IF(ERROR, can_log) << "ptrace";
+        return false;
+    }
+  }
+  return true;
+}
+
+bool GetFloatingPointRegisters64(pid_t tid,
+                                 FloatContext* context,
+                                 bool can_log) {
+  // TODO(djordje.golubovic@mips.com)
+  return false;
+}
+
+bool GetThreadArea32(pid_t tid,
+                     const ThreadContext& context,
+                     LinuxVMAddress* address,
+                     bool can_log) {
+  // TODO(djordje.golubovic@mips.com)
+  return false;
+}
+
+bool GetThreadArea64(pid_t tid,
+                     const ThreadContext& context,
+                     LinuxVMAddress* address,
+                     bool can_log) {
+  // TODO(djordje.golubovic@mips.com)
+  return false;
+}
+#elif defined(ARCH_CPU_MIPS64EL)
+bool GetFloatingPointRegisters32(pid_t tid,
+                                 FloatContext* context,
+                                 bool can_log) {
+  iovec iov;
+  iov.iov_base = &context->f32.fpregs;
+  iov.iov_len = sizeof(context->f32.fpregs);
+  if (ptrace(PTRACE_GETFPREGS, tid, nullptr, &context->f32.fpregs) != 0) {
+    switch (errno) {
+      case EINVAL:
+        // fp may not be present
+        break;
+      default:
+        PLOG_IF(ERROR, can_log) << "ptrace";
+        return false;
+    }
+  }
+  return true;
+}
+
+bool GetFloatingPointRegisters64(pid_t tid,
+                                 FloatContext* context,
+                                 bool can_log) {
+  // TODO(djordje.golubovic@mips.com)
+  return false;
+}
+
+bool GetThreadArea32(pid_t tid,
+                     const ThreadContext& context,
+                     LinuxVMAddress* address,
+                     bool can_log) {
+  // TODO(djordje.golubovic@mips.com)
+  return false;
+}
+
+bool GetThreadArea64(pid_t tid,
+                     const ThreadContext& context,
+                     LinuxVMAddress* address,
+                     bool can_log) {
+  // TODO(djordje.golubovic@mips.com)
+  return false;
+}
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY

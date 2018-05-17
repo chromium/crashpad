@@ -258,6 +258,30 @@ void InitializeCPUContextARM64_OnlyFPSIMD(
   context->fpcr = float_context.fpcr;
 }
 
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+
+void InitializeCPUContextMIPSEL(const ThreadContext::t32_t& thread_context,
+                                const FloatContext::f32_t& float_context,
+                                CPUContextMIPSEL* context) {
+  static_assert(sizeof(context->regs) == sizeof(thread_context.regs),
+                "registers size mismatch");
+  static_assert(sizeof(context->fpregs) == sizeof(float_context.fpregs),
+                "fp registers size mismatch");
+  memcpy(&context->regs, &thread_context.regs, sizeof(context->regs));
+  memcpy(&context->fpregs, &float_context.fpregs, sizeof(context->fpregs));
+}
+
+void InitializeCPUContextMIPS64EL(const ThreadContext::t64_t& thread_context,
+                                  const FloatContext::f64_t& float_context,
+                                  CPUContextMIPS64EL* context) {
+  static_assert(sizeof(context->regs) == sizeof(thread_context.regs),
+                "registers size mismatch");
+  static_assert(sizeof(context->fpregs) == sizeof(float_context.fpregs),
+                "fp registers size mismatch");
+  memcpy(&context->regs, &thread_context.regs, sizeof(context->regs));
+  memcpy(&context->fpregs, &float_context.fpregs, sizeof(context->fpregs));
+}
+
 #endif  // ARCH_CPU_X86_FAMILY
 
 }  // namespace internal

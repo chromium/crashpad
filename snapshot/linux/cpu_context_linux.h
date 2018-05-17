@@ -138,6 +138,30 @@ void InitializeCPUContextARM64_OnlyFPSIMD(
 
 #endif  // ARCH_CPU_ARM_FAMILY || DOXYGEN
 
+#if defined(ARCH_CPU_MIPS_FAMILY) || DOXYGEN
+
+//! \brief Initializes a CPUContextMIPSEL structure from native context
+//!     structures on Linux.
+//!
+//! \param[in] thread_context The native thread context.
+//! \param[in] float_context The native float context.
+//! \param[out] context The CPUContextMIPSEL structure to initialize.
+void InitializeCPUContextMIPSEL(const ThreadContext::t32_t& thread_context,
+                                const FloatContext::f32_t& float_context,
+                                CPUContextMIPSEL* context);
+
+//! \brief Initializes a CPUContextMIPS64EL structure from native context
+//!     structures on Linux.
+//!
+//! \param[in] thread_context The native thread context.
+//! \param[in] float_context The native float context.
+//! \param[out] context The CPUContextMIPS64EL structure to initialize.
+void InitializeCPUContextMIPS64EL(const ThreadContext::t64_t& thread_context,
+                                  const FloatContext::f64_t& float_context,
+                                  CPUContextMIPS64EL* context);
+
+#endif  // ARCH_CPU_MIPS_FAMILY || DOXYGEN
+
 }  // namespace internal
 }  // namespace crashpad
 

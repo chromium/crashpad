@@ -67,6 +67,18 @@ union ThreadContext {
     uint32_t pc;
     uint32_t cpsr;
     uint32_t orig_r0;
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+    // Reflects output format of static int gpr32_get(), defined in
+    // arch/mips/kernel/ptrace.c in kernel source
+    uint32_t _padding0[6];
+    uint32_t regs[32];
+    uint32_t lo;
+    uint32_t hi;
+    uint32_t cp0_epc;
+    uint32_t cp0_badvaddr;
+    uint32_t cp0_status;
+    uint32_t cp0_cause;
+    uint32_t _padding;
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -110,6 +122,17 @@ union ThreadContext {
     uint64_t sp;
     uint64_t pc;
     uint64_t pstate;
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+    // Reflects output format of static int gpr64_get(), defined in
+    // arch/mips/kernel/ptrace.c in kernel source
+    uint64_t regs[32];
+    uint64_t lo;
+    uint64_t hi;
+    uint64_t cp0_epc;
+    uint64_t cp0_badvaddr;
+    uint64_t cp0_status;
+    uint64_t cp0_cause;
+    uint64_t _padding[7];
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -119,6 +142,10 @@ union ThreadContext {
   using NativeThreadContext = user_regs_struct;
 #elif defined(ARCH_CPU_ARMEL)
   using NativeThreadContext = user_regs;
+#elif defined(ARCH_CPU_MIPSEL)
+  using NativeThreadContext = uint32_t[45];
+#elif defined(ARCH_CPU_MIPS64EL)
+  using NativeThreadContext = uint64_t[45];
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY || ARCH_CPU_ARM64
@@ -183,6 +210,12 @@ union FloatContext {
 
     bool have_fpregs;
     bool have_vfp;
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+    // Reflects fpregset in ucontext.h
+    struct {
+      float _fp_fregs;
+      unsigned int _fp_pad;
+    } fpregs[32];
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -211,6 +244,9 @@ union FloatContext {
     uint32_t fpsr;
     uint32_t fpcr;
     uint8_t padding[8];
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+    // Reflects fpregset in ucontext.h
+    double fpregs[32];
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -237,6 +273,10 @@ union FloatContext {
 #endif
 #elif defined(ARCH_CPU_ARM64)
   static_assert(sizeof(f64) == sizeof(user_fpsimd_struct), "Size mismatch");
+#elif defined(ARCH_CPU_MIPSEL)
+  static_assert(sizeof(f32) == sizeof(double[32]), "Size mismatch");
+#elif defined(ARCH_CPU_MIPS64EL)
+  static_assert(sizeof(f64) == sizeof(double[32]), "Size mismatch");
 #else
 #error Port.
 #endif  // ARCH_CPU_X86

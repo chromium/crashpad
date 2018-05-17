@@ -306,6 +306,19 @@ struct CPUContextARM64 {
   uint32_t fpcr;
 };
 
+struct CPUContextMIPSEL {
+  uint32_t regs[32];
+  struct {
+    float _fp_fregs;
+    uint32_t _fp_pad;
+  } fpregs[32];
+};
+
+struct CPUContextMIPS64EL {
+  uint64_t regs[32];
+  double fpregs[32];
+};
+
 //! \brief A context structure capable of carrying the context of any supported
 //!     CPU architecture.
 struct CPUContext {
@@ -324,6 +337,8 @@ struct CPUContext {
     CPUContextX86_64* x86_64;
     CPUContextARM* arm;
     CPUContextARM64* arm64;
+    CPUContextMIPSEL* mipsel;
+    CPUContextMIPS64EL* mips64el;
   };
 };
 
