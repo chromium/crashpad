@@ -245,6 +245,16 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   DISALLOW_COPY_AND_ASSIGN(CrashReportDatabaseMac);
 };
 
+FileWriter* CrashReportDatabase::NewReport::AddAttachment(
+    const std::string& name) {
+  // Attachments aren't implemented in the Mac database yet.
+  return nullptr;
+}
+
+void CrashReportDatabase::UploadReport::InitializeAttachments() {
+  // Attachments aren't implemented in the Mac database yet.
+}
+
 CrashReportDatabaseMac::CrashReportDatabaseMac(const base::FilePath& path)
     : CrashReportDatabase(),
       base_dir_(path),
@@ -311,7 +321,8 @@ CrashReportDatabaseMac::PrepareNewCrashReport(
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   std::unique_ptr<NewReport> report(new NewReport());
-  if (!report->Initialize(base_dir_.Append(kWriteDirectory),
+  if (!report->Initialize(this,
+                          base_dir_.Append(kWriteDirectory),
                           std::string(".") + kCrashReportFileExtension)) {
     return kFileSystemError;
   }

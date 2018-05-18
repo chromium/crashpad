@@ -21,6 +21,7 @@
 #include <map>
 #include <string>
 
+#include "base/files/file_path.h"
 #include "base/macros.h"
 #include "client/crash_report_database.h"
 #include "handler/crash_report_upload_thread.h"
@@ -47,6 +48,10 @@ class CrashReportExceptionHandler {
   //!     To interoperate with Breakpad servers, the recommended practice is to
   //!     specify values for the `"prod"` and `"ver"` keys as process
   //!     annotations.
+  //! \param[in] process_attachments A map of file name keys to file paths to be
+  //!     included in the report. Each time a report is written, the file paths
+  //!     will be read in their entirety and included in the report using the
+  //!     file name key as the name in the http upload.
   //! \param[in] user_stream_data_sources Data sources to be used to extend
   //!     crash reports. For each crash report that is written, the data sources
   //!     are called in turn. These data sources may contribute additional
@@ -55,6 +60,7 @@ class CrashReportExceptionHandler {
       CrashReportDatabase* database,
       CrashReportUploadThread* upload_thread,
       const std::map<std::string, std::string>* process_annotations,
+      const std::map<std::string, base::FilePath>* process_attachments,
       const UserStreamDataSources* user_stream_data_sources);
 
   ~CrashReportExceptionHandler();
@@ -88,6 +94,7 @@ class CrashReportExceptionHandler {
   CrashReportDatabase* database_;  // weak
   CrashReportUploadThread* upload_thread_;  // weak
   const std::map<std::string, std::string>* process_annotations_;  // weak
+  const std::map<std::string, base::FilePath>* process_attachments_;  // weak
   const UserStreamDataSources* user_stream_data_sources_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);

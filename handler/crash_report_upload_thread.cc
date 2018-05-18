@@ -284,6 +284,11 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
     }
   }
 
+  for (const auto& it : report->GetAttachments()) {
+    http_multipart_builder.SetFileAttachment(
+        it.first, it.first, it.second, "application/octet-stream");
+  }
+
   http_multipart_builder.SetFileAttachment(kMinidumpKey,
                                            report->uuid.ToString() + ".dmp",
                                            reader,
