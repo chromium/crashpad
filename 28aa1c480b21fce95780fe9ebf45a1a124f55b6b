@@ -22,6 +22,30 @@
       "revId": "28aa1c480b21fce95780fe9ebf45a1a124f55b6b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "578cc58f_812da7f9",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-18T22:54:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cfe7614_2a9b6b62",
+      "range": {
+        "startLine": 851,
+        "startChar": 6,
+        "endLine": 851,
+        "endChar": 50
+      },
+      "revId": "28aa1c480b21fce95780fe9ebf45a1a124f55b6b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
