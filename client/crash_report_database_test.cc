@@ -20,6 +20,7 @@
 #include "test/errors.h"
 #include "test/file.h"
 #include "test/filesystem.h"
+#include "test/gtest_disabled.h"
 #include "test/scoped_temp_dir.h"
 #include "util/file/file_io.h"
 #include "util/file/filesystem.h"
@@ -667,6 +668,101 @@ TEST_F(CrashReportDatabaseTest, RequestUpload) {
   UploadReport(report_0_uuid, true, "1");
   EXPECT_EQ(RequestUpload(report_0_uuid),
             CrashReportDatabase::kCannotRequestUpload);
+}
+
+TEST_F(CrashReportDatabaseTest, Attachments) {
+#if defined(OS_MACOSX) || defined(OS_WIN)
+  // Attachments aren't supported on Mac and Windows yet.
+  DISABLED_TEST();
+#else
+  std::unique_ptr<CrashReportDatabase::NewReport> new_report;
+  ASSERT_EQ(db()->PrepareNewCrashReport(&new_report),
+            CrashReportDatabase::kNoError);
+
+  FileWriter* attach_some_file = new_report->AddAttachment("some_file");
+  ASSERT_NE(attach_some_file, nullptr);
+  static constexpr char test_data[] = "test data";
+  attach_some_file->Write(test_data, sizeof(test_data));
+
+  FileWriter* failed_attach = new_report->AddAttachment("not/a valid fi!e");
+  EXPECT_EQ(failed_attach, nullptr);
+
+  UUID expect_uuid = new_report->ReportID();
+  UUID uuid;
+  ASSERT_EQ(db()->FinishedWritingCrashReport(std::move(new_report), &uuid),
+            CrashReportDatabase::kNoError);
+  EXPECT_EQ(uuid, expect_uuid);
+
+  CrashReportDatabase::Report report;
+  EXPECT_EQ(db()->LookUpCrashReport(uuid, &report),
+            CrashReportDatabase::kNoError);
+  ExpectPreparedCrashReport(report);
+
+  std::vector<CrashReportDatabase::Report> reports;
+  EXPECT_EQ(db()->GetPendingReports(&reports), CrashReportDatabase::kNoError);
+  ASSERT_EQ(reports.size(), 1u);
+  EXPECT_EQ(reports[0].uuid, report.uuid);
+
+  std::unique_ptr<const CrashReportDatabase::UploadReport> upload_report;
+  ASSERT_EQ(db()->GetReportForUploading(reports[0].uuid, &upload_report),
+            CrashReportDatabase::kNoError);
+  std::map<std::string, FileReader*> result_attachments =
+      upload_report->GetAttachments();
+  EXPECT_EQ(result_attachments.size(), 1u);
+  EXPECT_NE(result_attachments.find("some_file"), result_attachments.end());
+  char result_buffer[sizeof(test_data)];
+  result_attachments["some_file"]->Read(result_buffer, sizeof(result_buffer));
+  EXPECT_EQ(memcmp(test_data, result_buffer, sizeof(test_data)), 0);
+#endif
+}
+
+TEST_F(CrashReportDatabaseTest, OrphanedAttachments) {
+#if defined(OS_MACOSX) || defined(OS_WIN)
+  // Attachments aren't supported on Mac and Windows yet.
+  DISABLED_TEST();
+#else
+  // TODO: This is using paths that are specific to the generic implementation
+  // and will need to be generalized for Mac and Windows.
+  std::unique_ptr<CrashReportDatabase::NewReport> new_report;
+  ASSERT_EQ(db()->PrepareNewCrashReport(&new_report),
+            CrashReportDatabase::kNoError);
+
+  FileWriter* file1 = new_report->AddAttachment("file1");
+  ASSERT_NE(file1, nullptr);
+  FileWriter* file2 = new_report->AddAttachment("file2");
+  ASSERT_NE(file2, nullptr);
+
+  UUID expect_uuid = new_report->ReportID();
+  UUID uuid;
+  ASSERT_EQ(db()->FinishedWritingCrashReport(std::move(new_report), &uuid),
+            CrashReportDatabase::kNoError);
+  EXPECT_EQ(uuid, expect_uuid);
+
+  CrashReportDatabase::Report report;
+  ASSERT_EQ(db()->LookUpCrashReport(uuid, &report),
+            CrashReportDatabase::kNoError);
+
+  ASSERT_TRUE(LoggingRemoveFile(report.file_path));
+
+  ASSERT_TRUE(LoggingRemoveFile(base::FilePath(
+      report.file_path.RemoveFinalExtension().value() + ".meta")));
+
+  ASSERT_EQ(db()->LookUpCrashReport(uuid, &report),
+            CrashReportDatabase::kReportNotFound);
+
+  base::FilePath report_attachments_dir(
+      path().Append("attachments").Append(uuid.ToString()));
+  base::FilePath file_path1(report_attachments_dir.Append("file1"));
+  base::FilePath file_path2(report_attachments_dir.Append("file2"));
+  EXPECT_TRUE(FileExists(file_path1));
+  EXPECT_TRUE(FileExists(file_path1));
+
+  EXPECT_EQ(db()->CleanDatabase(0), 0);
+
+  EXPECT_FALSE(FileExists(file_path1));
+  EXPECT_FALSE(FileExists(file_path2));
+  EXPECT_FALSE(FileExists(report_attachments_dir));
+#endif
 }
 
 // This test uses knowledge of the database format to break it, so it only
