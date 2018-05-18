@@ -17,6 +17,7 @@
 
 #include <time.h>
 
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -112,19 +113,35 @@ class CrashReportDatabase {
 
     //! A unique identifier by which this report will always be known to the
     //! database.
-    const UUID& ReportID() { return uuid_; }
+    const UUID& ReportID() const { return uuid_; }
+
+    //! \brief Adds an attachment to the report.
+    //!
+    //! \note This function is not yet implemented on macOS or Windows.
+    //!
+    //! \param[in] name The key and name for the attachment, which will be
+    //!     included in the http upload. The attachment will not appear in the
+    //!     minidump report. \a name should only use characters from the set
+    //!     `[a-zA-Z0-9._-]`.
+    //! \return A FileWriter that the caller should use to write the contents of
+    //!     the attachment, or `nullptr` on failure with an error logged.
+    FileWriter* AddAttachment(const std::string& name);
 
    private:
     friend class CrashReportDatabaseGeneric;
     friend class CrashReportDatabaseMac;
     friend class CrashReportDatabaseWin;
 
-    bool Initialize(const base::FilePath& directory,
+    bool Initialize(CrashReportDatabase* database,
+                    const base::FilePath& directory,
                     const base::FilePath::StringType& extension);
 
     std::unique_ptr<FileWriter> writer_;
-    UUID uuid_;
     ScopedRemoveFile file_remover_;
+    std::vector<std::unique_ptr<FileWriter>> attachment_writers_;
+    std::vector<ScopedRemoveFile> attachment_removers_;
+    UUID uuid_;
+    CrashReportDatabase* database_;
 
     DISALLOW_COPY_AND_ASSIGN(NewReport);
   };
@@ -137,8 +154,16 @@ class CrashReportDatabase {
     UploadReport();
     virtual ~UploadReport();
 
-    // An open FileReader with which to read the report.
+    //! \brief An open FileReader with which to read the report.
     FileReader* Reader() const { return reader_.get(); }
+
+    //! \brief Obtains a mapping of names to file readers for any attachments
+    //!     for the report.
+    //!
+    //! This is not implemented on macOS or Windows.
+    std::map<std::string, FileReader*> GetAttachments() const {
+      return attachment_map_;
+    };
 
    private:
     friend class CrashReportDatabase;
@@ -147,9 +172,12 @@ class CrashReportDatabase {
     friend class CrashReportDatabaseWin;
 
     bool Initialize(const base::FilePath path, CrashReportDatabase* database);
+    void InitializeAttachments();
 
     std::unique_ptr<FileReader> reader_;
     CrashReportDatabase* database_;
+    std::vector<std::unique_ptr<FileReader>> attachment_readers_;
+    std::map<std::string, FileReader*> attachment_map_;
 
     DISALLOW_COPY_AND_ASSIGN(UploadReport);
   };

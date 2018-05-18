@@ -36,6 +36,20 @@ base::FilePath ReplaceFinalExtension(
   return base::FilePath(path.RemoveFinalExtension().value() + extension);
 }
 
+UUID UUIDFromReportPath(const base::FilePath& path) {
+  UUID uuid;
+  uuid.InitializeFromString(path.RemoveFinalExtension().BaseName().value());
+  return uuid;
+}
+
+bool AttachmentNameIsOK(const std::string& name) {
+  for (const char c : name) {
+    if (c != '_' && c != '-' && c != '.' && !isalnum(c))
+      return false;
+  }
+  return true;
+}
+
 using OperationStatus = CrashReportDatabase::OperationStatus;
 
 constexpr base::FilePath::CharType kSettings[] =
@@ -53,6 +67,8 @@ constexpr base::FilePath::CharType kPendingDirectory[] =
     FILE_PATH_LITERAL("pending");
 constexpr base::FilePath::CharType kCompletedDirectory[] =
     FILE_PATH_LITERAL("completed");
+constexpr base::FilePath::CharType kAttachmentsDirectory[] =
+    FILE_PATH_LITERAL("attachments");
 
 constexpr const base::FilePath::CharType* kReportDirectories[] = {
     kNewDirectory,
@@ -171,6 +187,9 @@ class CrashReportDatabaseGeneric : public CrashReportDatabase {
   OperationStatus RequestUpload(const UUID& uuid) override;
   int CleanDatabase(time_t lockfile_ttl) override;
 
+  // Build a filepath for the directory for the report to hold attachments.
+  base::FilePath AttachmentsPath(const UUID& uuid);
+
  private:
   struct LockfileUploadReport : public UploadReport {
     ScopedLockFile lock_file;
@@ -225,11 +244,18 @@ class CrashReportDatabaseGeneric : public CrashReportDatabase {
   // Cleans lone metadata, reports, or expired locks in a particular state.
   int CleanReportsInState(ReportState state, time_t lockfile_ttl);
 
+  // Cleans any attachments that have no associated report in any state.
+  void CleanOrphanedAttachments();
+
+  // Attempt to remove any attachments associated with the given report UUID.
+  // There may not be any, so failing is not an error.
+  void RemoveAttachmentsByUUID(const UUID& uuid);
+
   // Reads the metadata for a report from path and returns it in report.
   static bool ReadMetadata(const base::FilePath& path, Report* report);
 
   // Wraps ReadMetadata and removes the report from the database on failure.
-  static bool CleaningReadMetadata(const base::FilePath& path, Report* report);
+  bool CleaningReadMetadata(const base::FilePath& path, Report* report);
 
   // Writes metadata for a new report to the filesystem at path.
   static bool WriteNewMetadata(const base::FilePath& path);
@@ -243,6 +269,59 @@ class CrashReportDatabaseGeneric : public CrashReportDatabase {
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportDatabaseGeneric);
 };
+
+FileWriter* CrashReportDatabase::NewReport::AddAttachment(
+    const std::string& name) {
+  if (!AttachmentNameIsOK(name)) {
+    LOG(ERROR) << "invalid name for attachment " << name;
+    return nullptr;
+  }
+
+  base::FilePath attachments_dir =
+      static_cast<CrashReportDatabaseGeneric*>(database_)->AttachmentsPath(
+          uuid_);
+  if (!LoggingCreateDirectory(
+          attachments_dir, FilePermissions::kOwnerOnly, true)) {
+    return nullptr;
+  }
+
+  base::FilePath path = attachments_dir.Append(name);
+
+  auto writer = std::make_unique<FileWriter>();
+  if (!writer->Open(
+          path, FileWriteMode::kCreateOrFail, FilePermissions::kOwnerOnly)) {
+    LOG(ERROR) << "could not open " << path.value();
+    return nullptr;
+  }
+  attachment_writers_.emplace_back(std::move(writer));
+  attachment_removers_.emplace_back(ScopedRemoveFile(path));
+  return attachment_writers_.back().get();
+}
+
+void CrashReportDatabase::UploadReport::InitializeAttachments() {
+  base::FilePath attachments_dir =
+      static_cast<CrashReportDatabaseGeneric*>(database_)->AttachmentsPath(
+          uuid);
+  DirectoryReader reader;
+  if (!reader.Open(attachments_dir)) {
+    return;
+  }
+
+  base::FilePath filename;
+  DirectoryReader::Result dir_result;
+  while ((dir_result = reader.NextFile(&filename)) ==
+         DirectoryReader::Result::kSuccess) {
+    const base::FilePath filepath(attachments_dir.Append(filename));
+    std::unique_ptr<FileReader> reader(std::make_unique<FileReader>());
+    if (!reader->Open(filepath)) {
+      LOG(ERROR) << "attachment " << filepath.value()
+                 << " couldn't be opened, skipping";
+      continue;
+    }
+    attachment_readers_.emplace_back(std::move(reader));
+    attachment_map_[filename.value()] = attachment_readers_.back().get();
+  }
+}
 
 CrashReportDatabaseGeneric::CrashReportDatabaseGeneric() = default;
 
@@ -260,11 +339,16 @@ bool CrashReportDatabaseGeneric::Initialize(const base::FilePath& path,
   }
 
   for (const base::FilePath::CharType* subdir : kReportDirectories) {
-    if (!LoggingCreateDirectory(base_dir_.Append(subdir),
-                                FilePermissions::kOwnerOnly,
-                                true)) {
+    if (!LoggingCreateDirectory(
+            base_dir_.Append(subdir), FilePermissions::kOwnerOnly, true)) {
       return false;
     }
+  }
+
+  if (!LoggingCreateDirectory(base_dir_.Append(kAttachmentsDirectory),
+                              FilePermissions::kOwnerOnly,
+                              true)) {
+    return false;
   }
 
   if (!settings_.Initialize(base_dir_.Append(kSettings))) {
@@ -299,8 +383,8 @@ OperationStatus CrashReportDatabaseGeneric::PrepareNewCrashReport(
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   auto new_report = std::make_unique<NewReport>();
-  if (!new_report->Initialize(base_dir_.Append(kNewDirectory),
-                              kCrashReportExtension)) {
+  if (!new_report->Initialize(
+          this, base_dir_.Append(kNewDirectory), kCrashReportExtension)) {
     return kFileSystemError;
   }
 
@@ -331,6 +415,14 @@ OperationStatus CrashReportDatabaseGeneric::FinishedWritingCrashReport(
   }
   // We've moved the report to pending, so it no longer needs to be removed.
   ignore_result(report->file_remover_.release());
+
+  // Close all the attachments and disarm their removers too.
+  for (auto& writer : report->attachment_writers_) {
+    writer->Close();
+  }
+  for (auto& remover : report->attachment_removers_) {
+    ignore_result(remover.release());
+  }
 
   *uuid = report->ReportID();
 
@@ -440,6 +532,8 @@ OperationStatus CrashReportDatabaseGeneric::DeleteReport(const UUID& uuid) {
     return kDatabaseError;
   }
 
+  RemoveAttachmentsByUUID(uuid);
+
   return kNoError;
 }
 
@@ -505,6 +599,7 @@ int CrashReportDatabaseGeneric::CleanDatabase(time_t lockfile_ttl) {
 
   removed += CleanReportsInState(kPending, lockfile_ttl);
   removed += CleanReportsInState(kCompleted, lockfile_ttl);
+  CleanOrphanedAttachments();
   return removed;
 }
 
@@ -567,6 +662,16 @@ base::FilePath CrashReportDatabaseGeneric::ReportPath(const UUID& uuid,
 
   return base_dir_.Append(kReportDirectories[state])
       .Append(uuid_string + kCrashReportExtension);
+}
+
+base::FilePath CrashReportDatabaseGeneric::AttachmentsPath(const UUID& uuid) {
+#if defined(OS_WIN)
+  const std::wstring uuid_string = uuid.ToString16();
+#else
+  const std::string uuid_string = uuid.ToString();
+#endif
+
+  return base_dir_.Append(kAttachmentsDirectory).Append(uuid_string);
 }
 
 OperationStatus CrashReportDatabaseGeneric::LocateAndLockReport(
@@ -688,6 +793,7 @@ int CrashReportDatabaseGeneric::CleanReportsInState(ReportState state,
       if (report_lock.ResetAcquire(filepath) && !IsRegularFile(metadata_path) &&
           LoggingRemoveFile(filepath)) {
         ++removed;
+        RemoveAttachmentsByUUID(UUIDFromReportPath(filepath));
       }
       continue;
     }
@@ -700,6 +806,7 @@ int CrashReportDatabaseGeneric::CleanReportsInState(ReportState state,
       if (report_lock.ResetAcquire(report_path) &&
           !IsRegularFile(report_path) && LoggingRemoveFile(filepath)) {
         ++removed;
+        RemoveAttachmentsByUUID(UUIDFromReportPath(filepath));
       }
       continue;
     }
@@ -717,12 +824,74 @@ int CrashReportDatabaseGeneric::CleanReportsInState(ReportState state,
 
       if (LoggingRemoveFile(filepath)) {
         ++removed;
+        RemoveAttachmentsByUUID(UUIDFromReportPath(filepath));
       }
       continue;
     }
   }
 
   return removed;
+}
+
+void CrashReportDatabaseGeneric::CleanOrphanedAttachments() {
+  base::FilePath root_attachments_dir(base_dir_.Append(kAttachmentsDirectory));
+  DirectoryReader reader;
+  if (!reader.Open(root_attachments_dir)) {
+    LOG(ERROR) << "no attachments dir";
+    return;
+  }
+
+  base::FilePath filename;
+  DirectoryReader::Result result;
+  while ((result = reader.NextFile(&filename)) ==
+         DirectoryReader::Result::kSuccess) {
+    const base::FilePath path(root_attachments_dir.Append(filename));
+    if (IsDirectory(path, false)) {
+      UUID uuid;
+      if (!uuid.InitializeFromString(filename.value())) {
+        LOG(ERROR) << "unexpected attachment dir name " << filename.value();
+        continue;
+      }
+
+      // Check to see if the report is being created in "new".
+      base::FilePath new_dir_path =
+          base_dir_.Append(kNewDirectory)
+              .Append(uuid.ToString() + kCrashReportExtension);
+      if (IsRegularFile(new_dir_path)) {
+        continue;
+      }
+
+      // Check to see if the report is in "pending" or "completed".
+      ScopedLockFile local_lock;
+      base::FilePath local_path;
+      OperationStatus os =
+          LocateAndLockReport(uuid, kSearchable, &local_path, &local_lock);
+      if (os != kReportNotFound) {
+        continue;
+      }
+
+      // Couldn't find a report, assume these attachments are orphaned.
+      RemoveAttachmentsByUUID(uuid);
+    }
+  }
+}
+
+void CrashReportDatabaseGeneric::RemoveAttachmentsByUUID(const UUID& uuid) {
+  base::FilePath attachments_dir = AttachmentsPath(uuid);
+  DirectoryReader reader;
+  if (!reader.Open(attachments_dir)) {
+    return;
+  }
+
+  base::FilePath filename;
+  DirectoryReader::Result result;
+  while ((result = reader.NextFile(&filename)) ==
+         DirectoryReader::Result::kSuccess) {
+    const base::FilePath filepath(attachments_dir.Append(filename));
+    LoggingRemoveFile(filepath);
+  }
+
+  LoggingRemoveDirectory(attachments_dir);
 }
 
 // static
@@ -766,7 +935,6 @@ bool CrashReportDatabaseGeneric::ReadMetadata(const base::FilePath& path,
   return true;
 }
 
-// static
 bool CrashReportDatabaseGeneric::CleaningReadMetadata(
     const base::FilePath& path,
     Report* report) {
@@ -776,6 +944,7 @@ bool CrashReportDatabaseGeneric::CleaningReadMetadata(
 
   LoggingRemoveFile(path);
   LoggingRemoveFile(ReplaceFinalExtension(path, kMetadataExtension));
+  RemoveAttachmentsByUUID(report->uuid);
   return false;
 }
 

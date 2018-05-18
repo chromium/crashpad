@@ -615,6 +615,16 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
   DISALLOW_COPY_AND_ASSIGN(CrashReportDatabaseWin);
 };
 
+FileWriter* CrashReportDatabase::NewReport::AddAttachment(
+    const std::string& name) {
+  // Attachments aren't implemented in the Windows database yet.
+  return nullptr;
+}
+
+void CrashReportDatabase::UploadReport::InitializeAttachments() {
+  // Attachments aren't implemented in the Windows database yet.
+}
+
 CrashReportDatabaseWin::CrashReportDatabaseWin(const base::FilePath& path)
     : CrashReportDatabase(), base_dir_(path), settings_(), initialized_() {}
 
@@ -653,7 +663,8 @@ OperationStatus CrashReportDatabaseWin::PrepareNewCrashReport(
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   std::unique_ptr<NewReport> new_report(new NewReport());
-  if (!new_report->Initialize(base_dir_.Append(kReportsDirectory),
+  if (!new_report->Initialize(this,
+                              base_dir_.Append(kReportsDirectory),
                               std::wstring(L".") + kCrashReportFileExtension)) {
     return kFileSystemError;
   }
