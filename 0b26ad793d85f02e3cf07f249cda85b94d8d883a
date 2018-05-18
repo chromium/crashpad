@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "53e322d2_bc28bfa1",
+        "filename": ".clang-format",
+        "patchSetId": 18
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-18T20:42:21Z",
+      "side": 1,
+      "message": "Oops, didn\u0027t mean to include that in this CL. I\u0027ll add it separately (I tried using git cl format and it reformats some end-of-template-\u003e\u003e incorrectly without this.",
+      "parentUuid": "fba823e2_4c665ff4",
+      "range": {
+        "startLine": 19,
+        "startChar": 12,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "0b26ad793d85f02e3cf07f249cda85b94d8d883a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d4ff4c7_72f691bd",
         "filename": "client/crash_report_database.h",
         "patchSetId": 18
@@ -36,6 +60,30 @@
       "writtenOn": "2018-05-17T00:56:02Z",
       "side": 1,
       "message": "It\u0027s a little inconsistent that this returns the FileReaders in their own unique_ptrs, rather than keeping them owned by the UploadReport like the report file\u0027s reader. Maybe it\u0027s overkill to put the file reader\u0027s in a vector like new report did? I think we\u0027ll at least want a comment specifying that the attachment file readers shouldn\u0027t be kept alive longer than the UploadReport is.",
+      "range": {
+        "startLine": 164,
+        "startChar": 4,
+        "endLine": 164,
+        "endChar": 54
+      },
+      "revId": "0b26ad793d85f02e3cf07f249cda85b94d8d883a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50ca1376_2c55ba9c",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-18T20:42:21Z",
+      "side": 1,
+      "message": "Good point, makes sense to keep them the same. Had to reshuffle a little to keep GetAttachments() const (and UploadThread receives a const UploadReport, which I think makes sense).",
+      "parentUuid": "4d4ff4c7_72f691bd",
       "range": {
         "startLine": 164,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ddab0421_cb39d0f8",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-18T20:42:21Z",
+      "side": 1,
+      "message": "Oh bummer. I tried to do #1.",
+      "parentUuid": "623759e4_fb46d044",
+      "range": {
+        "startLine": 859,
+        "startChar": 36,
+        "endLine": 859,
+        "endChar": 47
+      },
+      "revId": "0b26ad793d85f02e3cf07f249cda85b94d8d883a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1d448f60_cd6e8afa",
         "filename": "client/crash_report_database_generic.cc",
         "patchSetId": 18
@@ -91,6 +163,30 @@
       "revId": "0b26ad793d85f02e3cf07f249cda85b94d8d883a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7e51db9_38dec875",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-18T20:42:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d448f60_cd6e8afa",
+      "range": {
+        "startLine": 860,
+        "startChar": 10,
+        "endLine": 860,
+        "endChar": 24
+      },
+      "revId": "0b26ad793d85f02e3cf07f249cda85b94d8d883a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
