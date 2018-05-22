@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3146e290_5815dfb6",
+        "filename": "snapshot/cpu_context.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-22T16:10:38Z",
+      "side": 1,
+      "message": "This requires documentation (see the other declarations in the file).",
+      "revId": "0f650dcfcddd6a447696f1f5353ca950a8c97c8b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "195ea34f_1ba4c223",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-22T16:10:38Z",
+      "side": 1,
+      "message": "This seems incomplete.",
+      "range": {
+        "startLine": 273,
+        "startChar": 5,
+        "endLine": 273,
+        "endChar": 37
+      },
+      "revId": "0f650dcfcddd6a447696f1f5353ca950a8c97c8b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2be88faf_5eda0d80",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-22T16:10:38Z",
+      "side": 1,
+      "message": "Is this implementable?",
+      "range": {
+        "startLine": 219,
+        "startChar": 2,
+        "endLine": 219,
+        "endChar": 37
+      },
+      "revId": "0f650dcfcddd6a447696f1f5353ca950a8c97c8b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aacdd61_9b7b4a20",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-22T16:10:38Z",
+      "side": 1,
+      "message": "Here too.",
+      "range": {
+        "startLine": 303,
+        "startChar": 5,
+        "endLine": 303,
+        "endChar": 37
+      },
+      "revId": "0f650dcfcddd6a447696f1f5353ca950a8c97c8b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
