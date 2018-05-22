@@ -46,6 +46,13 @@ if (crashpad_is_in_chromium) {
     visibility = [ ":*" ]
     include_dirs = [ "gtest/googletest" ]
     defines = [ "GUNIT_NO_GOOGLE3=1" ]
+
+    if (crashpad_is_fuchsia) {
+      libs = [
+        "launchpad",
+        "zircon",
+      ]
+    }
   }
 
   config("gtest_public_config") {
@@ -262,6 +269,13 @@ if (crashpad_is_in_chromium) {
   config("gmock_private_config") {
     visibility = [ ":*" ]
     include_dirs = [ "gtest/googlemock" ]
+
+    if (crashpad_is_fuchsia) {
+      libs = [
+        "launchpad",
+        "zircon",
+      ]
+    }
   }
 
   config("gmock_public_config") {
