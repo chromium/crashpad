@@ -91,6 +91,8 @@ class MemoryMap {
   //!     message logged.
   const Mapping* FindFileMmapStart(const Mapping& mapping) const;
 
+  void Print() const;
+
  private:
   std::vector<Mapping> mappings_;
   InitializationStateDcheck initialized_;

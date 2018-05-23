@@ -49,6 +49,14 @@ static_library("snapshot") {
     "minidump/process_snapshot_minidump.h",
     "module_snapshot.h",
     "process_snapshot.h",
+    "sanitized/module_snapshot_sanitized.cc",
+    "sanitized/module_snapshot_sanitized.h",
+    "sanitized/process_snapshot_sanitized.cc",
+    "sanitized/process_snapshot_sanitized.h",
+    "sanitized/stack_snapshot_sanitized.cc",
+    "sanitized/stack_snapshot_sanitized.h",
+    "sanitized/thread_snapshot_sanitized.cc",
+    "sanitized/thread_snapshot_sanitized.h",
     "snapshot_constants.h",
     "system_snapshot.h",
     "thread_snapshot.h",
@@ -317,6 +325,7 @@ source_set("snapshot_test") {
       "linux/exception_snapshot_linux_test.cc",
       "linux/process_reader_linux_test.cc",
       "linux/system_snapshot_linux_test.cc",
+      "sanitized/process_snapshot_sanitized_test.cc",
     ]
   } else {
     sources += [ "crashpad_info_client_options_test.cc" ]

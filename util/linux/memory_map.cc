@@ -332,4 +332,11 @@ const MemoryMap::Mapping* MemoryMap::FindFileMmapStart(
   return nullptr;
 }
 
+void MemoryMap::Print() const {
+  for (const auto& mapping : mappings_) {
+    LOG(INFO) << mapping.name << " 0x" << std::hex << mapping.range.Base()
+              << ":0x" << mapping.range.Base() + mapping.range.Size();
+  }
+}
+
 }  // namespace crashpad
