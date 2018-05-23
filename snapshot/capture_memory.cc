@@ -106,6 +106,16 @@ void CaptureMemory::PointedToByContext(const CPUContext& context,
       MaybeCaptureMemoryAround(delegate, context.arm->regs[i]);
     }
   }
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+  if (context.architecture == kCPUArchitectureMIPSEL) {
+    for (size_t i = 0; i < arraysize(context.mipsel->regs); ++i) {
+      MaybeCaptureMemoryAround(delegate, context.mipsel->regs[i]);
+    }
+  } else {
+    for (size_t i = 0; i < arraysize(context.mips64el->regs); ++i) {
+      MaybeCaptureMemoryAround(delegate, context.mips64el->regs[i]);
+    }
+  }
 #else
 #error Port.
 #endif

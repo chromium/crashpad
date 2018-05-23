@@ -216,6 +216,12 @@ void CrashpadClient::DumpWithoutCrash(NativeCPUContext* context) {
   memset(context->uc_mcontext.__reserved,
          0,
          sizeof(context->uc_mcontext.__reserved));
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+  memset(context->uc_mcontext.fpregs.fp_r.fp_dregs,
+         0,
+         sizeof(context->uc_mcontext.fpregs));
+#else
+#error Port.
 #endif
 
   siginfo_t siginfo;

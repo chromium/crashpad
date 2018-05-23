@@ -266,6 +266,46 @@ void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
                    sizeof(actual.arm64->fpsimd)),
             0);
 }
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+using NativeCPUContext = ucontext_t;
+
+void InitializeContext(NativeCPUContext* context) {
+  for (size_t reg = 0; reg < arraysize(context->uc_mcontext.gregs); ++reg){
+    context->uc_mcontext.gregs[reg] = reg;
+  }
+  memset(&context->uc_mcontext.fpregs, 44, sizeof(context->uc_mcontext.fpregs));
+}
+
+#if defined(ARCH_CPU_MIPSEL)
+void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected){
+  EXPECT_EQ(actual.architecture, kCPUArchitectureMIPSEL);
+
+  EXPECT_EQ(memcmp(actual.mipsel->regs,
+                   &expected.uc_mcontext.gregs,
+                   sizeof(actual.mipsel->regs)),
+            0);
+
+  EXPECT_EQ(memcmp(actual.mipsel->fpregs,
+                   &expected.uc_mcontext.fpregs,
+                   sizeof(actual.mipsel->fpregs)),
+            0);
+}
+#elif defined(ARCH_CPU_MIPS64EL)
+void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected){
+  EXPECT_EQ(actual.architecture, kCPUArchitectureMIPS64EL);
+
+  EXPECT_EQ(memcmp(actual.mips64el->regs,
+                   &expected.uc_mcontext.gregs,
+                   sizeof(actual.mips64el->regs)),
+            0);
+
+  EXPECT_EQ(memcmp(actual.mips64el->fpregs,
+                   &expected.uc_mcontext.fpregs,
+                   sizeof(actual.mips64el->fpregs)),
+            0);
+}
+#endif // defined(ARCH_CPU_MIPSEL)
+
 #else
 #error Port.
 #endif
