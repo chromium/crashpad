@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4b14b348_e9c9cd54",
+        "filename": "snapshot/cpu_context.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1256356
+      },
+      "writtenOn": "2018-05-23T18:11:01Z",
+      "side": 1,
+      "message": "Added documentation line",
+      "parentUuid": "3146e290_5815dfb6",
+      "revId": "0f650dcfcddd6a447696f1f5353ca950a8c97c8b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "195ea34f_1ba4c223",
         "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2018-05-22T16:10:38Z",
       "side": 1,
       "message": "This seems incomplete.",
+      "range": {
+        "startLine": 273,
+        "startChar": 5,
+        "endLine": 273,
+        "endChar": 37
+      },
+      "revId": "0f650dcfcddd6a447696f1f5353ca950a8c97c8b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b8934c7_7d7c5d49",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1256356
+      },
+      "writtenOn": "2018-05-23T18:11:01Z",
+      "side": 1,
+      "message": "Implemented",
+      "parentUuid": "195ea34f_1ba4c223",
       "range": {
         "startLine": 273,
         "startChar": 5,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "e3d78ae5_facf7e1f",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1256356
+      },
+      "writtenOn": "2018-05-23T18:11:01Z",
+      "side": 1,
+      "message": "These checks aren\u0027t easily available for MIPS. Would it be ok to leave it as return 0, and empty strings for this and related functions?",
+      "parentUuid": "2be88faf_5eda0d80",
+      "range": {
+        "startLine": 219,
+        "startChar": 2,
+        "endLine": 219,
+        "endChar": 37
+      },
+      "revId": "0f650dcfcddd6a447696f1f5353ca950a8c97c8b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5aacdd61_9b7b4a20",
         "filename": "util/linux/ptracer.cc",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2018-05-22T16:10:38Z",
       "side": 1,
       "message": "Here too.",
+      "range": {
+        "startLine": 303,
+        "startChar": 5,
+        "endLine": 303,
+        "endChar": 37
+      },
+      "revId": "0f650dcfcddd6a447696f1f5353ca950a8c97c8b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83c57dd9_83a9c16d",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1256356
+      },
+      "writtenOn": "2018-05-23T18:11:01Z",
+      "side": 1,
+      "message": "Implemented",
+      "parentUuid": "5aacdd61_9b7b4a20",
       "range": {
         "startLine": 303,
         "startChar": 5,
