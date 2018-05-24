@@ -1,0 +1,255 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ec0a2e8_adafe9c0",
+        "filename": "snapshot/sanitized/module_snapshot_sanitized.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-24T19:05:21Z",
+      "side": 1,
+      "message": "Is there anything that should be whitelisted here?",
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cedc7b8b_e1ffe344",
+        "filename": "snapshot/sanitized/process_snapshot_sanitized.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-24T19:05:21Z",
+      "side": 1,
+      "message": "It doesn\u0027t seem like a call operator offers any benefit over a normal method here.",
+      "range": {
+        "startLine": 31,
+        "startChar": 7,
+        "endLine": 31,
+        "endChar": 17
+      },
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f826a701_294f9650",
+        "filename": "snapshot/sanitized/process_snapshot_sanitized.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-24T19:05:21Z",
+      "side": 1,
+      "message": "size_t aligned_sp_offset \u003d ... to explain what it\u0027s doing. (Maybe const too.)",
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8968f56_365a8588",
+        "filename": "snapshot/sanitized/process_snapshot_sanitized.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-24T19:05:21Z",
+      "side": 1,
+      "message": "A short comment here would be helpful too.",
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc12c55a_1edc6bc5",
+        "filename": "snapshot/sanitized/process_snapshot_sanitized.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-24T19:05:21Z",
+      "side": 1,
+      "message": "I\u0027m a little fuzzy on the interaction here with thread sanitization. Pointers to *all* modules are OK?",
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b695e2d6_23af71f4",
+        "filename": "snapshot/sanitized/process_snapshot_sanitized.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-24T19:05:21Z",
+      "side": 1,
+      "message": "Note that this is only used/valid when annotations_whitelist_ !\u003d nullptr. (And sanitize_stack_ for threads.)",
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e228e334_6f5ca5df",
+        "filename": "snapshot/sanitized/stack_snapshot_sanitized.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-24T19:05:21Z",
+      "side": 1,
+      "message": ", and the ...",
+      "range": {
+        "startLine": 30,
+        "startChar": 36,
+        "endLine": 30,
+        "endChar": 40
+      },
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc17a651_af678661",
+        "filename": "snapshot/sanitized/stack_snapshot_sanitized.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-24T19:05:21Z",
+      "side": 1,
+      "message": "\"word\" is a bit confusing in this context, as in the module it sometimes means actual English words in terms of annotation key names.",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 18
+      },
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc361473_76893865",
+        "filename": "snapshot/sanitized/thread_snapshot_sanitized.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-24T19:05:21Z",
+      "side": 1,
+      "message": "This is sort of theoretical because we\u0027re not doing this elsewhere, but since this is a general class, and we might start doing this on non-Windows:\nhttps://cs.chromium.org/chromium/src/third_party/crashpad/crashpad/snapshot/win/thread_snapshot_win.cc?rcl\u003ded65b2457027ad2dc357bb8ccb8632a2a7637644\u0026l\u003d89\ncaptures memory that points from the stack to elsewhere. So I think that ExtraMemory snapshots might need to be sanitized also.",
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d778ba03_9862926b",
+        "filename": "util/misc/range_set.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-24T19:05:21Z",
+      "side": 1,
+      "message": "This file will need a test.",
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6d25ec5_3e3b198e",
+        "filename": "util/misc/range_set.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-24T19:05:21Z",
+      "side": 1,
+      "message": "Same here, what\u0027s all this shifting/anding accomplishing?",
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9ae5abb_855613da",
+        "filename": "util/misc/range_set.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-24T19:05:21Z",
+      "side": 1,
+      "message": "address",
+      "range": {
+        "startLine": 34,
+        "startChar": 30,
+        "endLine": 34,
+        "endChar": 37
+      },
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bca009ee_d81e1bbc",
+        "filename": "util/misc/range_set.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-24T19:05:21Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t understand this. Is there some specific meaning/requirements on this size you could describe in a comment?",
+      "range": {
+        "startLine": 47,
+        "startChar": 21,
+        "endLine": 47,
+        "endChar": 50
+      },
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
