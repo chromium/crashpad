@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "b009b1d6_baba187c",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-24T17:14:46Z",
+      "side": 1,
+      "message": "Yes. If they are fundamentally unimplementable, returning an empty value and leaving a comment stating such (rather than a TODO, which implies there is outstanding work) would be fine.",
+      "parentUuid": "e3d78ae5_facf7e1f",
+      "range": {
+        "startLine": 219,
+        "startChar": 2,
+        "endLine": 219,
+        "endChar": 37
+      },
+      "revId": "0f650dcfcddd6a447696f1f5353ca950a8c97c8b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5aacdd61_9b7b4a20",
         "filename": "util/linux/ptracer.cc",
         "patchSetId": 1
