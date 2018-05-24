@@ -41,7 +41,9 @@ bool ShouldMergeStackMappings(const MemoryMap::Mapping& stack_mapping,
                               const MemoryMap::Mapping& adj_mapping) {
   DCHECK(stack_mapping.readable);
   return adj_mapping.readable && stack_mapping.device == adj_mapping.device &&
-         stack_mapping.inode == adj_mapping.inode;
+         stack_mapping.inode == adj_mapping.inode &&
+         (stack_mapping.name == adj_mapping.name ||
+          stack_mapping.name.empty() || adj_mapping.name.empty());
 }
 
 }  // namespace
