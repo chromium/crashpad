@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9a2fc14_21aaf65a",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-24T20:26:44Z",
+      "side": 1,
+      "message": "We don\u0027t need this error here since this isn\u0027t necessarily required for all architectures (and isn\u0027t needed/done for x86 family).",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 12
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aec7eeb_bb286821",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-24T20:26:44Z",
+      "side": 1,
+      "message": "Crashpad uses one argument per line when they don\u0027t all fit on one line. git cl format should fix this.",
+      "range": {
+        "startLine": 312,
+        "startChar": 56,
+        "endLine": 312,
+        "endChar": 71
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca035dbb_0309603f",
+        "filename": "snapshot/linux/signal_context.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-24T20:26:44Z",
+      "side": 1,
+      "message": "It looks like the float contexts in ThreadInfo::f_{32,64} have the same layout as this, so you could have the MContexts below refer directly to those definitions instead.",
+      "range": {
+        "startLine": 309,
+        "startChar": 0,
+        "endLine": 317,
+        "endChar": 2
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e3c103b_f01b379a",
+        "filename": "snapshot/linux/signal_context.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-24T20:26:44Z",
+      "side": 1,
+      "message": "A ThreadContext::t32_t, however, contains more info than the SignalThreadContext defined above.",
+      "range": {
+        "startLine": 365,
+        "startChar": 30,
+        "endLine": 365,
+        "endChar": 51
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "461764b3_61ace4b8",
+        "filename": "snapshot/linux/signal_context.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-24T20:26:44Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 373,
+        "startChar": 2,
+        "endLine": 373,
+        "endChar": 51
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19d3193e_f6cda6bc",
+        "filename": "snapshot/linux/signal_context.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-24T20:26:44Z",
+      "side": 1,
+      "message": "looks like this should just be an unsigned long?",
+      "range": {
+        "startLine": 380,
+        "startChar": 11,
+        "endLine": 380,
+        "endChar": 28
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "835d3f66_6eb83255",
+        "filename": "test/linux/get_tls.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-24T20:26:44Z",
+      "side": 1,
+      "message": "Any reason not to just put the result directly into %0?\n\nIf you do need to use $3 as a scratch register, I think you\u0027ll need to add it to the clobbers list.",
+      "range": {
+        "startLine": 40,
+        "startChar": 15,
+        "endLine": 40,
+        "endChar": 17
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41601012_35695c71",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-24T20:26:44Z",
+      "side": 1,
+      "message": "Maybe #define this into START_SYMBOL to avoid the extra #ifs below.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 6
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "490d84ff_89787234",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-24T20:26:44Z",
+      "side": 1,
+      "message": "I\u0027m not certain whether you can normally expect to reach them, but it looks like native definitions are available in \u003carch\u003e/asm/ptrace.h:pt_regs",
+      "range": {
+        "startLine": 144,
+        "startChar": 1,
+        "endLine": 146,
+        "endChar": 43
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8765275_753aeec4",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-24T20:26:44Z",
+      "side": 1,
+      "message": "and here it might be more valuable to compare against the size of a fpregset::fp_r::{fp_fregs, fp_dregs}",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 68
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8193d4c_5ed77980",
+        "filename": "util/misc/capture_context_linux.S",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-24T20:26:44Z",
+      "side": 1,
+      "message": "Any reason why the skipped registers here can\u0027t be collected?\nIf it\u0027s impractical to collect a register value, the corresponding slot in the output mcontext should be cleared and a note left in capture_context.h.",
+      "range": {
+        "startLine": 344,
+        "startChar": 0,
+        "endLine": 345,
+        "endChar": 63
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
