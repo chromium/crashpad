@@ -102,7 +102,7 @@ TEST(ProcessReaderFuchsia, ChildBasic) {
 void* SignalAndSleep(void* arg) {
   zx_port_packet_t packet = {};
   packet.type = ZX_PKT_TYPE_USER;
-  zx_port_queue(*reinterpret_cast<zx_handle_t*>(arg), &packet, 1);
+  zx_port_queue(*reinterpret_cast<zx_handle_t*>(arg), &packet);
   zx_nanosleep(UINT64_MAX);
   return nullptr;
 }
@@ -125,7 +125,7 @@ CRASHPAD_CHILD_TEST_MAIN(ProcessReaderChildThreadsTestMain) {
   // Wait until all threads are ready.
   for (size_t i = 0; i < kNumThreads; ++i) {
     zx_port_packet_t packet;
-    zx_port_wait(port, ZX_TIME_INFINITE, &packet, 1);
+    zx_port_wait(port, ZX_TIME_INFINITE, &packet);
   }
 
   char c = ' ';
