@@ -38,7 +38,7 @@ void ExceptionHandlerServer::Run(CrashReportExceptionHandler* handler) {
   while (true) {
     zx_port_packet_t packet;
     zx_status_t status =
-        zx_port_wait(exception_port_.get(), ZX_TIME_INFINITE, &packet, 1);
+        zx_port_wait(exception_port_.get(), ZX_TIME_INFINITE, &packet);
     if (status != ZX_OK) {
       ZX_LOG(ERROR, status) << "zx_port_wait, aborting";
       return;
