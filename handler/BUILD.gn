@@ -112,6 +112,7 @@ source_set("handler_test") {
   if (crashpad_is_win) {
     data_deps = [
       ":crashpad_handler_test_extended_handler",
+      ":fake_handler_that_crashes_at_startup",
     ]
   }
 }

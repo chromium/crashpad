@@ -133,7 +133,13 @@ void CrashWithExtendedHandler::ValidateGeneratedDump() {
   EXPECT_EQ(found_extension_streams, 1u);
 }
 
-TEST(CrashpadHandler, ExtensibilityCalloutsWork) {
+#if defined(ADDRESS_SANITIZER)
+// https://crbug.com/845011
+#define MAYBE_ExtensibilityCalloutsWork DISABLED_ExtensibilityCalloutsWork
+#else
+#define MAYBE_ExtensibilityCalloutsWork ExtensibilityCalloutsWork
+#endif
+TEST(CrashpadHandler, MAYBE_ExtensibilityCalloutsWork) {
   WinMultiprocessWithTempDir::Run<CrashWithExtendedHandler>();
 }
 
