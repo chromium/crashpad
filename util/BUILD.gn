@@ -246,6 +246,10 @@ static_library("util") {
 
   if (crashpad_is_linux || crashpad_is_fuchsia) {
     sources += [ "net/http_transport_socket.cc" ]
+    libs = [
+      "crypto",
+      "ssl",
+    ]
   } else if (crashpad_is_android) {
     sources += [ "net/http_transport_none.cc" ]
   }
@@ -379,11 +383,11 @@ static_library("util") {
 
   if (crashpad_is_fuchsia) {
     sources += [
-      "fuchsia/system_exception_port_key.h",
       "fuchsia/koid_utilities.cc",
       "fuchsia/koid_utilities.h",
       "fuchsia/scoped_task_suspend.cc",
       "fuchsia/scoped_task_suspend.h",
+      "fuchsia/system_exception_port_key.h",
       "misc/capture_context_fuchsia.S",
       "misc/paths_fuchsia.cc",
       "process/process_memory_fuchsia.cc",
@@ -435,6 +439,17 @@ static_library("util") {
   }
 }
 
+if (crashpad_is_linux || crashpad_is_fuchsia) {
+  action("generate_test_server_key") {
+    script = "net/generate_test_server_key.py"
+    outputs = [
+      "$root_out_dir/crashpad_util_test_cert.pem",
+      "$root_out_dir/crashpad_util_test_key.pem",
+    ]
+    data = outputs
+  }
+}
+
 if (!crashpad_is_android) {
   crashpad_executable("http_transport_test_server") {
     testonly = true
@@ -451,13 +466,20 @@ if (!crashpad_is_android) {
     ]
 
     if (crashpad_is_standalone) {
-      remove_configs = [
-        "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
-      ]
+      remove_configs = [ "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors" ]
+    }
+
+    if (crashpad_is_linux || crashpad_is_fuchsia) {
+      deps += [ ":generate_test_server_key" ]
     }
 
     if (crashpad_is_win) {
       libs = [ "ws2_32.lib" ]
+    } else if (crashpad_is_linux || crashpad_is_fuchsia) {
+      libs = [
+        "crypto",
+        "ssl",
+      ]
     }
   }
 }
