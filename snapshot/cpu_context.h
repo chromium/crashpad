@@ -306,6 +306,18 @@ struct CPUContextARM64 {
   uint32_t fpcr;
 };
 
+//! \brief A context structure carrying MIPS CPU state.
+struct CPUContextMIPS {
+  uint64_t regs[32];
+  union {
+    double dregs[32];
+    struct {
+      float _fp_fregs;
+      uint32_t _fp_pad;
+    } fregs[32];
+  } fpregs;
+};
+
 //! \brief A context structure capable of carrying the context of any supported
 //!     CPU architecture.
 struct CPUContext {
@@ -331,6 +343,7 @@ struct CPUContext {
     CPUContextX86_64* x86_64;
     CPUContextARM* arm;
     CPUContextARM64* arm64;
+    CPUContextMIPS* mipsel;
   };
 };
 

@@ -28,6 +28,10 @@
 #include <android/api-level.h>
 #endif
 
+#if defined(ARCH_CPU_MIPS_FAMILY)
+#include <sys/ucontext.h>
+#endif
+
 namespace crashpad {
 
 //! \brief The set of general purpose registers for an architecture family.
@@ -67,6 +71,9 @@ union ThreadContext {
     uint32_t pc;
     uint32_t cpsr;
     uint32_t orig_r0;
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+    // Reflects gregset_t from ucontext.h
+    uint64_t regs[32];
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -110,6 +117,13 @@ union ThreadContext {
     uint64_t sp;
     uint64_t pc;
     uint64_t pstate;
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+    // Reflects gregset_t from ucontext.h
+    // Added padding_ to make Ptracer::Is64Bit() properly detect bitness based
+    // on struct size. This was needed as register files are assumed by kernel
+    // to be the same size for both MIPS32 and MIPS64.
+    uint64_t regs[32];
+    uint64_t padding_;
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -119,6 +133,10 @@ union ThreadContext {
   using NativeThreadContext = user_regs_struct;
 #elif defined(ARCH_CPU_ARMEL)
   using NativeThreadContext = user_regs;
+#elif defined(ARCH_CPU_MIPSEL)
+  using NativeThreadContext = gregset_t;
+#elif defined(ARCH_CPU_MIPS64EL)
+  using NativeThreadContext = gregset_t;
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY || ARCH_CPU_ARM64
@@ -126,7 +144,8 @@ union ThreadContext {
 #if defined(ARCH_CPU_32_BITS)
   static_assert(sizeof(t32_t) == sizeof(NativeThreadContext), "Size mismatch");
 #else  // ARCH_CPU_64_BITS
-  static_assert(sizeof(t64_t) == sizeof(NativeThreadContext), "Size mismatch");
+  static_assert(sizeof(t64_t::regs) == sizeof(NativeThreadContext),
+                "Size mismatch");
 #endif  // ARCH_CPU_32_BITS
 };
 static_assert(std::is_standard_layout<ThreadContext>::value,
@@ -183,6 +202,12 @@ union FloatContext {
 
     bool have_fpregs;
     bool have_vfp;
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+    // Reflects fpregset in ucontext.h
+    struct {
+      float _fp_fregs;
+      unsigned int _fp_pad;
+    } fpregs[32];
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -211,6 +236,9 @@ union FloatContext {
     uint32_t fpsr;
     uint32_t fpcr;
     uint8_t padding[8];
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+    // Reflects fpregset in ucontext.h
+    double fpregs[32];
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -237,6 +265,10 @@ union FloatContext {
 #endif
 #elif defined(ARCH_CPU_ARM64)
   static_assert(sizeof(f64) == sizeof(user_fpsimd_struct), "Size mismatch");
+#elif defined(ARCH_CPU_MIPSEL)
+  static_assert(sizeof(f32) == sizeof(fpregset_t), "Size mismatch");
+#elif defined(ARCH_CPU_MIPS64EL)
+  static_assert(sizeof(f64) == sizeof(fpregset_t), "Size mismatch");
 #else
 #error Port.
 #endif  // ARCH_CPU_X86

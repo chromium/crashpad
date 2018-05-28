@@ -220,5 +220,45 @@ void InitializeCPUContextARM64(CPUContext* context, uint32_t seed) {
   arm64->fpcr = value++;
 }
 
+void InitializeCPUContextMIPS(CPUContext* context, uint32_t seed) {
+  context->architecture = kCPUArchitectureMIPSEL;
+  CPUContextMIPS* mipsel = context->mipsel;
+
+  if (seed == 0) {
+    memset(mipsel, 0, sizeof(*mipsel));
+    return;
+  }
+
+  uint32_t value = seed;
+
+  for (size_t index = 0; index < arraysize(mipsel->regs); ++index) {
+    mipsel->regs[index] = value++;
+  }
+
+  for (size_t index = 0; index < arraysize(mipsel->fpregs.fregs); ++index) {
+    mipsel->fpregs.fregs[index]._fp_fregs = value++;
+  }
+}
+
+void InitializeCPUContextMIPS64(CPUContext* context, uint32_t seed) {
+  context->architecture = kCPUArchitectureMIPS64EL;
+  CPUContextMIPS* mipsel = context->mipsel;
+
+  if (seed == 0) {
+    memset(mipsel, 0, sizeof(*mipsel));
+    return;
+  }
+
+  uint64_t value = seed;
+
+  for (size_t index = 0; index < arraysize(mipsel->regs); ++index) {
+    mipsel->regs[index] = value++;
+  }
+
+  for (size_t index = 0; index < arraysize(mipsel->fpregs.dregs); ++index) {
+    mipsel->fpregs.dregs[index] = value++;
+  }
+}
+
 }  // namespace test
 }  // namespace crashpad

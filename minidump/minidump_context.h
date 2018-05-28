@@ -432,6 +432,55 @@ struct MinidumpContextARM64 {
   uint128_struct fpsimd[32];
 };
 
+//! \brief 32bit MIPS-specifc flags for MinidumpContextMIPS::context_flags.
+//! Based on minidump_cpu_mips.h from breakpad
+enum MinidumpContextMIPSFlags : uint32_t {
+  //! \brief Identifies the context structure as MIPSEL.
+  kMinidumpContextMIPS = 0x00040000,
+
+  kMinidumpContextMIPSInteger = kMinidumpContextMIPS | 0x00000002,
+
+  kMinidumpContextMIPSFloatingPoint = kMinidumpContextMIPS | 0x00000004,
+
+  kMinidumpContextMIPSDSP = kMinidumpContextMIPS | 0x00000008,
+
+  kMinidumpContextMIPSAll = kMinidumpContextMIPSInteger |
+                            kMinidumpContextMIPSFloatingPoint |
+                            kMinidumpContextMIPSDSP,
+};
+
+//! \brief 64bit MIPS-specifc flags for MinidumpContextMIPS64::context_flags.
+//! Based on minidump_cpu_mips.h from breakpad
+enum MinidumpContextMIPS64Flags : uint32_t {
+  //! \brief Identifies the context structure as MIPS64EL.
+  kMinidumpContextMIPS64 = 0x00080000,
+
+  kMinidumpContextMIPS64Integer = kMinidumpContextMIPS64 | 0x00000002,
+
+  kMinidumpContextMIPS64FloatingPoint = kMinidumpContextMIPS64 | 0x00000004,
+
+  kMinidumpContextMIPS64DSP = kMinidumpContextMIPS64 | 0x00000008,
+
+  kMinidumpContextMIPS64All = kMinidumpContextMIPS64Integer |
+                              kMinidumpContextMIPS64FloatingPoint |
+                              kMinidumpContextMIPS64DSP,
+};
+
+//! \brief A 32bit MIPS CPU context (register state) carried in a minidump file.
+struct MinidumpContextMIPS {
+  uint64_t context_flags;
+
+  uint64_t regs[32];
+
+  union {
+    struct {
+      float _fp_fregs;
+      uint32_t _fp_pad;
+    } fregs[32];
+    double dregs[32];
+  } fpregs;
+};
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_H_

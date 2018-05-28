@@ -138,6 +138,33 @@ void InitializeCPUContextARM64_OnlyFPSIMD(
 
 #endif  // ARCH_CPU_ARM_FAMILY || DOXYGEN
 
+#if defined(ARCH_CPU_MIPS_FAMILY) || DOXYGEN
+
+//! \brief Initializes a CPUContextMIPS structure from native context
+//!     structures on Linux.
+//!
+//! This function has template specializations for MIPSEL and MIPS64EL
+//! architecture contexts, using ContextTraits32 or ContextTraits64 as template
+//! parameter, respectively.
+//!
+//! \param[in] thread_context The native thread context.
+//! \param[in] float_context The native float context.
+//! \param[out] context The CPUContextMIPS structure to initialize.
+template <typename Traits>
+void InitializeCPUContextMIPS(
+    const typename Traits::SignalThreadContext& thread_context,
+    const typename Traits::SignalFloatContext& float_context,
+    CPUContextMIPS* context) {
+  static_assert(sizeof(context->regs) == sizeof(thread_context.regs),
+                "registers size mismatch");
+  static_assert(sizeof(context->fpregs) == sizeof(float_context.fpregs),
+                "fp registers size mismatch");
+  memcpy(&context->regs, &thread_context.regs, sizeof(context->regs));
+  memcpy(&context->fpregs, &float_context.fpregs, sizeof(context->fpregs));
+};
+
+#endif  // ARCH_CPU_MIPS_FAMILY || DOXYGEN
+
 }  // namespace internal
 }  // namespace crashpad
 

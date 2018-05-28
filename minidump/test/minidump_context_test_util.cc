@@ -195,6 +195,48 @@ void InitializeMinidumpContextARM64(MinidumpContextARM64* context,
   context->fpcr = value++;
 }
 
+void InitializeMinidumpContextMIPS(MinidumpContextMIPS* context,
+                                   uint32_t seed) {
+  if (seed == 0) {
+    memset(context, 0, sizeof(*context));
+    context->context_flags = kMinidumpContextMIPS;
+    return;
+  }
+
+  context->context_flags = kMinidumpContextMIPSAll;
+
+  uint32_t value = seed;
+
+  for (size_t index = 0; index < arraysize(context->regs); ++index) {
+    context->regs[index] = value++;
+  }
+
+  for (size_t index = 0; index < arraysize(context->fpregs.fregs); ++index) {
+    context->fpregs.fregs[index]._fp_fregs = value++;
+  }
+}
+
+void InitializeMinidumpContextMIPS64(MinidumpContextMIPS* context,
+                                     uint32_t seed) {
+  if (seed == 0) {
+    memset(context, 0, sizeof(*context));
+    context->context_flags = kMinidumpContextMIPS64;
+    return;
+  }
+
+  context->context_flags = kMinidumpContextMIPS64All;
+
+  uint64_t value = seed;
+
+  for (size_t index = 0; index < arraysize(context->regs); ++index) {
+    context->regs[index] = value++;
+  }
+
+  for (size_t index = 0; index < arraysize(context->fpregs.dregs); ++index) {
+    context->fpregs.dregs[index] = value++;
+  }
+}
+
 namespace {
 
 // Using gtest assertions, compares |expected| to |observed|. This is
@@ -450,6 +492,41 @@ void ExpectMinidumpContextARM64(uint32_t expect_seed,
   for (size_t index = 0; index < arraysize(expected.fpsimd); ++index) {
     EXPECT_EQ(observed->fpsimd[index].lo, expected.fpsimd[index].lo);
     EXPECT_EQ(observed->fpsimd[index].hi, expected.fpsimd[index].hi);
+  }
+}
+
+void ExpectMinidumpContextMIPS(uint32_t expect_seed,
+                               const MinidumpContextMIPS* observed,
+                               bool snapshot) {
+  MinidumpContextMIPS expected;
+  InitializeMinidumpContextMIPS(&expected, expect_seed);
+
+  EXPECT_EQ(observed->context_flags, expected.context_flags);
+
+  for (size_t index = 0; index < arraysize(expected.regs); ++index) {
+    EXPECT_EQ(observed->regs[index], expected.regs[index]);
+  }
+
+  for (size_t index = 0; index < arraysize(expected.fpregs.fregs); ++index) {
+    EXPECT_EQ(observed->fpregs.fregs[index]._fp_fregs,
+              expected.fpregs.fregs[index]._fp_fregs);
+  }
+}
+
+void ExpectMinidumpContextMIPS64(uint32_t expect_seed,
+                                 const MinidumpContextMIPS* observed,
+                                 bool snapshot) {
+  MinidumpContextMIPS expected;
+  InitializeMinidumpContextMIPS64(&expected, expect_seed);
+
+  EXPECT_EQ(observed->context_flags, expected.context_flags);
+
+  for (size_t index = 0; index < arraysize(expected.regs); ++index) {
+    EXPECT_EQ(observed->regs[index], expected.regs[index]);
+  }
+
+  for (size_t index = 0; index < arraysize(expected.fpregs.dregs); ++index) {
+    EXPECT_EQ(observed->fpregs.dregs[index], expected.fpregs.dregs[index]);
   }
 }
 

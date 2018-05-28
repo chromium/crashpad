@@ -122,6 +122,10 @@ std::string MinidumpMiscInfoDebugBuildString() {
   static constexpr char kCPU[] = "arm";
 #elif defined(ARCH_CPU_ARM64)
   static constexpr char kCPU[] = "arm64";
+#elif defined(ARCH_CPU_MIPSEL)
+  static constexpr char kCPU[] = "mips";
+#elif defined(ARCH_CPU_MIPS64EL)
+  static constexpr char kCPU[] = "mips64";
 #else
 #error define kCPU for this CPU
 #endif

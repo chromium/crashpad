@@ -39,8 +39,14 @@ union Sigval {
 template <class Traits>
 struct Siginfo {
   int32_t signo;
+#ifdef ARCH_CPU_MIPS_FAMILY
+  // Attribute order for signo_t defined in kernel is different for MIPS.
+  int32_t code;
+  int32_t err;
+#else
   int32_t err;
   int32_t code;
+#endif
   typename Traits::UInteger32_64Only padding;
 
   union {
@@ -299,6 +305,67 @@ static_assert(offsetof(UContext<ContextTraits64>, reserved) ==
               "reserved space offset mismtach");
 #endif
 
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+
+struct MContext32 {
+  uint32_t regmask;
+  uint32_t status;
+  uint64_t pc;
+  uint64_t gregs[32];
+  FloatContext::f32_t fpregs;
+  uint32_t fp_owned;
+  uint32_t fpc_csr;
+  uint32_t fpc_eir;
+  uint32_t used_math;
+  uint32_t dsp;
+  uint64_t mdhi;
+  uint64_t mdlo;
+  uint32_t hi1;
+  uint32_t lo1;
+  uint32_t hi2;
+  uint32_t lo2;
+  uint32_t hi3;
+  uint32_t lo3;
+};
+
+struct MContext64 {
+  uint64_t gregs[32];
+  FloatContext::f64_t fpregs;
+  uint64_t mdhi;
+  uint64_t hi1;
+  uint64_t hi2;
+  uint64_t hi3;
+  uint64_t mdlo;
+  uint64_t lo1;
+  uint64_t lo2;
+  uint64_t lo3;
+  uint64_t pc;
+  uint32_t fpc_csr;
+  uint32_t used_math;
+  uint32_t dsp;
+  uint32_t __glibc_reserved1;
+};
+
+struct ContextTraits32 : public Traits32 {
+  using MContext = MContext32;
+  using SignalThreadContext = ThreadContext::t32_t;
+  using SignalFloatContext = FloatContext::f32_t;
+};
+
+struct ContextTraits64 : public Traits64 {
+  using MContext = MContext64;
+  using SignalThreadContext = ThreadContext::t64_t;
+  using SignalFloatContext = FloatContext::f64_t;
+};
+
+template <typename Traits>
+struct UContext {
+  uint64_t flags;
+  typename Traits::Address link;
+  SignalStack<Traits> stack;
+  typename Traits::MContext mcontext;
+  Sigset<Traits> sigmask;
+};
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
