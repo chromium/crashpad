@@ -32,6 +32,14 @@
 #include "util/stdlib/string_number_conversion.h"
 #include "util/string/split_string.h"
 
+#if defined(OS_LINUX) || defined(OS_FUCHSIA)
+#define CRASHPAD_USE_BORINGSSL
+#endif
+
+#if defined(CRASHPAD_USE_BORINGSSL)
+#include <openssl/ssl.h>
+#endif
+
 namespace crashpad {
 
 namespace {
@@ -55,6 +63,90 @@ struct ScopedAddrinfoTraits {
 };
 using ScopedAddrinfo =
     base::ScopedGeneric<addrinfo*, ScopedAddrinfoTraits>;
+
+class Stream {
+ public:
+  virtual ~Stream() = default;
+
+  virtual bool LoggingWrite(const void* data, size_t size) = 0;
+  virtual bool LoggingRead(void* data, size_t size) = 0;
+  virtual bool LoggingReadToEOF(std::string* contents) = 0;
+};
+
+class FdStream : public Stream {
+ public:
+  FdStream(int fd) : fd_(fd) { CHECK(fd_ >= 0); }
+
+  bool LoggingWrite(const void* data, size_t size) override {
+    return LoggingWriteFile(fd_, data, size);
+  }
+
+  bool LoggingRead(void* data, size_t size) override {
+    return LoggingReadFileExactly(fd_, data, size);
+  }
+
+  bool LoggingReadToEOF(std::string* result) override{
+    return crashpad::LoggingReadToEOF(fd_, result);
+  }
+
+ private:
+  int fd_;
+};
+
+#if defined(CRASHPAD_USE_BORINGSSL)
+struct ScopedSSLCTXTraits {
+  static SSL_CTX* InvalidValue() { return nullptr; }
+  static void Free(SSL_CTX* ctx) { SSL_CTX_free(ctx); }
+};
+using ScopedSSLCTX = base::ScopedGeneric<SSL_CTX*, ScopedSSLCTXTraits>;
+
+struct ScopedSSLTraits {
+  static SSL* InvalidValue() { return nullptr; }
+  static void Free(SSL* ssl) {
+    //SSL_shutdown(ssl);
+    //SSL_free(ssl);
+  }
+};
+using ScopedSSL = base::ScopedGeneric<SSL*, ScopedSSLTraits>;
+
+struct ScopedBIOTraits {
+  static BIO* InvalidValue() { return nullptr; }
+  static void Free(BIO* bio) { BIO_free_all(bio); }
+};
+using ScopedBIO = base::ScopedGeneric<BIO*, ScopedBIOTraits>;
+
+class SSLStream : public Stream {
+ public:
+  SSLStream(SSL* ssl) : ssl_(ssl) { CHECK(ssl_ != nullptr); }
+
+  bool LoggingWrite(const void* data, size_t size) override {
+    return SSL_write(ssl_, data, size) != 0;
+  }
+
+  bool LoggingRead(void* data, size_t size) override {
+    return SSL_read(ssl_, data, size) != 0;
+  }
+
+  bool LoggingReadToEOF(std::string* contents) override {
+    char buffer[4096];
+    FileOperationResult rv;
+    std::string local_contents;
+    while ((rv = SSL_read(ssl_, buffer, sizeof(buffer))) > 0) {
+      DCHECK_LE(static_cast<size_t>(rv), sizeof(buffer));
+      local_contents.append(buffer, rv);
+    }
+    if (rv < 0) {
+      LOG(ERROR) << "SSL_read";
+      return false;
+    }
+    contents->swap(local_contents);
+    return true;
+  }
+
+ private:
+  SSL* ssl_;
+};
+#endif
 
 bool WaitUntilSocketIsReady(int sock) {
   pollfd pollfds;
@@ -167,14 +259,14 @@ base::ScopedFD CreateSocket(const std::string& hostname,
   return base::ScopedFD();
 }
 
-bool WriteRequest(int sock,
+bool WriteRequest(Stream* stream,
                   const std::string& method,
                   const std::string& resource,
                   const HTTPHeaders& headers,
                   HTTPBodyStream* body_stream) {
   std::string request_line = base::StringPrintf(
       "%s %s HTTP/1.0\r\n", method.c_str(), resource.c_str());
-  if (!LoggingWriteFile(sock, request_line.data(), request_line.size()))
+  if (!stream->LoggingWrite(request_line.data(), request_line.size()))
     return false;
 
   // Write headers, and determine if Content-Length has been specified.
@@ -188,7 +280,7 @@ bool WriteRequest(int sock,
       DCHECK(!chunked);
     }
 
-    if (!LoggingWriteFile(sock, header_str.data(), header_str.size()))
+    if (!stream->LoggingWrite(header_str.data(), header_str.size()))
       return false;
   }
 
@@ -196,13 +288,13 @@ bool WriteRequest(int sock,
   if (chunked) {
     static constexpr const char kTransferEncodingChunked[] =
         "Transfer-Encoding: chunked\r\n";
-    if (!LoggingWriteFile(
-            sock, kTransferEncodingChunked, strlen(kTransferEncodingChunked))) {
+    if (!stream->LoggingWrite(kTransferEncodingChunked,
+                              strlen(kTransferEncodingChunked))) {
       return false;
     }
   }
 
-  if (!LoggingWriteFile(sock, kCRLFTerminator, strlen(kCRLFTerminator))) {
+  if (!stream->LoggingWrite(kCRLFTerminator, strlen(kCRLFTerminator))) {
     return false;
   }
 
@@ -267,7 +359,7 @@ bool WriteRequest(int sock,
     // sent to signal EOF. This will happen when processing the EOF indicated by
     // a 0 return from body_stream()->GetBytesBuffer() above.
     if (write_size != 0) {
-      if (!LoggingWriteFile(sock, write_start, write_size))
+      if (!stream->LoggingWrite(write_start, write_size))
         return false;
     }
   } while (data_bytes > 0);
@@ -275,11 +367,11 @@ bool WriteRequest(int sock,
   return true;
 }
 
-bool ReadLine(int sock, std::string* line) {
+bool ReadLine(Stream* stream, std::string* line) {
   line->clear();
   for (;;) {
     char byte;
-    if (!LoggingReadFileExactly(sock, &byte, 1)) {
+    if (!stream->LoggingRead(&byte, 1)) {
       return false;
     }
 
@@ -293,9 +385,9 @@ bool StartsWith(const std::string& str, const char* with, size_t len) {
   return str.compare(0, len, with) == 0;
 }
 
-bool ReadResponseLine(int sock) {
+bool ReadResponseLine(Stream* stream) {
   std::string response_line;
-  if (!ReadLine(sock, &response_line)) {
+  if (!ReadLine(stream, &response_line)) {
     LOG(ERROR) << "ReadLine";
     return false;
   }
@@ -305,10 +397,10 @@ bool ReadResponseLine(int sock) {
          StartsWith(response_line, kHttp11, strlen(kHttp11));
 }
 
-bool ReadResponseHeaders(int sock, HTTPHeaders* headers) {
+bool ReadResponseHeaders(Stream* stream, HTTPHeaders* headers) {
   for (;;) {
     std::string line;
-    if (!ReadLine(sock, &line)) {
+    if (!ReadLine(stream, &line)) {
       return false;
     }
 
@@ -330,21 +422,21 @@ bool ReadResponseHeaders(int sock, HTTPHeaders* headers) {
   }
 }
 
-bool ReadContentChunked(int sock, std::string* body) {
+bool ReadContentChunked(Stream* stream, std::string* body) {
   // TODO(scottmg): https://crashpad.chromium.org/bug/196.
   LOG(ERROR) << "TODO(scottmg): chunked response read";
   return false;
 }
 
-bool ReadResponse(int sock, std::string* response_body) {
+bool ReadResponse(Stream* stream, std::string* response_body) {
   response_body->clear();
 
-  if (!ReadResponseLine(sock)) {
+  if (!ReadResponseLine(stream)) {
     return false;
   }
 
   HTTPHeaders response_headers;
-  if (!ReadResponseHeaders(sock, &response_headers)) {
+  if (!ReadResponseHeaders(stream, &response_headers)) {
     return false;
   }
 
@@ -359,7 +451,7 @@ bool ReadResponse(int sock, std::string* response_body) {
 
   if (len) {
     response_body->resize(len, 0);
-    return ReadFileExactly(sock, &(*response_body)[0], len);
+    return stream->LoggingRead(&(*response_body)[0], len);
   }
 
   it = response_headers.find("Transfer-Encoding");
@@ -368,8 +460,8 @@ bool ReadResponse(int sock, std::string* response_body) {
     chunked = true;
   }
 
-  return chunked ? ReadContentChunked(sock, response_body)
-                 : LoggingReadToEOF(sock, response_body);
+  return chunked ? ReadContentChunked(stream, response_body)
+                 : stream->LoggingReadToEOF(response_body);
 }
 
 bool HTTPTransportSocket::ExecuteSynchronously(std::string* response_body) {
@@ -378,16 +470,88 @@ bool HTTPTransportSocket::ExecuteSynchronously(std::string* response_body) {
     return false;
   }
 
+#if !defined(CRASHPAD_USE_BORINGSSL)
+  CHECK(scheme == "http");
+#endif
+
   base::ScopedFD sock(CreateSocket(hostname, port));
   if (!sock.is_valid()) {
     return false;
   }
 
-  if (!WriteRequest(sock.get(), method(), resource, headers(), body_stream())) {
+  std::unique_ptr<Stream> stream;
+
+#if defined(CRASHPAD_USE_BORINGSSL)
+  ScopedSSLCTX ctx;
+  ScopedSSL ssl;
+  ScopedBIO bio;
+  if (scheme == "https") {
+    SSL_library_init();
+
+    ctx.reset(SSL_CTX_new(TLS_method()));
+    if (!ctx.is_valid()) {
+      LOG(ERROR) << "SSL_CTX_new";
+      return false;
+    }
+
+    if (SSL_CTX_set_min_proto_version(ctx.get(), TLS1_2_VERSION) <= 0) {
+      LOG(ERROR) << "SSL_CTX_set_min_proto_version";
+      return false;
+    }
+
+    SSL_CTX_set_verify(ctx.get(), SSL_VERIFY_PEER, nullptr);
+    SSL_CTX_set_verify_depth(ctx.get(), 5);
+
+    if (!cert().empty()) {
+      if (SSL_CTX_load_verify_locations(
+              ctx.get(), cert().value().c_str(), nullptr) <= 0) {
+        LOG(ERROR) << "SSL_CTX_load_verify_locations";
+        return false;
+      }
+    } else {
+      // TODO(scottmg): https://crashpad.chromium.org/bug/196, need Fuchsia to
+      // expose a .pem store.
+      if (SSL_CTX_load_verify_locations(ctx.get(), nullptr, "/etc/ssl/certs") <=
+          0) {
+        LOG(ERROR) << "SSL_CTX_load_verify_locations";
+        return false;
+      }
+    }
+
+    ssl.reset(SSL_new(ctx.get()));
+    if (!ssl.is_valid()) {
+      LOG(ERROR) << "SSL_new";
+      return false;
+    }
+
+    bio.reset(BIO_new_socket(sock.get(), BIO_NOCLOSE));
+    if (!bio.is_valid()) {
+      LOG(ERROR) << "BIO_new_fd";
+      return false;
+    }
+
+    SSL_set_bio(ssl.get(), bio.get(), bio.get());
+    if (SSL_set_tlsext_host_name(ssl.get(), hostname.c_str()) == 0) {
+      LOG(ERROR) << "SSL_set_tlsext_host_name";
+      return false;
+    }
+
+    if (SSL_connect(ssl.get()) <= 0) {
+      LOG(ERROR) << "SSL_connect";
+      return false;
+    }
+
+    stream.reset(new SSLStream(ssl.get()));
+  } else
+#endif
+    stream.reset(new FdStream(sock.get()));
+
+  if (!WriteRequest(
+          stream.get(), method(), resource, headers(), body_stream())) {
     return false;
   }
 
-  if (!ReadResponse(sock.get(), response_body)) {
+  if (!ReadResponse(stream.get(), response_body)) {
     return false;
   }
 
