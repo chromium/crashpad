@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1c4d1229_25d2158a",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1256356
+      },
+      "writtenOn": "2018-05-28T18:17:40Z",
+      "side": 1,
+      "message": "I have missed it while rebasing across crrev.com/c/1011504. Looks like we don\u0027t need it either, as I\u0027ve added fp register capture with patch set 3.",
+      "parentUuid": "d9a2fc14_21aaf65a",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 12
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8aec7eeb_bb286821",
         "filename": "snapshot/linux/exception_snapshot_linux.cc",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ff903c21_62a0b67d",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1256356
+      },
+      "writtenOn": "2018-05-28T18:17:40Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "8aec7eeb_bb286821",
+      "range": {
+        "startLine": 312,
+        "startChar": 56,
+        "endLine": 312,
+        "endChar": 71
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca035dbb_0309603f",
         "filename": "snapshot/linux/signal_context.h",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2018-05-24T20:26:44Z",
       "side": 1,
       "message": "It looks like the float contexts in ThreadInfo::f_{32,64} have the same layout as this, so you could have the MContexts below refer directly to those definitions instead.",
+      "range": {
+        "startLine": 309,
+        "startChar": 0,
+        "endLine": 317,
+        "endChar": 2
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a4d4b36_364c7aec",
+        "filename": "snapshot/linux/signal_context.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1256356
+      },
+      "writtenOn": "2018-05-28T18:17:40Z",
+      "side": 1,
+      "message": "I\u0027ve done rework of context structures for mips, merging them where possible into single type for 32bit and 64bit architectures, as registers in contexts are always (except for NT_PRSTATUS) treated as 64bit wide for both (for mips).\n\nThis presents problem for MIPS in Ptracer::Is64Bit(), as it tests context structure size to figure out bitness, which is impossible for us as context is same size for 32bit and 64bit. I\u0027ve circumvented this by a hack, as I couldn\u0027t think of a nicer solution. (this is perhaps more clear in comment in util/linux/thread_info.h around line 115).",
+      "parentUuid": "ca035dbb_0309603f",
       "range": {
         "startLine": 309,
         "startChar": 0,
@@ -163,6 +235,30 @@
     },
     {
       "key": {
+        "uuid": "ff1141dc_cc886c45",
+        "filename": "test/linux/get_tls.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1256356
+      },
+      "writtenOn": "2018-05-28T18:17:40Z",
+      "side": 1,
+      "message": "It is highly recommended to not use register other than $3 with rdhwr, for performance reasons.\n\nAdded to clobbers list, thanks for pointing that out.",
+      "parentUuid": "835d3f66_6eb83255",
+      "range": {
+        "startLine": 40,
+        "startChar": 15,
+        "endLine": 40,
+        "endChar": 17
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41601012_35695c71",
         "filename": "util/linux/auxiliary_vector_test.cc",
         "patchSetId": 2
@@ -174,6 +270,30 @@
       "writtenOn": "2018-05-24T20:26:44Z",
       "side": 1,
       "message": "Maybe #define this into START_SYMBOL to avoid the extra #ifs below.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 6
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e098189_e0fa8ea6",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1256356
+      },
+      "writtenOn": "2018-05-28T18:17:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41601012_35695c71",
       "range": {
         "startLine": 40,
         "startChar": 0,
@@ -209,6 +329,30 @@
     },
     {
       "key": {
+        "uuid": "bf80620e_7f4950cd",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1256356
+      },
+      "writtenOn": "2018-05-28T18:17:40Z",
+      "side": 1,
+      "message": "Including it causes conflicts with definitions from linux/ptrace.h. It may be better idea for us to simply use gregset_t from ucontext.h, as cp0_* and hi/lo registers are generally not used.",
+      "parentUuid": "490d84ff_89787234",
+      "range": {
+        "startLine": 144,
+        "startChar": 1,
+        "endLine": 146,
+        "endChar": 43
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8765275_753aeec4",
         "filename": "util/linux/thread_info.h",
         "patchSetId": 2
@@ -232,6 +376,30 @@
     },
     {
       "key": {
+        "uuid": "1deeec47_abebe8db",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1256356
+      },
+      "writtenOn": "2018-05-28T18:17:40Z",
+      "side": 1,
+      "message": "Ok, but perhaps with fpregset::fp_r, as it is union holding fp_fregs/fp_dregs.",
+      "parentUuid": "e8765275_753aeec4",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 68
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8193d4c_5ed77980",
         "filename": "util/misc/capture_context_linux.S",
         "patchSetId": 2
@@ -243,6 +411,30 @@
       "writtenOn": "2018-05-24T20:26:44Z",
       "side": 1,
       "message": "Any reason why the skipped registers here can\u0027t be collected?\nIf it\u0027s impractical to collect a register value, the corresponding slot in the output mcontext should be cleared and a note left in capture_context.h.",
+      "range": {
+        "startLine": 344,
+        "startChar": 0,
+        "endLine": 345,
+        "endChar": 63
+      },
+      "revId": "c1e5319dc61ae05305e2418b62271438079c23b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "192d866e_1a4f784f",
+        "filename": "util/misc/capture_context_linux.S",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1256356
+      },
+      "writtenOn": "2018-05-28T18:17:40Z",
+      "side": 1,
+      "message": "I used getcontext implementation from breakpad as reference, but there isn\u0027t any reason to skip any register here, except 26 and 27 which are reserved for kernel and should not be used.\n\nThat being said, I\u0027ve added full capture context functionality for mips, including fp registers capture.",
+      "parentUuid": "d8193d4c_5ed77980",
       "range": {
         "startLine": 344,
         "startChar": 0,
