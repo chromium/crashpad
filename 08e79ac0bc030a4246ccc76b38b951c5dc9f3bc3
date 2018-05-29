@@ -22,6 +22,30 @@
       "revId": "08e79ac0bc030a4246ccc76b38b951c5dc9f3bc3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "644cd165_1da31a75",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-29T21:43:26Z",
+      "side": 1,
+      "message": "Sorry, I\u0027m not seeing a nice way to write it.\n\nI\u0027d have to resize (rather than reserve?) but then I don\u0027t know how much I\u0027m reading here, so I\u0027d have to read a fixed size and maintain an offset into |contents| and then resize for \"a bit more\" for each block... and then resize down to the final size at the end. Is that what you were thinking?",
+      "parentUuid": "b96f4c98_4e6f82c6",
+      "range": {
+        "startLine": 182,
+        "startChar": 38,
+        "endLine": 182,
+        "endChar": 44
+      },
+      "revId": "08e79ac0bc030a4246ccc76b38b951c5dc9f3bc3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
