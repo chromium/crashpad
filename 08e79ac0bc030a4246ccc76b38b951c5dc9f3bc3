@@ -46,6 +46,30 @@
       "revId": "08e79ac0bc030a4246ccc76b38b951c5dc9f3bc3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdc273ac_3afe91c8",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-29T21:44:44Z",
+      "side": 1,
+      "message": "Ah, I see what you mean. This is fine then.",
+      "parentUuid": "644cd165_1da31a75",
+      "range": {
+        "startLine": 182,
+        "startChar": 38,
+        "endLine": 182,
+        "endChar": 44
+      },
+      "revId": "08e79ac0bc030a4246ccc76b38b951c5dc9f3bc3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
