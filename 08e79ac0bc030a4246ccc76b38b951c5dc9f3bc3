@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b96f4c98_4e6f82c6",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-29T21:10:04Z",
+      "side": 1,
+      "message": "Can\u0027t this be |\u0026contents[0]| after reserve() ?",
+      "range": {
+        "startLine": 182,
+        "startChar": 38,
+        "endLine": 182,
+        "endChar": 44
+      },
+      "revId": "08e79ac0bc030a4246ccc76b38b951c5dc9f3bc3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
