@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a78b4c89_d977c840",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-29T00:06:54Z",
+      "side": 1,
+      "message": "This library is a bit nutty. I have not-much-idea-at-all what might be important here (or missing), and I didn\u0027t find any very helpful documentation.",
+      "revId": "faa3abe15342bc08d292d521737015fe690e6c2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
