@@ -39,6 +39,9 @@ class TestPaths {
     //! \brief `.dll` will be used on Windows, and `.so` will be used on other
     //!     platforms.
     kLoadableModule,
+
+    //! \brief `.pem` used for all platforms.
+    kCertificate,
   };
 
   //! \brief The architecture of the file requested of BuildArtifact().

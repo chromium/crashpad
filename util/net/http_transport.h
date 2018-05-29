@@ -18,6 +18,7 @@
 #include <memory>
 #include <string>
 
+#include "base/files/file_path.h"
 #include "base/macros.h"
 #include "util/net/http_headers.h"
 
@@ -71,6 +72,16 @@ class HTTPTransport {
   //! \param[in] timeout The request timeout, in seconds.
   void SetTimeout(double timeout);
 
+  //! \brief Sets a certificate file to be used in lieu of the system CA cert
+  //!     bundle.
+  //!
+  //! This is exposed primarily for testing with a self-signed certificate, and
+  //! it isn't necessary to set it in normal use.
+  //!
+  //! \param[in] cert The filename of a file in PEM format containing the CA
+  //!     cert to be used for TLS connections.
+  void SetRootCACertificatePath(const base::FilePath& cert);
+
   //! \brief Performs the HTTP request with the configured parameters and waits
   //!     for the execution to complete.
   //!
@@ -90,10 +101,14 @@ class HTTPTransport {
   const HTTPHeaders& headers() const { return headers_; }
   HTTPBodyStream* body_stream() const { return body_stream_.get(); }
   double timeout() const { return timeout_; }
+  const base::FilePath& root_ca_certificate_path() const {
+    return root_ca_certificate_path_;
+  }
 
  private:
   std::string url_;
   std::string method_;
+  base::FilePath root_ca_certificate_path_;
   HTTPHeaders headers_;
   std::unique_ptr<HTTPBodyStream> body_stream_;
   double timeout_;
