@@ -230,6 +230,10 @@ base::FilePath TestPaths::BuildArtifact(
       directory = base::FilePath();
 #endif
       break;
+
+    case FileType::kCertificate:
+      extension = FILE_PATH_LITERAL(".pem");
+      break;
   }
 
   return directory.Append(test_name + FILE_PATH_LITERAL("_") + artifact +
