@@ -2,6 +2,189 @@
   "comments": [
     {
       "key": {
+        "uuid": "bbe30974_de9a88f7",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-29T13:19:35Z",
+      "side": 1,
+      "message": "Is an equivalent GYP change necessary?",
+      "revId": "faa3abe15342bc08d292d521737015fe690e6c2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a35d8359_8ea097dc",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 16
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-29T13:19:35Z",
+      "side": 1,
+      "message": "data_deps ?",
+      "range": {
+        "startLine": 484,
+        "startChar": 6,
+        "endLine": 484,
+        "endChar": 10
+      },
+      "revId": "faa3abe15342bc08d292d521737015fe690e6c2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "989f18af_7fe1973d",
+        "filename": "util/net/http_transport.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-29T13:19:35Z",
+      "side": 1,
+      "message": "|cert_| is a bit generic. Maybe test_root_ca_certificate_path_ ?",
+      "range": {
+        "startLine": 109,
+        "startChar": 17,
+        "endLine": 109,
+        "endChar": 22
+      },
+      "revId": "faa3abe15342bc08d292d521737015fe690e6c2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbeb1950_58bde268",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-29T13:19:35Z",
+      "side": 1,
+      "message": "explicit",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 10
+      },
+      "revId": "faa3abe15342bc08d292d521737015fe690e6c2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79e1f7f7_2e560286",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-29T13:19:35Z",
+      "side": 1,
+      "message": "DISALLOW_COPY_AND_ASSIGN",
+      "revId": "faa3abe15342bc08d292d521737015fe690e6c2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6821a950_dd48ea77",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-29T13:19:35Z",
+      "side": 1,
+      "message": "explicit",
+      "range": {
+        "startLine": 110,
+        "startChar": 2,
+        "endLine": 110,
+        "endChar": 11
+      },
+      "revId": "faa3abe15342bc08d292d521737015fe690e6c2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ab1cf25_427aae6a",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-29T13:19:35Z",
+      "side": 1,
+      "message": "Why both |buffer| and this? Could you instead reserve the string memory and only have one buffer? Maybe go further and just use |contents| directly?",
+      "revId": "faa3abe15342bc08d292d521737015fe690e6c2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f9f6171_201de54e",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-29T13:19:35Z",
+      "side": 1,
+      "message": "DISALLOW_COPY_AND_ASSIGN",
+      "revId": "faa3abe15342bc08d292d521737015fe690e6c2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40dc4d15_c631c459",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-29T13:19:35Z",
+      "side": 1,
+      "message": "Could these be members on the SSLStream instead? That could allow you to extract the new code below into a |std::unique_ptr\u003cStream\u003e CreateStream()| method.",
+      "range": {
+        "startLine": 475,
+        "startChar": 2,
+        "endLine": 476,
+        "endChar": 16
+      },
+      "revId": "faa3abe15342bc08d292d521737015fe690e6c2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a78b4c89_d977c840",
         "filename": "util/net/http_transport_socket.cc",
         "patchSetId": 16
@@ -13,6 +196,29 @@
       "writtenOn": "2018-05-29T00:06:54Z",
       "side": 1,
       "message": "This library is a bit nutty. I have not-much-idea-at-all what might be important here (or missing), and I didn\u0027t find any very helpful documentation.",
+      "revId": "faa3abe15342bc08d292d521737015fe690e6c2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be7e8e20_5115b82a",
+        "filename": "util/net/http_transport_test_server.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2018-05-29T13:19:35Z",
+      "side": 1,
+      "message": "This is a bit magic. Maybe pull out a |const bool use_tls| variable at the top?",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 15
+      },
       "revId": "faa3abe15342bc08d292d521737015fe690e6c2b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
