@@ -34,6 +34,10 @@
 #pragma warning(disable: 4244 4245 4267 4702)
 #endif
 
+#if defined(CRASHPAD_USE_BORINGSSL)
+#define CPPHTTPLIB_OPENSSL_SUPPORT
+#endif
+
 #define CPPHTTPLIB_ZLIB_SUPPORT
 #include "third_party/cpp-httplib/cpp-httplib/httplib.h"
 
@@ -45,9 +49,20 @@ namespace crashpad {
 namespace {
 
 int HttpTransportTestServerMain(int argc, char* argv[]) {
-  httplib::Server svr(httplib::HttpVersion::v1_0);
+  std::unique_ptr<httplib::Server> server;
+  if (argc == 1) {
+    server.reset(new httplib::Server);
+#if defined(CRASHPAD_USE_BORINGSSL)
+  } else if (argc == 3) {
+    server.reset(new httplib::SSLServer(argv[1], argv[2]));
+#endif
+  } else {
+    LOG(ERROR) << "usage: http_transport_test_server [cert.pem key.pem]";
+    return 1;
+  }
 
-  if (!svr.is_valid()) {
+
+  if (!server->is_valid()) {
     LOG(ERROR) << "server creation failed";
     return 1;
   }
@@ -57,30 +72,30 @@ int HttpTransportTestServerMain(int argc, char* argv[]) {
 
   std::string to_stdout;
 
-  svr.Post("/upload",
-           [&response, &response_code, &svr, &to_stdout](
-               const httplib::Request& req, httplib::Response& res) {
-             res.status = response_code;
-             if (response_code == 200) {
-               res.set_content(std::string(response, 16) + "\r\n",
-                               "text/plain");
-             } else {
-               res.set_content("error", "text/plain");
-             }
+  server->Post("/upload",
+               [&response, &response_code, &server, &to_stdout](
+                   const httplib::Request& req, httplib::Response& res) {
+                 res.status = response_code;
+                 if (response_code == 200) {
+                   res.set_content(std::string(response, 16) + "\r\n",
+                                   "text/plain");
+                 } else {
+                   res.set_content("error", "text/plain");
+                 }
 
-             to_stdout += "POST /upload HTTP/1.0\r\n";
-             for (const auto& h : req.headers) {
-               to_stdout += base::StringPrintf(
-                   "%s: %s\r\n", h.first.c_str(), h.second.c_str());
-             }
-             to_stdout += "\r\n";
-             to_stdout += req.body;
+                 to_stdout += "POST /upload HTTP/1.0\r\n";
+                 for (const auto& h : req.headers) {
+                   to_stdout += base::StringPrintf(
+                       "%s: %s\r\n", h.first.c_str(), h.second.c_str());
+                 }
+                 to_stdout += "\r\n";
+                 to_stdout += req.body;
 
-             svr.stop();
-           });
+                 server->stop();
+               });
 
   uint16_t port =
-      base::checked_cast<uint16_t>(svr.bind_to_any_port("127.0.0.1"));
+      base::checked_cast<uint16_t>(server->bind_to_any_port("localhost"));
 
   CheckedWriteFile(
       StdioFileHandle(StdioStream::kStandardOutput), &port, sizeof(port));
@@ -93,7 +108,7 @@ int HttpTransportTestServerMain(int argc, char* argv[]) {
                          &response,
                          sizeof(response));
 
-  svr.listen_after_bind();
+  server->listen_after_bind();
 
   LoggingWriteFile(StdioFileHandle(StdioStream::kStandardOutput),
                    to_stdout.data(),
@@ -102,8 +117,8 @@ int HttpTransportTestServerMain(int argc, char* argv[]) {
   return 0;
 }
 
-} // namespace
-} // namespace crashpad
+}  // namespace
+}  // namespace crashpad
 
 #if defined(OS_POSIX) || defined(OS_FUCHSIA)
 int main(int argc, char* argv[]) {
