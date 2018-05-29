@@ -111,6 +111,24 @@
     },
     {
       "key": {
+        "uuid": "391c53c8_567be0e7",
+        "filename": "snapshot/sanitized/process_snapshot_sanitized.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-29T21:55:55Z",
+      "side": 1,
+      "message": "I see, seems like this makes sense then.",
+      "parentUuid": "0f6fee48_025bc39e",
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b695e2d6_23af71f4",
         "filename": "snapshot/sanitized/process_snapshot_sanitized.h",
         "patchSetId": 8
@@ -203,6 +221,24 @@
       "side": 1,
       "message": "I\u0027m not certain what might cause indirectly referenced memory to be captured. At the least, WebView would need to sanitize it (if it was writeable), but that might not make it very useful to capture in the first place.",
       "parentUuid": "dc361473_76893865",
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d07e97f5_77562a76",
+        "filename": "snapshot/sanitized/thread_snapshot_sanitized.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-29T21:55:55Z",
+      "side": 1,
+      "message": "That\u0027s a good point, perhaps instead this could DCHECK that snapshot_\u0027s ExtraMemory() is empty (and return an empty vector either way).",
+      "parentUuid": "bd18f326_68944e02",
       "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
