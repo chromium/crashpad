@@ -22,6 +22,30 @@
       "revId": "87e8e84019c2c54c482fb21afcdb65ed9a7f528a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c153248_d151e2c8",
+        "filename": "util/net/http_transport_test_server.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-29T19:48:02Z",
+      "side": 1,
+      "message": "It had to be \"localhost\" so that the hostname matches the cert... I added the conditional after discovering that the tests fail on Windows, but I admit I was being lazy. I guessed it was something to do with localhost resolving to ::1 instead of 127.0.0.1 on Windows.\n\n...\n\nHmm, after some debugging it turns out it\u0027s this https://chromium.googlesource.com/crashpad/crashpad/+/master/third_party/cpp-httplib/cpp-httplib/httplib.h#1635 which fails for an ipv6 socket. But localhost is ::1 on Linux too... So I\u0027m not actually sure why it works on other OSs.\n\n... Looking into that, it seems on Linux that even though sockaddr_in is only 16 bytes (and sockaddr_in6 is 28) it doesn\u0027t fail the getsockname() call (for backcompat I suppose?). I have no idea what it\u0027s returning in the ipv6 case, but I guess since family and port are the first two fields and are the same size it sort of works.\n\nMy Mac resolves localhost to 127.0.0.1 it seems, so I guess that saved it there (or perhaps it has some similar getsockname() hackery).\n\n(That means that https-to-localhost with the test server on Windows wouldn\u0027t have worked because of this, but we would needed an OpenSSL/BoringSSL to build against so it might have been quite a while before we noticed.)\n\nAnnnnyway, regrettably, adding OS-selected port binding was my change in upstream cpp-httplib. But on the plus side, all is well for unconditional use of \"localhost\" after I fix that, so I\u0027ll post a fix upstream and then include a roll here. Thanks for the prodding. :)",
+      "parentUuid": "9650e825_ee20ef81",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 55
+      },
+      "revId": "87e8e84019c2c54c482fb21afcdb65ed9a7f528a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
