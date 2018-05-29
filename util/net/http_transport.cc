@@ -52,4 +52,8 @@ void HTTPTransport::SetTimeout(double timeout) {
   timeout_ = timeout;
 }
 
+void HTTPTransport::SetRootCACertificatePath(const base::FilePath& cert) {
+  root_ca_certificate_path_ = cert;
+}
+
 }  // namespace crashpad
