@@ -93,6 +93,24 @@
     },
     {
       "key": {
+        "uuid": "0f6fee48_025bc39e",
+        "filename": "snapshot/sanitized/process_snapshot_sanitized.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2018-05-29T10:26:46Z",
+      "side": 1,
+      "message": "The breakpad sanitization code elides any stack words that are not either small (+/- 1000) or feasibly a pointer to code. The idea is to eliminate data that could be a string while still being able to unwind the stack and see the values of some registers.\n\nSkipping of crashes, on the other hand, is a webview specific feature that activates if neither the crashing thread\u0027s IP nor any word on the crashing thread\u0027s stack points into webview code. This stops us from uploading native crashes that can\u0027t possibly be webview\u0027s fault.",
+      "parentUuid": "bc12c55a_1edc6bc5",
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b695e2d6_23af71f4",
         "filename": "snapshot/sanitized/process_snapshot_sanitized.h",
         "patchSetId": 8
@@ -167,6 +185,24 @@
       "writtenOn": "2018-05-24T19:05:21Z",
       "side": 1,
       "message": "This is sort of theoretical because we\u0027re not doing this elsewhere, but since this is a general class, and we might start doing this on non-Windows:\nhttps://cs.chromium.org/chromium/src/third_party/crashpad/crashpad/snapshot/win/thread_snapshot_win.cc?rcl\u003ded65b2457027ad2dc357bb8ccb8632a2a7637644\u0026l\u003d89\ncaptures memory that points from the stack to elsewhere. So I think that ExtraMemory snapshots might need to be sanitized also.",
+      "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd18f326_68944e02",
+        "filename": "snapshot/sanitized/thread_snapshot_sanitized.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2018-05-29T10:26:46Z",
+      "side": 1,
+      "message": "I\u0027m not certain what might cause indirectly referenced memory to be captured. At the least, WebView would need to sanitize it (if it was writeable), but that might not make it very useful to capture in the first place.",
+      "parentUuid": "dc361473_76893865",
       "revId": "40739b1787afc41ff7e4819e7415a5921b9af136",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
