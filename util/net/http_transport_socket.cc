@@ -129,8 +129,12 @@ class SSLStream : public Stream {
         return false;
       }
 #elif defined(OS_FUCHSIA)
+      // This location should be /config/ssl/cert.pem, but when launched from
+      // devmgr, that's not set up.
       if (SSL_CTX_load_verify_locations(
-              ctx_.get(), "/config/ssl/cert.pem", nullptr) <= 0) {
+              ctx_.get(),
+              "/pkgfs/packages/root_ssl_certificates/0/data/cert.pem",
+              nullptr) <= 0) {
         LOG(ERROR) << "SSL_CTX_load_verify_locations";
         return false;
       }
