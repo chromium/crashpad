@@ -291,7 +291,7 @@ CAPTURECONTEXT_SYMBOL2:
 #elif defined(__aarch64__)
 
   // Zero out fault_address, which is unused.
-  str x31, [x0, #0xb0]  // context->uc_mcontext.fault_address
+  str xzr, [x0, #0xb0]  // context->uc_mcontext.fault_address
 
   // Save general purpose registers in context->uc_mcontext.regs[i].
   // The original x0 can't be recovered.
