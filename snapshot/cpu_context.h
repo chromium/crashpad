@@ -323,6 +323,9 @@ struct CPUContext {
   //! context structure.
   uint64_t StackPointer() const;
 
+  //! \brief Returns `true` if this context is for a 64-bit architecture.
+  bool Is64Bit() const;
+
   //! \brief The CPU architecture of a context structure. This field controls
   //!     the expression of the union.
   CPUArchitecture architecture;
