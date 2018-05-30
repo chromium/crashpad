@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cce9acbb_8cee0764",
+        "filename": "snapshot/sanitized/stack_snapshot_sanitized.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2018-05-30T08:33:29Z",
+      "side": 1,
+      "message": "Are there alignment guarantees for this? I presume the allocation will be word aligned in this process, but does it always represent a word aligned chunk in the target process? If not, the sanitization code might be accessing misaligned pointers.",
+      "range": {
+        "startLine": 31,
+        "startChar": 34,
+        "endLine": 31,
+        "endChar": 44
+      },
+      "revId": "bed1c2a64fda89a6354aeabe4a085c18e50e4135",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "889f293c_abd786ca",
+        "filename": "snapshot/sanitized/stack_snapshot_sanitized.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2018-05-30T08:33:29Z",
+      "side": 1,
+      "message": "MemorySnapshotSanitized? It seems like this is more generic than just stack sanitization, so it could probably be renamed.",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 28
+      },
+      "revId": "bed1c2a64fda89a6354aeabe4a085c18e50e4135",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "daa7a1d5_9918626a",
+        "filename": "util/misc/range_set.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2018-05-30T08:33:29Z",
+      "side": 1,
+      "message": "On 64 bit architectures FILTER_INDEX(base) could currently be \u003e FILTER_INDEX(base + size - 1) which would cause an out of bounds access. Better not to mask in FILTER_INDEX, but to mask in [SG]ET_FILTER_BIT.\n\nAlso: the breakpad code is written the way it was because it had to run in a compromised context. Because you don\u0027t have that restriction, you could use a binary search on a sorted array of ranges, and probably skip the bitmasking.",
+      "range": {
+        "startLine": 49,
+        "startChar": 7,
+        "endLine": 49,
+        "endChar": 44
+      },
+      "revId": "bed1c2a64fda89a6354aeabe4a085c18e50e4135",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
