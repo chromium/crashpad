@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "df99822c_e1c1e057",
+        "filename": "util/misc/range_set.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-30T17:40:44Z",
+      "side": 1,
+      "message": "extra \"the \"",
+      "range": {
+        "startLine": 32,
+        "startChar": 25,
+        "endLine": 32,
+        "endChar": 29
+      },
+      "revId": "bed1c2a64fda89a6354aeabe4a085c18e50e4135",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "daa7a1d5_9918626a",
         "filename": "util/misc/range_set.cc",
         "patchSetId": 12
