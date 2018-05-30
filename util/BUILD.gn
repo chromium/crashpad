@@ -248,14 +248,23 @@ static_library("util") {
     sources += get_target_outputs(":mig")
   }
 
+  deps = []
+
   if (crashpad_is_linux || crashpad_is_fuchsia) {
     sources += [ "net/http_transport_socket.cc" ]
     if (use_boringssl_for_http_transport_socket) {
       defines = [ "CRASHPAD_USE_BORINGSSL" ]
-      libs = [
-        "crypto",
-        "ssl",
-      ]
+
+      if (crashpad_is_in_fuchsia) {
+        deps += [
+          "//third_party/boringssl"
+        ]
+      } else {
+        libs = [
+          "crypto",
+          "ssl",
+        ]
+      }
     }
   } else if (crashpad_is_android) {
     sources += [ "net/http_transport_none.cc" ]
@@ -411,7 +420,7 @@ static_library("util") {
     "../compat",
   ]
 
-  deps = [
+  deps += [
     "../third_party/mini_chromium:base",
     "../third_party/zlib",
   ]
@@ -483,10 +492,17 @@ if (!crashpad_is_android) {
     if (use_boringssl_for_http_transport_socket) {
       data_deps = [ ":generate_test_server_key" ]
       defines = [ "CRASHPAD_USE_BORINGSSL" ]
-      libs = [
-        "crypto",
-        "ssl",
-      ]
+
+      if (crashpad_is_in_fuchsia) {
+        deps += [
+          "//third_party/boringssl"
+        ]
+      } else {
+        libs = [
+          "crypto",
+          "ssl",
+        ]
+      }
     }
   }
 }
