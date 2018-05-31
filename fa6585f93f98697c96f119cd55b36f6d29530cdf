@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed6af478_b51f09ba",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-31T03:12:27Z",
+      "side": 1,
+      "message": "fdio is always linked by the toolchain definition, so this else branch can be removed.",
+      "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d161af84_2c216d19",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-31T03:12:27Z",
+      "side": 1,
+      "message": "This should be a 1.",
+      "range": {
+        "startLine": 85,
+        "startChar": 35,
+        "endLine": 85,
+        "endChar": 36
+      },
+      "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ad342d9_eff7c707",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-31T03:12:27Z",
+      "side": 1,
+      "message": "Please run git cl format or clang-format on the files touched in this CL to fix the formatting in various places.",
+      "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19a90f80_ed3ae6fa",
+        "filename": "test/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-31T03:12:27Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b90df86e_e7c7c714",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-31T03:12:27Z",
+      "side": 1,
+      "message": "This return value is being ignored, so remove it, and ZX_CHECK() that fdio_pipe_half() succeeds.",
+      "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dea6c35_c466cb11",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-31T03:12:27Z",
+      "side": 1,
+      "message": "Can be removed.",
+      "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "103de42a_e45533d7",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-31T03:12:27Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
