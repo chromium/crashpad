@@ -88,14 +88,10 @@ static_library("client") {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
   }
 
-  if (crashpad_is_fuchsia) {
-    if (crashpad_is_in_fuchsia) {
-      deps += [
-        "//zircon/public/lib/launchpad",
-      ]
-    } else {
-      libs = [ "launchpad" ]
-    }
+  if (crashpad_is_fuchsia && crashpad_is_in_fuchsia) {
+    deps += [
+      "//zircon/public/lib/fdio",
+    ]
   }
 }
 
