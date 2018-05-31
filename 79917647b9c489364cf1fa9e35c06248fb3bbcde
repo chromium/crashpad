@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cc5166e_29db88b4",
+        "filename": "util/misc/range_set.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-31T21:09:53Z",
+      "side": 1,
+      "message": "Calling the last address in the range end is a bit slippery, because begin/end are normally the first element, and one-past-the-end when dealing with std::. How about calling this \"last\" instead?",
+      "revId": "79917647b9c489364cf1fa9e35c06248fb3bbcde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47b74896_267cd682",
+        "filename": "util/misc/range_set.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-31T21:09:53Z",
+      "side": 1,
+      "message": "The -\u003efirst and -\u003esecond make my head hurt, especially since they\u0027re \"backward\". Could you pull them out into named local references?",
+      "revId": "79917647b9c489364cf1fa9e35c06248fb3bbcde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "187975b4_4d0feaa8",
+        "filename": "util/misc/range_set.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-31T21:09:53Z",
+      "side": 1,
+      "message": "How would this happen?",
+      "range": {
+        "startLine": 34,
+        "startChar": 40,
+        "endLine": 34,
+        "endChar": 73
+      },
+      "revId": "79917647b9c489364cf1fa9e35c06248fb3bbcde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
