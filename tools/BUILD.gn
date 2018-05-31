@@ -104,14 +104,6 @@ if (crashpad_is_mac || crashpad_is_fuchsia) {
       "../third_party/mini_chromium:base",
       "../util",
     ]
-
-    if (crashpad_is_fuchsia) {
-      if (crashpad_is_in_fuchsia) {
-        deps += [ "//zircon/public/lib/launchpad" ]
-      } else {
-        libs = [ "launchpad" ]
-      }
-    }
   }
 }
 
