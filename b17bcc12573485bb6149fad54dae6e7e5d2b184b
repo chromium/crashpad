@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b1c8ad8_560f1010",
+        "filename": "minidump/minidump_context.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-31T17:23:26Z",
+      "side": 1,
+      "message": "Can we get some \\brief comments indicating which fields are valid in the struct below when these flags are present?",
+      "range": {
+        "startLine": 441,
+        "startChar": 0,
+        "endLine": 466,
+        "endChar": 56
+      },
+      "revId": "b17bcc12573485bb6149fad54dae6e7e5d2b184b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9ea4f86_391576b0",
+        "filename": "minidump/minidump_context.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-31T17:23:26Z",
+      "side": 1,
+      "message": "The corresponding struct in breakpad has a bunch more info missing from this struct. I think we\u0027ll need to include that information here to maintain compatibility with any consumers of breakpad produced minidumps.",
+      "range": {
+        "startLine": 471,
+        "startChar": 0,
+        "endLine": 481,
+        "endChar": 11
+      },
+      "revId": "b17bcc12573485bb6149fad54dae6e7e5d2b184b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bffe9e94_b81cbc72",
+        "filename": "snapshot/linux/signal_context.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-31T17:23:26Z",
+      "side": 1,
+      "message": "Not a Traits::Ulong?\n\nIt\u0027d probably be a good idea to include a static assert on the offset of mcontext to make sure everything\u0027s lined up correctly, like was done for ARM above.",
+      "range": {
+        "startLine": 363,
+        "startChar": 2,
+        "endLine": 363,
+        "endChar": 10
+      },
+      "revId": "b17bcc12573485bb6149fad54dae6e7e5d2b184b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aba05845_66104965",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-31T17:23:26Z",
+      "side": 1,
+      "message": "It looks like the kernel will also give us fcr31 if we give it enough space:\nhttps://elixir.bootlin.com/linux/latest/source/arch/mips/kernel/ptrace.c#L170",
+      "range": {
+        "startLine": 279,
+        "startChar": 2,
+        "endLine": 279,
+        "endChar": 44
+      },
+      "revId": "b17bcc12573485bb6149fad54dae6e7e5d2b184b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1766b7ab_215be4b4",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-31T17:23:26Z",
+      "side": 1,
+      "message": "I think we can go ahead and save these registers like you were doing before. Breakpad\u0027s MDRawContextMIPS had fields for these anyways so we\u0027ll need them to populate the corresponding fields in Crashpad\u0027s MinidumpContextMIPS.",
+      "range": {
+        "startLine": 364,
+        "startChar": 0,
+        "endLine": 369,
+        "endChar": 23
+      },
+      "revId": "b17bcc12573485bb6149fad54dae6e7e5d2b184b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
