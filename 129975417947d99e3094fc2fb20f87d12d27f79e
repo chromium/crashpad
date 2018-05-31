@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db72bcb3_ad842232",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-31T19:43:38Z",
+      "side": 1,
+      "message": "Sadly, I didn\u0027t actually try to run this locally, and I also can\u0027t read.\n\nThis should be ZX_CHECK(status \u003e\u003d 0, ...), not \u003c 0.\n\nOn that subject, and re: API readability, having this return a zx_status_t feels awkward. Similarly for fdio_transfer_fd() which bit Chromium in https://chromium-review.googlesource.com/c/chromium/src/+/1045558.",
+      "revId": "129975417947d99e3094fc2fb20f87d12d27f79e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
