@@ -14,7 +14,7 @@
 
 #include "client/crashpad_client.h"
 
-#include <launchpad/launchpad.h>
+#include <fdio/spawn.h>
 #include <zircon/process.h>
 #include <zircon/processargs.h>
 
@@ -69,20 +69,6 @@ bool CrashpadClient::StartHandler(
 
   std::vector<const char*> argv;
   ConvertArgvStrings(argv_strings, &argv);
-  // ConvertArgvStrings adds an unnecessary nullptr at the end of the argv list,
-  // which causes launchpad_set_args() to hang.
-  argv.pop_back();
-
-  launchpad_t* lp;
-  launchpad_create(zx_job_default(), argv[0], &lp);
-  launchpad_load_from_file(lp, argv[0]);
-  launchpad_set_args(lp, argv.size(), &argv[0]);
-
-  // TODO(scottmg): https://crashpad.chromium.org/bug/196, this is useful during
-  // bringup, but should probably be made minimal for real usage.
-  launchpad_clone(lp,
-                  LP_CLONE_FDIO_NAMESPACE | LP_CLONE_FDIO_STDIO |
-                      LP_CLONE_ENVIRON | LP_CLONE_DEFAULT_JOB);
 
   // Follow the same protocol as devmgr and crashlogger in Zircon (that is,
   // process handle as handle 0, with type USER0, exception port handle as
@@ -91,24 +77,39 @@ bool CrashpadClient::StartHandler(
   // released here. Currently it is assumed that this process's default job
   // handle is the exception port that should be monitored. In the future, it
   // might be useful for this to be configurable by the client.
-  zx_handle_t handles[] = {ZX_HANDLE_INVALID, ZX_HANDLE_INVALID};
-  status =
-      zx_handle_duplicate(zx_job_default(), ZX_RIGHT_SAME_RIGHTS, &handles[0]);
+  constexpr size_t kActionCount = 2;
+  fdio_spawn_action_t actions[] = {
+      {.action = FDIO_SPAWN_ACTION_ADD_HANDLE,
+       .h = {.id = PA_HND(PA_USER0, 0), .handle = ZX_HANDLE_INVALID}},
+      {.action = FDIO_SPAWN_ACTION_ADD_HANDLE,
+       .h = {.id = PA_HND(PA_USER0, 1), .handle = ZX_HANDLE_INVALID}},
+  };
+
+  status = zx_handle_duplicate(
+      zx_job_default(), ZX_RIGHT_SAME_RIGHTS, &actions[0].h.handle);
   if (status != ZX_OK) {
     ZX_LOG(ERROR, status) << "zx_handle_duplicate";
     return false;
   }
-  handles[1] = exception_port.release();
-  uint32_t handle_types[] = {PA_HND(PA_USER0, 0), PA_HND(PA_USER0, 1)};
+  actions[1].h.handle = exception_port.release();
 
-  launchpad_add_handles(lp, arraysize(handles), handles, handle_types);
-
-  const char* error_message;
+  char error_message[FDIO_SPAWN_ERR_MSG_MAX_LENGTH];
   zx_handle_t child_raw;
-  status = launchpad_go(lp, &child_raw, &error_message);
+  // TODO(scottmg): https://crashpad.chromium.org/bug/196, FDIO_SPAWN_CLONE_ALL
+  // is useful during bringup, but should probably be made minimal for real
+  // usage.
+  status = fdio_spawn_etc(ZX_HANDLE_INVALID,
+                          FDIO_SPAWN_CLONE_ALL,
+                          argv[0],
+                          argv.data(),
+                          nullptr,
+                          kActionCount,
+                          actions,
+                          &child_raw,
+                          error_message);
   base::ScopedZxHandle child(child_raw);
   if (status != ZX_OK) {
-    ZX_LOG(ERROR, status) << "launchpad_go: " << error_message;
+    ZX_LOG(ERROR, status) << "fdio_spawn_etc: " << error_message;
     return false;
   }
 

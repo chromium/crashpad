@@ -49,7 +49,6 @@ if (crashpad_is_in_chromium) {
 
     if (crashpad_is_fuchsia) {
       libs = [
-        "launchpad",
         "zircon",
       ]
     }
@@ -272,7 +271,6 @@ if (crashpad_is_in_chromium) {
 
     if (crashpad_is_fuchsia) {
       libs = [
-        "launchpad",
         "zircon",
       ]
     }

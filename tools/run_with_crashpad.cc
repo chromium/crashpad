@@ -32,7 +32,7 @@
 #include "util/string/split_string.h"
 
 #if defined(OS_FUCHSIA)
-#include <launchpad/launchpad.h>
+#include <fdio/spawn.h>
 #include <zircon/process.h>
 #include <zircon/syscalls.h>
 
@@ -48,7 +48,7 @@ void Usage(const std::string& me) {
 "Start a Crashpad handler and have it handle crashes from COMMAND.\n"
 "\n"
 #if defined(OS_FUCHSIA)
-"COMMAND is run via launchpad, so must be a qualified path to the subprocess to\n"
+"COMMAND is run via fdio_spawn, so must be a qualified path to the subprocess to\n"
 "be executed.\n"
 #else
 "COMMAND is run via execvp() so the PATH will be searched.\n"
@@ -190,17 +190,12 @@ int RunWithCrashpadMain(int argc, char* argv[]) {
   }
 
 #if defined(OS_FUCHSIA)
-  // Fuchsia doesn't implement execvp(), launch with launchpad here.
-  launchpad_t* lp;
-  launchpad_create(zx_job_default(), argv[0], &lp);
-  launchpad_load_from_file(lp, argv[0]);
-  launchpad_set_args(lp, argc, argv);
-  launchpad_clone(lp, LP_CLONE_ALL);
-  const char* error_message;
-  zx_handle_t child;
-  zx_status_t status = launchpad_go(lp, &child, &error_message);
+  // Fuchsia doesn't implement execvp(), launch with fdio_spawn here.
+  zx_handle_t child = ZX_HANDLE_INVALID;
+  zx_status_t status = fdio_spawn(
+      ZX_HANDLE_INVALID, FDIO_SPAWN_CLONE_ALL, argv[0], argv, &child);
   if (status != ZX_OK) {
-    ZX_LOG(ERROR, status) << "launchpad_go: " << error_message;
+    ZX_LOG(ERROR, status) << "fdio_spawn failed";
     return status == ZX_ERR_IO ? kExitExecENOENT : kExitExecFailure;
   }
 
