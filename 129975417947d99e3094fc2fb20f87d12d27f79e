@@ -16,6 +16,24 @@
       "revId": "129975417947d99e3094fc2fb20f87d12d27f79e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cced9319_3542280b",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-31T19:48:16Z",
+      "side": 1,
+      "message": "\u003e On that subject, and re: API readability, having this return a zx_status_t feels awkward. Similarly for fdio_transfer_fd() which bit Chromium in https://chromium-review.googlesource.com/c/chromium/src/+/1045558.\n\nTo expand on that, since that was a bit vague: I think either ZX_OK should be removed so that testing zx_status_t \u003d\u003d ZX_OK is not done (Chrome does that everywhere) and instead \u003c 0 is used, or these functions that return \u003e\u003d 0 (rather than exactly 0 on success) should be made to return something other a zx_status_t (even if it\u0027s only a typedef to make the API clearer).",
+      "parentUuid": "db72bcb3_ad842232",
+      "revId": "129975417947d99e3094fc2fb20f87d12d27f79e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
