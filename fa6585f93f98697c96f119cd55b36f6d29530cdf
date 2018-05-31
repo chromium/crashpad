@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b8d8a730_29c64683",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1002194
+      },
+      "writtenOn": "2018-05-31T03:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed6af478_b51f09ba",
+      "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d161af84_2c216d19",
         "filename": "client/crashpad_client_fuchsia.cc",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "b67e1bc2_db550a44",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1002194
+      },
+      "writtenOn": "2018-05-31T03:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d161af84_2c216d19",
+      "range": {
+        "startLine": 85,
+        "startChar": 35,
+        "endLine": 85,
+        "endChar": 36
+      },
+      "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ad342d9_eff7c707",
         "filename": "client/crashpad_client_fuchsia.cc",
         "patchSetId": 1
@@ -56,6 +98,24 @@
       "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a77b0fa_f0642ad1",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002194
+      },
+      "writtenOn": "2018-05-31T03:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ad342d9_eff7c707",
+      "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "0050b302_e753f3ce",
+        "filename": "test/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1002194
+      },
+      "writtenOn": "2018-05-31T03:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a90f80_ed3ae6fa",
+      "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b90df86e_e7c7c714",
         "filename": "test/multiprocess_exec_fuchsia.cc",
         "patchSetId": 1
@@ -90,6 +168,24 @@
       "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbbfbf69_d0719c15",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002194
+      },
+      "writtenOn": "2018-05-31T03:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b90df86e_e7c7c714",
+      "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "b0f18e4a_dff690c2",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002194
+      },
+      "writtenOn": "2018-05-31T03:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dea6c35_c466cb11",
+      "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "103de42a_e45533d7",
         "filename": "third_party/gtest/BUILD.gn",
         "patchSetId": 1
@@ -121,6 +235,24 @@
       "writtenOn": "2018-05-31T03:12:27Z",
       "side": 1,
       "message": "Same.",
+      "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d3185c0_88bb9057",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1002194
+      },
+      "writtenOn": "2018-05-31T03:49:15Z",
+      "side": 1,
+      "message": "If you like fdio by default, is there some reason you don\u0027t like zircon by default?  fdio depends on zircon, so you won\u0027t be able to link without zircon anyway.",
+      "parentUuid": "103de42a_e45533d7",
       "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
