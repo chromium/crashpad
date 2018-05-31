@@ -130,10 +130,10 @@ static_library("test") {
   if (crashpad_is_fuchsia) {
     if (crashpad_is_in_fuchsia) {
       deps += [
-        "//zircon/public/lib/launchpad",
+        "//zircon/public/lib/fdio",
       ]
     } else {
-      libs = [ "launchpad" ]
+      libs = [ "fdio" ]
     }
   }
 }
