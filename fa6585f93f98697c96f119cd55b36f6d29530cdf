@@ -256,6 +256,24 @@
       "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "245695b6_36200c2d",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-05-31T04:01:02Z",
+      "side": 1,
+      "message": "Yeah, I thought we did that, but I didn\u0027t see it just now when I checked.  (I suspect something else must indirectly depend on it in most targets I guess?)\n\nI\u0027ll fix that up and the  remove this, thanks for pointing it out.",
+      "parentUuid": "6d3185c0_88bb9057",
+      "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
