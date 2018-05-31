@@ -34,7 +34,7 @@ void AddPipe(fdio_spawn_action_t* action, int target_fd, int* fd_out) {
   zx_handle_t handle;
   uint32_t id;
   zx_status_t status = fdio_pipe_half(&handle, &id);
-  ZX_CHECK(status < 0, status) << "Failed to create pipe.";
+  ZX_CHECK(status >= 0, status) << "fdio_pipe_half";
   action->action = FDIO_SPAWN_ACTION_ADD_HANDLE;
   action->h.id = PA_HND(PA_HND_TYPE(id), target_fd);
   action->h.handle = handle;
