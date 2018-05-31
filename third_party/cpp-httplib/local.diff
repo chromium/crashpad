@@ -1,0 +1,20 @@
+diff --git a/third_party/cpp-httplib/cpp-httplib/httplib.h b/third_party/cpp-httplib/cpp-httplib/httplib.h
+index eae20420..ed3ca24d 100644
+--- a/third_party/cpp-httplib/cpp-httplib/httplib.h
++++ b/third_party/cpp-httplib/cpp-httplib/httplib.h
+@@ -71,13 +71,13 @@ typedef int socket_t;
+ #endif
+ 
+ #ifdef CPPHTTPLIB_ZLIB_SUPPORT
+-#include <zlib.h>
++#include "third_party/zlib/zlib_crashpad.h"
+ #endif
+ 
+ /*
+  * Configuration
+  */
+-#define CPPHTTPLIB_KEEPALIVE_MAX_COUNT 5
++#define CPPHTTPLIB_KEEPALIVE_MAX_COUNT 1
+ #define CPPHTTPLIB_KEEPALIVE_TIMEOUT_SECOND 5
+ #define CPPHTTPLIB_KEEPALIVE_TIMEOUT_USECOND 0
+ 
