@@ -274,6 +274,24 @@
       "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd1546f0_3f0c4c06",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1002194
+      },
+      "writtenOn": "2018-05-31T04:33:15Z",
+      "side": 1,
+      "message": "It\u0027s a bit of a strange library because we preload it into processes, but I think you still need it on the link line.",
+      "parentUuid": "245695b6_36200c2d",
+      "revId": "fa6585f93f98697c96f119cd55b36f6d29530cdf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
