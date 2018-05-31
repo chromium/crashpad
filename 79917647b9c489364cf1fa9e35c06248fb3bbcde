@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c8b49527_60b0cc1c",
+        "filename": "util/misc/range_set.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-31T21:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cc5166e_29db88b4",
+      "revId": "79917647b9c489364cf1fa9e35c06248fb3bbcde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b74896_267cd682",
         "filename": "util/misc/range_set.cc",
         "patchSetId": 15
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2c150572_19f826d5",
+        "filename": "util/misc/range_set.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-31T21:58:59Z",
+      "side": 1,
+      "message": "Good idea! It kept confusing me too. Using references magically worked, but null-references are technically undefined behavior, so how about macros so this can stay a single if statement?",
+      "parentUuid": "47b74896_267cd682",
+      "revId": "79917647b9c489364cf1fa9e35c06248fb3bbcde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "187975b4_4d0feaa8",
         "filename": "util/misc/range_set.cc",
         "patchSetId": 15
@@ -47,6 +83,30 @@
       "writtenOn": "2018-05-31T21:09:53Z",
       "side": 1,
       "message": "How would this happen?",
+      "range": {
+        "startLine": 34,
+        "startChar": 40,
+        "endLine": 34,
+        "endChar": 73
+      },
+      "revId": "79917647b9c489364cf1fa9e35c06248fb3bbcde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cc23cdd_8c3ae0c0",
+        "filename": "util/misc/range_set.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-05-31T21:58:59Z",
+      "side": 1,
+      "message": "The next range begins after this new range ends. Less obscure now?",
+      "parentUuid": "187975b4_4d0feaa8",
       "range": {
         "startLine": 34,
         "startChar": 40,
