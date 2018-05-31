@@ -256,6 +256,8 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
     [request setValue:UserAgentString() forHTTPHeaderField:@"User-Agent"];
 
     for (const auto& pair : headers()) {
+      fprintf(
+          stderr, "client %s => %s\n", pair.first.c_str(), pair.second.c_str());
       [request setValue:base::SysUTF8ToNSString(pair.second)
           forHTTPHeaderField:base::SysUTF8ToNSString(pair.first)];
     }
