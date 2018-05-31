@@ -92,6 +92,7 @@ int HttpTransportTestServerMain(int argc, char* argv[]) {
                  to_stdout += req.body;
 
                  server->stop();
+                 fprintf(stderr, "Stopped server\n");
                });
 
   uint16_t port =
