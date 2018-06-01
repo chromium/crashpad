@@ -67,6 +67,8 @@ int HttpTransportTestServerMain(int argc, char* argv[]) {
     return 1;
   }
 
+  server->set_keep_alive_max_count(1);
+
   uint16_t response_code;
   char response[16];
 
