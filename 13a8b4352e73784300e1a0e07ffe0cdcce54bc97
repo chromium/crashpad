@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad14b31f_36ef1dbe",
+        "filename": "util/misc/range_set.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-06-01T00:17:08Z",
+      "side": 1,
+      "message": "Mention that these are potentially adjacent, but not overlapping ranges (Is that the invariant?)",
+      "revId": "13a8b4352e73784300e1a0e07ffe0cdcce54bc97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
