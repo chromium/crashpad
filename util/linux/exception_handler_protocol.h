@@ -38,6 +38,10 @@ struct ClientInformation {
   //! \brief The address in the client's address space of an
   //!     ExceptionInformation struct.
   VMAddress exception_information_address;
+
+  //! \brief The address in the client's address space of a
+  //!     SanitizationInformation struct, or 0 if there is no struct.
+  VMAddress sanitization_information_address;
 };
 
 //! \brief The message passed from client to server.

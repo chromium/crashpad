@@ -63,15 +63,15 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
   // ExceptionHandlerServer::Delegate:
 
   bool HandleException(pid_t client_process_id,
-                       VMAddress exception_info_address) override;
+                       const ClientInformation& info) override;
 
   bool HandleExceptionWithBroker(pid_t client_process_id,
-                                 VMAddress exception_info_address,
+                                 const ClientInformation& info,
                                  int broker_sock) override;
 
  private:
   bool HandleExceptionWithConnection(PtraceConnection* connection,
-                                     VMAddress exception_info_address);
+                                     const ClientInformation& info);
 
   CrashReportDatabase* database_;  // weak
   CrashReportUploadThread* upload_thread_;  // weak

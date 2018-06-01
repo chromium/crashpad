@@ -21,6 +21,8 @@
 #include "minidump/minidump_file_writer.h"
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/linux/process_snapshot_linux.h"
+#include "snapshot/sanitized/process_snapshot_sanitized.h"
+#include "snapshot/sanitized/sanitization_information.h"
 #include "util/linux/direct_ptrace_connection.h"
 #include "util/linux/ptrace_client.h"
 #include "util/misc/metrics.h"
@@ -43,7 +45,7 @@ CrashReportExceptionHandler::~CrashReportExceptionHandler() = default;
 
 bool CrashReportExceptionHandler::HandleException(
     pid_t client_process_id,
-    VMAddress exception_info_address) {
+    const ClientInformation& info) {
   Metrics::ExceptionEncountered();
 
   DirectPtraceConnection connection;
@@ -53,12 +55,12 @@ bool CrashReportExceptionHandler::HandleException(
     return false;
   }
 
-  return HandleExceptionWithConnection(&connection, exception_info_address);
+  return HandleExceptionWithConnection(&connection, info);
 }
 
 bool CrashReportExceptionHandler::HandleExceptionWithBroker(
     pid_t client_process_id,
-    VMAddress exception_info_address,
+    const ClientInformation& info,
     int broker_sock) {
   Metrics::ExceptionEncountered();
 
@@ -69,19 +71,20 @@ bool CrashReportExceptionHandler::HandleExceptionWithBroker(
     return false;
   }
 
-  return HandleExceptionWithConnection(&client, exception_info_address);
+  return HandleExceptionWithConnection(&client, info);
 }
 
 bool CrashReportExceptionHandler::HandleExceptionWithConnection(
     PtraceConnection* connection,
-    VMAddress exception_info_address) {
+    const ClientInformation& info) {
   ProcessSnapshotLinux process_snapshot;
   if (!process_snapshot.Initialize(connection)) {
     Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSnapshotFailed);
     return false;
   }
 
-  if (!process_snapshot.InitializeException(exception_info_address)) {
+  if (!process_snapshot.InitializeException(
+          info.exception_information_address)) {
     Metrics::ExceptionCaptureResult(
         Metrics::CaptureResult::kExceptionInitializationFailed);
     return false;
@@ -117,9 +120,38 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
     process_snapshot.SetReportID(new_report->ReportID());
 
     MinidumpFileWriter minidump;
-    minidump.InitializeFromSnapshot(&process_snapshot);
-    AddUserExtensionStreams(
-        user_stream_data_sources_, &process_snapshot, &minidump);
+    if (info.sanitization_information_address) {
+      std::vector<std::string> whitelist;
+      VMAddress target_module_address;
+      bool sanitize_stacks;
+      ProcessMemoryRange range;
+      if (!range.Initialize(connection->Memory(), connection->Is64Bit()) ||
+          !ReadSanitizationInfo(&range,
+                                info.sanitization_information_address,
+                                &whitelist,
+                                &target_module_address,
+                                &sanitize_stacks)) {
+        // TODO metrics
+        return false;
+      }
+
+      ProcessSnapshotSanitized sanitized;
+      if (!sanitized.Initialize(&process_snapshot,
+                                whitelist.empty() ? nullptr : &whitelist,
+                                target_module_address,
+                                sanitize_stacks)) {
+        // TODO metrics
+        return false;
+      }
+
+      minidump.InitializeFromSnapshot(&sanitized);
+      AddUserExtensionStreams(user_stream_data_sources_, &sanitized, &minidump);
+
+    } else {
+      minidump.InitializeFromSnapshot(&process_snapshot);
+      AddUserExtensionStreams(
+          user_stream_data_sources_, &process_snapshot, &minidump);
+    }
 
     if (!minidump.WriteEverything(new_report->Writer())) {
       LOG(ERROR) << "WriteEverything failed";

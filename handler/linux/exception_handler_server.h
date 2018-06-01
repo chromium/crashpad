@@ -75,7 +75,7 @@ class ExceptionHandlerServer {
     //!     address space of an ExceptionInformation struct.
     //! \return `true` on success. `false` on failure with a message logged.
     virtual bool HandleException(pid_t client_process_id,
-                                 VMAddress exception_information_address) = 0;
+                                 const ClientInformation& info) = 0;
 
     //! \brief Called on the receipt of a crash dump request from a client for a
     //!     crash that should be mediated by a PtraceBroker.
@@ -85,10 +85,9 @@ class ExceptionHandlerServer {
     //!     address space of an ExceptionInformation struct.
     //! \param[in] broker_sock A socket connected to the PtraceBroker.
     //! \return `true` on success. `false` on failure with a message logged.
-    virtual bool HandleExceptionWithBroker(
-        pid_t client_process_id,
-        VMAddress exception_information_address,
-        int broker_sock) = 0;
+    virtual bool HandleExceptionWithBroker(pid_t client_process_id,
+                                           const ClientInformation& info,
+                                           int broker_sock) = 0;
 
    protected:
     ~Delegate() {}
