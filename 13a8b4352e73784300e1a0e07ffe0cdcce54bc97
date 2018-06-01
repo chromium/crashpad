@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "ef155066_f4de456f",
+        "filename": "snapshot/sanitized/memory_snapshot_sanitized.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-06-01T18:23:29Z",
+      "side": 1,
+      "message": "Using a conditional expression as a statement is a bit unusual, I think an if/else would probably be better even though it\u0027s a couple more lines.",
+      "revId": "13a8b4352e73784300e1a0e07ffe0cdcce54bc97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6efeac5e_cf72874b",
+        "filename": "snapshot/sanitized/memory_snapshot_sanitized.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-06-01T18:23:29Z",
+      "side": 1,
+      "message": "// Sanitize up until a word-aligned address.",
+      "revId": "13a8b4352e73784300e1a0e07ffe0cdcce54bc97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04be364d_3793cb07",
+        "filename": "snapshot/sanitized/memory_snapshot_sanitized.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-06-01T18:23:29Z",
+      "side": 1,
+      "message": "// Sanitize any trailing bytes beyond the word-sized items.",
+      "revId": "13a8b4352e73784300e1a0e07ffe0cdcce54bc97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "575e553a_a8ac602f",
+        "filename": "snapshot/sanitized/module_snapshot_sanitized.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-06-01T18:23:29Z",
+      "side": 1,
+      "message": "DCHECK() that it\u0027s empty and always return empty here too.",
+      "revId": "13a8b4352e73784300e1a0e07ffe0cdcce54bc97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ad14b31f_36ef1dbe",
         "filename": "util/misc/range_set.h",
         "patchSetId": 16
@@ -49,6 +117,24 @@
       "side": 1,
       "message": "Yeah, overlapping ranges would break Contains() if it found the wrong range.\nI think I was making this too complicated. I went with something similar to Tobias\u0027s option #2. This new strategy iterates from `base` to `last`, removing all overlapping ranges, and growing the range to insert as it iterates. Adjacent, non-overlapping ranges above get merged, but not adjacent below. Finish by inserting the new merged range.",
       "parentUuid": "07f57393_35acffe8",
+      "revId": "13a8b4352e73784300e1a0e07ffe0cdcce54bc97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12c08a57_96df16d5",
+        "filename": "util/misc/range_set.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-06-01T18:23:29Z",
+      "side": 1,
+      "message": "That\u0027s much more understandable!",
+      "parentUuid": "9d57ce82_830e368a",
       "revId": "13a8b4352e73784300e1a0e07ffe0cdcce54bc97",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
