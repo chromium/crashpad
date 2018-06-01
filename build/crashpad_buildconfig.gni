@@ -81,6 +81,12 @@ template("crashpad_executable") {
     } else if (crashpad_is_in_fuchsia) {
       configs += [ "//build/config/fuchsia:fdio_config" ]
     }
+
+    if (crashpad_is_standalone && use_libfuzzer) {
+      #deps += [
+        #"../third_party/libfuzzer:libfuzzer",
+      #]
+    }
   }
 }
 
@@ -103,6 +109,12 @@ template("crashpad_loadable_module") {
       deps += [ "//build/config:exe_and_shlib_deps" ]
     } else if (crashpad_is_in_fuchsia) {
       configs += [ "//build/config/fuchsia:fdio_config" ]
+    }
+
+    if (crashpad_is_standalone && use_libfuzzer) {
+      #deps += [
+        #"../third_party/libfuzzer:libfuzzer",
+      #]
     }
   }
 }

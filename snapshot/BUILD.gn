@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import("../build/crashpad_buildconfig.gni")
+import("../build/crashpad_fuzzer_test.gni")
 
 if (crashpad_is_in_chromium) {
   import("//build/config/compiler/compiler.gni")
@@ -213,6 +214,10 @@ static_library("snapshot") {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
     libs = [ "powrprof.lib" ]
   }
+
+  if (crashpad_is_linux) {
+    libs = [ "dl" ]
+  }
 }
 
 if (crashpad_is_win) {
@@ -236,6 +241,17 @@ if (crashpad_is_win) {
 } else {
   group("snapshot_api") {
   }
+}
+
+fuzzer_test("elf_image_reader_fuzzer") {
+  sources = [
+    "elf/elf_image_reader_fuzzer.cc",
+  ]
+
+  deps = [
+    ":snapshot",
+    "../third_party/mini_chromium:base",
+  ]
 }
 
 static_library("test_support") {
