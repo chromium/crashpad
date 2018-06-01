@@ -16,6 +16,24 @@
       "revId": "13a8b4352e73784300e1a0e07ffe0cdcce54bc97",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07f57393_35acffe8",
+        "filename": "util/misc/range_set.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-06-01T05:02:12Z",
+      "side": 1,
+      "message": "With my newly discovered excitement about fuzzing in https://bugs.chromium.org/p/crashpad/issues/detail?id\u003d233 I hacked a fuzzer and range_set into https://chromium-review.googlesource.com/c/chromium/src/+/1081587.\n\nUnfortunately it found that the ranges can become overlapping:\n\n\tranges.Insert(37, 16);\n\tranges.Insert(9, 9);\n\tranges.Insert(17, 42);\n\nwill, I think, result in ranges_ storing two overlapping ranges: (37..53) and (9..59).\n\n(I\u0027m still not 100% sure if this breaks this code, but I think it might since Contains() could find the wrong range, right?)",
+      "parentUuid": "ad14b31f_36ef1dbe",
+      "revId": "13a8b4352e73784300e1a0e07ffe0cdcce54bc97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
