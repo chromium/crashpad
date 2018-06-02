@@ -46,12 +46,20 @@ declare_args() {
   # and logging. When false, enables the release configuration, with additional
   # optimizations.
   is_debug = false
+
+  # When true, build all code with -fsanitize=fuzzer, and enable various
+  # *_fuzzer targets.
+  crashpad_use_libfuzzer = false
 }
 
 _default_configs = [
   "//third_party/mini_chromium/mini_chromium/build:default",
   "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
 ]
+
+if (crashpad_use_libfuzzer) {
+  _default_configs += [ "//build:crashpad_fuzzer_flags" ]
+}
 
 _default_executable_configs =
     _default_configs + [
