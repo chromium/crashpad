@@ -57,6 +57,30 @@
       "revId": "367b6d7ab39c6d4bdb37cbada341e79814183d04",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bc7e7b6_770c9fd9",
+        "filename": "snapshot/elf/elf_image_reader_fuzzer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-06-04T23:20:15Z",
+      "side": 1,
+      "message": "Makes sense... we could leave it unbounded then, and maybe I should make a separate NotesForTesting() or something?",
+      "parentUuid": "017626bc_cb1ad84f",
+      "range": {
+        "startLine": 69,
+        "startChar": 27,
+        "endLine": 69,
+        "endChar": 31
+      },
+      "revId": "367b6d7ab39c6d4bdb37cbada341e79814183d04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
