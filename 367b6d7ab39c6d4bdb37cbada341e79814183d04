@@ -16,6 +16,29 @@
       "revId": "367b6d7ab39c6d4bdb37cbada341e79814183d04",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "017626bc_cb1ad84f",
+        "filename": "snapshot/elf/elf_image_reader_fuzzer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-04T23:17:35Z",
+      "side": 1,
+      "message": "Actually, also just took a look at the follow-up to put a bound on the desc/name size for notes. I\u0027m not necessarily opposed to hardcoding a bound, but the expectation was that -1 would mostly just be using for testing, with real code injecting an appropriate bound.",
+      "range": {
+        "startLine": 69,
+        "startChar": 27,
+        "endLine": 69,
+        "endChar": 31
+      },
+      "revId": "367b6d7ab39c6d4bdb37cbada341e79814183d04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
