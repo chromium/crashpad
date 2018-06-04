@@ -81,6 +81,30 @@
       "revId": "367b6d7ab39c6d4bdb37cbada341e79814183d04",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22e60d7e_8c0bdc2a",
+        "filename": "snapshot/elf/elf_image_reader_fuzzer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-04T23:24:29Z",
+      "side": 1,
+      "message": "SGTM. I think Notes() is only used for testing, so you could just rename that. The only reason it exists is because it was convenient for debugging.",
+      "parentUuid": "5bc7e7b6_770c9fd9",
+      "range": {
+        "startLine": 69,
+        "startChar": 27,
+        "endLine": 69,
+        "endChar": 31
+      },
+      "revId": "367b6d7ab39c6d4bdb37cbada341e79814183d04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
