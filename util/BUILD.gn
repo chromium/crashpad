@@ -104,6 +104,8 @@ static_library("util") {
     "misc/pdb_structures.h",
     "misc/random_string.cc",
     "misc/random_string.h",
+    "misc/range_set.cc",
+    "misc/range_set.h",
     "misc/reinterpret_bytes.cc",
     "misc/reinterpret_bytes.h",
     "misc/scoped_forbid_return.cc",
@@ -256,9 +258,7 @@ static_library("util") {
       defines = [ "CRASHPAD_USE_BORINGSSL" ]
 
       if (crashpad_is_in_fuchsia) {
-        deps += [
-          "//third_party/boringssl"
-        ]
+        deps += [ "//third_party/boringssl" ]
       } else {
         libs = [
           "crypto",
@@ -490,13 +490,13 @@ if (!crashpad_is_android) {
     }
 
     if (use_boringssl_for_http_transport_socket) {
-      data_deps = [ ":generate_test_server_key" ]
+      data_deps = [
+        ":generate_test_server_key",
+      ]
       defines = [ "CRASHPAD_USE_BORINGSSL" ]
 
       if (crashpad_is_in_fuchsia) {
-        deps += [
-          "//third_party/boringssl"
-        ]
+        deps += [ "//third_party/boringssl" ]
       } else {
         libs = [
           "crypto",
@@ -526,6 +526,7 @@ source_set("util_test") {
     "misc/initialization_state_test.cc",
     "misc/paths_test.cc",
     "misc/random_string_test.cc",
+    "misc/range_set_test.cc",
     "misc/reinterpret_bytes_test.cc",
     "misc/scoped_forbid_return_test.cc",
     "misc/time_test.cc",
