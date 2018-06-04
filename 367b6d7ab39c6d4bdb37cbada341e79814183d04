@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d688bb6c_45311538",
+        "filename": "snapshot/elf/elf_image_reader_fuzzer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-06-04T23:18:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20e2c412_1d802a41",
+      "revId": "367b6d7ab39c6d4bdb37cbada341e79814183d04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "017626bc_cb1ad84f",
         "filename": "snapshot/elf/elf_image_reader_fuzzer.cc",
         "patchSetId": 5
