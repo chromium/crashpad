@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "8d9eead5_749401d7",
+        "filename": "snapshot/elf/elf_image_reader_fuzzer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-04T16:40:56Z",
+      "side": 1,
+      "message": "This should be returning -1 if offset_in_data \u003e size_.",
+      "range": {
+        "startLine": 18,
+        "startChar": 32,
+        "endLine": 18,
+        "endChar": 55
+      },
+      "revId": "28eaafbcde025c174b30fd63416cd7bd39ea5c7e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e960ec7e_7a6e6ce9",
         "filename": "snapshot/elf/elf_image_reader_fuzzer.cc",
         "patchSetId": 4
