@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20e2c412_1d802a41",
+        "filename": "snapshot/elf/elf_image_reader_fuzzer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-04T23:13:13Z",
+      "side": 1,
+      "message": "Spare blank line",
+      "revId": "367b6d7ab39c6d4bdb37cbada341e79814183d04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
