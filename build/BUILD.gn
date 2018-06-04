@@ -37,3 +37,15 @@ group("default_exe_manifest_win") {
     ]
   }
 }
+
+config("crashpad_fuzzer_flags") {
+  cflags = [
+    "-fsanitize=address",
+    "-fsanitize-address-use-after-scope",
+    "-fsanitize=fuzzer",
+  ]
+
+  ldflags = [
+    "-fsanitize=address",
+  ]
+}
