@@ -583,3 +583,17 @@ if (crashpad_is_win) {
     }
   }
 }
+
+fuzzer_test("snapshot_minidump_fuzzer") {
+  sources = [
+    "minidump/snapshot_minidump_fuzzer.cc",
+  ]
+
+  deps = [
+    ":snapshot",
+    "../compat",
+    "../minidump",
+    "../test",
+    "../third_party/mini_chromium:base",
+  ]
+}

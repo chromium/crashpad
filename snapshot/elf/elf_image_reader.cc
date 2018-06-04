@@ -247,7 +247,6 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::ReadNote(
     std::string* name,
     NoteType* type,
     std::string* desc) {
-  constexpr size_t kReasonableStringLength = 2048;
   static_assert(sizeof(*type) >= sizeof(NhdrType::n_namesz),
                 "Note field size mismatch");
   DCHECK_LT(current_address_, segment_end_address_);
@@ -287,10 +286,6 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::ReadNote(
     return Result::kError;
   }
 
-  if (note_info.n_namesz < 0 || note_info.n_namesz > kReasonableStringLength) {
-    LOG(ERROR) << "invalid n_namesz";
-    return Result::kError;
-  }
   std::string local_name(note_info.n_namesz, '\0');
   if (!segment_range_->Read(
           current_address_, note_info.n_namesz, &local_name[0])) {
@@ -312,10 +307,6 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::ReadNote(
 
   current_address_ += padded_namesz;
 
-  if (note_info.n_descsz < 0 || note_info.n_descsz > kReasonableStringLength) {
-    LOG(ERROR) << "invalid n_descsz";
-    return Result::kError;
-  }
   std::string local_desc(note_info.n_descsz, '\0');
   if (!segment_range_->Read(
           current_address_, note_info.n_descsz, &local_desc[0])) {
