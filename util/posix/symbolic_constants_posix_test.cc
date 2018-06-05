@@ -67,7 +67,9 @@ constexpr struct {
     {SIGINFO, "SIGINFO", "INFO"},
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
     {SIGPWR, "SIGPWR", "PWR"},
+#if !defined(ARCH_CPU_MIPS_FAMILY)
     {SIGSTKFLT, "SIGSTKFLT", "STKFLT"},
+#endif
 #endif
 };
 

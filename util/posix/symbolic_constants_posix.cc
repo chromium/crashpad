@@ -65,6 +65,39 @@ constexpr const char* kSignalNames[] = {
     "USR1",
     "USR2",
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
+#if defined(ARCH_CPU_MIPS_FAMILY)
+    "HUP",
+    "INT",
+    "QUIT",
+    "ILL",
+    "TRAP",
+    "ABRT",
+    "EMT",
+    "FPE",
+    "KILL",
+    "BUS",
+    "SEGV",
+    "SYS",
+    "PIPE",
+    "ALRM",
+    "TERM",
+    "USR1",
+    "USR2",
+    "CHLD",
+    "PWR",
+    "WINCH",
+    "URG",
+    "IO",
+    "STOP",
+    "TSTP",
+    "CONT",
+    "TTIN",
+    "TTOU",
+    "VTALRM",
+    "PROF",
+    "XCPU",
+    "XFSZ",
+#else
     // sed -Ene 's/^#define[[:space:]]SIG([[:alnum:]]+)[[:space:]]+[[:digit:]]{1,2}([[:space:]]|$).*/    "\1",/p'
     //     /usr/include/asm-generic/signal.h
     // and fix up by removing SIGIOT, SIGLOST, SIGUNUSED, and SIGRTMIN.
@@ -99,6 +132,7 @@ constexpr const char* kSignalNames[] = {
     "IO",
     "PWR",
     "SYS",
+#endif  // defined(ARCH_CPU_MIPS_FAMILY)
 #endif
 };
 #if defined(OS_LINUX) || defined(OS_ANDROID)

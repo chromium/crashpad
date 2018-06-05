@@ -269,6 +269,80 @@ bool GetThreadArea64(pid_t tid,
   }
   return true;
 }
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+
+bool GetFloatingPointRegisters32(pid_t tid,
+                                 FloatContext* context,
+                                 bool can_log) {
+  iovec iov;
+  iov.iov_base = &context->f32.fpregs;
+  iov.iov_len = sizeof(context->f32.fpregs);
+  if (ptrace(PTRACE_GETFPREGS, tid, nullptr, &context->f32.fpregs) != 0) {
+    switch (errno) {
+      case EINVAL:
+        // fp may not be present
+        break;
+      default:
+        PLOG_IF(ERROR, can_log) << "ptrace";
+        return false;
+    }
+  }
+  return true;
+}
+
+bool GetFloatingPointRegisters64(pid_t tid,
+                                 FloatContext* context,
+                                 bool can_log) {
+  iovec iov;
+  iov.iov_base = &context->f64.fpregs;
+  iov.iov_len = sizeof(context->f64.fpregs);
+  if (ptrace(PTRACE_GETFPREGS, tid, nullptr, &context->f64.fpregs) != 0) {
+    switch (errno) {
+      case EINVAL:
+        // fp may not be present
+        break;
+      default:
+        PLOG_IF(ERROR, can_log) << "ptrace";
+        return false;
+    }
+  }
+  return true;
+}
+
+bool GetThreadArea32(pid_t tid,
+                     const ThreadContext& context,
+                     LinuxVMAddress* address,
+                     bool can_log) {
+#if defined(ARCH_CPU_MIPSEL)
+  void* result;
+  if (ptrace(PTRACE_GET_THREAD_AREA, tid, nullptr, &result) != 0) {
+    PLOG_IF(ERROR, can_log) << "ptrace";
+    return false;
+  }
+  *address = FromPointerCast<LinuxVMAddress>(result);
+  return true;
+#else
+  return false;
+#endif
+}
+
+bool GetThreadArea64(pid_t tid,
+                     const ThreadContext& context,
+                     LinuxVMAddress* address,
+                     bool can_log) {
+  void* result;
+#if defined(ARCH_CPU_MIPSEL)
+  if (ptrace(PTRACE_GET_THREAD_AREA_3264, tid, nullptr, &result) != 0) {
+#else
+  if (ptrace(PTRACE_GET_THREAD_AREA, tid, nullptr, &result) != 0) {
+#endif
+    PLOG_IF(ERROR, can_log) << "ptrace";
+    return false;
+  }
+  *address = FromPointerCast<LinuxVMAddress>(result);
+  return true;
+}
+
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -277,8 +351,31 @@ size_t GetGeneralPurposeRegistersAndLength(pid_t tid,
                                            ThreadContext* context,
                                            bool can_log) {
   iovec iov;
+#if defined(ARCH_CPU_MIPSEL)
+  // This intermediate step and struct is needed when retrieving gp registers on
+  // mips32 via ptrace because NT_PRSTATUS treats them as array of 32bit
+  // elements, contrary to how they are treated as arrays of 64bit elements by
+  // kernel and eg. ucontext_t structure, among others. This struct is based on
+  // how gpr32_get function in arch/mips/kernel/ptrace.c fills output buffer
+  // with register values.
+  typedef struct {
+    uint32_t _padding0[6];
+    uint32_t regs[32];
+    uint32_t lo;
+    uint32_t hi;
+    uint32_t cp0_epc;
+    uint32_t cp0_badvaddr;
+    uint32_t cp0_status;
+    uint32_t cp0_cause;
+    uint32_t _padding;
+  } prstatus_mips32_t;
+  prstatus_mips32_t tmp_ctx;
+  iov.iov_base = &tmp_ctx;
+  iov.iov_len = sizeof(tmp_ctx);
+#else
   iov.iov_base = context;
   iov.iov_len = sizeof(*context);
+#endif
   if (ptrace(
           PTRACE_GETREGSET, tid, reinterpret_cast<void*>(NT_PRSTATUS), &iov) !=
       0) {
@@ -294,6 +391,18 @@ size_t GetGeneralPurposeRegistersAndLength(pid_t tid,
         return 0;
     }
   }
+#if defined(ARCH_CPU_MIPSEL)
+  for (size_t i = 0; i < arraysize(context->t32.regs); ++i) {
+    context->t32.regs[i] = tmp_ctx.regs[i];
+  }
+  context->t32.lo = tmp_ctx.lo;
+  context->t32.hi = tmp_ctx.hi;
+  context->t32.cp0_epc = tmp_ctx.cp0_epc;
+  context->t32.cp0_badvaddr = tmp_ctx.cp0_badvaddr;
+  context->t32.cp0_status = tmp_ctx.cp0_status;
+  context->t32.cp0_cause = tmp_ctx.cp0_cause;
+  iov.iov_len = sizeof(context->t32);
+#endif
   return iov.iov_len;
 }
 
