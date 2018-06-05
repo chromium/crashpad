@@ -98,58 +98,76 @@ namespace crashpad {
 namespace {
 
 void Usage(const base::FilePath& me) {
-  fprintf(stderr,
-"Usage: %" PRFilePath " [OPTION]...\n"
-"Crashpad's exception handler server.\n"
-"\n"
-"      --annotation=KEY=VALUE  set a process annotation in each crash report\n"
-"      --database=PATH         store the crash report database at PATH\n"
+  fprintf(
+      stderr,
+      "Usage: %" PRFilePath
+      " [OPTION]...\n"
+      "Crashpad's exception handler server.\n"
+      "\n"
+      "      --annotation=KEY=VALUE  set a process annotation in each crash "
+      "report\n"
+      "      --database=PATH         store the crash report database at PATH\n"
 #if defined(OS_MACOSX)
-"      --handshake-fd=FD       establish communication with the client over FD\n"
+      "      --handshake-fd=FD       establish communication with the client "
+      "over FD\n"
 #endif  // OS_MACOSX
 #if defined(OS_WIN)
-"      --initial-client-data=HANDLE_request_crash_dump,\n"
-"                            HANDLE_request_non_crash_dump,\n"
-"                            HANDLE_non_crash_dump_completed,\n"
-"                            HANDLE_pipe,\n"
-"                            HANDLE_client_process,\n"
-"                            Address_crash_exception_information,\n"
-"                            Address_non_crash_exception_information,\n"
-"                            Address_debug_critical_section\n"
-"                              use precreated data to register initial client\n"
+      "      --initial-client-data=HANDLE_request_crash_dump,\n"
+      "                            HANDLE_request_non_crash_dump,\n"
+      "                            HANDLE_non_crash_dump_completed,\n"
+      "                            HANDLE_pipe,\n"
+      "                            HANDLE_client_process,\n"
+      "                            Address_crash_exception_information,\n"
+      "                            Address_non_crash_exception_information,\n"
+      "                            Address_debug_critical_section\n"
+      "                              use precreated data to register initial "
+      "client\n"
 #endif  // OS_WIN
 #if defined(OS_MACOSX)
-"      --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
+      "      --mach-service=SERVICE  register SERVICE with the bootstrap "
+      "server\n"
 #endif  // OS_MACOSX
-"      --metrics-dir=DIR       store metrics files in DIR (only in Chromium)\n"
-"      --monitor-self          run a second handler to catch crashes in the first\n"
-"      --monitor-self-annotation=KEY=VALUE\n"
-"                              set a module annotation in the handler\n"
-"      --monitor-self-argument=ARGUMENT\n"
-"                              provide additional arguments to the second handler\n"
-"      --no-identify-client-via-url\n"
-"                              when uploading crash report, don't add\n"
-"                              client-identifying arguments to URL\n"
-"      --no-periodic-tasks     don't scan for new reports or prune the database\n"
-"      --no-rate-limit         don't rate limit crash uploads\n"
-"      --no-upload-gzip        don't use gzip compression when uploading\n"
+      "      --metrics-dir=DIR       store metrics files in DIR (only in "
+      "Chromium)\n"
+      "      --monitor-self          run a second handler to catch crashes in "
+      "the first\n"
+      "      --monitor-self-annotation=KEY=VALUE\n"
+      "                              set a module annotation in the handler\n"
+      "      --monitor-self-argument=ARGUMENT\n"
+      "                              provide additional arguments to the "
+      "second handler\n"
+      "      --no-identify-client-via-url\n"
+      "                              when uploading crash report, don't add\n"
+      "                              client-identifying arguments to URL\n"
+      "      --no-periodic-tasks     don't scan for new reports or prune the "
+      "database\n"
+      "      --no-rate-limit         don't rate limit crash uploads\n"
+      "      --no-upload-gzip        don't use gzip compression when "
+      "uploading\n"
 #if defined(OS_WIN)
-"      --pipe-name=PIPE        communicate with the client over PIPE\n"
+      "      --pipe-name=PIPE        communicate with the client over PIPE\n"
 #endif  // OS_WIN
 #if defined(OS_MACOSX)
-"      --reset-own-crash-exception-port-to-system-default\n"
-"                              reset the server's exception handler to default\n"
+      "      --reset-own-crash-exception-port-to-system-default\n"
+      "                              reset the server's exception handler to "
+      "default\n"
 #endif  // OS_MACOSX
 #if defined(OS_LINUX) || defined(OS_ANDROID)
-"      --trace-parent-with-exception=EXCEPTION_INFORMATION_ADDRESS\n"
-"                              request a dump for the handler's parent process\n"
-"      --initial-client-fd=FD  a socket connected to a client.\n"
+      "      --trace-parent-with-exception=EXCEPTION_INFORMATION_ADDRESS\n"
+      "                              request a dump for the handler's parent "
+      "process\n"
+      "      --initial-client-fd=FD  a socket connected to a client.\n"
+      "      --sanitization_information=SANITIZATION_INFORMATION_ADDRESS\n"
+      "                              the address of a SanitizationInformation "
+      "struct.\n"
 #endif  // OS_LINUX || OS_ANDROID
-"      --url=URL               send crash reports to this Breakpad server URL,\n"
-"                              only if uploads are enabled for the database\n"
-"      --help                  display this help and exit\n"
-"      --version               output version information and exit\n",
-          me.value().c_str());
+      "      --url=URL               send crash reports to this Breakpad "
+      "server URL,\n"
+      "                              only if uploads are enabled for the "
+      "database\n"
+      "      --help                  display this help and exit\n"
+      "      --version               output version information and exit\n",
+      me.value().c_str());
   ToolSupport::UsageTail(me);
 }
 
@@ -167,6 +185,7 @@ struct Options {
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
   VMAddress exception_information_address;
   int initial_client_fd;
+  VMAddress sanitization_information_address;
 #elif defined(OS_WIN)
   std::string pipe_name;
   InitialClientData initial_client_data;
@@ -535,6 +554,7 @@ int HandlerMain(int argc,
 #if defined(OS_LINUX) || defined(OS_ANDROID)
     kOptionTraceParentWithException,
     kOptionInitialClientFD,
+    kOptionSanitizationInformation,
 #endif
     kOptionURL,
 
@@ -590,6 +610,10 @@ int HandlerMain(int argc,
      nullptr,
      kOptionTraceParentWithException},
     {"initial-client-fd", required_argument, nullptr, kOptionInitialClientFD},
+    {"sanitization-information",
+     required_argument,
+     nullptr,
+     kOptionSanitizationInformation},
 #endif  // OS_LINUX || OS_ANDROID
     {"url", required_argument, nullptr, kOptionURL},
     {"help", no_argument, nullptr, kOptionHelp},
@@ -608,6 +632,7 @@ int HandlerMain(int argc,
 #if defined(OS_LINUX) || defined(OS_ANDROID)
   options.exception_information_address = 0;
   options.initial_client_fd = kInvalidFileHandle;
+  options.sanitization_information_address = 0;
 #endif
 
   int opt;
@@ -714,6 +739,15 @@ int HandlerMain(int argc,
         }
         break;
       }
+      case kOptionSanitizationInformation: {
+        if (!StringToNumber(optarg,
+                            &options.sanitization_information_address)) {
+          ToolSupport::UsageHint(me,
+                                 "failed to parse --sanitization-information");
+          return ExitFailure();
+        }
+        break;
+      }
 #endif  // OS_LINUX || OS_ANDROID
       case kOptionURL: {
         options.url = optarg;
@@ -763,8 +797,14 @@ int HandlerMain(int argc,
   if (!options.exception_information_address &&
       options.initial_client_fd == kInvalidFileHandle) {
     ToolSupport::UsageHint(
+        me, "--trace-parent-with-exception or --initial_client_fd is required");
+    return ExitFailure();
+  }
+  if (options.sanitization_information_address &&
+      !options.exception_information_address) {
+    ToolSupport::UsageHint(
         me,
-        "--exception_information_address or --initial_client_fd is required");
+        "--sanitization_information requires --trace-parent-with-exception");
     return ExitFailure();
   }
 #endif  // OS_MACOSX
@@ -844,9 +884,12 @@ int HandlerMain(int argc,
 
  #if defined(OS_LINUX) || defined(OS_ANDROID)
   if (options.exception_information_address) {
-    return exception_handler.HandleException(getppid(),
-                                      options.exception_information_address) ?
-    EXIT_SUCCESS : ExitFailure();
+    ClientInformation info = {};
+    info.exception_information_address = options.exception_information_address;
+    info.sanitization_information_address =
+        options.sanitization_information_address;
+    return exception_handler.HandleException(getppid(), info) ? EXIT_SUCCESS
+                                                              : ExitFailure();
   }
 #endif  // OS_LINUX || OS_ANDROID
 
