@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b017b5b9_60b121cb",
+        "filename": "minidump/minidump_context.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-08T21:06:36Z",
+      "side": 1,
+      "message": "floating point",
+      "range": {
+        "startLine": 447,
+        "startChar": 39,
+        "endLine": 447,
+        "endChar": 46
+      },
+      "revId": "7c6d7190e9034e96e732726ec47734798aa04c9a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcc581cd_cc6e4340",
+        "filename": "minidump/minidump_context.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-08T21:06:36Z",
+      "side": 1,
+      "message": "here too",
+      "range": {
+        "startLine": 515,
+        "startChar": 39,
+        "endLine": 515,
+        "endChar": 46
+      },
+      "revId": "7c6d7190e9034e96e732726ec47734798aa04c9a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "387f0fa9_21deeba1",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-08T21:06:36Z",
+      "side": 1,
+      "message": "This is only sized appropriately if the target process is 32-bit. It\u0027s possible that the tracer will be 32-bit while the target process is 64-bit. The other architectures pass in the ThreadContext, which is large enough for either 32 or 64 bit, and use the iov.iov_len returned by the kernel to interpret it appropriately. If you wanted to use the same strategy, the ThreadContext::t32 struct would need to have this layout. It\u0027s a little annoying that then you wouldn\u0027t be able to re-use it for the SignalThreadContext, but I think that\u0027s probably a small price to make this code simpler.",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 374,
+        "endChar": 32
+      },
+      "revId": "7c6d7190e9034e96e732726ec47734798aa04c9a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9ac74e0_3d4f5791",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-08T21:06:36Z",
+      "side": 1,
+      "message": "optional: It looks like HAVE_ARCH_TRACEHOOK, which is required for PTRACE_GETREGSET, wasn\u0027t set for mips until linux 3.13. If you want to support older kernels than that, you may need to add special handling here, as was done for ARM.",
+      "range": {
+        "startLine": 383,
+        "startChar": 0,
+        "endLine": 388,
+        "endChar": 25
+      },
+      "revId": "7c6d7190e9034e96e732726ec47734798aa04c9a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
