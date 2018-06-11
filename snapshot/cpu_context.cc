@@ -190,4 +190,18 @@ uint64_t CPUContext::StackPointer() const {
   }
 }
 
+bool CPUContext::Is64Bit() const {
+  switch (architecture) {
+    case kCPUArchitectureX86_64:
+    case kCPUArchitectureARM64:
+      return true;
+    case kCPUArchitectureX86:
+    case kCPUArchitectureARM:
+      return false;
+    default:
+      NOTREACHED();
+      return false;
+  }
+}
+
 }  // namespace crashpad

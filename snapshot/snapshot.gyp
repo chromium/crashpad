@@ -123,6 +123,14 @@
         'posix/timezone.cc',
         'posix/timezone.h',
         'process_snapshot.h',
+        'sanitized/memory_snapshot_sanitized.cc',
+        'sanitized/memory_snapshot_sanitized.h',
+        'sanitized/module_snapshot_sanitized.cc',
+        'sanitized/module_snapshot_sanitized.h',
+        'sanitized/process_snapshot_sanitized.cc',
+        'sanitized/process_snapshot_sanitized.h',
+        'sanitized/thread_snapshot_sanitized.cc',
+        'sanitized/thread_snapshot_sanitized.h',
         'snapshot_constants.h',
         'system_snapshot.h',
         'thread_snapshot.h',
@@ -176,6 +184,7 @@
           'sources/': [
             ['exclude', '^elf/'],
             ['exclude', '^crashpad_types/'],
+            ['exclude', '^sanitized/'],
           ],
         }],
         ['target_arch!="ia32" and target_arch!="x64"', {

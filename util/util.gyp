@@ -153,6 +153,8 @@
         'misc/pdb_structures.h',
         'misc/random_string.cc',
         'misc/random_string.h',
+        'misc/range_set.cc',
+        'misc/range_set.h',
         'misc/reinterpret_bytes.cc',
         'misc/reinterpret_bytes.h',
         'misc/scoped_forbid_return.cc',
