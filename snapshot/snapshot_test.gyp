@@ -93,6 +93,7 @@
         'minidump/process_snapshot_minidump_test.cc',
         'posix/timezone_test.cc',
         'sanitized/process_snapshot_sanitized_test.cc',
+        'sanitized/sanitization_information_test.cc',
         'win/cpu_context_win_test.cc',
         'win/exception_snapshot_win_test.cc',
         'win/extra_memory_ranges_test.cc',

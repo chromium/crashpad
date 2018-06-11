@@ -128,6 +128,8 @@ static_library("snapshot") {
       "sanitized/module_snapshot_sanitized.h",
       "sanitized/process_snapshot_sanitized.cc",
       "sanitized/process_snapshot_sanitized.h",
+      "sanitized/sanitization_information.cc",
+      "sanitized/sanitization_information.h",
       "sanitized/thread_snapshot_sanitized.cc",
       "sanitized/thread_snapshot_sanitized.h",
     ]
@@ -338,6 +340,7 @@ source_set("snapshot_test") {
       "linux/process_reader_linux_test.cc",
       "linux/system_snapshot_linux_test.cc",
       "sanitized/process_snapshot_sanitized_test.cc",
+      "sanitized/sanitization_information_test.cc",
     ]
   } else {
     sources += [ "crashpad_info_client_options_test.cc" ]
