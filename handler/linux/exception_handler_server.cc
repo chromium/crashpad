@@ -446,15 +446,12 @@ bool ExceptionHandlerServer::HandleCrashDumpRequest(
                                  ServerToClientMessage::kTypeCrashDumpFailed);
 
     case PtraceStrategyDecider::Strategy::kDirectPtrace:
-      delegate_->HandleException(client_process_id,
-                                 client_info.exception_information_address);
+      delegate_->HandleException(client_process_id, client_info);
       break;
 
     case PtraceStrategyDecider::Strategy::kUseBroker:
       delegate_->HandleExceptionWithBroker(
-          client_process_id,
-          client_info.exception_information_address,
-          client_sock);
+          client_process_id, client_info, client_sock);
       break;
   }
 
