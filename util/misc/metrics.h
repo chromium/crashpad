@@ -129,6 +129,12 @@ class Metrics {
     //! This value is only used on Linux/Android.
     kBrokeredPtraceFailed = 9,
 
+    //! \brief Sanitization was requested but could not be initialized.
+    kSanitizationInitializationFailed = 10,
+
+    //! \brief Sanitization caused this crash dump to be skipped.
+    kSkippedDueToSanitization = 11,
+
     //! \brief The number of values in this enumeration; not a valid value.
     kMaxValue
   };

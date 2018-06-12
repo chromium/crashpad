@@ -28,6 +28,7 @@
 #include "gtest/gtest.h"
 #include "snapshot/annotation_snapshot.h"
 #include "snapshot/minidump/process_snapshot_minidump.h"
+#include "snapshot/sanitized/sanitization_information.h"
 #include "test/multiprocess.h"
 #include "test/multiprocess_exec.h"
 #include "test/scoped_temp_dir.h"
@@ -210,7 +211,9 @@ class StartHandlerForClientTest {
   StartHandlerForClientTest() = default;
   ~StartHandlerForClientTest() = default;
 
-  bool Initialize() {
+  bool Initialize(bool sanitize) {
+    sanitize_ = sanitize;
+
     int socks[2];
     if (socketpair(AF_UNIX, SOCK_STREAM, 0, socks) != 0) {
       PLOG(ERROR) << "socketpair";
@@ -253,19 +256,23 @@ class StartHandlerForClientTest {
     ASSERT_TRUE(database);
 
     std::vector<CrashReportDatabase::Report> reports;
-    ASSERT_EQ(database->GetPendingReports(&reports),
-              CrashReportDatabase::kNoError);
-    EXPECT_EQ(reports.size(), 1u);
-
-    reports.clear();
     ASSERT_EQ(database->GetCompletedReports(&reports),
               CrashReportDatabase::kNoError);
     EXPECT_EQ(reports.size(), 0u);
+
+    reports.clear();
+    ASSERT_EQ(database->GetPendingReports(&reports),
+              CrashReportDatabase::kNoError);
+    if (sanitize_) {
+      EXPECT_EQ(reports.size(), 0u);
+    } else {
+      EXPECT_EQ(reports.size(), 1u);
+    }
   }
 
   bool InstallHandler() {
     auto signal_handler = SandboxedHandler::Get();
-    return signal_handler->Initialize(client_sock_.get());
+    return signal_handler->Initialize(client_sock_.get(), sanitize_);
   }
 
  private:
@@ -278,8 +285,9 @@ class StartHandlerForClientTest {
       return instance;
     }
 
-    bool Initialize(FileHandle client_sock) {
+    bool Initialize(FileHandle client_sock, bool sanitize) {
       client_sock_ = client_sock;
+      sanitize_ = sanitize;
       return Signals::InstallCrashHandlers(HandleCrash, 0, nullptr);
     }
 
@@ -302,10 +310,19 @@ class StartHandlerForClientTest {
               context);
       exception_information.thread_id = syscall(SYS_gettid);
 
-      ClientInformation info = {};
+      ClientInformation info;
       info.exception_information_address =
           FromPointerCast<decltype(info.exception_information_address)>(
               &exception_information);
+
+      SanitizationInformation sanitization_info = {};
+      if (state->sanitize_) {
+        info.sanitization_information_address =
+            FromPointerCast<VMAddress>(&sanitization_info);
+        // Target a non-module address to prevent a crash dump.
+        sanitization_info.target_module_address =
+            FromPointerCast<VMAddress>(&sanitization_info);
+      }
 
       ExceptionHandlerClient handler_client(state->client_sock_);
       CHECK_EQ(handler_client.RequestCrashDump(info), 0);
@@ -314,6 +331,7 @@ class StartHandlerForClientTest {
     }
 
     FileHandle client_sock_;
+    bool sanitize_;
 
     DISALLOW_COPY_AND_ASSIGN(SandboxedHandler);
   };
@@ -321,6 +339,7 @@ class StartHandlerForClientTest {
   ScopedTempDir temp_dir_;
   ScopedFileHandle client_sock_;
   ScopedFileHandle server_sock_;
+  bool sanitize_;
 
   DISALLOW_COPY_AND_ASSIGN(StartHandlerForClientTest);
 };
@@ -331,9 +350,9 @@ class StartHandlerForChildTest : public Multiprocess {
   StartHandlerForChildTest() = default;
   ~StartHandlerForChildTest() = default;
 
-  bool Initialize() {
+  bool Initialize(bool sanitize) {
     SetExpectedChildTerminationBuiltinTrap();
-    return test_state_.Initialize();
+    return test_state_.Initialize(sanitize);
   }
 
  private:
@@ -361,7 +380,13 @@ class StartHandlerForChildTest : public Multiprocess {
 
 TEST(CrashpadClient, StartHandlerForChild) {
   StartHandlerForChildTest test;
-  ASSERT_TRUE(test.Initialize());
+  ASSERT_TRUE(test.Initialize(/* sanitize= */ false));
+  test.Run();
+}
+
+TEST(CrashpadClient, SanitizedChild) {
+  StartHandlerForChildTest test;
+  ASSERT_TRUE(test.Initialize(/* sanitize= */ true));
   test.Run();
 }
 

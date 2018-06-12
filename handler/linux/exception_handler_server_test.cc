@@ -101,25 +101,25 @@ class TestDelegate : public ExceptionHandlerServer::Delegate {
   }
 
   bool HandleException(pid_t client_process_id,
-                       VMAddress exception_information_address) override {
+                       const ClientInformation& info) override {
     DirectPtraceConnection connection;
     bool connected = connection.Initialize(client_process_id);
     EXPECT_TRUE(connected);
 
-    last_exception_address_ = exception_information_address;
+    last_exception_address_ = info.exception_information_address;
     last_client_ = client_process_id;
     sem_.Signal();
     return connected;
   }
 
   bool HandleExceptionWithBroker(pid_t client_process_id,
-                                 VMAddress exception_information_address,
+                                 const ClientInformation& info,
                                  int broker_sock) override {
     PtraceClient client;
     bool connected = client.Initialize(broker_sock, client_process_id);
     EXPECT_TRUE(connected);
 
-    last_exception_address_ = exception_information_address,
+    last_exception_address_ = info.exception_information_address,
     last_client_ = client_process_id;
     sem_.Signal();
     return connected;
