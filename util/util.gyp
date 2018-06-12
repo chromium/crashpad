@@ -60,6 +60,7 @@
         'linux/direct_ptrace_connection.h',
         'linux/exception_handler_client.cc',
         'linux/exception_handler_client.h',
+        'linux/exception_handler_protocol.cc',
         'linux/exception_handler_protocol.h',
         'linux/exception_information.h',
         'linux/memory_map.cc',

@@ -129,6 +129,8 @@
         'sanitized/module_snapshot_sanitized.h',
         'sanitized/process_snapshot_sanitized.cc',
         'sanitized/process_snapshot_sanitized.h',
+        'sanitized/sanitization_information.cc',
+        'sanitized/sanitization_information.h',
         'sanitized/thread_snapshot_sanitized.cc',
         'sanitized/thread_snapshot_sanitized.h',
         'snapshot_constants.h',
