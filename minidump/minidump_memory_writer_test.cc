@@ -188,6 +188,47 @@ TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
   }
 }
 
+TEST(MinidumpMemoryWriter, RegionReadFails) {
+  MinidumpFileWriter minidump_file_writer;
+  auto memory_list_writer = std::make_unique<MinidumpMemoryListWriter>();
+
+  constexpr uint64_t kBaseAddress = 0xfedcba9876543210;
+  constexpr size_t kSize = 0x1000;
+  constexpr uint8_t kValue = 'm';
+
+  auto memory_writer =
+      std::make_unique<TestMinidumpMemoryWriter>(kBaseAddress, kSize, kValue);
+
+  // Make the read of that memory fail.
+  memory_writer->SetShouldFailRead(true);
+
+  memory_list_writer->AddMemory(std::move(memory_writer));
+
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(memory_list_writer)));
+
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
+
+  const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
+  ASSERT_NO_FATAL_FAILURE(
+      GetMemoryListStream(string_file.string(), &memory_list, 1));
+
+  MINIDUMP_MEMORY_DESCRIPTOR expected;
+  expected.StartOfMemoryRange = kBaseAddress;
+  expected.Memory.DataSize = kSize;
+  expected.Memory.Rva =
+      sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
+      sizeof(MINIDUMP_MEMORY_LIST) +
+      memory_list->NumberOfMemoryRanges * sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
+  ExpectMinidumpMemoryDescriptorAndContents(
+      &expected,
+      &memory_list->MemoryRanges[0],
+      string_file.string(),
+      0xfe,  // Not kValue ('m'), but the value that the implementation inserts
+             // if memory is unreadable.
+      true);
+}
+
 class TestMemoryStream final : public internal::MinidumpStreamWriter {
  public:
   TestMemoryStream(uint64_t base_address, size_t size, uint8_t value)

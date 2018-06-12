@@ -21,7 +21,7 @@ namespace crashpad {
 namespace test {
 
 TestMemorySnapshot::TestMemorySnapshot()
-    : address_(0), size_(0), value_('\0') {
+    : address_(0), size_(0), value_('\0'), should_fail_(false) {
 }
 
 TestMemorySnapshot::~TestMemorySnapshot() {
@@ -36,6 +36,10 @@ size_t TestMemorySnapshot::Size() const {
 }
 
 bool TestMemorySnapshot::Read(Delegate* delegate) const {
+  if (should_fail_) {
+    return false;
+  }
+
   if (size_ == 0) {
     return delegate->MemorySnapshotDelegateRead(nullptr, size_);
   }

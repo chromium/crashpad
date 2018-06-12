@@ -40,6 +40,8 @@ class TestMinidumpMemoryWriter final : public SnapshotMinidumpMemoryWriter {
   TestMinidumpMemoryWriter(uint64_t base_address, size_t size, uint8_t value);
   ~TestMinidumpMemoryWriter();
 
+  void SetShouldFailRead(bool should_fail);
+
  private:
   TestMemorySnapshot test_snapshot_;
 

@@ -40,6 +40,8 @@ class TestMemorySnapshot final : public MemorySnapshot {
   //!     called. This value will be repeated Size() times.
   void SetValue(char value) { value_ = value; }
 
+  void SetShouldFailRead(bool should_fail) { should_fail_ = true; }
+
   // MemorySnapshot:
 
   uint64_t Address() const override;
@@ -52,6 +54,7 @@ class TestMemorySnapshot final : public MemorySnapshot {
   uint64_t address_;
   size_t size_;
   char value_;
+  bool should_fail_;
 
   DISALLOW_COPY_AND_ASSIGN(TestMemorySnapshot);
 };
