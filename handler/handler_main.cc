@@ -144,6 +144,8 @@ void Usage(const base::FilePath& me) {
 "      --trace-parent-with-exception=EXCEPTION_INFORMATION_ADDRESS\n"
 "                              request a dump for the handler's parent process\n"
 "      --initial-client-fd=FD  a socket connected to a client.\n"
+"      --sanitization_information=SANITIZATION_INFORMATION_ADDRESS\n"
+"                              the address of a SanitizationInformation struct.\n"
 #endif  // OS_LINUX || OS_ANDROID
 "      --url=URL               send crash reports to this Breakpad server URL,\n"
 "                              only if uploads are enabled for the database\n"
@@ -167,6 +169,7 @@ struct Options {
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
   VMAddress exception_information_address;
   int initial_client_fd;
+  VMAddress sanitization_information_address;
 #elif defined(OS_WIN)
   std::string pipe_name;
   InitialClientData initial_client_data;
@@ -535,6 +538,7 @@ int HandlerMain(int argc,
 #if defined(OS_LINUX) || defined(OS_ANDROID)
     kOptionTraceParentWithException,
     kOptionInitialClientFD,
+    kOptionSanitizationInformation,
 #endif
     kOptionURL,
 
@@ -590,6 +594,10 @@ int HandlerMain(int argc,
      nullptr,
      kOptionTraceParentWithException},
     {"initial-client-fd", required_argument, nullptr, kOptionInitialClientFD},
+    {"sanitization-information",
+     required_argument,
+     nullptr,
+     kOptionSanitizationInformation},
 #endif  // OS_LINUX || OS_ANDROID
     {"url", required_argument, nullptr, kOptionURL},
     {"help", no_argument, nullptr, kOptionHelp},
@@ -608,6 +616,7 @@ int HandlerMain(int argc,
 #if defined(OS_LINUX) || defined(OS_ANDROID)
   options.exception_information_address = 0;
   options.initial_client_fd = kInvalidFileHandle;
+  options.sanitization_information_address = 0;
 #endif
 
   int opt;
@@ -714,6 +723,15 @@ int HandlerMain(int argc,
         }
         break;
       }
+      case kOptionSanitizationInformation: {
+        if (!StringToNumber(optarg,
+                            &options.sanitization_information_address)) {
+          ToolSupport::UsageHint(me,
+                                 "failed to parse --sanitization-information");
+          return ExitFailure();
+        }
+        break;
+      }
 #endif  // OS_LINUX || OS_ANDROID
       case kOptionURL: {
         options.url = optarg;
@@ -763,8 +781,14 @@ int HandlerMain(int argc,
   if (!options.exception_information_address &&
       options.initial_client_fd == kInvalidFileHandle) {
     ToolSupport::UsageHint(
+        me, "--trace-parent-with-exception or --initial_client_fd is required");
+    return ExitFailure();
+  }
+  if (options.sanitization_information_address &&
+      !options.exception_information_address) {
+    ToolSupport::UsageHint(
         me,
-        "--exception_information_address or --initial_client_fd is required");
+        "--sanitization_information requires --trace-parent-with-exception");
     return ExitFailure();
   }
 #endif  // OS_MACOSX
@@ -844,9 +868,12 @@ int HandlerMain(int argc,
 
  #if defined(OS_LINUX) || defined(OS_ANDROID)
   if (options.exception_information_address) {
-    return exception_handler.HandleException(getppid(),
-                                      options.exception_information_address) ?
-    EXIT_SUCCESS : ExitFailure();
+    ClientInformation info;
+    info.exception_information_address = options.exception_information_address;
+    info.sanitization_information_address =
+        options.sanitization_information_address;
+    return exception_handler.HandleException(getppid(), info) ? EXIT_SUCCESS
+                                                              : ExitFailure();
   }
 #endif  // OS_LINUX || OS_ANDROID
 

@@ -35,17 +35,27 @@ enum Bool : char { kBoolFalse, kBoolTrue };
 
 //! \brief Information about a client registered with an ExceptionHandlerServer.
 struct ClientInformation {
+  //! \brief Constructs this object.
+  ClientInformation();
+
   //! \brief The address in the client's address space of an
   //!     ExceptionInformation struct.
   VMAddress exception_information_address;
+
+  //! \brief The address in the client's address space of a
+  //!     SanitizationInformation struct, or 0 if there is no such struct.
+  VMAddress sanitization_information_address;
 };
 
 //! \brief The message passed from client to server.
 struct ClientToServerMessage {
   static constexpr int32_t kVersion = 1;
 
+  //! \brief Constructs this object.
+  ClientToServerMessage();
+
   //! \brief Indicates what message version is being used.
-  int32_t version = kVersion;
+  int32_t version;
 
   enum Type : uint32_t {
     //! \brief Used to request a crash dump for the sending client.
