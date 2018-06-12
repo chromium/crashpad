@@ -52,7 +52,17 @@ bool SnapshotMinidumpMemoryWriter::WriteObject(
                                                           file_writer);
 
   // This will result in MemorySnapshotDelegateRead() being called.
-  return memory_snapshot_->Read(this);
+  if (!memory_snapshot_->Read(this)) {
+    // If the Read() fails (perhaps because the process' memory map has changed
+    // since it the range was captured), write an empty block of memory. It
+    // would be nice to instead not include this memory, but at this point in
+    // the writing process, it would be difficult to amend the minidump's
+    // structure. See https://crashpad.chromium.org/234 for background.
+    std::vector<uint8_t> empty(memory_snapshot_->Size(), 0xfe);
+    MemorySnapshotDelegateRead(empty.data(), empty.size());
+  }
+
+  return true;
 }
 
 const MINIDUMP_MEMORY_DESCRIPTOR*

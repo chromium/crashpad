@@ -31,6 +31,10 @@ TestMinidumpMemoryWriter::TestMinidumpMemoryWriter(uint64_t base_address,
 TestMinidumpMemoryWriter::~TestMinidumpMemoryWriter() {
 }
 
+void TestMinidumpMemoryWriter::SetShouldFailRead(bool should_fail) {
+  test_snapshot_.SetShouldFailRead(should_fail);
+}
+
 void ExpectMinidumpMemoryDescriptor(
     const MINIDUMP_MEMORY_DESCRIPTOR* expected,
     const MINIDUMP_MEMORY_DESCRIPTOR* observed) {
