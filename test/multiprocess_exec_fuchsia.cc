@@ -14,8 +14,8 @@
 
 #include "test/multiprocess_exec.h"
 
-#include <fdio/io.h>
-#include <fdio/spawn.h>
+#include <lib/fdio/io.h>
+#include <lib/fdio/spawn.h>
 #include <zircon/process.h>
 #include <zircon/processargs.h>
 #include <zircon/syscalls.h>

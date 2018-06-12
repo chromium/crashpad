@@ -32,7 +32,7 @@
 #include "util/string/split_string.h"
 
 #if defined(OS_FUCHSIA)
-#include <fdio/spawn.h>
+#include <lib/fdio/spawn.h>
 #include <zircon/process.h>
 #include <zircon/syscalls.h>
 
