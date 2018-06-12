@@ -14,7 +14,7 @@
 
 #include "client/crashpad_client.h"
 
-#include <fdio/spawn.h>
+#include <lib/fdio/spawn.h>
 #include <zircon/process.h>
 #include <zircon/processargs.h>
 
