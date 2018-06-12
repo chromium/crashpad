@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6173939e_b11012d6",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-12T15:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5062479d_bda900c3",
+      "revId": "167ae8abea50e35eaba31bfdf25a9358a92bb01c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9232a12f_f5a1f180",
         "filename": "handler/linux/exception_handler_server.h",
         "patchSetId": 7
@@ -65,6 +83,54 @@
     },
     {
       "key": {
+        "uuid": "afb4d33e_42f18847",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-12T15:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9232a12f_f5a1f180",
+      "range": {
+        "startLine": 74,
+        "startChar": 24,
+        "endLine": 74,
+        "endChar": 25
+      },
+      "revId": "167ae8abea50e35eaba31bfdf25a9358a92bb01c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab1dd766_173878c0",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-12T15:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1fd6011_ced0538c",
+      "range": {
+        "startLine": 74,
+        "startChar": 36,
+        "endLine": 74,
+        "endChar": 71
+      },
+      "revId": "167ae8abea50e35eaba31bfdf25a9358a92bb01c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0a3f5c_c1773d98",
         "filename": "handler/linux/exception_handler_server_test.cc",
         "patchSetId": 7
@@ -85,6 +151,30 @@
       "revId": "167ae8abea50e35eaba31bfdf25a9358a92bb01c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "463643e1_69fd5f1b",
+        "filename": "handler/linux/exception_handler_server_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-12T15:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee0a3f5c_c1773d98",
+      "range": {
+        "startLine": 200,
+        "startChar": 6,
+        "endLine": 200,
+        "endChar": 23
+      },
+      "revId": "167ae8abea50e35eaba31bfdf25a9358a92bb01c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "8a5885c9_bc5c1b5c",
+        "filename": "snapshot/sanitized/sanitization_information.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-12T15:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d35d4e19_1f9d11b3",
+      "range": {
+        "startLine": 54,
+        "startChar": 20,
+        "endLine": 54,
+        "endChar": 30
+      },
+      "revId": "167ae8abea50e35eaba31bfdf25a9358a92bb01c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb645d7b_43eb7f41",
         "filename": "util/misc/metrics.h",
         "patchSetId": 7
@@ -131,6 +245,30 @@
       "revId": "167ae8abea50e35eaba31bfdf25a9358a92bb01c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f82cb47_13a7f5bb",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-12T15:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb645d7b_43eb7f41",
+      "range": {
+        "startLine": 132,
+        "startChar": 15,
+        "endLine": 132,
+        "endChar": 26
+      },
+      "revId": "167ae8abea50e35eaba31bfdf25a9358a92bb01c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
