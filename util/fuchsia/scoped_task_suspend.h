@@ -17,20 +17,21 @@
 
 #include <zircon/types.h>
 
+#include <vector>
+
+#include "base/fuchsia/scoped_zx_handle.h"
 #include "base/macros.h"
 
 namespace crashpad {
 
 //! \brief Manages the suspension of another task.
 //!
-//! Currently, suspends and resumes are not counted on Fuchsia, so while this
-//! class attempts to manage suspension of a task, if another caller or process
-//! is simultaneously suspending or resuming this task, the results may not be
-//! as expected.
+//! The underlying API only supports suspending threads (despite its name) not
+//! entire tasks. As a result, it's possible some threads may not be correctly
+//! suspended/resumed as their creation might race enumeration.
 //!
-//! Additionally, the underlying API only supports suspending threads (despite
-//! its name) not entire tasks. As a result, it's possible some threads may not
-//! be correctly suspended/resumed as their creation might race enumeration.
+//! Additionally, suspending a thread is asynchronous and may take an
+//! arbitrary amount of time.
 //!
 //! Because of these limitations, this class is limited to being a best-effort,
 //! and correct suspension/resumption cannot be relied upon.
@@ -43,7 +44,8 @@ class ScopedTaskSuspend {
   ~ScopedTaskSuspend();
 
  private:
-  zx_handle_t task_;  // weak
+  // Could be one (for a thread) or many (for every process in a thread).
+  std::vector<base::ScopedZxHandle> suspend_tokens_;
 
   DISALLOW_COPY_AND_ASSIGN(ScopedTaskSuspend);
 };
