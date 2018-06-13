@@ -22,6 +22,30 @@
       "revId": "da6caf7ac8dd807d438b5959b1501ccf77b3e5d7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f38e07c9_3f5b0c54",
+        "filename": "doc/developing.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-06-13T17:15:50Z",
+      "side": 1,
+      "message": "Switched to \"Default\".",
+      "parentUuid": "41c1ec37_9a486d3a",
+      "range": {
+        "startLine": 97,
+        "startChar": 13,
+        "endLine": 97,
+        "endChar": 16
+      },
+      "revId": "da6caf7ac8dd807d438b5959b1501ccf77b3e5d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
