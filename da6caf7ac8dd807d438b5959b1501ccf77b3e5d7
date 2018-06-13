@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41c1ec37_9a486d3a",
+        "filename": "doc/developing.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-13T17:12:26Z",
+      "side": 1,
+      "message": "This seems like it might be easy to mis-interpret as being meaningful to the build configuration. Since we don\u0027t talk about cross-builds, it\u0027s not clear why one would need a directory named for the target platform.",
+      "range": {
+        "startLine": 97,
+        "startChar": 13,
+        "endLine": 97,
+        "endChar": 16
+      },
+      "revId": "da6caf7ac8dd807d438b5959b1501ccf77b3e5d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
