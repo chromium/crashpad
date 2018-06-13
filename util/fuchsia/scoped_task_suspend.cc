@@ -46,8 +46,8 @@ enum class SuspensionResult {
   Succeeded,
 };
 
-SuspensionResult SuspendThread(zx_handle_t thread) {
-  zx_status_t status = zx_task_suspend(thread);
+SuspensionResult SuspendThread(zx_handle_t thread, zx_handle_t* token) {
+  zx_status_t status = zx_task_suspend_token(thread, token);
   ZX_LOG_IF(ERROR, status != ZX_OK, status) << "zx_task_suspend";
   if (status != ZX_OK)
     return SuspensionResult::FailedSuspendCall;
@@ -69,12 +69,6 @@ SuspensionResult SuspendThread(zx_handle_t thread) {
   return SuspensionResult::FailedToSuspendInTimelyFashion;
 }
 
-bool ResumeThread(zx_handle_t thread) {
-  zx_status_t status = zx_task_resume(thread, 0);
-  ZX_LOG_IF(ERROR, status != ZX_OK, status) << "zx_task_resume";
-  return status == ZX_OK;
-}
-
 }  // namespace
 
 ScopedTaskSuspend::ScopedTaskSuspend(zx_handle_t task) : task_(task) {
@@ -87,12 +81,18 @@ ScopedTaskSuspend::ScopedTaskSuspend(zx_handle_t task) : task_(task) {
     // completely fails, otherwise the suspension might just not have taken
     // effect yet, so avoid leaving it suspended forever by still resuming on
     // destruction.
-    if (SuspendThread(task_) == SuspensionResult::FailedSuspendCall) {
+    zx_handle_t token = ZX_HANDLE_INVALID;
+    if (SuspendThread(task_, &token) == SuspensionResult::FailedSuspendCall) {
       task_ = ZX_HANDLE_INVALID;
+    } else {
+      suspend_tokens_.push_back(token);
     }
   } else if (type == ZX_OBJ_TYPE_PROCESS) {
     for (const auto& thread : GetChildHandles(task_, ZX_INFO_PROCESS_THREADS)) {
-      SuspendThread(thread.get());
+      zx_handle_t token = ZX_HANDLE_INVALID;
+      SuspendThread(thread.get(), &token);
+      if (token != ZX_HANDLE_INVALID)
+        suspend_tokens_.push_back(token);
     }
   } else {
     LOG(ERROR) << "unexpected handle type";
@@ -101,19 +101,9 @@ ScopedTaskSuspend::ScopedTaskSuspend(zx_handle_t task) : task_(task) {
 }
 
 ScopedTaskSuspend::~ScopedTaskSuspend() {
-  if (task_ != ZX_HANDLE_INVALID) {
-    zx_obj_type_t type = GetHandleType(task_);
-    if (type == ZX_OBJ_TYPE_THREAD) {
-      ResumeThread(task_);
-    } else if (type == ZX_OBJ_TYPE_PROCESS) {
-      for (const auto& thread :
-           GetChildHandles(task_, ZX_INFO_PROCESS_THREADS)) {
-        ResumeThread(thread.get());
-      }
-    } else {
-      LOG(ERROR) << "unexpected handle type";
-    }
-  }
+  for (size_t i = 0; i < suspend_tokens_.size(); i++)
+    zx_handle_close(suspend_tokens_[i]);
+  suspend_tokens_.clear();
 }
 
 }  // namespace crashpad
