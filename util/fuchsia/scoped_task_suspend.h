@@ -17,6 +17,9 @@
 
 #include <zircon/types.h>
 
+#include <vector>
+
+#include "base/fuchsia/scoped_zx_handle.h"
 #include "base/macros.h"
 
 namespace crashpad {
@@ -43,7 +46,8 @@ class ScopedTaskSuspend {
   ~ScopedTaskSuspend();
 
  private:
-  zx_handle_t task_;  // weak
+  // Could be one (for a thread) or many (for every process in a thread).
+  std::vector<base::ScopedZxHandle> suspend_tokens_;
 
   DISALLOW_COPY_AND_ASSIGN(ScopedTaskSuspend);
 };
