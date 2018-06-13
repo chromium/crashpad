@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9cb95be_4a78e21d",
+        "filename": "util/fuchsia/scoped_task_suspend.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-06-13T23:50:11Z",
+      "side": 1,
+      "message": "C headers in a first block, then C++ headers in a separate block after the C headers.",
+      "revId": "cb875315a655e16a01cceeab9ee18d81836aa6e0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea47396d_1c6dddc6",
+        "filename": "util/fuchsia/scoped_task_suspend.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-06-13T23:50:11Z",
+      "side": 1,
+      "message": "This can be deleted now, because it was only needed in the destructor to try to figure out what to do.",
+      "revId": "cb875315a655e16a01cceeab9ee18d81836aa6e0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cdd2a5c_328c1702",
+        "filename": "util/fuchsia/scoped_task_suspend.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-06-13T23:50:11Z",
+      "side": 1,
+      "message": "Could you make this a std::vector\u003cbase::ScopedZxHandle\u003e instead? #include \"base/fuchsia/scoped_zx_handle.h\".\n\nThat way ~ScopedTaskSuspend() can be completely empty (if I understand correctly)",
+      "range": {
+        "startLine": 50,
+        "startChar": 13,
+        "endLine": 50,
+        "endChar": 26
+      },
+      "revId": "cb875315a655e16a01cceeab9ee18d81836aa6e0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
