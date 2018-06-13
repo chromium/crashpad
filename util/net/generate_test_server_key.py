@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
 import subprocess
 
 # GN requires a Python script for actions, so this just wraps the openssl
@@ -23,4 +24,5 @@ key = 'crashpad_util_test_key.pem'
 cert = 'crashpad_util_test_cert.pem'
 subprocess.check_call(
     ['openssl', 'req', '-x509', '-nodes', '-subj', '/CN=localhost',
-     '-days', '365', '-newkey', 'rsa:2048', '-keyout', key, '-out', cert])
+     '-days', '365', '-newkey', 'rsa:2048', '-keyout', key, '-out', cert],
+    stderr=open(os.devnull, 'w'))
