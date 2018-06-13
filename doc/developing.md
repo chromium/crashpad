@@ -86,28 +86,25 @@ $ gclient sync
 
 ## Building
 
-Crashpad uses [GYP](https://gyp.gsrc.io/) to generate
-[Ninja](https://ninja-build.org/) build files. The build is described by `.gyp`
-files throughout the Crashpad source code tree. The
-[`build/gyp_crashpad.py`](https://chromium.googlesource.com/crashpad/crashpad/+/master/build/gyp_crashpad.py)
-script runs GYP properly for Crashpad, and is also called when you run `fetch
-crashpad`, `gclient sync`, or `gclient runhooks`.
+### Windows, Mac, Linux, Fuchsia
 
-The Ninja build files and build output are in the `out` directory. Both debug-
-and release-mode configurations are available. The examples below show the debug
-configuration. To build and test the release configuration, substitute `Release`
-for `Debug`. On Windows, four configurations are available: `Debug` and
-`Release` produce 32-bit x86 executables, and `Debug_x64` and `Release_x64`
-produce x86_64 executables.
+On Windows, Mac, Linux, and Fuchsia Crashpad uses
+[GN](https://gn.googlesource.com/gn) to generate
+[Ninja](https://ninja-build.org/) build files. For example,
 
 ```
 $ cd ~/crashpad/crashpad
-$ ninja -C out/Debug
+$ gn gen out/Default
+$ ninja -C out/Default
 ```
 
-Ninja is part of the
+You can then use `gn args out/Default` or edit `out/Default/args.gn` to
+configure the build, for example things like `is_debug=true` or
+`target_cpu="x86"`.
+
+GN and Ninja are part of the
 [depot_tools](https://www.chromium.org/developers/how-tos/depottools). There’s
-no need to install it separately.
+no need to install them separately.
 
 ### Android
 
