@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_UTIL_FUCHSIA_SCOPED_TASK_SUSPEND_H_
 #define CRASHPAD_UTIL_FUCHSIA_SCOPED_TASK_SUSPEND_H_
 
+#include <vector>
 #include <zircon/types.h>
 
 #include "base/macros.h"
@@ -44,6 +45,9 @@ class ScopedTaskSuspend {
 
  private:
   zx_handle_t task_;  // weak
+
+  // Could be one (for a thread) or many (for every process in a thread).
+  std::vector<zx_handle_t> suspend_tokens_;
 
   DISALLOW_COPY_AND_ASSIGN(ScopedTaskSuspend);
 };
