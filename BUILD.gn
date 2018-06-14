@@ -45,6 +45,7 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
         "snapshot:crashpad_snapshot_test_module_large",
         "snapshot:crashpad_snapshot_test_module_small",
         "test:crashpad_test_test_multiprocess_exec_test_child",
+        "util:generate_test_server_key",
         "util:http_transport_test_server",
       ]
 
@@ -59,6 +60,17 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
         {
           name = "http_transport_test_server"
           dest = "crashpad_test_data/http_transport_test_server"
+        },
+
+        # These aren't actually tests, but that seems to be the only way to
+        # convince package() to get them from the output directory.
+        {
+          name = "crashpad_util_test_cert.pem"
+          dest = "crashpad_test_data/crashpad_util_test_cert.pem"
+        },
+        {
+          name = "crashpad_util_test_key.pem"
+          dest = "crashpad_test_data/crashpad_util_test_key.pem"
         },
       ]
 
