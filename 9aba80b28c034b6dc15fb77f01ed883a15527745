@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a3d14296_5a1bced6",
+        "filename": "util/fuchsia/scoped_task_suspend.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002691
+      },
+      "writtenOn": "2018-06-14T17:53:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "072623ed_8bc2a511",
+      "revId": "9aba80b28c034b6dc15fb77f01ed883a15527745",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32a08363_03bd00d3",
         "filename": "util/fuchsia/scoped_task_suspend.cc",
         "patchSetId": 4
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "423f788f_5b7b672b",
+        "filename": "util/fuchsia/scoped_task_suspend.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002691
+      },
+      "writtenOn": "2018-06-14T17:53:00Z",
+      "side": 1,
+      "message": "I wrote that at first but then was worried I couldn\u0027t use C++11 here. Done.",
+      "parentUuid": "32a08363_03bd00d3",
+      "range": {
+        "startLine": 78,
+        "startChar": 40,
+        "endLine": 79,
+        "endChar": 1
+      },
+      "revId": "9aba80b28c034b6dc15fb77f01ed883a15527745",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f2c4ce14_d17c15e1",
         "filename": "util/fuchsia/scoped_task_suspend.h",
         "patchSetId": 4
@@ -53,6 +95,30 @@
       "writtenOn": "2018-06-14T17:41:56Z",
       "side": 1,
       "message": "Is this still true with the token-based api?",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 16
+      },
+      "revId": "9aba80b28c034b6dc15fb77f01ed883a15527745",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06524044_97978dff",
+        "filename": "util/fuchsia/scoped_task_suspend.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002691
+      },
+      "writtenOn": "2018-06-14T17:53:00Z",
+      "side": 1,
+      "message": "Nope, fixed.",
+      "parentUuid": "f2c4ce14_d17c15e1",
       "range": {
         "startLine": 29,
         "startChar": 4,
