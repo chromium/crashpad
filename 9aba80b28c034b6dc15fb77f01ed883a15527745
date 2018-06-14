@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "072623ed_8bc2a511",
+        "filename": "util/fuchsia/scoped_task_suspend.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-06-14T17:41:56Z",
+      "side": 1,
+      "message": "Roll these up so that the condition isn\u0027t checked twice:\n\nif (status !\u003d ZX_OK) {\n  ZX_LOG(ERROR, status) \u003c\u003c \"zx_task_suspend\";\n  return base::ScopedZxHandle();\n}",
+      "revId": "9aba80b28c034b6dc15fb77f01ed883a15527745",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32a08363_03bd00d3",
+        "filename": "util/fuchsia/scoped_task_suspend.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-06-14T17:41:56Z",
+      "side": 1,
+      "message": "\u003d default;",
+      "range": {
+        "startLine": 78,
+        "startChar": 40,
+        "endLine": 79,
+        "endChar": 1
+      },
+      "revId": "9aba80b28c034b6dc15fb77f01ed883a15527745",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2c4ce14_d17c15e1",
+        "filename": "util/fuchsia/scoped_task_suspend.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-06-14T17:41:56Z",
+      "side": 1,
+      "message": "Is this still true with the token-based api?",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 16
+      },
+      "revId": "9aba80b28c034b6dc15fb77f01ed883a15527745",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
