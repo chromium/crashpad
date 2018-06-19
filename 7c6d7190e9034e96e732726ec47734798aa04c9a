@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "00ecfa17_99486e23",
+        "filename": "minidump/minidump_context.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1256356
+      },
+      "writtenOn": "2018-06-19T13:12:41Z",
+      "side": 1,
+      "message": "addressed",
+      "parentUuid": "b017b5b9_60b121cb",
+      "range": {
+        "startLine": 447,
+        "startChar": 39,
+        "endLine": 447,
+        "endChar": 46
+      },
+      "revId": "7c6d7190e9034e96e732726ec47734798aa04c9a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dcc581cd_cc6e4340",
         "filename": "minidump/minidump_context.h",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2018-06-08T21:06:36Z",
       "side": 1,
       "message": "here too",
+      "range": {
+        "startLine": 515,
+        "startChar": 39,
+        "endLine": 515,
+        "endChar": 46
+      },
+      "revId": "7c6d7190e9034e96e732726ec47734798aa04c9a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0054036_89cdb058",
+        "filename": "minidump/minidump_context.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1256356
+      },
+      "writtenOn": "2018-06-19T13:12:41Z",
+      "side": 1,
+      "message": "addressed",
+      "parentUuid": "dcc581cd_cc6e4340",
       "range": {
         "startLine": 515,
         "startChar": 39,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "72282470_72cb0801",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1256356
+      },
+      "writtenOn": "2018-06-19T13:12:41Z",
+      "side": 1,
+      "message": "Addressed\n\nPart of solution here was to add SignalThreadContext32 to snapshot/linux/signal_context.h.\nWe had problem with ThreadSnapshotLinux::Initialize calling InitializeCPUContextMIPS() with incompatible argument type, which I have addressed with constructor for conversion from ThreadContext::t32_t to SignalThreadContext32. This looks like cleanest solution in a sense that as little as possible of non mips-specific code was touched.",
+      "parentUuid": "387f0fa9_21deeba1",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 374,
+        "endChar": 32
+      },
+      "revId": "7c6d7190e9034e96e732726ec47734798aa04c9a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f9ac74e0_3d4f5791",
         "filename": "util/linux/ptracer.cc",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2018-06-08T21:06:36Z",
       "side": 1,
       "message": "optional: It looks like HAVE_ARCH_TRACEHOOK, which is required for PTRACE_GETREGSET, wasn\u0027t set for mips until linux 3.13. If you want to support older kernels than that, you may need to add special handling here, as was done for ARM.",
+      "range": {
+        "startLine": 383,
+        "startChar": 0,
+        "endLine": 388,
+        "endChar": 25
+      },
+      "revId": "7c6d7190e9034e96e732726ec47734798aa04c9a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2b3e4bd_98aa15f6",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1256356
+      },
+      "writtenOn": "2018-06-19T13:12:41Z",
+      "side": 1,
+      "message": "Addressed.\n\nI had to add context buffer here, as PTRACE_GETREGSET considers register size to be 32 bits wide on 32bit mips cpu, but PTRACE_GETREGS considers all registers 64 bits wide, regardless of mips cpu bitness.",
+      "parentUuid": "f9ac74e0_3d4f5791",
       "range": {
         "startLine": 383,
         "startChar": 0,
