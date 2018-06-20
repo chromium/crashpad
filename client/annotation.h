@@ -72,7 +72,7 @@ class Annotation {
   static constexpr size_t kNameMaxLength = 64;
 
   //! \brief The maximum size of an annotation’s value, in bytes.
-  static constexpr size_t kValueMaxSize = 2048;
+  static constexpr size_t kValueMaxSize = 5 * 4096;
 
   //! \brief The type used for \a SetSize().
   using ValueSizeType = uint32_t;
