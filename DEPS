@@ -14,7 +14,8 @@
 
 vars = {
   'chromium_git': 'https://chromium.googlesource.com',
-  'pull_linux_clang': False
+  'pull_linux_clang': False,
+  'pull_win_toolchain': False
 }
 
 deps = {
@@ -228,6 +229,23 @@ hooks = [
       'fuchsia/sdk/linux-amd64',
       'latest',
       '-root', 'crashpad/third_party/fuchsia/sdk/linux-amd64',
+      '-log-level', 'info',
+    ],
+  },
+  {
+    'name': 'toolchain_win',
+    'pattern': '.',
+    # This package is only updated when the solution in .gclient includes an
+    # entry like:
+    #   "custom_vars": { "pull_win_toolchain": True }
+    # This is because the contained bits are not redistributable.
+    'condition': 'checkout_win and pull_win_toolchain',
+    'action': [
+      'cipd',
+      'install',
+      'chrome_internal/third_party/sdk/windows',
+      'uploaded:2018-06-13',
+      '-root', 'crashpad/third_party/win',
       '-log-level', 'info',
     ],
   },
