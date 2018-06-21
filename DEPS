@@ -245,7 +245,7 @@ hooks = [
       'install',
       'chrome_internal/third_party/sdk/windows',
       'uploaded:2018-06-13',
-      '-root', 'crashpad/third_party/win',
+      '-root', 'crashpad/third_party/win/toolchain',
       '-log-level', 'info',
     ],
   },
