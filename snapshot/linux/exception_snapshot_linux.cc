@@ -130,7 +130,7 @@ bool ExceptionSnapshotLinux::ReadContext<ContextTraits32>(
 
   LinuxVMAddress gprs_address =
       context_address + offsetof(UContext<ContextTraits32>, mcontext32) +
-      offsetof(MContext32, gprs);
+      offsetof(ContextTraits32::MContext32, gprs);
 
   SignalThreadContext32 thread_context;
   if (!memory->Read(gprs_address, sizeof(thread_context), &thread_context)) {
@@ -207,7 +207,7 @@ bool ExceptionSnapshotLinux::ReadContext<ContextTraits64>(
 
   LinuxVMAddress gprs_address =
       context_address + offsetof(UContext<ContextTraits64>, mcontext64) +
-      offsetof(MContext64, gprs);
+      offsetof(ContextTraits64::MContext64, gprs);
 
   ThreadContext::t64_t thread_context;
   if (!memory->Read(gprs_address, sizeof(thread_context), &thread_context)) {

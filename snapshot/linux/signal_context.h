@@ -19,6 +19,7 @@
 #include <stdint.h>
 #include <sys/types.h>
 
+#include <cstddef>
 #include <type_traits>
 
 #include "build/build_config.h"
@@ -244,7 +245,7 @@ struct SignalThreadContext32 {
 
 using SignalThreadContext64 = ThreadContext::t64_t;
 
-struct MContext32 {
+struct MContext32Data {
   uint32_t trap_no;
   uint32_t error_code;
   uint32_t oldmask;
@@ -252,19 +253,19 @@ struct MContext32 {
   uint32_t fault_address;
 };
 
-struct MContext64 {
+struct MContext64Data {
   uint64_t fault_address;
   SignalThreadContext64 gprs;
 };
 
 struct ContextTraits32 : public Traits32 {
-  using MContext32 = MContext32;
+  using MContext32 = MContext32Data;
   using MContext64 = Nothing;
 };
 
 struct ContextTraits64 : public Traits64 {
   using MContext32 = Nothing;
-  using MContext64 = MContext64;
+  using MContext64 = MContext64Data;
 };
 
 template <typename Traits>
