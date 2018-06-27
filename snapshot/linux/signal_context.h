@@ -18,6 +18,7 @@
 #include <signal.h>
 #include <stdint.h>
 #include <sys/types.h>
+#include <sys/ucontext.h>
 
 #include <cstddef>
 #include <type_traits>
