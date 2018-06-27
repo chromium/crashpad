@@ -69,6 +69,7 @@ compat_target("compat") {
     sources += [
       "linux/signal.h",
       "linux/sys/ptrace.h",
+      "linux/sys/user.h",
     ]
   }
 
