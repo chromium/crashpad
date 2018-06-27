@@ -36,6 +36,7 @@
         'android/sys/user.h',
         'linux/signal.h',
         'linux/sys/ptrace.h',
+        'linux/sys/user.h',
         'mac/AvailabilityMacros.h',
         'mac/kern/exc_resource.h',
         'mac/mach/i386/thread_state.h',
