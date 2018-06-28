@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02cc3502_cc097211",
+        "filename": "snapshot/cpu_context.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-28T23:39:21Z",
+      "side": 1,
+      "message": "This method snuck in recently and needs MIPS handling.",
+      "range": {
+        "startLine": 373,
+        "startChar": 2,
+        "endLine": 373,
+        "endChar": 23
+      },
+      "revId": "8546dbc30a3a7125b43388add83ded2344024411",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f52e65ad_fab101d4",
+        "filename": "snapshot/linux/signal_context.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-28T23:39:21Z",
+      "side": 1,
+      "message": "make explicit",
+      "range": {
+        "startLine": 362,
+        "startChar": 2,
+        "endLine": 362,
+        "endChar": 3
+      },
+      "revId": "8546dbc30a3a7125b43388add83ded2344024411",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63eba98c_ed2a76ba",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-06-28T23:39:21Z",
+      "side": 1,
+      "message": "We were able to assume 32-bit for ARM because 64-bit ARM support didn\u0027t exist before HAVE_ARCH_TRACEHOOK was set, but we can\u0027t do that here. I\u0027ve been perusing the ptrace calls for MIPS to see if we can find some other, reliable way to determine the bitness of the target process, but haven\u0027t found one yet. Maybe you can? If not, I guess we can leave this as a TODO, probably assume that the target process is the same bitness as the current process, and note that we don\u0027t support cross-bit tracing on MIPS before Linux 3.13.",
+      "range": {
+        "startLine": 290,
+        "startChar": 0,
+        "endLine": 298,
+        "endChar": 56
+      },
+      "revId": "8546dbc30a3a7125b43388add83ded2344024411",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
