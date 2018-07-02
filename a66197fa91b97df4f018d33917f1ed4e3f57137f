@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "635bba66_c23829b2",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-07-02T20:45:49Z",
+      "side": 1,
+      "message": "#include \u003czircon/types.h\u003e",
+      "range": {
+        "startLine": 106,
+        "startChar": 15,
+        "endLine": 106,
+        "endChar": 31
+      },
+      "revId": "a66197fa91b97df4f018d33917f1ed4e3f57137f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
