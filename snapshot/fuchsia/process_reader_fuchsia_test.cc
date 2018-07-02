@@ -18,6 +18,7 @@
 #include <zircon/process.h>
 #include <zircon/syscalls.h>
 #include <zircon/syscalls/port.h>
+#include <zircon/types.h>
 
 #include "gtest/gtest.h"
 #include "test/multiprocess_exec.h"
@@ -103,7 +104,7 @@ void* SignalAndSleep(void* arg) {
   zx_port_packet_t packet = {};
   packet.type = ZX_PKT_TYPE_USER;
   zx_port_queue(*reinterpret_cast<zx_handle_t*>(arg), &packet);
-  zx_nanosleep(UINT64_MAX);
+  zx_nanosleep(ZX_TIME_INFINITE);
   return nullptr;
 }
 
