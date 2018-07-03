@@ -13,15 +13,25 @@
 # limitations under the License.
 
 {
+  'includes': [
+    '../../build/crashpad_dependencies.gypi',
+  ],
   'variables': {
     'conditions': [
-      # Use the system zlib by default where available, as it is on most
-      # platforms. Windows does not have a system zlib, so use “embedded” which
-      # directs the build to use the source code in the zlib subdirectory.
-      ['OS!="win"', {
-        'zlib_source%': 'system',
+      ['crashpad_dependencies=="external"', {
+        'zlib_source%': 'external',
       }, {
-        'zlib_source%': 'embedded',
+        'conditions': [
+          # Use the system zlib by default where available, as it is on most
+          # platforms. Windows does not have a system zlib, so use “embedded”
+          # which directs the build to use the source code in the zlib
+          # subdirectory.
+          ['OS!="win"', {
+            'zlib_source%': 'system',
+          }, {
+            'zlib_source%': 'embedded',
+          }],
+        ],
       }],
     ],
   },
@@ -139,6 +149,17 @@
                 4324,  # structure was padded due to alignment specifier
               ],
             }],
+          ],
+        }],
+        ['zlib_source=="external"', {
+          'type': 'none',
+          'direct_dependent_settings': {
+            'defines': [
+              'CRASHPAD_ZLIB_SOURCE_EXTERNAL',
+            ],
+          },
+          'dependencies': [
+            '../../../../zlib/zlib.gyp:zlib',
           ],
         }],
       ],
