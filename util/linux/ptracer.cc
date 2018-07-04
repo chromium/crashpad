@@ -269,6 +269,131 @@ bool GetThreadArea64(pid_t tid,
   }
   return true;
 }
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+// PTRACE_GETREGSET, introduced in Linux 2.6.34 (2225a122ae26), requires kernel
+// support enabled by HAVE_ARCH_TRACEHOOK. This has been set for x86 (including
+// x86_64) since Linux 2.6.28 (99bbc4b1e677a), but for MIPS only since
+// Linux 3.13 (c0ff3c53d4f99). Older Linux kernels support PTRACE_GETREGS,
+// and PTRACE_GETFPREGS instead, which don't allow checking the size of data
+// copied. Also, PTRACE_GETREGS assumes register size of 64 bits even for 32 bit
+// MIPS CPU (contrary to PTRACE_GETREGSET behavior), so we need buffer
+// structure here.
+
+bool GetGeneralPurposeRegistersLegacy(pid_t tid,
+                                      ThreadContext* context,
+                                      bool can_log) {
+  ThreadContext context_buffer;
+  if (ptrace(PTRACE_GETREGS, tid, nullptr, &context_buffer.t64) != 0) {
+    PLOG_IF(ERROR, can_log) << "ptrace";
+    return false;
+  }
+// Bitness of target process can't be determined through ptrace here, so we
+// assume target process has the same as current process, making cross-bit
+// ptrace unsupported on MIPS for kernels older than 3.13
+#if defined(ARCH_CPU_MIPSEL)
+#define THREAD_CONTEXT_FIELD t32
+#elif defined(ARCH_CPU_MIPS64EL)
+#define THREAD_CONTEXT_FIELD t64
+#endif
+  for (size_t reg = 0; reg < 32; ++reg) {
+    context->THREAD_CONTEXT_FIELD.regs[reg] = context_buffer.t64.regs[reg];
+  }
+  context->THREAD_CONTEXT_FIELD.lo = context_buffer.t64.lo;
+  context->THREAD_CONTEXT_FIELD.hi = context_buffer.t64.hi;
+  context->THREAD_CONTEXT_FIELD.cp0_epc = context_buffer.t64.cp0_epc;
+  context->THREAD_CONTEXT_FIELD.cp0_badvaddr = context_buffer.t64.cp0_badvaddr;
+  context->THREAD_CONTEXT_FIELD.cp0_status = context_buffer.t64.cp0_status;
+  context->THREAD_CONTEXT_FIELD.cp0_cause = context_buffer.t64.cp0_cause;
+#undef THREAD_CONTEXT_FIELD
+  return true;
+}
+
+bool GetFloatingPointRegistersLegacy(pid_t tid,
+                                     FloatContext* context,
+                                     bool can_log) {
+  if (ptrace(PTRACE_GETFPREGS, tid, nullptr, &context->f32.fpregs) != 0) {
+    PLOG_IF(ERROR, can_log) << "ptrace";
+    return false;
+  }
+  return true;
+}
+
+bool GetFloatingPointRegisters32(pid_t tid,
+                                 FloatContext* context,
+                                 bool can_log) {
+  iovec iov;
+  iov.iov_base = &context->f32.fpregs;
+  iov.iov_len = sizeof(context->f32.fpregs);
+  if (ptrace(PTRACE_GETFPREGS, tid, nullptr, &context->f32.fpregs) != 0) {
+    switch (errno) {
+      case EINVAL:
+        // fp may not be present
+        break;
+      case EIO:
+        return GetFloatingPointRegistersLegacy(tid, context, can_log);
+      default:
+        PLOG_IF(ERROR, can_log) << "ptrace";
+        return false;
+    }
+  }
+  return true;
+}
+
+bool GetFloatingPointRegisters64(pid_t tid,
+                                 FloatContext* context,
+                                 bool can_log) {
+  iovec iov;
+  iov.iov_base = &context->f64.fpregs;
+  iov.iov_len = sizeof(context->f64.fpregs);
+  if (ptrace(PTRACE_GETFPREGS, tid, nullptr, &context->f64.fpregs) != 0) {
+    switch (errno) {
+      case EINVAL:
+        // fp may not be present
+        break;
+      case EIO:
+        return GetFloatingPointRegistersLegacy(tid, context, can_log);
+      default:
+        PLOG_IF(ERROR, can_log) << "ptrace";
+        return false;
+    }
+  }
+  return true;
+}
+
+bool GetThreadArea32(pid_t tid,
+                     const ThreadContext& context,
+                     LinuxVMAddress* address,
+                     bool can_log) {
+#if defined(ARCH_CPU_MIPSEL)
+  void* result;
+  if (ptrace(PTRACE_GET_THREAD_AREA, tid, nullptr, &result) != 0) {
+    PLOG_IF(ERROR, can_log) << "ptrace";
+    return false;
+  }
+  *address = FromPointerCast<LinuxVMAddress>(result);
+  return true;
+#else
+  return false;
+#endif
+}
+
+bool GetThreadArea64(pid_t tid,
+                     const ThreadContext& context,
+                     LinuxVMAddress* address,
+                     bool can_log) {
+  void* result;
+#if defined(ARCH_CPU_MIPSEL)
+  if (ptrace(PTRACE_GET_THREAD_AREA_3264, tid, nullptr, &result) != 0) {
+#else
+  if (ptrace(PTRACE_GET_THREAD_AREA, tid, nullptr, &result) != 0) {
+#endif
+    PLOG_IF(ERROR, can_log) << "ptrace";
+    return false;
+  }
+  *address = FromPointerCast<LinuxVMAddress>(result);
+  return true;
+}
+
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -283,7 +408,7 @@ size_t GetGeneralPurposeRegistersAndLength(pid_t tid,
           PTRACE_GETREGSET, tid, reinterpret_cast<void*>(NT_PRSTATUS), &iov) !=
       0) {
     switch (errno) {
-#if defined(ARCH_CPU_ARMEL)
+#if defined(ARCH_CPU_ARMEL) || defined(ARCH_CPU_MIPS_FAMILY)
       case EIO:
         return GetGeneralPurposeRegistersLegacy(tid, context, can_log)
                    ? sizeof(context->t32)

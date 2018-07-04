@@ -65,6 +65,9 @@ class ThreadSnapshotLinux final : public ThreadSnapshot {
 #elif defined(ARCH_CPU_ARM_FAMILY)
     CPUContextARM arm;
     CPUContextARM64 arm64;
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+    CPUContextMIPS mipsel;
+    CPUContextMIPS64 mips64;
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
