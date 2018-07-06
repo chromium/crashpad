@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47b530fa_6dbd8e61",
+        "filename": "third_party/zlib/zlib.gyp",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-07-06T16:50:37Z",
+      "side": 1,
+      "message": "The logs are complaining that this variable isn\u0027t set yet. gyp can be pretty funky about these sorts of things. I think you\u0027ll need the \u00271\u003d\u003d1\u0027 condition that gtest uses.",
+      "range": {
+        "startLine": 21,
+        "startChar": 5,
+        "endLine": 21,
+        "endChar": 45
+      },
+      "revId": "9a8bb0beb1e601350e4f21734c889cac62299a9a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
