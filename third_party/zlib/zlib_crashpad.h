@@ -19,9 +19,8 @@
 // available at any other location in the source tree. It will #include the
 // proper <zlib.h> depending on how the build has been configured.
 
-#if defined(CRASHPAD_ZLIB_SOURCE_EXTERNAL)
-#include "third_party/zlib/zlib.h"
-#elif defined(CRASHPAD_ZLIB_SOURCE_SYSTEM)
+#if defined(CRASHPAD_ZLIB_SOURCE_SYSTEM) || \
+    defined(CRASHPAD_ZLIB_SOURCE_EXTERNAL)
 #include <zlib.h>
 #elif defined(CRASHPAD_ZLIB_SOURCE_EMBEDDED)
 #include "third_party/zlib/zlib/zlib.h"
