@@ -395,6 +395,8 @@ class CrashReportDatabase {
  protected:
   CrashReportDatabase() {}
 
+  static bool AttachmentNameIsOK(const std::string& name);
+
  private:
   //! \brief Adjusts a crash report record’s metadata to account for an upload
   //!     attempt, and updates the last upload attempt time as returned by

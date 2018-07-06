@@ -19,6 +19,14 @@
 
 namespace crashpad {
 
+bool CrashReportDatabase::AttachmentNameIsOK(const std::string& name) {
+  for (const char c : name) {
+    if (c != '_' && c != '-' && c != '.' && !isalnum(c))
+      return false;
+  }
+  return true;
+}
+
 CrashReportDatabase::Report::Report()
     : uuid(),
       file_path(),
