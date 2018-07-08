@@ -36,7 +36,6 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
     import("//build/package.gni")
     package("crashpad_test") {
       testonly = true
-      deprecated_system_image = true
 
       deps = [
         ":crashpad_tests",
@@ -49,28 +48,18 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
         "util:http_transport_test_server",
       ]
 
-      tests = [
-        {
-          name = "crashpad_tests"
-        },
+      binaries = [
         {
           name = "crashpad_test_test_multiprocess_exec_test_child"
-          dest = "crashpad_test_data/crashpad_test_test_multiprocess_exec_test_child"
         },
         {
           name = "http_transport_test_server"
-          dest = "crashpad_test_data/http_transport_test_server"
         },
+      ]
 
-        # These aren't actually tests, but that seems to be the only way to
-        # convince package() to get them from the output directory.
+      tests = [
         {
-          name = "crashpad_util_test_cert.pem"
-          dest = "crashpad_test_data/crashpad_util_test_cert.pem"
-        },
-        {
-          name = "crashpad_util_test_key.pem"
-          dest = "crashpad_test_data/crashpad_util_test_key.pem"
+          name = "crashpad_tests"
         },
       ]
 
@@ -91,16 +80,24 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
 
       resources = [
         {
+          path = "$root_out_dir/crashpad_util_test_cert.pem"
+          dest = "crashpad_util_test_cert.pem"
+        },
+        {
+          path = "$root_out_dir/crashpad_util_test_key.pem"
+          dest = "crashpad_util_test_key.pem"
+        },
+        {
           path = "util/net/testdata/ascii_http_body.txt"
-          dest = "crashpad_test_data/util/net/testdata/ascii_http_body.txt"
+          dest = "util/net/testdata/ascii_http_body.txt"
         },
         {
           path = "util/net/testdata/binary_http_body.dat"
-          dest = "crashpad_test_data/util/net/testdata/binary_http_body.dat"
+          dest = "util/net/testdata/binary_http_body.dat"
         },
         {
           path = "test/test_paths_test_data_root.txt"
-          dest = "crashpad_test_data/test/test_paths_test_data_root.txt"
+          dest = "test/test_paths_test_data_root.txt"
         },
       ]
     }

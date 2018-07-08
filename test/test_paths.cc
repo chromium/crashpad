@@ -25,6 +25,9 @@ namespace crashpad {
 namespace test {
 
 namespace {
+#if defined(CRASHPAD_IS_IN_FUCHSIA)
+constexpr char kCrashpadTestPkgRoot[] = "/pkgfs/packages/crashpad_test/0";
+#endif
 
 bool IsTestDataRoot(const base::FilePath& candidate) {
   const base::FilePath marker_path =
@@ -50,7 +53,7 @@ base::FilePath TestDataRootInternal() {
   // not appear as expected at /pkg/assets. Override the default so that tests
   // can find their data for now.
   // https://crashpad.chromium.org/bug/196.
-  asset_path = base::FilePath("/system/data/crashpad_test_data");
+  asset_path = base::FilePath(kCrashpadTestPkgRoot).Append("data");
 #endif
   if (!IsTestDataRoot(asset_path)) {
     LOG(WARNING) << "Test data root seems invalid, continuing anyway";
@@ -133,7 +136,7 @@ base::FilePath TestPaths::Executable() {
   // not appear as expected at /pkg/bin. Override the default of /pkg/bin/app
   // so that tests can find the correct location for now.
   // https://crashpad.chromium.org/bug/196.
-  executable_path = base::FilePath("/system/test/crashpad_test_data/app");
+  executable_path = base::FilePath(kCrashpadTestPkgRoot).Append("test");
 #endif
   return executable_path;
 }
@@ -165,6 +168,15 @@ base::FilePath TestPaths::TestDataRoot() {
   static base::FilePath* test_data_root =
       new base::FilePath(TestDataRootInternal());
   return *test_data_root;
+}
+
+// static
+base::FilePath TestPaths::TestBinRoot() {
+#if defined(CRASHPAD_IS_IN_FUCHSIA)
+  return base::FilePath(kCrashpadTestPkgRoot).Append("bin");
+#else
+  return Executable().DirName();
+#endif
 }
 
 // static
@@ -208,7 +220,7 @@ base::FilePath TestPaths::BuildArtifact(
       // /pkg/bin/app so that tests can find the correct location for now.
       // https://crashpad.chromium.org/bug/196.
       directory =
-          base::FilePath(FILE_PATH_LITERAL("/system/test/crashpad_test_data"));
+          base::FilePath(FILE_PATH_LITERAL(kCrashpadTestPkgRoot)).Append("bin");
 #else
       directory = base::FilePath(FILE_PATH_LITERAL("/pkg/bin"));
 #endif
@@ -238,7 +250,7 @@ base::FilePath TestPaths::BuildArtifact(
       // things are actually run from a package.
       // https://crashpad.chromium.org/bug/196.
       directory =
-          base::FilePath(FILE_PATH_LITERAL("/system/test/crashpad_test_data"));
+          base::FilePath(FILE_PATH_LITERAL(kCrashpadTestPkgRoot)).Append("a");
 #endif
       extension = FILE_PATH_LITERAL(".pem");
       break;

@@ -69,7 +69,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
         request_validator_(request_validator),
         cert_(),
         scheme_and_host_() {
-    base::FilePath server_path = TestPaths::Executable().DirName().Append(
+    base::FilePath server_path = TestPaths::TestBinRoot().Append(
         FILE_PATH_LITERAL("http_transport_test_server")
 #if defined(OS_WIN)
             FILE_PATH_LITERAL(".exe")

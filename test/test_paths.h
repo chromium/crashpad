@@ -96,6 +96,9 @@ class TestPaths {
   //! files.
   static base::FilePath TestDataRoot();
 
+  //! \brief Returns the pathname of the binaries used in the test.
+  static base::FilePath TestBinRoot();
+
   //! \brief Returns the pathname of a build artifact.
   //!
   //! \param[in] module The name of the Crashpad module associated with the
