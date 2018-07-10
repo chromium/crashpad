@@ -26,6 +26,7 @@
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/linux/fake_ptrace_connection.h"
+#include "test/main_arguments.h"
 #include "test/multiprocess.h"
 #include "util/linux/address_types.h"
 #include "util/linux/memory_map.h"
@@ -123,7 +124,7 @@ void TestAgainstCloneOrSelf(pid_t pid) {
   ASSERT_TRUE(aux.GetValue(AT_EXECFN, &filename_addr));
   std::string filename;
   ASSERT_TRUE(memory.ReadCStringSizeLimited(filename_addr, 4096, &filename));
-  EXPECT_TRUE(filename.find("crashpad_util_test") != std::string::npos);
+  EXPECT_TRUE(filename.find(GetMainArguments()[0]) != std::string::npos);
 #endif  // AT_EXECFN
 
   int ignore;
