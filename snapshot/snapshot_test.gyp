@@ -52,7 +52,6 @@
       'target_name': 'crashpad_snapshot_test',
       'type': 'executable',
       'dependencies': [
-        'crashpad_snapshot_test_both_dt_hash_styles',
         'crashpad_snapshot_test_lib',
         'crashpad_snapshot_test_module',
         'crashpad_snapshot_test_module_large',
@@ -104,6 +103,10 @@
         'win/system_snapshot_win_test.cc',
       ],
       'conditions': [
+        # .gnu.hash is incompatible with the MIPS ABI
+        ['target_arch!="mips"', {
+          'dependencies': ['crashpad_snapshot_test_both_dt_hash_styles']
+        }],
         ['OS=="mac"', {
           'dependencies': [
             'crashpad_snapshot_test_module_crashy_initializer',
@@ -228,13 +231,17 @@
     {
       'target_name': 'crashpad_snapshot_test_both_dt_hash_styles',
       'type': 'executable',
-      'sources': [
-        'hash_types_test.cc',
-      ],
-
-      'ldflags': [
-        # This makes `ld` emit both .hash and .gnu.hash sections.
-        '-Wl,--hash-style=both',
+      'conditions': [
+        # .gnu.hash is incompatible with the MIPS ABI
+        ['target_arch!="mips"', {
+          'sources': [
+            'hash_types_test.cc',
+          ],
+          'ldflags': [
+            # This makes `ld` emit both .hash and .gnu.hash sections.
+            '-Wl,--hash-style=both',
+          ]},
+        ]
       ],
     },
   ],

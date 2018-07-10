@@ -37,7 +37,13 @@ enum CPUArchitecture {
   kCPUArchitectureARM,
 
   //! \brief 64-bit ARM.
-  kCPUArchitectureARM64
+  kCPUArchitectureARM64,
+
+  //! \brief 32-bit MIPSEL.
+  kCPUArchitectureMIPSEL,
+
+  //! \brief 64-bit MIPSEL.
+  kCPUArchitectureMIPS64EL
 };
 
 }  // namespace crashpad

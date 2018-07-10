@@ -138,6 +138,42 @@ void InitializeCPUContextARM64_OnlyFPSIMD(
 
 #endif  // ARCH_CPU_ARM_FAMILY || DOXYGEN
 
+#if defined(ARCH_CPU_MIPS_FAMILY) || DOXYGEN
+
+//! \brief Initializes a CPUContextMIPS structure from native context
+//!     structures on Linux.
+//!
+//! This function has template specializations for MIPSEL and MIPS64EL
+//! architecture contexts, using ContextTraits32 or ContextTraits64 as template
+//! parameter, respectively.
+//!
+//! \param[in] thread_context The native thread context.
+//! \param[in] float_context The native float context.
+//! \param[out] context The CPUContextMIPS structure to initialize.
+template <typename Traits>
+void InitializeCPUContextMIPS(
+    const typename Traits::SignalThreadContext& thread_context,
+    const typename Traits::SignalFloatContext& float_context,
+    typename Traits::CPUContext* context) {
+  static_assert(sizeof(context->regs) == sizeof(thread_context.regs),
+                "registers size mismatch");
+  static_assert(sizeof(context->fpregs) == sizeof(float_context.fpregs),
+                "fp registers size mismatch");
+  memcpy(&context->regs, &thread_context.regs, sizeof(context->regs));
+  context->mdlo = thread_context.lo;
+  context->mdhi = thread_context.hi;
+  context->cp0_epc = thread_context.cp0_epc;
+  context->cp0_badvaddr = thread_context.cp0_badvaddr;
+  context->cp0_status = thread_context.cp0_status;
+  context->cp0_cause = thread_context.cp0_cause;
+
+  memcpy(&context->fpregs, &float_context.fpregs, sizeof(context->fpregs));
+  context->fpcsr = float_context.fpcsr;
+  context->fir = float_context.fpu_id;
+};
+
+#endif  // ARCH_CPU_MIPS_FAMILY || DOXYGEN
+
 }  // namespace internal
 }  // namespace crashpad
 

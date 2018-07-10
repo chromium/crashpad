@@ -220,5 +220,77 @@ void InitializeCPUContextARM64(CPUContext* context, uint32_t seed) {
   arm64->fpcr = value++;
 }
 
+void InitializeCPUContextMIPS(CPUContext* context, uint32_t seed) {
+  context->architecture = kCPUArchitectureMIPSEL;
+  CPUContextMIPS* mipsel = context->mipsel;
+
+  if (seed == 0) {
+    memset(mipsel, 0, sizeof(*mipsel));
+    return;
+  }
+
+  uint32_t value = seed;
+
+  for (size_t index = 0; index < arraysize(mipsel->regs); ++index) {
+    mipsel->regs[index] = value++;
+  }
+
+  mipsel->mdlo = value++;
+  mipsel->mdhi = value++;
+  mipsel->cp0_epc = value++;
+  mipsel->cp0_badvaddr = value++;
+  mipsel->cp0_status = value++;
+  mipsel->cp0_cause = value++;
+
+  for (size_t index = 0; index < arraysize(mipsel->fpregs.fregs); ++index) {
+    mipsel->fpregs.fregs[index]._fp_fregs = static_cast<float>(value++);
+  }
+
+  mipsel->fpcsr = value++;
+  mipsel->fir = value++;
+
+  for (size_t index = 0; index < 3; ++index) {
+    mipsel->hi[index] = value++;
+    mipsel->lo[index] = value++;
+  }
+  mipsel->dsp_control = value++;
+}
+
+void InitializeCPUContextMIPS64(CPUContext* context, uint32_t seed) {
+  context->architecture = kCPUArchitectureMIPS64EL;
+  CPUContextMIPS64* mips64 = context->mips64;
+
+  if (seed == 0) {
+    memset(mips64, 0, sizeof(*mips64));
+    return;
+  }
+
+  uint64_t value = seed;
+
+  for (size_t index = 0; index < arraysize(mips64->regs); ++index) {
+    mips64->regs[index] = value++;
+  }
+
+  mips64->mdlo = value++;
+  mips64->mdhi = value++;
+  mips64->cp0_epc = value++;
+  mips64->cp0_badvaddr = value++;
+  mips64->cp0_status = value++;
+  mips64->cp0_cause = value++;
+
+  for (size_t index = 0; index < arraysize(mips64->fpregs.dregs); ++index) {
+    mips64->fpregs.dregs[index] = static_cast<double>(value++);
+  }
+
+  mips64->fpcsr = value++;
+  mips64->fir = value++;
+
+  for (size_t index = 0; index < 3; ++index) {
+    mips64->hi[index] = value++;
+    mips64->lo[index] = value++;
+  }
+  mips64->dsp_control = value++;
+}
+
 }  // namespace test
 }  // namespace crashpad

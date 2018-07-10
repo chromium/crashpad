@@ -416,7 +416,8 @@ source_set("snapshot_test") {
     libs = [ "dl" ]
   }
 
-  if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
+  if ((crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) &&
+      target_cpu != "mipsel" && target_cpu != "mips64el") {
     data_deps += [ ":crashpad_snapshot_test_both_dt_hash_styles" ]
   }
 
@@ -477,7 +478,8 @@ crashpad_loadable_module("crashpad_snapshot_test_module_small") {
   deps += [ "../third_party/mini_chromium:base" ]
 }
 
-if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
+if ((crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) &&
+    target_cpu != "mipsel" && target_cpu != "mips64el") {
   crashpad_loadable_module("crashpad_snapshot_test_both_dt_hash_styles") {
     testonly = true
     sources = [

@@ -183,6 +183,36 @@ TEST(MinidumpContextWriter, ARM64_FromSnapshot) {
       context, ExpectMinidumpContextARM64, kSeed);
 }
 
+TEST(MinidumpContextWriter, MIPS_Zeros) {
+  EmptyContextTest<MinidumpContextMIPSWriter, MinidumpContextMIPS>(
+      ExpectMinidumpContextMIPS);
+}
+
+TEST(MinidumpContextWriter, MIPS64_Zeros) {
+  EmptyContextTest<MinidumpContextMIPS64Writer, MinidumpContextMIPS64>(
+      ExpectMinidumpContextMIPS64);
+}
+
+TEST(MinidumpContextWriter, MIPS_FromSnapshot) {
+  constexpr uint32_t kSeed = 32;
+  CPUContextMIPS context_mips;
+  CPUContext context;
+  context.mipsel = &context_mips;
+  InitializeCPUContextMIPS(&context, kSeed);
+  FromSnapshotTest<MinidumpContextMIPSWriter, MinidumpContextMIPS>(
+      context, ExpectMinidumpContextMIPS, kSeed);
+}
+
+TEST(MinidumpContextWriter, MIPS64_FromSnapshot) {
+  constexpr uint32_t kSeed = 64;
+  CPUContextMIPS64 context_mips;
+  CPUContext context;
+  context.mips64 = &context_mips;
+  InitializeCPUContextMIPS64(&context, kSeed);
+  FromSnapshotTest<MinidumpContextMIPS64Writer, MinidumpContextMIPS64>(
+      context, ExpectMinidumpContextMIPS64, kSeed);
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad

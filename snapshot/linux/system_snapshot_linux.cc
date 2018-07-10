@@ -200,6 +200,9 @@ CPUArchitecture SystemSnapshotLinux::GetCPUArchitecture() const {
 #elif defined(ARCH_CPU_ARM_FAMILY)
   return process_reader_->Is64Bit() ? kCPUArchitectureARM64
                                     : kCPUArchitectureARM;
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+  return process_reader_->Is64Bit() ? kCPUArchitectureMIPS64EL
+                                    : kCPUArchitectureMIPSEL;
 #else
 #error port to your architecture
 #endif
@@ -211,6 +214,9 @@ uint32_t SystemSnapshotLinux::CPURevision() const {
   return cpuid_.Revision();
 #elif defined(ARCH_CPU_ARM_FAMILY)
   // TODO(jperaza): do this. https://crashpad.chromium.org/bug/30
+  return 0;
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+  // Not implementable on MIPS
   return 0;
 #else
 #error port to your architecture
@@ -228,6 +234,9 @@ std::string SystemSnapshotLinux::CPUVendor() const {
   return cpuid_.Vendor();
 #elif defined(ARCH_CPU_ARM_FAMILY)
   // TODO(jperaza): do this. https://crashpad.chromium.org/bug/30
+  return std::string();
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+  // Not implementable on MIPS
   return std::string();
 #else
 #error port to your architecture
@@ -358,6 +367,9 @@ bool SystemSnapshotLinux::NXEnabled() const {
   return cpuid_.NXEnabled();
 #elif defined(ARCH_CPU_ARM_FAMILY)
   // TODO(jperaza): do this. https://crashpad.chromium.org/bug/30
+  return false;
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+  // Not implementable on MIPS
   return false;
 #else
 #error Port.

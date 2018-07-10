@@ -194,9 +194,11 @@ bool CPUContext::Is64Bit() const {
   switch (architecture) {
     case kCPUArchitectureX86_64:
     case kCPUArchitectureARM64:
+    case kCPUArchitectureMIPS64EL:
       return true;
     case kCPUArchitectureX86:
     case kCPUArchitectureARM:
+    case kCPUArchitectureMIPSEL:
       return false;
     default:
       NOTREACHED();

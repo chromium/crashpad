@@ -49,7 +49,7 @@ void TestCaptureContext() {
   // reference program counter.
   uintptr_t pc = ProgramCounterFromContext(context_1);
 
-#if !defined(ADDRESS_SANITIZER)
+#if !defined(ADDRESS_SANITIZER) && !defined(ARCH_CPU_MIPS_FAMILY)
   // AddressSanitizer can cause enough code bloat that the “nearby” check would
   // likely fail.
   const uintptr_t kReferencePC =

@@ -432,6 +432,138 @@ struct MinidumpContextARM64 {
   uint128_struct fpsimd[32];
 };
 
+//! \brief 32bit MIPS-specifc flags for MinidumpContextMIPS::context_flags.
+//! Based on minidump_cpu_mips.h from breakpad
+enum MinidumpContextMIPSFlags : uint32_t {
+  //! \brief Identifies the context structure as MIPSEL.
+  kMinidumpContextMIPS = 0x00040000,
+
+  //! \brief Indicates the validity of integer registers.
+  //!
+  //! Registers `0`-`31`, `mdhi`, `mdlo`, `epc`, `badvaddr`, `status` and
+  //! `cause` are valid.
+  kMinidumpContextMIPSInteger = kMinidumpContextMIPS | 0x00000002,
+
+  //! \brief Indicates the validity of floating point registers.
+  //!
+  //! Floating point registers `0`-`31`, `fpcsr` and `fir` are valid
+  kMinidumpContextMIPSFloatingPoint = kMinidumpContextMIPS | 0x00000004,
+
+  //! \brief Indicates the validity of DSP registers.
+  //!
+  //! Registers `hi0`-`hi2`, `lo0`-`lo2` and `dsp_control` are valid
+  kMinidumpContextMIPSDSP = kMinidumpContextMIPS | 0x00000008,
+
+  //! \brief Indicates the validity of all registers.
+  kMinidumpContextMIPSAll = kMinidumpContextMIPSInteger |
+                            kMinidumpContextMIPSFloatingPoint |
+                            kMinidumpContextMIPSDSP,
+};
+
+//! \brief A 32bit MIPS CPU context (register state) carried in a minidump file.
+struct MinidumpContextMIPS {
+  uint32_t context_flags;
+
+  //! \brief This padding field is included for breakpad compatibility.
+  uint32_t _pad0;
+  //! \brief General purpose registers `0`-`31`.
+  uint64_t regs[32];
+
+  //! \brief Multiply/divide result.
+  uint64_t mdhi, mdlo;
+
+  //! \brief DSP registers.
+  uint32_t hi[3];
+  uint32_t lo[3];
+  uint32_t dsp_control;
+  //! \brief This padding field is included for breakpad compatibility.
+  uint32_t _pad1;
+
+  // \brief cp0 registers.
+  uint64_t epc;
+  uint64_t badvaddr;
+  uint32_t status;
+  uint32_t cause;
+
+  //! \brief FPU registers.
+  union {
+    struct {
+      float _fp_fregs;
+      uint32_t _fp_pad;
+    } fregs[32];
+    double dregs[32];
+  } fpregs;
+
+  //! \brief FPU status register.
+  uint32_t fpcsr;
+  //! \brief FPU implementation register.
+  uint32_t fir;
+};
+
+//! \brief 64bit MIPS-specifc flags for MinidumpContextMIPS64::context_flags.
+//! Based on minidump_cpu_mips.h from breakpad
+enum MinidumpContextMIPS64Flags : uint32_t {
+  //! \brief Identifies the context structure as MIPS64EL.
+  kMinidumpContextMIPS64 = 0x00080000,
+
+  //! \brief Indicates the validity of integer registers.
+  //!
+  //! Registers `0`-`31`, `mdhi`, `mdlo`, `epc`, `badvaddr`, `status` and
+  //! `cause` are valid.
+  kMinidumpContextMIPS64Integer = kMinidumpContextMIPS64 | 0x00000002,
+
+  //! \brief Indicates the validity of floating point registers.
+  //!
+  //! Floating point registers `0`-`31`, `fpcsr` and `fir` are valid
+  kMinidumpContextMIPS64FloatingPoint = kMinidumpContextMIPS64 | 0x00000004,
+
+  //! \brief Indicates the validity of DSP registers.
+  //!
+  //! Registers `hi0`-`hi2`, `lo0`-`lo2` and `dsp_control` are valid.
+  kMinidumpContextMIPS64DSP = kMinidumpContextMIPS64 | 0x00000008,
+
+  //! \brief Indicates the validity of all registers.
+  kMinidumpContextMIPS64All = kMinidumpContextMIPS64Integer |
+                              kMinidumpContextMIPS64FloatingPoint |
+                              kMinidumpContextMIPS64DSP,
+};
+
+//! \brief A 32bit MIPS CPU context (register state) carried in a minidump file.
+struct MinidumpContextMIPS64 {
+  uint64_t context_flags;
+
+  //! \brief General purpose registers.
+  uint64_t regs[32];
+
+  //! \brief Multiply/divide result.
+  uint64_t mdhi, mdlo;
+
+  //! \brief DSP registers.
+  uint64_t hi[3];
+  uint64_t lo[3];
+  uint64_t dsp_control;
+
+  //! \brief cp0 registers.
+  uint64_t epc;
+  uint64_t badvaddr;
+  uint64_t status;
+  uint64_t cause;
+
+  //! \brief FPU registers.
+  union {
+    struct {
+      float _fp_fregs;
+      uint32_t _fp_pad;
+    } fregs[32];
+    double dregs[32];
+  } fpregs;
+
+  //! \brief FPU status register.
+  uint64_t fpcsr;
+  //! \brief FPU implementation register.
+  uint64_t fir;
+};
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_H_
