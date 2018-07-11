@@ -143,6 +143,10 @@ void Multiprocess::Run() {
     if (exception_swallower.get()) {
       ExceptionSwallower::SwallowExceptions();
     }
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+    if (reason_ == kTerminationSignal && Signals::IsCrashSignal(code_)) {
+      Signals::InstallDefaultHandler(code_);
+    }
 #endif  // OS_MACOSX
 
     RunChild();
