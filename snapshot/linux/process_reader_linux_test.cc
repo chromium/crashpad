@@ -40,6 +40,7 @@
 #include "test/multiprocess.h"
 #include "util/file/file_io.h"
 #include "util/linux/direct_ptrace_connection.h"
+#include "util/misc/address_sanitizer.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/synchronization/semaphore.h"
 
@@ -411,29 +412,35 @@ class ChildWithSplitStackTest : public Multiprocess {
     if (bottom_of_stack - stack_address < stack_size) {
       GrowStack(stack_size, bottom_of_stack);
     } else {
-      // Write-protect a page on our stack to split up the mapping
-      LinuxVMAddress page_addr =
-          stack_address - (stack_address % page_size_) + page_size_;
-      ASSERT_EQ(
-          mprotect(reinterpret_cast<void*>(page_addr), page_size_, PROT_READ),
-          0)
-          << ErrnoMessage("mprotect");
-
-      CheckedWriteFile(
-          WritePipeHandle(), &bottom_of_stack, sizeof(bottom_of_stack));
-      CheckedWriteFile(WritePipeHandle(), &page_addr, sizeof(page_addr));
-      CheckedWriteFile(
-          WritePipeHandle(), &stack_address, sizeof(stack_address));
-
-      // Wait for parent to read us
-      CheckedReadFileAtEOF(ReadPipeHandle());
-
-      ASSERT_EQ(mprotect(reinterpret_cast<void*>(page_addr),
-                         page_size_,
-                         PROT_READ | PROT_WRITE),
-                0)
-          << ErrnoMessage("mprotect");
+      DoTest(stack_address, bottom_of_stack);
     }
+  }
+
+  void DoTest(LinuxVMAddress stack_address, LinuxVMAddress bottom_of_stack) {
+    // Write-protect a page on our stack to split up the mapping
+    LinuxVMAddress page_addr =
+        stack_address - (stack_address % page_size_) + page_size_;
+    LOG(INFO) << "stack_addr  0x" << std::hex << stack_address;
+    LOG(INFO) << "bottom addr 0x" << std::hex << bottom_of_stack;
+    LOG(INFO) << "mprotecting 0x" << std::hex << page_addr;
+    ASSERT_EQ(
+        mprotect(reinterpret_cast<void*>(page_addr), page_size_, PROT_READ), 0)
+        << ErrnoMessage("mprotect");
+    LOG(INFO) << "mprotected";
+
+    CheckedWriteFile(
+        WritePipeHandle(), &bottom_of_stack, sizeof(bottom_of_stack));
+    CheckedWriteFile(WritePipeHandle(), &page_addr, sizeof(page_addr));
+    CheckedWriteFile(WritePipeHandle(), &stack_address, sizeof(stack_address));
+
+    // Wait for parent to read us
+    CheckedReadFileAtEOF(ReadPipeHandle());
+
+    ASSERT_EQ(mprotect(reinterpret_cast<void*>(page_addr),
+                       page_size_,
+                       PROT_READ | PROT_WRITE),
+              0)
+        << ErrnoMessage("mprotect");
   }
 
   const size_t page_size_;
@@ -441,10 +448,12 @@ class ChildWithSplitStackTest : public Multiprocess {
   DISALLOW_COPY_AND_ASSIGN(ChildWithSplitStackTest);
 };
 
+#if !defined(ADDRESS_SANITIZER)
 TEST(ProcessReaderLinux, ChildWithSplitStack) {
   ChildWithSplitStackTest test;
   test.Run();
 }
+#endif  // ADDRESS_SANITIZER
 
 // Android doesn't provide dl_iterate_phdr on ARM until API 21.
 #if !defined(OS_ANDROID) || !defined(ARCH_CPU_ARMEL) || __ANDROID_API__ >= 21

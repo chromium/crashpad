@@ -296,40 +296,39 @@ const MemoryMap::Mapping* MemoryMap::FindMappingWithName(
   return nullptr;
 }
 
-const MemoryMap::Mapping* MemoryMap::FindFileMmapStart(
-    const Mapping& mapping) const {
+bool MemoryMap::FindFileMmapStart(
+    const Mapping& mapping,
+    std::vector<const Mapping*>* possible_starts) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-
-  size_t index = 0;
-  for (; index < mappings_.size(); ++index) {
-    if (mappings_[index].Equals(mapping)) {
-      break;
-    }
-  }
-  if (index >= mappings_.size()) {
-    LOG(ERROR) << "mapping not found";
-    return nullptr;
-  }
 
   // If the mapping is anonymous, as is for the VDSO, there is no mapped file to
   // find the start of, so just return the input mapping.
   if (mapping.device == 0 && mapping.inode == 0) {
-    return &mappings_[index];
+    for (const auto& candidate : mappings_) {
+      if (mapping.Equals(candidate)) {
+        possible_starts->clear();
+        possible_starts->push_back(&candidate);
+        return true;
+      }
+    }
+
+    LOG(ERROR) << "mapping not found";
+    return false;
   }
 
-  do {
-    // There may by anonymous mappings or other files mapped into the holes,
-    // so check that the mapping uses the same file as the input, but keep
-    // searching if it doesn't.
-    if (mappings_[index].device == mapping.device &&
-        mappings_[index].inode == mapping.inode &&
-        mappings_[index].offset == 0) {
-      return &mappings_[index];
+  std::vector<const Mapping*> local_starts;
+  for (const auto& candidate : mappings_) {
+    if (candidate.device == mapping.device &&
+        candidate.inode == mapping.inode && candidate.offset == 0) {
+      local_starts.push_back(&candidate);
     }
-  } while (index--);
+    if (mapping.Equals(candidate)) {
+      possible_starts->swap(local_starts);
+      return true;
+    }
+  }
 
-  LOG(ERROR) << "mapping not found";
-  return nullptr;
+  return false;
 }
 
 }  // namespace crashpad
