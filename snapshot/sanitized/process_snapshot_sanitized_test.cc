@@ -162,6 +162,29 @@ class StackSanitizationChecker : public MemorySnapshot::Delegate {
 
   // MemorySnapshot::Delegate
   bool MemorySnapshotDelegateRead(void* data, size_t size) override {
+#if defined(ADDRESS_SANITIZER) && (defined(OS_LINUX) || defined(OS_ANDROID))
+    // Address sanitizer causes stack variables to be stored separately from the
+    // call stack.
+    EXPECT_PRED3(
+        [](VMAddress code_pointer_addr,
+           VMAddress stack_addr,
+           VMSize stack_size) {
+          return code_pointer_addr < stack_addr ||
+                 code_pointer_addr >= stack_addr + stack_size;
+        },
+        addrs_.code_pointer_address,
+        stack_->Address(),
+        size);
+    EXPECT_PRED3(
+        [](VMAddress string_addr, VMAddress stack_addr, VMSize stack_size) {
+          return string_addr < stack_addr ||
+                 string_addr >= stack_addr + stack_size;
+        },
+        addrs_.string_address,
+        stack_->Address(),
+        size);
+    return true;
+#else
     size_t pointer_offset;
     if (!AssignIfInRange(&pointer_offset,
                          addrs_.code_pointer_address - stack_->Address())) {
@@ -192,6 +215,7 @@ class StackSanitizationChecker : public MemorySnapshot::Delegate {
       EXPECT_STREQ(string, kSensitiveStackData);
     }
     return true;
+#endif  // ADDRESS_SANITIZER && (OS_LINUX || OS_ANDROID)
   }
 
  private:
