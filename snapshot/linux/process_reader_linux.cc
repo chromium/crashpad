@@ -347,19 +347,31 @@ void ProcessReaderLinux::InitializeModules() {
     return;
   }
 
-  const MemoryMap::Mapping* exe_mapping;
-  if (!(exe_mapping = GetMemoryMap()->FindMapping(phdrs)) ||
-      !(exe_mapping = GetMemoryMap()->FindFileMmapStart(*exe_mapping))) {
-    return;
-  }
-
   ProcessMemoryRange range;
   if (!range.Initialize(Memory(), is_64_bit_)) {
     return;
   }
 
-  auto exe_reader = std::make_unique<ElfImageReader>();
-  if (!exe_reader->Initialize(range, exe_mapping->range.Base())) {
+  const MemoryMap::Mapping* exe_mapping = nullptr;
+  std::unique_ptr<ElfImageReader> exe_reader;
+  {
+    std::vector<const MemoryMap::Mapping*> possible_mappings;
+    const MemoryMap::Mapping* phdr_mapping = memory_map_.FindMapping(phdrs);
+    if (!phdr_mapping ||
+        !memory_map_.FindFileMmapStart(*phdr_mapping, &possible_mappings)) {
+      return;
+    }
+    for (const auto mapping : possible_mappings) {
+      auto parsed_exe = std::make_unique<ElfImageReader>();
+      if (parsed_exe->Initialize(range, mapping->range.Base()) &&
+          parsed_exe->GetProgramHeaderTableAddress() == phdrs) {
+        exe_mapping = mapping;
+        exe_reader = std::move(parsed_exe);
+        break;
+      }
+    }
+  }
+  if (!exe_mapping) {
     return;
   }
 
@@ -386,19 +398,34 @@ void ProcessReaderLinux::InitializeModules() {
   aux.GetValue(AT_BASE, &loader_base);
 
   for (const DebugRendezvous::LinkEntry& entry : debug.Modules()) {
-    const MemoryMap::Mapping* mapping;
-    if (!(mapping = memory_map_.FindMapping(entry.dynamic_array)) ||
-        !(mapping = memory_map_.FindFileMmapStart(*mapping))) {
-      continue;
+    const MemoryMap::Mapping* module_mapping = nullptr;
+    std::unique_ptr<ElfImageReader> elf_reader;
+    {
+      std::vector<const MemoryMap::Mapping*> possible_mappings;
+      const MemoryMap::Mapping* dyn_mapping =
+          memory_map_.FindMapping(entry.dynamic_array);
+      if (!dyn_mapping ||
+          !memory_map_.FindFileMmapStart(*dyn_mapping, &possible_mappings)) {
+        continue;
+      }
+      for (const auto mapping : possible_mappings) {
+        auto parsed_module = std::make_unique<ElfImageReader>();
+        VMAddress dynamic_address;
+        if (parsed_module->Initialize(range, mapping->range.Base()) &&
+            parsed_module->GetDynamicArrayAddress(&dynamic_address) &&
+            dynamic_address == entry.dynamic_array) {
+          module_mapping = mapping;
+          elf_reader = std::move(parsed_module);
+          break;
+        }
+      }
     }
-
-    auto elf_reader = std::make_unique<ElfImageReader>();
-    if (!elf_reader->Initialize(range, mapping->range.Base())) {
+    if (!module_mapping) {
       continue;
     }
 
     Module module = {};
-    module.name = !entry.name.empty() ? entry.name : mapping->name;
+    module.name = !entry.name.empty() ? entry.name : module_mapping->name;
     module.elf_reader = elf_reader.get();
     module.type = loader_base && elf_reader->Address() == loader_base
                       ? ModuleSnapshot::kModuleTypeDynamicLoader

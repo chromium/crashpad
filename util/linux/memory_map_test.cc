@@ -373,9 +373,19 @@ void ExpectFindFileMmapStart(LinuxVMAddress mapping_start,
   ASSERT_NE(mapping1, mapping2);
   ASSERT_NE(mapping2, mapping3);
 
-  EXPECT_EQ(map.FindFileMmapStart(*mapping1), mapping1);
-  EXPECT_EQ(map.FindFileMmapStart(*mapping2), mapping2);
-  EXPECT_EQ(map.FindFileMmapStart(*mapping3), mapping1);
+  std::vector<const MemoryMap::Mapping*> mappings;
+
+  ASSERT_TRUE(map.FindFileMmapStart(*mapping1, &mappings));
+  ASSERT_EQ(mappings.size(), 1u);
+  EXPECT_EQ(mappings[0], mapping1);
+
+  ASSERT_TRUE(map.FindFileMmapStart(*mapping2, &mappings));
+  ASSERT_EQ(mappings.size(), 1u);
+  EXPECT_EQ(mappings[0], mapping2);
+
+  ASSERT_TRUE(map.FindFileMmapStart(*mapping3, &mappings));
+  ASSERT_EQ(mappings.size(), 1u);
+  EXPECT_EQ(mappings[0], mapping1);
 }
 
 TEST(MemoryMap, FindFileMmapStart) {
@@ -418,9 +428,19 @@ TEST(MemoryMap, FindFileMmapStart) {
     ASSERT_NE(mapping1, mapping2);
     ASSERT_NE(mapping2, mapping3);
 
-    EXPECT_EQ(map.FindFileMmapStart(*mapping1), mapping1);
-    EXPECT_EQ(map.FindFileMmapStart(*mapping2), mapping1);
-    EXPECT_EQ(map.FindFileMmapStart(*mapping3), mapping1);
+    std::vector<const MemoryMap::Mapping*> mappings;
+
+    ASSERT_TRUE(map.FindFileMmapStart(*mapping1, &mappings));
+    ASSERT_EQ(mappings.size(), 1u);
+    EXPECT_EQ(mappings[0], mapping1);
+
+    ASSERT_TRUE(map.FindFileMmapStart(*mapping2, &mappings));
+    ASSERT_EQ(mappings.size(), 1u);
+    EXPECT_EQ(mappings[0], mapping1);
+
+    ASSERT_TRUE(map.FindFileMmapStart(*mapping3, &mappings));
+    ASSERT_EQ(mappings.size(), 1u);
+    EXPECT_EQ(mappings[0], mapping1);
 
 #if defined(ARCH_CPU_64_BITS)
     constexpr bool is_64_bit = true;
@@ -429,7 +449,7 @@ TEST(MemoryMap, FindFileMmapStart) {
 #endif
     MemoryMap::Mapping bad_mapping;
     bad_mapping.range.SetRange(is_64_bit, 0, 1);
-    EXPECT_EQ(map.FindFileMmapStart(bad_mapping), nullptr);
+    EXPECT_FALSE(map.FindFileMmapStart(bad_mapping, &mappings));
   }
 
   // Make the second page an anonymous mapping
