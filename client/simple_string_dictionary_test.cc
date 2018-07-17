@@ -14,6 +14,8 @@
 
 #include "client/simple_string_dictionary.h"
 
+#include <memory>
+
 #include "base/logging.h"
 #include "gtest/gtest.h"
 #include "test/gtest_death.h"
@@ -115,8 +117,8 @@ TEST(SimpleStringDictionary, CopyAndAssign) {
 // Add a bunch of values to the dictionary, remove some entries in the middle,
 // and then add more.
 TEST(SimpleStringDictionary, Iterator) {
-  SimpleStringDictionary* dict = new SimpleStringDictionary;
-  ASSERT_TRUE(dict);
+  auto dict = std::make_unique<SimpleStringDictionary>();
+  ASSERT_TRUE(dict.get());
 
   char key[SimpleStringDictionary::key_size];
   char value[SimpleStringDictionary::value_size];
