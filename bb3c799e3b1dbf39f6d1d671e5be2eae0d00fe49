@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31040705_2e920bc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-17T18:22:55Z",
+      "side": 1,
+      "message": "Is it easy enough to provide a test that makes this happen?",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "082b46bd_3d47d956",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-17T18:22:55Z",
+      "side": 1,
+      "message": "INITIALIZATION_STATE_DCHECK_VALID(initialized_);",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f637770a_b27aec7e",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-17T18:22:55Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfdd7b20_40fbf8d2",
+        "filename": "snapshot/linux/process_reader_linux.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-17T18:22:55Z",
+      "side": 1,
+      "message": "Ideally, I’d want this to be in a “quiet” mode for the probing, if probing more than a single mapping, and to then use a local log message down by line 375 if none of the probes were successful.",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "638d8380_e9d78fe8",
+        "filename": "snapshot/linux/process_reader_linux.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-17T18:22:55Z",
+      "side": 1,
+      "message": "It looks like it’s still possible to construct a module where the “wrong” mapping would be chosen here. If that’s true, it should at least be acknowledged in a comment.",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b9f7781_4b289ec9",
+        "filename": "snapshot/linux/process_reader_linux.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-17T18:22:55Z",
+      "side": 1,
+      "message": "Either way, you’ll want to log something here if possible_mappings.empty(), to provide the context that a module couldn’t be understood.",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5e414c1_35c98279",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-17T18:22:55Z",
+      "side": 1,
+      "message": "Reads better when moved to the next line, for this 3-sided \u0026\u0026 chain, contrary to what the inhuman clang-format “thinks.”",
+      "range": {
+        "startLine": 322,
+        "startChar": 44,
+        "endLine": 322,
+        "endChar": 65
+      },
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c26344a_d7b07f22",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-17T18:22:55Z",
+      "side": 1,
+      "message": "This should be renamed to reflect what it’s doing more closely: FindFilePossibleMmapStarts()?",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bbe0fd1_083abd00",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-17T18:22:55Z",
+      "side": 1,
+      "message": "Might be easier to use if it returned a std::vector\u003cconst Mapping*\u003e instead of having an out-param. A nonempty vector would mean success.",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5461e5e5_a930f3bb",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-17T18:22:55Z",
+      "side": 1,
+      "message": "You should provide a test that makes sure that the method works correctly when it’s expected to return more than one possible mapping.",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
