@@ -545,6 +545,23 @@ bool ElfImageReader::GetDebugAddress(VMAddress* debug) {
   return GetAddressFromDynamicArray(DT_DEBUG, true, debug);
 }
 
+bool ElfImageReader::GetDynamicArrayAddress(VMAddress* address) {
+  VMAddress dyn_segment_address;
+  VMSize dyn_segment_size;
+  if (!program_headers_.get()->GetDynamicSegment(&dyn_segment_address,
+                                                 &dyn_segment_size)) {
+    LOG(ERROR) << "no dynamic segment";
+    return false;
+  }
+  *address = dyn_segment_address + GetLoadBias();
+  return true;
+}
+
+VMAddress ElfImageReader::GetProgramHeaderTableAddress() {
+  return ehdr_address_ +
+         (memory_.Is64Bit() ? header_64_.e_phoff : header_32_.e_phoff);
+}
+
 bool ElfImageReader::InitializeProgramHeaders() {
 #define INITIALIZE_PROGRAM_HEADERS(PhdrType, header)                    \
   do {                                                                  \
