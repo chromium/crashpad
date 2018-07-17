@@ -172,6 +172,16 @@ class ElfImageReader {
   //! \return `true` if the debug address was found.
   bool GetDebugAddress(VMAddress* debug);
 
+  //! \brief Determine the address of `PT_DYNAMIC` segment.
+  //!
+  //! \param[out] address The address of the array, valid if this method returns
+  //!     `true`.
+  //! \return `true` on success. Otherwise `false` with a message logged.
+  bool GetDynamicArrayAddress(VMAddress* address);
+
+  //! \brief Return the address of the program header table.
+  VMAddress GetProgramHeaderTableAddress();
+
   //! \brief Return a NoteReader for this image, which scans all PT_NOTE
   //!     segments in the image.
   //!
