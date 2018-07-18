@@ -15,6 +15,7 @@
 #include "snapshot/mac/mach_o_image_segment_reader.h"
 
 #include <mach-o/loader.h>
+#include <string.h>
 
 #include <utility>
 
@@ -34,6 +35,37 @@ std::string SizeLimitedCString(const char* c_string, size_t max_length) {
 }
 
 }  // namespace
+
+bool IsMalformedCLKernelsModule(uint32_t mach_o_file_type,
+                                const std::string& module_name,
+                                bool* has_timestamp) {
+  if (mach_o_file_type != MH_BUNDLE) {
+    return false;
+  }
+
+  if (module_name == "cl_kernels") {
+    if (MacOSXMinorVersion() >= 10) {
+      if (has_timestamp) {
+        *has_timestamp = false;
+      }
+      return true;
+    }
+    return false;
+  }
+
+  static const char kCvmsObjectPathPrefix[] =
+      "/private/var/db/CVMS/cvmsCodeSignObj";
+  if (module_name.compare(
+          0, strlen(kCvmsObjectPathPrefix), kCvmsObjectPathPrefix) == 0 &&
+      MacOSXMinorVersion() >= 14) {
+    if (has_timestamp) {
+      *has_timestamp = true;
+    }
+    return true;
+  }
+
+  return false;
+}
 
 MachOImageSegmentReader::MachOImageSegmentReader()
     : segment_command_(),
@@ -121,21 +153,13 @@ bool MachOImageSegmentReader::Initialize(ProcessReaderMac* process_reader,
                                                   load_command_info.c_str());
 
     // cl_kernels modules (for OpenCL) aren’t ld output, and they’re formatted
-    // incorrectly on OS X 10.10 and later. They have a single __TEXT segment,
-    // but one of the sections within it claims to belong to the __LD segment.
-    // This mismatch shouldn’t happen. This errant section also has the
-    // S_ATTR_DEBUG flag set, which shouldn’t happen unless all of the other
-    // sections in the segment also have this bit set (they don’t). These odd
-    // sections are reminiscent of unwind information stored in MH_OBJECT
-    // images, although cl_kernels images claim to be MH_BUNDLE. Because at
-    // least one cl_kernels module will commonly be found in a process, and
-    // sometimes more will be, tolerate this quirk.
+    // incorrectly on OS X 10.10 and later. Because at least one cl_kernels
+    // module will commonly be found in a process, and sometimes more will be,
+    // tolerate this quirk.
     //
     // https://openradar.appspot.com/20239912
     if (section_segment_name != segment_name &&
-        !(file_type == MH_BUNDLE &&
-          module_name == "cl_kernels" &&
-          MacOSXMinorVersion() >= 10 &&
+        !(IsMalformedCLKernelsModule(file_type, module_name, nullptr) &&
           segment_name == SEG_TEXT &&
           section_segment_name == "__LD" &&
           section_name == "__compact_unwind" &&

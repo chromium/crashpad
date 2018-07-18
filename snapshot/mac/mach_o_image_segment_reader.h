@@ -29,6 +29,41 @@
 
 namespace crashpad {
 
+//! \brief Determines whether a module appears to be a malformed OpenCL
+//!     `cl_kernels` module based on its name and Mach-O file type.
+//!
+//! `cl_kernels` modules require special handling because they’re malformed on
+//! OS X 10.10 and later. A `cl_kernels` module always has Mach-O type
+//! `MH_BUNDLE` and is named `"cl_kernels"` until macOS 10.14, and
+//! `"/private/var/db/CVMS/cvmsCodeSignObj"` plus 16 random characters on macOS
+//! 10.14.
+//!
+//! Malformed `cl_kernels` modules have a single `__TEXT` segment, but one of
+//! the sections within it claims to belong to the `__LD` segment. This mismatch
+//! shouldn’t happen. This errant section also has the `S_ATTR_DEBUG` flag set,
+//! which shouldn’t happen unless all of the other sections in the segment also
+//! have this bit set (they don’t). These odd sections are reminiscent of unwind
+//! information stored in `MH_OBJECT` images, although `cl_kernels` images claim
+//! to be `MH_BUNDLE`.
+//!
+//! This function is exposed for testing purposes only.
+//!
+//! \param[in] mach_o_file_type The Mach-O type of the module being examined.
+//! \param[in] module_name The pathname that `dyld` reported having loaded the
+//!     module from.
+//! \param[out] has_timestamp Optional, may be `nullptr`. If provided, and the
+//!     module is a maformed `cl_kernels` module, this will be set to `true` if
+//!     the module was loaded from the filesystem (as is the case when loaded
+//!     from the CVMS directory) and is expected to have a timestamp, and
+//!     `false` otherwise. Note that even when loaded from the filesystem, these
+//!     modules are unlinked from the filesystem after loading.
+//!
+//! \return `true` if the module appears to be a malformed `cl_kernels` module
+//!     based on the provided information, `false` otherwise.
+bool IsMalformedCLKernelsModule(uint32_t mach_o_file_type,
+                                const std::string& module_name,
+                                bool* has_timestamp);
+
 //! \brief A reader for `LC_SEGMENT` or `LC_SEGMENT_64` load commands in Mach-O
 //!     images mapped into another process.
 //!
