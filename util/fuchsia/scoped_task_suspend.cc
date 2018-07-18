@@ -47,7 +47,8 @@ enum class SuspensionResult {
 };
 
 SuspensionResult SuspendThread(zx_handle_t thread) {
-  zx_status_t status = zx_task_suspend(thread);
+  zx_handle_t token;
+  zx_status_t status = zx_task_suspend_token(thread, &token);
   ZX_LOG_IF(ERROR, status != ZX_OK, status) << "zx_task_suspend";
   if (status != ZX_OK)
     return SuspensionResult::FailedSuspendCall;
