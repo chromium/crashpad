@@ -32,6 +32,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "snapshot/mac/mach_o_image_reader.h"
+#include "snapshot/mac/mach_o_image_segment_reader.h"
 #include "test/errors.h"
 #include "test/mac/dyld.h"
 #include "test/mac/mach_errors.h"
@@ -663,14 +664,20 @@ TEST(ProcessReaderMac, SelfModules) {
         modules[index].reader->Address(),
         FromPointerCast<mach_vm_address_t>(_dyld_get_image_header(index)));
 
+    bool expect_timestamp;
     if (index == 0) {
       // dyld didn’t load the main executable, so it couldn’t record its
       // timestamp, and it is reported as 0.
       EXPECT_EQ(modules[index].timestamp, 0);
-    } else if (modules[index].reader->FileType() == MH_BUNDLE &&
-               modules[index].name == "cl_kernels") {
-      // cl_kernels doesn’t exist as a file.
-      EXPECT_EQ(modules[index].timestamp, 0);
+    } else if (IsMalformedCLKernelsModule(modules[index].reader->FileType(),
+                                          modules[index].name,
+                                          &expect_timestamp)) {
+      // cl_kernels doesn’t exist as a file, but may still have a timestamp.
+      if (!expect_timestamp) {
+        EXPECT_EQ(modules[index].timestamp, 0);
+      } else {
+        EXPECT_NE(modules[index].timestamp, 0);
+      }
       found_cl_kernels = true;
     } else {
       // Hope that the module didn’t change on disk.
@@ -747,14 +754,20 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
       ASSERT_TRUE(modules[index].reader);
       EXPECT_EQ(modules[index].reader->Address(), expect_address);
 
+      bool expect_timestamp;
       if (index == 0 || index == modules.size() - 1) {
         // dyld didn’t load the main executable or itself, so it couldn’t record
         // these timestamps, and they are reported as 0.
         EXPECT_EQ(modules[index].timestamp, 0);
-      } else if (modules[index].reader->FileType() == MH_BUNDLE &&
-                 modules[index].name == "cl_kernels") {
-        // cl_kernels doesn’t exist as a file.
-        EXPECT_EQ(modules[index].timestamp, 0);
+      } else if (IsMalformedCLKernelsModule(modules[index].reader->FileType(),
+                                            modules[index].name,
+                                            &expect_timestamp)) {
+        // cl_kernels doesn’t exist as a file, but may still have a timestamp.
+        if (!expect_timestamp) {
+          EXPECT_EQ(modules[index].timestamp, 0);
+        } else {
+          EXPECT_NE(modules[index].timestamp, 0);
+        }
         found_cl_kernels = true;
       } else {
         // Hope that the module didn’t change on disk.
