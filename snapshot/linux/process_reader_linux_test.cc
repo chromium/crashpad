@@ -14,6 +14,7 @@
 
 #include "snapshot/linux/process_reader_linux.h"
 
+#include <dlfcn.h>
 #include <errno.h>
 #include <link.h>
 #include <pthread.h>
@@ -38,6 +39,8 @@
 #include "test/linux/fake_ptrace_connection.h"
 #include "test/linux/get_tls.h"
 #include "test/multiprocess.h"
+#include "test/scoped_module_handle.h"
+#include "test/test_paths.h"
 #include "util/file/file_io.h"
 #include "util/linux/direct_ptrace_connection.h"
 #include "util/misc/from_pointer_cast.h"
@@ -501,7 +504,45 @@ void ExpectModulesFromSelf(
 #endif  // !OS_ANDROID || !ARCH_CPU_ARMEL || __ANDROID_API__ >= 21
 }
 
+// An empty test module will cause the GNU_RELO segment to be placed in the
+// first page of the executable, exercising locating modules with multiple
+// mappings from file offset 0.
+ScopedModuleHandle LoadTestModule() {
+  base::FilePath module_path(
+      TestPaths::BuildArtifact(FILE_PATH_LITERAL("snapshot"),
+                               FILE_PATH_LITERAL("module_empty"),
+                               TestPaths::FileType::kLoadableModule));
+  ScopedModuleHandle handle(
+      dlopen(module_path.value().c_str(), RTLD_LAZY | RTLD_LOCAL));
+  EXPECT_TRUE(handle.valid())
+      << "dlopen: " << module_path.value() << " " << dlerror();
+  return handle;
+}
+
+void ExpectTestModule(ProcessReaderLinux* reader) {
+  reader->GetMemoryMap()->Print();
+  for (const auto& module : reader->Modules()) {
+    if (module.name.find("crashpad_snapshot_test_module_empty.so") !=
+        std::string::npos) {
+      ASSERT_TRUE(module.elf_reader);
+
+      VMAddress dynamic_addr;
+      ASSERT_TRUE(module.elf_reader->GetDynamicArrayAddress(&dynamic_addr));
+
+      auto dynamic_mapping = reader->GetMemoryMap()->FindMapping(dynamic_addr);
+      auto mappings =
+          reader->GetMemoryMap()->FindFilePossibleMmapStarts(*dynamic_mapping);
+      EXPECT_EQ(mappings.size(), 2u);
+      return;
+    }
+  }
+  ADD_FAILURE() << "Test module not found";
+}
+
 TEST(ProcessReaderLinux, SelfModules) {
+  ScopedModuleHandle empty_test_module(LoadTestModule());
+  ASSERT_TRUE(empty_test_module.valid());
+
   FakePtraceConnection connection;
   connection.Initialize(getpid());
 
@@ -509,6 +550,7 @@ TEST(ProcessReaderLinux, SelfModules) {
   ASSERT_TRUE(process_reader.Initialize(&connection));
 
   ExpectModulesFromSelf(process_reader.Modules());
+  ExpectTestModule(&process_reader);
 }
 
 class ChildModuleTest : public Multiprocess {
@@ -518,6 +560,9 @@ class ChildModuleTest : public Multiprocess {
 
  private:
   void MultiprocessParent() override {
+    char c;
+    ASSERT_TRUE(LoggingReadFileExactly(ReadPipeHandle(), &c, sizeof(c)));
+
     DirectPtraceConnection connection;
     ASSERT_TRUE(connection.Initialize(ChildPID()));
 
@@ -525,9 +570,18 @@ class ChildModuleTest : public Multiprocess {
     ASSERT_TRUE(process_reader.Initialize(&connection));
 
     ExpectModulesFromSelf(process_reader.Modules());
+    ExpectTestModule(&process_reader);
   }
 
-  void MultiprocessChild() override { CheckedReadFileAtEOF(ReadPipeHandle()); }
+  void MultiprocessChild() override {
+    ScopedModuleHandle empty_test_module(LoadTestModule());
+    ASSERT_TRUE(empty_test_module.valid());
+
+    char c;
+    ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(), &c, sizeof(c)));
+
+    CheckedReadFileAtEOF(ReadPipeHandle());
+  }
 
   DISALLOW_COPY_AND_ASSIGN(ChildModuleTest);
 };
