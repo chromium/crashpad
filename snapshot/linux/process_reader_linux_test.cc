@@ -14,11 +14,14 @@
 
 #include "snapshot/linux/process_reader_linux.h"
 
+#include <dlfcn.h>
+#include <elf.h>
 #include <errno.h>
 #include <link.h>
 #include <pthread.h>
 #include <sched.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/mman.h>
 #include <sys/resource.h>
 #include <sys/syscall.h>
@@ -38,7 +41,11 @@
 #include "test/linux/fake_ptrace_connection.h"
 #include "test/linux/get_tls.h"
 #include "test/multiprocess.h"
+#include "test/scoped_module_handle.h"
+#include "test/test_paths.h"
 #include "util/file/file_io.h"
+#include "util/file/file_writer.h"
+#include "util/file/filesystem.h"
 #include "util/linux/direct_ptrace_connection.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/synchronization/semaphore.h"
@@ -501,7 +508,156 @@ void ExpectModulesFromSelf(
 #endif  // !OS_ANDROID || !ARCH_CPU_ARMEL || __ANDROID_API__ >= 21
 }
 
+bool WriteTestModule(const base::FilePath module_path) {
+#if defined(ARCH_CPU_64_BITS)
+  using Ehdr = Elf64_Ehdr;
+  using Phdr = Elf64_Phdr;
+  using Dyn = Elf64_Dyn;
+  using Sym = Elf64_Sym;
+#else
+  using Ehdr = Elf32_Ehdr;
+  using Phdr = Elf32_Phdr;
+  using Dyn = Elf32_Dyn;
+  using Sym = Elf32_Sym;
+#endif
+
+  struct {
+    Ehdr ehdr;
+    struct {
+      Phdr load1;
+      Phdr load2;
+      Phdr dynamic;
+    } phdr_table;
+    struct {
+      Dyn hash;
+      Dyn strtab;
+      Dyn symtab;
+      Dyn strsz;
+      Dyn syment;
+      Dyn null;
+    } dynamic_array;
+    struct {
+      Elf32_Word nbucket;
+      Elf32_Word nchain;
+    } hash_table;
+    struct {} string_table;
+    struct {} symbol_table;
+  } module;
+
+  memset(&module, 0, sizeof(module));
+
+  module.ehdr.e_ident[EI_MAG0] = ELFMAG0;
+  module.ehdr.e_ident[EI_MAG1] = ELFMAG1;
+  module.ehdr.e_ident[EI_MAG2] = ELFMAG2;
+  module.ehdr.e_ident[EI_MAG3] = ELFMAG3;
+
+  module.ehdr.e_ident[EI_CLASS] = ELFCLASS64;
+  module.ehdr.e_ident[EI_DATA] = ELFDATA2LSB;
+  module.ehdr.e_ident[EI_VERSION] = EV_CURRENT;
+
+  module.ehdr.e_type = ET_DYN;
+  module.ehdr.e_machine = EM_X86_64;
+  module.ehdr.e_version = EV_CURRENT;
+  module.ehdr.e_ehsize = sizeof(module.ehdr);
+  module.ehdr.e_phentsize = sizeof(Phdr);
+
+  module.ehdr.e_phoff = offsetof(decltype(module), phdr_table);
+  module.ehdr.e_phnum = sizeof(module.phdr_table) / sizeof(Phdr);
+
+  module.phdr_table.load1.p_type = PT_LOAD;
+  module.phdr_table.load1.p_offset = 0;
+  module.phdr_table.load1.p_vaddr = 0;
+  module.phdr_table.load1.p_filesz = sizeof(module);
+  module.phdr_table.load1.p_memsz = sizeof(module);
+  module.phdr_table.load1.p_flags = PF_R;
+  module.phdr_table.load1.p_align = 0x200000;
+
+  module.phdr_table.load2.p_type = PT_LOAD;
+  module.phdr_table.load2.p_offset = 0;
+  module.phdr_table.load2.p_vaddr = 0x200000;
+  module.phdr_table.load2.p_filesz = sizeof(module);
+  module.phdr_table.load2.p_memsz = sizeof(module);
+  module.phdr_table.load2.p_flags = PF_R | PF_W;
+  module.phdr_table.load2.p_align = 0x200000;
+
+  module.phdr_table.dynamic.p_type = PT_DYNAMIC;
+  module.phdr_table.dynamic.p_offset = offsetof(decltype(module), dynamic_array);
+  module.phdr_table.dynamic.p_vaddr = 0x200000 + module.phdr_table.dynamic.p_offset;
+  module.phdr_table.dynamic.p_filesz = sizeof(module.dynamic_array);
+  module.phdr_table.dynamic.p_memsz = sizeof(module.dynamic_array);
+  module.phdr_table.dynamic.p_flags = PF_R | PF_W;
+  module.phdr_table.dynamic.p_align = 8;
+
+  module.dynamic_array.hash.d_tag = DT_HASH;
+  module.dynamic_array.hash.d_un.d_ptr = offsetof(decltype(module), hash_table);
+  module.dynamic_array.strtab.d_tag = DT_STRTAB;
+  module.dynamic_array.strtab.d_un.d_ptr = offsetof(decltype(module), string_table);
+  module.dynamic_array.symtab.d_tag = DT_SYMTAB;
+  module.dynamic_array.symtab.d_un.d_ptr = offsetof(decltype(module), symbol_table);
+  module.dynamic_array.strsz.d_tag = DT_STRSZ;
+  module.dynamic_array.strsz.d_un.d_val = sizeof(module.string_table);
+  module.dynamic_array.syment.d_tag = DT_SYMENT;
+  module.dynamic_array.syment.d_un.d_val = sizeof(Sym);
+
+  module.dynamic_array.null.d_tag = DT_NULL;
+
+  FileWriter writer;
+  if (!writer.Open(module_path,
+                          FileWriteMode::kCreateOrFail,
+                          FilePermissions::kWorldReadable)) {
+    ADD_FAILURE();
+    return false;
+  }
+
+  if (!writer.Write(&module, sizeof(module))) {
+    ADD_FAILURE();
+    return false;
+  }
+
+  return true;
+}
+
+ScopedModuleHandle LoadTestModule() {
+  base::FilePath module_path(TestPaths::Executable().DirName().Append("test_module.so"));
+
+  if (!WriteTestModule(module_path)) {
+    return ScopedModuleHandle(nullptr);
+  }
+  EXPECT_TRUE(IsRegularFile(module_path));
+
+  ScopedModuleHandle handle(
+      dlopen(module_path.value().c_str(), RTLD_LAZY | RTLD_LOCAL));
+  EXPECT_TRUE(handle.valid())
+      << "dlopen: " << module_path.value() << " " << dlerror();
+
+  EXPECT_TRUE(LoggingRemoveFile(module_path));
+
+  return handle;
+}
+
+void ExpectTestModule(ProcessReaderLinux* reader) {
+  for (const auto& module : reader->Modules()) {
+    if (module.name.find("test_module.so") !=
+        std::string::npos) {
+      ASSERT_TRUE(module.elf_reader);
+
+      VMAddress dynamic_addr;
+      ASSERT_TRUE(module.elf_reader->GetDynamicArrayAddress(&dynamic_addr));
+
+      auto dynamic_mapping = reader->GetMemoryMap()->FindMapping(dynamic_addr);
+      auto mappings =
+          reader->GetMemoryMap()->FindFilePossibleMmapStarts(*dynamic_mapping);
+      EXPECT_EQ(mappings.size(), 2u);
+      return;
+    }
+  }
+  ADD_FAILURE() << "Test module not found";
+}
+
 TEST(ProcessReaderLinux, SelfModules) {
+  ScopedModuleHandle empty_test_module(LoadTestModule());
+  ASSERT_TRUE(empty_test_module.valid());
+
   FakePtraceConnection connection;
   connection.Initialize(getpid());
 
@@ -509,6 +665,7 @@ TEST(ProcessReaderLinux, SelfModules) {
   ASSERT_TRUE(process_reader.Initialize(&connection));
 
   ExpectModulesFromSelf(process_reader.Modules());
+  ExpectTestModule(&process_reader);
 }
 
 class ChildModuleTest : public Multiprocess {
@@ -518,6 +675,9 @@ class ChildModuleTest : public Multiprocess {
 
  private:
   void MultiprocessParent() override {
+    char c;
+    ASSERT_TRUE(LoggingReadFileExactly(ReadPipeHandle(), &c, sizeof(c)));
+
     DirectPtraceConnection connection;
     ASSERT_TRUE(connection.Initialize(ChildPID()));
 
@@ -525,9 +685,18 @@ class ChildModuleTest : public Multiprocess {
     ASSERT_TRUE(process_reader.Initialize(&connection));
 
     ExpectModulesFromSelf(process_reader.Modules());
+    ExpectTestModule(&process_reader);
   }
 
-  void MultiprocessChild() override { CheckedReadFileAtEOF(ReadPipeHandle()); }
+  void MultiprocessChild() override {
+    ScopedModuleHandle empty_test_module(LoadTestModule());
+    ASSERT_TRUE(empty_test_module.valid());
+
+    char c;
+    ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(), &c, sizeof(c)));
+
+    CheckedReadFileAtEOF(ReadPipeHandle());
+  }
 
   DISALLOW_COPY_AND_ASSIGN(ChildModuleTest);
 };

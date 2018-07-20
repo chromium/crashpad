@@ -399,6 +399,7 @@ source_set("snapshot_test") {
 
   data_deps = [
     ":crashpad_snapshot_test_module",
+    ":crashpad_snapshot_test_module_empty",
     ":crashpad_snapshot_test_module_large",
     ":crashpad_snapshot_test_module_small",
   ]
@@ -433,6 +434,13 @@ source_set("snapshot_test") {
       ":crashpad_snapshot_test_image_reader_module",
     ]
   }
+}
+
+crashpad_loadable_module("crashpad_snapshot_test_module_empty") {
+  testonly = true
+  sources = [
+    "linux/empty_test_module.cc",
+  ]
 }
 
 crashpad_loadable_module("crashpad_snapshot_test_module") {
