@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['base',['Base',['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html#a4ee265f81eab405b7c7d47a819f19065',1,'crashpad::internal::CheckedAddressRangeGeneric::Base()'],['../classcrashpad_1_1ProcessMemoryRange.html#a9360c93a9ef464197d18c342d1faab86',1,'crashpad::ProcessMemoryRange::Base()'],['../structcrashpad_1_1TSimpleAddressRangeBag_1_1Entry.html#a9517f0a7dce7c266a6fc34a22a389b72',1,'crashpad::TSimpleAddressRangeBag::Entry::base()'],['../classcrashpad_1_1CheckedRange.html#a341469d31eeb59dcefd60c10ee3a57fe',1,'crashpad::CheckedRange::base()']]],
+  ['base',['Base',['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html#a4ee265f81eab405b7c7d47a819f19065',1,'crashpad::internal::CheckedAddressRangeGeneric::Base()'],['../classcrashpad_1_1ProcessMemoryRange.html#a9360c93a9ef464197d18c342d1faab86',1,'crashpad::ProcessMemoryRange::Base()'],['../structcrashpad_1_1TSimpleAddressRangeBag_1_1Entry.html#a9517f0a7dce7c266a6fc34a22a389b72',1,'crashpad::TSimpleAddressRangeBag::Entry::base()'],['../structcrashpad_1_1PtraceBroker_1_1Request.html#a839198f6879d08e96bac2b85661ba664',1,'crashpad::PtraceBroker::Request::base()'],['../classcrashpad_1_1CheckedRange.html#a341469d31eeb59dcefd60c10ee3a57fe',1,'crashpad::CheckedRange::base()']]],
   ['base_5faddress',['base_address',['../structcrashpad_1_1internal_1_1UserDataMinidumpStreamListEntry.html#adff7d5348d3834baecaeb8954204959d',1,'crashpad::internal::UserDataMinidumpStreamListEntry']]],
   ['baseaddress',['BaseAddress',['../structMINIDUMP__MEMORY__INFO.html#aec6438bf8c20fe45e8b31c679b6e06a6',1,'MINIDUMP_MEMORY_INFO']]],
   ['baseofimage',['BaseOfImage',['../structMINIDUMP__MODULE.html#af4b4a246ebfa54e57e4c953fb0c3dd31',1,'MINIDUMP_MODULE::BaseOfImage()'],['../structMINIDUMP__UNLOADED__MODULE.html#a57d74355789f2f6e363aafb60c53c6f4',1,'MINIDUMP_UNLOADED_MODULE::BaseOfImage()']]],
@@ -9,12 +9,15 @@ var searchData=
   ['bias',['Bias',['../structTIME__ZONE__INFORMATION.html#acf8f3a23cd1cabc4cdcf3c5c4b527b71',1,'TIME_ZONE_INFORMATION']]],
   ['binaryprunecondition',['BinaryPruneCondition',['../classcrashpad_1_1BinaryPruneCondition.html',1,'crashpad::BinaryPruneCondition'],['../classcrashpad_1_1BinaryPruneCondition.html#a68154b67d29953d93e1dad567b618288',1,'crashpad::BinaryPruneCondition::BinaryPruneCondition()']]],
   ['binding',['binding',['../structcrashpad_1_1ElfSymbolTableReader_1_1SymbolInformation.html#a0b5471dd66a2a1aa3a3a87d5ce8b5623',1,'crashpad::ElfSymbolTableReader::SymbolInformation']]],
+  ['bool',['Bool',['../namespacecrashpad.html#ad33492d97e6ee13ed0a1634b7a3c4c77',1,'crashpad']]],
   ['bootstrapcheckin',['BootstrapCheckIn',['../namespacecrashpad.html#af63980b36cac449785c26cee00c89205',1,'crashpad']]],
   ['bootstraperrormessage',['BootstrapErrorMessage',['../namespacecrashpad_1_1test.html#a8db2fa97998b00a8ee57398fa8c8b14e',1,'crashpad::test']]],
   ['bootstraplookup',['BootstrapLookUp',['../namespacecrashpad.html#a32e6cb4455e49ede76dab41a256962ee',1,'crashpad']]],
+  ['breakpadhttpformparametersfromminidump',['BreakpadHTTPFormParametersFromMinidump',['../namespacecrashpad.html#a63faa5e791871a34f458e2e3995389df',1,'crashpad']]],
   ['buffer',['Buffer',['../structMINIDUMP__STRING.html#af94c17c544656672a9cca277c4bcf7c4',1,'MINIDUMP_STRING::Buffer()'],['../structcrashpad_1_1MinidumpUTF8String.html#a61f284e63d9bc6cf975acfb035efda12',1,'crashpad::MinidumpUTF8String::Buffer()']]],
   ['bufferextensionstreamdatasource',['BufferExtensionStreamDataSource',['../classcrashpad_1_1test_1_1BufferExtensionStreamDataSource.html',1,'crashpad::test::BufferExtensionStreamDataSource'],['../classcrashpad_1_1test_1_1BufferExtensionStreamDataSource.html#a6892937b29f5d461d05101fdd56b4a1b',1,'crashpad::test::BufferExtensionStreamDataSource::BufferExtensionStreamDataSource()']]],
   ['buildartifact',['BuildArtifact',['../classcrashpad_1_1test_1_1TestPaths.html#a2e6e7d9320faa239b7c1b788f9f48589',1,'crashpad::test::TestPaths']]],
+  ['buildhandlerargvstrings',['BuildHandlerArgvStrings',['../namespacecrashpad.html#a14215b40c92752a4e9d28f8aa4c28c29',1,'crashpad']]],
   ['buildminidumpthreadidmap',['BuildMinidumpThreadIDMap',['../namespacecrashpad.html#a58169a74e32daa2888614fcd2f2381ce',1,'crashpad']]],
   ['buildnumber',['BuildNumber',['../structMINIDUMP__SYSTEM__INFO.html#a2d417f17d4a3c2d5616268288bf47521',1,'MINIDUMP_SYSTEM_INFO']]],
   ['buildstring',['BuildString',['../structMINIDUMP__MISC__INFO__4.html#a22ccb40896084aced8a3c780a927456f',1,'MINIDUMP_MISC_INFO_4']]],

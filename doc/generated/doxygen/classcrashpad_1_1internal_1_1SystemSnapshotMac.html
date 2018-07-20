@@ -87,9 +87,9 @@ Inheritance diagram for crashpad::internal::SystemSnapshotMac:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6397ea872e58bfaa39e5639df271453c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotMac.html#a6397ea872e58bfaa39e5639df271453c">Initialize</a> (<a class="el" href="classcrashpad_1_1ProcessReader.html">ProcessReader</a> *process_reader, const timeval *snapshot_time)</td></tr>
-<tr class="memdesc:a6397ea872e58bfaa39e5639df271453c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the object.  <a href="#a6397ea872e58bfaa39e5639df271453c">More...</a><br /></td></tr>
-<tr class="separator:a6397ea872e58bfaa39e5639df271453c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae064a4922aee0b0c9e6f9070d4a2adae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotMac.html#ae064a4922aee0b0c9e6f9070d4a2adae">Initialize</a> (<a class="el" href="classcrashpad_1_1ProcessReaderMac.html">ProcessReaderMac</a> *process_reader, const timeval *snapshot_time)</td></tr>
+<tr class="memdesc:ae064a4922aee0b0c9e6f9070d4a2adae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the object.  <a href="#ae064a4922aee0b0c9e6f9070d4a2adae">More...</a><br /></td></tr>
+<tr class="separator:ae064a4922aee0b0c9e6f9070d4a2adae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6edc3a4f2ecc2008d70d3f7349f31053"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#a270e290ba558e948eb6690bd217cbb71">CPUArchitecture</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotMac.html#a6edc3a4f2ecc2008d70d3f7349f31053">GetCPUArchitecture</a> () const override</td></tr>
 <tr class="memdesc:a6edc3a4f2ecc2008d70d3f7349f31053"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the snapshot system’s CPU architecture.  <a href="#a6edc3a4f2ecc2008d70d3f7349f31053">More...</a><br /></td></tr>
 <tr class="separator:a6edc3a4f2ecc2008d70d3f7349f31053"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -466,8 +466,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a6397ea872e58bfaa39e5639df271453c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6397ea872e58bfaa39e5639df271453c">&#9670;&nbsp;</a></span>Initialize()</h2>
+<a id="ae064a4922aee0b0c9e6f9070d4a2adae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae064a4922aee0b0c9e6f9070d4a2adae">&#9670;&nbsp;</a></span>Initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -475,7 +475,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">void crashpad::internal::SystemSnapshotMac::Initialize </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classcrashpad_1_1ProcessReader.html">ProcessReader</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="classcrashpad_1_1ProcessReaderMac.html">ProcessReaderMac</a> *&#160;</td>
           <td class="paramname"><em>process_reader</em>, </td>
         </tr>
         <tr>
@@ -497,7 +497,7 @@ Additional Inherited Members</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">process_reader</td><td>A reader for the process being snapshotted. <br />
 <br />
- It seems odd that a system snapshot implementation would need a <a class="el" href="classcrashpad_1_1ProcessReader.html" title="Accesses information about another process, identified by a process ID. ">ProcessReader</a>, but some of the information reported about the system depends on the process it’s being reported for. For example, the architecture returned by <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotMac.html#a6edc3a4f2ecc2008d70d3f7349f31053" title="Returns the snapshot system’s CPU architecture. ">GetCPUArchitecture()</a> should be the architecture of the process, which may be different than the native architecture of the system: an x86_64 system can run both x86_64 and 32-bit x86 processes. </td></tr>
+ It seems odd that a system snapshot implementation would need a <a class="el" href="classcrashpad_1_1ProcessReaderMac.html" title="Accesses information about another process, identified by a Mach task. ">ProcessReaderMac</a>, but some of the information reported about the system depends on the process it’s being reported for. For example, the architecture returned by <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotMac.html#a6edc3a4f2ecc2008d70d3f7349f31053" title="Returns the snapshot system’s CPU architecture. ">GetCPUArchitecture()</a> should be the architecture of the process, which may be different than the native architecture of the system: an x86_64 system can run both x86_64 and 32-bit x86 processes. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">snapshot_time</td><td>The time of the snapshot being taken. <br />
 <br />
  This parameter is necessary for <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotMac.html#a44c833dd1344a4020ff36fbe2fe33e87" title="Returns time zone information from the snapshot system, based on its locale configuration and real-ti...">TimeZone()</a> to determine whether daylight saving time was in effect at the time the snapshot was taken. Otherwise, it would need to base its determination on the current time, which may be different than the snapshot time for snapshots generated around the daylight saving transition time. </td></tr>

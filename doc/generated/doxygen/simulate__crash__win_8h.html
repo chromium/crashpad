@@ -71,7 +71,7 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &lt;windows.h&gt;</code><br />
 <code>#include &quot;client/crashpad_client.h&quot;</code><br />
-<code>#include &quot;util/win/capture_context.h&quot;</code><br />
+<code>#include &quot;util/misc/capture_context.h&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
@@ -94,7 +94,7 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> {                                                   \</div><div class="line">    CONTEXT context;                                     \</div><div class="line">    crashpad::CaptureContext(&amp;context);                  <a class="code" href="classcrashpad_1_1CrashpadClient.html#a8ac211aa3a8cf278eb10f4058a7776fb">\</a></div><div class="line"><a class="code" href="classcrashpad_1_1CrashpadClient.html#a8ac211aa3a8cf278eb10f4058a7776fb">    crashpad::CrashpadClient::DumpWithoutCrash</a>(context); \</div><div class="line">  } <span class="keywordflow">while</span> (<span class="keyword">false</span>)</div><div class="ttc" id="classcrashpad_1_1CrashpadClient_html_a8ac211aa3a8cf278eb10f4058a7776fb"><div class="ttname"><a href="classcrashpad_1_1CrashpadClient.html#a8ac211aa3a8cf278eb10f4058a7776fb">crashpad::CrashpadClient::DumpWithoutCrash</a></div><div class="ttdeci">static void DumpWithoutCrash(const CONTEXT &amp;context)</div><div class="ttdoc">Requests that the handler capture a dump even though there hasn&amp;#39;t been a crash. </div><div class="ttdef"><b>Definition:</b> crashpad_client_win.cc:719</div></div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> {                                                                      \</div><div class="line">    <span class="comment">/* Not &quot;context&quot; to avoid variable shadowing warnings. */</span>               \</div><div class="line">    CONTEXT simulate_crash_cpu_context;                                     \</div><div class="line">    crashpad::CaptureContext(&amp;simulate_crash_cpu_context);                  <a class="code" href="classcrashpad_1_1CrashpadClient.html#aab06443c04d43a2c0dac926275c5ad27">\</a></div><div class="line"><a class="code" href="classcrashpad_1_1CrashpadClient.html#aab06443c04d43a2c0dac926275c5ad27">    crashpad::CrashpadClient::DumpWithoutCrash</a>(simulate_crash_cpu_context); \</div><div class="line">  } <span class="keywordflow">while</span> (<span class="keyword">false</span>)</div><div class="ttc" id="classcrashpad_1_1CrashpadClient_html_aab06443c04d43a2c0dac926275c5ad27"><div class="ttname"><a href="classcrashpad_1_1CrashpadClient.html#aab06443c04d43a2c0dac926275c5ad27">crashpad::CrashpadClient::DumpWithoutCrash</a></div><div class="ttdeci">static void DumpWithoutCrash(NativeCPUContext *context)</div><div class="ttdoc">Requests that the handler capture a dump even though there hasn&amp;#39;t been a crash. </div><div class="ttdef"><b>Definition:</b> crashpad_client_linux.cc:208</div></div>
 </div><!-- fragment -->
 <p>Captures the CPU context and captures a dump without an exception. </p>
 

@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['state',['State',['../classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7',1,'crashpad::internal::MinidumpWritable::State()'],['../classcrashpad_1_1InitializationState.html#a044ea6d40e23683d6d1bb5ce30dafd88',1,'crashpad::InitializationState::State()']]],
-  ['stdiostream',['StdioStream',['../namespacecrashpad.html#a8402ddae562db04a8daf6bffecaded5b',1,'crashpad']]],
-  ['stringtosymbolicconstantoptionbits',['StringToSymbolicConstantOptionBits',['../namespacecrashpad.html#a8387ad067a7e6a1735ab97a1af450d2b',1,'crashpad']]],
-  ['symbolicconstanttostringoptionbits',['SymbolicConstantToStringOptionBits',['../namespacecrashpad.html#a7856b82b71167792ea6103debb5105ed',1,'crashpad']]]
+  ['readerror',['ReadError',['../classcrashpad_1_1PtraceBroker.html#ac1991f30401e58b5c6581f11062f71bb',1,'crashpad::PtraceBroker']]],
+  ['receivelarge',['ReceiveLarge',['../classcrashpad_1_1MachMessageServer.html#ad4e5a9fe58ebd1a86f21d8a2284129ed',1,'crashpad::MachMessageServer']]],
+  ['result',['Result',['../classcrashpad_1_1ElfImageReader_1_1NoteReader.html#ad33e8286bc8522ccce3eef2acfa19d68',1,'crashpad::ElfImageReader::NoteReader::Result()'],['../classcrashpad_1_1DelimitedFileReader.html#a29c137ed407ee56238fbf74ca2e3e8fc',1,'crashpad::DelimitedFileReader::Result()'],['../classcrashpad_1_1DirectoryReader.html#aeaebced67a3dec6a513ac23f91e704fd',1,'crashpad::DirectoryReader::Result()']]]
 ];

@@ -1,13 +1,11 @@
 var searchData=
 [
-  ['watch_5fpending_5freports',['watch_pending_reports',['../structcrashpad_1_1CrashReportUploadThread_1_1Options.html#a7d7c4cdb2bd022a50c29818b332f22eb',1,'crashpad::CrashReportUploadThread::Options']]],
-  ['wday',['wDay',['../structSYSTEMTIME.html#aa95bbc66d8f19c5edf20d124faa61181',1,'SYSTEMTIME']]],
-  ['wdayofweek',['wDayOfWeek',['../structSYSTEMTIME.html#a9cb5a6b5c30455a545091ce4c382f1c4',1,'SYSTEMTIME']]],
-  ['whour',['wHour',['../structSYSTEMTIME.html#aaa06cb27275799b23d2df01b6cc5cdfe',1,'SYSTEMTIME']]],
-  ['wmilliseconds',['wMilliseconds',['../structSYSTEMTIME.html#ab4d8077b6cc2f87ec05b6f198b6832d5',1,'SYSTEMTIME']]],
-  ['wminute',['wMinute',['../structSYSTEMTIME.html#a57505f81325b68b765d0781ab1dcab36',1,'SYSTEMTIME']]],
-  ['wmonth',['wMonth',['../structSYSTEMTIME.html#abbdde81c9b865df6e9def49b80a8966f',1,'SYSTEMTIME']]],
-  ['write',['write',['../structcrashpad_1_1test_1_1WinChildProcess_1_1Handles.html#a3c7e9f99c926f659b3168ec33592059d',1,'crashpad::test::WinChildProcess::Handles']]],
-  ['wsecond',['wSecond',['../structSYSTEMTIME.html#a2364ae35105e5ea7b1dc2dc6d92064da',1,'SYSTEMTIME']]],
-  ['wyear',['wYear',['../structSYSTEMTIME.html#a5efac2653e32ef7b2523d7856b21691a',1,'SYSTEMTIME']]]
+  ['value',['value',['../structcrashpad_1_1TSimpleStringDictionary_1_1Entry.html#af7fa75c478ce69d42354a046327fe658',1,'crashpad::TSimpleStringDictionary::Entry::value()'],['../structcrashpad_1_1MinidumpSimpleStringDictionaryEntry.html#a90c3c20c4ae9af6db225682427c1f314',1,'crashpad::MinidumpSimpleStringDictionaryEntry::value()'],['../structcrashpad_1_1MinidumpAnnotation.html#a73d793b2fe894960aaa5ab166efddf4d',1,'crashpad::MinidumpAnnotation::value()'],['../structcrashpad_1_1AnnotationSnapshot.html#a223d3ad82716a37ba2ac77f9eb35ee15',1,'crashpad::AnnotationSnapshot::value()'],['../structcrashpad_1_1MachOImageSymbolTableReader_1_1SymbolInformation.html#a91405f79a8b62e3fb3de4e8c66fee952',1,'crashpad::MachOImageSymbolTableReader::SymbolInformation::value()']]],
+  ['value_5fsize',['value_size',['../classcrashpad_1_1TSimpleStringDictionary.html#a1176a981ba33d55f9b0a5f22e7fe4171',1,'crashpad::TSimpleStringDictionary']]],
+  ['vendorid',['VendorId',['../unionCPU__INFORMATION.html#af239b99d9ef6b86fb04ffeabd85831c6',1,'CPU_INFORMATION']]],
+  ['version',['Version',['../structMINIDUMP__HEADER.html#a7ea8d51f5ca990eec9eb0b3643c6b406',1,'MINIDUMP_HEADER::Version()'],['../structcrashpad_1_1MinidumpModuleCrashpadInfo.html#ace07d8872cdaa53ca20a04513deb56c3',1,'crashpad::MinidumpModuleCrashpadInfo::version()'],['../structcrashpad_1_1MinidumpCrashpadInfo.html#a481042efad46164dc43d9c824df9e6cf',1,'crashpad::MinidumpCrashpadInfo::version()'],['../structcrashpad_1_1ClientToServerMessage.html#a7ef691b82fb8ab3edcd04ddcde6173d7',1,'crashpad::ClientToServerMessage::version()'],['../structcrashpad_1_1PtraceBroker_1_1Request.html#a505a324ad681ab0fb627183df677d2f6',1,'crashpad::PtraceBroker::Request::version()'],['../structcrashpad_1_1RegistrationRequest.html#afa8008cc71aec2d142493cd0c7f5a98d',1,'crashpad::RegistrationRequest::version()']]],
+  ['versioninfo',['VersionInfo',['../structMINIDUMP__MODULE.html#ac2babe58e6418124599ea2821f30bb84',1,'MINIDUMP_MODULE']]],
+  ['versioninformation',['VersionInformation',['../unionCPU__INFORMATION.html#a6b072a6cae2e065111ef20acf21e355a',1,'CPU_INFORMATION']]],
+  ['vfp',['vfp',['../structcrashpad_1_1MinidumpContextARM.html#a13ba3738880efb5af2b3921676a92c89',1,'crashpad::MinidumpContextARM']]],
+  ['visibility',['visibility',['../structcrashpad_1_1ElfSymbolTableReader_1_1SymbolInformation.html#a2925aa133524f1383fef3ae9a9ecfb7b',1,'crashpad::ElfSymbolTableReader::SymbolInformation']]]
 ];

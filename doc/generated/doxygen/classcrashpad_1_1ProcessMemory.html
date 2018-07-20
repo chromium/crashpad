@@ -81,15 +81,17 @@ Inheritance diagram for crashpad::ProcessMemory:</div>
  <div class="center">
   <img src="classcrashpad_1_1ProcessMemory.png" usemap="#crashpad::ProcessMemory_map" alt=""/>
   <map id="crashpad::ProcessMemory_map" name="crashpad::ProcessMemory_map">
-<area href="classcrashpad_1_1ProcessMemoryLinux.html" title="Accesses the memory of another Linux process. " alt="crashpad::ProcessMemoryLinux" shape="rect" coords="0,56,193,80"/>
+<area href="classcrashpad_1_1ProcessMemoryFuchsia.html" title="Accesses the memory of another Fuchsia process. " alt="crashpad::ProcessMemoryFuchsia" shape="rect" coords="0,56,208,80"/>
+<area href="classcrashpad_1_1ProcessMemoryLinux.html" title="Accesses the memory of another Linux process. " alt="crashpad::ProcessMemoryLinux" shape="rect" coords="218,56,426,80"/>
+<area href="classFakeProcessMemory.html" alt="FakeProcessMemory" shape="rect" coords="436,56,644,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aad5bf0d6593dec03de05593b38b1b29d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemory.html#aad5bf0d6593dec03de05593b38b1b29d">Read</a> (<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> address, size_t size, void *buffer) const =0</td></tr>
-<tr class="memdesc:aad5bf0d6593dec03de05593b38b1b29d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies memory from the target process into a caller-provided buffer in the current process.  <a href="#aad5bf0d6593dec03de05593b38b1b29d">More...</a><br /></td></tr>
-<tr class="separator:aad5bf0d6593dec03de05593b38b1b29d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83b8c9de787a575831cc1faa8f37c947"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemory.html#a83b8c9de787a575831cc1faa8f37c947">Read</a> (<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> address, size_t size, void *buffer) const</td></tr>
+<tr class="memdesc:a83b8c9de787a575831cc1faa8f37c947"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies memory from the target process into a caller-provided buffer in the current process.  <a href="#a83b8c9de787a575831cc1faa8f37c947">More...</a><br /></td></tr>
+<tr class="separator:a83b8c9de787a575831cc1faa8f37c947"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f31b6f891e7a363b4d1c30d9d7fef2b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemory.html#a9f31b6f891e7a363b4d1c30d9d7fef2b">ReadCString</a> (<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> address, std::string *string) const</td></tr>
 <tr class="memdesc:a9f31b6f891e7a363b4d1c30d9d7fef2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a <code>NUL</code>-terminated C string from the target process into a string in the current process.  <a href="#a9f31b6f891e7a363b4d1c30d9d7fef2b">More...</a><br /></td></tr>
 <tr class="separator:a9f31b6f891e7a363b4d1c30d9d7fef2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -101,17 +103,14 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>Abstract base class for accessing the memory of another process. </p>
 <p>Implementations are platform-specific. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="aad5bf0d6593dec03de05593b38b1b29d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad5bf0d6593dec03de05593b38b1b29d">&#9670;&nbsp;</a></span>Read()</h2>
+<a id="a83b8c9de787a575831cc1faa8f37c947"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83b8c9de787a575831cc1faa8f37c947">&#9670;&nbsp;</a></span>Read()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool crashpad::ProcessMemory::Read </td>
+          <td class="memname">bool crashpad::ProcessMemory::Read </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a>&#160;</td>
           <td class="paramname"><em>address</em>, </td>
@@ -134,11 +133,6 @@ Public Member Functions</h2></td></tr>
           <td></td><td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Copies memory from the target process into a caller-provided buffer in the current process. </p>
@@ -151,8 +145,6 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, with <em>buffer</em> filled appropriately. <code>false</code> on failure, with a message logged. </dd></dl>
-
-<p>Implemented in <a class="el" href="classcrashpad_1_1ProcessMemoryLinux.html#a9f5e0c255a6b4dfba4fcf85d27d9dbe3">crashpad::ProcessMemoryLinux</a>.</p>
 
 </div>
 </div>
@@ -256,8 +248,9 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>util/process/process_memory.h</li>
+<li>util/process/process_memory.cc</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

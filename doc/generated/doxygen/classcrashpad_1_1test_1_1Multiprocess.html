@@ -102,6 +102,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a619dd6b1fd2a909df6f3d6b2e1c75ad2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1Multiprocess.html#a619dd6b1fd2a909df6f3d6b2e1c75ad2">SetExpectedChildTermination</a> (<a class="el" href="classcrashpad_1_1test_1_1Multiprocess.html#adedaaa5fbbb57de1ae5af8ef7c84b4bf">TerminationReason</a> reason, int code)</td></tr>
 <tr class="memdesc:a619dd6b1fd2a909df6f3d6b2e1c75ad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the expected termination reason and code.  <a href="#a619dd6b1fd2a909df6f3d6b2e1c75ad2">More...</a><br /></td></tr>
 <tr class="separator:a619dd6b1fd2a909df6f3d6b2e1c75ad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc2bc24e4acfa5833936e0b7e97b91c8"><td class="memItemLeft" align="right" valign="top"><a id="acc2bc24e4acfa5833936e0b7e97b91c8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1Multiprocess.html#acc2bc24e4acfa5833936e0b7e97b91c8">SetExpectedChildTerminationBuiltinTrap</a> ()</td></tr>
+<tr class="memdesc:acc2bc24e4acfa5833936e0b7e97b91c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets termination reason and code appropriately for a child that terminates via <code>__builtin_trap()</code>. <br /></td></tr>
+<tr class="separator:acc2bc24e4acfa5833936e0b7e97b91c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -134,7 +138,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>set_info</b> (<a clas
 <div class="textblock"><p>Manages a multiprocess test. </p>
 <p>These tests are <code>fork()</code>-based. The parent and child processes are able to communicate via a pair of POSIX pipes.</p>
 <p>Subclasses are expected to implement the parent and child by overriding the appropriate methods.</p>
-<p>On Windows, this class is only an internal implementation detail of <a class="el" href="classcrashpad_1_1test_1_1MultiprocessExec.html" title="Manages an exec()-based multiprocess test. ">MultiprocessExec</a> and all tests must use that class. </p>
+<p>On Windows and Fuchsia, this class is only an internal implementation detail of <a class="el" href="classcrashpad_1_1test_1_1MultiprocessExec.html" title="Manages an exec()-based multiprocess test. ">MultiprocessExec</a> and all tests must use that class. </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="adedaaa5fbbb57de1ae5af8ef7c84b4bf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adedaaa5fbbb57de1ae5af8ef7c84b4bf">&#9670;&nbsp;</a></span>TerminationReason</h2>
@@ -355,10 +359,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>set_info</b> (<a clas
 
 <p>Sets the expected termination reason and code. </p>
 <p>The default expected termination reasaon is TerminationReason::kTerminationNormal, and the default expected termination code is <code>EXIT_SUCCESS</code> (<code>0</code>).</p>
+<p>This method does not need to be called if the default termination expectation is appropriate, but if this method is called, it must be called before <a class="el" href="classcrashpad_1_1test_1_1Multiprocess.html#a801aa7a78b2254c31c3ef7e0b24208e3" title="Runs the test. ">Run()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">reason</td><td>Whether to expect the child to terminate normally or as a result of a signal. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">code</td><td>If <em>reason</em> is TerminationReason::kTerminationNormal, this is the expected exit status of the child. If <em>reason</em> is TerminationReason::kTerminationSignal, this is the signal that is expected to kill the child. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">code</td><td>If <em>reason</em> is TerminationReason::kTerminationNormal, this is the expected exit status of the child. If <em>reason</em> is TerminationReason::kTerminationSignal, this is the signal that is expected to kill the child. On Linux platforms, SIG_DFL will be installed for <em>code</em> in the child process. </td></tr>
   </table>
   </dd>
 </dl>
@@ -397,6 +402,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>set_info</b> (<a clas
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>test/multiprocess.h</li>
+<li>test/multiprocess_exec_fuchsia.cc</li>
 <li>test/multiprocess_exec_win.cc</li>
 <li>test/multiprocess_posix.cc</li>
 </ul>

@@ -29,6 +29,7 @@ var searchData=
   ['log_5fmessages',['log_messages',['../classcrashpad_1_1ThreadLogMessages.html#ae06f18bb5d37bdb611f33da478c69e9b',1,'crashpad::ThreadLogMessages']]],
   ['loggingclosefile',['LoggingCloseFile',['../namespacecrashpad.html#ab9db00544fd57cfde0bb03d32b989221',1,'crashpad']]],
   ['loggingcreatedirectory',['LoggingCreateDirectory',['../namespacecrashpad.html#a7ae84cd353b237bfdf698d40da521568',1,'crashpad']]],
+  ['loggingdeterminemergedrange',['LoggingDetermineMergedRange',['../namespacecrashpad.html#acb7b5be59c1293af50753130136aeb32',1,'crashpad']]],
   ['loggingfilesizebyhandle',['LoggingFileSizeByHandle',['../namespacecrashpad.html#a0224d5a689cdb8c2315c255fd6ea6b5c',1,'crashpad']]],
   ['logginglockfile',['LoggingLockFile',['../namespacecrashpad.html#acd02263566d8c43fc7886f88a13b364f',1,'crashpad']]],
   ['loggingopenfileforread',['LoggingOpenFileForRead',['../namespacecrashpad.html#ab3712d59104f641109b170c78a912b4d',1,'crashpad']]],
@@ -37,13 +38,14 @@ var searchData=
   ['loggingrangeisfullyreadable',['LoggingRangeIsFullyReadable',['../classcrashpad_1_1ProcessInfo.html#ab9ac196dd7a93c528fdc2315f825e877',1,'crashpad::ProcessInfo']]],
   ['loggingreadentirefile',['LoggingReadEntireFile',['../namespacecrashpad.html#a300ac399f9d33a4c47b4e4c148ebbe7c',1,'crashpad']]],
   ['loggingreadfileexactly',['LoggingReadFileExactly',['../namespacecrashpad.html#ac3fb8955565f605e08c1e30562fbdb7a',1,'crashpad']]],
+  ['loggingreadtoeof',['LoggingReadToEOF',['../namespacecrashpad.html#ae52dab87e27350dd4c70ea4c8ac258cc',1,'crashpad']]],
   ['loggingremovedirectory',['LoggingRemoveDirectory',['../namespacecrashpad.html#a7fdc84fcc207cf0b718626997d11ad04',1,'crashpad']]],
   ['loggingremovefile',['LoggingRemoveFile',['../namespacecrashpad.html#ac7c5ccd8661bd87eed66eae26fb9e0d3',1,'crashpad']]],
   ['loggingseekfile',['LoggingSeekFile',['../namespacecrashpad.html#a3d6cedc10e24145d4a0c1000c33f8a10',1,'crashpad']]],
   ['loggingtruncatefile',['LoggingTruncateFile',['../namespacecrashpad.html#a06ba30c1a4b2974f1d4ea842db55b068',1,'crashpad']]],
   ['loggingunlockfile',['LoggingUnlockFile',['../namespacecrashpad.html#a15c1f3a2c6f04e944fdca12e22b0cb6e',1,'crashpad']]],
   ['loggingwritefile',['LoggingWriteFile',['../namespacecrashpad.html#a8a91af9c690d2a280c463596bf82070b',1,'crashpad']]],
-  ['lookupcrashreport',['LookUpCrashReport',['../classcrashpad_1_1CrashReportDatabase.html#a19191932252bc836a84cf432ea8f3b7e',1,'crashpad::CrashReportDatabase']]],
+  ['lookupcrashreport',['LookUpCrashReport',['../classcrashpad_1_1CrashReportDatabase.html#a19191932252bc836a84cf432ea8f3b7e',1,'crashpad::CrashReportDatabase::LookUpCrashReport()'],['../classcrashpad_1_1CrashReportDatabaseGeneric.html#a0694c0d8f7758f990f653d542dd8986c',1,'crashpad::CrashReportDatabaseGeneric::LookUpCrashReport()'],['../classcrashpad_1_1CrashReportDatabaseMac.html#a17f445e44bd09f86b352fa5846e9ff35',1,'crashpad::CrashReportDatabaseMac::LookUpCrashReport()'],['../classcrashpad_1_1CrashReportDatabaseWin.html#a169d708e76fff838309dfa46095a04e7',1,'crashpad::CrashReportDatabaseWin::LookUpCrashReport()']]],
   ['lookupexternaldefinedsymbol',['LookUpExternalDefinedSymbol',['../classcrashpad_1_1MachOImageReader.html#adbaaf5a08d6e67fe7128d171cd11b176',1,'crashpad::MachOImageReader::LookUpExternalDefinedSymbol()'],['../classcrashpad_1_1MachOImageSymbolTableReader.html#ac85da22c3a7915bb5869a77765c9ffbc',1,'crashpad::MachOImageSymbolTableReader::LookUpExternalDefinedSymbol()']]],
   ['lookupsymbol',['LookUpSymbol',['../classcrashpad_1_1test_1_1ScopedModuleHandle.html#a6771dd2f9f6b1553f3fd6df80225af32',1,'crashpad::test::ScopedModuleHandle']]]
 ];

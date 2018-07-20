@@ -78,6 +78,18 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:a5543879d11339d9fe2d252f11803947b"><td class="memItemLeft" align="right" valign="top"><a id="a5543879d11339d9fe2d252f11803947b"></a>
+<a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1ExceptionInformation.html#a5543879d11339d9fe2d252f11803947b">siginfo_address</a></td></tr>
+<tr class="memdesc:a5543879d11339d9fe2d252f11803947b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The address of the <code>siginfo_t</code> passed to the signal handler in the crashed process. <br /></td></tr>
+<tr class="separator:a5543879d11339d9fe2d252f11803947b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f7a27486547443fcd37bccc43dd1e7a"><td class="memItemLeft" align="right" valign="top"><a id="a5f7a27486547443fcd37bccc43dd1e7a"></a>
+<a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1ExceptionInformation.html#a5f7a27486547443fcd37bccc43dd1e7a">context_address</a></td></tr>
+<tr class="memdesc:a5f7a27486547443fcd37bccc43dd1e7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The address of the <code>ucontext_t</code> passed to the signal handler in the crashed process. <br /></td></tr>
+<tr class="separator:a5f7a27486547443fcd37bccc43dd1e7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5eee8fbd2ea0365300d7e326755dbbb0"><td class="memItemLeft" align="right" valign="top"><a id="a5eee8fbd2ea0365300d7e326755dbbb0"></a>
+pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1ExceptionInformation.html#a5eee8fbd2ea0365300d7e326755dbbb0">thread_id</a></td></tr>
+<tr class="memdesc:a5eee8fbd2ea0365300d7e326755dbbb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The thread ID of the thread which received the signal. <br /></td></tr>
+<tr class="separator:a5eee8fbd2ea0365300d7e326755dbbb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa416aefb61ce2d78707f683c4b2c2b66"><td class="memItemLeft" align="right" valign="top"><a id="aa416aefb61ce2d78707f683c4b2c2b66"></a>
 <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1ExceptionInformation.html#aa416aefb61ce2d78707f683c4b2c2b66">exception_pointers</a></td></tr>
 <tr class="memdesc:aa416aefb61ce2d78707f683c4b2c2b66"><td class="mdescLeft">&#160;</td><td class="mdescRight">The address of an EXCEPTION_POINTERS structure in the client process that describes the exception. <br /></td></tr>
@@ -89,7 +101,8 @@ DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Structure read out of the client process by the crash handler when an exception occurs. </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
+</div><hr/>The documentation for this struct was generated from the following files:<ul>
+<li>util/linux/exception_information.h</li>
 <li>util/win/registration_protocol_win.h</li>
 </ul>
 </div><!-- contents -->

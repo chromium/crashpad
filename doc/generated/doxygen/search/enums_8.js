@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['receivelarge',['ReceiveLarge',['../classcrashpad_1_1MachMessageServer.html#ad4e5a9fe58ebd1a86f21d8a2284129ed',1,'crashpad::MachMessageServer']]],
-  ['result',['Result',['../classcrashpad_1_1DelimitedFileReader.html#a29c137ed407ee56238fbf74ca2e3e8fc',1,'crashpad::DelimitedFileReader::Result()'],['../classcrashpad_1_1DirectoryReader.html#aeaebced67a3dec6a513ac23f91e704fd',1,'crashpad::DirectoryReader::Result()']]]
+  ['pendingreportreason',['PendingReportReason',['../classcrashpad_1_1Metrics.html#a5881f58aa7bb94bd82677670dbdbac06',1,'crashpad::Metrics']]],
+  ['persistent',['Persistent',['../classcrashpad_1_1MachMessageServer.html#a737f51adaf8725883f1158ef2576aae8',1,'crashpad::MachMessageServer']]],
+  ['phase',['Phase',['../classcrashpad_1_1internal_1_1MinidumpWritable.html#a009f007265d64a5fb416848480a00ae9',1,'crashpad::internal::MinidumpWritable']]],
+  ['portrighttype',['PortRightType',['../classcrashpad_1_1ChildPortHandshake.html#a727e01831df67754b0ff439735f41608',1,'crashpad::ChildPortHandshake']]],
+  ['processsuspensionstate',['ProcessSuspensionState',['../namespacecrashpad.html#ab96bb7edb42a2e1ce28eda205a18a17a',1,'crashpad']]]
 ];

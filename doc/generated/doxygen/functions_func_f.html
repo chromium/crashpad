@@ -79,8 +79,10 @@ $(function() {
 , <a class="el" href="classcrashpad_1_1MachOImageReader.html#a8cd79040c190b0f165fdb915bc469e8b">crashpad::MachOImageReader</a>
 </li>
 <li>FileVersion()
-: <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#ab124235bd262034c5ec432f663ee7967">crashpad::internal::ModuleSnapshotMac</a>
+: <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotElf.html#a3767422e2ead1489a2ef7059837bb0b1">crashpad::internal::ModuleSnapshotElf</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#ab124235bd262034c5ec432f663ee7967">crashpad::internal::ModuleSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a68b5f5bf99675f59afaad3bdf785bad6">crashpad::internal::ModuleSnapshotMinidump</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.html#a0342ad96a26f86a77f535726cc9631bd">crashpad::internal::ModuleSnapshotSanitized</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a360ff8c4593575bec6cf5ad9d095fa3c">crashpad::internal::ModuleSnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a6b3f4831720290e2ab5460ef21ff7443">crashpad::ModuleSnapshot</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#ae82618e4945d0fa2f5e735578be3aa55">crashpad::test::TestModuleSnapshot</a>
@@ -91,6 +93,9 @@ $(function() {
 <li>FindMapping()
 : <a class="el" href="classcrashpad_1_1MemoryMap.html#ac765748bcf0835bc2268e5884724f4ed">crashpad::MemoryMap</a>
 </li>
+<li>FindMappingForAddress()
+: <a class="el" href="classcrashpad_1_1MemoryMapFuchsia.html#a2e8b50d55a4edc4227c8e7d74e68bff0">crashpad::MemoryMapFuchsia</a>
+</li>
 <li>FindMappingWithName()
 : <a class="el" href="classcrashpad_1_1MemoryMap.html#a0a28378e3ad216fc1bf175ac3a434c72">crashpad::MemoryMap</a>
 </li>
@@ -98,13 +103,18 @@ $(function() {
 : <a class="el" href="classcrashpad_1_1PEImageResourceReader.html#a74d047ffc2e95da0764413735ba0b592">crashpad::PEImageResourceReader</a>
 </li>
 <li>FinishedWritingCrashReport()
-: <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#ac77057d6b9f0b8d8fb88e7653456c0ff">crashpad::CrashReportDatabase</a>
+: <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a346b5f90a50066d5057b4eaaacdcf3b7">crashpad::CrashReportDatabase</a>
+, <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a81da0d483b8c69b8baa636c1a6ad4dae">crashpad::CrashReportDatabaseGeneric</a>
+, <a class="el" href="classcrashpad_1_1CrashReportDatabaseMac.html#a21779f103f618f0fa97d8cbe6f5ea936">crashpad::CrashReportDatabaseMac</a>
+, <a class="el" href="classcrashpad_1_1CrashReportDatabaseWin.html#a3f92307c8d84d5a0822d7412db997cf6">crashpad::CrashReportDatabaseWin</a>
 </li>
 <li>Freeze()
 : <a class="el" href="classcrashpad_1_1internal_1_1MinidumpRVAListWriter.html#a6a3be257be54b243485f64049903af1d">crashpad::internal::MinidumpRVAListWriter</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1MinidumpStreamWriter.html#a6bace0c62b1f29aa710974a2bbcb3e1c">crashpad::internal::MinidumpStreamWriter</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1MinidumpStringWriter.html#a561dc9ddd4e0a71845dbcdc12f47efe4">crashpad::internal::MinidumpStringWriter&lt; Traits &gt;</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#a773db80946a99c6a3cc29c7d4dd77bd6">crashpad::internal::MinidumpWritable</a>
+, <a class="el" href="classcrashpad_1_1MinidumpAnnotationListWriter.html#a2175ffd84924d8b1d4a186fa26ba151f">crashpad::MinidumpAnnotationListWriter</a>
+, <a class="el" href="classcrashpad_1_1MinidumpAnnotationWriter.html#a51ce9cfdaa344db48df5be2973d5bc91">crashpad::MinidumpAnnotationWriter</a>
 , <a class="el" href="classcrashpad_1_1MinidumpByteArrayWriter.html#a7a1b605ad753dc0d852c816c91b29ecc">crashpad::MinidumpByteArrayWriter</a>
 , <a class="el" href="classcrashpad_1_1MinidumpCrashpadInfoWriter.html#a94b22bb7492af0d870d5322c213e518b">crashpad::MinidumpCrashpadInfoWriter</a>
 , <a class="el" href="classcrashpad_1_1MinidumpExceptionWriter.html#ae72aacc2c624bf510d7dfb54b048cd4d">crashpad::MinidumpExceptionWriter</a>

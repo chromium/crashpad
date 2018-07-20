@@ -77,11 +77,18 @@ Inheritance diagram for crashpad::ExceptionHandlerServer::Delegate:</div>
   <img src="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.png" usemap="#crashpad::ExceptionHandlerServer::Delegate_map" alt=""/>
   <map id="crashpad::ExceptionHandlerServer::Delegate_map" name="crashpad::ExceptionHandlerServer::Delegate_map">
 <area href="classcrashpad_1_1CrashReportExceptionHandler.html" title="An exception handler that writes crash reports for exception messages to a CrashReportDatabase. " alt="crashpad::CrashReportExceptionHandler" shape="rect" coords="0,56,266,80"/>
+<area href="classcrashpad_1_1CrashReportExceptionHandler.html" title="An exception handler that writes crash reports for exception messages to a CrashReportDatabase. " alt="crashpad::CrashReportExceptionHandler" shape="rect" coords="276,56,542,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a2a914e6fc5649ff45a04450981d02e4b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html#a2a914e6fc5649ff45a04450981d02e4b">HandleException</a> (pid_t client_process_id, const <a class="el" href="structcrashpad_1_1ClientInformation.html">ClientInformation</a> &amp;info)=0</td></tr>
+<tr class="memdesc:a2a914e6fc5649ff45a04450981d02e4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on receipt of a crash dump request from a client.  <a href="#a2a914e6fc5649ff45a04450981d02e4b">More...</a><br /></td></tr>
+<tr class="separator:a2a914e6fc5649ff45a04450981d02e4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23454637c526f20495ebf6a4688188d7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html#a23454637c526f20495ebf6a4688188d7">HandleExceptionWithBroker</a> (pid_t client_process_id, const <a class="el" href="structcrashpad_1_1ClientInformation.html">ClientInformation</a> &amp;info, int broker_sock)=0</td></tr>
+<tr class="memdesc:a23454637c526f20495ebf6a4688188d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on the receipt of a crash dump request from a client for a crash that should be mediated by a <a class="el" href="classcrashpad_1_1PtraceBroker.html" title="Implements a PtraceConnection over a socket. ">PtraceBroker</a>.  <a href="#a23454637c526f20495ebf6a4688188d7">More...</a><br /></td></tr>
+<tr class="separator:a23454637c526f20495ebf6a4688188d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeab0d0a0e52dc9ec0be773ce7f08c73a"><td class="memItemLeft" align="right" valign="top"><a id="aeab0d0a0e52dc9ec0be773ce7f08c73a"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html#aeab0d0a0e52dc9ec0be773ce7f08c73a">ExceptionHandlerServerStarted</a> ()=0</td></tr>
 <tr class="memdesc:aeab0d0a0e52dc9ec0be773ce7f08c73a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the server has created the named pipe connection points and is ready to service requests. <br /></td></tr>
@@ -146,8 +153,111 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 
 </div>
 </div>
+<a id="a2a914e6fc5649ff45a04450981d02e4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a914e6fc5649ff45a04450981d02e4b">&#9670;&nbsp;</a></span>HandleException()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool crashpad::ExceptionHandlerServer::Delegate::HandleException </td>
+          <td>(</td>
+          <td class="paramtype">pid_t&#160;</td>
+          <td class="paramname"><em>client_process_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcrashpad_1_1ClientInformation.html">ClientInformation</a> &amp;&#160;</td>
+          <td class="paramname"><em>info</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Called on receipt of a crash dump request from a client. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">client_process_id</td><td>The process ID of the crashing client. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">info</td><td>Information on the client. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. <code>false</code> on failure with a message logged. </dd></dl>
+
+<p>Implemented in <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#ab3ec6f7e770c6c0db7a28c7c01471b7e">crashpad::CrashReportExceptionHandler</a>.</p>
+
+</div>
+</div>
+<a id="a23454637c526f20495ebf6a4688188d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23454637c526f20495ebf6a4688188d7">&#9670;&nbsp;</a></span>HandleExceptionWithBroker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool crashpad::ExceptionHandlerServer::Delegate::HandleExceptionWithBroker </td>
+          <td>(</td>
+          <td class="paramtype">pid_t&#160;</td>
+          <td class="paramname"><em>client_process_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcrashpad_1_1ClientInformation.html">ClientInformation</a> &amp;&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>broker_sock</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Called on the receipt of a crash dump request from a client for a crash that should be mediated by a <a class="el" href="classcrashpad_1_1PtraceBroker.html" title="Implements a PtraceConnection over a socket. ">PtraceBroker</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">client_process_id</td><td>The process ID of the crashing client. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">info</td><td>Information on the client. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">broker_sock</td><td>A socket connected to the <a class="el" href="classcrashpad_1_1PtraceBroker.html" title="Implements a PtraceConnection over a socket. ">PtraceBroker</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. <code>false</code> on failure with a message logged. </dd></dl>
+
+<p>Implemented in <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#a784e5435c3b4761a8f6c175670d5eaf8">crashpad::CrashReportExceptionHandler</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>util/win/exception_handler_server.h</li>
+<li>handler/linux/exception_handler_server.h</li>
 <li>util/win/exception_handler_server.cc</li>
 </ul>
 </div><!-- contents -->

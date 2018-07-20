@@ -85,9 +85,9 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5bf1c848697e19b287a6651910e4cd6b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MemoryMap.html#a5bf1c848697e19b287a6651910e4cd6b">Initialize</a> (pid_t pid)</td></tr>
-<tr class="memdesc:a5bf1c848697e19b287a6651910e4cd6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes this object with information about the mapped memory regions in the process whose ID is <em>pid</em>.  <a href="#a5bf1c848697e19b287a6651910e4cd6b">More...</a><br /></td></tr>
-<tr class="separator:a5bf1c848697e19b287a6651910e4cd6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c08c18f41b08ed7ee26e7634c72abf6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MemoryMap.html#a6c08c18f41b08ed7ee26e7634c72abf6">Initialize</a> (<a class="el" href="classcrashpad_1_1PtraceConnection.html">PtraceConnection</a> *connection)</td></tr>
+<tr class="memdesc:a6c08c18f41b08ed7ee26e7634c72abf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes this object with information about the mapped memory regions in the process connected via <em>connection</em>.  <a href="#a6c08c18f41b08ed7ee26e7634c72abf6">More...</a><br /></td></tr>
+<tr class="separator:a6c08c18f41b08ed7ee26e7634c72abf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac765748bcf0835bc2268e5884724f4ed"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html">Mapping</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MemoryMap.html#ac765748bcf0835bc2268e5884724f4ed">FindMapping</a> (<a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a> address) const</td></tr>
 <tr class="separator:ac765748bcf0835bc2268e5884724f4ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a28378e3ad216fc1bf175ac3a434c72"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html">Mapping</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MemoryMap.html#a0a28378e3ad216fc1bf175ac3a434c72">FindMappingWithName</a> (const std::string &amp;name) const</td></tr>
@@ -98,7 +98,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Accesses information about mapped memory in another process. </p>
-<p>The target process must be stopped to guarantee correct mappings. If the target process is not stopped, mappings may be invalid after the return from <a class="el" href="classcrashpad_1_1MemoryMap.html#a5bf1c848697e19b287a6651910e4cd6b" title="Initializes this object with information about the mapped memory regions in the process whose ID is p...">Initialize()</a>, and even mappings existing at the time <a class="el" href="classcrashpad_1_1MemoryMap.html#a5bf1c848697e19b287a6651910e4cd6b" title="Initializes this object with information about the mapped memory regions in the process whose ID is p...">Initialize()</a> was called may not be found. </p>
+<p>The target process must be stopped to guarantee correct mappings. If the target process is not stopped, mappings may be invalid after the return from <a class="el" href="classcrashpad_1_1MemoryMap.html#a6c08c18f41b08ed7ee26e7634c72abf6" title="Initializes this object with information about the mapped memory regions in the process connected via...">Initialize()</a>, and even mappings existing at the time <a class="el" href="classcrashpad_1_1MemoryMap.html#a6c08c18f41b08ed7ee26e7634c72abf6" title="Initializes this object with information about the mapped memory regions in the process connected via...">Initialize()</a> was called may not be found. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="acb5f4f10a435c0fbbee6dee5dca99955"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acb5f4f10a435c0fbbee6dee5dca99955">&#9670;&nbsp;</a></span>FindFileMmapStart()</h2>
@@ -167,8 +167,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a5bf1c848697e19b287a6651910e4cd6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5bf1c848697e19b287a6651910e4cd6b">&#9670;&nbsp;</a></span>Initialize()</h2>
+<a id="a6c08c18f41b08ed7ee26e7634c72abf6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c08c18f41b08ed7ee26e7634c72abf6">&#9670;&nbsp;</a></span>Initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -176,18 +176,18 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">bool crashpad::MemoryMap::Initialize </td>
           <td>(</td>
-          <td class="paramtype">pid_t&#160;</td>
-          <td class="paramname"><em>pid</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classcrashpad_1_1PtraceConnection.html">PtraceConnection</a> *&#160;</td>
+          <td class="paramname"><em>connection</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initializes this object with information about the mapped memory regions in the process whose ID is <em>pid</em>. </p>
+<p>Initializes this object with information about the mapped memory regions in the process connected via <em>connection</em>. </p>
 <p>This method must be called successfully prior to calling any other method in this class. This method may only be called once.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">pid</td><td>The process ID to obtain information for.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">connection</td><td>A connection to the process create a map for.</td></tr>
   </table>
   </dd>
 </dl>

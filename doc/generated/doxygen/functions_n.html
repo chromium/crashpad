@@ -67,15 +67,25 @@ $(function() {
 , <a class="el" href="structcrashpad_1_1DebugRendezvous_1_1LinkEntry.html#a74e0417856c765e1c1f9ee41b83a8a5a">crashpad::DebugRendezvous::LinkEntry</a>
 </li>
 <li>Name()
-: <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a445022c35e9f2d196c24172208b0dab6">crashpad::internal::ModuleSnapshotMac</a>
+: <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotElf.html#a047c0f5e0a1d6ddd51ef355be89d1a96">crashpad::internal::ModuleSnapshotElf</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a445022c35e9f2d196c24172208b0dab6">crashpad::internal::ModuleSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a0986a357224f94b99311984b65e6254b">crashpad::internal::ModuleSnapshotMinidump</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.html#aebce0141ac7a9601c8163d36a0e14e15">crashpad::internal::ModuleSnapshotSanitized</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a101eb8b9086642a9b49d47bee0e63f32">crashpad::internal::ModuleSnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#a4c31878c0cac883d27bf212c9a616385">crashpad::MachOImageSegmentReader</a>
-, <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#aa0ab6a719fbb6f63d73e05086fe4a314">crashpad::ModuleSnapshot</a>
+</li>
+<li>name
+: <a class="el" href="structcrashpad_1_1MinidumpAnnotation.html#ad16ee79a91bfc76e1c7c2d22013b3693">crashpad::MinidumpAnnotation</a>
+</li>
+<li>Name()
+: <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#aa0ab6a719fbb6f63d73e05086fe4a314">crashpad::ModuleSnapshot</a>
 </li>
 <li>name
 : <a class="el" href="structcrashpad_1_1ProcessInfo_1_1Module.html#a95e6c0515e0703bf1c503c836bdc492f">crashpad::ProcessInfo::Module</a>
-, <a class="el" href="structcrashpad_1_1ProcessReader_1_1Module.html#af3802ec0731bda1cf066b050b23debf7">crashpad::ProcessReader::Module</a>
+, <a class="el" href="structcrashpad_1_1ProcessReaderFuchsia_1_1Module.html#ade368ef31ae6980b47ff2d9801d64513">crashpad::ProcessReaderFuchsia::Module</a>
+, <a class="el" href="structcrashpad_1_1ProcessReaderFuchsia_1_1Thread.html#a85abd8e1373aea3f532e0f637b6aff17">crashpad::ProcessReaderFuchsia::Thread</a>
+, <a class="el" href="structcrashpad_1_1ProcessReaderLinux_1_1Module.html#a3978219e4a2e6f895d6a74e766235a58">crashpad::ProcessReaderLinux::Module</a>
+, <a class="el" href="structcrashpad_1_1ProcessReaderMac_1_1Module.html#acc0045d7e90af0d09a2c482b2351a2eb">crashpad::ProcessReaderMac::Module</a>
 </li>
 <li>Name()
 : <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#a4af9e8247af0fb77827293ebd29a16bc">crashpad::test::TestModuleSnapshot</a>
@@ -91,11 +101,23 @@ $(function() {
 <li>NextFile()
 : <a class="el" href="classcrashpad_1_1DirectoryReader.html#a34ce59d7d99811e16147edfa0bd12ce4">crashpad::DirectoryReader</a>
 </li>
+<li>NextNote()
+: <a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html#a16f401420df41de21300e5ea89ec3ad4">crashpad::ElfImageReader::NoteReader</a>
+</li>
 <li>non_crash_dump_completed_event
 : <a class="el" href="structcrashpad_1_1RegistrationResponse.html#a1e64741ff3c4c5d0cea7cac1343d8e2c">crashpad::RegistrationResponse</a>
 </li>
 <li>non_crash_exception_information
 : <a class="el" href="structcrashpad_1_1RegistrationRequest.html#aae8ec20740a85ff73e4346cc0979e1b2">crashpad::RegistrationRequest</a>
+</li>
+<li>Notes()
+: <a class="el" href="classcrashpad_1_1ElfImageReader.html#a809de4755bc10bd8e4abc1d1be65607d">crashpad::ElfImageReader</a>
+</li>
+<li>NotesWithNameAndType()
+: <a class="el" href="classcrashpad_1_1ElfImageReader.html#a8341551fd2841c3f7fe423df7e96cb1f">crashpad::ElfImageReader</a>
+</li>
+<li>NoteType
+: <a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html#a7f423d29933acb001d750a09d8b4cbd2">crashpad::ElfImageReader::NoteReader</a>
 </li>
 <li>NotifyServer()
 : <a class="el" href="classcrashpad_1_1NotifyServer.html#aa0c2780f12f549e8b7d6c4b9177bca40">crashpad::NotifyServer</a>
@@ -131,6 +153,7 @@ $(function() {
 </li>
 <li>NXEnabled()
 : <a class="el" href="classcrashpad_1_1internal_1_1CpuidReader.html#abfc6517216c788ea7c0a9945dded2fce">crashpad::internal::CpuidReader</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#afdd0fc34f8bfcae0c19100715f4a040e">crashpad::internal::SystemSnapshotFuchsia</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotLinux.html#a6a76461e1c626a15571190ffe646a002">crashpad::internal::SystemSnapshotLinux</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotMac.html#a6cf7a53f27f98f1bc2042326d179e582">crashpad::internal::SystemSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotWin.html#a8c97b0cb8257d9bac1e12f80dfaa0de6">crashpad::internal::SystemSnapshotWin</a>

@@ -82,9 +82,13 @@ Inheritance diagram for crashpad::MinidumpContextWriter:</div>
  <div class="center">
   <img src="classcrashpad_1_1MinidumpContextWriter.png" usemap="#crashpad::MinidumpContextWriter_map" alt=""/>
   <map id="crashpad::MinidumpContextWriter_map" name="crashpad::MinidumpContextWriter_map">
-<area href="classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file. " alt="crashpad::internal::MinidumpWritable" shape="rect" coords="127,0,371,24"/>
-<area href="classcrashpad_1_1MinidumpContextAMD64Writer.html" title="The writer for a MinidumpContextAMD64 structure in a minidump file. " alt="crashpad::MinidumpContextAMD64Writer" shape="rect" coords="0,112,244,136"/>
-<area href="classcrashpad_1_1MinidumpContextX86Writer.html" title="The writer for a MinidumpContextX86 structure in a minidump file. " alt="crashpad::MinidumpContextX86Writer" shape="rect" coords="254,112,498,136"/>
+<area href="classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file. " alt="crashpad::internal::MinidumpWritable" shape="rect" coords="637,0,882,24"/>
+<area href="classcrashpad_1_1MinidumpContextAMD64Writer.html" title="The writer for a MinidumpContextAMD64 structure in a minidump file. " alt="crashpad::MinidumpContextAMD64Writer" shape="rect" coords="0,112,245,136"/>
+<area href="classcrashpad_1_1MinidumpContextARM64Writer.html" title="The writer for a MinidumpContextARM64 structure in a minidump file. " alt="crashpad::MinidumpContextARM64Writer" shape="rect" coords="255,112,500,136"/>
+<area href="classcrashpad_1_1MinidumpContextARMWriter.html" title="The writer for a MinidumpContextARM structure in a minidump file. " alt="crashpad::MinidumpContextARMWriter" shape="rect" coords="510,112,755,136"/>
+<area href="classcrashpad_1_1MinidumpContextMIPS64Writer.html" title="The writer for a MinidumpContextMIPS64 structure in a minidump file. " alt="crashpad::MinidumpContextMIPS64Writer" shape="rect" coords="765,112,1010,136"/>
+<area href="classcrashpad_1_1MinidumpContextMIPSWriter.html" title="The writer for a MinidumpContextMIPS structure in a minidump file. " alt="crashpad::MinidumpContextMIPSWriter" shape="rect" coords="1020,112,1265,136"/>
+<area href="classcrashpad_1_1MinidumpContextX86Writer.html" title="The writer for a MinidumpContextX86 structure in a minidump file. " alt="crashpad::MinidumpContextX86Writer" shape="rect" coords="1275,112,1520,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -186,7 +190,7 @@ static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a cl
 <p>Returns the size of the context structure that this object will write. </p>
 <dl class="section note"><dt>Note</dt><dd>This method will only be called in <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7af98547144e0e8d4f878f725ef5c0d611" title="The object is “frozen”. ">kStateFrozen</a> or a subsequent state. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1MinidumpContextAMD64Writer.html#a679443fe43d731c8bf317bcc9100a8d9">crashpad::MinidumpContextAMD64Writer</a>, and <a class="el" href="classcrashpad_1_1MinidumpContextX86Writer.html#a5507a979d53a7c7da371c974d8b73f24">crashpad::MinidumpContextX86Writer</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1MinidumpContextMIPS64Writer.html#a1ee91406ab8a77e62651a8532088d7e9">crashpad::MinidumpContextMIPS64Writer</a>, <a class="el" href="classcrashpad_1_1MinidumpContextMIPSWriter.html#a7ea8a1f130678e7c2e9361f7f3e36359">crashpad::MinidumpContextMIPSWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpContextARM64Writer.html#a5f427bb00ce98fb2c4760a123df43ed6">crashpad::MinidumpContextARM64Writer</a>, <a class="el" href="classcrashpad_1_1MinidumpContextARMWriter.html#a3c070705ba263bd719ddacfab8a48f53">crashpad::MinidumpContextARMWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpContextAMD64Writer.html#a679443fe43d731c8bf317bcc9100a8d9">crashpad::MinidumpContextAMD64Writer</a>, and <a class="el" href="classcrashpad_1_1MinidumpContextX86Writer.html#a5507a979d53a7c7da371c974d8b73f24">crashpad::MinidumpContextX86Writer</a>.</p>
 
 </div>
 </div>

@@ -82,10 +82,13 @@ Inheritance diagram for crashpad::MemorySnapshot:</div>
  <div class="center">
   <img src="classcrashpad_1_1MemorySnapshot.png" usemap="#crashpad::MemorySnapshot_map" alt=""/>
   <map id="crashpad::MemorySnapshot_map" name="crashpad::MemorySnapshot_map">
-<area href="classcrashpad_1_1internal_1_1MemorySnapshotLinux.html" title="A MemorySnapshot of a memory region in a process on the running system, when the system runs Linux..." alt="crashpad::internal::MemorySnapshotLinux" shape="rect" coords="0,56,247,80"/>
-<area href="classcrashpad_1_1internal_1_1MemorySnapshotMac.html" title="A MemorySnapshot of a memory region in a process on the running system, when the system runs macOS..." alt="crashpad::internal::MemorySnapshotMac" shape="rect" coords="257,56,504,80"/>
-<area href="classcrashpad_1_1internal_1_1MemorySnapshotWin.html" title="A MemorySnapshot of a memory region in a process on the running system, when the system runs Windows..." alt="crashpad::internal::MemorySnapshotWin" shape="rect" coords="514,56,761,80"/>
-<area href="classcrashpad_1_1test_1_1TestMemorySnapshot.html" title="A test MemorySnapshot that can carry arbitrary data for testing purposes. " alt="crashpad::test::TestMemorySnapshot" shape="rect" coords="771,56,1018,80"/>
+<area href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html" title="A MemorySnapshot of a memory region in a process on the running system. Used on Mac, Linux, Android, and Fuchsia, templated on the platform-specific ProcessReader type. " alt="crashpad::internal::MemorySnapshotGeneric&lt; ProcessReaderType &gt;" shape="rect" coords="0,56,477,80"/>
+<area href="classcrashpad_1_1internal_1_1MemorySnapshotSanitized.html" title="A MemorySnapshot which wraps and filters sensitive information from another MemorySnapshot. " alt="crashpad::internal::MemorySnapshotSanitized" shape="rect" coords="487,56,964,80"/>
+<area href="classcrashpad_1_1internal_1_1MemorySnapshotWin.html" title="A MemorySnapshot of a memory region in a process on the running system, when the system runs Windows..." alt="crashpad::internal::MemorySnapshotWin" shape="rect" coords="974,56,1451,80"/>
+<area href="classcrashpad_1_1test_1_1TestMemorySnapshot.html" title="A test MemorySnapshot that can carry arbitrary data for testing purposes. " alt="crashpad::test::TestMemorySnapshot" shape="rect" coords="1461,56,1938,80"/>
+<area href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html" alt="crashpad::internal::MemorySnapshotGeneric&lt; crashpad::ProcessReaderFuchsia &gt;" shape="rect" coords="1948,56,2425,80"/>
+<area href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html" alt="crashpad::internal::MemorySnapshotGeneric&lt; crashpad::ProcessReaderLinux &gt;" shape="rect" coords="2435,56,2912,80"/>
+<area href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html" alt="crashpad::internal::MemorySnapshotGeneric&lt; crashpad::ProcessReaderMac &gt;" shape="rect" coords="2922,56,3399,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -108,10 +111,45 @@ virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <tr class="memitem:ad7bd3e85268e7b8d9d78e03be977ee52"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MemorySnapshot.html#ad7bd3e85268e7b8d9d78e03be977ee52">Read</a> (<a class="el" href="classcrashpad_1_1MemorySnapshot_1_1Delegate.html">Delegate</a> *delegate) const =0</td></tr>
 <tr class="memdesc:ad7bd3e85268e7b8d9d78e03be977ee52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <a class="el" href="classcrashpad_1_1MemorySnapshot_1_1Delegate.html#a844f77076dc607ce0cd8946aea75f73b" title="Called by MemorySnapshot::Read() to provide data requested by a call to that method. ">Delegate::MemorySnapshotDelegateRead()</a>, providing it with the memory snapshot’s data.  <a href="#ad7bd3e85268e7b8d9d78e03be977ee52">More...</a><br /></td></tr>
 <tr class="separator:ad7bd3e85268e7b8d9d78e03be977ee52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac215c8c515725ac43f2bf5ec5d7a27a4"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MemorySnapshot.html#ac215c8c515725ac43f2bf5ec5d7a27a4">MergeWithOtherSnapshot</a> (const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> *other) const =0</td></tr>
+<tr class="memdesc:ac215c8c515725ac43f2bf5ec5d7a27a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> based on merging this one with <em>other</em>.  <a href="#ac215c8c515725ac43f2bf5ec5d7a27a4">More...</a><br /></td></tr>
+<tr class="separator:ac215c8c515725ac43f2bf5ec5d7a27a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An abstract interface to a snapshot representing a region of memory present in a snapshot process. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="ac215c8c515725ac43f2bf5ec5d7a27a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac215c8c515725ac43f2bf5ec5d7a27a4">&#9670;&nbsp;</a></span>MergeWithOtherSnapshot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a>* crashpad::MemorySnapshot::MergeWithOtherSnapshot </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> *&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a new <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> based on merging this one with <em>other</em>. </p>
+<p>The ranges described by the two snapshots must either overlap or abut, and must be of the same concrete type.</p>
+<dl class="section return"><dt>Returns</dt><dd>A newly allocated <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> representing the merged range, or <code>nullptr</code> with an error logged. </dd></dl>
+
+<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#a568d3ed1b7a871d0d4535fbd586847a5">crashpad::internal::MemorySnapshotGeneric&lt; ProcessReaderType &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#a568d3ed1b7a871d0d4535fbd586847a5">crashpad::internal::MemorySnapshotGeneric&lt; crashpad::ProcessReaderFuchsia &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#a568d3ed1b7a871d0d4535fbd586847a5">crashpad::internal::MemorySnapshotGeneric&lt; crashpad::ProcessReaderLinux &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#a568d3ed1b7a871d0d4535fbd586847a5">crashpad::internal::MemorySnapshotGeneric&lt; crashpad::ProcessReaderMac &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotSanitized.html#a32c81927ea098f228cdfa495aeb1e08e">crashpad::internal::MemorySnapshotSanitized</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotWin.html#a428772b426f8354320d484a3e73ba23c">crashpad::internal::MemorySnapshotWin</a>, and <a class="el" href="classcrashpad_1_1test_1_1TestMemorySnapshot.html#aeae5e5eb887e1c1efadcaad2657a60ee">crashpad::test::TestMemorySnapshot</a>.</p>
+
+</div>
+</div>
 <a id="ad7bd3e85268e7b8d9d78e03be977ee52"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad7bd3e85268e7b8d9d78e03be977ee52">&#9670;&nbsp;</a></span>Read()</h2>
 
@@ -140,7 +178,7 @@ virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <p>Implementations do not necessarily read the memory snapshot data prior to this method being called. Memory snapshot data may be loaded lazily and may be discarded after being passed to the delegate. This provides clean memory management without burdening a snapshot implementation with the requirement that it track all memory region data simultaneously.</p>
 <dl class="section return"><dt>Returns</dt><dd><code>false</code> on failure, otherwise, the return value of <a class="el" href="classcrashpad_1_1MemorySnapshot_1_1Delegate.html#a844f77076dc607ce0cd8946aea75f73b" title="Called by MemorySnapshot::Read() to provide data requested by a call to that method. ">Delegate::MemorySnapshotDelegateRead()</a>, which should be <code>true</code> on success and <code>false</code> on failure. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotLinux.html#a34fd899678af941adce11028402c707b">crashpad::internal::MemorySnapshotLinux</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotMac.html#abf526f199ea6f4e0b49e5fd14098b384">crashpad::internal::MemorySnapshotMac</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotWin.html#a565c0d86ca3c1a8fa3bc6ab296962de0">crashpad::internal::MemorySnapshotWin</a>, and <a class="el" href="classcrashpad_1_1test_1_1TestMemorySnapshot.html#a89b8798372679d4aef3cf823b165d1d3">crashpad::test::TestMemorySnapshot</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#ac18ac2120ee931e62f38bee1b4ea2bc9">crashpad::internal::MemorySnapshotGeneric&lt; ProcessReaderType &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#ac18ac2120ee931e62f38bee1b4ea2bc9">crashpad::internal::MemorySnapshotGeneric&lt; crashpad::ProcessReaderFuchsia &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#ac18ac2120ee931e62f38bee1b4ea2bc9">crashpad::internal::MemorySnapshotGeneric&lt; crashpad::ProcessReaderLinux &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#ac18ac2120ee931e62f38bee1b4ea2bc9">crashpad::internal::MemorySnapshotGeneric&lt; crashpad::ProcessReaderMac &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotSanitized.html#a3d62b4b91128a491173e744b4a52ec3c">crashpad::internal::MemorySnapshotSanitized</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotWin.html#a565c0d86ca3c1a8fa3bc6ab296962de0">crashpad::internal::MemorySnapshotWin</a>, and <a class="el" href="classcrashpad_1_1test_1_1TestMemorySnapshot.html#a89b8798372679d4aef3cf823b165d1d3">crashpad::test::TestMemorySnapshot</a>.</p>
 
 </div>
 </div>

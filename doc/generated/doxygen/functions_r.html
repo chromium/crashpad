@@ -68,12 +68,11 @@ $(function() {
 <li>Read()
 : <a class="el" href="classcrashpad_1_1FileReader.html#a71bb3e12f135a0e84b1385ab89e46611">crashpad::FileReader</a>
 , <a class="el" href="classcrashpad_1_1FileReaderInterface.html#ad9035ff345274f33cef248712d53d9e1">crashpad::FileReaderInterface</a>
-, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotLinux.html#a34fd899678af941adce11028402c707b">crashpad::internal::MemorySnapshotLinux</a>
-, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotMac.html#abf526f199ea6f4e0b49e5fd14098b384">crashpad::internal::MemorySnapshotMac</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#ac18ac2120ee931e62f38bee1b4ea2bc9">crashpad::internal::MemorySnapshotGeneric&lt; ProcessReaderType &gt;</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotSanitized.html#a3d62b4b91128a491173e744b4a52ec3c">crashpad::internal::MemorySnapshotSanitized</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotWin.html#a565c0d86ca3c1a8fa3bc6ab296962de0">crashpad::internal::MemorySnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1MemorySnapshot.html#ad7bd3e85268e7b8d9d78e03be977ee52">crashpad::MemorySnapshot</a>
-, <a class="el" href="classcrashpad_1_1ProcessMemory.html#aad5bf0d6593dec03de05593b38b1b29d">crashpad::ProcessMemory</a>
-, <a class="el" href="classcrashpad_1_1ProcessMemoryLinux.html#a9f5e0c255a6b4dfba4fcf85d27d9dbe3">crashpad::ProcessMemoryLinux</a>
+, <a class="el" href="classcrashpad_1_1ProcessMemory.html#a83b8c9de787a575831cc1faa8f37c947">crashpad::ProcessMemory</a>
 , <a class="el" href="classcrashpad_1_1ProcessMemoryRange.html#a8ad438df39bf14400cb17cba96848a9e">crashpad::ProcessMemoryRange</a>
 , <a class="el" href="classcrashpad_1_1StringFile.html#a05de4b2d8ef91a974181d7340c61b346">crashpad::StringFile</a>
 , <a class="el" href="classcrashpad_1_1TaskMemory.html#a323d157824f62eb286e4c39f8d99e3a9">crashpad::TaskMemory</a>
@@ -101,12 +100,25 @@ $(function() {
 <li>ReadDynamicStringTableAtOffset()
 : <a class="el" href="classcrashpad_1_1ElfImageReader.html#a01391ffa016463a02e293a229e3fd554">crashpad::ElfImageReader</a>
 </li>
+<li>Reader()
+: <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1UploadReport.html#a83e7e91cb3aa140af07b7e3d3ae38558">crashpad::CrashReportDatabase::UploadReport</a>
+</li>
 <li>reader
-: <a class="el" href="structcrashpad_1_1ProcessReader_1_1Module.html#a3be41f4fae388989c30bbb3046f2a854">crashpad::ProcessReader::Module</a>
+: <a class="el" href="structcrashpad_1_1ProcessReaderFuchsia_1_1Module.html#a5cece21c921814e4bd8c66c1bf42cde3">crashpad::ProcessReaderFuchsia::Module</a>
+, <a class="el" href="structcrashpad_1_1ProcessReaderMac_1_1Module.html#a7c70e31afc29ce317dcf66e226dd2f79">crashpad::ProcessReaderMac::Module</a>
+</li>
+<li>ReadError
+: <a class="el" href="classcrashpad_1_1PtraceBroker.html#ac1991f30401e58b5c6581f11062f71bb">crashpad::PtraceBroker</a>
 </li>
 <li>ReadExactly()
 : <a class="el" href="classcrashpad_1_1FileReaderInterface.html#ad046f1ebf1071eb6b92a2a8d06c14a56">crashpad::FileReaderInterface</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ReadExactlyInternal.html#a964b12b0f1f74cd061148a8001fab077">crashpad::internal::ReadExactlyInternal</a>
+</li>
+<li>ReadFileContents()
+: <a class="el" href="classcrashpad_1_1DirectPtraceConnection.html#af059cf41eb1adf2d74c600e69f2bd87e">crashpad::DirectPtraceConnection</a>
+, <a class="el" href="classcrashpad_1_1PtraceClient.html#a2a9384d50a124b681a3ef623a8e6ece0">crashpad::PtraceClient</a>
+, <a class="el" href="classcrashpad_1_1PtraceConnection.html#a49d4ed2691ef7d612d49e1f145761f57">crashpad::PtraceConnection</a>
+, <a class="el" href="classcrashpad_1_1test_1_1FakePtraceConnection.html#a4c4aa66acc48dbb27ac579aa1fd73af7">crashpad::test::FakePtraceConnection</a>
 </li>
 <li>ReadMapped()
 : <a class="el" href="classcrashpad_1_1TaskMemory.html#ae4a62001732f11829cca98aecb02d693">crashpad::TaskMemory</a>
@@ -126,6 +138,10 @@ $(function() {
 : <a class="el" href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource.html#af7a07e8cf01ea22439dab82452139e28">crashpad::MinidumpUserExtensionStreamDataSource</a>
 , <a class="el" href="classcrashpad_1_1test_1_1BufferExtensionStreamDataSource.html#a6ee83dd5e7bc50321d8e49cbcb64a38b">crashpad::test::BufferExtensionStreamDataSource</a>
 </li>
+<li>ReadUpTo()
+: <a class="el" href="classcrashpad_1_1Ptracer.html#ab5e3c4efe6d3a06ea6abdf60fec2747f">crashpad::Ptracer</a>
+, <a class="el" href="classFakeProcessMemory.html#a838a9b7bb2f5a1d9e97c4652efbfe82b">FakeProcessMemory</a>
+</li>
 <li>RealGroupID()
 : <a class="el" href="classcrashpad_1_1ProcessInfo.html#aa23a39224799341fa581b700191f7622">crashpad::ProcessInfo</a>
 </li>
@@ -135,8 +151,8 @@ $(function() {
 <li>ReceiveLarge
 : <a class="el" href="classcrashpad_1_1MachMessageServer.html#ad4e5a9fe58ebd1a86f21d8a2284129ed">crashpad::MachMessageServer</a>
 </li>
-<li>RecordUploadAttempt()
-: <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a5c9b19255aff2f995cc645e949331f7d">crashpad::CrashReportDatabase</a>
+<li>RecordUploadComplete()
+: <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a329a165c28e20bc3458e697ea8778517">crashpad::CrashReportDatabase</a>
 </li>
 <li>RegionSize
 : <a class="el" href="structMINIDUMP__MEMORY__INFO.html#af1b29639a9edec37d2b8f431134e3181">MINIDUMP_MEMORY_INFO</a>
@@ -152,6 +168,12 @@ $(function() {
 </li>
 <li>RegisterRVA()
 : <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#a686683d78f099a07e2a1df8e6b567d37">crashpad::internal::MinidumpWritable</a>
+</li>
+<li>regs
+: <a class="el" href="structcrashpad_1_1MinidumpContextARM64.html#a49a9b4dbe46d2184aa71f4826c833d24">crashpad::MinidumpContextARM64</a>
+, <a class="el" href="structcrashpad_1_1MinidumpContextARM.html#a8531a0a337f038dc56821fa231268d0e">crashpad::MinidumpContextARM</a>
+, <a class="el" href="structcrashpad_1_1MinidumpContextMIPS64.html#ad288ad44a7735c902ed342fce106a107">crashpad::MinidumpContextMIPS64</a>
+, <a class="el" href="structcrashpad_1_1MinidumpContextMIPS.html#a6f008bd35f1e2265d2ebcb3f731b5723">crashpad::MinidumpContextMIPS</a>
 </li>
 <li>RemotePort()
 : <a class="el" href="classcrashpad_1_1test_1_1MachMultiprocess.html#add2a0dc5532c41cf21eb835debd1fde7">crashpad::test::MachMultiprocess</a>
@@ -169,9 +191,13 @@ $(function() {
 : <a class="el" href="structcrashpad_1_1MinidumpCrashpadInfo.html#aafc76da0c1b16c5de7ef2c76800508df">crashpad::MinidumpCrashpadInfo</a>
 </li>
 <li>ReportID()
-: <a class="el" href="classcrashpad_1_1ProcessSnapshot.html#ae0e40c11c938d180ffe13d7e407a5fbb">crashpad::ProcessSnapshot</a>
+: <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1NewReport.html#ab07cdbaa56e826dce3403ac4a2f9b418">crashpad::CrashReportDatabase::NewReport</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshot.html#ae0e40c11c938d180ffe13d7e407a5fbb">crashpad::ProcessSnapshot</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotFuchsia.html#a7db82f881919dd9ee7d3f09502054b6d">crashpad::ProcessSnapshotFuchsia</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotLinux.html#a3cb598eddc7de9318192be2b7302651a">crashpad::ProcessSnapshotLinux</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a0fd584f7a00e5f027bfba24cf5cc9d3b">crashpad::ProcessSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotMinidump.html#ad246ff4d8e140ed917c2a5b92a5b4441">crashpad::ProcessSnapshotMinidump</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#aca4ce8c627dcb04203216df5e6a07971">crashpad::ProcessSnapshotSanitized</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a182403646db8783fb9d2b8c091576ec1">crashpad::ProcessSnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#a4f62d1d10c6baaa3b9c4f2c08762f708">crashpad::test::TestProcessSnapshot</a>
 </li>
@@ -184,8 +210,17 @@ $(function() {
 <li>request_non_crash_dump_event
 : <a class="el" href="structcrashpad_1_1RegistrationResponse.html#a99aabd8f989e4b3e6c6006ab07d7ff3f">crashpad::RegistrationResponse</a>
 </li>
+<li>RequestCrashDump()
+: <a class="el" href="classcrashpad_1_1ExceptionHandlerClient.html#a730285469aed355cc044fdc86b289ca3">crashpad::ExceptionHandlerClient</a>
+</li>
 <li>RequestUpload()
 : <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a4c195d0ba0155e3692be1bdb4bb79fc6">crashpad::CrashReportDatabase</a>
+, <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a6deed32774a49b84c0df5103739cb21e">crashpad::CrashReportDatabaseGeneric</a>
+, <a class="el" href="classcrashpad_1_1CrashReportDatabaseMac.html#a5c2c91bc0a68ba9cf9f09cad8268257f">crashpad::CrashReportDatabaseMac</a>
+, <a class="el" href="classcrashpad_1_1CrashReportDatabaseWin.html#aa241dbd8fcd739370b79b87ffee4ac86">crashpad::CrashReportDatabaseWin</a>
+</li>
+<li>reserved
+: <a class="el" href="structcrashpad_1_1MinidumpAnnotation.html#a0ff68d862b946b39409983436ac03683">crashpad::MinidumpAnnotation</a>
 </li>
 <li>Reserved0
 : <a class="el" href="structMINIDUMP__HANDLE__DESCRIPTOR__2.html#a25fb5497c9679ae7138dee19fb03b929">MINIDUMP_HANDLE_DESCRIPTOR_2</a>
@@ -213,13 +248,15 @@ $(function() {
 <li>Result
 : <a class="el" href="classcrashpad_1_1DelimitedFileReader.html#a29c137ed407ee56238fbf74ca2e3e8fc">crashpad::DelimitedFileReader</a>
 , <a class="el" href="classcrashpad_1_1DirectoryReader.html#aeaebced67a3dec6a513ac23f91e704fd">crashpad::DirectoryReader</a>
+, <a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html#ad33e8286bc8522ccce3eef2acfa19d68">crashpad::ElfImageReader::NoteReader</a>
 </li>
 <li>Revision()
 : <a class="el" href="classcrashpad_1_1internal_1_1CpuidReader.html#a3f3ab251853478e856b8a8d97d87a5d9">crashpad::internal::CpuidReader</a>
 </li>
 <li>Run()
-: <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d">crashpad::ExceptionHandlerServer</a>
+: <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a8ddcf9cff0364e46378ef575ded9a773">crashpad::ExceptionHandlerServer</a>
 , <a class="el" href="classcrashpad_1_1MachMessageServer.html#ace981f2e495984f119aa074f7d33bff6">crashpad::MachMessageServer</a>
+, <a class="el" href="classcrashpad_1_1PtraceBroker.html#a7710bcabc694ce327838c0b537f2fdc4">crashpad::PtraceBroker</a>
 , <a class="el" href="classcrashpad_1_1test_1_1Multiprocess.html#a801aa7a78b2254c31c3ef7e0b24208e3">crashpad::test::Multiprocess</a>
 , <a class="el" href="classcrashpad_1_1test_1_1WinMultiprocess.html#a6bece6599f0ff54cdcc7a99550c4f1a6">crashpad::test::WinMultiprocess</a>
 </li>

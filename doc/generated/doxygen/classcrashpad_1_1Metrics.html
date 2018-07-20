@@ -98,10 +98,10 @@ Static Public Member Functions</h2></td></tr>
 static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Metrics.html#a634e86f4867b8649c1f0cab69b45d9e7">CrashReportPending</a> (<a class="el" href="classcrashpad_1_1Metrics.html#a5881f58aa7bb94bd82677670dbdbac06">PendingReportReason</a> reason)</td></tr>
 <tr class="memdesc:a634e86f4867b8649c1f0cab69b45d9e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports when a crash upload has entered the pending state. <br /></td></tr>
 <tr class="separator:a634e86f4867b8649c1f0cab69b45d9e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaca67ca33c2f01a41e9a19e67df07bdb"><td class="memItemLeft" align="right" valign="top"><a id="aaca67ca33c2f01a41e9a19e67df07bdb"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Metrics.html#aaca67ca33c2f01a41e9a19e67df07bdb">CrashReportSize</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file)</td></tr>
-<tr class="memdesc:aaca67ca33c2f01a41e9a19e67df07bdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports the size of a crash report file in bytes. Should be called when a new report is written to disk. <br /></td></tr>
-<tr class="separator:aaca67ca33c2f01a41e9a19e67df07bdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1698e5850c5ba758985bc62c901665c"><td class="memItemLeft" align="right" valign="top"><a id="ae1698e5850c5ba758985bc62c901665c"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Metrics.html#ae1698e5850c5ba758985bc62c901665c">CrashReportSize</a> (<a class="el" href="namespacecrashpad.html#a1e53a1957d9edcba8b406ea632b6daf2">FileOffset</a> size)</td></tr>
+<tr class="memdesc:ae1698e5850c5ba758985bc62c901665c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports the size of a crash report file in bytes. Should be called when a new report is written to disk. <br /></td></tr>
+<tr class="separator:ae1698e5850c5ba758985bc62c901665c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afbb6dd9ac038f3c3ad9b1f5056e39202"><td class="memItemLeft" align="right" valign="top"><a id="afbb6dd9ac038f3c3ad9b1f5056e39202"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Metrics.html#afbb6dd9ac038f3c3ad9b1f5056e39202">CrashUploadAttempted</a> (bool successful)</td></tr>
 <tr class="memdesc:afbb6dd9ac038f3c3ad9b1f5056e39202"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports on a crash upload attempt, and if it succeeded. <br /></td></tr>
@@ -173,6 +173,16 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr><td class="fieldname"><a id="a6fced90d0ab7cbd161db410e2609bae0a7ae8043f4b15f7e8776c2cefe81e8bc2"></a>kMinidumpWriteFailed&#160;</td><td class="fielddoc"><p>Writing the minidump to disk failed. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a6fced90d0ab7cbd161db410e2609bae0aae18728f9fc94a20fda396dc224f5f07"></a>kFinishedWritingCrashReportFailed&#160;</td><td class="fielddoc"><p>There was a database error in attempt to complete the report. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a6fced90d0ab7cbd161db410e2609bae0abc65ea024e9f639100f9b1d1034487b7"></a>kDirectPtraceFailed&#160;</td><td class="fielddoc"><p>An attempt to directly <code>ptrace</code> the target failed. </p>
+<p>This value is only used on Linux/Android. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a6fced90d0ab7cbd161db410e2609bae0a5f47416afef7b590075930756d1972a5"></a>kBrokeredPtraceFailed&#160;</td><td class="fielddoc"><p>An attempt to <code>ptrace</code> via a <a class="el" href="classcrashpad_1_1PtraceBroker.html" title="Implements a PtraceConnection over a socket. ">PtraceBroker</a> failed. </p>
+<p>This value is only used on Linux/Android. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a6fced90d0ab7cbd161db410e2609bae0aca62111cd97f472178ffac8837ee49fa"></a>kSanitizationInitializationFailed&#160;</td><td class="fielddoc"><p>Sanitization was requested but could not be initialized. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a6fced90d0ab7cbd161db410e2609bae0a8e3e0ce046ab2a13418d8f70a5b9b56a"></a>kSkippedDueToSanitization&#160;</td><td class="fielddoc"><p>Sanitization caused this crash dump to be skipped. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a6fced90d0ab7cbd161db410e2609bae0aa4f5363ade31fbbf363aea06f528c379"></a>kMaxValue&#160;</td><td class="fielddoc"><p>The number of values in this enumeration; not a valid value. </p>
 </td></tr>

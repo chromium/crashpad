@@ -1,6 +1,9 @@
 var searchData=
 [
   ['image_5fdebug_5fmisc',['IMAGE_DEBUG_MISC',['../structIMAGE__DEBUG__MISC.html',1,'']]],
+  ['imageannotationreader',['ImageAnnotationReader',['../classcrashpad_1_1ImageAnnotationReader.html',1,'crashpad']]],
+  ['infocontainer',['InfoContainer',['../classcrashpad_1_1CrashpadInfoReader_1_1InfoContainer.html',1,'crashpad::CrashpadInfoReader']]],
+  ['infocontainerspecific',['InfoContainerSpecific',['../classcrashpad_1_1CrashpadInfoReader_1_1InfoContainerSpecific.html',1,'crashpad::CrashpadInfoReader']]],
   ['initialclientdata',['InitialClientData',['../classcrashpad_1_1InitialClientData.html',1,'crashpad']]],
   ['initializationstate',['InitializationState',['../classcrashpad_1_1InitializationState.html',1,'crashpad']]],
   ['initializationstatedcheck',['InitializationStateDcheck',['../classcrashpad_1_1InitializationStateDcheck.html',1,'crashpad']]],

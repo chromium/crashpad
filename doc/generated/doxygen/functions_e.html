@@ -68,6 +68,9 @@ $(function() {
 <li>EffectiveUserID()
 : <a class="el" href="classcrashpad_1_1ProcessInfo.html#a6976ee393a311a2f1d0039ab9245e8fa">crashpad::ProcessInfo</a>
 </li>
+<li>elf_reader
+: <a class="el" href="structcrashpad_1_1ProcessReaderLinux_1_1Module.html#a5f5e28420218857dc65d6f717190f09c">crashpad::ProcessReaderLinux::Module</a>
+</li>
 <li>EnabledFeatures
 : <a class="el" href="structXSTATE__CONFIG__FEATURE__MSC__INFO.html#aa459021075327a4f5178c478bde26382">XSTATE_CONFIG_FEATURE_MSC_INFO</a>
 </li>
@@ -84,26 +87,34 @@ $(function() {
 <li>EntryPoint()
 : <a class="el" href="classcrashpad_1_1test_1_1WinChildProcess.html#afc8004bc5b3cff7f65f211eab31ac459">crashpad::test::WinChildProcess</a>
 </li>
-<li>ErrorWritingCrashReport()
-: <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a18e8875bcd1a0888bda5b126eb2bec00">crashpad::CrashReportDatabase</a>
+<li>epc
+: <a class="el" href="structcrashpad_1_1MinidumpContextMIPS64.html#a8ae7ce0d124b985794d1ea5db923916c">crashpad::MinidumpContextMIPS64</a>
 </li>
 <li>Exception()
 : <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html#af73f1ae2f0572a10bd1b62dee1472607">crashpad::ExceptionSnapshot</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotFuchsia.html#a6a1f3920d3284468c2aee57324b4bf42">crashpad::internal::ExceptionSnapshotFuchsia</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotLinux.html#a56eca1b067ef859926c56d25e0b208b2">crashpad::internal::ExceptionSnapshotLinux</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#a12e7d80c0c92e30df5f90d6386b92c3f">crashpad::internal::ExceptionSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#a8083efff504bd812e2de87bfbf3d9547">crashpad::internal::ExceptionSnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshot.html#abee793ad58b7180fc5c659ea3a8823b9">crashpad::ProcessSnapshot</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotFuchsia.html#a2fb51fb1049acbeb05dac376454c0e69">crashpad::ProcessSnapshotFuchsia</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotLinux.html#a469485952abdae4ceea8b97986f28e35">crashpad::ProcessSnapshotLinux</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a6a889e857ccd0e06ae1279c9ca708c50">crashpad::ProcessSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotMinidump.html#a7da0549fe7d24fa2b4192e53421a0d23">crashpad::ProcessSnapshotMinidump</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#a2b64856b2c7e02167ba6018495f596f0">crashpad::ProcessSnapshotSanitized</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a13a450ca3d1380a57baaeb8212cd590c">crashpad::ProcessSnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#afa83c6fa95e27e90b29f0b537c561094">crashpad::test::TestExceptionSnapshot</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#aa0d8839f1e8c482bd9d7794e7475a541">crashpad::test::TestProcessSnapshot</a>
+</li>
+<li>exception_information_address
+: <a class="el" href="structcrashpad_1_1ClientInformation.html#a2513f6af5fb683e6293b06b7d751d3fa">crashpad::ClientInformation</a>
 </li>
 <li>exception_pointers
 : <a class="el" href="structcrashpad_1_1ExceptionInformation.html#aa416aefb61ce2d78707f683c4b2c2b66">crashpad::ExceptionInformation</a>
 </li>
 <li>ExceptionAddress()
 : <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html#a12bf01b499037e2ad642d5e131f23f86">crashpad::ExceptionSnapshot</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotFuchsia.html#af3d489c0337112870256ee6a2702fe64">crashpad::internal::ExceptionSnapshotFuchsia</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotLinux.html#ace9d4fa78bf7fd8fea2ce15488653940">crashpad::internal::ExceptionSnapshotLinux</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#a1dd9dba7bdf05e485d4307d05d0d1c13">crashpad::internal::ExceptionSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#a8d42e828a3f6768b21114fc1f20c03d3">crashpad::internal::ExceptionSnapshotWin</a>
@@ -123,8 +134,11 @@ $(function() {
 <li>ExceptionFlags
 : <a class="el" href="structMINIDUMP__EXCEPTION.html#a790cc793a96f090e848160f8d7757ce9">MINIDUMP_EXCEPTION</a>
 </li>
+<li>ExceptionHandlerClient()
+: <a class="el" href="classcrashpad_1_1ExceptionHandlerClient.html#a9d477e6782fadd27067597da3090b2e5">crashpad::ExceptionHandlerClient</a>
+</li>
 <li>ExceptionHandlerServer()
-: <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a98dba7a5b210d88d5133cae5a615086d">crashpad::ExceptionHandlerServer</a>
+: <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#ac04f2ea1683f637fd104a87360c0c881">crashpad::ExceptionHandlerServer</a>
 </li>
 <li>ExceptionHandlerServerException()
 : <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#a1dcfab1bbc889f638b828bd5af296e62">crashpad::CrashReportExceptionHandler</a>
@@ -136,6 +150,7 @@ $(function() {
 </li>
 <li>ExceptionInfo()
 : <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html#ae1c97187c37fa378252415f7f3b4e6cb">crashpad::ExceptionSnapshot</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotFuchsia.html#a0b66aed0e22a9008b49b816221382763">crashpad::internal::ExceptionSnapshotFuchsia</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotLinux.html#adf6edc2ae286986027ebda04c53d25f7">crashpad::internal::ExceptionSnapshotLinux</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#a9ab56e1477da32b5d017b6603aed9c87">crashpad::internal::ExceptionSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#a5977dded1385688030a667ac1fafaa51">crashpad::internal::ExceptionSnapshotWin</a>
@@ -169,17 +184,26 @@ $(function() {
 : <a class="el" href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource_1_1Delegate.html#ae2710f88dc56cb07c2edd2a01c1de609">crashpad::MinidumpUserExtensionStreamDataSource::Delegate</a>
 , <a class="el" href="classcrashpad_1_1MinidumpUserStreamWriter_1_1ExtensionStreamContentsWriter.html#a3bcd4a5511c386e3ec68f13a1fd3c12e">crashpad::MinidumpUserStreamWriter::ExtensionStreamContentsWriter</a>
 </li>
+<li>extra
+: <a class="el" href="structcrashpad_1_1MinidumpContextARM.html#a4512da131ac99f726a5854b16b9285c8">crashpad::MinidumpContextARM</a>
+</li>
 <li>ExtraMemory()
 : <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html#a85e992db62e56bc47242a186b94208f4">crashpad::ExceptionSnapshot</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotFuchsia.html#a4e3927954a46e9ea00613db589c76737">crashpad::internal::ExceptionSnapshotFuchsia</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotLinux.html#ada5fcf76174d3b2ed781b3d87f36ae9f">crashpad::internal::ExceptionSnapshotLinux</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#a724cfd55bfd6b2f18e1148141d4ffbaa">crashpad::internal::ExceptionSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#af4e67f7a996f10eee640dabf1833fd6c">crashpad::internal::ExceptionSnapshotWin</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotFuchsia.html#a5c801bafe5117d105eb9a5346be40823">crashpad::internal::ThreadSnapshotFuchsia</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotLinux.html#aaddb02fb317390c6396a0d5ea0c24b9d">crashpad::internal::ThreadSnapshotLinux</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#aa0af4437ee557f500f61b88c8a9a4b22">crashpad::internal::ThreadSnapshotMac</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotSanitized.html#ae4c9d9d65b6e328d57a8353b9498409d">crashpad::internal::ThreadSnapshotSanitized</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#a00c30606d4e1a7a8f43b4c89b3fc4e8e">crashpad::internal::ThreadSnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a481df990e82034800cf995c77df44d9e">crashpad::ProcessSnapshot</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotFuchsia.html#ab485031c8e4788e2a8c11243693b1eae">crashpad::ProcessSnapshotFuchsia</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotLinux.html#af8ed128de759d68c5c5c1a917110dbdc">crashpad::ProcessSnapshotLinux</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a9efeb7691b5e87da2e05f8338b3001b9">crashpad::ProcessSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotMinidump.html#a4fb52f95d9eaf634dd0aa15254215b61">crashpad::ProcessSnapshotMinidump</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#ad6650681c9ad591b9e9e1f1146c60822">crashpad::ProcessSnapshotSanitized</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#afe4fe8857e8633465266bc0acea7200e">crashpad::ProcessSnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#a7b4aaefa471d5c0fde691e26ec7439a8">crashpad::test::TestExceptionSnapshot</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#a5d76a5f6ea3ed0cb59b39694684f8cf2">crashpad::test::TestProcessSnapshot</a>
@@ -187,8 +211,11 @@ $(function() {
 , <a class="el" href="classcrashpad_1_1ThreadSnapshot.html#a983c5e668ae54cbf8f4348f95da4afc8">crashpad::ThreadSnapshot</a>
 </li>
 <li>ExtraMemoryRanges()
-: <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a782be07f850df8f7289995d0f6c4c08a">crashpad::internal::ModuleSnapshotMac</a>
+: <a class="el" href="classcrashpad_1_1CrashpadInfoReader.html#a9cdff522054aa10575484489345e2617">crashpad::CrashpadInfoReader</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotElf.html#a97f1af8fdd1eb816a15ff8b4a4fdf3d1">crashpad::internal::ModuleSnapshotElf</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a782be07f850df8f7289995d0f6c4c08a">crashpad::internal::ModuleSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#ab018c4c4f5c01d1b8ad8620049ffb758">crashpad::internal::ModuleSnapshotMinidump</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.html#ab848a19924621ca84562c17745170682">crashpad::internal::ModuleSnapshotSanitized</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#aefef91a5b729a39dc9dba73d74284470">crashpad::internal::ModuleSnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a3e92412e68aa4a7e9d55fb1bf3fbafb5">crashpad::ModuleSnapshot</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#a41b80e73ecda9d01f0c0cb51e07b3056">crashpad::test::TestModuleSnapshot</a>

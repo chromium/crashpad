@@ -90,6 +90,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1CpuidReader.html">CpuidReader</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads x86-family CPU information by calling <code>cpuid</code>.  <a href="classcrashpad_1_1internal_1_1CpuidReader.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotFuchsia.html">ExceptionSnapshotFuchsia</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html" title="An abstract interface to a snapshot representing an exception that a snapshot process sustained and t...">ExceptionSnapshot</a> of an exception sustained by a process on a Fuchsia system.  <a href="classcrashpad_1_1internal_1_1ExceptionSnapshotFuchsia.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotLinux.html">ExceptionSnapshotLinux</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html" title="An abstract interface to a snapshot representing an exception that a snapshot process sustained and t...">ExceptionSnapshot</a> of an signal received by a running (or crashed) process on a Linux system.  <a href="classcrashpad_1_1internal_1_1ExceptionSnapshotLinux.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -105,11 +108,11 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MemoryMapRegionSnapshotWin.html">MemoryMapRegionSnapshotWin</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotLinux.html">MemorySnapshotLinux</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> of a memory region in a process on the running system, when the system runs Linux.  <a href="classcrashpad_1_1internal_1_1MemorySnapshotLinux.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html">MemorySnapshotGeneric</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> of a memory region in a process on the running system. Used on Mac, Linux, Android, and Fuchsia, templated on the platform-specific ProcessReader type.  <a href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotMac.html">MemorySnapshotMac</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> of a memory region in a process on the running system, when the system runs macOS.  <a href="classcrashpad_1_1internal_1_1MemorySnapshotMac.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotSanitized.html">MemorySnapshotSanitized</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> which wraps and filters sensitive information from another <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a>.  <a href="classcrashpad_1_1internal_1_1MemorySnapshotSanitized.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotWin.html">MemorySnapshotWin</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> of a memory region in a process on the running system, when the system runs Windows.  <a href="classcrashpad_1_1internal_1_1MemorySnapshotWin.html#details">More...</a><br /></td></tr>
@@ -141,11 +144,17 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWriterUtil.html">MinidumpWriterUtil</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A collection of utility functions used by the <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file. ">MinidumpWritable</a> family of classes.  <a href="classcrashpad_1_1internal_1_1MinidumpWriterUtil.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotElf.html">ModuleSnapshotElf</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ...">ModuleSnapshot</a> of a code module (binary image) loaded into a running (or crashed) process on a system that uses ELF modules.  <a href="classcrashpad_1_1internal_1_1ModuleSnapshotElf.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html">ModuleSnapshotMac</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ...">ModuleSnapshot</a> of a code module (binary image) loaded into a running (or crashed) process on a macOS system.  <a href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html">ModuleSnapshotMinidump</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ...">ModuleSnapshot</a> based on a module in a minidump file.  <a href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.html">ModuleSnapshotSanitized</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ...">ModuleSnapshot</a> which wraps and filters sensitive information from another <a class="el" href="classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ...">ModuleSnapshot</a>.  <a href="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html">ModuleSnapshotWin</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ...">ModuleSnapshot</a> of a code module (binary image) loaded into a running (or crashed) process on a Windows system.  <a href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#details">More...</a><br /></td></tr>
@@ -168,7 +177,18 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1internal_1_1Siginfo.html">Siginfo</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1internal_1_1SignalStack.html">SignalStack</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1internal_1_1Sigset.html">Sigset</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1internal_1_1Sigset_3_01Traits_00_01typename_01std_1_1enable__if_3_01std_1_1is_bc67a8d5acc2cf50d21bd2267c0f29a0.html">Sigset&lt; Traits, typename std::enable_if&lt; std::is_base_of&lt; Traits32, Traits &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1internal_1_1Sigset_3_01Traits_00_01typename_01std_1_1enable__if_3_01std_1_1is_3ddf6e6610bdf4db5ba5875bbaf80bf1.html">Sigset&lt; Traits, typename std::enable_if&lt; std::is_base_of&lt; Traits64, Traits &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unioncrashpad_1_1internal_1_1Sigval.html">Sigval</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">SystemSnapshotFuchsia</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1SystemSnapshot.html" title="An abstract interface to a snapshot representing the state of a system, comprising an operating syste...">SystemSnapshot</a> of the running system, when the system runs Fuchsia.  <a href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotLinux.html">SystemSnapshotLinux</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1SystemSnapshot.html" title="An abstract interface to a snapshot representing the state of a system, comprising an operating syste...">SystemSnapshot</a> of the running system, when the system runs Linux.  <a href="classcrashpad_1_1internal_1_1SystemSnapshotLinux.html#details">More...</a><br /></td></tr>
@@ -179,11 +199,17 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotWin.html">SystemSnapshotWin</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1SystemSnapshot.html" title="An abstract interface to a snapshot representing the state of a system, comprising an operating syste...">SystemSnapshot</a> of the running system, when the system runs Windows.  <a href="classcrashpad_1_1internal_1_1SystemSnapshotWin.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotFuchsia.html">ThreadSnapshotFuchsia</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> of a thread on a Fuchsia system.  <a href="classcrashpad_1_1internal_1_1ThreadSnapshotFuchsia.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotLinux.html">ThreadSnapshotLinux</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> of a thread on a Linux system.  <a href="classcrashpad_1_1internal_1_1ThreadSnapshotLinux.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html">ThreadSnapshotMac</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> of a thread in a running (or crashed) process on a macOS system.  <a href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotSanitized.html">ThreadSnapshotSanitized</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> which wraps and filters sensitive information from another <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a>.  <a href="classcrashpad_1_1internal_1_1ThreadSnapshotSanitized.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html">ThreadSnapshotWin</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> of a thread in a running (or crashed) process on a Windows system.  <a href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#details">More...</a><br /></td></tr>
@@ -201,18 +227,54 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a2da6df8333b7e4d01d746ae8a6e3b47f"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#a2da6df8333b7e4d01d746ae8a6e3b47f">Dlsym</a> (void *handle, const char *symbol)</td></tr>
+<tr class="memdesc:a2da6df8333b7e4d01d746ae8a6e3b47f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provide a wrapper for <code>dlsym</code>.  <a href="#a2da6df8333b7e4d01d746ae8a6e3b47f">More...</a><br /></td></tr>
+<tr class="separator:a2da6df8333b7e4d01d746ae8a6e3b47f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55cbb2f61a8a593e5861e0634eb7a4ee"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#a55cbb2f61a8a593e5861e0634eb7a4ee">MinidumpMiscInfoDebugBuildString</a> ()</td></tr>
 <tr class="memdesc:a55cbb2f61a8a593e5861e0634eb7a4ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the string to set in <a class="el" href="structMINIDUMP__MISC__INFO__4.html#a75b120e8a596ddc38c414a317da33132" title="The minidump producer’s “build string”, a string identifying the module that produced a minidump f...">MINIDUMP_MISC_INFO_4::DbgBldStr</a>.  <a href="#a55cbb2f61a8a593e5861e0634eb7a4ee">More...</a><br /></td></tr>
 <tr class="separator:a55cbb2f61a8a593e5861e0634eb7a4ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f44c1259eb30a1cef9e986f2660f43a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#a5f44c1259eb30a1cef9e986f2660f43a">InitializeCPUContextX86_64</a> (const zx_thread_state_general_regs_t &amp;thread_context, <a class="el" href="structcrashpad_1_1CPUContextX86__64.html">CPUContextX86_64</a> *context)</td></tr>
+<tr class="memdesc:a5f44c1259eb30a1cef9e986f2660f43a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a <a class="el" href="structcrashpad_1_1CPUContextX86__64.html" title="A context structure carrying x86_64 CPU state. ">CPUContextX86_64</a> structure from native context structures on Fuchsia.  <a href="#a5f44c1259eb30a1cef9e986f2660f43a">More...</a><br /></td></tr>
+<tr class="separator:a5f44c1259eb30a1cef9e986f2660f43a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03269eabe45ad8be2bdf5a7eba75d53a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#a03269eabe45ad8be2bdf5a7eba75d53a">InitializeCPUContextX86_NoFloatingPoint</a> (const SignalThreadContext32 &amp;thread_context, <a class="el" href="structcrashpad_1_1CPUContextX86.html">CPUContextX86</a> *context)</td></tr>
 <tr class="memdesc:a03269eabe45ad8be2bdf5a7eba75d53a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes GPR and debug state in a <a class="el" href="structcrashpad_1_1CPUContextX86.html" title="A context structure carrying 32-bit x86 CPU state. ">CPUContextX86</a> from a native signal context structure on Linux.  <a href="#a03269eabe45ad8be2bdf5a7eba75d53a">More...</a><br /></td></tr>
 <tr class="separator:a03269eabe45ad8be2bdf5a7eba75d53a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59c9e9e0d2aaff2dc88205bbaed4a82a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#a59c9e9e0d2aaff2dc88205bbaed4a82a">InitializeCPUContextX86_64_NoFloatingPoint</a> (const SignalThreadContext64 &amp;thread_context, <a class="el" href="structcrashpad_1_1CPUContextX86__64.html">CPUContextX86_64</a> *context)</td></tr>
+<tr class="memdesc:a59c9e9e0d2aaff2dc88205bbaed4a82a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes GPR and debug state in a <a class="el" href="structcrashpad_1_1CPUContextX86__64.html" title="A context structure carrying x86_64 CPU state. ">CPUContextX86_64</a> from a native signal context structure on Linux.  <a href="#a59c9e9e0d2aaff2dc88205bbaed4a82a">More...</a><br /></td></tr>
+<tr class="separator:a59c9e9e0d2aaff2dc88205bbaed4a82a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2766e4eaa0ce834a76a71becb3135fac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#a2766e4eaa0ce834a76a71becb3135fac">InitializeCPUContextARM</a> (const <a class="el" href="structcrashpad_1_1ThreadContext_1_1t32__t.html">ThreadContext::t32_t</a> &amp;thread_context, const <a class="el" href="structcrashpad_1_1FloatContext_1_1f32__t.html">FloatContext::f32_t</a> &amp;float_context, <a class="el" href="structcrashpad_1_1CPUContextARM.html">CPUContextARM</a> *context)</td></tr>
+<tr class="memdesc:a2766e4eaa0ce834a76a71becb3135fac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a <a class="el" href="structcrashpad_1_1CPUContextARM.html" title="A context structure carrying ARM CPU state. ">CPUContextARM</a> structure from native context structures on Linux.  <a href="#a2766e4eaa0ce834a76a71becb3135fac">More...</a><br /></td></tr>
+<tr class="separator:a2766e4eaa0ce834a76a71becb3135fac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f1773ae2d6c92bfdf1494035df660b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#a7f1773ae2d6c92bfdf1494035df660b3">InitializeCPUContextARM_NoFloatingPoint</a> (const SignalThreadContext32 &amp;thread_context, <a class="el" href="structcrashpad_1_1CPUContextARM.html">CPUContextARM</a> *context)</td></tr>
+<tr class="memdesc:a7f1773ae2d6c92bfdf1494035df660b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes GPR state in a <a class="el" href="structcrashpad_1_1CPUContextARM.html" title="A context structure carrying ARM CPU state. ">CPUContextARM</a> from a native signal context structure on Linux.  <a href="#a7f1773ae2d6c92bfdf1494035df660b3">More...</a><br /></td></tr>
+<tr class="separator:a7f1773ae2d6c92bfdf1494035df660b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa35812a88948f0a0350630bc9ca63326"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#aa35812a88948f0a0350630bc9ca63326">InitializeCPUContextARM64</a> (const <a class="el" href="structcrashpad_1_1ThreadContext_1_1t64__t.html">ThreadContext::t64_t</a> &amp;thread_context, const <a class="el" href="structcrashpad_1_1FloatContext_1_1f64__t.html">FloatContext::f64_t</a> &amp;float_context, <a class="el" href="structcrashpad_1_1CPUContextARM64.html">CPUContextARM64</a> *context)</td></tr>
+<tr class="memdesc:aa35812a88948f0a0350630bc9ca63326"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a <a class="el" href="structcrashpad_1_1CPUContextARM64.html" title="A context structure carrying ARM64 CPU state. ">CPUContextARM64</a> structure from native context structures on Linux.  <a href="#aa35812a88948f0a0350630bc9ca63326">More...</a><br /></td></tr>
+<tr class="separator:aa35812a88948f0a0350630bc9ca63326"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5695ec11ff912c6901671b34be6be0e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#a5695ec11ff912c6901671b34be6be0e3">InitializeCPUContextARM64_NoFloatingPoint</a> (const <a class="el" href="structcrashpad_1_1ThreadContext_1_1t64__t.html">ThreadContext::t64_t</a> &amp;thread_context, <a class="el" href="structcrashpad_1_1CPUContextARM64.html">CPUContextARM64</a> *context)</td></tr>
+<tr class="memdesc:a5695ec11ff912c6901671b34be6be0e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes GPR state in a <a class="el" href="structcrashpad_1_1CPUContextARM64.html" title="A context structure carrying ARM64 CPU state. ">CPUContextARM64</a> from a native context structure on Linux.  <a href="#a5695ec11ff912c6901671b34be6be0e3">More...</a><br /></td></tr>
+<tr class="separator:a5695ec11ff912c6901671b34be6be0e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0296550ac53cdb1701269a0d70675e9f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#a0296550ac53cdb1701269a0d70675e9f">InitializeCPUContextARM64_OnlyFPSIMD</a> (const SignalFPSIMDContext &amp;float_context, <a class="el" href="structcrashpad_1_1CPUContextARM64.html">CPUContextARM64</a> *context)</td></tr>
+<tr class="memdesc:a0296550ac53cdb1701269a0d70675e9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes FPSIMD state in a <a class="el" href="structcrashpad_1_1CPUContextARM64.html" title="A context structure carrying ARM64 CPU state. ">CPUContextARM64</a> from a native fpsimd signal context structure on Linux.  <a href="#a0296550ac53cdb1701269a0d70675e9f">More...</a><br /></td></tr>
+<tr class="separator:a0296550ac53cdb1701269a0d70675e9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa63d1ec13b7832e725701482788c0098"><td class="memTemplParams" colspan="2">template&lt;typename Traits &gt; </td></tr>
+<tr class="memitem:aa63d1ec13b7832e725701482788c0098"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#aa63d1ec13b7832e725701482788c0098">InitializeCPUContextMIPS</a> (const typename Traits::SignalThreadContext &amp;thread_context, const typename Traits::SignalFloatContext &amp;float_context, typename Traits::CPUContext *context)</td></tr>
+<tr class="memdesc:aa63d1ec13b7832e725701482788c0098"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a <a class="el" href="structcrashpad_1_1CPUContextMIPS.html" title="A context structure carrying MIPS CPU state. ">CPUContextMIPS</a> structure from native context structures on Linux.  <a href="#aa63d1ec13b7832e725701482788c0098">More...</a><br /></td></tr>
+<tr class="separator:aa63d1ec13b7832e725701482788c0098"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5bd580ef499998bcd94b4d28f252177"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#ad5bd580ef499998bcd94b4d28f252177">InitializeCPUContextX86</a> (<a class="el" href="structcrashpad_1_1CPUContextX86.html">CPUContextX86</a> *context, thread_state_flavor_t flavor, <a class="el" href="namespacecrashpad.html#a72fa9ea632f7f1ec93ec3c1b1d300db6">ConstThreadState</a> state, mach_msg_type_number_t state_count, const x86_thread_state32_t *x86_thread_state32, const x86_float_state32_t *x86_float_state32, const x86_debug_state32_t *x86_debug_state32)</td></tr>
 <tr class="memdesc:ad5bd580ef499998bcd94b4d28f252177"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a <a class="el" href="structcrashpad_1_1CPUContextX86.html" title="A context structure carrying 32-bit x86 CPU state. ">CPUContextX86</a> structure from native context structures on macOS.  <a href="#ad5bd580ef499998bcd94b4d28f252177">More...</a><br /></td></tr>
 <tr class="separator:ad5bd580ef499998bcd94b4d28f252177"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a806b669802cbd5edc81d1dfa66abe38b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#a806b669802cbd5edc81d1dfa66abe38b">InitializeCPUContextX86_64</a> (<a class="el" href="structcrashpad_1_1CPUContextX86__64.html">CPUContextX86_64</a> *context, thread_state_flavor_t flavor, <a class="el" href="namespacecrashpad.html#a72fa9ea632f7f1ec93ec3c1b1d300db6">ConstThreadState</a> state, mach_msg_type_number_t state_count, const x86_thread_state64_t *x86_thread_state64, const x86_float_state64_t *x86_float_state64, const x86_debug_state64_t *x86_debug_state64)</td></tr>
 <tr class="memdesc:a806b669802cbd5edc81d1dfa66abe38b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a <a class="el" href="structcrashpad_1_1CPUContextX86__64.html" title="A context structure carrying x86_64 CPU state. ">CPUContextX86_64</a> structure from native context structures on macOS.  <a href="#a806b669802cbd5edc81d1dfa66abe38b">More...</a><br /></td></tr>
 <tr class="separator:a806b669802cbd5edc81d1dfa66abe38b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04c6df0f760a49c90b708ff78b1e4985"><td class="memTemplParams" colspan="2"><a id="a04c6df0f760a49c90b708ff78b1e4985"></a>
+template&lt;class T &gt; </td></tr>
+<tr class="memitem:a04c6df0f760a49c90b708ff78b1e4985"><td class="memTemplItemLeft" align="right" valign="top">const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#a04c6df0f760a49c90b708ff78b1e4985">MergeWithOtherSnapshotImpl</a> (const T *self, const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> *other)</td></tr>
+<tr class="memdesc:a04c6df0f760a49c90b708ff78b1e4985"><td class="mdescLeft">&#160;</td><td class="mdescRight">A standard implementation of <a class="el" href="classcrashpad_1_1MemorySnapshot.html#ac215c8c515725ac43f2bf5ec5d7a27a4" title="Creates a new MemorySnapshot based on merging this one with other. ">MemorySnapshot::MergeWithOtherSnapshot()</a> for concrete <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> implementations that use a <code>process_reader_</code>. <br /></td></tr>
+<tr class="separator:a04c6df0f760a49c90b708ff78b1e4985"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f87cb910cbec4bc36871770b23a036f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#a8f87cb910cbec4bc36871770b23a036f">ReadMinidumpAnnotationList</a> (<a class="el" href="classcrashpad_1_1FileReaderInterface.html">FileReaderInterface</a> *file_reader, const <a class="el" href="structMINIDUMP__LOCATION__DESCRIPTOR.html">MINIDUMP_LOCATION_DESCRIPTOR</a> &amp;location, std::vector&lt; <a class="el" href="structcrashpad_1_1AnnotationSnapshot.html">AnnotationSnapshot</a> &gt; *list)</td></tr>
+<tr class="memdesc:a8f87cb910cbec4bc36871770b23a036f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a <a class="el" href="structcrashpad_1_1MinidumpAnnotationList.html" title="A list of annotation objects. ">MinidumpAnnotationList</a> from a minidump file at <em>location</em> in <em>file_reader</em>, and returns it in <em>list</em>.  <a href="#a8f87cb910cbec4bc36871770b23a036f">More...</a><br /></td></tr>
+<tr class="separator:a8f87cb910cbec4bc36871770b23a036f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9b358d36faf271ec17d7e9a829610a9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#aa9b358d36faf271ec17d7e9a829610a9">ReadMinidumpSimpleStringDictionary</a> (<a class="el" href="classcrashpad_1_1FileReaderInterface.html">FileReaderInterface</a> *file_reader, const <a class="el" href="structMINIDUMP__LOCATION__DESCRIPTOR.html">MINIDUMP_LOCATION_DESCRIPTOR</a> &amp;location, std::map&lt; std::string, std::string &gt; *dictionary)</td></tr>
 <tr class="memdesc:aa9b358d36faf271ec17d7e9a829610a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a <a class="el" href="structcrashpad_1_1MinidumpSimpleStringDictionary.html" title="A list of key-value pairs. ">MinidumpSimpleStringDictionary</a> from a minidump file <em>location</em> in <em>file_reader</em>, and returns it in <em>dictionary</em>.  <a href="#aa9b358d36faf271ec17d7e9a829610a9">More...</a><br /></td></tr>
 <tr class="separator:aa9b358d36faf271ec17d7e9a829610a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -265,6 +327,38 @@ Variables</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The internal namespace, not for public use. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a2da6df8333b7e4d01d746ae8a6e3b47f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2da6df8333b7e4d01d746ae8a6e3b47f">&#9670;&nbsp;</a></span>Dlsym()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * crashpad::internal::Dlsym </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>symbol</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Provide a wrapper for <code>dlsym</code>. </p>
+<p>dlsym on Android KitKat (4.4.*) raises SIGFPE when searching for a non-existent symbol. This wrapper avoids crashing in this circumstance. <a href="https://code.google.com/p/android/issues/detail?id=61799">https://code.google.com/p/android/issues/detail?id=61799</a></p>
+<p>The parameters and return value for this function are the same as for <code>dlsym</code>, but a return value for <code>dlerror</code> may not be set in the event of an error. </p>
+
+</div>
+</div>
 <a id="a334a660002ce6e6f06432ccf7d3cc50f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a334a660002ce6e6f06432ccf7d3cc50f">&#9670;&nbsp;</a></span>GetFunction()</h2>
 
@@ -358,6 +452,255 @@ template&lt;typename FunctionType &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the requested function on success. If <em>required</em> is <code>true</code>, triggers a <code>DCHECK</code> assertion on failure, otherwise, <code>nullptr</code> on failure. </dd></dl>
+
+</div>
+</div>
+<a id="a2766e4eaa0ce834a76a71becb3135fac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2766e4eaa0ce834a76a71becb3135fac">&#9670;&nbsp;</a></span>InitializeCPUContextARM()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::internal::InitializeCPUContextARM </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcrashpad_1_1ThreadContext_1_1t32__t.html">ThreadContext::t32_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>thread_context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcrashpad_1_1FloatContext_1_1f32__t.html">FloatContext::f32_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>float_context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcrashpad_1_1CPUContextARM.html">CPUContextARM</a> *&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes a <a class="el" href="structcrashpad_1_1CPUContextARM.html" title="A context structure carrying ARM CPU state. ">CPUContextARM</a> structure from native context structures on Linux. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">thread_context</td><td>The native thread context. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">float_context</td><td>The native float context. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">context</td><td>The <a class="el" href="structcrashpad_1_1CPUContextARM.html" title="A context structure carrying ARM CPU state. ">CPUContextARM</a> structure to initialize. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa35812a88948f0a0350630bc9ca63326"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa35812a88948f0a0350630bc9ca63326">&#9670;&nbsp;</a></span>InitializeCPUContextARM64()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::internal::InitializeCPUContextARM64 </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcrashpad_1_1ThreadContext_1_1t64__t.html">ThreadContext::t64_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>thread_context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcrashpad_1_1FloatContext_1_1f64__t.html">FloatContext::f64_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>float_context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcrashpad_1_1CPUContextARM64.html">CPUContextARM64</a> *&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes a <a class="el" href="structcrashpad_1_1CPUContextARM64.html" title="A context structure carrying ARM64 CPU state. ">CPUContextARM64</a> structure from native context structures on Linux. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">thread_context</td><td>The native thread context. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">float_context</td><td>The native float context. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">context</td><td>The <a class="el" href="structcrashpad_1_1CPUContextARM64.html" title="A context structure carrying ARM64 CPU state. ">CPUContextARM64</a> structure to initialize. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5695ec11ff912c6901671b34be6be0e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5695ec11ff912c6901671b34be6be0e3">&#9670;&nbsp;</a></span>InitializeCPUContextARM64_NoFloatingPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::internal::InitializeCPUContextARM64_NoFloatingPoint </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcrashpad_1_1ThreadContext_1_1t64__t.html">ThreadContext::t64_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>thread_context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcrashpad_1_1CPUContextARM64.html">CPUContextARM64</a> *&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes GPR state in a <a class="el" href="structcrashpad_1_1CPUContextARM64.html" title="A context structure carrying ARM64 CPU state. ">CPUContextARM64</a> from a native context structure on Linux. </p>
+<p>Floating point state is initialized to zero.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">thread_context</td><td>The native thread context. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">context</td><td>The <a class="el" href="structcrashpad_1_1CPUContextARM64.html" title="A context structure carrying ARM64 CPU state. ">CPUContextARM64</a> structure to initialize. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0296550ac53cdb1701269a0d70675e9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0296550ac53cdb1701269a0d70675e9f">&#9670;&nbsp;</a></span>InitializeCPUContextARM64_OnlyFPSIMD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::internal::InitializeCPUContextARM64_OnlyFPSIMD </td>
+          <td>(</td>
+          <td class="paramtype">const SignalFPSIMDContext &amp;&#160;</td>
+          <td class="paramname"><em>float_context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcrashpad_1_1CPUContextARM64.html">CPUContextARM64</a> *&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes FPSIMD state in a <a class="el" href="structcrashpad_1_1CPUContextARM64.html" title="A context structure carrying ARM64 CPU state. ">CPUContextARM64</a> from a native fpsimd signal context structure on Linux. </p>
+<p>General purpose registers are not initialized.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">float_context</td><td>The native fpsimd context. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">context</td><td>The <a class="el" href="structcrashpad_1_1CPUContextARM64.html" title="A context structure carrying ARM64 CPU state. ">CPUContextARM64</a> structure to initialize. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7f1773ae2d6c92bfdf1494035df660b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f1773ae2d6c92bfdf1494035df660b3">&#9670;&nbsp;</a></span>InitializeCPUContextARM_NoFloatingPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::internal::InitializeCPUContextARM_NoFloatingPoint </td>
+          <td>(</td>
+          <td class="paramtype">const SignalThreadContext32 &amp;&#160;</td>
+          <td class="paramname"><em>thread_context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcrashpad_1_1CPUContextARM.html">CPUContextARM</a> *&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes GPR state in a <a class="el" href="structcrashpad_1_1CPUContextARM.html" title="A context structure carrying ARM CPU state. ">CPUContextARM</a> from a native signal context structure on Linux. </p>
+<p>Floating point state is initialized to zero.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">thread_context</td><td>The native thread context. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">context</td><td>The <a class="el" href="structcrashpad_1_1CPUContextARM.html" title="A context structure carrying ARM CPU state. ">CPUContextARM</a> structure to initialize. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa63d1ec13b7832e725701482788c0098"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa63d1ec13b7832e725701482788c0098">&#9670;&nbsp;</a></span>InitializeCPUContextMIPS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Traits &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::internal::InitializeCPUContextMIPS </td>
+          <td>(</td>
+          <td class="paramtype">const typename Traits::SignalThreadContext &amp;&#160;</td>
+          <td class="paramname"><em>thread_context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const typename Traits::SignalFloatContext &amp;&#160;</td>
+          <td class="paramname"><em>float_context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">typename Traits::CPUContext *&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes a <a class="el" href="structcrashpad_1_1CPUContextMIPS.html" title="A context structure carrying MIPS CPU state. ">CPUContextMIPS</a> structure from native context structures on Linux. </p>
+<p>This function has template specializations for MIPSEL and MIPS64EL architecture contexts, using ContextTraits32 or ContextTraits64 as template parameter, respectively.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">thread_context</td><td>The native thread context. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">float_context</td><td>The native float context. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">context</td><td>The <a class="el" href="structcrashpad_1_1CPUContextMIPS.html" title="A context structure carrying MIPS CPU state. ">CPUContextMIPS</a> structure to initialize. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -523,8 +866,46 @@ template&lt;typename FunctionType &gt; </div>
 
 </div>
 </div>
+<a id="a5f44c1259eb30a1cef9e986f2660f43a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f44c1259eb30a1cef9e986f2660f43a">&#9670;&nbsp;</a></span>InitializeCPUContextX86_64() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::internal::InitializeCPUContextX86_64 </td>
+          <td>(</td>
+          <td class="paramtype">const zx_thread_state_general_regs_t &amp;&#160;</td>
+          <td class="paramname"><em>thread_context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcrashpad_1_1CPUContextX86__64.html">CPUContextX86_64</a> *&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes a <a class="el" href="structcrashpad_1_1CPUContextX86__64.html" title="A context structure carrying x86_64 CPU state. ">CPUContextX86_64</a> structure from native context structures on Fuchsia. </p>
+<p>Floating point registers are currently initialized to zero. Segment registers are currently initialized to zero.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">thread_context</td><td>The native thread context. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">context</td><td>The <a class="el" href="structcrashpad_1_1CPUContextX86__64.html" title="A context structure carrying x86_64 CPU state. ">CPUContextX86_64</a> structure to initialize. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a96f536d00a24fee52d5e2045481981c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96f536d00a24fee52d5e2045481981c5">&#9670;&nbsp;</a></span>InitializeCPUContextX86_64() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a96f536d00a24fee52d5e2045481981c5">&#9670;&nbsp;</a></span>InitializeCPUContextX86_64() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -568,7 +949,7 @@ template&lt;typename FunctionType &gt; </div>
 </div>
 </div>
 <a id="a3629477afb4ea3bb5224b22787486ee5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3629477afb4ea3bb5224b22787486ee5">&#9670;&nbsp;</a></span>InitializeCPUContextX86_64() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3629477afb4ea3bb5224b22787486ee5">&#9670;&nbsp;</a></span>InitializeCPUContextX86_64() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -612,7 +993,7 @@ template&lt;typename FunctionType &gt; </div>
 </div>
 </div>
 <a id="a806b669802cbd5edc81d1dfa66abe38b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a806b669802cbd5edc81d1dfa66abe38b">&#9670;&nbsp;</a></span>InitializeCPUContextX86_64() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a806b669802cbd5edc81d1dfa66abe38b">&#9670;&nbsp;</a></span>InitializeCPUContextX86_64() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -685,6 +1066,44 @@ template&lt;typename FunctionType &gt; </div>
 
 </div>
 </div>
+<a id="a59c9e9e0d2aaff2dc88205bbaed4a82a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59c9e9e0d2aaff2dc88205bbaed4a82a">&#9670;&nbsp;</a></span>InitializeCPUContextX86_64_NoFloatingPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::internal::InitializeCPUContextX86_64_NoFloatingPoint </td>
+          <td>(</td>
+          <td class="paramtype">const SignalThreadContext64 &amp;&#160;</td>
+          <td class="paramname"><em>thread_context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcrashpad_1_1CPUContextX86__64.html">CPUContextX86_64</a> *&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes GPR and debug state in a <a class="el" href="structcrashpad_1_1CPUContextX86__64.html" title="A context structure carrying x86_64 CPU state. ">CPUContextX86_64</a> from a native signal context structure on Linux. </p>
+<p>Floating point state and debug registers are initialized to zero.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">thread_context</td><td>The native thread context. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">context</td><td>The <a class="el" href="structcrashpad_1_1CPUContextX86__64.html" title="A context structure carrying x86_64 CPU state. ">CPUContextX86_64</a> structure to initialize. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a03269eabe45ad8be2bdf5a7eba75d53a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a03269eabe45ad8be2bdf5a7eba75d53a">&#9670;&nbsp;</a></span>InitializeCPUContextX86_NoFloatingPoint()</h2>
 
@@ -712,7 +1131,7 @@ template&lt;typename FunctionType &gt; </div>
 </div><div class="memdoc">
 
 <p>Initializes GPR and debug state in a <a class="el" href="structcrashpad_1_1CPUContextX86.html" title="A context structure carrying 32-bit x86 CPU state. ">CPUContextX86</a> from a native signal context structure on Linux. </p>
-<p>Floating point state is not initialized. Debug registers are initialized to zero.</p>
+<p>Floating point state and debug registers are initialized to zero.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">thread_context</td><td>The native thread context. </td></tr>
@@ -788,6 +1207,43 @@ template&lt;typename FunctionType &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of bytes actually written from <em>buffer</em> to <em>file</em> on success. <code>-1</code> on error, with <code>errno</code> or <code>GetLastError()</code> set appropriately. </dd></dl>
+
+</div>
+</div>
+<a id="a8f87cb910cbec4bc36871770b23a036f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f87cb910cbec4bc36871770b23a036f">&#9670;&nbsp;</a></span>ReadMinidumpAnnotationList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::internal::ReadMinidumpAnnotationList </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classcrashpad_1_1FileReaderInterface.html">FileReaderInterface</a> *&#160;</td>
+          <td class="paramname"><em>file_reader</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structMINIDUMP__LOCATION__DESCRIPTOR.html">MINIDUMP_LOCATION_DESCRIPTOR</a> &amp;&#160;</td>
+          <td class="paramname"><em>location</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="structcrashpad_1_1AnnotationSnapshot.html">AnnotationSnapshot</a> &gt; *&#160;</td>
+          <td class="paramname"><em>list</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reads a <a class="el" href="structcrashpad_1_1MinidumpAnnotationList.html" title="A list of annotation objects. ">MinidumpAnnotationList</a> from a minidump file at <em>location</em> in <em>file_reader</em>, and returns it in <em>list</em>. </p>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, with <em>list</em> set by replacing its contents. <code>false</code> on failure, with a message logged. </dd></dl>
 
 </div>
 </div>

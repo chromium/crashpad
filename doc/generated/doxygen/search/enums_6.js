@@ -1,5 +1,17 @@
 var searchData=
 [
-  ['operatingsystem',['OperatingSystem',['../classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37',1,'crashpad::SystemSnapshot']]],
-  ['operationstatus',['OperationStatus',['../classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00',1,'crashpad::CrashReportDatabase']]]
+  ['minidump_5fstream_5ftype',['MINIDUMP_STREAM_TYPE',['../dbghelp_8h.html#a64711234318a4a002f399dffb474ca08',1,'dbghelp.h']]],
+  ['minidump_5ftype',['MINIDUMP_TYPE',['../dbghelp_8h.html#a7580bc5aa0738de92a9766904fc7e79b',1,'dbghelp.h']]],
+  ['minidumpcontextamd64flags',['MinidumpContextAMD64Flags',['../namespacecrashpad.html#aa197c419950bae99f1ba663f10b1891c',1,'crashpad']]],
+  ['minidumpcontextarm64flags',['MinidumpContextARM64Flags',['../namespacecrashpad.html#a52002589247bce8e16fc48857f31ec8a',1,'crashpad']]],
+  ['minidumpcontextarmflags',['MinidumpContextARMFlags',['../namespacecrashpad.html#ab7077f40e8cf5fae1f668085248efe77',1,'crashpad']]],
+  ['minidumpcontextflags',['MinidumpContextFlags',['../namespacecrashpad.html#a835e6bd6cb3f97c99c572596878c1573',1,'crashpad']]],
+  ['minidumpcontextmips64flags',['MinidumpContextMIPS64Flags',['../namespacecrashpad.html#a34392d7c57fce1cdcc10bb1f026a79e6',1,'crashpad']]],
+  ['minidumpcontextmipsflags',['MinidumpContextMIPSFlags',['../namespacecrashpad.html#add06cd316d6db039af0fd3607be18dec',1,'crashpad']]],
+  ['minidumpcontextx86flags',['MinidumpContextX86Flags',['../namespacecrashpad.html#a2a503f0a39ec98188b60178edbc1fc55',1,'crashpad']]],
+  ['minidumpcpuarchitecture',['MinidumpCPUArchitecture',['../namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1',1,'crashpad']]],
+  ['minidumpos',['MinidumpOS',['../namespacecrashpad.html#a9be77c6f7868f00c2f279006a1abe26a',1,'crashpad']]],
+  ['minidumpostype',['MinidumpOSType',['../namespacecrashpad.html#a3bf5a6562c9ccee9b4ef3ae4d9ac0be7',1,'crashpad']]],
+  ['minidumpstreamtype',['MinidumpStreamType',['../namespacecrashpad.html#a88363a45a4af1a16f542a8c1ff522ab9',1,'crashpad']]],
+  ['moduletype',['ModuleType',['../classcrashpad_1_1ModuleSnapshot.html#a7fd77f711ef04d87ece6e04d48d219f7',1,'crashpad::ModuleSnapshot']]]
 ];

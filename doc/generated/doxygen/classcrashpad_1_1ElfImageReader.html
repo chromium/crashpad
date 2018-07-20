@@ -79,6 +79,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html">NoteReader</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class enables reading note segments from an ELF image.  <a href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader_1_1ProgramHeaderTable.html">ProgramHeaderTable</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader_1_1ProgramHeaderTableSpecific.html">ProgramHeaderTableSpecific</a></td></tr>
@@ -110,6 +113,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae456b7627b37bf84f9241de34fde4bdb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#ae456b7627b37bf84f9241de34fde4bdb">GetDebugAddress</a> (<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> *debug)</td></tr>
 <tr class="memdesc:ae456b7627b37bf84f9241de34fde4bdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine the debug address.  <a href="#ae456b7627b37bf84f9241de34fde4bdb">More...</a><br /></td></tr>
 <tr class="separator:ae456b7627b37bf84f9241de34fde4bdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a809de4755bc10bd8e4abc1d1be65607d"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html">NoteReader</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#a809de4755bc10bd8e4abc1d1be65607d">Notes</a> (ssize_t max_note_size)</td></tr>
+<tr class="memdesc:a809de4755bc10bd8e4abc1d1be65607d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a <a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html" title="This class enables reading note segments from an ELF image. ">NoteReader</a> for this image, which scans all PT_NOTE segments in the image.  <a href="#a809de4755bc10bd8e4abc1d1be65607d">More...</a><br /></td></tr>
+<tr class="separator:a809de4755bc10bd8e4abc1d1be65607d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8341551fd2841c3f7fe423df7e96cb1f"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html">NoteReader</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#a8341551fd2841c3f7fe423df7e96cb1f">NotesWithNameAndType</a> (const std::string &amp;name, <a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html#a7f423d29933acb001d750a09d8b4cbd2">NoteReader::NoteType</a> type, ssize_t max_note_size)</td></tr>
+<tr class="memdesc:a8341551fd2841c3f7fe423df7e96cb1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a <a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html" title="This class enables reading note segments from an ELF image. ">NoteReader</a> for this image, which scans all PT_NOTE segments in the image, filtering by name and type.  <a href="#a8341551fd2841c3f7fe423df7e96cb1f">More...</a><br /></td></tr>
+<tr class="separator:a8341551fd2841c3f7fe423df7e96cb1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abeaff5b74a26198e7710933010f60fb9"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classcrashpad_1_1ProcessMemoryRange.html">ProcessMemoryRange</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#abeaff5b74a26198e7710933010f60fb9">Memory</a> () const</td></tr>
+<tr class="memdesc:abeaff5b74a26198e7710933010f60fb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a <a class="el" href="classcrashpad_1_1ProcessMemoryRange.html" title="Provides range protected access to the memory of another process. ">ProcessMemoryRange</a> restricted to the range of this image.  <a href="#abeaff5b74a26198e7710933010f60fb9">More...</a><br /></td></tr>
+<tr class="separator:abeaff5b74a26198e7710933010f60fb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5d598e330fdf85c9eb07174628ee6a7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#af5d598e330fdf85c9eb07174628ee6a7">GetNumberOfSymbolEntriesFromDtHash</a> (<a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> *number_of_symbol_table_entries)</td></tr>
+<tr class="memdesc:af5d598e330fdf85c9eb07174628ee6a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the number of symbol table entries in <code>DT_SYMTAB</code> according to the data in the <code>DT_HASH</code> section.  <a href="#af5d598e330fdf85c9eb07174628ee6a7">More...</a><br /></td></tr>
+<tr class="separator:af5d598e330fdf85c9eb07174628ee6a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae15299d9203eac0d66ed38c1e9a47288"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html#ae15299d9203eac0d66ed38c1e9a47288">GetNumberOfSymbolEntriesFromDtGnuHash</a> (<a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> *number_of_symbol_table_entries)</td></tr>
+<tr class="memdesc:ae15299d9203eac0d66ed38c1e9a47288"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the number of symbol table entries in <code>DT_SYMTAB</code> according to the data in the <code>DT_GNU_HASH</code> section.  <a href="#ae15299d9203eac0d66ed38c1e9a47288">More...</a><br /></td></tr>
+<tr class="separator:ae15299d9203eac0d66ed38c1e9a47288"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A reader for ELF images mapped into another process. </p>
@@ -264,6 +282,64 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ae15299d9203eac0d66ed38c1e9a47288"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae15299d9203eac0d66ed38c1e9a47288">&#9670;&nbsp;</a></span>GetNumberOfSymbolEntriesFromDtGnuHash()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::ElfImageReader::GetNumberOfSymbolEntriesFromDtGnuHash </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> *&#160;</td>
+          <td class="paramname"><em>number_of_symbol_table_entries</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves the number of symbol table entries in <code>DT_SYMTAB</code> according to the data in the <code>DT_GNU_HASH</code> section. </p>
+<dl class="section note"><dt>Note</dt><dd>Exposed for testing, not normally otherwise useful.</dd>
+<dd>
+Depending on the linker that generated the <code>DT_GNU_HASH</code> section, this value may not be as expected if there are zero exported symbols.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">number_of_symbol_table_entries</td><td>The number of entries expected in <code>DT_SYMTAB</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if a <code>DT_GNU_HASH</code> section was found, and was read successfully, otherwise <code>false</code> with an error logged. </dd></dl>
+
+</div>
+</div>
+<a id="af5d598e330fdf85c9eb07174628ee6a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5d598e330fdf85c9eb07174628ee6a7">&#9670;&nbsp;</a></span>GetNumberOfSymbolEntriesFromDtHash()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::ElfImageReader::GetNumberOfSymbolEntriesFromDtHash </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> *&#160;</td>
+          <td class="paramname"><em>number_of_symbol_table_entries</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves the number of symbol table entries in <code>DT_SYMTAB</code> according to the data in the <code>DT_HASH</code> section. </p>
+<dl class="section note"><dt>Note</dt><dd>Exposed for testing, not normally otherwise useful.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">number_of_symbol_table_entries</td><td>The number of entries expected in <code>DT_SYMTAB</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if a <code>DT_HASH</code> section was found, and was read successfully, otherwise <code>false</code> with an error logged. </dd></dl>
+
+</div>
+</div>
 <a id="aecb53804ed0d1d78968c26908c164b76"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aecb53804ed0d1d78968c26908c164b76">&#9670;&nbsp;</a></span>Initialize()</h2>
 
@@ -299,6 +375,100 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="abeaff5b74a26198e7710933010f60fb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abeaff5b74a26198e7710933010f60fb9">&#9670;&nbsp;</a></span>Memory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classcrashpad_1_1ProcessMemoryRange.html">ProcessMemoryRange</a> * crashpad::ElfImageReader::Memory </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return a <a class="el" href="classcrashpad_1_1ProcessMemoryRange.html" title="Provides range protected access to the memory of another process. ">ProcessMemoryRange</a> restricted to the range of this image. </p>
+<p>The caller does not take ownership of the returned object. </p>
+
+</div>
+</div>
+<a id="a809de4755bc10bd8e4abc1d1be65607d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a809de4755bc10bd8e4abc1d1be65607d">&#9670;&nbsp;</a></span>Notes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html">ElfImageReader::NoteReader</a> &gt; crashpad::ElfImageReader::Notes </td>
+          <td>(</td>
+          <td class="paramtype">ssize_t&#160;</td>
+          <td class="paramname"><em>max_note_size</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return a <a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html" title="This class enables reading note segments from an ELF image. ">NoteReader</a> for this image, which scans all PT_NOTE segments in the image. </p>
+<p>The returned <a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html" title="This class enables reading note segments from an ELF image. ">NoteReader</a> is only valid for the lifetime of the <a class="el" href="classcrashpad_1_1ElfImageReader.html" title="A reader for ELF images mapped into another process. ">ElfImageReader</a> that created it.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">max_note_size</td><td>The maximum note size to read. Notes whose combined name, descriptor, and padding size are greater than <em>max_note_size</em> will be silently skipped. A <em>max_note_size</em> of -1 indicates infinite maximum note size. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html" title="This class enables reading note segments from an ELF image. ">NoteReader</a> object capable of reading notes in this image. </dd></dl>
+
+</div>
+</div>
+<a id="a8341551fd2841c3f7fe423df7e96cb1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8341551fd2841c3f7fe423df7e96cb1f">&#9670;&nbsp;</a></span>NotesWithNameAndType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html">ElfImageReader::NoteReader</a> &gt; crashpad::ElfImageReader::NotesWithNameAndType </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html#a7f423d29933acb001d750a09d8b4cbd2">NoteReader::NoteType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ssize_t&#160;</td>
+          <td class="paramname"><em>max_note_size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return a <a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html" title="This class enables reading note segments from an ELF image. ">NoteReader</a> for this image, which scans all PT_NOTE segments in the image, filtering by name and type. </p>
+<p>The returned <a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html" title="This class enables reading note segments from an ELF image. ">NoteReader</a> is only valid for the lifetime of the <a class="el" href="classcrashpad_1_1ElfImageReader.html" title="A reader for ELF images mapped into another process. ">ElfImageReader</a> that created it.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">name</td><td>The note name to match. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>The note type to match. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">max_note_size</td><td>The maximum note size to read. Notes whose combined name, descriptor, and padding size are greater than <em>max_note_size</em> will be silently skipped. A <em>max_note_size</em> of -1 indicates infinite maximum note size. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="classcrashpad_1_1ElfImageReader_1_1NoteReader.html" title="This class enables reading note segments from an ELF image. ">NoteReader</a> object capable of reading notes in this image. </dd></dl>
 
 </div>
 </div>

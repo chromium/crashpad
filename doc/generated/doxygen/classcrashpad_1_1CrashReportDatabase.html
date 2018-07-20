@@ -78,17 +78,28 @@ $(function() {
  <a href="classcrashpad_1_1CrashReportDatabase.html#details">More...</a></p>
 
 <p><code>#include &quot;client/crash_report_database.h&quot;</code></p>
+<div class="dynheader">
+Inheritance diagram for crashpad::CrashReportDatabase:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classcrashpad_1_1CrashReportDatabase.png" usemap="#crashpad::CrashReportDatabase_map" alt=""/>
+  <map id="crashpad::CrashReportDatabase_map" name="crashpad::CrashReportDatabase_map">
+<area href="classcrashpad_1_1CrashReportDatabaseGeneric.html" alt="crashpad::CrashReportDatabaseGeneric" shape="rect" coords="0,56,240,80"/>
+<area href="classcrashpad_1_1CrashReportDatabaseMac.html" title="A CrashReportDatabase that uses HFS+ extended attributes to store report metadata. " alt="crashpad::CrashReportDatabaseMac" shape="rect" coords="250,56,490,80"/>
+<area href="classcrashpad_1_1CrashReportDatabaseWin.html" alt="crashpad::CrashReportDatabaseWin" shape="rect" coords="500,56,740,80"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1CallErrorWritingCrashReport.html">CallErrorWritingCrashReport</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A scoper to cleanly handle the interface requirement imposed by <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a6af53890d1e551800330e6ad53be995b" title="Creates a record of a new crash report. ">PrepareNewCrashReport()</a>.  <a href="classcrashpad_1_1CrashReportDatabase_1_1CallErrorWritingCrashReport.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1NewReport.html">NewReport</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A crash report that is in the process of being written.  <a href="structcrashpad_1_1CrashReportDatabase_1_1NewReport.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1NewReport.html">NewReport</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A crash report that is in the process of being written.  <a href="classcrashpad_1_1CrashReportDatabase_1_1NewReport.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1Report.html">Report</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A crash report record.  <a href="structcrashpad_1_1CrashReportDatabase_1_1Report.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1UploadReport.html">UploadReport</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A crash report that is in the process of being uploaded.  <a href="classcrashpad_1_1CrashReportDatabase_1_1UploadReport.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
@@ -102,15 +113,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a705a5c510ba8eeda15bf4fe9af6e37b1"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcrashpad_1_1Settings.html">Settings</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a705a5c510ba8eeda15bf4fe9af6e37b1">GetSettings</a> ()=0</td></tr>
 <tr class="memdesc:a705a5c510ba8eeda15bf4fe9af6e37b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="classcrashpad_1_1Settings.html" title="An interface for accessing and modifying the settings of a CrashReportDatabase. ">Settings</a> object for this database.  <a href="#a705a5c510ba8eeda15bf4fe9af6e37b1">More...</a><br /></td></tr>
 <tr class="separator:a705a5c510ba8eeda15bf4fe9af6e37b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6af53890d1e551800330e6ad53be995b"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a6af53890d1e551800330e6ad53be995b">PrepareNewCrashReport</a> (<a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1NewReport.html">NewReport</a> **report)=0</td></tr>
-<tr class="memdesc:a6af53890d1e551800330e6ad53be995b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a record of a new crash report.  <a href="#a6af53890d1e551800330e6ad53be995b">More...</a><br /></td></tr>
-<tr class="separator:a6af53890d1e551800330e6ad53be995b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac77057d6b9f0b8d8fb88e7653456c0ff"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#ac77057d6b9f0b8d8fb88e7653456c0ff">FinishedWritingCrashReport</a> (<a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1NewReport.html">NewReport</a> *report, <a class="el" href="structcrashpad_1_1UUID.html">UUID</a> *uuid)=0</td></tr>
-<tr class="memdesc:ac77057d6b9f0b8d8fb88e7653456c0ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informs the database that a crash report has been written.  <a href="#ac77057d6b9f0b8d8fb88e7653456c0ff">More...</a><br /></td></tr>
-<tr class="separator:ac77057d6b9f0b8d8fb88e7653456c0ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18e8875bcd1a0888bda5b126eb2bec00"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a18e8875bcd1a0888bda5b126eb2bec00">ErrorWritingCrashReport</a> (<a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1NewReport.html">NewReport</a> *report)=0</td></tr>
-<tr class="memdesc:a18e8875bcd1a0888bda5b126eb2bec00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informs the database that an error occurred while attempting to write a crash report, and that any resources associated with it should be cleaned up.  <a href="#a18e8875bcd1a0888bda5b126eb2bec00">More...</a><br /></td></tr>
-<tr class="separator:a18e8875bcd1a0888bda5b126eb2bec00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e40ddf9bc49998c7cd30eb4035bb23f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a2e40ddf9bc49998c7cd30eb4035bb23f">PrepareNewCrashReport</a> (std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1NewReport.html">NewReport</a> &gt; *report)=0</td></tr>
+<tr class="memdesc:a2e40ddf9bc49998c7cd30eb4035bb23f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a record of a new crash report.  <a href="#a2e40ddf9bc49998c7cd30eb4035bb23f">More...</a><br /></td></tr>
+<tr class="separator:a2e40ddf9bc49998c7cd30eb4035bb23f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a346b5f90a50066d5057b4eaaacdcf3b7"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a346b5f90a50066d5057b4eaaacdcf3b7">FinishedWritingCrashReport</a> (std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1NewReport.html">NewReport</a> &gt; report, <a class="el" href="structcrashpad_1_1UUID.html">UUID</a> *uuid)=0</td></tr>
+<tr class="memdesc:a346b5f90a50066d5057b4eaaacdcf3b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informs the database that a crash report has been successfully written.  <a href="#a346b5f90a50066d5057b4eaaacdcf3b7">More...</a><br /></td></tr>
+<tr class="separator:a346b5f90a50066d5057b4eaaacdcf3b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19191932252bc836a84cf432ea8f3b7e"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a19191932252bc836a84cf432ea8f3b7e">LookUpCrashReport</a> (const <a class="el" href="structcrashpad_1_1UUID.html">UUID</a> &amp;uuid, <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1Report.html">Report</a> *report)=0</td></tr>
 <tr class="memdesc:a19191932252bc836a84cf432ea8f3b7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the crash report record for the unique identifier.  <a href="#a19191932252bc836a84cf432ea8f3b7e">More...</a><br /></td></tr>
 <tr class="separator:a19191932252bc836a84cf432ea8f3b7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -120,12 +128,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3aecde1673f34d7789c1b8562242223c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a3aecde1673f34d7789c1b8562242223c">GetCompletedReports</a> (std::vector&lt; <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1Report.html">Report</a> &gt; *reports)=0</td></tr>
 <tr class="memdesc:a3aecde1673f34d7789c1b8562242223c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a list of crash report records that have been completed, either by being uploaded or by skipping upload.  <a href="#a3aecde1673f34d7789c1b8562242223c">More...</a><br /></td></tr>
 <tr class="separator:a3aecde1673f34d7789c1b8562242223c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab87ae2586364bc46def5335c07c8eb04"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#ab87ae2586364bc46def5335c07c8eb04">GetReportForUploading</a> (const <a class="el" href="structcrashpad_1_1UUID.html">UUID</a> &amp;uuid, const <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1Report.html">Report</a> **report)=0</td></tr>
-<tr class="memdesc:ab87ae2586364bc46def5335c07c8eb04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtains a report object for uploading to a collection server.  <a href="#ab87ae2586364bc46def5335c07c8eb04">More...</a><br /></td></tr>
-<tr class="separator:ab87ae2586364bc46def5335c07c8eb04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c9b19255aff2f995cc645e949331f7d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a5c9b19255aff2f995cc645e949331f7d">RecordUploadAttempt</a> (const <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1Report.html">Report</a> *report, bool successful, const std::string &amp;id)=0</td></tr>
-<tr class="memdesc:a5c9b19255aff2f995cc645e949331f7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adjusts a crash report record’s metadata to account for an upload attempt, and updates the last upload attempt time as returned by <a class="el" href="classcrashpad_1_1Settings.html#a855f61d6fc73042dcb886ef40d8e4429" title="Retrieves the last time at which a report was attempted to be uploaded. ">Settings::GetLastUploadAttemptTime()</a>.  <a href="#a5c9b19255aff2f995cc645e949331f7d">More...</a><br /></td></tr>
-<tr class="separator:a5c9b19255aff2f995cc645e949331f7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6ca376e1569aa3212a95186676742b9"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#ae6ca376e1569aa3212a95186676742b9">GetReportForUploading</a> (const <a class="el" href="structcrashpad_1_1UUID.html">UUID</a> &amp;uuid, std::unique_ptr&lt; const <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1UploadReport.html">UploadReport</a> &gt; *report)=0</td></tr>
+<tr class="memdesc:ae6ca376e1569aa3212a95186676742b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtains and locks a report object for uploading to a collection server.  <a href="#ae6ca376e1569aa3212a95186676742b9">More...</a><br /></td></tr>
+<tr class="separator:ae6ca376e1569aa3212a95186676742b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a329a165c28e20bc3458e697ea8778517"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a329a165c28e20bc3458e697ea8778517">RecordUploadComplete</a> (std::unique_ptr&lt; const <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1UploadReport.html">UploadReport</a> &gt; report, const std::string &amp;id)</td></tr>
+<tr class="memdesc:a329a165c28e20bc3458e697ea8778517"><td class="mdescLeft">&#160;</td><td class="mdescRight">Records a successful upload for a report and updates the last upload attempt time as returned by <a class="el" href="classcrashpad_1_1Settings.html#a855f61d6fc73042dcb886ef40d8e4429" title="Retrieves the last time at which a report was attempted to be uploaded. ">Settings::GetLastUploadAttemptTime()</a>.  <a href="#a329a165c28e20bc3458e697ea8778517">More...</a><br /></td></tr>
+<tr class="separator:a329a165c28e20bc3458e697ea8778517"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0869a26352d37e7f99d9b520f6d07cd"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#ab0869a26352d37e7f99d9b520f6d07cd">SkipReportUpload</a> (const <a class="el" href="structcrashpad_1_1UUID.html">UUID</a> &amp;uuid, <a class="el" href="classcrashpad_1_1Metrics.html#aa27da6c2bda5b2982fcb636786053c0d">Metrics::CrashSkippedReason</a> reason)=0</td></tr>
 <tr class="memdesc:ab0869a26352d37e7f99d9b520f6d07cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves a report from the pending state to the completed state, but without the report being uploaded.  <a href="#ab0869a26352d37e7f99d9b520f6d07cd">More...</a><br /></td></tr>
 <tr class="separator:ab0869a26352d37e7f99d9b520f6d07cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,6 +143,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4c195d0ba0155e3692be1bdb4bb79fc6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a4c195d0ba0155e3692be1bdb4bb79fc6">RequestUpload</a> (const <a class="el" href="structcrashpad_1_1UUID.html">UUID</a> &amp;uuid)=0</td></tr>
 <tr class="memdesc:a4c195d0ba0155e3692be1bdb4bb79fc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks a crash report as explicitly requested to be uploaded by the user and moves it to 'pending' state.  <a href="#a4c195d0ba0155e3692be1bdb4bb79fc6">More...</a><br /></td></tr>
 <tr class="separator:a4c195d0ba0155e3692be1bdb4bb79fc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af06b2b1312d8a824559d99232a173576"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#af06b2b1312d8a824559d99232a173576">CleanDatabase</a> (time_t lockfile_ttl)</td></tr>
+<tr class="memdesc:af06b2b1312d8a824559d99232a173576"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cleans the database of expired lockfiles, metadata without report files, and report files without metadata.  <a href="#af06b2b1312d8a824559d99232a173576">More...</a><br /></td></tr>
+<tr class="separator:af06b2b1312d8a824559d99232a173576"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -150,9 +161,9 @@ Static Public Member Functions</h2></td></tr>
 <p>All <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1Report.html" title="A crash report record. ">Report</a> objects that are returned by this class are logically const. They are snapshots of the database at the time the query was run, and the data returned is liable to change after the query is executed.</p>
 <p>The lifecycle of a crash report has three stages:</p>
 <ol type="1">
-<li>New: A crash report is created with <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a6af53890d1e551800330e6ad53be995b" title="Creates a record of a new crash report. ">PrepareNewCrashReport()</a>, the the client then writes the report, and then calls <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#ac77057d6b9f0b8d8fb88e7653456c0ff" title="Informs the database that a crash report has been written. ">FinishedWritingCrashReport()</a> to make the report Pending.</li>
+<li>New: A crash report is created with <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a2e40ddf9bc49998c7cd30eb4035bb23f" title="Creates a record of a new crash report. ">PrepareNewCrashReport()</a>, the the client then writes the report, and then calls <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a346b5f90a50066d5057b4eaaacdcf3b7" title="Informs the database that a crash report has been successfully written. ">FinishedWritingCrashReport()</a> to make the report Pending.</li>
 <li>Pending: The report has been written but has not been locally processed, or it was has been brought back from 'Completed' state by user request.</li>
-<li>Completed: The report has been locally processed, either by uploading it to a collection server and calling <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a5c9b19255aff2f995cc645e949331f7d" title="Adjusts a crash report record’s metadata to account for an upload attempt, and updates the last uplo...">RecordUploadAttempt()</a>, or by calling <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#ab0869a26352d37e7f99d9b520f6d07cd" title="Moves a report from the pending state to the completed state, but without the report being uploaded...">SkipReportUpload()</a>. </li>
+<li>Completed: The report has been locally processed, either by uploading it to a collection server and calling <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a329a165c28e20bc3458e697ea8778517" title="Records a successful upload for a report and updates the last upload attempt time as returned by Sett...">RecordUploadComplete()</a>, or by calling <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#ab0869a26352d37e7f99d9b520f6d07cd" title="Moves a report from the pending state to the completed state, but without the report being uploaded...">SkipReportUpload()</a>. </li>
 </ol>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a0bbd146654537fa0cf1b576eb647bb00"></a>
@@ -172,7 +183,7 @@ Static Public Member Functions</h2></td></tr>
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0bbd146654537fa0cf1b576eb647bb00ad73503b93bff6f4ae156a65fcb5e71f8"></a>kNoError&#160;</td><td class="fielddoc"><p>No error occurred. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a0bbd146654537fa0cf1b576eb647bb00ab005def710dfeef7c3f3fd6c7e615239"></a>kReportNotFound&#160;</td><td class="fielddoc"><p>The report that was requested could not be located. </p>
-<p>This may occur when the report is present in the database but not in a state appropriate for the requested operation, for example, if <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#ab87ae2586364bc46def5335c07c8eb04" title="Obtains a report object for uploading to a collection server. ">GetReportForUploading()</a> is called to obtain report that’s already in the completed state. </p>
+<p>This may occur when the report is present in the database but not in a state appropriate for the requested operation, for example, if <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#ae6ca376e1569aa3212a95186676742b9" title="Obtains and locks a report object for uploading to a collection server. ">GetReportForUploading()</a> is called to obtain report that’s already in the completed state. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a0bbd146654537fa0cf1b576eb647bb00ad40b3e9919ed7de952a4e30d5be5c59b"></a>kFileSystemError&#160;</td><td class="fielddoc"><p>An error occured while performing a file operation on a crash report. </p>
 <p>A database is responsible for managing both the metadata about a report and the actual crash report itself. This error is returned when an error occurred when managing the report file. Additional information will be logged. </p>
@@ -189,6 +200,44 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="af06b2b1312d8a824559d99232a173576"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af06b2b1312d8a824559d99232a173576">&#9670;&nbsp;</a></span>CleanDatabase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int crashpad::CrashReportDatabase::CleanDatabase </td>
+          <td>(</td>
+          <td class="paramtype">time_t&#160;</td>
+          <td class="paramname"><em>lockfile_ttl</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Cleans the database of expired lockfiles, metadata without report files, and report files without metadata. </p>
+<p>This method does nothing on the macOS and Windows implementations of the database.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">lockfile_ttl</td><td>The number of seconds at which lockfiles or new report files are considered expired. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The number of reports cleaned. </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a5f9b808bc4840db00cac1070102aeb2c">crashpad::CrashReportDatabaseGeneric</a>.</p>
+
+</div>
+</div>
 <a id="aa8aff03198b18b5dc479c189115500c4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa8aff03198b18b5dc479c189115500c4">&#9670;&nbsp;</a></span>DeleteReport()</h2>
 
@@ -222,46 +271,12 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The operation status code. </dd></dl>
 
-</div>
-</div>
-<a id="a18e8875bcd1a0888bda5b126eb2bec00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a18e8875bcd1a0888bda5b126eb2bec00">&#9670;&nbsp;</a></span>ErrorWritingCrashReport()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a> crashpad::CrashReportDatabase::ErrorWritingCrashReport </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1NewReport.html">NewReport</a> *&#160;</td>
-          <td class="paramname"><em>report</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Informs the database that an error occurred while attempting to write a crash report, and that any resources associated with it should be cleaned up. </p>
-<p>After calling this method, the database is permitted to remove the file at <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1NewReport.html#aef12e5af9f053a8f75bc3fc81c178189" title="The path to the crash report being written. ">NewReport::path</a>.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">report</td><td>A <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1NewReport.html" title="A crash report that is in the process of being written. ">NewReport</a> obtained with <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a6af53890d1e551800330e6ad53be995b" title="Creates a record of a new crash report. ">PrepareNewCrashReport()</a>. The <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1NewReport.html" title="A crash report that is in the process of being written. ">NewReport</a> object and file handle within will be invalidated as part of this call.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The operation status code. </dd></dl>
+<p>Implemented in <a class="el" href="classcrashpad_1_1CrashReportDatabaseWin.html#a8d00c5da892c1fc2abf10b1a7180adbe">crashpad::CrashReportDatabaseWin</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a13bd4a9b11a9219a4618c1f93bd1ff3c">crashpad::CrashReportDatabaseGeneric</a>, and <a class="el" href="classcrashpad_1_1CrashReportDatabaseMac.html#ab33eac7ac70f94627d750d2bf3d9ba4a">crashpad::CrashReportDatabaseMac</a>.</p>
 
 </div>
 </div>
-<a id="ac77057d6b9f0b8d8fb88e7653456c0ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac77057d6b9f0b8d8fb88e7653456c0ff">&#9670;&nbsp;</a></span>FinishedWritingCrashReport()</h2>
+<a id="a346b5f90a50066d5057b4eaaacdcf3b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a346b5f90a50066d5057b4eaaacdcf3b7">&#9670;&nbsp;</a></span>FinishedWritingCrashReport()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -272,7 +287,7 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a> crashpad::CrashReportDatabase::FinishedWritingCrashReport </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1NewReport.html">NewReport</a> *&#160;</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1NewReport.html">NewReport</a> &gt;&#160;</td>
           <td class="paramname"><em>report</em>, </td>
         </tr>
         <tr>
@@ -294,16 +309,17 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Informs the database that a crash report has been written. </p>
-<p>After calling this method, the database is permitted to move and rename the file at <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1NewReport.html#aef12e5af9f053a8f75bc3fc81c178189" title="The path to the crash report being written. ">NewReport::path</a>.</p>
+<p>Informs the database that a crash report has been successfully written. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">report</td><td>A <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1NewReport.html" title="A crash report that is in the process of being written. ">NewReport</a> obtained with <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a6af53890d1e551800330e6ad53be995b" title="Creates a record of a new crash report. ">PrepareNewCrashReport()</a>. The <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1NewReport.html" title="A crash report that is in the process of being written. ">NewReport</a> object and file handle within will be invalidated as part of this call. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">report</td><td>A <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1NewReport.html" title="A crash report that is in the process of being written. ">NewReport</a> obtained with <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a2e40ddf9bc49998c7cd30eb4035bb23f" title="Creates a record of a new crash report. ">PrepareNewCrashReport()</a>. The <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1NewReport.html" title="A crash report that is in the process of being written. ">NewReport</a> object will be invalidated as part of this call. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">uuid</td><td>The <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> of this crash report.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The operation status code. </dd></dl>
+
+<p>Implemented in <a class="el" href="classcrashpad_1_1CrashReportDatabaseWin.html#a3f92307c8d84d5a0822d7412db997cf6">crashpad::CrashReportDatabaseWin</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a81da0d483b8c69b8baa636c1a6ad4dae">crashpad::CrashReportDatabaseGeneric</a>, and <a class="el" href="classcrashpad_1_1CrashReportDatabaseMac.html#a21779f103f618f0fa97d8cbe6f5ea936">crashpad::CrashReportDatabaseMac</a>.</p>
 
 </div>
 </div>
@@ -340,6 +356,8 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The operation status code. </dd></dl>
 
+<p>Implemented in <a class="el" href="classcrashpad_1_1CrashReportDatabaseWin.html#ac70f0365623f26abcaf8a1eced25dbc8">crashpad::CrashReportDatabaseWin</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a59211bd411d4f4438c4686e57d0e527c">crashpad::CrashReportDatabaseGeneric</a>, and <a class="el" href="classcrashpad_1_1CrashReportDatabaseMac.html#ac05cc3c5354619cb3d17aaee8209fa54">crashpad::CrashReportDatabaseMac</a>.</p>
+
 </div>
 </div>
 <a id="a508353ae8893bf48a5ffcc9c74b03223"></a>
@@ -375,10 +393,12 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The operation status code. </dd></dl>
 
+<p>Implemented in <a class="el" href="classcrashpad_1_1CrashReportDatabaseWin.html#a16ddf168ba04b4e889a18882b5a7e280">crashpad::CrashReportDatabaseWin</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a8cdc4769b0d7a0964ea9fa5584ba05e9">crashpad::CrashReportDatabaseGeneric</a>, and <a class="el" href="classcrashpad_1_1CrashReportDatabaseMac.html#aa6ad8f281d825122e9a9872c82612d0e">crashpad::CrashReportDatabaseMac</a>.</p>
+
 </div>
 </div>
-<a id="ab87ae2586364bc46def5335c07c8eb04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab87ae2586364bc46def5335c07c8eb04">&#9670;&nbsp;</a></span>GetReportForUploading()</h2>
+<a id="ae6ca376e1569aa3212a95186676742b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6ca376e1569aa3212a95186676742b9">&#9670;&nbsp;</a></span>GetReportForUploading()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -395,7 +415,7 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1Report.html">Report</a> **&#160;</td>
+          <td class="paramtype">std::unique_ptr&lt; const <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1UploadReport.html">UploadReport</a> &gt; *&#160;</td>
           <td class="paramname"><em>report</em>&#160;</td>
         </tr>
         <tr>
@@ -411,17 +431,18 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Obtains a report object for uploading to a collection server. </p>
-<p>The file at <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1Report.html#a42cfce2b75dfee931b8d82968592d8a7">Report::file_path</a> should be uploaded by the caller, and then the returned <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1Report.html" title="A crash report record. ">Report</a> object must be disposed of via a call to <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a5c9b19255aff2f995cc645e949331f7d" title="Adjusts a crash report record’s metadata to account for an upload attempt, and updates the last uplo...">RecordUploadAttempt()</a>.</p>
-<p>A subsequent call to this method with the same <em>uuid</em> is illegal until <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a5c9b19255aff2f995cc645e949331f7d" title="Adjusts a crash report record’s metadata to account for an upload attempt, and updates the last uplo...">RecordUploadAttempt()</a> has been called.</p>
+<p>Obtains and locks a report object for uploading to a collection server. </p>
+<p>Callers should upload the crash report using the <a class="el" href="classcrashpad_1_1FileReader.html" title="A file reader implementation that wraps traditional system file operations on files accessed through ...">FileReader</a> provided. Callers should then call <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a329a165c28e20bc3458e697ea8778517" title="Records a successful upload for a report and updates the last upload attempt time as returned by Sett...">RecordUploadComplete()</a> to record a successful upload. If <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a329a165c28e20bc3458e697ea8778517" title="Records a successful upload for a report and updates the last upload attempt time as returned by Sett...">RecordUploadComplete()</a> is not called, the upload attempt will be recorded as unsuccessful and the report lock released when <em>report</em> is destroyed.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">uuid</td><td>The unique identifier for the crash report record. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">report</td><td>A crash report record for the report to be uploaded. The caller does not own this object. Only valid if this returns <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00ad73503b93bff6f4ae156a65fcb5e71f8" title="No error occurred. ">kNoError</a>.</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">report</td><td>A crash report record for the report to be uploaded. Only valid if this returns <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00ad73503b93bff6f4ae156a65fcb5e71f8" title="No error occurred. ">kNoError</a>.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The operation status code. </dd></dl>
+
+<p>Implemented in <a class="el" href="classcrashpad_1_1CrashReportDatabaseWin.html#a9a5bd59efe60e724e27800e73fc01f6f">crashpad::CrashReportDatabaseWin</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a9fc64953bab48b3404719ea63cda5754">crashpad::CrashReportDatabaseGeneric</a>, and <a class="el" href="classcrashpad_1_1CrashReportDatabaseMac.html#a277e920992c70710b7ebb605567571ab">crashpad::CrashReportDatabaseMac</a>.</p>
 
 </div>
 </div>
@@ -450,6 +471,8 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Returns the <a class="el" href="classcrashpad_1_1Settings.html" title="An interface for accessing and modifying the settings of a CrashReportDatabase. ">Settings</a> object for this database. </p>
 <dl class="section return"><dt>Returns</dt><dd>A weak pointer to the <a class="el" href="classcrashpad_1_1Settings.html" title="An interface for accessing and modifying the settings of a CrashReportDatabase. ">Settings</a> object, which is owned by the database. </dd></dl>
+
+<p>Implemented in <a class="el" href="classcrashpad_1_1CrashReportDatabaseWin.html#a6937857d53e9e7de656cb5388d91a1d0">crashpad::CrashReportDatabaseWin</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a91406c5fbec397b15aac2b0964e9d53e">crashpad::CrashReportDatabaseGeneric</a>, and <a class="el" href="classcrashpad_1_1CrashReportDatabaseMac.html#a2e42d9d3d4d9f96285ba504d7668a34b">crashpad::CrashReportDatabaseMac</a>.</p>
 
 </div>
 </div>
@@ -569,10 +592,12 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The operation status code. </dd></dl>
 
+<p>Implemented in <a class="el" href="classcrashpad_1_1CrashReportDatabaseWin.html#a169d708e76fff838309dfa46095a04e7">crashpad::CrashReportDatabaseWin</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a0694c0d8f7758f990f653d542dd8986c">crashpad::CrashReportDatabaseGeneric</a>, and <a class="el" href="classcrashpad_1_1CrashReportDatabaseMac.html#a17f445e44bd09f86b352fa5846e9ff35">crashpad::CrashReportDatabaseMac</a>.</p>
+
 </div>
 </div>
-<a id="a6af53890d1e551800330e6ad53be995b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6af53890d1e551800330e6ad53be995b">&#9670;&nbsp;</a></span>PrepareNewCrashReport()</h2>
+<a id="a2e40ddf9bc49998c7cd30eb4035bb23f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e40ddf9bc49998c7cd30eb4035bb23f">&#9670;&nbsp;</a></span>PrepareNewCrashReport()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -583,7 +608,7 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a> crashpad::CrashReportDatabase::PrepareNewCrashReport </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1NewReport.html">NewReport</a> **&#160;</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1NewReport.html">NewReport</a> &gt; *&#160;</td>
           <td class="paramname"><em>report</em></td><td>)</td>
           <td></td>
         </tr>
@@ -596,38 +621,30 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Creates a record of a new crash report. </p>
-<p>Callers can then write the crash report using the file handle provided. The caller does not own the new crash report record or its file handle, both of which must be explicitly disposed of by calling <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#ac77057d6b9f0b8d8fb88e7653456c0ff" title="Informs the database that a crash report has been written. ">FinishedWritingCrashReport()</a> or <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a18e8875bcd1a0888bda5b126eb2bec00" title="Informs the database that an error occurred while attempting to write a crash report, and that any resources associated with it should be cleaned up. ">ErrorWritingCrashReport()</a>.</p>
-<p>To arrange to call <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a18e8875bcd1a0888bda5b126eb2bec00" title="Informs the database that an error occurred while attempting to write a crash report, and that any resources associated with it should be cleaned up. ">ErrorWritingCrashReport()</a> during any early return, use <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1CallErrorWritingCrashReport.html" title="A scoper to cleanly handle the interface requirement imposed by PrepareNewCrashReport(). ">CallErrorWritingCrashReport</a>.</p>
+<p>Callers should write the crash report using the <a class="el" href="classcrashpad_1_1FileWriter.html" title="A file writer implementation that wraps traditional system file operations on files accessed through ...">FileWriter</a> provided. Callers should then call <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a346b5f90a50066d5057b4eaaacdcf3b7" title="Informs the database that a crash report has been successfully written. ">FinishedWritingCrashReport()</a> to complete report creation. If an error is encountered while writing the crash report, no special action needs to be taken. If <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a346b5f90a50066d5057b4eaaacdcf3b7" title="Informs the database that a crash report has been successfully written. ">FinishedWritingCrashReport()</a> is not called, the report will be removed from the database when <em>report</em> is destroyed.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">report</td><td>A <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1NewReport.html" title="A crash report that is in the process of being written. ">NewReport</a> object containing a file handle to which the crash report data should be written. Only valid if this returns <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00ad73503b93bff6f4ae156a65fcb5e71f8" title="No error occurred. ">kNoError</a>. The caller must not delete the <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1NewReport.html" title="A crash report that is in the process of being written. ">NewReport</a> object or close the file handle within.</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">report</td><td>A <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1NewReport.html" title="A crash report that is in the process of being written. ">NewReport</a> object containing a <a class="el" href="classcrashpad_1_1FileWriter.html" title="A file writer implementation that wraps traditional system file operations on files accessed through ...">FileWriter</a> with which to write the report data. Only valid if this returns <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00ad73503b93bff6f4ae156a65fcb5e71f8" title="No error occurred. ">kNoError</a>.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The operation status code. </dd></dl>
 
+<p>Implemented in <a class="el" href="classcrashpad_1_1CrashReportDatabaseWin.html#a6da9af1cdc7e3f3bd24a52be280e1371">crashpad::CrashReportDatabaseWin</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#aa79e8766d90501fc06adb3ff934e1d12">crashpad::CrashReportDatabaseGeneric</a>, and <a class="el" href="classcrashpad_1_1CrashReportDatabaseMac.html#a0929c775c77975671805a06ed790afaf">crashpad::CrashReportDatabaseMac</a>.</p>
+
 </div>
 </div>
-<a id="a5c9b19255aff2f995cc645e949331f7d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c9b19255aff2f995cc645e949331f7d">&#9670;&nbsp;</a></span>RecordUploadAttempt()</h2>
+<a id="a329a165c28e20bc3458e697ea8778517"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a329a165c28e20bc3458e697ea8778517">&#9670;&nbsp;</a></span>RecordUploadComplete()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a> crashpad::CrashReportDatabase::RecordUploadAttempt </td>
+          <td class="memname"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">CrashReportDatabase::OperationStatus</a> crashpad::CrashReportDatabase::RecordUploadComplete </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1Report.html">Report</a> *&#160;</td>
+          <td class="paramtype">std::unique_ptr&lt; const <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1UploadReport.html">UploadReport</a> &gt;&#160;</td>
           <td class="paramname"><em>report</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>successful</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -641,20 +658,13 @@ Static Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Adjusts a crash report record’s metadata to account for an upload attempt, and updates the last upload attempt time as returned by <a class="el" href="classcrashpad_1_1Settings.html#a855f61d6fc73042dcb886ef40d8e4429" title="Retrieves the last time at which a report was attempted to be uploaded. ">Settings::GetLastUploadAttemptTime()</a>. </p>
-<p>After calling this method, the database is permitted to move and rename the file at <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1Report.html#a42cfce2b75dfee931b8d82968592d8a7">Report::file_path</a>.</p>
+<p>Records a successful upload for a report and updates the last upload attempt time as returned by <a class="el" href="classcrashpad_1_1Settings.html#a855f61d6fc73042dcb886ef40d8e4429" title="Retrieves the last time at which a report was attempted to be uploaded. ">Settings::GetLastUploadAttemptTime()</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">report</td><td>The report object obtained from <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#ab87ae2586364bc46def5335c07c8eb04" title="Obtains a report object for uploading to a collection server. ">GetReportForUploading()</a>. This object is invalidated after this call. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">successful</td><td>Whether the upload attempt was successful. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">id</td><td>The identifier assigned to this crash report by the collection server. Must be empty if <em>successful</em> is <code>false</code>; may be empty if it is <code>true</code>.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">report</td><td>A <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1UploadReport.html" title="A crash report that is in the process of being uploaded. ">UploadReport</a> object obtained from <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#ae6ca376e1569aa3212a95186676742b9" title="Obtains and locks a report object for uploading to a collection server. ">GetReportForUploading()</a>. The <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1UploadReport.html" title="A crash report that is in the process of being uploaded. ">UploadReport</a> object will be invalidated and the report unlocked as part of this call. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">id</td><td>The possibly empty identifier assigned to this crash report by the collection server.</td></tr>
   </table>
   </dd>
 </dl>
@@ -694,6 +704,8 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The operation status code. </dd></dl>
+
+<p>Implemented in <a class="el" href="classcrashpad_1_1CrashReportDatabaseWin.html#aa241dbd8fcd739370b79b87ffee4ac86">crashpad::CrashReportDatabaseWin</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a6deed32774a49b84c0df5103739cb21e">crashpad::CrashReportDatabaseGeneric</a>, and <a class="el" href="classcrashpad_1_1CrashReportDatabaseMac.html#a5c2c91bc0a68ba9cf9f09cad8268257f">crashpad::CrashReportDatabaseMac</a>.</p>
 
 </div>
 </div>
@@ -742,10 +754,14 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The operation status code. </dd></dl>
 
+<p>Implemented in <a class="el" href="classcrashpad_1_1CrashReportDatabaseWin.html#a5a26772b33767a3e9f6bf56c40a4440b">crashpad::CrashReportDatabaseWin</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a5be2c76566de31d9ae8fd632e1b4fe7e">crashpad::CrashReportDatabaseGeneric</a>, and <a class="el" href="classcrashpad_1_1CrashReportDatabaseMac.html#a5a92b53f409c4d360403b00aa5aaa8fe">crashpad::CrashReportDatabaseMac</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>client/crash_report_database.h</li>
+<li>client/crash_report_database.cc</li>
+<li>client/crash_report_database_generic.cc</li>
 <li>client/crash_report_database_mac.mm</li>
 <li>client/crash_report_database_win.cc</li>
 </ul>

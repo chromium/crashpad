@@ -105,6 +105,13 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1FakePtraceConnection.html#a8dc87c797183dd98e045e17d1a4e1845">GetThreadInfo</a> (pid_t tid, <a class="el" href="structcrashpad_1_1ThreadInfo.html">ThreadInfo</a> *info) override</td></tr>
 <tr class="memdesc:a8dc87c797183dd98e045e17d1a4e1845"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does not modify <em>info</em>. <br /></td></tr>
 <tr class="separator:a8dc87c797183dd98e045e17d1a4e1845"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c4aa66acc48dbb27ac579aa1fd73af7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1FakePtraceConnection.html#a4c4aa66acc48dbb27ac579aa1fd73af7">ReadFileContents</a> (const base::FilePath &amp;path, std::string *contents) override</td></tr>
+<tr class="memdesc:a4c4aa66acc48dbb27ac579aa1fd73af7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the entire contents of a file.  <a href="#a4c4aa66acc48dbb27ac579aa1fd73af7">More...</a><br /></td></tr>
+<tr class="separator:a4c4aa66acc48dbb27ac579aa1fd73af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae88bb06d58f6d1d4fb9e600009d146d5"><td class="memItemLeft" align="right" valign="top"><a id="ae88bb06d58f6d1d4fb9e600009d146d5"></a>
+<a class="el" href="classcrashpad_1_1ProcessMemory.html">ProcessMemory</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1FakePtraceConnection.html#ae88bb06d58f6d1d4fb9e600009d146d5">Memory</a> () override</td></tr>
+<tr class="memdesc:ae88bb06d58f6d1d4fb9e600009d146d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to create a <a class="el" href="classcrashpad_1_1ProcessMemory.html" title="Abstract base class for accessing the memory of another process. ">ProcessMemory</a> when called, calling ADD_FAILURE() and returning <code>nullptr</code> on failure. <br /></td></tr>
+<tr class="separator:ae88bb06d58f6d1d4fb9e600009d146d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Stands-in where real PtraceConnections aren't available. </p>
@@ -171,6 +178,54 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. <code>false</code> on failure with a message logged. </dd></dl>
+
+</div>
+</div>
+<a id="a4c4aa66acc48dbb27ac579aa1fd73af7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c4aa66acc48dbb27ac579aa1fd73af7">&#9670;&nbsp;</a></span>ReadFileContents()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::test::FakePtraceConnection::ReadFileContents </td>
+          <td>(</td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string *&#160;</td>
+          <td class="paramname"><em>contents</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reads the entire contents of a file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>The path of the file to read. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">contents</td><td>The file contents, valid if this method returns <code>true</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. <code>false</code> on failure with a message logged. </dd></dl>
+
+<p>Implements <a class="el" href="classcrashpad_1_1PtraceConnection.html#a49d4ed2691ef7d612d49e1f145761f57">crashpad::PtraceConnection</a>.</p>
 
 </div>
 </div>

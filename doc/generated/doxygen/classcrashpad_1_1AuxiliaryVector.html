@@ -79,9 +79,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae63a0ab9ae33878652a81b1d5a615f44"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1AuxiliaryVector.html#ae63a0ab9ae33878652a81b1d5a615f44">Initialize</a> (pid_t pid, bool is_64_bit)</td></tr>
-<tr class="memdesc:ae63a0ab9ae33878652a81b1d5a615f44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes this object with the auxiliary vector for the process with process ID <em>pid</em>.  <a href="#ae63a0ab9ae33878652a81b1d5a615f44">More...</a><br /></td></tr>
-<tr class="separator:ae63a0ab9ae33878652a81b1d5a615f44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b786512796fbecee76b69aebf68918d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1AuxiliaryVector.html#a7b786512796fbecee76b69aebf68918d">Initialize</a> (<a class="el" href="classcrashpad_1_1PtraceConnection.html">PtraceConnection</a> *connection)</td></tr>
+<tr class="memdesc:a7b786512796fbecee76b69aebf68918d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes this object with the auxiliary vector for the process connected via <em>connection</em>.  <a href="#a7b786512796fbecee76b69aebf68918d">More...</a><br /></td></tr>
+<tr class="separator:a7b786512796fbecee76b69aebf68918d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae00dc7ebf414b994a4a9330ddc2a6e56"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
 <tr class="memitem:ae00dc7ebf414b994a4a9330ddc2a6e56"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1AuxiliaryVector.html#ae00dc7ebf414b994a4a9330ddc2a6e56">GetValue</a> (uint64_t type, V *value) const</td></tr>
 <tr class="memdesc:ae00dc7ebf414b994a4a9330ddc2a6e56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a value from the vector.  <a href="#ae00dc7ebf414b994a4a9330ddc2a6e56">More...</a><br /></td></tr>
@@ -144,8 +144,8 @@ template&lt;typename V &gt; </div>
 
 </div>
 </div>
-<a id="ae63a0ab9ae33878652a81b1d5a615f44"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae63a0ab9ae33878652a81b1d5a615f44">&#9670;&nbsp;</a></span>Initialize()</h2>
+<a id="a7b786512796fbecee76b69aebf68918d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b786512796fbecee76b69aebf68918d">&#9670;&nbsp;</a></span>Initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -153,29 +153,18 @@ template&lt;typename V &gt; </div>
         <tr>
           <td class="memname">bool crashpad::AuxiliaryVector::Initialize </td>
           <td>(</td>
-          <td class="paramtype">pid_t&#160;</td>
-          <td class="paramname"><em>pid</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="classcrashpad_1_1PtraceConnection.html">PtraceConnection</a> *&#160;</td>
+          <td class="paramname"><em>connection</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>is_64_bit</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initializes this object with the auxiliary vector for the process with process ID <em>pid</em>. </p>
+<p>Initializes this object with the auxiliary vector for the process connected via <em>connection</em>. </p>
 <p>This method must be called successfully prior to calling any other method in this class.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">pid</td><td>The process ID of a target process. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">is_64_bit</td><td>Whether the target process is 64-bit.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">connection</td><td>A connection to the target process.</td></tr>
   </table>
   </dd>
 </dl>

@@ -95,6 +95,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abd26eb2c22f87139745fc2de4eb7524a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1HTTPTransport.html#abd26eb2c22f87139745fc2de4eb7524a">SetTimeout</a> (double timeout)</td></tr>
 <tr class="memdesc:abd26eb2c22f87139745fc2de4eb7524a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the timeout for the HTTP request. The default is 15 seconds.  <a href="#abd26eb2c22f87139745fc2de4eb7524a">More...</a><br /></td></tr>
 <tr class="separator:abd26eb2c22f87139745fc2de4eb7524a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5e48cfb9ad23171e4f3e6813f035368"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1HTTPTransport.html#af5e48cfb9ad23171e4f3e6813f035368">SetRootCACertificatePath</a> (const base::FilePath &amp;cert)</td></tr>
+<tr class="memdesc:af5e48cfb9ad23171e4f3e6813f035368"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a certificate file to be used in lieu of the system CA cert bundle.  <a href="#af5e48cfb9ad23171e4f3e6813f035368">More...</a><br /></td></tr>
+<tr class="separator:af5e48cfb9ad23171e4f3e6813f035368"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08803c6c93750cbdc04c814a73a65efe"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1HTTPTransport.html#a08803c6c93750cbdc04c814a73a65efe">ExecuteSynchronously</a> (std::string *response_body)=0</td></tr>
 <tr class="memdesc:a08803c6c93750cbdc04c814a73a65efe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs the HTTP request with the configured parameters and waits for the execution to complete.  <a href="#a08803c6c93750cbdc04c814a73a65efe">More...</a><br /></td></tr>
 <tr class="separator:a08803c6c93750cbdc04c814a73a65efe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -122,6 +125,9 @@ const <a class="el" href="namespacecrashpad.html#af6ffe10a8131fab8d1f8de60d9a812
 <tr class="memitem:a16550604ed085be0481f25227e6f3752"><td class="memItemLeft" align="right" valign="top"><a id="a16550604ed085be0481f25227e6f3752"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>timeout</b> () const</td></tr>
 <tr class="separator:a16550604ed085be0481f25227e6f3752"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acedbc508286a6fc35db2e0f3e59e6b2d"><td class="memItemLeft" align="right" valign="top"><a id="acedbc508286a6fc35db2e0f3e59e6b2d"></a>
+const base::FilePath &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>root_ca_certificate_path</b> () const</td></tr>
+<tr class="separator:acedbc508286a6fc35db2e0f3e59e6b2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classcrashpad_1_1HTTPTransport.html" title="HTTPTransport executes a HTTP request using the specified URL, HTTP method, headers, and body. This class can only issue a synchronous HTTP request. ">HTTPTransport</a> executes a HTTP request using the specified URL, HTTP method, headers, and body. This class can only issue a synchronous HTTP request. </p>
@@ -279,6 +285,33 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>timeout</b> () cons
 
 </div>
 </div>
+<a id="af5e48cfb9ad23171e4f3e6813f035368"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5e48cfb9ad23171e4f3e6813f035368">&#9670;&nbsp;</a></span>SetRootCACertificatePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::HTTPTransport::SetRootCACertificatePath </td>
+          <td>(</td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>cert</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets a certificate file to be used in lieu of the system CA cert bundle. </p>
+<p>This is exposed primarily for testing with a self-signed certificate, and it isn't necessary to set it in normal use.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">cert</td><td>The filename of a file in PEM format containing the CA cert to be used for TLS connections. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="abd26eb2c22f87139745fc2de4eb7524a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abd26eb2c22f87139745fc2de4eb7524a">&#9670;&nbsp;</a></span>SetTimeout()</h2>
 
@@ -334,7 +367,8 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>timeout</b> () cons
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>util/net/http_transport.h</li>
 <li>util/net/http_transport.cc</li>
-<li>util/net/http_transport_libcurl.cc</li>
+<li>util/net/http_transport_none.cc</li>
+<li>util/net/http_transport_socket.cc</li>
 <li>util/net/http_transport_win.cc</li>
 </ul>
 </div><!-- contents -->

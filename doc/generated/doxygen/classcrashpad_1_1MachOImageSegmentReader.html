@@ -79,9 +79,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a89fd9c08d2644ffb4331e33a09e80b67"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#a89fd9c08d2644ffb4331e33a09e80b67">Initialize</a> (<a class="el" href="classcrashpad_1_1ProcessReader.html">ProcessReader</a> *process_reader, mach_vm_address_t load_command_address, const std::string &amp;load_command_info, const std::string &amp;module_name, uint32_t file_type)</td></tr>
-<tr class="memdesc:a89fd9c08d2644ffb4331e33a09e80b67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the segment load command from another process.  <a href="#a89fd9c08d2644ffb4331e33a09e80b67">More...</a><br /></td></tr>
-<tr class="separator:a89fd9c08d2644ffb4331e33a09e80b67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae31cdad3d716b7b82f96541a82adbff9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#ae31cdad3d716b7b82f96541a82adbff9">Initialize</a> (<a class="el" href="classcrashpad_1_1ProcessReaderMac.html">ProcessReaderMac</a> *process_reader, mach_vm_address_t load_command_address, const std::string &amp;load_command_info, const std::string &amp;module_name, uint32_t file_type)</td></tr>
+<tr class="memdesc:ae31cdad3d716b7b82f96541a82adbff9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the segment load command from another process.  <a href="#ae31cdad3d716b7b82f96541a82adbff9">More...</a><br /></td></tr>
+<tr class="separator:ae31cdad3d716b7b82f96541a82adbff9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ebb278d318490b4ac6656f1911cf6ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#a6ebb278d318490b4ac6656f1911cf6ad">SetSlide</a> (mach_vm_size_t slide)</td></tr>
 <tr class="memdesc:a6ebb278d318490b4ac6656f1911cf6ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the image’s slide value.  <a href="#a6ebb278d318490b4ac6656f1911cf6ad">More...</a><br /></td></tr>
 <tr class="separator:a6ebb278d318490b4ac6656f1911cf6ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -259,8 +259,8 @@ Unlike <a class="el" href="classcrashpad_1_1MachOImageReader.html#ac9a2388f42c8d
 
 </div>
 </div>
-<a id="a89fd9c08d2644ffb4331e33a09e80b67"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89fd9c08d2644ffb4331e33a09e80b67">&#9670;&nbsp;</a></span>Initialize()</h2>
+<a id="ae31cdad3d716b7b82f96541a82adbff9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae31cdad3d716b7b82f96541a82adbff9">&#9670;&nbsp;</a></span>Initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -268,7 +268,7 @@ Unlike <a class="el" href="classcrashpad_1_1MachOImageReader.html#ac9a2388f42c8d
         <tr>
           <td class="memname">bool crashpad::MachOImageSegmentReader::Initialize </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classcrashpad_1_1ProcessReader.html">ProcessReader</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="classcrashpad_1_1ProcessReaderMac.html">ProcessReaderMac</a> *&#160;</td>
           <td class="paramname"><em>process_reader</em>, </td>
         </tr>
         <tr>
@@ -501,8 +501,8 @@ Unlike <a class="el" href="classcrashpad_1_1MachOImageReader.html#ac9a2388f42c8d
 </div><div class="memdoc">
 
 <p>Sets the image’s slide value. </p>
-<p>This method must only be called once on an object, after <a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#a89fd9c08d2644ffb4331e33a09e80b67" title="Reads the segment load command from another process. ">Initialize()</a> is called successfully. It must be called before <a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#a873ee4e1206c53ba15faa3fcae684d2e">Address()</a>, <a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#a0d1d9a429f5f3ef9bc8cff02f90c3374">Size()</a>, <a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#a2f2f06905518f693178e52ee14c57e9e" title="Obtain section information by section name. ">GetSectionByName()</a>, or <a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#a370e8711294ba506de99e093ac879357" title="Obtain section information by section index. ">GetSectionAtIndex()</a> can be called.</p>
-<p>This method is provided because slide is a property of the image that cannot be determined until at least some segments have been read. As such, it is not necessarily known at the time that <a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#a89fd9c08d2644ffb4331e33a09e80b67" title="Reads the segment load command from another process. ">Initialize()</a> is called. </p>
+<p>This method must only be called once on an object, after <a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#ae31cdad3d716b7b82f96541a82adbff9" title="Reads the segment load command from another process. ">Initialize()</a> is called successfully. It must be called before <a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#a873ee4e1206c53ba15faa3fcae684d2e">Address()</a>, <a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#a0d1d9a429f5f3ef9bc8cff02f90c3374">Size()</a>, <a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#a2f2f06905518f693178e52ee14c57e9e" title="Obtain section information by section name. ">GetSectionByName()</a>, or <a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#a370e8711294ba506de99e093ac879357" title="Obtain section information by section index. ">GetSectionAtIndex()</a> can be called.</p>
+<p>This method is provided because slide is a property of the image that cannot be determined until at least some segments have been read. As such, it is not necessarily known at the time that <a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#ae31cdad3d716b7b82f96541a82adbff9" title="Reads the segment load command from another process. ">Initialize()</a> is called. </p>
 
 </div>
 </div>

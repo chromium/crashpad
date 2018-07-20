@@ -87,9 +87,9 @@ Inheritance diagram for crashpad::internal::SystemSnapshotLinux:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8d265011fa721adadac7bba6e4a58adc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotLinux.html#a8d265011fa721adadac7bba6e4a58adc">Initialize</a> (<a class="el" href="classcrashpad_1_1ProcessReader.html">ProcessReader</a> *process_reader, const timeval *snapshot_time)</td></tr>
-<tr class="memdesc:a8d265011fa721adadac7bba6e4a58adc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the object.  <a href="#a8d265011fa721adadac7bba6e4a58adc">More...</a><br /></td></tr>
-<tr class="separator:a8d265011fa721adadac7bba6e4a58adc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7df2d7da765025e0686338fbb7b2c060"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotLinux.html#a7df2d7da765025e0686338fbb7b2c060">Initialize</a> (<a class="el" href="classcrashpad_1_1ProcessReaderLinux.html">ProcessReaderLinux</a> *process_reader, const timeval *snapshot_time)</td></tr>
+<tr class="memdesc:a7df2d7da765025e0686338fbb7b2c060"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the object.  <a href="#a7df2d7da765025e0686338fbb7b2c060">More...</a><br /></td></tr>
+<tr class="separator:a7df2d7da765025e0686338fbb7b2c060"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab22096c2df15e1b01f288c38de5d75f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#a270e290ba558e948eb6690bd217cbb71">CPUArchitecture</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotLinux.html#ab22096c2df15e1b01f288c38de5d75f9">GetCPUArchitecture</a> () const override</td></tr>
 <tr class="memdesc:ab22096c2df15e1b01f288c38de5d75f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the snapshot system’s CPU architecture.  <a href="#ab22096c2df15e1b01f288c38de5d75f9">More...</a><br /></td></tr>
 <tr class="separator:ab22096c2df15e1b01f288c38de5d75f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -466,8 +466,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a8d265011fa721adadac7bba6e4a58adc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8d265011fa721adadac7bba6e4a58adc">&#9670;&nbsp;</a></span>Initialize()</h2>
+<a id="a7df2d7da765025e0686338fbb7b2c060"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7df2d7da765025e0686338fbb7b2c060">&#9670;&nbsp;</a></span>Initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -475,7 +475,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">void crashpad::internal::SystemSnapshotLinux::Initialize </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classcrashpad_1_1ProcessReader.html">ProcessReader</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="classcrashpad_1_1ProcessReaderLinux.html">ProcessReaderLinux</a> *&#160;</td>
           <td class="paramname"><em>process_reader</em>, </td>
         </tr>
         <tr>
@@ -497,7 +497,7 @@ Additional Inherited Members</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">process_reader</td><td>A reader for the process being snapshotted. <br />
 <br />
- It seems odd that a system snapshot implementation would need a <a class="el" href="classcrashpad_1_1ProcessReader.html" title="Accesses information about another process, identified by a process ID. ">ProcessReader</a>, but some of the information reported about the system depends on the process it’s being reported for. For example, the architecture returned by <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotLinux.html#ab22096c2df15e1b01f288c38de5d75f9" title="Returns the snapshot system’s CPU architecture. ">GetCPUArchitecture()</a> should be the architecture of the process, which may be different than the native architecture of the system: an x86_64 system can run both x86_64 and 32-bit x86 processes. </td></tr>
+ It seems odd that a system snapshot implementation would need a <a class="el" href="classcrashpad_1_1ProcessReaderLinux.html" title="Accesses information about another process, identified by a process ID. ">ProcessReaderLinux</a>, but some of the information reported about the system depends on the process it’s being reported for. For example, the architecture returned by <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotLinux.html#ab22096c2df15e1b01f288c38de5d75f9" title="Returns the snapshot system’s CPU architecture. ">GetCPUArchitecture()</a> should be the architecture of the process, which may be different than the native architecture of the system: an x86_64 system can run both x86_64 and 32-bit x86 processes. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">snapshot_time</td><td>The time of the snapshot being taken. <br />
 <br />
  This parameter is necessary for <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotLinux.html#ae7a690c651383682dd276f9f1339586c" title="Returns time zone information from the snapshot system, based on its locale configuration and real-ti...">TimeZone()</a> to determine whether daylight saving time was in effect at the time the snapshot was taken. Otherwise, it would need to base its determination on the current time, which may be different than the snapshot time for snapshots generated around the daylight saving transition time. </td></tr>

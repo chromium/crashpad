@@ -91,6 +91,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad6ead21552f6326728ecdabede8e59d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1MultiprocessExec.html#ad6ead21552f6326728ecdabede8e59d6">SetChildCommand</a> (const base::FilePath &amp;command, const std::vector&lt; std::string &gt; *arguments)</td></tr>
 <tr class="memdesc:ad6ead21552f6326728ecdabede8e59d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the command to <code>exec()</code> in the child.  <a href="#ad6ead21552f6326728ecdabede8e59d6">More...</a><br /></td></tr>
 <tr class="separator:ad6ead21552f6326728ecdabede8e59d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad430d38feca0b12506c3de50707f1fdd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1MultiprocessExec.html#ad430d38feca0b12506c3de50707f1fdd">SetChildTestMainFunction</a> (const std::string &amp;function_name)</td></tr>
+<tr class="memdesc:ad430d38feca0b12506c3de50707f1fdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <a class="el" href="classcrashpad_1_1test_1_1MultiprocessExec.html#ad6ead21552f6326728ecdabede8e59d6" title="Sets the command to exec() in the child. ">SetChildCommand()</a> to run a child test main function registered with <a class="el" href="multiprocess__exec_8h.html#a62b5891d00df060b50ee76f74b1156b3" title="Registers a function that can be invoked as a child process by MultiprocessExec. ">CRASHPAD_CHILD_TEST_MAIN()</a>.  <a href="#ad430d38feca0b12506c3de50707f1fdd">More...</a><br /></td></tr>
+<tr class="separator:ad430d38feca0b12506c3de50707f1fdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a89bf62a7cef0f35bb814ee07a3351b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad_1_1test.html#aaa6abeab378a8e4206ae2e6a34126c48">ProcessType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1MultiprocessExec.html#a9a89bf62a7cef0f35bb814ee07a3351b">ChildProcess</a> ()</td></tr>
+<tr class="memdesc:a9a89bf62a7cef0f35bb814ee07a3351b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a ProcessType representing the child process.  <a href="#a9a89bf62a7cef0f35bb814ee07a3351b">More...</a><br /></td></tr>
+<tr class="separator:a9a89bf62a7cef0f35bb814ee07a3351b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcrashpad_1_1test_1_1Multiprocess"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcrashpad_1_1test_1_1Multiprocess')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcrashpad_1_1test_1_1Multiprocess.html">crashpad::test::Multiprocess</a></td></tr>
 <tr class="memitem:a801aa7a78b2254c31c3ef7e0b24208e3 inherit pub_methods_classcrashpad_1_1test_1_1Multiprocess"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1Multiprocess.html#a801aa7a78b2254c31c3ef7e0b24208e3">Run</a> ()</td></tr>
 <tr class="memdesc:a801aa7a78b2254c31c3ef7e0b24208e3 inherit pub_methods_classcrashpad_1_1test_1_1Multiprocess"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the test.  <a href="classcrashpad_1_1test_1_1Multiprocess.html#a801aa7a78b2254c31c3ef7e0b24208e3">More...</a><br /></td></tr>
@@ -98,6 +104,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a619dd6b1fd2a909df6f3d6b2e1c75ad2 inherit pub_methods_classcrashpad_1_1test_1_1Multiprocess"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1Multiprocess.html#a619dd6b1fd2a909df6f3d6b2e1c75ad2">SetExpectedChildTermination</a> (<a class="el" href="classcrashpad_1_1test_1_1Multiprocess.html#adedaaa5fbbb57de1ae5af8ef7c84b4bf">TerminationReason</a> reason, int code)</td></tr>
 <tr class="memdesc:a619dd6b1fd2a909df6f3d6b2e1c75ad2 inherit pub_methods_classcrashpad_1_1test_1_1Multiprocess"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the expected termination reason and code.  <a href="classcrashpad_1_1test_1_1Multiprocess.html#a619dd6b1fd2a909df6f3d6b2e1c75ad2">More...</a><br /></td></tr>
 <tr class="separator:a619dd6b1fd2a909df6f3d6b2e1c75ad2 inherit pub_methods_classcrashpad_1_1test_1_1Multiprocess"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc2bc24e4acfa5833936e0b7e97b91c8 inherit pub_methods_classcrashpad_1_1test_1_1Multiprocess"><td class="memItemLeft" align="right" valign="top"><a id="acc2bc24e4acfa5833936e0b7e97b91c8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1Multiprocess.html#acc2bc24e4acfa5833936e0b7e97b91c8">SetExpectedChildTerminationBuiltinTrap</a> ()</td></tr>
+<tr class="memdesc:acc2bc24e4acfa5833936e0b7e97b91c8 inherit pub_methods_classcrashpad_1_1test_1_1Multiprocess"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets termination reason and code appropriately for a child that terminates via <code>__builtin_trap()</code>. <br /></td></tr>
+<tr class="separator:acc2bc24e4acfa5833936e0b7e97b91c8 inherit pub_methods_classcrashpad_1_1test_1_1Multiprocess"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -139,6 +149,27 @@ Additional Inherited Members</h2></td></tr>
 <p>These tests are based on <code>fork()</code> and <code>exec()</code>. The parent process is able to communicate with the child in the same manner as a base-class <a class="el" href="classcrashpad_1_1test_1_1Multiprocess.html" title="Manages a multiprocess test. ">Multiprocess</a> parent. The read and write pipes appear in the child process on stdin and stdout, respectively.</p>
 <p>Subclasses are expected to implement the parent in the same was as a base-class <a class="el" href="classcrashpad_1_1test_1_1Multiprocess.html" title="Manages a multiprocess test. ">Multiprocess</a> parent. The child must be implemented in an executable to be set by <a class="el" href="classcrashpad_1_1test_1_1MultiprocessExec.html#ad6ead21552f6326728ecdabede8e59d6" title="Sets the command to exec() in the child. ">SetChildCommand()</a>. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a9a89bf62a7cef0f35bb814ee07a3351b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a89bf62a7cef0f35bb814ee07a3351b">&#9670;&nbsp;</a></span>ChildProcess()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacecrashpad_1_1test.html#aaa6abeab378a8e4206ae2e6a34126c48">ProcessType</a> crashpad::test::MultiprocessExec::ChildProcess </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a ProcessType representing the child process. </p>
+<p>This method is only valid during the body of MultiprocessParent().</p>
+<dl class="section return"><dt>Returns</dt><dd>A platform-specific type representing the child process. </dd></dl>
+
+</div>
+</div>
 <a id="a4fbe35bfe7dd75624b417c435ae2208b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4fbe35bfe7dd75624b417c435ae2208b">&#9670;&nbsp;</a></span>PreFork()</h2>
 
@@ -198,10 +229,39 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Sets the command to <code>exec()</code> in the child. </p>
 <p>This method must be called before the test can be <a class="el" href="classcrashpad_1_1test_1_1Multiprocess.html#a801aa7a78b2254c31c3ef7e0b24208e3" title="Runs the test. ">Run()</a>.</p>
+<p>This method is useful when a custom executable is required for the child binary, however, <a class="el" href="classcrashpad_1_1test_1_1MultiprocessExec.html#ad430d38feca0b12506c3de50707f1fdd" title="Calls SetChildCommand() to run a child test main function registered with CRASHPAD_CHILD_TEST_MAIN()...">SetChildTestMainFunction()</a> should generally be preferred.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">command</td><td>The executable’s pathname. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">arguments</td><td>The command-line arguments to pass to the child process in its <code>argv[]</code> vector. This vector must begin at <code>argv[1]</code>, as <em>command</em> is implicitly used as <code>argv[0]</code>. This argument may be <code>nullptr</code> if no command-line arguments are to be passed. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">arguments</td><td>The command-line arguments to pass to the child process in its <code>argv[]</code> vector. This vector must begin at <code>argv[1]</code>, as <em>command</em> is implicitly used as <code>argv[0]</code>. This argument may be <code>nullptr</code> if no command-line arguments are to be passed.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classcrashpad_1_1test_1_1MultiprocessExec.html#ad430d38feca0b12506c3de50707f1fdd" title="Calls SetChildCommand() to run a child test main function registered with CRASHPAD_CHILD_TEST_MAIN()...">SetChildTestMainFunction</a> </dd></dl>
+
+</div>
+</div>
+<a id="ad430d38feca0b12506c3de50707f1fdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad430d38feca0b12506c3de50707f1fdd">&#9670;&nbsp;</a></span>SetChildTestMainFunction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::test::MultiprocessExec::SetChildTestMainFunction </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>function_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calls <a class="el" href="classcrashpad_1_1test_1_1MultiprocessExec.html#ad6ead21552f6326728ecdabede8e59d6" title="Sets the command to exec() in the child. ">SetChildCommand()</a> to run a child test main function registered with <a class="el" href="multiprocess__exec_8h.html#a62b5891d00df060b50ee76f74b1156b3" title="Registers a function that can be invoked as a child process by MultiprocessExec. ">CRASHPAD_CHILD_TEST_MAIN()</a>. </p>
+<p>This uses the same launch mechanism as <a class="el" href="classcrashpad_1_1test_1_1MultiprocessExec.html#ad6ead21552f6326728ecdabede8e59d6" title="Sets the command to exec() in the child. ">SetChildCommand()</a>, but coordinates with test/gtest_main.cc to allow for simple registration of a child processes' entry point via the helper macro, rather than needing to create a separate build target.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">function_name</td><td>The name of the function as passed to <a class="el" href="multiprocess__exec_8h.html#a62b5891d00df060b50ee76f74b1156b3" title="Registers a function that can be invoked as a child process by MultiprocessExec. ">CRASHPAD_CHILD_TEST_MAIN()</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -209,7 +269,9 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>test/multiprocess_exec.h</li>
+<li>test/<a class="el" href="multiprocess__exec_8h.html">multiprocess_exec.h</a></li>
+<li>test/multiprocess_exec.cc</li>
+<li>test/multiprocess_exec_fuchsia.cc</li>
 <li>test/multiprocess_exec_posix.cc</li>
 <li>test/multiprocess_exec_win.cc</li>
 </ul>

@@ -5,6 +5,7 @@ var searchData=
   ['universalmachexcserver',['UniversalMachExcServer',['../classcrashpad_1_1UniversalMachExcServer.html',1,'crashpad']]],
   ['universalmachexcserverimpl',['UniversalMachExcServerImpl',['../classcrashpad_1_1internal_1_1UniversalMachExcServerImpl.html',1,'crashpad::internal']]],
   ['unloadedmodulesnapshot',['UnloadedModuleSnapshot',['../classcrashpad_1_1UnloadedModuleSnapshot.html',1,'crashpad']]],
+  ['uploadreport',['UploadReport',['../classcrashpad_1_1CrashReportDatabase_1_1UploadReport.html',1,'crashpad::CrashReportDatabase']]],
   ['userdataminidumpstreamlistentry',['UserDataMinidumpStreamListEntry',['../structcrashpad_1_1internal_1_1UserDataMinidumpStreamListEntry.html',1,'crashpad::internal']]],
   ['userminidumpstream',['UserMinidumpStream',['../classcrashpad_1_1UserMinidumpStream.html',1,'crashpad']]],
   ['userstreamdatasource',['UserStreamDataSource',['../classcrashpad_1_1UserStreamDataSource.html',1,'crashpad']]],

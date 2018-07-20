@@ -90,10 +90,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad759a1bc92a551a955f915728534021a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryLinux.html#ad759a1bc92a551a955f915728534021a">Initialize</a> (pid_t pid)</td></tr>
 <tr class="memdesc:ad759a1bc92a551a955f915728534021a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes this object to read the memory of a process whose ID is <em>pid</em>.  <a href="#ad759a1bc92a551a955f915728534021a">More...</a><br /></td></tr>
 <tr class="separator:ad759a1bc92a551a955f915728534021a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f5e0c255a6b4dfba4fcf85d27d9dbe3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryLinux.html#a9f5e0c255a6b4dfba4fcf85d27d9dbe3">Read</a> (<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> address, size_t size, void *buffer) const override</td></tr>
-<tr class="memdesc:a9f5e0c255a6b4dfba4fcf85d27d9dbe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies memory from the target process into a caller-provided buffer in the current process.  <a href="#a9f5e0c255a6b4dfba4fcf85d27d9dbe3">More...</a><br /></td></tr>
-<tr class="separator:a9f5e0c255a6b4dfba4fcf85d27d9dbe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcrashpad_1_1ProcessMemory"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcrashpad_1_1ProcessMemory')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcrashpad_1_1ProcessMemory.html">crashpad::ProcessMemory</a></td></tr>
+<tr class="memitem:a83b8c9de787a575831cc1faa8f37c947 inherit pub_methods_classcrashpad_1_1ProcessMemory"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemory.html#a83b8c9de787a575831cc1faa8f37c947">Read</a> (<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> address, size_t size, void *buffer) const</td></tr>
+<tr class="memdesc:a83b8c9de787a575831cc1faa8f37c947 inherit pub_methods_classcrashpad_1_1ProcessMemory"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies memory from the target process into a caller-provided buffer in the current process.  <a href="classcrashpad_1_1ProcessMemory.html#a83b8c9de787a575831cc1faa8f37c947">More...</a><br /></td></tr>
+<tr class="separator:a83b8c9de787a575831cc1faa8f37c947 inherit pub_methods_classcrashpad_1_1ProcessMemory"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f31b6f891e7a363b4d1c30d9d7fef2b inherit pub_methods_classcrashpad_1_1ProcessMemory"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemory.html#a9f31b6f891e7a363b4d1c30d9d7fef2b">ReadCString</a> (<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> address, std::string *string) const</td></tr>
 <tr class="memdesc:a9f31b6f891e7a363b4d1c30d9d7fef2b inherit pub_methods_classcrashpad_1_1ProcessMemory"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a <code>NUL</code>-terminated C string from the target process into a string in the current process.  <a href="classcrashpad_1_1ProcessMemory.html#a9f31b6f891e7a363b4d1c30d9d7fef2b">More...</a><br /></td></tr>
 <tr class="separator:a9f31b6f891e7a363b4d1c30d9d7fef2b inherit pub_methods_classcrashpad_1_1ProcessMemory"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,61 +129,6 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, <code>false</code> on failure with a message logged. </dd></dl>
-
-</div>
-</div>
-<a id="a9f5e0c255a6b4dfba4fcf85d27d9dbe3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f5e0c255a6b4dfba4fcf85d27d9dbe3">&#9670;&nbsp;</a></span>Read()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool crashpad::ProcessMemoryLinux::Read </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a>&#160;</td>
-          <td class="paramname"><em>address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>buffer</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Copies memory from the target process into a caller-provided buffer in the current process. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">address</td><td>The address, in the target process' address space, of the memory region to copy. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>The size, in bytes, of the memory region to copy. <em>buffer</em> must be at least this size. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">buffer</td><td>The buffer into which the contents of the other process' memory will be copied.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, with <em>buffer</em> filled appropriately. <code>false</code> on failure, with a message logged. </dd></dl>
-
-<p>Implements <a class="el" href="classcrashpad_1_1ProcessMemory.html#aad5bf0d6593dec03de05593b38b1b29d">crashpad::ProcessMemory</a>.</p>
 
 </div>
 </div>

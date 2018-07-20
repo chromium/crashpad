@@ -82,6 +82,7 @@ Inheritance diagram for crashpad::PruneCrashReportThread:</div>
   <img src="classcrashpad_1_1PruneCrashReportThread.png" usemap="#crashpad::PruneCrashReportThread_map" alt=""/>
   <map id="crashpad::PruneCrashReportThread_map" name="crashpad::PruneCrashReportThread_map">
 <area href="classcrashpad_1_1WorkerThread_1_1Delegate.html" title="An interface for doing work on a WorkerThread. " alt="crashpad::WorkerThread::Delegate" shape="rect" coords="0,0,216,24"/>
+<area href="classcrashpad_1_1Stoppable.html" title="An interface for operations that may be Started and Stopped. " alt="crashpad::Stoppable" shape="rect" coords="226,0,442,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -90,16 +91,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a611e02d9b7666df11d2484f682b771ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#a611e02d9b7666df11d2484f682b771ea">PruneCrashReportThread</a> (<a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> *database, std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1PruneCondition.html">PruneCondition</a> &gt; condition)</td></tr>
 <tr class="memdesc:a611e02d9b7666df11d2484f682b771ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new object.  <a href="#a611e02d9b7666df11d2484f682b771ea">More...</a><br /></td></tr>
 <tr class="separator:a611e02d9b7666df11d2484f682b771ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb763db67dfc1fefe7b2fb88e10ee760"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#adb763db67dfc1fefe7b2fb88e10ee760">Start</a> ()</td></tr>
-<tr class="memdesc:adb763db67dfc1fefe7b2fb88e10ee760"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a dedicated pruning thread.  <a href="#adb763db67dfc1fefe7b2fb88e10ee760">More...</a><br /></td></tr>
-<tr class="separator:adb763db67dfc1fefe7b2fb88e10ee760"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a911e0acefa4bfdde3020cda64c8d85ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#a911e0acefa4bfdde3020cda64c8d85ae">Stop</a> ()</td></tr>
-<tr class="memdesc:a911e0acefa4bfdde3020cda64c8d85ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the pruning thread.  <a href="#a911e0acefa4bfdde3020cda64c8d85ae">More...</a><br /></td></tr>
-<tr class="separator:a911e0acefa4bfdde3020cda64c8d85ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5337f19cd27e3bf1e65d23133baeffc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#aa5337f19cd27e3bf1e65d23133baeffc">Start</a> () override</td></tr>
+<tr class="memdesc:aa5337f19cd27e3bf1e65d23133baeffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a dedicated pruning thread.  <a href="#aa5337f19cd27e3bf1e65d23133baeffc">More...</a><br /></td></tr>
+<tr class="separator:aa5337f19cd27e3bf1e65d23133baeffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0099766932ba17cb5245d2f3199a286a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#a0099766932ba17cb5245d2f3199a286a">Stop</a> () override</td></tr>
+<tr class="memdesc:a0099766932ba17cb5245d2f3199a286a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the pruning thread.  <a href="#a0099766932ba17cb5245d2f3199a286a">More...</a><br /></td></tr>
+<tr class="separator:a0099766932ba17cb5245d2f3199a286a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A thread that periodically prunes crash reports from the database using the specified condition. </p>
-<p>After the thread is started, the database is pruned using the condition every 24 hours. Upon calling <a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#adb763db67dfc1fefe7b2fb88e10ee760" title="Starts a dedicated pruning thread. ">Start()</a>, the thread waits 10 minutes before performing the initial prune operation. </p>
+<p>After the thread is started, the database is pruned using the condition every 24 hours. Upon calling <a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#aa5337f19cd27e3bf1e65d23133baeffc" title="Starts a dedicated pruning thread. ">Start()</a>, the thread waits 10 minutes before performing the initial prune operation. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a611e02d9b7666df11d2484f682b771ea"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a611e02d9b7666df11d2484f682b771ea">&#9670;&nbsp;</a></span>PruneCrashReportThread()</h2>
@@ -139,11 +140,14 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="adb763db67dfc1fefe7b2fb88e10ee760"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb763db67dfc1fefe7b2fb88e10ee760">&#9670;&nbsp;</a></span>Start()</h2>
+<a id="aa5337f19cd27e3bf1e65d23133baeffc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5337f19cd27e3bf1e65d23133baeffc">&#9670;&nbsp;</a></span>Start()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void crashpad::PruneCrashReportThread::Start </td>
@@ -152,19 +156,29 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Starts a dedicated pruning thread. </p>
 <p>The thread waits before running the initial prune, so as to not interfere with any startup-related IO performed by the client.</p>
-<p>This method may only be be called on a newly-constructed object or after a call to <a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#a911e0acefa4bfdde3020cda64c8d85ae" title="Stops the pruning thread. ">Stop()</a>. </p>
+<p>This method may only be be called on a newly-constructed object or after a call to <a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#a0099766932ba17cb5245d2f3199a286a" title="Stops the pruning thread. ">Stop()</a>. </p>
+
+<p>Implements <a class="el" href="classcrashpad_1_1Stoppable.html#a046f4e683737878d2133b5f60614d727">crashpad::Stoppable</a>.</p>
 
 </div>
 </div>
-<a id="a911e0acefa4bfdde3020cda64c8d85ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a911e0acefa4bfdde3020cda64c8d85ae">&#9670;&nbsp;</a></span>Stop()</h2>
+<a id="a0099766932ba17cb5245d2f3199a286a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0099766932ba17cb5245d2f3199a286a">&#9670;&nbsp;</a></span>Stop()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void crashpad::PruneCrashReportThread::Stop </td>
@@ -173,11 +187,18 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Stops the pruning thread. </p>
-<p>This method must only be called after <a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#adb763db67dfc1fefe7b2fb88e10ee760" title="Starts a dedicated pruning thread. ">Start()</a>. If <a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#adb763db67dfc1fefe7b2fb88e10ee760" title="Starts a dedicated pruning thread. ">Start()</a> has been called, this method must be called before destroying an object of this class.</p>
-<p>This method may be called from any thread other than the pruning thread. It is expected to only be called from the same thread that called <a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#adb763db67dfc1fefe7b2fb88e10ee760" title="Starts a dedicated pruning thread. ">Start()</a>. </p>
+<p>This method must only be called after <a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#aa5337f19cd27e3bf1e65d23133baeffc" title="Starts a dedicated pruning thread. ">Start()</a>. If <a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#aa5337f19cd27e3bf1e65d23133baeffc" title="Starts a dedicated pruning thread. ">Start()</a> has been called, this method must be called before destroying an object of this class.</p>
+<p>This method may be called from any thread other than the pruning thread. It is expected to only be called from the same thread that called <a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#aa5337f19cd27e3bf1e65d23133baeffc" title="Starts a dedicated pruning thread. ">Start()</a>. </p>
+
+<p>Implements <a class="el" href="classcrashpad_1_1Stoppable.html#ac001ba3eacb04fbbf432388286dbc34c">crashpad::Stoppable</a>.</p>
 
 </div>
 </div>

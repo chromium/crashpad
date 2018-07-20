@@ -80,8 +80,12 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ae46278158517f37dab44a72652dfd20c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: uint32_t </td></tr>
-<tr class="separator:ae46278158517f37dab44a72652dfd20c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70bb804f89d6ff2542eab67e3c8e63cc"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: uint32_t </td></tr>
+<tr class="separator:a70bb804f89d6ff2542eab67e3c8e63cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7366c56f2429a00f217be3c0d3165f5f"><td class="memItemLeft" align="right" valign="top"><a id="a7366c56f2429a00f217be3c0d3165f5f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a7366c56f2429a00f217be3c0d3165f5f">FirstChanceHandler</a> = bool(*)(int, siginfo_t *, ucontext_t *)</td></tr>
+<tr class="memdesc:a7366c56f2429a00f217be3c0d3165f5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type for custom handlers installed by clients. <br /></td></tr>
+<tr class="separator:a7366c56f2429a00f217be3c0d3165f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -106,18 +110,30 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0377d4e93ac77453f57f3c1fcae09e14"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a0377d4e93ac77453f57f3c1fcae09e14">WaitForHandlerStart</a> (unsigned int timeout_ms)</td></tr>
 <tr class="memdesc:a0377d4e93ac77453f57f3c1fcae09e14"><td class="mdescLeft">&#160;</td><td class="mdescRight">When <code>asynchronous_start</code> is used with <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a>, this method can be used to block until the handler launch has been completed to retrieve status information.  <a href="#a0377d4e93ac77453f57f3c1fcae09e14">More...</a><br /></td></tr>
 <tr class="separator:a0377d4e93ac77453f57f3c1fcae09e14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b795ac1d4e01ba03e4085954249edfc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a0b795ac1d4e01ba03e4085954249edfc">DumpAndCrashTargetProcess</a> (HANDLE process, HANDLE blame_thread, DWORD exception_code) const</td></tr>
-<tr class="memdesc:a0b795ac1d4e01ba03e4085954249edfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requests that the handler capture a dump of a different process.  <a href="#a0b795ac1d4e01ba03e4085954249edfc">More...</a><br /></td></tr>
-<tr class="separator:a0b795ac1d4e01ba03e4085954249edfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a942c84be2b904987b0d7e6a410eff100"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a942c84be2b904987b0d7e6a410eff100">StartHandlerAtCrash</a> (const base::FilePath &amp;handler, const base::FilePath &amp;database, const base::FilePath &amp;metrics_dir, const std::string &amp;url, const std::map&lt; std::string, std::string &gt; &amp;annotations, const std::vector&lt; std::string &gt; &amp;arguments)</td></tr>
+<tr class="memdesc:a942c84be2b904987b0d7e6a410eff100"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs a signal handler to launch a handler process in reponse to a crash.  <a href="#a942c84be2b904987b0d7e6a410eff100">More...</a><br /></td></tr>
+<tr class="separator:a942c84be2b904987b0d7e6a410eff100"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10b09eb149139d4df63a4bca3042ef67"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a10b09eb149139d4df63a4bca3042ef67">StartHandlerForClient</a> (const base::FilePath &amp;handler, const base::FilePath &amp;database, const base::FilePath &amp;metrics_dir, const std::string &amp;url, const std::map&lt; std::string, std::string &gt; &amp;annotations, const std::vector&lt; std::string &gt; &amp;arguments, int socket)</td></tr>
+<tr class="memdesc:a10b09eb149139d4df63a4bca3042ef67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a handler process with an initial client.  <a href="#a10b09eb149139d4df63a4bca3042ef67">More...</a><br /></td></tr>
+<tr class="separator:a10b09eb149139d4df63a4bca3042ef67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab06443c04d43a2c0dac926275c5ad27"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#aab06443c04d43a2c0dac926275c5ad27">DumpWithoutCrash</a> (NativeCPUContext *context)</td></tr>
+<tr class="memdesc:aab06443c04d43a2c0dac926275c5ad27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requests that the handler capture a dump even though there hasn't been a crash.  <a href="#aab06443c04d43a2c0dac926275c5ad27">More...</a><br /></td></tr>
+<tr class="separator:aab06443c04d43a2c0dac926275c5ad27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbf4149291f643c8bfdb43ce8b6c55af"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#afbf4149291f643c8bfdb43ce8b6c55af">SetFirstChanceExceptionHandler</a> (<a class="el" href="classcrashpad_1_1CrashpadClient.html#a7366c56f2429a00f217be3c0d3165f5f">FirstChanceHandler</a> handler)</td></tr>
+<tr class="memdesc:afbf4149291f643c8bfdb43ce8b6c55af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs a custom crash signal handler which runs before the currently installed Crashpad handler.  <a href="#afbf4149291f643c8bfdb43ce8b6c55af">More...</a><br /></td></tr>
+<tr class="separator:afbf4149291f643c8bfdb43ce8b6c55af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ac211aa3a8cf278eb10f4058a7776fb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a8ac211aa3a8cf278eb10f4058a7776fb">DumpWithoutCrash</a> (const CONTEXT &amp;context)</td></tr>
 <tr class="memdesc:a8ac211aa3a8cf278eb10f4058a7776fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requests that the handler capture a dump even though there hasn't been a crash.  <a href="#a8ac211aa3a8cf278eb10f4058a7776fb">More...</a><br /></td></tr>
 <tr class="separator:a8ac211aa3a8cf278eb10f4058a7776fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87d1fa142b0bf7094fc66fef3135a64a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a87d1fa142b0bf7094fc66fef3135a64a">DumpAndCrash</a> (EXCEPTION_POINTERS *exception_pointers)</td></tr>
 <tr class="memdesc:a87d1fa142b0bf7094fc66fef3135a64a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requests that the handler capture a dump using the given <em>exception_pointers</em> to get the <code>EXCEPTION_RECORD</code> and <code>CONTEXT</code>.  <a href="#a87d1fa142b0bf7094fc66fef3135a64a">More...</a><br /></td></tr>
 <tr class="separator:a87d1fa142b0bf7094fc66fef3135a64a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35a46ba3d17822a7025b526980564d7e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a35a46ba3d17822a7025b526980564d7e">DumpAndCrashTargetProcess</a> (HANDLE process, HANDLE blame_thread, DWORD exception_code)</td></tr>
+<tr class="memdesc:a35a46ba3d17822a7025b526980564d7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requests that the handler capture a dump of a different process.  <a href="#a35a46ba3d17822a7025b526980564d7e">More...</a><br /></td></tr>
+<tr class="separator:a35a46ba3d17822a7025b526980564d7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a6a1e62d90a67db782664b1fe5a952f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a1a6a1e62d90a67db782664b1fe5a952f">UseSystemDefaultHandler</a> ()</td></tr>
 <tr class="memdesc:a1a6a1e62d90a67db782664b1fe5a952f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the process to direct its crashes to the default handler for the operating system.  <a href="#a1a6a1e62d90a67db782664b1fe5a952f">More...</a><br /></td></tr>
 <tr class="separator:a1a6a1e62d90a67db782664b1fe5a952f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,8 +141,8 @@ Static Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The primary interface for an application to have Crashpad monitor it for crashes. </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="ae46278158517f37dab44a72652dfd20c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae46278158517f37dab44a72652dfd20c">&#9670;&nbsp;</a></span>anonymous enum</h2>
+<a id="a70bb804f89d6ff2542eab67e3c8e63cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70bb804f89d6ff2542eab67e3c8e63cc">&#9670;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -137,7 +153,7 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae46278158517f37dab44a72652dfd20ca193286f9cde3032e18a06a4e6452e660"></a>kTriggeredExceptionCode&#160;</td><td class="fielddoc"><p>The exception code (roughly "Client called") used when <a class="el" href="classcrashpad_1_1CrashpadClient.html#a0b795ac1d4e01ba03e4085954249edfc" title="Requests that the handler capture a dump of a different process. ">DumpAndCrashTargetProcess()</a> triggers an exception in a target process. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a70bb804f89d6ff2542eab67e3c8e63cca193286f9cde3032e18a06a4e6452e660"></a>kTriggeredExceptionCode&#160;</td><td class="fielddoc"><p>The exception code (roughly "Client called") used when <a class="el" href="classcrashpad_1_1CrashpadClient.html#a35a46ba3d17822a7025b526980564d7e" title="Requests that the handler capture a dump of a different process. ">DumpAndCrashTargetProcess()</a> triggers an exception in a target process. </p>
 <dl class="section note"><dt>Note</dt><dd>This value does not have any bits of the top nibble set, to avoid confusion with real exception codes which tend to have those bits set. </dd></dl>
 </td></tr>
 </table>
@@ -180,11 +196,14 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a0b795ac1d4e01ba03e4085954249edfc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b795ac1d4e01ba03e4085954249edfc">&#9670;&nbsp;</a></span>DumpAndCrashTargetProcess()</h2>
+<a id="a35a46ba3d17822a7025b526980564d7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35a46ba3d17822a7025b526980564d7e">&#9670;&nbsp;</a></span>DumpAndCrashTargetProcess()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool crashpad::CrashpadClient::DumpAndCrashTargetProcess </td>
@@ -207,9 +226,14 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> const</td>
+          <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Requests that the handler capture a dump of a different process. </p>
@@ -227,8 +251,44 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aab06443c04d43a2c0dac926275c5ad27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab06443c04d43a2c0dac926275c5ad27">&#9670;&nbsp;</a></span>DumpWithoutCrash() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::CrashpadClient::DumpWithoutCrash </td>
+          <td>(</td>
+          <td class="paramtype">NativeCPUContext *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Requests that the handler capture a dump even though there hasn't been a crash. </p>
+<p>A handler must have already been installed before calling this method.</p>
+<p>TODO(jperaza): Floating point information in the context is zeroed out until <a class="el" href="namespacecrashpad.html#ac25486c6b4c38fc7c7868e978094edcf" title="Saves the CPU context. ">CaptureContext()</a> supports collecting that information.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">context</td><td>A NativeCPUContext, generally captured by <a class="el" href="namespacecrashpad.html#ac25486c6b4c38fc7c7868e978094edcf" title="Saves the CPU context. ">CaptureContext()</a> or similar. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a8ac211aa3a8cf278eb10f4058a7776fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ac211aa3a8cf278eb10f4058a7776fb">&#9670;&nbsp;</a></span>DumpWithoutCrash()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ac211aa3a8cf278eb10f4058a7776fb">&#9670;&nbsp;</a></span>DumpWithoutCrash() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -303,6 +363,44 @@ Static Public Member Functions</h2></td></tr>
 <p>This method can be used to obtain the crash handler Mach port when a Crashpad client process wishes to provide a send right to this port to another process. The IPC mechanism used to convey the right is under the application’s control. If the other process wishes to become a client of the same crash handler, it can provide the transferred right to <a class="el" href="classcrashpad_1_1CrashpadClient.html#a35e9ce1b1771a597aa3276ec28de28a7" title="Sets the process’ crash handler to a Mach port. ">SetHandlerMachPort()</a>.</p>
 <p>See <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> for more detail on how the port and handler are configured.</p>
 <dl class="section return"><dt>Returns</dt><dd>The Mach port set by <a class="el" href="classcrashpad_1_1CrashpadClient.html#a35e9ce1b1771a597aa3276ec28de28a7" title="Sets the process’ crash handler to a Mach port. ">SetHandlerMachPort()</a>, possibly indirectly by a call to another method such as <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> or <a class="el" href="classcrashpad_1_1CrashpadClient.html#a89f34445eca859e6c0d1876e8e171c25" title="Sets the process’ crash handler to a Mach service registered with the bootstrap server. ">SetHandlerMachService()</a>. This method must only be called after a successful call to one of those methods. <code>MACH_PORT_NULL</code> on failure with a message logged. </dd></dl>
+
+</div>
+</div>
+<a id="afbf4149291f643c8bfdb43ce8b6c55af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afbf4149291f643c8bfdb43ce8b6c55af">&#9670;&nbsp;</a></span>SetFirstChanceExceptionHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::CrashpadClient::SetFirstChanceExceptionHandler </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a7366c56f2429a00f217be3c0d3165f5f">FirstChanceHandler</a>&#160;</td>
+          <td class="paramname"><em>handler</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Installs a custom crash signal handler which runs before the currently installed Crashpad handler. </p>
+<p>Handling signals appropriately can be tricky and use of this method should be avoided, if possible.</p>
+<p>A handler must have already been installed before calling this method.</p>
+<p>The custom handler runs in a signal handler context and must be safe for that purpose.</p>
+<p>If the custom handler returns <code>true</code>, the signal is considered handled and the signal handler returns. Otherwise, the currently installed Crashpad signal handler is run.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">handler</td><td>The custom crash signal handler to install. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -459,6 +557,7 @@ Static Public Member Functions</h2></td></tr>
 <p>This method directs crashes to the Crashpad handler. On macOS, this is applicable to this process and all subsequent child processes. On Windows, child processes must also register by using <a class="el" href="classcrashpad_1_1CrashpadClient.html#a9f1d5d38e9b4f5781e3821551dcc39d5" title="Sets the IPC pipe of a presumably-running Crashpad handler process which was started with StartHandle...">SetHandlerIPCPipe()</a>.</p>
 <p>On macOS, this method starts a Crashpad handler and obtains a Mach send right corresponding to a receive right held by the handler process. The handler process runs an exception server on this port. This method sets the task’s exception port for <code>EXC_CRASH</code>, <code>EXC_RESOURCE</code>, and <code>EXC_GUARD</code> exceptions to the Mach send right obtained. The handler will be installed with behavior <code>EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES</code> and thread state flavor <code>MACHINE_THREAD_STATE</code>. Exception ports are inherited, so a Crashpad handler started here will remain the handler for any child processes created after <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> is called. These child processes do not need to call <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> or be aware of Crashpad in any way. The Crashpad handler will receive crashes from child processes that have inherited it as their exception handler even after the process that called <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> exits.</p>
 <p>On Windows, if <em>asynchronous_start</em> is <code>true</code>, this function will not directly call <code>CreateProcess()</code>, making it suitable for use in a <code>DllMain()</code>. In that case, the handler is started from a background thread, deferring the handler's startup. Nevertheless, regardless of the value of <em>asynchronous_start</em>, after calling this method, the global unhandled exception filter is set up, and all crashes will be handled by Crashpad. Optionally, use <a class="el" href="classcrashpad_1_1CrashpadClient.html#a0377d4e93ac77453f57f3c1fcae09e14" title="When asynchronous_start is used with StartHandler(), this method can be used to block until the handl...">WaitForHandlerStart()</a> to join with the background thread and retrieve the status of handler startup.</p>
+<p>On Fuchsia, this method binds to the exception port of the current default job, and starts a Crashpad handler to monitor that port.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">handler</td><td>The path to a Crashpad handler executable. </td></tr>
@@ -469,6 +568,163 @@ Static Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">arguments</td><td>Additional arguments to pass to the Crashpad handler. Arguments passed in other parameters and arguments required to perform the handshake are the responsibility of this method, and must not be specified in this parameter. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">restartable</td><td>If <code>true</code>, the handler will be restarted if it dies, if this behavior is supported. This option is not available on all platforms, and does not function on all OS versions. If it is not supported, it will be ignored. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">asynchronous_start</td><td>If <code>true</code>, the handler will be started from a background thread. Optionally, <a class="el" href="classcrashpad_1_1CrashpadClient.html#a0377d4e93ac77453f57f3c1fcae09e14" title="When asynchronous_start is used with StartHandler(), this method can be used to block until the handl...">WaitForHandlerStart()</a> can be used at a suitable time to retreive the result of background startup. This option is only used on Windows.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, <code>false</code> on failure with a message logged. </dd></dl>
+
+</div>
+</div>
+<a id="a942c84be2b904987b0d7e6a410eff100"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a942c84be2b904987b0d7e6a410eff100">&#9670;&nbsp;</a></span>StartHandlerAtCrash()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::CrashpadClient::StartHandlerAtCrash </td>
+          <td>(</td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>handler</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>database</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>metrics_dir</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::map&lt; std::string, std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>annotations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>arguments</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Installs a signal handler to launch a handler process in reponse to a crash. </p>
+<p>The handler process will create a crash dump for this process and exit.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">handler</td><td>The path to a Crashpad handler executable. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">database</td><td>The path to a Crashpad database. The handler will be started with this path as its <code>--database</code> argument. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">metrics_dir</td><td>The path to an already existing directory where metrics files can be stored. The handler will be started with this path as its <code>--metrics-dir</code> argument. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">url</td><td>The URL of an upload server. The handler will be started with this URL as its <code>--url</code> argument. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">annotations</td><td>Process annotations to set in each crash report. The handler will be started with an <code>--annotation</code> argument for each element in this map. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">arguments</td><td>Additional arguments to pass to the Crashpad handler. Arguments passed in other parameters and arguments required to perform the handshake are the responsibility of this method, and must not be specified in this parameter.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, <code>false</code> on failure with a message logged. </dd></dl>
+
+</div>
+</div>
+<a id="a10b09eb149139d4df63a4bca3042ef67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10b09eb149139d4df63a4bca3042ef67">&#9670;&nbsp;</a></span>StartHandlerForClient()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::CrashpadClient::StartHandlerForClient </td>
+          <td>(</td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>handler</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>database</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>metrics_dir</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::map&lt; std::string, std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>annotations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>arguments</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>socket</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Starts a handler process with an initial client. </p>
+<p>This method allows a process to launch the handler process on behalf of another process.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">handler</td><td>The path to a Crashpad handler executable. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">database</td><td>The path to a Crashpad database. The handler will be started with this path as its <code>--database</code> argument. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">metrics_dir</td><td>The path to an already existing directory where metrics files can be stored. The handler will be started with this path as its <code>--metrics-dir</code> argument. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">url</td><td>The URL of an upload server. The handler will be started with this URL as its <code>--url</code> argument. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">annotations</td><td>Process annotations to set in each crash report. The handler will be started with an <code>--annotation</code> argument for each element in this map. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">arguments</td><td>Additional arguments to pass to the Crashpad handler. Arguments passed in other parameters and arguments required to perform the handshake are the responsibility of this method, and must not be specified in this parameter. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">socket</td><td>The server end of a socket pair. The client end should be used with an <a class="el" href="classcrashpad_1_1ExceptionHandlerClient.html" title="A client for an ExceptionHandlerServer. ">ExceptionHandlerClient</a>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -537,6 +793,8 @@ Static Public Member Functions</h2></td></tr>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>client/crashpad_client.h</li>
+<li>client/crashpad_client_fuchsia.cc</li>
+<li>client/crashpad_client_linux.cc</li>
 <li>client/crashpad_client_mac.cc</li>
 <li>client/crashpad_client_win.cc</li>
 </ul>

@@ -82,6 +82,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a41c2c9766b53316eb96db2e0d42ac004"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1CPUContext.html#a41c2c9766b53316eb96db2e0d42ac004">InstructionPointer</a> () const</td></tr>
 <tr class="memdesc:a41c2c9766b53316eb96db2e0d42ac004"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the instruction pointer value from the context structure.  <a href="#a41c2c9766b53316eb96db2e0d42ac004">More...</a><br /></td></tr>
 <tr class="separator:a41c2c9766b53316eb96db2e0d42ac004"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a178339da11c9e4cc2037ed2298cf850f"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1CPUContext.html#a178339da11c9e4cc2037ed2298cf850f">StackPointer</a> () const</td></tr>
+<tr class="memdesc:a178339da11c9e4cc2037ed2298cf850f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the stack pointer value from the context structure.  <a href="#a178339da11c9e4cc2037ed2298cf850f">More...</a><br /></td></tr>
+<tr class="separator:a178339da11c9e4cc2037ed2298cf850f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b935c8e6a7ccb6bc99f680edd7fffab"><td class="memItemLeft" align="right" valign="top"><a id="a9b935c8e6a7ccb6bc99f680edd7fffab"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1CPUContext.html#a9b935c8e6a7ccb6bc99f680edd7fffab">Is64Bit</a> () const</td></tr>
+<tr class="memdesc:a9b935c8e6a7ccb6bc99f680edd7fffab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <code>true</code> if this context is for a 64-bit architecture. <br /></td></tr>
+<tr class="separator:a9b935c8e6a7ccb6bc99f680edd7fffab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -89,16 +96,28 @@ Public Attributes</h2></td></tr>
 <a class="el" href="namespacecrashpad.html#a270e290ba558e948eb6690bd217cbb71">CPUArchitecture</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1CPUContext.html#af71f7a2e8478339d53fcb9d52ded6ae5">architecture</a></td></tr>
 <tr class="memdesc:af71f7a2e8478339d53fcb9d52ded6ae5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CPU architecture of a context structure. This field controls the expression of the union. <br /></td></tr>
 <tr class="separator:af71f7a2e8478339d53fcb9d52ded6ae5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab2eb07fd81c0305f936a872206c48bd"><td class="memItemLeft" ><a id="aab2eb07fd81c0305f936a872206c48bd"></a>
+<tr class="memitem:a30ee233a3323294ef3492a27b90ba2fb"><td class="memItemLeft" ><a id="a30ee233a3323294ef3492a27b90ba2fb"></a>
 union {</td></tr>
-<tr class="memitem:a9392bc4afd683e595e27bab67e8dd615"><td class="memItemLeft" >
+<tr class="memitem:a560ff18197d8f04420ff84b62f4a6e35"><td class="memItemLeft" >
 &#160;&#160;&#160;<a class="el" href="structcrashpad_1_1CPUContextX86.html">CPUContextX86</a> *&#160;&#160;&#160;<b>x86</b></td></tr>
-<tr class="separator:a9392bc4afd683e595e27bab67e8dd615"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54e74e207e6952152b81da10c7b7c715"><td class="memItemLeft" >
+<tr class="separator:a560ff18197d8f04420ff84b62f4a6e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1db8f93ce50d3edcf5c6255f5b6b1752"><td class="memItemLeft" >
 &#160;&#160;&#160;<a class="el" href="structcrashpad_1_1CPUContextX86__64.html">CPUContextX86_64</a> *&#160;&#160;&#160;<b>x86_64</b></td></tr>
-<tr class="separator:a54e74e207e6952152b81da10c7b7c715"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab2eb07fd81c0305f936a872206c48bd"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:aab2eb07fd81c0305f936a872206c48bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a1db8f93ce50d3edcf5c6255f5b6b1752"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e1d2c5aff37447587a75f3ba259dba1"><td class="memItemLeft" >
+&#160;&#160;&#160;<a class="el" href="structcrashpad_1_1CPUContextARM.html">CPUContextARM</a> *&#160;&#160;&#160;<b>arm</b></td></tr>
+<tr class="separator:a5e1d2c5aff37447587a75f3ba259dba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a135891205b273368e8f8a904ac1e8379"><td class="memItemLeft" >
+&#160;&#160;&#160;<a class="el" href="structcrashpad_1_1CPUContextARM64.html">CPUContextARM64</a> *&#160;&#160;&#160;<b>arm64</b></td></tr>
+<tr class="separator:a135891205b273368e8f8a904ac1e8379"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1edc9945f6626da5bfa9f90ef2384e1"><td class="memItemLeft" >
+&#160;&#160;&#160;<a class="el" href="structcrashpad_1_1CPUContextMIPS.html">CPUContextMIPS</a> *&#160;&#160;&#160;<b>mipsel</b></td></tr>
+<tr class="separator:ae1edc9945f6626da5bfa9f90ef2384e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad45a7734a76e5add3bf336ed4ff722e8"><td class="memItemLeft" >
+&#160;&#160;&#160;<a class="el" href="structcrashpad_1_1CPUContextMIPS64.html">CPUContextMIPS64</a> *&#160;&#160;&#160;<b>mips64</b></td></tr>
+<tr class="separator:ad45a7734a76e5add3bf336ed4ff722e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30ee233a3323294ef3492a27b90ba2fb"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a30ee233a3323294ef3492a27b90ba2fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A context structure capable of carrying the context of any supported CPU architecture. </p>
@@ -120,6 +139,26 @@ union {</td></tr>
 
 <p>Returns the instruction pointer value from the context structure. </p>
 <p>This is a CPU architecture-independent method that is capable of recovering the instruction pointer from any supported CPU architecture’s context structure. </p>
+
+</div>
+</div>
+<a id="a178339da11c9e4cc2037ed2298cf850f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a178339da11c9e4cc2037ed2298cf850f">&#9670;&nbsp;</a></span>StackPointer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t crashpad::CPUContext::StackPointer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the stack pointer value from the context structure. </p>
+<p>This is a CPU architecture-independent method that is capable of recovering the stack pointer from any supported CPU architecture’s context structure. </p>
 
 </div>
 </div>

@@ -97,6 +97,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af746590dacef50ff08ecc4385afeb3ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpModuleCrashpadInfoWriter.html#af746590dacef50ff08ecc4385afeb3ce">SetSimpleAnnotations</a> (std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryWriter.html">MinidumpSimpleStringDictionaryWriter</a> &gt; simple_annotations)</td></tr>
 <tr class="memdesc:af746590dacef50ff08ecc4385afeb3ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arranges for <a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a6d064fcc880ad2933443f9f27e5f434a" title="A MinidumpSimpleStringDictionary pointing to strings interpreted as key-value pairs. The module controls the data that appears here. ">MinidumpModuleCrashpadInfo::simple_annotations</a> to point to the <a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryWriter.html" title="The writer for a MinidumpSimpleStringDictionary object in a minidump file, containing a list of Minid...">MinidumpSimpleStringDictionaryWriter</a> object to be written by <em>simple_annotations</em>.  <a href="#af746590dacef50ff08ecc4385afeb3ce">More...</a><br /></td></tr>
 <tr class="separator:af746590dacef50ff08ecc4385afeb3ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fd6ec497c5b5e630a135845346842bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpModuleCrashpadInfoWriter.html#a5fd6ec497c5b5e630a135845346842bf">SetAnnotationObjects</a> (std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpAnnotationListWriter.html">MinidumpAnnotationListWriter</a> &gt; annotation_objects)</td></tr>
+<tr class="memdesc:a5fd6ec497c5b5e630a135845346842bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arranges for <a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#ac200fe528c804f9047d990470b840dc9" title="A MinidumpAnnotationList object containing the annotation objects stored within the module...">MinidumpModuleCrashpadInfo::annotation_objects</a> to point to the <a class="el" href="classcrashpad_1_1MinidumpAnnotationListWriter.html" title="The writer for a MinidumpAnnotationList object in a minidump file, containing a list of MinidumpAnnot...">MinidumpAnnotationListWriter</a> object to be written by <em>annotation_objects</em>.  <a href="#a5fd6ec497c5b5e630a135845346842bf">More...</a><br /></td></tr>
+<tr class="separator:a5fd6ec497c5b5e630a135845346842bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6eac706cc07729e88fc7f295f8aa9fb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpModuleCrashpadInfoWriter.html#af6eac706cc07729e88fc7f295f8aa9fb">IsUseful</a> () const</td></tr>
 <tr class="memdesc:af6eac706cc07729e88fc7f295f8aa9fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether the object is useful.  <a href="#af6eac706cc07729e88fc7f295f8aa9fb">More...</a><br /></td></tr>
 <tr class="separator:af6eac706cc07729e88fc7f295f8aa9fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -271,6 +274,28 @@ static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a cl
 <p>Determines whether the object is useful. </p>
 <p>A useful object is one that carries data that makes a meaningful contribution to a minidump file. An object carrying list annotations or simple annotations would be considered useful.</p>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the object is useful, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a5fd6ec497c5b5e630a135845346842bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fd6ec497c5b5e630a135845346842bf">&#9670;&nbsp;</a></span>SetAnnotationObjects()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::MinidumpModuleCrashpadInfoWriter::SetAnnotationObjects </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpAnnotationListWriter.html">MinidumpAnnotationListWriter</a> &gt;&#160;</td>
+          <td class="paramname"><em>annotation_objects</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Arranges for <a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#ac200fe528c804f9047d990470b840dc9" title="A MinidumpAnnotationList object containing the annotation objects stored within the module...">MinidumpModuleCrashpadInfo::annotation_objects</a> to point to the <a class="el" href="classcrashpad_1_1MinidumpAnnotationListWriter.html" title="The writer for a MinidumpAnnotationList object in a minidump file, containing a list of MinidumpAnnot...">MinidumpAnnotationListWriter</a> object to be written by <em>annotation_objects</em>. </p>
+<p>This object takes ownership of <em>annotation_objects</em> and becomes its parent in the overall tree of <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file. ">internal::MinidumpWritable</a> objects.</p>
+<dl class="section note"><dt>Note</dt><dd>Valid in <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7a18337604dcbdbdb23ed51810f0587665" title="The object’s properties can be modified. ">kStateMutable</a>. </dd></dl>
 
 </div>
 </div>

@@ -78,17 +78,24 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:adaa91f43b769f4f861b7258fb7e2ba4f"><td class="memItemLeft" align="right" valign="top"><a id="adaa91f43b769f4f861b7258fb7e2ba4f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ScopedTaskSuspend</b> (zx_handle_t task)</td></tr>
+<tr class="separator:adaa91f43b769f4f861b7258fb7e2ba4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54783301963991b7ff6f5975d33d9f21"><td class="memItemLeft" align="right" valign="top"><a id="a54783301963991b7ff6f5975d33d9f21"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>ScopedTaskSuspend</b> (task_t task)</td></tr>
 <tr class="separator:a54783301963991b7ff6f5975d33d9f21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Manages the suspension of another task. </p>
+<p>The underlying API only supports suspending threads (despite its name) not entire tasks. As a result, it's possible some threads may not be correctly suspended/resumed as their creation might race enumeration.</p>
+<p>Additionally, suspending a thread is asynchronous and may take an arbitrary amount of time.</p>
+<p>Because of these limitations, this class is limited to being a best-effort, and correct suspension/resumption cannot be relied upon.</p>
+<p>Callers should not attempt to suspend the current task as obtained via <code>zx_process_self()</code>.</p>
 <p>While an object of this class exists, the other task will be suspended. Once the object is destroyed, the other task will become eligible for resumption. Note that suspensions are counted, and the task will not actually resume unless its suspend count drops to 0.</p>
 <p>Callers should not attempt to suspend the current task (<code>mach_task_self()</code>). </p>
 </div><hr/>The documentation for this class was generated from the following files:<ul>
-<li>util/mach/scoped_task_suspend.h</li>
-<li>util/mach/scoped_task_suspend.cc</li>
+<li>util/fuchsia/scoped_task_suspend.h</li>
+<li>util/fuchsia/scoped_task_suspend.cc</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

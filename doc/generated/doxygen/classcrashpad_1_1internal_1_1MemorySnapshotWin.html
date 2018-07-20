@@ -65,6 +65,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="classcrashpad_1_1internal_1_1MemorySnapshotWin-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">crashpad::internal::MemorySnapshotWin Class Reference<span class="mlabels"><span class="mlabel">final</span></span></div>  </div>
@@ -101,6 +102,17 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <tr class="memitem:a565c0d86ca3c1a8fa3bc6ab296962de0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotWin.html#a565c0d86ca3c1a8fa3bc6ab296962de0">Read</a> (<a class="el" href="classcrashpad_1_1MemorySnapshot_1_1Delegate.html">Delegate</a> *delegate) const override</td></tr>
 <tr class="memdesc:a565c0d86ca3c1a8fa3bc6ab296962de0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <a class="el" href="classcrashpad_1_1MemorySnapshot_1_1Delegate.html#a844f77076dc607ce0cd8946aea75f73b" title="Called by MemorySnapshot::Read() to provide data requested by a call to that method. ">Delegate::MemorySnapshotDelegateRead()</a>, providing it with the memory snapshot’s data.  <a href="#a565c0d86ca3c1a8fa3bc6ab296962de0">More...</a><br /></td></tr>
 <tr class="separator:a565c0d86ca3c1a8fa3bc6ab296962de0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a428772b426f8354320d484a3e73ba23c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotWin.html#a428772b426f8354320d484a3e73ba23c">MergeWithOtherSnapshot</a> (const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> *other) const override</td></tr>
+<tr class="memdesc:a428772b426f8354320d484a3e73ba23c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> based on merging this one with <em>other</em>.  <a href="#a428772b426f8354320d484a3e73ba23c">More...</a><br /></td></tr>
+<tr class="separator:a428772b426f8354320d484a3e73ba23c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:af94b14421912394b031a223199cd97ae"><td class="memTemplParams" colspan="2"><a id="af94b14421912394b031a223199cd97ae"></a>
+template&lt;class T &gt; </td></tr>
+<tr class="memitem:af94b14421912394b031a223199cd97ae"><td class="memTemplItemLeft" align="right" valign="top">const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotWin.html#af94b14421912394b031a223199cd97ae">MergeWithOtherSnapshotImpl</a> (const T *self, const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> *other)</td></tr>
+<tr class="memdesc:af94b14421912394b031a223199cd97ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">A standard implementation of <a class="el" href="classcrashpad_1_1MemorySnapshot.html#ac215c8c515725ac43f2bf5ec5d7a27a4" title="Creates a new MemorySnapshot based on merging this one with other. ">MemorySnapshot::MergeWithOtherSnapshot()</a> for concrete <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> implementations that use a <code>process_reader_</code>. <br /></td></tr>
+<tr class="separator:af94b14421912394b031a223199cd97ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> of a memory region in a process on the running system, when the system runs Windows. </p>
@@ -147,6 +159,38 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a428772b426f8354320d484a3e73ba23c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a428772b426f8354320d484a3e73ba23c">&#9670;&nbsp;</a></span>MergeWithOtherSnapshot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> * crashpad::internal::MemorySnapshotWin::MergeWithOtherSnapshot </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> *&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a new <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> based on merging this one with <em>other</em>. </p>
+<p>The ranges described by the two snapshots must either overlap or abut, and must be of the same concrete type.</p>
+<dl class="section return"><dt>Returns</dt><dd>A newly allocated <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> representing the merged range, or <code>nullptr</code> with an error logged. </dd></dl>
+
+<p>Implements <a class="el" href="classcrashpad_1_1MemorySnapshot.html#ac215c8c515725ac43f2bf5ec5d7a27a4">crashpad::MemorySnapshot</a>.</p>
 
 </div>
 </div>

@@ -64,10 +64,14 @@ $(function() {
 <h3><a id="index_p"></a>- p -</h3><ul>
 <li>ParentProcessID()
 : <a class="el" href="classcrashpad_1_1ProcessInfo.html#a6ba8e38419e93e732c3acb09fbf0115b">crashpad::ProcessInfo</a>
-, <a class="el" href="classcrashpad_1_1ProcessReader.html#a7373dd35aa5a10cf1149e2147396ff9c">crashpad::ProcessReader</a>
+, <a class="el" href="classcrashpad_1_1ProcessReaderLinux.html#a1efafe7eefe2c9d23695ce53e405b154">crashpad::ProcessReaderLinux</a>
+, <a class="el" href="classcrashpad_1_1ProcessReaderMac.html#ab4a576377a897fd0bd665db5d27631df">crashpad::ProcessReaderMac</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a7c0d70193463888d58e6e3902b17aa5e">crashpad::ProcessSnapshot</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotFuchsia.html#a9a0c519540a26105d9682c60a4c4fe6c">crashpad::ProcessSnapshotFuchsia</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotLinux.html#ab936aa6af6a536f7e83df996fa89b0de">crashpad::ProcessSnapshotLinux</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a9902e6bb3f87c4e514885cafec8d54da">crashpad::ProcessSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotMinidump.html#a94649ccbdcb2b5de911021bc297c3df9">crashpad::ProcessSnapshotMinidump</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#aeb53d856cffb425fe4b52d5e4ba5fca9">crashpad::ProcessSnapshotSanitized</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#ab4429b60381c404e534bd052f08d2ad6">crashpad::ProcessSnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#a29c62f7052604ce478a04a92d458fe74">crashpad::test::TestProcessSnapshot</a>
 </li>
@@ -98,11 +102,16 @@ $(function() {
 , <a class="el" href="classcrashpad_1_1test_1_1MultiprocessExec.html#a4fbe35bfe7dd75624b417c435ae2208b">crashpad::test::MultiprocessExec</a>
 </li>
 <li>PrepareNewCrashReport()
-: <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a6af53890d1e551800330e6ad53be995b">crashpad::CrashReportDatabase</a>
+: <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a2e40ddf9bc49998c7cd30eb4035bb23f">crashpad::CrashReportDatabase</a>
+, <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#aa79e8766d90501fc06adb3ff934e1d12">crashpad::CrashReportDatabaseGeneric</a>
+, <a class="el" href="classcrashpad_1_1CrashReportDatabaseMac.html#a0929c775c77975671805a06ed790afaf">crashpad::CrashReportDatabaseMac</a>
+, <a class="el" href="classcrashpad_1_1CrashReportDatabaseWin.html#a6da9af1cdc7e3f3bd24a52be280e1371">crashpad::CrashReportDatabaseWin</a>
 </li>
 <li>Priority()
-: <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotLinux.html#a9ee2c069481ec915a32e738f94a17c23">crashpad::internal::ThreadSnapshotLinux</a>
+: <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotFuchsia.html#a037865ebd41c95beddbd4ae8a584dbf3">crashpad::internal::ThreadSnapshotFuchsia</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotLinux.html#a9ee2c069481ec915a32e738f94a17c23">crashpad::internal::ThreadSnapshotLinux</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#a8c417edf90e36f67a6f8e0b76bfbdee5">crashpad::internal::ThreadSnapshotMac</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotSanitized.html#a392848f114a39953e53564f92bd3124e">crashpad::internal::ThreadSnapshotSanitized</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#a84dae6824c9bda4fe6d459ea032dd28a">crashpad::internal::ThreadSnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#a67070917d0ea0d06845b345f63aa2a0e">crashpad::test::TestThreadSnapshot</a>
 , <a class="el" href="classcrashpad_1_1ThreadSnapshot.html#affbf3f8bee03bd703bc2833c4e714f70">crashpad::ThreadSnapshot</a>
@@ -112,24 +121,34 @@ $(function() {
 </li>
 <li>ProcessCPUTimes()
 : <a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a9a2b61c60114c5ed6cac278496979575">crashpad::ProcessSnapshot</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotFuchsia.html#a7c34dc77205f3d2d80f91f108b123912">crashpad::ProcessSnapshotFuchsia</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotLinux.html#a5c6988827effad96f00f4a286d6bf342">crashpad::ProcessSnapshotLinux</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#aa692352db6f4dec570dd9294e5204e78">crashpad::ProcessSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotMinidump.html#a08d363f93f87c7173c1f03a247054168">crashpad::ProcessSnapshotMinidump</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#ac4b2c694a952931966eb257ea5a71258">crashpad::ProcessSnapshotSanitized</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a079b5adc8d511a87b7e7aa5101c77f79">crashpad::ProcessSnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#ad608647c26f108ba2712b791b4365589">crashpad::test::TestProcessSnapshot</a>
 </li>
 <li>ProcessID()
 : <a class="el" href="classcrashpad_1_1ProcessInfo.html#a28c8d64d39c3d039282a061d5c2c72ba">crashpad::ProcessInfo</a>
-, <a class="el" href="classcrashpad_1_1ProcessReader.html#a563b92dd40252476f89eab8b4a53cf3b">crashpad::ProcessReader</a>
+, <a class="el" href="classcrashpad_1_1ProcessReaderLinux.html#a2aed192b15e9c349b289bfc7667a9c75">crashpad::ProcessReaderLinux</a>
+, <a class="el" href="classcrashpad_1_1ProcessReaderMac.html#ac77379c4000140f82fb6884c7f016307">crashpad::ProcessReaderMac</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshot.html#ad857185e47bb456e0a419ab8cef2a8fc">crashpad::ProcessSnapshot</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotFuchsia.html#a6c367d1848d4ce56adbe5a9bdb3daf49">crashpad::ProcessSnapshotFuchsia</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotLinux.html#adb48ecd8886e937f8badde6e7a0b2cf9">crashpad::ProcessSnapshotLinux</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a7110eb22b9635a72ffc8f3d07e3d7c66">crashpad::ProcessSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotMinidump.html#a570c55376918b055c51092257222365d">crashpad::ProcessSnapshotMinidump</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#a3b5017ebfafc1d9bf0ed0f031df5c24b">crashpad::ProcessSnapshotSanitized</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a43f5c7257e58b13eb78b9a7e0fca7aff">crashpad::ProcessSnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#a7775b15c006eb12f2489162c4faf54af">crashpad::test::TestProcessSnapshot</a>
 </li>
 <li>ProcessStartTime()
 : <a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a13e296954660e175812f99a21e1e2671">crashpad::ProcessSnapshot</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotFuchsia.html#af3f7c7c43ec83e3330f05f256f1b35c2">crashpad::ProcessSnapshotFuchsia</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotLinux.html#a766fb92771455c2edc7926319c9e0e28">crashpad::ProcessSnapshotLinux</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#ac319ebbd8ec9b81c3861c70afe9403d1">crashpad::ProcessSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotMinidump.html#a3be1cc1efd90feede4c1761f4f78f6a8">crashpad::ProcessSnapshotMinidump</a>
+, <a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#a47d219d2cc943f686150adf52ffe07c6">crashpad::ProcessSnapshotSanitized</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a5c158a725b0719cfdb7023cac0135fa3">crashpad::ProcessSnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#a32792c433f88bf0f2499c00d9769e5aa">crashpad::test::TestProcessSnapshot</a>
 </li>
@@ -139,8 +158,11 @@ $(function() {
 <li>PruneCrashReportThread()
 : <a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#a611e02d9b7666df11d2484f682b771ea">crashpad::PruneCrashReportThread</a>
 </li>
+<li>PtraceBroker()
+: <a class="el" href="classcrashpad_1_1PtraceBroker.html#a39034363380b9c0b7c9832168a807639">crashpad::PtraceBroker</a>
+</li>
 <li>Ptracer()
-: <a class="el" href="classcrashpad_1_1Ptracer.html#aa293306ec2502ca6129beb24781770a5">crashpad::Ptracer</a>
+: <a class="el" href="classcrashpad_1_1Ptracer.html#a73a6d58c4e265a88079e009ad511adfe">crashpad::Ptracer</a>
 </li>
 <li>PushBack()
 : <a class="el" href="classcrashpad_1_1ThreadSafeVector.html#a662327583f078bbccc1936842b37c011">crashpad::ThreadSafeVector&lt; T &gt;</a>

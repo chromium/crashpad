@@ -67,6 +67,7 @@ $(function() {
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classcrashpad_1_1Signals-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">crashpad::Signals Class Reference</div>  </div>
@@ -96,6 +97,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a7d0ddf78702d8272d45446f4d6d23811"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Signals.html#a7d0ddf78702d8272d45446f4d6d23811">InstallHandler</a> (int sig, <a class="el" href="classcrashpad_1_1Signals.html#a0e1accccdf6e8c68f746b8a56b52785b">Handler</a> handler, int flags, struct sigaction *old_action)</td></tr>
 <tr class="memdesc:a7d0ddf78702d8272d45446f4d6d23811"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs a new signal handler.  <a href="#a7d0ddf78702d8272d45446f4d6d23811">More...</a><br /></td></tr>
 <tr class="separator:a7d0ddf78702d8272d45446f4d6d23811"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46c25d43264336b48afa913a29aef45b"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Signals.html#a46c25d43264336b48afa913a29aef45b">InstallDefaultHandler</a> (int sig)</td></tr>
+<tr class="memdesc:a46c25d43264336b48afa913a29aef45b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs <code>SIG_DFL</code> for the signal <em>sig</em>.  <a href="#a46c25d43264336b48afa913a29aef45b">More...</a><br /></td></tr>
+<tr class="separator:a46c25d43264336b48afa913a29aef45b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81cf7aa512190294c7dd9faa5134533c"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Signals.html#a81cf7aa512190294c7dd9faa5134533c">InstallCrashHandlers</a> (<a class="el" href="classcrashpad_1_1Signals.html#a0e1accccdf6e8c68f746b8a56b52785b">Handler</a> handler, int flags, <a class="el" href="classcrashpad_1_1Signals_1_1OldActions.html">OldActions</a> *old_actions)</td></tr>
 <tr class="memdesc:a81cf7aa512190294c7dd9faa5134533c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs a new signal handler for all signals associated with crashes.  <a href="#a81cf7aa512190294c7dd9faa5134533c">More...</a><br /></td></tr>
 <tr class="separator:a81cf7aa512190294c7dd9faa5134533c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,6 +118,13 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a41ddeba5c2df63c4e632133e5370d7e7"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Signals.html#a41ddeba5c2df63c4e632133e5370d7e7">IsTerminateSignal</a> (int sig)</td></tr>
 <tr class="memdesc:a41ddeba5c2df63c4e632133e5370d7e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether a signal is associated with termination.  <a href="#a41ddeba5c2df63c4e632133e5370d7e7">More...</a><br /></td></tr>
 <tr class="separator:a41ddeba5c2df63c4e632133e5370d7e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a04e054616ab6c9f179c50c3ccd35881b"><td class="memItemLeft" align="right" valign="top"><a id="a04e054616ab6c9f179c50c3ccd35881b"></a>
+static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Signals.html#a04e054616ab6c9f179c50c3ccd35881b">kSimulatedSigno</a> = -1</td></tr>
+<tr class="memdesc:a04e054616ab6c9f179c50c3ccd35881b"><td class="mdescLeft">&#160;</td><td class="mdescRight">A signal number used by Crashpad to simulate signals. <br /></td></tr>
+<tr class="separator:a04e054616ab6c9f179c50c3ccd35881b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Utilities for handling POSIX signals. </p>
@@ -171,6 +182,41 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. <code>false</code> on failure with a message logged.</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>This function may not be called from a signal handler because of its use of logging. See <a class="el" href="classcrashpad_1_1Signals.html#ae401753011dca60d8b9417a28c0d7ff1" title="Restores a previous signal action and arranges to re-raise a signal on return from a signal handler...">RestoreHandlerAndReraiseSignalOnReturn()</a> instead. </dd></dl>
+
+</div>
+</div>
+<a id="a46c25d43264336b48afa913a29aef45b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46c25d43264336b48afa913a29aef45b">&#9670;&nbsp;</a></span>InstallDefaultHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::Signals::InstallDefaultHandler </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>sig</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Installs <code>SIG_DFL</code> for the signal <em>sig</em>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">sig</td><td>The signal to set the default action for.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, <code>false</code> on failure with errno set. No message is logged. </dd></dl>
 
 </div>
 </div>

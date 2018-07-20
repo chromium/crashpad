@@ -81,16 +81,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa99c82b224d2992f08f1ebac16bbfdd6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfDynamicArrayReader.html#aa99c82b224d2992f08f1ebac16bbfdd6">Initialize</a> (const <a class="el" href="classcrashpad_1_1ProcessMemoryRange.html">ProcessMemoryRange</a> &amp;memory, <a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> address, <a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> size)</td></tr>
 <tr class="memdesc:aa99c82b224d2992f08f1ebac16bbfdd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the reader.  <a href="#aa99c82b224d2992f08f1ebac16bbfdd6">More...</a><br /></td></tr>
 <tr class="separator:aa99c82b224d2992f08f1ebac16bbfdd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a723f7f06a04e3e631d0dc4986a69e2a7"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
-<tr class="memitem:a723f7f06a04e3e631d0dc4986a69e2a7"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfDynamicArrayReader.html#a723f7f06a04e3e631d0dc4986a69e2a7">GetValue</a> (uint64_t tag, V *value)</td></tr>
-<tr class="memdesc:a723f7f06a04e3e631d0dc4986a69e2a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a value from the array.  <a href="#a723f7f06a04e3e631d0dc4986a69e2a7">More...</a><br /></td></tr>
-<tr class="separator:a723f7f06a04e3e631d0dc4986a69e2a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a786c5fc8c507272a5455690cb2b9ee78"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
+<tr class="memitem:a786c5fc8c507272a5455690cb2b9ee78"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfDynamicArrayReader.html#a786c5fc8c507272a5455690cb2b9ee78">GetValue</a> (uint64_t tag, bool log, V *value)</td></tr>
+<tr class="memdesc:a786c5fc8c507272a5455690cb2b9ee78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a value from the array.  <a href="#a786c5fc8c507272a5455690cb2b9ee78">More...</a><br /></td></tr>
+<tr class="separator:a786c5fc8c507272a5455690cb2b9ee78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A reader for ELF dynamic arrays mapped into another process. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a723f7f06a04e3e631d0dc4986a69e2a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a723f7f06a04e3e631d0dc4986a69e2a7">&#9670;&nbsp;</a></span>GetValue()</h2>
+<a id="a786c5fc8c507272a5455690cb2b9ee78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a786c5fc8c507272a5455690cb2b9ee78">&#9670;&nbsp;</a></span>GetValue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -105,6 +105,12 @@ template&lt;typename V &gt; </div>
           <td>(</td>
           <td class="paramtype">uint64_t&#160;</td>
           <td class="paramname"><em>tag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>log</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -129,6 +135,7 @@ template&lt;typename V &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">tag</td><td>Specifies which value should be retrieved. The possible values for this parameter are the <code>DT_*</code> values from <code>&lt;elf.h&gt;</code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">log</td><td>Specifies whether an error should be logged if <em>tag</em> is not found. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">value</td><td>The value, casted to an appropriate type, if found. </td></tr>
   </table>
   </dd>

@@ -87,9 +87,9 @@ Inheritance diagram for crashpad::internal::ModuleSnapshotMac:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8924ab4decc23f056b281f1e048fd9b6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a8924ab4decc23f056b281f1e048fd9b6">Initialize</a> (<a class="el" href="classcrashpad_1_1ProcessReader.html">ProcessReader</a> *process_reader, const <a class="el" href="structcrashpad_1_1ProcessReader_1_1Module.html">ProcessReader::Module</a> &amp;process_reader_module)</td></tr>
-<tr class="memdesc:a8924ab4decc23f056b281f1e048fd9b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the object.  <a href="#a8924ab4decc23f056b281f1e048fd9b6">More...</a><br /></td></tr>
-<tr class="separator:a8924ab4decc23f056b281f1e048fd9b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac953bc8c4a4e7635fcfb6e16b77ec8f6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#ac953bc8c4a4e7635fcfb6e16b77ec8f6">Initialize</a> (<a class="el" href="classcrashpad_1_1ProcessReaderMac.html">ProcessReaderMac</a> *process_reader, const <a class="el" href="structcrashpad_1_1ProcessReaderMac_1_1Module.html">ProcessReaderMac::Module</a> &amp;process_reader_module)</td></tr>
+<tr class="memdesc:ac953bc8c4a4e7635fcfb6e16b77ec8f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the object.  <a href="#ac953bc8c4a4e7635fcfb6e16b77ec8f6">More...</a><br /></td></tr>
+<tr class="separator:ac953bc8c4a4e7635fcfb6e16b77ec8f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ab9e645e32395c104448fe083597509"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a6ab9e645e32395c104448fe083597509">GetCrashpadOptions</a> (<a class="el" href="structcrashpad_1_1CrashpadInfoClientOptions.html">CrashpadInfoClientOptions</a> *options)</td></tr>
 <tr class="memdesc:a6ab9e645e32395c104448fe083597509"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns options from the module’s <a class="el" href="structcrashpad_1_1CrashpadInfo.html" title="A structure that can be used by a Crashpad-enabled program to provide information to the Crashpad cra...">CrashpadInfo</a> structure.  <a href="#a6ab9e645e32395c104448fe083597509">More...</a><br /></td></tr>
 <tr class="separator:a6ab9e645e32395c104448fe083597509"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -387,8 +387,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a8924ab4decc23f056b281f1e048fd9b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8924ab4decc23f056b281f1e048fd9b6">&#9670;&nbsp;</a></span>Initialize()</h2>
+<a id="ac953bc8c4a4e7635fcfb6e16b77ec8f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac953bc8c4a4e7635fcfb6e16b77ec8f6">&#9670;&nbsp;</a></span>Initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -396,13 +396,13 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">bool crashpad::internal::ModuleSnapshotMac::Initialize </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classcrashpad_1_1ProcessReader.html">ProcessReader</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="classcrashpad_1_1ProcessReaderMac.html">ProcessReaderMac</a> *&#160;</td>
           <td class="paramname"><em>process_reader</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structcrashpad_1_1ProcessReader_1_1Module.html">ProcessReader::Module</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="structcrashpad_1_1ProcessReaderMac_1_1Module.html">ProcessReaderMac::Module</a> &amp;&#160;</td>
           <td class="paramname"><em>process_reader_module</em>&#160;</td>
         </tr>
         <tr>
@@ -416,8 +416,8 @@ Additional Inherited Members</h2></td></tr>
 <p>Initializes the object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">process_reader</td><td>A <a class="el" href="classcrashpad_1_1ProcessReader.html" title="Accesses information about another process, identified by a process ID. ">ProcessReader</a> for the task containing the module. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">process_reader_module</td><td>The module within the <a class="el" href="classcrashpad_1_1ProcessReader.html" title="Accesses information about another process, identified by a process ID. ">ProcessReader</a> for which the snapshot should be created.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">process_reader</td><td>A <a class="el" href="classcrashpad_1_1ProcessReaderMac.html" title="Accesses information about another process, identified by a Mach task. ">ProcessReaderMac</a> for the task containing the module. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">process_reader_module</td><td>The module within the <a class="el" href="classcrashpad_1_1ProcessReaderMac.html" title="Accesses information about another process, identified by a Mach task. ">ProcessReaderMac</a> for which the snapshot should be created.</td></tr>
   </table>
   </dd>
 </dl>

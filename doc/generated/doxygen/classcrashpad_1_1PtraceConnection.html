@@ -82,7 +82,8 @@ Inheritance diagram for crashpad::PtraceConnection:</div>
   <img src="classcrashpad_1_1PtraceConnection.png" usemap="#crashpad::PtraceConnection_map" alt=""/>
   <map id="crashpad::PtraceConnection_map" name="crashpad::PtraceConnection_map">
 <area href="classcrashpad_1_1DirectPtraceConnection.html" title="Manages a direct ptrace connection to a process. " alt="crashpad::DirectPtraceConnection" shape="rect" coords="0,56,225,80"/>
-<area href="classcrashpad_1_1test_1_1FakePtraceConnection.html" title="Stands-in where real PtraceConnections aren&#39;t available. " alt="crashpad::test::FakePtraceConnection" shape="rect" coords="235,56,460,80"/>
+<area href="classcrashpad_1_1PtraceClient.html" title="Implements a PtraceConnection over a socket. " alt="crashpad::PtraceClient" shape="rect" coords="235,56,460,80"/>
+<area href="classcrashpad_1_1test_1_1FakePtraceConnection.html" title="Stands-in where real PtraceConnections aren&#39;t available. " alt="crashpad::test::FakePtraceConnection" shape="rect" coords="470,56,695,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -102,6 +103,12 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="memitem:a76eb577d671d45fc9eb9eae52a7ae629"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PtraceConnection.html#a76eb577d671d45fc9eb9eae52a7ae629">GetThreadInfo</a> (pid_t tid, <a class="el" href="structcrashpad_1_1ThreadInfo.html">ThreadInfo</a> *info)=0</td></tr>
 <tr class="memdesc:a76eb577d671d45fc9eb9eae52a7ae629"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves a <a class="el" href="structcrashpad_1_1ThreadInfo.html" title="A collection of ptrace-able information about a thread. ">ThreadInfo</a> for a target thread.  <a href="#a76eb577d671d45fc9eb9eae52a7ae629">More...</a><br /></td></tr>
 <tr class="separator:a76eb577d671d45fc9eb9eae52a7ae629"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49d4ed2691ef7d612d49e1f145761f57"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PtraceConnection.html#a49d4ed2691ef7d612d49e1f145761f57">ReadFileContents</a> (const base::FilePath &amp;path, std::string *contents)=0</td></tr>
+<tr class="memdesc:a49d4ed2691ef7d612d49e1f145761f57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the entire contents of a file.  <a href="#a49d4ed2691ef7d612d49e1f145761f57">More...</a><br /></td></tr>
+<tr class="separator:a49d4ed2691ef7d612d49e1f145761f57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80e297bfec6cf6583fd2c8e9c50ca9a8"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcrashpad_1_1ProcessMemory.html">ProcessMemory</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PtraceConnection.html#a80e297bfec6cf6583fd2c8e9c50ca9a8">Memory</a> ()=0</td></tr>
+<tr class="memdesc:a80e297bfec6cf6583fd2c8e9c50ca9a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a memory reader for the connected process.  <a href="#a80e297bfec6cf6583fd2c8e9c50ca9a8">More...</a><br /></td></tr>
+<tr class="separator:a80e297bfec6cf6583fd2c8e9c50ca9a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides an interface for making <code>ptrace</code> requests against a process and its threads. </p>
@@ -139,7 +146,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. <code>false</code> on failure with a message logged. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1DirectPtraceConnection.html#abf6e77f27a81c1b8b3c2da590c8f002e">crashpad::DirectPtraceConnection</a>, and <a class="el" href="classcrashpad_1_1test_1_1FakePtraceConnection.html#ae446ad6bec3635e246ebb026bd5348e6">crashpad::test::FakePtraceConnection</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1PtraceClient.html#a85f6f7580bd3d653f57e355232897250">crashpad::PtraceClient</a>, <a class="el" href="classcrashpad_1_1DirectPtraceConnection.html#abf6e77f27a81c1b8b3c2da590c8f002e">crashpad::DirectPtraceConnection</a>, and <a class="el" href="classcrashpad_1_1test_1_1FakePtraceConnection.html#ae446ad6bec3635e246ebb026bd5348e6">crashpad::test::FakePtraceConnection</a>.</p>
 
 </div>
 </div>
@@ -187,7 +194,85 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. <code>false</code> on failure with a message logged. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1FakePtraceConnection.html#a8dc87c797183dd98e045e17d1a4e1845">crashpad::test::FakePtraceConnection</a>, and <a class="el" href="classcrashpad_1_1DirectPtraceConnection.html#ad8cc3c3b05ee6191e9d251449b47a040">crashpad::DirectPtraceConnection</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1PtraceClient.html#a2939beb155c48fc303fe1f7c81f8f81d">crashpad::PtraceClient</a>, <a class="el" href="classcrashpad_1_1test_1_1FakePtraceConnection.html#a8dc87c797183dd98e045e17d1a4e1845">crashpad::test::FakePtraceConnection</a>, and <a class="el" href="classcrashpad_1_1DirectPtraceConnection.html#ad8cc3c3b05ee6191e9d251449b47a040">crashpad::DirectPtraceConnection</a>.</p>
+
+</div>
+</div>
+<a id="a80e297bfec6cf6583fd2c8e9c50ca9a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80e297bfec6cf6583fd2c8e9c50ca9a8">&#9670;&nbsp;</a></span>Memory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classcrashpad_1_1ProcessMemory.html">ProcessMemory</a>* crashpad::PtraceConnection::Memory </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a memory reader for the connected process. </p>
+<p>The caller does not take ownership of the reader. The reader is valid for the lifetime of the <a class="el" href="classcrashpad_1_1PtraceConnection.html" title="Provides an interface for making ptrace requests against a process and its threads. ">PtraceConnection</a> that created it. </p>
+
+<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1FakePtraceConnection.html#ae88bb06d58f6d1d4fb9e600009d146d5">crashpad::test::FakePtraceConnection</a>, <a class="el" href="classcrashpad_1_1PtraceClient.html#a58712ca965cad6746f2421e827292408">crashpad::PtraceClient</a>, and <a class="el" href="classcrashpad_1_1DirectPtraceConnection.html#adb9f4182bf16d93915160f256b5d11aa">crashpad::DirectPtraceConnection</a>.</p>
+
+</div>
+</div>
+<a id="a49d4ed2691ef7d612d49e1f145761f57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49d4ed2691ef7d612d49e1f145761f57">&#9670;&nbsp;</a></span>ReadFileContents()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool crashpad::PtraceConnection::ReadFileContents </td>
+          <td>(</td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string *&#160;</td>
+          <td class="paramname"><em>contents</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reads the entire contents of a file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>The path of the file to read. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">contents</td><td>The file contents, valid if this method returns <code>true</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. <code>false</code> on failure with a message logged. </dd></dl>
+
+<p>Implemented in <a class="el" href="classcrashpad_1_1PtraceClient.html#a2a9384d50a124b681a3ef623a8e6ece0">crashpad::PtraceClient</a>, <a class="el" href="classcrashpad_1_1test_1_1FakePtraceConnection.html#a4c4aa66acc48dbb27ac579aa1fd73af7">crashpad::test::FakePtraceConnection</a>, and <a class="el" href="classcrashpad_1_1DirectPtraceConnection.html#af059cf41eb1adf2d74c600e69f2bd87e">crashpad::DirectPtraceConnection</a>.</p>
 
 </div>
 </div>

@@ -334,13 +334,13 @@ Public Member Functions</h2></td></tr>
 <p>Initializes the object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">process_reader</td><td>A <a class="el" href="classcrashpad_1_1ProcessReader.html" title="Accesses information about another process, identified by a process ID. ">ProcessReader</a> for the process that sustained the exception. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">process_reader</td><td>A <a class="el" href="classcrashpad_1_1ProcessReaderWin.html" title="Accesses information about another process, identified by a HANDLE. ">ProcessReaderWin</a> for the process that sustained the exception. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">thread_id</td><td>The thread ID in which the exception occurred. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">exception_pointers</td><td>The address of an <code>EXCEPTION_POINTERS</code> record in the target process, passed through from the exception handler.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>If the exception was triggered by <a class="el" href="classcrashpad_1_1CrashpadClient.html#a0b795ac1d4e01ba03e4085954249edfc" title="Requests that the handler capture a dump of a different process. ">CrashpadClient::DumpAndCrashTargetProcess()</a>, this has the side-effect of correcting the thread suspend counts for <em>process_reader</em>.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If the exception was triggered by <a class="el" href="classcrashpad_1_1CrashpadClient.html#a35a46ba3d17822a7025b526980564d7e" title="Requests that the handler capture a dump of a different process. ">CrashpadClient::DumpAndCrashTargetProcess()</a>, this has the side-effect of correcting the thread suspend counts for <em>process_reader</em>.</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the snapshot could be created, <code>false</code> otherwise with an appropriate message logged. </dd></dl>
 
 </div>

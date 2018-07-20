@@ -78,9 +78,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6556a8ed7c7c5727a109397c6a43c446"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MachOImageReader.html#a6556a8ed7c7c5727a109397c6a43c446">Initialize</a> (<a class="el" href="classcrashpad_1_1ProcessReader.html">ProcessReader</a> *process_reader, mach_vm_address_t address, const std::string &amp;name)</td></tr>
-<tr class="memdesc:a6556a8ed7c7c5727a109397c6a43c446"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the Mach-O image file’s load commands from another process.  <a href="#a6556a8ed7c7c5727a109397c6a43c446">More...</a><br /></td></tr>
-<tr class="separator:a6556a8ed7c7c5727a109397c6a43c446"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5edd770d5ccb59fabc6e80839d66b0b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MachOImageReader.html#aa5edd770d5ccb59fabc6e80839d66b0b">Initialize</a> (<a class="el" href="classcrashpad_1_1ProcessReaderMac.html">ProcessReaderMac</a> *process_reader, mach_vm_address_t address, const std::string &amp;name)</td></tr>
+<tr class="memdesc:aa5edd770d5ccb59fabc6e80839d66b0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the Mach-O image file’s load commands from another process.  <a href="#aa5edd770d5ccb59fabc6e80839d66b0b">More...</a><br /></td></tr>
+<tr class="separator:aa5edd770d5ccb59fabc6e80839d66b0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cd79040c190b0f165fdb915bc469e8b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MachOImageReader.html#a8cd79040c190b0f165fdb915bc469e8b">FileType</a> () const</td></tr>
 <tr class="memdesc:a8cd79040c190b0f165fdb915bc469e8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Mach-O file type.  <a href="#a8cd79040c190b0f165fdb915bc469e8b">More...</a><br /></td></tr>
 <tr class="separator:a8cd79040c190b0f165fdb915bc469e8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,7 +150,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the Mach-O image’s load address. </p>
-<p>This is the value passed as <em>address</em> to <a class="el" href="classcrashpad_1_1MachOImageReader.html#a6556a8ed7c7c5727a109397c6a43c446" title="Reads the Mach-O image file’s load commands from another process. ">Initialize()</a>. </p>
+<p>This is the value passed as <em>address</em> to <a class="el" href="classcrashpad_1_1MachOImageReader.html#aa5edd770d5ccb59fabc6e80839d66b0b" title="Reads the Mach-O image file’s load commands from another process. ">Initialize()</a>. </p>
 
 </div>
 </div>
@@ -376,8 +376,8 @@ Unlike <a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#a370e87
 
 </div>
 </div>
-<a id="a6556a8ed7c7c5727a109397c6a43c446"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6556a8ed7c7c5727a109397c6a43c446">&#9670;&nbsp;</a></span>Initialize()</h2>
+<a id="aa5edd770d5ccb59fabc6e80839d66b0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5edd770d5ccb59fabc6e80839d66b0b">&#9670;&nbsp;</a></span>Initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -385,7 +385,7 @@ Unlike <a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#a370e87
         <tr>
           <td class="memname">bool crashpad::MachOImageReader::Initialize </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classcrashpad_1_1ProcessReader.html">ProcessReader</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="classcrashpad_1_1ProcessReaderMac.html">ProcessReaderMac</a> *&#160;</td>
           <td class="paramname"><em>process_reader</em>, </td>
         </tr>
         <tr>

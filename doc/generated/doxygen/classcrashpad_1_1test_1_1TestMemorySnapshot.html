@@ -96,6 +96,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetSize</b> (size_t s
 <tr class="memitem:ac52de4a7a927ac6d5feb13c2a398aa3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestMemorySnapshot.html#ac52de4a7a927ac6d5feb13c2a398aa3a">SetValue</a> (char value)</td></tr>
 <tr class="memdesc:ac52de4a7a927ac6d5feb13c2a398aa3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value to fill the test memory region with.  <a href="#ac52de4a7a927ac6d5feb13c2a398aa3a">More...</a><br /></td></tr>
 <tr class="separator:ac52de4a7a927ac6d5feb13c2a398aa3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6c880c7eae43cd08fbfca026ef7fe0c"><td class="memItemLeft" align="right" valign="top"><a id="ad6c880c7eae43cd08fbfca026ef7fe0c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetShouldFailRead</b> (bool should_fail)</td></tr>
+<tr class="separator:ad6c880c7eae43cd08fbfca026ef7fe0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a515bc4e6d55ae98fe90c169b40659be7"><td class="memItemLeft" align="right" valign="top"><a id="a515bc4e6d55ae98fe90c169b40659be7"></a>
 uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestMemorySnapshot.html#a515bc4e6d55ae98fe90c169b40659be7">Address</a> () const override</td></tr>
 <tr class="memdesc:a515bc4e6d55ae98fe90c169b40659be7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The base address of the memory snapshot in the snapshot process’ address space. <br /></td></tr>
@@ -107,10 +110,45 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <tr class="memitem:a89b8798372679d4aef3cf823b165d1d3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestMemorySnapshot.html#a89b8798372679d4aef3cf823b165d1d3">Read</a> (<a class="el" href="classcrashpad_1_1MemorySnapshot_1_1Delegate.html">Delegate</a> *delegate) const override</td></tr>
 <tr class="memdesc:a89b8798372679d4aef3cf823b165d1d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <a class="el" href="classcrashpad_1_1MemorySnapshot_1_1Delegate.html#a844f77076dc607ce0cd8946aea75f73b" title="Called by MemorySnapshot::Read() to provide data requested by a call to that method. ">Delegate::MemorySnapshotDelegateRead()</a>, providing it with the memory snapshot’s data.  <a href="#a89b8798372679d4aef3cf823b165d1d3">More...</a><br /></td></tr>
 <tr class="separator:a89b8798372679d4aef3cf823b165d1d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeae5e5eb887e1c1efadcaad2657a60ee"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestMemorySnapshot.html#aeae5e5eb887e1c1efadcaad2657a60ee">MergeWithOtherSnapshot</a> (const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> *other) const override</td></tr>
+<tr class="memdesc:aeae5e5eb887e1c1efadcaad2657a60ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> based on merging this one with <em>other</em>.  <a href="#aeae5e5eb887e1c1efadcaad2657a60ee">More...</a><br /></td></tr>
+<tr class="separator:aeae5e5eb887e1c1efadcaad2657a60ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A test <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> that can carry arbitrary data for testing purposes. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="aeae5e5eb887e1c1efadcaad2657a60ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeae5e5eb887e1c1efadcaad2657a60ee">&#9670;&nbsp;</a></span>MergeWithOtherSnapshot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> * crashpad::test::TestMemorySnapshot::MergeWithOtherSnapshot </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> *&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a new <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> based on merging this one with <em>other</em>. </p>
+<p>The ranges described by the two snapshots must either overlap or abut, and must be of the same concrete type.</p>
+<dl class="section return"><dt>Returns</dt><dd>A newly allocated <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> representing the merged range, or <code>nullptr</code> with an error logged. </dd></dl>
+
+<p>Implements <a class="el" href="classcrashpad_1_1MemorySnapshot.html#ac215c8c515725ac43f2bf5ec5d7a27a4">crashpad::MemorySnapshot</a>.</p>
+
+</div>
+</div>
 <a id="a89b8798372679d4aef3cf823b165d1d3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a89b8798372679d4aef3cf823b165d1d3">&#9670;&nbsp;</a></span>Read()</h2>
 
