@@ -123,6 +123,12 @@ void MinidumpSystemInfoWriter::InitializeFromSnapshot(
     case kCPUArchitectureX86_64:
       cpu_architecture = kMinidumpCPUArchitectureAMD64;
       break;
+    case kCPUArchitectureARM:
+      cpu_architecture = kMinidumpCPUArchitectureARM;
+      break;
+    case kCPUArchitectureARM64:
+      cpu_architecture = kMinidumpCPUArchitectureARM64;
+      break;
     default:
       NOTREACHED();
       cpu_architecture = kMinidumpCPUArchitectureUnknown;
@@ -159,6 +165,15 @@ void MinidumpSystemInfoWriter::InitializeFromSnapshot(
       break;
     case SystemSnapshot::kOperatingSystemWindows:
       operating_system = kMinidumpOSWin32NT;
+      break;
+    case SystemSnapshot::kOperatingSystemLinux:
+      operating_system = kMinidumpOSLinux;
+      break;
+    case SystemSnapshot::kOperatingSystemAndroid:
+      operating_system = kMinidumpOSAndroid;
+      break;
+    case SystemSnapshot::kOperatingSystemFuchsia:
+      operating_system = kMinidumpOSFuchsia;
       break;
     default:
       NOTREACHED();

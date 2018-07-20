@@ -21,7 +21,7 @@
 
 #include "build/build_config.h"
 #include "gtest/gtest.h"
-#include "test/gtest_death_check.h"
+#include "test/gtest_death.h"
 
 namespace crashpad {
 namespace test {
@@ -233,27 +233,28 @@ TEST(FromPointerCast, ToNarrowInteger) {
 
 TEST(FromPointerCastDeathTest, ToNarrowInteger) {
   if (sizeof(int) < sizeof(void*)) {
-    EXPECT_DEATH(FromPointerCast<int>(
-                     reinterpret_cast<void*>(static_cast<uintptr_t>(
-                         std::numeric_limits<unsigned int>::max() + 1ull))),
-                 "");
-    EXPECT_DEATH(FromPointerCast<unsigned int>(
-                     reinterpret_cast<void*>(static_cast<uintptr_t>(
-                         std::numeric_limits<unsigned int>::max() + 1ull))),
-                 "");
+    EXPECT_DEATH_CHECK(
+        FromPointerCast<int>(reinterpret_cast<void*>(static_cast<uintptr_t>(
+            std::numeric_limits<unsigned int>::max() + 1ull))),
+        "");
+    EXPECT_DEATH_CHECK(
+        FromPointerCast<unsigned int>(
+            reinterpret_cast<void*>(static_cast<uintptr_t>(
+                std::numeric_limits<unsigned int>::max() + 1ull))),
+        "");
   }
 
   // int and unsigned int may not be narrower than a pointer, so also test short
   // and unsigned short.
 
-  EXPECT_DEATH(FromPointerCast<short>(
-                   reinterpret_cast<void*>(static_cast<uintptr_t>(
-                       std::numeric_limits<unsigned short>::max() + 1u))),
-               "");
-  EXPECT_DEATH(FromPointerCast<unsigned short>(
-                   reinterpret_cast<void*>(static_cast<uintptr_t>(
-                       std::numeric_limits<unsigned short>::max() + 1u))),
-               "");
+  EXPECT_DEATH_CHECK(
+      FromPointerCast<short>(reinterpret_cast<void*>(static_cast<uintptr_t>(
+          std::numeric_limits<unsigned short>::max() + 1u))),
+      "");
+  EXPECT_DEATH_CHECK(FromPointerCast<unsigned short>(
+                         reinterpret_cast<void*>(static_cast<uintptr_t>(
+                             std::numeric_limits<unsigned short>::max() + 1u))),
+                     "");
 }
 
 }  // namespace

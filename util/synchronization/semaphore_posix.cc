@@ -18,25 +18,51 @@
 #include <math.h>
 #include <time.h>
 
+#include <chrono>
+
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
+#include "util/misc/time.h"
 
 namespace crashpad {
 
-#if !defined(OS_MACOSX)
+#if defined(OS_ANDROID)
 
-namespace {
+Semaphore::Semaphore(int value) : cv_(), mutex_(), value_(value) {}
 
-void AddTimespec(const timespec& ts1, const timespec& ts2, timespec* result) {
-  result->tv_sec = ts1.tv_sec + ts2.tv_sec;
-  result->tv_nsec = ts1.tv_nsec + ts2.tv_nsec;
-  if (result->tv_nsec > static_cast<long>(1E9)) {
-    ++result->tv_sec;
-    result->tv_nsec -= static_cast<long>(1E9);
-  }
+Semaphore::~Semaphore() = default;
+
+void Semaphore::Wait() {
+  std::unique_lock<std::mutex> lock(mutex_);
+  cv_.wait(lock, [this] { return this->value_ > 0; });
+  --value_;
 }
 
-}  // namespace
+bool Semaphore::TimedWait(double seconds) {
+  DCHECK_GE(seconds, 0.0);
+
+  if (isinf(seconds)) {
+    Wait();
+    return true;
+  }
+
+  std::unique_lock<std::mutex> lock(mutex_);
+  if (!cv_.wait_for(lock, std::chrono::duration<double>(seconds), [this] {
+        return this->value_ > 0;
+      })) {
+    return false;
+  }
+  --value_;
+  return true;
+}
+
+void Semaphore::Signal() {
+  std::lock_guard<std::mutex> lock(mutex_);
+  ++value_;
+  cv_.notify_one();
+}
+
+#elif !defined(OS_MACOSX)
 
 Semaphore::Semaphore(int value) {
   PCHECK(sem_init(&semaphore_, 0, value) == 0) << "sem_init";
@@ -77,6 +103,6 @@ void Semaphore::Signal() {
   PCHECK(sem_post(&semaphore_) == 0) << "sem_post";
 }
 
-#endif
+#endif  // OS_ANDROID
 
 }  // namespace crashpad

@@ -33,7 +33,7 @@ namespace {
 
 constexpr DWORD kCrashAndDumpTargetExitCode = 0xdeadbea7;
 
-bool CrashAndDumpTarget(const CrashpadClient& client, HANDLE process) {
+bool CrashAndDumpTarget(HANDLE process) {
   DWORD target_pid = GetProcessId(process);
 
   ScopedFileHANDLE thread_snap(CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0));
@@ -52,9 +52,8 @@ bool CrashAndDumpTarget(const CrashpadClient& client, HANDLE process) {
   do {
     if (te32.th32OwnerProcessID == target_pid) {
       // We set the thread priority of "Thread1" to a non-default value before
-      // going to sleep. Dump and blame this thread. For an explanation of
-      // "9", see
-      // https://msdn.microsoft.com/en-us/library/windows/desktop/ms685100.aspx.
+      // going to sleep. Dump and blame this thread. For an explanation of "9",
+      // see https://msdn.microsoft.com/library/ms685100.aspx.
       if (te32.tpBasePri == 9) {
         ScopedKernelHANDLE thread(
             OpenThread(kXPThreadAllAccess, false, te32.th32ThreadID));
@@ -62,7 +61,7 @@ bool CrashAndDumpTarget(const CrashpadClient& client, HANDLE process) {
           PLOG(ERROR) << "OpenThread";
           return false;
         }
-        if (!client.DumpAndCrashTargetProcess(
+        if (!CrashpadClient::DumpAndCrashTargetProcess(
                 process, thread.get(), kCrashAndDumpTargetExitCode)) {
           return false;
         }
@@ -110,11 +109,12 @@ int CrashOtherProgram(int argc, wchar_t* argv[]) {
   DWORD expect_exit_code;
   if (argc == 3 && wcscmp(argv[2], L"noexception") == 0) {
     expect_exit_code = CrashpadClient::kTriggeredExceptionCode;
-    if (!client.DumpAndCrashTargetProcess(child.process_handle(), 0, 0))
+    if (!CrashpadClient::DumpAndCrashTargetProcess(
+            child.process_handle(), 0, 0))
       return EXIT_FAILURE;
   } else {
     expect_exit_code = kCrashAndDumpTargetExitCode;
-    if (!CrashAndDumpTarget(client, child.process_handle())) {
+    if (!CrashAndDumpTarget(child.process_handle())) {
       return EXIT_FAILURE;
     }
   }
@@ -122,7 +122,7 @@ int CrashOtherProgram(int argc, wchar_t* argv[]) {
   DWORD exit_code = child.WaitForExit();
   if (exit_code != expect_exit_code) {
     LOG(ERROR) << base::StringPrintf(
-        "incorrect exit code, expected 0x%x, observed 0x%x",
+        "incorrect exit code, expected 0x%lx, observed 0x%lx",
         expect_exit_code,
         exit_code);
     return EXIT_FAILURE;

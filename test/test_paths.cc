@@ -43,6 +43,20 @@ bool IsTestDataRoot(const base::FilePath& candidate) {
 }
 
 base::FilePath TestDataRootInternal() {
+#if defined(OS_FUCHSIA)
+  base::FilePath asset_path("/pkg/assets");
+#if defined(CRASHPAD_IS_IN_FUCHSIA)
+  // Tests are not yet packaged when running in the Fuchsia tree, so assets do
+  // not appear as expected at /pkg/assets. Override the default so that tests
+  // can find their data for now.
+  // https://crashpad.chromium.org/bug/196.
+  asset_path = base::FilePath("/system/data/crashpad_test_data");
+#endif
+  if (!IsTestDataRoot(asset_path)) {
+    LOG(WARNING) << "Test data root seems invalid, continuing anyway";
+  }
+  return asset_path;
+#else  // defined(OS_FUCHSIA)
 #if !defined(OS_WIN)
   const char* environment_value = getenv("CRASHPAD_TEST_DATA_ROOT");
 #else  // defined(OS_WIN)
@@ -88,6 +102,7 @@ base::FilePath TestDataRootInternal() {
   }
 
   return base::FilePath(base::FilePath::kCurrentDirectory);
+#endif  // defined(OS_FUCHSIA)
 }
 
 #if defined(OS_WIN) && defined(ARCH_CPU_64_BITS)
@@ -113,24 +128,36 @@ base::FilePath Output32BitDirectory() {
 base::FilePath TestPaths::Executable() {
   base::FilePath executable_path;
   CHECK(Paths::Executable(&executable_path));
+#if defined(CRASHPAD_IS_IN_FUCHSIA)
+  // Tests are not yet packaged when running in the Fuchsia tree, so binaries do
+  // not appear as expected at /pkg/bin. Override the default of /pkg/bin/app
+  // so that tests can find the correct location for now.
+  // https://crashpad.chromium.org/bug/196.
+  executable_path = base::FilePath("/system/test/crashpad_test_data/app");
+#endif
   return executable_path;
 }
 
 // static
 base::FilePath TestPaths::ExpectedExecutableBasename(
     const base::FilePath::StringType& name) {
-#if defined(CRASHPAD_IN_CHROMIUM)
+#if defined(OS_FUCHSIA)
+  // Apps in Fuchsia packages are always named "app".
+  return base::FilePath("app");
+#else  // OS_FUCHSIA
+#if defined(CRASHPAD_IS_IN_CHROMIUM)
   base::FilePath::StringType executable_name(
       FILE_PATH_LITERAL("crashpad_tests"));
-#else  // CRASHPAD_IN_CHROMIUM
+#else  // CRASHPAD_IS_IN_CHROMIUM
   base::FilePath::StringType executable_name(name);
-#endif  // CRASHPAD_IN_CHROMIUM
+#endif  // CRASHPAD_IS_IN_CHROMIUM
 
 #if defined(OS_WIN)
   executable_name += FILE_PATH_LITERAL(".exe");
 #endif  // OS_WIN
 
   return base::FilePath(executable_name);
+#endif  // OS_FUCHSIA
 }
 
 // static
@@ -162,9 +189,9 @@ base::FilePath TestPaths::BuildArtifact(
 
   base::FilePath::StringType test_name =
       FILE_PATH_LITERAL("crashpad_") + module + FILE_PATH_LITERAL("_test");
-#if !defined(CRASHPAD_IN_CHROMIUM)
+#if !defined(CRASHPAD_IS_IN_CHROMIUM) && !defined(OS_FUCHSIA)
   CHECK(Executable().BaseName().RemoveFinalExtension().value() == test_name);
-#endif  // !CRASHPAD_IN_CHROMIUM
+#endif  // !CRASHPAD_IS_IN_CHROMIUM
 
   base::FilePath::StringType extension;
   switch (file_type) {
@@ -174,6 +201,17 @@ base::FilePath TestPaths::BuildArtifact(
     case FileType::kExecutable:
 #if defined(OS_WIN)
       extension = FILE_PATH_LITERAL(".exe");
+#elif defined(OS_FUCHSIA)
+#if defined(CRASHPAD_IS_IN_FUCHSIA)
+      // Tests are not yet packaged when running in the Fuchsia tree, so
+      // binaries do not appear as expected at /pkg/bin. Override the default of
+      // /pkg/bin/app so that tests can find the correct location for now.
+      // https://crashpad.chromium.org/bug/196.
+      directory =
+          base::FilePath(FILE_PATH_LITERAL("/system/test/crashpad_test_data"));
+#else
+      directory = base::FilePath(FILE_PATH_LITERAL("/pkg/bin"));
+#endif
 #endif  // OS_WIN
       break;
 
@@ -183,6 +221,26 @@ base::FilePath TestPaths::BuildArtifact(
 #else  // OS_WIN
       extension = FILE_PATH_LITERAL(".so");
 #endif  // OS_WIN
+
+#if defined(OS_FUCHSIA)
+      // TODO(scottmg): .so files are currently deployed into /boot/lib, where
+      // they'll be found (without a path) by the loader. Application packaging
+      // infrastructure is in progress, so this will likely change again in the
+      // future.
+      directory = base::FilePath();
+#endif
+      break;
+
+    case FileType::kCertificate:
+#if defined(CRASHPAD_IS_IN_FUCHSIA)
+      // When running in the Fuchsia tree, the .pem files are packaged as assets
+      // into the test data folder. This will need to be rationalized when
+      // things are actually run from a package.
+      // https://crashpad.chromium.org/bug/196.
+      directory =
+          base::FilePath(FILE_PATH_LITERAL("/system/test/crashpad_test_data"));
+#endif
+      extension = FILE_PATH_LITERAL(".pem");
       break;
   }
 

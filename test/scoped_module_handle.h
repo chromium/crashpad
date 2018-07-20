@@ -43,7 +43,7 @@ class ScopedModuleHandle {
     using ModuleHandle = HMODULE;
 
     static void* LookUpSymbol(ModuleHandle handle, const char* symbol_name) {
-      return GetProcAddress(handle, symbol_name);
+      return reinterpret_cast<void*>(GetProcAddress(handle, symbol_name));
     }
 #endif
 
@@ -58,6 +58,9 @@ class ScopedModuleHandle {
 
   explicit ScopedModuleHandle(ModuleHandle handle);
   ~ScopedModuleHandle();
+
+  //! \return The module handle being managed.
+  ModuleHandle get() const { return handle_; }
 
   //! \return `true` if this object manages a valid loadable module handle.
   bool valid() const { return handle_ != nullptr; }

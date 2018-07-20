@@ -92,22 +92,19 @@
             # triggers this warning in users: “error: 'Method' overrides a
             # member function but is not marked 'override'
             # [-Werror,-Winconsistent-missing-override]”. Suppress these
-            # warnings, and add -Wno-unknown-warning-option because only
-            # recent versions of clang (trunk r220703 and later, version
-            # 3.6 and later) recognize it.
+            # warnings until https://github.com/google/googletest/issues/533 is
+            # fixed.
             'conditions': [
               ['OS=="mac"', {
                 'xcode_settings': {
                   'WARNING_CFLAGS': [
                     '-Wno-inconsistent-missing-override',
-                    '-Wno-unknown-warning-option',
                   ],
                 },
               }],
               ['OS=="linux" or OS=="android"', {
                 'cflags': [
                   '-Wno-inconsistent-missing-override',
-                  '-Wno-unknown-warning-option',
                 ],
               }],
             ],
@@ -170,6 +167,26 @@
         '<(gmock_dir)/test/gmock-port_test.cc',
         '<(gmock_dir)/test/gmock-spec-builders_test.cc',
         '<(gmock_dir)/test/gmock_test.cc',
+      ],
+      'conditions': [
+         ['clang!=0', {
+          # For gtest/googlemock/test/gmock-matchers_test.cc’s
+          # Unstreamable::value_.
+          'conditions': [
+            ['OS=="mac"', {
+              'xcode_settings': {
+                'WARNING_CFLAGS': [
+                  '-Wno-unused-private-field',
+                ],
+              },
+            }],
+            ['OS=="linux" or OS=="android"', {
+              'cflags': [
+                '-Wno-unused-private-field',
+              ],
+            }],
+          ],
+        }],
       ],
     },
     {

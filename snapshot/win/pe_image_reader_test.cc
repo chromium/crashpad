@@ -18,46 +18,57 @@
 #include <psapi.h>
 
 #include "base/files/file_path.h"
+#include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
 #include "snapshot/win/process_reader_win.h"
 #include "test/errors.h"
+#include "test/scoped_module_handle.h"
 #include "test/test_paths.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/win/get_module_information.h"
 #include "util/win/module_version.h"
 #include "util/win/process_info.h"
 
-extern "C" IMAGE_DOS_HEADER __ImageBase;
-
 namespace crashpad {
 namespace test {
 namespace {
 
 TEST(PEImageReader, DebugDirectory) {
+  base::FilePath module_path =
+      TestPaths::BuildArtifact(L"snapshot",
+                               L"image_reader_module",
+                               TestPaths::FileType::kLoadableModule);
+  ScopedModuleHandle module_handle(LoadLibrary(module_path.value().c_str()));
+  ASSERT_TRUE(module_handle.valid()) << ErrorMessage("LoadLibrary");
+
   PEImageReader pe_image_reader;
   ProcessReaderWin process_reader;
   ASSERT_TRUE(process_reader.Initialize(GetCurrentProcess(),
                                         ProcessSuspensionState::kRunning));
-  HMODULE self = reinterpret_cast<HMODULE>(&__ImageBase);
+
   MODULEINFO module_info;
-  ASSERT_TRUE(CrashpadGetModuleInformation(
-      GetCurrentProcess(), self, &module_info, sizeof(module_info)))
+  ASSERT_TRUE(CrashpadGetModuleInformation(GetCurrentProcess(),
+                                           module_handle.get(),
+                                           &module_info,
+                                           sizeof(module_info)))
       << ErrorMessage("GetModuleInformation");
-  EXPECT_EQ(module_info.lpBaseOfDll, self);
-  ASSERT_TRUE(pe_image_reader.Initialize(&process_reader,
-                                         FromPointerCast<WinVMAddress>(self),
-                                         module_info.SizeOfImage,
-                                         "self"));
+  EXPECT_EQ(module_info.lpBaseOfDll, module_handle.get());
+
+  base::FilePath module_basename = module_path.BaseName();
+  ASSERT_TRUE(pe_image_reader.Initialize(
+      &process_reader,
+      FromPointerCast<WinVMAddress>(module_handle.get()),
+      module_info.SizeOfImage,
+      base::UTF16ToUTF8(module_basename.value())));
+
   UUID uuid;
   DWORD age;
   std::string pdbname;
-  EXPECT_TRUE(pe_image_reader.DebugDirectoryInformation(&uuid, &age, &pdbname));
-  std::string self_name = base::UTF16ToUTF8(
-      TestPaths::ExpectedExecutableBasename(L"crashpad_snapshot_test")
-          .RemoveFinalExtension()
-          .value());
-  EXPECT_NE(pdbname.find(self_name), std::string::npos);
+  ASSERT_TRUE(pe_image_reader.DebugDirectoryInformation(&uuid, &age, &pdbname));
+  std::string module_name =
+      base::UTF16ToUTF8(module_basename.RemoveFinalExtension().value());
+  EXPECT_NE(pdbname.find(module_name), std::string::npos);
   const std::string suffix(".pdb");
   EXPECT_EQ(
       pdbname.compare(pdbname.size() - suffix.size(), suffix.size(), suffix),
@@ -86,8 +97,17 @@ void TestVSFixedFileInfo(ProcessReaderWin* process_reader,
       EXPECT_EQ(observed.dwFileType, static_cast<DWORD>(VFT_DLL));
     } else {
       EXPECT_NE(observed.dwFileOS & VOS_NT_WINDOWS32, 0u);
+
+      // VFT_DRV/VFT2_DRV_NETWORK is for nsi.dll, “network service interface.”
+      // It’s not normally loaded, but has been observed to be loaded in some
+      // cases.
       EXPECT_TRUE(observed.dwFileType == VFT_APP ||
-                  observed.dwFileType == VFT_DLL);
+                  observed.dwFileType == VFT_DLL ||
+                  (observed.dwFileType == VFT_DRV &&
+                   observed.dwFileSubtype == VFT2_DRV_NETWORK))
+          << base::StringPrintf("type 0x%lx, subtype 0x%lx",
+                                observed.dwFileType,
+                                observed.dwFileSubtype);
     }
   }
 

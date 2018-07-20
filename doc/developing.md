@@ -22,7 +22,7 @@ limitations under the License.
 
 ## Introduction
 
-Crashpad is a [Chromium project](https://dev.chromium.org/Home). Most of its
+Crashpad is a [Chromium project](https://www.chromium.org/Home). Most of its
 development practices follow Chromium’s. In order to function on its own in
 other projects, Crashpad uses
 [mini_chromium](https://chromium.googlesource.com/chromium/mini_chromium/), a
@@ -43,9 +43,9 @@ the `$PATH` environment variable:
       C++ support and the Windows SDK. MSVS 2015 and MSVS 2017 are both
       supported. Some tests also require the CDB debugger, installed with
       [Debugging Tools for
-      Windows](https://msdn.microsoft.com/library/windows/hardware/ff551063.aspx).
+      Windows](https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/).
  * Chromium’s
-   [depot_tools](https://dev.chromium.org/developers/how-tos/depottools).
+   [depot_tools](https://www.chromium.org/developers/how-tos/depottools).
  * [Git](https://git-scm.com/). This is provided by Xcode on macOS and by
    depot_tools on Windows.
  * [Python](https://www.python.org/). This is provided by the operating system
@@ -57,12 +57,12 @@ The main source code repository is a Git repository hosted at
 https://chromium.googlesource.com/crashpad/crashpad. Although it is possible to
 check out this repository directly with `git clone`, Crashpad’s dependencies are
 managed by
-[`gclient`](https://dev.chromium.org/developers/how-tos/depottools#TOC-gclient)
+[`gclient`](https://www.chromium.org/developers/how-tos/depottools#TOC-gclient)
 instead of Git submodules, so to work on Crashpad, it is best to use `fetch` to
 get the source code.
 
 `fetch` and `gclient` are part of the
-[depot_tools](https://dev.chromium.org/developers/how-tos/depottools). There’s
+[depot_tools](https://www.chromium.org/developers/how-tos/depottools). There’s
 no need to install them separately.
 
 ### Initial Checkout
@@ -86,28 +86,25 @@ $ gclient sync
 
 ## Building
 
-Crashpad uses [GYP](https://gyp.gsrc.io/) to generate
-[Ninja](https://ninja-build.org/) build files. The build is described by `.gyp`
-files throughout the Crashpad source code tree. The
-[`build/gyp_crashpad.py`](https://chromium.googlesource.com/crashpad/crashpad/+/master/build/gyp_crashpad.py)
-script runs GYP properly for Crashpad, and is also called when you run `fetch
-crashpad`, `gclient sync`, or `gclient runhooks`.
+### Windows, Mac, Linux, Fuchsia
 
-The Ninja build files and build output are in the `out` directory. Both debug-
-and release-mode configurations are available. The examples below show the debug
-configuration. To build and test the release configuration, substitute `Release`
-for `Debug`. On Windows, four configurations are available: `Debug` and
-`Release` produce 32-bit x86 executables, and `Debug_x64` and `Release_x64`
-produce x86_64 executables.
+On Windows, Mac, Linux, and Fuchsia Crashpad uses
+[GN](https://gn.googlesource.com/gn) to generate
+[Ninja](https://ninja-build.org/) build files. For example,
 
 ```
 $ cd ~/crashpad/crashpad
-$ ninja -C out/Debug
+$ gn gen out/Default
+$ ninja -C out/Default
 ```
 
-Ninja is part of the
-[depot_tools](https://dev.chromium.org/developers/how-tos/depottools). There’s
-no need to install it separately.
+You can then use `gn args out/Default` or edit `out/Default/args.gn` to
+configure the build, for example things like `is_debug=true` or
+`target_cpu="x86"`.
+
+GN and Ninja are part of the
+[depot_tools](https://www.chromium.org/developers/how-tos/depottools). There’s
+no need to install them separately.
 
 ### Android
 
@@ -119,7 +116,7 @@ Kit)](https://developer.android.com/ndk/) runs on.
 If it’s not already present on your system, [download the NDK package for your
 system](https://developer.android.com/ndk/downloads/) and expand it to a
 suitable location. These instructions assume that it’s been expanded to
-`~/android-ndk-r15b`.
+`~/android-ndk-r16`.
 
 To build Crashpad, portions of the NDK must be reassembled into a [standalone
 toolchain](https://developer.android.com/ndk/guides/standalone_toolchain.html).
@@ -133,8 +130,8 @@ desired. To build a standalone toolchain targeting 64-bit ARM and API level 21
 
 ```
 $ cd ~
-$ python android-ndk-r15b/build/tools/make_standalone_toolchain.py \
-      --arch=arm64 --api=21 --install-dir=android-ndk-r15b_arm64_api21
+$ python android-ndk-r16/build/tools/make_standalone_toolchain.py \
+      --arch=arm64 --api=21 --install-dir=android-ndk-r16_arm64_api21
 ```
 
 Note that Chrome uses Android API level 21 for 64-bit platforms and 16 for
@@ -152,7 +149,7 @@ operation.
 ```
 $ cd ~/crashpad/crashpad
 $ python build/gyp_crashpad_android.py \
-      --ndk ~/android-ndk-r15b_arm64_api21 \
+      --ndk ~/android-ndk-r16_arm64_api21 \
       --generator-output out/android_arm64_api21
 ```
 
@@ -200,7 +197,7 @@ $ python build/run_tests.py out/Debug
 
 On Windows, `end_to_end_test.py` requires the CDB debugger, installed with
 [Debugging Tools for
-Windows](https://msdn.microsoft.com/library/windows/hardware/ff551063.aspx).
+Windows](https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/).
 This can be installed either as part of the [Windows Driver
 Kit](https://go.microsoft.com/fwlink/p?LinkID=239721) or the [Windows
 SDK](https://go.microsoft.com/fwlink/p?LinkID=271979). If the Windows SDK has
@@ -210,40 +207,23 @@ Software Development Kit.
 
 ### Android
 
-To test on Android, use [ADB (Android Debug
-Bridge)](https://developer.android.com/studio/command-line/adb.html) to `adb
-push` test executables and test data to a device or emulator, then use `adb
-shell` to get a shell to run the test executables from. ADB is part of the
-[Android SDK](https://developer.android.com/sdk/). Note that it is sufficient to
-install just the command-line tools. The entire Android Studio IDE is not
-necessary to obtain ADB.
+To test on Android, [ADB (Android Debug
+Bridge)](https://developer.android.com/studio/command-line/adb.html) from the
+[Android SDK](https://developer.android.com/sdk/) must be in the `PATH`. Note
+that it is sufficient to install just the command-line tools from the Android
+SDK. The entire Android Studio IDE is not necessary to obtain ADB.
 
-This example runs `crashpad_test_test` on a device. This test executable has a
-run-time dependency on a second executable and a test data file, which are also
-transferred to the device prior to running the test.
-
-```
-$ cd ~/crashpad/crashpad
-$ adb push out/android_arm64_api21/out/Debug/crashpad_test_test /data/local/tmp/
-[100%] /data/local/tmp/crashpad_test_test
-$ adb push \
-      out/android_arm64_api21/out/Debug/crashpad_test_test_multiprocess_exec_test_child \
-      /data/local/tmp/
-[100%] /data/local/tmp/crashpad_test_test_multiprocess_exec_test_child
-$ adb shell mkdir -p /data/local/tmp/crashpad_test_data_root/test
-$ adb push test/test_paths_test_data_root.txt \
-      /data/local/tmp/crashpad_test_data_root/test/
-[100%] /data/local/tmp/crashpad_test_data_root/test/test_paths_test_data_root.txt
-$ adb shell
-device:/ $ cd /data/local/tmp
-device:/data/local/tmp $ CRASHPAD_TEST_DATA_ROOT=crashpad_test_data_root \
-                         ./crashpad_test_test
-```
+When asked to test an Android build directory, `run_tests.py` will detect a
+single connected Android device (including an emulator). If multiple devices are
+connected, one may be chosen explicitly with the `ANDROID_DEVICE` environment
+variable. `run_tests.py` will upload test executables and data to a temporary
+location on the detected or selected device, run them, and clean up after itself
+when done.
 
 ## Contributing
 
 Crashpad’s contribution process is very similar to [Chromium’s contribution
-process](https://dev.chromium.org/developers/contributing-code).
+process](https://www.chromium.org/developers/contributing-code).
 
 ### Code Review
 
@@ -256,7 +236,7 @@ must be sent to an appropriate reviewer, with a Cc sent to
 file specifies this environment to `git-cl`.
 
 `git-cl` is part of the
-[depot_tools](https://dev.chromium.org/developers/how-tos/depottools). There’s
+[depot_tools](https://www.chromium.org/developers/how-tos/depottools). There’s
 no need to install it separately.
 
 ```
@@ -282,7 +262,7 @@ patch set with `git cl upload` and let your reviewer know you’ve addressed the
 feedback.
 
 The most recently uploaded patch set on a review may be tested on a [try
-server](https://dev.chromium.org/developers/testing/try-server-usage) by running
+server](https://www.chromium.org/developers/testing/try-server-usage) by running
 `git cl try` or by clicking the “CQ Dry Run” button in Gerrit. These set the
 “Commit-Queue: +1” label. This does not mean that the patch will be committed,
 but the try server and commit queue share infrastructure and a Gerrit label. The
@@ -294,7 +274,7 @@ Crashpad and Chromium committers.
 
 After code review is complete and “Code-Review: +1” has been received from all
 reviewers, the patch can be submitted to Crashpad’s [commit
-queue](https://dev.chromium.org/developers/testing/commit-queue) by clicking the
+queue](https://www.chromium.org/developers/testing/commit-queue) by clicking the
 “Submit to CQ” button in Gerrit. This sets the “Commit-Queue: +2” label, which
 tests the patch on the try server before landing it. Commit queue access is
 available to Crashpad and Chromium committers.

@@ -30,10 +30,9 @@ namespace crashpad {
 //!
 //! For more information about this structure and format, see <a
 //! href="http://www.debuginfo.com/articles/debuginfomatch.html#pdbfiles">Matching
-//! Debug Information</a>, PDB Files, and <a
-//! href="http://undocumented.rawol.com/sbs-w2k-1-windows-2000-debugging-support.pdf#page=63">Undocumented
-//! Windows 2000 Secrets</a>, Windows 2000 Debugging Support/Microsoft Symbol
-//! File Internals/CodeView Subsections.
+//! Debug Information</a>, PDB Files, and <i>Undocumented Windows 2000
+//! Secrets</i>, Windows 2000 Debugging Support/Microsoft Symbol File
+//! Internals/CodeView Subsections.
 //!
 //! \sa IMAGE_DEBUG_MISC
 struct CodeViewRecordPDB20 {

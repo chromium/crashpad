@@ -30,10 +30,10 @@
 #include "base/strings/utf_string_conversions.h"
 #include "base/synchronization/lock.h"
 #include "util/file/file_io.h"
+#include "util/misc/capture_context.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/misc/random_string.h"
 #include "util/win/address_types.h"
-#include "util/win/capture_context.h"
 #include "util/win/command_line.h"
 #include "util/win/critical_section_with_debug_info.h"
 #include "util/win/get_function.h"
@@ -750,9 +750,9 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
   // We include a fake exception and use a code of '0x517a7ed' (something like
   // "simulated") so that it's relatively obvious in windbg that it's not
   // actually an exception. Most values in
-  // https://msdn.microsoft.com/en-us/library/windows/desktop/aa363082.aspx have
-  // some of the top nibble set, so we make sure to pick a value that doesn't,
-  // so as to be unlikely to conflict.
+  // https://msdn.microsoft.com/library/aa363082.aspx have some of the top
+  // nibble set, so we make sure to pick a value that doesn't, so as to be
+  // unlikely to conflict.
   constexpr uint32_t kSimulatedExceptionCode = 0x517a7ed;
   EXCEPTION_RECORD record = {};
   record.ExceptionCode = kSimulatedExceptionCode;
@@ -790,9 +790,10 @@ void CrashpadClient::DumpAndCrash(EXCEPTION_POINTERS* exception_pointers) {
   UnhandledExceptionHandler(exception_pointers);
 }
 
+// static
 bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
                                                HANDLE blame_thread,
-                                               DWORD exception_code) const {
+                                               DWORD exception_code) {
   // Confirm we're on Vista or later.
   const DWORD version = GetVersion();
   const DWORD major_version = LOBYTE(LOWORD(version));

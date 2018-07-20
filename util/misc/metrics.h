@@ -50,7 +50,7 @@ class Metrics {
 
   //! \brief Reports the size of a crash report file in bytes. Should be called
   //!     when a new report is written to disk.
-  static void CrashReportSize(FileHandle file);
+  static void CrashReportSize(FileOffset size);
 
   //! \brief Reports on a crash upload attempt, and if it succeeded.
   static void CrashUploadAttempted(bool successful);
@@ -118,6 +118,22 @@ class Metrics {
 
     //! \brief There was a database error in attempt to complete the report.
     kFinishedWritingCrashReportFailed = 7,
+
+    //! \brief An attempt to directly `ptrace` the target failed.
+    //!
+    //! This value is only used on Linux/Android.
+    kDirectPtraceFailed = 8,
+
+    //! \brief An attempt to `ptrace` via a PtraceBroker failed.
+    //!
+    //! This value is only used on Linux/Android.
+    kBrokeredPtraceFailed = 9,
+
+    //! \brief Sanitization was requested but could not be initialized.
+    kSanitizationInitializationFailed = 10,
+
+    //! \brief Sanitization caused this crash dump to be skipped.
+    kSkippedDueToSanitization = 11,
 
     //! \brief The number of values in this enumeration; not a valid value.
     kMaxValue

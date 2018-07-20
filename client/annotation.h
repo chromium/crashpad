@@ -25,6 +25,7 @@
 #include "base/logging.h"
 #include "base/macros.h"
 #include "base/numerics/safe_conversions.h"
+#include "base/strings/string_piece.h"
 #include "build/build_config.h"
 
 namespace crashpad {
@@ -71,7 +72,7 @@ class Annotation {
   static constexpr size_t kNameMaxLength = 64;
 
   //! \brief The maximum size of an annotation’s value, in bytes.
-  static constexpr size_t kValueMaxSize = 2048;
+  static constexpr size_t kValueMaxSize = 5 * 4096;
 
   //! \brief The type used for \a SetSize().
   using ValueSizeType = uint32_t;
@@ -195,11 +196,35 @@ class Annotation {
 template <Annotation::ValueSizeType MaxSize>
 class StringAnnotation : public Annotation {
  public:
+  //! \brief A constructor tag that enables braced initialization in C arrays.
+  //!
+  //! \sa StringAnnotation()
+  enum class Tag { kArray };
+
   //! \brief Constructs a new StringAnnotation with the given \a name.
   //!
   //! \param[in] name The Annotation name.
   constexpr explicit StringAnnotation(const char name[])
       : Annotation(Type::kString, name, value_), value_() {}
+
+  //! \brief Constructs a new StringAnnotation with the given \a name.
+  //!
+  //! This constructor takes the ArrayInitializerTag for use when
+  //! initializing a C array of annotations. The main constructor is
+  //! explicit and cannot be brace-initialized. As an example:
+  //!
+  //! \code
+  //!   static crashpad::StringAnnotation<32> annotations[] = {
+  //!     {"name-1", crashpad::StringAnnotation<32>::Tag::kArray},
+  //!     {"name-2", crashpad::StringAnnotation<32>::Tag::kArray},
+  //!     {"name-3", crashpad::StringAnnotation<32>::Tag::kArray},
+  //!   };
+  //! \endcode
+  //!
+  //! \param[in] name The Annotation name.
+  //! \param[in] tag A constructor tag.
+  constexpr StringAnnotation(const char name[], Tag tag)
+      : StringAnnotation(name) {}
 
   //! \brief Sets the Annotation's string value.
   //!
@@ -208,6 +233,22 @@ class StringAnnotation : public Annotation {
     strncpy(value_, value, MaxSize);
     SetSize(
         std::min(MaxSize, base::saturated_cast<ValueSizeType>(strlen(value))));
+  }
+
+  //! \brief Sets the Annotation's string value.
+  //!
+  //! \param[in] string The string value.
+  void Set(base::StringPiece string) {
+    Annotation::ValueSizeType size =
+        std::min(MaxSize, base::saturated_cast<ValueSizeType>(string.size()));
+    memcpy(value_, string.data(), size);
+    // Check for no embedded `NUL` characters.
+    DCHECK(!memchr(value_, '\0', size)) << "embedded NUL";
+    SetSize(size);
+  }
+
+  const base::StringPiece value() const {
+    return base::StringPiece(value_, size());
   }
 
  private:

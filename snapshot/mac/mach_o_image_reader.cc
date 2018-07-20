@@ -26,7 +26,7 @@
 #include "client/crashpad_info.h"
 #include "snapshot/mac/mach_o_image_segment_reader.h"
 #include "snapshot/mac/mach_o_image_symbol_table_reader.h"
-#include "snapshot/mac/process_reader.h"
+#include "snapshot/mac/process_reader_mac.h"
 #include "util/mac/checked_mach_address_range.h"
 #include "util/misc/implicit_cast.h"
 
@@ -62,7 +62,7 @@ MachOImageReader::MachOImageReader()
 MachOImageReader::~MachOImageReader() {
 }
 
-bool MachOImageReader::Initialize(ProcessReader* process_reader,
+bool MachOImageReader::Initialize(ProcessReaderMac* process_reader,
                                   mach_vm_address_t address,
                                   const std::string& name) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
@@ -481,22 +481,41 @@ bool MachOImageReader::GetCrashpadInfo(
   }
 
   if (crashpad_info_section->size <
-      crashpad_info->ExpectedSize(process_reader_)) {
+      crashpad_info->MinimumSize(process_reader_)) {
     LOG(WARNING) << "small crashpad info section size "
                  << crashpad_info_section->size << module_info_;
     return false;
   }
 
+  // This Read() will zero out anything beyond the structure’s declared size.
   if (!crashpad_info->Read(process_reader_, crashpad_info_address)) {
     LOG(WARNING) << "could not read crashpad info" << module_info_;
     return false;
   }
 
   if (crashpad_info->signature != CrashpadInfo::kSignature ||
-      crashpad_info->size != crashpad_info_section->size ||
-      crashpad_info->version < 1) {
-    LOG(WARNING) << "unexpected crashpad info data" << module_info_;
+      crashpad_info->version != 1) {
+    LOG(WARNING) << base::StringPrintf(
+        "unexpected crashpad info signature 0x%x, version %u%s",
+        crashpad_info->signature,
+        crashpad_info->version,
+        module_info_.c_str());
     return false;
+  }
+
+  // Don’t require strict equality, to leave wiggle room for sloppy linkers.
+  if (crashpad_info->size > crashpad_info_section->size) {
+    LOG(WARNING) << "crashpad info struct size " << crashpad_info->size
+                 << " large for section size " << crashpad_info_section->size
+                 << module_info_;
+    return false;
+  }
+
+  if (crashpad_info->size > crashpad_info->ExpectedSize(process_reader_)) {
+    // This isn’t strictly a problem, because unknown fields will simply be
+    // ignored, but it may be of diagnostic interest.
+    LOG(INFO) << "large crashpad info size " << crashpad_info->size
+              << module_info_;
   }
 
   return true;

@@ -41,7 +41,10 @@ TEST(Semaphore, TimedWait) {
 
 TEST(Semaphore, TimedWaitTimeout) {
   Semaphore semaphore(0);
-  EXPECT_FALSE(semaphore.TimedWait(0.01));  // 10ms
+  semaphore.Signal();
+  constexpr double kTenMs = 0.01;
+  EXPECT_TRUE(semaphore.TimedWait(kTenMs));
+  EXPECT_FALSE(semaphore.TimedWait(kTenMs));
 }
 
 TEST(Semaphore, TimedWaitInfinite_0) {

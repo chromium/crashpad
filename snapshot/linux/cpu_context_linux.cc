@@ -77,6 +77,8 @@ void InitializeCPUContextX86_NoFloatingPoint(
     CPUContextX86* context) {
   SET_GPRS32();
 
+  memset(&context->fxsave, 0, sizeof(context->fxsave));
+
   context->dr0 = 0;
   context->dr1 = 0;
   context->dr2 = 0;
@@ -151,9 +153,112 @@ void InitializeCPUContextX86_64(const SignalThreadContext64& thread_context,
   context->dr6 = 0;
   context->dr7 = 0;
 }
-#else
-#error Port.
-#endif  // ARCH_CPU_X86_FAMILY || DOXYGEN
+
+void InitializeCPUContextX86_64_NoFloatingPoint(
+    const SignalThreadContext64& thread_context,
+    CPUContextX86_64* context) {
+  SET_GPRS64();
+
+  memset(&context->fxsave, 0, sizeof(context->fxsave));
+
+  context->dr0 = 0;
+  context->dr1 = 0;
+  context->dr2 = 0;
+  context->dr3 = 0;
+  context->dr4 = 0;
+  context->dr5 = 0;
+  context->dr6 = 0;
+  context->dr7 = 0;
+}
+
+#elif defined(ARCH_CPU_ARM_FAMILY)
+
+void InitializeCPUContextARM(const ThreadContext::t32_t& thread_context,
+                             const FloatContext::f32_t& float_context,
+                             CPUContextARM* context) {
+  static_assert(sizeof(context->regs) == sizeof(thread_context.regs),
+                "registers size mismatch");
+  memcpy(&context->regs, &thread_context.regs, sizeof(context->regs));
+  context->fp = thread_context.fp;
+  context->ip = thread_context.ip;
+  context->sp = thread_context.sp;
+  context->lr = thread_context.lr;
+  context->pc = thread_context.pc;
+  context->cpsr = thread_context.cpsr;
+
+  static_assert(sizeof(context->vfp_regs) == sizeof(float_context.vfp),
+                "vfp size mismatch");
+  context->have_vfp_regs = float_context.have_vfp;
+  if (float_context.have_vfp) {
+    memcpy(&context->vfp_regs, &float_context.vfp, sizeof(context->vfp_regs));
+  }
+
+  static_assert(sizeof(context->fpa_regs) == sizeof(float_context.fpregs),
+                "fpregs size mismatch");
+  context->have_fpa_regs = float_context.have_fpregs;
+  if (float_context.have_fpregs) {
+    memcpy(
+        &context->fpa_regs, &float_context.fpregs, sizeof(context->fpa_regs));
+  }
+}
+
+void InitializeCPUContextARM_NoFloatingPoint(
+    const SignalThreadContext32& thread_context,
+    CPUContextARM* context) {
+  static_assert(sizeof(context->regs) == sizeof(thread_context.regs),
+                "registers size mismatch");
+  memcpy(&context->regs, &thread_context.regs, sizeof(context->regs));
+  context->fp = thread_context.fp;
+  context->ip = thread_context.ip;
+  context->sp = thread_context.sp;
+  context->lr = thread_context.lr;
+  context->pc = thread_context.pc;
+  context->cpsr = thread_context.cpsr;
+
+  memset(&context->fpa_regs, 0, sizeof(context->fpa_regs));
+  memset(&context->vfp_regs, 0, sizeof(context->vfp_regs));
+  context->have_fpa_regs = false;
+  context->have_vfp_regs = false;
+}
+
+void InitializeCPUContextARM64(const ThreadContext::t64_t& thread_context,
+                               const FloatContext::f64_t& float_context,
+                               CPUContextARM64* context) {
+  InitializeCPUContextARM64_NoFloatingPoint(thread_context, context);
+
+  static_assert(sizeof(context->fpsimd) == sizeof(float_context.vregs),
+                "fpsimd context size mismatch");
+  memcpy(context->fpsimd, float_context.vregs, sizeof(context->fpsimd));
+  context->fpsr = float_context.fpsr;
+  context->fpcr = float_context.fpcr;
+}
+
+void InitializeCPUContextARM64_NoFloatingPoint(
+    const ThreadContext::t64_t& thread_context,
+    CPUContextARM64* context) {
+  static_assert(sizeof(context->regs) == sizeof(thread_context.regs),
+                "gpr context size mismtach");
+  memcpy(context->regs, thread_context.regs, sizeof(context->regs));
+  context->sp = thread_context.sp;
+  context->pc = thread_context.pc;
+  context->pstate = thread_context.pstate;
+
+  memset(&context->fpsimd, 0, sizeof(context->fpsimd));
+  context->fpsr = 0;
+  context->fpcr = 0;
+}
+
+void InitializeCPUContextARM64_OnlyFPSIMD(
+    const SignalFPSIMDContext& float_context,
+    CPUContextARM64* context) {
+  static_assert(sizeof(context->fpsimd) == sizeof(float_context.vregs),
+                "fpsimd context size mismatch");
+  memcpy(context->fpsimd, float_context.vregs, sizeof(context->fpsimd));
+  context->fpsr = float_context.fpsr;
+  context->fpcr = float_context.fpcr;
+}
+
+#endif  // ARCH_CPU_X86_FAMILY
 
 }  // namespace internal
 }  // namespace crashpad

@@ -21,6 +21,7 @@
 #include <memory>
 
 #include "gtest/gtest.h"
+#include "snapshot/minidump/minidump_annotation_reader.h"
 #include "snapshot/module_snapshot.h"
 #include "util/file/string_file.h"
 
@@ -66,7 +67,7 @@ TEST(ProcessSnapshotMinidump, Empty) {
 }
 
 // Writes |string| to |writer| as a MinidumpUTF8String, and returns the file
-// offst of the beginning of the string.
+// offset of the beginning of the string.
 RVA WriteString(FileWriterInterface* writer, const std::string& string) {
   RVA rva = static_cast<RVA>(writer->SeekGet());
 
@@ -129,6 +130,48 @@ void WriteMinidumpStringList(MINIDUMP_LOCATION_DESCRIPTOR* location,
 
   location->DataSize = static_cast<uint32_t>(sizeof(string_list_entries) +
                                              rvas.size() * sizeof(RVA));
+}
+
+// Writes |data| to |writer| as a MinidumpByteArray, and returns the file offset
+// from the beginning of the string.
+RVA WriteByteArray(FileWriterInterface* writer,
+                   const std::vector<uint8_t> data) {
+  auto rva = static_cast<RVA>(writer->SeekGet());
+
+  auto length = static_cast<uint32_t>(data.size());
+  EXPECT_TRUE(writer->Write(&length, sizeof(length)));
+  EXPECT_TRUE(writer->Write(data.data(), length));
+
+  return rva;
+}
+
+// Writes |annotations| to |writer| as a MinidumpAnnotationList, and populates
+// |location| with a location descriptor identifying what was written.
+void WriteMinidumpAnnotationList(
+    MINIDUMP_LOCATION_DESCRIPTOR* location,
+    FileWriterInterface* writer,
+    const std::vector<AnnotationSnapshot>& annotations) {
+  std::vector<MinidumpAnnotation> minidump_annotations;
+  for (const auto& it : annotations) {
+    MinidumpAnnotation annotation;
+    annotation.name = WriteString(writer, it.name);
+    annotation.type = it.type;
+    annotation.reserved = 0;
+    annotation.value = WriteByteArray(writer, it.value);
+    minidump_annotations.push_back(annotation);
+  }
+
+  location->Rva = static_cast<RVA>(writer->SeekGet());
+
+  auto count = static_cast<uint32_t>(minidump_annotations.size());
+  EXPECT_TRUE(writer->Write(&count, sizeof(count)));
+
+  for (const auto& it : minidump_annotations) {
+    EXPECT_TRUE(writer->Write(&it, sizeof(MinidumpAnnotation)));
+  }
+
+  location->DataSize =
+      sizeof(MinidumpAnnotationList) + count * sizeof(MinidumpAnnotation);
 }
 
 TEST(ProcessSnapshotMinidump, ClientID) {
@@ -215,6 +258,28 @@ TEST(ProcessSnapshotMinidump, AnnotationsSimpleMap) {
   EXPECT_EQ(annotations_simple_map, dictionary);
 }
 
+TEST(ProcessSnapshotMinidump, AnnotationObjects) {
+  StringFile string_file;
+
+  MINIDUMP_HEADER header{};
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  std::vector<AnnotationSnapshot> annotations;
+  annotations.emplace_back(
+      AnnotationSnapshot("name 1", 0xBBBB, {'t', 'e', '\0', 's', 't', '\0'}));
+  annotations.emplace_back(
+      AnnotationSnapshot("name 2", 0xABBA, {0xF0, 0x9F, 0x92, 0x83}));
+
+  MINIDUMP_LOCATION_DESCRIPTOR location;
+  WriteMinidumpAnnotationList(&location, &string_file, annotations);
+
+  std::vector<AnnotationSnapshot> read_annotations;
+  EXPECT_TRUE(internal::ReadMinidumpAnnotationList(
+      &string_file, location, &read_annotations));
+
+  EXPECT_EQ(read_annotations, annotations);
+}
+
 TEST(ProcessSnapshotMinidump, Modules) {
   StringFile string_file;
 
@@ -222,7 +287,7 @@ TEST(ProcessSnapshotMinidump, Modules) {
   EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
 
   MINIDUMP_MODULE minidump_module = {};
-  uint32_t minidump_module_count = 3;
+  uint32_t minidump_module_count = 4;
 
   MINIDUMP_DIRECTORY minidump_module_list_directory = {};
   minidump_module_list_directory.StreamType = kMinidumpStreamTypeModuleList;
@@ -273,10 +338,26 @@ TEST(ProcessSnapshotMinidump, Modules) {
   crashpad_module_2_link.location.Rva = static_cast<RVA>(string_file.SeekGet());
   EXPECT_TRUE(string_file.Write(&crashpad_module_2, sizeof(crashpad_module_2)));
 
+  MinidumpModuleCrashpadInfo crashpad_module_4 = {};
+  crashpad_module_4.version = MinidumpModuleCrashpadInfo::kVersion;
+  std::vector<AnnotationSnapshot> annotations_4{
+      {"first one", 0xBADE, {'a', 'b', 'c'}},
+      {"2", 0xEDD1, {0x11, 0x22, 0x33}},
+      {"threeeeee", 0xDADA, {'f'}},
+  };
+  WriteMinidumpAnnotationList(
+      &crashpad_module_4.annotation_objects, &string_file, annotations_4);
+
+  MinidumpModuleCrashpadInfoLink crashpad_module_4_link = {};
+  crashpad_module_4_link.minidump_module_list_index = 3;
+  crashpad_module_4_link.location.DataSize = sizeof(crashpad_module_4);
+  crashpad_module_4_link.location.Rva = static_cast<RVA>(string_file.SeekGet());
+  EXPECT_TRUE(string_file.Write(&crashpad_module_4, sizeof(crashpad_module_4)));
+
   MinidumpCrashpadInfo crashpad_info = {};
   crashpad_info.version = MinidumpCrashpadInfo::kVersion;
 
-  uint32_t crashpad_module_count = 2;
+  uint32_t crashpad_module_count = 3;
 
   crashpad_info.module_list.DataSize =
       sizeof(MinidumpModuleCrashpadInfoList) +
@@ -289,6 +370,8 @@ TEST(ProcessSnapshotMinidump, Modules) {
                                 sizeof(crashpad_module_0_link)));
   EXPECT_TRUE(string_file.Write(&crashpad_module_2_link,
                                 sizeof(crashpad_module_2_link)));
+  EXPECT_TRUE(string_file.Write(&crashpad_module_4_link,
+                                sizeof(crashpad_module_4_link)));
 
   MINIDUMP_DIRECTORY crashpad_info_directory = {};
   crashpad_info_directory.StreamType = kMinidumpStreamTypeCrashpadInfo;
@@ -332,6 +415,9 @@ TEST(ProcessSnapshotMinidump, Modules) {
 
   annotations_vector = modules[2]->AnnotationsVector();
   EXPECT_EQ(annotations_vector, list_annotations_2);
+
+  auto annotation_objects = modules[3]->AnnotationObjects();
+  EXPECT_EQ(annotation_objects, annotations_4);
 }
 
 }  // namespace

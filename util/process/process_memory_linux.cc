@@ -20,6 +20,7 @@
 #include <unistd.h>
 
 #include <algorithm>
+#include <limits>
 
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
@@ -27,11 +28,12 @@
 namespace crashpad {
 
 ProcessMemoryLinux::ProcessMemoryLinux()
-    : ProcessMemory(), mem_fd_(), pid_(-1) {}
+    : ProcessMemory(), mem_fd_(), pid_(-1), initialized_() {}
 
 ProcessMemoryLinux::~ProcessMemoryLinux() {}
 
 bool ProcessMemoryLinux::Initialize(pid_t pid) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
   pid_ = pid;
   char path[32];
   snprintf(path, sizeof(path), "/proc/%d/mem", pid_);
@@ -40,75 +42,23 @@ bool ProcessMemoryLinux::Initialize(pid_t pid) {
     PLOG(ERROR) << "open";
     return false;
   }
+  INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
 }
 
-bool ProcessMemoryLinux::Read(VMAddress address,
-                              size_t size,
-                              void* buffer) const {
+ssize_t ProcessMemoryLinux::ReadUpTo(VMAddress address,
+                                     size_t size,
+                                     void* buffer) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   DCHECK(mem_fd_.is_valid());
+  DCHECK_LE(size, size_t{std::numeric_limits<ssize_t>::max()});
 
-  char* buffer_c = static_cast<char*>(buffer);
-  while (size > 0) {
-    ssize_t bytes_read =
-        HANDLE_EINTR(pread64(mem_fd_.get(), buffer_c, size, address));
-    if (bytes_read < 0) {
-      PLOG(ERROR) << "pread64";
-      return false;
-    }
-    if (bytes_read == 0) {
-      LOG(ERROR) << "unexpected eof";
-      return false;
-    }
-    DCHECK_LE(static_cast<size_t>(bytes_read), size);
-    size -= bytes_read;
-    address += bytes_read;
-    buffer_c += bytes_read;
+  ssize_t bytes_read =
+      HANDLE_EINTR(pread64(mem_fd_.get(), buffer, size, address));
+  if (bytes_read < 0) {
+    PLOG(ERROR) << "pread64";
   }
-  return true;
-}
-
-bool ProcessMemoryLinux::ReadCStringInternal(VMAddress address,
-                                             bool has_size,
-                                             size_t size,
-                                             std::string* string) const {
-  DCHECK(mem_fd_.is_valid());
-
-  string->clear();
-
-  char buffer[4096];
-  do {
-    size_t read_size;
-    if (has_size) {
-      read_size = std::min(sizeof(buffer), size);
-    } else {
-      read_size = sizeof(buffer);
-    }
-    ssize_t bytes_read;
-    bytes_read =
-        HANDLE_EINTR(pread64(mem_fd_.get(), buffer, read_size, address));
-    if (bytes_read < 0) {
-      PLOG(ERROR) << "pread64";
-      return false;
-    }
-    if (bytes_read == 0) {
-      break;
-    }
-    DCHECK_LE(static_cast<size_t>(bytes_read), read_size);
-
-    char* nul = static_cast<char*>(memchr(buffer, '\0', bytes_read));
-    if (nul != nullptr) {
-      string->append(buffer, nul - buffer);
-      return true;
-    }
-    string->append(buffer, bytes_read);
-
-    address += bytes_read;
-    size -= bytes_read;
-  } while (!has_size || size > 0);
-
-  LOG(ERROR) << "unterminated string";
-  return false;
+  return bytes_read;
 }
 
 }  // namespace crashpad

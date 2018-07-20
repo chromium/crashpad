@@ -19,7 +19,7 @@
 #include <vector>
 
 #include "gtest/gtest.h"
-#include "test/gtest_death_check.h"
+#include "test/gtest_death.h"
 #include "test/test_paths.h"
 #include "util/net/http_body.h"
 #include "util/net/http_body_test_util.h"

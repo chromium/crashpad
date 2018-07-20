@@ -40,7 +40,7 @@ class ProcessMemory {
   //!
   //! \return `true` on success, with \a buffer filled appropriately. `false` on
   //!     failure, with a message logged.
-  virtual bool Read(VMAddress address, size_t size, void* buffer) const = 0;
+  bool Read(VMAddress address, size_t size, void* buffer) const;
 
   //! \brief Reads a `NUL`-terminated C string from the target process into a
   //!     string in the current process.
@@ -78,11 +78,28 @@ class ProcessMemory {
     return ReadCStringInternal(address, true, size, string);
   }
 
+  virtual ~ProcessMemory() = default;
+
  protected:
   ProcessMemory() = default;
-  ~ProcessMemory() = default;
 
  private:
+  //! \brief Copies memory from the target process into a caller-provided buffer
+  //!     in the current process, up to a maximum number of bytes.
+  //!
+  //! \param[in] address The address, in the target process' address space, of
+  //!     the memory region to copy.
+  //! \param[in] size The maximum size, in bytes, of the memory region to copy.
+  //!     \a buffer must be at least this size.
+  //! \param[out] buffer The buffer into which the contents of the other
+  //!     process' memory will be copied.
+  //!
+  //! \return the number of bytes copied, 0 if there is no more data to read, or
+  //!     -1 on failure with a message logged.
+  virtual ssize_t ReadUpTo(VMAddress address,
+                           size_t size,
+                           void* buffer) const = 0;
+
   //! \brief Reads a `NUL`-terminated C string from the target process into a
   //!     string in the current process.
   //!
@@ -102,7 +119,7 @@ class ProcessMemory {
   virtual bool ReadCStringInternal(VMAddress address,
                                    bool has_size,
                                    size_t size,
-                                   std::string* string) const = 0;
+                                   std::string* string) const;
 };
 
 }  // namespace crashpad

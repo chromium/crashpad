@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_MAC_SNAPSHOT_CPU_CONTEXT_MAC_H_
-#define CRASHPAD_SNAPSHOT_MAC_SNAPSHOT_CPU_CONTEXT_MAC_H_
+#ifndef CRASHPAD_SNAPSHOT_MAC_CPU_CONTEXT_MAC_H_
+#define CRASHPAD_SNAPSHOT_MAC_CPU_CONTEXT_MAC_H_
 
 #include <mach/mach.h>
 
@@ -113,4 +113,4 @@ void InitializeCPUContextX86_64(CPUContextX86_64* context,
 }  // namespace internal
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_MAC_SNAPSHOT_CPU_CONTEXT_MAC_H_
+#endif  // CRASHPAD_SNAPSHOT_MAC_CPU_CONTEXT_MAC_H_

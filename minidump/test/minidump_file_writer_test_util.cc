@@ -52,7 +52,7 @@ void VerifyMinidumpHeader(const MINIDUMP_HEADER* header,
   ASSERT_EQ(header->StreamDirectoryRva, streams ? sizeof(MINIDUMP_HEADER) : 0u);
   EXPECT_EQ(header->CheckSum, 0u);
   EXPECT_EQ(header->TimeDateStamp, timestamp);
-  EXPECT_EQ(header->Flags, MiniDumpNormal);
+  EXPECT_EQ(static_cast<MINIDUMP_TYPE>(header->Flags), MiniDumpNormal);
 }
 
 }  // namespace test

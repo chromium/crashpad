@@ -16,6 +16,7 @@
 #include "gtest/gtest.h"
 #include "test/gtest_disabled.h"
 #include "test/main_arguments.h"
+#include "test/multiprocess_exec.h"
 
 #if defined(CRASHPAD_TEST_LAUNCHER_GMOCK)
 #include "gmock/gmock.h"
@@ -25,18 +26,41 @@
 #include "test/win/win_child_process.h"
 #endif  // OS_WIN
 
-#if defined(CRASHPAD_IN_CHROMIUM)
+#if defined(CRASHPAD_IS_IN_CHROMIUM)
 #include "base/bind.h"
 #include "base/test/launcher/unit_test_launcher.h"
 #include "base/test/test_suite.h"
-#endif  // CRASHPAD_IN_CHROMIUM
+#endif  // CRASHPAD_IS_IN_CHROMIUM
+
+namespace {
+
+bool GetChildTestFunctionName(std::string* child_func_name) {
+  constexpr size_t arg_length =
+      sizeof(crashpad::test::internal::kChildTestFunction) - 1;
+  for (const auto& it : crashpad::test::GetMainArguments()) {
+    if (it.compare(
+            0, arg_length, crashpad::test::internal::kChildTestFunction) == 0) {
+      *child_func_name = it.substr(arg_length);
+      return true;
+    }
+  }
+  return false;
+}
+
+}  // namespace
 
 int main(int argc, char* argv[]) {
   crashpad::test::InitializeMainArguments(argc, argv);
   testing::AddGlobalTestEnvironment(
       crashpad::test::DisabledTestGtestEnvironment::Get());
 
-#if defined(CRASHPAD_IN_CHROMIUM)
+  std::string child_func_name;
+  if (GetChildTestFunctionName(&child_func_name)) {
+    return crashpad::test::internal::CheckedInvokeMultiprocessChild(
+        child_func_name);
+  }
+
+#if defined(CRASHPAD_IS_IN_CHROMIUM)
 
 #if defined(OS_WIN)
   // Chromium’s test launcher interferes with WinMultiprocess-based tests. Allow
@@ -58,7 +82,7 @@ int main(int argc, char* argv[]) {
         base::Bind(&base::TestSuite::Run, base::Unretained(&test_suite)));
   }
 
-#endif  // CRASHPAD_IN_CHROMIUM
+#endif  // CRASHPAD_IS_IN_CHROMIUM
 
 #if defined(CRASHPAD_TEST_LAUNCHER_GMOCK)
   testing::InitGoogleMock(&argc, argv);

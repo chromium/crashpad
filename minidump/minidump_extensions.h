@@ -248,6 +248,9 @@ enum MinidumpOS : uint32_t {
   //! \brief Native Client (NaCl).
   kMinidumpOSNaCl = 0x8205,
 
+  //! \brief Fuchsia.
+  kMinidumpOSFuchsia = 0x8206,
+
   //! \brief Unknown operating system.
   kMinidumpOSUnknown = 0xffffffff,
 };
@@ -280,6 +283,32 @@ struct ALIGNAS(4) PACKED MinidumpSimpleStringDictionary {
 
   //! \brief A list of MinidumpSimpleStringDictionaryEntry entries.
   MinidumpSimpleStringDictionaryEntry entries[0];
+};
+
+//! \brief A typed annotation object.
+struct ALIGNAS(4) PACKED MinidumpAnnotation {
+  //! \brief ::RVA of a MinidumpUTF8String containing the name of the
+  //!     annotation.
+  RVA name;
+
+  //! \brief The type of data stored in the \a value of the annotation. This
+  //!     may correspond to an \a Annotation::Type or it may be user-defined.
+  uint16_t type;
+
+  //! \brief This field is always `0`.
+  uint16_t reserved;
+
+  //! \brief ::RVA of a MinidumpByteArray to the data for the annotation.
+  RVA value;
+};
+
+//! \brief A list of annotation objects.
+struct ALIGNAS(4) PACKED MinidumpAnnotationList {
+  //! \brief The number of annotation objects present.
+  uint32_t count;
+
+  //! \brief A list of MinidumpAnnotation objects.
+  MinidumpAnnotation objects[0];
 };
 
 //! \brief Additional Crashpad-specific information about a module carried
@@ -318,7 +347,7 @@ struct ALIGNAS(4) PACKED MinidumpModuleCrashpadInfo {
   //!     module controls the data that appears here.
   //!
   //! These strings correspond to ModuleSnapshot::AnnotationsVector() and do not
-  //! duplicate anything in #simple_annotations.
+  //! duplicate anything in #simple_annotations or #annotation_objects.
   //!
   //! This field is present when #version is at least `1`.
   MINIDUMP_LOCATION_DESCRIPTOR list_annotations;
@@ -328,10 +357,20 @@ struct ALIGNAS(4) PACKED MinidumpModuleCrashpadInfo {
   //!
   //! These key-value pairs correspond to
   //! ModuleSnapshot::AnnotationsSimpleMap() and do not duplicate anything in
-  //! #list_annotations.
+  //! #list_annotations or #annotation_objects.
   //!
   //! This field is present when #version is at least `1`.
   MINIDUMP_LOCATION_DESCRIPTOR simple_annotations;
+
+  //! \brief A MinidumpAnnotationList object containing the annotation objects
+  //!     stored within the module. The module controls the data that appears
+  //!     here.
+  //!
+  //! These key-value pairs correspond to ModuleSnapshot::AnnotationObjects()
+  //! and do not duplicate anything in #list_annotations or #simple_annotations.
+  //!
+  //! This field may be present when #version is at least `1`.
+  MINIDUMP_LOCATION_DESCRIPTOR annotation_objects;
 };
 
 //! \brief A link between a MINIDUMP_MODULE structure and additional

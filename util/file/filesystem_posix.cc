@@ -21,8 +21,28 @@
 #include <unistd.h>
 
 #include "base/logging.h"
+#include "build/build_config.h"
 
 namespace crashpad {
+
+bool FileModificationTime(const base::FilePath& path, timespec* mtime) {
+  struct stat st;
+  if (lstat(path.value().c_str(), &st) != 0) {
+    PLOG(ERROR) << "lstat " << path.value();
+    return false;
+  }
+
+#if defined(OS_MACOSX)
+  *mtime = st.st_mtimespec;
+#elif defined(OS_ANDROID)
+  // This is needed to compile with traditional NDK headers.
+  mtime->tv_sec = st.st_mtime;
+  mtime->tv_nsec = st.st_mtime_nsec;
+#else
+  *mtime = st.st_mtim;
+#endif
+  return true;
+}
 
 bool LoggingCreateDirectory(const base::FilePath& path,
                             FilePermissions permissions,
@@ -45,6 +65,14 @@ bool LoggingCreateDirectory(const base::FilePath& path,
 
 bool MoveFileOrDirectory(const base::FilePath& source,
                          const base::FilePath& dest) {
+#if defined(OS_FUCHSIA)
+  // Fuchsia fails and sets errno to EINVAL if source and dest are the same.
+  // Upstream bug is ZX-1729.
+  if (!source.empty() && source == dest) {
+    return true;
+  }
+#endif  // OS_FUCHSIA
+
   if (rename(source.value().c_str(), dest.value().c_str()) != 0) {
     PLOG(ERROR) << "rename " << source.value().c_str() << ", "
                 << dest.value().c_str();

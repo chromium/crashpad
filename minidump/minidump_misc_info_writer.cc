@@ -108,6 +108,8 @@ std::string MinidumpMiscInfoDebugBuildString() {
   static constexpr char kOS[] = "linux";
 #elif defined(OS_WIN)
   static constexpr char kOS[] = "win";
+#elif defined(OS_FUCHSIA)
+  static constexpr char kOS[] = "fuchsia";
 #else
 #error define kOS for this operating system
 #endif
@@ -120,6 +122,10 @@ std::string MinidumpMiscInfoDebugBuildString() {
   static constexpr char kCPU[] = "arm";
 #elif defined(ARCH_CPU_ARM64)
   static constexpr char kCPU[] = "arm64";
+#elif defined(ARCH_CPU_MIPSEL)
+  static constexpr char kCPU[] = "mips";
+#elif defined(ARCH_CPU_MIPS64EL)
+  static constexpr char kCPU[] = "mips64";
 #else
 #error define kCPU for this CPU
 #endif

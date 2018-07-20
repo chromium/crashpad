@@ -96,6 +96,7 @@ MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MEMORY_INFO_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpModuleCrashpadInfoList);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpRVAList);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpSimpleStringDictionary);
+MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpAnnotationList);
 
 // These types have final fields carrying variable-sized data (typically string
 // data).
@@ -141,10 +142,10 @@ const T* TMinidumpWritableAtLocationDescriptor(
 //!  - With a MINIDUMP_HEADER template parameter, a template specialization
 //!    ensures that the structure’s magic number and version fields are correct.
 //!  - With a MINIDUMP_MEMORY_LIST, MINIDUMP_THREAD_LIST, MINIDUMP_MODULE_LIST,
-//!    MINIDUMP_MEMORY_INFO_LIST, or MinidumpSimpleStringDictionary template
-//!    parameter, template specializations ensure that the size given by \a
-//!    location matches the size expected of a stream containing the number of
-//!    elements it claims to have.
+//!    MINIDUMP_MEMORY_INFO_LIST, MinidumpSimpleStringDictionary, or
+//!    MinidumpAnnotationList template parameter, template specializations
+//!    ensure that the size given by \a location matches the size expected of a
+//!    stream containing the number of elements it claims to have.
 //!  - With an IMAGE_DEBUG_MISC, CodeViewRecordPDB20, or CodeViewRecordPDB70
 //!    template parameter, template specializations ensure that the structure
 //!    has the expected format including any magic number and the `NUL`-
@@ -227,6 +228,12 @@ MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfoList>(
 template <>
 const MinidumpSimpleStringDictionary*
 MinidumpWritableAtLocationDescriptor<MinidumpSimpleStringDictionary>(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR& location);
+
+template <>
+const MinidumpAnnotationList*
+MinidumpWritableAtLocationDescriptor<MinidumpAnnotationList>(
     const std::string& file_contents,
     const MINIDUMP_LOCATION_DESCRIPTOR& location);
 

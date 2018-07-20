@@ -40,6 +40,21 @@
     'cflags!': [
       '-Wexit-time-destructors',
     ],
+
+    'conditions': [
+      ['OS=="android" and android_api_level!="" and android_api_level<24', {
+        'defines!': [
+          # Although many system interfaces are available to 32-bit code with
+          # 64-bit off_t at API 21, the routines in <stdio.h> are not until API
+          # 24. gtest doesn’t make use of these functions directly, but can
+          # reach them indirectly via the C++ standard library. Disable 64-bit
+          # off_t prior to API 24 so that these uses can work. Since nothing
+          # dependent on the size of off_t should escape gtest’s own API, this
+          # should be safe even in a program that otherwise uses a 64-bit off_t.
+          '_FILE_OFFSET_BITS=64',
+        ],
+      }],
+    ],
   },
 
   'targets': [
@@ -200,6 +215,26 @@
         '<(gtest_dir)/test/gtest-param-test2_test.cc',
         '<(gtest_dir)/test/gtest-param-test_test.cc',
         '<(gtest_dir)/test/gtest-param-test_test.h',
+      ],
+      'conditions': [
+         ['clang!=0', {
+          # For gtest/googlemock/test/gmock-matchers_test.cc’s
+          # Unstreamable::value_.
+          'conditions': [
+            ['OS=="mac"', {
+              'xcode_settings': {
+                'WARNING_CFLAGS': [
+                  '-Wno-unused-private-field',
+                ],
+              },
+            }],
+            ['OS=="linux" or OS=="android"', {
+              'cflags': [
+                '-Wno-unused-private-field',
+              ],
+            }],
+          ],
+        }],
       ],
     },
     {

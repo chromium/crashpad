@@ -23,14 +23,14 @@ namespace crashpad {
 
 //! \brief Options represented in a client’s CrashpadInfo structure.
 //!
-//! The CrashpadInfo structure is not suitable to expose client options
-//! in a generic way at the snapshot level. This structure duplicates
-//! option-related fields from the client structure for general use within the
-//! snapshot layer and by users of this layer.
+//! The CrashpadInfo structure is not suitable to expose client options in a
+//! generic way at the snapshot level. This structure duplicates option-related
+//! fields from the client structure for general use within the snapshot layer
+//! and by users of this layer.
 //!
 //! For objects of this type corresponding to a module, option values are taken
 //! from the module’s CrashpadInfo structure directly. If the module has no such
-//! such structure, option values appear unset.
+//! structure, option values appear unset.
 //!
 //! For objects of this type corresponding to an entire process, option values
 //! are taken from the CrashpadInfo structures of modules within the process.

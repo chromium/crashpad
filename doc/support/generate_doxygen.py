@@ -37,7 +37,7 @@ def main(args):
   elif os.path.exists(output_dir):
     os.unlink(output_dir)
 
-  os.makedirs(output_dir, 0755)
+  os.makedirs(output_dir, 0o755)
 
   doxy_file = os.path.join('doc', 'support', 'crashpad.doxy')
   subprocess.check_call(['doxygen', doxy_file])

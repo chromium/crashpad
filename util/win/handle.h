@@ -24,7 +24,7 @@ namespace crashpad {
 //! `HANDLE` is a `typedef` for `void *`, but kernel `HANDLE` values aren’t
 //! pointers to anything. Only 32 bits of kernel `HANDLE`s are significant, even
 //! in 64-bit processes on 64-bit operating systems. See <a
-//! href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203">Interprocess
+//! href="https://msdn.microsoft.com/library/aa384203.aspx">Interprocess
 //! Communication Between 32-bit and 64-bit Applications</a>.
 //!
 //! This function safely converts a kernel `HANDLE` to an `int` similarly to a
@@ -45,7 +45,7 @@ int HandleToInt(HANDLE handle);
 //! `HANDLE` is a `typedef` for `void *`, but kernel `HANDLE` values aren’t
 //! pointers to anything. Only 32 bits of kernel `HANDLE`s are significant, even
 //! in 64-bit processes on 64-bit operating systems. See <a
-//! href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203">Interprocess
+//! href="https://msdn.microsoft.com/library/aa384203.aspx">Interprocess
 //! Communication Between 32-bit and 64-bit Applications</a>.
 //!
 //! This function safely convert an `int` to a kernel `HANDLE` similarly to a

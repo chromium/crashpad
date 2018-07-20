@@ -36,7 +36,7 @@ namespace {
 // Simply adding a StringToNumber for longs doesn't work since sometimes long
 // and int64_t are actually the same type, resulting in a redefinition error.
 template <typename Type>
-bool LocalStringToNumber(const base::StringPiece& string, Type* number) {
+bool LocalStringToNumber(const std::string& string, Type* number) {
   static_assert(sizeof(Type) == sizeof(int) || sizeof(Type) == sizeof(int64_t),
                 "Unexpected Type size");
 
@@ -102,9 +102,19 @@ ParseResult ParseMapsLine(DelimitedFileReader* maps_file_reader,
     LOG(ERROR) << "format error";
     return ParseResult::kError;
   }
-  if (end_address <= start_address) {
+  if (end_address < start_address) {
     LOG(ERROR) << "format error";
     return ParseResult::kError;
+  }
+  // Skip zero-length mappings.
+  if (end_address == start_address) {
+    std::string rest_of_line;
+    if (maps_file_reader->GetLine(&rest_of_line) !=
+        DelimitedFileReader::Result::kSuccess) {
+      LOG(ERROR) << "format error";
+      return ParseResult::kError;
+    }
+    return ParseResult::kSuccess;
   }
 
   // TODO(jperaza): set bitness properly
@@ -221,7 +231,7 @@ bool MemoryMap::Mapping::Equals(const Mapping& other) const {
          shareable == other.shareable;
 }
 
-bool MemoryMap::Initialize(pid_t pid) {
+bool MemoryMap::Initialize(PtraceConnection* connection) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   // If the maps file is not read atomically, entries can be read multiple times
@@ -235,8 +245,8 @@ bool MemoryMap::Initialize(pid_t pid) {
   do {
     std::string contents;
     char path[32];
-    snprintf(path, sizeof(path), "/proc/%d/maps", pid);
-    if (!LoggingReadEntireFile(base::FilePath(path), &contents)) {
+    snprintf(path, sizeof(path), "/proc/%d/maps", connection->GetProcessID());
+    if (!connection->ReadFileContents(base::FilePath(path), &contents)) {
       return false;
     }
 

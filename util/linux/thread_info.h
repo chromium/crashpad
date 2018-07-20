@@ -67,6 +67,18 @@ union ThreadContext {
     uint32_t pc;
     uint32_t cpsr;
     uint32_t orig_r0;
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+    // Reflects output format of static int gpr32_get(), defined in
+    // arch/mips/kernel/ptrace.c in kernel source
+    uint32_t padding0_[6];
+    uint32_t regs[32];
+    uint32_t lo;
+    uint32_t hi;
+    uint32_t cp0_epc;
+    uint32_t cp0_badvaddr;
+    uint32_t cp0_status;
+    uint32_t cp0_cause;
+    uint32_t padding1_;
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -110,6 +122,16 @@ union ThreadContext {
     uint64_t sp;
     uint64_t pc;
     uint64_t pstate;
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+    // Reflects output format of static int gpr64_get(), defined in
+    // arch/mips/kernel/ptrace.c in kernel source
+    uint64_t regs[32];
+    uint64_t lo;
+    uint64_t hi;
+    uint64_t cp0_epc;
+    uint64_t cp0_badvaddr;
+    uint64_t cp0_status;
+    uint64_t cp0_cause;
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -119,15 +141,19 @@ union ThreadContext {
   using NativeThreadContext = user_regs_struct;
 #elif defined(ARCH_CPU_ARMEL)
   using NativeThreadContext = user_regs;
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+// No appropriate NativeThreadsContext type available for MIPS
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY || ARCH_CPU_ARM64
 
+#if !defined(ARCH_CPU_MIPS_FAMILY)
 #if defined(ARCH_CPU_32_BITS)
   static_assert(sizeof(t32_t) == sizeof(NativeThreadContext), "Size mismatch");
 #else  // ARCH_CPU_64_BITS
   static_assert(sizeof(t64_t) == sizeof(NativeThreadContext), "Size mismatch");
 #endif  // ARCH_CPU_32_BITS
+#endif  // !ARCH_CPU_MIPS_FAMILY
 };
 static_assert(std::is_standard_layout<ThreadContext>::value,
               "Not standard layout");
@@ -176,13 +202,22 @@ union FloatContext {
     } fpregs;
 
     // Reflects user_vfp in sys/user.h.
-    struct vfp {
+    struct vfp_t {
       uint64_t fpregs[32];
       uint32_t fpscr;
     } vfp;
 
     bool have_fpregs;
     bool have_vfp;
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+    // Reflects data format filled by ptrace_getfpregs() in
+    // arch/mips/kernel/ptrace.c
+    struct {
+      float _fp_fregs;
+      unsigned int _fp_pad;
+    } fpregs[32];
+    uint32_t fpcsr;
+    uint32_t fpu_id;
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -211,6 +246,12 @@ union FloatContext {
     uint32_t fpsr;
     uint32_t fpcr;
     uint8_t padding[8];
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+    // Reflects data format filled by ptrace_getfpregs() in
+    // arch/mips/kernel/ptrace.c
+    double fpregs[32];
+    uint32_t fpcsr;
+    uint32_t fpu_id;
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -232,9 +273,13 @@ union FloatContext {
                 "Size mismatch");
 #elif defined(ARCH_CPU_ARMEL)
   static_assert(sizeof(f32_t::fpregs) == sizeof(user_fpregs), "Size mismatch");
+#if !defined(__GLIBC__)
   static_assert(sizeof(f32_t::vfp) == sizeof(user_vfp), "Size mismatch");
+#endif
 #elif defined(ARCH_CPU_ARM64)
   static_assert(sizeof(f64) == sizeof(user_fpsimd_struct), "Size mismatch");
+#elif defined(ARCH_CPU_MIPS_FAMILY)
+// No appropriate floating point context native type for available MIPS.
 #else
 #error Port.
 #endif  // ARCH_CPU_X86

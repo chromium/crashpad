@@ -132,7 +132,12 @@ class TestExceptionPorts : public MachMultiprocess,
         set_on_(set_on),
         set_type_(set_type),
         who_crashes_(who_crashes),
-        handled_(false) {}
+        handled_(false) {
+    if (who_crashes_ != kNobodyCrashes) {
+      // This is how the __builtin_trap() in Child::Crash() appears.
+      SetExpectedChildTermination(kTerminationSignal, SIGILL);
+    }
+  }
 
   SetOn set_on() const { return set_on_; }
   SetType set_type() const { return set_type_; }
@@ -190,8 +195,6 @@ class TestExceptionPorts : public MachMultiprocess,
 
       // The child crashed with __builtin_trap(), which shows up as SIGILL.
       EXPECT_EQ(signal, SIGILL);
-
-      SetExpectedChildTermination(kTerminationSignal, signal);
     }
 
     EXPECT_EQ(AuditPIDFromMachMessageTrailer(trailer), 0);

@@ -84,14 +84,16 @@ TEST(MinidumpMemoryInfoWriter, OneRegion) {
 
   auto memory_map_region = std::make_unique<TestMemoryMapRegionSnapshot>();
 
-  MINIDUMP_MEMORY_INFO mmi = {0};
+  MINIDUMP_MEMORY_INFO mmi;
   mmi.BaseAddress = 0x12340000;
   mmi.AllocationBase = 0x12000000;
   mmi.AllocationProtect = PAGE_READWRITE;
+  mmi.__alignment1 = 0;
   mmi.RegionSize = 0x6000;
   mmi.State = MEM_COMMIT;
   mmi.Protect = PAGE_NOACCESS;
   mmi.Type = MEM_PRIVATE;
+  mmi.__alignment2 = 0;
   memory_map_region->SetMindumpMemoryInfo(mmi);
 
   std::vector<const MemoryMapRegionSnapshot*> memory_map;

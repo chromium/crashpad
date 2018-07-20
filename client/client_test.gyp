@@ -24,6 +24,7 @@
         'client.gyp:crashpad_client',
         '../compat/compat.gyp:crashpad_compat',
         '../handler/handler.gyp:crashpad_handler',
+        '../snapshot/snapshot.gyp:crashpad_snapshot',
         '../test/test.gyp:crashpad_gmock_main',
         '../test/test.gyp:crashpad_test',
         '../third_party/gtest/gmock.gyp:gmock',
@@ -37,9 +38,9 @@
       'sources': [
         'annotation_test.cc',
         'annotation_list_test.cc',
-        'capture_context_mac_test.cc',
         'crash_report_database_test.cc',
         'crashpad_client_win_test.cc',
+        'crashpad_client_linux_test.cc',
         'prune_crash_reports_test.cc',
         'settings_test.cc',
         'simple_address_range_bag_test.cc',
@@ -50,6 +51,13 @@
         ['OS=="win"', {
           'dependencies': [
             '../handler/handler.gyp:crashpad_handler_console',
+          ],
+        }],
+      ],
+      'target_conditions': [
+        ['OS=="android"', {
+          'sources/': [
+            ['include', '^crashpad_client_linux_test\\.cc$'],
           ],
         }],
       ],

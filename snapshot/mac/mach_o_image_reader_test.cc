@@ -29,7 +29,7 @@
 #include "client/crashpad_info.h"
 #include "gtest/gtest.h"
 #include "snapshot/mac/mach_o_image_segment_reader.h"
-#include "snapshot/mac/process_reader.h"
+#include "snapshot/mac/process_reader_mac.h"
 #include "snapshot/mac/process_types.h"
 #include "test/mac/dyld.h"
 #include "util/misc/from_pointer_cast.h"
@@ -496,7 +496,7 @@ void ExpectSymbolTable(const MachHeader* expect_image,
 }
 
 TEST(MachOImageReader, Self_MainExecutable) {
-  ProcessReader process_reader;
+  ProcessReaderMac process_reader;
   ASSERT_TRUE(process_reader.Initialize(mach_task_self()));
 
   const MachHeader* mh_execute_header =
@@ -531,7 +531,7 @@ TEST(MachOImageReader, Self_MainExecutable) {
 }
 
 TEST(MachOImageReader, Self_DyldImages) {
-  ProcessReader process_reader;
+  ProcessReaderMac process_reader;
   ASSERT_TRUE(process_reader.Initialize(mach_task_self()));
 
   uint32_t count = _dyld_image_count();

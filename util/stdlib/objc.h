@@ -22,7 +22,7 @@
 
 // In order for the @NO and @YES literals to work, NO and YES must be defined as
 // __objc_no and __objc_yes. See
-// http://llvm.org/releases/3.1/tools/clang/docs/ObjectiveCLiterals.html .
+// https://clang.llvm.org/docs/ObjectiveCLiterals.html.
 //
 // NO and YES are defined properly for this purpose in the 10.8 SDK, but not in
 // earlier SDKs. Because this code is never expected to be compiled with a

@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import print_function
+
 import os
 import platform
 import pywintypes
@@ -99,7 +101,7 @@ def NamedPipeExistsAndReady(pipe_name):
   """
   try:
     win32pipe.WaitNamedPipe(pipe_name, win32pipe.NMPWAIT_WAIT_FOREVER)
-  except pywintypes.error, e:
+  except pywintypes.error as e:
     if e[0] == winerror.ERROR_FILE_NOT_FOUND:
       return False
     raise
@@ -135,7 +137,7 @@ def GetDumpFromProgram(
       printed = False
       while not NamedPipeExistsAndReady(pipe_name):
         if not printed:
-          print 'Waiting for crashpad_handler to be ready...'
+          print('Waiting for crashpad_handler to be ready...')
           printed = True
         time.sleep(0.001)
 
@@ -145,7 +147,7 @@ def GetDumpFromProgram(
                   os.path.join(out_dir, 'crashpad_handler.com'),
                   test_database] +
                  list(args))
-    print 'Running %s' % os.path.basename(command[0])
+    print('Running %s' % os.path.basename(command[0]))
     exit_code = subprocess.call(command)
     if exit_code != expect_exit_code:
       raise subprocess.CalledProcessError(exit_code, executable_name)
@@ -153,7 +155,7 @@ def GetDumpFromProgram(
     out = subprocess.check_output([
         os.path.join(out_dir, 'crashpad_database_util.exe'),
         '--database=' + test_database,
-        '--show-completed-reports',
+        '--show-pending-reports',
         '--show-all-report-info',
     ])
     for line in out.splitlines():
@@ -219,16 +221,16 @@ class CdbRun(object):
     if match_obj:
       # Matched. Consume up to end of match.
       self.out = self.out[match_obj.end(0):]
-      print 'ok - %s' % message
+      print('ok - %s' % message)
       sys.stdout.flush()
     else:
-      print >>sys.stderr, '-' * 80
-      print >>sys.stderr, 'FAILED - %s' % message
-      print >>sys.stderr, '-' * 80
-      print >>sys.stderr, 'did not match:\n  %s' % pattern
-      print >>sys.stderr, '-' * 80
-      print >>sys.stderr, 'remaining output was:\n  %s' % self.out
-      print >>sys.stderr, '-' * 80
+      print('-' * 80, file=sys.stderr)
+      print('FAILED - %s' % message, file=sys.stderr)
+      print('-' * 80, file=sys.stderr)
+      print('did not match:\n  %s' % pattern, file=sys.stderr)
+      print('-' * 80, file=sys.stderr)
+      print('remaining output was:\n  %s' % self.out, file=sys.stderr)
+      print('-' * 80, file=sys.stderr)
       sys.stderr.flush()
       global g_had_failures
       g_had_failures = True
@@ -430,12 +432,12 @@ def RunTests(cdb_path,
 def main(args):
   try:
     if len(args) != 1:
-      print >>sys.stderr, 'must supply binary dir'
+      print('must supply binary dir', file=sys.stderr)
       return 1
 
     cdb_path = GetCdbPath()
     if not cdb_path:
-      print >>sys.stderr, 'could not find cdb'
+      print('could not find cdb', file=sys.stderr)
       return 1
 
     # Make sure we can download Windows symbols.

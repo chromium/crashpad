@@ -25,6 +25,7 @@
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
+#include "build/build_config.h"
 
 namespace crashpad {
 
@@ -66,7 +67,12 @@ FileHandle OpenFileForOutput(int rdwr_or_wronly,
                              const base::FilePath& path,
                              FileWriteMode mode,
                              FilePermissions permissions) {
+#if defined(OS_FUCHSIA)
+  // O_NOCTTY is invalid on Fuchsia, and O_CLOEXEC isn't necessary.
+  int flags = 0;
+#else
   int flags = O_NOCTTY | O_CLOEXEC;
+#endif
 
   DCHECK(rdwr_or_wronly & (O_RDWR | O_WRONLY));
   DCHECK_EQ(rdwr_or_wronly & ~(O_RDWR | O_WRONLY), 0);
@@ -109,8 +115,12 @@ FileOperationResult ReadFile(FileHandle file, void* buffer, size_t size) {
 }
 
 FileHandle OpenFileForRead(const base::FilePath& path) {
-  return HANDLE_EINTR(
-      open(path.value().c_str(), O_RDONLY | O_NOCTTY | O_CLOEXEC));
+  int flags = O_RDONLY;
+#if !defined(OS_FUCHSIA)
+  // O_NOCTTY is invalid on Fuchsia, and O_CLOEXEC isn't necessary.
+  flags |= O_NOCTTY | O_CLOEXEC;
+#endif
+  return HANDLE_EINTR(open(path.value().c_str(), flags));
 }
 
 FileHandle OpenFileForWrite(const base::FilePath& path,
@@ -147,6 +157,8 @@ FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
   return fd;
 }
 
+#if !defined(OS_FUCHSIA)
+
 bool LoggingLockFile(FileHandle file, FileLocking locking) {
   int operation = (locking == FileLocking::kShared) ? LOCK_SH : LOCK_EX;
   int rv = HANDLE_EINTR(flock(file, operation));
@@ -159,6 +171,8 @@ bool LoggingUnlockFile(FileHandle file) {
   PLOG_IF(ERROR, rv != 0) << "flock";
   return rv == 0;
 }
+
+#endif  // !OS_FUCHSIA
 
 FileOffset LoggingSeekFile(FileHandle file, FileOffset offset, int whence) {
   off_t rv = lseek(file, offset, whence);

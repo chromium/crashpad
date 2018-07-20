@@ -22,6 +22,7 @@
 #include "base/files/file_path.h"
 #include "base/macros.h"
 #include "base/scoped_generic.h"
+#include "build/build_config.h"
 #include "util/file/file_io.h"
 #include "util/misc/initialization_state.h"
 #include "util/misc/uuid.h"
@@ -44,10 +45,18 @@ struct ScopedLockedFileHandleTraits {
 //! should be retrieved via CrashReportDatabase::GetSettings().
 class Settings {
  public:
-  explicit Settings(const base::FilePath& file_path);
+  Settings();
   ~Settings();
 
-  bool Initialize();
+  //! \brief Initializes the settings data store.
+  //!
+  //! This method must be called only once, and must be successfully called
+  //! before any other method in this class may be called.
+  //!
+  //! \param[in] path The location to store the settings data.
+  //! \return `true` if the data store was initialized successfully, otherwise
+  //!     `false` with an error logged.
+  bool Initialize(const base::FilePath& path);
 
   //! \brief Retrieves the immutable identifier for this client, which is used
   //!     on a server to locate all crash reports from a specific Crashpad
@@ -106,11 +115,45 @@ class Settings {
   struct Data;
 
   // This must be constructed with MakeScopedLockedFileHandle(). It both unlocks
-  // and closes the file on destruction.
+  // and closes the file on destruction. Note that on Fuchsia, this handle DOES
+  // NOT offer correct operation, only an attempt to DCHECK if racy behavior is
+  // detected.
+#if defined(OS_FUCHSIA)
+  struct ScopedLockedFileHandle {
+   public:
+    ScopedLockedFileHandle();
+    ScopedLockedFileHandle(FileHandle handle,
+                           const base::FilePath& lockfile_path);
+    ScopedLockedFileHandle(ScopedLockedFileHandle&& other);
+    ScopedLockedFileHandle& operator=(ScopedLockedFileHandle&& other);
+    ~ScopedLockedFileHandle();
+
+    // These mirror the non-Fuchsia ScopedLockedFileHandle via ScopedGeneric so
+    // that calling code can pretend this implementation is the same.
+    bool is_valid() const { return handle_ != kInvalidFileHandle; }
+    FileHandle get() { return handle_; }
+    void reset() {
+      Destroy();
+      handle_ = kInvalidFileHandle;
+      lockfile_path_ = base::FilePath();
+    }
+
+   private:
+    void Destroy();
+
+    FileHandle handle_;
+    base::FilePath lockfile_path_;
+
+    DISALLOW_COPY_AND_ASSIGN(ScopedLockedFileHandle);
+  };
+#else  // OS_FUCHSIA
   using ScopedLockedFileHandle =
       base::ScopedGeneric<FileHandle, internal::ScopedLockedFileHandleTraits>;
-  static ScopedLockedFileHandle MakeScopedLockedFileHandle(FileHandle file,
-                                                           FileLocking locking);
+#endif  // OS_FUCHSIA
+  static ScopedLockedFileHandle MakeScopedLockedFileHandle(
+      FileHandle file,
+      FileLocking locking,
+      const base::FilePath& file_path);
 
   // Opens the settings file for reading. On error, logs a message and returns
   // the invalid handle.

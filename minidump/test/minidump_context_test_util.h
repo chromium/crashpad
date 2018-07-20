@@ -41,6 +41,12 @@ namespace test {
 void InitializeMinidumpContextX86(MinidumpContextX86* context, uint32_t seed);
 void InitializeMinidumpContextAMD64(MinidumpContextAMD64* context,
                                     uint32_t seed);
+void InitializeMinidumpContextARM(MinidumpContextARM* context, uint32_t seed);
+void InitializeMinidumpContextARM64(MinidumpContextARM64* context,
+                                    uint32_t seed);
+void InitializeMinidumpContextMIPS(MinidumpContextMIPS* context, uint32_t seed);
+void InitializeMinidumpContextMIPS64(MinidumpContextMIPS* context,
+                                     uint32_t seed);
 //! \}
 
 //! \brief Verifies, via gtest assertions, that a context structure contains
@@ -67,6 +73,18 @@ void ExpectMinidumpContextX86(
     uint32_t expect_seed, const MinidumpContextX86* observed, bool snapshot);
 void ExpectMinidumpContextAMD64(
     uint32_t expect_seed, const MinidumpContextAMD64* observed, bool snapshot);
+void ExpectMinidumpContextARM(uint32_t expect_seed,
+                              const MinidumpContextARM* observed,
+                              bool snapshot);
+void ExpectMinidumpContextARM64(uint32_t expect_seed,
+                                const MinidumpContextARM64* observed,
+                                bool snapshot);
+void ExpectMinidumpContextMIPS(uint32_t expect_seed,
+                               const MinidumpContextMIPS* observed,
+                               bool snapshot);
+void ExpectMinidumpContextMIPS64(uint32_t expect_seed,
+                                 const MinidumpContextMIPS64* observed,
+                                 bool snapshot);
 //! \}
 
 }  // namespace test

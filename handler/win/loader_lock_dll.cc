@@ -55,7 +55,7 @@ __declspec(noreturn) void LogFatal(const char* file,
   va_end(va);
 
   if (get_last_error) {
-    fprintf(stderr, ": error %u", last_error);
+    fprintf(stderr, ": error %lu", last_error);
   }
 
   fputs("\n", stderr);

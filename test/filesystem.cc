@@ -15,7 +15,9 @@
 #include "test/filesystem.h"
 
 #include <errno.h>
+#include <fcntl.h>
 #include <sys/stat.h>
+#include <sys/time.h>
 #include <sys/types.h>
 
 #include "base/logging.h"
@@ -25,6 +27,7 @@
 #include "test/scoped_temp_dir.h"
 #include "util/file/file_io.h"
 #include "util/file/filesystem.h"
+#include "util/misc/time.h"
 
 #if defined(OS_POSIX)
 #include <unistd.h>
@@ -114,6 +117,63 @@ bool PathExists(const base::FilePath& path) {
   }
   return true;
 #endif
+}
+
+bool SetFileModificationTime(const base::FilePath& path,
+                             const timespec& mtime) {
+#if defined(OS_MACOSX)
+  // utimensat() isn't available on macOS until 10.13, so lutimes() is used
+  // instead.
+  struct stat st;
+  if (lstat(path.value().c_str(), &st) != 0) {
+    PLOG(ERROR) << "lstat " << path.value();
+    return false;
+  }
+  timeval times[2];
+  EXPECT_TRUE(TimespecToTimeval(st.st_atimespec, &times[0]));
+  EXPECT_TRUE(TimespecToTimeval(mtime, &times[1]));
+  if (lutimes(path.value().c_str(), times) != 0) {
+    PLOG(ERROR) << "lutimes " << path.value();
+    return false;
+  }
+  return true;
+#elif defined(OS_POSIX)
+  timespec times[2];
+  times[0].tv_sec = 0;
+  times[0].tv_nsec = UTIME_OMIT;
+  times[1] = mtime;
+  if (utimensat(AT_FDCWD, path.value().c_str(), times, AT_SYMLINK_NOFOLLOW) !=
+      0) {
+    PLOG(ERROR) << "utimensat " << path.value();
+    return false;
+  }
+  return true;
+#elif defined(OS_WIN)
+  DWORD flags = FILE_FLAG_OPEN_REPARSE_POINT;
+  if (IsDirectory(path, true)) {
+    // required for directory handles
+    flags |= FILE_FLAG_BACKUP_SEMANTICS;
+  }
+
+  ScopedFileHandle handle(::CreateFile(path.value().c_str(),
+                                       GENERIC_WRITE,
+                                       FILE_SHARE_READ | FILE_SHARE_WRITE,
+                                       nullptr,
+                                       OPEN_EXISTING,
+                                       flags,
+                                       nullptr));
+  if (!handle.is_valid()) {
+    PLOG(ERROR) << "CreateFile " << base::UTF16ToUTF8(path.value());
+    return false;
+  }
+
+  FILETIME filetime = TimespecToFiletimeEpoch(mtime);
+  if (!SetFileTime(handle.get(), nullptr, nullptr, &filetime)) {
+    PLOG(ERROR) << "SetFileTime " << base::UTF16ToUTF8(path.value());
+    return false;
+  }
+  return true;
+#endif  // OS_MACOSX
 }
 
 #if !defined(OS_FUCHSIA)

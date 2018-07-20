@@ -16,6 +16,7 @@
 
 #include "base/logging.h"
 #include "base/scoped_generic.h"
+#include "util/win/scoped_set_event.h"
 
 extern "C" {
 extern IMAGE_DOS_HEADER __ImageBase;
@@ -24,21 +25,6 @@ extern IMAGE_DOS_HEADER __ImageBase;
 namespace crashpad {
 
 namespace {
-
-class ScopedSetEvent {
- public:
-  explicit ScopedSetEvent(HANDLE event) : event_(event) {}
-  ~ScopedSetEvent() {
-    if (!SetEvent(event_)) {
-      PLOG(ERROR) << "SetEvent";
-    }
-  }
-
- private:
-  HANDLE event_;
-
-  DISALLOW_COPY_AND_ASSIGN(ScopedSetEvent);
-};
 
 // ScopedWindowClass and ScopedWindow operate on ATOM* and HWND*, respectively,
 // instead of ATOM and HWND, so that the actual storage can exist as a local

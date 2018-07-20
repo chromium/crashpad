@@ -19,6 +19,10 @@
 
 // Android 5.0.0 (API 21) NDK
 
+#if !defined(SYS_epoll_create1)
+#define SYS_epoll_create1 __NR_epoll_create1
+#endif
+
 #if !defined(SYS_gettid)
 #define SYS_gettid __NR_gettid
 #endif

@@ -148,5 +148,9 @@ void MultiprocessExec::MultiprocessChild() {
   FAIL() << ErrnoMessage("execv") << ": " << argv_[0];
 }
 
+ProcessType MultiprocessExec::ChildProcess() {
+  return ChildPID();
+}
+
 }  // namespace test
 }  // namespace crashpad

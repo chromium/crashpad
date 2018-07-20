@@ -52,8 +52,8 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
 
   //! \brief Initializes the object.
   //!
-  //! \param[in] process_reader A ProcessReader for the process that sustained
-  //!     the exception.
+  //! \param[in] process_reader A ProcessReaderWin for the process that
+  //!     sustained the exception.
   //! \param[in] thread_id The thread ID in which the exception occurred.
   //! \param[in] exception_pointers The address of an `EXCEPTION_POINTERS`
   //!     record in the target process, passed through from the exception

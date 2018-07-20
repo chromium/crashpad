@@ -48,6 +48,9 @@
     {
       'target_name': 'crashpad_test_test_multiprocess_exec_test_child',
       'type': 'executable',
+      'dependencies': [
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
+      ],
       'sources': [
         'multiprocess_exec_test_child.cc',
       ],

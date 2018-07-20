@@ -17,7 +17,7 @@
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "snapshot/mac/cpu_context_mac.h"
-#include "snapshot/mac/process_reader.h"
+#include "snapshot/mac/process_reader_mac.h"
 #include "util/mach/exception_behaviors.h"
 #include "util/mach/exception_types.h"
 #include "util/mach/symbolic_constants_mach.h"
@@ -41,7 +41,7 @@ ExceptionSnapshotMac::ExceptionSnapshotMac()
 ExceptionSnapshotMac::~ExceptionSnapshotMac() {
 }
 
-bool ExceptionSnapshotMac::Initialize(ProcessReader* process_reader,
+bool ExceptionSnapshotMac::Initialize(ProcessReaderMac* process_reader,
                                       exception_behavior_t behavior,
                                       thread_t exception_thread,
                                       exception_type_t exception,
@@ -126,8 +126,9 @@ bool ExceptionSnapshotMac::Initialize(ProcessReader* process_reader,
     exception_code_0_ = unsigned_exception_code_0;
   }
 
-  const ProcessReader::Thread* thread = nullptr;
-  for (const ProcessReader::Thread& loop_thread : process_reader->Threads()) {
+  const ProcessReaderMac::Thread* thread = nullptr;
+  for (const ProcessReaderMac::Thread& loop_thread :
+       process_reader->Threads()) {
     if (exception_thread == loop_thread.port) {
       thread = &loop_thread;
       break;

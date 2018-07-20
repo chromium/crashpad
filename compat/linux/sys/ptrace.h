@@ -19,9 +19,33 @@
 
 #include <sys/cdefs.h>
 
-#if defined(__GLIBC__) && defined(__x86_64__)
+// https://sourceware.org/bugzilla/show_bug.cgi?id=22433
+#if !defined(PTRACE_GET_THREAD_AREA) && !defined(PT_GET_THREAD_AREA) && \
+    defined(__GLIBC__)
+#if defined(__i386__) || defined(__x86_64__)
 static constexpr __ptrace_request PTRACE_GET_THREAD_AREA =
     static_cast<__ptrace_request>(25);
-#endif  // __GLIBC__ && __x86_64__
+#define PTRACE_GET_THREAD_AREA PTRACE_GET_THREAD_AREA
+#elif defined(__arm__) || defined(__arm64__)
+static constexpr __ptrace_request PTRACE_GET_THREAD_AREA =
+    static_cast<__ptrace_request>(22);
+#define PTRACE_GET_THREAD_AREA PTRACE_GET_THREAD_AREA
+#elif defined(__mips__)
+static constexpr __ptrace_request PTRACE_GET_THREAD_AREA =
+    static_cast<__ptrace_request>(25);
+#define PTRACE_GET_THREAD_AREA PTRACE_GET_THREAD_AREA
+static constexpr __ptrace_request PTRACE_GET_THREAD_AREA_3264 =
+    static_cast<__ptrace_request>(0xc4);
+#define PTRACE_GET_THREAD_AREA_3264 PTRACE_GET_THREAD_AREA_3264
+#endif
+#endif  // !PTRACE_GET_THREAD_AREA && !PT_GET_THREAD_AREA && defined(__GLIBC__)
+
+// https://sourceware.org/bugzilla/show_bug.cgi?id=22433
+#if !defined(PTRACE_GETVFPREGS) && !defined(PT_GETVFPREGS) && \
+    defined(__GLIBC__) && (defined(__arm__) || defined(__arm64__))
+static constexpr __ptrace_request PTRACE_GETVFPREGS =
+    static_cast<__ptrace_request>(27);
+#define PTRACE_GETVFPREGS PTRACE_GETVFPREGS
+#endif
 
 #endif  // CRASHPAD_COMPAT_LINUX_SYS_PTRACE_H_

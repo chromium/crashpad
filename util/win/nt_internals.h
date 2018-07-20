@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef CRASHPAD_UTIL_WIN_NT_INTERNALS_H_
+#define CRASHPAD_UTIL_WIN_NT_INTERNALS_H_
+
 #include <windows.h>
 #include <winternl.h>
 
@@ -76,7 +79,7 @@ NTSTATUS NtSuspendProcess(HANDLE handle);
 
 NTSTATUS NtResumeProcess(HANDLE handle);
 
-// From https://msdn.microsoft.com/en-us/library/cc678403(v=vs.85).aspx.
+// From https://msdn.microsoft.com/library/cc678403.aspx.
 template <class Traits>
 struct RTL_UNLOAD_EVENT_TRACE {
   typename Traits::Pointer BaseAddress;
@@ -92,3 +95,5 @@ void RtlGetUnloadEventTraceEx(ULONG** element_size,
                               void** event_trace);
 
 }  // namespace crashpad
+
+#endif  // CRASHPAD_UTIL_WIN_NT_INTERNALS_H_

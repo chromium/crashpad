@@ -21,6 +21,7 @@
 
 #include <map>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 #include "base/files/file_path.h"
@@ -39,8 +40,8 @@
 
 namespace crashpad {
 
-int* g_extra_memory_pointer;
-int* g_extra_memory_not_saved;
+uint32_t* g_extra_memory_pointer;
+uint32_t* g_extra_memory_not_saved;
 
 namespace {
 
@@ -142,29 +143,33 @@ void SomeCrashyFunction() {
 
 void AllocateExtraMemoryToBeSaved(
     crashpad::SimpleAddressRangeBag* extra_ranges) {
-  constexpr size_t kNumInts = 2000;
-  int* extra_memory = new int[kNumInts];
+  constexpr size_t kNumVals = 2000;
+  auto extra_memory = new uint32_t[kNumVals];
   g_extra_memory_pointer = extra_memory;
-  for (int i = 0; i < kNumInts; ++i)
-    extra_memory[i] = i * 13 + 2;
-  extra_ranges->Insert(extra_memory, sizeof(extra_memory[0]) * kNumInts);
+  for (size_t i = 0; i < kNumVals; ++i)
+    extra_memory[i] =
+        static_cast<std::remove_reference<decltype(extra_memory[0])>::type>(
+            i * 13 + 2);
+  extra_ranges->Insert(extra_memory, sizeof(extra_memory[0]) * kNumVals);
   extra_ranges->Insert(&g_extra_memory_pointer, sizeof(g_extra_memory_pointer));
 }
 
 void AllocateExtraUnsavedMemory(crashpad::SimpleAddressRangeBag* extra_ranges) {
   // Allocate some extra memory, and then Insert() but also Remove() it so we
   // can confirm it doesn't get saved.
-  constexpr size_t kNumInts = 2000;
-  int* extra_memory = new int[kNumInts];
+  constexpr size_t kNumVals = 2000;
+  auto extra_memory = new uint32_t[kNumVals];
   g_extra_memory_not_saved = extra_memory;
-  for (int i = 0; i < kNumInts; ++i)
-    extra_memory[i] = i * 17 + 7;
-  extra_ranges->Insert(extra_memory, sizeof(extra_memory[0]) * kNumInts);
+  for (size_t i = 0; i < kNumVals; ++i)
+    extra_memory[i] =
+        static_cast<std::remove_reference<decltype(extra_memory[0])>::type>(
+            i * 17 + 7);
+  extra_ranges->Insert(extra_memory, sizeof(extra_memory[0]) * kNumVals);
   extra_ranges->Insert(&g_extra_memory_not_saved,
                        sizeof(g_extra_memory_not_saved));
 
   // We keep the pointer's memory, but remove the pointed-to memory.
-  extra_ranges->Remove(extra_memory, sizeof(extra_memory[0]) * kNumInts);
+  extra_ranges->Remove(extra_memory, sizeof(extra_memory[0]) * kNumVals);
 }
 
 int CrashyMain(int argc, wchar_t* argv[]) {

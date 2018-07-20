@@ -22,6 +22,25 @@
 namespace crashpad {
 namespace test {
 
+//! \brief Initializes an `fxsave` context substructure for testing.
+//!
+//! \param[out] fxsave The structure to initialize.
+//! \param[in,out] seed The seed value. Initializing two `fxsave` structures of
+//!     the same type with identical seed values should produce identical
+//!     structures. Initialization with a different seed value should produce
+//!     a different `fxsave` structure. If \a seed is `0`, \a fxsave is zeroed
+//!     out entirely. If \a seed is nonzero, \a fxsave will be populated
+//!     entirely with nonzero values. \a seed will be updated by this function
+//!     to allow the caller to perform subsequent initialization of the context
+//!     structure containing \a fxsave.
+//!
+//! \{
+void InitializeCPUContextX86Fxsave(CPUContextX86::Fxsave* fxsave,
+                                   uint32_t* seed);
+void InitializeCPUContextX86_64Fxsave(CPUContextX86_64::Fxsave* fxsave,
+                                      uint32_t* seed);
+//! \}
+
 //! \brief Initializes a context structure for testing.
 //!
 //! Initialization is compatible with the initialization used by minidump
@@ -40,25 +59,10 @@ namespace test {
 //! \{
 void InitializeCPUContextX86(CPUContext* context, uint32_t seed);
 void InitializeCPUContextX86_64(CPUContext* context, uint32_t seed);
-//! \}
-
-//! \brief Initializes an `fxsave` context substructure for testing.
-//!
-//! \param[out] fxsave The structure to initialize.
-//! \param[in,out] seed The seed value. Initializing two `fxsave` structures of
-//!     the same type with identical seed values should produce identical
-//!     structures. Initialization with a different seed value should produce
-//!     a different `fxsave` structure. If \a seed is `0`, \a fxsave is zeroed
-//!     out entirely. If \a seed is nonzero, \a fxsave will be populated
-//!     entirely with nonzero values. \a seed will be updated by this function
-//!     to allow the caller to perform subsequent initialization of the context
-//!     structure containing \a fxsave.
-//!
-//! \{
-void InitializeCPUContextX86Fxsave(
-    CPUContextX86::Fxsave* fxsave, uint32_t* seed);
-void InitializeCPUContextX86_64Fxsave(
-    CPUContextX86_64::Fxsave* fxsave, uint32_t* seed);
+void InitializeCPUContextARM(CPUContext* context, uint32_t seed);
+void InitializeCPUContextARM64(CPUContext* context, uint32_t seed);
+void InitializeCPUContextMIPS(CPUContext* context, uint32_t seed);
+void InitializeCPUContextMIPS64(CPUContext* context, uint32_t seed);
 //! \}
 
 }  // namespace test

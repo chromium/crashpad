@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // The name of this file was chosen based on
-// http://llvm.org/svn/llvm-project/llvm/trunk/lib/Support/PrettyStackTrace.cpp.
+// https://llvm.org/svn/llvm-project/llvm/trunk/lib/Support/PrettyStackTrace.cpp.
 // The name of the structure it describes was chosen based on that file as well
 // as 10.9.2 cups-372.2/cups/backend/usb-darwin.c. That file also provided the
 // names and types of the fields in the structure.
@@ -33,8 +33,8 @@
 // flavored ReadSpecificInto function that understands how to map this field to
 // the structure’s actual size is provided in
 // snapshot/mac/process_types/custom.cc. No implementation of ReadArrayInto is
-// provided because dyld_all_image_infos structs are singletons in a process and
-// are never present in arrays, so the functionality is unnecessary.
+// provided because crashreporter_annotations_t structs are singletons in a
+// module and are never present in arrays, so the functionality is unnecessary.
 
 #if !defined(PROCESS_TYPE_STRUCT_IMPLEMENT_INTERNAL_READ_INTO) && \
     !defined(PROCESS_TYPE_STRUCT_IMPLEMENT_ARRAY)

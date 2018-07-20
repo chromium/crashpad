@@ -26,7 +26,7 @@
 namespace crashpad {
 
 class MachOImageReader;
-class ProcessReader;
+class ProcessReaderMac;
 
 //! \brief A reader for annotations stored in a Mach-O image mapped into another
 //!     process.
@@ -54,7 +54,7 @@ class MachOImageAnnotationsReader {
   //!     contained within the remote process.
   //! \param[in] name The module’s name, a string to be used in logged messages.
   //!     This string is for diagnostic purposes only, and may be empty.
-  MachOImageAnnotationsReader(ProcessReader* process_reader,
+  MachOImageAnnotationsReader(ProcessReaderMac* process_reader,
                               const MachOImageReader* image_reader,
                               const std::string& name);
 
@@ -91,7 +91,7 @@ class MachOImageAnnotationsReader {
       std::vector<AnnotationSnapshot>* vector_annotations) const;
 
   std::string name_;
-  ProcessReader* process_reader_;  // weak
+  ProcessReaderMac* process_reader_;  // weak
   const MachOImageReader* image_reader_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(MachOImageAnnotationsReader);

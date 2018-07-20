@@ -22,6 +22,7 @@
 #include "base/files/scoped_file.h"
 #include "base/macros.h"
 #include "util/misc/address_types.h"
+#include "util/misc/initialization_state_dcheck.h"
 #include "util/process/process_memory.h"
 
 namespace crashpad {
@@ -43,16 +44,12 @@ class ProcessMemoryLinux final : public ProcessMemory {
   //! \return `true` on success, `false` on failure with a message logged.
   bool Initialize(pid_t pid);
 
-  bool Read(VMAddress address, size_t size, void* buffer) const override;
-
  private:
-  bool ReadCStringInternal(VMAddress address,
-                           bool has_size,
-                           size_t size,
-                           std::string* string) const override;
+  ssize_t ReadUpTo(VMAddress address, size_t size, void* buffer) const override;
 
   base::ScopedFD mem_fd_;
   pid_t pid_;
+  InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessMemoryLinux);
 };

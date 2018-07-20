@@ -20,9 +20,13 @@
 
 #include <limits>
 
+#include "base/bit_cast.h"
 #include "base/macros.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
+#include "test/linux/fake_ptrace_connection.h"
+#include "test/main_arguments.h"
 #include "test/multiprocess.h"
 #include "util/linux/address_types.h"
 #include "util/linux/memory_map.h"
@@ -30,25 +34,32 @@
 #include "util/numeric/int128.h"
 #include "util/process/process_memory_linux.h"
 
+#if !defined(OS_ANDROID)
+// TODO(jperaza): This symbol isn't defined when building in chromium for
+// Android. There may be another symbol to use.
 extern "C" {
-extern void _start();
+#if defined(ARCH_CPU_MIPS_FAMILY)
+#define START_SYMBOL __start
+#else
+#define START_SYMBOL _start
+#endif
+extern void START_SYMBOL();
 }  // extern "C"
+#endif
 
 namespace crashpad {
 namespace test {
 namespace {
 
 void TestAgainstCloneOrSelf(pid_t pid) {
-#if defined(ARCH_CPU_64_BITS)
-  constexpr bool am_64_bit = true;
-#else
-  constexpr bool am_64_bit = false;
-#endif
+  FakePtraceConnection connection;
+  ASSERT_TRUE(connection.Initialize(pid));
+
   AuxiliaryVector aux;
-  ASSERT_TRUE(aux.Initialize(pid, am_64_bit));
+  ASSERT_TRUE(aux.Initialize(&connection));
 
   MemoryMap mappings;
-  ASSERT_TRUE(mappings.Initialize(pid));
+  ASSERT_TRUE(mappings.Initialize(&connection));
 
   LinuxVMAddress phdrs;
   ASSERT_TRUE(aux.GetValue(AT_PHDR, &phdrs));
@@ -62,9 +73,11 @@ void TestAgainstCloneOrSelf(pid_t pid) {
   ASSERT_TRUE(aux.GetValue(AT_BASE, &interp_base));
   EXPECT_TRUE(mappings.FindMapping(interp_base));
 
+#if !defined(OS_ANDROID)
   LinuxVMAddress entry_addr;
   ASSERT_TRUE(aux.GetValue(AT_ENTRY, &entry_addr));
-  EXPECT_EQ(entry_addr, FromPointerCast<LinuxVMAddress>(_start));
+  EXPECT_EQ(entry_addr, FromPointerCast<LinuxVMAddress>(START_SYMBOL));
+#endif
 
   uid_t uid;
   ASSERT_TRUE(aux.GetValue(AT_UID, &uid));
@@ -116,7 +129,7 @@ void TestAgainstCloneOrSelf(pid_t pid) {
   ASSERT_TRUE(aux.GetValue(AT_EXECFN, &filename_addr));
   std::string filename;
   ASSERT_TRUE(memory.ReadCStringSizeLimited(filename_addr, 4096, &filename));
-  EXPECT_TRUE(filename.find("crashpad_util_test") != std::string::npos);
+  EXPECT_TRUE(filename.find(GetMainArguments()[0]) != std::string::npos);
 #endif  // AT_EXECFN
 
   int ignore;
@@ -160,13 +173,11 @@ class AuxVecTester : public AuxiliaryVector {
 };
 
 TEST(AuxiliaryVector, SignedBit) {
-#if defined(ARCH_CPU_64_BITS)
-  constexpr bool am_64_bit = true;
-#else
-  constexpr bool am_64_bit = false;
-#endif
+  FakePtraceConnection connection;
+  ASSERT_TRUE(connection.Initialize(getpid()));
+
   AuxVecTester aux;
-  ASSERT_TRUE(aux.Initialize(getpid(), am_64_bit));
+  ASSERT_TRUE(&connection);
   constexpr uint64_t type = 0x0000000012345678;
 
   constexpr int32_t neg1_32 = -1;

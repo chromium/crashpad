@@ -19,25 +19,27 @@
   'targets': [
     {
       'target_name': 'crashpad_compat',
-      'type': 'static_library',
       'sources': [
+        'android/dlfcn_internal.cc',
+        'android/dlfcn_internal.h',
         'android/elf.h',
         'android/linux/elf.h',
         'android/linux/prctl.h',
         'android/linux/ptrace.h',
         'android/sched.h',
+        'android/sys/epoll.cc',
+        'android/sys/epoll.h',
         'android/sys/mman.cc',
         'android/sys/mman.h',
         'android/sys/syscall.h',
         'android/sys/user.h',
         'linux/signal.h',
         'linux/sys/ptrace.h',
+        'linux/sys/user.h',
         'mac/AvailabilityMacros.h',
         'mac/kern/exc_resource.h',
         'mac/mach/i386/thread_state.h',
         'mac/mach/mach.h',
-        'mac/mach-o/getsect.cc',
-        'mac/mach-o/getsect.h',
         'mac/mach-o/loader.h',
         'mac/sys/resource.h',
         'non_mac/mach/mach.h',
@@ -60,9 +62,7 @@
       ],
       'conditions': [
         ['OS=="mac"', {
-          'dependencies': [
-            '../third_party/apple_cctools/apple_cctools.gyp:apple_cctools',
-          ],
+          'type': 'none',
           'include_dirs': [
             'mac',
           ],
@@ -71,8 +71,18 @@
               'mac',
             ],
           },
+        }, {
+          'include_dirs': [
+            'non_mac',
+          ],
+          'direct_dependent_settings': {
+            'include_dirs': [
+              'non_mac',
+            ],
+          },
         }],
         ['OS=="win"', {
+          'type': 'static_library',
           'include_dirs': [
             'win',
           ],
@@ -95,6 +105,7 @@
           },
         }],
         ['OS=="android"', {
+          'type': 'static_library',
           'include_dirs': [
             'android',
             'linux',
@@ -112,6 +123,7 @@
           },
         }],
         ['OS=="linux"', {
+          'type': 'none',
           'include_dirs': [
             'linux',
           ],

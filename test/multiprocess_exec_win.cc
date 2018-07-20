@@ -57,12 +57,16 @@ void Multiprocess::Run() {
   CloseHandle(info_->process_info.hProcess);
 }
 
-Multiprocess::~Multiprocess() {
-  delete info_;
+void Multiprocess::SetExpectedChildTermination(TerminationReason reason,
+                                               int code) {
+  EXPECT_EQ(info_, nullptr)
+      << "SetExpectedChildTermination() must be called before Run()";
+  reason_ = reason;
+  code_ = code;
 }
 
-void Multiprocess::PreFork() {
-  NOTREACHED();
+Multiprocess::~Multiprocess() {
+  delete info_;
 }
 
 FileHandle Multiprocess::ReadPipeHandle() const {
@@ -164,6 +168,10 @@ void MultiprocessExec::MultiprocessChild() {
                        nullptr,
                        &startup_info,
                        &info()->process_info));
+}
+
+ProcessType MultiprocessExec::ChildProcess() {
+  return info()->process_info.hProcess;
 }
 
 }  // namespace test

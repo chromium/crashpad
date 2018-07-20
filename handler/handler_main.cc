@@ -34,6 +34,7 @@
 #include "base/logging.h"
 #include "base/metrics/persistent_histogram_allocator.h"
 #include "base/scoped_generic.h"
+#include "base/strings/string_number_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
@@ -46,6 +47,7 @@
 #include "handler/prune_crash_reports_thread.h"
 #include "tools/tool_support.h"
 #include "util/file/file_io.h"
+#include "util/misc/address_types.h"
 #include "util/misc/metrics.h"
 #include "util/misc/paths.h"
 #include "util/numeric/in_range_cast.h"
@@ -54,7 +56,13 @@
 #include "util/string/split_string.h"
 #include "util/synchronization/semaphore.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+#include <unistd.h>
+
+#include "handler/linux/crash_report_exception_handler.h"
+#include "handler/linux/exception_handler_server.h"
+#include "util/posix/signals.h"
+#elif defined(OS_MACOSX)
 #include <libgen.h>
 #include <signal.h>
 
@@ -74,6 +82,15 @@
 #include "util/win/handle.h"
 #include "util/win/initial_client_data.h"
 #include "util/win/session_end_watcher.h"
+#elif defined(OS_FUCHSIA)
+#include <zircon/process.h>
+#include <zircon/processargs.h>
+
+#include "handler/fuchsia/crash_report_exception_handler.h"
+#include "handler/fuchsia/exception_handler_server.h"
+#elif defined(OS_LINUX)
+#include "handler/linux/crash_report_exception_handler.h"
+#include "handler/linux/exception_handler_server.h"
 #endif  // OS_MACOSX
 
 namespace crashpad {
@@ -123,6 +140,13 @@ void Usage(const base::FilePath& me) {
 "      --reset-own-crash-exception-port-to-system-default\n"
 "                              reset the server's exception handler to default\n"
 #endif  // OS_MACOSX
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+"      --trace-parent-with-exception=EXCEPTION_INFORMATION_ADDRESS\n"
+"                              request a dump for the handler's parent process\n"
+"      --initial-client-fd=FD  a socket connected to a client.\n"
+"      --sanitization_information=SANITIZATION_INFORMATION_ADDRESS\n"
+"                              the address of a SanitizationInformation struct.\n"
+#endif  // OS_LINUX || OS_ANDROID
 "      --url=URL               send crash reports to this Breakpad server URL,\n"
 "                              only if uploads are enabled for the database\n"
 "      --help                  display this help and exit\n"
@@ -142,6 +166,10 @@ struct Options {
   std::string mach_service;
   int handshake_fd;
   bool reset_own_crash_exception_port_to_system_default;
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+  VMAddress exception_information_address;
+  int initial_client_fd;
+  VMAddress sanitization_information_address;
 #elif defined(OS_WIN)
   std::string pipe_name;
   InitialClientData initial_client_data;
@@ -208,7 +236,9 @@ class CallMetricsRecordNormalExit {
   DISALLOW_COPY_AND_ASSIGN(CallMetricsRecordNormalExit);
 };
 
-#if defined(OS_MACOSX)
+#if defined(OS_MACOSX) || defined(OS_LINUX) || defined(OS_ANDROID)
+
+Signals::OldActions g_old_crash_signal_handlers;
 
 void HandleCrashSignal(int sig, siginfo_t* siginfo, void* context) {
   MetricsRecordExit(Metrics::LifetimeMilestone::kCrashed);
@@ -244,13 +274,17 @@ void HandleCrashSignal(int sig, siginfo_t* siginfo, void* context) {
   }
   Metrics::HandlerCrashed(metrics_code);
 
-  Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, nullptr);
+  struct sigaction* old_action =
+      g_old_crash_signal_handlers.ActionForSignal(sig);
+  Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, old_action);
 }
 
 void HandleTerminateSignal(int sig, siginfo_t* siginfo, void* context) {
   MetricsRecordExit(Metrics::LifetimeMilestone::kTerminated);
   Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, nullptr);
 }
+
+#if defined(OS_MACOSX)
 
 void ReinstallCrashHandler() {
   // This is used to re-enable the metrics-recording crash handler after
@@ -289,6 +323,23 @@ void HandleSIGTERM(int sig, siginfo_t* siginfo, void* context) {
   DCHECK(g_exception_handler_server);
   g_exception_handler_server->Stop();
 }
+
+#else
+
+void ReinstallCrashHandler() {
+  // This is used to re-enable the metrics-recording crash handler after
+  // MonitorSelf() sets up a Crashpad signal handler.
+  Signals::InstallCrashHandlers(
+      HandleCrashSignal, 0, &g_old_crash_signal_handlers);
+}
+
+void InstallCrashHandler() {
+  ReinstallCrashHandler();
+
+  Signals::InstallTerminateHandlers(HandleTerminateSignal, 0, nullptr);
+}
+
+#endif  // OS_MACOSX
 
 #elif defined(OS_WIN)
 
@@ -345,6 +396,22 @@ void InstallCrashHandler() {
   ALLOW_UNUSED_LOCAL(terminate_handler);
 }
 
+#elif defined(OS_FUCHSIA)
+
+void InstallCrashHandler() {
+  // There's nothing to do here. Crashes in this process will already be caught
+  // here because this handler process is in the same job that has had its
+  // exception port bound.
+
+  // TODO(scottmg): This should collect metrics on handler crashes, at a
+  // minimum. https://crashpad.chromium.org/bug/230.
+}
+
+void ReinstallCrashHandler() {
+  // TODO(scottmg): Fuchsia: https://crashpad.chromium.org/bug/196
+  NOTREACHED();
+}
+
 #endif  // OS_MACOSX
 
 void MonitorSelf(const Options& options) {
@@ -381,6 +448,16 @@ void MonitorSelf(const Options& options) {
   // instance of crashpad_handler to be writing metrics at a time, and it should
   // be the primary instance.
   CrashpadClient crashpad_client;
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+  if (!crashpad_client.StartHandlerAtCrash(executable_path,
+                                           options.database,
+                                           base::FilePath(),
+                                           options.url,
+                                           options.annotations,
+                                           extra_arguments)) {
+    return;
+  }
+#else
   if (!crashpad_client.StartHandler(executable_path,
                                     options.database,
                                     base::FilePath(),
@@ -391,11 +468,32 @@ void MonitorSelf(const Options& options) {
                                     false)) {
     return;
   }
+#endif
 
   // Make sure that appropriate metrics will be recorded on crash before this
   // process is terminated.
   ReinstallCrashHandler();
 }
+
+class ScopedStoppable {
+ public:
+  ScopedStoppable() = default;
+
+  ~ScopedStoppable() {
+    if (stoppable_) {
+      stoppable_->Stop();
+    }
+  }
+
+  void Reset(Stoppable* stoppable) { stoppable_.reset(stoppable); }
+
+  Stoppable* Get() { return stoppable_.get(); }
+
+ private:
+  std::unique_ptr<Stoppable> stoppable_;
+
+  DISALLOW_COPY_AND_ASSIGN(ScopedStoppable);
+};
 
 }  // namespace
 
@@ -437,6 +535,11 @@ int HandlerMain(int argc,
 #if defined(OS_MACOSX)
     kOptionResetOwnCrashExceptionPortToSystemDefault,
 #endif  // OS_MACOSX
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+    kOptionTraceParentWithException,
+    kOptionInitialClientFD,
+    kOptionSanitizationInformation,
+#endif
     kOptionURL,
 
     // Standard options.
@@ -485,6 +588,17 @@ int HandlerMain(int argc,
      nullptr,
      kOptionResetOwnCrashExceptionPortToSystemDefault},
 #endif  // OS_MACOSX
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+    {"trace-parent-with-exception",
+     required_argument,
+     nullptr,
+     kOptionTraceParentWithException},
+    {"initial-client-fd", required_argument, nullptr, kOptionInitialClientFD},
+    {"sanitization-information",
+     required_argument,
+     nullptr,
+     kOptionSanitizationInformation},
+#endif  // OS_LINUX || OS_ANDROID
     {"url", required_argument, nullptr, kOptionURL},
     {"help", no_argument, nullptr, kOptionHelp},
     {"version", no_argument, nullptr, kOptionVersion},
@@ -499,6 +613,11 @@ int HandlerMain(int argc,
   options.periodic_tasks = true;
   options.rate_limit = true;
   options.upload_gzip = true;
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+  options.exception_information_address = 0;
+  options.initial_client_fd = kInvalidFileHandle;
+  options.sanitization_information_address = 0;
+#endif
 
   int opt;
   while ((opt = getopt_long(argc, argv, "", long_options, nullptr)) != -1) {
@@ -588,6 +707,32 @@ int HandlerMain(int argc,
         break;
       }
 #endif  // OS_MACOSX
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+      case kOptionTraceParentWithException: {
+        if (!StringToNumber(optarg, &options.exception_information_address)) {
+          ToolSupport::UsageHint(
+              me, "failed to parse --trace-parent-with-exception");
+          return ExitFailure();
+        }
+        break;
+      }
+      case kOptionInitialClientFD: {
+        if (!base::StringToInt(optarg, &options.initial_client_fd)) {
+          ToolSupport::UsageHint(me, "failed to parse --initial-client-fd");
+          return ExitFailure();
+        }
+        break;
+      }
+      case kOptionSanitizationInformation: {
+        if (!StringToNumber(optarg,
+                            &options.sanitization_information_address)) {
+          ToolSupport::UsageHint(me,
+                                 "failed to parse --sanitization-information");
+          return ExitFailure();
+        }
+        break;
+      }
+#endif  // OS_LINUX || OS_ANDROID
       case kOptionURL: {
         options.url = optarg;
         break;
@@ -632,6 +777,20 @@ int HandlerMain(int argc,
         me, "--initial-client-data and --pipe-name are incompatible");
     return ExitFailure();
   }
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+  if (!options.exception_information_address &&
+      options.initial_client_fd == kInvalidFileHandle) {
+    ToolSupport::UsageHint(
+        me, "--trace-parent-with-exception or --initial_client_fd is required");
+    return ExitFailure();
+  }
+  if (options.sanitization_information_address &&
+      !options.exception_information_address) {
+    ToolSupport::UsageHint(
+        me,
+        "--sanitization_information requires --trace-parent-with-exception");
+    return ExitFailure();
+  }
 #endif  // OS_MACOSX
 
   if (options.database.empty()) {
@@ -672,6 +831,57 @@ int HandlerMain(int argc,
       module_annotations->SetKeyValue(iterator.first.c_str(),
                                       iterator.second.c_str());
     }
+  }
+
+  std::unique_ptr<CrashReportDatabase> database(
+      CrashReportDatabase::Initialize(options.database));
+  if (!database) {
+    return ExitFailure();
+  }
+
+  ScopedStoppable upload_thread;
+  if (!options.url.empty()) {
+    // TODO(scottmg): options.rate_limit should be removed when we have a
+    // configurable database setting to control upload limiting.
+    // See https://crashpad.chromium.org/bug/23.
+    CrashReportUploadThread::Options upload_thread_options;
+    upload_thread_options.identify_client_via_url =
+        options.identify_client_via_url;
+    upload_thread_options.rate_limit = options.rate_limit;
+    upload_thread_options.upload_gzip = options.upload_gzip;
+    upload_thread_options.watch_pending_reports = options.periodic_tasks;
+
+    upload_thread.Reset(new CrashReportUploadThread(
+        database.get(), options.url, upload_thread_options));
+    upload_thread.Get()->Start();
+  }
+
+  CrashReportExceptionHandler exception_handler(
+      database.get(),
+      static_cast<CrashReportUploadThread*>(upload_thread.Get()),
+      &options.annotations,
+#if defined(OS_FUCHSIA)
+      // TODO(scottmg): Process level file attachments, and for all platforms.
+      nullptr,
+#endif
+      user_stream_sources);
+
+ #if defined(OS_LINUX) || defined(OS_ANDROID)
+  if (options.exception_information_address) {
+    ClientInformation info;
+    info.exception_information_address = options.exception_information_address;
+    info.sanitization_information_address =
+        options.sanitization_information_address;
+    return exception_handler.HandleException(getppid(), info) ? EXIT_SUCCESS
+                                                              : ExitFailure();
+  }
+#endif  // OS_LINUX || OS_ANDROID
+
+  ScopedStoppable prune_thread;
+  if (options.periodic_tasks) {
+    prune_thread.Reset(new PruneCrashReportThread(
+        database.get(), PruneCondition::GetDefault()));
+    prune_thread.Get()->Start();
   }
 
 #if defined(OS_MACOSX)
@@ -727,6 +937,29 @@ int HandlerMain(int argc,
   if (!options.pipe_name.empty()) {
     exception_handler_server.SetPipeName(base::UTF8ToUTF16(options.pipe_name));
   }
+#elif defined(OS_FUCHSIA)
+  // These handles are logically "moved" into these variables when retrieved by
+  // zx_take_startup_handle(). Both are given to ExceptionHandlerServer which
+  // owns them in this process. There is currently no "connect-later" mode on
+  // Fuchsia, all the binding must be done by the client before starting
+  // crashpad_handler.
+  base::ScopedZxHandle root_job(zx_take_startup_handle(PA_HND(PA_USER0, 0)));
+  if (!root_job.is_valid()) {
+    LOG(ERROR) << "no process handle passed in startup handle 0";
+    return EXIT_FAILURE;
+  }
+
+  base::ScopedZxHandle exception_port(
+      zx_take_startup_handle(PA_HND(PA_USER0, 1)));
+  if (!exception_port.is_valid()) {
+    LOG(ERROR) << "no exception port handle passed in startup handle 1";
+    return EXIT_FAILURE;
+  }
+
+  ExceptionHandlerServer exception_handler_server(std::move(root_job),
+                                                  std::move(exception_port));
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+  ExceptionHandlerServer exception_handler_server;
 #endif  // OS_MACOSX
 
   base::GlobalHistogramAllocator* histogram_allocator = nullptr;
@@ -742,51 +975,20 @@ int HandlerMain(int argc,
 
   Metrics::HandlerLifetimeMilestone(Metrics::LifetimeMilestone::kStarted);
 
-  std::unique_ptr<CrashReportDatabase> database(
-      CrashReportDatabase::Initialize(options.database));
-  if (!database) {
-    return ExitFailure();
-  }
-
-  // TODO(scottmg): options.rate_limit should be removed when we have a
-  // configurable database setting to control upload limiting.
-  // See https://crashpad.chromium.org/bug/23.
-  CrashReportUploadThread::Options upload_thread_options;
-  upload_thread_options.identify_client_via_url =
-      options.identify_client_via_url;
-  upload_thread_options.rate_limit = options.rate_limit;
-  upload_thread_options.upload_gzip = options.upload_gzip;
-  upload_thread_options.watch_pending_reports = options.periodic_tasks;
-  CrashReportUploadThread upload_thread(database.get(),
-                                        options.url,
-                                        upload_thread_options);
-  upload_thread.Start();
-
-  std::unique_ptr<PruneCrashReportThread> prune_thread;
-  if (options.periodic_tasks) {
-    prune_thread.reset(new PruneCrashReportThread(
-        database.get(), PruneCondition::GetDefault()));
-    prune_thread->Start();
-  }
-
-  CrashReportExceptionHandler exception_handler(database.get(),
-                                                &upload_thread,
-                                                &options.annotations,
-                                                user_stream_sources);
-
 #if defined(OS_WIN)
   if (options.initial_client_data.IsValid()) {
     exception_handler_server.InitializeWithInheritedDataForInitialClient(
         options.initial_client_data, &exception_handler);
   }
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+  if (options.initial_client_fd == kInvalidFileHandle ||
+             !exception_handler_server.InitializeWithClient(
+                 ScopedFileHandle(options.initial_client_fd))) {
+    return ExitFailure();
+  }
 #endif  // OS_WIN
 
   exception_handler_server.Run(&exception_handler);
-
-  upload_thread.Stop();
-  if (prune_thread) {
-    prune_thread->Stop();
-  }
 
   return EXIT_SUCCESS;
 }

@@ -14,8 +14,11 @@
 
 #include "test/linux/fake_ptrace_connection.h"
 
+#include <utility>
+
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "util/file/file_io.h"
 
 namespace crashpad {
 namespace test {
@@ -68,6 +71,25 @@ bool FakePtraceConnection::GetThreadInfo(pid_t tid, ThreadInfo* info) {
   bool attached = attachments_.find(tid) != attachments_.end();
   EXPECT_TRUE(attached);
   return attached;
+}
+
+bool FakePtraceConnection::ReadFileContents(const base::FilePath& path,
+                                            std::string* contents) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return LoggingReadEntireFile(path, contents);
+}
+
+ProcessMemory* FakePtraceConnection::Memory() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  if (!memory_) {
+    auto mem = std::make_unique<ProcessMemoryLinux>();
+    if (mem->Initialize(pid_)) {
+      memory_ = std::move(mem);
+    } else {
+      ADD_FAILURE();
+    }
+  }
+  return memory_.get();
 }
 
 }  // namespace test

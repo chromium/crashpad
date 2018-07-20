@@ -28,7 +28,7 @@
 #include "test/test_paths.h"
 #include "test/win/win_multiprocess_with_temp_dir.h"
 #include "util/file/file_reader.h"
-#include "util/win/capture_context.h"
+#include "util/misc/capture_context.h"
 
 namespace crashpad {
 namespace test {
@@ -93,7 +93,7 @@ void CrashWithExtendedHandler::ValidateGeneratedDump() {
   ASSERT_TRUE(database);
 
   std::vector<CrashReportDatabase::Report> reports;
-  ASSERT_EQ(database->GetCompletedReports(&reports),
+  ASSERT_EQ(database->GetPendingReports(&reports),
             CrashReportDatabase::kNoError);
   ASSERT_EQ(reports.size(), 1u);
 
@@ -133,7 +133,13 @@ void CrashWithExtendedHandler::ValidateGeneratedDump() {
   EXPECT_EQ(found_extension_streams, 1u);
 }
 
-TEST(CrashpadHandler, ExtensibilityCalloutsWork) {
+#if defined(ADDRESS_SANITIZER)
+// https://crbug.com/845011
+#define MAYBE_ExtensibilityCalloutsWork DISABLED_ExtensibilityCalloutsWork
+#else
+#define MAYBE_ExtensibilityCalloutsWork ExtensibilityCalloutsWork
+#endif
+TEST(CrashpadHandler, MAYBE_ExtensibilityCalloutsWork) {
   WinMultiprocessWithTempDir::Run<CrashWithExtendedHandler>();
 }
 

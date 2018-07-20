@@ -18,6 +18,7 @@
 
 #include "base/compiler_specific.h"
 #include "gtest/gtest.h"
+#include "test/gtest_death.h"
 
 #if defined(OS_WIN)
 #include <crtdbg.h>
@@ -110,7 +111,7 @@ void BadAlignmentTest() {
 }
 
 TEST(AlignedAllocatorDeathTest, BadAlignment) {
-  ASSERT_DEATH(BadAlignmentTest(), "");
+  ASSERT_DEATH_CRASH(BadAlignmentTest(), "");
 }
 
 }  // namespace

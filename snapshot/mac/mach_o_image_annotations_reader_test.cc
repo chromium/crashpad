@@ -33,7 +33,7 @@
 #include "client/crashpad_info.h"
 #include "client/simple_string_dictionary.h"
 #include "gtest/gtest.h"
-#include "snapshot/mac/process_reader.h"
+#include "snapshot/mac/process_reader_mac.h"
 #include "test/errors.h"
 #include "test/mac/mach_errors.h"
 #include "test/mac/mach_multiprocess.h"
@@ -101,6 +101,32 @@ class TestMachOImageAnnotationsReader final
       : MachMultiprocess(),
         UniversalMachExcServer::Interface(),
         test_type_(test_type) {
+    switch (test_type_) {
+      case kDontCrash:
+        // SetExpectedChildTermination(kTerminationNormal, EXIT_SUCCESS) is the
+        // default.
+        break;
+
+      case kCrashAbort:
+        SetExpectedChildTermination(kTerminationSignal, SIGABRT);
+        break;
+
+      case kCrashModuleInitialization:
+        // This crash is triggered by __builtin_trap(), which shows up as
+        // SIGILL.
+        SetExpectedChildTermination(kTerminationSignal, SIGILL);
+        break;
+
+      case kCrashDyld:
+        // Prior to 10.12, dyld fatal errors result in the execution of an
+        // int3 instruction on x86 and a trap instruction on ARM, both of
+        // which raise SIGTRAP. 10.9.5 dyld-239.4/src/dyldStartup.s
+        // _dyld_fatal_error. This changed in 10.12 to use
+        // abort_with_payload(), which appears as SIGABRT to a waiting parent.
+        SetExpectedChildTermination(
+            kTerminationSignal, MacOSXMinorVersion() < 12 ? SIGTRAP : SIGABRT);
+        break;
+    }
   }
 
   ~TestMachOImageAnnotationsReader() {}
@@ -135,15 +161,15 @@ class TestMachOImageAnnotationsReader final
     EXPECT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "pid_for_task");
     EXPECT_EQ(task_pid, ChildPID());
 
-    ProcessReader process_reader;
+    ProcessReaderMac process_reader;
     bool rv = process_reader.Initialize(task);
     if (!rv) {
       ADD_FAILURE();
     } else {
-      const std::vector<ProcessReader::Module>& modules =
+      const std::vector<ProcessReaderMac::Module>& modules =
           process_reader.Modules();
       std::vector<std::string> all_annotations_vector;
-      for (const ProcessReader::Module& module : modules) {
+      for (const ProcessReaderMac::Module& module : modules) {
         if (module.reader) {
           MachOImageAnnotationsReader module_annotations_reader(
               &process_reader, module.reader, module.name);
@@ -245,7 +271,7 @@ class TestMachOImageAnnotationsReader final
   // MachMultiprocess:
 
   void MachMultiprocessParent() override {
-    ProcessReader process_reader;
+    ProcessReaderMac process_reader;
     ASSERT_TRUE(process_reader.Initialize(ChildTask()));
 
     // Wait for the child process to indicate that it’s done setting up its
@@ -255,11 +281,11 @@ class TestMachOImageAnnotationsReader final
 
     // Verify the “simple map” and object-based annotations set via the
     // CrashpadInfo interface.
-    const std::vector<ProcessReader::Module>& modules =
+    const std::vector<ProcessReaderMac::Module>& modules =
         process_reader.Modules();
     std::map<std::string, std::string> all_annotations_simple_map;
     std::vector<AnnotationSnapshot> all_annotations;
-    for (const ProcessReader::Module& module : modules) {
+    for (const ProcessReaderMac::Module& module : modules) {
       MachOImageAnnotationsReader module_annotations_reader(
           &process_reader, module.reader, module.name);
       std::map<std::string, std::string> module_annotations_simple_map =
@@ -322,33 +348,6 @@ class TestMachOImageAnnotationsReader final
                                  kMachMessageTimeoutWaitIndefinitely);
       EXPECT_EQ(mr, MACH_MSG_SUCCESS)
           << MachErrorMessage(mr, "MachMessageServer::Run");
-
-      switch (test_type_) {
-        case kCrashAbort:
-          SetExpectedChildTermination(kTerminationSignal, SIGABRT);
-          break;
-
-        case kCrashModuleInitialization:
-          // This crash is triggered by __builtin_trap(), which shows up as
-          // SIGILL.
-          SetExpectedChildTermination(kTerminationSignal, SIGILL);
-          break;
-
-        case kCrashDyld:
-          // Prior to 10.12, dyld fatal errors result in the execution of an
-          // int3 instruction on x86 and a trap instruction on ARM, both of
-          // which raise SIGTRAP. 10.9.5 dyld-239.4/src/dyldStartup.s
-          // _dyld_fatal_error. This changed in 10.12 to use
-          // abort_with_payload(), which appears as SIGABRT to a waiting parent.
-          SetExpectedChildTermination(
-              kTerminationSignal,
-              MacOSXMinorVersion() < 12 ? SIGTRAP : SIGABRT);
-          break;
-
-        default:
-          FAIL();
-          break;
-      }
     }
   }
 

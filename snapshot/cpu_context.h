@@ -18,6 +18,7 @@
 #include <stdint.h>
 
 #include "snapshot/cpu_architecture.h"
+#include "util/numeric/int128.h"
 
 namespace crashpad {
 
@@ -258,6 +259,99 @@ struct CPUContextX86_64 {
   uint64_t dr7;
 };
 
+//! \brief A context structure carrying ARM CPU state.
+struct CPUContextARM {
+  uint32_t regs[11];
+  uint32_t fp;  // r11
+  uint32_t ip;  // r12
+  uint32_t sp;  // r13
+  uint32_t lr;  // r14
+  uint32_t pc;  // r15
+  uint32_t cpsr;
+
+  struct {
+    struct fp_reg {
+      uint32_t sign1 : 1;
+      uint32_t unused : 15;
+      uint32_t sign2 : 1;
+      uint32_t exponent : 14;
+      uint32_t j : 1;
+      uint32_t mantissa1 : 31;
+      uint32_t mantisss0 : 32;
+    } fpregs[8];
+    uint32_t fpsr : 32;
+    uint32_t fpcr : 32;
+    uint8_t type[8];
+    uint32_t init_flag;
+  } fpa_regs;
+
+  struct {
+    uint64_t vfp[32];
+    uint32_t fpscr;
+  } vfp_regs;
+
+  bool have_fpa_regs;
+  bool have_vfp_regs;
+};
+
+//! \brief A context structure carrying ARM64 CPU state.
+struct CPUContextARM64 {
+  uint64_t regs[31];
+  uint64_t sp;
+  uint64_t pc;
+  uint64_t pstate;
+
+  uint128_struct fpsimd[32];
+  uint32_t fpsr;
+  uint32_t fpcr;
+};
+
+//! \brief A context structure carrying MIPS CPU state.
+struct CPUContextMIPS {
+  uint64_t regs[32];
+  uint32_t mdlo;
+  uint32_t mdhi;
+  uint32_t cp0_epc;
+  uint32_t cp0_badvaddr;
+  uint32_t cp0_status;
+  uint32_t cp0_cause;
+  uint32_t hi[3];
+  uint32_t lo[3];
+  uint32_t dsp_control;
+  union {
+    double dregs[32];
+    struct {
+      float _fp_fregs;
+      uint32_t _fp_pad;
+    } fregs[32];
+  } fpregs;
+  uint32_t fpcsr;
+  uint32_t fir;
+};
+
+//! \brief A context structure carrying MIPS64 CPU state.
+struct CPUContextMIPS64 {
+  uint64_t regs[32];
+  uint64_t mdlo;
+  uint64_t mdhi;
+  uint64_t cp0_epc;
+  uint64_t cp0_badvaddr;
+  uint64_t cp0_status;
+  uint64_t cp0_cause;
+  uint64_t hi[3];
+  uint64_t lo[3];
+  uint64_t dsp_control;
+  union {
+    double dregs[32];
+    struct {
+      float _fp_fregs;
+      uint32_t _fp_pad;
+    } fregs[32];
+  } fpregs;
+  uint64_t fpcsr;
+  uint64_t fir;
+};
+
 //! \brief A context structure capable of carrying the context of any supported
 //!     CPU architecture.
 struct CPUContext {
@@ -268,12 +362,26 @@ struct CPUContext {
   //! context structure.
   uint64_t InstructionPointer() const;
 
+  //! \brief Returns the stack pointer value from the context structure.
+  //!
+  //! This is a CPU architecture-independent method that is capable of
+  //! recovering the stack pointer from any supported CPU architecture’s
+  //! context structure.
+  uint64_t StackPointer() const;
+
+  //! \brief Returns `true` if this context is for a 64-bit architecture.
+  bool Is64Bit() const;
+
   //! \brief The CPU architecture of a context structure. This field controls
   //!     the expression of the union.
   CPUArchitecture architecture;
   union {
     CPUContextX86* x86;
     CPUContextX86_64* x86_64;
+    CPUContextARM* arm;
+    CPUContextARM64* arm64;
+    CPUContextMIPS* mipsel;
+    CPUContextMIPS64* mips64;
   };
 };
 

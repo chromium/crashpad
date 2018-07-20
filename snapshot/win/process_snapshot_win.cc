@@ -24,9 +24,9 @@
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "util/misc/from_pointer_cast.h"
+#include "util/misc/time.h"
 #include "util/win/nt_internals.h"
 #include "util/win/registration_protocol_win.h"
-#include "util/win/time.h"
 
 namespace crashpad {
 
@@ -265,12 +265,11 @@ void ProcessSnapshotWin::InitializeModules() {
 }
 
 void ProcessSnapshotWin::InitializeUnloadedModules() {
-  // As documented by https://msdn.microsoft.com/en-us/library/cc678403.aspx
-  // we can retrieve the location for our unload events, and use that address in
-  // the target process. Unfortunately, this of course only works for
-  // 64-reading-64 and 32-reading-32, so at the moment, we simply do not
-  // retrieve unloaded modules for 64-reading-32. See
-  // https://crashpad.chromium.org/bug/89.
+  // As documented by https://msdn.microsoft.com/library/cc678403.aspx, we can
+  // retrieve the location for our unload events, and use that address in the
+  // target process. Unfortunately, this of course only works for 64-reading-64
+  // and 32-reading-32, so at the moment, we simply do not retrieve unloaded
+  // modules for 64-reading-32. See https://crashpad.chromium.org/bug/89.
 
 #if defined(ARCH_CPU_X86_64)
   if (!process_reader_.Is64Bit()) {
@@ -516,9 +515,9 @@ void ProcessSnapshotWin::AddMemorySnapshotForLdrLIST_ENTRY(
 
 WinVMSize ProcessSnapshotWin::DetermineSizeOfEnvironmentBlock(
     WinVMAddress start_of_environment_block) {
-  // http://blogs.msdn.com/b/oldnewthing/archive/2010/02/03/9957320.aspx On
-  // newer OSs there's no stated limit, but in practice grabbing 32k characters
-  // should be more than enough.
+  // https://blogs.msdn.microsoft.com/oldnewthing/20100203-00/?p=15083: On newer
+  // OSs there's no stated limit, but in practice grabbing 32k characters should
+  // be more than enough.
   std::wstring env_block;
   env_block.resize(32768);
   WinVMSize bytes_read = process_reader_.ReadAvailableMemory(
