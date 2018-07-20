@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "97e4641b_492d3767",
+        "filename": "build/whitespace.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-20T20:13:10Z",
+      "side": 0,
+      "message": "\u003e Intentionally deleted?\n\nYeah, it just showed up today to trigger a build, and I’d prefer it not persist.",
+      "parentUuid": "196082be_e8875dea",
+      "revId": "98ebb0060b3e05c1c1aa8e5700ec7aebb941dccf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2a368f97_3758c6c6",
         "filename": "client/client_argv_handling.h",
         "patchSetId": 1
