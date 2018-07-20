@@ -58,14 +58,8 @@ bool CrashpadClient::StartHandler(
     return false;
   }
 
-  std::vector<std::string> argv_strings;
-  BuildHandlerArgvStrings(handler,
-                          database,
-                          metrics_dir,
-                          url,
-                          annotations,
-                          arguments,
-                          &argv_strings);
+  std::vector<std::string> argv_strings = BuildHandlerArgvStrings(
+      handler, database, metrics_dir, url, annotations, arguments);
 
   std::vector<const char*> argv;
   ConvertArgvStrings(argv_strings, &argv);

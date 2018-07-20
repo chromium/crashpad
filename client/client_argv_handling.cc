@@ -27,38 +27,38 @@ std::string FormatArgumentString(const std::string& name,
 
 }  // namespace
 
-void BuildHandlerArgvStrings(
+std::vector<std::string> BuildHandlerArgvStrings(
     const base::FilePath& handler,
     const base::FilePath& database,
     const base::FilePath& metrics_dir,
     const std::string& url,
     const std::map<std::string, std::string>& annotations,
-    const std::vector<std::string>& arguments,
-    std::vector<std::string>* argv_strings) {
-  argv_strings->clear();
+    const std::vector<std::string>& arguments) {
+  std::vector<std::string> argv_strings(1, handler.value());
 
-  argv_strings->push_back(handler.value());
   for (const auto& argument : arguments) {
-    argv_strings->push_back(argument);
+    argv_strings.push_back(argument);
   }
 
   if (!database.empty()) {
-    argv_strings->push_back(FormatArgumentString("database", database.value()));
+    argv_strings.push_back(FormatArgumentString("database", database.value()));
   }
 
   if (!metrics_dir.empty()) {
-    argv_strings->push_back(
+    argv_strings.push_back(
         FormatArgumentString("metrics-dir", metrics_dir.value()));
   }
 
   if (!url.empty()) {
-    argv_strings->push_back(FormatArgumentString("url", url));
+    argv_strings.push_back(FormatArgumentString("url", url));
   }
 
   for (const auto& kv : annotations) {
-    argv_strings->push_back(
+    argv_strings.push_back(
         FormatArgumentString("annotation", kv.first + '=' + kv.second));
   }
+
+  return argv_strings;
 }
 
 void ConvertArgvStrings(const std::vector<std::string>& argv_strings,
