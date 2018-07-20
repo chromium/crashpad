@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a368f97_3758c6c6",
+        "filename": "client/client_argv_handling.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-20T19:58:33Z",
+      "side": 0,
+      "message": "Anyway, this threw an error because Scott typo-ed https://chromium-review.googlesource.com/c/crashpad/crashpad/+/1002860/1/client/client_argv_handling.h#31.",
+      "revId": "98ebb0060b3e05c1c1aa8e5700ec7aebb941dccf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
