@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0da6af73_38e4cec6",
+        "filename": "DEPS",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-23T14:55:14Z",
+      "side": 1,
+      "message": "Everything above here is sorted.\n\nBut since this new section is conditional, it’s better to keep it separate from the above. Just put a blank line above this so that it looks like a new section (which it is).",
+      "revId": "ed6c9ebace2ba9a7e25890cc6e5b0fae3c8bd9a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccbf9c10_ed72a7fc",
+        "filename": "DEPS",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-23T14:55:14Z",
+      "side": 1,
+      "message": "but this file uses a 2-space indent",
+      "revId": "ed6c9ebace2ba9a7e25890cc6e5b0fae3c8bd9a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d753503d_4b326ca3",
+        "filename": "DEPS",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-23T14:55:14Z",
+      "side": 1,
+      "message": "and that’s probably what contributed to this going over 80 characters here.",
+      "revId": "ed6c9ebace2ba9a7e25890cc6e5b0fae3c8bd9a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
