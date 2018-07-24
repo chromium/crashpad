@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "483d301f_bdbfeb3c",
+        "filename": "client/simple_string_dictionary_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-24T18:13:43Z",
+      "side": 1,
+      "message": "Drop this now.",
+      "revId": "3cf3cf3b44e444d66bd91785a9783f64fb91cfcf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "111fa222_8de516ff",
+        "filename": "util/misc/capture_context_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-24T18:13:43Z",
+      "side": 1,
+      "message": "You can initialize sp here now. The comment block above now only applies to context_2, so revise around that as well.",
+      "revId": "3cf3cf3b44e444d66bd91785a9783f64fb91cfcf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
