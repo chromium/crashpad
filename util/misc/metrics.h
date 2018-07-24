@@ -77,6 +77,10 @@ class Metrics {
     //!     server.
     kUploadFailed = 4,
 
+    //! \brief There was an error between accessing the report from the database
+    //!     and uploading it to the crash server.
+    kPrepareForUploadFailed = 5,
+
     //! \brief The number of values in this enumeration; not a valid value.
     kMaxValue
   };
