@@ -943,14 +943,13 @@ int HandlerMain(int argc,
   // owns them in this process. There is currently no "connect-later" mode on
   // Fuchsia, all the binding must be done by the client before starting
   // crashpad_handler.
-  base::ScopedZxHandle root_job(zx_take_startup_handle(PA_HND(PA_USER0, 0)));
+  zx::job root_job(zx_take_startup_handle(PA_HND(PA_USER0, 0)));
   if (!root_job.is_valid()) {
     LOG(ERROR) << "no process handle passed in startup handle 0";
     return EXIT_FAILURE;
   }
 
-  base::ScopedZxHandle exception_port(
-      zx_take_startup_handle(PA_HND(PA_USER0, 1)));
+  zx::port exception_port(zx_take_startup_handle(PA_HND(PA_USER0, 1)));
   if (!exception_port.is_valid()) {
     LOG(ERROR) << "no exception port handle passed in startup handle 1";
     return EXIT_FAILURE;

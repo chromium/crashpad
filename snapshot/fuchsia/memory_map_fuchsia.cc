@@ -14,8 +14,6 @@
 
 #include "snapshot/fuchsia/memory_map_fuchsia.h"
 
-#include <zircon/syscalls.h>
-
 #include "base/fuchsia/fuchsia_logging.h"
 #include "util/numeric/checked_range.h"
 
@@ -25,7 +23,7 @@ MemoryMapFuchsia::MemoryMapFuchsia() = default;
 
 MemoryMapFuchsia::~MemoryMapFuchsia() = default;
 
-bool MemoryMapFuchsia::Initialize(zx_handle_t process) {
+bool MemoryMapFuchsia::Initialize(const zx::process& process) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   // There's no way to know what an appropriate buffer size is before starting.
@@ -40,12 +38,11 @@ bool MemoryMapFuchsia::Initialize(zx_handle_t process) {
     size_t actual;
     size_t available;
     zx_status_t status =
-        zx_object_get_info(process,
-                           ZX_INFO_PROCESS_MAPS,
-                           &map_entries_[0],
-                           map_entries_.size() * sizeof(map_entries_[0]),
-                           &actual,
-                           &available);
+        process.get_info(ZX_INFO_PROCESS_MAPS,
+                         &map_entries_[0],
+                         map_entries_.size() * sizeof(map_entries_[0]),
+                         &actual,
+                         &available);
     if (status != ZX_OK) {
       ZX_LOG(ERROR, status) << "zx_object_get_info ZX_INFO_PROCESS_MAPS";
       map_entries_.clear();

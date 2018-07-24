@@ -14,6 +14,7 @@
 
 #include "handler/fuchsia/crash_report_exception_handler.h"
 
+#include <lib/zx/thread.h>
 #include <zircon/syscalls/exception.h>
 
 #include "base/fuchsia/fuchsia_logging.h"
@@ -29,21 +30,22 @@ namespace crashpad {
 namespace {
 
 struct ScopedZxTaskResumeAfterException {
-  ScopedZxTaskResumeAfterException(zx_handle_t thread) : thread_(thread) {}
+  ScopedZxTaskResumeAfterException(const zx::thread& thread)
+      : thread_(thread) {}
   ~ScopedZxTaskResumeAfterException() {
-    DCHECK_NE(thread_, ZX_HANDLE_INVALID);
+    DCHECK(thread_->is_valid());
     // Resuming with ZX_RESUME_TRY_NEXT chains to the next handler. In normal
     // operation, there won't be another beyond this one, which will result in
     // the kernel terminating the process.
     zx_status_t status =
-        zx_task_resume(thread_, ZX_RESUME_EXCEPTION | ZX_RESUME_TRY_NEXT);
+        thread_->resume(ZX_RESUME_EXCEPTION | ZX_RESUME_TRY_NEXT);
     if (status != ZX_OK) {
       ZX_LOG(ERROR, status) << "zx_task_resume";
     }
   }
 
  private:
-  zx_handle_t thread_;  // weak
+  zx::unowned_thread thread_;
 };
 
 }  // namespace
@@ -67,23 +69,24 @@ bool CrashReportExceptionHandler::HandleException(uint64_t process_id,
   // TODO(scottmg): This function needs to be instrumented with metrics calls,
   // https://crashpad.chromium.org/bug/230.
 
-  base::ScopedZxHandle process(GetProcessFromKoid(process_id));
+  zx::process process(GetProcessFromKoid(process_id));
   if (!process.is_valid()) {
     // There's no way to zx_task_resume() the thread if the process retrieval
     // fails. Assume that the process has been already killed, and bail.
     return false;
   }
 
-  base::ScopedZxHandle thread(GetChildHandleByKoid(process.get(), thread_id));
+  zx::thread thread(GetThreadHandleByKoid(process, thread_id));
   if (!thread.is_valid()) {
     return false;
   }
 
-  return HandleExceptionHandles(process.get(), thread.get());
+  return HandleExceptionHandles(process, thread);
 }
 
-bool CrashReportExceptionHandler::HandleExceptionHandles(zx_handle_t process,
-                                                         zx_handle_t thread) {
+bool CrashReportExceptionHandler::HandleExceptionHandles(
+    const zx::process& process,
+    const zx::thread& thread) {
   // Now that the thread has been successfully retrieved, it is possible to
   // correctly call zx_task_resume() to continue exception processing, even if
   // something else during this function fails.
@@ -99,12 +102,11 @@ bool CrashReportExceptionHandler::HandleExceptionHandles(zx_handle_t process,
 
   if (client_options.crashpad_handler_behavior != TriState::kDisabled) {
     zx_exception_report_t report;
-    zx_status_t status = zx_object_get_info(thread,
-                                            ZX_INFO_THREAD_EXCEPTION_REPORT,
-                                            &report,
-                                            sizeof(report),
-                                            nullptr,
-                                            nullptr);
+    zx_status_t status = thread.get_info(ZX_INFO_THREAD_EXCEPTION_REPORT,
+                                         &report,
+                                         sizeof(report),
+                                         nullptr,
+                                         nullptr);
     if (status != ZX_OK) {
       ZX_LOG(ERROR, status)
           << "zx_object_get_info ZX_INFO_THREAD_EXCEPTION_REPORT";
