@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c71d0bb_8cc6dc4d",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-24T20:31:02Z",
+      "side": 1,
+      "message": "Remember to update histograms.xml when importing this into Chrome.",
+      "revId": "8718f27efec8afb96fe6a1c69d7ba0a3b431d473",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
