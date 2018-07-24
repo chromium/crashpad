@@ -227,6 +227,10 @@ void CrashReportUploadThread::ProcessPendingReport(
       database_->RecordUploadComplete(std::move(upload_report), response_body);
       break;
     case UploadResult::kPermanentFailure:
+      upload_report.reset();
+      database_->SkipReportUpload(
+          report.uuid, Metrics::CrashSkippedReason::kPrepareForUploadFailed);
+      break;
     case UploadResult::kRetry:
       upload_report.reset();
 
