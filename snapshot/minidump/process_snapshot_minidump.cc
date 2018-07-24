@@ -31,6 +31,7 @@ ProcessSnapshotMinidump::ProcessSnapshotMinidump()
       crashpad_info_(),
       annotations_simple_map_(),
       file_reader_(nullptr),
+      process_id_(static_cast<pid_t>(-1)),
       initialized_() {
 }
 
@@ -83,19 +84,19 @@ bool ProcessSnapshotMinidump::Initialize(FileReaderInterface* file_reader) {
     stream_map_[stream_type] = &directory.Location;
   }
 
-  INITIALIZATION_STATE_SET_VALID(initialized_);
-
-  if (!InitializeCrashpadInfo()) {
+  if (!InitializeCrashpadInfo() ||
+      !InitializeMiscInfo() ||
+      !InitializeModules()) {
     return false;
   }
 
-  return InitializeModules();
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
 }
 
 pid_t ProcessSnapshotMinidump::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  return 0;
+  return process_id_;
 }
 
 pid_t ProcessSnapshotMinidump::ParentProcessID() const {
@@ -232,6 +233,45 @@ bool ProcessSnapshotMinidump::InitializeCrashpadInfo() {
       file_reader_,
       crashpad_info_.simple_annotations,
       &annotations_simple_map_);
+}
+
+bool ProcessSnapshotMinidump::InitializeMiscInfo() {
+  const auto& stream_it = stream_map_.find(kMinidumpStreamTypeMiscInfo);
+  if (stream_it == stream_map_.end()) {
+    return true;
+  }
+
+  if (!file_reader_->SeekSet(stream_it->second->Rva)) {
+    return false;
+  }
+
+  const size_t size = stream_it->second->DataSize;
+  if (size != sizeof(MINIDUMP_MISC_INFO_5) &&
+      size != sizeof(MINIDUMP_MISC_INFO_4) &&
+      size != sizeof(MINIDUMP_MISC_INFO_3) &&
+      size != sizeof(MINIDUMP_MISC_INFO_2) &&
+      size != sizeof(MINIDUMP_MISC_INFO)) {
+    LOG(ERROR) << "misc_info size mismatch";
+    return false;
+  }
+
+  MINIDUMP_MISC_INFO_5 info;
+  if (!file_reader_->ReadExactly(&info, size)) {
+    return false;
+  }
+
+  switch (stream_it->second->DataSize) {
+    case sizeof(MINIDUMP_MISC_INFO_5):
+    case sizeof(MINIDUMP_MISC_INFO_4):
+    case sizeof(MINIDUMP_MISC_INFO_3):
+    case sizeof(MINIDUMP_MISC_INFO_2):
+    case sizeof(MINIDUMP_MISC_INFO):
+      // TODO(jperaza): Save the remaining misc info.
+      // https://crashpad.chromium.org/bug/10
+      process_id_ = info.ProcessId;
+  }
+
+  return true;
 }
 
 bool ProcessSnapshotMinidump::InitializeModules() {

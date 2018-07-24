@@ -420,6 +420,38 @@ TEST(ProcessSnapshotMinidump, Modules) {
   EXPECT_EQ(annotation_objects, annotations_4);
 }
 
+TEST(ProcessSnapshotMinidump, ProcessID) {
+  StringFile string_file;
+
+  MINIDUMP_HEADER header = {};
+  ASSERT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  static const pid_t kTestProcessId = 42;
+  MINIDUMP_MISC_INFO misc_info = {};
+  misc_info.SizeOfInfo = sizeof(misc_info);
+  misc_info.Flags1 = MINIDUMP_MISC1_PROCESS_ID;
+  misc_info.ProcessId = kTestProcessId;
+
+  MINIDUMP_DIRECTORY misc_directory = {};
+  misc_directory.StreamType = kMinidumpStreamTypeMiscInfo;
+  misc_directory.Location.DataSize = sizeof(misc_info);
+  misc_directory.Location.Rva = static_cast<RVA>(string_file.SeekGet());
+  ASSERT_TRUE(string_file.Write(&misc_info, sizeof(misc_info)));
+
+  header.StreamDirectoryRva = static_cast<RVA>(string_file.SeekGet());
+  ASSERT_TRUE(string_file.Write(&misc_directory, sizeof(misc_directory)));
+
+  header.Signature = MINIDUMP_SIGNATURE;
+  header.Version = MINIDUMP_VERSION;
+  header.NumberOfStreams = 1;
+  ASSERT_TRUE(string_file.SeekSet(0));
+  ASSERT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  ProcessSnapshotMinidump process_snapshot;
+  ASSERT_TRUE(process_snapshot.Initialize(&string_file));
+  EXPECT_EQ(process_snapshot.ProcessID(), kTestProcessId);
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
