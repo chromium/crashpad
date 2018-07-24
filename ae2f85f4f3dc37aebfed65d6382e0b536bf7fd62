@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25cc8eb1_e0032c05",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-24T15:38:01Z",
+      "side": 1,
+      "message": "InitializeCrashpadInfo() and InitializeModules() were intentionally supposed to be lazy post-Initialize() things, at least “initially.” Maybe that’s not true now.\n\nInitializeMiscInfo(), however, should certainly happen before INITIALIZATION_STATE_SET_VALID().",
+      "revId": "ae2f85f4f3dc37aebfed65d6382e0b536bf7fd62",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0441c392_f098ed6a",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-24T15:38:01Z",
+      "side": 1,
+      "message": "…because of this.",
+      "revId": "ae2f85f4f3dc37aebfed65d6382e0b536bf7fd62",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
