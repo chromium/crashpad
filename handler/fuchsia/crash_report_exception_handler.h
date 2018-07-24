@@ -15,6 +15,8 @@
 #ifndef CRASHPAD_HANDLER_FUCHSIA_CRASH_REPORT_EXCEPTION_HANDLER_H_
 #define CRASHPAD_HANDLER_FUCHSIA_CRASH_REPORT_EXCEPTION_HANDLER_H_
 
+#include <lib/zx/process.h>
+#include <lib/zx/thread.h>
 #include <stdint.h>
 #include <zircon/types.h>
 
@@ -88,7 +90,8 @@ class CrashReportExceptionHandler {
   //! \param[in] thread The handle to the thread of \a process which sustained
   //!     the exception.
   //! \return `true` on success, or `false` with an error logged.
-  bool HandleExceptionHandles(zx_handle_t process, zx_handle_t thread);
+  bool HandleExceptionHandles(const zx::process& process,
+                              const zx::thread& thread);
 
  private:
   CrashReportDatabase* database_;  // weak

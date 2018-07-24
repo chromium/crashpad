@@ -15,11 +15,12 @@
 #include "client/crashpad_client.h"
 
 #include <lib/fdio/spawn.h>
-#include <zircon/process.h>
+#include <lib/zx/job.h>
+#include <lib/zx/port.h>
+#include <lib/zx/process.h>
 #include <zircon/processargs.h>
 
 #include "base/fuchsia/fuchsia_logging.h"
-#include "base/fuchsia/scoped_zx_handle.h"
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "client/client_argv_handling.h"
@@ -43,16 +44,15 @@ bool CrashpadClient::StartHandler(
   DCHECK_EQ(restartable, false);  // Not used on Fuchsia.
   DCHECK_EQ(asynchronous_start, false);  // Not used on Fuchsia.
 
-  zx_handle_t exception_port_raw;
-  zx_status_t status = zx_port_create(0, &exception_port_raw);
+  zx::port exception_port;
+  zx_status_t status = zx::port::create(0, &exception_port);
   if (status != ZX_OK) {
     ZX_LOG(ERROR, status) << "zx_port_create";
     return false;
   }
-  base::ScopedZxHandle exception_port(exception_port_raw);
 
-  status = zx_task_bind_exception_port(
-      zx_job_default(), exception_port.get(), kSystemExceptionPortKey, 0);
+  status = zx::job::default_job()->bind_exception_port(
+      exception_port, kSystemExceptionPortKey, 0);
   if (status != ZX_OK) {
     ZX_LOG(ERROR, status) << "zx_task_bind_exception_port";
     return false;
@@ -88,7 +88,7 @@ bool CrashpadClient::StartHandler(
   actions[1].h.handle = exception_port.release();
 
   char error_message[FDIO_SPAWN_ERR_MSG_MAX_LENGTH];
-  zx_handle_t child_raw;
+  zx::process child;
   // TODO(scottmg): https://crashpad.chromium.org/bug/196, FDIO_SPAWN_CLONE_ALL
   // is useful during bringup, but should probably be made minimal for real
   // usage.
@@ -99,9 +99,8 @@ bool CrashpadClient::StartHandler(
                           nullptr,
                           kActionCount,
                           actions,
-                          &child_raw,
+                          child.reset_and_get_address(),
                           error_message);
-  base::ScopedZxHandle child(child_raw);
   if (status != ZX_OK) {
     ZX_LOG(ERROR, status) << "fdio_spawn_etc: " << error_message;
     return false;
