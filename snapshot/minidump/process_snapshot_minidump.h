@@ -92,6 +92,10 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
       std::map<uint32_t, MINIDUMP_LOCATION_DESCRIPTOR>*
           module_crashpad_info_links);
 
+  // Initializes data carried in a MINIDUMP_MISC_INFO structure on behalf of
+  // Initialize().
+  bool InitializeMiscInfo();
+
   MINIDUMP_HEADER header_;
   std::vector<MINIDUMP_DIRECTORY> stream_directory_;
   std::map<MinidumpStreamType, const MINIDUMP_LOCATION_DESCRIPTOR*> stream_map_;
@@ -100,6 +104,7 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   MinidumpCrashpadInfo crashpad_info_;
   std::map<std::string, std::string> annotations_simple_map_;
   FileReaderInterface* file_reader_;  // weak
+  pid_t process_id_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessSnapshotMinidump);
