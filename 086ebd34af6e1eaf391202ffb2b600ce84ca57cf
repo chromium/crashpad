@@ -1,0 +1,349 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddbe3be8_8f374eec",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-24T21:17:37Z",
+      "side": 1,
+      "message": "If any of the \"client\" library\u0027s headers #include libzx headers then this needs to be a public_deps entry - currently they don\u0027t, but perhaps we should make it public_deps anyway, for consistency, and to avoid potential confusion.",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 42
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6fb5f06_2cf15a57",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-24T21:17:37Z",
+      "side": 1,
+      "message": "As for \"client\", perhaps this should be public_deps in case any headers #include these container headers in future.",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 8
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9c459e5_d4c31344",
+        "filename": "handler/fuchsia/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-24T21:17:37Z",
+      "side": 1,
+      "message": "I\u0027ve not changed the names of relevant classes from using Task to using more specific object types like Process or Thread, except where the APIs only make sense for the new more specific types, FWIW. Let me know if you think names like this should also be updated, though.",
+      "range": {
+        "startLine": 33,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 14
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41ef74a1_f2305663",
+        "filename": "handler/fuchsia/crash_report_exception_handler.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-24T21:17:37Z",
+      "side": 1,
+      "message": "Convention in libzx is to provide handle parameters without transferring ownership, as const foo\u0026.  zx::unowned_foo seems conceptually cleaner, but doesn\u0027t fit the current layout of libzx.",
+      "range": {
+        "startLine": 93,
+        "startChar": 30,
+        "endLine": 94,
+        "endChar": 55
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6350281_3eea499f",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-24T21:17:37Z",
+      "side": 1,
+      "message": "Not to self: Leftover from before ProcessType became zx::unowned_process - get rid of the extra re-wrapping, here and below.",
+      "range": {
+        "startLine": 86,
+        "startChar": 35,
+        "endLine": 86,
+        "endChar": 70
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9023b8c7_8921201e",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-24T21:17:37Z",
+      "side": 1,
+      "message": "Note that I have not yet tried these in Chromium nor Fuchsia!",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 3
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "836d423c_40e1bbf5",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-24T21:17:37Z",
+      "side": 1,
+      "message": "Since the public API has become the (strongly type) GetThreadHandleByKoid(zx::process) I had to add a generic version for FindProcess() to use.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 55
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae4504d5_6d400c6e",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-24T21:17:37Z",
+      "side": 1,
+      "message": "Note: Switched this away from bool+out_param.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 11
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c00bc79_027ae03c",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-24T21:17:37Z",
+      "side": 1,
+      "message": "Not to self: remove this comment.",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 51
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82893c04_33cd8cea",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-24T21:17:37Z",
+      "side": 1,
+      "message": "Previously this and the loop below used GetChildHandles(), which fetched the list of koids and then looked-up each one to get to a handle, which this loop then iterated over.  This version instead iterates over the koids, only opening the one that matches.\n\nIf we don\u0027t find the koid and instead have to look in nested jobs then we\u0027re only holding each job open while we search inside it, i.e. the maximum # of open handles is ~depth of traversal.\n\nThis does have the disadvantage that since we are not taking handles to all the children until we reach them in the iteration, they may have exited before we reach them, and therefore be gone, but since we are looking up a particular child process, I think we should be able to assume that it is stopped, waiting for us to handle the exception on it?",
+      "range": {
+        "startLine": 62,
+        "startChar": 7,
+        "endLine": 62,
+        "endChar": 66
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6c6b44a_2d47e3b8",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-24T21:17:37Z",
+      "side": 1,
+      "message": "As noted previously, zx::object_base is the universal base-class for the handle containers. However, it provides no methods to work with the handles, so we have to re-wrap the underlying handle into an unowned_handle to work with it. Alternative would be to just revert to zx_object_get_info() below.",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 88,
+        "endChar": 48
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e35b4f8c_efb531d3",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-24T21:17:37Z",
+      "side": 1,
+      "message": "Note that forcibly wrapping the result into a zx::thread is safe because |parent| is a zx::process, so can only have thread children.",
+      "range": {
+        "startLine": 137,
+        "startChar": 9,
+        "endLine": 137,
+        "endChar": 19
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcc0a584_dd6cb397",
+        "filename": "util/fuchsia/koid_utilities.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-24T21:17:37Z",
+      "side": 1,
+      "message": "libzx\u0027 hierarchy is a little quirky; zx::handle is a distinct and incompatible container type from e.g. zx::process, and zx::object\u003c\u003e is a template used to instantiate all the other container types - zx::object_base is actually the single common base of them all.",
+      "range": {
+        "startLine": 42,
+        "startChar": 43,
+        "endLine": 42,
+        "endChar": 59
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80519346_8a76f3bb",
+        "filename": "util/fuchsia/scoped_task_suspend.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-24T21:17:37Z",
+      "side": 1,
+      "message": "Since zx::process and zx::thread are specializations of the zx::task\u003cT\u003e template we cannot just accept a zx::task\u003c\u003e here, so I\u0027ve overloaded the constructor, which has the benefit that we don\u0027t have to make a kernel call to query the type of the handle.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 55
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ac00986_9553381b",
+        "filename": "util/process/process_memory_fuchsia.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-24T21:17:37Z",
+      "side": 1,
+      "message": "This was required because some callers pass a ProcessType value to Initialize, but zx::unowned_process doesn\u0027t have an implicit copy-constructor - hopefully we can add implicit copy constructor to libzx and remove this hack.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 54
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
