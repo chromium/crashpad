@@ -32,7 +32,7 @@
 #include <windows.h>
 #include "snapshot/win/process_snapshot_win.h"
 #elif defined(OS_FUCHSIA)
-#include <zircon/process.h>
+#include <lib/zx/process.h>
 #include "snapshot/fuchsia/process_snapshot_fuchsia.h"
 #endif
 
@@ -86,7 +86,7 @@ CrashpadInfoClientOptions SelfProcessSnapshotAndGetCrashpadOptions() {
       GetCurrentProcess(), ProcessSuspensionState::kRunning, 0, 0));
 #elif defined(OS_FUCHSIA)
   ProcessSnapshotFuchsia process_snapshot;
-  EXPECT_TRUE(process_snapshot.Initialize(zx_process_self()));
+  EXPECT_TRUE(process_snapshot.Initialize(*zx::process::self()));
 #else
 #error Port.
 #endif  // OS_MACOSX
