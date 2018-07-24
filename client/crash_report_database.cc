@@ -69,7 +69,8 @@ CrashReportDatabase::UploadReport::UploadReport()
       reader_(std::make_unique<FileReader>()),
       database_(nullptr),
       attachment_readers_(),
-      attachment_map_() {}
+      attachment_map_(),
+      report_metrics_(false) {}
 
 CrashReportDatabase::UploadReport::~UploadReport() {
   if (database_) {

@@ -180,7 +180,8 @@ class CrashReportDatabaseGeneric : public CrashReportDatabase {
   OperationStatus GetCompletedReports(std::vector<Report>* reports) override;
   OperationStatus GetReportForUploading(
       const UUID& uuid,
-      std::unique_ptr<const UploadReport>* report) override;
+      std::unique_ptr<const UploadReport>* report,
+      bool report_metrics) override;
   OperationStatus SkipReportUpload(const UUID& uuid,
                                    Metrics::CrashSkippedReason reason) override;
   OperationStatus DeleteReport(const UUID& uuid) override;
@@ -455,7 +456,8 @@ OperationStatus CrashReportDatabaseGeneric::GetCompletedReports(
 
 OperationStatus CrashReportDatabaseGeneric::GetReportForUploading(
     const UUID& uuid,
-    std::unique_ptr<const UploadReport>* report) {
+    std::unique_ptr<const UploadReport>* report,
+    bool report_metrics) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   auto upload_report = std::make_unique<LockfileUploadReport>();
@@ -470,6 +472,7 @@ OperationStatus CrashReportDatabaseGeneric::GetReportForUploading(
   if (!upload_report->Initialize(path, this)) {
     return kFileSystemError;
   }
+  upload_report->report_metrics_ = report_metrics;
 
   report->reset(upload_report.release());
   return kNoError;
@@ -609,7 +612,9 @@ OperationStatus CrashReportDatabaseGeneric::RecordUploadAttempt(
     const std::string& id) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  Metrics::CrashUploadAttempted(successful);
+  if (report->report_metrics_) {
+    Metrics::CrashUploadAttempted(successful);
+  }
   time_t now = time(nullptr);
 
   report->id = id;
