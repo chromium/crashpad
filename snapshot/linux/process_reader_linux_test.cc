@@ -40,6 +40,7 @@
 #include "test/multiprocess.h"
 #include "util/file/file_io.h"
 #include "util/linux/direct_ptrace_connection.h"
+#include "util/misc/address_sanitizer.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/synchronization/semaphore.h"
 
@@ -264,12 +265,17 @@ void ExpectThreads(const ThreadMap& thread_map,
               iterator->second.tls);
 
     ASSERT_TRUE(memory_map.FindMapping(thread.stack_region_address));
-    EXPECT_LE(thread.stack_region_address, iterator->second.stack_address);
-
     ASSERT_TRUE(memory_map.FindMapping(thread.stack_region_address +
                                        thread.stack_region_size - 1));
+
+#if !defined(ADDRESS_SANITIZER)
+    // AddressSanitizer causes stack variables to be stored separately from the
+    // call stack.
+    EXPECT_LE(thread.stack_region_address, iterator->second.stack_address);
     EXPECT_GE(thread.stack_region_address + thread.stack_region_size,
               iterator->second.stack_address);
+#endif  // !defined(ADDRESS_SANITIZER)
+
     if (iterator->second.max_stack_size) {
       EXPECT_LT(thread.stack_region_size, iterator->second.max_stack_size);
     }

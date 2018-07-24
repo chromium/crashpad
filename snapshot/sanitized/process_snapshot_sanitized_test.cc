@@ -19,6 +19,7 @@
 #include "gtest/gtest.h"
 #include "test/multiprocess_exec.h"
 #include "util/file/file_io.h"
+#include "util/misc/address_sanitizer.h"
 #include "util/numeric/safe_assignment.h"
 
 #if defined(OS_LINUX) || defined(OS_ANDROID)
@@ -162,6 +163,23 @@ class StackSanitizationChecker : public MemorySnapshot::Delegate {
 
   // MemorySnapshot::Delegate
   bool MemorySnapshotDelegateRead(void* data, size_t size) override {
+#if defined(ADDRESS_SANITIZER) && (defined(OS_LINUX) || defined(OS_ANDROID))
+    // AddressSanitizer causes stack variables to be stored separately from the
+    // call stack.
+    auto addr_not_in_stack_range =
+        [](VMAddress addr, VMAddress stack_addr, VMSize stack_size) {
+          return addr < stack_addr || addr >= stack_addr + stack_size;
+        };
+    EXPECT_PRED3(addr_not_in_stack_range,
+                 addrs_.code_pointer_address,
+                 stack_->Address(),
+                 size);
+    EXPECT_PRED3(addr_not_in_stack_range,
+                 addrs_.string_address,
+                 stack_->Address(),
+                 size);
+    return true;
+#else
     size_t pointer_offset;
     if (!AssignIfInRange(&pointer_offset,
                          addrs_.code_pointer_address - stack_->Address())) {
@@ -192,6 +210,7 @@ class StackSanitizationChecker : public MemorySnapshot::Delegate {
       EXPECT_STREQ(string, kSensitiveStackData);
     }
     return true;
+#endif  // ADDRESS_SANITIZER && (OS_LINUX || OS_ANDROID)
   }
 
  private:

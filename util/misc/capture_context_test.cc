@@ -60,12 +60,16 @@ void TestCaptureContext() {
                kReferencePC);
 #endif  // !defined(ADDRESS_SANITIZER)
 
-  // Declare sp and context_2 here because all local variables need to be
-  // declared before computing the stack pointer reference value, so that the
-  // reference value can be the lowest value possible.
-  uintptr_t sp;
+  const uintptr_t sp = StackPointerFromContext(context_1);
+
+  // Declare context_2 here because all local variables need to be declared
+  // before computing the stack pointer reference value, so that the reference
+  // value can be the lowest value possible.
   NativeCPUContext context_2;
 
+// AddressSanitizer on Linux causes stack variables to be stored separately from
+// the call stack.
+#if !defined(ADDRESS_SANITIZER) || (!defined(OS_LINUX) && !defined(OS_ANDROID))
   // The stack pointer reference value is the lowest address of a local variable
   // in this function. The captured program counter will be slightly less than
   // or equal to the reference stack pointer.
@@ -74,11 +78,11 @@ void TestCaptureContext() {
                         reinterpret_cast<uintptr_t>(&context_2)),
                std::min(reinterpret_cast<uintptr_t>(&pc),
                         reinterpret_cast<uintptr_t>(&sp)));
-  sp = StackPointerFromContext(context_1);
   EXPECT_PRED2([](uintptr_t actual,
                   uintptr_t reference) { return reference - actual < 768u; },
                sp,
                kReferenceSP);
+#endif  // !ADDRESS_SANITIZER || (!OS_LINUX && !OS_ANDROID)
 
   // Capture the context again, expecting that the stack pointer stays the same
   // and the program counter increases. Strictly speaking, there’s no guarantee

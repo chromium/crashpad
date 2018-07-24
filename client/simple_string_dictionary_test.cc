@@ -115,8 +115,7 @@ TEST(SimpleStringDictionary, CopyAndAssign) {
 // Add a bunch of values to the dictionary, remove some entries in the middle,
 // and then add more.
 TEST(SimpleStringDictionary, Iterator) {
-  SimpleStringDictionary* dict = new SimpleStringDictionary;
-  ASSERT_TRUE(dict);
+  SimpleStringDictionary dict;
 
   char key[SimpleStringDictionary::key_size];
   char value[SimpleStringDictionary::value_size];
@@ -135,32 +134,32 @@ TEST(SimpleStringDictionary, Iterator) {
   for (int i = 0; i < kPartitionIndex; ++i) {
     sprintf(key, "key%d", i);
     sprintf(value, "value%d", i);
-    dict->SetKeyValue(key, value);
+    dict.SetKeyValue(key, value);
   }
   expected_dictionary_size = kPartitionIndex;
 
   // set a couple of the keys twice (with the same value) - should be nop
-  dict->SetKeyValue("key2", "value2");
-  dict->SetKeyValue("key4", "value4");
-  dict->SetKeyValue("key15", "value15");
+  dict.SetKeyValue("key2", "value2");
+  dict.SetKeyValue("key4", "value4");
+  dict.SetKeyValue("key15", "value15");
 
   // Remove some random elements in the middle
-  dict->RemoveKey("key7");
-  dict->RemoveKey("key18");
-  dict->RemoveKey("key23");
-  dict->RemoveKey("key31");
+  dict.RemoveKey("key7");
+  dict.RemoveKey("key18");
+  dict.RemoveKey("key23");
+  dict.RemoveKey("key31");
   expected_dictionary_size -= 4;  // we just removed four key/value pairs
 
   // Set some more key/value pairs like key59/value59, key60/value60, ...
   for (int i = kPartitionIndex; i < kDictionaryCapacity; ++i) {
     sprintf(key, "key%d", i);
     sprintf(value, "value%d", i);
-    dict->SetKeyValue(key, value);
+    dict.SetKeyValue(key, value);
   }
   expected_dictionary_size += kDictionaryCapacity - kPartitionIndex;
 
   // Now create an iterator on the dictionary
-  SimpleStringDictionary::Iterator iter(*dict);
+  SimpleStringDictionary::Iterator iter(dict);
 
   // We then verify that it iterates through exactly the number of key/value
   // pairs we expect, and that they match one-for-one with what we would expect.
