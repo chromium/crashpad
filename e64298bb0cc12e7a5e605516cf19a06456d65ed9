@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98cb2919_88ec969f",
+        "filename": "client/simple_string_dictionary_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-24T17:34:06Z",
+      "side": 1,
+      "message": "Any reason to not have this live on the stack?",
+      "revId": "e64298bb0cc12e7a5e605516cf19a06456d65ed9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecce06ba_1be0f533",
+        "filename": "snapshot/linux/process_reader_linux_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-24T17:34:06Z",
+      "side": 1,
+      "message": "It likes to call itself AddressSanitizer per https://github.com/google/sanitizers/wiki/AddressSanitizer.\n\nThis applies to other comments in this change too.",
+      "range": {
+        "startLine": 272,
+        "startChar": 7,
+        "endLine": 272,
+        "endChar": 24
+      },
+      "revId": "e64298bb0cc12e7a5e605516cf19a06456d65ed9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a701b7c3_5e4ce289",
+        "filename": "snapshot/sanitized/process_snapshot_sanitized_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-24T17:34:06Z",
+      "side": 1,
+      "message": "Unfamiliar with this file (whole directory, actually). Got some history to read…",
+      "revId": "e64298bb0cc12e7a5e605516cf19a06456d65ed9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28a4564c_301fea7d",
+        "filename": "snapshot/sanitized/process_snapshot_sanitized_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-24T17:34:06Z",
+      "side": 1,
+      "message": "#include something for ADDRESS_SANITIZER?",
+      "revId": "e64298bb0cc12e7a5e605516cf19a06456d65ed9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d25184d8_ef37323c",
+        "filename": "snapshot/sanitized/process_snapshot_sanitized_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-24T17:34:06Z",
+      "side": 1,
+      "message": "The two lambdas are the same, except for variable naming. Can you write it once and use it in both EXPECTs?",
+      "revId": "e64298bb0cc12e7a5e605516cf19a06456d65ed9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
