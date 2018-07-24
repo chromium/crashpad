@@ -41,9 +41,10 @@ class MockDatabase : public CrashReportDatabase {
   MOCK_METHOD2(LookUpCrashReport, OperationStatus(const UUID&, Report*));
   MOCK_METHOD1(GetPendingReports, OperationStatus(std::vector<Report>*));
   MOCK_METHOD1(GetCompletedReports, OperationStatus(std::vector<Report>*));
-  MOCK_METHOD2(GetReportForUploading,
+  MOCK_METHOD3(GetReportForUploading,
                OperationStatus(const UUID&,
-                               std::unique_ptr<const UploadReport>*));
+                               std::unique_ptr<const UploadReport>*,
+                               bool report_metrics));
   MOCK_METHOD3(RecordUploadAttempt,
                OperationStatus(UploadReport*, bool, const std::string&));
   MOCK_METHOD2(SkipReportUpload,

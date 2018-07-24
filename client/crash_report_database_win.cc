@@ -594,7 +594,8 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
   OperationStatus GetCompletedReports(std::vector<Report>* reports) override;
   OperationStatus GetReportForUploading(
       const UUID& uuid,
-      std::unique_ptr<const UploadReport>* report) override;
+      std::unique_ptr<const UploadReport>* report,
+      bool report_metrics) override;
   OperationStatus SkipReportUpload(const UUID& uuid,
                                    Metrics::CrashSkippedReason reason) override;
   OperationStatus DeleteReport(const UUID& uuid) override;
@@ -731,7 +732,8 @@ OperationStatus CrashReportDatabaseWin::GetCompletedReports(
 
 OperationStatus CrashReportDatabaseWin::GetReportForUploading(
     const UUID& uuid,
-    std::unique_ptr<const UploadReport>* report) {
+    std::unique_ptr<const UploadReport>* report,
+    bool report_metrics) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   std::unique_ptr<Metadata> metadata(AcquireMetadata());
@@ -749,6 +751,7 @@ OperationStatus CrashReportDatabaseWin::GetReportForUploading(
     if (!upload_report->Initialize(upload_report->file_path, this)) {
       return kFileSystemError;
     }
+    upload_report->report_metrics_ = report_metrics;
 
     report->reset(upload_report.release());
   }
@@ -761,7 +764,9 @@ OperationStatus CrashReportDatabaseWin::RecordUploadAttempt(
     const std::string& id) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  Metrics::CrashUploadAttempted(successful);
+  if (report->report_metrics_) {
+    Metrics::CrashUploadAttempted(successful);
+  }
 
   std::unique_ptr<Metadata> metadata(AcquireMetadata());
   if (!metadata)
