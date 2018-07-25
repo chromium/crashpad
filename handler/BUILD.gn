@@ -165,7 +165,7 @@ crashpad_executable("crashpad_handler") {
 # installer will ignore files not named like a shared object, so give the
 # handler executable an acceptable name.
 if (crashpad_is_android) {
-  copy("crashpad_handler_module") {
+  copy("crashpad_handler_named_as_so") {
     deps = [
       ":crashpad_handler",
     ]
