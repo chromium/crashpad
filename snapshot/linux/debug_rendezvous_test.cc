@@ -74,9 +74,10 @@ void TestAgainstTarget(PtraceConnection* connection) {
 
   const MemoryMap::Mapping* phdr_mapping = mappings.FindMapping(phdrs);
   ASSERT_TRUE(phdr_mapping);
-  const MemoryMap::Mapping* exe_mapping =
-      mappings.FindFileMmapStart(*phdr_mapping);
-  LinuxVMAddress elf_address = exe_mapping->range.Base();
+  std::vector<const MemoryMap::Mapping*> exe_mappings =
+      mappings.FindFilePossibleMmapStarts(*phdr_mapping);
+  ASSERT_EQ(exe_mappings.size(), 1u);
+  LinuxVMAddress elf_address = exe_mappings[0]->range.Base();
 
   ProcessMemoryLinux memory;
   ASSERT_TRUE(memory.Initialize(connection->GetProcessID()));
@@ -142,9 +143,24 @@ void TestAgainstTarget(PtraceConnection* connection) {
         mappings.FindMapping(module.dynamic_array);
     ASSERT_TRUE(dyn_mapping);
 
-    const MemoryMap::Mapping* module_mapping =
-        mappings.FindFileMmapStart(*dyn_mapping);
-    ASSERT_TRUE(module_mapping);
+    std::vector<const MemoryMap::Mapping*> possible_mappings =
+        mappings.FindFilePossibleMmapStarts(*dyn_mapping);
+    ASSERT_GE(possible_mappings.size(), 1u);
+
+    std::unique_ptr<ElfImageReader> module_reader;
+    const MemoryMap::Mapping* module_mapping = nullptr;
+    for (const auto mapping : possible_mappings) {
+      auto parsed_module = std::make_unique<ElfImageReader>();
+      VMAddress dynamic_address;
+      if (parsed_module->Initialize(range, mapping->range.Base()) &&
+          parsed_module->GetDynamicArrayAddress(&dynamic_address) &&
+          dynamic_address == module.dynamic_array) {
+        module_reader = std::move(parsed_module);
+        module_mapping = mapping;
+        break;
+      }
+    }
+    ASSERT_TRUE(module_reader.get());
 
 #if defined(OS_ANDROID)
     EXPECT_FALSE(module.name.empty());
@@ -168,20 +184,17 @@ void TestAgainstTarget(PtraceConnection* connection) {
         module.name);
 #endif  // OS_ANDROID
 
-    ElfImageReader module_reader;
-    ASSERT_TRUE(module_reader.Initialize(range, module_mapping->range.Base()));
-
     // Android's loader stops setting its own load bias after Android 4.4.4
     // (API 20) until Android 6.0 (API 23).
     if (is_android_loader && android_runtime_api > 20 &&
         android_runtime_api < 23) {
       EXPECT_EQ(module.load_bias, 0);
     } else {
-      EXPECT_EQ(module.load_bias, module_reader.GetLoadBias());
+      EXPECT_EQ(module.load_bias, module_reader->GetLoadBias());
     }
 
     CheckedLinuxAddressRange module_range(
-        connection->Is64Bit(), module_reader.Address(), module_reader.Size());
+        connection->Is64Bit(), module_reader->Address(), module_reader->Size());
     EXPECT_TRUE(module_range.ContainsValue(module.dynamic_array));
   }
 }
