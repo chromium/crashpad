@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6456ee25_be5f58b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-07-25T21:27:19Z",
+      "side": 1,
+      "message": "Done.\n\nThe test writes a test module to load and trigger the multiple mappings from offset 0. I originally tried using a module compiled from an empty .cc file, but it only triggered it sometimes (it worked on my machine, but not on the bots). The locations of segment data in an ELF file is decided by the linker, and doesn\u0027t appear to be configurable, even using a custom linker script.",
+      "parentUuid": "31040705_2e920bc9",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "082b46bd_3d47d956",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98fb14f0_4651b287",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-07-25T21:27:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "082b46bd_3d47d956",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c08aa7ec_f9178260",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-07-25T21:27:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f637770a_b27aec7e",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cfdd7b20_40fbf8d2",
         "filename": "snapshot/linux/process_reader_linux.cc",
         "patchSetId": 5
@@ -67,6 +121,24 @@
       "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be4de40a_f8850c94",
+        "filename": "snapshot/linux/process_reader_linux.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-07-25T21:27:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfdd7b20_40fbf8d2",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "1cf7500e_d0397abc",
+        "filename": "snapshot/linux/process_reader_linux.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-07-25T21:27:19Z",
+      "side": 1,
+      "message": "With ELF, anything is possible!\n\n:(\n\nDone, and I\u0027ve reversed the search order, which I think should reduce the chance of choosing the wrong mapping.",
+      "parentUuid": "638d8380_e9d78fe8",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b9f7781_4b289ec9",
         "filename": "snapshot/linux/process_reader_linux.cc",
         "patchSetId": 5
@@ -101,6 +191,24 @@
       "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20e7ff2a_69932df8",
+        "filename": "snapshot/linux/process_reader_linux.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-07-25T21:27:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b9f7781_4b289ec9",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +235,30 @@
     },
     {
       "key": {
+        "uuid": "d53ede91_80344d1c",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-07-25T21:27:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5e414c1_35c98279",
+      "range": {
+        "startLine": 322,
+        "startChar": 44,
+        "endLine": 322,
+        "endChar": 65
+      },
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c26344a_d7b07f22",
         "filename": "util/linux/memory_map.h",
         "patchSetId": 5
@@ -141,6 +273,24 @@
       "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a502887d_23a0f417",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-07-25T21:27:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c26344a_d7b07f22",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -161,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "9ff798d5_c03cf0aa",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-07-25T21:27:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bbe0fd1_083abd00",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5461e5e5_a930f3bb",
         "filename": "util/linux/memory_map_test.cc",
         "patchSetId": 5
@@ -175,6 +343,24 @@
       "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff2300d3_8083a7d7",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-07-25T21:27:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5461e5e5_a930f3bb",
+      "revId": "bb3c799e3b1dbf39f6d1d671e5be2eae0d00fe49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
