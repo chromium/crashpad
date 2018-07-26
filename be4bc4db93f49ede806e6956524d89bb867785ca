@@ -16,6 +16,24 @@
       "revId": "be4bc4db93f49ede806e6956524d89bb867785ca",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f86155d_1934e281",
+        "filename": "snapshot/linux/process_reader_linux_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-07-26T15:28:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8a11b74_db6b0d74",
+      "revId": "be4bc4db93f49ede806e6956524d89bb867785ca",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
