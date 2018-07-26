@@ -801,7 +801,7 @@ constexpr struct {
     {PPC_VECTOR_STATE, "PPC_VECTOR_STATE", "VECTOR"},
     {PPC_THREAD_STATE64, "PPC_THREAD_STATE64", "THREAD64"},
     {PPC_EXCEPTION_STATE64, "PPC_EXCEPTION_STATE64", "EXCEPTION64"},
-#elif defined(__arm__) || defined(__arm64__)
+#elif defined(__arm__) || defined(__aarch64__)
     {ARM_THREAD_STATE, "ARM_THREAD_STATE", "THREAD"},
     {ARM_VFP_STATE, "ARM_VFP_STATE", "VFP"},
     {ARM_EXCEPTION_STATE, "ARM_EXCEPTION_STATE", "EXCEPTION"},
@@ -860,7 +860,7 @@ TEST(SymbolicConstantsMach, ThreadStateFlavorToString) {
         flavor <= x86_AVX_STATE
 #elif defined(__ppc__) || defined(__ppc64__)
         flavor <= THREAD_STATE_NONE
-#elif defined(__arm__) || defined(__arm64__)
+#elif defined(__arm__) || defined(__aarch64__)
         (flavor <= ARM_EXCEPTION_STATE64 || flavor == ARM_THREAD_STATE32 ||
          (flavor >= ARM_DEBUG_STATE32 && flavor <= ARM_NEON_STATE64))
 #endif
@@ -948,7 +948,7 @@ TEST(SymbolicConstantsMach, StringToThreadStateFlavor) {
       "PPC_JUNK_STATE32",
       "x86_THREAD_STATE",
       "ARM_THREAD_STATE",
-#elif defined(__arm__) || defined(__arm64__)
+#elif defined(__arm__) || defined(__aarch64__)
       " ARM_THREAD_STATE64",
       "ARM_THREAD_STATE64 ",
       "ARM_THREAD_STATE642",
@@ -1013,7 +1013,7 @@ TEST(SymbolicConstantsMach, StringToThreadStateFlavor) {
         NUL_TEST_DATA("PPC_THREAD_\0STATE64"),
         NUL_TEST_DATA("PPC_THREAD_STA\0TE64"),
         NUL_TEST_DATA("PPC_THREAD_STATE\00064"),
-#elif defined(__arm__) || defined(__arm64__)
+#elif defined(__arm__) || defined(__aarch64__)
         NUL_TEST_DATA("\0ARM_THREAD_STATE64"),
         NUL_TEST_DATA("ARM\0_THREAD_STATE64"),
         NUL_TEST_DATA("ARM_\0THREAD_STATE64"),
