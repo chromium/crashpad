@@ -101,7 +101,7 @@ constexpr const char* kFlavorNames[] = {
     "PPC_THREAD_STATE64",
     "PPC_EXCEPTION_STATE64",
     "THREAD_STATE_NONE",
-#elif defined(__arm__) || defined(__arm64__)
+#elif defined(__arm__) || defined(__aarch64__)
     // sed -Ene 's/^#define ((ARM|THREAD)_[[:graph:]]+)[[:space:]]+[[:digit:]]{1,2}.*$/    "\1",/p'
     //     usr/include/mach/arm/thread_status.h
     // (iOS 7 SDK)
@@ -153,7 +153,7 @@ std::string ThreadStateFlavorFullToShort(const base::StringPiece& flavor) {
   static constexpr char kArchPrefix[] = "x86_";
 #elif defined(__ppc__) || defined(__ppc64__)
   static constexpr char kArchPrefix[] = "PPC_";
-#elif defined(__arm__) || defined(__arm64__)
+#elif defined(__arm__) || defined(__aarch64__)
   static constexpr char kArchPrefix[] = "ARM_"
 #endif
   prefix_len = strlen(kArchPrefix);

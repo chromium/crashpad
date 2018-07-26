@@ -20,7 +20,7 @@
 #include <features.h>
 
 // glibc for 64-bit ARM uses different names for these structs prior to 2.20.
-#if defined(__arm64__) && defined(__GLIBC__)
+#if defined(__aarch64__) && defined(__GLIBC__)
 #if !__GLIBC_PREREQ(2, 20)
 using user_regs_struct = user_pt_regs;
 using user_fpsimd_struct = user_fpsimd_state;
