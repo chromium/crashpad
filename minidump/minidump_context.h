@@ -406,6 +406,8 @@ enum MinidumpContextARM64Flags : uint32_t {
       kMinidumpContextARM64Integer | kMinidumpContextARM64Fpsimd,
 };
 
+#pragma pack(push, 4)
+
 //! \brief A 64-bit ARM CPU context (register state) carried in a minidump file.
 struct MinidumpContextARM64 {
   uint64_t context_flags;
@@ -431,6 +433,8 @@ struct MinidumpContextARM64 {
   //! \brief NEON registers `v0`-`v31`.
   uint128_struct fpsimd[32];
 };
+
+#pragma pack(pop)
 
 //! \brief 32bit MIPS-specifc flags for MinidumpContextMIPS::context_flags.
 //! Based on minidump_cpu_mips.h from breakpad
