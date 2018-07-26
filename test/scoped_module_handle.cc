@@ -36,6 +36,11 @@ void ScopedModuleHandle::Impl::Close(ModuleHandle handle) {
 
 ScopedModuleHandle::ScopedModuleHandle(ModuleHandle handle) : handle_(handle) {}
 
+ScopedModuleHandle::ScopedModuleHandle(ScopedModuleHandle&& other)
+    : handle_(other.handle_) {
+  other.handle_ = nullptr;
+}
+
 ScopedModuleHandle::~ScopedModuleHandle() {
   if (valid()) {
     Impl::Close(handle_);
