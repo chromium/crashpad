@@ -355,8 +355,8 @@ TEST(MemoryMap, MapRunningChild) {
 
 // Expects first and third pages from mapping_start to refer to the same mapped
 // file. The second page should not.
-void ExpectFindFileMmapStart(LinuxVMAddress mapping_start,
-                             LinuxVMSize page_size) {
+void ExpectFindFilePossibleMmapStarts(LinuxVMAddress mapping_start,
+                                      LinuxVMSize page_size) {
   FakePtraceConnection connection;
   ASSERT_TRUE(connection.Initialize(getpid()));
 
@@ -373,17 +373,27 @@ void ExpectFindFileMmapStart(LinuxVMAddress mapping_start,
   ASSERT_NE(mapping1, mapping2);
   ASSERT_NE(mapping2, mapping3);
 
-  EXPECT_EQ(map.FindFileMmapStart(*mapping1), mapping1);
-  EXPECT_EQ(map.FindFileMmapStart(*mapping2), mapping2);
-  EXPECT_EQ(map.FindFileMmapStart(*mapping3), mapping1);
+  std::vector<const MemoryMap::Mapping*> mappings;
+
+  mappings = map.FindFilePossibleMmapStarts(*mapping1);
+  ASSERT_EQ(mappings.size(), 1u);
+  EXPECT_EQ(mappings[0], mapping1);
+
+  mappings = map.FindFilePossibleMmapStarts(*mapping2);
+  ASSERT_EQ(mappings.size(), 1u);
+  EXPECT_EQ(mappings[0], mapping2);
+
+  mappings = map.FindFilePossibleMmapStarts(*mapping3);
+  ASSERT_EQ(mappings.size(), 1u);
+  EXPECT_EQ(mappings[0], mapping1);
 }
 
-TEST(MemoryMap, FindFileMmapStart) {
+TEST(MemoryMap, FindFilePossibleMmapStarts) {
   const size_t page_size = getpagesize();
 
   ScopedTempDir temp_dir;
-  base::FilePath path =
-      temp_dir.path().Append(FILE_PATH_LITERAL("FindFileMmapStartTestFile"));
+  base::FilePath path = temp_dir.path().Append(
+      FILE_PATH_LITERAL("FindFilePossibleMmapStartsTestFile"));
   ScopedFileHandle handle;
   size_t file_length = page_size * 3;
   ASSERT_NO_FATAL_FAILURE(InitializeFile(path, file_length, &handle));
@@ -418,9 +428,19 @@ TEST(MemoryMap, FindFileMmapStart) {
     ASSERT_NE(mapping1, mapping2);
     ASSERT_NE(mapping2, mapping3);
 
-    EXPECT_EQ(map.FindFileMmapStart(*mapping1), mapping1);
-    EXPECT_EQ(map.FindFileMmapStart(*mapping2), mapping1);
-    EXPECT_EQ(map.FindFileMmapStart(*mapping3), mapping1);
+    std::vector<const MemoryMap::Mapping*> mappings;
+
+    mappings = map.FindFilePossibleMmapStarts(*mapping1);
+    ASSERT_EQ(mappings.size(), 1u);
+    EXPECT_EQ(mappings[0], mapping1);
+
+    mappings = map.FindFilePossibleMmapStarts(*mapping2);
+    ASSERT_EQ(mappings.size(), 1u);
+    EXPECT_EQ(mappings[0], mapping1);
+
+    mappings = map.FindFilePossibleMmapStarts(*mapping3);
+    ASSERT_EQ(mappings.size(), 1u);
+    EXPECT_EQ(mappings[0], mapping1);
 
 #if defined(ARCH_CPU_64_BITS)
     constexpr bool is_64_bit = true;
@@ -429,7 +449,7 @@ TEST(MemoryMap, FindFileMmapStart) {
 #endif
     MemoryMap::Mapping bad_mapping;
     bad_mapping.range.SetRange(is_64_bit, 0, 1);
-    EXPECT_EQ(map.FindFileMmapStart(bad_mapping), nullptr);
+    EXPECT_EQ(map.FindFilePossibleMmapStarts(bad_mapping).size(), 0u);
   }
 
   // Make the second page an anonymous mapping
@@ -449,12 +469,12 @@ TEST(MemoryMap, FindFileMmapStart) {
                               MAP_PRIVATE | MAP_FIXED,
                               handle.get(),
                               page_size * 2));
-  ExpectFindFileMmapStart(mapping_start, page_size);
+  ExpectFindFilePossibleMmapStarts(mapping_start, page_size);
 
   // Map the second page to another file.
   ScopedFileHandle handle2;
-  base::FilePath path2 =
-      temp_dir.path().Append(FILE_PATH_LITERAL("FindFileMmapStartTestFile2"));
+  base::FilePath path2 = temp_dir.path().Append(
+      FILE_PATH_LITERAL("FindFilePossibleMmapStartsTestFile2"));
   ASSERT_NO_FATAL_FAILURE(InitializeFile(path2, page_size, &handle2));
 
   page2_mapping.ResetMmap(file_mapping.addr_as<char*>() + page_size,
@@ -463,7 +483,106 @@ TEST(MemoryMap, FindFileMmapStart) {
                           MAP_PRIVATE | MAP_FIXED,
                           handle2.get(),
                           0);
-  ExpectFindFileMmapStart(mapping_start, page_size);
+  ExpectFindFilePossibleMmapStarts(mapping_start, page_size);
+}
+
+TEST(MemoryMap, FindFilePossibleMmapStarts_MultipleStarts) {
+  ScopedTempDir temp_dir;
+  base::FilePath path =
+      temp_dir.path().Append(FILE_PATH_LITERAL("MultipleStartsTestFile"));
+  const size_t page_size = getpagesize();
+  ScopedFileHandle handle;
+  ASSERT_NO_FATAL_FAILURE(InitializeFile(path, page_size * 2, &handle));
+
+  // Locate a sequence of pages to setup a test in.
+  char* seq_addr;
+  {
+    ScopedMmap whole_mapping;
+    ASSERT_TRUE(whole_mapping.ResetMmap(
+        nullptr, page_size * 8, PROT_READ, MAP_PRIVATE | MAP_ANON, -1, 0));
+    seq_addr = whole_mapping.addr_as<char*>();
+  }
+
+  // Arrange file and anonymous mappings in the sequence.
+  ScopedMmap file_mapping0;
+  ASSERT_TRUE(file_mapping0.ResetMmap(seq_addr,
+                                      page_size,
+                                      PROT_READ,
+                                      MAP_PRIVATE | MAP_FIXED,
+                                      handle.get(),
+                                      page_size));
+
+  ScopedMmap file_mapping1;
+  ASSERT_TRUE(file_mapping1.ResetMmap(seq_addr + page_size,
+                                      page_size * 2,
+                                      PROT_READ,
+                                      MAP_PRIVATE | MAP_FIXED,
+                                      handle.get(),
+                                      0));
+
+  ScopedMmap file_mapping2;
+  ASSERT_TRUE(file_mapping2.ResetMmap(seq_addr + page_size * 3,
+                                      page_size,
+                                      PROT_READ,
+                                      MAP_PRIVATE | MAP_FIXED,
+                                      handle.get(),
+                                      0));
+
+  // Skip a page
+
+  ScopedMmap file_mapping3;
+  ASSERT_TRUE(file_mapping3.ResetMmap(seq_addr + page_size * 5,
+                                      page_size,
+                                      PROT_READ,
+                                      MAP_PRIVATE | MAP_FIXED,
+                                      handle.get(),
+                                      0));
+
+  ScopedMmap anon_mapping;
+  ASSERT_TRUE(anon_mapping.ResetMmap(seq_addr + page_size * 6,
+                                     page_size,
+                                     PROT_READ,
+                                     MAP_PRIVATE | MAP_ANON | MAP_FIXED,
+                                     -1,
+                                     0));
+
+  ScopedMmap file_mapping4;
+  ASSERT_TRUE(file_mapping4.ResetMmap(seq_addr + page_size * 7,
+                                      page_size,
+                                      PROT_READ,
+                                      MAP_PRIVATE | MAP_FIXED,
+                                      handle.get(),
+                                      0));
+
+  FakePtraceConnection connection;
+  ASSERT_TRUE(connection.Initialize(getpid()));
+  MemoryMap map;
+  ASSERT_TRUE(map.Initialize(&connection));
+
+  auto mapping = map.FindMapping(file_mapping0.addr_as<VMAddress>());
+  ASSERT_TRUE(mapping);
+  auto possible_starts = map.FindFilePossibleMmapStarts(*mapping);
+  EXPECT_EQ(possible_starts.size(), 0u);
+
+  mapping = map.FindMapping(file_mapping1.addr_as<VMAddress>());
+  ASSERT_TRUE(mapping);
+  possible_starts = map.FindFilePossibleMmapStarts(*mapping);
+  EXPECT_EQ(possible_starts.size(), 1u);
+
+  mapping = map.FindMapping(file_mapping2.addr_as<VMAddress>());
+  ASSERT_TRUE(mapping);
+  possible_starts = map.FindFilePossibleMmapStarts(*mapping);
+  EXPECT_EQ(possible_starts.size(), 2u);
+
+  mapping = map.FindMapping(file_mapping3.addr_as<VMAddress>());
+  ASSERT_TRUE(mapping);
+  possible_starts = map.FindFilePossibleMmapStarts(*mapping);
+  EXPECT_EQ(possible_starts.size(), 3u);
+
+  mapping = map.FindMapping(file_mapping4.addr_as<VMAddress>());
+  ASSERT_TRUE(mapping);
+  possible_starts = map.FindFilePossibleMmapStarts(*mapping);
+  EXPECT_EQ(possible_starts.size(), 4u);
 }
 
 }  // namespace
