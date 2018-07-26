@@ -25,6 +25,53 @@
     },
     {
       "key": {
+        "uuid": "f319a7ca_7f04305a",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-26T14:33:09Z",
+      "side": 1,
+      "message": "\u003e If any of the \"client\" library\u0027s headers #include libzx headers then this needs to be a public_deps entry - currently they don\u0027t, but perhaps we should make it public_deps anyway, for consistency, and to avoid potential confusion.\n\nLet’s leave it as-is for now, because it makes it less likely that someone will forget to add a dependency on libzx in some downstream target that really needs it. Forgetting to do that would be a bigger problem than goofing deps vs. public_deps here.",
+      "parentUuid": "ddbe3be8_8f374eec",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 42
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9a1e092_bd464e14",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-26T14:33:09Z",
+      "side": 1,
+      "message": "Sure, do this because it’s what the library offers, but…\n\nIn general, I’m not so enthusiastic about the type hole that raw address getters like this open up. If the libraries are being made more sensible about these things, it’d be cool if fdio (or some slightly higher-level fdio wrapper) understood the smart pointers more natively, so that type holes like this wouldn’t be necessary, or at least wouldn’t need to be used in places like this.\n\nThere’s no action to take here right now. I’m just mentioning it because it’d be a library refactor along the lines of libzx, and you might know if something like this is planned (or might have better luck adding it to the plans, even).",
+      "range": {
+        "startLine": 102,
+        "startChar": 26,
+        "endLine": 102,
+        "endChar": 56
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6fb5f06_2cf15a57",
         "filename": "handler/BUILD.gn",
         "patchSetId": 3
@@ -71,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "c02359c7_0d8c793e",
+        "filename": "handler/fuchsia/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-26T14:33:09Z",
+      "side": 1,
+      "message": "\u003e I\u0027ve not changed the names of relevant classes from using Task to using more specific object types like Process or Thread, except where the APIs only make sense for the new more specific types, FWIW. Let me know if you think names like this should also be updated, though.\n\nThis kind of thing is confusing because if you read it, it’s not clear what it’s supposed to be operating on.\n\nIf this really can operate on more than just a thread, then is there a clearer way to express that using the type system?\n\nIf not, I think we should rename the function to keep things clear.",
+      "parentUuid": "d9c459e5_d4c31344",
+      "range": {
+        "startLine": 33,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 14
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41ef74a1_f2305663",
         "filename": "handler/fuchsia/crash_report_exception_handler.h",
         "patchSetId": 3
@@ -91,6 +162,47 @@
       "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fecce38_3950ba6c",
+        "filename": "handler/fuchsia/crash_report_exception_handler.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-26T14:33:09Z",
+      "side": 1,
+      "message": "\u003e Convention in libzx is to provide handle parameters without transferring ownership, as const foo\u0026.  zx::unowned_foo seems conceptually cleaner, but doesn\u0027t fit the current layout of libzx.\n\nThanks. This is fine.",
+      "parentUuid": "41ef74a1_f2305663",
+      "range": {
+        "startLine": 93,
+        "startChar": 30,
+        "endLine": 94,
+        "endChar": 55
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "489cfc58_7cf9666d",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-26T14:33:09Z",
+      "side": 1,
+      "message": "That we set this in Initialize() instead of a constructor means that this can’t be const, but is anything cumbersome because it isn’t a const zx::process\u0026?\n\n(looking ahead) yes, I see that something is, but you’re going to try to make it better. Very good, carry on.",
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +229,47 @@
     },
     {
       "key": {
+        "uuid": "45b799e2_98ff363c",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-26T14:33:09Z",
+      "side": 1,
+      "message": "\u003e Not to self: Leftover from before ProcessType became zx::unowned_process - get rid of the extra re-wrapping, here and below.\n\nShould be ready to do this now.",
+      "parentUuid": "b6350281_3eea499f",
+      "range": {
+        "startLine": 86,
+        "startChar": 35,
+        "endLine": 86,
+        "endChar": 70
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85c0e51d_c5563dff",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-26T14:33:09Z",
+      "side": 1,
+      "message": "New file, use 2018.",
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9023b8c7_8921201e",
         "filename": "third_party/fuchsia/BUILD.gn",
         "patchSetId": 3
@@ -134,6 +287,47 @@
         "endLine": 28,
         "endChar": 3
       },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e657a9ba_acc26985",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-26T14:33:09Z",
+      "side": 1,
+      "message": "\u003e Note that I have not yet tried these in Chromium nor Fuchsia!\n\nWell then it sounds like you’ve got your work cut out for you! ;)",
+      "parentUuid": "9023b8c7_8921201e",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 3
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf4758f4_21f0825c",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-26T14:33:09Z",
+      "side": 1,
+      "message": "It might be Gerrit showing things that aren’t there, but if there is in fact an extra blank line at the end of the file, you can get rid of it.",
       "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -209,6 +403,30 @@
     },
     {
       "key": {
+        "uuid": "89f90235_cb5e9497",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-26T14:33:09Z",
+      "side": 1,
+      "message": "\u003e Not to self: remove this comment.\n\nDo you want to get rid of the comment or discuss the pros and cons?",
+      "parentUuid": "8c00bc79_027ae03c",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 51
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "82893c04_33cd8cea",
         "filename": "util/fuchsia/koid_utilities.cc",
         "patchSetId": 3
@@ -220,6 +438,30 @@
       "writtenOn": "2018-07-24T21:17:37Z",
       "side": 1,
       "message": "Previously this and the loop below used GetChildHandles(), which fetched the list of koids and then looked-up each one to get to a handle, which this loop then iterated over.  This version instead iterates over the koids, only opening the one that matches.\n\nIf we don\u0027t find the koid and instead have to look in nested jobs then we\u0027re only holding each job open while we search inside it, i.e. the maximum # of open handles is ~depth of traversal.\n\nThis does have the disadvantage that since we are not taking handles to all the children until we reach them in the iteration, they may have exited before we reach them, and therefore be gone, but since we are looking up a particular child process, I think we should be able to assume that it is stopped, waiting for us to handle the exception on it?",
+      "range": {
+        "startLine": 62,
+        "startChar": 7,
+        "endLine": 62,
+        "endChar": 66
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a33c9c9_aaa20b54",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-26T14:33:09Z",
+      "side": 1,
+      "message": "\u003e Previously this and the loop below used GetChildHandles(), which fetched the list of koids and then looked-up each one to get to a handle, which this loop then iterated over.  This version instead iterates over the koids, only opening the one that matches.\n\u003e \n\u003e If we don\u0027t find the koid and instead have to look in nested jobs then we\u0027re only holding each job open while we search inside it, i.e. the maximum # of open handles is ~depth of traversal.\n\nSo the comment below should be revised.\n\n\u003e This does have the disadvantage that since we are not taking handles to all the children until we reach them in the iteration, they may have exited before we reach them, and therefore be gone, but since we are looking up a particular child process, I think we should be able to assume that it is stopped, waiting for us to handle the exception on it?\n\nIt’s possible that some outsider with appropriate access requested a dump of a non-crashing victim process.\n\nStill, it might not really be worth worrying about.",
+      "parentUuid": "82893c04_33cd8cea",
       "range": {
         "startLine": 62,
         "startChar": 7,
@@ -278,6 +520,30 @@
     },
     {
       "key": {
+        "uuid": "d08f5363_a10015b8",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-26T14:33:09Z",
+      "side": 1,
+      "message": "\u003e Note that forcibly wrapping the result into a zx::thread is safe because |parent| is a zx::process, so can only have thread children.\n\nIs there a run-time DCHECK you can make for that?",
+      "parentUuid": "e35b4f8c_efb531d3",
+      "range": {
+        "startLine": 137,
+        "startChar": 9,
+        "endLine": 137,
+        "endChar": 19
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dcc0a584_dd6cb397",
         "filename": "util/fuchsia/koid_utilities.h",
         "patchSetId": 3
@@ -301,6 +567,30 @@
     },
     {
       "key": {
+        "uuid": "3094cde3_7a9adcca",
+        "filename": "util/fuchsia/koid_utilities.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-26T14:33:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dcc0a584_dd6cb397",
+      "range": {
+        "startLine": 42,
+        "startChar": 43,
+        "endLine": 42,
+        "endChar": 59
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80519346_8a76f3bb",
         "filename": "util/fuchsia/scoped_task_suspend.h",
         "patchSetId": 3
@@ -317,6 +607,76 @@
         "startChar": 0,
         "endLine": 45,
         "endChar": 55
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "000274f1_f1facbc2",
+        "filename": "util/fuchsia/scoped_task_suspend.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-26T14:33:09Z",
+      "side": 1,
+      "message": "\u003e Since zx::process and zx::thread are specializations of the zx::task\u003cT\u003e template we cannot just accept a zx::task\u003c\u003e here, so I\u0027ve overloaded the constructor, which has the benefit that we don\u0027t have to make a kernel call to query the type of the handle.\n\nGuess so. At first, I was going to suggest doing the overload outside, as a dual-personality SuspendTask(), and then making ScopedTaskSuspend() be a template wrapped around that. But that’s a little added complexity for minimal benefit, so this should be fine.",
+      "parentUuid": "80519346_8a76f3bb",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 55
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "681b0034_b0a93bd2",
+        "filename": "util/fuchsia/scoped_task_suspend.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-26T14:33:09Z",
+      "side": 1,
+      "message": "script the flip",
+      "range": {
+        "startLine": 49,
+        "startChar": 52,
+        "endLine": 49,
+        "endChar": 71
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ddca7b2_5d6d264f",
+        "filename": "util/process/process_memory_fuchsia.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-26T14:33:09Z",
+      "side": 1,
+      "message": "(wez)?",
+      "range": {
+        "startLine": 44,
+        "startChar": 9,
+        "endLine": 44,
+        "endChar": 11
       },
       "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
