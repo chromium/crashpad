@@ -18,7 +18,7 @@
 #include "build/build_config.h"
 
 #if defined(OS_FUCHSIA)
-#include <zircon/types.h>
+#include <lib/zx/process.h>
 #elif defined(OS_POSIX)
 #include <sys/types.h>
 #elif defined(OS_WIN)
@@ -29,7 +29,7 @@ namespace crashpad {
 namespace test {
 
 #if defined(OS_FUCHSIA)
-using ProcessType = zx_handle_t;
+using ProcessType = zx::unowned_process;
 #elif defined(OS_POSIX) || DOXYGEN
 //! \brief Alias for platform-specific type to represent a process.
 using ProcessType = pid_t;

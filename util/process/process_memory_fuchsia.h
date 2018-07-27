@@ -15,7 +15,7 @@
 #ifndef CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_FUCHSIA_H_
 #define CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_FUCHSIA_H_
 
-#include <zircon/types.h>
+#include <lib/zx/process.h>
 
 #include <string>
 
@@ -40,12 +40,15 @@ class ProcessMemoryFuchsia final : public ProcessMemory {
   //! \param[in] process The handle to the target process.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
-  bool Initialize(zx_handle_t process);
+  bool Initialize(const zx::process& process);
+  // TODO(wez): Remove this overload when zx::unowned_process allows implicit
+  // copy.
+  bool Initialize(const zx::unowned_process& process);
 
  private:
   ssize_t ReadUpTo(VMAddress address, size_t size, void* buffer) const override;
 
-  zx_handle_t process_;
+  zx::unowned_process process_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessMemoryFuchsia);
