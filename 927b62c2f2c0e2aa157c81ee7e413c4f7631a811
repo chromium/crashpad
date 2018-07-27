@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "774b18bd_aa6f0df8",
+        "filename": "minidump/minidump_context.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-27T01:49:01Z",
+      "side": 1,
+      "message": "This would be correct to use the Breakpad version of the ARM64 context structure, but I think that we should use the Microsoft version for better tool compatibility.\n\nYou’ll find Microsoft’s version in their \u003cwinnt.h\u003e, “typedef struct DECLSPEC_ALIGN(16) _ARM64_NT_CONTEXT”.\n\n(Also https://chromium-review.googlesource.com/c/breakpad/breakpad/+/1152158/8/src/processor/minidump.cc#1203)",
+      "revId": "927b62c2f2c0e2aa157c81ee7e413c4f7631a811",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
