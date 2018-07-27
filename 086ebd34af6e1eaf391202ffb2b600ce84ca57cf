@@ -544,6 +544,30 @@
     },
     {
       "key": {
+        "uuid": "40f97171_5fb3709b",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-27T16:21:11Z",
+      "side": 1,
+      "message": "\u003e Looks like I can check the in-Chromium case by running the update.py script and pointing it at my local repo - do we have Crashpad bots for Chromium and/or Fuchsia, or auto-rollers I should look at? Or are rolls pretty manual?\n\nRolls are manual.\n\nYou can use update.py + a try job, but I don’t know if there’s any try config that’ll do Fuchsia Chromium. (I bet you know.)\n\nChromium try jobs should run Crashpad tests on macOS and Windows, but probably not for Fuchsia Chromium if that’s even a thing.",
+      "parentUuid": "87cb3f5a_c747a270",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 3
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cf4758f4_21f0825c",
         "filename": "third_party/fuchsia/BUILD.gn",
         "patchSetId": 3
@@ -573,6 +597,24 @@
       "side": 1,
       "message": "There is a newline after the brace, but that\u0027s it.",
       "parentUuid": "cf4758f4_21f0825c",
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c2b84bd_4a348517",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-27T16:21:11Z",
+      "side": 1,
+      "message": "\u003e There is a newline after the brace, but that\u0027s it.\n\nGerrit’s just showing bogus empty lines at the end of every file now. Eventually it’ll bother me enough to file a bug.",
+      "parentUuid": "14860edd_c67ab2c7",
       "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -731,6 +773,30 @@
       "side": 1,
       "message": "Originally just intended to remove the comment, but actually I\u0027d like to discuss it.\n\nOriginally this code:\n1. Enumerated the koids of all process children in the job.\n2. For each process child, attempted to open a handle to it.\n3. For each handle, re-fetched the koid to see if it is the one we\u0027re looking for.\n\nNow we:\n1. Enumerate the koids of all process children in the job.\n2. If we find the koid we want, we open that process.\n\nThis seems strictly lower-overhead than the original impl, and the handling of the two failure-modes (can\u0027t find koid, can\u0027t open handle to it) are the same. So I think this impl is fine.\n\nHowever, we could instead:\n1. Open a handle to object identified by koid under job.\n2a. If the koid is not found, drop through to looking under child jobs.\n2b. If the koid is found (e.g. test against NOTFOUND, or treat ACCESS_DENIED as a form of succeess) then we return the handle (even if it is null as in the ACCESS_DENIED case).\n\nThis would avoid the overhead of enumerating all the process children, and also shortcut the found-but-not-accessible case, which may be relevant in the web::ContextProvider, where we\u0027ll potentially have a substantial tree of jobs and processes.",
       "parentUuid": "89f90235_cb5e9497",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 51
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d084b5d9_6b39a962",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-27T16:21:11Z",
+      "side": 1,
+      "message": "\u003e Originally just intended to remove the comment, but actually I\u0027d like to discuss it.\n\u003e \n\u003e Originally this code:\n\u003e 1. Enumerated the koids of all process children in the job.\n\u003e 2. For each process child, attempted to open a handle to it.\n\u003e 3. For each handle, re-fetched the koid to see if it is the one we\u0027re looking for.\n\u003e \n\u003e Now we:\n\u003e 1. Enumerate the koids of all process children in the job.\n\u003e 2. If we find the koid we want, we open that process.\n\u003e \n\u003e This seems strictly lower-overhead than the original impl, and the handling of the two failure-modes (can\u0027t find koid, can\u0027t open handle to it) are the same. So I think this impl is fine.\n\u003e \n\u003e However, we could instead:\n\u003e 1. Open a handle to object identified by koid under job.\n\u003e 2a. If the koid is not found, drop through to looking under child jobs.\n\u003e 2b. If the koid is found (e.g. test against NOTFOUND, or treat ACCESS_DENIED as a form of succeess) then we return the handle (even if it is null as in the ACCESS_DENIED case).\n\u003e \n\u003e This would avoid the overhead of enumerating all the process children, and also shortcut the found-but-not-accessible case, which may be relevant in the web::ContextProvider, where we\u0027ll potentially have a substantial tree of jobs and processes.\n\nI like this idea.",
+      "parentUuid": "e9611048_40971da8",
       "range": {
         "startLine": 61,
         "startChar": 2,

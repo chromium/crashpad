@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "f3f2d7e9_b120088e",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-27T16:21:11Z",
+      "side": 1,
+      "message": "Why DCHECK_IS_ON()?",
+      "revId": "2c132d7a01354082196f45c676652e8fd2d2463f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "af31f88c_63b45647",
         "filename": "util/fuchsia/koid_utilities.cc",
         "patchSetId": 5
@@ -42,6 +59,23 @@
         "endLine": 62,
         "endChar": 76
       },
+      "revId": "2c132d7a01354082196f45c676652e8fd2d2463f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8605516_49995b25",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-27T16:21:11Z",
+      "side": 1,
+      "message": "We have ObjCCast\u003c\u003e and ObjCCastStrict\u003c\u003e in base for macOS, to provide a C++-ish way to deal with the distinct Objective-C type system in dynamic_cast-like way. (The Strict variant CHECKs instead of returning 0 if the types are wrong.) Do you think that something like that would be welcome in libzx?",
       "revId": "2c132d7a01354082196f45c676652e8fd2d2463f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
