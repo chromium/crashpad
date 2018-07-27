@@ -15,7 +15,7 @@
 #include "test/process_type.h"
 
 #if defined(OS_FUCHSIA)
-#include <zircon/process.h>
+#include <lib/zx/process.h>
 #elif defined(OS_POSIX)
 #include <unistd.h>
 #endif
@@ -25,7 +25,7 @@ namespace test {
 
 ProcessType GetSelfProcess() {
 #if defined(OS_FUCHSIA)
-  return zx_process_self();
+  return zx::process::self();
 #elif defined(OS_POSIX)
   return getpid();
 #elif defined(OS_WIN)
