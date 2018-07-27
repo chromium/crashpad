@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "feb62e96_44122f14",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f319a7ca_7f04305a",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 42
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9a1e092_bd464e14",
         "filename": "client/crashpad_client_fuchsia.cc",
         "patchSetId": 3
@@ -60,6 +84,30 @@
       "writtenOn": "2018-07-26T14:33:09Z",
       "side": 1,
       "message": "Sure, do this because it’s what the library offers, but…\n\nIn general, I’m not so enthusiastic about the type hole that raw address getters like this open up. If the libraries are being made more sensible about these things, it’d be cool if fdio (or some slightly higher-level fdio wrapper) understood the smart pointers more natively, so that type holes like this wouldn’t be necessary, or at least wouldn’t need to be used in places like this.\n\nThere’s no action to take here right now. I’m just mentioning it because it’d be a library refactor along the lines of libzx, and you might know if something like this is planned (or might have better luck adding it to the plans, even).",
+      "range": {
+        "startLine": 102,
+        "startChar": 26,
+        "endLine": 102,
+        "endChar": 56
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1635f685_4b813ee7",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "fdio is a C API, so can\u0027t make use of the libzx containers (e.g. the first parameter would be passed a zx::job() in a C++ version).\n\nProviding a C++ wrapper for fdio in the same vein as libzx wrapping the syscalls does seem desirable - filed Fuchsia bug ZX-2422 for that.",
+      "parentUuid": "c9a1e092_bd464e14",
       "range": {
         "startLine": 102,
         "startChar": 26,
@@ -92,6 +140,30 @@
       "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fc8dea2_19134ebb",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e6fb5f06_2cf15a57",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 8
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -142,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "041835d6_6580650b",
+        "filename": "handler/fuchsia/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "I think (judging by the scoped_task_suspend include above) that the idea was originally to use ScopedTaskSuspend, which works on both Processes and Threads (and notionally the OS layer API should really work on Processes, Threads and Jobs, since those are all Tasks).\n\nHowever, this code is handling an exception on an individual thread, so (1) it\u0027s not a token-based suspend that ScopedTaskSuspend can resume us from and (2) we only need to resume an individual thread.\n\nI\u0027ve therefore renamed it to *Thread*. I\u0027ve also removed the errant include and made this a class, since that seems a more in-keeping with style guide.",
+      "parentUuid": "c02359c7_0d8c793e",
+      "range": {
+        "startLine": 33,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 14
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41ef74a1_f2305663",
         "filename": "handler/fuchsia/crash_report_exception_handler.h",
         "patchSetId": 3
@@ -189,6 +285,30 @@
     },
     {
       "key": {
+        "uuid": "4c1d2d47_df94017f",
+        "filename": "handler/fuchsia/crash_report_exception_handler.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1fecce38_3950ba6c",
+      "range": {
+        "startLine": 93,
+        "startChar": 30,
+        "endLine": 94,
+        "endChar": 55
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "489cfc58_7cf9666d",
         "filename": "snapshot/fuchsia/process_reader_fuchsia.h",
         "patchSetId": 3
@@ -200,6 +320,24 @@
       "writtenOn": "2018-07-26T14:33:09Z",
       "side": 1,
       "message": "That we set this in Initialize() instead of a constructor means that this can’t be const, but is anything cumbersome because it isn’t a const zx::process\u0026?\n\n(looking ahead) yes, I see that something is, but you’re going to try to make it better. Very good, carry on.",
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35a51ec4_61e1c4da",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "489cfc58_7cf9666d",
       "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -253,6 +391,53 @@
     },
     {
       "key": {
+        "uuid": "37af69d3_c6b712a6",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45b799e2_98ff363c",
+      "range": {
+        "startLine": 86,
+        "startChar": 35,
+        "endLine": 86,
+        "endChar": 70
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb96b1e5_59269bd5",
+        "filename": "test/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Note that this needed to be public_deps, not just deps.",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 5
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "85c0e51d_c5563dff",
         "filename": "third_party/fuchsia/BUILD.gn",
         "patchSetId": 3
@@ -267,6 +452,24 @@
       "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0c34028_c7ec7c92",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Oh, thanks! I\u0027m so used to commit-queue fixing this automagically for me in Chromium...",
+      "parentUuid": "85c0e51d_c5563dff",
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -317,6 +520,30 @@
     },
     {
       "key": {
+        "uuid": "87cb3f5a_c747a270",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Looks like I can check the in-Chromium case by running the update.py script and pointing it at my local repo - do we have Crashpad bots for Chromium and/or Fuchsia, or auto-rollers I should look at? Or are rolls pretty manual?",
+      "parentUuid": "e657a9ba_acc26985",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 3
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cf4758f4_21f0825c",
         "filename": "third_party/fuchsia/BUILD.gn",
         "patchSetId": 3
@@ -328,6 +555,47 @@
       "writtenOn": "2018-07-26T14:33:09Z",
       "side": 1,
       "message": "It might be Gerrit showing things that aren’t there, but if there is in fact an extra blank line at the end of the file, you can get rid of it.",
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14860edd_c67ab2c7",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "There is a newline after the brace, but that\u0027s it.",
+      "parentUuid": "cf4758f4_21f0825c",
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dda76029_b6422126",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Note that this also needs to be public_deps, not deps, otherwise callers including the util headers are missing the libzx include paths.  Alternatively, the callers could all be updated, on the assumption that if they\u0027re using those APIs, they must also be using libzx containers, and should depend directly on libzx.  WDYT?",
+      "range": {
+        "startLine": 459,
+        "startChar": 4,
+        "endLine": 459,
+        "endChar": 49
+      },
       "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -368,6 +636,30 @@
       "writtenOn": "2018-07-24T21:17:37Z",
       "side": 1,
       "message": "Note: Switched this away from bool+out_param.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 11
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e06c88e4_c98bc865",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Re-introduced the boolean result, but as a |was_found| out-param. We need that so that the search process can be cut short correctly in the case of the koid being found but not openable.",
+      "parentUuid": "ae4504d5_6d400c6e",
       "range": {
         "startLine": 60,
         "startChar": 0,
@@ -427,6 +719,30 @@
     },
     {
       "key": {
+        "uuid": "e9611048_40971da8",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Originally just intended to remove the comment, but actually I\u0027d like to discuss it.\n\nOriginally this code:\n1. Enumerated the koids of all process children in the job.\n2. For each process child, attempted to open a handle to it.\n3. For each handle, re-fetched the koid to see if it is the one we\u0027re looking for.\n\nNow we:\n1. Enumerate the koids of all process children in the job.\n2. If we find the koid we want, we open that process.\n\nThis seems strictly lower-overhead than the original impl, and the handling of the two failure-modes (can\u0027t find koid, can\u0027t open handle to it) are the same. So I think this impl is fine.\n\nHowever, we could instead:\n1. Open a handle to object identified by koid under job.\n2a. If the koid is not found, drop through to looking under child jobs.\n2b. If the koid is found (e.g. test against NOTFOUND, or treat ACCESS_DENIED as a form of succeess) then we return the handle (even if it is null as in the ACCESS_DENIED case).\n\nThis would avoid the overhead of enumerating all the process children, and also shortcut the found-but-not-accessible case, which may be relevant in the web::ContextProvider, where we\u0027ll potentially have a substantial tree of jobs and processes.",
+      "parentUuid": "89f90235_cb5e9497",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 51
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "82893c04_33cd8cea",
         "filename": "util/fuchsia/koid_utilities.cc",
         "patchSetId": 3
@@ -471,6 +787,30 @@
       "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7b03eea_1427f25c",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a33c9c9_aaa20b54",
+      "range": {
+        "startLine": 62,
+        "startChar": 7,
+        "endLine": 62,
+        "endChar": 66
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -541,6 +881,30 @@
       "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9a9010b_43febf82",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Yes, we can (usually) query the type of a handle. I\u0027ve made GetChildHandleFromKoid() a template, so that it can check that the handle type matches the TYPE of the return-value container type.",
+      "parentUuid": "d08f5363_a10015b8",
+      "range": {
+        "startLine": 137,
+        "startChar": 9,
+        "endLine": 137,
+        "endChar": 19
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -661,6 +1025,30 @@
     },
     {
       "key": {
+        "uuid": "d1d53b68_bdb3937e",
+        "filename": "util/fuchsia/scoped_task_suspend.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "681b0034_b0a93bd2",
+      "range": {
+        "startLine": 49,
+        "startChar": 52,
+        "endLine": 49,
+        "endChar": 71
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ddca7b2_5d6d264f",
         "filename": "util/process/process_memory_fuchsia.h",
         "patchSetId": 3
@@ -684,6 +1072,30 @@
     },
     {
       "key": {
+        "uuid": "ce1cb1ee_8302c174",
+        "filename": "util/process/process_memory_fuchsia.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ddca7b2_5d6d264f",
+      "range": {
+        "startLine": 44,
+        "startChar": 9,
+        "endLine": 44,
+        "endChar": 11
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ac00986_9553381b",
         "filename": "util/process/process_memory_fuchsia.h",
         "patchSetId": 3
@@ -704,6 +1116,30 @@
       "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff1ddce3_6c7ebfc0",
+        "filename": "util/process/process_memory_fuchsia.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2ac00986_9553381b",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 54
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

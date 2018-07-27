@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdea5ed0_ef8475a1",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "Templatizing here has the nice property that we\u0027ll use the appropriate get_child() overload, so we get static type checking that e.g. we\u0027re not trying to look-up a process as a child of a thread, or of a socket, etc.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 33
+      },
+      "revId": "2c132d7a01354082196f45c676652e8fd2d2463f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af31f88c_63b45647",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-27T12:19:16Z",
+      "side": 1,
+      "message": "CHECK_EQ() doesn\u0027t work here - it somehow creates an expectation that TYPE is a symbol available for linking (it is a constexpr...)",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 76
+      },
+      "revId": "2c132d7a01354082196f45c676652e8fd2d2463f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
