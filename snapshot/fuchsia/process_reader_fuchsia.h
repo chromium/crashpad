@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_H_
 #define CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_H_
 
+#include <lib/zx/process.h>
 #include <zircon/syscalls/debug.h>
 
 #include <memory>
@@ -94,7 +95,7 @@ class ProcessReaderFuchsia {
   //! \return `true` on success, indicating that this object will respond
   //!     validly to further method calls. `false` on failure. On failure, no
   //!     further method calls should be made.
-  bool Initialize(zx_handle_t process);
+  bool Initialize(const zx::process& process);
 
   //! \return The modules loaded in the process. The first element (at index
   //!     `0`) corresponds to the main executable.
@@ -121,7 +122,7 @@ class ProcessReaderFuchsia {
   std::vector<std::unique_ptr<ProcessMemoryRange>> process_memory_ranges_;
   std::unique_ptr<ProcessMemoryFuchsia> process_memory_;
   MemoryMapFuchsia memory_map_;
-  zx_handle_t process_;
+  zx::unowned_process process_;
   bool initialized_modules_ = false;
   bool initialized_threads_ = false;
   InitializationStateDcheck initialized_;

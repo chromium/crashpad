@@ -31,7 +31,7 @@ namespace {
 
 TEST(ProcessReaderFuchsia, SelfBasic) {
   ProcessReaderFuchsia process_reader;
-  ASSERT_TRUE(process_reader.Initialize(zx_process_self()));
+  ASSERT_TRUE(process_reader.Initialize(*zx::process::self()));
 
   static constexpr char kTestMemory[] = "Some test memory";
   char buffer[arraysize(kTestMemory)];
@@ -82,7 +82,7 @@ class BasicChildTest : public MultiprocessExec {
  private:
   void MultiprocessParent() override {
     ProcessReaderFuchsia process_reader;
-    ASSERT_TRUE(process_reader.Initialize(ChildProcess()));
+    ASSERT_TRUE(process_reader.Initialize(*ChildProcess()));
 
     zx_vaddr_t addr;
     ASSERT_TRUE(ReadFileExactly(ReadPipeHandle(), &addr, sizeof(addr)));
@@ -149,10 +149,10 @@ class ThreadsChildTest : public MultiprocessExec {
     ASSERT_TRUE(ReadFileExactly(ReadPipeHandle(), &c, 1));
     ASSERT_EQ(c, ' ');
 
-    ScopedTaskSuspend suspend(ChildProcess());
+    ScopedTaskSuspend suspend(*ChildProcess());
 
     ProcessReaderFuchsia process_reader;
-    ASSERT_TRUE(process_reader.Initialize(ChildProcess()));
+    ASSERT_TRUE(process_reader.Initialize(*ChildProcess()));
 
     const auto& threads = process_reader.Threads();
     EXPECT_EQ(threads.size(), 6u);

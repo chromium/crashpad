@@ -14,11 +14,11 @@
 
 #include "snapshot/fuchsia/process_reader_fuchsia.h"
 
+#include <lib/zx/thread.h>
 #include <link.h>
 #include <zircon/syscalls.h>
 
 #include "base/fuchsia/fuchsia_logging.h"
-#include "base/fuchsia/scoped_zx_handle.h"
 #include "base/logging.h"
 #include "util/fuchsia/koid_utilities.h"
 
@@ -83,15 +83,15 @@ ProcessReaderFuchsia::ProcessReaderFuchsia() = default;
 
 ProcessReaderFuchsia::~ProcessReaderFuchsia() = default;
 
-bool ProcessReaderFuchsia::Initialize(zx_handle_t process) {
+bool ProcessReaderFuchsia::Initialize(const zx::process& process) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
-  process_ = process;
+  process_ = zx::unowned_process(process);
 
   process_memory_.reset(new ProcessMemoryFuchsia());
-  process_memory_->Initialize(process_);
+  process_memory_->Initialize(*process_);
 
-  memory_map_.Initialize(process_);
+  memory_map_.Initialize(*process_);
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -134,7 +134,7 @@ void ProcessReaderFuchsia::InitializeModules() {
   {
     char name[ZX_MAX_NAME_LEN];
     zx_status_t status =
-        zx_object_get_property(process_, ZX_PROP_NAME, name, sizeof(name));
+        process_->get_property(ZX_PROP_NAME, name, sizeof(name));
     if (status != ZX_OK) {
       LOG(ERROR) << "zx_object_get_property ZX_PROP_NAME";
       return;
@@ -147,10 +147,8 @@ void ProcessReaderFuchsia::InitializeModules() {
   // walk the list to fill out modules_.
 
   uintptr_t debug_address;
-  zx_status_t status = zx_object_get_property(process_,
-                                              ZX_PROP_PROCESS_DEBUG_ADDR,
-                                              &debug_address,
-                                              sizeof(debug_address));
+  zx_status_t status = process_->get_property(
+      ZX_PROP_PROCESS_DEBUG_ADDR, &debug_address, sizeof(debug_address));
   if (status != ZX_OK || debug_address == 0) {
     LOG(ERROR) << "zx_object_get_property ZX_PROP_PROCESS_DEBUG_ADDR";
     return;
@@ -250,9 +248,9 @@ void ProcessReaderFuchsia::InitializeThreads() {
   initialized_threads_ = true;
 
   std::vector<zx_koid_t> thread_koids =
-      GetChildKoids(process_, ZX_INFO_PROCESS_THREADS);
-  std::vector<base::ScopedZxHandle> thread_handles =
-      GetHandlesForChildKoids(process_, thread_koids);
+      GetChildKoids(*process_, ZX_INFO_PROCESS_THREADS);
+  std::vector<zx::thread> thread_handles =
+      GetHandlesForThreadKoids(*process_, thread_koids);
   DCHECK_EQ(thread_koids.size(), thread_handles.size());
 
   for (size_t i = 0; i < thread_handles.size(); ++i) {
@@ -261,8 +259,8 @@ void ProcessReaderFuchsia::InitializeThreads() {
 
     if (thread_handles[i].is_valid()) {
       char name[ZX_MAX_NAME_LEN] = {0};
-      zx_status_t status = zx_object_get_property(
-          thread_handles[i].get(), ZX_PROP_NAME, &name, sizeof(name));
+      zx_status_t status =
+          thread_handles[i].get_property(ZX_PROP_NAME, &name, sizeof(name));
       if (status != ZX_OK) {
         ZX_LOG(WARNING, status) << "zx_object_get_property ZX_PROP_NAME";
       } else {
@@ -270,12 +268,8 @@ void ProcessReaderFuchsia::InitializeThreads() {
       }
 
       zx_info_thread_t thread_info;
-      status = zx_object_get_info(thread_handles[i].get(),
-                                  ZX_INFO_THREAD,
-                                  &thread_info,
-                                  sizeof(thread_info),
-                                  nullptr,
-                                  nullptr);
+      status = thread_handles[i].get_info(
+          ZX_INFO_THREAD, &thread_info, sizeof(thread_info), nullptr, nullptr);
       if (status != ZX_OK) {
         ZX_LOG(WARNING, status) << "zx_object_get_info ZX_INFO_THREAD";
       } else {
@@ -283,10 +277,8 @@ void ProcessReaderFuchsia::InitializeThreads() {
       }
 
       zx_thread_state_general_regs_t regs;
-      status = zx_thread_read_state(thread_handles[i].get(),
-                                    ZX_THREAD_STATE_GENERAL_REGS,
-                                    &regs,
-                                    sizeof(regs));
+      status = thread_handles[i].read_state(
+          ZX_THREAD_STATE_GENERAL_REGS, &regs, sizeof(regs));
       if (status != ZX_OK) {
         ZX_LOG(WARNING, status) << "zx_thread_read_state";
       } else {

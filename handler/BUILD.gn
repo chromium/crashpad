@@ -80,6 +80,10 @@ static_library("handler") {
   if (crashpad_is_win) {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
   }
+
+  if (crashpad_is_fuchsia) {
+    deps += [ "../third_party/fuchsia:zx" ]
+  }
 }
 
 source_set("handler_test") {

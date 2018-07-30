@@ -16,13 +16,12 @@
 
 #include <lib/fdio/io.h>
 #include <lib/fdio/spawn.h>
-#include <zircon/process.h>
+#include <lib/zx/process.h>
+#include <lib/zx/time.h>
 #include <zircon/processargs.h>
-#include <zircon/syscalls.h>
 
 #include "base/files/scoped_file.h"
 #include "base/fuchsia/fuchsia_logging.h"
-#include "base/fuchsia/scoped_zx_handle.h"
 #include "gtest/gtest.h"
 
 namespace crashpad {
@@ -49,7 +48,7 @@ struct MultiprocessInfo {
   MultiprocessInfo() {}
   base::ScopedFD stdin_write;
   base::ScopedFD stdout_read;
-  base::ScopedZxHandle child;
+  zx::process child;
 };
 
 }  // namespace internal
@@ -68,19 +67,14 @@ void Multiprocess::Run() {
   // Wait until the child exits.
   zx_signals_t signals;
   ASSERT_EQ(
-      zx_object_wait_one(
-          info_->child.get(), ZX_TASK_TERMINATED, ZX_TIME_INFINITE, &signals),
+      info_->child.wait_one(ZX_TASK_TERMINATED, zx::time::infinite(), &signals),
       ZX_OK);
   ASSERT_EQ(signals, ZX_TASK_TERMINATED);
 
   // Get the child's exit code.
   zx_info_process_t proc_info;
-  zx_status_t status = zx_object_get_info(info_->child.get(),
-                                          ZX_INFO_PROCESS,
-                                          &proc_info,
-                                          sizeof(proc_info),
-                                          nullptr,
-                                          nullptr);
+  zx_status_t status = info_->child.get_info(
+      ZX_INFO_PROCESS, &proc_info, sizeof(proc_info), nullptr, nullptr);
   if (status != ZX_OK) {
     ZX_LOG(ERROR, status) << "zx_object_get_info";
     ADD_FAILURE() << "Unable to get exit code of child";
@@ -188,7 +182,7 @@ void MultiprocessExec::MultiprocessChild() {
   uint32_t flags = FDIO_SPAWN_CLONE_ALL & ~FDIO_SPAWN_CLONE_STDIO;
 
   char error_message[FDIO_SPAWN_ERR_MSG_MAX_LENGTH];
-  zx_handle_t child;
+  zx::process child;
   zx_status_t status = fdio_spawn_etc(ZX_HANDLE_INVALID,
                                       flags,
                                       command_.value().c_str(),
@@ -196,14 +190,14 @@ void MultiprocessExec::MultiprocessChild() {
                                       nullptr,
                                       kActionCount,
                                       actions,
-                                      &child,
+                                      child.reset_and_get_address(),
                                       error_message);
   ZX_CHECK(status == ZX_OK, status) << "fdio_spawn_etc: " << error_message;
-  info()->child.reset(child);
+  info()->child = std::move(child);
 }
 
 ProcessType MultiprocessExec::ChildProcess() {
-  return info()->child.get();
+  return zx::unowned_process(info()->child);
 }
 
 }  // namespace test

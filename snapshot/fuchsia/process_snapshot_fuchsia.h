@@ -15,9 +15,10 @@
 #ifndef CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_SNAPSHOT_FUCHSIA_H_
 #define CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_SNAPSHOT_FUCHSIA_H_
 
+#include <lib/zx/process.h>
 #include <sys/time.h>
-#include <zircon/types.h>
 #include <zircon/syscalls/exception.h>
+#include <zircon/types.h>
 
 #include <memory>
 #include <vector>
@@ -50,7 +51,7 @@ class ProcessSnapshotFuchsia : public ProcessSnapshot {
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  bool Initialize(zx_handle_t process);
+  bool Initialize(const zx::process& process);
 
   //! \brief Initializes the object's exception.
   //!

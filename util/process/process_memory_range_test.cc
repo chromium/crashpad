@@ -24,7 +24,7 @@
 #include "util/misc/from_pointer_cast.h"
 
 #if defined(OS_FUCHSIA)
-#include <zircon/process.h>
+#include <lib/zx/process.h>
 
 #include "util/process/process_memory_fuchsia.h"
 #else
@@ -43,7 +43,7 @@ struct TestObject {
 TEST(ProcessMemoryRange, Basic) {
 #if defined(OS_FUCHSIA)
   ProcessMemoryFuchsia memory;
-  ASSERT_TRUE(memory.Initialize(zx_process_self()));
+  ASSERT_TRUE(memory.Initialize(*zx::process::self()));
   constexpr bool is_64_bit = true;
 #else
   pid_t pid = getpid();

@@ -14,8 +14,6 @@
 
 #include "snapshot/fuchsia/process_snapshot_fuchsia.h"
 
-#include <zircon/process.h>
-
 #include "base/logging.h"
 #include "util/fuchsia/koid_utilities.h"
 
@@ -25,7 +23,7 @@ ProcessSnapshotFuchsia::ProcessSnapshotFuchsia() = default;
 
 ProcessSnapshotFuchsia::~ProcessSnapshotFuchsia() = default;
 
-bool ProcessSnapshotFuchsia::Initialize(zx_handle_t process) {
+bool ProcessSnapshotFuchsia::Initialize(const zx::process& process) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   if (gettimeofday(&snapshot_time_, nullptr) != 0) {
@@ -95,7 +93,7 @@ void ProcessSnapshotFuchsia::GetCrashpadOptions(
 
 pid_t ProcessSnapshotFuchsia::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return GetKoidForHandle(zx_process_self());
+  return GetKoidForHandle(*zx::process::self());
 }
 
 pid_t ProcessSnapshotFuchsia::ParentProcessID() const {

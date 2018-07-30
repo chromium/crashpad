@@ -14,7 +14,7 @@
 
 #include "handler/fuchsia/exception_handler_server.h"
 
-#include <zircon/syscalls/exception.h>
+#include <lib/zx/time.h>
 #include <zircon/syscalls/port.h>
 
 #include <utility>
@@ -26,9 +26,8 @@
 
 namespace crashpad {
 
-ExceptionHandlerServer::ExceptionHandlerServer(
-    base::ScopedZxHandle root_job,
-    base::ScopedZxHandle exception_port)
+ExceptionHandlerServer::ExceptionHandlerServer(zx::job root_job,
+                                               zx::port exception_port)
     : root_job_(std::move(root_job)),
       exception_port_(std::move(exception_port)) {}
 
@@ -37,8 +36,7 @@ ExceptionHandlerServer::~ExceptionHandlerServer() = default;
 void ExceptionHandlerServer::Run(CrashReportExceptionHandler* handler) {
   while (true) {
     zx_port_packet_t packet;
-    zx_status_t status =
-        zx_port_wait(exception_port_.get(), ZX_TIME_INFINITE, &packet);
+    zx_status_t status = exception_port_.wait(zx::time::infinite(), &packet);
     if (status != ZX_OK) {
       ZX_LOG(ERROR, status) << "zx_port_wait, aborting";
       return;
