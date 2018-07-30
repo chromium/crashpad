@@ -46,6 +46,30 @@
       "revId": "64fbe7dd56a8a81fedf03c917ffea4ee7f548974",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2753d645_dee9f735",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-30T20:56:59Z",
+      "side": 1,
+      "message": "What I mean is that writing:\n\n  zx::thread handle;\n  ... do stuff to populate |handle| ...\n  return CheckedHandleCast\u003czx::thread\u003e(handle);\n\nreads as though we\u0027re doing an unnecessary cast.  We could instead do:\n\n  zx::handle handle;\n  ... do stuff to populate |handle| ...\n  return ....\n\nwhich would read more intuitively, and means that we don\u0027t (temporarily) have a |handle| of potentially-the-wrong-type.",
+      "parentUuid": "bb468891_c0d4ab0d",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 17
+      },
+      "revId": "64fbe7dd56a8a81fedf03c917ffea4ee7f548974",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }

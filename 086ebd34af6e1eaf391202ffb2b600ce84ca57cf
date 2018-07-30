@@ -616,6 +616,30 @@
     },
     {
       "key": {
+        "uuid": "dfcbce4e_39fcaf06",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-30T20:56:59Z",
+      "side": 1,
+      "message": "Oh, duhhh, I was expecting to get a load of modified files to commit myself. Nice!\n\nThat said, I\u0027m not sure we\u0027ll want an in-Chromium build, versus just configuring a system-provided Crashpad service to upload Chrome crash reports.  I\u0027ll check whether things work in the full Fuchsia build.",
+      "parentUuid": "95b12add_2eb1b1a5",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 3
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cf4758f4_21f0825c",
         "filename": "third_party/fuchsia/BUILD.gn",
         "patchSetId": 3

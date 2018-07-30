@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "293c7fa7_26b2d4ac",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-30T20:56:59Z",
+      "side": 1,
+      "message": "Oh yeah, we can certainly do that; I just typically don\u0027t because it\u0027s redundant.\n\nHowever, current patch-set makes this a check we perform even in Release, to fail-safe.",
+      "parentUuid": "51c38b86_7cf582d8",
+      "revId": "2c132d7a01354082196f45c676652e8fd2d2463f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af31f88c_63b45647",
         "filename": "util/fuchsia/koid_utilities.cc",
         "patchSetId": 5
