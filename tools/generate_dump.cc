@@ -46,7 +46,8 @@
 #include "util/win/scoped_process_suspend.h"
 #include "util/win/xp_compat.h"
 #elif defined(OS_FUCHSIA)
-#include "base/fuchsia/scoped_zx_handle.h"
+#include <lib/zx/process.h>
+
 #include "snapshot/fuchsia/process_snapshot_fuchsia.h"
 #include "util/fuchsia/koid_utilities.h"
 #include "util/fuchsia/scoped_task_suspend.h"
@@ -165,8 +166,8 @@ int GenerateDumpMain(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 #elif defined(OS_FUCHSIA)
-  base::ScopedZxHandle task = GetProcessFromKoid(options.pid);
-  if (!task.is_valid()) {
+  zx::process process = GetProcessFromKoid(options.pid);
+  if (!process.is_valid()) {
     LOG(ERROR) << "could not open process " << options.pid;
     return EXIT_FAILURE;
   }
@@ -190,7 +191,7 @@ int GenerateDumpMain(int argc, char* argv[]) {
 #elif defined(OS_FUCHSIA)
     std::unique_ptr<ScopedTaskSuspend> suspend;
     if (options.suspend) {
-      suspend.reset(new ScopedTaskSuspend(task.get()));
+      suspend.reset(new ScopedTaskSuspend(process));
     }
 #endif  // OS_MACOSX
 
@@ -211,7 +212,7 @@ int GenerateDumpMain(int argc, char* argv[]) {
     }
 #elif defined(OS_FUCHSIA)
     ProcessSnapshotFuchsia process_snapshot;
-    if (!process_snapshot.Initialize(task.get())) {
+    if (!process_snapshot.Initialize(process)) {
       return EXIT_FAILURE;
     }
 #elif defined(OS_LINUX) || defined(OS_ANDROID)

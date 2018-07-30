@@ -101,7 +101,7 @@ static_library("test") {
 
   configs += [
     "../build:crashpad_is_in_chromium",
-    "../build:crashpad_is_in_fuchsia"
+    "../build:crashpad_is_in_fuchsia",
   ]
 
   data = [
@@ -127,10 +127,13 @@ static_library("test") {
     libs = [ "shell32.lib" ]
   }
 
-  if (crashpad_is_fuchsia && crashpad_is_in_fuchsia) {
-    deps += [
-      "//zircon/public/lib/fdio",
+  if (crashpad_is_fuchsia) {
+    public_deps = [
+      "../third_party/fuchsia:zx",
     ]
+    if (crashpad_is_in_fuchsia) {
+      deps += [ "//zircon/public/lib/fdio" ]
+    }
   }
 }
 
