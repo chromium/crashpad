@@ -22,6 +22,30 @@
       "revId": "64fbe7dd56a8a81fedf03c917ffea4ee7f548974",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb468891_c0d4ab0d",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-07-30T20:08:35Z",
+      "side": 1,
+      "message": "\u003e This is approximately the cast-with-check that you mentioned us having on Mac; we could re-frame it as an actual type-casting helper, but the get_child() call below would still expect e.g. an out-param of type zx::thread if |parent| were a zx::process, so then doing a cast-and-check would look a bit odd, IMO.\n\nI don’t think that’s odd, unless I’m misunderstanding what you’re saying. “Children of a process are threads.” That’s OK as a concept and it should be OK as far as the type system goes, right?",
+      "parentUuid": "24500589_f3e45ccb",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 17
+      },
+      "revId": "64fbe7dd56a8a81fedf03c917ffea4ee7f548974",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
