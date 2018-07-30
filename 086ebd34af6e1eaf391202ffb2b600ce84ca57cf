@@ -568,6 +568,30 @@
     },
     {
       "key": {
+        "uuid": "24dd4a0f_ea791afe",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-30T19:53:40Z",
+      "side": 1,
+      "message": "OK, great - are there instructions somewhere on using update.py to roll?  I ran it locally and it listed a load of CLs that needed processing, but it didn\u0027t modify the crashpad copy in my Chromium checkout at all.",
+      "parentUuid": "40f97171_5fb3709b",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 3
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cf4758f4_21f0825c",
         "filename": "third_party/fuchsia/BUILD.gn",
         "patchSetId": 3
@@ -806,6 +830,30 @@
       "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d013c40_2fd05ac1",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-30T19:53:40Z",
+      "side": 1,
+      "message": "OK, done. :)",
+      "parentUuid": "d084b5d9_6b39a962",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 51
+      },
+      "revId": "086ebd34af6e1eaf391202ffb2b600ce84ca57cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {

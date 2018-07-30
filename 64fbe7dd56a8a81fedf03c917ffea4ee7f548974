@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24500589_f3e45ccb",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001385
+      },
+      "writtenOn": "2018-07-30T19:53:40Z",
+      "side": 1,
+      "message": "This is approximately the cast-with-check that you mentioned us having on Mac; we could re-frame it as an actual type-casting helper, but the get_child() call below would still expect e.g. an out-param of type zx::thread if |parent| were a zx::process, so then doing a cast-and-check would look a bit odd, IMO.\n\nI\u0027ve made this return a null handle on failure, even in Release, so that calling code will fail-safe in production, and it logs errors - we could LOG(DFATAL) instead to get ERROR or FATAL depending on whether DCHECKs are enabled, though.\n\nAny thoughts on naming?",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 17
+      },
+      "revId": "64fbe7dd56a8a81fedf03c917ffea4ee7f548974",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
