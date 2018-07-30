@@ -32,8 +32,7 @@
 #include "util/process/process_memory_native.h"
 
 #if defined(OS_FUCHSIA)
-
-#include <zircon/syscalls.h>
+#include <lib/zx/process.h>
 
 #include "base/fuchsia/fuchsia_logging.h"
 
@@ -61,14 +60,12 @@ namespace {
 
 #if defined(OS_FUCHSIA)
 
-void LocateExecutable(ProcessType process,
+void LocateExecutable(const ProcessType& process,
                       ProcessMemory* memory,
                       VMAddress* elf_address) {
   uintptr_t debug_address;
-  zx_status_t status = zx_object_get_property(process,
-                                              ZX_PROP_PROCESS_DEBUG_ADDR,
-                                              &debug_address,
-                                              sizeof(debug_address));
+  zx_status_t status = process->get_property(
+      ZX_PROP_PROCESS_DEBUG_ADDR, &debug_address, sizeof(debug_address));
   ASSERT_EQ(status, ZX_OK)
       << "zx_object_get_property: ZX_PROP_PROCESS_DEBUG_ADDR";
   // Can be 0 if requested before the loader has loaded anything.

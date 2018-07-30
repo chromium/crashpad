@@ -15,11 +15,12 @@
 #ifndef CRASHPAD_UTIL_FUCHSIA_SCOPED_TASK_SUSPEND_H_
 #define CRASHPAD_UTIL_FUCHSIA_SCOPED_TASK_SUSPEND_H_
 
-#include <zircon/types.h>
+#include <lib/zx/process.h>
+#include <lib/zx/suspend_token.h>
+#include <lib/zx/thread.h>
 
 #include <vector>
 
-#include "base/fuchsia/scoped_zx_handle.h"
 #include "base/macros.h"
 
 namespace crashpad {
@@ -40,12 +41,13 @@ namespace crashpad {
 //! `zx_process_self()`.
 class ScopedTaskSuspend {
  public:
-  explicit ScopedTaskSuspend(zx_handle_t task);
-  ~ScopedTaskSuspend();
+  explicit ScopedTaskSuspend(const zx::process& process);
+  explicit ScopedTaskSuspend(const zx::thread& thread);
+  ~ScopedTaskSuspend() = default;
 
  private:
-  // Could be one (for a thread) or many (for every process in a thread).
-  std::vector<base::ScopedZxHandle> suspend_tokens_;
+  // Could be one (for a thread) or many (for every thread in a process).
+  std::vector<zx::suspend_token> suspend_tokens_;
 
   DISALLOW_COPY_AND_ASSIGN(ScopedTaskSuspend);
 };
