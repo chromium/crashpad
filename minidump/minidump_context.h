@@ -389,7 +389,12 @@ struct MinidumpContextARM {
 //! \brief 64-bit ARM-specifc flags for MinidumpContextARM64::context_flags.
 enum MinidumpContextARM64Flags : uint32_t {
   //! \brief Identifies the context structure as 64-bit ARM.
-  kMinidumpContextARM64 = 0x80000000,
+  kMinidumpContextARM64 = 0x00400000,
+
+  //! \brief Indicates the validity of control registers.
+  //!
+  //! Registers `sp`, `lr`, `pc`, and `cpsr`.
+  kMinidumpContextARM64Control = kMinidumpContextARM64 | 0x00000001,
 
   //! \brief Indicates the validty of integer registers.
   //!
@@ -401,14 +406,28 @@ enum MinidumpContextARM64Flags : uint32_t {
   //! Registers `v0`-`v31`, `fpsr`, and `fpcr` are valid.
   kMinidumpContextARM64Fpsimd = kMinidumpContextARM64 | 0x00000004,
 
+  //! \brief Indicates the validity of debug registers.
+  //!
+  //! `bcr`, `bvr`, `wcr`, and `wvr` are valid.
+  kMinidumpContextARM64Debug = kMinidumpContextARM64 | 0x00000008,
+
+  //! \brief Indicates the validity of control, integer and floating point
+  //!     registers.
+  kMinidumpContextARM64Full = kMinidumpContextARM64Control |
+                              kMinidumpContextARM64Integer |
+                              kMinidumpContextARM64Fpsimd,
+
   //! \brief Indicates the validity of all registers.
   kMinidumpContextARM64All =
-      kMinidumpContextARM64Integer | kMinidumpContextARM64Fpsimd,
+      kMinidumpContextARM64Full | kMinidumpContextARM64Debug,
 };
 
 //! \brief A 64-bit ARM CPU context (register state) carried in a minidump file.
 struct MinidumpContextARM64 {
-  uint64_t context_flags;
+  uint32_t context_flags;
+
+  //! \brief Current program status register.
+  uint32_t cpsr;
 
   //! \brief General-purpose registers `x0`-`x30`.
   uint64_t regs[31];
@@ -419,17 +438,20 @@ struct MinidumpContextARM64 {
   //! \brief Program counter.
   uint64_t pc;
 
-  //! \brief Current program status register.
-  uint32_t cpsr;
-
-  //! \brief Floating-point status register.
-  uint32_t fpsr;
+  //! \brief NEON registers `v0`-`v31`.
+  uint128_struct fpsimd[32];
 
   //! \brief Floating-point control register.
   uint32_t fpcr;
 
-  //! \brief NEON registers `v0`-`v31`.
-  uint128_struct fpsimd[32];
+  //! \brief Floating-point status register.
+  uint32_t fpsr;
+
+  //! \brief Debug registers.
+  uint32_t bcr[8];
+  uint64_t bvr[8];
+  uint32_t wcr[2];
+  uint64_t wvr[2];
 };
 
 //! \brief 32bit MIPS-specifc flags for MinidumpContextMIPS::context_flags.

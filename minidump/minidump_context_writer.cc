@@ -321,7 +321,7 @@ void MinidumpContextARM64Writer::InitializeFromSnapshot(
   DCHECK_EQ(state(), kStateMutable);
   DCHECK_EQ(context_.context_flags, kMinidumpContextARM64);
 
-  context_.context_flags = kMinidumpContextARM64All;
+  context_.context_flags = kMinidumpContextARM64Full;
 
   static_assert(sizeof(context_.regs) == sizeof(context_snapshot->regs),
                 "GPRs size mismatch");
@@ -341,6 +341,11 @@ void MinidumpContextARM64Writer::InitializeFromSnapshot(
   static_assert(sizeof(context_.fpsimd) == sizeof(context_snapshot->fpsimd),
                 "FPSIMD size mismatch");
   memcpy(context_.fpsimd, context_snapshot->fpsimd, sizeof(context_.fpsimd));
+
+  memset(context_.bcr, 0, sizeof(context_.bcr));
+  memset(context_.bvr, 0, sizeof(context_.bvr));
+  memset(context_.wcr, 0, sizeof(context_.wcr));
+  memset(context_.wvr, 0, sizeof(context_.wvr));
 }
 
 bool MinidumpContextARM64Writer::WriteObject(FileWriterInterface* file_writer) {
