@@ -176,7 +176,7 @@ void InitializeMinidumpContextARM64(MinidumpContextARM64* context,
     return;
   }
 
-  context->context_flags = kMinidumpContextARM64All;
+  context->context_flags = kMinidumpContextARM64Full;
 
   uint32_t value = seed;
 
