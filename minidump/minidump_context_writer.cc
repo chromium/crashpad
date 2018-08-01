@@ -321,13 +321,7 @@ void MinidumpContextARM64Writer::InitializeFromSnapshot(
   DCHECK_EQ(state(), kStateMutable);
   DCHECK_EQ(context_.context_flags, kMinidumpContextARM64);
 
-  context_.context_flags = kMinidumpContextARM64All;
-
-  static_assert(sizeof(context_.regs) == sizeof(context_snapshot->regs),
-                "GPRs size mismatch");
-  memcpy(context_.regs, context_snapshot->regs, sizeof(context_.regs));
-  context_.sp = context_snapshot->sp;
-  context_.pc = context_snapshot->pc;
+  context_.context_flags = kMinidumpContextARM64Full;
 
   if (context_snapshot->pstate >
       std::numeric_limits<decltype(context_.cpsr)>::max()) {
@@ -336,11 +330,26 @@ void MinidumpContextARM64Writer::InitializeFromSnapshot(
   context_.cpsr =
       static_cast<decltype(context_.cpsr)>(context_snapshot->pstate);
 
-  context_.fpsr = context_snapshot->fpsr;
-  context_.fpcr = context_snapshot->fpcr;
+  static_assert(
+      sizeof(context_.regs) == sizeof(context_snapshot->regs) -
+                                   2 * sizeof(context_snapshot->regs[0]),
+      "GPRs size mismatch");
+  memcpy(context_.regs, context_snapshot->regs, sizeof(context_.regs));
+  context_.fp = context_snapshot->regs[29];
+  context_.lr = context_snapshot->regs[30];
+  context_.sp = context_snapshot->sp;
+  context_.pc = context_snapshot->pc;
+
   static_assert(sizeof(context_.fpsimd) == sizeof(context_snapshot->fpsimd),
                 "FPSIMD size mismatch");
   memcpy(context_.fpsimd, context_snapshot->fpsimd, sizeof(context_.fpsimd));
+  context_.fpcr = context_snapshot->fpcr;
+  context_.fpsr = context_snapshot->fpsr;
+
+  memset(context_.bcr, 0, sizeof(context_.bcr));
+  memset(context_.bvr, 0, sizeof(context_.bvr));
+  memset(context_.wcr, 0, sizeof(context_.wcr));
+  memset(context_.wvr, 0, sizeof(context_.wvr));
 }
 
 bool MinidumpContextARM64Writer::WriteObject(FileWriterInterface* file_writer) {

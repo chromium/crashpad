@@ -176,13 +176,15 @@ void InitializeMinidumpContextARM64(MinidumpContextARM64* context,
     return;
   }
 
-  context->context_flags = kMinidumpContextARM64All;
+  context->context_flags = kMinidumpContextARM64Full;
 
   uint32_t value = seed;
 
   for (size_t index = 0; index < arraysize(context->regs); ++index) {
     context->regs[index] = value++;
   }
+  context->fp = value++;
+  context->lr = value++;
   context->sp = value++;
   context->pc = value++;
   context->cpsr = value++;
