@@ -57,6 +57,7 @@ class ScopedModuleHandle {
   using ModuleHandle = Impl::ModuleHandle;
 
   explicit ScopedModuleHandle(ModuleHandle handle);
+  ScopedModuleHandle(ScopedModuleHandle&& handle);
   ~ScopedModuleHandle();
 
   //! \return The module handle being managed.

@@ -76,20 +76,27 @@ class MemoryMap {
   //!     it was obtained from.
   const Mapping* FindMappingWithName(const std::string& name) const;
 
-  //! \brief Find the first Mapping in a series of mappings for the same file.
+  //! \brief Find Mappings that share a Mapping's file, mapped from offset 0.
   //!
   //! Executables and libaries are typically loaded into several mappings with
-  //! varying permissions for different segments. This method searches for the
-  //! mapping with the highest address at or below \a mapping, which maps the
-  //! same file as \a mapping from file offset 0.
+  //! varying permissions for different segments. Portions of an ELF file may
+  //! be mapped multiple times as part of loading the file, for example, when
+  //! initializing GNU_RELRO segments. This method searches for mappings at or
+  //! below \a mapping in memory that are mapped from the same file as \a
+  //! mapping from offset 0.
   //!
-  //! If \a mapping is not found, `nullptr` is returned. If \a mapping is found
-  //! but does not map a file, \a mapping is returned.
+  //! This method is intended to help identify the possible base address for
+  //! loaded modules, but it is the caller's responsibility to determine which
+  //! returned mapping is correct.
+  //!
+  //! If \a mapping does not refer to a valid mapping, an empty vector will be
+  //! returned and a message will be logged. If \a mapping is found but does not
+  //! map a file, \a mapping is returned in \a possible_starts.
   //!
   //! \param[in] mapping A Mapping whose series to find the start of.
-  //! \return The first Mapping in the series or `nullptr` on failure with a
-  //!     message logged.
-  const Mapping* FindFileMmapStart(const Mapping& mapping) const;
+  //! \return a vector of the possible mapping starts.
+  std::vector<const Mapping*> FindFilePossibleMmapStarts(
+      const Mapping& mapping) const;
 
  private:
   std::vector<Mapping> mappings_;

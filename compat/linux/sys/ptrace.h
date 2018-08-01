@@ -26,7 +26,7 @@
 static constexpr __ptrace_request PTRACE_GET_THREAD_AREA =
     static_cast<__ptrace_request>(25);
 #define PTRACE_GET_THREAD_AREA PTRACE_GET_THREAD_AREA
-#elif defined(__arm__) || defined(__arm64__)
+#elif defined(__arm__) || defined(__aarch64__)
 static constexpr __ptrace_request PTRACE_GET_THREAD_AREA =
     static_cast<__ptrace_request>(22);
 #define PTRACE_GET_THREAD_AREA PTRACE_GET_THREAD_AREA
@@ -42,7 +42,7 @@ static constexpr __ptrace_request PTRACE_GET_THREAD_AREA_3264 =
 
 // https://sourceware.org/bugzilla/show_bug.cgi?id=22433
 #if !defined(PTRACE_GETVFPREGS) && !defined(PT_GETVFPREGS) && \
-    defined(__GLIBC__) && (defined(__arm__) || defined(__arm64__))
+    defined(__GLIBC__) && (defined(__arm__) || defined(__aarch64__))
 static constexpr __ptrace_request PTRACE_GETVFPREGS =
     static_cast<__ptrace_request>(27);
 #define PTRACE_GETVFPREGS PTRACE_GETVFPREGS

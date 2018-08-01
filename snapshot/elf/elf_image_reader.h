@@ -118,7 +118,13 @@ class ElfImageReader {
   //! \param[in] memory A memory reader for the remote process.
   //! \param[in] address The address in the remote process' address space where
   //!     the ELF image is loaded.
-  bool Initialize(const ProcessMemoryRange& memory, VMAddress address);
+  //! \param[in] verbose `true` if this method should log error messages during
+  //!     initialization. Setting this value to `false` will reduce the error
+  //!     messages relating to verifying the ELF image, but may not suppress
+  //!     logging entirely.
+  bool Initialize(const ProcessMemoryRange& memory,
+                  VMAddress address,
+                  bool verbose = true);
 
   //! \brief Returns the base address of the image's memory range.
   //!
@@ -171,6 +177,16 @@ class ElfImageReader {
   //! \param[out] debug the debug address, if found.
   //! \return `true` if the debug address was found.
   bool GetDebugAddress(VMAddress* debug);
+
+  //! \brief Determine the address of `PT_DYNAMIC` segment.
+  //!
+  //! \param[out] address The address of the array, valid if this method returns
+  //!     `true`.
+  //! \return `true` on success. Otherwise `false` with a message logged.
+  bool GetDynamicArrayAddress(VMAddress* address);
+
+  //! \brief Return the address of the program header table.
+  VMAddress GetProgramHeaderTableAddress();
 
   //! \brief Return a NoteReader for this image, which scans all PT_NOTE
   //!     segments in the image.
@@ -238,7 +254,7 @@ class ElfImageReader {
   template <typename PhdrType>
   class ProgramHeaderTableSpecific;
 
-  bool InitializeProgramHeaders();
+  bool InitializeProgramHeaders(bool verbose);
   bool InitializeDynamicArray();
   bool InitializeDynamicSymbolTable();
   bool GetAddressFromDynamicArray(uint64_t tag, bool log, VMAddress* address);

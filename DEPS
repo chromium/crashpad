@@ -37,6 +37,90 @@ deps = {
   'crashpad/third_party/zlib/zlib':
       Var('chromium_git') + '/chromium/src/third_party/zlib@' +
       '13dc246a58e4b72104d35f9b1809af95221ebda7',
+
+  # CIPD packages below.
+  'crashpad/third_party/linux/clang/linux-amd64': {
+    'packages': [
+      {
+        'package': 'fuchsia/clang/linux-amd64',
+        'version': 'goma',
+      },
+    ],
+    'condition': 'checkout_linux and pull_linux_clang',
+    'dep_type': 'cipd'
+  },
+  'crashpad/third_party/linux/clang/mac-amd64': {
+    'packages': [
+      {
+        'package': 'fuchsia/clang/mac-amd64',
+        'version': 'goma',
+      },
+    ],
+    'condition': 'checkout_fuchsia and host_os == "mac"',
+    'dep_type': 'cipd'
+  },
+  'crashpad/third_party/fuchsia/clang/linux-amd64': {
+    'packages': [
+      {
+        'package': 'fuchsia/clang/linux-amd64',
+        'version': 'goma',
+      },
+    ],
+    'condition': 'checkout_fuchsia and host_os == "linux"',
+    'dep_type': 'cipd'
+  },
+  'crashpad/third_party/fuchsia/qemu/mac-amd64': {
+    'packages': [
+      {
+        'package': 'fuchsia/qemu/mac-amd64',
+        'version': 'latest'
+      },
+    ],
+    'condition': 'checkout_fuchsia and host_os == "mac"',
+    'dep_type': 'cipd'
+  },
+  'crashpad/third_party/fuchsia/qemu/linux-amd64': {
+    'packages': [
+      {
+        'package': 'fuchsia/qemu/linux-amd64',
+        'version': 'latest'
+      },
+    ],
+    'condition': 'checkout_fuchsia and host_os == "linux"',
+    'dep_type': 'cipd'
+  },
+  'crashpad/third_party/fuchsia/sdk/linux-amd64': {
+    # The SDK is keyed to the host system because it contains build tools.
+    # Currently, linux-amd64 is the only SDK published (see
+    # https://chrome-infra-packages.appspot.com/#/?path=fuchsia/sdk).
+    # As long as this is the case, use that SDK package
+    # even on other build hosts.
+    # The sysroot (containing headers and libraries) and other components are
+    # related to the target and should be functional with an appropriate
+    # toolchain that runs on the build host (fuchsia_clang, above).
+    'packages': [
+      {
+        'package': 'fuchsia/sdk/linux-amd64',
+        'version': 'latest'
+      },
+    ],
+    'condition': 'checkout_fuchsia',
+    'dep_type': 'cipd'
+  },
+  'crashpad/third_party/win/toolchain': {
+    # This package is only updated when the solution in .gclient includes an
+    # entry like:
+    #   "custom_vars": { "pull_win_toolchain": True }
+    # This is because the contained bits are not redistributable.
+    'packages': [
+      {
+        'package': 'chrome_internal/third_party/sdk/windows',
+        'version': 'uploaded:2018-06-13'
+      },
+    ],
+    'condition': 'checkout_win and pull_win_toolchain',
+    'dep_type': 'cipd'
+  },
 }
 
 hooks = [
@@ -119,28 +203,6 @@ hooks = [
     ],
   },
   {
-    # This uses “cipd install” so that mac-amd64 and linux-amd64 can coexist
-    # peacefully. “cipd ensure” would remove the macOS package when running on a
-    # Linux build host and vice-versa. https://crbug.com/789364. This package is
-    # only updated when the solution in .gclient includes an entry like:
-    #   "custom_vars": { "pull_linux_clang": True }
-    # The ref used is "goma". This is like "latest", but is considered a more
-    # stable latest by the Fuchsia toolchain team.
-    'name': 'clang_linux',
-    'pattern': '.',
-    'condition': 'checkout_linux and pull_linux_clang',
-    'action': [
-      'cipd',
-      'install',
-      # sic, using Fuchsia team's generic build of clang for linux-amd64 to
-      # build for linux-amd64 target too.
-      'fuchsia/clang/linux-amd64',
-      'goma',
-      '-root', 'crashpad/third_party/linux/clang/linux-amd64',
-      '-log-level', 'info',
-    ],
-  },
-  {
     # If using a local clang ("pull_linux_clang" above), also pull down a
     # sysroot.
     'name': 'sysroot_linux',
@@ -148,105 +210,6 @@ hooks = [
     'condition': 'checkout_linux and pull_linux_clang',
     'action': [
       'crashpad/build/install_linux_sysroot.py',
-    ],
-  },
-  {
-    # Same rationale for using "install" rather than "ensure" as for first clang
-    # package. https://crbug.com/789364.
-    # Same rationale for using "goma" instead of "latest" as clang_linux above.
-    'name': 'fuchsia_clang_mac',
-    'pattern': '.',
-    'condition': 'checkout_fuchsia and host_os == "mac"',
-    'action': [
-      'cipd',
-      'install',
-      'fuchsia/clang/mac-amd64',
-      'goma',
-      '-root', 'crashpad/third_party/fuchsia/clang/mac-amd64',
-      '-log-level', 'info',
-    ],
-  },
-  {
-    # Same rationale for using "install" rather than "ensure" as for first clang
-    # package. https://crbug.com/789364.
-    # Same rationale for using "goma" instead of "latest" as clang_linux above.
-    'name': 'fuchsia_clang_linux',
-    'pattern': '.',
-    'condition': 'checkout_fuchsia and host_os == "linux"',
-    'action': [
-      'cipd',
-      'install',
-      'fuchsia/clang/linux-amd64',
-      'goma',
-      '-root', 'crashpad/third_party/fuchsia/clang/linux-amd64',
-      '-log-level', 'info',
-    ],
-  },
-  {
-    # Same rationale for using "install" rather than "ensure" as for clang
-    # packages. https://crbug.com/789364.
-    'name': 'fuchsia_qemu_mac',
-    'pattern': '.',
-    'condition': 'checkout_fuchsia and host_os == "mac"',
-    'action': [
-      'cipd',
-      'install',
-      'fuchsia/qemu/mac-amd64',
-      'latest',
-      '-root', 'crashpad/third_party/fuchsia/qemu/mac-amd64',
-      '-log-level', 'info',
-    ],
-  },
-  {
-    # Same rationale for using "install" rather than "ensure" as for clang
-    # packages. https://crbug.com/789364.
-    'name': 'fuchsia_qemu_linux',
-    'pattern': '.',
-    'condition': 'checkout_fuchsia and host_os == "linux"',
-    'action': [
-      'cipd',
-      'install',
-      'fuchsia/qemu/linux-amd64',
-      'latest',
-      '-root', 'crashpad/third_party/fuchsia/qemu/linux-amd64',
-      '-log-level', 'info',
-    ],
-  },
-  {
-    # The SDK is keyed to the host system because it contains build tools.
-    # Currently, linux-amd64 is the only SDK published (see
-    # https://chrome-infra-packages.appspot.com/#/?path=fuchsia/sdk). As long as
-    # this is the case, use that SDK package even on other build hosts. The
-    # sysroot (containing headers and libraries) and other components are
-    # related to the target and should be functional with an appropriate
-    # toolchain that runs on the build host (fuchsia_clang, above).
-    'name': 'fuchsia_sdk',
-    'pattern': '.',
-    'condition': 'checkout_fuchsia',
-    'action': [
-      'cipd',
-      'install',
-      'fuchsia/sdk/linux-amd64',
-      'latest',
-      '-root', 'crashpad/third_party/fuchsia/sdk/linux-amd64',
-      '-log-level', 'info',
-    ],
-  },
-  {
-    'name': 'toolchain_win',
-    'pattern': '.',
-    # This package is only updated when the solution in .gclient includes an
-    # entry like:
-    #   "custom_vars": { "pull_win_toolchain": True }
-    # This is because the contained bits are not redistributable.
-    'condition': 'checkout_win and pull_win_toolchain',
-    'action': [
-      'cipd',
-      'install',
-      'chrome_internal/third_party/sdk/windows',
-      'uploaded:2018-06-13',
-      '-root', 'crashpad/third_party/win/toolchain',
-      '-log-level', 'info',
     ],
   },
   {

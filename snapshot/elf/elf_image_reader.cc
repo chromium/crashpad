@@ -31,12 +31,14 @@ class ElfImageReader::ProgramHeaderTable {
  public:
   virtual ~ProgramHeaderTable() {}
 
-  virtual bool VerifyLoadSegments() const = 0;
+  virtual bool VerifyLoadSegments(bool verbose) const = 0;
   virtual size_t Size() const = 0;
   virtual bool GetDynamicSegment(VMAddress* address, VMSize* size) const = 0;
-  virtual bool GetPreferredElfHeaderAddress(VMAddress* address) const = 0;
+  virtual bool GetPreferredElfHeaderAddress(VMAddress* address,
+                                            bool verbose) const = 0;
   virtual bool GetPreferredLoadedMemoryRange(VMAddress* address,
-                                             VMSize* size) const = 0;
+                                             VMSize* size,
+                                             bool verbose) const = 0;
 
   // Locate the next PT_NOTE segment starting at segment index start_index. If a
   // PT_NOTE segment is found, start_index is set to the next index after the
@@ -58,14 +60,15 @@ class ElfImageReader::ProgramHeaderTableSpecific
 
   bool Initialize(const ProcessMemoryRange& memory,
                   VMAddress address,
-                  VMSize num_segments) {
+                  VMSize num_segments,
+                  bool verbose) {
     INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
     table_.resize(num_segments);
     if (!memory.Read(address, sizeof(PhdrType) * num_segments, table_.data())) {
       return false;
     }
 
-    if (!VerifyLoadSegments()) {
+    if (!VerifyLoadSegments(verbose)) {
       return false;
     }
 
@@ -73,7 +76,7 @@ class ElfImageReader::ProgramHeaderTableSpecific
     return true;
   }
 
-  bool VerifyLoadSegments() const override {
+  bool VerifyLoadSegments(bool verbose) const override {
     constexpr bool is_64_bit = std::is_same<PhdrType, Elf64_Phdr>::value;
     VMAddress last_vaddr;
     bool load_found = false;
@@ -83,12 +86,12 @@ class ElfImageReader::ProgramHeaderTableSpecific
             is_64_bit, header.p_vaddr, header.p_memsz);
 
         if (!load_range.IsValid()) {
-          LOG(ERROR) << "bad load range";
+          LOG_IF(ERROR, verbose) << "bad load range";
           return false;
         }
 
         if (load_found && header.p_vaddr <= last_vaddr) {
-          LOG(ERROR) << "out of order load segments";
+          LOG_IF(ERROR, verbose) << "out of order load segments";
           return false;
         }
         load_found = true;
@@ -100,7 +103,8 @@ class ElfImageReader::ProgramHeaderTableSpecific
 
   size_t Size() const override { return sizeof(PhdrType) * table_.size(); }
 
-  bool GetPreferredElfHeaderAddress(VMAddress* address) const override {
+  bool GetPreferredElfHeaderAddress(VMAddress* address,
+                                    bool verbose) const override {
     INITIALIZATION_STATE_DCHECK_VALID(initialized_);
     for (const auto& header : table_) {
       if (header.p_type == PT_LOAD && header.p_offset == 0) {
@@ -108,12 +112,13 @@ class ElfImageReader::ProgramHeaderTableSpecific
         return true;
       }
     }
-    LOG(ERROR) << "no preferred header address";
+    LOG_IF(ERROR, verbose) << "no preferred header address";
     return false;
   }
 
   bool GetPreferredLoadedMemoryRange(VMAddress* base,
-                                     VMSize* size) const override {
+                                     VMSize* size,
+                                     bool verbose) const override {
     INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
     VMAddress preferred_base = 0;
@@ -133,7 +138,7 @@ class ElfImageReader::ProgramHeaderTableSpecific
       *size = preferred_end - preferred_base;
       return true;
     }
-    LOG(ERROR) << "no load segments";
+    LOG_IF(ERROR, verbose) << "no load segments";
     return false;
   }
 
@@ -340,7 +345,8 @@ ElfImageReader::ElfImageReader()
 ElfImageReader::~ElfImageReader() {}
 
 bool ElfImageReader::Initialize(const ProcessMemoryRange& memory,
-                                VMAddress address) {
+                                VMAddress address,
+                                bool verbose) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
   ehdr_address_ = address;
   if (!memory_.Initialize(memory)) {
@@ -354,13 +360,13 @@ bool ElfImageReader::Initialize(const ProcessMemoryRange& memory,
 
   if (e_ident[EI_MAG0] != ELFMAG0 || e_ident[EI_MAG1] != ELFMAG1 ||
       e_ident[EI_MAG2] != ELFMAG2 || e_ident[EI_MAG3] != ELFMAG3) {
-    LOG(ERROR) << "Incorrect ELF magic number";
+    LOG_IF(ERROR, verbose) << "Incorrect ELF magic number";
     return false;
   }
 
   if (!(memory_.Is64Bit() && e_ident[EI_CLASS] == ELFCLASS64) &&
       !(!memory_.Is64Bit() && e_ident[EI_CLASS] == ELFCLASS32)) {
-    LOG(ERROR) << "unexpected bitness";
+    LOG_IF(ERROR, verbose) << "unexpected bitness";
     return false;
   }
 
@@ -370,12 +376,12 @@ bool ElfImageReader::Initialize(const ProcessMemoryRange& memory,
   constexpr uint8_t expected_encoding = ELFDATA2MSB;
 #endif
   if (e_ident[EI_DATA] != expected_encoding) {
-    LOG(ERROR) << "unexpected encoding";
+    LOG_IF(ERROR, verbose) << "unexpected encoding";
     return false;
   }
 
   if (e_ident[EI_VERSION] != EV_CURRENT) {
-    LOG(ERROR) << "unexpected version";
+    LOG_IF(ERROR, verbose) << "unexpected version";
     return false;
   }
 
@@ -388,15 +394,15 @@ bool ElfImageReader::Initialize(const ProcessMemoryRange& memory,
 #define VERIFY_HEADER(header)                                  \
   do {                                                         \
     if (header.e_type != ET_EXEC && header.e_type != ET_DYN) { \
-      LOG(ERROR) << "unexpected image type";                   \
+      LOG_IF(ERROR, verbose) << "unexpected image type";       \
       return false;                                            \
     }                                                          \
     if (header.e_version != EV_CURRENT) {                      \
-      LOG(ERROR) << "unexpected version";                      \
+      LOG_IF(ERROR, verbose) << "unexpected version";          \
       return false;                                            \
     }                                                          \
     if (header.e_ehsize != sizeof(header)) {                   \
-      LOG(ERROR) << "unexpected header size";                  \
+      LOG_IF(ERROR, verbose) << "unexpected header size";      \
       return false;                                            \
     }                                                          \
   } while (false);
@@ -407,21 +413,21 @@ bool ElfImageReader::Initialize(const ProcessMemoryRange& memory,
     VERIFY_HEADER(header_32_);
   }
 
-  if (!InitializeProgramHeaders()) {
+  if (!InitializeProgramHeaders(verbose)) {
     return false;
   }
 
   VMAddress preferred_ehdr_address;
   if (!program_headers_.get()->GetPreferredElfHeaderAddress(
-          &preferred_ehdr_address)) {
+          &preferred_ehdr_address, verbose)) {
     return false;
   }
   load_bias_ = ehdr_address_ - preferred_ehdr_address;
 
   VMAddress base_address;
   VMSize loaded_size;
-  if (!program_headers_.get()->GetPreferredLoadedMemoryRange(&base_address,
-                                                             &loaded_size)) {
+  if (!program_headers_.get()->GetPreferredLoadedMemoryRange(
+          &base_address, &loaded_size, verbose)) {
     return false;
   }
   base_address += load_bias_;
@@ -443,12 +449,12 @@ bool ElfImageReader::Initialize(const ProcessMemoryRange& memory,
   CheckedVMAddressRange range(memory_.Is64Bit(), base_address, loaded_size);
   if (!range.ContainsRange(
           CheckedVMAddressRange(memory_.Is64Bit(), ehdr_address_, ehdr_size))) {
-    LOG(ERROR) << "ehdr out of range";
+    LOG_IF(ERROR, verbose) << "ehdr out of range";
     return false;
   }
   if (!range.ContainsRange(CheckedVMAddressRange(
           memory.Is64Bit(), phdr_address, program_headers_->Size()))) {
-    LOG(ERROR) << "phdrs out of range";
+    LOG_IF(ERROR, verbose) << "phdrs out of range";
     return false;
   }
 
@@ -545,19 +551,40 @@ bool ElfImageReader::GetDebugAddress(VMAddress* debug) {
   return GetAddressFromDynamicArray(DT_DEBUG, true, debug);
 }
 
-bool ElfImageReader::InitializeProgramHeaders() {
-#define INITIALIZE_PROGRAM_HEADERS(PhdrType, header)                    \
-  do {                                                                  \
-    if (header.e_phentsize != sizeof(PhdrType)) {                       \
-      LOG(ERROR) << "unexpected phdr size";                             \
-      return false;                                                     \
-    }                                                                   \
-    auto phdrs = new ProgramHeaderTableSpecific<PhdrType>();            \
-    program_headers_.reset(phdrs);                                      \
-    if (!phdrs->Initialize(                                             \
-            memory_, ehdr_address_ + header.e_phoff, header.e_phnum)) { \
-      return false;                                                     \
-    }                                                                   \
+bool ElfImageReader::GetDynamicArrayAddress(VMAddress* address) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  VMAddress dyn_segment_address;
+  VMSize dyn_segment_size;
+  if (!program_headers_.get()->GetDynamicSegment(&dyn_segment_address,
+                                                 &dyn_segment_size)) {
+    LOG(ERROR) << "no dynamic segment";
+    return false;
+  }
+  *address = dyn_segment_address + GetLoadBias();
+  return true;
+}
+
+VMAddress ElfImageReader::GetProgramHeaderTableAddress() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return ehdr_address_ +
+         (memory_.Is64Bit() ? header_64_.e_phoff : header_32_.e_phoff);
+}
+
+bool ElfImageReader::InitializeProgramHeaders(bool verbose) {
+#define INITIALIZE_PROGRAM_HEADERS(PhdrType, header)         \
+  do {                                                       \
+    if (header.e_phentsize != sizeof(PhdrType)) {            \
+      LOG_IF(ERROR, verbose) << "unexpected phdr size";      \
+      return false;                                          \
+    }                                                        \
+    auto phdrs = new ProgramHeaderTableSpecific<PhdrType>(); \
+    program_headers_.reset(phdrs);                           \
+    if (!phdrs->Initialize(memory_,                          \
+                           ehdr_address_ + header.e_phoff,   \
+                           header.e_phnum,                   \
+                           verbose)) {                       \
+      return false;                                          \
+    }                                                        \
   } while (false);
 
   if (memory_.Is64Bit()) {
