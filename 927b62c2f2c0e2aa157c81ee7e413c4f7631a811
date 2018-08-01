@@ -16,6 +16,24 @@
       "revId": "927b62c2f2c0e2aa157c81ee7e413c4f7631a811",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d4d015e_d021e97d",
+        "filename": "minidump/minidump_context.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-08-01T15:44:50Z",
+      "side": 1,
+      "message": "Done here:\nhttps://chromium-review.googlesource.com/c/crashpad/crashpad/+/1157286",
+      "parentUuid": "774b18bd_aa6f0df8",
+      "revId": "927b62c2f2c0e2aa157c81ee7e413c4f7631a811",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
