@@ -82,21 +82,21 @@ Inheritance diagram for crashpad::ElfImageReader::ProgramHeaderTableSpecific&lt;
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4fcefc4ab04969431dae7238b37f9eab"><td class="memItemLeft" align="right" valign="top"><a id="a4fcefc4ab04969431dae7238b37f9eab"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Initialize</b> (const <a class="el" href="classcrashpad_1_1ProcessMemoryRange.html">ProcessMemoryRange</a> &amp;memory, <a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> address, <a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> num_segments)</td></tr>
-<tr class="separator:a4fcefc4ab04969431dae7238b37f9eab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c66ab0d38c01a46db8425d526c03c1f"><td class="memItemLeft" align="right" valign="top"><a id="a2c66ab0d38c01a46db8425d526c03c1f"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>VerifyLoadSegments</b> () const override</td></tr>
-<tr class="separator:a2c66ab0d38c01a46db8425d526c03c1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dde994134faa181c315a6793e76c694"><td class="memItemLeft" align="right" valign="top"><a id="a6dde994134faa181c315a6793e76c694"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>Initialize</b> (const <a class="el" href="classcrashpad_1_1ProcessMemoryRange.html">ProcessMemoryRange</a> &amp;memory, <a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> address, <a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> num_segments, bool verbose)</td></tr>
+<tr class="separator:a6dde994134faa181c315a6793e76c694"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d3f0bdc6bdd28364c640cea830fed37"><td class="memItemLeft" align="right" valign="top"><a id="a6d3f0bdc6bdd28364c640cea830fed37"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>VerifyLoadSegments</b> (bool verbose) const override</td></tr>
+<tr class="separator:a6d3f0bdc6bdd28364c640cea830fed37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97cde14347e2549c700efd60312a5010"><td class="memItemLeft" align="right" valign="top"><a id="a97cde14347e2549c700efd60312a5010"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>Size</b> () const override</td></tr>
 <tr class="separator:a97cde14347e2549c700efd60312a5010"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae596b3d9f67703549bb259f383a41be7"><td class="memItemLeft" align="right" valign="top"><a id="ae596b3d9f67703549bb259f383a41be7"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>GetPreferredElfHeaderAddress</b> (<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> *address) const override</td></tr>
-<tr class="separator:ae596b3d9f67703549bb259f383a41be7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ee1b245639afd9171fe35e0935f2f5d"><td class="memItemLeft" align="right" valign="top"><a id="a5ee1b245639afd9171fe35e0935f2f5d"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>GetPreferredLoadedMemoryRange</b> (<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> *base, <a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> *size) const override</td></tr>
-<tr class="separator:a5ee1b245639afd9171fe35e0935f2f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75a533d919a8d7fc2d1f417cdd076bf1"><td class="memItemLeft" align="right" valign="top"><a id="a75a533d919a8d7fc2d1f417cdd076bf1"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>GetPreferredElfHeaderAddress</b> (<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> *address, bool verbose) const override</td></tr>
+<tr class="separator:a75a533d919a8d7fc2d1f417cdd076bf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adde4153d2af079267a4edea5f58f74aa"><td class="memItemLeft" align="right" valign="top"><a id="adde4153d2af079267a4edea5f58f74aa"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>GetPreferredLoadedMemoryRange</b> (<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> *base, <a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> *size, bool verbose) const override</td></tr>
+<tr class="separator:adde4153d2af079267a4edea5f58f74aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63727777814e409458864a68c6acedad"><td class="memItemLeft" align="right" valign="top"><a id="a63727777814e409458864a68c6acedad"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>GetDynamicSegment</b> (<a class="el" href="namespacecrashpad.html#af2d003bfc8632755c60ab27bd6d1c8ae">VMAddress</a> *address, <a class="el" href="namespacecrashpad.html#a103690edebf604dcd23d5c03b78fe0be">VMSize</a> *size) const override</td></tr>
 <tr class="separator:a63727777814e409458864a68c6acedad"><td class="memSeparator" colspan="2">&#160;</td></tr>

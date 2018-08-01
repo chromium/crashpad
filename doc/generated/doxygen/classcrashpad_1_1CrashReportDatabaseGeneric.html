@@ -104,9 +104,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>Initialize</b> (const
 <tr class="memitem:a59211bd411d4f4438c4686e57d0e527c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a59211bd411d4f4438c4686e57d0e527c">GetCompletedReports</a> (std::vector&lt; <a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1Report.html">Report</a> &gt; *reports) override</td></tr>
 <tr class="memdesc:a59211bd411d4f4438c4686e57d0e527c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a list of crash report records that have been completed, either by being uploaded or by skipping upload.  <a href="#a59211bd411d4f4438c4686e57d0e527c">More...</a><br /></td></tr>
 <tr class="separator:a59211bd411d4f4438c4686e57d0e527c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9fc64953bab48b3404719ea63cda5754"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a9fc64953bab48b3404719ea63cda5754">GetReportForUploading</a> (const <a class="el" href="structcrashpad_1_1UUID.html">UUID</a> &amp;uuid, std::unique_ptr&lt; const <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1UploadReport.html">UploadReport</a> &gt; *report) override</td></tr>
-<tr class="memdesc:a9fc64953bab48b3404719ea63cda5754"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtains and locks a report object for uploading to a collection server.  <a href="#a9fc64953bab48b3404719ea63cda5754">More...</a><br /></td></tr>
-<tr class="separator:a9fc64953bab48b3404719ea63cda5754"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4204cbbd07f3b8e58c4ef193e696d7c9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a4204cbbd07f3b8e58c4ef193e696d7c9">GetReportForUploading</a> (const <a class="el" href="structcrashpad_1_1UUID.html">UUID</a> &amp;uuid, std::unique_ptr&lt; const <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1UploadReport.html">UploadReport</a> &gt; *report, bool report_metrics) override</td></tr>
+<tr class="memdesc:a4204cbbd07f3b8e58c4ef193e696d7c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtains and locks a report object for uploading to a collection server.  <a href="#a4204cbbd07f3b8e58c4ef193e696d7c9">More...</a><br /></td></tr>
+<tr class="separator:a4204cbbd07f3b8e58c4ef193e696d7c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5be2c76566de31d9ae8fd632e1b4fe7e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00">OperationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a5be2c76566de31d9ae8fd632e1b4fe7e">SkipReportUpload</a> (const <a class="el" href="structcrashpad_1_1UUID.html">UUID</a> &amp;uuid, <a class="el" href="classcrashpad_1_1Metrics.html#aa27da6c2bda5b2982fcb636786053c0d">Metrics::CrashSkippedReason</a> reason) override</td></tr>
 <tr class="memdesc:a5be2c76566de31d9ae8fd632e1b4fe7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves a report from the pending state to the completed state, but without the report being uploaded.  <a href="#a5be2c76566de31d9ae8fd632e1b4fe7e">More...</a><br /></td></tr>
 <tr class="separator:a5be2c76566de31d9ae8fd632e1b4fe7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -339,8 +339,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a9fc64953bab48b3404719ea63cda5754"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9fc64953bab48b3404719ea63cda5754">&#9670;&nbsp;</a></span>GetReportForUploading()</h2>
+<a id="a4204cbbd07f3b8e58c4ef193e696d7c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4204cbbd07f3b8e58c4ef193e696d7c9">&#9670;&nbsp;</a></span>GetReportForUploading()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -358,7 +358,13 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::unique_ptr&lt; const <a class="el" href="classcrashpad_1_1CrashReportDatabase_1_1UploadReport.html">UploadReport</a> &gt; *&#160;</td>
-          <td class="paramname"><em>report</em>&#160;</td>
+          <td class="paramname"><em>report</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>report_metrics</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -378,13 +384,14 @@ Additional Inherited Members</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">uuid</td><td>The unique identifier for the crash report record. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">report</td><td>A crash report record for the report to be uploaded. Only valid if this returns <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00ad73503b93bff6f4ae156a65fcb5e71f8" title="No error occurred. ">kNoError</a>.</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">report</td><td>A crash report record for the report to be uploaded. Only valid if this returns <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00ad73503b93bff6f4ae156a65fcb5e71f8" title="No error occurred. ">kNoError</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">report_metrics</td><td>If <code>false</code>, metrics will not be recorded for this upload attempt when <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a329a165c28e20bc3458e697ea8778517" title="Records a successful upload for a report and updates the last upload attempt time as returned by Sett...">RecordUploadComplete()</a> is called or <em>report</em> is destroyed. Metadata for the upload attempt will still be recorded in the database.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The operation status code. </dd></dl>
 
-<p>Implements <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#ae6ca376e1569aa3212a95186676742b9">crashpad::CrashReportDatabase</a>.</p>
+<p>Implements <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#aa001e2fca87d2aa303334fe730955249">crashpad::CrashReportDatabase</a>.</p>
 
 </div>
 </div>

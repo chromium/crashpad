@@ -92,22 +92,22 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac765748bcf0835bc2268e5884724f4ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a28378e3ad216fc1bf175ac3a434c72"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html">Mapping</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MemoryMap.html#a0a28378e3ad216fc1bf175ac3a434c72">FindMappingWithName</a> (const std::string &amp;name) const</td></tr>
 <tr class="separator:a0a28378e3ad216fc1bf175ac3a434c72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb5f4f10a435c0fbbee6dee5dca99955"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html">Mapping</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MemoryMap.html#acb5f4f10a435c0fbbee6dee5dca99955">FindFileMmapStart</a> (const <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html">Mapping</a> &amp;mapping) const</td></tr>
-<tr class="memdesc:acb5f4f10a435c0fbbee6dee5dca99955"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the first <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html" title="Information about a mapped region of memory. ">Mapping</a> in a series of mappings for the same file.  <a href="#acb5f4f10a435c0fbbee6dee5dca99955">More...</a><br /></td></tr>
-<tr class="separator:acb5f4f10a435c0fbbee6dee5dca99955"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71734fd96aa2b54cd25ba72d1d3655f3"><td class="memItemLeft" align="right" valign="top">std::vector&lt; const <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html">Mapping</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MemoryMap.html#a71734fd96aa2b54cd25ba72d1d3655f3">FindFilePossibleMmapStarts</a> (const <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html">Mapping</a> &amp;mapping) const</td></tr>
+<tr class="memdesc:a71734fd96aa2b54cd25ba72d1d3655f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find Mappings that share a <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html" title="Information about a mapped region of memory. ">Mapping</a>'s file, mapped from offset 0.  <a href="#a71734fd96aa2b54cd25ba72d1d3655f3">More...</a><br /></td></tr>
+<tr class="separator:a71734fd96aa2b54cd25ba72d1d3655f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Accesses information about mapped memory in another process. </p>
 <p>The target process must be stopped to guarantee correct mappings. If the target process is not stopped, mappings may be invalid after the return from <a class="el" href="classcrashpad_1_1MemoryMap.html#a6c08c18f41b08ed7ee26e7634c72abf6" title="Initializes this object with information about the mapped memory regions in the process connected via...">Initialize()</a>, and even mappings existing at the time <a class="el" href="classcrashpad_1_1MemoryMap.html#a6c08c18f41b08ed7ee26e7634c72abf6" title="Initializes this object with information about the mapped memory regions in the process connected via...">Initialize()</a> was called may not be found. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="acb5f4f10a435c0fbbee6dee5dca99955"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb5f4f10a435c0fbbee6dee5dca99955">&#9670;&nbsp;</a></span>FindFileMmapStart()</h2>
+<a id="a71734fd96aa2b54cd25ba72d1d3655f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71734fd96aa2b54cd25ba72d1d3655f3">&#9670;&nbsp;</a></span>FindFilePossibleMmapStarts()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html">MemoryMap::Mapping</a> * crashpad::MemoryMap::FindFileMmapStart </td>
+          <td class="memname">std::vector&lt; const <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html">MemoryMap::Mapping</a> * &gt; crashpad::MemoryMap::FindFilePossibleMmapStarts </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html">Mapping</a> &amp;&#160;</td>
           <td class="paramname"><em>mapping</em></td><td>)</td>
@@ -116,16 +116,17 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Find the first <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html" title="Information about a mapped region of memory. ">Mapping</a> in a series of mappings for the same file. </p>
-<p>Executables and libaries are typically loaded into several mappings with varying permissions for different segments. This method searches for the mapping with the highest address at or below <em>mapping</em>, which maps the same file as <em>mapping</em> from file offset 0.</p>
-<p>If <em>mapping</em> is not found, <code>nullptr</code> is returned. If <em>mapping</em> is found but does not map a file, <em>mapping</em> is returned.</p>
+<p>Find Mappings that share a <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html" title="Information about a mapped region of memory. ">Mapping</a>'s file, mapped from offset 0. </p>
+<p>Executables and libaries are typically loaded into several mappings with varying permissions for different segments. Portions of an ELF file may be mapped multiple times as part of loading the file, for example, when initializing GNU_RELRO segments. This method searches for mappings at or below <em>mapping</em> in memory that are mapped from the same file as <em>mapping</em> from offset 0.</p>
+<p>This method is intended to help identify the possible base address for loaded modules, but it is the caller's responsibility to determine which returned mapping is correct.</p>
+<p>If <em>mapping</em> does not refer to a valid mapping, an empty vector will be returned and a message will be logged. If <em>mapping</em> is found but does not map a file, <em>mapping</em> is returned in <em>possible_starts</em>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">mapping</td><td>A <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html" title="Information about a mapped region of memory. ">Mapping</a> whose series to find the start of. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The first <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html" title="Information about a mapped region of memory. ">Mapping</a> in the series or <code>nullptr</code> on failure with a message logged. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>a vector of the possible mapping starts. </dd></dl>
 
 </div>
 </div>

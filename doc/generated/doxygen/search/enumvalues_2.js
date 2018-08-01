@@ -149,6 +149,7 @@ var searchData=
   ['kphaseearly',['kPhaseEarly',['../classcrashpad_1_1internal_1_1MinidumpWritable.html#a009f007265d64a5fb416848480a00ae9ac246ac0846defa468dde05d12974ac3e',1,'crashpad::internal::MinidumpWritable']]],
   ['kphaselate',['kPhaseLate',['../classcrashpad_1_1internal_1_1MinidumpWritable.html#a009f007265d64a5fb416848480a00ae9a24c2158c529d40ce6badca6e34b26853',1,'crashpad::internal::MinidumpWritable']]],
   ['kping',['kPing',['../structcrashpad_1_1ClientToServerMessage.html#a640f92621220af8e110253a0d65c7dbea5292ee92514b2dcff9709e61d5b54932',1,'crashpad::ClientToServerMessage']]],
+  ['kprepareforuploadfailed',['kPrepareForUploadFailed',['../classcrashpad_1_1Metrics.html#aa27da6c2bda5b2982fcb636786053c0da1f29b75ea3b099ec5dbf6bd5dfc9b33a',1,'crashpad::Metrics']]],
   ['kpreparenewcrashreportfailed',['kPrepareNewCrashReportFailed',['../classcrashpad_1_1Metrics.html#a6fced90d0ab7cbd161db410e2609bae0ae93e1e9f0645a17aa8c6d6ae018d4612',1,'crashpad::Metrics']]],
   ['kreaderroraccessdenied',['kReadErrorAccessDenied',['../classcrashpad_1_1PtraceBroker.html#ac1991f30401e58b5c6581f11062f71bba0e2d7965307a85896c009d2b9d2d20bd',1,'crashpad::PtraceBroker']]],
   ['kreceivelargeerror',['kReceiveLargeError',['../classcrashpad_1_1MachMessageServer.html#ad4e5a9fe58ebd1a86f21d8a2284129eda9d5505bdd5aa2fd0789d3e79befd5d11',1,'crashpad::MachMessageServer']]],

@@ -29,7 +29,7 @@ var searchData=
   ['filewritemode',['FileWriteMode',['../namespacecrashpad.html#afa69b0967d9a6df659ff5d2a02ff3e51',1,'crashpad']]],
   ['filewriter',['FileWriter',['../classcrashpad_1_1FileWriter.html',1,'crashpad']]],
   ['filewriterinterface',['FileWriterInterface',['../classcrashpad_1_1FileWriterInterface.html',1,'crashpad']]],
-  ['findfilemmapstart',['FindFileMmapStart',['../classcrashpad_1_1MemoryMap.html#acb5f4f10a435c0fbbee6dee5dca99955',1,'crashpad::MemoryMap']]],
+  ['findfilepossiblemmapstarts',['FindFilePossibleMmapStarts',['../classcrashpad_1_1MemoryMap.html#a71734fd96aa2b54cd25ba72d1d3655f3',1,'crashpad::MemoryMap']]],
   ['findmapping',['FindMapping',['../classcrashpad_1_1MemoryMap.html#ac765748bcf0835bc2268e5884724f4ed',1,'crashpad::MemoryMap']]],
   ['findmappingforaddress',['FindMappingForAddress',['../classcrashpad_1_1MemoryMapFuchsia.html#a2e8b50d55a4edc4227c8e7d74e68bff0',1,'crashpad::MemoryMapFuchsia']]],
   ['findmappingwithname',['FindMappingWithName',['../classcrashpad_1_1MemoryMap.html#a0a28378e3ad216fc1bf175ac3a434c72',1,'crashpad::MemoryMap']]],
