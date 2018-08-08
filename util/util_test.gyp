@@ -193,6 +193,15 @@
           'cflags!': [
             '-Wexit-time-destructors',
           ],
+          'conditions': [
+            ['OS=="win"', {
+              'link_settings': {
+                'libraries': [
+                  '-lws2_32.lib',
+                ],
+              },
+            }],
+          ],
         },
       ],
     }],
