@@ -457,10 +457,16 @@ bool ReadResponseLine(Stream* stream) {
     LOG(ERROR) << "ReadLine";
     return false;
   }
-  static constexpr const char kHttp10[] = "HTTP/1.0 200 ";
-  static constexpr const char kHttp11[] = "HTTP/1.1 200 ";
-  return StartsWith(response_line, kHttp10, strlen(kHttp10)) ||
-         StartsWith(response_line, kHttp11, strlen(kHttp11));
+  static constexpr const char kHttp10[] = "HTTP/1.0 ";
+  static constexpr const char kHttp11[] = "HTTP/1.1 ";
+  if (!(StartsWith(response_line, kHttp10, strlen(kHttp10)) ||
+        StartsWith(response_line, kHttp11, strlen(kHttp11))) ||
+      response_line.size() < strlen(kHttp10) + 4 ||
+      response_line.at(strlen(kHttp10) + 4) != ' ') {
+    return false;
+  }
+  const unsigned int http_status;
+  return base::StringToUint(response_line.substr(strlen(kHttp10), 3), &http_status) && http_status >= 200 && http_status < 300;
 }
 
 bool ReadResponseHeaders(Stream* stream, HTTPHeaders* headers) {
