@@ -137,7 +137,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
 
     std::string response_body;
     bool success = transport->ExecuteSynchronously(&response_body);
-    if (response_code_ == 200) {
+    if (response_code_ >= 200 && response_code_ <= 203) {
       EXPECT_TRUE(success);
       std::string expect_response_body = random_string + "\r\n";
       EXPECT_EQ(response_body, expect_response_body);

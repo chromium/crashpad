@@ -90,7 +90,7 @@ class HTTPTransport {
   //!     if the response body is not required.
   //!
   //! \return Whether or not the request was successful, defined as returning
-  //!     a HTTP status 200 (OK) code.
+  //!     a HTTP status code in the range 200-203 (inclusive).
   virtual bool ExecuteSynchronously(std::string* response_body) = 0;
 
  protected:
