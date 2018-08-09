@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09a1254e_304b4227",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-08-09T16:20:56Z",
+      "side": 1,
+      "message": "Delete this line if there’s no associated bug.",
+      "revId": "c60ee5d5c742c66d26385fd73773ecadb24f031a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd5588d6_3d615ac0",
+        "filename": "util/net/http_transport_mac.mm",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-08-09T16:20:56Z",
+      "side": 1,
+      "message": "The documentation for this method is on the interface class, in util/net/http_transport.h. It specifies 200 precisely, and needs to be loosened too.",
+      "revId": "c60ee5d5c742c66d26385fd73773ecadb24f031a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
