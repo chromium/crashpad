@@ -199,7 +199,7 @@ bool CrashpadClient::StartHandlerForClient(
   std::vector<std::string> argv = BuildHandlerArgvStrings(
       handler, database, metrics_dir, url, annotations, arguments);
 
-  argv.push_back(FormatArgumentInt("initial-client", socket));
+  argv.push_back(FormatArgumentInt("initial-client-fd", socket));
 
   return DoubleForkAndExec(argv, socket, true, nullptr);
 }
