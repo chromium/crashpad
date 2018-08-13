@@ -13,12 +13,7 @@
 # limitations under the License.
 
 import("../build/crashpad_buildconfig.gni")
-
-declare_args() {
-  # This should at least be on for Fuchsia, but DX-382 happened.
-  # TODO(mark): Figure out what went wrong and re-enable.
-  use_boringssl_for_http_transport_socket = false
-}
+import("net/tls.gni")
 
 if (crashpad_is_mac) {
   if (crashpad_is_in_chromium) {
@@ -256,7 +251,7 @@ static_library("util") {
 
   if (crashpad_is_linux || crashpad_is_fuchsia) {
     sources += [ "net/http_transport_socket.cc" ]
-    if (use_boringssl_for_http_transport_socket) {
+    if (crashpad_use_boringssl_for_http_transport_socket) {
       defines = [ "CRASHPAD_USE_BORINGSSL" ]
 
       if (crashpad_is_in_fuchsia) {
@@ -462,7 +457,7 @@ static_library("util") {
   }
 }
 
-if (use_boringssl_for_http_transport_socket) {
+if (crashpad_use_boringssl_for_http_transport_socket) {
   action("generate_test_server_key") {
     script = "net/generate_test_server_key.py"
     outputs = [
@@ -496,7 +491,7 @@ if (!crashpad_is_android) {
       libs = [ "ws2_32.lib" ]
     }
 
-    if (use_boringssl_for_http_transport_socket) {
+    if (crashpad_use_boringssl_for_http_transport_socket) {
       data_deps = [
         ":generate_test_server_key",
       ]
@@ -664,7 +659,7 @@ source_set("util_test") {
       ":http_transport_test_server",
     ]
 
-    if (use_boringssl_for_http_transport_socket) {
+    if (crashpad_use_boringssl_for_http_transport_socket) {
       defines = [ "CRASHPAD_USE_BORINGSSL" ]
     }
   }
