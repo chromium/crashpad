@@ -16,6 +16,24 @@
       "revId": "b9939faa10687ee8b45afb826e2a964939062e2e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49e78d28_a42a0947",
+        "filename": "third_party/zlib/zlib.gyp",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1297298
+      },
+      "writtenOn": "2018-08-14T19:19:50Z",
+      "side": 1,
+      "message": "That was my understanding as well.  But the dependency actually points to a target that we build (as a static_library), and if the type of this target is \u0027none\u0027, it\u0027s rebuilt unconditionally.",
+      "parentUuid": "28ca356c_8a583485",
+      "revId": "b9939faa10687ee8b45afb826e2a964939062e2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
