@@ -34,6 +34,24 @@
       "revId": "b9939faa10687ee8b45afb826e2a964939062e2e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17749363_59629cb7",
+        "filename": "third_party/zlib/zlib.gyp",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-08-14T19:59:00Z",
+      "side": 1,
+      "message": "\u003e That was my understanding as well.  But the dependency actually points to a target that we build (as a static_library), and if the type of this target is \u0027none\u0027, it\u0027s rebuilt unconditionally.\n\nWith which build system generator? This would be a GYP problem. That generator should be fixed.\n\nWe can’t change this to static_library, because some generators (Xcode comes to mind) will fail.",
+      "parentUuid": "49e78d28_a42a0947",
+      "revId": "b9939faa10687ee8b45afb826e2a964939062e2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
