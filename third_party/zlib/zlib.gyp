@@ -152,7 +152,7 @@
           ],
         }],
         ['zlib_source=="external"', {
-          'type': 'none',
+          'type': 'static_library',
           'direct_dependent_settings': {
             'defines': [
               'CRASHPAD_ZLIB_SOURCE_EXTERNAL',
