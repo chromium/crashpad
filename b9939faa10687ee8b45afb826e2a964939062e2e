@@ -88,6 +88,24 @@
       "revId": "b9939faa10687ee8b45afb826e2a964939062e2e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8bd722c_86a30be5",
+        "filename": "third_party/zlib/zlib.gyp",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1297298
+      },
+      "writtenOn": "2018-08-14T21:13:20Z",
+      "side": 1,
+      "message": "Fair enough.  I\u0027ll look into this.  Thanks for your input!",
+      "parentUuid": "bbe900c7_42ca794c",
+      "revId": "b9939faa10687ee8b45afb826e2a964939062e2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
