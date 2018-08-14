@@ -52,6 +52,24 @@
       "revId": "b9939faa10687ee8b45afb826e2a964939062e2e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd24bbf6_18fbad52",
+        "filename": "third_party/zlib/zlib.gyp",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1297298
+      },
+      "writtenOn": "2018-08-14T20:32:09Z",
+      "side": 1,
+      "message": "The behavior observed is actually with the Xcode generator.  The MSVC generator is fine with it – but also worked as expected before this change (i.e. did not rebuild the target).",
+      "parentUuid": "17749363_59629cb7",
+      "revId": "b9939faa10687ee8b45afb826e2a964939062e2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
