@@ -70,6 +70,24 @@
       "revId": "b9939faa10687ee8b45afb826e2a964939062e2e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbe900c7_42ca794c",
+        "filename": "third_party/zlib/zlib.gyp",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-08-14T20:47:49Z",
+      "side": 1,
+      "message": "\u003e The behavior observed is actually with the Xcode generator.\n\nOK, then let’s fix that.",
+      "parentUuid": "cd24bbf6_18fbad52",
+      "revId": "b9939faa10687ee8b45afb826e2a964939062e2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
