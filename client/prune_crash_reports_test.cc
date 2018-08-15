@@ -18,11 +18,11 @@
 #include <stdlib.h>
 
 #include <algorithm>
+#include <random>
 #include <string>
 #include <vector>
 
 #include "base/numerics/safe_conversions.h"
-#include "base/rand_util.h"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 #include "test/scoped_temp_dir.h"
@@ -218,11 +218,8 @@ TEST(PruneCrashReports, PruneOrder) {
     temp.creation_time = NDaysAgo(i * 10);
     reports.push_back(temp);
   }
-  // The randomness from std::rand() is not, so use a better rand() instead.
-  const auto random_generator = [](ptrdiff_t rand_max) {
-    return base::RandInt(0, base::checked_cast<int>(rand_max) - 1);
-  };
-  std::random_shuffle(reports.begin(), reports.end(), random_generator);
+  std::mt19937 urng(std::random_device{}());
+  std::shuffle(reports.begin(), reports.end(), urng);
   std::vector<CrashReportDatabase::Report> pending_reports(
       reports.begin(), reports.begin() + 5);
   std::vector<CrashReportDatabase::Report> completed_reports(
