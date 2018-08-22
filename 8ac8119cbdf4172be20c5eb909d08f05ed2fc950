@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69b7a26b_f337c46c",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-08-22T02:25:21Z",
+      "side": 1,
+      "message": "On the other hand (other relative to https://chromium-review.googlesource.com/c/chromium/src/+/1184339), it seems like saturation is the better option here.",
+      "revId": "8ac8119cbdf4172be20c5eb909d08f05ed2fc950",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
