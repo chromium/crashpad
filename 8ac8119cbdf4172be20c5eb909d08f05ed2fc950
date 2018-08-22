@@ -16,6 +16,24 @@
       "revId": "8ac8119cbdf4172be20c5eb909d08f05ed2fc950",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc607fe8_693c3247",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1160859
+      },
+      "writtenOn": "2018-08-22T17:25:10Z",
+      "side": 1,
+      "message": "okay, I agree. I went through the other casts. Only one was actually needed (from enum to int) - so I removed all the others. Courageous... or foolhardy? ...Are there projects that use crashpad that have a higher warning level than Chromium?",
+      "parentUuid": "69b7a26b_f337c46c",
+      "revId": "8ac8119cbdf4172be20c5eb909d08f05ed2fc950",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
