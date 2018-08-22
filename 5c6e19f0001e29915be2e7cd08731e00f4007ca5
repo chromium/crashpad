@@ -16,6 +16,24 @@
       "revId": "5c6e19f0001e29915be2e7cd08731e00f4007ca5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ce3ce09_7c6250f7",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1160859
+      },
+      "writtenOn": "2018-08-22T17:34:54Z",
+      "side": 0,
+      "message": "oh okay well as we re-enable more warnings on clang, these might be back then :) see the bug.",
+      "parentUuid": "5e29b19a_ce6c35a5",
+      "revId": "5c6e19f0001e29915be2e7cd08731e00f4007ca5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
