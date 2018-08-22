@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e29b19a_ce6c35a5",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-08-22T17:32:42Z",
+      "side": 0,
+      "message": "These were for MSVC, which we don’t see in Chromium anymore, but we do see here. The CQ will tell us.",
+      "revId": "5c6e19f0001e29915be2e7cd08731e00f4007ca5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
