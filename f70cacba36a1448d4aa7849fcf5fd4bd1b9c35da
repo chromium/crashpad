@@ -22,6 +22,30 @@
       "revId": "f70cacba36a1448d4aa7849fcf5fd4bd1b9c35da",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0296464_ed4575b6",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1300141
+      },
+      "writtenOn": "2018-08-23T16:57:00Z",
+      "side": 1,
+      "message": "Done. A couple of other expressions also got reformatted as a consequence.",
+      "parentUuid": "a04bd948_0c3130cc",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 0
+      },
+      "revId": "f70cacba36a1448d4aa7849fcf5fd4bd1b9c35da",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
