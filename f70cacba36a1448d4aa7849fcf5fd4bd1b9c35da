@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a04bd948_0c3130cc",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-08-23T14:53:31Z",
+      "side": 1,
+      "message": "Visually, this is all unbalanced and weird-looking now. Run “git cl format”. That’ll have “gn format” fix it for you.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 0
+      },
+      "revId": "f70cacba36a1448d4aa7849fcf5fd4bd1b9c35da",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
