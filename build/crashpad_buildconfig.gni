@@ -85,13 +85,7 @@ template("crashpad_executable") {
       configs += invoker.configs
     }
 
-    if (!defined(deps)) {
-      deps = []
-    }
-
-    if (crashpad_is_in_chromium) {
-      deps += [ "//build/config:exe_and_shlib_deps" ]
-    } else if (crashpad_is_in_fuchsia) {
+    if (crashpad_is_in_fuchsia) {
       configs += [ "//build/config/fuchsia:fdio_config" ]
     }
   }
@@ -113,13 +107,7 @@ template("crashpad_loadable_module") {
       configs += invoker.configs
     }
 
-    if (!defined(deps)) {
-      deps = []
-    }
-
-    if (crashpad_is_in_chromium) {
-      deps += [ "//build/config:exe_and_shlib_deps" ]
-    } else if (crashpad_is_in_fuchsia) {
+    if (crashpad_is_in_fuchsia) {
       configs += [ "//build/config/fuchsia:fdio_config" ]
     }
   }
