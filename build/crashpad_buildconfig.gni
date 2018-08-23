@@ -27,12 +27,14 @@ declare_args() {
   }
 }
 
-assert(
-    crashpad_dependencies == "chromium" || crashpad_dependencies == "fuchsia" ||
-    crashpad_dependencies == "standalone")
+assert(crashpad_dependencies == "chromium" ||
+       crashpad_dependencies == "fuchsia" ||
+       crashpad_dependencies == "standalone" ||
+       crashpad_dependencies == "external")
 
 crashpad_is_in_chromium = crashpad_dependencies == "chromium"
 crashpad_is_in_fuchsia = crashpad_dependencies == "fuchsia"
+crashpad_is_external = crashpad_dependencies == "external"
 crashpad_is_standalone = crashpad_dependencies == "standalone"
 
 if (crashpad_is_in_chromium) {
@@ -46,10 +48,16 @@ if (crashpad_is_in_chromium) {
 
   crashpad_is_clang = is_clang
 } else {
-  # Both standalone and in Fuchsia tree use mini_chromium, and it's mapped into
-  # the same location in both cases.
-  import("../third_party/mini_chromium/mini_chromium/build/compiler.gni")
-  import("../third_party/mini_chromium/mini_chromium/build/platform.gni")
+  # External builds assume crashpad and mini_chromium are peers.
+  if (crashpad_is_external) {
+    import("../../../mini_chromium/mini_chromium/build/compiler.gni")
+    import("../../../mini_chromium/mini_chromium/build/platform.gni")
+  } else {
+    # Both standalone and in Fuchsia tree use mini_chromium, and it's mapped into
+    # the same location in both cases.
+    import("../third_party/mini_chromium/mini_chromium/build/compiler.gni")
+    import("../third_party/mini_chromium/mini_chromium/build/platform.gni")
+  }
   crashpad_is_mac = mini_chromium_is_mac
   crashpad_is_win = mini_chromium_is_win
   crashpad_is_linux = mini_chromium_is_linux
@@ -63,7 +71,12 @@ if (crashpad_is_in_chromium) {
 
 template("crashpad_executable") {
   executable(target_name) {
-    forward_variables_from(invoker, "*", [ "configs", "remove_configs" ])
+    forward_variables_from(invoker,
+                           "*",
+                           [
+                             "configs",
+                             "remove_configs",
+                           ])
     if (defined(invoker.remove_configs)) {
       configs -= invoker.remove_configs
     }
@@ -86,7 +99,12 @@ template("crashpad_executable") {
 
 template("crashpad_loadable_module") {
   loadable_module(target_name) {
-    forward_variables_from(invoker, "*", [ "configs", "remove_configs" ])
+    forward_variables_from(invoker,
+                           "*",
+                           [
+                             "configs",
+                             "remove_configs",
+                           ])
     if (defined(invoker.remove_configs)) {
       configs -= invoker.remove_configs
     }
