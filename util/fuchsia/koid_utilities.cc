@@ -16,7 +16,8 @@
 
 #include <lib/zx/job.h>
 #include <lib/zx/process.h>
-#include <zircon/device/sysinfo.h>
+#include <zircon/device/ioctl-wrapper.h>
+#include <zircon/device/ioctl.h>
 
 #include <vector>
 
@@ -27,6 +28,21 @@
 namespace crashpad {
 
 namespace {
+
+// Cribbed from zircon/system/public/zircon/device/sysinfo.h. This
+// header was removed from the public SDK in
+// https://fuchsia.googlesource.com/build/+/ba9abb81559f, BLD-247. This
+// depends on <zircon/device/ioctl.h> and
+// <zircon/device/ioctl-wrapper.h> which are on the chopping block,
+// ZX-2503.
+//
+// See the TODO(scottmg) note about it only being used for a hack below.
+// Hopefully this can all go away soon.
+#define IOCTL_SYSINFO_GET_ROOT_JOB \
+  IOCTL(IOCTL_KIND_GET_HANDLE, IOCTL_FAMILY_SYSINFO, 1)
+IOCTL_WRAPPER_OUT(ioctl_sysinfo_get_root_job,
+                  IOCTL_SYSINFO_GET_ROOT_JOB,
+                  zx_handle_t);
 
 // Casts |handle| into a container of type T, returning a null handle if the
 // actual handle type does not match that of T.
