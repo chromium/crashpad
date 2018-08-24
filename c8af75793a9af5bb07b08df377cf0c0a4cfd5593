@@ -16,6 +16,24 @@
       "revId": "c8af75793a9af5bb07b08df377cf0c0a4cfd5593",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d77737e1_687ead05",
+        "filename": "compat/linux/sys/ptrace.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1283828
+      },
+      "writtenOn": "2018-08-24T14:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c22ce21_367b915b",
+      "revId": "c8af75793a9af5bb07b08df377cf0c0a4cfd5593",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
