@@ -37,6 +37,20 @@ namespace crashpad {
 
 namespace {
 
+#if defined(OS_ANDROID)
+
+void SetAppProcessArgs(std::vector<std::string>* argv) {
+#if defined(ARCH_CPU_64_BIT)
+  argv->push_back("/system/bin/app_process64");
+#else
+  argv->push_back("/system/bin/app_process32");
+#endif
+  argv->push_back("/system/bin");
+  argv->push_back("--application");
+}
+
+#endif  // OS_ANDROID
+
 std::string FormatArgumentInt(const std::string& name, int value) {
   return base::StringPrintf("--%s=%d", name.c_str(), value);
 }
@@ -73,8 +87,15 @@ class LaunchAtCrashHandler : public SignalHandler {
     return instance;
   }
 
-  bool Initialize(std::vector<std::string>* argv_in) {
+  bool Initialize(std::vector<std::string>* argv_in,
+                  const std::vector<std::string>* envp) {
     argv_strings_.swap(*argv_in);
+
+    if (envp) {
+      envp_strings_ = *envp;
+      ConvertArgvStrings(envp_strings_, &envp_);
+      set_envp_ = true;
+    }
 
     argv_strings_.push_back(FormatArgumentAddress("trace-parent-with-exception",
                                                   &exception_information_));
@@ -107,6 +128,11 @@ class LaunchAtCrashHandler : public SignalHandler {
       return false;
     }
     if (pid == 0) {
+      if (set_envp_) {
+        execve(argv_[0],
+               const_cast<char* const*>(argv_.data()),
+               const_cast<char* const*>(envp_.data()));
+      }
       execv(argv_[0], const_cast<char* const*>(argv_.data()));
       _exit(EXIT_FAILURE);
     }
@@ -135,6 +161,9 @@ class LaunchAtCrashHandler : public SignalHandler {
 
   std::vector<std::string> argv_strings_;
   std::vector<const char*> argv_;
+  std::vector<std::string> envp_strings_;
+  std::vector<const char*> envp_;
+  bool set_envp_;
   ExceptionInformation exception_information_;
 
   DISALLOW_COPY_AND_ASSIGN(LaunchAtCrashHandler);
@@ -167,6 +196,60 @@ bool CrashpadClient::StartHandler(
   return false;
 }
 
+#if defined(OS_ANDROID)
+
+// static
+bool CrashpadClient::StartJavaHandlerAtCrash(
+    const std::string& class_name,
+    const std::vector<std::string>* env,
+    const base::FilePath& database,
+    const base::FilePath& metrics_dir,
+    const std::string& url,
+    const std::map<std::string, std::string>& annotations,
+    const std::vector<std::string>& arguments) {
+  std::vector<std::string> argv;
+  SetAppProcessArgs(&argv);
+  argv.push_back(class_name);
+
+  std::vector<std::string> handler_argv = BuildHandlerArgvStrings(
+      base::FilePath(), database, metrics_dir, url, annotations, arguments);
+
+  argv.insert(argv.end(), handler_argv.begin() + 1, handler_argv.end());
+
+  auto signal_handler = LaunchAtCrashHandler::Get();
+  if (signal_handler->Initialize(&argv, env)) {
+    DCHECK(!g_crash_handler);
+    g_crash_handler = signal_handler;
+    return true;
+  }
+  return false;
+}
+
+// static
+bool CrashpadClient::StartJavaHandlerForClient(
+    const std::string& class_name,
+    const std::vector<std::string>* env,
+    const base::FilePath& database,
+    const base::FilePath& metrics_dir,
+    const std::string& url,
+    const std::map<std::string, std::string>& annotations,
+    const std::vector<std::string>& arguments,
+    int socket) {
+  std::vector<std::string> argv;
+  SetAppProcessArgs(&argv);
+  argv.push_back(class_name);
+
+  std::vector<std::string> handler_argv = BuildHandlerArgvStrings(
+      base::FilePath(), database, metrics_dir, url, annotations, arguments);
+  handler_argv.push_back(FormatArgumentInt("initial-client-fd", socket));
+
+  argv.insert(argv.end(), handler_argv.begin() + 1, handler_argv.end());
+
+  return DoubleForkAndExec(argv, env, socket, false, nullptr);
+}
+
+#endif
+
 // static
 bool CrashpadClient::StartHandlerAtCrash(
     const base::FilePath& handler,
@@ -179,7 +262,7 @@ bool CrashpadClient::StartHandlerAtCrash(
       handler, database, metrics_dir, url, annotations, arguments);
 
   auto signal_handler = LaunchAtCrashHandler::Get();
-  if (signal_handler->Initialize(&argv)) {
+  if (signal_handler->Initialize(&argv, nullptr)) {
     DCHECK(!g_crash_handler);
     g_crash_handler = signal_handler;
     return true;
