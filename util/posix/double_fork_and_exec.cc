@@ -27,6 +27,7 @@
 namespace crashpad {
 
 bool DoubleForkAndExec(const std::vector<std::string>& argv,
+                       const std::vector<std::string>* envp,
                        int preserve_fd,
                        bool use_path,
                        void (*child_function)()) {
@@ -40,6 +41,15 @@ bool DoubleForkAndExec(const std::vector<std::string>& argv,
     argv_c.push_back(argument.c_str());
   }
   argv_c.push_back(nullptr);
+
+  std::vector<const char*> envp_c;
+  if (envp) {
+    envp_c.reserve(envp->size() + 1);
+    for (const std::string& variable : *envp) {
+      envp_c.push_back(variable.c_str());
+    }
+    envp_c.push_back(nullptr);
+  }
 
   // Double-fork(). The three processes involved are parent, child, and
   // grandchild. The grandchild will call execv(). The child exits immediately
@@ -101,6 +111,24 @@ bool DoubleForkAndExec(const std::vector<std::string>& argv,
     // char data. It modifies neither the data nor the pointers, so the
     // const_cast is safe.
     char* const* argv_for_execv = const_cast<char* const*>(&argv_c[0]);
+
+    if (envp) {
+      char* const* envp_for_execv = const_cast<char* const*>(&envp_c[0]);
+#if defined(OS_ANDROID)
+      // TODO(jperaza): Android doesn't have execvpe until API 21. Implement
+      // this in compat if/when use_path is needed in conjuction with setting
+      // the environment.
+      DCHECK(!use_path);
+#else
+      if (use_path) {
+        execvpe(argv_for_execv[0], argv_for_execv, envp_for_execv);
+        PLOG(FATAL) << "execvpe " << argv_for_execv[0];
+      }
+#endif
+
+      execve(argv_for_execv[0], argv_for_execv, envp_for_execv);
+      PLOG(FATAL) << "execve " << argv_for_execv[0];
+    }
 
     if (use_path) {
       execvp(argv_for_execv[0], argv_for_execv);

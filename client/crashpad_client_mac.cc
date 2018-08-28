@@ -338,6 +338,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
     // this interface.
     if (!DoubleForkAndExec(
             argv,
+            nullptr,
             server_write_fd.get(),
             true,
             restart ? CrashpadClient::UseSystemDefaultHandler : nullptr)) {
