@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2c0fdf7_a1427d44",
+        "filename": "util/posix/double_fork_and_exec.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-08-29T13:09:17Z",
+      "side": 1,
+      "message": "Very happy to see this!",
+      "revId": "da47025ff1e7e90673e5164ad1480caff411b2a3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4707d9a_a41a88d0",
+        "filename": "util/posix/double_fork_and_exec.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-08-29T13:09:17Z",
+      "side": 1,
+      "message": "// This cast is safe for the same reason that the argv_for_execv cast is.",
+      "revId": "da47025ff1e7e90673e5164ad1480caff411b2a3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe4d70a2_cf1ed10c",
+        "filename": "util/posix/double_fork_and_exec.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-08-29T13:09:17Z",
+      "side": 1,
+      "message": "`execve()`",
+      "range": {
+        "startLine": 40,
+        "startChar": 21,
+        "endLine": 40,
+        "endChar": 27
+      },
+      "revId": "da47025ff1e7e90673e5164ad1480caff411b2a3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
