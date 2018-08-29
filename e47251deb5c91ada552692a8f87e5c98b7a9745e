@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c138422_5e22a983",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-08-29T13:23:53Z",
+      "side": 1,
+      "message": "Either argv-\u003eclear() or DCHECK(argv-\u003eempty()) first.",
+      "revId": "e47251deb5c91ada552692a8f87e5c98b7a9745e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cd53dc3_ed3b150c",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-08-29T13:23:53Z",
+      "side": 1,
+      "message": "Now that it’s handling envp and not just argv, this should probably be renamed to something like StringVectorToCStringVector().",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 96,
+        "endChar": 24
+      },
+      "revId": "e47251deb5c91ada552692a8f87e5c98b7a9745e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c62f1390_9dc62deb",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-08-29T13:23:53Z",
+      "side": 1,
+      "message": "else",
+      "revId": "e47251deb5c91ada552692a8f87e5c98b7a9745e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c07e1b6_426ad524",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-08-29T13:23:53Z",
+      "side": 1,
+      "message": "\u003d false",
+      "revId": "e47251deb5c91ada552692a8f87e5c98b7a9745e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc2b0322_f7be594a",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-08-29T13:23:53Z",
+      "side": 1,
+      "message": "I’m curious to see how you’re going to build up env, or if it’ll make more sense to deal with that in these methods. We can save that for the next change.",
+      "revId": "e47251deb5c91ada552692a8f87e5c98b7a9745e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9408b9_3801964f",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-08-29T13:23:53Z",
+      "side": 1,
+      "message": "This is all very similar to what happens in StartJavaHandlerAtCrash(). Can you refactor to share most or all of the argv build-up?",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 0
+      },
+      "revId": "e47251deb5c91ada552692a8f87e5c98b7a9745e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
