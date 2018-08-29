@@ -61,14 +61,14 @@ std::vector<std::string> BuildHandlerArgvStrings(
   return argv_strings;
 }
 
-void ConvertArgvStrings(const std::vector<std::string>& argv_strings,
-                        std::vector<const char*>* argv) {
-  argv->clear();
-  argv->reserve(argv_strings.size() + 1);
-  for (const auto& arg : argv_strings) {
-    argv->push_back(arg.c_str());
+void StringVectorToCStringVector(const std::vector<std::string>& strings,
+                                 std::vector<const char*>* c_strings) {
+  c_strings->clear();
+  c_strings->reserve(strings.size() + 1);
+  for (const auto& str : strings) {
+    c_strings->push_back(str.c_str());
   }
-  argv->push_back(nullptr);
+  c_strings->push_back(nullptr);
 }
 
 }  // namespace crashpad

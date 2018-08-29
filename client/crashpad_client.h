@@ -112,6 +112,84 @@ class CrashpadClient {
                     bool restartable,
                     bool asynchronous_start);
 
+#if defined(OS_ANDROID) || DOXYGEN
+  //! \brief Installs a signal handler to execute `/system/bin/app_process` and
+  //!     load a Java class in response to a crash.
+  //!
+  //! \param[in] class_name The fully qualified class name to load, which must
+  //!     define a `main()` method to be invoked by `app_process`. Arguments
+  //!     will be passed to this method as though it were the Crashpad handler.
+  //!     This class is expected to load a native library defining
+  //!     crashpad::HandlerMain() and pass the arguments to it.
+  //! \param[in] env A vector of environment variables of the form `var=value`
+  //!     defining the environment in which to execute `app_process`. If this
+  //!     value is `nullptr`, the application's environment at the time of the
+  //!     crash will be used.
+  //! \param[in] database The path to a Crashpad database. The handler will be
+  //!     started with this path as its `--database` argument.
+  //! \param[in] metrics_dir The path to an already existing directory where
+  //!     metrics files can be stored. The handler will be started with this
+  //!     path as its `--metrics-dir` argument.
+  //! \param[in] url The URL of an upload server. The handler will be started
+  //!     with this URL as its `--url` argument.
+  //! \param[in] annotations Process annotations to set in each crash report.
+  //!     The handler will be started with an `--annotation` argument for each
+  //!     element in this map.
+  //! \param[in] arguments Additional arguments to pass to the Crashpad handler.
+  //!     Arguments passed in other parameters and arguments required to perform
+  //!     the handshake are the responsibility of this method, and must not be
+  //!     specified in this parameter.
+  //!
+  //! \return `true` on success, `false` on failure with a message logged.
+  static bool StartJavaHandlerAtCrash(
+      const std::string& class_name,
+      const std::vector<std::string>* env,
+      const base::FilePath& database,
+      const base::FilePath& metrics_dir,
+      const std::string& url,
+      const std::map<std::string, std::string>& annotations,
+      const std::vector<std::string>& arguments);
+
+  //! \brief Executes `/system/bin/app_process` and loads a Java class.
+  //!
+  //! \param[in] class_name The fully qualified class name to load, which must
+  //!     define a `main()` method to be invoked by `app_process`. Arguments
+  //!     will be passed to this method as though it were the Crashpad handler.
+  //!     This class is expected to load a native library defining
+  //!     crashpad::HandlerMain() and pass the arguments to it.
+  //! \param[in] env A vector of environment variables of the form `var=value`
+  //!     defining the environment in which to execute `app_process`. If this
+  //!     value is `nullptr`, the application's current environment will be
+  //!     used.
+  //! \param[in] database The path to a Crashpad database. The handler will be
+  //!     started with this path as its `--database` argument.
+  //! \param[in] metrics_dir The path to an already existing directory where
+  //!     metrics files can be stored. The handler will be started with this
+  //!     path as its `--metrics-dir` argument.
+  //! \param[in] url The URL of an upload server. The handler will be started
+  //!     with this URL as its `--url` argument.
+  //! \param[in] annotations Process annotations to set in each crash report.
+  //!     The handler will be started with an `--annotation` argument for each
+  //!     element in this map.
+  //! \param[in] arguments Additional arguments to pass to the Crashpad handler.
+  //!     Arguments passed in other parameters and arguments required to perform
+  //!     the handshake are the responsibility of this method, and must not be
+  //!     specified in this parameter.
+  //! \param[in] socket The server end of a socket pair. The client end should
+  //!     be used with an ExceptionHandlerClient.
+  //!
+  //! \return `true` on success, `false` on failure with a message logged.
+  static bool StartJavaHandlerForClient(
+      const std::string& class_name,
+      const std::vector<std::string>* env,
+      const base::FilePath& database,
+      const base::FilePath& metrics_dir,
+      const std::string& url,
+      const std::map<std::string, std::string>& annotations,
+      const std::vector<std::string>& arguments,
+      int socket);
+#endif  // OS_ANDROID || DOXYGEN
+
 #if defined(OS_LINUX) || defined(OS_ANDROID) || DOXYGEN
   //! \brief Installs a signal handler to launch a handler process in reponse to
   //!     a crash.
