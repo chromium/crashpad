@@ -62,7 +62,7 @@ bool CrashpadClient::StartHandler(
       handler, database, metrics_dir, url, annotations, arguments);
 
   std::vector<const char*> argv;
-  ConvertArgvStrings(argv_strings, &argv);
+  StringVectorToCStringVector(argv_strings, &argv);
 
   // Follow the same protocol as devmgr and crashlogger in Zircon (that is,
   // process handle as handle 0, with type USER0, exception port handle as

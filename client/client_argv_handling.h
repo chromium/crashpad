@@ -40,11 +40,11 @@ std::vector<std::string> BuildHandlerArgvStrings(
 //! \brief Flattens a string vector into a const char* vector suitable for use
 //!     in an exec() call.
 //!
-//! \param[in] argv_strings Arguments to be passed to child process, typically
-//!     created by BuildHandlerArgvStrings().
-//! \param[out] argv argv suitable for starting the child process.
-void ConvertArgvStrings(const std::vector<std::string>& argv_strings,
-                        std::vector<const char*>* argv);
+//! \param[in] strings A vector of string data. This vector must remain valid
+//!     for the lifetime of \a c_strings.
+//! \param[out] c_strings A vector of pointers to the string data in \a strings.
+void StringVectorToCStringVector(const std::vector<std::string>& strings,
+                                 std::vector<const char*>* c_strings);
 
 }  // namespace crashpad
 
