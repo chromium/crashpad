@@ -27,9 +27,12 @@
 namespace crashpad {
 
 bool DoubleForkAndExec(const std::vector<std::string>& argv,
+                       const std::vector<std::string>* envp,
                        int preserve_fd,
                        bool use_path,
                        void (*child_function)()) {
+  DCHECK(!envp || !use_path);
+
   // argv_c contains const char* pointers and is terminated by nullptr. This is
   // suitable for passing to execv(). Although argv_c is not used in the parent
   // process, it must be built in the parent process because it’s unsafe to do
@@ -40,6 +43,15 @@ bool DoubleForkAndExec(const std::vector<std::string>& argv,
     argv_c.push_back(argument.c_str());
   }
   argv_c.push_back(nullptr);
+
+  std::vector<const char*> envp_c;
+  if (envp) {
+    envp_c.reserve(envp->size() + 1);
+    for (const std::string& variable : *envp) {
+      envp_c.push_back(variable.c_str());
+    }
+    envp_c.push_back(nullptr);
+  }
 
   // Double-fork(). The three processes involved are parent, child, and
   // grandchild. The grandchild will call execv(). The child exits immediately
@@ -101,6 +113,13 @@ bool DoubleForkAndExec(const std::vector<std::string>& argv,
     // char data. It modifies neither the data nor the pointers, so the
     // const_cast is safe.
     char* const* argv_for_execv = const_cast<char* const*>(&argv_c[0]);
+
+    if (envp) {
+      // This cast is safe for the same reason that the argv_for_execv cast is.
+      char* const* envp_for_execv = const_cast<char* const*>(&envp_c[0]);
+      execve(argv_for_execv[0], argv_for_execv, envp_for_execv);
+      PLOG(FATAL) << "execve " << argv_for_execv[0];
+    }
 
     if (use_path) {
       execvp(argv_for_execv[0], argv_for_execv);

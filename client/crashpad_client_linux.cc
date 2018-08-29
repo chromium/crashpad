@@ -201,7 +201,7 @@ bool CrashpadClient::StartHandlerForClient(
 
   argv.push_back(FormatArgumentInt("initial-client-fd", socket));
 
-  return DoubleForkAndExec(argv, socket, true, nullptr);
+  return DoubleForkAndExec(argv, nullptr, socket, true, nullptr);
 }
 
 // static
