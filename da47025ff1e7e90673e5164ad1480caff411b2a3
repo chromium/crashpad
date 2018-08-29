@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "61572ba5_d9130c87",
+        "filename": "util/posix/double_fork_and_exec.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-08-29T14:29:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4707d9a_a41a88d0",
+      "revId": "da47025ff1e7e90673e5164ad1480caff411b2a3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe4d70a2_cf1ed10c",
         "filename": "util/posix/double_fork_and_exec.h",
         "patchSetId": 4
@@ -56,6 +74,30 @@
       "revId": "da47025ff1e7e90673e5164ad1480caff411b2a3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30488a46_9cee0f77",
+        "filename": "util/posix/double_fork_and_exec.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-08-29T14:29:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe4d70a2_cf1ed10c",
+      "range": {
+        "startLine": 40,
+        "startChar": 21,
+        "endLine": 40,
+        "endChar": 27
+      },
+      "revId": "da47025ff1e7e90673e5164ad1480caff411b2a3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
