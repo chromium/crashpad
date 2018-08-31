@@ -174,6 +174,7 @@ class ProcessInfo {
   // multiple successive calls will always produce the same return value and out
   // parameters. This is necessary for intergration with the Snapshot interface.
   // See https://crashpad.chromium.org/bug/9.
+  PtraceConnection* connection_;
   std::set<gid_t> supplementary_groups_;
   mutable timeval start_time_;
   pid_t pid_;
