@@ -75,6 +75,9 @@ class PtraceBroker {
       //!     errors, followed by an Errno. On success, the bytes read follow.
       kTypeReadFile,
 
+      //! \brief Returns a list of thr
+      kTypeListDirectory,
+
       //! \brief Causes the broker to return from Run(), detaching all attached
       //!     threads. Does not respond.
       kTypeExit
@@ -190,9 +193,12 @@ class PtraceBroker {
   int SendReadError(ReadError err);
   int SendOpenResult(OpenResult result);
   int SendFileContents(FileHandle handle);
+  int SendDirectory(FileHandle handle);
   void TryOpeningMemFile();
   int SendMemory(pid_t pid, VMAddress address, VMSize size);
-  int ReceiveAndOpenFilePath(VMSize path_length, ScopedFileHandle* handle);
+  int ReceiveAndOpenFilePath(VMSize path_length,
+                             bool is_directory,
+                             ScopedFileHandle* handle);
 
   char file_root_buffer_[32];
   Ptracer ptracer_;
