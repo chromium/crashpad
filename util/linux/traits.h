@@ -30,6 +30,7 @@ struct Traits32 {
   using ULong_32Only = ULong;
   using ULong_64Only = Nothing;
   using UInteger32_64Only = Nothing;
+  using UShort = uint16_t;
 };
 
 struct Traits64 {
@@ -43,6 +44,7 @@ struct Traits64 {
   using ULong_32Only = Nothing;
   using ULong_64Only = ULong;
   using UInteger32_64Only = uint32_t;
+  using UShort = uint16_t;
 };
 
 }  // namespace crashpad
