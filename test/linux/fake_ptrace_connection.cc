@@ -92,5 +92,9 @@ ProcessMemory* FakePtraceConnection::Memory() {
   return memory_.get();
 }
 
+bool FakePtraceConnection::Threads(std::vector<pid_t>* threads) {
+  return true;
+}
+
 }  // namespace test
 }  // namespace crashpad

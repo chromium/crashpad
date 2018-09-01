@@ -18,6 +18,7 @@
 #include <sys/types.h>
 
 #include <string>
+#include <vector>
 
 #include "base/files/file_path.h"
 #include "util/linux/thread_info.h"
@@ -64,6 +65,8 @@ class PtraceConnection {
   //! The caller does not take ownership of the reader. The reader is valid for
   //! the lifetime of the PtraceConnection that created it.
   virtual ProcessMemory* Memory() = 0;
+
+  virtual bool Threads(std::vector<pid_t>* threads) = 0;
 };
 
 }  // namespace crashpad

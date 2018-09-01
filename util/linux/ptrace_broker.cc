@@ -17,6 +17,7 @@
 #include <fcntl.h>
 #include <limits.h>
 #include <string.h>
+#include <syscall.h>
 #include <unistd.h>
 
 #include <algorithm>
@@ -217,6 +218,14 @@ int PtraceBroker::RunImpl() {
         continue;
       }
 
+      case Request::kTypeGetThreadIDs: {
+        int result = SendThreads(request.tid);
+        if (result != 0) {
+          return result;
+        }
+        continue;
+      }
+
       case Request::kTypeExit:
         return 0;
     }
@@ -326,6 +335,63 @@ int PtraceBroker::SendMemory(pid_t pid, VMAddress address, VMSize size) {
     size -= bytes_read;
     address += bytes_read;
   }
+  return 0;
+}
+
+int PtraceBroker::SendThreadsError(ThreadsError error) {
+  int32_t rv = -1;
+  return WriteFile(sock_, &rv, sizeof(rv)) &&
+                 WriteFile(sock_, &error, sizeof(error))
+             ? 0
+             : errno;
+}
+
+int PtraceBroker::SendThreads(pid_t pid) {
+  if (pid < 0) {
+    return SendThreadsError(kThreadsErrorInvalidPID);
+  }
+
+  static constexpr char kProc[] = "/proc/";
+  size_t path_length = strlen(kProc);
+  char path[32];
+  memcpy(path, kProc, path_length);
+  path_length += FormatPID(path + path_length, pid);
+
+  static constexpr char kTask[] = "/task";
+  memcpy(path + path_length, kTask, strlen(kTask));
+  path_length += strlen(kTask);
+  path[path_length] = '\0';
+
+  if (strncmp(path, file_root_, strlen(file_root_)) != 0) {
+    return SendThreadsError(kThreadsErrorAccessDenied);
+  }
+
+  ScopedFileHandle handle(
+      HANDLE_EINTR(open(path, O_RDONLY | O_DIRECTORY | O_CLOEXEC | O_NOCTTY)));
+  if (!handle.is_valid()) {
+    return SendThreadsError(static_cast<ThreadsError>(errno));
+  }
+
+  char buffer[4096];
+  int rv;
+  do {
+    rv = syscall(SYS_getdents, handle.get(), buffer, sizeof(buffer));
+
+    if (rv < 0) {
+      return SendThreadsError(static_cast<ThreadsError>(errno));
+    }
+
+    if (!WriteFile(sock_, &rv, sizeof(rv))) {
+      return errno;
+    }
+
+    if (rv > 0) {
+      if (!WriteFile(sock_, buffer, static_cast<size_t>(rv))) {
+        return errno;
+      }
+    }
+  } while (rv > 0);
+
   return 0;
 }
 

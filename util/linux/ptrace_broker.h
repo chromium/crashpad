@@ -75,6 +75,9 @@ class PtraceBroker {
       //!     errors, followed by an Errno. On success, the bytes read follow.
       kTypeReadFile,
 
+      //! \brief Get a list of thread ID's
+      kTypeGetThreadIDs,
+
       //! \brief Causes the broker to return from Run(), detaching all attached
       //!     threads. Does not respond.
       kTypeExit
@@ -127,6 +130,11 @@ class PtraceBroker {
   enum ReadError : int32_t {
     //! \brief Access to this data is denied.
     kReadErrorAccessDenied = -1,
+  };
+
+  enum ThreadsError : int32_t {
+    kThreadsErrorAccessDenied = -2,
+    kThreadsErrorInvalidPID = -1,
   };
 
   //! \brief The response sent for a Request with type kTypeGetThreadInfo.
@@ -190,6 +198,8 @@ class PtraceBroker {
   int SendReadError(ReadError err);
   int SendOpenResult(OpenResult result);
   int SendFileContents(FileHandle handle);
+  int SendThreadsError(ThreadsError err);
+  int SendThreads(pid_t pid);
   void TryOpeningMemFile();
   int SendMemory(pid_t pid, VMAddress address, VMSize size);
   int ReceiveAndOpenFilePath(VMSize path_length, ScopedFileHandle* handle);

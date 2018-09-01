@@ -20,8 +20,10 @@
 #include <string>
 
 #include "base/logging.h"
+#include "base/strings/string_number_conversions.h"
 #include "util/file/file_io.h"
 #include "util/linux/ptrace_broker.h"
+#include "util/linux/traits.h"
 #include "util/process/process_memory_linux.h"
 
 namespace crashpad {
@@ -59,6 +61,31 @@ bool ReceiveAndLogReadError(int sock, const std::string& operation) {
   }
 }
 
+bool ReceiveAndLogThreadsError(int sock) {
+  PtraceBroker::ThreadsError err;
+  if (!LoggingReadFileExactly(sock, &err, sizeof(err))) {
+    return false;
+  }
+  switch (err) {
+    case PtraceBroker::kThreadsErrorInvalidPID:
+      LOG(ERROR) << "invalid pid";
+      return true;
+    case PtraceBroker::kThreadsErrorAccessDenied:
+      LOG(ERROR) << "access denied";
+      return true;
+    default:
+      if (err <= 0) {
+        LOG(ERROR) << "invalid error " << err;
+        DCHECK(false);
+        return false;
+      }
+      errno = err;
+      PLOG(ERROR);
+      return true;
+      ;
+  }
+}
+
 bool AttachImpl(int sock, pid_t tid) {
   PtraceBroker::Request request;
   request.type = PtraceBroker::Request::kTypeAttach;
@@ -78,6 +105,34 @@ bool AttachImpl(int sock, pid_t tid) {
   }
 
   return true;
+}
+
+template <typename Traits>
+struct Dirent {
+  typename Traits::ULong d_ino;
+  typename Traits::ULong d_off;
+  typename Traits::UShort d_reclen;
+  char d_name[];
+};
+
+template <typename Traits>
+void ReadDents(char* buffer, size_t size, std::vector<pid_t>* threads) {
+  while (size > sizeof(Dirent<Traits>)) {
+    auto dirent = reinterpret_cast<Dirent<Traits>*>(buffer);
+    buffer += dirent->d_reclen;
+    size -= dirent->d_reclen;
+
+    if (strcmp(dirent->d_name, ".") == 0 || strcmp(dirent->d_name, "..") == 0) {
+      continue;
+    }
+
+    pid_t tid;
+    if (!base::StringToInt(dirent->d_name, &tid)) {
+      LOG(ERROR) << "format error";
+      continue;
+    }
+    threads->push_back(tid);
+  }
 }
 
 }  // namespace
@@ -216,6 +271,45 @@ bool PtraceClient::ReadFileContents(const base::FilePath& path,
 ProcessMemory* PtraceClient::Memory() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return memory_.get();
+}
+
+bool PtraceClient::Threads(std::vector<pid_t>* threads) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  PtraceBroker::Request request;
+  request.type = PtraceBroker::Request::kTypeGetThreadIDs;
+  request.tid = pid_;
+
+  if (!LoggingWriteFile(sock_, &request, sizeof(request))) {
+    return false;
+  }
+
+  std::vector<pid_t> local_threads;
+  int32_t size;
+  do {
+    if (!LoggingReadFileExactly(sock_, &size, sizeof(size))) {
+      return false;
+    }
+
+    if (size < 0) {
+      return ReceiveAndLogThreadsError(sock_);
+    }
+
+    if (size > 0) {
+      auto buffer = std::make_unique<char[]>(size);
+      if (!LoggingReadFileExactly(sock_, buffer.get(), size)) {
+        return false;
+      }
+
+      if (is_64_bit_) {
+        ReadDents<Traits64>(buffer.get(), size, &local_threads);
+      } else
+        ReadDents<Traits32>(buffer.get(), size, &local_threads);
+    }
+  } while (size > 0);
+
+  threads->swap(local_threads);
+  return true;
 }
 
 PtraceClient::BrokeredMemory::BrokeredMemory(PtraceClient* client)
