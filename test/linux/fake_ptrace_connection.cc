@@ -92,5 +92,11 @@ ProcessMemory* FakePtraceConnection::Memory() {
   return memory_.get();
 }
 
+bool FakePtraceConnection::Threads(std::vector<pid_t>* threads) {
+  // TODO(jperaza): Implement this if/when it's needed.
+  NOTREACHED();
+  return false;
+}
+
 }  // namespace test
 }  // namespace crashpad
