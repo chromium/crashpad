@@ -289,11 +289,16 @@ void ProcessSnapshotWin::InitializeUnloadedModules() {
   void* event_trace_address;
   RtlGetUnloadEventTraceEx(&element_size, &element_count, &event_trace_address);
 
+  // element_size is assumed to be the same for this process and the target
+  // process, so this can be dereferenced in this process. Since this code also
+  // relies on ntdll.dll being identical and at the same location in both
+  // processes, this should be OK.
   if (*element_size < sizeof(RTL_UNLOAD_EVENT_TRACE<Traits>)) {
     LOG(ERROR) << "unexpected unloaded module list element size";
     return;
   }
 
+  // Read the address of the data.
   const WinVMAddress address_in_target_process =
       FromPointerCast<WinVMAddress>(event_trace_address);
 
@@ -309,14 +314,25 @@ void ProcessSnapshotWin::InitializeUnloadedModules() {
   if (pointer_to_array == 0)
     return;
 
-  const size_t data_size = *element_size * *element_count;
+  // Dereference the element count in the target process.
+  const WinVMAddress element_count_address_in_target_process =
+      FromPointerCast<WinVMAddress>(element_count);
+  ULONG element_count_in_target;
+  if (!process_reader_.ReadMemory(element_count_address_in_target_process,
+                                  sizeof(*element_count),
+                                  &element_count_in_target)) {
+    LOG(ERROR) << "failed to read element count";
+    return;
+  }
+
+  const size_t data_size = *element_size * element_count_in_target;
   std::vector<uint8_t> data(data_size);
   if (!process_reader_.ReadMemory(pointer_to_array, data_size, &data[0])) {
     LOG(ERROR) << "failed to read unloaded module data";
     return;
   }
 
-  for (ULONG i = 0; i < *element_count; ++i) {
+  for (ULONG i = 0; i < element_count_in_target; ++i) {
     const uint8_t* base_address = &data[i * *element_size];
     const auto& uet =
         *reinterpret_cast<const RTL_UNLOAD_EVENT_TRACE<Traits>*>(base_address);
