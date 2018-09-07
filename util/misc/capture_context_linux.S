@@ -263,10 +263,10 @@ CAPTURECONTEXT_SYMBOL2:
   str SP, [r0, #0x54]  // context->uc_mcontext.sp
 
   // The original LR can't be recovered.
-  str LR, [r0, #0x58]  // context->uc_mcontext.lr
+  str x30, [r0, #0x58]  // context->uc_mcontext.lr
 
   // The link register holds the return address for this function.
-  str LR, [r0, #0x5c]  // context->uc_mcontext.pc
+  str x30, [r0, #0x5c]  // context->uc_mcontext.pc
 
   // Use r1 as a scratch register.
 
@@ -312,14 +312,14 @@ CAPTURECONTEXT_SYMBOL2:
   stp x28, x29, [x0, #0x198]
 
   // The original LR can't be recovered.
-  str LR, [x0, #0x1a8]
+  str x30, [x0, #0x1a8]
 
   // Use x1 as a scratch register.
   mov x1, SP
   str x1, [x0, #0x1b0] // context->uc_mcontext.sp
 
   // The link register holds the return address for this function.
-  str LR, [x0, #0x1b8]  // context->uc_mcontext.pc
+  str x30, [x0, #0x1b8]  // context->uc_mcontext.pc
 
   // NZCV, pstate, and CPSR are synonyms.
   mrs x1, NZCV
