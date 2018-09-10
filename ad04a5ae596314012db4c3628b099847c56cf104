@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0c66044_3b7a6274",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-09-10T15:54:38Z",
+      "side": 1,
+      "message": "connection_()",
+      "revId": "ad04a5ae596314012db4c3628b099847c56cf104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
