@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b6f00965_4c994f07",
+        "filename": "snapshot/linux/process_reader_linux.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-09-10T21:43:13Z",
+      "side": 1,
+      "message": "My intention here is to allow a greater tolerance for errors when things aren\u0027t absolutely necessary to continuing, particularly when going through the broker. e.g. if the broker is out of file descriptors. I put the DCHECK here since this should generally be successful when debugging (and if it fails when debugging, that might be a good signal as to what\u0027s wrong), even though it is okay to fail in the real world.",
+      "parentUuid": "de4a4357_728e4365",
+      "revId": "6db5b5ce15e4d2655711d56bec152f66250b08fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b877a447_e99f6398",
         "filename": "test/linux/fake_ptrace_connection.h",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "6db5b5ce15e4d2655711d56bec152f66250b08fe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd0674ae_6135f61f",
+        "filename": "test/linux/fake_ptrace_connection.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-09-10T21:43:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b877a447_e99f6398",
+      "revId": "6db5b5ce15e4d2655711d56bec152f66250b08fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "ed7060f0_285f14be",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-09-10T21:43:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92e7c011_b9bcf939",
+      "range": {
+        "startLine": 359,
+        "startChar": 17,
+        "endLine": 359,
+        "endChar": 29
+      },
+      "revId": "6db5b5ce15e4d2655711d56bec152f66250b08fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5223c7f_263faa49",
         "filename": "util/linux/ptrace_client.cc",
         "patchSetId": 5
@@ -73,6 +133,24 @@
       "revId": "6db5b5ce15e4d2655711d56bec152f66250b08fe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "445184a4_526faf08",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-09-10T21:43:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5223c7f_263faa49",
+      "revId": "6db5b5ce15e4d2655711d56bec152f66250b08fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "45f1ce38_02138c70",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-09-10T21:43:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b46b5093_50048abf",
+      "revId": "6db5b5ce15e4d2655711d56bec152f66250b08fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1e2d321_9187652b",
         "filename": "util/linux/traits.h",
         "patchSetId": 5
@@ -107,6 +203,24 @@
       "revId": "6db5b5ce15e4d2655711d56bec152f66250b08fe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64041cfa_d1587d33",
+        "filename": "util/linux/traits.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-09-10T21:43:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1e2d321_9187652b",
+      "revId": "6db5b5ce15e4d2655711d56bec152f66250b08fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
