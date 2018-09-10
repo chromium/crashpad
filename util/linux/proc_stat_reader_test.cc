@@ -20,6 +20,7 @@
 
 #include "base/logging.h"
 #include "gtest/gtest.h"
+#include "test/linux/fake_ptrace_connection.h"
 #include "util/thread/thread.h"
 
 namespace crashpad {
@@ -27,8 +28,11 @@ namespace test {
 namespace {
 
 TEST(ProcStatReader, Basic) {
+  FakePtraceConnection connection;
+  ASSERT_TRUE(connection.Initialize(getpid()));
+
   ProcStatReader stat;
-  ASSERT_TRUE(stat.Initialize(getpid()));
+  ASSERT_TRUE(stat.Initialize(&connection, getpid()));
 
   timeval start_time;
   ASSERT_TRUE(stat.StartTime(&start_time));
@@ -53,8 +57,11 @@ pid_t gettid() {
 }
 
 void GetStartTime(timeval* start_time) {
+  FakePtraceConnection connection;
+  ASSERT_TRUE(connection.Initialize(getpid()));
+
   ProcStatReader stat;
-  ASSERT_TRUE(stat.Initialize(gettid()));
+  ASSERT_TRUE(stat.Initialize(&connection, gettid()));
   ASSERT_TRUE(stat.StartTime(start_time));
 }
 
