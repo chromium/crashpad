@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de4a4357_728e4365",
+        "filename": "snapshot/linux/process_reader_linux.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-09-10T16:07:15Z",
+      "side": 1,
+      "message": "Is DCHECK the right way to handle?",
+      "revId": "6db5b5ce15e4d2655711d56bec152f66250b08fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b877a447_e99f6398",
+        "filename": "test/linux/fake_ptrace_connection.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-09-10T16:07:15Z",
+      "side": 1,
+      "message": "Doxygen has \\todo that you can use here instead of \\brief.",
+      "revId": "6db5b5ce15e4d2655711d56bec152f66250b08fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92e7c011_b9bcf939",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-09-10T16:07:15Z",
+      "side": 1,
+      "message": "Should this be using getdents64, which uses linux_dirent64, a struct that handles large filesystems and files, and isn’t process-bit-width-dependent?\n\nIf so, also update the comment in ptrace_broker.h, along with consumer code.",
+      "range": {
+        "startLine": 359,
+        "startChar": 17,
+        "endLine": 359,
+        "endChar": 29
+      },
+      "revId": "6db5b5ce15e4d2655711d56bec152f66250b08fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5223c7f_263faa49",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-09-10T16:07:15Z",
+      "side": 1,
+      "message": "linux_dirent64 should eliminate the need to have a traits-ed Dirent\u003c\u003e.\n\n(d_reclen alone doesn’t need traits-ing, because a short’s always 16 bits here.)",
+      "revId": "6db5b5ce15e4d2655711d56bec152f66250b08fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b46b5093_50048abf",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-09-10T16:07:15Z",
+      "side": 1,
+      "message": "Ought to already be \u0027\\0\u0027. Rather than setting it, you can test for it and declare that things have gone off the rails if it’s anything else.",
+      "revId": "6db5b5ce15e4d2655711d56bec152f66250b08fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1e2d321_9187652b",
+        "filename": "util/linux/traits.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-09-10T16:07:15Z",
+      "side": 1,
+      "message": "Not worthwhile (especially if we don’t need a Traits-ed Dirent\u003c\u003e).",
+      "revId": "6db5b5ce15e4d2655711d56bec152f66250b08fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
