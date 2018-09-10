@@ -43,9 +43,12 @@ ProcStatReader::ProcStatReader()
 
 ProcStatReader::~ProcStatReader() {}
 
-bool ProcStatReader::Initialize(pid_t tid) {
+bool ProcStatReader::Initialize(PtraceConnection* connection, pid_t tid) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
-  if (!ReadFile(tid)) {
+
+  char path[32];
+  snprintf(path, arraysize(path), "/proc/%d/stat", tid);
+  if (!connection->ReadFileContents(base::FilePath(path), &contents_)) {
     return false;
   }
 
@@ -107,15 +110,6 @@ bool ProcStatReader::StartTime(timeval* start_time) const {
   TimespecToTimeval(boot_time_ts, &boot_time_tv);
   timeradd(&boot_time_tv, &time_after_boot, start_time);
 
-  return true;
-}
-
-bool ProcStatReader::ReadFile(pid_t tid) {
-  char path[32];
-  snprintf(path, arraysize(path), "/proc/%d/stat", tid);
-  if (!LoggingReadEntireFile(base::FilePath(path), &contents_)) {
-    return false;
-  }
   return true;
 }
 

@@ -236,7 +236,7 @@ bool ProcessReaderLinux::CPUTimes(timeval* user_time,
 
   for (const Thread& thread : threads_) {
     ProcStatReader stat;
-    if (!stat.Initialize(thread.tid)) {
+    if (!stat.Initialize(connection_, thread.tid)) {
       return false;
     }
 

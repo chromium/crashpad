@@ -20,13 +20,15 @@
 #include "base/logging.h"
 #include "util/file/delimited_file_reader.h"
 #include "util/file/file_reader.h"
+#include "util/file/string_file.h"
 #include "util/linux/proc_stat_reader.h"
 #include "util/misc/lexing.h"
 
 namespace crashpad {
 
 ProcessInfo::ProcessInfo()
-    : supplementary_groups_(),
+    : connection_(),
+      supplementary_groups_(),
       start_time_(),
       pid_(-1),
       ppid_(-1),
@@ -45,16 +47,19 @@ bool ProcessInfo::InitializeWithPtrace(PtraceConnection* connection) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
   DCHECK(connection);
 
+  connection_ = connection;
   pid_ = connection->GetProcessID();
   is_64_bit_ = connection->Is64Bit();
 
   {
     char path[32];
     snprintf(path, sizeof(path), "/proc/%d/status", pid_);
-    FileReader status_file;
-    if (!status_file.Open(base::FilePath(path))) {
+    std::string contents;
+    if (!connection->ReadFileContents(base::FilePath(path), &contents)) {
       return false;
     }
+    StringFile status_file;
+    status_file.SetString(contents);
 
     DelimitedFileReader status_file_line_reader(&status_file);
 
@@ -230,7 +235,7 @@ bool ProcessInfo::StartTime(timeval* start_time) const {
   if (start_time_initialized_.is_uninitialized()) {
     start_time_initialized_.set_invalid();
     ProcStatReader reader;
-    if (!reader.Initialize(pid_)) {
+    if (!reader.Initialize(connection_, pid_)) {
       return false;
     }
     if (!reader.StartTime(&start_time_)) {
@@ -252,10 +257,12 @@ bool ProcessInfo::Arguments(std::vector<std::string>* argv) const {
 
   char path[32];
   snprintf(path, sizeof(path), "/proc/%d/cmdline", pid_);
-  FileReader cmdline_file;
-  if (!cmdline_file.Open(base::FilePath(path))) {
+  std::string contents;
+  if (!connection_->ReadFileContents(base::FilePath(path), &contents)) {
     return false;
   }
+  StringFile cmdline_file;
+  cmdline_file.SetString(contents);
 
   DelimitedFileReader cmdline_file_field_reader(&cmdline_file);
 
