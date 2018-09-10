@@ -257,16 +257,14 @@ CAPTURECONTEXT_SYMBOL2:
   // Restore r0.
   sub r0, r0, #0x24
 
-  // Save named general purpose registers.
-  str FP, [r0, #0x4c]  // context->uc_mcontext.fp
-  str IP, [r0, #0x50]  // context->uc_mcontext.ip
+  // Save SP/r13.
   str SP, [r0, #0x54]  // context->uc_mcontext.sp
 
   // The original LR can't be recovered.
-  str x30, [r0, #0x58]  // context->uc_mcontext.lr
+  str LR, [r0, #0x58]  // context->uc_mcontext.lr
 
   // The link register holds the return address for this function.
-  str x30, [r0, #0x5c]  // context->uc_mcontext.pc
+  str LR, [r0, #0x5c]  // context->uc_mcontext.pc
 
   // Use r1 as a scratch register.
 
