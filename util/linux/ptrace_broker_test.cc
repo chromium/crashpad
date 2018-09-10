@@ -155,6 +155,17 @@ class SameBitnessTest : public Multiprocess {
         client_sock.get(), ChildPID(), /* try_direct_memory= */ false));
 
     EXPECT_EQ(client.GetProcessID(), ChildPID());
+
+    std::vector<pid_t> threads;
+    ASSERT_TRUE(client.Threads(&threads));
+    EXPECT_EQ(threads.size(), 2u);
+    if (threads[0] == ChildPID()) {
+      EXPECT_EQ(threads[1], child2_tid);
+    } else {
+      EXPECT_EQ(threads[0], child2_tid);
+      EXPECT_EQ(threads[1], ChildPID());
+    }
+
     EXPECT_TRUE(client.Attach(child2_tid));
     EXPECT_EQ(client.Is64Bit(), am_64_bit);
 
