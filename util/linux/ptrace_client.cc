@@ -20,6 +20,7 @@
 #include <string>
 
 #include "base/logging.h"
+#include "base/strings/string_number_conversions.h"
 #include "util/file/file_io.h"
 #include "util/linux/ptrace_broker.h"
 #include "util/process/process_memory_linux.h"
@@ -78,6 +79,48 @@ bool AttachImpl(int sock, pid_t tid) {
   }
 
   return true;
+}
+
+struct Dirent64 {
+  ino64_t d_ino;
+  off64_t d_off;
+  unsigned short d_reclen;
+  unsigned char d_type;
+  char d_name[];
+};
+
+void ReadDentsAsThreadIDs(char* buffer,
+                          size_t size,
+                          std::vector<pid_t>* threads) {
+  while (size > sizeof(Dirent64)) {
+    auto dirent = reinterpret_cast<Dirent64*>(buffer);
+    if (size < dirent->d_reclen) {
+      LOG(ERROR) << "short dirent";
+      break;
+    }
+    buffer += dirent->d_reclen;
+    size -= dirent->d_reclen;
+
+    const size_t max_name_length =
+        dirent->d_reclen - offsetof(Dirent64, d_name);
+    size_t name_len = strnlen(dirent->d_name, max_name_length);
+    if (name_len >= max_name_length) {
+      LOG(ERROR) << "format error";
+      break;
+    }
+
+    if (strcmp(dirent->d_name, ".") == 0 || strcmp(dirent->d_name, "..") == 0) {
+      continue;
+    }
+
+    pid_t tid;
+    if (!base::StringToInt(dirent->d_name, &tid)) {
+      LOG(ERROR) << "format error";
+      continue;
+    }
+    threads->push_back(tid);
+  }
+  DCHECK_EQ(size, 0u);
 }
 
 }  // namespace
@@ -216,6 +259,51 @@ bool PtraceClient::ReadFileContents(const base::FilePath& path,
 ProcessMemory* PtraceClient::Memory() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return memory_.get();
+}
+
+bool PtraceClient::Threads(std::vector<pid_t>* threads) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  DCHECK(threads->empty());
+
+  // If the broker is unable to read thread IDs, fall-back to just the main
+  // thread's ID.
+  threads->push_back(pid_);
+
+  char path[32];
+  snprintf(path, arraysize(path), "/proc/%d/task", pid_);
+
+  PtraceBroker::Request request;
+  request.type = PtraceBroker::Request::kTypeListDirectory;
+  request.path.path_length = strlen(path);
+
+  if (!LoggingWriteFile(sock_, &request, sizeof(request)) ||
+      !SendFilePath(path, request.path.path_length)) {
+    return false;
+  }
+
+  std::vector<pid_t> local_threads;
+  int32_t read_result;
+  do {
+    if (!LoggingReadFileExactly(sock_, &read_result, sizeof(read_result))) {
+      return false;
+    }
+
+    if (read_result < 0) {
+      return ReceiveAndLogReadError(sock_, "Threads");
+    }
+
+    if (read_result > 0) {
+      auto buffer = std::make_unique<char[]>(read_result);
+      if (!LoggingReadFileExactly(sock_, buffer.get(), read_result)) {
+        return false;
+      }
+
+      ReadDentsAsThreadIDs(buffer.get(), read_result, &local_threads);
+    }
+  } while (read_result > 0);
+
+  threads->swap(local_threads);
+  return true;
 }
 
 PtraceClient::BrokeredMemory::BrokeredMemory(PtraceClient* client)

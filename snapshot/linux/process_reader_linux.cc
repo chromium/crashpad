@@ -17,7 +17,6 @@
 #include <elf.h>
 #include <errno.h>
 #include <sched.h>
-#include <stdio.h>
 #include <string.h>
 #include <sys/resource.h>
 #include <unistd.h>
@@ -25,13 +24,10 @@
 #include <algorithm>
 
 #include "base/logging.h"
-#include "base/strings/string_number_conversions.h"
 #include "build/build_config.h"
 #include "snapshot/linux/debug_rendezvous.h"
-#include "util/file/directory_reader.h"
 #include "util/linux/auxiliary_vector.h"
 #include "util/linux/proc_stat_reader.h"
-#include "util/misc/as_underlying_type.h"
 
 namespace crashpad {
 
@@ -298,23 +294,11 @@ void ProcessReaderLinux::InitializeThreads() {
     LOG(WARNING) << "Couldn't initialize main thread.";
   }
 
-  char path[32];
-  snprintf(path, arraysize(path), "/proc/%d/task", pid);
   bool main_thread_found = false;
-  DirectoryReader reader;
-  if (!reader.Open(base::FilePath(path))) {
-    return;
-  }
-  base::FilePath tid_str;
-  DirectoryReader::Result result;
-  while ((result = reader.NextFile(&tid_str)) ==
-         DirectoryReader::Result::kSuccess) {
-    pid_t tid;
-    if (!base::StringToInt(tid_str.value(), &tid)) {
-      LOG(ERROR) << "format error";
-      continue;
-    }
-
+  std::vector<pid_t> thread_ids;
+  bool result = connection_->Threads(&thread_ids);
+  DCHECK(result);
+  for (pid_t tid : thread_ids) {
     if (tid == pid) {
       DCHECK(!main_thread_found);
       main_thread_found = true;
@@ -328,8 +312,6 @@ void ProcessReaderLinux::InitializeThreads() {
       threads_.push_back(thread);
     }
   }
-  DCHECK_EQ(AsUnderlyingType(result),
-            AsUnderlyingType(DirectoryReader::Result::kNoMoreFiles));
   DCHECK(main_thread_found);
 }
 
