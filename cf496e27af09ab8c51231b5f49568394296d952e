@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4995aafe_d461f525",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-09-11T21:21:37Z",
+      "side": 1,
+      "message": "Apart from managing the ifdefs, it looks like using dirent64 from dirent.h might actually be a little more awkward or even less reliable. The dirent64 in glibc and the NDK define d_name with an explicit size of 256 bytes (the max filename length), but the dirents returned by the syscall are variable length. In this usage, they\u0027re typically 24 or 32 bytes. I think there\u0027s also no reason dirent64 needs to be compatible with the system call at all since I think it\u0027s only meant to be used via libc interfaces. I don\u0027t think there\u0027s any contract preventing glibc from sticking its own custom fields in there.",
+      "parentUuid": "9499e097_27c10b52",
+      "revId": "cf496e27af09ab8c51231b5f49568394296d952e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f2363780_628256a2",
         "filename": "util/linux/ptrace_client.cc",
         "patchSetId": 6
