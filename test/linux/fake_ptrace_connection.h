@@ -62,6 +62,9 @@ class FakePtraceConnection : public PtraceConnection {
   //!     ADD_FAILURE() and returning `nullptr` on failure.
   ProcessMemory* Memory() override;
 
+  //! \todo Not yet implemented.
+  bool Threads(std::vector<pid_t>* threads) override;
+
  private:
   std::set<pid_t> attachments_;
   std::unique_ptr<ProcessMemoryLinux> memory_;
