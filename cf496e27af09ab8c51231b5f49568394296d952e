@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9499e097_27c10b52",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-09-11T18:04:15Z",
+      "side": 1,
+      "message": "Can you use dirent64 from \u003cdirent.h\u003e directly?\n\nMaybe that’s a gigantic pain given #ifdefs that make it conditional and varying levels of NDK support. Ordinarily I’d suggest to stick a backup definition in compat, but if it’s too difficult to work out the conditions when it’s unavailable, then we can do this. But I’d suggest adding a comment at least pointing to the fact that it’s supposed to match \u003cdirent.h\u003e’s dirent64. And maybe even name it Dirent64 to make it a little less ambiguous that it’s supposed to be the always-64-bit version and the lack of traits-ification is OK.",
+      "revId": "cf496e27af09ab8c51231b5f49568394296d952e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2363780_628256a2",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-09-11T18:04:15Z",
+      "side": 1,
+      "message": "Nice addition.",
+      "revId": "cf496e27af09ab8c51231b5f49568394296d952e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
