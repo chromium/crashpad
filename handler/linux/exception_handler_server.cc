@@ -307,11 +307,21 @@ void ExceptionHandlerServer::HandleEvent(Event* event, uint32_t event_type) {
 }
 
 bool ExceptionHandlerServer::InstallClientSocket(ScopedFileHandle socket) {
-  int optval = 1;
+  int optval = 0;
   socklen_t optlen = sizeof(optval);
-  if (setsockopt(socket.get(), SOL_SOCKET, SO_PASSCRED, &optval, optlen) != 0) {
-    PLOG(ERROR) << "setsockopt";
+  if (getsockopt(socket.get(), SOL_SOCKET, SO_PASSCRED, &optval, &optlen) !=
+      0) {
+    PLOG(ERROR) << "getsockopt";
     return false;
+  }
+  if (!optval) {
+    optval = 1;
+    optlen = sizeof(optval);
+    if (setsockopt(socket.get(), SOL_SOCKET, SO_PASSCRED, &optval, optlen) !=
+        0) {
+      PLOG(ERROR) << "setsockopt";
+      return false;
+    }
   }
 
   auto event = std::make_unique<Event>();
