@@ -66,6 +66,10 @@ class ProcessReaderLinux {
     int static_priority;
     int nice_value;
 
+    //! \brief `true` if `sched_policy`, `static_priority`, and `nice_value` are
+    //!     all valid.
+    bool have_priorities;
+
    private:
     friend class ProcessReaderLinux;
 
