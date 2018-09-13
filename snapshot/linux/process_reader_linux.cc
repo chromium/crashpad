@@ -60,20 +60,24 @@ bool ProcessReaderLinux::Thread::InitializePtrace(
     return false;
   }
 
+  // TODO(jperaza): Collect scheduling priorities via the broker when they can't
+  // be collected directly.
+  have_priorities = false;
+
   // TODO(jperaza): Starting with Linux 3.14, scheduling policy, static
   // priority, and nice value can be collected all in one call with
   // sched_getattr().
   int res = sched_getscheduler(tid);
   if (res < 0) {
     PLOG(ERROR) << "sched_getscheduler";
-    return false;
+    return true;
   }
   sched_policy = res;
 
   sched_param param;
   if (sched_getparam(tid, &param) != 0) {
     PLOG(ERROR) << "sched_getparam";
-    return false;
+    return true;
   }
   static_priority = param.sched_priority;
 
@@ -81,10 +85,11 @@ bool ProcessReaderLinux::Thread::InitializePtrace(
   res = getpriority(PRIO_PROCESS, tid);
   if (res == -1 && errno) {
     PLOG(ERROR) << "getpriority";
-    return false;
+    return true;
   }
   nice_value = res;
 
+  have_priorities = true;
   return true;
 }
 
