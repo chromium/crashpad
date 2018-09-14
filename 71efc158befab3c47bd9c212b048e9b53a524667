@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56529d30_63b28fb1",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-09-14T16:24:23Z",
+      "side": 1,
+      "message": "No need to initialize.",
+      "range": {
+        "startLine": 310,
+        "startChar": 12,
+        "endLine": 310,
+        "endChar": 16
+      },
+      "revId": "71efc158befab3c47bd9c212b048e9b53a524667",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8806e464_bd4fd50c",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-09-14T16:24:23Z",
+      "side": 1,
+      "message": "Because this smells funny, leave behind a comment pointing to bug 252.",
+      "revId": "71efc158befab3c47bd9c212b048e9b53a524667",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
