@@ -307,11 +307,24 @@ void ExceptionHandlerServer::HandleEvent(Event* event, uint32_t event_type) {
 }
 
 bool ExceptionHandlerServer::InstallClientSocket(ScopedFileHandle socket) {
-  int optval = 1;
+  // The handler may not have permission to set SO_PASSCRED on the socket, but
+  // it doesn't need to if the client has already set it.
+  // https://bugs.chromium.org/p/crashpad/issues/detail?id=252
+  int optval;
   socklen_t optlen = sizeof(optval);
-  if (setsockopt(socket.get(), SOL_SOCKET, SO_PASSCRED, &optval, optlen) != 0) {
-    PLOG(ERROR) << "setsockopt";
+  if (getsockopt(socket.get(), SOL_SOCKET, SO_PASSCRED, &optval, &optlen) !=
+      0) {
+    PLOG(ERROR) << "getsockopt";
     return false;
+  }
+  if (!optval) {
+    optval = 1;
+    optlen = sizeof(optval);
+    if (setsockopt(socket.get(), SOL_SOCKET, SO_PASSCRED, &optval, optlen) !=
+        0) {
+      PLOG(ERROR) << "setsockopt";
+      return false;
+    }
   }
 
   auto event = std::make_unique<Event>();
