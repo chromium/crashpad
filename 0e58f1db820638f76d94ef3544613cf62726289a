@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b921218_7fc8c5f6",
+        "filename": "snapshot/linux/process_reader_linux.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-09-14T16:25:46Z",
+      "side": 1,
+      "message": "These three should be downgraded to WARNINGs now.",
+      "revId": "0e58f1db820638f76d94ef3544613cf62726289a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
