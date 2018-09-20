@@ -349,8 +349,13 @@ std::vector<const MemoryMap::Mapping*> MemoryMap::FindFilePossibleMmapStarts(
 
   for (const auto& candidate : mappings_) {
     if (candidate.device == mapping.device &&
-        candidate.inode == mapping.inode &&
-        candidate.offset == 0) {
+        candidate.inode == mapping.inode
+#if !defined(OS_ANDROID)
+        // Libraries on Android may be mapped from zipfiles (APKs), in which
+        // case the offset is not 0.
+        && candidate.offset == 0
+#endif  // !defined(OS_ANDROID)
+        ) {
       possible_starts.push_back(&candidate);
     }
     if (mapping.Equals(candidate)) {
