@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5d5cc5f_8ba72362",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-09-20T14:17:14Z",
+      "side": 1,
+      "message": "Simpler URL: https://crashpad.chromium.org/bug/253.",
+      "range": {
+        "startLine": 325,
+        "startChar": 5,
+        "endLine": 325,
+        "endChar": 62
+      },
+      "revId": "fa042ccdb468b17cff84273dda42071540ae307f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a805aeb_e32f914b",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-09-20T14:17:14Z",
+      "side": 1,
+      "message": "Possibly handle, but at least DCHECK that it’s not std::string::npos.",
+      "revId": "fa042ccdb468b17cff84273dda42071540ae307f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
