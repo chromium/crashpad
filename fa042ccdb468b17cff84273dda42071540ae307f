@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a0a13d43_974b7dfd",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-09-20T16:21:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5d5cc5f_8ba72362",
+      "range": {
+        "startLine": 325,
+        "startChar": 5,
+        "endLine": 325,
+        "endChar": 62
+      },
+      "revId": "fa042ccdb468b17cff84273dda42071540ae307f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a805aeb_e32f914b",
         "filename": "util/linux/memory_map.cc",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "fa042ccdb468b17cff84273dda42071540ae307f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be8a4f53_e4415ad9",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-09-20T16:21:08Z",
+      "side": 1,
+      "message": "Both!",
+      "parentUuid": "1a805aeb_e32f914b",
+      "revId": "fa042ccdb468b17cff84273dda42071540ae307f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
