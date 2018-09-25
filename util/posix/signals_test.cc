@@ -45,9 +45,9 @@ bool CanCauseSignal(int sig) {
   return sig == SIGABRT ||
          sig == SIGALRM ||
          sig == SIGBUS ||
-#if !defined(ARCH_CPU_ARM64)
+#if !defined(ARCH_CPU_ARM64) && !defined(ARCH_CPU_PPC64)
          sig == SIGFPE ||
-#endif  // !defined(ARCH_CPU_ARM64)
+#endif  // !defined(ARCH_CPU_ARM64) && !defined(ARCH_CPU_PPC64)
 #if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARMEL)
          sig == SIGILL ||
 #endif  // defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARMEL
@@ -116,9 +116,11 @@ void CauseSignal(int sig) {
       break;
     }
 
-#if !defined(ARCH_CPU_ARM64)
+#if !defined(ARCH_CPU_ARM64) && !defined(ARCH_CPU_PPC64)
     // ARM64 has hardware integer division instructions that don’t generate a
     // trap for divide-by-zero, so this doesn’t produce SIGFPE.
+    //
+    // PPC64 fixed-point division by zero also doesn't produce a SIGFPE.
     case SIGFPE: {
       // Optimization makes this tricky, so get zero from a system call likely
       // to succeed, and try to do something with the result.
@@ -136,7 +138,7 @@ void CauseSignal(int sig) {
       fstat(quotient, &stat_buf);
       break;
     }
-#endif  // ARCH_CPU_ARM64
+#endif  // !defined(ARCH_CPU_ARM64) && !defined(ARCH_CPU_PPC64)
 
 #if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARMEL)
     case SIGILL: {

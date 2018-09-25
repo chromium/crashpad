@@ -93,9 +93,15 @@ int PtraceBroker::Run() {
 }
 
 bool PtraceBroker::AllocateAttachments() {
+#if !defined(ARCH_CPU_PPC64_FAMILY)
+  size_t page_size = getpagesize();
+  size_t alloc_size =
+      (sizeof(ScopedPtraceAttach) + page_size - 1) & ~(page_size - 1);
+#else
   constexpr size_t page_size = 4096;
   constexpr size_t alloc_size =
       (sizeof(ScopedPtraceAttach) + page_size - 1) & ~(page_size - 1);
+#endif
   void* alloc = sbrk(alloc_size);
   if (reinterpret_cast<intptr_t>(alloc) == -1) {
     return false;
