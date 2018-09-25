@@ -315,6 +315,45 @@ class MinidumpContextMIPS64Writer final : public MinidumpContextWriter {
   DISALLOW_COPY_AND_ASSIGN(MinidumpContextMIPS64Writer);
 };
 
+class MinidumpContextPPC64Writer final : public MinidumpContextWriter {
+ public:
+  MinidumpContextPPC64Writer();
+  ~MinidumpContextPPC64Writer() override;
+
+  //! \brief Initalizes the MinidumpContextPPC64 based on \a context_snapshot.
+  //!
+  //! \param[in] context_snapshot The context snapshot to use as source data.
+  //!
+  //! \note Valid in #kStateMutable. No mutation of context() may be done before
+  //!     calling this method, and it is not normally necessary to alter
+  //!     context() after calling this method.
+  void InitalizeFromSnapshot(const CPUContextPPC64* context_snapshot);
+
+  //! \brief Returns a pointer to the context structure that this object will
+  //!     write.
+  //!
+  //! \attention This returns a non-`const` pointer to this object’s private
+  //!     data so that a caller can populate the context structure directly.
+  //!     This is done because providing setter interfaces to each field in the
+  //!     context structure would be unwieldy and cumbersome. Care must be taken
+  //!     to populate the context structure correctly. The context structure
+  //!     must only be modified while this object is in the #kStateMutable
+  //!     state.
+  MinidumpContextPPC64* context() { return &context_; }
+
+ protected:
+  // MinidumpWritable:
+  bool WriteObject(FileWriterInterface* file_writer) override;
+
+  // MinidumpContextWriter:
+  size_t ContextSize() const override;
+
+ private:
+  MinidumpContextPPC64 context_;
+
+  DISALLOW_COPY_AND_ASSIGN(MinidumpContextPPC64Writer);
+};
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_WRITER_H_

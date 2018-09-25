@@ -394,6 +394,64 @@ bool GetThreadArea64(pid_t tid,
   return true;
 }
 
+#elif defined(ARCH_CPU_PPC64_FAMILY)
+// PPC64 has had HAVE_ARCH_TRACEHOOK set since 2.6.27 (even before x86 had it).
+// That means we can simply use PTRACE_GETREGESET.
+
+template <typename Destination>
+bool GetRegisterSet(pid_t tid, int set, Destination* dest, bool can_log) {
+  iovec iov;
+  iov.iov_base = reinterpret_cast<void*>(dest);
+  iov.iov_len = sizeof(*dest);
+  if (ptrace(PTRACE_GETREGSET, tid, reinterpret_cast<void*>(set), &iov) != 0) {
+    PLOG_IF(ERROR, can_log) << "ptrace";
+    return false;
+  }
+  if (iov.iov_len != sizeof(*dest)) {
+    LOG_IF(ERROR, can_log) << "Unexpected registers size";
+    return false;
+  }
+  return true;
+}
+
+bool GetVectorRegisters64(pid_t tid,
+                          VectorContext* context,
+                          bool can_log) {
+  return GetRegisterSet(tid, NT_PPC_VMX, &context->v64, can_log);
+}
+
+bool GetFloatingPointRegisters64(pid_t tid,
+                                 FloatContext* context,
+                                 bool can_log) {
+  return GetRegisterSet(tid, NT_PRFPREG, &context->f64, can_log);
+}
+
+bool GetThreadArea64(pid_t tid,
+                     const ThreadContext& context,
+                     LinuxVMAddress* address,
+                     bool can_log) {
+  // PPC64 doesn't have PTRACE_GET_THREAD_AREA since the thread pointer
+  // is stored in GPR 13.
+  ThreadContext::t64_t tc;
+  if (!GetRegisterSet(tid, NT_PRSTATUS, &tc, can_log)) {
+    LOG_IF(ERROR, can_log) << "Unable to get thread pointer!";
+    return false;
+  }
+
+  *address = tc.gpr[13];
+
+  return true;
+}
+
+// Stubs for 32-bit functions not applicable on PPC64
+bool GetFloatingPointRegisters32(pid_t tid,
+                                 FloatContext* context,
+                                 bool can_log) { return false; }
+bool GetThreadArea32(pid_t tid,
+                     const ThreadContext &context,
+                     LinuxVMAddress *address,
+                     bool can_log) { return false; }
+
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -486,6 +544,9 @@ bool Ptracer::GetThreadInfo(pid_t tid, ThreadInfo* info) {
   if (is_64_bit_) {
     return GetGeneralPurposeRegisters64(tid, &info->thread_context, can_log_) &&
            GetFloatingPointRegisters64(tid, &info->float_context, can_log_) &&
+#if defined(ARCH_CPU_PPC64_FAMILY)
+           GetVectorRegisters64(tid, &info->vector_context, can_log_) &&
+#endif
            GetThreadArea64(tid,
                            info->thread_context,
                            &info->thread_specific_data_address,
