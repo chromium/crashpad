@@ -641,11 +641,8 @@ source_set("util_test") {
       "win/scoped_process_suspend_test.cc",
       "win/session_end_watcher_test.cc",
     ]
-  }
 
-
-  if (crashpad_is_in_chromium) {
-    if (is_asan && is_component_build) {
+    if (crashpad_is_in_chromium && is_asan && is_component_build) {
       # TODO(crbug.com/856174): Re-enable these once Windows ASan is fixed.
       sources -= [ "stdlib/string_number_conversion_test.cc" ]
     }
