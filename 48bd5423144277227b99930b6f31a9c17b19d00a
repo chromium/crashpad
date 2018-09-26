@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b0e9394_d2b7330e",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-09-26T14:32:33Z",
+      "side": 1,
+      "message": "These two lines should be merged into a single “if”.",
+      "range": {
+        "startLine": 645,
+        "startChar": 0,
+        "endLine": 646,
+        "endChar": 42
+      },
+      "revId": "48bd5423144277227b99930b6f31a9c17b19d00a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
