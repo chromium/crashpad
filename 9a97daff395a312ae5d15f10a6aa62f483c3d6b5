@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab8c4dbe_a14cbf3a",
+        "filename": "build/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1149974
+      },
+      "writtenOn": "2018-09-26T16:25:25Z",
+      "side": 1,
+      "message": "In Chromium we also build MSan, UBSan, and ASan debug builds.",
+      "range": {
+        "startLine": 43,
+        "startChar": 16,
+        "endLine": 43,
+        "endChar": 23
+      },
+      "revId": "9a97daff395a312ae5d15f10a6aa62f483c3d6b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3626e7e4_cd7b4ff2",
+        "filename": "build/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1149974
+      },
+      "writtenOn": "2018-09-26T16:25:25Z",
+      "side": 1,
+      "message": "You would need to use \"-fsanitize\u003dfuzzer-no-link\" and link in a library built from third_party/libFuzzer. Otherwise, third_party/libFuzzer will not be used and clang will use a fuzzer runtime from its current revision (which is going to be deleted in https://chromium-review.googlesource.com/c/chromium/src/+/1244802)",
+      "range": {
+        "startLine": 45,
+        "startChar": 16,
+        "endLine": 45,
+        "endChar": 22
+      },
+      "revId": "9a97daff395a312ae5d15f10a6aa62f483c3d6b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02e57fa1_e17d452a",
+        "filename": "build/crashpad_fuzzer_test.gni",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1149974
+      },
+      "writtenOn": "2018-09-26T16:25:25Z",
+      "side": 1,
+      "message": "this version lacks many features we have in Chromium such as custom options support, dictionaries, seed corpus",
+      "range": {
+        "startLine": 18,
+        "startChar": 10,
+        "endLine": 18,
+        "endChar": 21
+      },
+      "revId": "9a97daff395a312ae5d15f10a6aa62f483c3d6b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "989ba3b4_275fdf25",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1149974
+      },
+      "writtenOn": "2018-09-26T16:25:25Z",
+      "side": 1,
+      "message": "This target is not visible from Chromium:\n\n  $ gn refs out/lf --all --type\u003dexecutable --as\u003doutput //testing/libfuzzer:libfuzzer_main | egrep -i elf -c\n  0\n\nand therefore doesn\u0027t leverage all the benefits of the existing fuzzing infrastructure (go/clusterfuzz, go/libfuzzer-chrome)",
+      "range": {
+        "startLine": 242,
+        "startChar": 13,
+        "endLine": 242,
+        "endChar": 36
+      },
+      "revId": "9a97daff395a312ae5d15f10a6aa62f483c3d6b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
