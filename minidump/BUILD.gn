@@ -166,4 +166,8 @@ source_set("minidump_test") {
   if (crashpad_is_win) {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
   }
+
+  if (crashpad_is_in_fuchsia) {
+    defines = ["CRASHPAD_IS_IN_FUCHSIA"]
+  }
 }
