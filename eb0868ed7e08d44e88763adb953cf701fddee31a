@@ -16,6 +16,24 @@
       "revId": "eb0868ed7e08d44e88763adb953cf701fddee31a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f37e6a6_e478aadd",
+        "filename": "minidump/minidump_string_writer_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-09-28T21:35:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cecdd4f6_a57cdae2",
+      "revId": "eb0868ed7e08d44e88763adb953cf701fddee31a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
