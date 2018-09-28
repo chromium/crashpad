@@ -100,6 +100,9 @@ TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
   }
 }
 
+// TODO(https://fuchsia.atlassian.net/browse/DX-487): Re-enable test once LUCI
+// supports UTF8 characters in test logs.
+#if !CRASHPAD_IS_IN_FUCHSIA
 TEST(MinidumpStringWriter, ConvertInvalidUTF8ToUTF16) {
   StringFile string_file;
 
@@ -139,6 +142,7 @@ TEST(MinidumpStringWriter, ConvertInvalidUTF8ToUTF16) {
     EXPECT_NE(output_string.find(0xfffd), base::string16::npos);
   }
 }
+#endif  // !CRASHPAD_IS_IN_FUCHSIA
 
 TEST(MinidumpStringWriter, MinidumpUTF8StringWriter) {
   StringFile string_file;
