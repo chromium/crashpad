@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8913ee02_1dcb8b26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-10-02T20:39:25Z",
+      "side": 1,
+      "message": "Include a note about what this is intended to be used for.",
+      "revId": "88c87257ca9a94f79f24c2437f86cba14d2bdd1a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c916ca8_7349c37a",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-10-02T20:39:25Z",
+      "side": 1,
+      "message": "This is a little racy. Can we do better? Something via thread-local storage, maybe?",
+      "revId": "88c87257ca9a94f79f24c2437f86cba14d2bdd1a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
