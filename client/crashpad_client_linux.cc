@@ -91,11 +91,16 @@ class SignalHandler {
     first_chance_handler_ = handler;
   }
 
+  void Disable() {
+    enabled_ = false;
+  }
+
  protected:
   SignalHandler() = default;
   ~SignalHandler() = default;
 
   CrashpadClient::FirstChanceHandler first_chance_handler_ = nullptr;
+  bool enabled_ = true;
 };
 
 // Launches a single use handler to snapshot this process.
@@ -163,7 +168,7 @@ class LaunchAtCrashHandler : public SignalHandler {
   }
 
   void HandleCrashFatal(int signo, siginfo_t* siginfo, void* context) override {
-    if (HandleCrashNonFatal(signo, siginfo, context)) {
+    if (enabled_ && HandleCrashNonFatal(signo, siginfo, context)) {
       return;
     }
     Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, nullptr);
@@ -316,6 +321,12 @@ void CrashpadClient::DumpWithoutCrash(NativeCPUContext* context) {
   siginfo.si_code = 0;
   g_crash_handler->HandleCrashNonFatal(
       siginfo.si_signo, &siginfo, reinterpret_cast<void*>(context));
+}
+
+void CrashpadClient::CrashWithoutDump(const std::string& message) {
+  DCHECK(g_crash_handler);
+  g_crash_handler->Disable();
+  LOG(FATAL) << message;
 }
 
 // static
