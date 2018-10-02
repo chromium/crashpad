@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fe9c11a_806d9e1c",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-10-02T21:57:40Z",
+      "side": 1,
+      "message": "private:\n\n(Can first_chance_handler_ be private too?)",
+      "revId": "968c8010685470de94d7b22a5c244d55cfbb7f5a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
