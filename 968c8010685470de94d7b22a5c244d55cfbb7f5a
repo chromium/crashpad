@@ -16,6 +16,24 @@
       "revId": "968c8010685470de94d7b22a5c244d55cfbb7f5a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "663f32aa_e26435ff",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-10-02T22:02:48Z",
+      "side": 1,
+      "message": "They need to be protected so LaunchAtCrashHandler can get to them. We could get rid of SignalHandler as a base class to make them private though. I originally added it thinking I\u0027d have a different SignalHandler implementation for renderers, but that ended up being defined in chromium instead.",
+      "parentUuid": "7fe9c11a_806d9e1c",
+      "revId": "968c8010685470de94d7b22a5c244d55cfbb7f5a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
