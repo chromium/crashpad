@@ -22,6 +22,30 @@
       "revId": "b4b1989c4d9847db70102616ce68bb53ee0bc1ff",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8d5de1d_c23471fc",
+        "filename": "BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1291295
+      },
+      "writtenOn": "2018-10-03T21:56:02Z",
+      "side": 1,
+      "message": "Just added a comment on this. My thinking was not that it matches the package name per se, but rather that we see\n\n/system/bin/crashpad_tests/foo\n/system/data/crashpad_tests/bar\n\nrather than\n\n/system/bin/crashpad_test_bin/foo\n/system/data/crashpad_test_data/bar\n\nwhich struck me as bit redundant. Took a liberty, but happy to change it back if you prefer the second case",
+      "parentUuid": "194ff0a2_ebd7a0b6",
+      "range": {
+        "startLine": 61,
+        "startChar": 18,
+        "endLine": 61,
+        "endChar": 32
+      },
+      "revId": "b4b1989c4d9847db70102616ce68bb53ee0bc1ff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
