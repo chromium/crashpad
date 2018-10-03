@@ -46,6 +46,30 @@
       "revId": "b4b1989c4d9847db70102616ce68bb53ee0bc1ff",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbfabaff_2dc41b28",
+        "filename": "BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-03T22:09:41Z",
+      "side": 1,
+      "message": "I was just confused because I can never remember if the binary name is crashpad_test or crashpad_tests, so I was worried they were going to conflict because up top it\u0027s test(\"crashpad_tests\"). That\u0027s OK though because it\u0027s package(\"crashpad_test\") I guess?",
+      "parentUuid": "b8d5de1d_c23471fc",
+      "range": {
+        "startLine": 61,
+        "startChar": 18,
+        "endLine": 61,
+        "endChar": 32
+      },
+      "revId": "b4b1989c4d9847db70102616ce68bb53ee0bc1ff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
