@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33a2941f_6f244d51",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-04T18:49:50Z",
+      "side": 1,
+      "message": "nit; I would drop all the \u0027s.",
+      "range": {
+        "startLine": 547,
+        "startChar": 34,
+        "endLine": 547,
+        "endChar": 35
+      },
+      "revId": "e44a67301c0615e887d61e5327a7ed521dc1611a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89c7d26e_637199c5",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-04T18:49:50Z",
+      "side": 1,
+      "message": "nit; Crashpad errors don\u0027t capitalize the first letter.",
+      "range": {
+        "startLine": 547,
+        "startChar": 30,
+        "endLine": 547,
+        "endChar": 31
+      },
+      "revId": "e44a67301c0615e887d61e5327a7ed521dc1611a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a438064_71fd7c26",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-04T18:49:50Z",
+      "side": 1,
+      "message": "If you think it\u0027s useful, it\u0027s OK with me to add this. But the call directly above this one only allows https or http to get this far, so it\u0027s relatively clear (?) what scheme must be if it\u0027s not \"http\".\n\nhttps://chromium.googlesource.com/crashpad/crashpad/+/master/util/net/url.cc#56",
+      "revId": "e44a67301c0615e887d61e5327a7ed521dc1611a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
