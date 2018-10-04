@@ -62,6 +62,72 @@
       "revId": "e44a67301c0615e887d61e5327a7ed521dc1611a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ab463a7_fc24ccc9",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-04T20:11:00Z",
+      "side": 1,
+      "message": "The CHECH-FAIL ends in \u0027.\u0027 though and we don\u0027t control this.",
+      "parentUuid": "89c7d26e_637199c5",
+      "range": {
+        "startLine": 547,
+        "startChar": 30,
+        "endLine": 547,
+        "endChar": 31
+      },
+      "revId": "e44a67301c0615e887d61e5327a7ed521dc1611a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d392946_c281bacd",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-04T20:11:00Z",
+      "side": 1,
+      "message": "Dropped the one around the scheme. The one around the URL is in case the URL gets truncated, e.g., the initial message was longer and it was truncated on the Fuchsia side.",
+      "parentUuid": "33a2941f_6f244d51",
+      "range": {
+        "startLine": 547,
+        "startChar": 34,
+        "endLine": 547,
+        "endChar": 35
+      },
+      "revId": "e44a67301c0615e887d61e5327a7ed521dc1611a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d42b991_ecd59f94",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-04T20:11:00Z",
+      "side": 1,
+      "message": "From the Crashpad perspective sure, but from the client side, like in Fuchsia, \u0027Check failed: scheme \u003d\u003d \"http\".\u0027 is not super informative as opposed to logging which scheme we have.",
+      "parentUuid": "6a438064_71fd7c26",
+      "revId": "e44a67301c0615e887d61e5327a7ed521dc1611a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
