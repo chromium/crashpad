@@ -159,7 +159,11 @@ class SSLStream : public Stream {
     }
 
     if (SSL_connect(ssl_.get()) <= 0) {
-      LOG(ERROR) << "SSL_connect";
+      uint32_t err = ERR_get_error();
+      char buf[ERR_ERROR_STRING_BUF_LEN];
+      ERR_error_string_n(err, buf, sizeof(buf));
+      LOG(ERROR) << "SSL_connect: reason: " << ERR_GET_REASON(err)
+                 << ", name: " << buf;
       return false;
     }
 
