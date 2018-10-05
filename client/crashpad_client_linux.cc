@@ -100,7 +100,7 @@ class LaunchAtCrashHandler {
                                                   &exception_information_));
 
     StringVectorToCStringVector(argv_strings_, &argv_);
-    return Signals::InstallCrashHandlers(HandleCrash, 0, nullptr);
+    return Signals::InstallCrashHandlers(HandleCrash, 0, &old_actions_);
   }
 
   bool HandleCrashNonFatal(int signo, siginfo_t* siginfo, void* context) {
@@ -144,7 +144,8 @@ class LaunchAtCrashHandler {
     if (enabled_ && HandleCrashNonFatal(signo, siginfo, context)) {
       return;
     }
-    Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, nullptr);
+    Signals::RestoreHandlerAndReraiseSignalOnReturn(
+        siginfo, old_actions_.ActionForSignal(signo));
   }
 
   void SetFirstChanceHandler(CrashpadClient::FirstChanceHandler handler) {
@@ -163,6 +164,7 @@ class LaunchAtCrashHandler {
     state->HandleCrashFatal(signo, siginfo, context);
   }
 
+  Signals::OldActions old_actions_ = {};
   std::vector<std::string> argv_strings_;
   std::vector<const char*> argv_;
   std::vector<std::string> envp_strings_;
