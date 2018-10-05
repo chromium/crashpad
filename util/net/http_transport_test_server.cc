@@ -31,7 +31,7 @@
 
 #if COMPILER_MSVC
 #pragma warning(push)
-#pragma warning(disable: 4244 4245 4267 4702)
+#pragma warning(disable : 4244 4245 4267 4702)
 #endif
 
 #if defined(CRASHPAD_USE_BORINGSSL)
@@ -54,13 +54,13 @@ int HttpTransportTestServerMain(int argc, char* argv[]) {
     server.reset(new httplib::Server);
 #if defined(CRASHPAD_USE_BORINGSSL)
   } else if (argc == 3) {
+    LOG(INFO) << "cert.pem '" << argv[1] << "' key.pem '" << argv[2] << "'";
     server.reset(new httplib::SSLServer(argv[1], argv[2]));
 #endif
   } else {
     LOG(ERROR) << "usage: http_transport_test_server [cert.pem key.pem]";
     return 1;
   }
-
 
   if (!server->is_valid()) {
     LOG(ERROR) << "server creation failed";

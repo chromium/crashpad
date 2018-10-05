@@ -15,5 +15,5 @@
 declare_args() {
   # This should at least be on for Fuchsia, but DX-382 happened.
   # TODO(mark): Figure out what went wrong and re-enable.
-  crashpad_use_boringssl_for_http_transport_socket = false
+  crashpad_use_boringssl_for_http_transport_socket = true
 }
