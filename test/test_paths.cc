@@ -238,7 +238,7 @@ base::FilePath TestPaths::BuildArtifact(
       // things are actually run from a package.
       // https://crashpad.chromium.org/bug/196.
       directory =
-          base::FilePath(FILE_PATH_LITERAL("/system/bin/crashpad_tests"));
+          base::FilePath(FILE_PATH_LITERAL("/system/data/crashpad_tests"));
 #endif
       extension = FILE_PATH_LITERAL(".pem");
       break;
