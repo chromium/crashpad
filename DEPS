@@ -100,7 +100,7 @@ deps = {
     # toolchain that runs on the build host (fuchsia_clang, above).
     'packages': [
       {
-        'package': 'fuchsia/sdk/linux-amd64',
+        'package': 'fuchsia/sdk/chromium/linux-amd64',
         'version': 'latest'
       },
     ],
