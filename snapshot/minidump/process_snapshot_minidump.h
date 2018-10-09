@@ -76,6 +76,12 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   std::vector<HandleSnapshot> Handles() const override;
   std::vector<const MemorySnapshot*> ExtraMemory() const override;
 
+  //! \brief Returns the stream types and file ranges in the minidump.
+  //!
+  //! \return Returns a mapping of stream types to file ranges for all of the
+  //!     streams in the given minidump file.
+  std::map<MinidumpStreamType, CheckedRange<size_t>> StreamMap() const;
+
  private:
   // Initializes data carried in a MinidumpCrashpadInfo stream on behalf of
   // Initialize().

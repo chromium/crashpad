@@ -452,6 +452,53 @@ TEST(ProcessSnapshotMinidump, ProcessID) {
   EXPECT_EQ(process_snapshot.ProcessID(), kTestProcessId);
 }
 
+TEST(ProcessSnapshotMinidump, StreamMap) {
+  StringFile string_file;
+
+  MINIDUMP_HEADER header = {};
+  ASSERT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  static const char kStream1[] = "A string";
+  static const char kStream2[] = "Another string";
+  constexpr MinidumpStreamType kStreamType1 = (MinidumpStreamType)0x1111;
+  constexpr MinidumpStreamType kStreamType2 = (MinidumpStreamType)0x2222;
+
+  MINIDUMP_DIRECTORY misc_directory = {};
+  RVA stream1_offset = static_cast<RVA>(string_file.SeekGet());
+  ASSERT_TRUE(string_file.Write(kStream1, sizeof(kStream1)));
+  RVA stream2_offset = static_cast<RVA>(string_file.SeekGet());
+  ASSERT_TRUE(string_file.Write(kStream2, sizeof(kStream2)));
+
+  header.StreamDirectoryRva = static_cast<RVA>(string_file.SeekGet());
+  misc_directory.StreamType = kStreamType1;
+  misc_directory.Location.DataSize = sizeof(kStream1);
+  misc_directory.Location.Rva = stream1_offset;
+  ASSERT_TRUE(string_file.Write(&misc_directory, sizeof(misc_directory)));
+
+  misc_directory.StreamType = kStreamType2;
+  misc_directory.Location.DataSize = sizeof(kStream2);
+  misc_directory.Location.Rva = stream2_offset;
+  ASSERT_TRUE(string_file.Write(&misc_directory, sizeof(misc_directory)));
+
+  header.Signature = MINIDUMP_SIGNATURE;
+  header.Version = MINIDUMP_VERSION;
+  header.NumberOfStreams = 2;
+  ASSERT_TRUE(string_file.SeekSet(0));
+  ASSERT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  ProcessSnapshotMinidump process_snapshot;
+  ASSERT_TRUE(process_snapshot.Initialize(&string_file));
+
+  auto stream_map = process_snapshot.StreamMap();
+  EXPECT_EQ(stream_map.size(), 2U);
+  ASSERT_EQ(stream_map.count(kStreamType1), 1U);
+  ASSERT_EQ(stream_map.count(kStreamType2), 1U);
+  EXPECT_EQ(stream_map.find(kStreamType1)->second.size(), sizeof(kStream1));
+  EXPECT_EQ(stream_map.find(kStreamType1)->second.base(), stream1_offset);
+  EXPECT_EQ(stream_map.find(kStreamType2)->second.size(), sizeof(kStream2));
+  EXPECT_EQ(stream_map.find(kStreamType2)->second.base(), stream2_offset);
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
