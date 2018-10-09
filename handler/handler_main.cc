@@ -862,11 +862,12 @@ int HandlerMain(int argc,
       &options.annotations,
 #if defined(OS_FUCHSIA)
       // TODO(scottmg): Process level file attachments, and for all platforms.
-      nullptr,
-#endif
+      nullptr);
+#else
       user_stream_sources);
+#endif
 
- #if defined(OS_LINUX) || defined(OS_ANDROID)
+#if defined(OS_LINUX) || defined(OS_ANDROID)
   if (options.exception_information_address) {
     ClientInformation info;
     info.exception_information_address = options.exception_information_address;

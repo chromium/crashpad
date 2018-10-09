@@ -20,7 +20,6 @@
 #include "base/fuchsia/fuchsia_logging.h"
 #include "client/settings.h"
 #include "minidump/minidump_file_writer.h"
-#include "minidump/minidump_user_extension_stream_data_source.h"
 #include "snapshot/fuchsia/process_snapshot_fuchsia.h"
 #include "util/fuchsia/koid_utilities.h"
 
@@ -57,13 +56,11 @@ CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
     CrashReportUploadThread* upload_thread,
     const std::map<std::string, std::string>* process_annotations,
-    const std::map<std::string, base::FilePath>* process_attachments,
-    const UserStreamDataSources* user_stream_data_sources)
+    const std::map<std::string, base::FilePath>* process_attachments)
     : database_(database),
       upload_thread_(upload_thread),
       process_annotations_(process_annotations),
-      process_attachments_(process_attachments),
-      user_stream_data_sources_(user_stream_data_sources) {}
+      process_attachments_(process_attachments) {}
 
 CrashReportExceptionHandler::~CrashReportExceptionHandler() {}
 
@@ -147,8 +144,6 @@ bool CrashReportExceptionHandler::HandleExceptionHandles(
 
     MinidumpFileWriter minidump;
     minidump.InitializeFromSnapshot(&process_snapshot);
-    AddUserExtensionStreams(
-        user_stream_data_sources_, &process_snapshot, &minidump);
 
     if (!minidump.WriteEverything(new_report->Writer())) {
       return false;
