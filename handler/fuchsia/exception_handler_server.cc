@@ -23,6 +23,7 @@
 #include "base/logging.h"
 #include "handler/fuchsia/crash_report_exception_handler.h"
 #include "util/fuchsia/system_exception_port_key.h"
+#include "util/misc/uuid.h"
 
 namespace crashpad {
 
@@ -47,9 +48,11 @@ void ExceptionHandlerServer::Run(CrashReportExceptionHandler* handler) {
       continue;
     }
 
+    UUID local_report_id;
     bool result = handler->HandleException(packet.exception.pid,
                                            packet.exception.tid,
-                                           zx::unowned_port(exception_port_));
+                                           zx::unowned_port(exception_port_),
+                                           &local_report_id);
     if (!result) {
       LOG(ERROR) << "HandleException failed";
     }

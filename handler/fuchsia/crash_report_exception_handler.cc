@@ -70,7 +70,8 @@ CrashReportExceptionHandler::~CrashReportExceptionHandler() {}
 bool CrashReportExceptionHandler::HandleException(
     uint64_t process_id,
     uint64_t thread_id,
-    const zx::unowned_port& exception_port) {
+    const zx::unowned_port& exception_port,
+    UUID* local_report_id) {
   // TODO(scottmg): This function needs to be instrumented with metrics calls,
   // https://crashpad.chromium.org/bug/230.
 
@@ -86,13 +87,15 @@ bool CrashReportExceptionHandler::HandleException(
     return false;
   }
 
-  return HandleExceptionHandles(process, thread, exception_port);
+  return HandleExceptionHandles(
+      process, thread, exception_port, local_report_id);
 }
 
 bool CrashReportExceptionHandler::HandleExceptionHandles(
     const zx::process& process,
     const zx::thread& thread,
-    const zx::unowned_port& exception_port) {
+    const zx::unowned_port& exception_port,
+    UUID* local_report_id) {
   // Now that the thread has been successfully retrieved, it is possible to
   // correctly call zx_task_resume_from_exception() to continue exception
   // processing, even if something else during this function fails.
@@ -172,15 +175,14 @@ bool CrashReportExceptionHandler::HandleExceptionHandles(
       }
     }
 
-    UUID uuid;
-    database_status =
-        database_->FinishedWritingCrashReport(std::move(new_report), &uuid);
+    database_status = database_->FinishedWritingCrashReport(
+        std::move(new_report), local_report_id);
     if (database_status != CrashReportDatabase::kNoError) {
       return false;
     }
 
     if (upload_thread_) {
-      upload_thread_->ReportPending(uuid);
+      upload_thread_->ReportPending(*local_report_id);
     }
   }
 
