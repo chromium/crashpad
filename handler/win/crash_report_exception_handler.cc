@@ -25,6 +25,7 @@
 #include "snapshot/win/process_snapshot_win.h"
 #include "util/file/file_writer.h"
 #include "util/misc/metrics.h"
+#include "util/misc/uuid.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/scoped_process_suspend.h"
 #include "util/win/termination_codes.h"
@@ -41,16 +42,15 @@ CrashReportExceptionHandler::CrashReportExceptionHandler(
       process_annotations_(process_annotations),
       user_stream_data_sources_(user_stream_data_sources) {}
 
-CrashReportExceptionHandler::~CrashReportExceptionHandler() {
-}
+CrashReportExceptionHandler::~CrashReportExceptionHandler() {}
 
-void CrashReportExceptionHandler::ExceptionHandlerServerStarted() {
-}
+void CrashReportExceptionHandler::ExceptionHandlerServerStarted() {}
 
 unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     HANDLE process,
     WinVMAddress exception_information_address,
-    WinVMAddress debug_critical_section_address) {
+    WinVMAddress debug_critical_section_address,
+    UUID* local_report_id) {
   Metrics::ExceptionEncountered();
 
   ScopedProcessSuspend suspend(process);
@@ -122,6 +122,9 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
       Metrics::ExceptionCaptureResult(
           Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
       return termination_code;
+    }
+    if (local_report_id != nullptr) {
+      *local_report_id = uuid;
     }
 
     if (upload_thread_) {
