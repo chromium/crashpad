@@ -51,8 +51,7 @@ CrashReportExceptionHandler::CrashReportExceptionHandler(
       process_annotations_(process_annotations),
       user_stream_data_sources_(user_stream_data_sources) {}
 
-CrashReportExceptionHandler::~CrashReportExceptionHandler() {
-}
+CrashReportExceptionHandler::~CrashReportExceptionHandler() {}
 
 kern_return_t CrashReportExceptionHandler::CatchMachException(
     exception_behavior_t behavior,
@@ -68,7 +67,8 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     thread_state_t new_state,
     mach_msg_type_number_t* new_state_count,
     const mach_msg_trailer_t* trailer,
-    bool* destroy_complex_request) {
+    bool* destroy_complex_request,
+    UUID* local_report_id) {
   RecordFileLimitAnnotation();
   Metrics::ExceptionEncountered();
   Metrics::ExceptionCode(ExceptionCodeForMetrics(exception, code[0]));
@@ -80,16 +80,18 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
   if (!ExceptionBehaviorHasIdentity(behavior)) {
     LOG(ERROR) << base::StringPrintf(
         "unexpected exception behavior %s, rejecting",
-        ExceptionBehaviorToString(
-            behavior, kUseFullName | kUnknownIsNumeric | kUseOr).c_str());
+        ExceptionBehaviorToString(behavior,
+                                  kUseFullName | kUnknownIsNumeric | kUseOr)
+            .c_str());
     Metrics::ExceptionCaptureResult(
         Metrics::CaptureResult::kUnexpectedExceptionBehavior);
     return KERN_FAILURE;
   } else if (behavior != (EXCEPTION_STATE_IDENTITY | kMachExceptionCodes)) {
     LOG(WARNING) << base::StringPrintf(
         "unexpected exception behavior %s, proceeding",
-        ExceptionBehaviorToString(
-            behavior, kUseFullName | kUnknownIsNumeric | kUseOr).c_str());
+        ExceptionBehaviorToString(behavior,
+                                  kUseFullName | kUnknownIsNumeric | kUseOr)
+            .c_str());
   }
 
   if (task == mach_task_self()) {
@@ -186,6 +188,9 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
           Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
       return KERN_FAILURE;
     }
+    if (local_report_id != nullptr) {
+      *local_report_id = uuid;
+    }
 
     if (upload_thread_) {
       upload_thread_->ReportPending(uuid);
@@ -193,8 +198,7 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
   }
 
   if (client_options.system_crash_reporter_forwarding != TriState::kDisabled &&
-      (exception == EXC_CRASH ||
-       exception == EXC_RESOURCE ||
+      (exception == EXC_CRASH || exception == EXC_RESOURCE ||
        exception == EXC_GUARD)) {
     // Don’t forward simulated exceptions such as kMachExceptionSimulated to the
     // system crash reporter. Only forward the types of exceptions that it would
@@ -204,8 +208,8 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     // processes that haven’t actually crashed, and could result in reports not
     // actually associated with crashes being sent to the operating system
     // vendor.
-    base::mac::ScopedMachSendRight
-        system_crash_reporter_handler(SystemCrashReporterHandler());
+    base::mac::ScopedMachSendRight system_crash_reporter_handler(
+        SystemCrashReporterHandler());
     if (system_crash_reporter_handler.get()) {
       // Make copies of mutable out parameters so that the system crash reporter
       // can’t influence the state returned by this method.

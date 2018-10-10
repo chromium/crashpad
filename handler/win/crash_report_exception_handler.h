@@ -22,6 +22,7 @@
 
 #include "base/macros.h"
 #include "handler/user_stream_data_source.h"
+#include "util/misc/uuid.h"
 #include "util/win/exception_handler_server.h"
 
 namespace crashpad {
@@ -69,7 +70,8 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
   unsigned int ExceptionHandlerServerException(
       HANDLE process,
       WinVMAddress exception_information_address,
-      WinVMAddress debug_critical_section_address) override;
+      WinVMAddress debug_critical_section_address,
+      UUID* local_report_id = nullptr) override;
 
  private:
   CrashReportDatabase* database_;  // weak

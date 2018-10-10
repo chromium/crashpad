@@ -21,6 +21,7 @@
 #include "base/macros.h"
 #include "base/synchronization/lock.h"
 #include "util/file/file_io.h"
+#include "util/misc/uuid.h"
 #include "util/win/address_types.h"
 #include "util/win/initial_client_data.h"
 #include "util/win/scoped_handle.h"
@@ -52,12 +53,15 @@ class ExceptionHandlerServer {
     //! \param[in] debug_critical_section_address The address in the client's
     //!     address space of a `CRITICAL_SECTION` allocated with a valid
     //!     `.DebugInfo` field, or `0` if unavailable.
+    //! \param[out] local_report_id The unique identifier for the report created
+    //!     in the local report database. Optional.
     //! \return The exit code that should be used when terminating the client
     //!     process.
     virtual unsigned int ExceptionHandlerServerException(
         HANDLE process,
         WinVMAddress exception_information_address,
-        WinVMAddress debug_critical_section_address) = 0;
+        WinVMAddress debug_critical_section_address,
+        UUID* local_report_id = nullptr) = 0;
 
    protected:
     ~Delegate();
