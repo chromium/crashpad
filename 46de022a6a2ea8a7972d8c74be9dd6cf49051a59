@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bb3b434d_a7097f0e",
+        "filename": "handler/fuchsia/crash_report_exception_handler.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-10T17:31:11Z",
+      "side": 1,
+      "message": "Actually this function is not used in the fuchsia tree, only the next one. This function is used in the server in the crashpad tree: https://chromium.googlesource.com/crashpad/crashpad/+/master/handler/fuchsia/exception_handler_server.cc#50\n\nI will remove the \u003d nullptr from the next function after the rollup in the crashpad tree.",
+      "parentUuid": "f90e70b2_b2a26726",
+      "range": {
+        "startLine": 89,
+        "startChar": 44,
+        "endLine": 89,
+        "endChar": 54
+      },
+      "revId": "46de022a6a2ea8a7972d8c74be9dd6cf49051a59",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0cc25107_7cfc9a95",
         "filename": "handler/mac/crash_report_exception_handler.cc",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "46de022a6a2ea8a7972d8c74be9dd6cf49051a59",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7aabfe3_fc7389b7",
+        "filename": "handler/mac/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-10T17:31:11Z",
+      "side": 1,
+      "message": "Ack. Reverted. I have clangfmt on save in my Vim.",
+      "parentUuid": "0cc25107_7cfc9a95",
+      "revId": "46de022a6a2ea8a7972d8c74be9dd6cf49051a59",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "29762341_308440d5",
+        "filename": "handler/mac/crash_report_exception_handler.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-10T17:31:11Z",
+      "side": 1,
+      "message": "Ack. Reverted.",
+      "parentUuid": "511abaa1_02abc4ed",
+      "range": {
+        "startLine": 82,
+        "startChar": 68,
+        "endLine": 82,
+        "endChar": 76
+      },
+      "revId": "46de022a6a2ea8a7972d8c74be9dd6cf49051a59",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8086768e_7bdf2930",
         "filename": "util/win/exception_handler_server.h",
         "patchSetId": 3
@@ -79,6 +145,24 @@
       "revId": "46de022a6a2ea8a7972d8c74be9dd6cf49051a59",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d536f37_5833e29f",
+        "filename": "util/win/exception_handler_server.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-10T17:31:11Z",
+      "side": 1,
+      "message": "Ack. Reverted.",
+      "parentUuid": "8086768e_7bdf2930",
+      "revId": "46de022a6a2ea8a7972d8c74be9dd6cf49051a59",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
