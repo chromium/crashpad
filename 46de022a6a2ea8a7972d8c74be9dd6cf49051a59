@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f90e70b2_b2a26726",
+        "filename": "handler/fuchsia/crash_report_exception_handler.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-10-10T17:17:13Z",
+      "side": 1,
+      "message": "I think I’d treat this “\u003d nullptr” as scaffolding, and take it out once the callers were converted. That should be fairly easy, actually.\n\nThe style guide is OK with default arguments nowadays, but I still try to avoid them whenever possible because they obscure the connection and possibilities between caller and callee.",
+      "range": {
+        "startLine": 89,
+        "startChar": 44,
+        "endLine": 89,
+        "endChar": 54
+      },
+      "revId": "46de022a6a2ea8a7972d8c74be9dd6cf49051a59",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cc25107_7cfc9a95",
+        "filename": "handler/mac/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-10-10T17:17:13Z",
+      "side": 1,
+      "message": "Some of the formatting in this file was a little careful, and clang-format is making it ugly. “git cl format” normally just reformats around what’s changing, did you do something else?",
+      "revId": "46de022a6a2ea8a7972d8c74be9dd6cf49051a59",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "511abaa1_02abc4ed",
+        "filename": "handler/mac/crash_report_exception_handler.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-10-10T17:17:13Z",
+      "side": 1,
+      "message": "This is supposed to be implementing an interface (hence the “override”) but the interface doesn’t have this new parameter (and probably shouldn’t).",
+      "range": {
+        "startLine": 82,
+        "startChar": 68,
+        "endLine": 82,
+        "endChar": 76
+      },
+      "revId": "46de022a6a2ea8a7972d8c74be9dd6cf49051a59",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8086768e_7bdf2930",
+        "filename": "util/win/exception_handler_server.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-10-10T17:17:13Z",
+      "side": 1,
+      "message": "Not 100% sure if this interface should be changing either…",
+      "revId": "46de022a6a2ea8a7972d8c74be9dd6cf49051a59",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
