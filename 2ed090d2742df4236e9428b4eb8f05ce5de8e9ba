@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "325c7039_105e6414",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-12T20:35:49Z",
+      "side": 1,
+      "message": "Something about partially implemented, and wired into ProcessSnapshotMinidump.",
+      "revId": "2ed090d2742df4236e9428b4eb8f05ce5de8e9ba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3ac8154_48f64bd6",
+        "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-12T20:35:49Z",
+      "side": 1,
+      "message": "End comments with .",
+      "range": {
+        "startLine": 472,
+        "startChar": 34,
+        "endLine": 472,
+        "endChar": 35
+      },
+      "revId": "2ed090d2742df4236e9428b4eb8f05ce5de8e9ba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b10ed87_c43d6424",
+        "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-12T20:35:49Z",
+      "side": 1,
+      "message": "Could you EXPECT something about the content of the threads here too, by putting some minimal structure (of the ones that are implemented in ThreadSnapshotMinidump) into the MINIDUMP_THREAD before writing?",
+      "revId": "2ed090d2742df4236e9428b4eb8f05ce5de8e9ba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c6dc663_0afc4424",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-12T20:35:49Z",
+      "side": 1,
+      "message": "I don\u0027t think this header is needed here.",
+      "revId": "2ed090d2742df4236e9428b4eb8f05ce5de8e9ba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "447f4908_722ca144",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-12T20:35:49Z",
+      "side": 1,
+      "message": "minidump_thread_rva",
+      "range": {
+        "startLine": 38,
+        "startChar": 17,
+        "endLine": 38,
+        "endChar": 32
+      },
+      "revId": "2ed090d2742df4236e9428b4eb8f05ce5de8e9ba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
