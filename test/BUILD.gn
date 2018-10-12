@@ -36,6 +36,7 @@ static_library("test") {
     "multiprocess_exec.h",
     "process_type.cc",
     "process_type.h",
+    "scoped_guarded_page.h",
     "scoped_module_handle.cc",
     "scoped_module_handle.h",
     "scoped_temp_dir.cc",
@@ -45,7 +46,10 @@ static_library("test") {
   ]
 
   if (crashpad_is_posix || crashpad_is_fuchsia) {
-    sources += [ "scoped_temp_dir_posix.cc" ]
+    sources += [
+      "scoped_guarded_page_posix.cc",
+      "scoped_temp_dir_posix.cc",
+    ]
 
     if (!crashpad_is_fuchsia) {
       sources += [
@@ -81,6 +85,7 @@ static_library("test") {
   if (crashpad_is_win) {
     sources += [
       "multiprocess_exec_win.cc",
+      "scoped_guarded_page_win.cc",
       "scoped_temp_dir_win.cc",
       "win/child_launcher.cc",
       "win/child_launcher.h",
@@ -144,6 +149,7 @@ source_set("test_test") {
     "hex_string_test.cc",
     "main_arguments_test.cc",
     "multiprocess_exec_test.cc",
+    "scoped_guarded_page_test.cc",
     "scoped_temp_dir_test.cc",
     "test_paths_test.cc",
   ]
