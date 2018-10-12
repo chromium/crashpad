@@ -82,7 +82,7 @@ bool ProcessSubrangeReader::ReadMemory(WinVMAddress address,
     return false;
   }
 
-  return process_reader_->ReadMemory(address, size, into);
+  return process_reader_->Memory()->Read(address, size, into);
 }
 
 bool ProcessSubrangeReader::InitializeInternal(ProcessReaderWin* process_reader,

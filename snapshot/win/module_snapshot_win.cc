@@ -278,7 +278,7 @@ void ModuleSnapshotWin::GetCrashpadExtraMemoryRanges(
 
   std::vector<SimpleAddressRangeBag::Entry> simple_ranges(
       SimpleAddressRangeBag::num_entries);
-  if (!process_reader_->ReadMemory(
+  if (!process_reader_->Memory()->Read(
           crashpad_info.extra_address_ranges,
           simple_ranges.size() * sizeof(simple_ranges[0]),
           &simple_ranges[0])) {
@@ -304,8 +304,8 @@ void ModuleSnapshotWin::GetCrashpadUserMinidumpStreams(
 
   for (uint64_t cur = crashpad_info.user_data_minidump_stream_head; cur;) {
     internal::UserDataMinidumpStreamListEntry list_entry;
-    if (!process_reader_->ReadMemory(
-          cur, sizeof(list_entry), &list_entry)) {
+    if (!process_reader_->Memory()->Read(
+            cur, sizeof(list_entry), &list_entry)) {
       LOG(WARNING) << "could not read user data stream entry from "
                    << base::UTF16ToUTF8(name_);
       return;

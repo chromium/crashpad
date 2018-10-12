@@ -43,7 +43,7 @@ TEST(ProcessReaderWin, SelfBasic) {
 
   static constexpr char kTestMemory[] = "Some test memory";
   char buffer[arraysize(kTestMemory)];
-  ASSERT_TRUE(process_reader.ReadMemory(
+  ASSERT_TRUE(process_reader.Memory()->Read(
       reinterpret_cast<uintptr_t>(kTestMemory), sizeof(kTestMemory), &buffer));
   EXPECT_STREQ(kTestMemory, buffer);
 }
@@ -72,7 +72,7 @@ class ProcessReaderChild final : public WinMultiprocess {
 
     char buffer[sizeof(kTestMemory)];
     ASSERT_TRUE(
-        process_reader.ReadMemory(address, sizeof(kTestMemory), &buffer));
+        process_reader.Memory()->Read(address, sizeof(kTestMemory), &buffer));
     EXPECT_EQ(strcmp(kTestMemory, buffer), 0);
   }
 
