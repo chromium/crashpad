@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0a0aa605_1a3d52d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2018-10-12T20:49:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "325c7039_105e6414",
+      "revId": "2ed090d2742df4236e9428b4eb8f05ce5de8e9ba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3ac8154_48f64bd6",
         "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "86d8f218_55015e12",
+        "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2018-10-12T20:49:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3ac8154_48f64bd6",
+      "range": {
+        "startLine": 472,
+        "startChar": 34,
+        "endLine": 472,
+        "endChar": 35
+      },
+      "revId": "2ed090d2742df4236e9428b4eb8f05ce5de8e9ba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b10ed87_c43d6424",
         "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
         "patchSetId": 1
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "37bf5403_f8142276",
+        "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2018-10-12T20:49:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b10ed87_c43d6424",
+      "revId": "2ed090d2742df4236e9428b4eb8f05ce5de8e9ba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c6dc663_0afc4424",
         "filename": "snapshot/minidump/thread_snapshot_minidump.h",
         "patchSetId": 1
@@ -73,6 +133,24 @@
       "revId": "2ed090d2742df4236e9428b4eb8f05ce5de8e9ba",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b690ce2_96c6d34a",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2018-10-12T20:49:11Z",
+      "side": 1,
+      "message": "It is. It defines the RVA type used on line 43",
+      "parentUuid": "7c6dc663_0afc4424",
+      "revId": "2ed090d2742df4236e9428b4eb8f05ce5de8e9ba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -96,6 +174,30 @@
       "revId": "2ed090d2742df4236e9428b4eb8f05ce5de8e9ba",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "613627b3_9ea76e16",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2018-10-12T20:49:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "447f4908_722ca144",
+      "range": {
+        "startLine": 38,
+        "startChar": 17,
+        "endLine": 38,
+        "endChar": 32
+      },
+      "revId": "2ed090d2742df4236e9428b4eb8f05ce5de8e9ba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
