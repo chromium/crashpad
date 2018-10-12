@@ -15,19 +15,18 @@
 #include "util/process/process_memory.h"
 
 #include <string.h>
-#include <sys/mman.h>
-#include <unistd.h>
 
 #include <memory>
 
+#include "base/process/process_metrics.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/multiprocess.h"
 #include "test/multiprocess_exec.h"
 #include "test/process_type.h"
+#include "test/scoped_guarded_page.h"
 #include "util/file/file_io.h"
 #include "util/misc/from_pointer_cast.h"
-#include "util/posix/scoped_mmap.h"
 #include "util/process/process_memory_native.h"
 
 namespace crashpad {
@@ -36,7 +35,7 @@ namespace {
 
 void DoChildReadTestSetup(size_t* region_size,
                           std::unique_ptr<char[]>* region) {
-  *region_size = 4 * getpagesize();
+  *region_size = 4 * base::GetPageSize();
   region->reset(new char[*region_size]);
   for (size_t index = 0; index < *region_size; ++index) {
     (*region)[index] = index % 256;
@@ -120,7 +119,7 @@ class ReadTest : public MultiprocessExec {
     }
 
     // Ensure that a read of exactly one page works.
-    size_t page_size = getpagesize();
+    size_t page_size = base::GetPageSize();
     ASSERT_GE(region_size, page_size + page_size);
     ASSERT_TRUE(memory.Read(address + page_size, page_size, result.get()));
     for (size_t i = 0; i < page_size; ++i) {
@@ -154,7 +153,7 @@ constexpr char kConstCharShort[] = "A short const char[]";
 
 std::string MakeLongString() {
   std::string long_string;
-  const size_t kStringLongSize = 4 * getpagesize();
+  const size_t kStringLongSize = 4 * base::GetPageSize();
   for (size_t index = 0; index < kStringLongSize; ++index) {
     long_string.push_back((index % 255) + 1);
   }
@@ -322,41 +321,19 @@ TEST(ProcessMemory, ReadCStringSizeLimitedChild) {
   test.RunAgainstChild();
 }
 
-void DoReadUnmappedChildMainSetup(ScopedMmap* pages,
-                                  VMAddress* address,
-                                  size_t* page_size,
-                                  size_t* region_size) {
-  *page_size = getpagesize();
-  *region_size = 2 * (*page_size);
-  if (!pages->ResetMmap(nullptr,
-                        *region_size,
-                        PROT_READ | PROT_WRITE,
-                        MAP_PRIVATE | MAP_ANONYMOUS,
-                        -1,
-                        0)) {
-    ADD_FAILURE();
-    return;
-  }
-
-  *address = pages->addr_as<VMAddress>();
-
-  char* region = pages->addr_as<char*>();
-  for (size_t index = 0; index < *region_size; ++index) {
+void DoReadUnmappedChildMainSetup(void* page) {
+  char* region = reinterpret_cast<char*>(page);
+  for (size_t index = 0; index < base::GetPageSize(); ++index) {
     region[index] = index % 256;
   }
-
-  EXPECT_TRUE(pages->ResetAddrLen(region, *page_size));
 }
 
 CRASHPAD_CHILD_TEST_MAIN(ReadUnmappedChildMain) {
-  ScopedMmap pages;
-  VMAddress address = 0;
-  size_t page_size, region_size;
-  DoReadUnmappedChildMainSetup(&pages, &address, &page_size, &region_size);
+  ScopedGuardedPage pages;
+  VMAddress address = reinterpret_cast<VMAddress>(pages.Pointer());
+  DoReadUnmappedChildMainSetup(pages.Pointer());
   FileHandle out = StdioFileHandle(StdioStream::kStandardOutput);
   CheckedWriteFile(out, &address, sizeof(address));
-  CheckedWriteFile(out, &page_size, sizeof(page_size));
-  CheckedWriteFile(out, &region_size, sizeof(region_size));
   CheckedReadFileAtEOF(StdioFileHandle(StdioStream::kStandardInput));
   return 0;
 }
@@ -368,11 +345,9 @@ class ReadUnmappedTest : public MultiprocessExec {
   }
 
   void RunAgainstSelf() {
-    ScopedMmap pages;
-    VMAddress address = 0;
-    size_t page_size, region_size;
-    DoReadUnmappedChildMainSetup(&pages, &address, &page_size, &region_size);
-    DoTest(GetSelfProcess(), address, page_size, region_size);
+    ScopedGuardedPage pages;
+    DoReadUnmappedChildMainSetup(pages.Pointer());
+    DoTest(GetSelfProcess(), reinterpret_cast<VMAddress>(pages.Pointer()));
   }
 
   void RunAgainstChild() { Run(); }
@@ -380,31 +355,24 @@ class ReadUnmappedTest : public MultiprocessExec {
  private:
   void MultiprocessParent() override {
     VMAddress address = 0;
-    size_t page_size, region_size;
     ASSERT_TRUE(ReadFileExactly(ReadPipeHandle(), &address, sizeof(address)));
-    ASSERT_TRUE(
-        ReadFileExactly(ReadPipeHandle(), &page_size, sizeof(page_size)));
-    ASSERT_TRUE(
-        ReadFileExactly(ReadPipeHandle(), &region_size, sizeof(region_size)));
-    DoTest(ChildProcess(), address, page_size, region_size);
+    DoTest(ChildProcess(), address);
   }
 
-  void DoTest(ProcessType process,
-              VMAddress address,
-              size_t page_size,
-              size_t region_size) {
+  void DoTest(ProcessType process, VMAddress address) {
     ProcessMemoryNative memory;
     ASSERT_TRUE(memory.Initialize(process));
 
     VMAddress page_addr1 = address;
-    VMAddress page_addr2 = page_addr1 + page_size;
+    VMAddress page_addr2 = page_addr1 + base::GetPageSize();
 
-    std::unique_ptr<char[]> result(new char[region_size]);
-    EXPECT_TRUE(memory.Read(page_addr1, page_size, result.get()));
+    std::unique_ptr<char[]> result(new char[base::GetPageSize() * 2]);
+    EXPECT_TRUE(memory.Read(page_addr1, base::GetPageSize(), result.get()));
     EXPECT_TRUE(memory.Read(page_addr2 - 1, 1, result.get()));
 
-    EXPECT_FALSE(memory.Read(page_addr1, region_size, result.get()));
-    EXPECT_FALSE(memory.Read(page_addr2, page_size, result.get()));
+    EXPECT_FALSE(
+        memory.Read(page_addr1, base::GetPageSize() * 2, result.get()));
+    EXPECT_FALSE(memory.Read(page_addr2, base::GetPageSize(), result.get()));
     EXPECT_FALSE(memory.Read(page_addr2 - 1, 2, result.get()));
   }
 
@@ -428,9 +396,13 @@ constexpr size_t kChildProcessStringLength = 10;
 class StringDataInChildProcess {
  public:
   // This constructor only makes sense in the child process.
-  explicit StringDataInChildProcess(const char* cstring)
+  explicit StringDataInChildProcess(const char* cstring, bool valid)
       : address_(FromPointerCast<VMAddress>(cstring)) {
-    memcpy(expected_value_, cstring, kChildProcessStringLength + 1);
+    if (valid) {
+      memcpy(expected_value_, cstring, kChildProcessStringLength + 1);
+    } else {
+      memset(expected_value_, 0xff, kChildProcessStringLength + 1);
+    }
   }
 
   void Write(FileHandle out) {
@@ -457,22 +429,10 @@ class StringDataInChildProcess {
 };
 
 void DoCStringUnmappedTestSetup(
-    ScopedMmap* pages,
+    void* page,
     std::vector<StringDataInChildProcess>* strings) {
-  const size_t page_size = getpagesize();
-  const size_t region_size = 2 * page_size;
-  if (!pages->ResetMmap(nullptr,
-                        region_size,
-                        PROT_READ | PROT_WRITE,
-                        MAP_PRIVATE | MAP_ANONYMOUS,
-                        -1,
-                        0)) {
-    ADD_FAILURE();
-    return;
-  }
-
-  char* region = pages->addr_as<char*>();
-  for (size_t index = 0; index < region_size; ++index) {
+  char* region = reinterpret_cast<char*>(page);
+  for (size_t index = 0; index < base::GetPageSize(); ++index) {
     region[index] = 1 + index % 255;
   }
 
@@ -481,29 +441,25 @@ void DoCStringUnmappedTestSetup(
   string1[kChildProcessStringLength] = '\0';
 
   // A string near the end of the mapped region
-  char* string2 = region + page_size - kChildProcessStringLength * 2;
+  char* string2 = region + base::GetPageSize() - kChildProcessStringLength * 2;
   string2[kChildProcessStringLength] = '\0';
 
   // A string that crosses from the mapped into the unmapped region
-  char* string3 = region + page_size - kChildProcessStringLength + 1;
-  string3[kChildProcessStringLength] = '\0';
+  char* string3 = region + base::GetPageSize() - kChildProcessStringLength + 1;
 
   // A string entirely in the unmapped region
-  char* string4 = region + page_size + 10;
-  string4[kChildProcessStringLength] = '\0';
+  char* string4 = region + base::GetPageSize() + 10;
 
-  strings->push_back(StringDataInChildProcess(string1));
-  strings->push_back(StringDataInChildProcess(string2));
-  strings->push_back(StringDataInChildProcess(string3));
-  strings->push_back(StringDataInChildProcess(string4));
-
-  EXPECT_TRUE(pages->ResetAddrLen(region, page_size));
+  strings->push_back(StringDataInChildProcess(string1, true));
+  strings->push_back(StringDataInChildProcess(string2, true));
+  strings->push_back(StringDataInChildProcess(string3, false));
+  strings->push_back(StringDataInChildProcess(string4, false));
 }
 
 CRASHPAD_CHILD_TEST_MAIN(ReadCStringUnmappedChildMain) {
-  ScopedMmap pages;
+  ScopedGuardedPage pages;
   std::vector<StringDataInChildProcess> strings;
-  DoCStringUnmappedTestSetup(&pages, &strings);
+  DoCStringUnmappedTestSetup(pages.Pointer(), &strings);
   FileHandle out = StdioFileHandle(StdioStream::kStandardOutput);
   strings[0].Write(out);
   strings[1].Write(out);
@@ -521,9 +477,9 @@ class ReadCStringUnmappedTest : public MultiprocessExec {
   }
 
   void RunAgainstSelf() {
-    ScopedMmap pages;
+    ScopedGuardedPage pages;
     std::vector<StringDataInChildProcess> strings;
-    DoCStringUnmappedTestSetup(&pages, &strings);
+    DoCStringUnmappedTestSetup(pages.Pointer(), &strings);
     DoTest(GetSelfProcess(), strings);
   }
 
