@@ -119,6 +119,8 @@
         'minidump/module_snapshot_minidump.h',
         'minidump/process_snapshot_minidump.cc',
         'minidump/process_snapshot_minidump.h',
+        'minidump/thread_snapshot_minidump.cc',
+        'minidump/thread_snapshot_minidump.h',
         'module_snapshot.h',
         'posix/timezone.cc',
         'posix/timezone.h',

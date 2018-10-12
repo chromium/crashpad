@@ -452,6 +452,60 @@ TEST(ProcessSnapshotMinidump, ProcessID) {
   EXPECT_EQ(process_snapshot.ProcessID(), kTestProcessId);
 }
 
+TEST(ProcessSnapshotMinidump, Threads) {
+  StringFile string_file;
+
+  MINIDUMP_HEADER header = {};
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  MINIDUMP_THREAD minidump_thread = {};
+  uint32_t minidump_thread_count = 4;
+
+  minidump_thread.ThreadId = 42;
+  minidump_thread.Teb = 24;
+
+  MINIDUMP_DIRECTORY minidump_thread_list_directory = {};
+  minidump_thread_list_directory.StreamType = kMinidumpStreamTypeThreadList;
+  minidump_thread_list_directory.Location.DataSize =
+      sizeof(MINIDUMP_THREAD_LIST) +
+      minidump_thread_count * sizeof(MINIDUMP_THREAD);
+  minidump_thread_list_directory.Location.Rva =
+      static_cast<RVA>(string_file.SeekGet());
+
+  // Fields in MINIDUMP_THREAD_LIST.
+  EXPECT_TRUE(
+      string_file.Write(&minidump_thread_count, sizeof(minidump_thread_count)));
+  for (uint32_t minidump_thread_index = 0;
+       minidump_thread_index < minidump_thread_count;
+       ++minidump_thread_index) {
+    EXPECT_TRUE(string_file.Write(&minidump_thread, sizeof(minidump_thread)));
+    minidump_thread.ThreadId++;
+  }
+
+  header.StreamDirectoryRva = static_cast<RVA>(string_file.SeekGet());
+  EXPECT_TRUE(string_file.Write(&minidump_thread_list_directory,
+                                sizeof(minidump_thread_list_directory)));
+
+  header.Signature = MINIDUMP_SIGNATURE;
+  header.Version = MINIDUMP_VERSION;
+  header.NumberOfStreams = 1;
+  EXPECT_TRUE(string_file.SeekSet(0));
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  ProcessSnapshotMinidump process_snapshot;
+  EXPECT_TRUE(process_snapshot.Initialize(&string_file));
+
+  std::vector<const ThreadSnapshot*> threads = process_snapshot.Threads();
+  ASSERT_EQ(threads.size(), minidump_thread_count);
+
+  uint32_t thread_id = 42;
+  for (const auto& thread : threads) {
+    EXPECT_EQ(thread->ThreadID(), thread_id);
+    EXPECT_EQ(thread->ThreadSpecificDataAddress(), 24UL);
+    thread_id++;
+  }
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad

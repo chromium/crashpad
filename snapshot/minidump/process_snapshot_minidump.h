@@ -30,6 +30,7 @@
 #include "snapshot/exception_snapshot.h"
 #include "snapshot/memory_snapshot.h"
 #include "snapshot/minidump/module_snapshot_minidump.h"
+#include "snapshot/minidump/thread_snapshot_minidump.h"
 #include "snapshot/module_snapshot.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/system_snapshot.h"
@@ -85,6 +86,10 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   // Initialize().
   bool InitializeModules();
 
+  // Initializes data carried in a MINIDUMP_THREAD_LIST stream on behalf of
+  // Initialize().
+  bool InitializeThreads();
+
   // Initializes data carried in a MinidumpModuleCrashpadInfoList structure on
   // behalf of InitializeModules(). This makes use of MinidumpCrashpadInfo as
   // well, so it must be called after InitializeCrashpadInfo().
@@ -100,6 +105,7 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   std::vector<MINIDUMP_DIRECTORY> stream_directory_;
   std::map<MinidumpStreamType, const MINIDUMP_LOCATION_DESCRIPTOR*> stream_map_;
   std::vector<std::unique_ptr<internal::ModuleSnapshotMinidump>> modules_;
+  std::vector<std::unique_ptr<internal::ThreadSnapshotMinidump>> threads_;
   std::vector<UnloadedModuleSnapshot> unloaded_modules_;
   MinidumpCrashpadInfo crashpad_info_;
   std::map<std::string, std::string> annotations_simple_map_;
