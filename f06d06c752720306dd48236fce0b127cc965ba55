@@ -16,6 +16,24 @@
       "revId": "f06d06c752720306dd48236fce0b127cc965ba55",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6db5d843_8ed21b33",
+        "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2018-10-12T20:57:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32ff71eb_825c6450",
+      "revId": "f06d06c752720306dd48236fce0b127cc965ba55",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
