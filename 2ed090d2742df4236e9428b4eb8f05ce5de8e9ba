@@ -154,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "38ba4e67_e2df34a8",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-12T20:50:24Z",
+      "side": 1,
+      "message": "Aha!",
+      "parentUuid": "3b690ce2_96c6d34a",
+      "revId": "2ed090d2742df4236e9428b4eb8f05ce5de8e9ba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "447f4908_722ca144",
         "filename": "snapshot/minidump/thread_snapshot_minidump.h",
         "patchSetId": 1

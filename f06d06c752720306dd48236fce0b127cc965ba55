@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32ff71eb_825c6450",
+        "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-12T20:50:24Z",
+      "side": 1,
+      "message": "I meant the EXPECTs more so you could distinguish individual instances of MINIDUMP_THREAD to make sure they\u0027re all making it through, rather than 4 copies of the same one.",
+      "revId": "f06d06c752720306dd48236fce0b127cc965ba55",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
