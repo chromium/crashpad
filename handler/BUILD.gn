@@ -67,14 +67,17 @@ static_library("handler") {
 
   public_configs = [ "..:crashpad_config" ]
 
-  deps = [
+  public_deps = [
     "../client",
-    "../compat",
-    "../minidump",
     "../snapshot",
     "../third_party/mini_chromium:base",
-    "../tools:tool_support",
     "../util",
+  ]
+
+  deps = [
+    "../compat",
+    "../minidump",
+    "../tools:tool_support",
   ]
 
   if (crashpad_is_win) {
