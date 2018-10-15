@@ -29,6 +29,7 @@ ProcessSnapshotMinidump::ProcessSnapshotMinidump()
       modules_(),
       unloaded_modules_(),
       crashpad_info_(),
+      system_snapshot_(),
       annotations_simple_map_(),
       file_reader_(nullptr),
       process_id_(static_cast<pid_t>(-1)),
@@ -87,7 +88,8 @@ bool ProcessSnapshotMinidump::Initialize(FileReaderInterface* file_reader) {
   if (!InitializeCrashpadInfo() ||
       !InitializeMiscInfo() ||
       !InitializeModules() ||
-      !InitializeThreads()) {
+      !InitializeThreads() ||
+      !InitializeSystemSnapshot()) {
     return false;
   }
 
@@ -154,8 +156,7 @@ ProcessSnapshotMinidump::AnnotationsSimpleMap() const {
 
 const SystemSnapshot* ProcessSnapshotMinidump::System() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  return nullptr;
+  return &system_snapshot_;
 }
 
 std::vector<const ThreadSnapshot*> ProcessSnapshotMinidump::Threads() const {
@@ -433,6 +434,20 @@ bool ProcessSnapshotMinidump::InitializeThreads() {
   }
 
   return true;
+}
+
+bool ProcessSnapshotMinidump::InitializeSystemSnapshot() {
+  const auto& stream_it = stream_map_.find(kMinidumpStreamTypeSystemInfo);
+  if (stream_it == stream_map_.end()) {
+    return true;
+  }
+
+  if (stream_it->second->DataSize < sizeof(MINIDUMP_SYSTEM_INFO)) {
+    LOG(ERROR) << "system info size mismatch";
+    return false;
+  }
+
+  return system_snapshot_.Initialize(file_reader_, stream_it->second->Rva);
 }
 
 }  // namespace crashpad

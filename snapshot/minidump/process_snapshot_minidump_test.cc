@@ -506,6 +506,71 @@ TEST(ProcessSnapshotMinidump, Threads) {
   }
 }
 
+TEST(ProcessSnapshotMinidump, System) {
+  const char* cpu_info = "GenuineIntel";
+  const uint32_t* cpu_info_bytes = reinterpret_cast<const uint32_t*>(cpu_info);
+  StringFile string_file;
+
+  MINIDUMP_HEADER header = {};
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  MINIDUMP_SYSTEM_INFO minidump_system_info = {};
+
+  minidump_system_info.ProcessorArchitecture = kMinidumpCPUArchitectureX86;
+  minidump_system_info.ProcessorLevel = 3;
+  minidump_system_info.ProcessorRevision = 3;
+  minidump_system_info.NumberOfProcessors = 8;
+  minidump_system_info.ProductType = kMinidumpOSTypeServer;
+  minidump_system_info.PlatformId = kMinidumpOSFuchsia;
+  minidump_system_info.MajorVersion = 3;
+  minidump_system_info.MinorVersion = 4;
+  minidump_system_info.BuildNumber = 56;
+  minidump_system_info.CSDVersionRva = WriteString(&string_file, "Snazzle");
+  minidump_system_info.Cpu.X86CpuInfo.VendorId[0] = cpu_info_bytes[0];
+  minidump_system_info.Cpu.X86CpuInfo.VendorId[1] = cpu_info_bytes[1];
+  minidump_system_info.Cpu.X86CpuInfo.VendorId[2] = cpu_info_bytes[2];
+
+  MINIDUMP_DIRECTORY minidump_system_info_directory = {};
+  minidump_system_info_directory.StreamType = kMinidumpStreamTypeSystemInfo;
+  minidump_system_info_directory.Location.DataSize =
+      sizeof(MINIDUMP_SYSTEM_INFO);
+  minidump_system_info_directory.Location.Rva =
+      static_cast<RVA>(string_file.SeekGet());
+
+  ASSERT_TRUE(string_file.Write(&minidump_system_info,
+                                sizeof(minidump_system_info)));
+
+  header.StreamDirectoryRva = static_cast<RVA>(string_file.SeekGet());
+  ASSERT_TRUE(string_file.Write(&minidump_system_info_directory,
+                                sizeof(minidump_system_info_directory)));
+
+  header.Signature = MINIDUMP_SIGNATURE;
+  header.Version = MINIDUMP_VERSION;
+  header.NumberOfStreams = 1;
+  EXPECT_TRUE(string_file.SeekSet(0));
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  ProcessSnapshotMinidump process_snapshot;
+  EXPECT_TRUE(process_snapshot.Initialize(&string_file));
+
+  const SystemSnapshot* s = process_snapshot.System();
+
+  EXPECT_EQ(s->GetCPUArchitecture(), kCPUArchitectureX86);
+  EXPECT_EQ(s->CPURevision(), 3UL);
+  EXPECT_EQ(s->CPUVendor(), "GenuineIntel");
+  EXPECT_EQ(s->GetOperatingSystem(),
+            SystemSnapshot::OperatingSystem::kOperatingSystemFuchsia);
+
+  int major, minor, bugfix;
+  std::string build;
+  s->OSVersion(&major, &minor, &bugfix, &build);
+
+  EXPECT_EQ(major, 3);
+  EXPECT_EQ(minor, 4);
+  EXPECT_EQ(bugfix, 56);
+  EXPECT_EQ(build, "Snazzle");
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
