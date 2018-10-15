@@ -77,11 +77,13 @@ static_library("client") {
 
   public_configs = [ "..:crashpad_config" ]
 
-  deps = [
-    "../compat",
+  public_deps = [
     "../third_party/mini_chromium:base",
     "../util",
   ]
+
+  # we still define an empty list so we can augment it in platform-specific code below
+  deps = []
 
   if (crashpad_is_win) {
     libs = [ "rpcrt4.lib" ]
