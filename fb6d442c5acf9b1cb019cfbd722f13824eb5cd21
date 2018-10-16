@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0b9f6ea_c3421dbe",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T00:07:51Z",
+      "side": 1,
+      "message": "I see both of these referenced in client/crash_report_database.h, so this makes sense to me.",
+      "revId": "fb6d442c5acf9b1cb019cfbd722f13824eb5cd21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b5fd374_7b32ab0e",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T00:07:51Z",
+      "side": 1,
+      "message": "80 col",
+      "revId": "fb6d442c5acf9b1cb019cfbd722f13824eb5cd21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "521b07fb_d4298e0b",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T00:07:51Z",
+      "side": 1,
+      "message": "But I think since this is at the bottom of the target, it\u0027d be better to remove the comment above and just set-and-append down here.",
+      "revId": "fb6d442c5acf9b1cb019cfbd722f13824eb5cd21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04ca2fa9_44c44e81",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T00:07:51Z",
+      "side": 1,
+      "message": "This looks like it\u0027s required for CrashReportDatabase::UploadReport in crash_report_upload_thread.h so this one makes sense to me too.",
+      "revId": "fb6d442c5acf9b1cb019cfbd722f13824eb5cd21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "528a15d9_96f1367d",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T00:07:51Z",
+      "side": 1,
+      "message": "This looks like it\u0027s only for minidump_to_upload_parameters.h? That file looks like it could use a forward declaration instead to avoid adding this.",
+      "revId": "fb6d442c5acf9b1cb019cfbd722f13824eb5cd21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
