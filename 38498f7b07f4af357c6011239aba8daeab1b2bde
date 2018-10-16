@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be36efc2_4d0f2722",
+        "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:51:13Z",
+      "side": 1,
+      "message": "I know it\u0027s a lot of bulk to add, but since the implementation is separate and quite differnt for each architecture, I think the other archs should have test coverage too. (If you want to only add the implementation for ARM64 and NOTIMPLEMENTED() the rest if that\u0027s all you need for now, that\u0027s fine though.)",
+      "revId": "38498f7b07f4af357c6011239aba8daeab1b2bde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60d15c6e_42ac62a8",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:51:13Z",
+      "side": 1,
+      "message": "Crashpad uses string.h for this include.",
+      "range": {
+        "startLine": 17,
+        "startChar": 9,
+        "endLine": 17,
+        "endChar": 18
+      },
+      "revId": "38498f7b07f4af357c6011239aba8daeab1b2bde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "041f9b09_14a104bf",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:51:13Z",
+      "side": 1,
+      "message": "A comment for these ones would be useful.",
+      "revId": "38498f7b07f4af357c6011239aba8daeab1b2bde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2d3bd8f_f4bf189f",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:51:13Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "38498f7b07f4af357c6011239aba8daeab1b2bde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fbff994_2004053b",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:51:13Z",
+      "side": 1,
+      "message": "Could you use arraysize() here? And a bunch of other similar copies below?",
+      "range": {
+        "startLine": 177,
+        "startChar": 24,
+        "endLine": 177,
+        "endChar": 26
+      },
+      "revId": "38498f7b07f4af357c6011239aba8daeab1b2bde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b698f1aa_9f43f348",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:51:13Z",
+      "side": 1,
+      "message": "`git cl format` to fix 80 col here and above.",
+      "revId": "38498f7b07f4af357c6011239aba8daeab1b2bde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3fab0c0_8da966db",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:51:13Z",
+      "side": 1,
+      "message": "End comments with .",
+      "range": {
+        "startLine": 297,
+        "startChar": 59,
+        "endLine": 297,
+        "endChar": 60
+      },
+      "revId": "38498f7b07f4af357c6011239aba8daeab1b2bde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00654000_99dddb5f",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:51:13Z",
+      "side": 1,
+      "message": "DISALLOW_COPY...",
+      "revId": "38498f7b07f4af357c6011239aba8daeab1b2bde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
