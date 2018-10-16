@@ -30,6 +30,7 @@ ProcessSnapshotMinidump::ProcessSnapshotMinidump()
       unloaded_modules_(),
       crashpad_info_(),
       system_snapshot_(),
+      arch_(CPUArchitecture::kCPUArchitectureUnknown),
       annotations_simple_map_(),
       file_reader_(nullptr),
       process_id_(static_cast<pid_t>(-1)),
@@ -88,8 +89,8 @@ bool ProcessSnapshotMinidump::Initialize(FileReaderInterface* file_reader) {
   if (!InitializeCrashpadInfo() ||
       !InitializeMiscInfo() ||
       !InitializeModules() ||
-      !InitializeThreads() ||
-      !InitializeSystemSnapshot()) {
+      !InitializeSystemSnapshot() ||
+      !InitializeThreads()) {
     return false;
   }
 
@@ -426,7 +427,7 @@ bool ProcessSnapshotMinidump::InitializeThreads() {
                            thread_index * sizeof(MINIDUMP_THREAD);
 
     auto thread = std::make_unique<internal::ThreadSnapshotMinidump>();
-    if (!thread->Initialize(file_reader_, thread_rva)) {
+    if (!thread->Initialize(file_reader_, thread_rva, arch_)) {
       return false;
     }
 
@@ -447,7 +448,12 @@ bool ProcessSnapshotMinidump::InitializeSystemSnapshot() {
     return false;
   }
 
-  return system_snapshot_.Initialize(file_reader_, stream_it->second->Rva);
+  if (!system_snapshot_.Initialize(file_reader_, stream_it->second->Rva)) {
+    return false;
+  }
+
+  arch_ = system_snapshot_.GetCPUArchitecture();
+  return true;
 }
 
 }  // namespace crashpad
