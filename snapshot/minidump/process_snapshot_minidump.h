@@ -114,6 +114,7 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   std::vector<UnloadedModuleSnapshot> unloaded_modules_;
   MinidumpCrashpadInfo crashpad_info_;
   internal::SystemSnapshotMinidump system_snapshot_;
+  CPUArchitecture arch_;
   std::map<std::string, std::string> annotations_simple_map_;
   FileReaderInterface* file_reader_;  // weak
   pid_t process_id_;
