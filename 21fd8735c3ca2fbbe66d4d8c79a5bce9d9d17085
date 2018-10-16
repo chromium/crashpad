@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49070a27_04686677",
+        "filename": "snapshot/minidump/system_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:40:00Z",
+      "side": 1,
+      "message": "// instead of /*",
+      "revId": "21fd8735c3ca2fbbe66d4d8c79a5bce9d9d17085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "becaa82c_b2f56959",
+        "filename": "snapshot/minidump/system_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:40:00Z",
+      "side": 1,
+      "message": "Just delete all these since we don\u0027t know anything about them.",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 37
+      },
+      "revId": "21fd8735c3ca2fbbe66d4d8c79a5bce9d9d17085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "301e4223_c3b89c26",
+        "filename": "snapshot/minidump/system_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:40:00Z",
+      "side": 1,
+      "message": "What\u0027s 12, can this be sizeof() something?",
+      "range": {
+        "startLine": 101,
+        "startChar": 34,
+        "endLine": 101,
+        "endChar": 36
+      },
+      "revId": "21fd8735c3ca2fbbe66d4d8c79a5bce9d9d17085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4869dae5_2a9b5157",
+        "filename": "snapshot/minidump/system_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:40:00Z",
+      "side": 1,
+      "message": "Prefer std::string().",
+      "range": {
+        "startLine": 103,
+        "startChar": 11,
+        "endLine": 103,
+        "endChar": 13
+      },
+      "revId": "21fd8735c3ca2fbbe66d4d8c79a5bce9d9d17085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7951359_6a771092",
+        "filename": "snapshot/minidump/system_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:40:00Z",
+      "side": 1,
+      "message": "Nuke these too.",
+      "range": {
+        "startLine": 160,
+        "startChar": 1,
+        "endLine": 165,
+        "endChar": 26
+      },
+      "revId": "21fd8735c3ca2fbbe66d4d8c79a5bce9d9d17085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55d5238a_bffdbf40",
+        "filename": "snapshot/minidump/system_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:40:00Z",
+      "side": 1,
+      "message": "std::string() and in MachineDescription().",
+      "range": {
+        "startLine": 190,
+        "startChar": 9,
+        "endLine": 190,
+        "endChar": 11
+      },
+      "revId": "21fd8735c3ca2fbbe66d4d8c79a5bce9d9d17085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf0ac9a0_44243653",
+        "filename": "snapshot/minidump/system_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:40:00Z",
+      "side": 1,
+      "message": "minidump_system_info_rva",
+      "range": {
+        "startLine": 38,
+        "startChar": 17,
+        "endLine": 38,
+        "endChar": 36
+      },
+      "revId": "21fd8735c3ca2fbbe66d4d8c79a5bce9d9d17085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb3c0c90_6cc2922e",
+        "filename": "snapshot/minidump/system_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:40:00Z",
+      "side": 1,
+      "message": "DISALLOW_COPY_AND_ASSIGN(SystemSnapshotMinidump);",
+      "revId": "21fd8735c3ca2fbbe66d4d8c79a5bce9d9d17085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4337db5b_e6035da4",
+        "filename": "snapshot/minidump/system_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T23:40:00Z",
+      "side": 1,
+      "message": "Extra \\n here.",
+      "revId": "21fd8735c3ca2fbbe66d4d8c79a5bce9d9d17085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
