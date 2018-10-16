@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "9bb1f9c8_886d1fc5",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-16T17:50:52Z",
+      "side": 1,
+      "message": "Done\n\nFWIW https://cs.chromium.org/chromium/src/third_party/crashpad/crashpad/compat/BUILD.gn?l\u003d122\u0026rcl\u003d0fd05fc144b94a04f3e310d4646a898c12c909b9 ;-)",
+      "parentUuid": "3019aa5c_60593253",
+      "revId": "fb6d442c5acf9b1cb019cfbd722f13824eb5cd21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04ca2fa9_44c44e81",
         "filename": "handler/BUILD.gn",
         "patchSetId": 3
