@@ -21,6 +21,7 @@
 #include <memory>
 
 #include "gtest/gtest.h"
+#include "minidump/minidump_context.h"
 #include "snapshot/minidump/minidump_annotation_reader.h"
 #include "snapshot/module_snapshot.h"
 #include "util/file/string_file.h"
@@ -569,6 +570,127 @@ TEST(ProcessSnapshotMinidump, System) {
   EXPECT_EQ(minor, 4);
   EXPECT_EQ(bugfix, 56);
   EXPECT_EQ(build, "Snazzle");
+}
+
+TEST(ProcessSnapshotMinidump, ThreadContext) {
+  StringFile string_file;
+
+  MINIDUMP_HEADER header = {};
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  MINIDUMP_SYSTEM_INFO minidump_system_info = {};
+
+  minidump_system_info.ProcessorArchitecture = kMinidumpCPUArchitectureARM64;
+  minidump_system_info.ProductType = kMinidumpOSTypeServer;
+  minidump_system_info.PlatformId = kMinidumpOSFuchsia;
+  minidump_system_info.CSDVersionRva = WriteString(&string_file, "");
+
+  MINIDUMP_DIRECTORY minidump_system_info_directory = {};
+  minidump_system_info_directory.StreamType = kMinidumpStreamTypeSystemInfo;
+  minidump_system_info_directory.Location.DataSize =
+      sizeof(MINIDUMP_SYSTEM_INFO);
+  minidump_system_info_directory.Location.Rva =
+      static_cast<RVA>(string_file.SeekGet());
+
+  ASSERT_TRUE(string_file.Write(&minidump_system_info,
+                                sizeof(minidump_system_info)));
+
+  MINIDUMP_THREAD minidump_thread = {};
+  uint32_t minidump_thread_count = 1;
+
+  minidump_thread.ThreadId = 42;
+  minidump_thread.Teb = 24;
+
+  MinidumpContextARM64 minidump_context;
+
+  minidump_context.context_flags = kMinidumpContextARM64Full;
+
+  minidump_context.cpsr = 0;
+
+  for (int i = 0; i < 29; i++) {
+    minidump_context.regs[i] = i + 1;
+  }
+
+  minidump_context.fp = 30;
+  minidump_context.lr = 31;
+  minidump_context.sp = 32;
+  minidump_context.pc = 33;
+
+  for (int i = 0; i < 32; i++) {
+    minidump_context.fpsimd[i].lo = i * 2 + 34;
+    minidump_context.fpsimd[i].hi = i * 2 + 35;
+  }
+
+  minidump_context.fpcr = 98;
+  minidump_context.fpsr = 99;
+
+  for (int i = 0; i < 8; i++) {
+    minidump_context.bcr[i] = i * 2 + 100;
+    minidump_context.bvr[i] = i * 2 + 101;
+  }
+
+  for (int i = 0; i < 2; i++) {
+    minidump_context.wcr[i] = i * 2 + 115;
+    minidump_context.wvr[i] = i * 2 + 116;
+  }
+
+  minidump_thread.ThreadContext.DataSize = sizeof(minidump_context);
+  minidump_thread.ThreadContext.Rva = static_cast<RVA>(string_file.SeekGet());
+
+  EXPECT_TRUE(string_file.Write(&minidump_context, sizeof(minidump_context)));
+
+  MINIDUMP_DIRECTORY minidump_thread_list_directory = {};
+  minidump_thread_list_directory.StreamType = kMinidumpStreamTypeThreadList;
+  minidump_thread_list_directory.Location.DataSize =
+      sizeof(MINIDUMP_THREAD_LIST) +
+      minidump_thread_count * sizeof(MINIDUMP_THREAD);
+  minidump_thread_list_directory.Location.Rva =
+      static_cast<RVA>(string_file.SeekGet());
+
+  // Fields in MINIDUMP_THREAD_LIST.
+  EXPECT_TRUE(
+      string_file.Write(&minidump_thread_count, sizeof(minidump_thread_count)));
+  EXPECT_TRUE(string_file.Write(&minidump_thread, sizeof(minidump_thread)));
+
+  header.StreamDirectoryRva = static_cast<RVA>(string_file.SeekGet());
+  ASSERT_TRUE(string_file.Write(&minidump_system_info_directory,
+                                sizeof(minidump_system_info_directory)));
+  ASSERT_TRUE(string_file.Write(&minidump_thread_list_directory,
+                                sizeof(minidump_thread_list_directory)));
+
+  header.Signature = MINIDUMP_SIGNATURE;
+  header.Version = MINIDUMP_VERSION;
+  header.NumberOfStreams = 2;
+  EXPECT_TRUE(string_file.SeekSet(0));
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  ProcessSnapshotMinidump process_snapshot;
+  EXPECT_TRUE(process_snapshot.Initialize(&string_file));
+
+  std::vector<const ThreadSnapshot*> threads = process_snapshot.Threads();
+  ASSERT_EQ(threads.size(), minidump_thread_count);
+
+  const CPUContext* ctx_generic = threads[0]->Context();
+
+  ASSERT_EQ(ctx_generic->architecture, CPUArchitecture::kCPUArchitectureARM64);
+
+  const CPUContextARM64* ctx = ctx_generic->arm64;
+
+  EXPECT_EQ(ctx->pstate, 0UL);
+
+  for (unsigned int i = 0; i < 31; i++) {
+    EXPECT_EQ(ctx->regs[i], i + 1);
+  }
+
+  EXPECT_EQ(ctx->sp, 32UL);
+  EXPECT_EQ(ctx->pc, 33UL);
+  EXPECT_EQ(ctx->fpcr, 98UL);
+  EXPECT_EQ(ctx->fpsr, 99UL);
+
+  for (unsigned int i = 0; i < 32; i++) {
+    EXPECT_EQ(ctx->fpsimd[i].lo, i * 2 + 34);
+    EXPECT_EQ(ctx->fpsimd[i].hi, i * 2 + 35);
+  }
 }
 
 }  // namespace
