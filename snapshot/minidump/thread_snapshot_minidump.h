@@ -19,6 +19,7 @@
 
 #include "minidump/minidump_extensions.h"
 #include "snapshot/thread_snapshot.h"
+#include "snapshot/cpu_context.h"
 #include "util/file/file_reader.h"
 #include "util/misc/initialization_state_dcheck.h"
 
@@ -37,10 +38,13 @@ class ThreadSnapshotMinidump : public ThreadSnapshot {
   //!     The file reader must support seeking.
   //! \param[in] minidump_thread_rva The file offset in \a file_reader at which
   //!     the thread’s MINIDUMP_THREAD structure is located.
+  //! \param[in] arch The architecture of the system this thread is running on.
+  //!     Used to decode CPU Context.
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  bool Initialize(FileReaderInterface* file_reader, RVA minidump_thread_rva);
+  bool Initialize(FileReaderInterface* file_reader, RVA minidump_thread_rva,
+                  CPUArchitecture arch);
 
   const CPUContext* Context() const override;
   const MemorySnapshot* Stack() const override;
@@ -51,8 +55,20 @@ class ThreadSnapshotMinidump : public ThreadSnapshot {
   std::vector<const MemorySnapshot*> ExtraMemory() const override;
 
  private:
+  //! \brief Initializes the CPU Context
+  //!
+  //! \param[in] minidump_context the raw bytes of the context data from the
+  //!     minidump file.
+  //!
+  //! \return `true` if the context could be decoded without error.
+  bool InitializeContext(const std::vector<unsigned char>& minidump_context);
+
   MINIDUMP_THREAD minidump_thread_;
+  CPUContext context_;
+  std::vector<unsigned char> context_memory_;
   InitializationStateDcheck initialized_;
+
+  DISALLOW_COPY_AND_ASSIGN(ThreadSnapshotMinidump);
 };
 
 }  // namespace internal
