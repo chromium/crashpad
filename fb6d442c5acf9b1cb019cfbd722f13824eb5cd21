@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "3019aa5c_60593253",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-16T17:47:32Z",
+      "side": 1,
+      "message": "As long as the code is executed (i.e. you do a build for this platform) GN will error out if you\u0027ve made a mistake. It won\u0027t let you overwrite a non-empty list with a non-empty list.",
+      "parentUuid": "6ecba485_386d68fb",
+      "revId": "fb6d442c5acf9b1cb019cfbd722f13824eb5cd21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "04ca2fa9_44c44e81",
         "filename": "handler/BUILD.gn",
         "patchSetId": 3
