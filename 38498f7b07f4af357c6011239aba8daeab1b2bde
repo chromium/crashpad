@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "daf5a021_86bcbf97",
+        "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2018-10-17T20:55:02Z",
+      "side": 1,
+      "message": "We\u0027ll need X86_64 too. I\u0027ll test that.\n\nIt\u0027d be nice to place the other code somewhere. It\u0027s annoying to write, so it\u0027d be nice if whoever needed it could just turn it back on and write the tests.",
+      "parentUuid": "be36efc2_4d0f2722",
+      "revId": "38498f7b07f4af357c6011239aba8daeab1b2bde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60d15c6e_42ac62a8",
         "filename": "snapshot/minidump/thread_snapshot_minidump.cc",
         "patchSetId": 1
