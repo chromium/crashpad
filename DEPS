@@ -212,11 +212,6 @@ hooks = [
       'crashpad/build/install_linux_sysroot.py',
     ],
   },
-  {
-    'name': 'gyp',
-    'pattern': '\.gypi?$',
-    'action': ['python', 'crashpad/build/gyp_crashpad.py'],
-  },
 ]
 
 recursedeps = [
