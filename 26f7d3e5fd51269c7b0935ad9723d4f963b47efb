@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "462f7e6f_d229e1da",
+        "filename": "snapshot/minidump/system_snapshot_minidump.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-17T14:48:31Z",
+      "side": 1,
+      "message": "#include \"base/macros.h\"",
+      "revId": "26f7d3e5fd51269c7b0935ad9723d4f963b47efb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
