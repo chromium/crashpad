@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "6136bc41_3e194979",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2018-10-17T01:13:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60d15c6e_42ac62a8",
+      "range": {
+        "startLine": 17,
+        "startChar": 9,
+        "endLine": 17,
+        "endChar": 18
+      },
+      "revId": "38498f7b07f4af357c6011239aba8daeab1b2bde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "041f9b09_14a104bf",
         "filename": "snapshot/minidump/thread_snapshot_minidump.cc",
         "patchSetId": 1
@@ -135,6 +159,30 @@
     },
     {
       "key": {
+        "uuid": "53158da5_e6a76a15",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2018-10-17T01:13:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fbff994_2004053b",
+      "range": {
+        "startLine": 177,
+        "startChar": 24,
+        "endLine": 177,
+        "endChar": 26
+      },
+      "revId": "38498f7b07f4af357c6011239aba8daeab1b2bde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b698f1aa_9f43f348",
         "filename": "snapshot/minidump/thread_snapshot_minidump.cc",
         "patchSetId": 1
@@ -149,6 +197,24 @@
       "revId": "38498f7b07f4af357c6011239aba8daeab1b2bde",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ab34d3c_b5f645f6",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2018-10-17T01:13:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b698f1aa_9f43f348",
+      "revId": "38498f7b07f4af357c6011239aba8daeab1b2bde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
