@@ -20,6 +20,7 @@
 
 #include <string>
 
+#include "base/strings/string16.h"
 #include "util/file/file_reader.h"
 
 namespace crashpad {
@@ -33,6 +34,24 @@ namespace internal {
 bool ReadMinidumpUTF8String(FileReaderInterface* file_reader,
                             RVA rva,
                             std::string* string);
+
+//! \brief Reads a MinidumpUTF16String from a minidump file at offset \a rva in
+//!     \a file_reader, and returns it in \a string.
+//!
+//! \return `true` on success, with \a string set. `false` on failure, with a
+//!     message logged.
+bool ReadMinidumpUTF16String(FileReaderInterface* file_reader,
+                             RVA rva,
+                             base::string16* string);
+
+//! \brief Reads a MinidumpUTF16String from a minidump file at offset \a rva in
+//!     \a file_reader, and returns it in \a string.
+//!
+//! \return `true` on success, with \a string set. `false` on failure, with a
+//!     message logged.
+bool ReadMinidumpUTF16String(FileReaderInterface* file_reader,
+                             RVA rva,
+                             std::string* string);
 
 }  // namespace internal
 }  // namespace crashpad
