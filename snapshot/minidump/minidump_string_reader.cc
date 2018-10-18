@@ -17,14 +17,18 @@
 #include <stdint.h>
 
 #include "base/logging.h"
+#include "base/strings/utf_string_conversions.h"
 #include "minidump/minidump_extensions.h"
 
 namespace crashpad {
 namespace internal {
 
-bool ReadMinidumpUTF8String(FileReaderInterface* file_reader,
+namespace {
+
+template<typename StringType>
+bool ReadMinidumpString(FileReaderInterface* file_reader,
                             RVA rva,
-                            std::string* string) {
+                            StringType* string) {
   if (rva == 0) {
     string->clear();
     return true;
@@ -39,12 +43,40 @@ bool ReadMinidumpUTF8String(FileReaderInterface* file_reader,
     return false;
   }
 
-  std::string local_string(string_size, '\0');
+  StringType local_string(string_size / sizeof((*string)[0]), '\0');
   if (!file_reader->ReadExactly(&local_string[0], string_size)) {
     return false;
   }
 
   string->swap(local_string);
+  return true;
+}
+
+}  // namespace
+
+bool ReadMinidumpUTF8String(FileReaderInterface* file_reader,
+                            RVA rva,
+                            std::string* string) {
+  return ReadMinidumpString(file_reader, rva, string);
+}
+
+bool ReadMinidumpUTF16String(FileReaderInterface* file_reader,
+                            RVA rva,
+                            base::string16* string) {
+  return ReadMinidumpString(file_reader, rva, string);
+}
+
+bool ReadMinidumpUTF16String(FileReaderInterface* file_reader,
+                            RVA rva,
+                            std::string* string) {
+  base::string16 string_raw;
+
+  if (!ReadMinidumpString(file_reader, rva, &string_raw)) {
+    return false;
+  }
+
+  base::UTF16ToUTF8(string_raw.data(), string_raw.size(), string);
+
   return true;
 }
 
