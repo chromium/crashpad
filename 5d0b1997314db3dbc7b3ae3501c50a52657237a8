@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "aa4cb9d8_c32dfa6b",
+        "filename": "snapshot/minidump/module_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T18:54:45Z",
+      "side": 1,
+      "message": "These should go below annotation_objects_. The larger compound types are generally larger and have larger alignment requirements, so smaller things at the end (unless there\u0027s some reason that construction/destruction order matters of course).",
+      "parentUuid": "44e39ea2_51d8cd6f",
+      "revId": "5d0b1997314db3dbc7b3ae3501c50a52657237a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa51f023_9d64a9a9",
         "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
         "patchSetId": 1

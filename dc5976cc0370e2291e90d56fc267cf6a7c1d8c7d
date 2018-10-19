@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e30a85c3_6701f375",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T18:54:45Z",
+      "side": 1,
+      "message": "Add \"annotation_objects_(),\" while you\u0027re here.",
+      "revId": "dc5976cc0370e2291e90d56fc267cf6a7c1d8c7d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bdb6673_185e04fa",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T18:54:45Z",
+      "side": 1,
+      "message": "Does NB10 not allow us to retrieve a uuid_ and age_? Perhaps we should just reject all non RSDS signatures in that case?",
+      "revId": "dc5976cc0370e2291e90d56fc267cf6a7c1d8c7d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9343d0ff_17669eb1",
+        "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T18:54:45Z",
+      "side": 1,
+      "message": "Does this not have the *2 problem too? I\u0027m confused how the EXPECT on modules[i]-\u003eName() works now.",
+      "revId": "dc5976cc0370e2291e90d56fc267cf6a7c1d8c7d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
