@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "f0641005_a67fa5e1",
+        "filename": "snapshot/minidump/module_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2018-10-19T19:24:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa4cb9d8_c32dfa6b",
+      "revId": "5d0b1997314db3dbc7b3ae3501c50a52657237a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa51f023_9d64a9a9",
         "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
         "patchSetId": 1
