@@ -15,10 +15,11 @@
 #include "handler/linux/exception_handler_server.h"
 
 #include <errno.h>
-#include <sys/capability.h>
+#include <linux/capability.h>
 #include <sys/epoll.h>
 #include <sys/eventfd.h>
 #include <sys/socket.h>
+#include <sys/syscall.h>
 #include <sys/types.h>
 #include <unistd.h>
 
@@ -95,7 +96,7 @@ bool HaveCapSysPtrace() {
 
   cap_header.pid = getpid();
 
-  if (capget(&cap_header, &cap_data) != 0) {
+  if (syscall(SYS_capget, &cap_header, &cap_data) != 0) {
     PLOG(ERROR) << "capget";
     return false;
   }
