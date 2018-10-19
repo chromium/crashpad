@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "601c356f_5408844b",
+        "filename": "snapshot/minidump/minidump_string_reader.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T00:18:58Z",
+      "side": 1,
+      "message": "The addition of these helper functions looks fine, but we shouldn\u0027t do this and should instead fix mini_chromium to not do this.",
+      "revId": "8ef4f626a0ed5a5781944a5444c89c96d872db47",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
