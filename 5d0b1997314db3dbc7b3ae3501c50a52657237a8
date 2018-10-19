@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "941aa138_ad1f01f0",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T00:26:24Z",
+      "side": 1,
+      "message": "And these, similarly.",
+      "revId": "5d0b1997314db3dbc7b3ae3501c50a52657237a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0517d2a3_654b1c2d",
+        "filename": "snapshot/minidump/module_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T00:26:24Z",
+      "side": 1,
+      "message": "Move these down below annotations_objects_ for better packing. Probably uuid_, then name_, then age_.",
+      "revId": "5d0b1997314db3dbc7b3ae3501c50a52657237a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa51f023_9d64a9a9",
+        "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T00:26:24Z",
+      "side": 1,
+      "message": "sizeof(name16[0])",
+      "range": {
+        "startLine": 314,
+        "startChar": 36,
+        "endLine": 314,
+        "endChar": 37
+      },
+      "revId": "5d0b1997314db3dbc7b3ae3501c50a52657237a8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
