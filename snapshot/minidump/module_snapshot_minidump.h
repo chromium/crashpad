@@ -89,6 +89,9 @@ class ModuleSnapshotMinidump final : public ModuleSnapshot {
                                         minidump_module_crashpad_info_location);
 
   MINIDUMP_MODULE minidump_module_;
+  std::string name_;
+  UUID uuid_;
+  uint32_t age_;
   std::vector<std::string> annotations_vector_;
   std::map<std::string, std::string> annotations_simple_map_;
   std::vector<AnnotationSnapshot> annotation_objects_;
