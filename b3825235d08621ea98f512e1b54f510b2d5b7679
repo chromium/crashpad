@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "90c07c9c_4bc3596c",
+        "filename": "snapshot/minidump/minidump_string_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T19:01:27Z",
+      "side": 1,
+      "message": "Yes, I\u0027m confused. I agree the read is safe and that\u0027s the right number of bytes being read.\n\nWhat I was thinking of was that the returned size() will be 2, but we\u0027d only have 1 character. But now that I think about it, that must be expected for string16.",
+      "parentUuid": "1b25c071_166929d6",
+      "revId": "b3825235d08621ea98f512e1b54f510b2d5b7679",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e4db17ce_004b5ca1",
         "filename": "snapshot/minidump/minidump_string_reader.h",
         "patchSetId": 2

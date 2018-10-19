@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57db58a1_75092300",
+        "filename": "snapshot/minidump/minidump_string_reader.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T19:01:27Z",
+      "side": 1,
+      "message": "End with .",
+      "range": {
+        "startLine": 39,
+        "startChar": 50,
+        "endLine": 39,
+        "endChar": 51
+      },
+      "revId": "e6bbdcb5b2fe502912b897eff967044b24d91a6f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
