@@ -14,9 +14,11 @@
 
 #include "util/fuchsia/koid_utilities.h"
 
+#include <fuchsia/sysinfo/c/fidl.h>
+#include <lib/fdio/util.h>
+#include <lib/zx/channel.h>
 #include <lib/zx/job.h>
 #include <lib/zx/process.h>
-#include <zircon/device/sysinfo.h>
 
 #include <vector>
 
@@ -52,11 +54,22 @@ zx::job GetRootJob() {
   if (!sysinfo.is_valid())
     return zx::job();
 
+  zx::channel channel;
+  zx_status_t status = fdio_get_service_handle(sysinfo.release(),
+                                               channel.reset_and_get_address());
+  if (status != ZX_OK) {
+    ZX_LOG(ERROR, status) << "fdio_get_service_handle";
+    return zx::job();
+  }
+
   zx::handle root_job;
-  size_t n = ioctl_sysinfo_get_root_job(sysinfo.get(),
-                                        root_job.reset_and_get_address());
-  if (n != sizeof(zx_handle_t)) {
-    LOG(ERROR) << "unexpected root job size";
+  zx_status_t fidl_status = fuchsia_sysinfo_DeviceGetRootJob(
+      channel.get(), &status, root_job.reset_and_get_address());
+  if (fidl_status != ZX_OK) {
+    ZX_LOG(ERROR, fidl_status) << "fuchsia_sysinfo_DeviceGetRootJob";
+    return zx::job();
+  } else if (status != ZX_OK) {
+    ZX_LOG(ERROR, status) << "fuchsia_sysinfo_DeviceGetRootJob";
     return zx::job();
   }
   return CastHandle<zx::job>(std::move(root_job));
