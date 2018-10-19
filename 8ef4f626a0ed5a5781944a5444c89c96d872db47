@@ -70,6 +70,24 @@
       "revId": "8ef4f626a0ed5a5781944a5444c89c96d872db47",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e828d45_1503cc6a",
+        "filename": "snapshot/minidump/minidump_string_reader.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T18:44:54Z",
+      "side": 1,
+      "message": "Oops, I had this in draft last night, apparently I didn\u0027t send it, which would explain why you hadn\u0027t seen it. Sorry!",
+      "parentUuid": "9de8fa38_ce28e183",
+      "revId": "8ef4f626a0ed5a5781944a5444c89c96d872db47",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
