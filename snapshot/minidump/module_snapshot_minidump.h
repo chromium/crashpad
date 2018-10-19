@@ -90,6 +90,9 @@ class ModuleSnapshotMinidump final : public ModuleSnapshot {
 
   MINIDUMP_MODULE minidump_module_;
   std::vector<std::string> annotations_vector_;
+  UUID uuid_;
+  std::string name_;
+  uint32_t age_;
   std::map<std::string, std::string> annotations_simple_map_;
   std::vector<AnnotationSnapshot> annotation_objects_;
   InitializationStateDcheck initialized_;
