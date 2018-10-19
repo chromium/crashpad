@@ -14,10 +14,14 @@
 
 #include "snapshot/minidump/module_snapshot_minidump.h"
 
+#include <string.h>
+
 #include "minidump/minidump_extensions.h"
 #include "snapshot/minidump/minidump_annotation_reader.h"
+#include "snapshot/minidump/minidump_string_reader.h"
 #include "snapshot/minidump/minidump_simple_string_dictionary_reader.h"
 #include "snapshot/minidump/minidump_string_list_reader.h"
+#include "util/misc/pdb_structures.h"
 
 namespace crashpad {
 namespace internal {
@@ -27,6 +31,10 @@ ModuleSnapshotMinidump::ModuleSnapshotMinidump()
       minidump_module_(),
       annotations_vector_(),
       annotations_simple_map_(),
+      annotation_objects_(),
+      uuid_(),
+      name_(),
+      age_(0),
       initialized_() {
 }
 
@@ -53,32 +61,52 @@ bool ModuleSnapshotMinidump::Initialize(
     return false;
   }
 
+  ReadMinidumpUTF16String(file_reader, minidump_module_.ModuleNameRva, &name_);
+
+  if (minidump_module_.CvRecord.Rva != 0) {
+    CodeViewRecordPDB70 cv;
+
+    if (!file_reader->SeekSet(minidump_module_.CvRecord.Rva)) {
+      return false;
+    }
+
+    if (!file_reader->ReadExactly(&cv, sizeof(cv))) {
+      return false;
+    }
+
+    if (cv.signature == 'SDSR') {
+      age_ = cv.age;
+      uuid_ = cv.uuid;
+    } else if (cv.signature != '01BN') {
+      LOG(ERROR) << "Bad CodeView signature in module";
+      return false;
+    } else {
+      LOG(ERROR) << "NB10 not supported";
+      return false;
+    }
+  }
+
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
 }
 
 std::string ModuleSnapshotMinidump::Name() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  return std::string();
+  return name_;
 }
 
 uint64_t ModuleSnapshotMinidump::Address() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  return 0;
+  return minidump_module_.BaseOfImage;
 }
 
 uint64_t ModuleSnapshotMinidump::Size() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  return 0;
+  return minidump_module_.SizeOfImage;
 }
 
 time_t ModuleSnapshotMinidump::Timestamp() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  return 0;
+  return minidump_module_.TimeDateStamp;
 }
 
 void ModuleSnapshotMinidump::FileVersion(uint16_t* version_0,
@@ -86,11 +114,12 @@ void ModuleSnapshotMinidump::FileVersion(uint16_t* version_0,
                                          uint16_t* version_2,
                                          uint16_t* version_3) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  *version_0 = 0;
-  *version_1 = 0;
-  *version_2 = 0;
-  *version_3 = 0;
+  uint32_t version_01 = minidump_module_.VersionInfo.dwFileVersionMS;
+  uint32_t version_23 = minidump_module_.VersionInfo.dwFileVersionLS;
+  *version_0 = static_cast<uint16_t>(version_01 >> 16);
+  *version_1 = static_cast<uint16_t>(version_01 & 0xFFFF);
+  *version_2 = static_cast<uint16_t>(version_23 >> 16);
+  *version_3 = static_cast<uint16_t>(version_23 & 0xFFFF);
 }
 
 void ModuleSnapshotMinidump::SourceVersion(uint16_t* version_0,
@@ -98,25 +127,30 @@ void ModuleSnapshotMinidump::SourceVersion(uint16_t* version_0,
                                            uint16_t* version_2,
                                            uint16_t* version_3) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  *version_0 = 0;
-  *version_1 = 0;
-  *version_2 = 0;
-  *version_3 = 0;
+  uint32_t version_01 = minidump_module_.VersionInfo.dwProductVersionMS;
+  uint32_t version_23 = minidump_module_.VersionInfo.dwProductVersionLS;
+  *version_0 = static_cast<uint16_t>(version_01 >> 16);
+  *version_1 = static_cast<uint16_t>(version_01 & 0xFFFF);
+  *version_2 = static_cast<uint16_t>(version_23 >> 16);
+  *version_3 = static_cast<uint16_t>(version_23 & 0xFFFF);
 }
 
 ModuleSnapshot::ModuleType ModuleSnapshotMinidump::GetModuleType() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
+  switch (minidump_module_.VersionInfo.dwFileType) {
+  case VFT_APP:
+    return kModuleTypeExecutable;
+  case VFT_DLL:
+    return kModuleTypeSharedLibrary;
+  }
   return kModuleTypeUnknown;
 }
 
 void ModuleSnapshotMinidump::UUIDAndAge(crashpad::UUID* uuid,
                                         uint32_t* age) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  *uuid = crashpad::UUID();
-  *age = 0;
+  *uuid = uuid_;
+  *age = age_;
 }
 
 std::string ModuleSnapshotMinidump::DebugFileName() const {

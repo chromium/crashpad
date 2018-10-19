@@ -20,11 +20,13 @@
 
 #include <memory>
 
+#include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_context.h"
 #include "snapshot/minidump/minidump_annotation_reader.h"
 #include "snapshot/module_snapshot.h"
 #include "util/file/string_file.h"
+#include "util/misc/pdb_structures.h"
 
 namespace crashpad {
 namespace test {
@@ -288,7 +290,42 @@ TEST(ProcessSnapshotMinidump, Modules) {
   EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
 
   MINIDUMP_MODULE minidump_module = {};
-  uint32_t minidump_module_count = 4;
+  constexpr uint32_t minidump_module_count = 4;
+  RVA name_rvas[minidump_module_count];
+  std::string names[minidump_module_count] = {
+    "libtacotruck",
+    "libevidencebased",
+    "libgeorgism",
+    "librealistutopia",
+  };
+
+  minidump_module.BaseOfImage = 0xbadf00d;
+  minidump_module.SizeOfImage = 9001;
+  minidump_module.TimeDateStamp = 1970;
+  minidump_module.VersionInfo.dwFileVersionMS = 0xAABBCCDD;
+  minidump_module.VersionInfo.dwFileVersionLS = 0xEEFF4242;
+  minidump_module.VersionInfo.dwProductVersionMS = 0xAAAABBBB;
+  minidump_module.VersionInfo.dwProductVersionLS = 0xCCCCDDDD;
+  minidump_module.VersionInfo.dwFileType = VFT_APP;
+
+  for (uint32_t i = 0; i < minidump_module_count; i++) {
+    name_rvas[i] = static_cast<RVA>(string_file.SeekGet());
+    auto name16 = base::UTF8ToUTF16(names[i]);
+    uint32_t size = sizeof(name16[0]) * name16.size();
+    EXPECT_TRUE(string_file.Write(&size, sizeof(size)));
+    EXPECT_TRUE(string_file.Write(&name16[0], size));
+  }
+
+  CodeViewRecordPDB70 cv;
+  cv.signature = CodeViewRecordPDB70::kSignature;
+  cv.age = 7;
+  cv.uuid.InitializeFromString("00112233-4455-6677-8899-aabbccddeeff");
+  cv.pdb_name[0] = '\0';
+
+  minidump_module.CvRecord.Rva = static_cast<RVA>(string_file.SeekGet());
+  minidump_module.CvRecord.DataSize = sizeof(cv);
+
+  EXPECT_TRUE(string_file.Write(&cv, sizeof(cv)));
 
   MINIDUMP_DIRECTORY minidump_module_list_directory = {};
   minidump_module_list_directory.StreamType = kMinidumpStreamTypeModuleList;
@@ -303,7 +340,9 @@ TEST(ProcessSnapshotMinidump, Modules) {
   for (uint32_t minidump_module_index = 0;
        minidump_module_index < minidump_module_count;
        ++minidump_module_index) {
+    minidump_module.ModuleNameRva = name_rvas[minidump_module_index];
     EXPECT_TRUE(string_file.Write(&minidump_module, sizeof(minidump_module)));
+    minidump_module.TimeDateStamp++;
   }
 
   MinidumpModuleCrashpadInfo crashpad_module_0 = {};
@@ -398,6 +437,40 @@ TEST(ProcessSnapshotMinidump, Modules) {
 
   std::vector<const ModuleSnapshot*> modules = process_snapshot.Modules();
   ASSERT_EQ(modules.size(), minidump_module_count);
+
+  for (uint32_t i = 0; i < minidump_module_count; i++) {
+    EXPECT_EQ(modules[i]->Name(), names[i]);
+    EXPECT_EQ(modules[i]->Address(), 0xbadf00dU);
+    EXPECT_EQ(modules[i]->Size(), 9001U);
+    EXPECT_EQ(modules[i]->Timestamp(), 1970U + i);
+
+    uint16_t v0;
+    uint16_t v1;
+    uint16_t v2;
+    uint16_t v3;
+
+    modules[i]->FileVersion(&v0, &v1, &v2, &v3);
+    EXPECT_EQ(v0, 0xAABBU);
+    EXPECT_EQ(v1, 0xCCDDU);
+    EXPECT_EQ(v2, 0xEEFFU);
+    EXPECT_EQ(v3, 0x4242U);
+
+    modules[i]->SourceVersion(&v0, &v1, &v2, &v3);
+    EXPECT_EQ(v0, 0xAAAAU);
+    EXPECT_EQ(v1, 0xBBBBU);
+    EXPECT_EQ(v2, 0xCCCCU);
+    EXPECT_EQ(v3, 0xDDDDU);
+
+    EXPECT_EQ(modules[i]->GetModuleType(),
+              ModuleSnapshot::kModuleTypeExecutable);
+
+    uint32_t age;
+    UUID uuid;
+    modules[i]->UUIDAndAge(&uuid, &age);
+
+    EXPECT_EQ(uuid.ToString(), "00112233-4455-6677-8899-aabbccddeeff");
+    EXPECT_EQ(age, 7U);
+  }
 
   auto annotations_simple_map = modules[0]->AnnotationsSimpleMap();
   EXPECT_EQ(annotations_simple_map, dictionary_0);
