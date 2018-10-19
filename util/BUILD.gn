@@ -461,7 +461,11 @@ static_library("util") {
   }
 
   if (crashpad_is_fuchsia) {
-    public_deps += [ "../third_party/fuchsia:zx" ]
+    public_deps += [
+      "../third_party/fuchsia:zx",
+      "//zircon/public/fidl/zircon-sysinfo:zircon-sysinfo_c_client",
+      "//zircon/public/lib/fdio",
+    ]
   }
 }
 
