@@ -17,21 +17,77 @@ import("../../build/crashpad_buildconfig.gni")
 if (crashpad_is_in_fuchsia) {
   group("zx") {
     public_deps = [
+      "//zircon/public/fidl/fuchsia-sysinfo:fuchsia-sysinfo_c",
+      "//zircon/public/lib/fdio",
       "//zircon/public/lib/zx",
     ]
   }
 } else if (crashpad_is_in_chromium) {
   group("zx") {
     public_deps = [
+      "//third_party/fuchsia-sdk:fdio",
       "//third_party/fuchsia-sdk:zx",
+      "//third_party/fuchsia-sdk/sdk:sysinfo",
     ]
   }
 } else {
-  sdk_pkg_path = "sdk/linux-amd64/pkg"
+  sdk_path = "sdk/linux-amd64"
+  sdk_pkg_path = "$sdk_path/pkg"
+  sdk_fidl_path = "$sdk_path/fidl"
 
   config("zx_config") {
     visibility = [ ":zx" ]
-    include_dirs = [ "$sdk_pkg_path/zx/include" ]
+    include_dirs = [
+      "$root_gen_dir/fidl/include",
+      "$sdk_pkg_path/fidl/include",
+      "$sdk_pkg_path/zx/include",
+    ]
+  }
+
+  fidl_sources = [
+    {
+      fidl = "$sdk_fidl_path/fuchsia.sysinfo/sysinfo.fidl"
+      header_stem = "fuchsia/sysinfo"
+      library_name = "fuchsia.sysinfo"
+    },
+  ]
+
+  fidl_gen_sources = []
+  foreach(fidl_source, fidl_sources) {
+    fidl_stem = "$target_gen_dir/fidl/${fidl_source.library_name}"
+    c_header = "$root_gen_dir/fidl/include/${fidl_source.header_stem}/c/fidl.h"
+    c_client = "$fidl_stem/client.cc"
+    coding_tables = "$fidl_stem/tables.cc"
+
+    fidl_gen_sources += [
+      c_client,
+      coding_tables,
+    ]
+
+    action(fidl_source.library_name) {
+      visibility = [ ":*" ]
+
+      script = "runner.py"
+
+      args = [
+        rebase_path("$sdk_path/tools/fidlc", root_build_dir),
+        "--c-header",
+        rebase_path(c_header, root_build_dir),
+        "--c-client",
+        rebase_path(c_client, root_build_dir),
+        "--tables",
+        rebase_path(coding_tables, root_build_dir),
+        "--files",
+      ] + [ rebase_path(fidl_source.fidl, root_build_dir) ]
+
+      inputs = [ fidl_source.fidl, "$sdk_path/tools/fidlc" ]
+
+      outputs = [
+        c_client,
+        c_header,
+        coding_tables,
+      ]
+    }
   }
 
   static_library("zx") {
@@ -75,7 +131,9 @@ if (crashpad_is_in_fuchsia) {
       "$sdk_pkg_path/zx/timer.cpp",
       "$sdk_pkg_path/zx/vmar.cpp",
       "$sdk_pkg_path/zx/vmo.cpp",
-    ]
+    ] + fidl_gen_sources
+
+    deps = [ ":fuchsia.sysinfo" ]
 
     public_configs = [ ":zx_config" ]
   }
