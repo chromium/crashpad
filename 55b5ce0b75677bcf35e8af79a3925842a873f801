@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "982be1b3_e8cadd33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T23:49:27Z",
+      "side": 1,
+      "message": "Not needed here.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "55b5ce0b75677bcf35e8af79a3925842a873f801",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52f85d3d_d19b2b5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T23:49:27Z",
+      "side": 1,
+      "message": "\"Bug: fuchsia:ZX-2842\" here.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "55b5ce0b75677bcf35e8af79a3925842a873f801",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4636c6a9_43b9b3be",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T23:49:27Z",
+      "side": 1,
+      "message": "I don\u0027t think this is going to build in Crashpad, there\u0027s no //zircon here. Is this exposed in the SDK?",
+      "revId": "55b5ce0b75677bcf35e8af79a3925842a873f801",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a1c78bf_e6b6cda8",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T23:49:27Z",
+      "side": 1,
+      "message": "Yuck to two statuses. :/",
+      "revId": "55b5ce0b75677bcf35e8af79a3925842a873f801",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
