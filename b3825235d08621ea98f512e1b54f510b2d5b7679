@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1b25c071_166929d6",
+        "filename": "snapshot/minidump/minidump_string_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2018-10-19T18:54:16Z",
+      "side": 1,
+      "message": "I\u0027m not sure I follow here. We\u0027re sizing the input data. We should know its length regardless of what codepoints it contains.",
+      "parentUuid": "03a128d2_fae8bf2b",
+      "revId": "b3825235d08621ea98f512e1b54f510b2d5b7679",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e4db17ce_004b5ca1",
         "filename": "snapshot/minidump/minidump_string_reader.h",
         "patchSetId": 2
