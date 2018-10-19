@@ -26,9 +26,8 @@
 #define NOTE_ALIGN 4
 
   // This section must be "a"llocated so that it appears in the final binary at
-  // runtime, and "w"ritable so that the relocation to CRASHPAD_INFO_SYMBOL can
-  // be performed.
-  .section .note.crashpad.info,"aw",%note
+  // runtime.
+  .section .note.crashpad.info,"a",%note
   .balign NOTE_ALIGN
   # .globl indicates that it's available to link against other .o files. .hidden
   # indicates that it will not appear in the executable's symbol table.
