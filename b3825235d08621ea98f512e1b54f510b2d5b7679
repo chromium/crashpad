@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03a128d2_fae8bf2b",
+        "filename": "snapshot/minidump/minidump_string_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T18:44:23Z",
+      "side": 1,
+      "message": "Is this right for non-BMP UTF-16 strings? Can you add a test with some emoji or something else that needs more than 2 chars like \"𐄂\"? https://en.wikipedia.org/wiki/UTF-16#Description",
+      "revId": "b3825235d08621ea98f512e1b54f510b2d5b7679",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4db17ce_004b5ca1",
+        "filename": "snapshot/minidump/minidump_string_reader.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T18:44:23Z",
+      "side": 1,
+      "message": "string",
+      "range": {
+        "startLine": 39,
+        "startChar": 45,
+        "endLine": 39,
+        "endChar": 53
+      },
+      "revId": "b3825235d08621ea98f512e1b54f510b2d5b7679",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

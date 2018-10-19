@@ -52,6 +52,24 @@
       "revId": "8ef4f626a0ed5a5781944a5444c89c96d872db47",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9de8fa38_ce28e183",
+        "filename": "snapshot/minidump/minidump_string_reader.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-19T18:44:23Z",
+      "side": 1,
+      "message": "https://chromium-review.googlesource.com/c/crashpad/crashpad/+/1290172 doesn\u0027t fail for me. Is there something more sneaky I should try?",
+      "parentUuid": "c685b751_2a6e99b3",
+      "revId": "8ef4f626a0ed5a5781944a5444c89c96d872db47",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
