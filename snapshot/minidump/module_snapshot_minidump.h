@@ -92,6 +92,9 @@ class ModuleSnapshotMinidump final : public ModuleSnapshot {
   std::vector<std::string> annotations_vector_;
   std::map<std::string, std::string> annotations_simple_map_;
   std::vector<AnnotationSnapshot> annotation_objects_;
+  UUID uuid_;
+  std::string name_;
+  uint32_t age_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ModuleSnapshotMinidump);
