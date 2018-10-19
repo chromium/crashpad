@@ -16,6 +16,24 @@
       "revId": "8ef4f626a0ed5a5781944a5444c89c96d872db47",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c685b751_2a6e99b3",
+        "filename": "snapshot/minidump/minidump_string_reader.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2018-10-19T00:27:06Z",
+      "side": 1,
+      "message": "That\u0027s fair. I wanted to at least get this up so reviews can happen while I\u0027m pounding on people to fix that.",
+      "parentUuid": "601c356f_5408844b",
+      "revId": "8ef4f626a0ed5a5781944a5444c89c96d872db47",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
