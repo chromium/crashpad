@@ -558,6 +558,7 @@ source_set("util_test") {
     "stdlib/strnlen_test.cc",
     "stdlib/thread_safe_vector_test.cc",
     "string/split_string_test.cc",
+    "string/utf_conversions_test.cc",
     "synchronization/semaphore_test.cc",
     "thread/thread_log_messages_test.cc",
     "thread/thread_test.cc",
