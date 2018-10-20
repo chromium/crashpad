@@ -79,6 +79,24 @@
       "revId": "55b5ce0b75677bcf35e8af79a3925842a873f801",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffd036ad_542f614f",
+        "filename": "util/fuchsia/koid_utilities.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1156379
+      },
+      "writtenOn": "2018-10-20T00:04:22Z",
+      "side": 1,
+      "message": "I believe there are plans to do status folding which would avoid this, but we didn\u0027t want it to be a blocker for getting rid of ioctls",
+      "parentUuid": "1a1c78bf_e6b6cda8",
+      "revId": "55b5ce0b75677bcf35e8af79a3925842a873f801",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
