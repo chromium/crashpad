@@ -28,7 +28,7 @@ if (crashpad_is_in_chromium) {
       "//testing/gmock",
     ]
   }
-} else if (crashpad_is_in_fuchsia) {
+} else if (crashpad_is_in_dart || crashpad_is_in_fuchsia) {
   group("gtest") {
     testonly = true
     public_deps = [

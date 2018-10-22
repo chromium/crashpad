@@ -154,7 +154,7 @@ crashpad_executable("crashpad_handler") {
   }
 
   if (crashpad_is_win) {
-    if (crashpad_is_in_chromium) {
+    if (crashpad_is_in_chromium || crashpad_is_in_dart) {
       remove_configs = [ "//build/config/win:console" ]
       configs = [ "//build/config/win:windowed" ]
     } else {

@@ -15,14 +15,10 @@
 declare_args() {
   # Determines various flavors of build configuration, and which concrete
   # targets to use for dependencies. Valid values are "standalone", "chromium",
-  # and "fuchsia".
+  # "fuchsia", "dart" or "external".
   crashpad_dependencies = "standalone"
 
   if (defined(is_fuchsia_tree) && is_fuchsia_tree) {
-    # Determines various flavors of build configuration, and which concrete
-    # targets to use for dependencies. Valid values are "standalone",
-    # "chromium", and "fuchsia". Defaulted to "fuchsia" because
-    # "is_fuchsia_tree" is set.
     crashpad_dependencies = "fuchsia"
   }
 }
@@ -30,10 +26,12 @@ declare_args() {
 assert(crashpad_dependencies == "chromium" ||
        crashpad_dependencies == "fuchsia" ||
        crashpad_dependencies == "standalone" ||
-       crashpad_dependencies == "external")
+       crashpad_dependencies == "external" ||
+       crashpad_dependencies == "dart")
 
 crashpad_is_in_chromium = crashpad_dependencies == "chromium"
 crashpad_is_in_fuchsia = crashpad_dependencies == "fuchsia"
+crashpad_is_in_dart = crashpad_dependencies == "dart"
 crashpad_is_external = crashpad_dependencies == "external"
 crashpad_is_standalone = crashpad_dependencies == "standalone"
 
@@ -48,8 +46,8 @@ if (crashpad_is_in_chromium) {
 
   crashpad_is_clang = is_clang
 } else {
-  # External builds assume crashpad and mini_chromium are peers.
-  if (crashpad_is_external) {
+  # External and Dart SDK builds assume crashpad and mini_chromium are peers.
+  if (crashpad_is_external || crashpad_is_in_dart) {
     import("../../../mini_chromium/mini_chromium/build/compiler.gni")
     import("../../../mini_chromium/mini_chromium/build/platform.gni")
   } else {
