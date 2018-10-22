@@ -16,10 +16,28 @@
 
 #include <utility>
 
+#include "snapshot/memory_map_region_snapshot.h"
 #include "snapshot/minidump/minidump_simple_string_dictionary_reader.h"
 #include "util/file/file_io.h"
 
 namespace crashpad {
+
+namespace internal {
+
+class MemoryMapRegionSnapshotMinidump : public MemoryMapRegionSnapshot {
+ public:
+  MemoryMapRegionSnapshotMinidump(MINIDUMP_MEMORY_INFO info) : info_(info) {}
+  ~MemoryMapRegionSnapshotMinidump() override = default;
+
+  const MINIDUMP_MEMORY_INFO& AsMinidumpMemoryInfo() const override {
+    return info_;
+  }
+
+ private:
+  MINIDUMP_MEMORY_INFO info_;
+};
+
+}  // namespace internal
 
 ProcessSnapshotMinidump::ProcessSnapshotMinidump()
     : ProcessSnapshot(),
@@ -90,6 +108,7 @@ bool ProcessSnapshotMinidump::Initialize(FileReaderInterface* file_reader) {
       !InitializeMiscInfo() ||
       !InitializeModules() ||
       !InitializeSystemSnapshot() ||
+      !InitializeMemoryInfo() ||
       !InitializeThreads()) {
     return false;
   }
@@ -194,8 +213,7 @@ const ExceptionSnapshot* ProcessSnapshotMinidump::Exception() const {
 std::vector<const MemoryMapRegionSnapshot*> ProcessSnapshotMinidump::MemoryMap()
     const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  return std::vector<const MemoryMapRegionSnapshot*>();
+  return mem_regions_exposed_;
 }
 
 std::vector<HandleSnapshot> ProcessSnapshotMinidump::Handles() const {
@@ -391,6 +409,56 @@ bool ProcessSnapshotMinidump::InitializeModulesCrashpadInfo(
           << minidump_link.minidump_module_list_index;
       return false;
     }
+  }
+
+  return true;
+}
+
+bool ProcessSnapshotMinidump::InitializeMemoryInfo() {
+  const auto& stream_it = stream_map_.find(kMinidumpStreamTypeMemoryInfoList);
+  if (stream_it == stream_map_.end()) {
+    return true;
+  }
+
+  if (stream_it->second->DataSize < sizeof(MINIDUMP_MEMORY_INFO_LIST)) {
+    LOG(ERROR) << "memory_info_list size mismatch";
+    return false;
+  }
+
+  if (!file_reader_->SeekSet(stream_it->second->Rva)) {
+    return false;
+  }
+
+  MINIDUMP_MEMORY_INFO_LIST list;
+
+  if (!file_reader_->ReadExactly(&list, sizeof(list))) {
+    return false;
+  }
+
+  if (list.SizeOfHeader != sizeof(list)) {
+    return false;
+  }
+
+  if (list.SizeOfEntry != sizeof(MINIDUMP_MEMORY_INFO)) {
+    return false;
+  }
+
+  if (sizeof(MINIDUMP_MEMORY_INFO_LIST) +
+      list.NumberOfEntries * list.SizeOfEntry != stream_it->second->DataSize) {
+    LOG(ERROR) << "memory_info_list size mismatch";
+    return false;
+  }
+
+  for (uint32_t i = 0; i < list.NumberOfEntries; i++) {
+    MINIDUMP_MEMORY_INFO info;
+
+    if (!file_reader_->ReadExactly(&info, sizeof(info))) {
+      return false;
+    }
+
+    mem_regions_.emplace_back(
+      std::make_unique<internal::MemoryMapRegionSnapshotMinidump>(info));
+    mem_regions_exposed_.emplace_back(mem_regions_.back().get());
   }
 
   return true;

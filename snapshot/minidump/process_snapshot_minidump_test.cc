@@ -24,6 +24,7 @@
 #include "gtest/gtest.h"
 #include "minidump/minidump_context.h"
 #include "snapshot/minidump/minidump_annotation_reader.h"
+#include "snapshot/memory_map_region_snapshot.h"
 #include "snapshot/module_snapshot.h"
 #include "util/file/string_file.h"
 #include "util/misc/pdb_structures.h"
@@ -966,6 +967,76 @@ TEST(ProcessSnapshotMinidump, ThreadContextX86_64) {
       EXPECT_EQ(ctx->fxsave.xmm[i][j], j + 1);
     }
   }
+}
+
+TEST(ProcessSnapshotMinidump, MemoryMap) {
+  StringFile string_file;
+
+  MINIDUMP_HEADER header = {};
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  MINIDUMP_MEMORY_INFO minidump_memory_info_1 = {};
+  MINIDUMP_MEMORY_INFO minidump_memory_info_2 = {};
+  uint32_t minidump_memory_info_count = 2;
+
+  minidump_memory_info_1.BaseAddress = 1;
+  minidump_memory_info_1.AllocationBase = 2;
+  minidump_memory_info_1.AllocationProtect = 3;
+  minidump_memory_info_1.RegionSize = 4;
+  minidump_memory_info_1.State = 5;
+  minidump_memory_info_1.Protect = 6;
+  minidump_memory_info_1.Type = 6;
+
+  minidump_memory_info_2.BaseAddress = 7;
+  minidump_memory_info_2.AllocationBase = 8;
+  minidump_memory_info_2.AllocationProtect = 9;
+  minidump_memory_info_2.RegionSize = 10;
+  minidump_memory_info_2.State = 11;
+  minidump_memory_info_2.Protect = 12;
+  minidump_memory_info_2.Type = 13;
+
+  MINIDUMP_MEMORY_INFO_LIST minidump_memory_info_list = {};
+
+  minidump_memory_info_list.SizeOfHeader = sizeof(minidump_memory_info_list);
+  minidump_memory_info_list.SizeOfEntry = sizeof(MINIDUMP_MEMORY_INFO);
+  minidump_memory_info_list.NumberOfEntries = minidump_memory_info_count;
+
+  MINIDUMP_DIRECTORY minidump_memory_info_list_directory = {};
+  minidump_memory_info_list_directory.StreamType =
+    kMinidumpStreamTypeMemoryInfoList;
+  minidump_memory_info_list_directory.Location.DataSize =
+      sizeof(minidump_memory_info_list) +
+      minidump_memory_info_count * sizeof(MINIDUMP_MEMORY_INFO);
+  minidump_memory_info_list_directory.Location.Rva =
+      static_cast<RVA>(string_file.SeekGet());
+
+  EXPECT_TRUE(string_file.Write(&minidump_memory_info_list,
+                                sizeof(minidump_memory_info_list)));
+  EXPECT_TRUE(string_file.Write(&minidump_memory_info_1,
+                                sizeof(minidump_memory_info_1)));
+  EXPECT_TRUE(string_file.Write(&minidump_memory_info_2,
+                                sizeof(minidump_memory_info_2)));
+
+  header.StreamDirectoryRva = static_cast<RVA>(string_file.SeekGet());
+  EXPECT_TRUE(string_file.Write(&minidump_memory_info_list_directory,
+                                sizeof(minidump_memory_info_list_directory)));
+
+  header.Signature = MINIDUMP_SIGNATURE;
+  header.Version = MINIDUMP_VERSION;
+  header.NumberOfStreams = 1;
+  EXPECT_TRUE(string_file.SeekSet(0));
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  ProcessSnapshotMinidump process_snapshot;
+  EXPECT_TRUE(process_snapshot.Initialize(&string_file));
+
+  std::vector<const MemoryMapRegionSnapshot*> map =
+    process_snapshot.MemoryMap();
+  ASSERT_EQ(map.size(), minidump_memory_info_count);
+  EXPECT_EQ(memcmp(&map[0]->AsMinidumpMemoryInfo(), &minidump_memory_info_1,
+                   sizeof(minidump_memory_info_1)), 0);
+  EXPECT_EQ(memcmp(&map[1]->AsMinidumpMemoryInfo(), &minidump_memory_info_2,
+                   sizeof(minidump_memory_info_2)), 0);
 }
 
 }  // namespace
