@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "bdccdfe8_f7e6be7c",
+        "filename": "test/scoped_guarded_page_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-10-22T19:48:33Z",
+      "side": 1,
+      "message": "\u003e Unfortunately, I can\u0027t think of any way to create a \u0027guard page\u0027 that ptrace() respects. If we create two contiguous allocations separately, the first RW and the second PROT_NONE, ptrace() will still successfully read memory from the second page as if it were accessible (and hence break the logic for the edge case ProcessMemory tests.)\n\u003e \n\u003e The ProcessMemory test currently uses a ScopedMmap object and essentially performs identical logic, mmaping two pages and munmaping the second.\n\nWell, visiting this is a good chance to fix it. I think that this will be a source of flakiness under test parallelism, which we do use in Chrome. If it hasn’t been flaky already, it’s only a matter of time before it becomes flaky.",
+      "parentUuid": "b1376161_40901d03",
+      "range": {
+        "startLine": 37,
+        "startChar": 20,
+        "endLine": 37,
+        "endChar": 61
+      },
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f5f9cf8_5fe1aa71",
         "filename": "test/scoped_guarded_page_posix.cc",
         "patchSetId": 3
