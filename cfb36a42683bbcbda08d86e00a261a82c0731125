@@ -90,6 +90,30 @@
     },
     {
       "key": {
+        "uuid": "8ef4ddb3_3860b337",
+        "filename": "test/scoped_guarded_page_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-10-22T23:30:47Z",
+      "side": 1,
+      "message": "I\u0027ve thought about this a little more. It\u0027s nice having an inaccessible page in order to test edge cases for ProcessMemory and it seemed like a loss to get rid of them. I came up with 3 alternatives I think we could use to allow implementing a ScopedGuardedPage like class.\n1) Instead of dealing with mmap(), we could simply allocate MAX_PAGE_SIZE * 2 bytes aligned to MAX_PAGE_SIZE in .bss, and then munmap the second page. mmap() will not return a page in the middle of our BSS. It creates a single global page that we have to protect with a mutex for tests, but that could just be included in the ScopedGuardedPage constructor/destructor.\n2) If memory is munmapd, mmap will return that memory first on the next call to mmap, assuming it\u0027s the correct size. We could allocate a large block of virtual memory by e.g. mapping 64MB as PROT_NONE. No physical memory will actually be allocated, and we can then munmap everything except a page in the middle of that mapping. If we remap that page PROT_READ|PROT_WRITE it\u0027s very unlikely we\u0027ll get another set of allocations that will perfectly fill up that 32MB mapping and butt up against our page.\n3) mmap(MAP_GROWSDOWN) will create a buffer of guarded pages below the mapping, we can create a MAP_GROWSDOWN mapping, then map a page into the block of guard pages using MAP_FIXED. The guard page between the GROWSDOWN and the FIXED mapping won\u0027t be reallocated again by the kernel.\n\nDoes one of these sound better to you?",
+      "parentUuid": "bdccdfe8_f7e6be7c",
+      "range": {
+        "startLine": 37,
+        "startChar": 20,
+        "endLine": 37,
+        "endChar": 61
+      },
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f5f9cf8_5fe1aa71",
         "filename": "test/scoped_guarded_page_posix.cc",
         "patchSetId": 3
