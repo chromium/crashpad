@@ -43,6 +43,10 @@
 
 namespace crashpad {
 
+namespace internal {
+class MemoryMapRegionSnapshotMinidump;
+}  // namespace internal
+
 //! \brief A ProcessSnapshot based on a minidump file.
 class ProcessSnapshotMinidump final : public ProcessSnapshot {
  public:
@@ -91,6 +95,10 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   // Initialize().
   bool InitializeThreads();
 
+  // Initializes data carried in a MINIDUMP_MEMORY_INFO_LIST stream on behalf of
+  // Initialize().
+  bool InitializeMemoryInfo();
+
   // Initializes data carried in a MINIDUMP_SYSTEM_INFO stream on behalf of
   // Initialize().
   bool InitializeSystemSnapshot();
@@ -112,6 +120,9 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   std::vector<std::unique_ptr<internal::ModuleSnapshotMinidump>> modules_;
   std::vector<std::unique_ptr<internal::ThreadSnapshotMinidump>> threads_;
   std::vector<UnloadedModuleSnapshot> unloaded_modules_;
+  std::vector<std::unique_ptr<internal::MemoryMapRegionSnapshotMinidump>>
+      mem_regions_;
+  std::vector<const MemoryMapRegionSnapshot*> mem_regions_exposed_;
   MinidumpCrashpadInfo crashpad_info_;
   internal::SystemSnapshotMinidump system_snapshot_;
   CPUArchitecture arch_;
