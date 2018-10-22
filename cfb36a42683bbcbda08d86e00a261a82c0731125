@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcb0b12c_4d03b4f7",
+        "filename": "test/scoped_guarded_page_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-10-22T17:59:08Z",
+      "side": 1,
+      "message": "PCHECK.\n\nLocal style would really be\n\nPCHECK((ptr_ \u003d mmap(…)) !\u003d MAP_FAILED) \u003c\u003c \"mmap\";",
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b9342ae_885fe788",
+        "filename": "test/scoped_guarded_page_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-10-22T17:59:08Z",
+      "side": 1,
+      "message": "But that makes it eligible for reallocation by anything else. Probably not what you want.",
+      "range": {
+        "startLine": 37,
+        "startChar": 20,
+        "endLine": 37,
+        "endChar": 61
+      },
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f5f9cf8_5fe1aa71",
+        "filename": "test/scoped_guarded_page_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-10-22T17:59:08Z",
+      "side": 1,
+      "message": "me too.",
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d686c507_9e906dbc",
+        "filename": "test/scoped_guarded_page_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-10-22T17:59:08Z",
+      "side": 1,
+      "message": "me too.",
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6c97206_9ae00988",
+        "filename": "test/scoped_guarded_page_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-10-22T17:59:08Z",
+      "side": 1,
+      "message": "PCHECKs on these too, including the VirtualFree.",
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27c6be40_5b1723d7",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-10-22T17:59:08Z",
+      "side": 1,
+      "message": "\u003cbasetsd.h\u003e - there’s no real standard for header file capitalization. Sometimes, it’s BaseTsd.h, sometime BASETSD.H, sometimes Basetsd.h, etc., so we just use lowercase everywhere on Windows.",
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e56efc6_84e6774d",
+        "filename": "util/process/process_memory_range_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-10-22T17:59:08Z",
+      "side": 1,
+      "message": "Be explicit about OS_LINUX.",
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
