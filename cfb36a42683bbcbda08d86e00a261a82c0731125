@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "b1376161_40901d03",
+        "filename": "test/scoped_guarded_page_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-10-22T19:00:15Z",
+      "side": 1,
+      "message": "Unfortunately, I can\u0027t think of any way to create a \u0027guard page\u0027 that ptrace() respects. If we create two contiguous allocations separately, the first RW and the second PROT_NONE, ptrace() will still successfully read memory from the second page as if it were accessible (and hence break the logic for the edge case ProcessMemory tests.)\n\nThe ProcessMemory test currently uses a ScopedMmap object and essentially performs identical logic, mmaping two pages and munmaping the second.",
+      "parentUuid": "9b9342ae_885fe788",
+      "range": {
+        "startLine": 37,
+        "startChar": 20,
+        "endLine": 37,
+        "endChar": 61
+      },
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f5f9cf8_5fe1aa71",
         "filename": "test/scoped_guarded_page_posix.cc",
         "patchSetId": 3
@@ -121,6 +145,23 @@
       "writtenOn": "2018-10-22T17:59:08Z",
       "side": 1,
       "message": "Be explicit about OS_LINUX.",
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7da1d9c3_cfb713af",
+        "filename": "util/process/process_memory_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-10-22T19:00:15Z",
+      "side": 1,
+      "message": "I should note that the code in this class is mostly taken (with the addition of the ERROR_PARTIAL_COPY check in ReadUpTo()) from ProcessReaderWin::ReadMemory() and ProcessReaderWin::ReadAvailableMemory() which are refactored out to use this interface in a follow-up CL.",
       "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
