@@ -34,6 +34,24 @@
       "revId": "bf6efaa48dd61195b925bfab48d409ddc14176d7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b3e04f9_6bee6580",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-23T16:53:26Z",
+      "side": 1,
+      "message": "This is a GN wart. The comment (was) a duplicate of the comment above  because the gn helptext that\u0027s displayed corresponds to where the declare_args() set the value. So without the comment, when is_fuchsia_tree there will be no help text, but in all other configs it will display the comment above.",
+      "parentUuid": "cfa76c50_b036381a",
+      "revId": "bf6efaa48dd61195b925bfab48d409ddc14176d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
