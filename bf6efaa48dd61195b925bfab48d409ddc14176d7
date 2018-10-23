@@ -70,6 +70,24 @@
       "revId": "bf6efaa48dd61195b925bfab48d409ddc14176d7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26317807_f8653a11",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-23T17:22:51Z",
+      "side": 1,
+      "message": "Yeah, I think that would work too. (I believe it just saves the line number of the assignment and then reads the help text out of the file later).\n\nIt\u0027s probably fine to to leave it without help too, as we don\u0027t care too much about having help when is_fuchsia_tree is set, I just wanted to explain why the seemingly dumb comment was there.",
+      "parentUuid": "5d151248_12622366",
+      "revId": "bf6efaa48dd61195b925bfab48d409ddc14176d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
