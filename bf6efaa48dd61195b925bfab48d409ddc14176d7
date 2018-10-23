@@ -52,6 +52,24 @@
       "revId": "bf6efaa48dd61195b925bfab48d409ddc14176d7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d151248_12622366",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-10-23T16:57:10Z",
+      "side": 1,
+      "message": "\u003e This is a GN wart. The comment (was) a duplicate of the comment above  because the gn helptext that\u0027s displayed corresponds to where the declare_args() set the value. So without the comment, when is_fuchsia_tree there will be no help text, but in all other configs it will display the comment above.\n\nOh, right.\n\nIs this pattern acceptable?\n\nif (defined(is_fuchsia_tree) \u0026\u0026 is_fuchsia_tree) {\n  default_crashpad_dependencies \u003d \"fuchsia\"\n} else {\n  default_crashpad_dependencies \u003d \"standalone\"\n}\ndeclare_args() {\n  # I am “help text”.\n  crashpad_dependencies \u003d default_crashpad_dependencies\n}\n\nor should it just go back to how it was before?",
+      "parentUuid": "1b3e04f9_6bee6580",
+      "revId": "bf6efaa48dd61195b925bfab48d409ddc14176d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
