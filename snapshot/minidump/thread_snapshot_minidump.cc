@@ -14,6 +14,7 @@
 
 #include "snapshot/minidump/thread_snapshot_minidump.h"
 
+#include <stddef.h>
 #include <string.h>
 
 #include "minidump/minidump_context.h"
@@ -24,6 +25,9 @@ namespace internal {
 ThreadSnapshotMinidump::ThreadSnapshotMinidump()
     : ThreadSnapshot(),
       minidump_thread_(),
+      context_(),
+      context_memory_(),
+      stack_(),
       initialized_() {
 }
 
@@ -58,6 +62,13 @@ bool ThreadSnapshotMinidump::Initialize(FileReaderInterface* file_reader,
   }
 
   if (!InitializeContext(minidump_context)) {
+    return false;
+  }
+
+  RVA stack_info_location = minidump_thread_rva +
+    offsetof(MINIDUMP_THREAD, Stack);
+
+  if (!stack_.Initialize(file_reader, stack_info_location)) {
     return false;
   }
 
@@ -337,13 +348,14 @@ const CPUContext* ThreadSnapshotMinidump::Context() const {
 
 const MemorySnapshot* ThreadSnapshotMinidump::Stack() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  return nullptr;
+  return &stack_;
 }
 
 std::vector<const MemorySnapshot*> ThreadSnapshotMinidump::ExtraMemory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
+  // This doesn't correspond to anything minidump can give us, with the
+  // exception of the BackingStore field in the MINIDUMP_THREAD_EX structure,
+  // which is only valid for IA-64.
   return std::vector<const MemorySnapshot*>();
 }
 

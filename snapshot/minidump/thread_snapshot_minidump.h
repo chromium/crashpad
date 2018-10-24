@@ -18,8 +18,9 @@
 #include <windows.h>
 
 #include "minidump/minidump_extensions.h"
-#include "snapshot/thread_snapshot.h"
 #include "snapshot/cpu_context.h"
+#include "snapshot/minidump/memory_snapshot_minidump.h"
+#include "snapshot/thread_snapshot.h"
 #include "util/file/file_reader.h"
 #include "util/misc/initialization_state_dcheck.h"
 
@@ -66,6 +67,7 @@ class ThreadSnapshotMinidump : public ThreadSnapshot {
   MINIDUMP_THREAD minidump_thread_;
   CPUContext context_;
   std::vector<unsigned char> context_memory_;
+  MemorySnapshotMinidump stack_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ThreadSnapshotMinidump);
