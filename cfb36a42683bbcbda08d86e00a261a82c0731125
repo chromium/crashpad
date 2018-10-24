@@ -114,6 +114,30 @@
     },
     {
       "key": {
+        "uuid": "b971d161_59f6b45e",
+        "filename": "test/scoped_guarded_page_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-10-24T04:45:30Z",
+      "side": 1,
+      "message": "After thinking about this a bit more:\n#1 is ugly because of the lock, might introduce the risk of deadlock if a test takes the lock before a multi-process test forks and also tries to acquire the lock.\n#3 relies on deterministic kernel behavior\n\n#2 is probabilistic but seems like the most reliable to me.",
+      "parentUuid": "8ef4ddb3_3860b337",
+      "range": {
+        "startLine": 37,
+        "startChar": 20,
+        "endLine": 37,
+        "endChar": 61
+      },
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f5f9cf8_5fe1aa71",
         "filename": "test/scoped_guarded_page_posix.cc",
         "patchSetId": 3
