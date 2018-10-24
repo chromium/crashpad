@@ -33,6 +33,17 @@ namespace crashpad {
 namespace test {
 namespace {
 
+class ReadToVector : public crashpad::MemorySnapshot::Delegate {
+ public:
+  std::vector<uint8_t> result;
+
+  bool MemorySnapshotDelegateRead(void* data, size_t size) override {
+    result.resize(size);
+    memcpy(result.data(), data, size);
+    return true;
+  }
+};
+
 TEST(ProcessSnapshotMinidump, EmptyFile) {
   StringFile string_file;
   ProcessSnapshotMinidump process_snapshot;
@@ -1037,6 +1048,62 @@ TEST(ProcessSnapshotMinidump, MemoryMap) {
                    sizeof(minidump_memory_info_1)), 0);
   EXPECT_EQ(memcmp(&map[1]->AsMinidumpMemoryInfo(), &minidump_memory_info_2,
                    sizeof(minidump_memory_info_2)), 0);
+}
+
+TEST(ProcessSnapshotMinidump, Stacks) {
+  StringFile string_file;
+
+  MINIDUMP_HEADER header = {};
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  MINIDUMP_THREAD minidump_thread = {};
+  uint32_t minidump_thread_count = 1;
+
+  minidump_thread.ThreadId = 42;
+  minidump_thread.Stack.StartOfMemoryRange = 0xbeefd00d;
+
+  std::vector<uint8_t> minidump_stack = {
+    '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
+  };
+
+  minidump_thread.Stack.Memory.DataSize = minidump_stack.size();
+  minidump_thread.Stack.Memory.Rva = static_cast<RVA>(string_file.SeekGet());
+
+  EXPECT_TRUE(string_file.Write(minidump_stack.data(), minidump_stack.size()));
+
+  MINIDUMP_DIRECTORY minidump_thread_list_directory = {};
+  minidump_thread_list_directory.StreamType = kMinidumpStreamTypeThreadList;
+  minidump_thread_list_directory.Location.DataSize =
+      sizeof(MINIDUMP_THREAD_LIST) +
+      minidump_thread_count * sizeof(MINIDUMP_THREAD);
+  minidump_thread_list_directory.Location.Rva =
+      static_cast<RVA>(string_file.SeekGet());
+
+  // Fields in MINIDUMP_THREAD_LIST.
+  EXPECT_TRUE(
+      string_file.Write(&minidump_thread_count, sizeof(minidump_thread_count)));
+  EXPECT_TRUE(string_file.Write(&minidump_thread, sizeof(minidump_thread)));
+
+  header.StreamDirectoryRva = static_cast<RVA>(string_file.SeekGet());
+  ASSERT_TRUE(string_file.Write(&minidump_thread_list_directory,
+                                sizeof(minidump_thread_list_directory)));
+
+  header.Signature = MINIDUMP_SIGNATURE;
+  header.Version = MINIDUMP_VERSION;
+  header.NumberOfStreams = 1;
+  EXPECT_TRUE(string_file.SeekSet(0));
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  ProcessSnapshotMinidump process_snapshot;
+  EXPECT_TRUE(process_snapshot.Initialize(&string_file));
+
+  std::vector<const ThreadSnapshot*> threads = process_snapshot.Threads();
+  ASSERT_EQ(threads.size(), minidump_thread_count);
+
+  ReadToVector delegate;
+  threads[0]->Stack()->Read(&delegate);
+
+  EXPECT_EQ(delegate.result, minidump_stack);
 }
 
 }  // namespace

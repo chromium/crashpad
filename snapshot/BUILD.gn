@@ -44,6 +44,8 @@ static_library("snapshot") {
     "minidump/minidump_string_list_reader.h",
     "minidump/minidump_string_reader.cc",
     "minidump/minidump_string_reader.h",
+    "minidump/memory_snapshot_minidump.cc",
+    "minidump/memory_snapshot_minidump.h",
     "minidump/module_snapshot_minidump.cc",
     "minidump/module_snapshot_minidump.h",
     "minidump/process_snapshot_minidump.cc",
