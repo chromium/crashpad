@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a24a1cfb_95f4ec88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-24T21:28:59Z",
+      "side": 1,
+      "message": "Exciting!",
+      "range": {
+        "startLine": 10,
+        "startChar": 44,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "522af12810eea945ccfaeaa6179174808f8572a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afa5e71e_941dd1f6",
+        "filename": "snapshot/minidump/memory_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-24T21:28:59Z",
+      "side": 1,
+      "message": "\u003e\u003d ?\n\n(And a test to catch this, if that\u0027s correct.)",
+      "range": {
+        "startLine": 88,
+        "startChar": 27,
+        "endLine": 88,
+        "endChar": 28
+      },
+      "revId": "522af12810eea945ccfaeaa6179174808f8572a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e62434f6_7d7caea4",
+        "filename": "snapshot/minidump/memory_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-24T21:28:59Z",
+      "side": 1,
+      "message": "Oh wait, I think it\u0027s supposed to handle overlapping or abutting, so that would mean \u003e is ok, is that right?",
+      "range": {
+        "startLine": 89,
+        "startChar": 38,
+        "endLine": 89,
+        "endChar": 49
+      },
+      "revId": "522af12810eea945ccfaeaa6179174808f8572a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a170195_496b2d4f",
+        "filename": "snapshot/minidump/memory_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-24T21:28:59Z",
+      "side": 1,
+      "message": "Would it be possible to use LoggingDetermineMergedRange() to get extra diagnostics and have only one place where the various \u003c\u003d and \u003e\u003d have to be correct?",
+      "revId": "522af12810eea945ccfaeaa6179174808f8572a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa02e0a3_8fb1df46",
+        "filename": "snapshot/minidump/memory_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-24T21:28:59Z",
+      "side": 1,
+      "message": "C headers followed by C++ headers in a separate block.",
+      "revId": "522af12810eea945ccfaeaa6179174808f8572a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
