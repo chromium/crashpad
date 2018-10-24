@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "5a9dc6df_fa5d7712",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-24T16:23:06Z",
+      "side": 1,
+      "message": "No, Crashpad hasn\u0027t needed to interact via FIDL yet, so there\u0027s not currently any build infrastructure for bindings generation. That will need to be resolved for standalone/dart/external. Could they be pre-generated in the SDK distribution for C perhaps?\n\nChromium has a bunch of stuff to build the bindings for languages it needs, e.g. https://cs.chromium.org/chromium/src/third_party/fuchsia-sdk/gen_build_defs.py and https://cs.chromium.org/chromium/src/third_party/fuchsia-sdk/fuchsia_sdk_pkg.gni will I believe cause this one to be generated.",
+      "parentUuid": "cd7e819d_d474d5da",
+      "revId": "55b5ce0b75677bcf35e8af79a3925842a873f801",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a1c78bf_e6b6cda8",
         "filename": "util/fuchsia/koid_utilities.cc",
         "patchSetId": 2
