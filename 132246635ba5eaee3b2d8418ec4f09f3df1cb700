@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0772c442_27fe5ca5",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-29T20:12:31Z",
+      "side": 1,
+      "message": "(We\u0027ll have to do something about this too, but not your problem.)",
+      "range": {
+        "startLine": 34,
+        "startChar": 18,
+        "endLine": 34,
+        "endChar": 23
+      },
+      "revId": "132246635ba5eaee3b2d8418ec4f09f3df1cb700",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
