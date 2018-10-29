@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4f405d75_e8a96fff",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1309455
+      },
+      "writtenOn": "2018-10-29T19:48:27Z",
+      "side": 1,
+      "message": "I wasn\u0027t able to build Crashpad in Chromium, but I used \u0027gn desc\u0027 to confirm that this was the correct target name.",
+      "parentUuid": "a3058dd4_6192fa8e",
+      "revId": "839188a63c857c71d484090459272a790fc96f85",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06dcb585_06f2c107",
         "filename": "third_party/fuchsia/BUILD.gn",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "839188a63c857c71d484090459272a790fc96f85",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f38e7993_6ff5afa3",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1309455
+      },
+      "writtenOn": "2018-10-29T19:48:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06dcb585_06f2c107",
+      "revId": "839188a63c857c71d484090459272a790fc96f85",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "e25e5768_508c912e",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1309455
+      },
+      "writtenOn": "2018-10-29T19:48:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8e41032_60bae565",
+      "revId": "839188a63c857c71d484090459272a790fc96f85",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5ab84c0_0916c7e8",
         "filename": "third_party/fuchsia/runner.py",
         "patchSetId": 4
@@ -84,6 +138,24 @@
       "revId": "839188a63c857c71d484090459272a790fc96f85",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a04dfc6_e7a7ef8f",
+        "filename": "third_party/fuchsia/runner.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1309455
+      },
+      "writtenOn": "2018-10-29T19:48:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5ab84c0_0916c7e8",
+      "revId": "839188a63c857c71d484090459272a790fc96f85",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

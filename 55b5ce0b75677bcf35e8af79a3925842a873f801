@@ -167,6 +167,24 @@
     },
     {
       "key": {
+        "uuid": "c972ec06_aca7672a",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1309455
+      },
+      "writtenOn": "2018-10-29T19:48:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6db84b79_1791d71f",
+      "revId": "55b5ce0b75677bcf35e8af79a3925842a873f801",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1c78bf_e6b6cda8",
         "filename": "util/fuchsia/koid_utilities.cc",
         "patchSetId": 2
