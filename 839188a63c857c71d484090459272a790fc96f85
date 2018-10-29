@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3058dd4_6192fa8e",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-29T16:38:19Z",
+      "side": 1,
+      "message": "Add\n\n  \"//third_party/fuchsia-sdk/sdk:sysinfo\",\n\nor something. Though I\u0027m not actually sure if Chromium will have the plain C bindings available or not.",
+      "revId": "839188a63c857c71d484090459272a790fc96f85",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06dcb585_06f2c107",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-29T16:38:19Z",
+      "side": 1,
+      "message": "Let\u0027s drop make_fidl_path.py and the get_path_info() manipulation and make the pain explicit, something like:\n\n  fidl_sources \u003d [\n    {\n      fidl \u003d \"$sdk_fidl_path/fuchsia.sysinfo/sysinfo.fidl\"\n      header_stem \u003d \"fuchsia/sysinfo\"\n      library_name \u003d \"fuchsia.sysinfo\"\n    },\n  ]\n\nand then use those below. (Or perhaps construct the \u0027fidl\u0027 field from the library_name and the basename of the fidl file if that seems cleaner.)",
+      "revId": "839188a63c857c71d484090459272a790fc96f85",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fea3801_67c37c82",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-29T16:38:19Z",
+      "side": 1,
+      "message": "Sadness. :\u0027(",
+      "revId": "839188a63c857c71d484090459272a790fc96f85",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e41032_60bae565",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-29T16:38:19Z",
+      "side": 1,
+      "message": "This needs a dependency on $sdk_path/tools/fidlc too I guess.",
+      "revId": "839188a63c857c71d484090459272a790fc96f85",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5ab84c0_0916c7e8",
+        "filename": "third_party/fuchsia/runner.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-29T16:38:19Z",
+      "side": 1,
+      "message": "Need a Copyright header on this file.",
+      "revId": "839188a63c857c71d484090459272a790fc96f85",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
