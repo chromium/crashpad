@@ -229,6 +229,17 @@ std::vector<const MemorySnapshot*> ProcessSnapshotMinidump::ExtraMemory()
   return std::vector<const MemorySnapshot*>();
 }
 
+std::map<MinidumpStreamType, CheckedRange<size_t>>
+ProcessSnapshotMinidump::StreamMap() const {
+  std::map<MinidumpStreamType, CheckedRange<size_t>> stream_map;
+  for (auto stream : stream_map_) {
+    stream_map.emplace(stream.first, CheckedRange<size_t>(
+        stream.second->Rva, stream.second->DataSize));
+  }
+
+  return stream_map;
+}
+
 bool ProcessSnapshotMinidump::InitializeCrashpadInfo() {
   const auto& stream_it = stream_map_.find(kMinidumpStreamTypeCrashpadInfo);
   if (stream_it == stream_map_.end()) {
