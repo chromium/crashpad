@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62b363c3_d433708a",
+        "filename": "client/crashpad_info_note.S",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-30T23:35:11Z",
+      "side": 1,
+      "message": "A comment here with your findings and why we can\u0027t have relocations in this file would be worthwhile.",
+      "revId": "88d7a85f62347a587e698ba48b30ea107a1ec679",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
