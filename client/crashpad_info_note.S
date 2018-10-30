@@ -26,9 +26,8 @@
 #define NOTE_ALIGN 4
 
   // This section must be "a"llocated so that it appears in the final binary at
-  // runtime, and "w"ritable so that the relocation to CRASHPAD_INFO_SYMBOL can
-  // be performed.
-  .section .note.crashpad.info,"aw",%note
+  // runtime.
+  .section .note.crashpad.info,"a",%note
   .balign NOTE_ALIGN
   # .globl indicates that it's available to link against other .o files. .hidden
   # indicates that it will not appear in the executable's symbol table.
@@ -45,14 +44,14 @@ name_end:
   .balign NOTE_ALIGN
 desc:
 #if defined(__LP64__)
-  .quad CRASHPAD_INFO_SYMBOL
+  .quad CRASHPAD_INFO_SYMBOL - desc
 #else
 #if defined(__LITTLE_ENDIAN__)
-  .long CRASHPAD_INFO_SYMBOL
+  .long CRASHPAD_INFO_SYMBOL - desc
   .long 0
 #else
   .long 0
-  .long CRASHPAD_INFO_SYMBOL
+  .long CRASHPAD_INFO_SYMBOL - desc
 #endif  // __LITTLE_ENDIAN__
 #endif  // __LP64__
 desc_end:
