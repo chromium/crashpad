@@ -56,9 +56,11 @@ bool ModuleSnapshotElf::Initialize() {
                                         kMaxNoteSize);
   std::string desc;
   VMAddress info_address;
-  if (notes->NextNote(nullptr, nullptr, &desc) ==
+  VMAddress desc_address;
+  if (notes->NextNote(nullptr, nullptr, &desc, &desc_address) ==
       ElfImageReader::NoteReader::Result::kSuccess) {
-    info_address = *reinterpret_cast<VMAddress*>(&desc[0]);
+    VMOffset offset = *reinterpret_cast<VMOffset*>(&desc[0]);
+    info_address = desc_address + offset;
 
     ProcessMemoryRange range;
     if (range.Initialize(*elf_reader_->Memory())) {
@@ -145,7 +147,8 @@ void ModuleSnapshotElf::UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const {
   std::unique_ptr<ElfImageReader::NoteReader> notes =
       elf_reader_->NotesWithNameAndType(ELF_NOTE_GNU, NT_GNU_BUILD_ID, 64);
   std::string desc;
-  notes->NextNote(nullptr, nullptr, &desc);
+  VMAddress desc_addr;
+  notes->NextNote(nullptr, nullptr, &desc, &desc_addr);
   desc.insert(desc.end(), 16 - std::min(desc.size(), size_t{16}), '\0');
   uuid->InitializeFromBytes(reinterpret_cast<const uint8_t*>(&desc[0]));
 
