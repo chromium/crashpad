@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d07be18_408d1a96",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-31T21:52:53Z",
+      "side": 1,
+      "message": "expect",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 14
+      },
+      "revId": "bbb44536be61a3efaf537ae7c0466026d16ccba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bc2913e_11a45ac1",
+        "filename": "snapshot/fuchsia/exception_snapshot_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-31T21:52:53Z",
+      "side": 1,
+      "message": "uber-nit: Crashpad doesn\u0027t use Emacs-style quotes, pick one of |, \u0027, `, but match opening and closing. (Or no quotes is probably fine here too.)",
+      "range": {
+        "startLine": 62,
+        "startChar": 63,
+        "endLine": 62,
+        "endChar": 64
+      },
+      "revId": "bbb44536be61a3efaf537ae7c0466026d16ccba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cac33f0d_ebfba87d",
+        "filename": "snapshot/fuchsia/thread_snapshot_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-31T21:52:53Z",
+      "side": 1,
+      "message": "Same uber-nit in this file.",
+      "range": {
+        "startLine": 42,
+        "startChar": 59,
+        "endLine": 42,
+        "endChar": 60
+      },
+      "revId": "bbb44536be61a3efaf537ae7c0466026d16ccba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2e43c77_8f32cbb6",
+        "filename": "snapshot/fuchsia/thread_snapshot_fuchsia.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-31T21:52:53Z",
+      "side": 1,
+      "message": "Extra . here.",
+      "range": {
+        "startLine": 48,
+        "startChar": 68,
+        "endLine": 48,
+        "endChar": 69
+      },
+      "revId": "bbb44536be61a3efaf537ae7c0466026d16ccba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
