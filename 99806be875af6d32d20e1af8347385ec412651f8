@@ -251,6 +251,30 @@
     },
     {
       "key": {
+        "uuid": "55481721_1adcde21",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-31T23:10:37Z",
+      "side": 1,
+      "message": "Happy to rename it spsr for everybody in Crashpad. Is such a rename safe? A depending project could use that one struct no?",
+      "parentUuid": "1fb867ce_8b6b0361",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 39
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2aa5ad39_96780e5e",
         "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
         "patchSetId": 8
