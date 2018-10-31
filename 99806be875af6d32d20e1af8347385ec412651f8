@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e803dd71_364bd18d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-31T21:46:29Z",
+      "side": 1,
+      "message": "Let me learn how to do that :-)",
+      "parentUuid": "e4fe8ffc_eef1460c",
+      "range": {
+        "startLine": 11,
+        "startChar": 51,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e0cf81e1_f138787e",
         "filename": "snapshot/fuchsia/cpu_context_fuchsia.cc",
         "patchSetId": 8
@@ -39,6 +63,24 @@
       "revId": "99806be875af6d32d20e1af8347385ec412651f8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9625932_0cf31764",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-31T21:46:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0cf81e1_f138787e",
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -161,6 +203,30 @@
     },
     {
       "key": {
+        "uuid": "445f58cf_7e8f7040",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-31T21:46:29Z",
+      "side": 1,
+      "message": "Done\n\nSeems like this is also the assumption made between the CPU context and the minidump context: https://chromium.googlesource.com/crashpad/crashpad/+/master/snapshot/minidump/thread_snapshot_minidump.cc#243",
+      "parentUuid": "fa4a4902_d9995634",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 39
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2aa5ad39_96780e5e",
         "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
         "patchSetId": 8
@@ -181,6 +247,30 @@
       "revId": "99806be875af6d32d20e1af8347385ec412651f8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "044d90d0_4ffe0097",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-31T21:46:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2aa5ad39_96780e5e",
+      "range": {
+        "startLine": 43,
+        "startChar": 12,
+        "endLine": 43,
+        "endChar": 31
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -207,6 +297,30 @@
     },
     {
       "key": {
+        "uuid": "b9fce289_3cdefc5f",
+        "filename": "snapshot/fuchsia/exception_snapshot_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-31T21:46:29Z",
+      "side": 1,
+      "message": "Done.\n\nUsing `t\u0027 as thread_context is the name Crashpad uses for general registers in the InitializeCPUContext methods, not the Thread object.",
+      "parentUuid": "7885d22e_6f73e22d",
+      "range": {
+        "startLine": 62,
+        "startChar": 54,
+        "endLine": 62,
+        "endChar": 64
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b6c80f6_c0363971",
         "filename": "snapshot/fuchsia/thread_snapshot_fuchsia.cc",
         "patchSetId": 8
@@ -227,6 +341,30 @@
       "revId": "99806be875af6d32d20e1af8347385ec412651f8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dd42c06_f6b98755",
+        "filename": "snapshot/fuchsia/thread_snapshot_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-31T21:46:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b6c80f6_c0363971",
+      "range": {
+        "startLine": 42,
+        "startChar": 50,
+        "endLine": 42,
+        "endChar": 60
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

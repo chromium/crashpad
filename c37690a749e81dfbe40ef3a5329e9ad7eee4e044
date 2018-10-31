@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "37c1aef5_1bcae25d",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-31T21:46:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fb196c18_0577478b",
+      "range": {
+        "startLine": 37,
+        "startChar": 31,
+        "endLine": 37,
+        "endChar": 47
+      },
+      "revId": "c37690a749e81dfbe40ef3a5329e9ad7eee4e044",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6556294c_31b91a1b",
         "filename": "snapshot/fuchsia/exception_snapshot_fuchsia.cc",
         "patchSetId": 4
