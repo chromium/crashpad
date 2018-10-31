@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a07f06b4_34f349d0",
+        "filename": "client/crashpad_info_note.S",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-31T17:35:26Z",
+      "side": 0,
+      "message": "There\u0027s only enough room for one endianness in this town, pardner!",
+      "revId": "9089c3fd22f533e4fd902b5358ac467ba6a448d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
