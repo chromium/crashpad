@@ -92,6 +92,7 @@ struct Dirent64 {
 void ReadDentsAsThreadIDs(char* buffer,
                           size_t size,
                           std::vector<pid_t>* threads) {
+  LOG(INFO) << "dirents are " << sizeof(Dirent64);
   while (size > sizeof(Dirent64)) {
     auto dirent = reinterpret_cast<Dirent64*>(buffer);
     if (size < dirent->d_reclen) {
