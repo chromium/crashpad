@@ -137,6 +137,30 @@
     },
     {
       "key": {
+        "uuid": "fa4a4902_d9995634",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1311398
+      },
+      "writtenOn": "2018-10-31T19:48:44Z",
+      "side": 1,
+      "message": "Now I see your question. AFAIU, pstate has not a defined format, as it is the concept of the \"state\" of the CPU, not an actual register. The whole state is queried from several places, as stated from the link you sent: https://developer.arm.com/products/architecture/cpu-architecture/a-profile/docs/100878/latest/processor-state. I could be wrong though.\n\nBut if we follow what I\u0027m saying, it\u0027s up to crashpad to define the format of what it defines as pstate. Perhaps a better approach would be to rename it to spsr, which seems to be a more well defined term. But I\u0027m no ARM expert, so we should get some input from the pros.",
+      "parentUuid": "b5b24f47_bbaeda6c",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 39
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2aa5ad39_96780e5e",
         "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
         "patchSetId": 8
