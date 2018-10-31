@@ -16,6 +16,24 @@
       "revId": "88d7a85f62347a587e698ba48b30ea107a1ec679",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b14bf90_72e3900a",
+        "filename": "client/crashpad_info_note.S",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-10-31T01:13:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62b363c3_d433708a",
+      "revId": "88d7a85f62347a587e698ba48b30ea107a1ec679",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
