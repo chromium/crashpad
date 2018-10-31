@@ -92,7 +92,7 @@ struct Dirent64 {
 void ReadDentsAsThreadIDs(char* buffer,
                           size_t size,
                           std::vector<pid_t>* threads) {
-  while (size > sizeof(Dirent64)) {
+  while (size > offsetof(Dirent64, d_name)) {
     auto dirent = reinterpret_cast<Dirent64*>(buffer);
     if (size < dirent->d_reclen) {
       LOG(ERROR) << "short dirent";
