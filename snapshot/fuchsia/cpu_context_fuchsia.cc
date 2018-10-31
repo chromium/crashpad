@@ -45,6 +45,19 @@ void InitializeCPUContextX86_64(
   context->rflags = thread_context.rflags;
 }
 
+#elif defined(ARCH_CPU_ARM_FAMILY)
+
+void InitializeCPUContextARM64_NoFloatingPoint(
+    const zx_thread_state_general_regs_t& thread_context,
+    CPUContextARM64* context) {
+  memset(context, 0, sizeof(*context));
+  memcpy(&context->regs, &thread_context.r, sizeof(context->regs));
+  context->regs[30] = thread_context.lr;
+  context->sp = thread_context.sp;
+  context->pc = thread_context.pc;
+  context->pstate = thread_context.cpsr;
+}
+
 #endif  // ARCH_CPU_X86_64
 
 }  // namespace internal
