@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4ba255e_df3b41a7",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-31T02:00:51Z",
+      "side": 1,
+      "message": "this is just me skimming through the ARM documentation :-P",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 39
+      },
+      "revId": "c37690a749e81dfbe40ef3a5329e9ad7eee4e044",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ba7ccea_7ac27bc4",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-31T02:00:51Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 39
+      },
+      "revId": "c37690a749e81dfbe40ef3a5329e9ad7eee4e044",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb196c18_0577478b",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-31T02:00:51Z",
+      "side": 1,
+      "message": "To make it more similar to the Linux implementation: https://chromium.googlesource.com/crashpad/crashpad/+/master/snapshot/linux/cpu_context_linux.h#51. Wdyt?",
+      "range": {
+        "startLine": 37,
+        "startChar": 31,
+        "endLine": 37,
+        "endChar": 47
+      },
+      "revId": "c37690a749e81dfbe40ef3a5329e9ad7eee4e044",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6556294c_31b91a1b",
+        "filename": "snapshot/fuchsia/exception_snapshot_fuchsia.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-31T02:00:51Z",
+      "side": 1,
+      "message": "I believe this reflects more the current state.",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 62,
+        "endChar": 65
+      },
+      "revId": "c37690a749e81dfbe40ef3a5329e9ad7eee4e044",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
