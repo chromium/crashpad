@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4fe8ffc_eef1460c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-31T17:55:56Z",
+      "side": 1,
+      "message": "This only has one thread, so I think the context is taken from the exception. Can (or could) crasher learn to spawn a couple threads to test the thread context path?",
+      "range": {
+        "startLine": 11,
+        "startChar": 51,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0cf81e1_f138787e",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-31T17:55:56Z",
+      "side": 1,
+      "message": "A couple static_assert here that there\u0027s the expected number of elements/size for thread_context.r since we\u0027re slapping one into the other.",
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89d7018f_cf5af443",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-31T17:55:56Z",
+      "side": 1,
+      "message": "I suspect the field named \u0027cpsr\u0027 in Fuchsia probably really is \u0027pstate\u0027, but from looking at https://developer.arm.com/products/architecture/cpu-architecture/a-profile/docs/100878/latest/processor-state it seems like they\u0027re not the same thing; cpsr probably having been copied from 32bit ARM definition? Perhaps a rename of the Fuchsia one is warranted, or at least a TODO+bug upstream to investigate.",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 39
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aa5ad39_96780e5e",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-31T17:55:56Z",
+      "side": 1,
+      "message": "Make this ARCH_CPU_ARM64 since Fuchsia\u0027s never doing 32 bit ARM.",
+      "range": {
+        "startLine": 43,
+        "startChar": 12,
+        "endLine": 43,
+        "endChar": 31
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7885d22e_6f73e22d",
+        "filename": "snapshot/fuchsia/exception_snapshot_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-31T17:55:56Z",
+      "side": 1,
+      "message": "This sounds weird, how about \"saved in the thread context\".",
+      "range": {
+        "startLine": 62,
+        "startChar": 54,
+        "endLine": 62,
+        "endChar": 64
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b6c80f6_c0363971",
+        "filename": "snapshot/fuchsia/thread_snapshot_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-31T17:55:56Z",
+      "side": 1,
+      "message": "There\u0027s no |t| here.",
+      "range": {
+        "startLine": 42,
+        "startChar": 50,
+        "endLine": 42,
+        "endChar": 60
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
