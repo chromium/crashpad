@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "15351f49_1267da8b",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1311398
+      },
+      "writtenOn": "2018-10-31T18:25:05Z",
+      "side": 1,
+      "message": "No. The actual register being outputted as a view of the pstate is spsr masked for userspace:\nhttps://fuchsia.googlesource.com/zircon/+/master/kernel/arch/arm64/debugger.cpp#43\n\nI agree that naming it cpsr is misleading, but I wonder how much code outside of zircon depends on this and if it\u0027s worth making a transition for this. At the very least we should comment it.",
+      "parentUuid": "89d7018f_cf5af443",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 39
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2aa5ad39_96780e5e",
         "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
         "patchSetId": 8
