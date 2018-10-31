@@ -276,15 +276,30 @@ void ProcessReaderFuchsia::InitializeThreads() {
         thread.state = thread_info.state;
       }
 
-      zx_thread_state_general_regs_t regs;
-      status = thread_handles[i].read_state(
-          ZX_THREAD_STATE_GENERAL_REGS, &regs, sizeof(regs));
-      if (status != ZX_OK) {
-        ZX_LOG(WARNING, status) << "zx_thread_read_state";
-      } else {
-        thread.general_registers = regs;
+      {
+        zx_thread_state_general_regs_t regs;
+        status = thread_handles[i].read_state(
+            ZX_THREAD_STATE_GENERAL_REGS, &regs, sizeof(regs));
+        if (status != ZX_OK) {
+          ZX_LOG(WARNING, status)
+              << "zx_thread_read_state(ZX_THREAD_STATE_GENERAL_REGS)";
+        } else {
+          thread.general_registers = regs;
 
-        GetStackRegions(regs, memory_map_, &thread.stack_regions);
+          GetStackRegions(regs, memory_map_, &thread.stack_regions);
+        }
+      }
+
+      {
+        zx_thread_state_vector_regs_t regs;
+        status = thread_handles[i].read_state(
+            ZX_THREAD_STATE_VECTOR_REGS, &regs, sizeof(regs));
+        if (status != ZX_OK) {
+          ZX_LOG(WARNING, status)
+              << "zx_thread_read_state(ZX_THREAD_STATE_VECTOR_REGS)";
+        } else {
+          thread.vector_registers = regs;
+        }
       }
     }
 

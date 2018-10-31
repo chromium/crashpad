@@ -39,13 +39,14 @@ bool ThreadSnapshotFuchsia::Initialize(
 #if defined(ARCH_CPU_X86_64)
   context_.architecture = kCPUArchitectureX86_64;
   context_.x86_64 = &context_arch_;
-  // TODO(scottmg): Float context, once Fuchsia has a debug API to capture
-  // floating point registers. ZX-1750 upstream.
-  InitializeCPUContextX86_64(thread.general_registers, context_.x86_64);
+  // TODO(fuchsia/DX-642): Add float context once wired in t.
+  InitializeCPUContextX86_64_NoFloatingPoint(thread.general_registers,
+                                             context_.x86_64);
 #elif defined(ARCH_CPU_ARM64)
   context_.architecture = kCPUArchitectureARM64;
   context_.arm64 = &context_arch_;
-  // TODO(scottmg): Implement context capture for arm64.
+  InitializeCPUContextARM64(
+      thread.general_registers, thread.vector_registers, context_.arm64);
 #else
 #error Port.
 #endif

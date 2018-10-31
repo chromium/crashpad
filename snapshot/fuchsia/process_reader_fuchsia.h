@@ -77,6 +77,10 @@ class ProcessReaderFuchsia {
     //!     returned by `zx_thread_read_state()`.
     zx_thread_state_general_regs_t general_registers = {};
 
+    //! \brief The raw architecture-specific `zx_thread_state_vector_regs_t` as
+    //!     returned by `zx_thread_read_state()`.
+    zx_thread_state_vector_regs_t vector_registers = {};
+
     //! \brief The regions representing the stack. The first entry in the vector
     //!     represents the callstack, and further entries optionally identify
     //!     other stack data when the thread uses a split stack representation.
