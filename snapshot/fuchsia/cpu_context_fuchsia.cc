@@ -21,7 +21,7 @@ namespace internal {
 
 #if defined(ARCH_CPU_X86_64)
 
-void InitializeCPUContextX86_64(
+void InitializeCPUContextX86_64_NoFloatingPoint(
     const zx_thread_state_general_regs_t& thread_context,
     CPUContextX86_64* context) {
   memset(context, 0, sizeof(*context));
@@ -43,6 +43,36 @@ void InitializeCPUContextX86_64(
   context->r15 = thread_context.r15;
   context->rip = thread_context.rip;
   context->rflags = thread_context.rflags;
+}
+
+#elif defined(ARCH_CPU_ARM64)
+
+void InitializeCPUContextARM64_NoFloatingPoint(
+    const zx_thread_state_general_regs_t& thread_context,
+    CPUContextARM64* context) {
+  memset(context, 0, sizeof(*context));
+
+  // Fuchsia stores the link register (x30) on its own while Crashpad stores it
+  // with the other general purpose x0-x28 and x29 frame pointer registers. So
+  // we expect the size and number of elements to be off by one unit.
+  static_assert(sizeof(context->regs) - sizeof(context->regs[30]) ==
+                    sizeof(thread_context.r),
+                "registers size mismatch");
+  static_assert((sizeof(context->regs) - sizeof(context->regs[30])) /
+                        sizeof(context->regs[0]) ==
+                    sizeof(thread_context.r) / sizeof(thread_context.r[0]),
+                "registers number of elements mismatch");
+  memcpy(&context->regs, &thread_context.r, sizeof(thread_context.r));
+  context->regs[30] = thread_context.lr;
+  context->sp = thread_context.sp;
+  context->pc = thread_context.pc;
+
+  // Only the NZCV flags (bits 31 to 28 respectively) of the cpsr register are
+  // readable and writable by userland on ARM64.
+  constexpr uint64_t kNZCV = 0xf0000000;
+  // Fuchsia uses the "cspr" terminology while Crashpad uses the "pstate"
+  // terminology. For the NZCV flags, the bit layout should be the same.
+  context->pstate = thread_context.cpsr & kNZCV;
 }
 
 #endif  // ARCH_CPU_X86_64
