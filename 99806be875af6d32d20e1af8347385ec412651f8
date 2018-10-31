@@ -113,6 +113,30 @@
     },
     {
       "key": {
+        "uuid": "b5b24f47_bbaeda6c",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1311398
+      },
+      "writtenOn": "2018-10-31T19:45:11Z",
+      "side": 1,
+      "message": "spsr has a defined structure: \nhttp://infocenter.arm.com/help/index.jsp?topic\u003d/com.arm.doc.den0024a/BABHJFEE.html, which seems to be similar to cpsr, so your mask would work. Technically, this is not needed as the kernel already does the same masking, but that is an implementation detail we should not rely on (I don\u0027t think it\u0027s documented). \nThe only bit that is somewhat misleading is the kernel naming of cpsr.",
+      "parentUuid": "993c619f_bd109440",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 39
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2aa5ad39_96780e5e",
         "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
         "patchSetId": 8
