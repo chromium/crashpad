@@ -154,22 +154,24 @@ void ReadThisExecutableInTarget(ProcessType process,
   std::string note_name;
   std::string note_desc;
   ElfImageReader::NoteReader::NoteType note_type;
+  VMAddress desc_addr;
 
   std::unique_ptr<ElfImageReader::NoteReader> notes = reader.Notes(-1);
-  while ((result = notes->NextNote(&note_name, &note_type, &note_desc)) ==
+  while ((result = notes->NextNote(
+              &note_name, &note_type, &note_desc, &desc_addr)) ==
          ElfImageReader::NoteReader::Result::kSuccess) {
   }
   EXPECT_EQ(result, ElfImageReader::NoteReader::Result::kNoMoreNotes);
 
   notes = reader.Notes(0);
-  EXPECT_EQ(notes->NextNote(&note_name, &note_type, &note_desc),
+  EXPECT_EQ(notes->NextNote(&note_name, &note_type, &note_desc, &desc_addr),
             ElfImageReader::NoteReader::Result::kNoMoreNotes);
 
   // Find the note defined in elf_image_reader_test_note.S.
   constexpr uint32_t kCrashpadNoteDesc = 42;
   notes = reader.NotesWithNameAndType(
       CRASHPAD_ELF_NOTE_NAME, CRASHPAD_ELF_NOTE_TYPE_SNAPSHOT_TEST, -1);
-  ASSERT_EQ(notes->NextNote(&note_name, &note_type, &note_desc),
+  ASSERT_EQ(notes->NextNote(&note_name, &note_type, &note_desc, &desc_addr),
             ElfImageReader::NoteReader::Result::kSuccess);
   EXPECT_EQ(note_name, CRASHPAD_ELF_NOTE_NAME);
   EXPECT_EQ(note_type,
@@ -178,7 +180,7 @@ void ReadThisExecutableInTarget(ProcessType process,
   EXPECT_EQ(*reinterpret_cast<decltype(kCrashpadNoteDesc)*>(&note_desc[0]),
             kCrashpadNoteDesc);
 
-  EXPECT_EQ(notes->NextNote(&note_name, &note_type, &note_desc),
+  EXPECT_EQ(notes->NextNote(&note_name, &note_type, &note_desc, &desc_addr),
             ElfImageReader::NoteReader::Result::kNoMoreNotes);
 }
 
