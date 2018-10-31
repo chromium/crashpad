@@ -89,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "993c619f_bd109440",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-10-31T18:37:09Z",
+      "side": 1,
+      "message": "Thanks for checking Cristian.\n\nIt looks like Josh was banging around in ARM64 contexts recently in breakpad too https://github.com/google/breakpad/tree/master/src/tools/linux/md2core and maybe has thoughts or pro-tips.\n\nSo... skimming around (my knowledge of ARM is very limited, sorry) https://developer.arm.com/products/architecture/cpu-architecture/a-profile/docs/100878/latest/the-saved-process-status-register it seems like we\u0027re only expecting to get NZCV, something like this would probably be appropriate:\n\nconstexpr uint64_t kNZXV \u003d 0xf0000000;\n// ... stuff describing our various confusions ...\ncontext-\u003epstate \u003d thread_context.cpsr \u0026 kNZCV;\n\n(based on the assumption that spsr and pstate store those bits in the same place.)\n\nDoes that sound plausible to anyone?",
+      "parentUuid": "15351f49_1267da8b",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 39
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2aa5ad39_96780e5e",
         "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
         "patchSetId": 8
