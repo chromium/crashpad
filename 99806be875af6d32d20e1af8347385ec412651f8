@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "14ca548e_785e7860",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-31T23:39:34Z",
+      "side": 1,
+      "message": "So it seems that registers for the non-crashed thread are also not read in x64 as discussed offline. Filed DX-649 and will test for both x64 and arm64 once we have a fix. Submitting as is for now since we have it working for the crashing thread at least.",
+      "parentUuid": "e803dd71_364bd18d",
+      "range": {
+        "startLine": 11,
+        "startChar": 51,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0cf81e1_f138787e",
         "filename": "snapshot/fuchsia/cpu_context_fuchsia.cc",
         "patchSetId": 8
@@ -296,6 +320,30 @@
       "revId": "99806be875af6d32d20e1af8347385ec412651f8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5636d88_d07ca231",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-10-31T23:39:34Z",
+      "side": 1,
+      "message": "Great, I\u0027ll do the rename then.",
+      "parentUuid": "993385f3_cdecffe8",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 39
+      },
+      "revId": "99806be875af6d32d20e1af8347385ec412651f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
