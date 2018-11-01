@@ -239,10 +239,7 @@ bool ThreadSnapshotMinidump::InitializeContext(
     context_.arm64->pc = src->pc;
     context_.arm64->fpcr = src->fpcr;
     context_.arm64->fpsr = src->fpsr;
-
-    // Seems we don't get a full PSTATE but it looks like this assignment
-    // should give something useful at least.
-    context_.arm64->pstate = src->cpsr;
+    context_.arm64->spsr = src->cpsr;
   } else if (context_.architecture == CPUArchitecture::kCPUArchitectureMIPSEL) {
     LOG(WARNING) << "Snapshot MIPS context support has no unit tests.";
     context_memory_.resize(sizeof(CPUContextMIPS));

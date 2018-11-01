@@ -159,7 +159,7 @@ CAPTURECONTEXT_SYMBOL:
   // The link register holds the return address for this function.
   str LR, [x0, #0x1b8]  // context->uc_mcontext.pc
 
-  // NZCV, pstate, and CPSR are synonyms.
+  // pstate should hold SPSR but NZCV are the only bits we know about.
   mrs x1, NZCV
   str x1, [x0, #0x1c0]  // context->uc_mcontext.pstate
 

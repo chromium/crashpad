@@ -210,7 +210,7 @@ void InitializeCPUContextARM64(CPUContext* context, uint32_t seed) {
   }
   arm64->sp = value++;
   arm64->pc = value++;
-  arm64->pstate = value++;
+  arm64->spsr = value++;
 
   for (size_t index = 0; index < arraysize(arm64->fpsimd); ++index) {
     arm64->fpsimd[index].lo = value++;
