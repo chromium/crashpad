@@ -45,9 +45,8 @@ bool ThreadSnapshotFuchsia::Initialize(
 #elif defined(ARCH_CPU_ARM64)
   context_.architecture = kCPUArchitectureARM64;
   context_.arm64 = &context_arch_;
-  // TODO(fuchsia/DX-642): Add float context once saved in |thread|.
-  InitializeCPUContextARM64_NoFloatingPoint(thread.general_registers,
-                                            context_.arm64);
+  InitializeCPUContextARM64(
+      thread.general_registers, thread.vector_registers, context_.arm64);
 #else
 #error Port.
 #endif
