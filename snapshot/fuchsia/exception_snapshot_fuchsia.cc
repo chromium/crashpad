@@ -65,9 +65,8 @@ void ExceptionSnapshotFuchsia::Initialize(
 #elif defined(ARCH_CPU_ARM64)
       context_.architecture = kCPUArchitectureARM64;
       context_.arm64 = &context_arch_;
-      // TODO(fuchsia/DX-642): Add float context once saved in |t|.
-      InitializeCPUContextARM64_NoFloatingPoint(t.general_registers,
-                                                context_.arm64);
+      InitializeCPUContextARM64(
+          t.general_registers, t.vector_registers, context_.arm64);
 #else
 #error Port.
 #endif
