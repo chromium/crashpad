@@ -70,9 +70,9 @@ void InitializeCPUContextARM64_NoFloatingPoint(
   // Only the NZCV flags (bits 31 to 28 respectively) of the cpsr register are
   // readable and writable by userland on ARM64.
   constexpr uint64_t kNZCV = 0xf0000000;
-  // Fuchsia uses the "cspr" terminology while Crashpad uses the "pstate"
-  // terminology. For the NZCV flags, the bit layout should be the same.
-  context->pstate = thread_context.cpsr & kNZCV;
+  // Fuchsia uses the old "cspr" terminology from armv7 while Crashpad uses the
+  // new "spsr" terminology for armv8.
+  context->spsr = thread_context.cpsr & kNZCV;
 }
 
 #endif  // ARCH_CPU_X86_64

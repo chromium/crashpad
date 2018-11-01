@@ -761,7 +761,7 @@ TEST(ProcessSnapshotMinidump, ThreadContextARM64) {
 
   const CPUContextARM64* ctx = ctx_generic->arm64;
 
-  EXPECT_EQ(ctx->pstate, 0UL);
+  EXPECT_EQ(ctx->spsr, 0UL);
 
   for (unsigned int i = 0; i < 31; i++) {
     EXPECT_EQ(ctx->regs[i], i + 1);

@@ -323,12 +323,12 @@ void MinidumpContextARM64Writer::InitializeFromSnapshot(
 
   context_.context_flags = kMinidumpContextARM64Full;
 
-  if (context_snapshot->pstate >
+  if (context_snapshot->spsr >
       std::numeric_limits<decltype(context_.cpsr)>::max()) {
-    LOG(WARNING) << "pstate truncation";
+    LOG(WARNING) << "spsr truncation";
   }
   context_.cpsr =
-      static_cast<decltype(context_.cpsr)>(context_snapshot->pstate);
+      static_cast<decltype(context_.cpsr)>(context_snapshot->spsr);
 
   static_assert(
       sizeof(context_.regs) == sizeof(context_snapshot->regs) -

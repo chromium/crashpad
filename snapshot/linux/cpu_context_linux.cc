@@ -241,7 +241,9 @@ void InitializeCPUContextARM64_NoFloatingPoint(
   memcpy(context->regs, thread_context.regs, sizeof(context->regs));
   context->sp = thread_context.sp;
   context->pc = thread_context.pc;
-  context->pstate = thread_context.pstate;
+  // Linux seems to only be putting the SPSR register in its "pstate" field.
+  // https://elixir.bootlin.com/linux/latest/source/arch/arm64/include/uapi/asm/ptrace.h
+  context->spsr = thread_context.pstate;
 
   memset(&context->fpsimd, 0, sizeof(context->fpsimd));
   context->fpsr = 0;
