@@ -47,8 +47,9 @@ void InitializeCPUContextX86_64_NoFloatingPoint(
 
 #elif defined(ARCH_CPU_ARM64)
 
-void InitializeCPUContextARM64_NoFloatingPoint(
+void InitializeCPUContextARM64(
     const zx_thread_state_general_regs_t& thread_context,
+    const zx_thread_state_vector_regs_t& vector_context,
     CPUContextARM64* context) {
   memset(context, 0, sizeof(*context));
 
@@ -80,6 +81,12 @@ void InitializeCPUContextARM64_NoFloatingPoint(
   }
   context->spsr =
       static_cast<decltype(context->spsr)>(thread_context.cpsr) & kNZCV;
+
+  context->fpcr = vector_context.fpcr;
+  context->fpsr = vector_context.fpsr;
+  static_assert(sizeof(context->fpsimd) == sizeof(vector_context.v),
+                "registers size mismatch");
+  memcpy(&context->fpsimd, &vector_context.v, sizeof(vector_context.v));
 }
 
 #endif  // ARCH_CPU_X86_64
