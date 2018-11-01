@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "09a17717_f9f6b780",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-11-01T17:50:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e2c2795_0ea06ebc",
+      "range": {
+        "startLine": 53,
+        "startChar": 41,
+        "endLine": 53,
+        "endChar": 46
+      },
+      "revId": "d6b9f9e40a571c82157b989f7f6274a14db5956d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d24a2b9_655db2c2",
         "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "d6b9f9e40a571c82157b989f7f6274a14db5956d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3a67f7e_3a06cda9",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-11-01T17:50:27Z",
+      "side": 1,
+      "message": "Done.\n\nMy bad. I should have thought of the renaming \u003e\u003c",
+      "parentUuid": "3d24a2b9_655db2c2",
+      "revId": "d6b9f9e40a571c82157b989f7f6274a14db5956d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
