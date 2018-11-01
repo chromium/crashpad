@@ -299,7 +299,7 @@ struct CPUContextARM64 {
   uint64_t regs[31];
   uint64_t sp;
   uint64_t pc;
-  uint64_t pstate;
+  uint32_t spsr;
 
   uint128_struct fpsimd[32];
   uint32_t fpsr;

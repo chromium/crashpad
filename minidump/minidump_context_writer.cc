@@ -323,13 +323,6 @@ void MinidumpContextARM64Writer::InitializeFromSnapshot(
 
   context_.context_flags = kMinidumpContextARM64Full;
 
-  if (context_snapshot->pstate >
-      std::numeric_limits<decltype(context_.cpsr)>::max()) {
-    LOG(WARNING) << "pstate truncation";
-  }
-  context_.cpsr =
-      static_cast<decltype(context_.cpsr)>(context_snapshot->pstate);
-
   static_assert(
       sizeof(context_.regs) == sizeof(context_snapshot->regs) -
                                    2 * sizeof(context_snapshot->regs[0]),
@@ -339,6 +332,7 @@ void MinidumpContextARM64Writer::InitializeFromSnapshot(
   context_.lr = context_snapshot->regs[30];
   context_.sp = context_snapshot->sp;
   context_.pc = context_snapshot->pc;
+  context_.cpsr = context_snapshot->spsr;
 
   static_assert(sizeof(context_.fpsimd) == sizeof(context_snapshot->fpsimd),
                 "FPSIMD size mismatch");
