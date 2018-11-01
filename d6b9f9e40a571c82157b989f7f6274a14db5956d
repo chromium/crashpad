@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e2c2795_0ea06ebc",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-11-01T16:05:15Z",
+      "side": 1,
+      "message": "Can you call this vector_context instead to match the input struct name? I know vector \u003d\u003d float on ARM, but it\u0027s a bit confusing when comparing to Intel where they\u0027re separate.",
+      "range": {
+        "startLine": 53,
+        "startChar": 41,
+        "endLine": 53,
+        "endChar": 46
+      },
+      "revId": "d6b9f9e40a571c82157b989f7f6274a14db5956d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d24a2b9_655db2c2",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-11-01T16:05:15Z",
+      "side": 1,
+      "message": "The extra scope makes me think there\u0027s something important being constructed/destructed here. Is this just because `regs` was reused as a name? In that case, `general_regs` and `vector_regs` would be easier to read I think.\n\nOr maybe a \u003cT\u003e function that takes the regs constant to read? Maybe that\u0027s too cute.",
+      "revId": "d6b9f9e40a571c82157b989f7f6274a14db5956d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
