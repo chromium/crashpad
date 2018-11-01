@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52766c1b_1f7f8e0a",
+        "filename": "minidump/minidump_context_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-11-01T16:41:50Z",
+      "side": 1,
+      "message": "This warning should be moved to the assignment in cpu_context_linux.cc now.",
+      "range": {
+        "startLine": 326,
+        "startChar": 0,
+        "endLine": 329,
+        "endChar": 3
+      },
+      "revId": "5001c976858019982ed522b89cc69a2d97112fea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c8b73cc_318d983f",
+        "filename": "snapshot/cpu_context.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-11-01T16:41:50Z",
+      "side": 1,
+      "message": "This can be made uint32_t since it\u0027s definitely just the spsr now.",
+      "range": {
+        "startLine": 302,
+        "startChar": 2,
+        "endLine": 302,
+        "endChar": 10
+      },
+      "revId": "5001c976858019982ed522b89cc69a2d97112fea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

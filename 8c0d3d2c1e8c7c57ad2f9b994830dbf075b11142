@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "261c913a_0ce66b35",
+        "filename": "util/misc/capture_context_fuchsia.S",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-11-01T16:41:50Z",
+      "side": 0,
+      "message": "pstate here is referring to the name of the field in an mcontext_t. The comment is misleading though. Maybe something like \"pstate should hold SPSR but NZCV are the only bits we know about\"? Can you make the same change in capture_context_linux.S too?",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 164,
+        "endChar": 54
+      },
+      "revId": "8c0d3d2c1e8c7c57ad2f9b994830dbf075b11142",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
