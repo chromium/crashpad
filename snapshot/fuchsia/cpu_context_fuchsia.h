@@ -45,12 +45,12 @@ void InitializeCPUContextX86_64_NoFloatingPoint(
 //! \brief Initializes a CPUContextARM64 structure from native context
 //!     structures on Fuchsia.
 //!
-//! Floating point registers are currently initialized to zero.
-//!
 //! \param[in] thread_context The native thread context.
+//! \param[in] float_context The native float context.
 //! \param[out] context The CPUContextARM64 structure to initialize.
-void InitializeCPUContextARM64_NoFloatingPoint(
+void InitializeCPUContextARM64(
     const zx_thread_state_general_regs_t& thread_context,
+    const zx_thread_state_vector_regs_t& float_context,
     CPUContextARM64* context);
 
 #endif  // ARCH_CPU_ARM64 || DOXYGEN
