@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba231dcc_e12c6045",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-11-01T18:22:22Z",
+      "side": 1,
+      "message": "nit; Drop this since it\u0027s implicit based on the fact that we\u0027re discussing an ARM-only function here.",
+      "range": {
+        "startLine": 50,
+        "startChar": 55,
+        "endLine": 50,
+        "endChar": 61
+      },
+      "revId": "a08a1b5d8b834d02faf69a92f2d2359d3f5480b0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
