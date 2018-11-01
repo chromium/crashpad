@@ -22,6 +22,30 @@
       "revId": "a08a1b5d8b834d02faf69a92f2d2359d3f5480b0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90027935_f14f8587",
+        "filename": "snapshot/fuchsia/cpu_context_fuchsia.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-11-01T19:30:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba231dcc_e12c6045",
+      "range": {
+        "startLine": 50,
+        "startChar": 55,
+        "endLine": 50,
+        "endChar": 61
+      },
+      "revId": "a08a1b5d8b834d02faf69a92f2d2359d3f5480b0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
