@@ -311,7 +311,8 @@ static_library("util") {
     ]
   }
 
-  if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
+  if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia ||
+      crashpad_is_win) {
     sources += [
       "process/process_memory.cc",
       "process/process_memory.h",
@@ -332,6 +333,8 @@ static_library("util") {
       "misc/paths_win.cc",
       "misc/time_win.cc",
       "net/http_transport_win.cc",
+      "process/process_memory_win.cc",
+      "process/process_memory_win.h",
       "synchronization/semaphore_win.cc",
       "thread/thread_win.cc",
       "win/address_types.h",
@@ -622,7 +625,8 @@ source_set("util_test") {
     sources += [ "misc/capture_context_test_util_fuchsia.cc" ]
   }
 
-  if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
+  if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia ||
+      crashpad_is_win) {
     sources += [
       # TODO: Port to all platforms.
       "process/process_memory_range_test.cc",
