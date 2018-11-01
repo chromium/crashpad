@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "28e26293_780769b4",
+        "filename": "test/scoped_guarded_page_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-11-01T00:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcb0b12c_4d03b4f7",
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b9342ae_885fe788",
         "filename": "test/scoped_guarded_page_posix.cc",
         "patchSetId": 3
@@ -138,6 +156,30 @@
     },
     {
       "key": {
+        "uuid": "b277df32_a8ab5022",
+        "filename": "test/scoped_guarded_page_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-11-01T00:42:40Z",
+      "side": 1,
+      "message": "After talking with Mark, I decided to disable the in-process version of the ProcessMemory tests that rely on the ScopedGuardedPage.",
+      "parentUuid": "b971d161_59f6b45e",
+      "range": {
+        "startLine": 37,
+        "startChar": 20,
+        "endLine": 37,
+        "endChar": 61
+      },
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f5f9cf8_5fe1aa71",
         "filename": "test/scoped_guarded_page_posix.cc",
         "patchSetId": 3
@@ -152,6 +194,24 @@
       "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efe32604_20f8cb49",
+        "filename": "test/scoped_guarded_page_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-11-01T00:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f5f9cf8_5fe1aa71",
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -172,6 +232,24 @@
     },
     {
       "key": {
+        "uuid": "71b0d9dd_cf668dcf",
+        "filename": "test/scoped_guarded_page_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-11-01T00:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d686c507_9e906dbc",
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6c97206_9ae00988",
         "filename": "test/scoped_guarded_page_win.cc",
         "patchSetId": 3
@@ -186,6 +264,24 @@
       "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35acc9b0_aea60f55",
+        "filename": "test/scoped_guarded_page_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-11-01T00:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6c97206_9ae00988",
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -206,6 +302,24 @@
     },
     {
       "key": {
+        "uuid": "4f75765a_ca4ec5e0",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-11-01T00:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27c6be40_5b1723d7",
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e56efc6_84e6774d",
         "filename": "util/process/process_memory_range_test.cc",
         "patchSetId": 3
@@ -220,6 +334,24 @@
       "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "333cbef0_4e99afa3",
+        "filename": "util/process/process_memory_range_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-11-01T00:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e56efc6_84e6774d",
+      "revId": "cfb36a42683bbcbda08d86e00a261a82c0731125",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
