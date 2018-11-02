@@ -454,7 +454,7 @@ TEST(ProcessSnapshotMinidump, Modules) {
     EXPECT_EQ(modules[i]->Name(), names[i]);
     EXPECT_EQ(modules[i]->Address(), 0xbadf00dU);
     EXPECT_EQ(modules[i]->Size(), 9001U);
-    EXPECT_EQ(modules[i]->Timestamp(), 1970U + i);
+    EXPECT_EQ(modules[i]->Timestamp(), static_cast<time_t>(1970U + i));
 
     uint16_t v0;
     uint16_t v1;
