@@ -83,7 +83,7 @@ CrashpadInfoClientOptions SelfProcessSnapshotAndGetCrashpadOptions() {
 #elif defined(OS_WIN)
   ProcessSnapshotWin process_snapshot;
   EXPECT_TRUE(process_snapshot.Initialize(
-      GetCurrentProcess(), ProcessSuspensionState::kRunning, 0, 0));
+      GetCurrentProcess(), ProcessSuspensionState::kRunning, 0));
 #elif defined(OS_FUCHSIA)
   ProcessSnapshotFuchsia process_snapshot;
   EXPECT_TRUE(process_snapshot.Initialize(*zx::process::self()));

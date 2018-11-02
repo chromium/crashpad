@@ -58,9 +58,14 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
   ProcessSnapshotWin process_snapshot;
   if (!process_snapshot.Initialize(process,
                                    ProcessSuspensionState::kSuspended,
-                                   exception_information_address,
                                    debug_critical_section_address)) {
     Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSnapshotFailed);
+    return kTerminationCodeSnapshotFailed;
+  }
+
+  if (!process_snapshot.InitializeException(exception_information_address)) {
+    Metrics::ExceptionCaptureResult(
+        Metrics::CaptureResult::kExceptionInitializationFailed);
     return kTerminationCodeSnapshotFailed;
   }
 

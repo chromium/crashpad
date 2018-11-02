@@ -61,9 +61,6 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   //! \param[in] process The handle to create a snapshot from.
   //! \param[in] suspension_state Whether \a process has been suspended by the
   //!     caller.
-  //! \param[in] exception_information_address The address in the client
-  //!     process's address space of an ExceptionInformation structure. May be
-  //!     `0`, in which case no exception data will be recorded.
   //! \param[in] debug_critical_section_address The address in the target
   //!     process's address space of a `CRITICAL_SECTION` allocated with valid
   //!     `.DebugInfo`. Used as a starting point to walk the process's locks.
@@ -75,8 +72,16 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   //! \sa ScopedProcessSuspend
   bool Initialize(HANDLE process,
                   ProcessSuspensionState suspension_state,
-                  WinVMAddress exception_information_address,
                   WinVMAddress debug_critical_section_address);
+
+  //! \brief Initializes the object's exception.
+  //!
+  //! \param[in] exception_information_address The address in the client
+  //!     process's address space of an ExceptionInformation structure. May be
+  //!     `0`, in which case no exception data will be recorded.
+  //!
+  // \return `true` on success. `false` on failure with a message logged.
+  bool InitializeException(WinVMAddress exception_information_address);
 
   //! \brief Sets the value to be returned by ReportID().
   //!

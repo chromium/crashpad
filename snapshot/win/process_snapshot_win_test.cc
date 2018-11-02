@@ -59,7 +59,7 @@ void TestImageReaderChild(const TestPaths::Architecture architecture) {
 
     ProcessSnapshotWin process_snapshot;
     ASSERT_TRUE(process_snapshot.Initialize(
-        child.process_handle(), ProcessSuspensionState::kSuspended, 0, 0));
+        child.process_handle(), ProcessSuspensionState::kSuspended, 0));
 
     ASSERT_GE(process_snapshot.Modules().size(), 2u);
 
