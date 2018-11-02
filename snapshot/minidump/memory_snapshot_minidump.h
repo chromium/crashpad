@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_SNAPSHOT_MINIDUMP_MEMORY_SNAPSHOT_MINIDUMP_H_
 #define CRASHPAD_SNAPSHOT_MINIDUMP_MEMORY_SNAPSHOT_MINIDUMP_H_
 
+#include <windows.h>
 #include <dbghelp.h>
 
 #include <vector>
