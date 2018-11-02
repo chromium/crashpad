@@ -99,6 +99,14 @@ class Multiprocess {
   void SetExpectedChildTerminationBuiltinTrap();
 #endif  // !OS_WIN
 
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+  //! \brief Configures the child to be launched in a new PID namespace.
+  //!
+  //! This causes the child process to be created using `clone()` instead of
+  //! `fork()`. This method must be called before Run().
+  void SetLaunchChildInNewPidNamespace();
+#endif  // OS_LINUX || OS_ANDROID
+
  protected:
   ~Multiprocess();
 
@@ -213,6 +221,7 @@ class Multiprocess {
   internal::MultiprocessInfo* info_;
   int code_;
   TerminationReason reason_;
+  bool launch_in_new_pid_namespace_;
 
   DISALLOW_COPY_AND_ASSIGN(Multiprocess);
 };

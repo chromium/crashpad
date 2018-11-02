@@ -285,6 +285,39 @@ TEST(MultiprocessDeathTest, ChildClosesReadAndWritePipe) {
   multiprocess.Run();
 }
 
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+
+class ChildInNewNamespaceTest final : public Multiprocess {
+  public:
+   ChildInNewNamespaceTest() : Multiprocess() {
+     SetLaunchChildInNewPidNamespace();
+   }
+
+   ~ChildInNewNamespaceTest() {}
+
+  private:
+   void MultiprocessParent() override {
+     pid_t pid_in_child_ns;
+     ASSERT_TRUE(LoggingReadFileExactly(ReadPipeHandle(), &pid_in_child_ns, sizeof(pid_in_child_ns)));
+
+     EXPECT_EQ(pid_in_child_ns, 1);
+   }
+
+   void MultiprocessChild() override {
+     pid_t pid = getpid();
+     ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(), &pid, sizeof(pid)));
+   }
+
+   DISALLOW_COPY_AND_ASSIGN(ChildInNewNamespaceTest);
+};
+
+TEST(Multiprocess, ChildInNewNamespace) {
+  ChildInNewNamespaceTest test;
+  test.Run();
+}
+
+#endif  // OS_LINUX || OS_ANDROID
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad

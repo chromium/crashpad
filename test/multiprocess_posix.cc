@@ -16,6 +16,7 @@
 
 #include <signal.h>
 #include <stdlib.h>
+#include <sys/syscall.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -40,6 +41,22 @@
 namespace crashpad {
 namespace test {
 
+namespace {
+
+pid_t CreateChildProcess(bool launch_in_new_pid_namespace) {
+  pid_t pid = -1;
+  if (launch_in_new_pid_namespace) {
+    pid = syscall(SYS_clone, SIGCHLD | CLONE_NEWPID, 0, 0, 0);
+    EXPECT_GE(pid, 0) << ErrnoMessage("clone");
+  } else {
+    pid = fork();
+    EXPECT_GE(pid, 0) << ErrnoMessage("fork");
+  }
+  return pid;
+}
+
+}  // namepsace
+
 namespace internal {
 
 struct MultiprocessInfo {
@@ -62,7 +79,8 @@ struct MultiprocessInfo {
 Multiprocess::Multiprocess()
     : info_(nullptr),
       code_(EXIT_SUCCESS),
-      reason_(kTerminationNormal) {
+      reason_(kTerminationNormal),
+      launch_in_new_pid_namespace_(false) {
 }
 
 void Multiprocess::Run() {
@@ -83,8 +101,8 @@ void Multiprocess::Run() {
   }
 #endif  // OS_MACOSX
 
-  pid_t pid = fork();
-  ASSERT_GE(pid, 0) << ErrnoMessage("fork");
+  pid_t pid = CreateChildProcess(launch_in_new_pid_namespace_);
+  ASSERT_GE(pid, 0);
 
   if (pid > 0) {
     info_->child_pid = pid;
@@ -168,6 +186,12 @@ void Multiprocess::SetExpectedChildTerminationBuiltinTrap() {
   SetExpectedChildTermination(kTerminationSignal, SIGILL);
 #endif
 }
+
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+void Multiprocess::SetLaunchChildInNewPidNamespace() {
+  launch_in_new_pid_namespace_ = true;
+}
+#endif
 
 Multiprocess::~Multiprocess() {
 }
