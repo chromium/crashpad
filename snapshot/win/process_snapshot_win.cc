@@ -232,6 +232,10 @@ std::vector<const MemorySnapshot*> ProcessSnapshotWin::ExtraMemory() const {
   return extra_memory;
 }
 
+const ProcessMemory* ProcessSnapshotWin::Memory() const {
+  return process_reader_.Memory();
+}
+
 void ProcessSnapshotWin::InitializeThreads(
     bool gather_indirectly_referenced_memory,
     uint32_t indirectly_referenced_memory_cap) {
