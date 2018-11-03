@@ -14,7 +14,7 @@
 
 #include "util/misc/elf_note_types.h"
 
-#define NOTE_ALIGN 4
+#define NOTE_ALIGN 8
   .section .note.crashpad.test,"a",%note
   .balign NOTE_ALIGN
   .type testnote, %object
