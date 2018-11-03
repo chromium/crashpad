@@ -65,10 +65,8 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
   std::string note_name;
   std::string note_desc;
   ElfImageReader::NoteReader::NoteType note_type;
-  VMAddress desc_addr;
   auto notes = reader.Notes(-1);
-  while ((result = notes->NextNote(
-              &note_name, &note_type, &note_desc, &desc_addr)) ==
+  while ((result = notes->NextNote(&note_name, &note_type, &note_desc)) ==
          ElfImageReader::NoteReader::Result::kSuccess) {
     LOG(ERROR) << note_name << note_type << note_desc;
   }
