@@ -26,11 +26,9 @@
 #define NOTE_ALIGN 4
 
   // This section must be "a"llocated so that it appears in the final binary at
-  // runtime. The reference to TEST_CRASHPAD_INFO_SYMBOL uses an offset relative
-  // to this note to avoid making this note writable, which triggers a bug in
-  // GNU ld, or adding text relocations which require the target system to allow
-  // making text segments writable. https://crbug.com/crashpad/260.
-  .section .note.crashpad.info,"a",%note
+  // runtime, and "w"ritable so that the relocation to TEST_CRASHPAD_INFO_SYMBOL
+  // can be performed.
+  .section .note.crashpad.info,"aw",%note
   .balign NOTE_ALIGN
   .type info_size_test_note, %object
 info_size_test_note:
@@ -43,9 +41,15 @@ name_end:
   .balign NOTE_ALIGN
 desc:
 #if defined(__LP64__)
-  .quad TEST_CRASHPAD_INFO_SYMBOL - desc
+  .quad TEST_CRASHPAD_INFO_SYMBOL
 #else
-  .long TEST_CRASHPAD_INFO_SYMBOL - desc
+#if defined(__LITTLE_ENDIAN__)
+  .long TEST_CRASHPAD_INFO_SYMBOL
+  .long 0
+#else
+  .long 0
+  .long TEST_CRASHPAD_INFO_SYMBOL
+#endif  // __LITTLE_ENDIAN__
 #endif  // __LP64__
 desc_end:
   .size info_size_test_note, .-info_size_test_note
