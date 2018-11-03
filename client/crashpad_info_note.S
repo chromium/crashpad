@@ -23,7 +23,7 @@
 // }  // namespace crashpad
 #define CRASHPAD_INFO_SYMBOL _ZN8crashpad15g_crashpad_infoE
 
-#define NOTE_ALIGN 4
+#define NOTE_ALIGN 8
 
   // This section must be "a"llocated so that it appears in the final binary at
   // runtime. The reference to CRASHPAD_INFO_SYMBOL uses an offset relative to
