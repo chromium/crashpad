@@ -427,12 +427,10 @@ static_library("util") {
 
   public_deps = [
     "../compat",
+    "../third_party/mini_chromium:base",
   ]
 
-  deps += [
-    "../third_party/mini_chromium:base",
-    "../third_party/zlib",
-  ]
+  deps += [ "../third_party/zlib" ]
 
   if (crashpad_is_mac) {
     libs = [
