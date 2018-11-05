@@ -12,27 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "build/build_config.h"
+#include "test/scoped_guarded_page.h"
 
-#if defined(OS_FUCHSIA)
-#include "util/process/process_memory_fuchsia.h"
-#elif defined(OS_LINUX) || defined(OS_ANDROID)
-#include "util/process/process_memory_linux.h"
-#elif defined(OS_WIN)
-#include "util/process/process_memory_win.h"
-#endif
+#include <windows.h>
+
+#include "base/logging.h"
+#include "base/process/process_metrics.h"
 
 namespace crashpad {
+namespace test {
 
-#if defined(OS_FUCHSIA) || DOXYGEN
-//! \brief Alias for platform-specific native implementation of ProcessMemory.
-using ProcessMemoryNative = ProcessMemoryFuchsia;
-#elif defined(OS_LINUX) || defined(OS_ANDROID)
-using ProcessMemoryNative = ProcessMemoryLinux;
-#elif defined(OS_WIN)
-using ProcessMemoryNative = ProcessMemoryWin;
-#else
-#error Port.
-#endif
+ScopedGuardedPage::ScopedGuardedPage() {
+  const size_t page_size = base::GetPageSize();
+  ptr_ = VirtualAlloc(nullptr, page_size * 2, MEM_RESERVE, PAGE_NOACCESS);
+  PCHECK(ptr_ != nullptr) << "VirtualAlloc";
 
+  PCHECK(VirtualAlloc(ptr_, page_size, MEM_COMMIT, PAGE_READWRITE) != nullptr)
+      << "VirtualAlloc";
+}
+
+ScopedGuardedPage::~ScopedGuardedPage() {
+  PCHECK(VirtualFree(ptr_, 0, MEM_RELEASE)) << "VirtualFree";
+}
+
+}  // namespace test
 }  // namespace crashpad
