@@ -15,6 +15,7 @@
 #include "snapshot/mac/process_reader_mac.h"
 
 #include <AvailabilityMacros.h>
+#include <errno.h>
 #include <OpenCL/opencl.h>
 #include <mach-o/dyld.h>
 #include <mach-o/dyld_images.h>
@@ -26,7 +27,7 @@
 #include <utility>
 
 #include "base/logging.h"
-#include "base/mac/scoped_mach_port.h"
+#include "base/mac/mach_logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
@@ -127,8 +128,8 @@ TEST(ProcessReaderMac, ChildBasic) {
 // This function CHECKs success and returns the thread ID directly.
 uint64_t PthreadToThreadID(pthread_t pthread) {
   uint64_t thread_id;
-  int rv = pthread_threadid_np(pthread, &thread_id);
-  CHECK_EQ(rv, 0);
+  errno = pthread_threadid_np(pthread, &thread_id);
+  PCHECK(errno == 0) << "pthread_threadid_np";
   return thread_id;
 }
 
@@ -410,6 +411,18 @@ TEST(ProcessReaderMac, SelfSeveralThreads) {
   EXPECT_TRUE(found_thread_self);
 }
 
+uint64_t GetThreadID() {
+  thread_identifier_info info;
+  mach_msg_type_number_t info_count = THREAD_IDENTIFIER_INFO_COUNT;
+  kern_return_t kr = thread_info(MachThreadSelf(),
+                                 THREAD_IDENTIFIER_INFO,
+                                 reinterpret_cast<thread_info_t>(&info),
+                                 &info_count);
+  MACH_CHECK(kr == KERN_SUCCESS, kr) << "thread_info";
+
+  return info.thread_id;
+}
+
 class ProcessReaderThreadedChild final : public MachMultiprocess {
  public:
   explicit ProcessReaderThreadedChild(size_t thread_count)
@@ -463,7 +476,7 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
 
     // This thread isn’t part of the thread pool, but the parent will be able
     // to inspect it. Write an entry for it.
-    uint64_t thread_id = PthreadToThreadID(pthread_self());
+    uint64_t thread_id = GetThreadID();
 
     CheckedWriteFile(write_handle, &thread_id, sizeof(thread_id));
 
