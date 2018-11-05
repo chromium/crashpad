@@ -20,11 +20,12 @@
 
 #include <memory>
 
+#include "base/numerics/safe_math.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_context.h"
-#include "snapshot/minidump/minidump_annotation_reader.h"
 #include "snapshot/memory_map_region_snapshot.h"
+#include "snapshot/minidump/minidump_annotation_reader.h"
 #include "snapshot/module_snapshot.h"
 #include "util/file/string_file.h"
 #include "util/misc/pdb_structures.h"
@@ -323,7 +324,8 @@ TEST(ProcessSnapshotMinidump, Modules) {
   for (uint32_t i = 0; i < minidump_module_count; i++) {
     name_rvas[i] = static_cast<RVA>(string_file.SeekGet());
     auto name16 = base::UTF8ToUTF16(names[i]);
-    uint32_t size = sizeof(name16[0]) * name16.size();
+    uint32_t size =
+        base::checked_cast<uint32_t>(sizeof(name16[0]) * name16.size());
     EXPECT_TRUE(string_file.Write(&size, sizeof(size)));
     EXPECT_TRUE(string_file.Write(&name16[0], size));
   }
@@ -1066,7 +1068,8 @@ TEST(ProcessSnapshotMinidump, Stacks) {
     '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
   };
 
-  minidump_thread.Stack.Memory.DataSize = minidump_stack.size();
+  minidump_thread.Stack.Memory.DataSize =
+      base::checked_cast<uint32_t>(minidump_stack.size());
   minidump_thread.Stack.Memory.Rva = static_cast<RVA>(string_file.SeekGet());
 
   EXPECT_TRUE(string_file.Write(minidump_stack.data(), minidump_stack.size()));
