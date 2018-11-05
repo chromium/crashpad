@@ -113,10 +113,13 @@ static_library("test") {
     "test_paths_test_data_root.txt",
   ]
 
+  public_deps = [
+    "../third_party/mini_chromium:base",
+  ]
+
   deps = [
     "../compat",
     "../third_party/gtest:gtest",
-    "../third_party/mini_chromium:base",
     "../util",
   ]
 
@@ -133,9 +136,7 @@ static_library("test") {
   }
 
   if (crashpad_is_fuchsia) {
-    public_deps = [
-      "../third_party/fuchsia:zx",
-    ]
+    public_deps += [ "../third_party/fuchsia:zx" ]
     if (crashpad_is_in_fuchsia) {
       deps += [ "//zircon/public/lib/fdio" ]
     }
