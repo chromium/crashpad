@@ -16,6 +16,8 @@
 
 #include <memory>
 
+#include "base/numerics/safe_math.h"
+
 namespace crashpad {
 namespace internal {
 
@@ -98,7 +100,8 @@ const MemorySnapshot* MemorySnapshotMinidump::MergeWithOtherSnapshot(
     return result.release();
   }
 
-  result->data_.resize(other_cast->address_ - address_);
+  result->data_.resize(
+      base::checked_cast<size_t>(other_cast->address_ - address_));
   result->data_.insert(result->data_.end(), other_cast->data_.begin(),
                        other_cast->data_.end());
   return result.release();
