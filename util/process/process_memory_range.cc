@@ -86,7 +86,7 @@ bool ProcessMemoryRange::ReadCStringSizeLimited(VMAddress address,
     LOG(ERROR) << "read out of range";
     return false;
   }
-  size = std::min(static_cast<VMSize>(size), range_.End() - address);
+  size = std::min(size, base::checked_cast<size_t>(range_.End() - address));
   return memory_->ReadCStringSizeLimited(address, size, string);
 }
 
