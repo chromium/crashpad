@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "714356a1_252b1b1e",
+        "filename": "snapshot/minidump/memory_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-11-05T19:06:59Z",
+      "side": 1,
+      "message": "I believe other_cast-\u003eaddress_ is always \u003e\u003d address_ here per the first if in this function, but this also shouldn\u0027t be particularly performance sensitive.",
+      "revId": "f6a8aae3a6f5df3474e0ac58bfe7c3dc45c71151",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
