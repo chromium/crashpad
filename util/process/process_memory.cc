@@ -14,6 +14,8 @@
 
 #include "util/process/process_memory.h"
 
+#include <algorithm>
+
 #include "base/logging.h"
 
 namespace crashpad {

@@ -19,7 +19,13 @@
 
 #include <string>
 
+#include "build/build_config.h"
 #include "util/misc/address_types.h"
+
+#if defined(OS_WIN)
+#include <basetsd.h>
+typedef SSIZE_T ssize_t;
+#endif  // defined(OS_WIN)
 
 namespace crashpad {
 

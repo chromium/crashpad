@@ -14,8 +14,6 @@
 
 #include "util/process/process_memory_range.h"
 
-#include <unistd.h>
-
 #include <limits>
 
 #include "base/logging.h"
@@ -27,7 +25,11 @@
 #include <lib/zx/process.h>
 
 #include "util/process/process_memory_fuchsia.h"
+#elif defined(OS_WIN)
+#include "util/process/process_memory_win.h"
 #else
+#include <unistd.h>
+
 #include "util/process/process_memory_linux.h"
 #endif
 
@@ -41,20 +43,21 @@ struct TestObject {
 } kTestObject = {"string1", "string2"};
 
 TEST(ProcessMemoryRange, Basic) {
-#if defined(OS_FUCHSIA)
-  ProcessMemoryFuchsia memory;
-  ASSERT_TRUE(memory.Initialize(*zx::process::self()));
-  constexpr bool is_64_bit = true;
-#else
-  pid_t pid = getpid();
 #if defined(ARCH_CPU_64_BITS)
   constexpr bool is_64_bit = true;
 #else
   constexpr bool is_64_bit = false;
 #endif  // ARCH_CPU_64_BITS
 
+#if defined(OS_FUCHSIA)
+  ProcessMemoryFuchsia memory;
+  ASSERT_TRUE(memory.Initialize(*zx::process::self()));
+#elif defined(OS_WIN)
+  ProcessMemoryWin memory;
+  ASSERT_TRUE(memory.Initialize(GetCurrentProcess()));
+#elif defined(OS_LINUX)
   ProcessMemoryLinux memory;
-  ASSERT_TRUE(memory.Initialize(pid));
+  ASSERT_TRUE(memory.Initialize(getpid()));
 #endif  // OS_FUCHSIA
 
   ProcessMemoryRange range;
