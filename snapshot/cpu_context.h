@@ -300,6 +300,11 @@ struct CPUContextARM64 {
   uint64_t sp;
   uint64_t pc;
   uint32_t spsr;
+  // TODO(frousseau): re-introduce temporarily pstate for Fuchsia so we can
+  // transition the client in Garnet without a hard transition.
+#if defined(OS_FUCHSIA)
+  uint64_t pstate;
+#endif // OS_FUCHSIA
 
   uint128_struct fpsimd[32];
   uint32_t fpsr;
