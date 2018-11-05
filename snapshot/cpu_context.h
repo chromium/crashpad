@@ -17,6 +17,7 @@
 
 #include <stdint.h>
 
+#include "build/build_config.h"
 #include "snapshot/cpu_architecture.h"
 #include "util/numeric/int128.h"
 
@@ -300,6 +301,12 @@ struct CPUContextARM64 {
   uint64_t sp;
   uint64_t pc;
   uint32_t spsr;
+  // TODO(frousseau): re-introduce temporarily pstate for Fuchsia so we can
+  // transition the client in Garnet without a hard transition.
+  // Note that the client runs on a Linux host.
+#if defined(OS_LINUX)
+  uint64_t pstate;
+#endif // OS_LINUX
 
   uint128_struct fpsimd[32];
   uint32_t fpsr;
