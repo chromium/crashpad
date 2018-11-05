@@ -113,10 +113,13 @@ static_library("test") {
     "test_paths_test_data_root.txt",
   ]
 
+  public_deps = [
+    "../third_party/mini_chromium:base",
+  ]
+
   deps = [
     "../compat",
     "../third_party/gtest:gtest",
-    "../third_party/mini_chromium:base",
     "../util",
   ]
 
