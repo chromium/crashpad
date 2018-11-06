@@ -55,7 +55,7 @@ TEST(ProcessMemoryRange, Basic) {
 #elif defined(OS_WIN)
   ProcessMemoryWin memory;
   ASSERT_TRUE(memory.Initialize(GetCurrentProcess()));
-#elif defined(OS_LINUX)
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
   ProcessMemoryLinux memory;
   ASSERT_TRUE(memory.Initialize(getpid()));
 #endif  // OS_FUCHSIA
