@@ -16,6 +16,24 @@
       "revId": "8d89d441941c80ea9d48156515623fcb68c9a9f1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adb61c11_9a80a94f",
+        "filename": "test/scoped_guarded_page_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-11-06T18:57:55Z",
+      "side": 1,
+      "message": "It looked like flakiness on the mac bots:\n\n[ RUN      ] ScopedGuardedPage.BasicFunctionality\n\n[WARNING] ../../third_party/gtest/gtest/googletest/src/gtest-death-test.cc:1011:: Death tests use fork(), which is unsafe particularly in a threaded context. For this test, Google Test detected 2 threads.\n../../test/scoped_guarded_page_test.cc:31: Failure\nDeath test: crashpad::test::ExceptionSwallower::SwallowExceptions(); { { address[base::GetPageSize()] \u003d 0; }; }\n    Result: failed to die.\n Error msg:\n[  DEATH   ] \n[  FAILED  ] ScopedGuardedPage.BasicFunctionality (2 ms)\n[----------] 1 test from ScopedGuardedPage (2 ms total)\n\nhttps://logs.chromium.org/logs/crashpad/buildbucket/cr-buildbucket.appspot.com/8930637750459709712/+/steps/run_tests/0/stdout",
+      "parentUuid": "d5ffdec3_3f4ecd2f",
+      "revId": "8d89d441941c80ea9d48156515623fcb68c9a9f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
