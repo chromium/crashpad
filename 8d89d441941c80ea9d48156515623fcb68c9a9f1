@@ -34,6 +34,24 @@
       "revId": "8d89d441941c80ea9d48156515623fcb68c9a9f1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59cc1f89_c1a469be",
+        "filename": "test/scoped_guarded_page_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-11-06T19:14:25Z",
+      "side": 1,
+      "message": "This test is failing 100% of the time on my mac, it appears to be because of the switch to using EXPECT_DEATH_CRASH() in https://chromium-review.googlesource.com/c/crashpad/crashpad/+/1318313\n\nI\u0027m investigating why this is, I\u0027m not sure why it succeeded on the Mac tryjob for that CL.",
+      "parentUuid": "adb61c11_9a80a94f",
+      "revId": "8d89d441941c80ea9d48156515623fcb68c9a9f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
