@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cc94213_5f95eb7c",
+        "filename": "client/crashpad_info_note.S",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-11-06T20:04:28Z",
+      "side": 1,
+      "message": "80 col",
+      "revId": "b74d54f676a9c02db102a9e268136eeb778fad1a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
