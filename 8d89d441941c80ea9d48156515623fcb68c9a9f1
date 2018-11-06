@@ -52,6 +52,24 @@
       "revId": "8d89d441941c80ea9d48156515623fcb68c9a9f1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5e62bfb_5979a0a5",
+        "filename": "test/scoped_guarded_page_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-11-06T19:21:48Z",
+      "side": 1,
+      "message": "I saw that error on the bot when I first uploaded a patch with EXPECT_DEATH_CHECK and then EXPECT_DEATH_CRASH \"solved\" it. AFAIU we don\u0027t use EXPECT_DEATH in Crashpad because the macro might not exist on some platforms, e.g., Fuchsia.",
+      "parentUuid": "59cc1f89_c1a469be",
+      "revId": "8d89d441941c80ea9d48156515623fcb68c9a9f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
