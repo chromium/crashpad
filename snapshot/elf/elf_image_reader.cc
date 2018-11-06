@@ -191,7 +191,8 @@ ElfImageReader::NoteReader::~NoteReader() = default;
 ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::NextNote(
     std::string* name,
     NoteType* type,
-    std::string* desc) {
+    std::string* desc,
+    VMAddress* desc_address) {
   if (!is_valid_) {
     LOG(ERROR) << "invalid note reader";
     return Result::kError;
@@ -215,8 +216,9 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::NextNote(
     }
 
     retry_ = false;
-    result = range_->Is64Bit() ? ReadNote<Elf64_Nhdr>(name, type, desc)
-                               : ReadNote<Elf32_Nhdr>(name, type, desc);
+    result = range_->Is64Bit()
+                 ? ReadNote<Elf64_Nhdr>(name, type, desc, desc_address)
+                 : ReadNote<Elf32_Nhdr>(name, type, desc, desc_address);
   } while (retry_);
 
   if (result == Result::kSuccess) {
@@ -251,7 +253,8 @@ template <typename NhdrType>
 ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::ReadNote(
     std::string* name,
     NoteType* type,
-    std::string* desc) {
+    std::string* desc,
+    VMAddress* desc_address) {
   static_assert(sizeof(*type) >= sizeof(NhdrType::n_namesz),
                 "Note field size mismatch");
   DCHECK_LT(current_address_, segment_end_address_);
@@ -317,6 +320,7 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::ReadNote(
           current_address_, note_info.n_descsz, &local_desc[0])) {
     return Result::kError;
   }
+  *desc_address = current_address_;
 
   current_address_ = end_of_note;
 
