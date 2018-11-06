@@ -70,9 +70,14 @@ class ElfImageReader {
     //! \param[out] name The name of the note owner, if not `nullptr`.
     //! \param[out] type A type for the note, if not `nullptr`.
     //! \param[out] desc The note descriptor.
-    //! \return a #Result value. \a name, \a type, and \a desc are only valid if
-    //!     this method returns Result::kSuccess.
-    Result NextNote(std::string* name, NoteType* type, std::string* desc);
+    //! \param[out] desc_addr The address in the remote process' address space
+    //!     \a desc was read from.
+    //! \return a #Result value. \a name, \a type, \a desc, and \a desc_addr are
+    //!     only valid if this method returns Result::kSuccess.
+    Result NextNote(std::string* name,
+                    NoteType* type,
+                    std::string* desc,
+                    VMAddress* desc_addr);
 
     // private
     NoteReader(const ElfImageReader* elf_reader_,
@@ -88,7 +93,10 @@ class ElfImageReader {
     // and returns kError if use_filter_ is true and the note's name and type do
     // not match name_filter_ and type_filter_.
     template <typename T>
-    Result ReadNote(std::string* name, NoteType* type, std::string* desc);
+    Result ReadNote(std::string* name,
+                    NoteType* type,
+                    std::string* desc,
+                    VMAddress* desc_addr);
 
     VMAddress current_address_;
     VMAddress segment_end_address_;

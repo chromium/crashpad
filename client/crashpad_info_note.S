@@ -26,16 +26,13 @@
 #define NOTE_ALIGN 4
 
   // This section must be "a"llocated so that it appears in the final binary at
-  // runtime, and "w"ritable so that the relocation to CRASHPAD_INFO_SYMBOL can
-  // be performed.
-  .section .note.crashpad.info,"aw",%note
+  // runtime. The reference to CRASHPAD_INFO_SYMBOL uses an offset relative to
+  // this note to avoid making this note writable, which triggers a bug in GNU
+  // ld, or adding text relocations which require the target system to allow
+  // making text segments writable. https://crbug.com/crashpad/260.
+  .section .note.crashpad.info,"a",%note
   .balign NOTE_ALIGN
-  # .globl indicates that it's available to link against other .o files. .hidden
-  # indicates that it will not appear in the executable's symbol table.
-  .globl CRASHPAD_NOTE_REFERENCE
-  .hidden CRASHPAD_NOTE_REFERENCE
-  .type CRASHPAD_NOTE_REFERENCE, %object
-CRASHPAD_NOTE_REFERENCE:
+CRASHPAD_NOTE:
   .long name_end - name  // namesz
   .long desc_end - desc  // descsz
   .long CRASHPAD_ELF_NOTE_TYPE_CRASHPAD_INFO  // type
@@ -45,15 +42,26 @@ name_end:
   .balign NOTE_ALIGN
 desc:
 #if defined(__LP64__)
-  .quad CRASHPAD_INFO_SYMBOL
+  .quad CRASHPAD_INFO_SYMBOL - desc
 #else
-#if defined(__LITTLE_ENDIAN__)
-  .long CRASHPAD_INFO_SYMBOL
-  .long 0
-#else
-  .long 0
-  .long CRASHPAD_INFO_SYMBOL
-#endif  // __LITTLE_ENDIAN__
+  .long CRASHPAD_INFO_SYMBOL - desc
 #endif  // __LP64__
 desc_end:
-  .size CRASHPAD_NOTE_REFERENCE, .-CRASHPAD_NOTE_REFERENCE
+  .size CRASHPAD_NOTE, .-CRASHPAD_NOTE
+
+  // CRASHPAD_NOTE can't be referenced directly by GetCrashpadInfo() because the
+  // relocation used to make the reference may require that the address be
+  // 8-byte aligned and notes must have 4-byte alignment.
+  .section .rodata,"a",%progbits
+  .balign 8
+  # .globl indicates that it's available to link against other .o files. .hidden
+  # indicates that it will not appear in the executable's symbol table.
+  .globl CRASHPAD_NOTE_REFERENCE
+  .hidden CRASHPAD_NOTE_REFERENCE
+  .type CRASHPAD_NOTE_REFERENCE, %object
+CRASHPAD_NOTE_REFERENCE:
+  // The value of this quad isn't important. It exists to reference
+  // CRASHPAD_NOTE, causing the linker to include the note into the binary
+  // linking Crashpad. The subtraction from |name| is a convenience to allow the
+  // value to be computed statically.
+  .quad name - CRASHPAD_NOTE
