@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f077048_1a963155",
+        "filename": "test/scoped_guarded_page_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-06T20:49:48Z",
+      "side": 1,
+      "message": "Since “fast” is only a thing on POSIX, this guard isn’t even necessary.",
+      "revId": "ccf2da0d06911be8ef3b80a3adc90c8f35c58794",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
