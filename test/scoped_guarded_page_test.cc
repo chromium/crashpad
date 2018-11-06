@@ -15,12 +15,16 @@
 #include "test/scoped_guarded_page.h"
 
 #include "base/process/process_metrics.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/gtest_death.h"
 
 namespace crashpad {
 namespace test {
 namespace {
+
+// The POSIX implementation of ScopedGuardedPage is not thread-safe.
+#if !defined(OS_POSIX)
 
 TEST(ScopedGuardedPage, BasicFunctionality) {
   ScopedGuardedPage page;
@@ -30,6 +34,8 @@ TEST(ScopedGuardedPage, BasicFunctionality) {
   address[base::GetPageSize() - 1] = 0;
   EXPECT_DEATH_CRASH({ address[base::GetPageSize()] = 0; }, "");
 }
+
+#endif  // OS_POSIX
 
 }  // namespace
 }  // namespace test
