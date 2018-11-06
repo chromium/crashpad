@@ -22,6 +22,9 @@ namespace crashpad {
 namespace test {
 namespace {
 
+// The POSIX implementation of ScopedGuardedPage is not thread-safe.
+#if !defined(OS_POSIX)
+
 TEST(ScopedGuardedPage, BasicFunctionality) {
   ScopedGuardedPage page;
   char* address = (char*)page.Pointer();
@@ -30,6 +33,8 @@ TEST(ScopedGuardedPage, BasicFunctionality) {
   address[base::GetPageSize() - 1] = 0;
   EXPECT_DEATH_CRASH({ address[base::GetPageSize()] = 0; }, "");
 }
+
+#endif  // OS_POSIX
 
 }  // namespace
 }  // namespace test
