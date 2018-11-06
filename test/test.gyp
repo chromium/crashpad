@@ -63,6 +63,8 @@
         'multiprocess_posix.cc',
         'process_type.cc',
         'process_type.h',
+        'scoped_guarded_page.h',
+        'scoped_guarded_page_posix.cc',
         'scoped_module_handle.cc',
         'scoped_module_handle.h',
         'scoped_temp_dir.cc',

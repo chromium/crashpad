@@ -15,6 +15,7 @@
 #include "test/scoped_guarded_page.h"
 
 #include "base/process/process_metrics.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/gtest_death.h"
 
@@ -23,6 +24,10 @@ namespace test {
 namespace {
 
 TEST(ScopedGuardedPage, BasicFunctionality) {
+#if defined(OS_POSIX)
+  ::testing::FLAGS_gtest_death_test_style = "threadsafe";
+#endif
+
   ScopedGuardedPage page;
   char* address = (char*)page.Pointer();
   EXPECT_NE(address, nullptr);

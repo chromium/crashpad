@@ -39,6 +39,7 @@
         'main_arguments_test.cc',
         'multiprocess_exec_test.cc',
         'multiprocess_posix_test.cc',
+        'scoped_guarded_page_test.cc',
         'scoped_temp_dir_test.cc',
         'test_paths_test.cc',
         'win/win_child_process_test.cc',
