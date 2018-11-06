@@ -299,12 +299,7 @@ struct CPUContextARM64 {
   uint64_t regs[31];
   uint64_t sp;
   uint64_t pc;
-  // TODO(frousseau): remove pstate once clients have transitioned to spsr,
-  // notably zxdb in Fuchsia.
-  union {
-    uint32_t spsr;
-    uint64_t pstate;
-  };
+  uint32_t spsr;
 
   uint128_struct fpsimd[32];
   uint32_t fpsr;
