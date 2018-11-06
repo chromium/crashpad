@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5ffdec3_3f4ecd2f",
+        "filename": "test/scoped_guarded_page_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-11-06T18:52:15Z",
+      "side": 1,
+      "message": "What failure are you seeing?",
+      "revId": "8d89d441941c80ea9d48156515623fcb68c9a9f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
