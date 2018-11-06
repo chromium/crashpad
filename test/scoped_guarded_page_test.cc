@@ -16,6 +16,7 @@
 
 #include "base/process/process_metrics.h"
 #include "gtest/gtest.h"
+#include "test/gtest_death.h"
 
 namespace crashpad {
 namespace test {
@@ -27,7 +28,7 @@ TEST(ScopedGuardedPage, BasicFunctionality) {
   EXPECT_NE(address, nullptr);
   address[0] = 0;
   address[base::GetPageSize() - 1] = 0;
-  EXPECT_DEATH({ address[base::GetPageSize()] = 0; }, "");
+  EXPECT_DEATH_CRASH({ address[base::GetPageSize()] = 0; }, "");
 }
 
 }  // namespace
