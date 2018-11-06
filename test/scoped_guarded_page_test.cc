@@ -23,6 +23,8 @@ namespace test {
 namespace {
 
 TEST(ScopedGuardedPage, BasicFunctionality) {
+  ::testing::FLAGS_gtest_death_test_style = "threadsafe";
+
   ScopedGuardedPage page;
   char* address = (char*)page.Pointer();
   EXPECT_NE(address, nullptr);
