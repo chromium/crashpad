@@ -92,9 +92,7 @@ size_t ProcessMemoryWin::ReadAvailableMemory(VMAddress address,
   // in the range.
   if (ranges.empty()) {
     LOG(ERROR) << base::StringPrintf(
-        "range at 0x%llx, size 0x%llx completely inaccessible",
-        address,
-        WinVMSize{size});
+        "range at 0x%llx, size 0x%zx completely inaccessible", address, size);
     return 0;
   }
 
@@ -102,9 +100,7 @@ size_t ProcessMemoryWin::ReadAvailableMemory(VMAddress address,
   // requested byte.
   if (ranges.front().base() != address) {
     LOG(ERROR) << base::StringPrintf(
-        "start of range at 0x%llx, size 0x%llx inaccessible",
-        address,
-        WinVMSize{size});
+        "start of range at 0x%llx, size 0x%zx inaccessible", address, size);
     return 0;
   }
 
