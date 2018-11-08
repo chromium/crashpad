@@ -39,7 +39,8 @@ bool CaptureMemoryDelegateWin::Is64Bit() const {
 bool CaptureMemoryDelegateWin::ReadMemory(uint64_t at,
                                           uint64_t num_bytes,
                                           void* into) const {
-  return process_reader_->ReadMemory(at, num_bytes, into);
+  return process_reader_->Memory()->Read(
+      at, base::checked_cast<size_t>(num_bytes), into);
 }
 
 std::vector<CheckedRange<uint64_t>> CaptureMemoryDelegateWin::GetReadableRanges(

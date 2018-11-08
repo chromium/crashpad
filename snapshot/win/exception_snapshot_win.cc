@@ -176,9 +176,9 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
                                   CPUContext* context,
                                   CPUContextUnion* context_union)) {
   ExceptionPointersType exception_pointers;
-  if (!process_reader->ReadMemory(exception_pointers_address,
-                                  sizeof(exception_pointers),
-                                  &exception_pointers)) {
+  if (!process_reader->Memory()->Read(exception_pointers_address,
+                                      sizeof(exception_pointers),
+                                      &exception_pointers)) {
     LOG(ERROR) << "EXCEPTION_POINTERS read failed";
     return false;
   }
@@ -188,7 +188,7 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
   }
 
   ExceptionRecordType first_record;
-  if (!process_reader->ReadMemory(
+  if (!process_reader->Memory()->Read(
           static_cast<WinVMAddress>(exception_pointers.ExceptionRecord),
           sizeof(first_record),
           &first_record)) {
@@ -240,7 +240,7 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
     }
 
     ContextType context_record;
-    if (!process_reader->ReadMemory(
+    if (!process_reader->Memory()->Read(
             static_cast<WinVMAddress>(exception_pointers.ContextRecord),
             sizeof(context_record),
             &context_record)) {
