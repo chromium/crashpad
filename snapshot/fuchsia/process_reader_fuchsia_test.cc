@@ -166,7 +166,10 @@ class ThreadsChildTest : public MultiprocessExec {
   DISALLOW_COPY_AND_ASSIGN(ThreadsChildTest);
 };
 
-TEST(ProcessReaderFuchsia, ChildThreads) {
+// TODO(scottmg): US-553. ScopedTaskSuspend fails sometimes, with a 50ms
+// timeout. Currently unclear how to make that more reliable, so disable the
+// test for now as otherwise it flakes.
+TEST(ProcessReaderFuchsia, DISABLED_ChildThreads) {
   ThreadsChildTest test;
   test.Run();
 }
