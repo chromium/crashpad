@@ -28,7 +28,7 @@
   .globl CAPTURECONTEXT_SYMBOL2
 #if defined(__i386__) || defined(__x86_64__)
   .balign 16, 0x90
-#elif defined(__arm__) || defined(__aarch64__) || defined(__mips__)
+#elif defined(__arm__) || defined(__aarch64__) || defined(__mips__) || defined(__powerpc64__)
   .balign 4, 0x0
 #endif
 
@@ -419,4 +419,214 @@ CAPTURECONTEXT_SYMBOL2:
   jr $ra
 
   .set at
+#elif defined(__powerpc64__)
+  // Store r0-r31
+  std 0, 0xe8(3)   // context->uc_mcontext.gp_regs[0]
+  std 1, 0xf0(3)   // context->uc_mcontext.gp_regs[1]
+  std 2, 0xf8(3)   // context->uc_mcontext.gp_regs[2]
+  // note that r3's original value was lost
+  std 3, 0x100(3)  // context->uc_mcontext.gp_regs[3]
+  std 4, 0x108(3)  // context->uc_mcontext.gp_regs[4]
+  std 5, 0x110(3)  // context->uc_mcontext.gp_regs[5]
+  std 6, 0x118(3)  // context->uc_mcontext.gp_regs[6]
+  std 7, 0x120(3)  // context->uc_mcontext.gp_regs[7]
+  std 8, 0x128(3)  // context->uc_mcontext.gp_regs[8]
+  std 9, 0x130(3)  // context->uc_mcontext.gp_regs[9]
+  std 10, 0x138(3) // context->uc_mcontext.gp_regs[10]
+  std 11, 0x140(3) // context->uc_mcontext.gp_regs[11]
+  std 12, 0x148(3) // context->uc_mcontext.gp_regs[12]
+  std 13, 0x150(3) // context->uc_mcontext.gp_regs[13]
+  std 14, 0x158(3) // context->uc_mcontext.gp_regs[14]
+  std 15, 0x160(3) // context->uc_mcontext.gp_regs[15]
+  std 16, 0x168(3) // context->uc_mcontext.gp_regs[16]
+  std 17, 0x170(3) // context->uc_mcontext.gp_regs[17]
+  std 18, 0x178(3) // context->uc_mcontext.gp_regs[18]
+  std 19, 0x180(3) // context->uc_mcontext.gp_regs[19]
+  std 20, 0x188(3) // context->uc_mcontext.gp_regs[20]
+  std 21, 0x190(3) // context->uc_mcontext.gp_regs[21]
+  std 22, 0x198(3) // context->uc_mcontext.gp_regs[22]
+  std 23, 0x1a0(3) // context->uc_mcontext.gp_regs[23]
+  std 24, 0x1a8(3) // context->uc_mcontext.gp_regs[24]
+  std 25, 0x1b0(3) // context->uc_mcontext.gp_regs[25]
+  std 26, 0x1b8(3) // context->uc_mcontext.gp_regs[26]
+  std 27, 0x1c0(3) // context->uc_mcontext.gp_regs[27]
+  std 28, 0x1c8(3) // context->uc_mcontext.gp_regs[28]
+  std 29, 0x1d0(3) // context->uc_mcontext.gp_regs[29]
+  std 30, 0x1d8(3) // context->uc_mcontext.gp_regs[30]
+  std 31, 0x1e0(3) // context->uc_mcontext.gp_regs[31]
+
+  // For NIP, we can use the value in the link register
+  mflr 0
+  std 0, 0x1e8(3) // context->uc_mcontext.gp_regs[PT_NIP]
+
+  // CTR
+  mfctr 0
+  std 0, 0x200(3) // context->uc_mcontext.gp_regs[PT_CTR]
+
+  // For LNK, we'll use the caller's LR save area (2 stack frames up).
+  // r4 can be used as a scratch register since it has already been saved.
+  ld 4, 0(1)
+  ld 4, 16(4)
+  std 4, 0x208(3) // context->uc_mcontext.gp_regs[PT_LNK]
+
+  // XER
+  mfxer 0
+  std 0, 0x210(3) // context->uc_mcontext.gp_regs[PT_XER]
+
+  // CCR
+  mfcr 0
+  std 0, 0x218(3) // context->uc_mcontext.gp_regs[PT_CCR]
+
+  // MSR, orig_r3, MQ, TRAP, DAR, DSISR, RESULT, DSCR,
+  // not used or not relevant,  zero them out.
+  li 4, 0
+  std 4, 0x1f0(3) // context->uc_mcontext.gp_regs[PT_MSR]
+  std 4, 0x1f8(3) // context->uc_mcontext.gp_regs[PT_ORIG_R3]
+  std 4, 0x220(3) // context->uc_mcontext.gp_regs[PT_MQ]
+  std 4, 0x228(3) // context->uc_mcontext.gp_regs[PT_TRAP]
+  std 4, 0x230(3) // context->uc_mcontext.gp_regs[PT_DAR]
+  std 4, 0x238(3) // context->uc_mcontext.gp_regs[PT_DSISR]
+  std 4, 0x240(3) // context->uc_mcontext.gp_regs[PT_RESULT]
+  std 4, 0x248(3) // context->uc_mcontext.gp_regs[PT_DSCR]
+
+  // Update context->uc_mcontext.regs to point to gp_regs
+  addi 0, 3, 0xe8
+  std 0, 0xe0(3)
+
+  // Save floating point registers 0-31
+  stfd 0, 0x268(3)  // context->uc_mcontext.fp_regs[0]
+  stfd 1, 0x270(3)  // context->uc_mcontext.fp_regs[1]
+  stfd 2, 0x278(3)  // context->uc_mcontext.fp_regs[2]
+  stfd 3, 0x280(3)  // context->uc_mcontext.fp_regs[3]
+  stfd 4, 0x288(3)  // context->uc_mcontext.fp_regs[4]
+  stfd 5, 0x290(3)  // context->uc_mcontext.fp_regs[5]
+  stfd 6, 0x298(3)  // context->uc_mcontext.fp_regs[6]
+  stfd 7, 0x2a0(3)  // context->uc_mcontext.fp_regs[7]
+  stfd 8, 0x2a8(3)  // context->uc_mcontext.fp_regs[8]
+  stfd 9, 0x2b0(3)  // context->uc_mcontext.fp_regs[9]
+  stfd 10, 0x2b8(3) // context->uc_mcontext.fp_regs[10]
+  stfd 11, 0x2c0(3) // context->uc_mcontext.fp_regs[11]
+  stfd 12, 0x2c8(3) // context->uc_mcontext.fp_regs[12]
+  stfd 13, 0x2d0(3) // context->uc_mcontext.fp_regs[13]
+  stfd 14, 0x2d8(3) // context->uc_mcontext.fp_regs[14]
+  stfd 15, 0x2e0(3) // context->uc_mcontext.fp_regs[15]
+  stfd 16, 0x2e8(3) // context->uc_mcontext.fp_regs[16]
+  stfd 17, 0x2f0(3) // context->uc_mcontext.fp_regs[17]
+  stfd 18, 0x2f8(3) // context->uc_mcontext.fp_regs[18]
+  stfd 19, 0x300(3) // context->uc_mcontext.fp_regs[19]
+  stfd 20, 0x308(3) // context->uc_mcontext.fp_regs[20]
+  stfd 21, 0x310(3) // context->uc_mcontext.fp_regs[21]
+  stfd 22, 0x318(3) // context->uc_mcontext.fp_regs[22]
+  stfd 23, 0x320(3) // context->uc_mcontext.fp_regs[23]
+  stfd 24, 0x328(3) // context->uc_mcontext.fp_regs[24]
+  stfd 25, 0x330(3) // context->uc_mcontext.fp_regs[25]
+  stfd 26, 0x338(3) // context->uc_mcontext.fp_regs[26]
+  stfd 27, 0x340(3) // context->uc_mcontext.fp_regs[27]
+  stfd 28, 0x348(3) // context->uc_mcontext.fp_regs[28]
+  stfd 29, 0x350(3) // context->uc_mcontext.fp_regs[29]
+  stfd 30, 0x358(3) // context->uc_mcontext.fp_regs[30]
+  stfd 31, 0x360(3) // context->uc_mcontext.fp_regs[31]
+
+  // FPSCR
+  mffs 0
+  stfd 0, 0x368(3) // context->uc_mcontext.fp_regs[32]
+
+  // Save VMX Vector registers
+  // Update r4 to contain the base address of vmx_reserve
+  addi 4, 3, 0x378
+  // Ensure that it is quadword aligned
+  andi. 5, 4, 0xF
+  beq 1f // No alignment is necessary
+  // Address is doubleword aligned and not quadword aligned, add 8
+  addi 4, 4, 8
+
+1:
+  // Store VMX registers 0-31
+  // r4 will contain the base address
+  // r5 will contain the index
+  li 5, 0
+  stvx 0, 4, 5   // context->uc_mcontext.vmx_reserve[(align) + 0]
+  addi 5, 5, 16
+  stvx 1, 4, 5   // context->uc_mcontext.vmx_reserve[(align) + 1]
+  addi 5, 5, 16
+  stvx 2, 4, 5   // context->uc_mcontext.vmx_reserve[(align) + 2]
+  addi 5, 5, 16
+  stvx 3, 4, 5   // context->uc_mcontext.vmx_reserve[(align) + 3]
+  addi 5, 5, 16
+  stvx 4, 4, 5   // context->uc_mcontext.vmx_reserve[(align) + 4]
+  addi 5, 5, 16
+  stvx 5, 4, 5   // context->uc_mcontext.vmx_reserve[(align) + 5]
+  addi 5, 5, 16
+  stvx 6, 4, 5   // context->uc_mcontext.vmx_reserve[(align) + 6]
+  addi 5, 5, 16
+  stvx 7, 4, 5   // context->uc_mcontext.vmx_reserve[(align) + 7]
+  addi 5, 5, 16
+  stvx 8, 4, 5   // context->uc_mcontext.vmx_reserve[(align) + 8]
+  addi 5, 5, 16
+  stvx 9, 4, 5   // context->uc_mcontext.vmx_reserve[(align) + 9]
+  addi 5, 5, 16
+  stvx 10, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 10]
+  addi 5, 5, 16
+  stvx 11, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 11]
+  addi 5, 5, 16
+  stvx 12, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 12]
+  addi 5, 5, 16
+  stvx 13, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 13]
+  addi 5, 5, 16
+  stvx 14, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 14]
+  addi 5, 5, 16
+  stvx 15, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 15]
+  addi 5, 5, 16
+  stvx 16, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 16]
+  addi 5, 5, 16
+  stvx 17, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 17]
+  addi 5, 5, 16
+  stvx 18, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 18]
+  addi 5, 5, 16
+  stvx 19, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 19]
+  addi 5, 5, 16
+  stvx 20, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 20]
+  addi 5, 5, 16
+  stvx 21, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 21]
+  addi 5, 5, 16
+  stvx 22, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 22]
+  addi 5, 5, 16
+  stvx 23, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 23]
+  addi 5, 5, 16
+  stvx 24, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 24]
+  addi 5, 5, 16
+  stvx 25, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 25]
+  addi 5, 5, 16
+  stvx 26, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 26]
+  addi 5, 5, 16
+  stvx 27, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 27]
+  addi 5, 5, 16
+  stvx 28, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 28]
+  addi 5, 5, 16
+  stvx 29, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 29]
+  addi 5, 5, 16
+  stvx 30, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 30]
+  addi 5, 5, 16
+  stvx 31, 4, 5  // context->uc_mcontext.vmx_reserve[(align) + 31]
+  addi 5, 5, 16
+
+  // VSCR
+  mfvscr 0
+  stvx 0, 4, 5
+  addi 5, 5, 16
+
+  // VRSAVE
+  mfvrsave 0
+  stwx 0, 4, 5
+
+  // Update context->uc_mcontext.v_regs to point to vmx_reserve + alignment.
+  std 4, 0x370(3)
+
+  // Zero out all unused fields
+  li 4, 0
+  std 4, 0xc8(3) // context->uc_mcontext.signal
+  std 4, 0xd0(3) // context->uc_mcontext.handler
+  std 4, 0xd8(3) // context->uc_mcontext.oldmask
+
+  blr
 #endif  // __i386__

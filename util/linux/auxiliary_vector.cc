@@ -56,6 +56,11 @@ bool AuxiliaryVector::Read(PtraceConnection* connection) {
     if (type == AT_IGNORE) {
       continue;
     }
+#if defined(ARCH_CPU_PPC64_FAMILY)
+    if (type == AT_IGNOREPPC) {
+      continue;
+    }
+#endif
     if (!MapInsertOrReplace(&values_, type, value, nullptr)) {
       LOG(ERROR) << "duplicate auxv entry";
       return false;
