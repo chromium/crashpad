@@ -32,7 +32,8 @@ class MemorySnapshotMinidump : public MemorySnapshot {
   MemorySnapshotMinidump();
   ~MemorySnapshotMinidump() override;
 
-  //! \brief Initializes the object.
+  //! \brief Initializes the object from the location of a
+  //!     MINIDUMP_MEMORY_DESCRIPTOR.
   //!
   //! \param[in] file_reader A file reader corresponding to a minidump file.
   //!     The file reader must support seeking.
@@ -42,6 +43,18 @@ class MemorySnapshotMinidump : public MemorySnapshot {
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
   bool Initialize(FileReaderInterface* file_reader, RVA location);
+
+  //! \brief Initializes the object from an explicit MINIDUMP_MEMORY_DESCRIPTOR.
+  //!
+  //! \param[in] file_reader A file reader corresponding to a minidump file.
+  //!     The file reader must support seeking.
+  //! \param[in] descriptor The MINIDUMP_MEMORY_DESCRIPTOR to initialize this
+  //!     object from.
+  //!
+  //! \return `true` if the snapshot could be created, `false` otherwise with
+  //!     an appropriate message logged.
+  bool Initialize(FileReaderInterface* file_reader,
+                  const MINIDUMP_MEMORY_DESCRIPTOR& descriptor);
 
   uint64_t Address() const override;
   size_t Size() const override;
