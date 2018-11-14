@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7b5d2de_e60f5422",
+        "filename": "snapshot/win/process_reader_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-14T17:47:42Z",
+      "side": 1,
+      "message": "Be explicit about process_memory_ here (as we’re explicit about everything else).",
+      "revId": "68ac817954c924fe65a4066762312c82c0516fef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e71ee4f_0425d520",
+        "filename": "snapshot/win/process_reader_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-14T17:47:42Z",
+      "side": 1,
+      "message": "Both process_info_.Initialize() and process_memory_.Initialize() should log their own messages if they fail, right? These LOG(ERROR)s are just redundant. This can be simplified.",
+      "revId": "68ac817954c924fe65a4066762312c82c0516fef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
