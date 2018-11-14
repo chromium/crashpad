@@ -60,7 +60,7 @@ bool MemorySnapshotWin::Read(Delegate* delegate) const {
   }
 
   std::unique_ptr<uint8_t[]> buffer(new uint8_t[size_]);
-  if (!process_reader_->ReadMemory(address_, size_, buffer.get())) {
+  if (!process_reader_->Memory()->Read(address_, size_, buffer.get())) {
     return false;
   }
   return delegate->MemorySnapshotDelegateRead(buffer.get(), size_);
