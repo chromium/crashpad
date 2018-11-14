@@ -109,7 +109,7 @@ class ProcessReaderFuchsia {
   const std::vector<Thread>& Threads();
 
   //! \brief Return a memory reader for the target process.
-  ProcessMemory* Memory() { return process_memory_.get(); }
+  const ProcessMemory* Memory() const { return process_memory_.get(); }
 
  private:
   //! Performs lazy initialization of the \a modules_ vector on behalf of

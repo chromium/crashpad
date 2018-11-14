@@ -31,6 +31,7 @@ class ExceptionSnapshot;
 class MemoryMapRegionSnapshot;
 class MemorySnapshot;
 class ModuleSnapshot;
+class ProcessMemory;
 class SystemSnapshot;
 class ThreadSnapshot;
 class UnloadedModuleSnapshot;
@@ -193,6 +194,14 @@ class ProcessSnapshot {
   //!     are scoped to the lifetime of the ProcessSnapshot object that they
   //!     were obtained from.
   virtual std::vector<const MemorySnapshot*> ExtraMemory() const = 0;
+
+  //! \brief Returns a ProcessMemory object that allows accessing the process'
+  //!     memory directly.
+  //!
+  //! \return A ProcessMemory object. The caller does not take ownership of this
+  //!     object, it is scoped to the lifetime of the ProcessSnapshot object
+  //!     that it was obtained from.
+  virtual const ProcessMemory* Memory() const = 0;
 };
 
 }  // namespace crashpad

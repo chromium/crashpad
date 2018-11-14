@@ -35,7 +35,8 @@ TestProcessSnapshot::TestProcessSnapshot()
       exception_(),
       memory_map_(),
       handles_(),
-      extra_memory_() {
+      extra_memory_(),
+      process_memory_() {
 }
 
 TestProcessSnapshot::~TestProcessSnapshot() {
@@ -124,6 +125,10 @@ std::vector<const MemorySnapshot*> TestProcessSnapshot::ExtraMemory() const {
     extra_memory.push_back(em.get());
   }
   return extra_memory;
+}
+
+const ProcessMemory* TestProcessSnapshot::Memory() const {
+  return process_memory_.get();
 }
 
 }  // namespace test

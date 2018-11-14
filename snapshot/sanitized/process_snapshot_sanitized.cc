@@ -262,4 +262,10 @@ std::vector<const MemorySnapshot*> ProcessSnapshotSanitized::ExtraMemory()
   return snapshot_->ExtraMemory();
 }
 
+const ProcessMemory* ProcessSnapshotSanitized::Memory() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  NOTREACHED();  // https://crashpad.chromium.org/bug/263
+  return nullptr;
+}
+
 }  // namespace crashpad
