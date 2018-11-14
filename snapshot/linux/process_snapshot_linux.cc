@@ -234,6 +234,11 @@ std::vector<const MemorySnapshot*> ProcessSnapshotLinux::ExtraMemory() const {
   return std::vector<const MemorySnapshot*>();
 }
 
+const ProcessMemory* ProcessSnapshotLinux::Memory() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return process_reader_.Memory();
+}
+
 void ProcessSnapshotLinux::InitializeThreads() {
   const std::vector<ProcessReaderLinux::Thread>& process_reader_threads =
       process_reader_.Threads();
