@@ -43,14 +43,20 @@ bool MemorySnapshotMinidump::Initialize(FileReaderInterface* file_reader,
     return false;
   }
 
-  address_ = descriptor.StartOfMemoryRange;
-  data_.resize(descriptor.Memory.DataSize);
-
-  if (!file_reader->SeekSet(descriptor.Memory.Rva)) {
+  if (!InitializeFromDescriptor(file_reader, descriptor)) {
     return false;
   }
 
-  if (!file_reader->ReadExactly(data_.data(), data_.size())) {
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
+
+bool MemorySnapshotMinidump::Initialize(
+    FileReaderInterface* file_reader,
+    const MINIDUMP_MEMORY_DESCRIPTOR& descriptor) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+  if (!InitializeFromDescriptor(file_reader, descriptor)) {
     return false;
   }
 
@@ -105,6 +111,19 @@ const MemorySnapshot* MemorySnapshotMinidump::MergeWithOtherSnapshot(
   result->data_.insert(result->data_.end(), other_cast->data_.begin(),
                        other_cast->data_.end());
   return result.release();
+}
+
+bool MemorySnapshotMinidump::InitializeFromDescriptor(
+    FileReaderInterface* file_reader,
+    const MINIDUMP_MEMORY_DESCRIPTOR& descriptor) {
+  address_ = descriptor.StartOfMemoryRange;
+  data_.resize(descriptor.Memory.DataSize);
+
+  if (!file_reader->SeekSet(descriptor.Memory.Rva)) {
+    return false;
+  }
+
+  return file_reader->ReadExactly(data_.data(), data_.size());
 }
 
 } // namespace internal
