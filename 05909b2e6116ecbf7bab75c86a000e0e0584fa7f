@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11522c77_cee60ddb",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-14T17:52:48Z",
+      "side": 1,
+      "message": "INITIALIZATION_STATE_DCHECK_VALID()?\n\nMaybe on other implementations too, although it depends on the surrounding code.",
+      "revId": "05909b2e6116ecbf7bab75c86a000e0e0584fa7f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38e0aa35_6c586881",
+        "filename": "snapshot/linux/process_snapshot_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-14T17:52:48Z",
+      "side": 1,
+      "message": "This one, for example.",
+      "revId": "05909b2e6116ecbf7bab75c86a000e0e0584fa7f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "372d1673_25e1c3e5",
+        "filename": "snapshot/mac/process_snapshot_mac.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-14T17:52:48Z",
+      "side": 1,
+      "message": "Nit: two spaces before the //.",
+      "revId": "05909b2e6116ecbf7bab75c86a000e0e0584fa7f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89af8ade_53eed17b",
+        "filename": "snapshot/sanitized/process_snapshot_sanitized.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-14T17:52:48Z",
+      "side": 1,
+      "message": "Here too.",
+      "revId": "05909b2e6116ecbf7bab75c86a000e0e0584fa7f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dc65bb3_81ec677b",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-14T17:52:48Z",
+      "side": 1,
+      "message": "INITIALIZATION_STATE_DCHECK_VALID() here too?",
+      "revId": "05909b2e6116ecbf7bab75c86a000e0e0584fa7f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
