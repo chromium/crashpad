@@ -16,6 +16,7 @@
 
 #include <utility>
 
+#include "minidump/minidump_extensions.h"
 #include "snapshot/memory_map_region_snapshot.h"
 #include "snapshot/minidump/minidump_simple_string_dictionary_reader.h"
 #include "util/file/file_io.h"
@@ -46,6 +47,7 @@ ProcessSnapshotMinidump::ProcessSnapshotMinidump()
       stream_map_(),
       modules_(),
       unloaded_modules_(),
+      custom_streams_(),
       crashpad_info_(),
       system_snapshot_(),
       arch_(CPUArchitecture::kCPUArchitectureUnknown),
@@ -109,7 +111,8 @@ bool ProcessSnapshotMinidump::Initialize(FileReaderInterface* file_reader) {
       !InitializeModules() ||
       !InitializeSystemSnapshot() ||
       !InitializeMemoryInfo() ||
-      !InitializeThreads()) {
+      !InitializeThreads() ||
+      !InitializeCustomMinidumpStreams()) {
     return false;
   }
 
@@ -232,6 +235,16 @@ std::vector<const MemorySnapshot*> ProcessSnapshotMinidump::ExtraMemory()
 const ProcessMemory* ProcessSnapshotMinidump::Memory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return nullptr;
+}
+
+std::vector<const UserMinidumpStream*>
+ProcessSnapshotMinidump::CustomMinidumpStreams() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  std::vector<const UserMinidumpStream*> ret;
+  for (auto& stream : custom_streams_)
+    ret.push_back(stream.get());
+  return ret;
 }
 
 bool ProcessSnapshotMinidump::InitializeCrashpadInfo() {
@@ -526,6 +539,32 @@ bool ProcessSnapshotMinidump::InitializeSystemSnapshot() {
   }
 
   arch_ = system_snapshot_.GetCPUArchitecture();
+  return true;
+}
+
+bool ProcessSnapshotMinidump::InitializeCustomMinidumpStreams() {
+  for (auto stream : stream_map_) {
+    // Filter out reserved minidump and crashpad streams.
+    if (stream.first <=
+            MinidumpStreamType::kMinidumpStreamTypeLastReservedStream ||
+        (stream.first >= MinidumpStreamType::kMinidumpStreamTypeCrashpadInfo &&
+         stream.first <=
+             MinidumpStreamType::kMinidumpStreamTypeCrashpadLastReservedStream))
+      continue;
+
+    MINIDUMP_MEMORY_DESCRIPTOR memory_descriptor;
+    memory_descriptor.StartOfMemoryRange = 0,
+    memory_descriptor.Memory.DataSize = stream.second->DataSize;
+    memory_descriptor.Memory.Rva = stream.second->Rva;
+
+    auto memory = std::make_unique<internal::MemorySnapshotMinidump>();
+    if (!memory->Initialize(file_reader_, memory_descriptor)) {
+      return false;
+    }
+    custom_streams_.push_back(
+        std::make_unique<UserMinidumpStream>(stream.first, memory.release()));
+  }
+
   return true;
 }
 
