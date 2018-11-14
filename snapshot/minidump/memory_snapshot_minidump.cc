@@ -43,6 +43,14 @@ bool MemorySnapshotMinidump::Initialize(FileReaderInterface* file_reader,
     return false;
   }
 
+  return Initialize(file_reader, descriptor);
+}
+
+bool MemorySnapshotMinidump::Initialize(
+    FileReaderInterface* file_reader,
+    const MINIDUMP_MEMORY_DESCRIPTOR& descriptor) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
   address_ = descriptor.StartOfMemoryRange;
   data_.resize(descriptor.Memory.DataSize);
 
