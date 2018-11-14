@@ -204,6 +204,7 @@ ProcessReaderWin::Thread::Thread()
 ProcessReaderWin::ProcessReaderWin()
     : process_(INVALID_HANDLE_VALUE),
       process_info_(),
+      process_memory_(),
       threads_(),
       modules_(),
       suspension_state_(),
@@ -220,65 +221,13 @@ bool ProcessReaderWin::Initialize(HANDLE process,
 
   process_ = process;
   suspension_state_ = suspension_state;
-  process_info_.Initialize(process);
+  if (!process_info_.Initialize(process))
+    return false;
+  if (!process_memory_.Initialize(process))
+    return false;
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
-}
-
-bool ProcessReaderWin::ReadMemory(WinVMAddress at,
-                                  WinVMSize num_bytes,
-                                  void* into) const {
-  if (num_bytes == 0)
-    return 0;
-
-  SIZE_T bytes_read;
-  if (!ReadProcessMemory(process_,
-                         reinterpret_cast<void*>(at),
-                         into,
-                         base::checked_cast<SIZE_T>(num_bytes),
-                         &bytes_read) ||
-      num_bytes != bytes_read) {
-    PLOG(ERROR) << "ReadMemory at 0x" << std::hex << at << std::dec << " of "
-                << num_bytes << " bytes failed";
-    return false;
-  }
-  return true;
-}
-
-WinVMSize ProcessReaderWin::ReadAvailableMemory(WinVMAddress at,
-                                                WinVMSize num_bytes,
-                                                void* into) const {
-  if (num_bytes == 0)
-    return 0;
-
-  auto ranges = process_info_.GetReadableRanges(
-      CheckedRange<WinVMAddress, WinVMSize>(at, num_bytes));
-
-  // We only read up until the first unavailable byte, so we only read from the
-  // first range. If we have no ranges, then no bytes were accessible anywhere
-  // in the range.
-  if (ranges.empty()) {
-    LOG(ERROR) << base::StringPrintf(
-        "range at 0x%llx, size 0x%llx completely inaccessible", at, num_bytes);
-    return 0;
-  }
-
-  // If the start address was adjusted, we couldn't read even the first
-  // requested byte.
-  if (ranges.front().base() != at) {
-    LOG(ERROR) << base::StringPrintf(
-        "start of range at 0x%llx, size 0x%llx inaccessible", at, num_bytes);
-    return 0;
-  }
-
-  DCHECK_LE(ranges.front().size(), num_bytes);
-
-  // If we fail on a normal read, then something went very wrong.
-  if (!ReadMemory(ranges.front().base(), ranges.front().size(), into))
-    return 0;
-
-  return ranges.front().size();
 }
 
 bool ProcessReaderWin::StartTime(timeval* start_time) const {
@@ -398,7 +347,7 @@ void ProcessReaderWin::ReadThreadData(bool is_64_reading_32) {
     process_types::NT_TIB<Traits> tib;
     thread.teb_address = thread_basic_info.TebBaseAddress;
     thread.teb_size = sizeof(process_types::TEB<Traits>);
-    if (ReadMemory(thread.teb_address, sizeof(tib), &tib)) {
+    if (process_memory_.Read(thread.teb_address, sizeof(tib), &tib)) {
       WinVMAddress base = 0;
       WinVMAddress limit = 0;
       // If we're reading a WOW64 process, then the TIB we just retrieved is the
@@ -409,7 +358,7 @@ void ProcessReaderWin::ReadThreadData(bool is_64_reading_32) {
         thread.teb_address = tib.Wow64Teb;
         thread.teb_size =
             sizeof(process_types::TEB<process_types::internal::Traits32>);
-        if (ReadMemory(thread.teb_address, sizeof(tib32), &tib32)) {
+        if (process_memory_.Read(thread.teb_address, sizeof(tib32), &tib32)) {
           base = tib32.StackBase;
           limit = tib32.StackLimit;
         }
