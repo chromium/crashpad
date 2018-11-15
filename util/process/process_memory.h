@@ -48,6 +48,32 @@ class ProcessMemory {
   //!     failure, with a message logged.
   bool Read(VMAddress address, size_t size, void* buffer) const;
 
+  //! \brief Initializes object from memory in the target process and invokes a
+  //!     validation function on the resulting object. This function is
+  //!     intentionally prescriptive about the API and object properties for
+  //!     T so as to discourage some common but scary patterns for attempting
+  //!     to introspect C++ objects in a remote process.
+  //!
+  //! \param[in] address The address, in the target process' address space, of
+  //!     the object to copy.
+  //! \param[out] object The object into which the contents of the other
+  //!     process' object will be copied. The type of ths object must be
+  //!     trivialy-copyable and must also include a static
+  //!     bool OutOfProcessValidate(T* object) function.
+  //!
+  //! \return `true` on success, with \a buffer filled appropriately. `false` on
+  //!     failure, with a message logged.
+  template <typename T>
+  bool ReadObject(VMAddress address, T* object) const {
+    static_assert(std::is_trivially_copyable<T>::value,
+                  "Copying non-trivially-copyable object across memory spaces "
+                  "is dangerous");
+    if (!Read(address, sizeof(T), object)) {
+      return false;
+    }
+    return T::OutOfProcessValidate(object);
+  }
+
   //! \brief Reads a `NUL`-terminated C string from the target process into a
   //!     string in the current process.
   //!
