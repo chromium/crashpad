@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d81ff005_6416754e",
+        "filename": "util/net/tls.gni",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-16T20:56:10Z",
+      "side": 1,
+      "message": "Meaning that it’s OK when you’re building in the Fuchsia tree, but not when using the Fuchsia SDK?",
+      "range": {
+        "startLine": 21,
+        "startChar": 53,
+        "endLine": 21,
+        "endChar": 75
+      },
+      "revId": "617d8c1c24429fc85fcc8eaaa7b68f4ce5dfefbf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
