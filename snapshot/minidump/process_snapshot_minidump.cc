@@ -16,6 +16,7 @@
 
 #include <utility>
 
+#include "minidump/minidump_extensions.h"
 #include "snapshot/memory_map_region_snapshot.h"
 #include "snapshot/minidump/minidump_simple_string_dictionary_reader.h"
 #include "util/file/file_io.h"
@@ -46,6 +47,7 @@ ProcessSnapshotMinidump::ProcessSnapshotMinidump()
       stream_map_(),
       modules_(),
       unloaded_modules_(),
+      custom_streams_(),
       crashpad_info_(),
       system_snapshot_(),
       arch_(CPUArchitecture::kCPUArchitectureUnknown),
@@ -109,7 +111,8 @@ bool ProcessSnapshotMinidump::Initialize(FileReaderInterface* file_reader) {
       !InitializeModules() ||
       !InitializeSystemSnapshot() ||
       !InitializeMemoryInfo() ||
-      !InitializeThreads()) {
+      !InitializeThreads() ||
+      !InitializeCustomMinidumpStreams()) {
     return false;
   }
 
@@ -232,6 +235,16 @@ std::vector<const MemorySnapshot*> ProcessSnapshotMinidump::ExtraMemory()
 const ProcessMemory* ProcessSnapshotMinidump::Memory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return nullptr;
+}
+
+std::vector<const MinidumpStream*>
+ProcessSnapshotMinidump::CustomMinidumpStreams() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  std::vector<const MinidumpStream*> ret;
+  for (auto& stream : custom_streams_)
+    ret.push_back(stream.get());
+  return ret;
 }
 
 bool ProcessSnapshotMinidump::InitializeCrashpadInfo() {
@@ -526,6 +539,30 @@ bool ProcessSnapshotMinidump::InitializeSystemSnapshot() {
   }
 
   arch_ = system_snapshot_.GetCPUArchitecture();
+  return true;
+}
+
+bool ProcessSnapshotMinidump::InitializeCustomMinidumpStreams() {
+  for (auto stream : stream_map_) {
+    // Filter out reserved minidump and crashpad streams.
+    if (stream.first <=
+            MinidumpStreamType::kMinidumpStreamTypeLastReservedStream ||
+        (stream.first >= MinidumpStreamType::kMinidumpStreamTypeCrashpadInfo &&
+         stream.first <=
+             MinidumpStreamType::kMinidumpStreamTypeCrashpadLastReservedStream))
+      continue;
+
+    std::vector<uint8_t> data(stream.second->DataSize);
+    if (!file_reader_->SeekSet(stream.second->Rva) ||
+        !file_reader_->ReadExactly(data.data(), data.size())) {
+      LOG(ERROR) << "Failed to read stream with id " << stream.first;
+      return false;
+    }
+
+    custom_streams_.push_back(
+        std::make_unique<MinidumpStream>(stream.first, std::move(data)));
+  }
+
   return true;
 }
 
