@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "885b48d7_8126fbe1",
+        "filename": "snapshot/minidump/minidump_stream.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-16T21:35:01Z",
+      "side": 1,
+      "message": "Nit: ID.",
+      "range": {
+        "startLine": 24,
+        "startChar": 58,
+        "endLine": 24,
+        "endChar": 60
+      },
+      "revId": "307389cb343112b7ae83bed1ae47fa277ae13ee3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b05dd340_ea37867e",
+        "filename": "snapshot/minidump/minidump_stream.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-16T21:35:01Z",
+      "side": 1,
+      "message": "const std::vector\u003cuint8_t\u003e\u0026 ?",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 22
+      },
+      "revId": "307389cb343112b7ae83bed1ae47fa277ae13ee3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b728eb37_49fd3d0c",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-16T21:35:01Z",
+      "side": 1,
+      "message": "While you’re in here, threads_, mem_regions_, and mem_regions_exposed_ should both be added to the initializer list explicitly too.",
+      "revId": "307389cb343112b7ae83bed1ae47fa277ae13ee3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "475542d0_6207bcbd",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-16T21:35:01Z",
+      "side": 1,
+      "message": "Nit: use a better name. In ModuleSnapshotWin::CustomMinidumpStreams(), we used “result”.",
+      "range": {
+        "startLine": 244,
+        "startChar": 37,
+        "endLine": 244,
+        "endChar": 40
+      },
+      "revId": "307389cb343112b7ae83bed1ae47fa277ae13ee3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a5db60d_8a672385",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-16T21:35:01Z",
+      "side": 1,
+      "message": "ret.reserve(streams.size());",
+      "revId": "307389cb343112b7ae83bed1ae47fa277ae13ee3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01b3fd4f_6e329d2b",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-16T21:35:01Z",
+      "side": 1,
+      "message": "Nit: keep naming consistent: for (const auto\u0026 custom_stream : custom_streams_)",
+      "range": {
+        "startLine": 245,
+        "startChar": 13,
+        "endLine": 245,
+        "endChar": 19
+      },
+      "revId": "307389cb343112b7ae83bed1ae47fa277ae13ee3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f366c4fa_56da61cd",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-16T21:35:01Z",
+      "side": 1,
+      "message": "const auto\u0026 (as we use to iterate over this map elsewhere)?",
+      "range": {
+        "startLine": 546,
+        "startChar": 7,
+        "endLine": 546,
+        "endChar": 11
+      },
+      "revId": "307389cb343112b7ae83bed1ae47fa277ae13ee3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56fbbf43_764da9a6",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-16T21:35:01Z",
+      "side": 1,
+      "message": "Your condition has gone on for so long and has become so ragged that it’s hard to see what’s going on. This “continue” should be {braced}.",
+      "revId": "307389cb343112b7ae83bed1ae47fa277ae13ee3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b12062d6_c85f7410",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-16T21:35:01Z",
+      "side": 1,
+      "message": "The file structure doesn’t preclude duplicate IDs. Better: “failed to read stream with ID 0x%x at index %u\"\n\n(Presenting it in hexadecimal because that’s how we’re likely to find them in code, and it’s more immediately useful and actionable.)",
+      "revId": "307389cb343112b7ae83bed1ae47fa277ae13ee3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
