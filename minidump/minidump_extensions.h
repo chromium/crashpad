@@ -92,10 +92,18 @@ enum MinidumpStreamType : uint32_t {
   //! \sa MemoryInfoListStream
   kMinidumpStreamTypeMemoryInfoList = MemoryInfoListStream,
 
+  //! \brief The last reserved minidump stream.
+  //!
+  //! \sa MemoryInfoListStream
+  kMinidumpStreamTypeLastReservedStream = LastReservedStream,
+
   // 0x4350 = "CP"
 
   //! \brief The stream type for MinidumpCrashpadInfo.
   kMinidumpStreamTypeCrashpadInfo = 0x43500001,
+
+  //! \brief The last reserved crashpad stream.
+  kMinidumpStreamTypeCrashpadLastReservedStream = 0x4350ffff,
 };
 
 //! \brief A variable-length UTF-8-encoded string carried within a minidump

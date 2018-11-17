@@ -1109,6 +1109,68 @@ TEST(ProcessSnapshotMinidump, Stacks) {
   EXPECT_EQ(delegate.result, minidump_stack);
 }
 
+TEST(ProcessSnapshotMinidump, CustomMinidumpStreams) {
+  StringFile string_file;
+
+  MINIDUMP_HEADER header = {};
+  ASSERT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  static const char kStreamReservedData[] = "A string";
+  static const char kStreamUnreservedData[] = "Another string";
+  // In the minidump reserved range
+  constexpr MinidumpStreamType kStreamTypeReserved1 =
+      (MinidumpStreamType)0x1111;
+  // In the crashpad reserved range
+  constexpr MinidumpStreamType kStreamTypeReserved2 =
+      (MinidumpStreamType)0x43501111;
+  constexpr MinidumpStreamType kStreamTypeUnreserved =
+      (MinidumpStreamType)0xffffffff;
+
+  MINIDUMP_DIRECTORY misc_directory = {};
+  RVA reserved1_offset = static_cast<RVA>(string_file.SeekGet());
+  ASSERT_TRUE(
+      string_file.Write(kStreamReservedData, sizeof(kStreamReservedData)));
+  RVA reserved2_offset = static_cast<RVA>(string_file.SeekGet());
+  ASSERT_TRUE(
+      string_file.Write(kStreamReservedData, sizeof(kStreamReservedData)));
+  RVA unreserved_offset = static_cast<RVA>(string_file.SeekGet());
+  ASSERT_TRUE(
+      string_file.Write(kStreamUnreservedData, sizeof(kStreamUnreservedData)));
+
+  header.StreamDirectoryRva = static_cast<RVA>(string_file.SeekGet());
+  misc_directory.StreamType = kStreamTypeReserved1;
+  misc_directory.Location.DataSize = sizeof(kStreamReservedData);
+  misc_directory.Location.Rva = reserved1_offset;
+  ASSERT_TRUE(string_file.Write(&misc_directory, sizeof(misc_directory)));
+
+  misc_directory.StreamType = kStreamTypeReserved2;
+  misc_directory.Location.DataSize = sizeof(kStreamReservedData);
+  misc_directory.Location.Rva = reserved2_offset;
+  ASSERT_TRUE(string_file.Write(&misc_directory, sizeof(misc_directory)));
+
+  misc_directory.StreamType = kStreamTypeUnreserved;
+  misc_directory.Location.DataSize = sizeof(kStreamUnreservedData);
+  misc_directory.Location.Rva = unreserved_offset;
+  ASSERT_TRUE(string_file.Write(&misc_directory, sizeof(misc_directory)));
+
+  header.Signature = MINIDUMP_SIGNATURE;
+  header.Version = MINIDUMP_VERSION;
+  header.NumberOfStreams = 3;
+  ASSERT_TRUE(string_file.SeekSet(0));
+  ASSERT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  ProcessSnapshotMinidump process_snapshot;
+  ASSERT_TRUE(process_snapshot.Initialize(&string_file));
+
+  auto custom_streams = process_snapshot.CustomMinidumpStreams();
+  ASSERT_EQ(custom_streams.size(), 1U);
+  EXPECT_EQ(custom_streams[0]->stream_type(), (uint32_t)kStreamTypeUnreserved);
+
+  auto stream_data = custom_streams[0]->data();
+  EXPECT_EQ(stream_data.size(), sizeof(kStreamUnreservedData));
+  EXPECT_STREQ((char*)&stream_data.front(), kStreamUnreservedData);
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad

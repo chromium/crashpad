@@ -16,6 +16,7 @@
 
 #include <utility>
 
+#include "minidump/minidump_extensions.h"
 #include "snapshot/memory_map_region_snapshot.h"
 #include "snapshot/minidump/minidump_simple_string_dictionary_reader.h"
 #include "util/file/file_io.h"
@@ -45,7 +46,11 @@ ProcessSnapshotMinidump::ProcessSnapshotMinidump()
       stream_directory_(),
       stream_map_(),
       modules_(),
+      threads_(),
       unloaded_modules_(),
+      mem_regions_(),
+      mem_regions_exposed_(),
+      custom_streams_(),
       crashpad_info_(),
       system_snapshot_(),
       arch_(CPUArchitecture::kCPUArchitectureUnknown),
@@ -109,7 +114,8 @@ bool ProcessSnapshotMinidump::Initialize(FileReaderInterface* file_reader) {
       !InitializeModules() ||
       !InitializeSystemSnapshot() ||
       !InitializeMemoryInfo() ||
-      !InitializeThreads()) {
+      !InitializeThreads() ||
+      !InitializeCustomMinidumpStreams()) {
     return false;
   }
 
@@ -232,6 +238,18 @@ std::vector<const MemorySnapshot*> ProcessSnapshotMinidump::ExtraMemory()
 const ProcessMemory* ProcessSnapshotMinidump::Memory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return nullptr;
+}
+
+std::vector<const MinidumpStream*>
+ProcessSnapshotMinidump::CustomMinidumpStreams() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  std::vector<const MinidumpStream*> result;
+  result.reserve(custom_streams_.size());
+  for (const auto& custom_stream : custom_streams_) {
+    result.push_back(custom_stream.get());
+  }
+  return result;
 }
 
 bool ProcessSnapshotMinidump::InitializeCrashpadInfo() {
@@ -526,6 +544,35 @@ bool ProcessSnapshotMinidump::InitializeSystemSnapshot() {
   }
 
   arch_ = system_snapshot_.GetCPUArchitecture();
+  return true;
+}
+
+bool ProcessSnapshotMinidump::InitializeCustomMinidumpStreams() {
+  for (size_t i = 0; i < stream_directory_.size(); i++) {
+    const auto& stream = stream_directory_[i];
+
+    // Filter out reserved minidump and crashpad streams.
+    const uint32_t stream_type = stream.StreamType;
+    if (stream_type <=
+            MinidumpStreamType::kMinidumpStreamTypeLastReservedStream ||
+        (stream_type >= MinidumpStreamType::kMinidumpStreamTypeCrashpadInfo &&
+         stream_type <= MinidumpStreamType::
+                            kMinidumpStreamTypeCrashpadLastReservedStream)) {
+      continue;
+    }
+
+    std::vector<uint8_t> data(stream.Location.DataSize);
+    if (!file_reader_->SeekSet(stream.Location.Rva) ||
+        !file_reader_->ReadExactly(data.data(), data.size())) {
+      LOG(ERROR) << "Failed to read stream with ID 0x" << std::hex
+                 << stream_type << std::dec << " at index " << i;
+      return false;
+    }
+
+    custom_streams_.push_back(
+        std::make_unique<MinidumpStream>(stream_type, std::move(data)));
+  }
+
   return true;
 }
 
