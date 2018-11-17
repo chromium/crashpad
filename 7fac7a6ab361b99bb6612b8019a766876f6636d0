@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41e185d6_7a2428d7",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-17T04:38:52Z",
+      "side": 1,
+      "message": "Save some typing!\n\n  const auto\u0026 stream \u003d stream_directory_[i];",
+      "revId": "7fac7a6ab361b99bb6612b8019a766876f6636d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
