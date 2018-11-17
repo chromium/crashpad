@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b38cda9_23178330",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-11-17T01:39:26Z",
+      "side": 1,
+      "message": "The RVA isn’t the index I was talking about (and nothing in the structure prevents two streams from pointing to the same RVA). What I meant was: each stream appears in the minidump’s stream directory in a specific sequence. State the index into stream_directory_ here.\n\nThat would mean iterating over stream_directory_ instead of stream_map_, but this should be fine because you’re not actually trying to address a single stream by its type, you’re collecting a bunch of streams. Actually, walking the full suite of streams in a minidump by stream_directory_ is probably more efficient than using stream_map_.",
+      "revId": "03c4cde0047d5c5d3bcf420f7d93643595188ef9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
