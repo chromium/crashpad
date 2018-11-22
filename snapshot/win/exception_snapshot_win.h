@@ -43,6 +43,10 @@ union CPUContextUnion {
   CPUContextX86 x86;
   CPUContextX86_64 x86_64;
 };
+#elif defined(ARCH_CPU_ARM64)
+union CPUContextUnion {
+  CPUContextARM64 arm64;
+};
 #endif
 
 class ExceptionSnapshotWin final : public ExceptionSnapshot {
@@ -91,7 +95,7 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
                                     CPUContext* context,
                                     CPUContextUnion* context_union));
 
-#if defined(ARCH_CPU_X86_FAMILY)
+#if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM64)
   CPUContextUnion context_union_;
 #endif
   CPUContext context_;

@@ -29,6 +29,7 @@
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "base/synchronization/lock.h"
+#include "build/build_config.h"
 #include "util/file/file_io.h"
 #include "util/misc/capture_context.h"
 #include "util/misc/from_pointer_cast.h"
@@ -187,11 +188,15 @@ void HandleAbortSignal(int signum) {
   EXCEPTION_RECORD record = {};
   record.ExceptionCode = STATUS_FATAL_APP_EXIT;
   record.ExceptionFlags = EXCEPTION_NONCONTINUABLE;
-#if defined(ARCH_CPU_64_BITS)
-  record.ExceptionAddress = reinterpret_cast<void*>(context.Rip);
-#else
+#if defined(ARCH_CPU_X86)
   record.ExceptionAddress = reinterpret_cast<void*>(context.Eip);
-#endif  // ARCH_CPU_64_BITS
+#elif defined(ARCH_CPU_X86_64)
+  record.ExceptionAddress = reinterpret_cast<void*>(context.Rip);
+#elif defined(ARCH_CPU_ARM64)
+  record.ExceptionAddress = reinterpret_cast<void*>(context.Pc);
+#else
+#error Unsupported Windows Arch
+#endif  // ARCH_CPU_X86
 
   EXCEPTION_POINTERS exception_pointers;
   exception_pointers.ContextRecord = &context;
@@ -756,11 +761,15 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
   constexpr uint32_t kSimulatedExceptionCode = 0x517a7ed;
   EXCEPTION_RECORD record = {};
   record.ExceptionCode = kSimulatedExceptionCode;
-#if defined(ARCH_CPU_64_BITS)
-  record.ExceptionAddress = reinterpret_cast<void*>(context.Rip);
-#else
+#if defined(ARCH_CPU_X86)
   record.ExceptionAddress = reinterpret_cast<void*>(context.Eip);
-#endif  // ARCH_CPU_64_BITS
+#elif defined(ARCH_CPU_X86_64)
+  record.ExceptionAddress = reinterpret_cast<void*>(context.Rip);
+#elif defined(ARCH_CPU_ARM64)
+  record.ExceptionAddress = reinterpret_cast<void*>(context.Pc);
+#else
+#error Unsupported Windows Arch
+#endif  // ARCH_CPU_X86
 
   exception_pointers.ExceptionRecord = &record;
 

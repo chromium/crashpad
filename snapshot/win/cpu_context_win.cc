@@ -126,7 +126,13 @@ void CommonInitializeX86Context(const T& context, CPUContextX86* out) {
 
 }  // namespace
 
-#if defined(ARCH_CPU_64_BITS)
+#if defined(ARCH_CPU_X86)
+
+void InitializeX86Context(const CONTEXT& context, CPUContextX86* out) {
+  CommonInitializeX86Context(context, out);
+}
+
+#elif defined(ARCH_CPU_X86_64)
 
 void InitializeX86Context(const WOW64_CONTEXT& context, CPUContextX86* out) {
   CommonInitializeX86Context(context, out);
@@ -192,12 +198,62 @@ void InitializeX64Context(const CONTEXT& context, CPUContextX86_64* out) {
   }
 }
 
-#else  // ARCH_CPU_64_BITS
+#elif defined(ARCH_CPU_ARM64)
 
-void InitializeX86Context(const CONTEXT& context, CPUContextX86* out) {
-  CommonInitializeX86Context(context, out);
+void InitializeARM64Context(const CONTEXT& context, CPUContextARM64* out) {
+  memset(out, 0, sizeof(*out));
+
+  LOG_IF(ERROR, !HasContextPart(context, CONTEXT_ARM64)) << "non-arm64 context";
+
+  if (HasContextPart(context, CONTEXT_CONTROL)) {
+    out->spsr = context.Cpsr;
+    out->pc = context.Pc;
+    out->regs[30] = context.Lr;
+    out->sp = context.Sp;
+    out->regs[29] = context.Fp;
+  }
+
+  if (HasContextPart(context, CONTEXT_INTEGER)) {
+    out->regs[0] = context.X0;
+    out->regs[1] = context.X1;
+    out->regs[2] = context.X2;
+    out->regs[3] = context.X3;
+    out->regs[4] = context.X4;
+    out->regs[5] = context.X5;
+    out->regs[6] = context.X6;
+    out->regs[7] = context.X7;
+    out->regs[8] = context.X8;
+    out->regs[9] = context.X9;
+    out->regs[10] = context.X10;
+    out->regs[11] = context.X11;
+    out->regs[12] = context.X12;
+    out->regs[13] = context.X13;
+    out->regs[14] = context.X14;
+    out->regs[15] = context.X15;
+    out->regs[16] = context.X16;
+    out->regs[17] = context.X17;
+    out->regs[18] = context.X18;
+    out->regs[19] = context.X19;
+    out->regs[20] = context.X20;
+    out->regs[21] = context.X21;
+    out->regs[22] = context.X22;
+    out->regs[23] = context.X23;
+    out->regs[24] = context.X24;
+    out->regs[25] = context.X25;
+    out->regs[26] = context.X26;
+    out->regs[27] = context.X27;
+    out->regs[28] = context.X28;
+  }
+
+  if (HasContextPart(context, CONTEXT_FLOATING_POINT)) {
+    static_assert(sizeof(out->fpsimd) == sizeof(context.V),
+                  "types must be equivalent");
+    memcpy(&out->fpsimd, &context.V, sizeof(out->fpsimd));
+  }
 }
 
-#endif  // ARCH_CPU_64_BITS
+#else
+#error Unsupported Windows Arch
+#endif  // ARCH_CPU_X86
 
 }  // namespace crashpad
