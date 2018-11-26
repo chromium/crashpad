@@ -95,6 +95,11 @@ if (crashpad_is_in_chromium) {
       "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
     ]
     configs += [ ":gtest_private_config" ]
+    if (crashpad_is_fuchsia) {
+      deps = [
+        "../fuchsia:zx",
+      ]
+    }
   }
 
   static_library("gtest_main") {
@@ -112,14 +117,13 @@ if (crashpad_is_in_chromium) {
 
   test("gtest_all_test") {
     sources = [
-      "gtest/googletest/test/gtest-death-test_test.cc",
-      "gtest/googletest/test/gtest-filepath_test.cc",
-      "gtest/googletest/test/gtest-linked_ptr_test.cc",
-      "gtest/googletest/test/gtest-message_test.cc",
-      "gtest/googletest/test/gtest-options_test.cc",
-      "gtest/googletest/test/gtest-port_test.cc",
-      "gtest/googletest/test/gtest-printers_test.cc",
-      "gtest/googletest/test/gtest-test-part_test.cc",
+      "gtest/googletest/test/googletest-death-test-test.cc",
+      "gtest/googletest/test/googletest-filepath-test.cc",
+      "gtest/googletest/test/googletest-message-test.cc",
+      "gtest/googletest/test/googletest-options-test.cc",
+      "gtest/googletest/test/googletest-port-test.cc",
+      "gtest/googletest/test/googletest-printers-test.cc",
+      "gtest/googletest/test/googletest-test-part-test.cc",
       "gtest/googletest/test/gtest-typed-test2_test.cc",
       "gtest/googletest/test/gtest-typed-test_test.cc",
       "gtest/googletest/test/gtest-typed-test_test.h",
@@ -156,7 +160,7 @@ if (crashpad_is_in_chromium) {
 
   test("gtest_listener_test") {
     sources = [
-      "gtest/googletest/test/gtest-listener_test.cc",
+      "gtest/googletest/test/googletest-listener-test.cc",
     ]
     deps = [
       ":gtest",
@@ -174,9 +178,9 @@ if (crashpad_is_in_chromium) {
 
   test("gtest_param_test") {
     sources = [
-      "gtest/googletest/test/gtest-param-test2_test.cc",
-      "gtest/googletest/test/gtest-param-test_test.cc",
-      "gtest/googletest/test/gtest-param-test_test.h",
+      "gtest/googletest/test/googletest-param-test-test.cc",
+      "gtest/googletest/test/googletest-param-test-test.h",
+      "gtest/googletest/test/googletest-param-test2-test.cc",
     ]
     configs -= [
       "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
