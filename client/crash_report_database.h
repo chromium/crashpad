@@ -117,8 +117,6 @@ class CrashReportDatabase {
 
     //! \brief Adds an attachment to the report.
     //!
-    //! \note This function is not yet implemented on macOS or Windows.
-    //!
     //! \param[in] name The key and name for the attachment, which will be
     //!     included in the http upload. The attachment will not appear in the
     //!     minidump report. \a name should only use characters from the set
@@ -171,7 +169,7 @@ class CrashReportDatabase {
     friend class CrashReportDatabaseMac;
     friend class CrashReportDatabaseWin;
 
-    bool Initialize(const base::FilePath path, CrashReportDatabase* database);
+    bool Initialize(const base::FilePath& path, CrashReportDatabase* database);
     void InitializeAttachments();
 
     std::unique_ptr<FileReader> reader_;

@@ -207,8 +207,6 @@ bool AddKeyValueToMap(std::map<std::string, std::string>* map,
   }
   return true;
 }
-
-#if defined(OS_WIN) || defined(OS_MACOSX)
 // Overloaded version, to accept base::FilePath as a VALUE.
 bool AddKeyValueToMap(std::map<std::string, base::FilePath>* map,
                       const std::string& key_value,
@@ -233,7 +231,6 @@ bool AddKeyValueToMap(std::map<std::string, base::FilePath>* map,
   }
   return true;
 }
-#endif // OS_WIN || OS_MACOSX
 
 // Calls Metrics::HandlerLifetimeMilestone, but only on the first call. This is
 // to prevent multiple exit events from inadvertently being recorded, which

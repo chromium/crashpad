@@ -45,10 +45,12 @@ CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
     CrashReportUploadThread* upload_thread,
     const std::map<std::string, std::string>* process_annotations,
+    const std::map<std::string, base::FilePath>* process_attachments,
     const UserStreamDataSources* user_stream_data_sources)
     : database_(database),
       upload_thread_(upload_thread),
       process_annotations_(process_annotations),
+      process_attachments_(process_attachments),
       user_stream_data_sources_(user_stream_data_sources) {}
 
 CrashReportExceptionHandler::~CrashReportExceptionHandler() {
@@ -176,6 +178,24 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
       Metrics::ExceptionCaptureResult(
           Metrics::CaptureResult::kMinidumpWriteFailed);
       return KERN_FAILURE;
+    }
+
+    if (process_attachments_) {
+      // Note that attachments are read at this point each time rather than once
+      // so that if the contents of the file has changed it will be re-read for
+      // each upload (e.g. in the case of a log file).
+      for (const auto& it : *process_attachments_) {
+        FileWriter* writer = new_report->AddAttachment(it.first);
+        if (writer) {
+          std::string contents;
+          if (!LoggingReadEntireFile(it.second, &contents)) {
+            // Not being able to read the file isn't considered fatal, and
+            // should not prevent the report from being processed.
+            continue;
+          }
+          writer->Write(contents.data(), contents.size());
+        }
+      }
     }
 
     UUID uuid;
