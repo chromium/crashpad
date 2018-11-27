@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "972b6fd3_3cbf1987",
+        "filename": "snapshot/fuchsia/system_snapshot_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-11-27T18:44:19Z",
+      "side": 1,
+      "message": "nit; Capital R and in the other two.",
+      "range": {
+        "startLine": 76,
+        "startChar": 27,
+        "endLine": 76,
+        "endChar": 28
+      },
+      "revId": "8c0d8bf328f0c46723e928f666975d2e7a438b64",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3e975381_0d8ab88d",
         "filename": "snapshot/fuchsia/system_snapshot_fuchsia.cc",
         "patchSetId": 1
