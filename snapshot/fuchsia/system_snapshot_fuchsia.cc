@@ -73,7 +73,7 @@ uint32_t SystemSnapshotFuchsia::CPURevision() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.Revision();
 #else
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  // TODO(fuchsia/DX-712): Read actual revision.
   return 0;
 #endif
 }
@@ -88,7 +88,7 @@ std::string SystemSnapshotFuchsia::CPUVendor() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.Vendor();
 #else
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  // TODO(fuchsia/DX-712): Read actual vendor.
   return std::string();
 #endif
 }
@@ -106,7 +106,7 @@ uint32_t SystemSnapshotFuchsia::CPUX86Signature() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.Signature();
 #else
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  NOTREACHED();
   return 0;
 #endif
 }
@@ -116,7 +116,7 @@ uint64_t SystemSnapshotFuchsia::CPUX86Features() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.Features();
 #else
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  NOTREACHED();
   return 0;
 #endif
 }
@@ -126,7 +126,7 @@ uint64_t SystemSnapshotFuchsia::CPUX86ExtendedFeatures() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.ExtendedFeatures();
 #else
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  NOTREACHED();
   return 0;
 #endif
 }
@@ -135,7 +135,7 @@ uint32_t SystemSnapshotFuchsia::CPUX86Leaf7Features() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.Leaf7Features();
 #else
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  NOTREACHED();
   return 0;
 #endif
 }
@@ -145,7 +145,7 @@ bool SystemSnapshotFuchsia::CPUX86SupportsDAZ() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.SupportsDAZ();
 #else
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  NOTREACHED();
   return false;
 #endif
 }
@@ -191,7 +191,7 @@ bool SystemSnapshotFuchsia::NXEnabled() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.NXEnabled();
 #else
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  // TODO(fuchsia/DX-712): Read actual NX bit value.
   return false;
 #endif
 }
