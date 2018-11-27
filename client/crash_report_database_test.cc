@@ -20,7 +20,6 @@
 #include "test/errors.h"
 #include "test/file.h"
 #include "test/filesystem.h"
-#include "test/gtest_disabled.h"
 #include "test/scoped_temp_dir.h"
 #include "util/file/file_io.h"
 #include "util/file/filesystem.h"
@@ -671,10 +670,6 @@ TEST_F(CrashReportDatabaseTest, RequestUpload) {
 }
 
 TEST_F(CrashReportDatabaseTest, Attachments) {
-#if defined(OS_MACOSX) || defined(OS_WIN)
-  // Attachments aren't supported on Mac and Windows yet.
-  DISABLED_TEST();
-#else
   std::unique_ptr<CrashReportDatabase::NewReport> new_report;
   ASSERT_EQ(db()->PrepareNewCrashReport(&new_report),
             CrashReportDatabase::kNoError);
@@ -713,16 +708,9 @@ TEST_F(CrashReportDatabaseTest, Attachments) {
   char result_buffer[sizeof(test_data)];
   result_attachments["some_file"]->Read(result_buffer, sizeof(result_buffer));
   EXPECT_EQ(memcmp(test_data, result_buffer, sizeof(test_data)), 0);
-#endif
 }
 
 TEST_F(CrashReportDatabaseTest, OrphanedAttachments) {
-#if defined(OS_MACOSX) || defined(OS_WIN)
-  // Attachments aren't supported on Mac and Windows yet.
-  DISABLED_TEST();
-#else
-  // TODO: This is using paths that are specific to the generic implementation
-  // and will need to be generalized for Mac and Windows.
   std::unique_ptr<CrashReportDatabase::NewReport> new_report;
   ASSERT_EQ(db()->PrepareNewCrashReport(&new_report),
             CrashReportDatabase::kNoError);
@@ -744,16 +732,25 @@ TEST_F(CrashReportDatabaseTest, OrphanedAttachments) {
 
   ASSERT_TRUE(LoggingRemoveFile(report.file_path));
 
+// Additional check for Generic database
+#if !defined(OS_MACOSX) && !defined(OS_WIN)
   ASSERT_TRUE(LoggingRemoveFile(base::FilePath(
       report.file_path.RemoveFinalExtension().value() + ".meta")));
+#endif
 
   ASSERT_EQ(db()->LookUpCrashReport(uuid, &report),
             CrashReportDatabase::kReportNotFound);
 
+#ifdef OS_WIN
+  auto uuid_str = uuid.ToString16();
+#else
+  auto uuid_str = uuid.ToString();
+#endif
+
   base::FilePath report_attachments_dir(
-      path().Append("attachments").Append(uuid.ToString()));
-  base::FilePath file_path1(report_attachments_dir.Append("file1"));
-  base::FilePath file_path2(report_attachments_dir.Append("file2"));
+      path().Append(FILE_PATH_LITERAL("attachments")).Append(uuid_str));
+  base::FilePath file_path1(report_attachments_dir.Append(FILE_PATH_LITERAL("file1")));
+  base::FilePath file_path2(report_attachments_dir.Append(FILE_PATH_LITERAL("file2")));
   EXPECT_TRUE(FileExists(file_path1));
   EXPECT_TRUE(FileExists(file_path1));
 
@@ -762,7 +759,6 @@ TEST_F(CrashReportDatabaseTest, OrphanedAttachments) {
   EXPECT_FALSE(FileExists(file_path1));
   EXPECT_FALSE(FileExists(file_path2));
   EXPECT_FALSE(FileExists(report_attachments_dir));
-#endif
 }
 
 // This test uses knowledge of the database format to break it, so it only
