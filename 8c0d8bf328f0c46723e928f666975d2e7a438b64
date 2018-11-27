@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e975381_0d8ab88d",
+        "filename": "snapshot/fuchsia/system_snapshot_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2018-11-27T18:37:02Z",
+      "side": 1,
+      "message": "these methods are really X86-only so NOTREACHED() is meaningful.",
+      "range": {
+        "startLine": 104,
+        "startChar": 32,
+        "endLine": 104,
+        "endChar": 38
+      },
+      "revId": "8c0d8bf328f0c46723e928f666975d2e7a438b64",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
