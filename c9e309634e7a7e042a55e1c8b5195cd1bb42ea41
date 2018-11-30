@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91a58cdc_16eb58a2",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1315430
+      },
+      "writtenOn": "2018-11-30T18:27:29Z",
+      "side": 1,
+      "message": "How about \n\n  static size_t page_size \u003d sysconf(_SC_PAGESIZE);\n\ninstead?\n\ncomputed once, and not using legacy API.",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0067408_274306e4",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1315430
+      },
+      "writtenOn": "2018-11-30T18:27:29Z",
+      "side": 1,
+      "message": "Comment should be updated?\n\ni.e.\n\n\t\n#elif defined(ARCH_CPU_PPC64_FAMILY)  // end of ARCH_CPU_MIPS_FAMILY\n...\n...\n#else  // end of ARCH_CPU_PPC64_FAMILY\n#error Port.\n#endif\n\n\nyes, end of MIPS, not X86, if you look at the code blocks above.\n\nUnless the code style in chromium is to add the comment that is derived from the opening of the first #if (which is indeed ARCH_CPU_X86_FAMILY still).",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73f52018_98238874",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1315430
+      },
+      "writtenOn": "2018-11-30T18:27:29Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it make more sense to define this function on all archs, and create dummy versions for other archs?",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8956376b_2e130512",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1315430
+      },
+      "writtenOn": "2018-11-30T18:27:29Z",
+      "side": 1,
+      "message": "Ditto. Outdated comment.",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "502a80b9_40f68344",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1315430
+      },
+      "writtenOn": "2018-11-30T18:27:29Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "080d89f5_de002101",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1315430
+      },
+      "writtenOn": "2018-11-30T18:27:29Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b7ca9e8_272e78d7",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1315430
+      },
+      "writtenOn": "2018-11-30T18:27:29Z",
+      "side": 1,
+      "message": "I think it is not relevant that PPC64 is 64-bit in the context of this class.\n\nA better comment maybe?",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97039823_01028d66",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1315430
+      },
+      "writtenOn": "2018-11-30T18:27:29Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fb19c9b_8e44748e",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1315430
+      },
+      "writtenOn": "2018-11-30T18:27:29Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c8acf51_e2890a2d",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1315430
+      },
+      "writtenOn": "2018-11-30T18:27:29Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a3c5b1d_4684cf6c",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1315430
+      },
+      "writtenOn": "2018-11-30T18:27:29Z",
+      "side": 1,
+      "message": "Would it hurt (question to chromium team), just to leave it aligned 16 on all archs by default?",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "960575cf_e542a3a0",
+        "filename": "util/posix/signals_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1315430
+      },
+      "writtenOn": "2018-11-30T18:27:29Z",
+      "side": 1,
+      "message": "#if !(defined(ARCH_CPU_ARM64) || defined(ARCH_CPU_PPC64))\n\n?\n\nIt just feels easier to think about.\n\nsimilarly below.",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe81f158_3872d2ea",
+        "filename": "util/posix/signals_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1315430
+      },
+      "writtenOn": "2018-11-30T18:27:29Z",
+      "side": 1,
+      "message": ") missing at the end of the comment?",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebb7dd3a_7717b813",
+        "filename": "util/posix/signals_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1315430
+      },
+      "writtenOn": "2018-11-30T18:27:29Z",
+      "side": 1,
+      "message": "I think this comment (both about ARM64 and PPC64; not sure what is the behavior of PPC32) should be BEFORE the #if block.",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
