@@ -15,6 +15,7 @@
 #include "client/crashpad_client.h"
 
 #include <windows.h>
+
 #include <signal.h>
 #include <stdint.h>
 #include <string.h>
@@ -73,10 +74,10 @@ base::Lock* g_non_crash_dump_lock;
 ExceptionInformation g_non_crash_exception_information;
 
 enum class StartupState : int {
-  kNotReady = 0,   // This must be value 0 because it is the initial value of a
-                   // global AtomicWord.
+  kNotReady = 0,  // This must be value 0 because it is the initial value of a
+                  // global AtomicWord.
   kSucceeded = 1,  // The CreateProcess() for the handler succeeded.
-  kFailed = 2,     // The handler failed to start.
+  kFailed = 2,  // The handler failed to start.
 };
 
 // This is a tri-state of type StartupState. It starts at 0 == kNotReady, and
@@ -93,8 +94,7 @@ base::subtle::AtomicWord g_handler_startup_state;
 CRITICAL_SECTION g_critical_section_with_debug_info;
 
 void SetHandlerStartupState(StartupState state) {
-  DCHECK(state == StartupState::kSucceeded ||
-         state == StartupState::kFailed);
+  DCHECK(state == StartupState::kSucceeded || state == StartupState::kFailed);
   base::subtle::Acquire_Store(&g_handler_startup_state,
                               static_cast<base::subtle::AtomicWord>(state));
 }
@@ -476,17 +476,34 @@ bool StartHandlerProcess(
     }
   }
 
+  // If the embedded crashpad handler is being started via an entry point in a
+  // DLL (the handler executable is rundll32.exe), then don't pass
+  // the application name to CreateProcess as this appears to generate an
+  // invalid command line where the first argument needed by rundll32 is not in
+  // the correct format as required in:
+  // https://support.microsoft.com/en-ca/help/164787/info-windows-rundll-and-rundll32-interface
+  const base::StringPiece16 kRunDll32Exe(L"rundll32.exe");
+  bool is_embedded_in_dll = false;
+  if (data->handler.value().size() >= kRunDll32Exe.size() &&
+      _wcsicmp(data->handler.value()
+                   .substr(data->handler.value().size() - kRunDll32Exe.size())
+                   .c_str(),
+               kRunDll32Exe.data()) == 0) {
+    is_embedded_in_dll = true;
+  }
+
   PROCESS_INFORMATION process_info;
-  rv = CreateProcess(data->handler.value().c_str(),
-                     &command_line[0],
-                     nullptr,
-                     nullptr,
-                     true,
-                     creation_flags,
-                     nullptr,
-                     nullptr,
-                     &startup_info.StartupInfo,
-                     &process_info);
+  rv = CreateProcess(
+      is_embedded_in_dll ? nullptr : data->handler.value().c_str(),
+      &command_line[0],
+      nullptr,
+      nullptr,
+      true,
+      creation_flags,
+      nullptr,
+      nullptr,
+      &startup_info.StartupInfo,
+      &process_info);
   if (!rv) {
     PLOG(ERROR) << "CreateProcess";
     return false;
