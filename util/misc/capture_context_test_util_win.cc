@@ -99,6 +99,8 @@ uintptr_t ProgramCounterFromContext(const NativeCPUContext& context) {
   return context.Eip;
 #elif defined(ARCH_CPU_X86_64)
   return context.Rip;
+#elif defined(ARCH_CPU_ARM64)
+  return context.Pc;
 #endif
 }
 
@@ -107,6 +109,8 @@ uintptr_t StackPointerFromContext(const NativeCPUContext& context) {
   return context.Esp;
 #elif defined(ARCH_CPU_X86_64)
   return context.Rsp;
+#elif defined(ARCH_CPU_ARM64)
+  return context.Sp;
 #endif
 }
 

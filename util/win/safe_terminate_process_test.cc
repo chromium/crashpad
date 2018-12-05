@@ -91,7 +91,14 @@ class ScopedExecutablePatch {
   DISALLOW_COPY_AND_ASSIGN(ScopedExecutablePatch);
 };
 
-TEST(SafeTerminateProcess, PatchBadly) {
+// SafeTerminateProcess is convention-specific only on x86, so test patch for
+// x86 only.
+#if defined(ARCH_CPU_X86)
+#define MAYBE_PatchBadly PatchBadly
+#else
+#define MAYBE_PatchBadly DISABLED_PatchBadly
+#endif
+TEST(SafeTerminateProcess, MAYBE_PatchBadly) {
   // This is a test of SafeTerminateProcess(), but it doesn’t actually terminate
   // anything. Instead, it works with a process handle for the current process
   // that doesn’t have PROCESS_TERMINATE access. The whole point of this test is
@@ -135,6 +142,7 @@ TEST(SafeTerminateProcess, PatchBadly) {
     // 32-bit x86, as there’s no calling convention confusion on x86_64. It
     // doesn’t hurt to run this test in the 64-bit environment, though.
     static constexpr uint8_t patch[] = {
+#if defined(ARCH_CPU_X86_FAMILY)
 #if defined(ARCH_CPU_X86)
         0x31, 0xc0,  // xor eax, eax
 #elif defined(ARCH_CPU_X86_64)
@@ -143,6 +151,11 @@ TEST(SafeTerminateProcess, PatchBadly) {
 #error Port
 #endif
         0xc3,  // ret
+#elif defined(ARCH_CPU_ARM64)
+        // This test will be ignored on Windows ARM64, below byte is just for
+        // compilation.
+        0x00,
+#endif  // ARCH_CPU_X86_FAMILY
     };
 
     void* target = reinterpret_cast<void*>(TerminateProcess);

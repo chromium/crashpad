@@ -23,8 +23,17 @@ namespace crashpad {
 
 struct CPUContextX86;
 struct CPUContextX86_64;
+struct CPUContextARM64;
 
-#if defined(ARCH_CPU_64_BITS) || DOXYGEN
+#if defined(ARCH_CPU_X86) || DOXYGEN
+
+//! \brief Initializes a CPUContextX86 structure from a native context structure
+//!     on Windows.
+void InitializeX86Context(const CONTEXT& context, CPUContextX86* out);
+
+#endif  // ARCH_CPU_X86
+
+#if defined(ARCH_CPU_X86_64) || DOXYGEN
 
 //! \brief Initializes a CPUContextX86 structure from a native context structure
 //!     on Windows.
@@ -34,13 +43,15 @@ void InitializeX86Context(const WOW64_CONTEXT& context, CPUContextX86* out);
 //!     structure on Windows.
 void InitializeX64Context(const CONTEXT& context, CPUContextX86_64* out);
 
-#else  // ARCH_CPU_64_BITS
+#endif  // ARCH_CPU_X86_64
 
-//! \brief Initializes a CPUContextX86 structure from a native context structure
-//!     on Windows.
-void InitializeX86Context(const CONTEXT& context, CPUContextX86* out);
+#if defined(ARCH_CPU_ARM64) || DOXYGEN
 
-#endif  // ARCH_CPU_64_BITS
+//! \brief Initializes a CPUContextARM64 structure from a native context
+//!     structure on Windows.
+void InitializeARM64Context(const CONTEXT& context, CPUContextARM64* out);
+
+#endif  // ARCH_CPU_ARM64
 
 }  // namespace crashpad
 

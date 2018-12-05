@@ -17,6 +17,7 @@
 #include <windows.h>
 #include <string.h>
 
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/win/win_multiprocess.h"
 #include "util/misc/from_pointer_cast.h"
@@ -106,10 +107,14 @@ TEST(ProcessReaderWin, SelfOneThread) {
   ASSERT_GE(threads.size(), 1u);
 
   EXPECT_EQ(threads[0].id, GetCurrentThreadId());
-#if defined(ARCH_CPU_64_BITS)
-  EXPECT_NE(threads[0].context.native.Rip, 0u);
-#else
+#if defined(ARCH_CPU_X86)
   EXPECT_NE(threads[0].context.native.Eip, 0u);
+#elif defined(ARCH_CPU_X86_64)
+  EXPECT_NE(threads[0].context.native.Rip, 0u);
+#elif defined(ARCH_CPU_ARM64)
+  EXPECT_NE(threads[0].context.native.Pc, 0u);
+#else
+#error Unsupported Windows Arch
 #endif
 
   EXPECT_EQ(threads[0].suspend_count, 0u);

@@ -16,6 +16,7 @@
 #include <windows.h>
 
 #include "base/logging.h"
+#include "build/build_config.h"
 #include "client/crashpad_client.h"
 #include "client/simulate_crash.h"
 #include "util/misc/capture_context.h"
@@ -32,10 +33,14 @@ int wmain(int argc, wchar_t* argv[]) {
 
   CONTEXT context;
   crashpad::CaptureContext(&context);
-#if defined(ARCH_CPU_64_BITS)
-  crashpad::WinVMAddress break_address = context.Rip;
-#else
+#if defined(ARCH_CPU_X86)
   crashpad::WinVMAddress break_address = context.Eip;
+#elif defined(ARCH_CPU_X86_64)
+  crashpad::WinVMAddress break_address = context.Rip;
+#elif defined(ARCH_CPU_ARM64)
+  crashpad::WinVMAddress break_address = context.Pc;
+#else
+#error Unsupported Windows Arch
 #endif
 
   // This does not used CheckedWriteFile() because at high optimization
