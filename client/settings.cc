@@ -28,14 +28,12 @@ namespace crashpad {
 #if defined(OS_FUCHSIA)
 
 Settings::ScopedLockedFileHandle::ScopedLockedFileHandle()
-    : handle_(kInvalidFileHandle), lockfile_path_() {
-    }
+    : handle_(kInvalidFileHandle), lockfile_path_() {}
 
 Settings::ScopedLockedFileHandle::ScopedLockedFileHandle(
     FileHandle handle,
     const base::FilePath& lockfile_path)
-    : handle_(handle), lockfile_path_(lockfile_path) {
-}
+    : handle_(handle), lockfile_path_(lockfile_path) {}
 
 Settings::ScopedLockedFileHandle::ScopedLockedFileHandle(
     ScopedLockedFileHandle&& other)
@@ -63,11 +61,12 @@ void Settings::ScopedLockedFileHandle::Destroy() {
     CheckedCloseFile(handle_);
   }
   if (!lockfile_path_.empty()) {
-    DCHECK(LoggingRemoveFile(lockfile_path_));
+    const bool success = LoggingRemoveFile(lockfile_path_);
+    DCHECK(success);
   }
 }
 
-#else // OS_FUCHSIA
+#else  // OS_FUCHSIA
 
 namespace internal {
 
@@ -91,12 +90,13 @@ struct Settings::Data {
     kUploadsEnabled = 1 << 0,
   };
 
-  Data() : magic(kSettingsMagic),
-           version(kSettingsVersion),
-           options(0),
-           padding_0(0),
-           last_upload_attempt_time(0),
-           client_id() {}
+  Data()
+      : magic(kSettingsMagic),
+        version(kSettingsVersion),
+        options(0),
+        padding_0(0),
+        last_upload_attempt_time(0),
+        client_id() {}
 
   uint32_t magic;
   uint32_t version;
@@ -219,7 +219,8 @@ Settings::ScopedLockedFileHandle Settings::OpenForReading() {
 }
 
 Settings::ScopedLockedFileHandle Settings::OpenForReadingAndWriting(
-    FileWriteMode mode, bool log_open_error) {
+    FileWriteMode mode,
+    bool log_open_error) {
   DCHECK(mode != FileWriteMode::kTruncateOrCreate);
 
   FileHandle handle;
