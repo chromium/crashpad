@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "431f8ed6_70bfd551",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-12-06T18:16:47Z",
+      "side": 1,
+      "message": "add \"crashpad:217, crashpad:196, \" here.",
+      "range": {
+        "startLine": 12,
+        "startChar": 4,
+        "endLine": 12,
+        "endChar": 5
+      },
+      "revId": "d9e9d885f728922cd4c454ebe1792dc32d64ef1b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
