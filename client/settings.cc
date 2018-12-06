@@ -63,7 +63,8 @@ void Settings::ScopedLockedFileHandle::Destroy() {
     CheckedCloseFile(handle_);
   }
   if (!lockfile_path_.empty()) {
-    DCHECK(LoggingRemoveFile(lockfile_path_));
+    const bool success = LoggingRemoveFile(lockfile_path_);
+    DCHECK(success);
   }
 }
 
