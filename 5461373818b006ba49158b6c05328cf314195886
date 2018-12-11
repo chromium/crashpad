@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7c9d4cd_f69726f9",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": "You don’t need this here. The rule in a .cc file is that if a header is #included by the associated header (the one listed up at the top, in this case, client/crashpad_client.h), you don’t need to #include it again.",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebe10572_998940fb",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": "Since we have this same thing twice, let’s factor it out into a common InstructionPointerFromCONTEXT() function that can go into the unnamed namespace above.\n\n(ProgramCounterFromCONTEXT() if you prefer that nomenclature.)",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7ec80be_512bdf69",
+        "filename": "snapshot/win/cpu_context_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": "The copy of \u003cwinnt.h\u003e that I’m looking at has a “buggy” comment for ARM64 CONTEXT_* ContextFlags. It just duplicates the 32-bit ARM comment, so Fp is missing and it lists R0-R12 instead of X0-X28.\n\nThe reason I was looking was because I wanted to assure that Fp is covered by CONTEXT_CONTROL and not CONTEXT_INTEGER.",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98edb50d_8d1cebec",
+        "filename": "snapshot/win/cpu_context_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": "For these registers, the two structures are laid out identically, and you could just write a memcpy() from out-\u003eregs to context.X over 29 registers.\n\n(You used x86 as a template here, but the equivalent structures on x86 weren’t laid out identically, so we couldn’t write a simple memcpy().)",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d745ee59_035b3648",
+        "filename": "snapshot/win/crashpad_snapshot_test_crashing_child.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": "Here it is again! Maybe that ProgramCounterFromCONTEXT() function I suggested should be promoted to someplace broadly reachable in util/win. (Then you can drop build_config.h from this file.)",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1db4d70d_a145baf2",
+        "filename": "snapshot/win/crashpad_snapshot_test_dump_without_crashing.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": "Here too.",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2706d917_6f89afdd",
+        "filename": "snapshot/win/exception_snapshot_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": "The #ifs should be inside the union now, to better express that we always have this union, but its members are what vary.",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e88f7496_af58cff5",
+        "filename": "snapshot/win/exception_snapshot_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": "If we’re setting up with the union everywhere (you were insistent), then we don’t seem to need this #if that we left behind when we were contemplating not always using the union.",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6906fda_90296b3b",
+        "filename": "snapshot/win/process_reader_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": "Drop this (process_reader_win.h #includes it).",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5733275b_accaa4f4",
+        "filename": "snapshot/win/process_reader_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": "Here’s another possible user.",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3061b538_45a0df4c",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": "Like CPURevision(), it may be possible to do something here. Here, duplicate the TODO that you pulled out of the Linux file above.",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de93495a_7c644be6",
+        "filename": "snapshot/win/thread_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": "This seems like it wanted to match the first #if defined in the group, which is different now.",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03008f63_d40c8e03",
+        "filename": "snapshot/win/thread_snapshot_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": "Fix the freaky indent.\n\nPrefer putting the #ifdefs inside the union (as before) to express that it’s one union whose members vary.",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2f155cf_7934c095",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": ":(",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf2c385f_c042df8b",
+        "filename": "util/misc/capture_context_test_util_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": "Oh, look at that, it already exists! Let’s promote it out to a place it’s reachable from more than just util_test.",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4c4785d_00732b69",
+        "filename": "util/misc/capture_context_test_util_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": "Maybe bring this along for the ride too, since the two are closely related.",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d195668e_271902dd",
+        "filename": "util/win/safe_terminate_process_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-11T15:55:16Z",
+      "side": 1,
+      "message": "Why even compile this test on non-x86-family at all? I’d leave the whole thing as it was before, but wrapped in #if defined(ARCH_CPU_X86_FAMILY). No need to keep a disabled and pointless test hanging around. It will just cause “YOU HAVE 1 DISABLED TEST(S)” noise.",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
