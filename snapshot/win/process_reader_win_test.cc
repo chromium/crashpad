@@ -22,6 +22,7 @@
 #include "util/misc/from_pointer_cast.h"
 #include "util/synchronization/semaphore.h"
 #include "util/thread/thread.h"
+#include "util/win/context_wrappers.h"
 #include "util/win/scoped_process_suspend.h"
 
 namespace crashpad {
@@ -106,12 +107,7 @@ TEST(ProcessReaderWin, SelfOneThread) {
   ASSERT_GE(threads.size(), 1u);
 
   EXPECT_EQ(threads[0].id, GetCurrentThreadId());
-#if defined(ARCH_CPU_64_BITS)
-  EXPECT_NE(threads[0].context.native.Rip, 0u);
-#else
-  EXPECT_NE(threads[0].context.native.Eip, 0u);
-#endif
-
+  EXPECT_NE(ProgramCounterFromCONTEXT(&threads[0].context.native), nullptr);
   EXPECT_EQ(threads[0].suspend_count, 0u);
 }
 
