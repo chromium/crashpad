@@ -74,10 +74,10 @@ void TestAgainstTarget(PtraceConnection* connection) {
 
   const MemoryMap::Mapping* phdr_mapping = mappings.FindMapping(phdrs);
   ASSERT_TRUE(phdr_mapping);
-  std::vector<const MemoryMap::Mapping*> exe_mappings =
-      mappings.FindFilePossibleMmapStarts(*phdr_mapping);
-  ASSERT_EQ(exe_mappings.size(), 1u);
-  LinuxVMAddress elf_address = exe_mappings[0]->range.Base();
+
+  auto exe_mappings = mappings.FindFilePossibleMmapStarts(*phdr_mapping);
+  ASSERT_EQ(exe_mappings.Count(), 1u);
+  LinuxVMAddress elf_address = exe_mappings.Next()->range.Base();
 
   ProcessMemoryLinux memory;
   ASSERT_TRUE(memory.Initialize(connection->GetProcessID()));
@@ -143,13 +143,13 @@ void TestAgainstTarget(PtraceConnection* connection) {
         mappings.FindMapping(module.dynamic_array);
     ASSERT_TRUE(dyn_mapping);
 
-    std::vector<const MemoryMap::Mapping*> possible_mappings =
-        mappings.FindFilePossibleMmapStarts(*dyn_mapping);
-    ASSERT_GE(possible_mappings.size(), 1u);
+    auto possible_mappings = mappings.FindFilePossibleMmapStarts(*dyn_mapping);
+    ASSERT_GE(possible_mappings.Count(), 1u);
 
     std::unique_ptr<ElfImageReader> module_reader;
     const MemoryMap::Mapping* module_mapping = nullptr;
-    for (const auto mapping : possible_mappings) {
+    const MemoryMap::Mapping* mapping = nullptr;
+    while ((mapping = possible_mappings.Next())) {
       auto parsed_module = std::make_unique<ElfImageReader>();
       VMAddress dynamic_address;
       if (parsed_module->Initialize(range, mapping->range.Base()) &&
