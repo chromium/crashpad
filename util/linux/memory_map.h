@@ -76,6 +76,43 @@ class MemoryMap {
   //!     it was obtained from.
   const Mapping* FindMappingWithName(const std::string& name) const;
 
+  //! \brief An abstract base class for iterating over ordered sets of mappings
+  //!   in a MemoryMap.
+  class Iterator {
+   public:
+    //! \return the mapping pointed to by the iterator or `nullptr` if there are
+    //!     no more mappings. The iterator is advanced to the next mapping, if
+    //!     more exist.
+    virtual const Mapping* Next() = 0;
+
+    //! \return the number of mappings remaining.
+    virtual unsigned int Count() = 0;
+
+   protected:
+    Iterator() = default;
+  };
+
+  //! \brief A reverse iterator over a possibly discontinuous ordered set of
+  //!     mappings.
+  class SparseReverseIterator : public Iterator {
+   public:
+    // Iterator:
+    const Mapping* Next() override {
+      return riter_ == mappings_.rend() ? nullptr : *(riter_++);
+    }
+
+    unsigned int Count() override { return mappings_.rend() - riter_; }
+
+   private:
+    friend class MemoryMap;
+
+    SparseReverseIterator(const std::vector<const Mapping*>& mappings)
+        : mappings_(mappings), riter_(mappings_.rbegin()){};
+
+    std::vector<const Mapping*> mappings_;
+    std::vector<const Mapping*>::reverse_iterator riter_;
+  };
+
   //! \brief Find possible initial mappings of files mapped over several
   //!     segments.
   //!
@@ -100,8 +137,33 @@ class MemoryMap {
   //!
   //! \param[in] mapping A Mapping whose series to find the start of.
   //! \return a vector of the possible mapping starts.
-  std::vector<const Mapping*> FindFilePossibleMmapStarts(
+  SparseReverseIterator FindFilePossibleMmapStarts(
       const Mapping& mapping) const;
+
+  //! \brief A reverse iterator over an ordered set of mappings including all
+  //!     mappings from the MemoryMap in the range of the iterator.
+  class FullReverseIterator : public Iterator {
+   public:
+    // Iterator:
+    const Mapping* Next() override {
+      return riter_ == rend_ ? nullptr : &*riter_++;
+    }
+
+    unsigned int Count() override { return rend_ - riter_; }
+
+   private:
+    friend class MemoryMap;
+    FullReverseIterator(std::vector<Mapping>::const_reverse_iterator rbegin,
+                        std::vector<Mapping>::const_reverse_iterator rend)
+        : riter_(rbegin), rend_(rend) {}
+
+    std::vector<Mapping>::const_reverse_iterator riter_;
+    std::vector<Mapping>::const_reverse_iterator rend_;
+  };
+
+  //! \return A reverse iterator over all mappings in the MemoryMap from \a
+  //!     mapping to the start of the MemoryMap.
+  FullReverseIterator ReverseIteratorFrom(const Mapping& mapping) const;
 
  private:
   std::vector<Mapping> mappings_;

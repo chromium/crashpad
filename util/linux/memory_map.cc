@@ -296,7 +296,7 @@ const MemoryMap::Mapping* MemoryMap::FindMappingWithName(
   return nullptr;
 }
 
-std::vector<const MemoryMap::Mapping*> MemoryMap::FindFilePossibleMmapStarts(
+MemoryMap::SparseReverseIterator MemoryMap::FindFilePossibleMmapStarts(
     const Mapping& mapping) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
@@ -308,12 +308,12 @@ std::vector<const MemoryMap::Mapping*> MemoryMap::FindFilePossibleMmapStarts(
     for (const auto& candidate : mappings_) {
       if (mapping.Equals(candidate)) {
         possible_starts.push_back(&candidate);
-        return possible_starts;
+        return SparseReverseIterator(possible_starts);
       }
     }
 
     LOG(ERROR) << "mapping not found";
-    return std::vector<const Mapping*>();
+    return SparseReverseIterator(std::vector<const Mapping*>());
   }
 
 #if defined(OS_ANDROID)
@@ -341,7 +341,7 @@ std::vector<const MemoryMap::Mapping*> MemoryMap::FindFilePossibleMmapStarts(
         possible_starts.push_back(&candidate);
       }
       if (mapping.Equals(candidate)) {
-        return possible_starts;
+        return SparseReverseIterator(possible_starts);
       }
     }
   }
@@ -359,12 +359,22 @@ std::vector<const MemoryMap::Mapping*> MemoryMap::FindFilePossibleMmapStarts(
       possible_starts.push_back(&candidate);
     }
     if (mapping.Equals(candidate)) {
-      return possible_starts;
+      return SparseReverseIterator(possible_starts);
     }
   }
 
   LOG(ERROR) << "mapping not found";
-  return std::vector<const Mapping*>();
+  return SparseReverseIterator(std::vector<const Mapping*>());
+}
+
+MemoryMap::FullReverseIterator MemoryMap::ReverseIteratorFrom(
+    const Mapping& target) const {
+  for (auto riter = mappings_.crbegin(); riter != mappings_.rend(); ++riter) {
+    if (riter->Equals(target)) {
+      return FullReverseIterator(riter, mappings_.rend());
+    }
+  }
+  return FullReverseIterator(mappings_.rend(), mappings_.rend());
 }
 
 }  // namespace crashpad
