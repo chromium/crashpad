@@ -18,6 +18,7 @@
 #include <windows.h>
 #include <winternl.h>
 
+#include "build/build_config.h"
 #include "util/win/process_structs.h"
 
 // Copied from ntstatus.h because um/winnt.h conflicts with general inclusion of
@@ -93,6 +94,18 @@ struct RTL_UNLOAD_EVENT_TRACE {
 void RtlGetUnloadEventTraceEx(ULONG** element_size,
                               ULONG** element_count,
                               void** event_trace);
+
+inline void* ProgramCounterFromCONTEXT(const CONTEXT* context) {
+#if defined(ARCH_CPU_X86)
+  return reinterpret_cast<void*>(context->Eip);
+#elif defined(ARCH_CPU_X86_64)
+  return reinterpret_cast<void*>(context->Rip);
+#elif defined(ARCH_CPU_ARM64)
+  return reinterpret_cast<void*>(context->Pc);
+#else
+#error Unsupported Windows Arch
+#endif  // ARCH_CPU_X86
+}
 
 }  // namespace crashpad
 

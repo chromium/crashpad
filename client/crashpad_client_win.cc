@@ -187,11 +187,7 @@ void HandleAbortSignal(int signum) {
   EXCEPTION_RECORD record = {};
   record.ExceptionCode = STATUS_FATAL_APP_EXIT;
   record.ExceptionFlags = EXCEPTION_NONCONTINUABLE;
-#if defined(ARCH_CPU_64_BITS)
-  record.ExceptionAddress = reinterpret_cast<void*>(context.Rip);
-#else
-  record.ExceptionAddress = reinterpret_cast<void*>(context.Eip);
-#endif  // ARCH_CPU_64_BITS
+  record.ExceptionAddress = ProgramCounterFromCONTEXT(&context);
 
   EXCEPTION_POINTERS exception_pointers;
   exception_pointers.ContextRecord = &context;
@@ -773,11 +769,7 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
   constexpr uint32_t kSimulatedExceptionCode = 0x517a7ed;
   EXCEPTION_RECORD record = {};
   record.ExceptionCode = kSimulatedExceptionCode;
-#if defined(ARCH_CPU_64_BITS)
-  record.ExceptionAddress = reinterpret_cast<void*>(context.Rip);
-#else
-  record.ExceptionAddress = reinterpret_cast<void*>(context.Eip);
-#endif  // ARCH_CPU_64_BITS
+  record.ExceptionAddress = ProgramCounterFromCONTEXT(&context);
 
   exception_pointers.ExceptionRecord = &record;
 
