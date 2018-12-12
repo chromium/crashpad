@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e2bb2cb_1c9b1f29",
+        "filename": "snapshot/win/cpu_context_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-12T19:57:11Z",
+      "side": 1,
+      "message": "But it’s present in both context structs, so why not let it pass through?",
+      "revId": "83b833baed8573cd148459bbad86417c08492a9c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "799d7411_58c9d87b",
+        "filename": "snapshot/win/cpu_context_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-12T19:57:11Z",
+      "side": 1,
+      "message": "A second memcpy() for the remainder?",
+      "revId": "83b833baed8573cd148459bbad86417c08492a9c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85b03ba9_28ab253c",
+        "filename": "util/win/context_wrappers.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-12T19:57:11Z",
+      "side": 1,
+      "message": "In backticks: `CONTEXT`",
+      "range": {
+        "startLine": 24,
+        "startChar": 41,
+        "endLine": 24,
+        "endChar": 48
+      },
+      "revId": "83b833baed8573cd148459bbad86417c08492a9c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cdfa69b_6d35ae86",
+        "filename": "util/win/context_wrappers.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-12T19:57:11Z",
+      "side": 1,
+      "message": "Nit: remove this blank line.",
+      "revId": "83b833baed8573cd148459bbad86417c08492a9c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
