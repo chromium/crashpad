@@ -16,10 +16,10 @@
 #include <windows.h>
 
 #include "base/logging.h"
-#include "build/build_config.h"
 #include "client/crashpad_client.h"
 #include "util/misc/capture_context.h"
 #include "util/win/address_types.h"
+#include "util/win/context_wrappers.h"
 
 int wmain(int argc, wchar_t* argv[]) {
   CHECK_EQ(argc, 2);
@@ -32,11 +32,9 @@ int wmain(int argc, wchar_t* argv[]) {
 
   CONTEXT context;
   crashpad::CaptureContext(&context);
-#if defined(ARCH_CPU_64_BITS)
-  crashpad::WinVMAddress break_address = context.Rip;
-#else
-  crashpad::WinVMAddress break_address = context.Eip;
-#endif
+  crashpad::WinVMAddress break_address =
+      reinterpret_cast<crashpad::WinVMAddress>(
+          crashpad::ProgramCounterFromCONTEXT(&context));
 
   // This does not used CheckedWriteFile() because at high optimization
   // settings, a lot of logging code can be inlined, causing there to be a large

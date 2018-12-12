@@ -23,6 +23,7 @@
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/strings/utf_string_conversions.h"
+#include "build/build_config.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/misc/time.h"
 #include "util/win/nt_internals.h"
@@ -276,7 +277,7 @@ void ProcessSnapshotWin::InitializeUnloadedModules() {
   // and 32-reading-32, so at the moment, we simply do not retrieve unloaded
   // modules for 64-reading-32. See https://crashpad.chromium.org/bug/89.
 
-#if defined(ARCH_CPU_X86_64)
+#if defined(ARCH_CPU_X86_64) || defined(ARCH_CPU_ARM64)
   if (!process_reader_.Is64Bit()) {
     LOG(ERROR)
         << "reading unloaded modules across bitness not currently supported";

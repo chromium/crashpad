@@ -341,6 +341,7 @@ static_library("util") {
       "win/checked_win_address_range.h",
       "win/command_line.cc",
       "win/command_line.h",
+      "win/context_wrappers.h",
       "win/critical_section_with_debug_info.cc",
       "win/critical_section_with_debug_info.h",
       "win/exception_handler_server.cc",
@@ -390,10 +391,15 @@ static_library("util") {
     # TODO(thakis): Use the .asm file in cross builds somehow,
     # https://crbug.com/762167.
     if (host_os == "win") {
-      sources += [
-        "misc/capture_context_win.asm",
-        "win/safe_terminate_process.asm",
-      ]
+      if (current_cpu != "arm64") {
+        sources += [
+          "misc/capture_context_win.asm",
+          "win/safe_terminate_process.asm",
+        ]
+      } else {
+        # TODO: Add assembly code of CaptureContext for Windows ARM64.
+        sources += [ "misc/capture_context_broken.cc" ]
+      }
     } else {
       sources += [
         "misc/capture_context_broken.cc",

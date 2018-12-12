@@ -38,12 +38,14 @@ namespace internal {
 
 class MemorySnapshotWin;
 
-#if defined(ARCH_CPU_X86_FAMILY)
 union CPUContextUnion {
+#if defined(ARCH_CPU_X86_FAMILY)
   CPUContextX86 x86;
   CPUContextX86_64 x86_64;
-};
+#elif defined(ARCH_CPU_ARM64)
+  CPUContextARM64 arm64;
 #endif
+};
 
 class ExceptionSnapshotWin final : public ExceptionSnapshot {
  public:
@@ -91,9 +93,7 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
                                     CPUContext* context,
                                     CPUContextUnion* context_union));
 
-#if defined(ARCH_CPU_X86_FAMILY)
   CPUContextUnion context_union_;
-#endif
   CPUContext context_;
   std::vector<uint64_t> codes_;
   std::vector<std::unique_ptr<internal::MemorySnapshotWin>> extra_memory_;

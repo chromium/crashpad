@@ -28,20 +28,11 @@ namespace internal {
 
 namespace {
 
+#if defined(ARCH_CPU_X86_FAMILY)
 #if defined(ARCH_CPU_32_BITS)
 using Context32 = CONTEXT;
 #elif defined(ARCH_CPU_64_BITS)
 using Context32 = WOW64_CONTEXT;
-#endif
-
-#if defined(ARCH_CPU_64_BITS)
-void NativeContextToCPUContext64(const CONTEXT& context_record,
-                                 CPUContext* context,
-                                 CPUContextUnion* context_union) {
-  context->architecture = kCPUArchitectureX86_64;
-  context->x86_64 = &context_union->x86_64;
-  InitializeX64Context(context_record, context->x86_64);
-}
 #endif
 
 void NativeContextToCPUContext32(const Context32& context_record,
@@ -51,6 +42,25 @@ void NativeContextToCPUContext32(const Context32& context_record,
   context->x86 = &context_union->x86;
   InitializeX86Context(context_record, context->x86);
 }
+#endif  // ARCH_CPU_X86_FAMILY
+
+#if defined(ARCH_CPU_64_BITS)
+void NativeContextToCPUContext64(const CONTEXT& context_record,
+                                 CPUContext* context,
+                                 CPUContextUnion* context_union) {
+#if defined(ARCH_CPU_X86_64)
+  context->architecture = kCPUArchitectureX86_64;
+  context->x86_64 = &context_union->x86_64;
+  InitializeX64Context(context_record, context->x86_64);
+#elif defined(ARCH_CPU_ARM64)
+  context->architecture = kCPUArchitectureARM64;
+  context->arm64 = &context_union->arm64;
+  InitializeARM64Context(context_record, context->arm64);
+#else
+#error Unsupported Windows 64-bit Arch
+#endif
+}
+#endif
 
 }  // namespace
 
@@ -106,6 +116,8 @@ bool ExceptionSnapshotWin::Initialize(
     }
   }
 #endif
+
+#if !defined(ARCH_CPU_ARM64)
   if (!is_64_bit) {
     if (!InitializeFromExceptionPointers<EXCEPTION_RECORD32,
                                          process_types::EXCEPTION_POINTERS32>(
@@ -116,6 +128,7 @@ bool ExceptionSnapshotWin::Initialize(
       return false;
     }
   }
+#endif
 
   CaptureMemoryDelegateWin capture_memory_delegate(
       process_reader, *thread, &extra_memory_, nullptr);

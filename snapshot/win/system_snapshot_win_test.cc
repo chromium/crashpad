@@ -60,6 +60,10 @@ TEST_F(SystemSnapshotWinTest, GetCPUArchitecture) {
   EXPECT_EQ(cpu_architecture, kCPUArchitectureX86);
 #elif defined(ARCH_CPU_X86_64)
   EXPECT_EQ(cpu_architecture, kCPUArchitectureX86_64);
+#elif defined(ARCH_CPU_ARM64)
+  EXPECT_EQ(cpu_architecture, kCPUArchitectureARM64);
+#else
+#error Unsupported Windows Arch
 #endif
 }
 
