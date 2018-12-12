@@ -126,7 +126,13 @@ void CommonInitializeX86Context(const T& context, CPUContextX86* out) {
 
 }  // namespace
 
-#if defined(ARCH_CPU_64_BITS)
+#if defined(ARCH_CPU_X86)
+
+void InitializeX86Context(const CONTEXT& context, CPUContextX86* out) {
+  CommonInitializeX86Context(context, out);
+}
+
+#elif defined(ARCH_CPU_X86_64)
 
 void InitializeX86Context(const WOW64_CONTEXT& context, CPUContextX86* out) {
   CommonInitializeX86Context(context, out);
@@ -192,12 +198,36 @@ void InitializeX64Context(const CONTEXT& context, CPUContextX86_64* out) {
   }
 }
 
-#else  // ARCH_CPU_64_BITS
+#elif defined(ARCH_CPU_ARM64)
 
-void InitializeX86Context(const CONTEXT& context, CPUContextX86* out) {
-  CommonInitializeX86Context(context, out);
+void InitializeARM64Context(const CONTEXT& context, CPUContextARM64* out) {
+  memset(out, 0, sizeof(*out));
+
+  LOG_IF(ERROR, !HasContextPart(context, CONTEXT_ARM64)) << "non-arm64 context";
+
+  if (HasContextPart(context, CONTEXT_CONTROL)) {
+    out->spsr = context.Cpsr;
+    out->pc = context.Pc;
+    out->regs[30] = context.Lr;
+    out->sp = context.Sp;
+    out->regs[29] = context.Fp;
+  }
+
+  if (HasContextPart(context, CONTEXT_INTEGER)) {
+    memcpy(&out->regs[0], &context.X0, 18 * sizeof(context.X0));
+    // Don't copy x18 which is reserved as platform register.
+    memcpy(&out->regs[19], &context.X19, 10 * sizeof(context.X0));
+  }
+
+  if (HasContextPart(context, CONTEXT_FLOATING_POINT)) {
+    static_assert(sizeof(out->fpsimd) == sizeof(context.V),
+                  "types must be equivalent");
+    memcpy(&out->fpsimd, &context.V, sizeof(out->fpsimd));
+  }
 }
 
-#endif  // ARCH_CPU_64_BITS
+#else
+#error Unsupported Windows Arch
+#endif  // ARCH_CPU_X86
 
 }  // namespace crashpad

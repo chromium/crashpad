@@ -91,6 +91,8 @@ class ScopedExecutablePatch {
   DISALLOW_COPY_AND_ASSIGN(ScopedExecutablePatch);
 };
 
+// SafeTerminateProcess is calling convention specific only for x86.
+#if defined(ARCH_CPU_X86_FAMILY)
 TEST(SafeTerminateProcess, PatchBadly) {
   // This is a test of SafeTerminateProcess(), but it doesn’t actually terminate
   // anything. Instead, it works with a process handle for the current process
@@ -161,6 +163,7 @@ TEST(SafeTerminateProcess, PatchBadly) {
   EXPECT_FALSE(SafeTerminateProcess(process, 0));
   EXPECT_EQ(GetLastError(), static_cast<DWORD>(ERROR_ACCESS_DENIED));
 }
+#endif  // ARCH_CPU_X86_FAMILY
 
 TEST(SafeTerminateProcess, TerminateChild) {
   base::FilePath child_executable =

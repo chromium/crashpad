@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "util/misc/capture_context_test_util.h"
+#include "util/win/context_wrappers.h"
 
 #include "base/macros.h"
 #include "gtest/gtest.h"
@@ -95,11 +96,7 @@ void SanityCheckContext(const NativeCPUContext& context) {
 }
 
 uintptr_t ProgramCounterFromContext(const NativeCPUContext& context) {
-#if defined(ARCH_CPU_X86)
-  return context.Eip;
-#elif defined(ARCH_CPU_X86_64)
-  return context.Rip;
-#endif
+  return reinterpret_cast<uintptr_t>(ProgramCounterFromCONTEXT(&context));
 }
 
 uintptr_t StackPointerFromContext(const NativeCPUContext& context) {
@@ -107,6 +104,8 @@ uintptr_t StackPointerFromContext(const NativeCPUContext& context) {
   return context.Esp;
 #elif defined(ARCH_CPU_X86_64)
   return context.Rsp;
+#elif defined(ARCH_CPU_ARM64)
+  return context.Sp;
 #endif
 }
 

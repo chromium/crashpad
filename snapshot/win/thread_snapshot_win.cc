@@ -63,7 +63,11 @@ bool ThreadSnapshotWin::Initialize(
     teb_.Initialize(process_reader, 0, 0);
   }
 
-#if defined(ARCH_CPU_X86_64)
+#if defined(ARCH_CPU_X86)
+  context_.architecture = kCPUArchitectureX86;
+  context_.x86 = &context_union_.x86;
+  InitializeX86Context(process_reader_thread.context.native, context_.x86);
+#elif defined(ARCH_CPU_X86_64)
   if (process_reader->Is64Bit()) {
     context_.architecture = kCPUArchitectureX86_64;
     context_.x86_64 = &context_union_.x86_64;
@@ -73,11 +77,13 @@ bool ThreadSnapshotWin::Initialize(
     context_.x86 = &context_union_.x86;
     InitializeX86Context(process_reader_thread.context.wow64, context_.x86);
   }
+#elif defined(ARCH_CPU_ARM64)
+  context_.architecture = kCPUArchitectureARM64;
+  context_.arm64 = &context_union_.arm64;
+  InitializeARM64Context(process_reader_thread.context.native, context_.arm64);
 #else
-  context_.architecture = kCPUArchitectureX86;
-  context_.x86 = &context_union_.x86;
-  InitializeX86Context(process_reader_thread.context.native, context_.x86);
-#endif  // ARCH_CPU_X86_64
+#error Unsupported Windows Arch
+#endif  // ARCH_CPU_X86
 
   CaptureMemoryDelegateWin capture_memory_delegate(
       process_reader,
