@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5fd57683_5eef2ae3",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2018-12-12T01:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7c9d4cd_f69726f9",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebe10572_998940fb",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "5461373818b006ba49158b6c05328cf314195886",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "597e0ee4_0119e68b",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2018-12-12T01:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebe10572_998940fb",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "918dcb00_d0c029fc",
+        "filename": "snapshot/win/cpu_context_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2018-12-12T01:22:45Z",
+      "side": 1,
+      "message": "Thanks for checking. Yes, Fp is covered by CONTEXT_CONTROL.",
+      "parentUuid": "b7ec80be_512bdf69",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98edb50d_8d1cebec",
         "filename": "snapshot/win/cpu_context_win.cc",
         "patchSetId": 2
@@ -67,6 +121,24 @@
       "revId": "5461373818b006ba49158b6c05328cf314195886",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3417116d_804a2baf",
+        "filename": "snapshot/win/cpu_context_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2018-12-12T01:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98edb50d_8d1cebec",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "b91fa703_80402cf6",
+        "filename": "snapshot/win/crashpad_snapshot_test_crashing_child.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2018-12-12T01:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d745ee59_035b3648",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1db4d70d_a145baf2",
         "filename": "snapshot/win/crashpad_snapshot_test_dump_without_crashing.cc",
         "patchSetId": 2
@@ -101,6 +191,24 @@
       "revId": "5461373818b006ba49158b6c05328cf314195886",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97461dee_f5318b6a",
+        "filename": "snapshot/win/crashpad_snapshot_test_dump_without_crashing.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2018-12-12T01:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1db4d70d_a145baf2",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "9b52b8a2_b09a5b46",
+        "filename": "snapshot/win/exception_snapshot_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2018-12-12T01:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2706d917_6f89afdd",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e88f7496_af58cff5",
         "filename": "snapshot/win/exception_snapshot_win.h",
         "patchSetId": 2
@@ -135,6 +261,24 @@
       "revId": "5461373818b006ba49158b6c05328cf314195886",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25bf668d_b07d5c0f",
+        "filename": "snapshot/win/exception_snapshot_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2018-12-12T01:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e88f7496_af58cff5",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "1a99b344_9c3ea165",
+        "filename": "snapshot/win/process_reader_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2018-12-12T01:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6906fda_90296b3b",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5733275b_accaa4f4",
         "filename": "snapshot/win/process_reader_win_test.cc",
         "patchSetId": 2
@@ -169,6 +331,24 @@
       "revId": "5461373818b006ba49158b6c05328cf314195886",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cea805b5_b8418109",
+        "filename": "snapshot/win/process_reader_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2018-12-12T01:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5733275b_accaa4f4",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "45dad685_ce040b7a",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2018-12-12T01:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3061b538_45a0df4c",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de93495a_7c644be6",
         "filename": "snapshot/win/thread_snapshot_win.cc",
         "patchSetId": 2
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "29bfd8de_1bc1cda2",
+        "filename": "snapshot/win/thread_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2018-12-12T01:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de93495a_7c644be6",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03008f63_d40c8e03",
         "filename": "snapshot/win/thread_snapshot_win.h",
         "patchSetId": 2
@@ -220,6 +436,24 @@
       "revId": "5461373818b006ba49158b6c05328cf314195886",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4833b7c6_f52ee693",
+        "filename": "snapshot/win/thread_snapshot_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2018-12-12T01:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03008f63_d40c8e03",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -257,6 +491,24 @@
     },
     {
       "key": {
+        "uuid": "5d094d86_f16382fe",
+        "filename": "util/misc/capture_context_test_util_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2018-12-12T01:22:45Z",
+      "side": 1,
+      "message": "This ProgramCounterFromContext function is also defined for other OSes. So I am not promote this function, instead I forward this to ProgramCounterFromCONTEXT for Windows.",
+      "parentUuid": "bf2c385f_c042df8b",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4c4785d_00732b69",
         "filename": "util/misc/capture_context_test_util_win.cc",
         "patchSetId": 2
@@ -274,6 +526,24 @@
     },
     {
       "key": {
+        "uuid": "a7181be4_7a377cc5",
+        "filename": "util/misc/capture_context_test_util_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2018-12-12T01:22:45Z",
+      "side": 1,
+      "message": "This one is also defined for other OSes (Linux, fuchsia, Mac), so leave it here to avoid merging all the implementations?",
+      "parentUuid": "c4c4785d_00732b69",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d195668e_271902dd",
         "filename": "util/win/safe_terminate_process_test.cc",
         "patchSetId": 2
@@ -288,6 +558,24 @@
       "revId": "5461373818b006ba49158b6c05328cf314195886",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00fb1372_328f2c05",
+        "filename": "util/win/safe_terminate_process_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2018-12-12T01:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d195668e_271902dd",
+      "revId": "5461373818b006ba49158b6c05328cf314195886",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
