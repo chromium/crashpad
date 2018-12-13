@@ -111,6 +111,9 @@ class ProcessReaderFuchsia {
   //! \brief Return a memory reader for the target process.
   const ProcessMemory* Memory() const { return process_memory_.get(); }
 
+  //! \brief Return a memory map for the target process.
+  const MemoryMapFuchsia* MemoryMap() const { return &memory_map_; }
+
  private:
   //! Performs lazy initialization of the \a modules_ vector on behalf of
   //! Modules().
