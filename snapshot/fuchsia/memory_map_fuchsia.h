@@ -46,6 +46,10 @@ class MemoryMapFuchsia {
   //!     will be filled out, otherwise `false` and \a map will be unchanged.
   bool FindMappingForAddress(zx_vaddr_t address, zx_info_maps_t* map) const;
 
+  //! \brief Get a vector of `zx_info_maps_t` representing the memory map for
+  //!     this process.
+  const std::vector<zx_info_maps_t>& Entries() const { return map_entries_; }
+
  private:
   std::vector<zx_info_maps_t> map_entries_;
   InitializationStateDcheck initialized_;
