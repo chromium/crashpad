@@ -189,7 +189,7 @@ class StartHandlerAtCrashTest : public MultiprocessExec {
     reports.clear();
     ASSERT_EQ(database->GetPendingReports(&reports),
               CrashReportDatabase::kNoError);
-    EXPECT_EQ(reports.size(), 1u);
+    ASSERT_EQ(reports.size(), 1u);
 
     std::unique_ptr<const CrashReportDatabase::UploadReport> report;
     ASSERT_EQ(database->GetReportForUploading(reports[0].uuid, &report),
