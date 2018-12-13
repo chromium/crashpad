@@ -28,6 +28,7 @@
 #include "snapshot/elf/elf_image_reader.h"
 #include "snapshot/elf/module_snapshot_elf.h"
 #include "snapshot/fuchsia/exception_snapshot_fuchsia.h"
+#include "snapshot/fuchsia/memory_map_region_snapshot_fuchsia.h"
 #include "snapshot/fuchsia/process_reader_fuchsia.h"
 #include "snapshot/fuchsia/system_snapshot_fuchsia.h"
 #include "snapshot/fuchsia/thread_snapshot_fuchsia.h"
@@ -137,6 +138,8 @@ class ProcessSnapshotFuchsia : public ProcessSnapshot {
   ProcessReaderFuchsia process_reader_;
   ProcessMemoryRange memory_range_;
   std::map<std::string, std::string> annotations_simple_map_;
+  std::vector<std::unique_ptr<internal::MemoryMapRegionSnapshotFuchsia>>
+      memory_map_;
   UUID report_id_;
   UUID client_id_;
   timeval snapshot_time_;
