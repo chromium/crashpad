@@ -21,7 +21,8 @@ import re
 import subprocess
 import sys
 
-def FixUserImplementation(implementation):
+def FixUserImplementation(implementation, fixed_implementation, header,
+                          fixed_header):
   """Rewrites a MIG-generated user implementation (.c) file.
 
   Rewrites the file at |implementation| by adding “__attribute__((unused))” to
@@ -29,21 +30,35 @@ def FixUserImplementation(implementation):
   pattern unique to those structure definitions. These structures are in fact
   unused in the user implementation file, and this will trigger a
   -Wunused-local-typedefs warning in gcc unless removed or marked with the
-  “unused” attribute.
+  “unused” attribute. Also changes header references to point to the new header
+  filename, if changed.
+
+  If |fixed_implementation| is None, overwrites the original; otherwise, puts
+  the result in the file at |fixed_implementation|.
   """
 
-  file = open(implementation, 'r+')
+  file = open(implementation, 'r+' if fixed_implementation is None else 'r')
   contents = file.read()
 
   pattern = re.compile('^(\t} __Reply);$', re.MULTILINE)
   contents = pattern.sub(r'\1 __attribute__((unused));', contents)
 
-  file.seek(0)
-  file.truncate()
+  if fixed_header is not None:
+    contents = contents.replace(
+        '#include "%s"' % os.path.basename(header),
+        '#include "%s"' % os.path.basename(fixed_header))
+
+  if fixed_implementation is None:
+    file.seek(0)
+    file.truncate()
+  else:
+    file.close()
+    file = open(fixed_implementation, 'w')
   file.write(contents)
   file.close()
 
-def FixServerImplementation(implementation):
+def FixServerImplementation(implementation, fixed_implementation, header,
+                            fixed_header):
   """Rewrites a MIG-generated server implementation (.c) file.
 
   Rewrites the file at |implementation| by replacing “mig_internal” with
@@ -51,10 +66,14 @@ def FixServerImplementation(implementation):
   functions available to other callers outside this file from a linkage
   perspective. It then returns, as a list of lines, declarations that can be
   added to a header file, so that other files that include that header file will
-  have access to these declarations from a compilation perspective.
+  have access to these declarations from a compilation perspective. Also changes
+  header references to point to the new header filename, if changed.
+
+  If |fixed_implementation| is None or not provided, overwrites the original;
+  otherwise, puts the result in the file at |fixed_implementation|.
   """
 
-  file = open(implementation, 'r+')
+  file = open(implementation, 'r+' if fixed_implementation is None else 'r')
   contents = file.read()
 
   # Find interesting declarations.
@@ -64,7 +83,7 @@ def FixServerImplementation(implementation):
   declarations = declaration_pattern.findall(contents)
 
   # Remove “__attribute__((__unused__))” from the declarations, and call them
-  # “mig_external” or “extern” depending on whether “mig_external” is defined.
+  # “mig_external” or “extern” depending on whether “mig_external” is defined.
   attribute_pattern = re.compile(r'__attribute__\(\(__unused__\)\) ')
   declarations = ['#ifdef mig_external\nmig_external\n#else\nextern\n#endif\n' +
                   attribute_pattern.sub('', x) +
@@ -85,22 +104,34 @@ def FixServerImplementation(implementation):
   # Include the header for abort().
   contents = '#include <stdlib.h>\n' + contents
 
-  file.seek(0)
-  file.truncate()
+  if fixed_header is not None:
+    contents = contents.replace(
+        '#include "%s"' % os.path.basename(header),
+        '#include "%s"' % os.path.basename(fixed_header))
+
+  if fixed_implementation is None:
+    file.seek(0)
+    file.truncate()
+  else:
+    file.close()
+    file = open(fixed_implementation, 'w')
   file.write(contents)
   file.close()
   return declarations
 
-def FixHeader(header, declarations=[]):
+def FixHeader(header, fixed_header, declarations=[]):
   """Rewrites a MIG-generated header (.h) file.
 
   Rewrites the file at |header| by placing it inside an “extern "C"” block, so
   that it declares things properly when included by a C++ compilation unit.
   |declarations| can be a list of additional declarations to place inside the
   “extern "C"” block after the original contents of |header|.
+
+  If |fixed_header| is None or not provided, overwrites the original; otherwise,
+  puts the result in the file at |fixed_header|.
   """
 
-  file = open(header, 'r+')
+  file = open(header, 'r+' if fixed_header is None else 'r')
   contents = file.read()
   declarations_text = ''.join(declarations)
   contents = '''\
@@ -114,8 +145,13 @@ extern "C" {
 }
 #endif
 ''' % (contents, declarations_text)
-  file.seek(0)
-  file.truncate()
+
+  if fixed_header is None:
+    file.seek(0)
+    file.truncate()
+  else:
+    file.close()
+    file = open(fixed_header, 'w')
   file.write(contents)
   file.close()
 
@@ -127,31 +163,42 @@ def main(args):
                       default=[],
                       action='append',
                       help='Additional include directory')
-  parser.add_argument('defs')
+  parser.add_argument('defs',
+                      help='Specifications file; if `-`, skips generation and '
+                           'presumes files are already present.')
   parser.add_argument('user_c')
+  parser.add_argument('--fixed_user_c', default=None)
   parser.add_argument('server_c')
+  parser.add_argument('--fixed_server_c', default=None)
   parser.add_argument('user_h')
+  parser.add_argument('--fixed_user_h', default=None)
   parser.add_argument('server_h')
+  parser.add_argument('--fixed_server_h', default=None)
   parsed = parser.parse_args(args)
 
-  command = ['mig',
-             '-user', parsed.user_c,
-             '-server', parsed.server_c,
-             '-header', parsed.user_h,
-             '-sheader', parsed.server_h,
-            ]
-  if parsed.developer_dir is not None:
-    os.environ['DEVELOPER_DIR'] = parsed.developer_dir
-  if parsed.sdk is not None:
-    command.extend(['-isysroot', parsed.sdk])
-  for include in parsed.include:
-    command.extend(['-I' + include])
-  command.append(parsed.defs)
-  subprocess.check_call(command)
-  FixUserImplementation(parsed.user_c)
-  server_declarations = FixServerImplementation(parsed.server_c)
-  FixHeader(parsed.user_h)
-  FixHeader(parsed.server_h, server_declarations)
+  if parsed.defs != '-':
+    command = ['mig',
+               '-user', parsed.user_c,
+               '-server', parsed.server_c,
+               '-header', parsed.user_h,
+               '-sheader', parsed.server_h,
+              ]
+    if parsed.developer_dir is not None:
+      os.environ['DEVELOPER_DIR'] = parsed.developer_dir
+    if parsed.sdk is not None:
+      command.extend(['-isysroot', parsed.sdk])
+    for include in parsed.include:
+      command.extend(['-I' + include])
+    command.append(parsed.defs)
+    subprocess.check_call(command)
+  FixUserImplementation(parsed.user_c, parsed.fixed_user_c,
+                        parsed.user_h, parsed.fixed_user_h)
+  server_declarations = FixServerImplementation(parsed.server_c,
+                                                parsed.fixed_server_c,
+                                                parsed.server_h,
+                                                parsed.fixed_server_h)
+  FixHeader(parsed.user_h, parsed.fixed_user_h)
+  FixHeader(parsed.server_h, parsed.fixed_server_h, server_declarations)
 
 if __name__ == '__main__':
   sys.exit(main(sys.argv[1:]))
