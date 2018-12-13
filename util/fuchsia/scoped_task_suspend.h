@@ -27,27 +27,19 @@ namespace crashpad {
 
 //! \brief Manages the suspension of another task.
 //!
-//! The underlying API only supports suspending threads (despite its name) not
-//! entire tasks. As a result, it's possible some threads may not be correctly
-//! suspended/resumed as their creation might race enumeration.
-//!
-//! Additionally, suspending a thread is asynchronous and may take an
-//! arbitrary amount of time.
-//!
-//! Because of these limitations, this class is limited to being a best-effort,
-//! and correct suspension/resumption cannot be relied upon.
+//! Suspending a process is asynchronous, and may take an arbitrary amount of
+//! time. As a result, this class is limited to being a best-effort, and
+//! correct suspension/resumption cannot be relied upon.
 //!
 //! Callers should not attempt to suspend the current task as obtained via
 //! `zx_process_self()`.
 class ScopedTaskSuspend {
  public:
   explicit ScopedTaskSuspend(const zx::process& process);
-  explicit ScopedTaskSuspend(const zx::thread& thread);
   ~ScopedTaskSuspend() = default;
 
  private:
-  // Could be one (for a thread) or many (for every thread in a process).
-  std::vector<zx::suspend_token> suspend_tokens_;
+  zx::suspend_token suspend_token_;
 
   DISALLOW_COPY_AND_ASSIGN(ScopedTaskSuspend);
 };
