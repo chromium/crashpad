@@ -24,39 +24,20 @@
 
 namespace crashpad {
 
-namespace {
-
-// Returns the suspend token of the suspended thread. This function attempts
-// to wait a short time for the thread to actually suspend before returning
-// but this is not guaranteed.
-zx::suspend_token SuspendThread(const zx::thread& thread) {
-  zx::suspend_token token;
-  zx_status_t status = thread.suspend(&token);
-  if (status != ZX_OK) {
-    ZX_LOG(ERROR, status) << "zx_task_suspend";
-    return zx::suspend_token();
-  }
-
-  zx_signals_t observed = 0u;
-  if (thread.wait_one(ZX_THREAD_SUSPENDED,
-                      zx::deadline_after(zx::msec(50)),
-                      &observed) != ZX_OK) {
-    LOG(ERROR) << "thread failed to suspend";
-  }
-  return token;
-}
-
-}  // namespace
-
 ScopedTaskSuspend::ScopedTaskSuspend(const zx::process& process) {
   DCHECK_NE(process.get(), zx::process::self()->get());
-  for (const auto& thread : GetThreadHandles(process))
-    suspend_tokens_.push_back(SuspendThread(thread));
-}
 
-ScopedTaskSuspend::ScopedTaskSuspend(const zx::thread& thread) {
-  DCHECK_NE(thread.get(), zx::thread::self()->get());
-  suspend_tokens_.push_back(SuspendThread(thread));
+  zx_status_t status = process.suspend(&suspend_token_);
+  if (status != ZX_OK) {
+    ZX_LOG(ERROR, status) << "zx_task_suspend";
+  } else {
+    for (const auto& thread : GetThreadHandles(process)) {
+      zx_signals_t observed = 0u;
+      status = thread.wait_one(
+          ZX_THREAD_SUSPENDED, zx::deadline_after(zx::msec(50)), &observed);
+      ZX_LOG_IF(ERROR, status != ZX_OK, status) << "thread failed to suspend";
+    }
+  }
 }
 
 }  // namespace crashpad
