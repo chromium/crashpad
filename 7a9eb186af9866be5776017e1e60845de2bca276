@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6b2f23e_46b84c25",
+        "filename": "util/fuchsia/scoped_task_suspend.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T15:07:38Z",
+      "side": 1,
+      "message": "What’s |status| if you hit the timeout without the thread reporting suspended?",
+      "revId": "7a9eb186af9866be5776017e1e60845de2bca276",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29794b31_a5a0c202",
+        "filename": "util/fuchsia/scoped_task_suspend.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T15:07:38Z",
+      "side": 1,
+      "message": "Is it guaranteed to happen, though?",
+      "range": {
+        "startLine": 30,
+        "startChar": 50,
+        "endLine": 31,
+        "endChar": 9
+      },
+      "revId": "7a9eb186af9866be5776017e1e60845de2bca276",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
