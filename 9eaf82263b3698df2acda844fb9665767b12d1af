@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13d2300d_dc1e5278",
+        "filename": "snapshot/fuchsia/memory_map_region_snapshot_fuchsia.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T21:11:54Z",
+      "side": 1,
+      "message": "This DCHECK should be in the other function, where it’ll be closer to the comment that explains it.",
+      "revId": "9eaf82263b3698df2acda844fb9665767b12d1af",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccdaa538_92a7277e",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T21:11:54Z",
+      "side": 1,
+      "message": "I miscounted but 3 is still better than 8.\n\nActually, in this function, you could just compute t.page * PAGE_SIZE into a const local temporary and reuse it twice. Now you’re down to two multiplications.",
+      "revId": "9eaf82263b3698df2acda844fb9665767b12d1af",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85a54161_a326a1dc",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T21:11:54Z",
+      "side": 1,
+      "message": "Oh yeah, regarding what you wrote about address being a unique identifier:\n\nWhy not go one step further, match based solely on address, and then check the size way down below where you check the permissions?\n\nThat’ll really make sure that the address is unique, as it should be.",
+      "range": {
+        "startLine": 85,
+        "startChar": 8,
+        "endLine": 85,
+        "endChar": 60
+      },
+      "revId": "9eaf82263b3698df2acda844fb9665767b12d1af",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
