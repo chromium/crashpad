@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "2400ad38_ca20d284",
+        "filename": "snapshot/fuchsia/memory_map_region_snapshot_fuchsia.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-12-14T21:04:28Z",
+      "side": 1,
+      "message": "Maybe since: 1) the COPY ones aren\u0027t great, 2) can\u0027t happen anyway, 3) 0 isn\u0027t a valid minidump Protect, I\u0027ll set these two to zero and then DCHECK that it doesn\u0027t happen. I think I\u0027ll leave EXECUTE, but comment since it seems more plausibly useful and is a better mapping.",
+      "parentUuid": "2d81bcc7_33795fa8",
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e1ae87a5_aa267c03",
         "filename": "snapshot/fuchsia/memory_map_region_snapshot_fuchsia.cc",
         "patchSetId": 5
@@ -50,6 +68,24 @@
       "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b26330e_d7d03aee",
+        "filename": "snapshot/fuchsia/memory_map_region_snapshot_fuchsia.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-12-14T21:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1ae87a5_aa267c03",
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "8d0c14db_490f5e20",
+        "filename": "snapshot/fuchsia/memory_map_region_snapshot_fuchsia.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-12-14T21:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be66dda_2346559c",
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "928d462a_d71f5dc1",
         "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
         "patchSetId": 5
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "0af0a7ac_5db03d26",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-12-14T21:04:28Z",
+      "side": 1,
+      "message": "Yeah, have to remember to multiply in 3 places then so it seemed like a wash, but it\u0027s fewer at least. Done.",
+      "parentUuid": "928d462a_d71f5dc1",
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57bce921_15b0d111",
         "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
         "patchSetId": 5
@@ -101,6 +173,24 @@
       "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e3ace3d_91dec2e4",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-12-14T21:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57bce921_15b0d111",
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +217,30 @@
     },
     {
       "key": {
+        "uuid": "bbaa5e1c_4c0f800e",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-12-14T21:04:28Z",
+      "side": 1,
+      "message": "Oops, was just during diagnosing what was up with those unusual permissions. Done.",
+      "parentUuid": "0bd431a8_6d9e2202",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 5
+      },
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77babf38_7772eed7",
         "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
         "patchSetId": 5
@@ -144,6 +258,24 @@
     },
     {
       "key": {
+        "uuid": "29ed9b61_17fb6e76",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-12-14T21:04:28Z",
+      "side": 1,
+      "message": "Oh, duh! I was thinking I couldn\u0027t do that because I had to make sure the system didn\u0027t map something else of that size and permission. But address had better be a unique identifier!",
+      "parentUuid": "77babf38_7772eed7",
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d09ed55d_12a83d91",
         "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
         "patchSetId": 5
@@ -158,6 +290,24 @@
       "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d23402f_e72098b9",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-12-14T21:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d09ed55d_12a83d91",
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
