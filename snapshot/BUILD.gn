@@ -200,6 +200,8 @@ static_library("snapshot") {
       "fuchsia/exception_snapshot_fuchsia.h",
       "fuchsia/memory_map_fuchsia.cc",
       "fuchsia/memory_map_fuchsia.h",
+      "fuchsia/memory_map_region_snapshot_fuchsia.cc",
+      "fuchsia/memory_map_region_snapshot_fuchsia.h",
       "fuchsia/process_reader_fuchsia.cc",
       "fuchsia/process_reader_fuchsia.h",
       "fuchsia/process_snapshot_fuchsia.cc",
@@ -384,7 +386,10 @@ source_set("snapshot_test") {
   }
 
   if (crashpad_is_fuchsia) {
-    sources += [ "fuchsia/process_reader_fuchsia_test.cc" ]
+    sources += [
+      "fuchsia/process_reader_fuchsia_test.cc",
+      "fuchsia/process_snapshot_fuchsia_test.cc",
+    ]
   }
 
   # public_configs isn’t quite right. snapshot_test_link sets ldflags, and
