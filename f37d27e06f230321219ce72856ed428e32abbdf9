@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d5427e2_ab74e4df",
+        "filename": "snapshot/fuchsia/memory_map_region_snapshot_fuchsia.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T15:17:59Z",
+      "side": 1,
+      "message": "constexpr instead of just const? And didn’t we decide on static, too?",
+      "revId": "f37d27e06f230321219ce72856ed428e32abbdf9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96c251d8_73133e2d",
+        "filename": "snapshot/fuchsia/memory_map_region_snapshot_fuchsia.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T15:17:59Z",
+      "side": 1,
+      "message": "Seems like this should have been an array indexed by zx_vm_option_t (or a bit-shuffled version of it, if the rwx bits aren’t natively the three lowest.)",
+      "revId": "f37d27e06f230321219ce72856ed428e32abbdf9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ebfd16d_3599acec",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T15:17:59Z",
+      "side": 1,
+      "message": "A test for this would be useful, and ought to be pretty simple, except there isn’t any process_snapshot_fuchsia_test.cc yet so there’d be some infrastructure to pull together.\n\n(Although we do have process_snapshot_win_test.cc, I see that we didn’t add a test for Windows memory map region collection. Bad us!)",
+      "revId": "f37d27e06f230321219ce72856ed428e32abbdf9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
