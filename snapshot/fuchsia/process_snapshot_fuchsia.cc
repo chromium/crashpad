@@ -41,6 +41,13 @@ bool ProcessSnapshotFuchsia::Initialize(const zx::process& process) {
   InitializeThreads();
   InitializeModules();
 
+  for (const auto& entry : process_reader_.MemoryMap()->Entries()) {
+    if (entry.type == ZX_INFO_MAPS_TYPE_MAPPING) {
+      memory_map_.push_back(
+          std::make_unique<internal::MemoryMapRegionSnapshotFuchsia>(entry));
+    }
+  }
+
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
 }
@@ -175,7 +182,11 @@ const ExceptionSnapshot* ProcessSnapshotFuchsia::Exception() const {
 std::vector<const MemoryMapRegionSnapshot*> ProcessSnapshotFuchsia::MemoryMap()
     const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return std::vector<const MemoryMapRegionSnapshot*>();
+  std::vector<const MemoryMapRegionSnapshot*> memory_map;
+  for (const auto& item : memory_map_) {
+    memory_map.push_back(item.get());
+  }
+  return memory_map;
 }
 
 std::vector<HandleSnapshot> ProcessSnapshotFuchsia::Handles() const {
