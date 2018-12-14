@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "3baf4d7f_f4bd57e2",
+        "filename": "util/fuchsia/scoped_task_suspend.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-12-14T22:08:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27d299d9_472036cb",
+      "revId": "7a9eb186af9866be5776017e1e60845de2bca276",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29794b31_a5a0c202",
         "filename": "util/fuchsia/scoped_task_suspend.h",
         "patchSetId": 1
@@ -114,6 +132,30 @@
       "side": 1,
       "message": "\u003e My understanding is that it will not execute any user code again without becoming suspended. But if (for example) it is in an exception, it could be in limbo forever.\n\nIf there’s a guarantee against executing user code, do we even need the wait?\n\n(I assume that the fetch of the thread’s register file will reflect the proper last good user state if that happens.)",
       "parentUuid": "2505e601_83d32804",
+      "range": {
+        "startLine": 30,
+        "startChar": 50,
+        "endLine": 31,
+        "endChar": 9
+      },
+      "revId": "7a9eb186af9866be5776017e1e60845de2bca276",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4111e58e_5be92ccb",
+        "filename": "util/fuchsia/scoped_task_suspend.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2018-12-14T22:08:19Z",
+      "side": 1,
+      "message": "No such luck. That seems to be approximately what happens on Windows, but on Fuchsia the register retrieval fails and doesn\u0027t return any data (I think with ZX_ERR_BAD_STATE, but I\u0027d have to confirm that.)\n\nThat\u0027s why https://chromium.googlesource.com/crashpad/crashpad/+/master/snapshot/fuchsia/process_reader_fuchsia_test.cc#172 is disabled. In that case I could wait forever (perhaps via a bool to this class), but then the production path with it not waiting indefinitely would be seat-belts-off. Maybe this code just needs to wait a *lot* longer so that\u0027s it\u0027s \"pretty likely\" to work, but still completes eventually if it\u0027s not working.",
+      "parentUuid": "f0787998_f80dbb32",
       "range": {
         "startLine": 30,
         "startChar": 50,
