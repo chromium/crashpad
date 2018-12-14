@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "27d299d9_472036cb",
+        "filename": "util/fuchsia/scoped_task_suspend.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T21:28:33Z",
+      "side": 1,
+      "message": "\u003e It would just be a generic ZX_ERR_TIMED_OUT. So we could retry with backoff or something. I\u0027m not sure how to pick a useful time/strategy here for production code. In test code, I think it\u0027d be fine to wait indefinitely and document that, but I wouldn\u0027t want to use that in the general exception handler.\n\nOK.\n\nI guess that the LOG(ERROR) is fine then. But you can turn these three lines into one ZX_LOG_IF.",
+      "parentUuid": "bbc61edd_4f301cf7",
+      "revId": "7a9eb186af9866be5776017e1e60845de2bca276",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "29794b31_a5a0c202",
         "filename": "util/fuchsia/scoped_task_suspend.h",
         "patchSetId": 1
@@ -72,6 +90,30 @@
       "side": 1,
       "message": "My understanding is that it will not execute any user code again without becoming suspended. But if (for example) it is in an exception, it could be in limbo forever.",
       "parentUuid": "29794b31_a5a0c202",
+      "range": {
+        "startLine": 30,
+        "startChar": 50,
+        "endLine": 31,
+        "endChar": 9
+      },
+      "revId": "7a9eb186af9866be5776017e1e60845de2bca276",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0787998_f80dbb32",
+        "filename": "util/fuchsia/scoped_task_suspend.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T21:28:33Z",
+      "side": 1,
+      "message": "\u003e My understanding is that it will not execute any user code again without becoming suspended. But if (for example) it is in an exception, it could be in limbo forever.\n\nIf there’s a guarantee against executing user code, do we even need the wait?\n\n(I assume that the fetch of the thread’s register file will reflect the proper last good user state if that happens.)",
+      "parentUuid": "2505e601_83d32804",
       "range": {
         "startLine": 30,
         "startChar": 50,
