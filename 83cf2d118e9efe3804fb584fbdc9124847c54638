@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a44dc551_a7c13299",
+        "filename": "snapshot/fuchsia/memory_map_region_snapshot_fuchsia.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T20:39:52Z",
+      "side": 1,
+      "message": "I knew I could count on you!",
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d81bcc7_33795fa8",
+        "filename": "snapshot/fuchsia/memory_map_region_snapshot_fuchsia.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T20:39:52Z",
+      "side": 1,
+      "message": "This (and PAGE_EXECUTE_WRITECOPY) aren’t great matches, but w without r is an oddball anyway, so I can’t really fault your choice as a filler. A comment in your test says that they won’t happen on Fuchsia, either. Maybe these two lines should have a comments saying that they shouldn’t happen, just for clarity.",
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1ae87a5_aa267c03",
+        "filename": "snapshot/fuchsia/memory_map_region_snapshot_fuchsia.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T20:39:52Z",
+      "side": 1,
+      "message": "(true for execute-only on Fuchsia according to your test also, but this mapping is clean, at least.)",
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4be66dda_2346559c",
+        "filename": "snapshot/fuchsia/memory_map_region_snapshot_fuchsia.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T20:39:52Z",
+      "side": 1,
+      "message": "DCHECK_LT(index, arraysize(mapping));",
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "928d462a_d71f5dc1",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T20:39:52Z",
+      "side": 1,
+      "message": "|size_t pages| instead, doing the multiplication in a single spot down in the loop below, to clean your table up by not having to write PAGE_SIZE * for each element?",
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57bce921_15b0d111",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T20:39:52Z",
+      "side": 1,
+      "message": "ZX_CHECK",
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bd431a8_6d9e2202",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T20:39:52Z",
+      "side": 1,
+      "message": "ZX_CHECK these four lines into one.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 5
+      },
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77babf38_7772eed7",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T20:39:52Z",
+      "side": 1,
+      "message": "Keep the loop going all the way through. Make sure that you find only one mapping matching (address, size). Do the check for perm separately, to ensure that you don’t have two entries of the form (address, size, correct_perm), (same_address, same_size, different_perm).",
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d09ed55d_12a83d91",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-14T20:39:52Z",
+      "side": 1,
+      "message": "At the very least, put “\u003c\u003c i” on this EXPECT_TRUE so that if it fails, there’s an indication of which test case caused the problem.\n\nWe’ve got this kind of thing elsewhere, sometimes we do something like \u003c\u003c base::StringPrintf(\"index %zu, zircon_perm 0x%x, minidump_perm 0x%x\", …).",
+      "revId": "83cf2d118e9efe3804fb584fbdc9124847c54638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
