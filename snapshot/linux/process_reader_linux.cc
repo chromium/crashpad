@@ -29,6 +29,10 @@
 #include "util/linux/auxiliary_vector.h"
 #include "util/linux/proc_stat_reader.h"
 
+#if defined(OS_ANDROID)
+#include <android/api-level.h>
+#endif
+
 namespace crashpad {
 
 namespace {
@@ -352,17 +356,15 @@ void ProcessReaderLinux::InitializeModules() {
       return;
     }
 
-    std::vector<const MemoryMap::Mapping*> possible_mappings =
+    auto possible_mappings =
         memory_map_.FindFilePossibleMmapStarts(*phdr_mapping);
-    for (auto riter = possible_mappings.rbegin();
-         riter != possible_mappings.rend();
-         ++riter) {
-      auto mapping = *riter;
+    const MemoryMap::Mapping* mapping = nullptr;
+    while ((mapping = possible_mappings->Next())) {
       auto parsed_exe = std::make_unique<ElfImageReader>();
       if (parsed_exe->Initialize(
               range,
               mapping->range.Base(),
-              /* verbose= */ possible_mappings.size() == 1) &&
+              /* verbose= */ possible_mappings->Count() == 1) &&
           parsed_exe->GetProgramHeaderTableAddress() == phdrs) {
         exe_mapping = mapping;
         exe_reader = std::move(parsed_exe);
@@ -370,7 +372,7 @@ void ProcessReaderLinux::InitializeModules() {
       }
     }
     if (!exe_mapping) {
-      LOG(ERROR) << "no exe mappings " << possible_mappings.size();
+      LOG(ERROR) << "no exe mappings";
       return;
     }
   }
@@ -407,18 +409,24 @@ void ProcessReaderLinux::InitializeModules() {
         continue;
       }
 
-      std::vector<const MemoryMap::Mapping*> possible_mappings =
+#if defined(OS_ANDROID)
+      static int api_level = android_get_device_api_level();
+      auto possible_mappings =
+          api_level >= 21 || api_level < 0
+              ? memory_map_.ReverseIteratorFrom(*dyn_mapping)
+              : memory_map_.FindFilePossibleMmapStarts(*dyn_mapping);
+#else
+      auto possible_mappings =
           memory_map_.FindFilePossibleMmapStarts(*dyn_mapping);
-      for (auto riter = possible_mappings.rbegin();
-           riter != possible_mappings.rend();
-           ++riter) {
-        auto mapping = *riter;
+#endif
+      const MemoryMap::Mapping* mapping = nullptr;
+      while ((mapping = possible_mappings->Next())) {
         auto parsed_module = std::make_unique<ElfImageReader>();
         VMAddress dynamic_address;
         if (parsed_module->Initialize(
                 range,
                 mapping->range.Base(),
-                /* verbose= */ possible_mappings.size() == 1) &&
+                /* verbose= */ possible_mappings->Count() == 1) &&
             parsed_module->GetDynamicArrayAddress(&dynamic_address) &&
             dynamic_address == entry.dynamic_array) {
           module_mapping = mapping;
@@ -427,7 +435,7 @@ void ProcessReaderLinux::InitializeModules() {
         }
       }
       if (!module_mapping) {
-        LOG(ERROR) << "no module mappings " << possible_mappings.size();
+        LOG(ERROR) << "no module mappings " << entry.name;
         continue;
       }
     }
