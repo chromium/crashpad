@@ -100,10 +100,9 @@ void LocateExecutable(PtraceConnection* connection,
   ASSERT_TRUE(memory_map.Initialize(connection));
   const MemoryMap::Mapping* phdr_mapping = memory_map.FindMapping(phdrs);
   ASSERT_TRUE(phdr_mapping);
-  std::vector<const MemoryMap::Mapping*> possible_mappings =
-      memory_map.FindFilePossibleMmapStarts(*phdr_mapping);
-  ASSERT_EQ(possible_mappings.size(), 1u);
-  *elf_address = possible_mappings[0]->range.Base();
+  auto possible_mappings = memory_map.FindFilePossibleMmapStarts(*phdr_mapping);
+  ASSERT_EQ(possible_mappings->Count(), 1u);
+  *elf_address = possible_mappings->Next()->range.Base();
 }
 
 #endif  // OS_FUCHSIA

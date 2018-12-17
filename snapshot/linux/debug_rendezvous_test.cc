@@ -37,27 +37,12 @@
 #include "util/process/process_memory_range.h"
 
 #if defined(OS_ANDROID)
-#include <sys/system_properties.h>
+#include <android/api-level.h>
 #endif
 
 namespace crashpad {
 namespace test {
 namespace {
-
-#if defined(OS_ANDROID)
-int AndroidRuntimeAPI() {
-  char api_string[PROP_VALUE_MAX];
-  int length = __system_property_get("ro.build.version.sdk", api_string);
-  if (length <= 0) {
-    return -1;
-  }
-
-  int api_level;
-  bool success =
-      base::StringToInt(base::StringPiece(api_string, length), &api_level);
-  return success ? api_level : -1;
-}
-#endif  // OS_ANDROID
 
 void TestAgainstTarget(PtraceConnection* connection) {
   // Use ElfImageReader on the main executable which can tell us the debug
@@ -74,10 +59,10 @@ void TestAgainstTarget(PtraceConnection* connection) {
 
   const MemoryMap::Mapping* phdr_mapping = mappings.FindMapping(phdrs);
   ASSERT_TRUE(phdr_mapping);
-  std::vector<const MemoryMap::Mapping*> exe_mappings =
-      mappings.FindFilePossibleMmapStarts(*phdr_mapping);
-  ASSERT_EQ(exe_mappings.size(), 1u);
-  LinuxVMAddress elf_address = exe_mappings[0]->range.Base();
+
+  auto exe_mappings = mappings.FindFilePossibleMmapStarts(*phdr_mapping);
+  ASSERT_EQ(exe_mappings->Count(), 1u);
+  LinuxVMAddress elf_address = exe_mappings->Next()->range.Base();
 
   ProcessMemoryLinux memory;
   ASSERT_TRUE(memory.Initialize(connection->GetProcessID()));
@@ -94,7 +79,7 @@ void TestAgainstTarget(PtraceConnection* connection) {
   ASSERT_TRUE(debug.Initialize(range, debug_address));
 
 #if defined(OS_ANDROID)
-  const int android_runtime_api = AndroidRuntimeAPI();
+  const int android_runtime_api = android_get_device_api_level();
   ASSERT_GE(android_runtime_api, 1);
 
   EXPECT_NE(debug.Executable()->name.find("crashpad_snapshot_test"),
@@ -143,13 +128,13 @@ void TestAgainstTarget(PtraceConnection* connection) {
         mappings.FindMapping(module.dynamic_array);
     ASSERT_TRUE(dyn_mapping);
 
-    std::vector<const MemoryMap::Mapping*> possible_mappings =
-        mappings.FindFilePossibleMmapStarts(*dyn_mapping);
-    ASSERT_GE(possible_mappings.size(), 1u);
+    auto possible_mappings = mappings.FindFilePossibleMmapStarts(*dyn_mapping);
+    ASSERT_GE(possible_mappings->Count(), 1u);
 
     std::unique_ptr<ElfImageReader> module_reader;
     const MemoryMap::Mapping* module_mapping = nullptr;
-    for (const auto mapping : possible_mappings) {
+    const MemoryMap::Mapping* mapping = nullptr;
+    while ((mapping = possible_mappings->Next())) {
       auto parsed_module = std::make_unique<ElfImageReader>();
       VMAddress dynamic_address;
       if (parsed_module->Initialize(range, mapping->range.Base()) &&
