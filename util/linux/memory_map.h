@@ -17,6 +17,7 @@
 
 #include <sys/types.h>
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -76,6 +77,24 @@ class MemoryMap {
   //!     it was obtained from.
   const Mapping* FindMappingWithName(const std::string& name) const;
 
+  //! \brief An abstract base class for iterating over ordered sets of mappings
+  //!   in a MemoryMap.
+  class Iterator {
+   public:
+    virtual ~Iterator() = default;
+
+    //! \return the mapping pointed to by the iterator and advance the iterator
+    //!     to the next mapping. If there are no more mappings, this method
+    //!     returns `nullptr` on all subsequent invocations.
+    virtual const Mapping* Next() = 0;
+
+    //! \return the number of mappings remaining.
+    virtual unsigned int Count() = 0;
+
+   protected:
+    Iterator() = default;
+  };
+
   //! \brief Find possible initial mappings of files mapped over several
   //!     segments.
   //!
@@ -99,9 +118,14 @@ class MemoryMap {
   //! map a file, \a mapping is returned in \a possible_starts.
   //!
   //! \param[in] mapping A Mapping whose series to find the start of.
-  //! \return a vector of the possible mapping starts.
-  std::vector<const Mapping*> FindFilePossibleMmapStarts(
+  //! \return a reverse iterator over the possible mapping starts, starting from
+  //!     the mapping with highest base address.
+  std::unique_ptr<Iterator> FindFilePossibleMmapStarts(
       const Mapping& mapping) const;
+
+  //! \return A reverse iterator over all mappings in the MemoryMap from \a
+  //!     mapping to the start of the MemoryMap.
+  std::unique_ptr<Iterator> ReverseIteratorFrom(const Mapping& mapping) const;
 
  private:
   std::vector<Mapping> mappings_;
