@@ -715,7 +715,7 @@ void ExpectTestModule(ProcessReaderLinux* reader,
       auto dynamic_mapping = reader->GetMemoryMap()->FindMapping(dynamic_addr);
       auto mappings =
           reader->GetMemoryMap()->FindFilePossibleMmapStarts(*dynamic_mapping);
-      EXPECT_EQ(mappings.size(), 2u);
+      EXPECT_EQ(mappings->Count(), 2u);
       return;
     }
   }
