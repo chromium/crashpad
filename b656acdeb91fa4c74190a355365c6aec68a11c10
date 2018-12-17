@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1b4ff6b3_d337f3d6",
+        "filename": "compat/android/android/api-level.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-12-17T22:28:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdf73083_781818a3",
+      "revId": "b656acdeb91fa4c74190a355365c6aec68a11c10",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "622188df_472ee5c4",
         "filename": "compat/android/android/api-level.cc",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "b656acdeb91fa4c74190a355365c6aec68a11c10",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3b61890_618e3b0f",
+        "filename": "compat/android/android/api-level.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-12-17T22:28:28Z",
+      "side": 1,
+      "message": "I haven\u0027t found any examples of it not being numeric (or clarification on whether it must be), but Android\u0027s implementation of Build.VERSION.SDK_INT also doesn\u0027t require it to be entirely numeric until P, so I suppose it wouldn\u0027t be that surprising and doing things the way Android does them seems like a good idea.",
+      "parentUuid": "622188df_472ee5c4",
+      "revId": "b656acdeb91fa4c74190a355365c6aec68a11c10",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "b656acdeb91fa4c74190a355365c6aec68a11c10",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96211550_1850bb09",
+        "filename": "snapshot/linux/process_reader_linux.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-12-17T22:28:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2862202a_4c93857f",
+      "range": {
+        "startLine": 422,
+        "startChar": 10,
+        "endLine": 422,
+        "endChar": 42
+      },
+      "revId": "b656acdeb91fa4c74190a355365c6aec68a11c10",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
