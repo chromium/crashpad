@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdf73083_781818a3",
+        "filename": "compat/android/android/api-level.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-17T17:48:21Z",
+      "side": 1,
+      "message": "Should we do this as a wrapper that uses the Bionic-provided implementation if available?\n\n(I’m thinking of the way that we do Dlfcn().)",
+      "revId": "b656acdeb91fa4c74190a355365c6aec68a11c10",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "622188df_472ee5c4",
+        "filename": "compat/android/android/api-level.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-17T17:48:21Z",
+      "side": 1,
+      "message": "Bionic uses atoi() here, which is going to be more tolerant of trailing junk (non-numeric characters). Can we say for sure that ro.build.version.sdk is always 100% numeric?",
+      "revId": "b656acdeb91fa4c74190a355365c6aec68a11c10",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2862202a_4c93857f",
+        "filename": "snapshot/linux/process_reader_linux.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-17T17:48:21Z",
+      "side": 1,
+      "message": "Suggest parentheses around this expression for legibility.",
+      "range": {
+        "startLine": 422,
+        "startChar": 10,
+        "endLine": 422,
+        "endChar": 42
+      },
+      "revId": "b656acdeb91fa4c74190a355365c6aec68a11c10",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
