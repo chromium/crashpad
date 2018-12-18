@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7dc9fb62_26b0c668",
+        "filename": "util/linux/scoped_pr_set_dumpable.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-12-18T17:18:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3151ebb7_86768959",
+      "range": {
+        "startLine": 26,
+        "startChar": 32,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "a50f4c52bdf9bdf87d306f9cc3b1728c6cb5f856",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc9b01e6_18668726",
         "filename": "util/linux/scoped_pr_set_dumpable.h",
         "patchSetId": 8
@@ -39,6 +63,24 @@
       "revId": "a50f4c52bdf9bdf87d306f9cc3b1728c6cb5f856",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6a1872b_ca0cc5cb",
+        "filename": "util/linux/scoped_pr_set_dumpable.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-12-18T17:18:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc9b01e6_18668726",
+      "revId": "a50f4c52bdf9bdf87d306f9cc3b1728c6cb5f856",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
