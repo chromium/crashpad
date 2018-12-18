@@ -39,6 +39,48 @@
       "revId": "1a91f61ac5e2c5916eaf2028839bbba2e870af8a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acf92d77_b730d65a",
+        "filename": "util/linux/scoped_pr_set_dumpable.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-12-18T17:04:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "255640ea_deee887f",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 15
+      },
+      "revId": "1a91f61ac5e2c5916eaf2028839bbba2e870af8a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a50b1381_7bc9f52b",
+        "filename": "util/linux/scoped_pr_set_dumpable.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2018-12-18T17:04:43Z",
+      "side": 1,
+      "message": "Currently it is, but having this param will make it easier to investigate if we continue to see problems attaching.",
+      "parentUuid": "7ed489eb_d6720d0a",
+      "revId": "1a91f61ac5e2c5916eaf2028839bbba2e870af8a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
