@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3151ebb7_86768959",
+        "filename": "util/linux/scoped_pr_set_dumpable.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-18T17:12:02Z",
+      "side": 1,
+      "message": "1. Since was_dumpable_ is bool, use the “false : true” instead.\n\nor\n\n2. Since you just want a bool, you could also write “was_dumpable_ \u003d result \u003e 0”\n\nBoth make it clearer that you’ve deliberately considered negative, zero, and positive.",
+      "range": {
+        "startLine": 26,
+        "startChar": 32,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "a50f4c52bdf9bdf87d306f9cc3b1728c6cb5f856",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc9b01e6_18668726",
+        "filename": "util/linux/scoped_pr_set_dumpable.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-18T17:12:02Z",
+      "side": 1,
+      "message": "Now that you have a single parameter to the constructor, mark it “explicit”.",
+      "revId": "a50f4c52bdf9bdf87d306f9cc3b1728c6cb5f856",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
