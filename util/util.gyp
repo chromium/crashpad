@@ -74,6 +74,8 @@
         'linux/ptrace_connection.h',
         'linux/ptracer.cc',
         'linux/ptracer.h',
+        'linux/scoped_pr_set_dumpable.cc',
+        'linux/scoped_pr_set_dumpable.h',
         'linux/scoped_pr_set_ptracer.cc',
         'linux/scoped_pr_set_ptracer.h',
         'linux/scoped_ptrace_attach.cc',
