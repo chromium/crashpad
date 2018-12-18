@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "255640ea_deee887f",
+        "filename": "util/linux/scoped_pr_set_dumpable.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-18T16:20:28Z",
+      "side": 1,
+      "message": "If PR_GET_DUMPABLE is an error, you should choose was_dumpable_ to be a reasonable value deliberately. (It’s unclear whether you did, because there’s no handling of that case and no comment.)",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 15
+      },
+      "revId": "1a91f61ac5e2c5916eaf2028839bbba2e870af8a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ed489eb_d6720d0a",
+        "filename": "util/linux/scoped_pr_set_dumpable.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-18T16:20:28Z",
+      "side": 1,
+      "message": "Unless this would always be used in a situation where “may_log” would be false (see scoped_pr_set_ptracer.cc):\n\nCheck for a negative return value and log any errors. Also on lines 24 and 30.",
+      "revId": "1a91f61ac5e2c5916eaf2028839bbba2e870af8a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
