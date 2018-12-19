@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21148daa_89c81978",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-19T21:16:05Z",
+      "side": 1,
+      "message": "You\u0027re not eliminating anything, you\u0027re adding Initialize().",
+      "revId": "9efe1a9c7eef51a28b77e7bcca7b289f0e248de6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60e9775b_a17d4d0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-19T21:16:05Z",
+      "side": 1,
+      "message": "Will there be another follow-up to formally adhere to Process memory?",
+      "revId": "9efe1a9c7eef51a28b77e7bcca7b289f0e248de6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7239b44a_5088327e",
+        "filename": "util/mach/task_memory.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-19T21:16:05Z",
+      "side": 1,
+      "message": "Duplicate or move the ReadCString initialized_ checks here as a catch-all in case anyone adds other public functions based on this internal one.",
+      "revId": "9efe1a9c7eef51a28b77e7bcca7b289f0e248de6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
