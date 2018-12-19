@@ -44,7 +44,8 @@ TEST(TaskMemory, ReadSelf) {
     region[index] = (index % 256) ^ ((index >> 8) % 256);
   }
 
-  TaskMemory memory(mach_task_self());
+  TaskMemory memory;
+  ASSERT_TRUE(memory.Initialize(mach_task_self()));
 
   // This tests using both the Read() and ReadMapped() interfaces.
   std::string result(kSize, '\0');
@@ -119,7 +120,8 @@ TEST(TaskMemory, ReadSelfUnmapped) {
       mach_task_self(), address + PAGE_SIZE, PAGE_SIZE, FALSE, VM_PROT_NONE);
   ASSERT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "vm_protect");
 
-  TaskMemory memory(mach_task_self());
+  TaskMemory memory;
+  ASSERT_TRUE(memory.Initialize(mach_task_self()));
   std::string result(kSize, '\0');
 
   EXPECT_FALSE(memory.Read(address, kSize, &result[0]));
@@ -171,7 +173,8 @@ bool ReadCStringSelf(TaskMemory* memory,
 }
 
 TEST(TaskMemory, ReadCStringSelf) {
-  TaskMemory memory(mach_task_self());
+  TaskMemory memory;
+  ASSERT_TRUE(memory.Initialize(mach_task_self()));
   std::string result;
 
   const char kConstCharEmpty[] = "";
@@ -253,7 +256,8 @@ TEST(TaskMemory, ReadCStringSelfUnmapped) {
       mach_task_self(), address + PAGE_SIZE, PAGE_SIZE, FALSE, VM_PROT_NONE);
   ASSERT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "vm_protect");
 
-  TaskMemory memory(mach_task_self());
+  TaskMemory memory;
+  ASSERT_TRUE(memory.Initialize(mach_task_self()));
   std::string result;
   EXPECT_FALSE(memory.ReadCString(address, &result));
 
@@ -298,7 +302,8 @@ bool ReadCStringSizeLimitedSelf(TaskMemory* memory,
 }
 
 TEST(TaskMemory, ReadCStringSizeLimited_ConstCharEmpty) {
-  TaskMemory memory(mach_task_self());
+  TaskMemory memory;
+  ASSERT_TRUE(memory.Initialize(mach_task_self()));
   std::string result;
 
   static constexpr char kConstCharEmpty[] = "";
@@ -319,7 +324,8 @@ TEST(TaskMemory, ReadCStringSizeLimited_ConstCharEmpty) {
 }
 
 TEST(TaskMemory, ReadCStringSizeLimited_ConstCharShort) {
-  TaskMemory memory(mach_task_self());
+  TaskMemory memory;
+  ASSERT_TRUE(memory.Initialize(mach_task_self()));
   std::string result;
 
   static constexpr char kConstCharShort[] = "A short const char[]";
@@ -339,7 +345,8 @@ TEST(TaskMemory, ReadCStringSizeLimited_ConstCharShort) {
 }
 
 TEST(TaskMemory, ReadCStringSizeLimited_StaticConstCharEmpty) {
-  TaskMemory memory(mach_task_self());
+  TaskMemory memory;
+  ASSERT_TRUE(memory.Initialize(mach_task_self()));
   std::string result;
 
   static constexpr char kStaticConstCharEmpty[] = "";
@@ -364,7 +371,8 @@ TEST(TaskMemory, ReadCStringSizeLimited_StaticConstCharEmpty) {
 }
 
 TEST(TaskMemory, ReadCStringSizeLimited_StaticConstCharShort) {
-  TaskMemory memory(mach_task_self());
+  TaskMemory memory;
+  ASSERT_TRUE(memory.Initialize(mach_task_self()));
   std::string result;
 
   static constexpr char kStaticConstCharShort[] =
@@ -391,7 +399,8 @@ TEST(TaskMemory, ReadCStringSizeLimited_StaticConstCharShort) {
 }
 
 TEST(TaskMemory, ReadCStringSizeLimited_StringShort) {
-  TaskMemory memory(mach_task_self());
+  TaskMemory memory;
+  ASSERT_TRUE(memory.Initialize(mach_task_self()));
   std::string result;
 
   std::string string_short("A short std::string in a function");
@@ -411,7 +420,8 @@ TEST(TaskMemory, ReadCStringSizeLimited_StringShort) {
 }
 
 TEST(TaskMemory, ReadCStringSizeLimited_StringLong) {
-  TaskMemory memory(mach_task_self());
+  TaskMemory memory;
+  ASSERT_TRUE(memory.Initialize(mach_task_self()));
   std::string result;
 
   std::string string_long;
@@ -477,7 +487,8 @@ TEST(TaskMemory, MappedMemoryDeallocates) {
   // hopefully there are either no other threads or they’re all quiescent, so
   // nothing else should wind up mapped in the address.
 
-  TaskMemory memory(mach_task_self());
+  TaskMemory memory;
+  ASSERT_TRUE(memory.Initialize(mach_task_self()));
   std::unique_ptr<TaskMemory::MappedMemory> mapped;
 
   static constexpr char kTestBuffer[] = "hello!";
@@ -514,7 +525,8 @@ TEST(TaskMemory, MappedMemoryDeallocates) {
 
 TEST(TaskMemory, MappedMemoryReadCString) {
   // This tests the behavior of TaskMemory::MappedMemory::ReadCString().
-  TaskMemory memory(mach_task_self());
+  TaskMemory memory;
+  ASSERT_TRUE(memory.Initialize(mach_task_self()));
   std::unique_ptr<TaskMemory::MappedMemory> mapped;
 
   static constexpr char kTestBuffer[] = "0\0" "2\0" "45\0" "789";

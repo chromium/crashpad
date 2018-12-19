@@ -64,10 +64,18 @@ TaskMemory::MappedMemory::MappedMemory(vm_address_t vm_address,
   DCHECK_LE(user_end, vm_end);
 }
 
-TaskMemory::TaskMemory(task_t task) : task_(task) {
+TaskMemory::TaskMemory() : task_(TASK_NULL), initialized_() {}
+
+bool TaskMemory::Initialize(task_t task) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+  task_ = task;
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
 }
 
 bool TaskMemory::Read(mach_vm_address_t address, size_t size, void* buffer) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   std::unique_ptr<MappedMemory> memory = ReadMapped(address, size);
   if (!memory) {
     return false;
@@ -80,6 +88,8 @@ bool TaskMemory::Read(mach_vm_address_t address, size_t size, void* buffer) {
 std::unique_ptr<TaskMemory::MappedMemory> TaskMemory::ReadMapped(
     mach_vm_address_t address,
     size_t size) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   if (size == 0) {
     return std::unique_ptr<MappedMemory>(new MappedMemory(0, 0, 0, 0));
   }
@@ -104,12 +114,16 @@ std::unique_ptr<TaskMemory::MappedMemory> TaskMemory::ReadMapped(
 }
 
 bool TaskMemory::ReadCString(mach_vm_address_t address, std::string* string) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   return ReadCStringInternal(address, false, 0, string);
 }
 
 bool TaskMemory::ReadCStringSizeLimited(mach_vm_address_t address,
                                         mach_vm_size_t size,
                                         std::string* string) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   return ReadCStringInternal(address, true, size, string);
 }
 
@@ -117,6 +131,8 @@ bool TaskMemory::ReadCStringInternal(mach_vm_address_t address,
                                      bool has_size,
                                      mach_vm_size_t size,
                                      std::string* string) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   if (!has_size) {
     size = PAGE_SIZE;
   }

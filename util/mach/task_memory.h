@@ -23,6 +23,7 @@
 
 #include "base/mac/scoped_mach_vm.h"
 #include "base/macros.h"
+#include "util/misc/initialization_state_dcheck.h"
 
 namespace crashpad {
 
@@ -87,11 +88,20 @@ class TaskMemory {
     DISALLOW_COPY_AND_ASSIGN(MappedMemory);
   };
 
-  //! \param[in] task A send right to the target task’s task port. This object
-  //!     does not take ownership of the send right.
-  explicit TaskMemory(task_t task);
-
+  TaskMemory();
   ~TaskMemory() {}
+
+  //! \brief Initializes this object to read the memory of a task with the
+  //!     provided task port.
+  //!
+  //! This method must be called successfully prior to calling any other method
+  //! in this class.
+  //!
+  //! \param[in] task A send right to the target task's task port. This object
+  //!     does not take ownership of the send right.
+  //!
+  //! \return `true` on success, `false` on failure with a message logged.
+  bool Initialize(task_t task);
 
   //! \brief Copies memory from the target task into a caller-provided buffer in
   //!     the current task.
@@ -170,6 +180,7 @@ class TaskMemory {
                            std::string* string);
 
   task_t task_;  // weak
+  InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(TaskMemory);
 };
