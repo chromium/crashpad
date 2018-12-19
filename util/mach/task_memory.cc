@@ -117,12 +117,7 @@ bool TaskMemory::ReadCStringInternal(mach_vm_address_t address,
                                      bool has_size,
                                      mach_vm_size_t size,
                                      std::string* string) {
-  if (has_size) {
-    if (size == 0)  {
-      string->clear();
-      return true;
-    }
-  } else {
+  if (!has_size) {
     size = PAGE_SIZE;
   }
 

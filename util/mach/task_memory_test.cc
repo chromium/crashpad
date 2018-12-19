@@ -314,9 +314,8 @@ TEST(TaskMemory, ReadCStringSizeLimited_ConstCharEmpty) {
   EXPECT_EQ(result, kConstCharEmpty);
 
   result.clear();
-  ASSERT_TRUE(ReadCStringSizeLimitedSelf(&memory, kConstCharEmpty, 0, &result));
-  EXPECT_TRUE(result.empty());
-  EXPECT_EQ(result, kConstCharEmpty);
+  EXPECT_FALSE(
+      ReadCStringSizeLimitedSelf(&memory, kConstCharEmpty, 0, &result));
 }
 
 TEST(TaskMemory, ReadCStringSizeLimited_ConstCharShort) {
@@ -335,7 +334,7 @@ TEST(TaskMemory, ReadCStringSizeLimited_ConstCharShort) {
   EXPECT_FALSE(result.empty());
   EXPECT_EQ(result, kConstCharShort);
 
-  ASSERT_FALSE(ReadCStringSizeLimitedSelf(
+  EXPECT_FALSE(ReadCStringSizeLimitedSelf(
       &memory, kConstCharShort, arraysize(kConstCharShort) - 1, &result));
 }
 
@@ -360,10 +359,8 @@ TEST(TaskMemory, ReadCStringSizeLimited_StaticConstCharEmpty) {
   EXPECT_EQ(result, kStaticConstCharEmpty);
 
   result.clear();
-  ASSERT_TRUE(
+  ASSERT_FALSE(
       ReadCStringSizeLimitedSelf(&memory, kStaticConstCharEmpty, 0, &result));
-  EXPECT_TRUE(result.empty());
-  EXPECT_EQ(result, kStaticConstCharEmpty);
 }
 
 TEST(TaskMemory, ReadCStringSizeLimited_StaticConstCharShort) {
