@@ -138,7 +138,7 @@ class ProcessReaderMac {
   bool CPUTimes(timeval* user_time, timeval* system_time) const;
 
   //! \return Accesses the memory of the target task.
-  TaskMemory* Memory() { return task_memory_.get(); }
+  TaskMemory* Memory() { return &task_memory_; }
 
   //! \return The threads that are in the task (process). The first element (at
   //!     index `0`) corresponds to the main thread.
@@ -232,7 +232,7 @@ class ProcessReaderMac {
   std::vector<Thread> threads_;  // owns send rights
   std::vector<Module> modules_;
   std::vector<std::unique_ptr<MachOImageReader>> module_readers_;
-  std::unique_ptr<TaskMemory> task_memory_;
+  TaskMemory task_memory_;
   task_t task_;  // weak
   InitializationStateDcheck initialized_;
 

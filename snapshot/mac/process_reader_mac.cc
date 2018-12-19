@@ -113,9 +113,11 @@ bool ProcessReaderMac::Initialize(task_t task) {
     return false;
   }
 
-  is_64_bit_ = process_info_.Is64Bit();
+  if (!task_memory_.Initialize(task)) {
+    return false;
+  }
 
-  task_memory_.reset(new TaskMemory(task));
+  is_64_bit_ = process_info_.Is64Bit();
   task_ = task;
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
@@ -441,7 +443,7 @@ void ProcessReaderMac::InitializeModules() {
     Module module;
     module.timestamp = image_info.imageFileModDate;
 
-    if (!task_memory_->ReadCString(image_info.imageFilePath, &module.name)) {
+    if (!task_memory_.ReadCString(image_info.imageFilePath, &module.name)) {
       LOG(WARNING) << "could not read dyld_image_info::imageFilePath";
       // Proceed anyway with an empty module name.
     }
