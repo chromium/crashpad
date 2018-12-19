@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a9a7930_3832feec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-12-19T21:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21148daa_89c81978",
+      "revId": "9efe1a9c7eef51a28b77e7bcca7b289f0e248de6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60e9775b_a17d4d0f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-12-19T21:16:05Z",
       "side": 1,
       "message": "Will there be another follow-up to formally adhere to Process memory?",
+      "revId": "9efe1a9c7eef51a28b77e7bcca7b289f0e248de6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cd82f63_f07a399a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-12-19T21:50:14Z",
+      "side": 1,
+      "message": "Yes, I just need to figure out some Mach details at the moment to finish it.",
+      "parentUuid": "60e9775b_a17d4d0f",
       "revId": "9efe1a9c7eef51a28b77e7bcca7b289f0e248de6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -50,6 +86,24 @@
       "revId": "9efe1a9c7eef51a28b77e7bcca7b289f0e248de6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "090c169f_d44dd7b1",
+        "filename": "util/mach/task_memory.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-12-19T21:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7239b44a_5088327e",
+      "revId": "9efe1a9c7eef51a28b77e7bcca7b289f0e248de6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
