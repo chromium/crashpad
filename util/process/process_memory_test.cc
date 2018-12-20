@@ -304,6 +304,23 @@ class ReadCStringTest : public MultiprocessAdaptor {
            long_string_address);
   }
 
+  void Compare(ProcessMemory& memory, VMAddress address, const char* str) {
+    std::string result;
+    if (limit_size_) {
+      ASSERT_TRUE(
+          memory.ReadCStringSizeLimited(address, strlen(str) + 1, &result));
+      EXPECT_EQ(result, str);
+      ASSERT_TRUE(
+          memory.ReadCStringSizeLimited(address, strlen(str) + 2, &result));
+      EXPECT_EQ(result, str);
+      EXPECT_FALSE(
+          memory.ReadCStringSizeLimited(address, strlen(str), &result));
+    } else {
+      ASSERT_TRUE(memory.ReadCString(address, &result));
+      EXPECT_EQ(result, str);
+    }
+  }
+
   void DoTest(ProcessType process,
               VMAddress const_empty_address,
               VMAddress const_short_address,
@@ -313,51 +330,12 @@ class ReadCStringTest : public MultiprocessAdaptor {
     ProcessMemoryNative memory;
     ASSERT_TRUE(memory.Initialize(process));
 
-    std::string result;
-
-    if (limit_size_) {
-      ASSERT_TRUE(memory.ReadCStringSizeLimited(
-          const_empty_address, arraysize(kConstCharEmpty), &result));
-      EXPECT_EQ(result, kConstCharEmpty);
-
-      ASSERT_TRUE(memory.ReadCStringSizeLimited(
-          const_short_address, arraysize(kConstCharShort), &result));
-      EXPECT_EQ(result, kConstCharShort);
-      EXPECT_FALSE(memory.ReadCStringSizeLimited(
-          const_short_address, arraysize(kConstCharShort) - 1, &result));
-
-      ASSERT_TRUE(
-          memory.ReadCStringSizeLimited(local_empty_address, 1, &result));
-      EXPECT_EQ(result, "");
-
-      ASSERT_TRUE(memory.ReadCStringSizeLimited(
-          local_short_address, strlen(SHORT_LOCAL_STRING) + 1, &result));
-      EXPECT_EQ(result, SHORT_LOCAL_STRING);
-      EXPECT_FALSE(memory.ReadCStringSizeLimited(
-          local_short_address, strlen(SHORT_LOCAL_STRING), &result));
-
-      std::string long_string_for_comparison = MakeLongString();
-      ASSERT_TRUE(memory.ReadCStringSizeLimited(
-          long_string_address, long_string_for_comparison.size() + 1, &result));
-      EXPECT_EQ(result, long_string_for_comparison);
-      EXPECT_FALSE(memory.ReadCStringSizeLimited(
-          long_string_address, long_string_for_comparison.size(), &result));
-    } else {
-      ASSERT_TRUE(memory.ReadCString(const_empty_address, &result));
-      EXPECT_EQ(result, kConstCharEmpty);
-
-      ASSERT_TRUE(memory.ReadCString(const_short_address, &result));
-      EXPECT_EQ(result, kConstCharShort);
-
-      ASSERT_TRUE(memory.ReadCString(local_empty_address, &result));
-      EXPECT_EQ(result, "");
-
-      ASSERT_TRUE(memory.ReadCString(local_short_address, &result));
-      EXPECT_EQ(result, SHORT_LOCAL_STRING);
-
-      ASSERT_TRUE(memory.ReadCString(long_string_address, &result));
-      EXPECT_EQ(result, MakeLongString());
-    }
+    Compare(memory, const_empty_address, kConstCharEmpty);
+    Compare(memory, const_short_address, kConstCharShort);
+    Compare(memory, local_empty_address, "");
+    Compare(memory, local_short_address, SHORT_LOCAL_STRING);
+    std::string long_string_for_comparison = MakeLongString();
+    Compare(memory, long_string_address, long_string_for_comparison.c_str());
   }
 
   const bool limit_size_;
