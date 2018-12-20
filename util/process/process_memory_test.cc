@@ -19,6 +19,7 @@
 #include <memory>
 
 #include "base/process/process_metrics.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/multiprocess.h"
