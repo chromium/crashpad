@@ -20,6 +20,7 @@
 #include <unistd.h>
 
 #include "base/posix/eintr_wrapper.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "util/misc/scoped_forbid_return.h"
