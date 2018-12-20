@@ -16,6 +16,24 @@
       "revId": "7588c004d75c2e55ded06b4d4fd760e420af0863",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cdc3bde_d28b7a85",
+        "filename": "snapshot/mac/mach_o_image_annotations_reader.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-12-20T21:13:50Z",
+      "side": 1,
+      "message": "Good catch.",
+      "parentUuid": "c6c0b252_a082d75f",
+      "revId": "7588c004d75c2e55ded06b4d4fd760e420af0863",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
