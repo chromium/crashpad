@@ -20,6 +20,8 @@
 #include "util/process/process_memory_linux.h"
 #elif defined(OS_WIN)
 #include "util/process/process_memory_win.h"
+#elif defined(OS_MACOSX)
+#include "util/mach/task_memory.h"
 #endif
 
 namespace crashpad {
@@ -31,6 +33,8 @@ using ProcessMemoryNative = ProcessMemoryFuchsia;
 using ProcessMemoryNative = ProcessMemoryLinux;
 #elif defined(OS_WIN)
 using ProcessMemoryNative = ProcessMemoryWin;
+#elif defined(OS_MACOSX)
+using ProcessMemoryNative = TaskMemory;
 #else
 #error Port.
 #endif

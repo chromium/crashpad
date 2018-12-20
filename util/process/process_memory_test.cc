@@ -29,9 +29,74 @@
 #include "util/misc/from_pointer_cast.h"
 #include "util/process/process_memory_native.h"
 
+#if defined(OS_MACOSX)
+#include "test/mac/mach_multiprocess.h"
+#endif  // defined(OS_MACOSX)
+
 namespace crashpad {
 namespace test {
 namespace {
+
+// On macOS the ProcessMemoryTests require accessing the child process' task
+// port which requires root or a code signing entitlement. To account for this
+// we implement an adaptor class that wraps MachMultiprocess on macOS, because
+// it shares the child's task port, and makes it behave like MultiprocessExec.
+#if defined(OS_MACOSX)
+class MultiprocessAdaptor : public MachMultiprocess {
+ public:
+  void SetChildTestMainFunction(const std::string& function_name) {
+    test_function_ = function_name;
+  }
+
+  ProcessType ChildProcess() { return ChildTask(); }
+
+  // Helpers to get I/O handles in the child process
+  static FileHandle OutputHandle() {
+    CHECK_NE(write_pipe_handle_, -1);
+    return write_pipe_handle_;
+  }
+
+  static FileHandle InputHandle() {
+    CHECK_NE(read_pipe_handle_, -1);
+    return read_pipe_handle_;
+  }
+
+ private:
+  virtual void Parent() = 0;
+
+  void MachMultiprocessParent() override { Parent(); }
+
+  void MachMultiprocessChild() override {
+    read_pipe_handle_ = ReadPipeHandle();
+    write_pipe_handle_ = WritePipeHandle();
+    internal::CheckedInvokeMultiprocessChild(test_function_);
+  }
+
+  std::string test_function_;
+
+  static FileHandle read_pipe_handle_;
+  static FileHandle write_pipe_handle_;
+};
+
+FileHandle MultiprocessAdaptor::read_pipe_handle_ = -1;
+FileHandle MultiprocessAdaptor::write_pipe_handle_ = -1;
+#else
+class MultiprocessAdaptor : public MultiprocessExec {
+ public:
+  static FileHandle OutputHandle() {
+    return StdioFileHandle(StdioStream::kStandardOutput);
+  }
+
+  static FileHandle InputHandle() {
+    return StdioFileHandle(StdioStream::kStandardInput);
+  }
+
+ private:
+  virtual void Parent() = 0;
+
+  void MultiprocessParent() override { Parent(); }
+};
+#endif  // defined(OS_MACOSX)
 
 void DoChildReadTestSetup(size_t* region_size,
                           std::unique_ptr<char[]>* region) {
@@ -46,17 +111,17 @@ CRASHPAD_CHILD_TEST_MAIN(ReadTestChild) {
   size_t region_size;
   std::unique_ptr<char[]> region;
   DoChildReadTestSetup(&region_size, &region);
-  FileHandle out = StdioFileHandle(StdioStream::kStandardOutput);
+  FileHandle out = MultiprocessAdaptor::OutputHandle();
   CheckedWriteFile(out, &region_size, sizeof(region_size));
   VMAddress address = FromPointerCast<VMAddress>(region.get());
   CheckedWriteFile(out, &address, sizeof(address));
-  CheckedReadFileAtEOF(StdioFileHandle(StdioStream::kStandardInput));
+  CheckedReadFileAtEOF(MultiprocessAdaptor::InputHandle());
   return 0;
 }
 
-class ReadTest : public MultiprocessExec {
+class ReadTest : public MultiprocessAdaptor {
  public:
-  ReadTest() : MultiprocessExec() {
+  ReadTest() : MultiprocessAdaptor() {
     SetChildTestMainFunction("ReadTestChild");
   }
 
@@ -72,7 +137,7 @@ class ReadTest : public MultiprocessExec {
   void RunAgainstChild() { Run(); }
 
  private:
-  void MultiprocessParent() override {
+  void Parent() override {
     size_t region_size;
     VMAddress region;
     ASSERT_TRUE(
@@ -183,23 +248,22 @@ CRASHPAD_CHILD_TEST_MAIN(ReadCStringTestChild) {
       &const_empty, &const_short, &local_empty, &local_short, &long_string);
   const auto write_address = [](const char* p) {
     VMAddress address = FromPointerCast<VMAddress>(p);
-    CheckedWriteFile(StdioFileHandle(StdioStream::kStandardOutput),
-                     &address,
-                     sizeof(address));
+    CheckedWriteFile(
+        MultiprocessAdaptor::OutputHandle(), &address, sizeof(address));
   };
   write_address(const_empty);
   write_address(const_short);
   write_address(local_empty);
   write_address(local_short);
   write_address(long_string.c_str());
-  CheckedReadFileAtEOF(StdioFileHandle(StdioStream::kStandardInput));
+  CheckedReadFileAtEOF(MultiprocessAdaptor::InputHandle());
   return 0;
 }
 
-class ReadCStringTest : public MultiprocessExec {
+class ReadCStringTest : public MultiprocessAdaptor {
  public:
   ReadCStringTest(bool limit_size)
-      : MultiprocessExec(), limit_size_(limit_size) {
+      : MultiprocessAdaptor(), limit_size_(limit_size) {
     SetChildTestMainFunction("ReadCStringTestChild");
   }
 
@@ -221,7 +285,7 @@ class ReadCStringTest : public MultiprocessExec {
   void RunAgainstChild() { Run(); }
 
  private:
-  void MultiprocessParent() override {
+  void Parent() override {
 #define DECLARE_AND_READ_ADDRESS(name) \
   VMAddress name;                      \
   ASSERT_TRUE(ReadFileExactly(ReadPipeHandle(), &name, sizeof(name)));
@@ -332,24 +396,24 @@ CRASHPAD_CHILD_TEST_MAIN(ReadUnmappedChildMain) {
   ScopedGuardedPage pages;
   VMAddress address = reinterpret_cast<VMAddress>(pages.Pointer());
   DoReadUnmappedChildMainSetup(pages.Pointer());
-  FileHandle out = StdioFileHandle(StdioStream::kStandardOutput);
+  FileHandle out = MultiprocessAdaptor::OutputHandle();
   CheckedWriteFile(out, &address, sizeof(address));
-  CheckedReadFileAtEOF(StdioFileHandle(StdioStream::kStandardInput));
+  CheckedReadFileAtEOF(MultiprocessAdaptor::InputHandle());
   return 0;
 }
 
 // This test only supports running against a child process because
 // ScopedGuardedPage is not thread-safe.
-class ReadUnmappedTest : public MultiprocessExec {
+class ReadUnmappedTest : public MultiprocessAdaptor {
  public:
-  ReadUnmappedTest() : MultiprocessExec() {
+  ReadUnmappedTest() : MultiprocessAdaptor() {
     SetChildTestMainFunction("ReadUnmappedChildMain");
   }
 
   void RunAgainstChild() { Run(); }
 
  private:
-  void MultiprocessParent() override {
+  void Parent() override {
     VMAddress address = 0;
     ASSERT_TRUE(ReadFileExactly(ReadPipeHandle(), &address, sizeof(address)));
     DoTest(ChildProcess(), address);
@@ -450,28 +514,28 @@ CRASHPAD_CHILD_TEST_MAIN(ReadCStringUnmappedChildMain) {
   ScopedGuardedPage pages;
   std::vector<StringDataInChildProcess> strings;
   DoCStringUnmappedTestSetup(pages.Pointer(), &strings);
-  FileHandle out = StdioFileHandle(StdioStream::kStandardOutput);
+  FileHandle out = MultiprocessAdaptor::OutputHandle();
   strings[0].Write(out);
   strings[1].Write(out);
   strings[2].Write(out);
   strings[3].Write(out);
-  CheckedReadFileAtEOF(StdioFileHandle(StdioStream::kStandardInput));
+  CheckedReadFileAtEOF(MultiprocessAdaptor::InputHandle());
   return 0;
 }
 
 // This test only supports running against a child process because
 // ScopedGuardedPage is not thread-safe.
-class ReadCStringUnmappedTest : public MultiprocessExec {
+class ReadCStringUnmappedTest : public MultiprocessAdaptor {
  public:
   ReadCStringUnmappedTest(bool limit_size)
-      : MultiprocessExec(), limit_size_(limit_size) {
+      : MultiprocessAdaptor(), limit_size_(limit_size) {
     SetChildTestMainFunction("ReadCStringUnmappedChildMain");
   }
 
   void RunAgainstChild() { Run(); }
 
  private:
-  void MultiprocessParent() override {
+  void Parent() override {
     std::vector<StringDataInChildProcess> strings;
     strings.push_back(StringDataInChildProcess::Read(ReadPipeHandle()));
     strings.push_back(StringDataInChildProcess::Read(ReadPipeHandle()));
