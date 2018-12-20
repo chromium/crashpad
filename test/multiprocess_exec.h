@@ -122,7 +122,9 @@ class MultiprocessExec : public Multiprocess {
   //!
   //! This method is only valid during the body of MultiprocessParent().
   //!
-  //! \return A platform-specific type representing the child process.
+  //! \return A platform-specific type representing the child process. This
+  //!     method can fail on macOS because access to a child's task port
+  //!     requires the task_for_pid entitlement.
   ProcessType ChildProcess();
 
  protected:
