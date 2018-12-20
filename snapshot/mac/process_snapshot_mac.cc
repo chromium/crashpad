@@ -219,8 +219,7 @@ std::vector<const MemorySnapshot*> ProcessSnapshotMac::ExtraMemory() const {
 
 const ProcessMemory* ProcessSnapshotMac::Memory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/263
-  return nullptr;
+  return process_reader_.Memory();
 }
 
 void ProcessSnapshotMac::InitializeThreads() {

@@ -36,7 +36,7 @@ namespace internal {
 namespace {
 
 template <typename T>
-bool ReadIntoAndZero(ProcessMemoryMac* process_memory,
+bool ReadIntoAndZero(const ProcessMemoryMac* process_memory,
                      mach_vm_address_t address,
                      mach_vm_size_t size,
                      T* specific) {
@@ -84,7 +84,7 @@ bool ReadIntoVersioned(ProcessReaderMac* process_reader,
     return false;
   }
 
-  ProcessMemoryMac* process_memory = process_reader->Memory();
+  const ProcessMemoryMac* process_memory = process_reader->Memory();
   decltype(specific->version) version;
   if (!process_memory->Read(field_address, sizeof(version), &version)) {
     return false;
@@ -103,7 +103,7 @@ bool ReadIntoSized(ProcessReaderMac* process_reader,
     return false;
   }
 
-  ProcessMemoryMac* process_memory = process_reader->Memory();
+  const ProcessMemoryMac* process_memory = process_reader->Memory();
   decltype(specific->size) size;
   if (!process_memory->Read(address + offsetof(T, size), sizeof(size), &size)) {
     return false;
