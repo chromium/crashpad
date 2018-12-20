@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_MACH_TASK_MEMORY_H_
-#define CRASHPAD_UTIL_MACH_TASK_MEMORY_H_
+#ifndef CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_MAC_H_
+#define CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_MAC_H_
 
 #include <mach/mach.h>
 #include <sys/types.h>
@@ -30,7 +30,7 @@
 namespace crashpad {
 
 //! \brief Accesses the memory of another Mach task.
-class TaskMemory : public ProcessMemory {
+class ProcessMemoryMac : public ProcessMemory {
  public:
   //! \brief A memory region mapped from another Mach task.
   //!
@@ -85,13 +85,13 @@ class TaskMemory : public ProcessMemory {
     size_t user_size_;
 
     // The outer class needs to be able to call this class’ private constructor.
-    friend class TaskMemory;
+    friend class ProcessMemoryMac;
 
     DISALLOW_COPY_AND_ASSIGN(MappedMemory);
   };
 
-  TaskMemory();
-  ~TaskMemory() {}
+  ProcessMemoryMac();
+  ~ProcessMemoryMac() {}
 
   //! \brief Initializes this object to read the memory of a task with the
   //!     provided task port.
@@ -127,9 +127,9 @@ class TaskMemory : public ProcessMemory {
   task_t task_;  // weak
   InitializationStateDcheck initialized_;
 
-  DISALLOW_COPY_AND_ASSIGN(TaskMemory);
+  DISALLOW_COPY_AND_ASSIGN(ProcessMemoryMac);
 };
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_UTIL_MACH_TASK_MEMORY_H_
+#endif  // CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_MAC_H_

@@ -58,7 +58,7 @@ class MachOImageSymbolTableReader {
   // there aren’t expected to be very many of those that performance would
   // become a problem. In reality, std::unordered_map does not appear to provide
   // a performance advantage. It appears that the memory copies currently done
-  // by TaskMemory::Read() have substantially more impact on symbol table
+  // by ProcessMemoryMac::Read() have substantially more impact on symbol table
   // operations.
   //
   // This is public so that the type is available to
