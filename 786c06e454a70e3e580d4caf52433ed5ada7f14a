@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "07a17a33_5771d4f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-20T19:02:27Z",
+      "side": 1,
+      "message": "They do now. They _didn’t_ work, or they _wouldn’t_ work?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 42
+      },
+      "revId": "786c06e454a70e3e580d4caf52433ed5ada7f14a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a15cb5ad_a8778321",
         "filename": "test/multiprocess_exec_posix.cc",
         "patchSetId": 4
@@ -13,6 +36,47 @@
       "writtenOn": "2018-12-20T18:50:49Z",
       "side": 1,
       "message": "Just make this an explicit FAIL()? It works if you\u0027re root/code signed the right way but otherwise fails.",
+      "revId": "786c06e454a70e3e580d4caf52433ed5ada7f14a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc9f5811_02c7a55e",
+        "filename": "test/multiprocess_exec_posix.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-20T19:02:27Z",
+      "side": 1,
+      "message": "\u003e Just make this an explicit FAIL()? It works if you\u0027re root/code signed the right way but otherwise fails.\n\nLeave it alone because it’s correct for what you’re doing here, but add a comment to set the expectation correctly.\n\nIt’s important enough that the comment should probably not go here but in the header file’s Doxygen blurb.",
+      "parentUuid": "a15cb5ad_a8778321",
+      "revId": "786c06e454a70e3e580d4caf52433ed5ada7f14a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "630df6b8_35bc3614",
+        "filename": "test/process_type.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-20T19:02:27Z",
+      "side": 1,
+      "message": "More specifically, task_t.\n\nIt means the same thing as mach_port_t in userland (it’s just a typedef), but it’s more descriptive.",
+      "range": {
+        "startLine": 41,
+        "startChar": 20,
+        "endLine": 41,
+        "endChar": 31
+      },
       "revId": "786c06e454a70e3e580d4caf52433ed5ada7f14a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
