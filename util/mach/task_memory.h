@@ -23,12 +23,14 @@
 
 #include "base/mac/scoped_mach_vm.h"
 #include "base/macros.h"
+#include "util/misc/address_types.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/process/process_memory.h"
 
 namespace crashpad {
 
 //! \brief Accesses the memory of another Mach task.
-class TaskMemory {
+class TaskMemory : public ProcessMemory {
  public:
   //! \brief A memory region mapped from another Mach task.
   //!
@@ -103,23 +105,6 @@ class TaskMemory {
   //! \return `true` on success, `false` on failure with a message logged.
   bool Initialize(task_t task);
 
-  //! \brief Copies memory from the target task into a caller-provided buffer in
-  //!     the current task.
-  //!
-  //! \param[in] address The address, in the target task’s address space, of the
-  //!     memory region to copy.
-  //! \param[in] size The size, in bytes, of the memory region to copy. \a
-  //!     buffer must be at least this size.
-  //! \param[out] buffer The buffer into which the contents of the other task’s
-  //!     memory will be copied.
-  //!
-  //! \return `true` on success, with \a buffer filled appropriately. `false` on
-  //!     failure, with a warning logged. Failures can occur, for example, when
-  //!     encountering unmapped or unreadable pages.
-  //!
-  //! \sa ReadMapped()
-  bool Read(mach_vm_address_t address, size_t size, void* buffer);
-
   //! \brief Maps memory from the target task into the current task.
   //!
   //! This interface is an alternative to Read() that does not require the
@@ -134,50 +119,10 @@ class TaskMemory {
   //!     requested. On faliure, `nullptr`, with a warning logged. Failures can
   //!     occur, for example, when encountering unmapped or unreadable pages.
   std::unique_ptr<MappedMemory> ReadMapped(mach_vm_address_t address,
-                                           size_t size);
-
-  //! \brief Reads a `NUL`-terminated C string from the target task into a
-  //!     string in the current task.
-  //!
-  //! The length of the string need not be known ahead of time. This method will
-  //! read contiguous memory until a `NUL` terminator is found.
-  //!
-  //! \param[in] address The address, in the target task’s address space, of the
-  //!     string to copy.
-  //! \param[out] string The string read from the other task.
-  //!
-  //! \return `true` on success, with \a string set appropriately. `false` on
-  //!     failure, with a warning logged. Failures can occur, for example, when
-  //!     encountering unmapped or unreadable pages.
-  //!
-  //! \sa MappedMemory::ReadCString()
-  bool ReadCString(mach_vm_address_t address, std::string* string);
-
-  //! \brief Reads a `NUL`-terminated C string from the target task into a
-  //!     string in the current task.
-  //!
-  //! \param[in] address The address, in the target task’s address space, of the
-  //!     string to copy.
-  //! \param[in] size The maximum number of bytes to read. The string is
-  //!     required to be `NUL`-terminated within this many bytes.
-  //! \param[out] string The string read from the other task.
-  //!
-  //! \return `true` on success, with \a string set appropriately. `false` on
-  //!     failure, with a warning logged. Failures can occur, for example, when
-  //!     a `NUL` terminator is not found within \a size bytes, or when
-  //!     encountering unmapped or unreadable pages.
-  //!
-  //! \sa MappedMemory::ReadCString()
-  bool ReadCStringSizeLimited(mach_vm_address_t address,
-                              mach_vm_size_t size,
-                              std::string* string);
+                                           size_t size) const;
 
  private:
-  // The common internal implementation shared by the ReadCString*() methods.
-  bool ReadCStringInternal(mach_vm_address_t address,
-                           bool has_size,
-                           mach_vm_size_t size,
-                           std::string* string);
+  ssize_t ReadUpTo(VMAddress address, size_t size, void* buffer) const override;
 
   task_t task_;  // weak
   InitializationStateDcheck initialized_;

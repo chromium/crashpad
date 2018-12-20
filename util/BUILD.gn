@@ -137,6 +137,11 @@ static_library("util") {
     "numeric/in_range_cast.h",
     "numeric/int128.h",
     "numeric/safe_assignment.h",
+    "process/process_memory.cc",
+    "process/process_memory.h",
+    "process/process_memory_native.h",
+    "process/process_memory_range.cc",
+    "process/process_memory_range.h",
     "stdlib/aligned_allocator.cc",
     "stdlib/aligned_allocator.h",
     "stdlib/map_insert.h",
@@ -310,19 +315,6 @@ static_library("util") {
       "posix/process_info_linux.cc",
       "process/process_memory_linux.cc",
       "process/process_memory_linux.h",
-    ]
-  }
-
-  if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia ||
-      crashpad_is_win) {
-    sources += [
-      "process/process_memory.cc",
-      "process/process_memory.h",
-      "process/process_memory_native.h",
-
-      # TODO: Port to all platforms.
-      "process/process_memory_range.cc",
-      "process/process_memory_range.h",
     ]
   }
 
@@ -562,6 +554,8 @@ source_set("util_test") {
     "numeric/checked_range_test.cc",
     "numeric/in_range_cast_test.cc",
     "numeric/int128_test.cc",
+    "process/process_memory_range_test.cc",
+    "process/process_memory_test.cc",
     "stdlib/aligned_allocator_test.cc",
     "stdlib/map_insert_test.cc",
     "stdlib/string_number_conversion_test.cc",
@@ -631,15 +625,6 @@ source_set("util_test") {
 
   if (crashpad_is_fuchsia) {
     sources += [ "misc/capture_context_test_util_fuchsia.cc" ]
-  }
-
-  if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia ||
-      crashpad_is_win) {
-    sources += [
-      # TODO: Port to all platforms.
-      "process/process_memory_range_test.cc",
-      "process/process_memory_test.cc",
-    ]
   }
 
   if (crashpad_is_win) {
