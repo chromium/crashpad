@@ -73,21 +73,9 @@ bool TaskMemory::Initialize(task_t task) {
   return true;
 }
 
-bool TaskMemory::Read(mach_vm_address_t address, size_t size, void* buffer) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-
-  std::unique_ptr<MappedMemory> memory = ReadMapped(address, size);
-  if (!memory) {
-    return false;
-  }
-
-  memcpy(buffer, memory->data(), size);
-  return true;
-}
-
 std::unique_ptr<TaskMemory::MappedMemory> TaskMemory::ReadMapped(
     mach_vm_address_t address,
-    size_t size) {
+    size_t size) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   if (size == 0) {
@@ -113,58 +101,29 @@ std::unique_ptr<TaskMemory::MappedMemory> TaskMemory::ReadMapped(
       new MappedMemory(region, region_size, address - region_address, size));
 }
 
-bool TaskMemory::ReadCString(mach_vm_address_t address, std::string* string) {
+ssize_t TaskMemory::ReadUpTo(VMAddress address,
+                             size_t size,
+                             void* buffer) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  DCHECK_LE(size, (size_t)std::numeric_limits<ssize_t>::max());
 
-  return ReadCStringInternal(address, false, 0, string);
-}
+  std::unique_ptr<MappedMemory> memory = ReadMapped(address, size);
+  if (!memory) {
+    // If we can not read the entire mapping, try to perform a short read of the
+    // first page instead. This is necessary to support ReadCString().
+    size_t short_read = PAGE_SIZE - (address % PAGE_SIZE);
+    if (short_read >= size)
+      return -1;
 
-bool TaskMemory::ReadCStringSizeLimited(mach_vm_address_t address,
-                                        mach_vm_size_t size,
-                                        std::string* string) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+    memory = ReadMapped(address, short_read);
+    if (!memory)
+      return -1;
 
-  return ReadCStringInternal(address, true, size, string);
-}
-
-bool TaskMemory::ReadCStringInternal(mach_vm_address_t address,
-                                     bool has_size,
-                                     mach_vm_size_t size,
-                                     std::string* string) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-
-  if (!has_size) {
-    size = PAGE_SIZE;
+    size = short_read;
   }
 
-  std::string local_string;
-  mach_vm_address_t read_address = address;
-  do {
-    mach_vm_size_t read_length =
-        std::min(size, PAGE_SIZE - (read_address % PAGE_SIZE));
-    std::unique_ptr<MappedMemory> read_region =
-        ReadMapped(read_address, read_length);
-    if (!read_region) {
-      return false;
-    }
-
-    const char* read_region_data =
-        reinterpret_cast<const char*>(read_region->data());
-    size_t read_region_data_length = strnlen(read_region_data, read_length);
-    local_string.append(read_region_data, read_region_data_length);
-    if (read_region_data_length < read_length) {
-      string->swap(local_string);
-      return true;
-    }
-
-    if (has_size) {
-      size -= read_length;
-    }
-    read_address = mach_vm_trunc_page(read_address + read_length);
-  } while ((!has_size || size > 0) && read_address > address);
-
-  LOG(WARNING) << base::StringPrintf("unterminated string at 0x%llx", address);
-  return false;
+  memcpy(buffer, memory->data(), size);
+  return static_cast<ssize_t>(size);
 }
 
 }  // namespace crashpad

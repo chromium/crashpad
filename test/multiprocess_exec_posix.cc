@@ -29,6 +29,10 @@
 #include <stdio_ext.h>
 #endif
 
+#if defined(OS_MACOSX)
+#include "util/mach/task_for_pid.h"
+#endif
+
 namespace crashpad {
 namespace test {
 
@@ -149,7 +153,11 @@ void MultiprocessExec::MultiprocessChild() {
 }
 
 ProcessType MultiprocessExec::ChildProcess() {
+#if defined(OS_MACOSX)
+  return TaskForPID(ChildPID());
+#else
   return ChildPID();
+#endif
 }
 
 }  // namespace test
