@@ -138,7 +138,7 @@ class ProcessReaderMac {
   bool CPUTimes(timeval* user_time, timeval* system_time) const;
 
   //! \return Accesses the memory of the target task.
-  ProcessMemoryMac* Memory() { return &process_memory_; }
+  const ProcessMemoryMac* Memory() const { return &process_memory_; }
 
   //! \return The threads that are in the task (process). The first element (at
   //!     index `0`) corresponds to the main thread.
