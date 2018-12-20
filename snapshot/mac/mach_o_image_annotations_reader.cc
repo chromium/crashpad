@@ -26,7 +26,6 @@
 #include "snapshot/mac/mach_o_image_reader.h"
 #include "snapshot/mac/process_reader_mac.h"
 #include "snapshot/snapshot_constants.h"
-#include "util/mach/task_memory.h"
 #include "util/stdlib/strnlen.h"
 
 namespace crashpad {

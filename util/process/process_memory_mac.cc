@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/mach/task_memory.h"
+#include "util/process/process_memory_mac.h"
 
 #include <mach/mach_vm.h>
 #include <string.h>
@@ -26,11 +26,10 @@
 
 namespace crashpad {
 
-TaskMemory::MappedMemory::~MappedMemory() {
-}
+ProcessMemoryMac::MappedMemory::~MappedMemory() {}
 
-bool TaskMemory::MappedMemory::ReadCString(
-    size_t offset, std::string* string) const {
+bool ProcessMemoryMac::MappedMemory::ReadCString(size_t offset,
+                                                 std::string* string) const {
   if (offset >= user_size_) {
     LOG(WARNING) << "offset out of range";
     return false;
@@ -48,10 +47,10 @@ bool TaskMemory::MappedMemory::ReadCString(
   return true;
 }
 
-TaskMemory::MappedMemory::MappedMemory(vm_address_t vm_address,
-                                       size_t vm_size,
-                                       size_t user_offset,
-                                       size_t user_size)
+ProcessMemoryMac::MappedMemory::MappedMemory(vm_address_t vm_address,
+                                             size_t vm_size,
+                                             size_t user_offset,
+                                             size_t user_size)
     : vm_(vm_address, vm_size),
       data_(reinterpret_cast<const void*>(vm_address + user_offset)),
       user_size_(user_size) {
@@ -64,16 +63,16 @@ TaskMemory::MappedMemory::MappedMemory(vm_address_t vm_address,
   DCHECK_LE(user_end, vm_end);
 }
 
-TaskMemory::TaskMemory() : task_(TASK_NULL), initialized_() {}
+ProcessMemoryMac::ProcessMemoryMac() : task_(TASK_NULL), initialized_() {}
 
-bool TaskMemory::Initialize(task_t task) {
+bool ProcessMemoryMac::Initialize(task_t task) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
   task_ = task;
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
 }
 
-std::unique_ptr<TaskMemory::MappedMemory> TaskMemory::ReadMapped(
+std::unique_ptr<ProcessMemoryMac::MappedMemory> ProcessMemoryMac::ReadMapped(
     mach_vm_address_t address,
     size_t size) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
@@ -101,9 +100,9 @@ std::unique_ptr<TaskMemory::MappedMemory> TaskMemory::ReadMapped(
       new MappedMemory(region, region_size, address - region_address, size));
 }
 
-ssize_t TaskMemory::ReadUpTo(VMAddress address,
-                             size_t size,
-                             void* buffer) const {
+ssize_t ProcessMemoryMac::ReadUpTo(VMAddress address,
+                                   size_t size,
+                                   void* buffer) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   DCHECK_LE(size, (size_t)std::numeric_limits<ssize_t>::max());
 

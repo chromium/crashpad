@@ -22,7 +22,7 @@
 
 #include "base/macros.h"
 #include "snapshot/mac/process_types/internal.h"
-#include "util/mach/task_memory.h"
+#include "util/process/process_memory_mac.h"
 
 namespace crashpad {
 namespace {
