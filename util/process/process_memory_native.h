@@ -21,7 +21,7 @@
 #elif defined(OS_WIN)
 #include "util/process/process_memory_win.h"
 #elif defined(OS_MACOSX)
-#include "util/mach/task_memory.h"
+#include "util/process/process_memory_mac.h"
 #endif
 
 namespace crashpad {
@@ -34,7 +34,7 @@ using ProcessMemoryNative = ProcessMemoryLinux;
 #elif defined(OS_WIN)
 using ProcessMemoryNative = ProcessMemoryWin;
 #elif defined(OS_MACOSX)
-using ProcessMemoryNative = TaskMemory;
+using ProcessMemoryNative = ProcessMemoryMac;
 #else
 #error Port.
 #endif

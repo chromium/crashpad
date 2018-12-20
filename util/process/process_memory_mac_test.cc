@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/mach/task_memory.h"
+#include "util/process/process_memory_mac.h"
 
 #include <mach/mach.h>
 #include <string.h>
@@ -31,7 +31,7 @@ namespace crashpad {
 namespace test {
 namespace {
 
-TEST(TaskMemory, ReadMappedSelf) {
+TEST(ProcessMemoryMac, ReadMappedSelf) {
   vm_address_t address = 0;
   constexpr vm_size_t kSize = 4 * PAGE_SIZE;
   kern_return_t kr =
@@ -44,11 +44,11 @@ TEST(TaskMemory, ReadMappedSelf) {
     region[index] = (index % 256) ^ ((index >> 8) % 256);
   }
 
-  TaskMemory memory;
+  ProcessMemoryMac memory;
   ASSERT_TRUE(memory.Initialize(mach_task_self()));
 
   std::string result(kSize, '\0');
-  std::unique_ptr<TaskMemory::MappedMemory> mapped;
+  std::unique_ptr<ProcessMemoryMac::MappedMemory> mapped;
 
   // Ensure that the entire region can be read.
   ASSERT_TRUE((mapped = memory.ReadMapped(address, kSize)));
@@ -86,7 +86,7 @@ TEST(TaskMemory, ReadMappedSelf) {
   EXPECT_EQ(result[0], 'M');
 }
 
-TEST(TaskMemory, ReadSelfUnmapped) {
+TEST(ProcessMemoryMac, ReadSelfUnmapped) {
   vm_address_t address = 0;
   constexpr vm_size_t kSize = 2 * PAGE_SIZE;
   kern_return_t kr =
@@ -105,7 +105,7 @@ TEST(TaskMemory, ReadSelfUnmapped) {
       mach_task_self(), address + PAGE_SIZE, PAGE_SIZE, FALSE, VM_PROT_NONE);
   ASSERT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "vm_protect");
 
-  TaskMemory memory;
+  ProcessMemoryMac memory;
   ASSERT_TRUE(memory.Initialize(mach_task_self()));
   std::string result(kSize, '\0');
 
@@ -117,7 +117,7 @@ TEST(TaskMemory, ReadSelfUnmapped) {
   EXPECT_TRUE(memory.Read(address + PAGE_SIZE - 1, 1, &result[0]));
 
   // Do the same thing with the ReadMapped() interface.
-  std::unique_ptr<TaskMemory::MappedMemory> mapped;
+  std::unique_ptr<ProcessMemoryMac::MappedMemory> mapped;
   EXPECT_FALSE((mapped = memory.ReadMapped(address, kSize)));
   EXPECT_FALSE((mapped = memory.ReadMapped(address + 1, kSize - 1)));
   EXPECT_FALSE((mapped = memory.ReadMapped(address + PAGE_SIZE, 1)));
@@ -148,7 +148,7 @@ TEST(TaskMemory, ReadSelfUnmapped) {
   EXPECT_TRUE((mapped = memory.ReadMapped(address + PAGE_SIZE - 1, 1)));
 }
 
-TEST(TaskMemory, ReadCStringSelfUnmapped) {
+TEST(ProcessMemoryMac, ReadCStringSelfUnmapped) {
   vm_address_t address = 0;
   constexpr vm_size_t kSize = 2 * PAGE_SIZE;
   kern_return_t kr =
@@ -167,7 +167,7 @@ TEST(TaskMemory, ReadCStringSelfUnmapped) {
       mach_task_self(), address + PAGE_SIZE, PAGE_SIZE, FALSE, VM_PROT_NONE);
   ASSERT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "vm_protect");
 
-  TaskMemory memory;
+  ProcessMemoryMac memory;
   ASSERT_TRUE(memory.Initialize(mach_task_self()));
   std::string result;
   EXPECT_FALSE(memory.ReadCString(address, &result));
@@ -232,17 +232,17 @@ bool IsAddressMapped(vm_address_t address) {
   return false;
 }
 
-TEST(TaskMemory, MappedMemoryDeallocates) {
-  // This tests that once a TaskMemory::MappedMemory object is destroyed, it
-  // releases the mapped memory that it owned. Technically, this test is not
+TEST(ProcessMemoryMac, MappedMemoryDeallocates) {
+  // This tests that once a ProcessMemoryMac::MappedMemory object is destroyed,
+  // it releases the mapped memory that it owned. Technically, this test is not
   // valid because after the mapping is released, something else (on another
   // thread) might wind up mapped in the same address. In the test environment,
   // hopefully there are either no other threads or they're all quiescent, so
   // nothing else should wind up mapped in the address.
 
-  TaskMemory memory;
+  ProcessMemoryMac memory;
   ASSERT_TRUE(memory.Initialize(mach_task_self()));
-  std::unique_ptr<TaskMemory::MappedMemory> mapped;
+  std::unique_ptr<ProcessMemoryMac::MappedMemory> mapped;
 
   static constexpr char kTestBuffer[] = "hello!";
   mach_vm_address_t test_address =
@@ -276,11 +276,11 @@ TEST(TaskMemory, MappedMemoryDeallocates) {
   EXPECT_FALSE(IsAddressMapped(mapped_last_address));
 }
 
-TEST(TaskMemory, MappedMemoryReadCString) {
-  // This tests the behavior of TaskMemory::MappedMemory::ReadCString().
-  TaskMemory memory;
+TEST(ProcessMemoryMac, MappedMemoryReadCString) {
+  // This tests the behavior of ProcessMemoryMac::MappedMemory::ReadCString().
+  ProcessMemoryMac memory;
   ASSERT_TRUE(memory.Initialize(mach_task_self()));
-  std::unique_ptr<TaskMemory::MappedMemory> mapped;
+  std::unique_ptr<ProcessMemoryMac::MappedMemory> mapped;
 
   static constexpr char kTestBuffer[] = "0\0" "2\0" "45\0" "789";
   const mach_vm_address_t kTestAddress =

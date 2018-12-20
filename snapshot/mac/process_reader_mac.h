@@ -27,9 +27,9 @@
 
 #include "base/macros.h"
 #include "build/build_config.h"
-#include "util/mach/task_memory.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/posix/process_info.h"
+#include "util/process/process_memory_mac.h"
 
 namespace crashpad {
 
@@ -138,7 +138,7 @@ class ProcessReaderMac {
   bool CPUTimes(timeval* user_time, timeval* system_time) const;
 
   //! \return Accesses the memory of the target task.
-  TaskMemory* Memory() { return &task_memory_; }
+  ProcessMemoryMac* Memory() { return &process_memory_; }
 
   //! \return The threads that are in the task (process). The first element (at
   //!     index `0`) corresponds to the main thread.
@@ -232,7 +232,7 @@ class ProcessReaderMac {
   std::vector<Thread> threads_;  // owns send rights
   std::vector<Module> modules_;
   std::vector<std::unique_ptr<MachOImageReader>> module_readers_;
-  TaskMemory task_memory_;
+  ProcessMemoryMac process_memory_;
   task_t task_;  // weak
   InitializationStateDcheck initialized_;
 
