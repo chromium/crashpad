@@ -210,32 +210,5 @@
         }],
       ],
     },
-    {
-      'variables': {
-        'conditions': [
-          ['OS == "win"', {
-            'snapshot_api_target_type%': 'static_library',
-          }, {
-            # There are no source files except on Windows.
-            'snapshot_api_target_type%': 'none',
-          }],
-        ],
-      },
-      'target_name': 'crashpad_snapshot_api',
-      'type': '<(snapshot_api_target_type)',
-      'dependencies': [
-        'crashpad_snapshot',
-        '../compat/compat.gyp:crashpad_compat',
-        '../third_party/mini_chromium/mini_chromium.gyp:base',
-        '../util/util.gyp:crashpad_util',
-      ],
-      'include_dirs': [
-        '..',
-      ],
-      'sources': [
-        'api/module_annotations_win.cc',
-        'api/module_annotations_win.h',
-      ],
-    },
   ],
 }
