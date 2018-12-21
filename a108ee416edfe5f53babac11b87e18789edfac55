@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "12385d47_adbc550c",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-21T19:14:23Z",
+      "side": 1,
+      "message": "\u003e WinVMSize is 64-bit on 32-bit as well due to cross-bitness so there was a possible lossy downcast to size_t here despite the two values being compatible with size_t (uint32_t and size_t)\n\nVMSize is always 64-bit, intentionally. A 32-bit process can read a 64-bit process (except on Windows), so we want the size type to express that.\n\nNow there’s no way that a 32-bit process would actually be able to read into a buffer sized larger than 2^32 bytes, for obvious reasons. But that means that the correct failure mode would be to reject the read attempt if it’s impossible to fulfill. That should be happening in Read() implementations.\n\nI think that the correct fix here is to make Read() accept a VMSize parameter and where implementations won’t fail for a too-big size, make them fail. Some systems, like macOS, may already accept a 64-bit size parameter on 32-bit processes, and in those cases, we probably don’t need to do anything but let the OS refuse the request. On others, we’d need our own size check in Read(), but it should happen in Read() as a common bottleneck location. We shouldn’t need to adapt anything out here.\n\nOf course, in this instance, sizeof(info) sets the upper bound, and it’s always going to be well under 2^32, so there’s never a problem in this particular use.\n\nAs a practical matter, any over-2^32 read would be (1) exceedingly unlikely, (2) probably unintended, and (3) almost certainly preceded by a giant allocation attempt that would itself fail in a 32-bit process. So there’s probably not too much to worry about here, but as long as we’re placating compilers, we might as well do it the right way.",
+      "parentUuid": "c78b96f8_555b4ba2",
+      "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2433d2a_7faff68e",
         "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
         "patchSetId": 2
