@@ -46,7 +46,7 @@ class ProcessMemory {
   //!
   //! \return `true` on success, with \a buffer filled appropriately. `false` on
   //!     failure, with a message logged.
-  bool Read(VMAddress address, size_t size, void* buffer) const;
+  bool Read(VMAddress address, VMSize vmsize, void* buffer) const;
 
   //! \brief Reads a `NUL`-terminated C string from the target process into a
   //!     string in the current process.
@@ -79,9 +79,9 @@ class ProcessMemory {
   //!     a `NUL` terminator is not found within \a size bytes, or when
   //!     encountering unmapped or unreadable pages.
   bool ReadCStringSizeLimited(VMAddress address,
-                              size_t size,
+                              VMSize vmsize,
                               std::string* string) const {
-    return ReadCStringInternal(address, true, size, string);
+    return ReadCStringInternal(address, true, vmsize, string);
   }
 
   virtual ~ProcessMemory() = default;
@@ -124,7 +124,7 @@ class ProcessMemory {
   //!     encountering unmapped or unreadable pages.
   virtual bool ReadCStringInternal(VMAddress address,
                                    bool has_size,
-                                   size_t size,
+                                   VMSize vmsize,
                                    std::string* string) const;
 };
 
