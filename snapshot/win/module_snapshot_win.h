@@ -25,6 +25,7 @@
 
 #include "base/macros.h"
 #include "snapshot/crashpad_info_client_options.h"
+#include "snapshot/crashpad_types/crashpad_info_reader.h"
 #include "snapshot/module_snapshot.h"
 #include "snapshot/win/process_reader_win.h"
 #include "util/misc/initialization_state.h"
@@ -111,6 +112,8 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
   UUID uuid_;
   std::unique_ptr<PEImageReader> pe_image_reader_;
   ProcessReaderWin* process_reader_;  // weak
+  ProcessMemoryRange memory_range_;
+  std::unique_ptr<CrashpadInfoReader> crashpad_info_;
   time_t timestamp_;
   uint32_t age_;
   // Too const-y: https://crashpad.chromium.org/bug/9.
