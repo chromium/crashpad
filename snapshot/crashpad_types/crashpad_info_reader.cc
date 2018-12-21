@@ -66,9 +66,8 @@ class CrashpadInfoReader::InfoContainerSpecific : public InfoContainer {
       return false;
     }
 
-    if (!memory->Read(address,
-                      std::min(VMSize{info.size}, VMSize{sizeof(info)}),
-                      &info)) {
+    if (!memory->Read(
+            address, std::min<VMSize>(info.size, sizeof(info)), &info)) {
       return false;
     }
 
@@ -116,7 +115,7 @@ class CrashpadInfoReader::InfoContainerSpecific : public InfoContainer {
 #define NATIVE_TRAITS Traits32
 #endif
   static_assert(!std::is_same<Traits, NATIVE_TRAITS>::value ||
-                    sizeof(info) == sizeof(CrashpadInfo),
+                    sizeof(decltype(info)) == sizeof(CrashpadInfo),
                 "CrashpadInfo size mismtach");
 #undef NATIVE_TRAITS
 };
