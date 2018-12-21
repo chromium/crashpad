@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf364534_0e9d1c9d",
+        "filename": "util/process/process_memory.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-21T20:34:07Z",
+      "side": 1,
+      "message": "Better to use base::IsValueInRangeForNumericType\u003csize_t\u003e(size) (#include \"base/numerics/safe_conversions.h\").\n\nBetter still would be the one-stop shop utility helper for the pattern here, AssignIfInRange(\u0026local_size, size) (#include \"util/numeric/safe_assignment.h\").",
+      "revId": "b1a1c28979aec2552c1bef34986efb9e4e970845",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae34e292_f0859b79",
+        "filename": "util/process/process_memory.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-21T20:34:07Z",
+      "side": 1,
+      "message": "Should put the size earlier in the string, as in:\n\nsize 4294967297 out of range\n\n(this matches the text we use elsewhere in the codebase, too), compared to what it says now:\n\nsize out of bounds for size_t 4294967297",
+      "revId": "b1a1c28979aec2552c1bef34986efb9e4e970845",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32789adb_9c2fb3e3",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-21T20:34:07Z",
+      "side": 1,
+      "message": "Throughout: keep the parameter name as “size”, in the same way that we use “address” for the address parameter.",
+      "range": {
+        "startLine": 49,
+        "startChar": 12,
+        "endLine": 49,
+        "endChar": 44
+      },
+      "revId": "b1a1c28979aec2552c1bef34986efb9e4e970845",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
