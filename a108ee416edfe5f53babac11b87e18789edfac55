@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fdb9c59_a2f2afe7",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-21T14:50:31Z",
+      "side": 1,
+      "message": "Why is this changing?",
+      "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2433d2a_7faff68e",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-21T14:50:31Z",
+      "side": 1,
+      "message": "That MSVC, huh?",
+      "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e0cfca_389d9672",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-21T14:50:31Z",
+      "side": 1,
+      "message": "Fuchsia is not OS_POSIX but was apparently using \u003cunistd.h\u003e without trouble before.\n\nThen again, I can’t see anything in here that would need \u003cunistd.h\u003e (although my search wasn’t entirely exhaustive), so maybe it can be removed.\n\nFor that matter, I don’t see anything that would need \u003czircon/process.h\u003e as #included above. Maybe all of the OS-specific stuff was factored out into other code.",
+      "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7edb5567_574b8897",
+        "filename": "snapshot/win/module_snapshot_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-21T14:50:31Z",
+      "side": 1,
+      "message": "Let’s go for better packing by moving this up with the other structs, so that the pointers (and unique_ptrs) can live together.",
+      "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a27821b5_21558fa4",
+        "filename": "snapshot/win/module_snapshot_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-21T14:50:31Z",
+      "side": 1,
+      "message": "Looks like someone put this in the wrong spot too, though.",
+      "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d018f999_35303c5c",
+        "filename": "snapshot/win/module_snapshot_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2018-12-21T14:50:31Z",
+      "side": 1,
+      "message": "And these. :(",
+      "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
