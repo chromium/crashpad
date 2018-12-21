@@ -280,7 +280,13 @@ void TestDumpWithoutCrashingChild(TestPaths::Architecture architecture) {
   EXPECT_EQ(child.WaitForExit(), 0u);
 }
 
-TEST(SimulateCrash, ChildDumpWithoutCrashing) {
+#if defined(ADDRESS_SANITIZER)
+// https://crbug.com/845011
+#define MAYBE_ChildDumpWithoutCrashing DISABLED_ChildDumpWithoutCrashing
+#else
+#define MAYBE_ChildDumpWithoutCrashing ChildDumpWithoutCrashing
+#endif
+TEST(SimulateCrash, MAYBE_ChildDumpWithoutCrashing) {
   TestDumpWithoutCrashingChild(TestPaths::Architecture::kDefault);
 }
 
