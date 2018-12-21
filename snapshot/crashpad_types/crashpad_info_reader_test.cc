@@ -15,7 +15,6 @@
 #include "snapshot/crashpad_types/crashpad_info_reader.h"
 
 #include <sys/types.h>
-#include <unistd.h>
 
 #include <memory>
 
@@ -30,10 +29,6 @@
 #include "util/file/file_io.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/process/process_memory_native.h"
-
-#if defined(OS_FUCHSIA)
-#include <zircon/process.h>
-#endif
 
 namespace crashpad {
 namespace test {
