@@ -66,9 +66,8 @@ class CrashpadInfoReader::InfoContainerSpecific : public InfoContainer {
       return false;
     }
 
-    if (!memory->Read(address,
-                      std::min(VMSize{info.size}, VMSize{sizeof(info)}),
-                      &info)) {
+    if (!memory->Read(
+            address, std::min<size_t>(info.size, sizeof(info)), &info)) {
       return false;
     }
 
