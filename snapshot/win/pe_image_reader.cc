@@ -72,6 +72,18 @@ bool PEImageReader::Initialize(ProcessReaderWin* process_reader,
   return true;
 }
 
+bool PEImageReader::GetCrashpadInfoSection(WinVMAddress* address,
+                                           WinVMSize* size) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  if (module_subrange_reader_.Is64Bit()) {
+    return GetCrashpadInfoSectionInternal<process_types::internal::Traits64>(
+        address, size);
+  } else {
+    return GetCrashpadInfoSectionInternal<process_types::internal::Traits32>(
+        address, size);
+  }
+}
+
 template <class Traits>
 bool PEImageReader::GetCrashpadInfo(
     process_types::CrashpadInfo<Traits>* crashpad_info) const {
@@ -291,6 +303,31 @@ bool PEImageReader::VSFixedFileInfo(
 
   *vs_fixed_file_info = version_info.Value;
   vs_fixed_file_info->dwFileFlags &= vs_fixed_file_info->dwFileFlagsMask;
+  return true;
+}
+
+template <class Traits>
+bool PEImageReader::GetCrashpadInfoSectionInternal(WinVMAddress* address,
+                                                   WinVMSize* size) const {
+  IMAGE_SECTION_HEADER section;
+  if (!GetSectionByName<typename NtHeadersForTraits<Traits>::type>("CPADinfo",
+                                                                   &section)) {
+    return false;
+  }
+
+  process_types::CrashpadInfo<Traits> crashpad_info;
+  if (section.Misc.VirtualSize <
+      offsetof(process_types::CrashpadInfo<Traits>, size) +
+          sizeof(crashpad_info.size)) {
+    LOG(WARNING) << "small crashpad info section size "
+                 << section.Misc.VirtualSize << ", "
+                 << module_subrange_reader_.name();
+    return false;
+  }
+
+  *address = Address() + section.VirtualAddress;
+  *size = std::min<WinVMSize>(sizeof(crashpad_info), section.Misc.VirtualSize);
+
   return true;
 }
 
