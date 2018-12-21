@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/win/pe_image_annotations_reader.h"
-
 #include <stdlib.h>
 #include <string.h>
 
@@ -28,6 +26,7 @@
 #include "client/simple_string_dictionary.h"
 #include "gtest/gtest.h"
 #include "snapshot/annotation_snapshot.h"
+#include "snapshot/win/module_snapshot_win.h"
 #include "snapshot/win/pe_image_reader.h"
 #include "snapshot/win/process_reader_win.h"
 #include "test/gtest_disabled.h"
@@ -74,20 +73,15 @@ void TestAnnotationsOnCrash(TestType type,
   std::map<std::string, std::string> all_annotations_simple_map;
   std::vector<AnnotationSnapshot> all_annotation_objects;
   for (const ProcessInfo::Module& module : modules) {
-    PEImageReader pe_image_reader;
-    pe_image_reader.Initialize(&process_reader,
-                               module.dll_base,
-                               module.size,
-                               base::UTF16ToUTF8(module.name));
-    PEImageAnnotationsReader module_annotations_reader(
-        &process_reader, &pe_image_reader, module.name);
+    internal::ModuleSnapshotWin module_snapshot;
+    module_snapshot.Initialize(&process_reader, module);
 
     std::map<std::string, std::string> module_annotations_simple_map =
-        module_annotations_reader.SimpleMap();
+        module_snapshot.AnnotationsSimpleMap();
     all_annotations_simple_map.insert(module_annotations_simple_map.begin(),
                                       module_annotations_simple_map.end());
 
-    auto module_annotations_list = module_annotations_reader.AnnotationsList();
+    auto module_annotations_list = module_snapshot.AnnotationObjects();
     all_annotation_objects.insert(all_annotation_objects.end(),
                                   module_annotations_list.begin(),
                                   module_annotations_list.end());

@@ -16,7 +16,6 @@
 
 #include <string.h>
 #include <sys/types.h>
-#include <unistd.h>
 
 #include <algorithm>
 
@@ -32,6 +31,10 @@
 #include "util/misc/as_underlying_type.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/process/process_memory_native.h"
+
+#if defined(OS_POSIX)
+#include <unistd.h>
+#endif
 
 namespace crashpad {
 namespace test {
@@ -55,8 +58,8 @@ void ExpectAnnotationList(const std::vector<AnnotationSnapshot>& list,
     EXPECT_EQ(annotation.value.size(), expected_annotation->size());
     EXPECT_EQ(memcmp(annotation.value.data(),
                      expected_annotation->value(),
-                     std::min(VMSize{annotation.value.size()},
-                              VMSize{expected_annotation->size()})),
+                     std::min<size_t>(annotation.value.size(),
+                                      expected_annotation->size())),
               0);
   }
 }
