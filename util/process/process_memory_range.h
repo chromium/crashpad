@@ -97,7 +97,7 @@ class ProcessMemoryRange {
   //!
   //! \return `true` on success, with \a buffer filled appropriately. `false` on
   //!     failure, with a message logged.
-  bool Read(VMAddress address, size_t size, void* buffer) const;
+  bool Read(VMAddress address, VMSize size, void* buffer) const;
 
   //! \brief Reads a `NUL`-terminated C string from the target process into a
   //!     string in the current process.
@@ -113,7 +113,7 @@ class ProcessMemoryRange {
   //!     a `NUL` terminator is not found within \a size bytes, or when
   //!     encountering unmapped or unreadable pages.
   bool ReadCStringSizeLimited(VMAddress address,
-                              size_t size,
+                              VMSize size,
                               std::string* string) const;
 
  private:
