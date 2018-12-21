@@ -20,7 +20,13 @@
 
 namespace crashpad {
 
-bool ProcessMemory::Read(VMAddress address, size_t size, void* buffer) const {
+bool ProcessMemory::Read(VMAddress address, VMSize vmsize, void* buffer) const {
+  if (vmsize > std::numeric_limits<size_t>::max()) {
+    LOG(ERROR) << "vmsize out of bounds for size_t " << vmsize;
+    return false;
+  }
+  size_t size = static_cast<size_t>(vmsize);
+
   char* buffer_c = static_cast<char*>(buffer);
   while (size > 0) {
     ssize_t bytes_read = ReadUpTo(address, size, buffer_c);
@@ -41,8 +47,14 @@ bool ProcessMemory::Read(VMAddress address, size_t size, void* buffer) const {
 
 bool ProcessMemory::ReadCStringInternal(VMAddress address,
                                         bool has_size,
-                                        size_t size,
+                                        VMSize vmsize,
                                         std::string* string) const {
+  if (vmsize > std::numeric_limits<size_t>::max()) {
+    LOG(ERROR) << "vmsize out of bounds for size_t " << vmsize;
+    return false;
+  }
+  size_t size = static_cast<size_t>(vmsize);
+
   string->clear();
 
   char buffer[4096];
