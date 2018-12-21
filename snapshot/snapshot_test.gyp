@@ -57,7 +57,6 @@
         'crashpad_snapshot_test_module_large',
         'crashpad_snapshot_test_module_small',
         'snapshot.gyp:crashpad_snapshot',
-        'snapshot.gyp:crashpad_snapshot_api',
         '../client/client.gyp:crashpad_client',
         '../compat/compat.gyp:crashpad_compat',
         '../test/test.gyp:crashpad_gtest_main',
@@ -70,7 +69,6 @@
         '..',
       ],
       'sources': [
-        'api/module_annotations_win_test.cc',
         'cpu_context_test.cc',
         'memory_snapshot_test.cc',
         'crashpad_info_client_options_test.cc',

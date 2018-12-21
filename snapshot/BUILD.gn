@@ -235,29 +235,6 @@ static_library("snapshot") {
   }
 }
 
-if (crashpad_is_win) {
-  static_library("snapshot_api") {
-    sources = [
-      "api/module_annotations_win.cc",
-      "api/module_annotations_win.h",
-    ]
-
-    public_configs = [ "..:crashpad_config" ]
-
-    cflags = [ "/wd4201" ]
-
-    deps = [
-      ":snapshot",
-      "../compat",
-      "../third_party/mini_chromium:base",
-      "../util",
-    ]
-  }
-} else {
-  group("snapshot_api") {
-  }
-}
-
 fuzzer_test("elf_image_reader_fuzzer") {
   sources = [
     "elf/elf_image_reader_fuzzer.cc",
@@ -367,7 +344,6 @@ source_set("snapshot_test") {
 
   if (crashpad_is_win) {
     sources += [
-      "api/module_annotations_win_test.cc",
       "win/cpu_context_win_test.cc",
       "win/exception_snapshot_win_test.cc",
       "win/extra_memory_ranges_test.cc",
@@ -399,7 +375,6 @@ source_set("snapshot_test") {
   public_configs = [ ":snapshot_test_link" ]
 
   deps = [
-    ":snapshot_api",
     ":test_support",
     "../client",
     "../compat",
