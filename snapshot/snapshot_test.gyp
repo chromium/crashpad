@@ -96,7 +96,7 @@
         'win/cpu_context_win_test.cc',
         'win/exception_snapshot_win_test.cc',
         'win/extra_memory_ranges_test.cc',
-        'win/pe_image_annotations_reader_test.cc',
+        'win/module_snapshot_win_test.cc',
         'win/pe_image_reader_test.cc',
         'win/process_reader_win_test.cc',
         'win/process_snapshot_win_test.cc',
