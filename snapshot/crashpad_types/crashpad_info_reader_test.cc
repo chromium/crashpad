@@ -15,7 +15,6 @@
 #include "snapshot/crashpad_types/crashpad_info_reader.h"
 
 #include <sys/types.h>
-#include <unistd.h>
 
 #include <memory>
 
@@ -33,6 +32,10 @@
 
 #if defined(OS_FUCHSIA)
 #include <zircon/process.h>
+#endif
+
+#if defined(OS_POSIX)
+#include <unistd.h>
 #endif
 
 namespace crashpad {
