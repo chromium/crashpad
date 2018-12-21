@@ -17,13 +17,20 @@
 #include <algorithm>
 
 #include "base/logging.h"
+#include "util/numeric/safe_assignment.h"
 
 namespace crashpad {
 
-bool ProcessMemory::Read(VMAddress address, size_t size, void* buffer) const {
+bool ProcessMemory::Read(VMAddress address, VMSize size, void* buffer) const {
+  size_t local_size;
+  if (!AssignIfInRange(&local_size, size)) {
+    LOG(ERROR) << "size " << size << " out of bounds for size_t";
+    return false;
+  }
+
   char* buffer_c = static_cast<char*>(buffer);
-  while (size > 0) {
-    ssize_t bytes_read = ReadUpTo(address, size, buffer_c);
+  while (local_size > 0) {
+    ssize_t bytes_read = ReadUpTo(address, local_size, buffer_c);
     if (bytes_read < 0) {
       return false;
     }
@@ -31,8 +38,8 @@ bool ProcessMemory::Read(VMAddress address, size_t size, void* buffer) const {
       LOG(ERROR) << "short read";
       return false;
     }
-    DCHECK_LE(static_cast<size_t>(bytes_read), size);
-    size -= bytes_read;
+    DCHECK_LE(static_cast<size_t>(bytes_read), local_size);
+    local_size -= bytes_read;
     address += bytes_read;
     buffer_c += bytes_read;
   }
@@ -41,15 +48,21 @@ bool ProcessMemory::Read(VMAddress address, size_t size, void* buffer) const {
 
 bool ProcessMemory::ReadCStringInternal(VMAddress address,
                                         bool has_size,
-                                        size_t size,
+                                        VMSize size,
                                         std::string* string) const {
+  size_t local_size;
+  if (!AssignIfInRange(&local_size, size)) {
+    LOG(ERROR) << "size " << size << " out of bounds for size_t";
+    return false;
+  }
+
   string->clear();
 
   char buffer[4096];
   do {
     size_t read_size;
     if (has_size) {
-      read_size = std::min(sizeof(buffer), size);
+      read_size = std::min(sizeof(buffer), local_size);
     } else {
       read_size = sizeof(buffer);
     }
@@ -70,8 +83,8 @@ bool ProcessMemory::ReadCStringInternal(VMAddress address,
     string->append(buffer, bytes_read);
 
     address += bytes_read;
-    size -= bytes_read;
-  } while (!has_size || size > 0);
+    local_size -= bytes_read;
+  } while (!has_size || local_size > 0);
 
   LOG(ERROR) << "unterminated string";
   return false;
