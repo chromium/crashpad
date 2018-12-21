@@ -16,7 +16,6 @@
 
 #include <string.h>
 #include <sys/types.h>
-#include <unistd.h>
 
 #include <algorithm>
 
@@ -32,6 +31,10 @@
 #include "util/misc/as_underlying_type.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/process/process_memory_native.h"
+
+#if defined(OS_POSIX)
+#include <unistd.h>
+#endif
 
 namespace crashpad {
 namespace test {

@@ -14,7 +14,7 @@
 
 #include "snapshot/api/module_annotations_win.h"
 
-#include "snapshot/win/pe_image_annotations_reader.h"
+#include "snapshot/win/module_snapshot_win.h"
 #include "snapshot/win/pe_image_reader.h"
 #include "snapshot/win/process_reader_win.h"
 #include "util/misc/from_pointer_cast.h"
@@ -36,18 +36,19 @@ bool ReadModuleAnnotations(HANDLE process,
     return false;
   }
 
-  PEImageReader image_reader;
-  if (!image_reader.Initialize(
-          &process_reader,
-          FromPointerCast<WinVMAddress>(module_info.lpBaseOfDll),
-          module_info.SizeOfImage,
-          ""))
+  ProcessInfo::Module process_info_module;
+  process_info_module.name = L"fake_path";
+  process_info_module.dll_base =
+      FromPointerCast<WinVMAddress>(module_info.lpBaseOfDll);
+  process_info_module.size = module_info.SizeOfImage;
+  process_info_module.timestamp = 0;
+
+  internal::ModuleSnapshotWin module_snapshot;
+  if (!module_snapshot.Initialize(&process_reader, process_info_module))
     return false;
 
-  PEImageAnnotationsReader annotations_reader(
-      &process_reader, &image_reader, L"");
+  *annotations = module_snapshot.AnnotationsSimpleMap();
 
-  *annotations = annotations_reader.SimpleMap();
   return true;
 }
 
