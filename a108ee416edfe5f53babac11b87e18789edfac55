@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c78b96f8_555b4ba2",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-12-21T16:30:52Z",
+      "side": 1,
+      "message": "WinVMSize is 64-bit on 32-bit as well due to cross-bitness so there was a possible lossy downcast to size_t here despite the two values being compatible with size_t (uint32_t and size_t)",
+      "parentUuid": "3fdb9c59_a2f2afe7",
+      "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2433d2a_7faff68e",
         "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-12-21T14:50:31Z",
       "side": 1,
       "message": "That MSVC, huh?",
+      "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a4be81d_15a27b7f",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-12-21T16:30:52Z",
+      "side": 1,
+      "message": "Yup, seems like it doesn\u0027t like using \u0027info\u0027 when it\u0027s not actually in scope in this context.",
+      "parentUuid": "c2433d2a_7faff68e",
       "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "378f8b5e_6a7b3e6e",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-12-21T16:30:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90e0cfca_389d9672",
+      "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7edb5567_574b8897",
         "filename": "snapshot/win/module_snapshot_win.h",
         "patchSetId": 2
@@ -67,6 +121,24 @@
       "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51fe72c2_56368169",
+        "filename": "snapshot/win/module_snapshot_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-12-21T16:30:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7edb5567_574b8897",
+      "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "e588b331_bb4056c9",
+        "filename": "snapshot/win/module_snapshot_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-12-21T16:30:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a27821b5_21558fa4",
+      "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d018f999_35303c5c",
         "filename": "snapshot/win/module_snapshot_win.h",
         "patchSetId": 2
@@ -101,6 +191,24 @@
       "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22105efa_a8ffbd7b",
+        "filename": "snapshot/win/module_snapshot_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-12-21T16:30:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d018f999_35303c5c",
+      "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
