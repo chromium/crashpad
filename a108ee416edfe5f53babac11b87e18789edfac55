@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "ca70a4c3_44b2ad02",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2018-12-21T21:43:19Z",
+      "side": 1,
+      "message": "Addressed in https://chromium-review.googlesource.com/c/crashpad/crashpad/+/1387756 and changed back to VMSize.",
+      "parentUuid": "12385d47_adbc550c",
+      "revId": "a108ee416edfe5f53babac11b87e18789edfac55",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2433d2a_7faff68e",
         "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
         "patchSetId": 2
