@@ -17,7 +17,9 @@
 
 #include <windows.h>
 
-#define PSAPI_VERSION 1
+#ifndef PSAPI_VERSION
+#define PSAPI_VERSION 2
+#endif
 #include <psapi.h>
 
 namespace crashpad {
