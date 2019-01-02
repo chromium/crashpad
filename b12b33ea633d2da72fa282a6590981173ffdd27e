@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8217327_a6cec3d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-02T22:42:44Z",
+      "side": 1,
+      "message": "This line shows that you can do capital letters, so start the commit message with a capital too.",
+      "revId": "b12b33ea633d2da72fa282a6590981173ffdd27e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe74fd3d_c85f0110",
+        "filename": "snapshot/win/pe_image_reader_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-02T22:42:44Z",
+      "side": 1,
+      "message": "#ifndef PSAPI_VERSION?",
+      "revId": "b12b33ea633d2da72fa282a6590981173ffdd27e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c3af61a_9b754330",
+        "filename": "util/win/get_module_information.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-02T22:42:44Z",
+      "side": 1,
+      "message": "#elif PSAPI_VERSION \u003d\u003d 2\n\n(forcing this to be revisited if there’s ever a 3.)",
+      "revId": "b12b33ea633d2da72fa282a6590981173ffdd27e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b24d7f4_bb8c3df8",
+        "filename": "util/win/get_module_information.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-02T22:42:44Z",
+      "side": 1,
+      "message": "But if we’re at PSAPI_VERSION 2, I don’t think we need all of this GET_FUNCTION_REQUIRED stuff at all. We know we’ll have kernel32 loaded and we know it’ll provide K32GetModuleInformation (since in this case we’re assured Windows 7 or newer), and \u003cpsapi.h\u003e has a macro to make it available as GetModuleInformation, so we can just write this as a straight call to GetModuleInformation.",
+      "revId": "b12b33ea633d2da72fa282a6590981173ffdd27e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e5f7d71_6bb54c8e",
+        "filename": "util/win/get_module_information.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-02T22:42:44Z",
+      "side": 1,
+      "message": "Since we don’t care about Vista anymore, do you want to use 2 here too?\n\nSeems odd to me that we’d use 1 in one spot and 2 in another.",
+      "revId": "b12b33ea633d2da72fa282a6590981173ffdd27e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
