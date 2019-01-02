@@ -22,9 +22,13 @@ BOOL CrashpadGetModuleInformation(HANDLE process,
                                   HMODULE module,
                                   MODULEINFO* module_info,
                                   DWORD cb) {
+#if PSAPI_VERSION == 1
   static const auto get_module_information =
-      GET_FUNCTION_REQUIRED(L"psapi.dll", GetModuleInformation);
+    GET_FUNCTION_REQUIRED(L"psapi.dll", GetModuleInformation);
   return get_module_information(process, module, module_info, cb);
+#elif PSAPI_VERSION == 2
+  return GetModuleInformation(process, module, module_info, cb);
+#endif
 }
 
 }  // namespace crashpad
