@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1faa3fe8_0291ae31",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-03T18:32:30Z",
+      "side": 1,
+      "message": "2019 now, since that’s when this is going to be checked in. Same in the other files, too.",
+      "revId": "ac4d5ce1466988fc49e14764e6c2130bdc2e4d6f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98eade2e_bb7ce889",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-03T18:32:30Z",
+      "side": 1,
+      "message": "Trim this down to what’s actually used (just sys?)",
+      "revId": "ac4d5ce1466988fc49e14764e6c2130bdc2e4d6f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1f1d3e8_18f06430",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-03T18:32:30Z",
+      "side": 1,
+      "message": "You only use this one time. I’d prefer to just write “mig_gen.MigInterface” where it’s used.",
+      "revId": "ac4d5ce1466988fc49e14764e6c2130bdc2e4d6f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "044c86a8_83d9b5fc",
+        "filename": "util/mach/mig_fix.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-03T18:32:30Z",
+      "side": 1,
+      "message": "Let’s underscore functions that aren’t supposed to be an interface usable from outside this module.\n\nSince you’re moving and renaming so much, you can also rename these functions to fit your naming convention (the one recommended by PEP 8):\n\n_fix_user_implementation",
+      "revId": "ac4d5ce1466988fc49e14764e6c2130bdc2e4d6f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a7bcbf3_ca2eac83",
+        "filename": "util/mach/mig_fix.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-03T18:32:30Z",
+      "side": 1,
+      "message": "Optionally, but it’s a good idea since you’re rewriting everything: in each of these three files, switch to a 4-space indent as recommended by PEP 8.",
+      "revId": "ac4d5ce1466988fc49e14764e6c2130bdc2e4d6f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
