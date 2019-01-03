@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0e740bd7_28bd2216",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2019-01-03T18:40:01Z",
+      "side": 1,
+      "message": "Yes. I gave test binaries weird versions because A is uninteresting.",
+      "parentUuid": "6ee8fe62_46de6312",
+      "range": {
+        "startLine": 148,
+        "startChar": 82,
+        "endLine": 148,
+        "endChar": 92
+      },
+      "revId": "a3ce6c9cc1b6175dbd48c4a6ab4d722551e3b630",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32baa100_97dafdd7",
         "filename": "handler/BUILD.gn",
         "patchSetId": 1
