@@ -29,6 +29,7 @@
 #include "snapshot/test/test_exception_snapshot.h"
 #include "test/gtest_death.h"
 #include "util/file/string_file.h"
+#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -80,7 +81,7 @@ void ExpectExceptionStream(const MINIDUMP_EXCEPTION_STREAM* expected,
             expected->ExceptionRecord.NumberParameters);
   EXPECT_EQ(observed->ExceptionRecord.__unusedAlignment, 0u);
   for (size_t index = 0;
-       index < arraysize(observed->ExceptionRecord.ExceptionInformation);
+       index < ArraySize(observed->ExceptionRecord.ExceptionInformation);
        ++index) {
     EXPECT_EQ(observed->ExceptionRecord.ExceptionInformation[index],
               expected->ExceptionRecord.ExceptionInformation[index]);

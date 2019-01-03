@@ -16,11 +16,11 @@
 
 #include <windows.h>
 
-#include "base/macros.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
-#include "test/hex_string.h"
 #include "snapshot/cpu_context.h"
+#include "test/hex_string.h"
+#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -87,13 +87,13 @@ void TestInitializeX86Context_FsaveWithoutFxsave() {
     for (size_t st_mm = 0; st_mm < 7; ++st_mm) {
       EXPECT_EQ(
           BytesToHexString(cpu_context_x86.fxsave.st_mm[st_mm].st,
-                           arraysize(cpu_context_x86.fxsave.st_mm[st_mm].st)),
-          std::string(arraysize(cpu_context_x86.fxsave.st_mm[st_mm].st) * 2,
+                           ArraySize(cpu_context_x86.fxsave.st_mm[st_mm].st)),
+          std::string(ArraySize(cpu_context_x86.fxsave.st_mm[st_mm].st) * 2,
                       '0'))
           << "st_mm " << st_mm;
     }
     EXPECT_EQ(BytesToHexString(cpu_context_x86.fxsave.st_mm[7].st,
-                               arraysize(cpu_context_x86.fxsave.st_mm[7].st)),
+                               ArraySize(cpu_context_x86.fxsave.st_mm[7].st)),
               "0000000000000080ff7f");
 
     EXPECT_EQ(cpu_context_x86.dr0, 3u);

@@ -17,11 +17,11 @@
 
 #include "base/debug/alias.h"
 #include "base/logging.h"
-#include "base/macros.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "client/crashpad_client.h"
 #include "client/crashpad_info.h"
+#include "util/misc/arraysize.h"
 
 namespace {
 
@@ -124,7 +124,7 @@ int wmain(int argc, wchar_t* argv[]) {
 
   // This is not expected to return.
   DWORD count =
-      WaitForMultipleObjects(arraysize(threads), threads, true, INFINITE);
+      WaitForMultipleObjects(ArraySize(threads), threads, true, INFINITE);
   if (count == WAIT_FAILED) {
     PLOG(ERROR) << "WaitForMultipleObjects";
   } else {

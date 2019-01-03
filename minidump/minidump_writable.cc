@@ -18,6 +18,7 @@
 
 #include "base/logging.h"
 #include "util/file/file_writer.h"
+#include "util/misc/arraysize.h"
 #include "util/numeric/safe_assignment.h"
 
 namespace {
@@ -244,7 +245,7 @@ bool MinidumpWritable::WritePaddingAndObject(FileWriterInterface* file_writer) {
   // The number of elements in kZeroes must be at least one less than the
   // maximum Alignment() ever encountered.
   static constexpr uint8_t kZeroes[kMaximumAlignment - 1] = {};
-  DCHECK_LE(leading_pad_bytes_, arraysize(kZeroes));
+  DCHECK_LE(leading_pad_bytes_, ArraySize(kZeroes));
 
   if (leading_pad_bytes_) {
     if (!file_writer->Write(&kZeroes, leading_pad_bytes_)) {

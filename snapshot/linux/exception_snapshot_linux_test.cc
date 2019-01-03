@@ -32,6 +32,7 @@
 #include "test/errors.h"
 #include "test/linux/fake_ptrace_connection.h"
 #include "util/linux/address_types.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/clock.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/posix/signals.h"
@@ -170,7 +171,7 @@ void InitializeContext(NativeCPUContext* context) {
   test_context->vfp.head.magic = VFP_MAGIC;
   test_context->vfp.head.size = sizeof(test_context->vfp);
   memset(&test_context->vfp.context, 'v', sizeof(test_context->vfp.context));
-  for (size_t reg = 0; reg < arraysize(test_context->vfp.context.vfp.fpregs);
+  for (size_t reg = 0; reg < ArraySize(test_context->vfp.context.vfp.fpregs);
        ++reg) {
     test_context->vfp.context.vfp.fpregs[reg] = reg;
   }
@@ -218,7 +219,7 @@ struct TestCoprocessorContext {
 void InitializeContext(NativeCPUContext* context) {
   memset(context, 'x', sizeof(*context));
 
-  for (size_t index = 0; index < arraysize(context->uc_mcontext.regs);
+  for (size_t index = 0; index < ArraySize(context->uc_mcontext.regs);
        ++index) {
     context->uc_mcontext.regs[index] = index;
   }
@@ -237,7 +238,7 @@ void InitializeContext(NativeCPUContext* context) {
   test_context->fpsimd.head.size = sizeof(test_context->fpsimd);
   test_context->fpsimd.fpsr = 1;
   test_context->fpsimd.fpcr = 2;
-  for (size_t reg = 0; reg < arraysize(test_context->fpsimd.vregs); ++reg) {
+  for (size_t reg = 0; reg < ArraySize(test_context->fpsimd.vregs); ++reg) {
     test_context->fpsimd.vregs[reg] = reg;
   }
 
@@ -270,7 +271,7 @@ void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
 using NativeCPUContext = ucontext_t;
 
 void InitializeContext(NativeCPUContext* context) {
-  for (size_t reg = 0; reg < arraysize(context->uc_mcontext.gregs); ++reg) {
+  for (size_t reg = 0; reg < ArraySize(context->uc_mcontext.gregs); ++reg) {
     context->uc_mcontext.gregs[reg] = reg;
   }
   memset(&context->uc_mcontext.fpregs, 44, sizeof(context->uc_mcontext.fpregs));
@@ -285,7 +286,7 @@ void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
 #define CPU_ARCH_NAME mips64
 #endif
 
-  for (size_t reg = 0; reg < arraysize(expected.uc_mcontext.gregs); ++reg) {
+  for (size_t reg = 0; reg < ArraySize(expected.uc_mcontext.gregs); ++reg) {
     EXPECT_EQ(actual.CPU_ARCH_NAME->regs[reg], expected.uc_mcontext.gregs[reg]);
   }
 
