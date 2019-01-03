@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ee8fe62_46de6312",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-03T18:35:58Z",
+      "side": 1,
+      "message": "Versions/C, is that what it really uses?",
+      "range": {
+        "startLine": 148,
+        "startChar": 82,
+        "endLine": 148,
+        "endChar": 92
+      },
+      "revId": "a3ce6c9cc1b6175dbd48c4a6ab4d722551e3b630",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32baa100_97dafdd7",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-03T18:35:58Z",
+      "side": 1,
+      "message": "I bet someone meant to use V as a placeholder but fat-fingered it. But in reality, Chromium Framework always has only an A version, so that’s what this should say here, and that’s probably what should have been used in the Content Shell Framework example too.",
+      "range": {
+        "startLine": 154,
+        "startChar": 39,
+        "endLine": 154,
+        "endChar": 49
+      },
+      "revId": "a3ce6c9cc1b6175dbd48c4a6ab4d722551e3b630",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
