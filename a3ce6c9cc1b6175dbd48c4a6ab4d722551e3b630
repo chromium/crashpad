@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b5cf1158_1558a4c4",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-03T18:41:48Z",
+      "side": 1,
+      "message": "\u003e Yes. I gave test binaries weird versions because A is uninteresting.\n\nThat’s cool. C it is, then.\n\nBut the Framework now only has version A, so there’s no need for a placeholder V.",
+      "parentUuid": "0e740bd7_28bd2216",
+      "range": {
+        "startLine": 148,
+        "startChar": 82,
+        "endLine": 148,
+        "endChar": 92
+      },
+      "revId": "a3ce6c9cc1b6175dbd48c4a6ab4d722551e3b630",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32baa100_97dafdd7",
         "filename": "handler/BUILD.gn",
         "patchSetId": 1
