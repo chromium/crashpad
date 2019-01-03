@@ -16,13 +16,13 @@
 
 #include <memory>
 
-#include "base/macros.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/test/minidump_byte_array_writer_test_util.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file.h"
+#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -107,7 +107,7 @@ TEST(MinidumpAnnotationWriter, ThreeItems) {
 
   MinidumpAnnotationListWriter list_writer;
 
-  for (size_t i = 0; i < arraysize(kNames); ++i) {
+  for (size_t i = 0; i < ArraySize(kNames); ++i) {
     auto annotation = std::make_unique<MinidumpAnnotationWriter>();
     annotation->InitializeWithData(kNames[i], kTypes[i], kValues[i]);
     list_writer.AddObject(std::move(annotation));

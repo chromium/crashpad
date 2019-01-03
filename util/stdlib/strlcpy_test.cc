@@ -20,10 +20,10 @@
 #include <algorithm>
 
 #include "base/format_macros.h"
-#include "base/macros.h"
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
+#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -64,7 +64,7 @@ TEST(strlcpy, c16lcpy) {
   static constexpr base::char16 test_characters[] =
       {0x4d, 0xe9, 0x100, 0x151, 0x1e18};
 
-  for (size_t index = 0; index < arraysize(test_characters); ++index) {
+  for (size_t index = 0; index < ArraySize(test_characters); ++index) {
     base::char16 test_character = test_characters[index];
     SCOPED_TRACE(base::StringPrintf(
         "character index %" PRIuS ", character 0x%x", index, test_character));
@@ -78,13 +78,13 @@ TEST(strlcpy, c16lcpy) {
 
       EXPECT_EQ(c16lcpy(destination.data,
                         test_string.c_str(),
-                        arraysize(destination.data)),
+                        ArraySize(destination.data)),
                 length);
 
       // Make sure that the destination buffer is NUL-terminated, and that as
       // much of the test string was copied as could fit.
       size_t expected_destination_length =
-          std::min(length, arraysize(destination.data) - 1);
+          std::min(length, ArraySize(destination.data) - 1);
 
       EXPECT_EQ(destination.data[expected_destination_length], '\0');
       EXPECT_EQ(C16Len(destination.data), expected_destination_length);
@@ -97,15 +97,15 @@ TEST(strlcpy, c16lcpy) {
       // of the buffer passed to c16lcpy.
       EXPECT_TRUE(C16Memcmp(expected_untouched.lead_guard,
                             destination.lead_guard,
-                            arraysize(destination.lead_guard)) == 0);
+                            ArraySize(destination.lead_guard)) == 0);
       size_t expected_untouched_length =
-          arraysize(destination.data) - expected_destination_length - 1;
+          ArraySize(destination.data) - expected_destination_length - 1;
       EXPECT_TRUE(C16Memcmp(expected_untouched.data,
                             &destination.data[expected_destination_length + 1],
                             expected_untouched_length) == 0);
       EXPECT_TRUE(C16Memcmp(expected_untouched.trail_guard,
                             destination.trail_guard,
-                            arraysize(destination.trail_guard)) == 0);
+                            ArraySize(destination.trail_guard)) == 0);
     }
   }
 }

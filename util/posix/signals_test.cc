@@ -32,6 +32,7 @@
 #include "test/errors.h"
 #include "test/multiprocess.h"
 #include "test/scoped_temp_dir.h"
+#include "util/misc/arraysize.h"
 #include "util/posix/scoped_mmap.h"
 
 namespace crashpad {
@@ -340,7 +341,7 @@ TEST(Signals, WillSignalReraiseAutonomously) {
       {SIGHUP, SEGV_MAPERR, false},
       {SIGINT, SI_USER, false},
   };
-  for (size_t index = 0; index < arraysize(kTestData); ++index) {
+  for (size_t index = 0; index < ArraySize(kTestData); ++index) {
     const auto test_data = kTestData[index];
     SCOPED_TRACE(base::StringPrintf(
         "index %zu, sig %d, code %d", index, test_data.sig, test_data.code));

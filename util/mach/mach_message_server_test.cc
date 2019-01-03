@@ -29,6 +29,7 @@
 #include "util/file/file_io.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
@@ -281,7 +282,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
   std::set<mach_msg_id_t> MachMessageServerRequestIDs() override {
     static constexpr mach_msg_id_t request_ids[] = {kRequestMessageID};
     return std::set<mach_msg_id_t>(&request_ids[0],
-                                   &request_ids[arraysize(request_ids)]);
+                                   &request_ids[ArraySize(request_ids)]);
   }
 
   mach_msg_size_t MachMessageServerRequestSize() override {

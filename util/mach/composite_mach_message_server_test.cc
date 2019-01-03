@@ -20,6 +20,7 @@
 #include "gtest/gtest.h"
 #include "test/gtest_death.h"
 #include "util/mach/mach_message.h"
+#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -196,7 +197,7 @@ TEST(CompositeMachMessageServer, ThreeHandlers) {
   TestMachMessageHandler handlers[3];
   std::set<mach_msg_id_t> expect_request_ids;
 
-  for (size_t index = 0; index < arraysize(kRequestIDs0); ++index) {
+  for (size_t index = 0; index < ArraySize(kRequestIDs0); ++index) {
     const mach_msg_id_t request_id = kRequestIDs0[index];
     handlers[0].AddRequestID(request_id);
     expect_request_ids.insert(request_id);
@@ -205,7 +206,7 @@ TEST(CompositeMachMessageServer, ThreeHandlers) {
   handlers[0].SetReplySize(sizeof(mig_reply_error_t));
   handlers[0].SetReturnCodes(true, kReturnCode0, false);
 
-  for (size_t index = 0; index < arraysize(kRequestIDs1); ++index) {
+  for (size_t index = 0; index < ArraySize(kRequestIDs1); ++index) {
     const mach_msg_id_t request_id = kRequestIDs1[index];
     handlers[1].AddRequestID(request_id);
     expect_request_ids.insert(request_id);
@@ -214,7 +215,7 @@ TEST(CompositeMachMessageServer, ThreeHandlers) {
   handlers[1].SetReplySize(200);
   handlers[1].SetReturnCodes(false, kReturnCode1, true);
 
-  for (size_t index = 0; index < arraysize(kRequestIDs2); ++index) {
+  for (size_t index = 0; index < ArraySize(kRequestIDs2); ++index) {
     const mach_msg_id_t request_id = kRequestIDs2[index];
     handlers[2].AddRequestID(request_id);
     expect_request_ids.insert(request_id);
@@ -252,7 +253,7 @@ TEST(CompositeMachMessageServer, ThreeHandlers) {
 
   // Send messages with known request IDs.
 
-  for (size_t index = 0; index < arraysize(kRequestIDs0); ++index) {
+  for (size_t index = 0; index < ArraySize(kRequestIDs0); ++index) {
     request.header.msgh_id = kRequestIDs0[index];
     SCOPED_TRACE(base::StringPrintf(
         "handler 0, index %zu, id %d", index, request.header.msgh_id));
@@ -263,7 +264,7 @@ TEST(CompositeMachMessageServer, ThreeHandlers) {
     EXPECT_FALSE(destroy_complex_request);
   }
 
-  for (size_t index = 0; index < arraysize(kRequestIDs1); ++index) {
+  for (size_t index = 0; index < ArraySize(kRequestIDs1); ++index) {
     request.header.msgh_id = kRequestIDs1[index];
     SCOPED_TRACE(base::StringPrintf(
         "handler 1, index %zu, id %d", index, request.header.msgh_id));
@@ -274,7 +275,7 @@ TEST(CompositeMachMessageServer, ThreeHandlers) {
     EXPECT_TRUE(destroy_complex_request);
   }
 
-  for (size_t index = 0; index < arraysize(kRequestIDs2); ++index) {
+  for (size_t index = 0; index < ArraySize(kRequestIDs2); ++index) {
     request.header.msgh_id = kRequestIDs2[index];
     SCOPED_TRACE(base::StringPrintf(
         "handler 2, index %zu, id %d", index, request.header.msgh_id));

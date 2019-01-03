@@ -20,13 +20,13 @@
 
 #include <vector>
 
-#include "base/macros.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "snapshot/mac/process_types/internal.h"
 #include "test/mac/dyld.h"
 #include "util/mac/mac_util.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/misc/implicit_cast.h"
 
@@ -147,7 +147,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
       {15, 164, 304},
       {16, 176, 320},
   };
-  for (size_t index = 0; index < arraysize(kVersionsAndSizes); ++index) {
+  for (size_t index = 0; index < ArraySize(kVersionsAndSizes); ++index) {
     uint32_t version = kVersionsAndSizes[index].version;
     SCOPED_TRACE(base::StringPrintf("index %zu, version %u", index, version));
 
@@ -268,8 +268,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
               self_image_infos->sharedCacheBaseAddress);
     EXPECT_EQ(proctype_image_infos.dyldPath,
               reinterpret_cast<uint64_t>(self_image_infos->dyldPath));
-    for (size_t index = 0;
-         index < arraysize(self_image_infos->notifyPorts);
+    for (size_t index = 0; index < ArraySize(self_image_infos->notifyPorts);
          ++index) {
       EXPECT_EQ(proctype_image_infos.notifyPorts[index],
                 self_image_infos->notifyPorts[index])
@@ -289,8 +288,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
   // process_types version. It’s difficult to compare the reserved fields in
   // these older SDKs, so only do it where the declarations match.
   if (proctype_image_infos.version >= 14) {
-    for (size_t index = 0;
-         index < arraysize(proctype_image_infos.reserved);
+    for (size_t index = 0; index < ArraySize(proctype_image_infos.reserved);
          ++index) {
       EXPECT_EQ(proctype_image_infos.reserved[index],
                 implicit_cast<uint64_t>(self_image_infos->reserved[index]))

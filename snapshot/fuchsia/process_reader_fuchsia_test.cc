@@ -24,6 +24,7 @@
 #include "test/multiprocess_exec.h"
 #include "test/test_paths.h"
 #include "util/fuchsia/scoped_task_suspend.h"
+#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -34,7 +35,7 @@ TEST(ProcessReaderFuchsia, SelfBasic) {
   ASSERT_TRUE(process_reader.Initialize(*zx::process::self()));
 
   static constexpr char kTestMemory[] = "Some test memory";
-  char buffer[arraysize(kTestMemory)];
+  char buffer[ArraySize(kTestMemory)];
   ASSERT_TRUE(process_reader.Memory()->Read(
       reinterpret_cast<zx_vaddr_t>(kTestMemory), sizeof(kTestMemory), &buffer));
   EXPECT_STREQ(kTestMemory, buffer);

@@ -126,7 +126,7 @@
         'mach/task_for_pid.h',
         'misc/address_sanitizer.h',
         'misc/address_types.h',
-        'misc/arraysize_unsafe.h',
+        'misc/arraysize.h',
         'misc/as_underlying_type.h',
         'misc/capture_context.h',
         'misc/capture_context_linux.S',

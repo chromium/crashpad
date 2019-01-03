@@ -24,6 +24,7 @@
 #include "snapshot/fuchsia/process_snapshot_fuchsia.h"
 #include "test/multiprocess_exec.h"
 #include "util/fuchsia/scoped_task_suspend.h"
+#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -103,8 +104,8 @@ class AddressSpaceTest : public MultiprocessExec {
 
  private:
   void MultiprocessParent() override {
-    uintptr_t test_addresses[arraysize(kTestMappingPermAndSizes)];
-    for (size_t i = 0; i < arraysize(test_addresses); ++i) {
+    uintptr_t test_addresses[ArraySize(kTestMappingPermAndSizes)];
+    for (size_t i = 0; i < ArraySize(test_addresses); ++i) {
       ASSERT_TRUE(ReadFileExactly(
           ReadPipeHandle(), &test_addresses[i], sizeof(test_addresses[i])));
     }
@@ -114,7 +115,7 @@ class AddressSpaceTest : public MultiprocessExec {
     ProcessSnapshotFuchsia process_snapshot;
     ASSERT_TRUE(process_snapshot.Initialize(*ChildProcess()));
 
-    for (size_t i = 0; i < arraysize(test_addresses); ++i) {
+    for (size_t i = 0; i < ArraySize(test_addresses); ++i) {
       const auto& t = kTestMappingPermAndSizes[i];
       EXPECT_TRUE(HasSingleMatchingMapping(process_snapshot.MemoryMap(),
                                            test_addresses[i],

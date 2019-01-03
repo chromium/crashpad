@@ -19,10 +19,10 @@
 
 #include <limits>
 
-#include "base/macros.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -116,7 +116,7 @@ TEST(CheckedMachAddressRange, IsValid) {
       {0xffffffffffffffff, 1, kInvalid},
   };
 
-  for (size_t index = 0; index < arraysize(kTestData); ++index) {
+  for (size_t index = 0; index < ArraySize(kTestData); ++index) {
     const auto& testcase = kTestData[index];
     SCOPED_TRACE(base::StringPrintf("index %zu, base 0x%llx, size 0x%llx",
                                     index,
@@ -166,7 +166,7 @@ TEST(CheckedMachAddressRange, ContainsValue) {
   CheckedMachAddressRange parent_range_32(false, 0x2000, 0x1000);
   ASSERT_TRUE(parent_range_32.IsValid());
 
-  for (size_t index = 0; index < arraysize(kTestData); ++index) {
+  for (size_t index = 0; index < ArraySize(kTestData); ++index) {
     const auto& testcase = kTestData[index];
     SCOPED_TRACE(
         base::StringPrintf("index %zu, value 0x%llx", index, testcase.value));
@@ -223,7 +223,7 @@ TEST(CheckedMachAddressRange, ContainsRange) {
   CheckedMachAddressRange parent_range_32(false, 0x2000, 0x1000);
   ASSERT_TRUE(parent_range_32.IsValid());
 
-  for (size_t index = 0; index < arraysize(kTestData); ++index) {
+  for (size_t index = 0; index < ArraySize(kTestData); ++index) {
     const auto& testcase = kTestData[index];
     SCOPED_TRACE(base::StringPrintf("index %zu, base 0x%llx, size 0x%llx",
                                     index,

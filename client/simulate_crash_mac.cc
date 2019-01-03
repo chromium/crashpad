@@ -20,13 +20,13 @@
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_port.h"
-#include "base/macros.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "util/mach/exc_client_variants.h"
 #include "util/mach/exception_behaviors.h"
 #include "util/mach/exception_ports.h"
 #include "util/mach/mach_extensions.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
@@ -191,7 +191,7 @@ void SimulateCrash(const NativeCPUContext& cpu_context) {
   base::mac::ScopedMachSendRight thread(mach_thread_self());
   exception_type_t exception = kMachExceptionSimulated;
   mach_exception_data_type_t codes[] = {0, 0};
-  mach_msg_type_number_t code_count = arraysize(codes);
+  mach_msg_type_number_t code_count = ArraySize(codes);
 
   // Look up the handler for EXC_CRASH exceptions in the same way that the
   // kernel would: try a thread handler, then a task handler, and finally a host
@@ -213,7 +213,7 @@ void SimulateCrash(const NativeCPUContext& cpu_context) {
   bool success = false;
 
   for (size_t target_type_index = 0;
-       !success && target_type_index < arraysize(kTargetTypes);
+       !success && target_type_index < ArraySize(kTargetTypes);
        ++target_type_index) {
     ExceptionPorts::ExceptionHandlerVector handlers;
     ExceptionPorts exception_ports(kTargetTypes[target_type_index],

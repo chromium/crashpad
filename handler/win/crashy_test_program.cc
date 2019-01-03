@@ -26,10 +26,10 @@
 
 #include "base/files/file_path.h"
 #include "base/logging.h"
-#include "base/macros.h"
 #include "build/build_config.h"
 #include "client/crashpad_client.h"
 #include "client/crashpad_info.h"
+#include "util/misc/arraysize.h"
 #include "util/win/critical_section_with_debug_info.h"
 #include "util/win/get_function.h"
 
@@ -83,11 +83,11 @@ void AllocateMemoryOfVariousProtections() {
   // All of these allocations are leaked, we want to view them in windbg via
   // !vprot.
   void* reserve = VirtualAlloc(
-      nullptr, arraysize(kPageTypes) * kPageSize, MEM_RESERVE, PAGE_READWRITE);
+      nullptr, ArraySize(kPageTypes) * kPageSize, MEM_RESERVE, PAGE_READWRITE);
   PCHECK(reserve) << "VirtualAlloc MEM_RESERVE";
   uintptr_t reserve_as_int = reinterpret_cast<uintptr_t>(reserve);
 
-  for (size_t i = 0; i < arraysize(kPageTypes); ++i) {
+  for (size_t i = 0; i < ArraySize(kPageTypes); ++i) {
     void* result =
         VirtualAlloc(reinterpret_cast<void*>(reserve_as_int + (kPageSize * i)),
                      kPageSize,

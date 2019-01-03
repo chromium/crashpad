@@ -18,6 +18,7 @@
 #include <string.h>
 
 #include "minidump/minidump_context.h"
+#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace internal {
@@ -192,7 +193,7 @@ bool ThreadSnapshotMinidump::InitializeContext(
       return false;
     }
 
-    for (size_t i = 0; i < arraysize(src->regs); i++) {
+    for (size_t i = 0; i < ArraySize(src->regs); i++) {
       context_.arm->regs[i] = src->regs[i];
     }
 
@@ -204,7 +205,7 @@ bool ThreadSnapshotMinidump::InitializeContext(
     context_.arm->cpsr = src->cpsr;
     context_.arm->vfp_regs.fpscr = src->fpscr;
 
-    for (size_t i = 0; i < arraysize(src->vfp); i++) {
+    for (size_t i = 0; i < ArraySize(src->vfp); i++) {
       context_.arm->vfp_regs.vfp[i] = src->vfp[i];
     }
 
@@ -224,14 +225,14 @@ bool ThreadSnapshotMinidump::InitializeContext(
       return false;
     }
 
-    for (size_t i = 0; i < arraysize(src->regs); i++) {
+    for (size_t i = 0; i < ArraySize(src->regs); i++) {
       context_.arm64->regs[i] = src->regs[i];
     }
 
     context_.arm64->regs[29] = src->fp;
     context_.arm64->regs[30] = src->lr;
 
-    for (size_t i = 0; i < arraysize(src->fpsimd); i++) {
+    for (size_t i = 0; i < ArraySize(src->fpsimd); i++) {
       context_.arm64->fpsimd[i] = src->fpsimd[i];
     }
 
@@ -254,7 +255,7 @@ bool ThreadSnapshotMinidump::InitializeContext(
       return false;
     }
 
-    for (size_t i = 0; i < arraysize(src->regs); i++) {
+    for (size_t i = 0; i < ArraySize(src->regs); i++) {
       context_.mipsel->regs[i] = src->regs[i];
     }
 
@@ -262,7 +263,7 @@ bool ThreadSnapshotMinidump::InitializeContext(
     context_.mipsel->mdlo = static_cast<uint32_t>(src->mdlo);
     context_.mipsel->dsp_control = src->dsp_control;
 
-    for (size_t i = 0; i < arraysize(src->hi); i++) {
+    for (size_t i = 0; i < ArraySize(src->hi); i++) {
       context_.mipsel->hi[i] = src->hi[i];
       context_.mipsel->lo[i] = src->lo[i];
     }
@@ -291,7 +292,7 @@ bool ThreadSnapshotMinidump::InitializeContext(
       return false;
     }
 
-    for (size_t i = 0; i < arraysize(src->regs); i++) {
+    for (size_t i = 0; i < ArraySize(src->regs); i++) {
       context_.mips64->regs[i] = src->regs[i];
     }
 
@@ -299,7 +300,7 @@ bool ThreadSnapshotMinidump::InitializeContext(
     context_.mips64->mdlo = src->mdlo;
     context_.mips64->dsp_control = src->dsp_control;
 
-    for (size_t i = 0; i < arraysize(src->hi); i++) {
+    for (size_t i = 0; i < ArraySize(src->hi); i++) {
       context_.mips64->hi[i] = src->hi[i];
       context_.mips64->lo[i] = src->lo[i];
     }

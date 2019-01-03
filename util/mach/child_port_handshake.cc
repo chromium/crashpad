@@ -38,6 +38,7 @@
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/implicit_cast.h"
 #include "util/misc/random_string.h"
 
@@ -158,7 +159,7 @@ mach_port_t ChildPortHandshakeServer::RunServer(
          0,
          nullptr);
   int rv = HANDLE_EINTR(
-      kevent(kq.get(), changelist, arraysize(changelist), nullptr, 0, nullptr));
+      kevent(kq.get(), changelist, ArraySize(changelist), nullptr, 0, nullptr));
   PCHECK(rv != -1) << "kevent";
 
   ChildPortServer child_port_server(this);

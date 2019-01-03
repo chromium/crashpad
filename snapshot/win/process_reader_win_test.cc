@@ -19,6 +19,7 @@
 
 #include "gtest/gtest.h"
 #include "test/win/win_multiprocess.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/synchronization/semaphore.h"
 #include "util/thread/thread.h"
@@ -43,7 +44,7 @@ TEST(ProcessReaderWin, SelfBasic) {
   EXPECT_EQ(process_reader.GetProcessInfo().ProcessID(), GetCurrentProcessId());
 
   static constexpr char kTestMemory[] = "Some test memory";
-  char buffer[arraysize(kTestMemory)];
+  char buffer[ArraySize(kTestMemory)];
   ASSERT_TRUE(process_reader.Memory()->Read(
       reinterpret_cast<uintptr_t>(kTestMemory), sizeof(kTestMemory), &buffer));
   EXPECT_STREQ(kTestMemory, buffer);
@@ -184,7 +185,7 @@ class ProcessReaderChildThreadSuspendCount final : public WinMultiprocess {
     // the pipe.
     CheckedReadFileAtEOF(ReadPipeHandle());
 
-    for (size_t i = 0; i < arraysize(threads); ++i)
+    for (size_t i = 0; i < ArraySize(threads); ++i)
       done.Signal();
     for (auto& thread : threads)
       thread.Join();

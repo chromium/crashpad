@@ -28,6 +28,7 @@
 #include "snapshot/mac/mach_o_image_symbol_table_reader.h"
 #include "snapshot/mac/process_reader_mac.h"
 #include "util/mac/checked_mach_address_range.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/implicit_cast.h"
 
 namespace {
@@ -182,7 +183,7 @@ bool MachOImageReader::Initialize(ProcessReaderMac* process_reader,
   // This vector is parallel to the kLoadCommandReaders array, and tracks
   // whether a singleton load command matching the |command| field has been
   // found yet.
-  std::vector<uint32_t> singleton_indices(arraysize(kLoadCommandReaders),
+  std::vector<uint32_t> singleton_indices(ArraySize(kLoadCommandReaders),
                                           kInvalidSegmentIndex);
 
   size_t offset = mach_header.Size();
@@ -235,8 +236,7 @@ bool MachOImageReader::Initialize(ProcessReaderMac* process_reader,
       return false;
     }
 
-    for (size_t reader_index = 0;
-         reader_index < arraysize(kLoadCommandReaders);
+    for (size_t reader_index = 0; reader_index < ArraySize(kLoadCommandReaders);
          ++reader_index) {
       if (load_command.cmd != kLoadCommandReaders[reader_index].command) {
         continue;

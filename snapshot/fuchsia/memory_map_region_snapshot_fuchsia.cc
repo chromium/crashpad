@@ -15,6 +15,7 @@
 #include "snapshot/fuchsia/memory_map_region_snapshot_fuchsia.h"
 
 #include "base/logging.h"
+#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace internal {
@@ -49,7 +50,7 @@ uint32_t MmuFlagsToProtectFlags(zx_vm_option_t flags) {
 
   const uint32_t index =
       flags & (ZX_VM_PERM_READ | ZX_VM_PERM_WRITE | ZX_VM_PERM_EXECUTE);
-  DCHECK_LT(index, arraysize(mapping));
+  DCHECK_LT(index, ArraySize(mapping));
 
   const uint32_t protect_flags = mapping[index];
   DCHECK_NE(protect_flags, 0u);

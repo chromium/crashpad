@@ -28,6 +28,7 @@
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_module_snapshot.h"
 #include "util/file/string_file.h"
+#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -154,9 +155,9 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
                 sizeof(MinidumpSimpleStringDictionaryEntry) +
                 sizeof(MinidumpAnnotationList) + 2 +  // padding
                 sizeof(MinidumpAnnotation) + sizeof(MinidumpUTF8String) +
-                arraysize(kEntry) + 2 +  // padding
-                sizeof(MinidumpUTF8String) + arraysize(kKey) +
-                sizeof(MinidumpUTF8String) + arraysize(kValue) +
+                ArraySize(kEntry) + 2 +  // padding
+                sizeof(MinidumpUTF8String) + ArraySize(kKey) +
+                sizeof(MinidumpUTF8String) + ArraySize(kValue) +
                 sizeof(MinidumpUTF8String) + annotation.name.size() + 1 +
                 sizeof(MinidumpByteArray) + annotation.value.size());
 

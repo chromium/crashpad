@@ -65,7 +65,7 @@
         'mach/notify_server_test.cc',
         'mach/scoped_task_suspend_test.cc',
         'mach/symbolic_constants_mach_test.cc',
-        'misc/arraysize_unsafe_test.cc',
+        'misc/arraysize_test.cc',
         'misc/capture_context_test.cc',
         'misc/capture_context_test_util.h',
         'misc/capture_context_test_util_linux.cc',
