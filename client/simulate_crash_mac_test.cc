@@ -31,6 +31,7 @@
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
 #include "util/mach/symbolic_constants_mach.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
@@ -342,15 +343,13 @@ TEST(SimulateCrash, SimulateCrash) {
 #endif
   };
 
-  for (size_t target_index = 0;
-       target_index < arraysize(kTargets);
+  for (size_t target_index = 0; target_index < ArraySize(kTargets);
        ++target_index) {
     TestSimulateCrashMac::ExceptionPortsTarget target = kTargets[target_index];
     SCOPED_TRACE(base::StringPrintf(
         "target_index %zu, target %d", target_index, target));
 
-    for (size_t behavior_index = 0;
-         behavior_index < arraysize(kBehaviors);
+    for (size_t behavior_index = 0; behavior_index < ArraySize(kBehaviors);
          ++behavior_index) {
       exception_behavior_t behavior = kBehaviors[behavior_index];
       SCOPED_TRACE(base::StringPrintf(
@@ -364,8 +363,7 @@ TEST(SimulateCrash, SimulateCrash) {
             target, behavior, THREAD_STATE_NONE);
         test_simulate_crash_mac.Run();
       } else {
-        for (size_t flavor_index = 0;
-             flavor_index < arraysize(kFlavors);
+        for (size_t flavor_index = 0; flavor_index < ArraySize(kFlavors);
              ++flavor_index) {
           thread_state_flavor_t flavor = kFlavors[flavor_index];
           SCOPED_TRACE(base::StringPrintf(

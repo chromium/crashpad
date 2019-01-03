@@ -20,6 +20,7 @@
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
+#include "util/misc/arraysize.h"
 #include "util/thread/thread.h"
 
 namespace crashpad {
@@ -93,8 +94,8 @@ TEST(ThreadLogMessages, Basic) {
     const std::vector<std::string>& log_messages =
         thread_log_messages.log_messages();
 
-    EXPECT_EQ(log_messages.size(), arraysize(kMessages));
-    for (size_t index = 0; index < arraysize(kMessages); ++index) {
+    EXPECT_EQ(log_messages.size(), ArraySize(kMessages));
+    for (size_t index = 0; index < ArraySize(kMessages); ++index) {
       EXPECT_EQ(MessageString(log_messages[index]), kMessages[index])
           << "index " << index;
     }
@@ -173,7 +174,7 @@ TEST(ThreadLogMessages, Multithreaded) {
 
   LoggingTestThread threads[20];
   int start = 0;
-  for (size_t index = 0; index < arraysize(threads); ++index) {
+  for (size_t index = 0; index < ArraySize(threads); ++index) {
     threads[index].Initialize(
         index, static_cast<int>(start), static_cast<int>(index));
     start += static_cast<int>(index);

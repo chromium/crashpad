@@ -28,7 +28,6 @@
 
 #include "base/files/file_path.h"
 #include "base/logging.h"
-#include "base/macros.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
@@ -37,6 +36,7 @@
 #include "tools/tool_support.h"
 #include "util/file/file_io.h"
 #include "util/file/file_reader.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/uuid.h"
 #include "util/stdlib/string_number_conversion.h"
 
@@ -109,14 +109,14 @@ bool StringToBool(const char* string, bool* boolean) {
       "set",
   };
 
-  for (size_t index = 0; index < arraysize(kFalseWords); ++index) {
+  for (size_t index = 0; index < ArraySize(kFalseWords); ++index) {
     if (strcasecmp(string, kFalseWords[index]) == 0) {
       *boolean = false;
       return true;
     }
   }
 
-  for (size_t index = 0; index < arraysize(kTrueWords); ++index) {
+  for (size_t index = 0; index < ArraySize(kTrueWords); ++index) {
     if (strcasecmp(string, kTrueWords[index]) == 0) {
       *boolean = true;
       return true;
@@ -159,7 +159,7 @@ bool StringToTime(const char* string, time_t* out_time, bool utc) {
       "%+",
   };
 
-  for (size_t index = 0; index < arraysize(kFormats); ++index) {
+  for (size_t index = 0; index < ArraySize(kFormats); ++index) {
     tm time_tm;
     const char* strptime_result = strptime(string, kFormats[index], &time_tm);
     if (strptime_result == end) {
@@ -214,7 +214,7 @@ std::string TimeToString(time_t out_time, bool utc) {
 
   char string[64];
   CHECK_NE(
-      strftime(string, arraysize(string), "%Y-%m-%d %H:%M:%S %Z", &time_tm),
+      strftime(string, ArraySize(string), "%Y-%m-%d %H:%M:%S %Z", &time_tm),
       0u);
 
   return std::string(string);

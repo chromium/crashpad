@@ -17,6 +17,7 @@
 #include "base/logging.h"
 #include "util/mach/child_portServer.h"
 #include "util/mach/mach_message.h"
+#include "util/misc/arraysize.h"
 
 namespace {
 
@@ -90,7 +91,7 @@ std::set<mach_msg_id_t> ChildPortServer::MachMessageServerRequestIDs() {
   static constexpr mach_msg_id_t request_ids[] =
       {kMachMessageIDChildPortCheckIn};
   return std::set<mach_msg_id_t>(&request_ids[0],
-                                 &request_ids[arraysize(request_ids)]);
+                                 &request_ids[ArraySize(request_ids)]);
 }
 
 mach_msg_size_t ChildPortServer::MachMessageServerRequestSize() {

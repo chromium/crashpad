@@ -27,6 +27,7 @@
 #include "test/errors.h"
 #include "test/test_paths.h"
 #include "test/win/child_launcher.h"
+#include "util/misc/arraysize.h"
 #include "util/win/scoped_handle.h"
 
 namespace crashpad {
@@ -148,7 +149,7 @@ TEST(SafeTerminateProcess, PatchBadly) {
     };
 
     void* target = reinterpret_cast<void*>(TerminateProcess);
-    ScopedExecutablePatch executable_patch(target, patch, arraysize(patch));
+    ScopedExecutablePatch executable_patch(target, patch, ArraySize(patch));
 
     // Make sure that SafeTerminateProcess() can be called. Since it’s been
     // patched with a no-op stub, GetLastError() shouldn’t be modified.

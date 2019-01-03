@@ -41,6 +41,7 @@
 #include "util/file/file_io.h"
 #include "util/mac/mac_util.h"
 #include "util/mach/mach_extensions.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/synchronization/semaphore.h"
 
@@ -64,7 +65,7 @@ TEST(ProcessReaderMac, SelfBasic) {
   EXPECT_EQ(process_reader.ParentProcessID(), getppid());
 
   static constexpr char kTestMemory[] = "Some test memory";
-  char buffer[arraysize(kTestMemory)];
+  char buffer[ArraySize(kTestMemory)];
   ASSERT_TRUE(process_reader.Memory()->Read(
       FromPointerCast<mach_vm_address_t>(kTestMemory),
       sizeof(kTestMemory),
@@ -612,11 +613,11 @@ class ScopedOpenCLNoOpKernel {
     const size_t source_lengths[] = {
         strlen(sources[0]),
     };
-    static_assert(arraysize(sources) == arraysize(source_lengths),
+    static_assert(ArraySize(sources) == ArraySize(source_lengths),
                   "arrays must be parallel");
 
     program_ = clCreateProgramWithSource(
-        context_, arraysize(sources), sources, source_lengths, &rv);
+        context_, ArraySize(sources), sources, source_lengths, &rv);
     ASSERT_EQ(rv, CL_SUCCESS) << "clCreateProgramWithSource";
 
     rv = clBuildProgram(

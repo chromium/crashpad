@@ -18,8 +18,8 @@
 
 #include <set>
 
-#include "base/macros.h"
 #include "gtest/gtest.h"
+#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -33,7 +33,7 @@ TEST(RandomString, RandomString) {
   const std::string allowed_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
   size_t character_counts[26] = {};
-  ASSERT_EQ(allowed_characters.size(), arraysize(character_counts));
+  ASSERT_EQ(allowed_characters.size(), ArraySize(character_counts));
 
   std::set<std::string> strings;
 
@@ -61,7 +61,7 @@ TEST(RandomString, RandomString) {
   // Make sure every character appears at least once. It is possible, but
   // extremely unlikely, for a character to not appear at all.
   for (size_t character_index = 0;
-       character_index < arraysize(character_counts);
+       character_index < ArraySize(character_counts);
        ++character_index) {
     EXPECT_GT(character_counts[character_index], 0u)
         << allowed_characters[character_index];

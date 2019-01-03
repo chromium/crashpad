@@ -29,6 +29,7 @@
 #include "util/mach/exception_behaviors.h"
 #include "util/mach/exception_types.h"
 #include "util/mach/mach_message.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
@@ -228,7 +229,7 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseStateReply {
     EXPECT_EQ(memcmp(&NDR, &NDR_record, sizeof(NDR)), 0);
     EXPECT_EQ(RetCode, KERN_SUCCESS);
     EXPECT_EQ(flavor, kThreadStateFlavor);
-    EXPECT_EQ(new_stateCnt, arraysize(new_state));
+    EXPECT_EQ(new_stateCnt, ArraySize(new_state));
   }
 
   mach_msg_header_t Head;
@@ -659,7 +660,7 @@ TEST(ExcServerVariants, MockExceptionRaiseState) {
           AreExceptionCodes(kTestExceptonCodes[0], kTestExceptonCodes[1]),
           Pointee(Eq(kThreadStateFlavor)),
           IsThreadStateAndCount(kThreadStateFlavorCount),
-          IsThreadStateAndCount(arraysize(reply.new_state)),
+          IsThreadStateAndCount(ArraySize(reply.new_state)),
           Eq(request.Trailer())))
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
@@ -708,7 +709,7 @@ TEST(ExcServerVariants, MockExceptionRaiseStateIdentity) {
           AreExceptionCodes(kTestExceptonCodes[0], kTestExceptonCodes[1]),
           Pointee(Eq(kThreadStateFlavor)),
           IsThreadStateAndCount(kThreadStateFlavorCount),
-          IsThreadStateAndCount(arraysize(reply.new_state)),
+          IsThreadStateAndCount(ArraySize(reply.new_state)),
           Eq(request.Trailer())))
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
@@ -802,7 +803,7 @@ TEST(ExcServerVariants, MockMachExceptionRaiseState) {
                                                kTestMachExceptionCodes[1]),
                              Pointee(Eq(kThreadStateFlavor)),
                              IsThreadStateAndCount(kThreadStateFlavorCount),
-                             IsThreadStateAndCount(arraysize(reply.new_state)),
+                             IsThreadStateAndCount(ArraySize(reply.new_state)),
                              Eq(request.Trailer())))
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
@@ -852,7 +853,7 @@ TEST(ExcServerVariants, MockMachExceptionRaiseStateIdentity) {
                                                kTestMachExceptionCodes[1]),
                              Pointee(Eq(kThreadStateFlavor)),
                              IsThreadStateAndCount(kThreadStateFlavorCount),
-                             IsThreadStateAndCount(arraysize(reply.new_state)),
+                             IsThreadStateAndCount(ArraySize(reply.new_state)),
                              Eq(request.Trailer())))
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
@@ -906,7 +907,7 @@ TEST(ExcServerVariants, MockUnknownID) {
       2508,
   };
 
-  for (size_t index = 0; index < arraysize(unknown_ids); ++index) {
+  for (size_t index = 0; index < ArraySize(unknown_ids); ++index) {
     mach_msg_id_t id = unknown_ids[index];
 
     SCOPED_TRACE(base::StringPrintf("unknown id %d", id));
@@ -1179,7 +1180,7 @@ TEST(ExcServerVariants, ThreadStates) {
 #endif
   };
 
-  for (size_t index = 0; index < arraysize(test_data); ++index) {
+  for (size_t index = 0; index < ArraySize(test_data); ++index) {
     const auto& test = test_data[index];
     SCOPED_TRACE(
         base::StringPrintf("index %zu, flavor %d", index, test.flavor));
@@ -1252,7 +1253,7 @@ TEST(ExcServerVariants, ExcServerSuccessfulReturnValue) {
        KERN_SUCCESS},
   };
 
-  for (size_t index = 0; index < arraysize(kTestData); ++index) {
+  for (size_t index = 0; index < ArraySize(kTestData); ++index) {
     const auto& test_data = kTestData[index];
     SCOPED_TRACE(
         base::StringPrintf("index %zu, behavior %d, set_thread_state %s",
@@ -1271,8 +1272,8 @@ TEST(ExcServerVariants, ExcServerCopyState) {
   static constexpr natural_t old_state[] = {1, 2, 3, 4, 5};
   natural_t new_state[10] = {};
 
-  constexpr mach_msg_type_number_t old_state_count = arraysize(old_state);
-  mach_msg_type_number_t new_state_count = arraysize(new_state);
+  constexpr mach_msg_type_number_t old_state_count = ArraySize(old_state);
+  mach_msg_type_number_t new_state_count = ArraySize(new_state);
 
   // EXCEPTION_DEFAULT (with or without MACH_EXCEPTION_CODES) is not
   // state-carrying. new_state and new_state_count should be untouched.
@@ -1281,8 +1282,8 @@ TEST(ExcServerVariants, ExcServerCopyState) {
                      old_state_count,
                      new_state,
                      &new_state_count);
-  EXPECT_EQ(new_state_count, arraysize(new_state));
-  for (size_t i = 0; i < arraysize(new_state); ++i) {
+  EXPECT_EQ(new_state_count, ArraySize(new_state));
+  for (size_t i = 0; i < ArraySize(new_state); ++i) {
     EXPECT_EQ(new_state[i], 0u) << "i " << i;
   }
 
@@ -1291,8 +1292,8 @@ TEST(ExcServerVariants, ExcServerCopyState) {
                      old_state_count,
                      new_state,
                      &new_state_count);
-  EXPECT_EQ(new_state_count, arraysize(new_state));
-  for (size_t i = 0; i < arraysize(new_state); ++i) {
+  EXPECT_EQ(new_state_count, ArraySize(new_state));
+  for (size_t i = 0; i < ArraySize(new_state); ++i) {
     EXPECT_EQ(new_state[i], 0u) << "i " << i;
   }
 
@@ -1304,7 +1305,7 @@ TEST(ExcServerVariants, ExcServerCopyState) {
   for (size_t i = 0; i < copy_limit; ++i) {
     EXPECT_EQ(new_state[i], old_state[i]) << "i " << i;
   }
-  for (size_t i = copy_limit; i < arraysize(new_state); ++i) {
+  for (size_t i = copy_limit; i < ArraySize(new_state); ++i) {
     EXPECT_EQ(new_state[i], 0u) << "i " << i;
   }
 
@@ -1320,23 +1321,23 @@ TEST(ExcServerVariants, ExcServerCopyState) {
   for (size_t i = 0; i < copy_limit; ++i) {
     EXPECT_EQ(new_state[i], old_state[i]) << "i " << i;
   }
-  for (size_t i = copy_limit; i < arraysize(new_state); ++i) {
+  for (size_t i = copy_limit; i < ArraySize(new_state); ++i) {
     EXPECT_EQ(new_state[i], 0u) << "i " << i;
   }
 
   // This is a state-carrying exception where all of old_state is copied to
   // new_state, which is large enough to receive it and then some.
-  new_state_count = arraysize(new_state);
+  new_state_count = ArraySize(new_state);
   ExcServerCopyState(MACH_EXCEPTION_CODES | EXCEPTION_STATE_IDENTITY,
                      old_state,
                      old_state_count,
                      new_state,
                      &new_state_count);
   EXPECT_EQ(new_state_count, old_state_count);
-  for (size_t i = 0; i < arraysize(old_state); ++i) {
+  for (size_t i = 0; i < ArraySize(old_state); ++i) {
     EXPECT_EQ(new_state[i], old_state[i]) << "i " << i;
   }
-  for (size_t i = arraysize(old_state); i < arraysize(new_state); ++i) {
+  for (size_t i = ArraySize(old_state); i < ArraySize(new_state); ++i) {
     EXPECT_EQ(new_state[i], 0u) << "i " << i;
   }
 }
