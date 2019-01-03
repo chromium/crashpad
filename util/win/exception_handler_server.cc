@@ -29,6 +29,7 @@
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "util/file/file_writer.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
 #include "util/win/get_function.h"
@@ -307,7 +308,7 @@ void ExceptionHandlerServer::InitializeWithInheritedDataForInitialClient(
 void ExceptionHandlerServer::Run(Delegate* delegate) {
   uint64_t shutdown_token = base::RandUint64();
   ScopedKernelHANDLE thread_handles[kPipeInstances];
-  for (size_t i = 0; i < arraysize(thread_handles); ++i) {
+  for (size_t i = 0; i < ArraySize(thread_handles); ++i) {
     HANDLE pipe;
     if (first_pipe_instance_.is_valid()) {
       pipe = first_pipe_instance_.release();
@@ -359,7 +360,7 @@ void ExceptionHandlerServer::Run(Delegate* delegate) {
   }
 
   // Signal to the named pipe instances that they should terminate.
-  for (size_t i = 0; i < arraysize(thread_handles); ++i) {
+  for (size_t i = 0; i < ArraySize(thread_handles); ++i) {
     ClientToServerMessage message;
     memset(&message, 0, sizeof(message));
     message.type = ClientToServerMessage::kShutdown;

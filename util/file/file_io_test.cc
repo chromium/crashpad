@@ -27,6 +27,7 @@
 #include "test/errors.h"
 #include "test/file.h"
 #include "test/scoped_temp_dir.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/implicit_cast.h"
 #include "util/thread/thread.h"
 
@@ -612,7 +613,7 @@ void LockingTest(FileLocking main_lock, FileLocking other_locks) {
 
   LockingTestThread threads[20];
   int expected_iterations = 0;
-  for (size_t index = 0; index < arraysize(threads); ++index) {
+  for (size_t index = 0; index < ArraySize(threads); ++index) {
     int iterations_for_this_thread = static_cast<int>(index * 10);
     threads[index].Init(
         (other_locks == FileLocking::kShared)

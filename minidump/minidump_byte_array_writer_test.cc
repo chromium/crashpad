@@ -21,6 +21,7 @@
 #include "gtest/gtest.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file.h"
+#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -34,7 +35,7 @@ TEST(MinidumpByteArrayWriter, Write) {
       {},
   };
 
-  for (size_t i = 0; i < arraysize(kTests); ++i) {
+  for (size_t i = 0; i < ArraySize(kTests); ++i) {
     SCOPED_TRACE(base::StringPrintf("index %" PRIuS, i));
 
     StringFile string_file;
@@ -66,7 +67,7 @@ TEST(MinidumpByteArrayWriter, SetData) {
     {},
   };
 
-  for (size_t i = 0; i < arraysize(kTests); ++i) {
+  for (size_t i = 0; i < ArraySize(kTests); ++i) {
     SCOPED_TRACE(base::StringPrintf("index %" PRIuS, i));
 
     crashpad::MinidumpByteArrayWriter writer;

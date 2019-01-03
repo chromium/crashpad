@@ -16,8 +16,8 @@
 
 #include <sys/types.h>
 
-#include "base/macros.h"
 #include "gtest/gtest.h"
+#include "util/misc/arraysize.h"
 
 #if defined(OS_POSIX)
 #include <pthread.h>
@@ -126,7 +126,7 @@ TEST(Semaphore, TenThreaded) {
   Semaphore semaphore(5);
   ThreadMainInfo info[10];
   size_t iterations = 0;
-  for (size_t index = 0; index < arraysize(info); ++index) {
+  for (size_t index = 0; index < ArraySize(info); ++index) {
     info[index].semaphore = &semaphore;
     info[index].iterations = index;
     iterations += info[index].iterations;
@@ -138,7 +138,7 @@ TEST(Semaphore, TenThreaded) {
     semaphore.Signal();
   }
 
-  for (size_t index = 0; index < arraysize(info); ++index) {
+  for (size_t index = 0; index < ArraySize(info); ++index) {
     JoinThread(&info[index]);
   }
 }

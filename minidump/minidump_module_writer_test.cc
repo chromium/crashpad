@@ -30,6 +30,7 @@
 #include "snapshot/test/test_module_snapshot.h"
 #include "test/gtest_death.h"
 #include "util/file/string_file.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/implicit_cast.h"
 #include "util/misc/uuid.h"
 
@@ -650,10 +651,10 @@ void InitializeTestModuleSnapshotFromMinidumpModule(
 
 TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   MINIDUMP_MODULE expect_modules[3] = {};
-  const char* module_paths[arraysize(expect_modules)] = {};
-  const char* module_pdbs[arraysize(expect_modules)] = {};
-  UUID uuids[arraysize(expect_modules)] = {};
-  uint32_t ages[arraysize(expect_modules)] = {};
+  const char* module_paths[ArraySize(expect_modules)] = {};
+  const char* module_pdbs[ArraySize(expect_modules)] = {};
+  UUID uuids[ArraySize(expect_modules)] = {};
+  uint32_t ages[ArraySize(expect_modules)] = {};
 
   expect_modules[0].BaseOfImage = 0x100101000;
   expect_modules[0].SizeOfImage = 0xf000;
@@ -705,7 +706,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
 
   std::vector<std::unique_ptr<TestModuleSnapshot>> module_snapshots_owner;
   std::vector<const ModuleSnapshot*> module_snapshots;
-  for (size_t index = 0; index < arraysize(expect_modules); ++index) {
+  for (size_t index = 0; index < ArraySize(expect_modules); ++index) {
     module_snapshots_owner.push_back(std::make_unique<TestModuleSnapshot>());
     TestModuleSnapshot* module_snapshot = module_snapshots_owner.back().get();
     InitializeTestModuleSnapshotFromMinidumpModule(module_snapshot,

@@ -47,6 +47,7 @@
 #include "util/file/filesystem.h"
 #include "util/linux/direct_ptrace_connection.h"
 #include "util/misc/address_sanitizer.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/synchronization/semaphore.h"
 
@@ -79,7 +80,7 @@ TEST(ProcessReaderLinux, SelfBasic) {
   EXPECT_EQ(process_reader.ParentProcessID(), getppid());
 
   static constexpr char kTestMemory[] = "Some test memory";
-  char buffer[arraysize(kTestMemory)];
+  char buffer[ArraySize(kTestMemory)];
   ASSERT_TRUE(process_reader.Memory()->Read(
       reinterpret_cast<LinuxVMAddress>(kTestMemory),
       sizeof(kTestMemory),
