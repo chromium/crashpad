@@ -178,9 +178,9 @@ void MachOImageAnnotationsReader::ReadCrashpadSimpleAnnotations(
   }
 }
 
-// TODO(rsesek): When there is a platform-agnostic remote memory reader
-// interface available, use it so that the implementation is not duplicated
-// in the PEImageAnnotationsReader.
+// TODO(https://crbug.com/crashpad/270): Replace implementations of
+// ReadCrashpadAnnotationsList and ReadCrashpadSimpleAnnotations with the
+// platform-agnostic implementations in ImageAnnotationReader.
 void MachOImageAnnotationsReader::ReadCrashpadAnnotationsList(
     std::vector<AnnotationSnapshot>* annotations) const {
   process_types::CrashpadInfo crashpad_info;
