@@ -28,6 +28,7 @@
 #include "snapshot/minidump/minidump_annotation_reader.h"
 #include "snapshot/module_snapshot.h"
 #include "util/file/string_file.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/pdb_structures.h"
 
 namespace crashpad {
@@ -858,27 +859,27 @@ TEST(ProcessSnapshotMinidump, ThreadContextX86_64) {
   minidump_context.fxsave.fpu_ip_64 = 42;
   minidump_context.fxsave.fpu_dp_64 = 43;
 
-  for (size_t i = 0; i < arraysize(minidump_context.vector_register); i++) {
+  for (size_t i = 0; i < ArraySize(minidump_context.vector_register); i++) {
     minidump_context.vector_register[i].lo = i * 2 + 44;
     minidump_context.vector_register[i].hi = i * 2 + 45;
   }
 
-  for (uint8_t i = 0; i < arraysize(minidump_context.fxsave.reserved_4); i++) {
+  for (uint8_t i = 0; i < ArraySize(minidump_context.fxsave.reserved_4); i++) {
     minidump_context.fxsave.reserved_4[i] = i * 2 + 115;
     minidump_context.fxsave.available[i] = i * 2 + 116;
   }
 
-  for (size_t i = 0; i < arraysize(minidump_context.fxsave.st_mm); i++) {
+  for (size_t i = 0; i < ArraySize(minidump_context.fxsave.st_mm); i++) {
     for (uint8_t j = 0;
-         j < arraysize(minidump_context.fxsave.st_mm[0].mm_value);
+         j < ArraySize(minidump_context.fxsave.st_mm[0].mm_value);
          j++) {
       minidump_context.fxsave.st_mm[i].mm_value[j] = j + 1;
       minidump_context.fxsave.st_mm[i].mm_reserved[j] = j + 1;
     }
   }
 
-  for (size_t i = 0; i < arraysize(minidump_context.fxsave.xmm); i++) {
-    for (uint8_t j = 0; j < arraysize(minidump_context.fxsave.xmm[0]); j++) {
+  for (size_t i = 0; i < ArraySize(minidump_context.fxsave.xmm); i++) {
+    for (uint8_t j = 0; j < ArraySize(minidump_context.fxsave.xmm[0]); j++) {
       minidump_context.fxsave.xmm[i][j] = j + 1;
     }
   }
@@ -961,22 +962,20 @@ TEST(ProcessSnapshotMinidump, ThreadContextX86_64) {
   EXPECT_EQ(ctx->fxsave.fpu_ip_64, 42U);
   EXPECT_EQ(ctx->fxsave.fpu_dp_64, 43U);
 
-  for (uint8_t i = 0; i < arraysize(ctx->fxsave.reserved_4); i++) {
+  for (uint8_t i = 0; i < ArraySize(ctx->fxsave.reserved_4); i++) {
     EXPECT_EQ(ctx->fxsave.reserved_4[i], i * 2 + 115);
     EXPECT_EQ(ctx->fxsave.available[i], i * 2 + 116);
   }
 
-  for (size_t i = 0; i < arraysize(ctx->fxsave.st_mm); i++) {
-    for (uint8_t j = 0;
-         j < arraysize(ctx->fxsave.st_mm[0].mm_value);
-         j++) {
+  for (size_t i = 0; i < ArraySize(ctx->fxsave.st_mm); i++) {
+    for (uint8_t j = 0; j < ArraySize(ctx->fxsave.st_mm[0].mm_value); j++) {
       EXPECT_EQ(ctx->fxsave.st_mm[i].mm_value[j], j + 1);
       EXPECT_EQ(ctx->fxsave.st_mm[i].mm_reserved[j], j + 1);
     }
   }
 
-  for (size_t i = 0; i < arraysize(ctx->fxsave.xmm); i++) {
-    for (uint8_t j = 0; j < arraysize(ctx->fxsave.xmm[0]); j++) {
+  for (size_t i = 0; i < ArraySize(ctx->fxsave.xmm); i++) {
+    for (uint8_t j = 0; j < ArraySize(ctx->fxsave.xmm[0]); j++) {
       EXPECT_EQ(ctx->fxsave.xmm[i][j], j + 1);
     }
   }

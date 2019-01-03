@@ -17,6 +17,7 @@
 #include <windows.h>
 
 #include "base/logging.h"
+#include "util/misc/arraysize.h"
 
 namespace crashpad {
 
@@ -24,11 +25,11 @@ namespace crashpad {
 bool Paths::Executable(base::FilePath* path) {
   wchar_t executable_path[_MAX_PATH];
   unsigned int len =
-      GetModuleFileName(nullptr, executable_path, arraysize(executable_path));
+      GetModuleFileName(nullptr, executable_path, ArraySize(executable_path));
   if (len == 0) {
     PLOG(ERROR) << "GetModuleFileName";
     return false;
-  } else if (len >= arraysize(executable_path)) {
+  } else if (len >= ArraySize(executable_path)) {
     LOG(ERROR) << "GetModuleFileName";
     return false;
   }

@@ -29,6 +29,7 @@
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
@@ -181,11 +182,11 @@ class TestExcClientVariants : public MachMultiprocess,
       // These aren’t real flavors, it’s just for testing.
       flavor = exception_ + 10;
       flavor_p = &flavor;
-      for (size_t index = 0; index < arraysize(old_state); ++index) {
+      for (size_t index = 0; index < ArraySize(old_state); ++index) {
         old_state[index] = index;
       }
       old_state_p = reinterpret_cast<thread_state_t>(&old_state);
-      old_state_count = arraysize(old_state);
+      old_state_count = ArraySize(old_state);
 
       // new_state and new_state_count are out parameters that the server should
       // never see or use, so set them to bogus values. The call to the server
@@ -202,7 +203,7 @@ class TestExcClientVariants : public MachMultiprocess,
                                       task,
                                       exception,
                                       code,
-                                      arraysize(code),
+                                      ArraySize(code),
                                       flavor_p,
                                       old_state_p,
                                       old_state_count,
@@ -273,7 +274,7 @@ TEST(ExcClientVariants, UniversalExceptionRaise) {
       kMachExceptionCodes | EXCEPTION_STATE_IDENTITY,
   };
 
-  for (size_t index = 0; index < arraysize(kBehaviors); ++index) {
+  for (size_t index = 0; index < ArraySize(kBehaviors); ++index) {
     exception_behavior_t behavior = kBehaviors[index];
     SCOPED_TRACE(base::StringPrintf("index %zu, behavior %d", index, behavior));
 

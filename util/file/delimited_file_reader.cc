@@ -21,6 +21,7 @@
 
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
+#include "util/misc/arraysize.h"
 
 namespace crashpad {
 
@@ -75,7 +76,7 @@ DelimitedFileReader::Result DelimitedFileReader::GetDelim(char delimiter,
         return Result::kEndOfFile;
       }
 
-      DCHECK_LE(static_cast<size_t>(read_result), arraysize(buf_));
+      DCHECK_LE(static_cast<size_t>(read_result), ArraySize(buf_));
       DCHECK(
           base::IsValueInRangeForNumericType<decltype(buf_len_)>(read_result));
       buf_len_ = static_cast<decltype(buf_len_)>(read_result);

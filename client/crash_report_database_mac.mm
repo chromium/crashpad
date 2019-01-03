@@ -35,6 +35,7 @@
 #include "client/settings.h"
 #include "util/file/file_io.h"
 #include "util/mac/xattr.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/metrics.h"
 
@@ -279,7 +280,7 @@ bool CrashReportDatabaseMac::Initialize(bool may_create) {
   }
 
   // Create the three processing directories for the database.
-  for (size_t i = 0; i < arraysize(kReportDirectories); ++i) {
+  for (size_t i = 0; i < ArraySize(kReportDirectories); ++i) {
     if (!CreateOrEnsureDirectoryExists(base_dir_.Append(kReportDirectories[i])))
       return false;
   }
