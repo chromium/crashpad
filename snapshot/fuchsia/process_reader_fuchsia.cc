@@ -56,7 +56,7 @@ void GetStackRegions(
     LOG(ERROR) << "stack range has unexpected type, continuing anyway";
   }
 
-  if (range_with_sp.u.mapping.mmu_flags & ZX_VM_FLAG_PERM_EXECUTE) {
+  if (range_with_sp.u.mapping.mmu_flags & ZX_VM_PERM_EXECUTE) {
     LOG(ERROR)
         << "stack range is unexpectedly marked executable, continuing anyway";
   }
