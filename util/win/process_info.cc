@@ -224,7 +224,7 @@ bool GetProcessBasicInformation(HANDLE process,
                                                  sizeof(wow64_peb_address),
                                                  &bytes_returned);
     if (!NT_SUCCESS(status)) {
-      NTSTATUS_LOG(ERROR, status), "NtQueryInformationProcess";
+      NTSTATUS_LOG(ERROR, status) << "NtQueryInformationProcess";
       return false;
     }
     if (bytes_returned != sizeof(wow64_peb_address)) {
