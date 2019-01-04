@@ -29,13 +29,13 @@
 #include "base/mac/scoped_nsautorelease_pool.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/scoped_generic.h"
+#include "base/stl_util.h"
 #include "base/strings/string_piece.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/sys_string_conversions.h"
 #include "client/settings.h"
 #include "util/file/file_io.h"
 #include "util/mac/xattr.h"
-#include "util/misc/arraysize.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/metrics.h"
 
@@ -280,7 +280,7 @@ bool CrashReportDatabaseMac::Initialize(bool may_create) {
   }
 
   // Create the three processing directories for the database.
-  for (size_t i = 0; i < ArraySize(kReportDirectories); ++i) {
+  for (size_t i = 0; i < base::size(kReportDirectories); ++i) {
     if (!CreateOrEnsureDirectoryExists(base_dir_.Append(kReportDirectories[i])))
       return false;
   }
