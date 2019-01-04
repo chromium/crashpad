@@ -34,6 +34,10 @@ constexpr size_t ArraySizeHelper() noexcept {
 }  // namespace crashpad
 
 //! \brief A way of computing an array’s size.
+//!
+//! Use this only where `base::size()` or `std::size()` won’t work, such as in
+//! constant expressions (including `static_assert` expressions) that consider
+//! the sizes of non-static data members.
 #define ArraySize(array) crashpad::internal::ArraySizeHelper<decltype(array)>()
 
 #endif  // CRASHPAD_UTIL_MISC_ARRAYSIZE_H_

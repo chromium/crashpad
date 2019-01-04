@@ -20,10 +20,10 @@
 #include <string>
 
 #include "base/logging.h"
+#include "base/stl_util.h"
 #include "base/strings/string_number_conversions.h"
 #include "util/file/file_io.h"
 #include "util/linux/ptrace_broker.h"
-#include "util/misc/arraysize.h"
 #include "util/process/process_memory_linux.h"
 
 namespace crashpad {
@@ -271,7 +271,7 @@ bool PtraceClient::Threads(std::vector<pid_t>* threads) {
   threads->push_back(pid_);
 
   char path[32];
-  snprintf(path, ArraySize(path), "/proc/%d/task", pid_);
+  snprintf(path, base::size(path), "/proc/%d/task", pid_);
 
   PtraceBroker::Request request;
   request.type = PtraceBroker::Request::kTypeListDirectory;

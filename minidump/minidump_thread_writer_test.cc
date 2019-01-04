@@ -19,6 +19,7 @@
 
 #include "base/compiler_specific.h"
 #include "base/format_macros.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_context_writer.h"
@@ -33,7 +34,6 @@
 #include "snapshot/test/test_thread_snapshot.h"
 #include "test/gtest_death.h"
 #include "util/file/string_file.h"
-#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -523,10 +523,10 @@ template <typename Traits>
 void RunInitializeFromSnapshotTest(bool thread_id_collision) {
   using MinidumpContextType = typename Traits::MinidumpContextType;
   MINIDUMP_THREAD expect_threads[3] = {};
-  uint64_t thread_ids[ArraySize(expect_threads)] = {};
-  uint8_t memory_values[ArraySize(expect_threads)] = {};
-  uint32_t context_seeds[ArraySize(expect_threads)] = {};
-  MINIDUMP_MEMORY_DESCRIPTOR tebs[ArraySize(expect_threads)] = {};
+  uint64_t thread_ids[base::size(expect_threads)] = {};
+  uint8_t memory_values[base::size(expect_threads)] = {};
+  uint32_t context_seeds[base::size(expect_threads)] = {};
+  MINIDUMP_MEMORY_DESCRIPTOR tebs[base::size(expect_threads)] = {};
 
   constexpr size_t kTebSize = 1024;
 
@@ -582,7 +582,7 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
 
   std::vector<std::unique_ptr<TestThreadSnapshot>> thread_snapshots_owner;
   std::vector<const ThreadSnapshot*> thread_snapshots;
-  for (size_t index = 0; index < ArraySize(expect_threads); ++index) {
+  for (size_t index = 0; index < base::size(expect_threads); ++index) {
     thread_snapshots_owner.push_back(std::make_unique<TestThreadSnapshot>());
     TestThreadSnapshot* thread_snapshot = thread_snapshots_owner.back().get();
 

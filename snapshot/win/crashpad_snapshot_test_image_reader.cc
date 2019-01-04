@@ -15,9 +15,9 @@
 #include <windows.h>
 
 #include "base/logging.h"
+#include "base/stl_util.h"
 #include "client/crashpad_info.h"
 #include "util/file/file_io.h"
-#include "util/misc/arraysize.h"
 #include "util/synchronization/semaphore.h"
 #include "util/win/scoped_handle.h"
 
@@ -29,7 +29,7 @@ DWORD WINAPI LotsOfReferencesThreadProc(void* param) {
 
   // Allocate a bunch of pointers to things on the stack.
   int* pointers[1000];
-  for (size_t i = 0; i < ArraySize(pointers); ++i) {
+  for (size_t i = 0; i < base::size(pointers); ++i) {
     pointers[i] = new int[2048];
   }
 
@@ -53,7 +53,7 @@ int wmain(int argc, wchar_t* argv[]) {
   // verify the cap on pointed-to memory.
   crashpad::Semaphore semaphore(0);
   crashpad::ScopedKernelHANDLE threads[100];
-  for (size_t i = 0; i < ArraySize(threads); ++i) {
+  for (size_t i = 0; i < base::size(threads); ++i) {
     threads[i].reset(CreateThread(nullptr,
                                   0,
                                   &LotsOfReferencesThreadProc,
@@ -66,7 +66,7 @@ int wmain(int argc, wchar_t* argv[]) {
     }
   }
 
-  for (size_t i = 0; i < ArraySize(threads); ++i) {
+  for (size_t i = 0; i < base::size(threads); ++i) {
     semaphore.Wait();
   }
 

@@ -14,8 +14,8 @@
 
 #include "util/stdlib/thread_safe_vector.h"
 
+#include "base/stl_util.h"
 #include "gtest/gtest.h"
-#include "util/misc/arraysize.h"
 #include "util/thread/thread.h"
 
 namespace crashpad {
@@ -54,12 +54,12 @@ TEST(ThreadSafeVector, ThreadSafeVector) {
   EXPECT_TRUE(vector.empty());
 
   ThreadSafeVectorTestThread threads[100];
-  for (size_t index = 0; index < ArraySize(threads); ++index) {
+  for (size_t index = 0; index < base::size(threads); ++index) {
     threads[index].SetTestParameters(
         &thread_safe_vector, static_cast<int>(index * kElementsPerThread));
   }
 
-  for (size_t index = 0; index < ArraySize(threads); ++index) {
+  for (size_t index = 0; index < base::size(threads); ++index) {
     threads[index].Start();
 
     if (index % 10 == 0) {
@@ -76,8 +76,8 @@ TEST(ThreadSafeVector, ThreadSafeVector) {
 
   std::vector<int> drained = thread_safe_vector.Drain();
   vector.insert(vector.end(), drained.begin(), drained.end());
-  bool found[ArraySize(threads) * kElementsPerThread] = {};
-  EXPECT_EQ(vector.size(), ArraySize(found));
+  bool found[base::size(threads) * kElementsPerThread] = {};
+  EXPECT_EQ(vector.size(), base::size(found));
   for (int element : vector) {
     EXPECT_FALSE(found[element]) << element;
     found[element] = true;
