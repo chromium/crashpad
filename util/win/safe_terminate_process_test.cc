@@ -22,12 +22,12 @@
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/macros.h"
+#include "base/stl_util.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/test_paths.h"
 #include "test/win/child_launcher.h"
-#include "util/misc/arraysize.h"
 #include "util/win/scoped_handle.h"
 
 namespace crashpad {
@@ -149,7 +149,7 @@ TEST(SafeTerminateProcess, PatchBadly) {
     };
 
     void* target = reinterpret_cast<void*>(TerminateProcess);
-    ScopedExecutablePatch executable_patch(target, patch, ArraySize(patch));
+    ScopedExecutablePatch executable_patch(target, patch, base::size(patch));
 
     // Make sure that SafeTerminateProcess() can be called. Since it’s been
     // patched with a no-op stub, GetLastError() shouldn’t be modified.

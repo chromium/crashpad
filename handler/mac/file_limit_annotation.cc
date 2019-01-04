@@ -24,10 +24,10 @@
 #include <string>
 
 #include "base/format_macros.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "client/crashpad_info.h"
 #include "client/simple_string_dictionary.h"
-#include "util/misc/arraysize.h"
 #include "util/posix/scoped_dir.h"
 
 namespace crashpad {
@@ -108,7 +108,7 @@ void RecordFileLimitAnnotation() {
   int mib[] = {CTL_KERN, KERN_MAXFILES};
   size = sizeof(value);
   std::string max_files = FormatFromSysctl(
-      sysctl(mib, ArraySize(mib), &value, &size, nullptr, 0), &value, &size);
+      sysctl(mib, base::size(mib), &value, &size, nullptr, 0), &value, &size);
 
   std::string open_files = CountOpenFileDescriptors();
 

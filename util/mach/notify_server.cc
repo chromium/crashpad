@@ -15,9 +15,9 @@
 #include "util/mach/notify_server.h"
 
 #include "base/logging.h"
+#include "base/stl_util.h"
 #include "util/mach/mach_message.h"
 #include "util/mach/notifyServer.h"
-#include "util/misc/arraysize.h"
 
 namespace {
 
@@ -228,7 +228,7 @@ std::set<mach_msg_id_t> NotifyServer::MachMessageServerRequestIDs() {
       MACH_NOTIFY_DEAD_NAME,
   };
   return std::set<mach_msg_id_t>(&request_ids[0],
-                                 &request_ids[ArraySize(request_ids)]);
+                                 &request_ids[base::size(request_ids)]);
 }
 
 mach_msg_size_t NotifyServer::MachMessageServerRequestSize() {

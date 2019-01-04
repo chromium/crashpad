@@ -17,14 +17,14 @@
 #include <signal.h>
 #include <sys/types.h>
 
+#include "base/stl_util.h"
 #include "base/strings/string_piece.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
-#include "util/misc/arraysize.h"
 
 #define NUL_TEST_DATA(string) \
-  { string, ArraySize(string) - 1 }
+  { string, base::size(string) - 1 }
 
 namespace crashpad {
 namespace test {
@@ -116,7 +116,7 @@ void TestSignalToString(int value,
 }
 
 TEST(SymbolicConstantsPOSIX, SignalToString) {
-  for (size_t index = 0; index < ArraySize(kSignalTestData); ++index) {
+  for (size_t index = 0; index < base::size(kSignalTestData); ++index) {
     SCOPED_TRACE(base::StringPrintf("index %zu", index));
     TestSignalToString(kSignalTestData[index].signal,
                        kSignalTestData[index].full_name,
@@ -171,11 +171,11 @@ TEST(SymbolicConstantsPOSIX, StringToSignal) {
       kAllowFullName | kAllowShortName | kAllowNumber,
   };
 
-  for (size_t option_index = 0; option_index < ArraySize(kOptions);
+  for (size_t option_index = 0; option_index < base::size(kOptions);
        ++option_index) {
     SCOPED_TRACE(base::StringPrintf("option_index %zu", option_index));
     StringToSymbolicConstantOptions options = kOptions[option_index];
-    for (size_t index = 0; index < ArraySize(kSignalTestData); ++index) {
+    for (size_t index = 0; index < base::size(kSignalTestData); ++index) {
       SCOPED_TRACE(base::StringPrintf("index %zu", index));
       int signal = kSignalTestData[index].signal;
       {
@@ -213,7 +213,7 @@ TEST(SymbolicConstantsPOSIX, StringToSignal) {
         "",
     };
 
-    for (size_t index = 0; index < ArraySize(kNegativeTestData); ++index) {
+    for (size_t index = 0; index < base::size(kNegativeTestData); ++index) {
       SCOPED_TRACE(base::StringPrintf("index %zu", index));
       TestStringToSignal(kNegativeTestData[index], options, false, 0);
     }
@@ -234,7 +234,7 @@ TEST(SymbolicConstantsPOSIX, StringToSignal) {
         NUL_TEST_DATA("1\0002"),
     };
 
-    for (size_t index = 0; index < ArraySize(kNULTestData); ++index) {
+    for (size_t index = 0; index < base::size(kNULTestData); ++index) {
       SCOPED_TRACE(base::StringPrintf("index %zu", index));
       base::StringPiece string(kNULTestData[index].string,
                                kNULTestData[index].length);
