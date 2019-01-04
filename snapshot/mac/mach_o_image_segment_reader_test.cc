@@ -16,9 +16,9 @@
 
 #include <mach-o/loader.h>
 
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
-#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -63,7 +63,7 @@ TEST(MachOImageSegmentReader, SegmentNameString) {
       SEG_IMPORT,
   };
 
-  for (size_t index = 0; index < ArraySize(kSegmentTestData); ++index) {
+  for (size_t index = 0; index < base::size(kSegmentTestData); ++index) {
     EXPECT_EQ(
         MachOImageSegmentReader::SegmentNameString(kSegmentTestData[index]),
         kSegmentTestData[index])
@@ -106,7 +106,7 @@ TEST(MachOImageSegmentReader, SectionNameString) {
       SECT_ICON_TIFF,
   };
 
-  for (size_t index = 0; index < ArraySize(kSectionTestData); ++index) {
+  for (size_t index = 0; index < base::size(kSectionTestData); ++index) {
     EXPECT_EQ(
         MachOImageSegmentReader::SectionNameString(kSectionTestData[index]),
         kSectionTestData[index])
@@ -169,7 +169,7 @@ TEST(MachOImageSegmentReader, SegmentAndSectionNameString) {
       {SEG_IMPORT, "", "__IMPORT,"},
   };
 
-  for (size_t index = 0; index < ArraySize(kSegmentAndSectionTestData);
+  for (size_t index = 0; index < base::size(kSegmentAndSectionTestData);
        ++index) {
     const auto& test = kSegmentAndSectionTestData[index];
     EXPECT_EQ(MachOImageSegmentReader::SegmentAndSectionNameString(

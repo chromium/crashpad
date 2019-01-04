@@ -22,9 +22,9 @@
 
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
+#include "base/stl_util.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
-#include "util/misc/arraysize.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/misc/time.h"
 #include "util/win/nt_internals.h"
@@ -335,7 +335,7 @@ void ProcessSnapshotWin::InitializeUnloadedModules() {
           uet.TimeDateStamp,
           base::UTF16ToUTF8(base::StringPiece16(
               uet.ImageName,
-              wcsnlen(uet.ImageName, ArraySize(uet.ImageName))))));
+              wcsnlen(uet.ImageName, base::size(uet.ImageName))))));
     }
   }
 }
@@ -535,9 +535,9 @@ WinVMSize ProcessSnapshotWin::DetermineSizeOfEnvironmentBlock(
   env_block.resize(
       static_cast<unsigned int>(bytes_read / sizeof(env_block[0])));
   static constexpr wchar_t terminator[] = {0, 0};
-  size_t at = env_block.find(std::wstring(terminator, ArraySize(terminator)));
+  size_t at = env_block.find(std::wstring(terminator, base::size(terminator)));
   if (at != std::wstring::npos)
-    env_block.resize(at + ArraySize(terminator));
+    env_block.resize(at + base::size(terminator));
 
   return env_block.size() * sizeof(env_block[0]);
 }
