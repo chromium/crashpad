@@ -18,8 +18,8 @@
 #include <time.h>
 
 #include "base/logging.h"
+#include "base/stl_util.h"
 #include "build/build_config.h"
-#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace internal {
@@ -60,7 +60,8 @@ void TimeZone(const timeval& snapshot_time,
     static constexpr int kMonthDeltas[] =
         {0, 1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6, -6,
          7, -7, 8, -8, 9, -9, 10, -10, 11, -11, 12, -12};
-    for (size_t index = 0; index < ArraySize(kMonthDeltas) && !found_transition;
+    for (size_t index = 0;
+         index < base::size(kMonthDeltas) && !found_transition;
          ++index) {
       // Look at a day of each month at local noon. Set tm_isdst to -1 to avoid
       // giving mktime() any hints about whether to consider daylight saving

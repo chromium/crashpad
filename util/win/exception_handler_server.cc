@@ -23,13 +23,13 @@
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/rand_util.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "minidump/minidump_file_writer.h"
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "util/file/file_writer.h"
-#include "util/misc/arraysize.h"
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
 #include "util/win/get_function.h"
@@ -308,7 +308,7 @@ void ExceptionHandlerServer::InitializeWithInheritedDataForInitialClient(
 void ExceptionHandlerServer::Run(Delegate* delegate) {
   uint64_t shutdown_token = base::RandUint64();
   ScopedKernelHANDLE thread_handles[kPipeInstances];
-  for (size_t i = 0; i < ArraySize(thread_handles); ++i) {
+  for (size_t i = 0; i < base::size(thread_handles); ++i) {
     HANDLE pipe;
     if (first_pipe_instance_.is_valid()) {
       pipe = first_pipe_instance_.release();
@@ -360,7 +360,7 @@ void ExceptionHandlerServer::Run(Delegate* delegate) {
   }
 
   // Signal to the named pipe instances that they should terminate.
-  for (size_t i = 0; i < ArraySize(thread_handles); ++i) {
+  for (size_t i = 0; i < base::size(thread_handles); ++i) {
     ClientToServerMessage message;
     memset(&message, 0, sizeof(message));
     message.type = ClientToServerMessage::kShutdown;

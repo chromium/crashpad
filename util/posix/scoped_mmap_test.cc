@@ -20,10 +20,10 @@
 
 #include "base/numerics/safe_conversions.h"
 #include "base/rand_util.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "test/gtest_death.h"
-#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -151,7 +151,7 @@ TEST(ScopedMmapDeathTest, ResetAddrLen_Shrink) {
   EXPECT_EQ(mapping.len(), 3 * kPageSize);
 
   TestCookie cookies[3];
-  for (size_t index = 0; index < ArraySize(cookies); ++index) {
+  for (size_t index = 0; index < base::size(cookies); ++index) {
     cookies[index].SetUp(reinterpret_cast<uint64_t*>(
         mapping.addr_as<uintptr_t>() + index * kPageSize));
   }
@@ -186,7 +186,7 @@ TEST(ScopedMmap, ResetAddrLen_Grow) {
   EXPECT_EQ(mapping.len(), kPageSize);
 
   TestCookie cookies[3];
-  for (size_t index = 0; index < ArraySize(cookies); ++index) {
+  for (size_t index = 0; index < base::size(cookies); ++index) {
     cookies[index].SetUp(reinterpret_cast<uint64_t*>(
         reinterpret_cast<uintptr_t>(pages) + index * kPageSize));
   }
@@ -197,7 +197,7 @@ TEST(ScopedMmap, ResetAddrLen_Grow) {
   EXPECT_EQ(mapping.addr(), pages);
   EXPECT_EQ(mapping.len(), 3 * kPageSize);
 
-  for (size_t index = 0; index < ArraySize(cookies); ++index) {
+  for (size_t index = 0; index < base::size(cookies); ++index) {
     SCOPED_TRACE(base::StringPrintf("index %zu", index));
     EXPECT_EQ(cookies[index].Observed(), cookies[index].Expected());
   }
@@ -218,7 +218,7 @@ TEST(ScopedMmapDeathTest, ResetAddrLen_MoveDownAndGrow) {
   EXPECT_EQ(mapping.len(), kPageSize);
 
   TestCookie cookies[3];
-  for (size_t index = 0; index < ArraySize(cookies); ++index) {
+  for (size_t index = 0; index < base::size(cookies); ++index) {
     cookies[index].SetUp(reinterpret_cast<uint64_t*>(
         reinterpret_cast<uintptr_t>(pages) + index * kPageSize));
   }
@@ -249,7 +249,7 @@ TEST(ScopedMmapDeathTest, ResetAddrLen_MoveUpAndShrink) {
   EXPECT_EQ(mapping.len(), 2 * kPageSize);
 
   TestCookie cookies[3];
-  for (size_t index = 0; index < ArraySize(cookies); ++index) {
+  for (size_t index = 0; index < base::size(cookies); ++index) {
     cookies[index].SetUp(reinterpret_cast<uint64_t*>(
         reinterpret_cast<uintptr_t>(pages) + index * kPageSize));
   }

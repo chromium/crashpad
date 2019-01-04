@@ -17,6 +17,7 @@
 #include <utility>
 
 #include "base/format_macros.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_extensions.h"
@@ -26,7 +27,6 @@
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_memory_snapshot.h"
 #include "util/file/string_file.h"
-#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -341,7 +341,7 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
 
 TEST(MinidumpMemoryWriter, AddFromSnapshot) {
   MINIDUMP_MEMORY_DESCRIPTOR expect_memory_descriptors[3] = {};
-  uint8_t values[ArraySize(expect_memory_descriptors)] = {};
+  uint8_t values[base::size(expect_memory_descriptors)] = {};
 
   expect_memory_descriptors[0].StartOfMemoryRange = 0;
   expect_memory_descriptors[0].Memory.DataSize = 0x1000;
@@ -357,7 +357,7 @@ TEST(MinidumpMemoryWriter, AddFromSnapshot) {
 
   std::vector<std::unique_ptr<TestMemorySnapshot>> memory_snapshots_owner;
   std::vector<const MemorySnapshot*> memory_snapshots;
-  for (size_t index = 0; index < ArraySize(expect_memory_descriptors);
+  for (size_t index = 0; index < base::size(expect_memory_descriptors);
        ++index) {
     memory_snapshots_owner.push_back(std::make_unique<TestMemorySnapshot>());
     TestMemorySnapshot* memory_snapshot = memory_snapshots_owner.back().get();
@@ -396,7 +396,7 @@ TEST(MinidumpMemoryWriter, AddFromSnapshot) {
 
 TEST(MinidumpMemoryWriter, CoalesceExplicitMultiple) {
   MINIDUMP_MEMORY_DESCRIPTOR expect_memory_descriptors[4] = {};
-  uint8_t values[ArraySize(expect_memory_descriptors)] = {};
+  uint8_t values[base::size(expect_memory_descriptors)] = {};
 
   expect_memory_descriptors[0].StartOfMemoryRange = 0;
   expect_memory_descriptors[0].Memory.DataSize = 1000;

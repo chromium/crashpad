@@ -19,6 +19,7 @@
 #include <sys/types.h>
 
 #include "base/macros.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
@@ -31,7 +32,6 @@
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
 #include "util/mach/symbolic_constants_mach.h"
-#include "util/misc/arraysize.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
@@ -343,13 +343,13 @@ TEST(SimulateCrash, SimulateCrash) {
 #endif
   };
 
-  for (size_t target_index = 0; target_index < ArraySize(kTargets);
+  for (size_t target_index = 0; target_index < base::size(kTargets);
        ++target_index) {
     TestSimulateCrashMac::ExceptionPortsTarget target = kTargets[target_index];
     SCOPED_TRACE(base::StringPrintf(
         "target_index %zu, target %d", target_index, target));
 
-    for (size_t behavior_index = 0; behavior_index < ArraySize(kBehaviors);
+    for (size_t behavior_index = 0; behavior_index < base::size(kBehaviors);
          ++behavior_index) {
       exception_behavior_t behavior = kBehaviors[behavior_index];
       SCOPED_TRACE(base::StringPrintf(
@@ -363,7 +363,7 @@ TEST(SimulateCrash, SimulateCrash) {
             target, behavior, THREAD_STATE_NONE);
         test_simulate_crash_mac.Run();
       } else {
-        for (size_t flavor_index = 0; flavor_index < ArraySize(kFlavors);
+        for (size_t flavor_index = 0; flavor_index < base::size(kFlavors);
              ++flavor_index) {
           thread_state_flavor_t flavor = kFlavors[flavor_index];
           SCOPED_TRACE(base::StringPrintf(

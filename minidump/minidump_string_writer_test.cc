@@ -18,6 +18,7 @@
 
 #include "base/compiler_specific.h"
 #include "base/format_macros.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
@@ -25,7 +26,6 @@
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file.h"
-#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -67,15 +67,16 @@ TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
       {4, "\360\220\204\202", 2, {0xd800, 0xdd02}},  // 𐄂 (non-BMP)
   };
 
-  for (size_t index = 0; index < ArraySize(kTestData); ++index) {
+  for (size_t index = 0; index < base::size(kTestData); ++index) {
     SCOPED_TRACE(base::StringPrintf(
         "index %" PRIuS ", input %s", index, kTestData[index].input_string));
 
     // Make sure that the expected output string with its NUL terminator fits in
     // the space provided.
-    ASSERT_EQ(kTestData[index]
-                  .output_string[ArraySize(kTestData[index].output_string) - 1],
-              0);
+    ASSERT_EQ(
+        kTestData[index]
+            .output_string[base::size(kTestData[index].output_string) - 1],
+        0);
 
     string_file.Reset();
     crashpad::internal::MinidumpUTF16StringWriter string_writer;
@@ -119,7 +120,7 @@ TEST(MinidumpStringWriter, ConvertInvalidUTF8ToUTF16) {
       "\303\0\251",  // NUL in middle of valid sequence
   };
 
-  for (size_t index = 0; index < ArraySize(kTestData); ++index) {
+  for (size_t index = 0; index < base::size(kTestData); ++index) {
     SCOPED_TRACE(base::StringPrintf(
         "index %" PRIuS ", input %s", index, kTestData[index]));
     string_file.Reset();
@@ -182,7 +183,7 @@ TEST(MinidumpStringWriter, MinidumpUTF8StringWriter) {
       {4, "\360\220\204\202"},  // 𐄂 (non-BMP)
   };
 
-  for (size_t index = 0; index < ArraySize(kTestData); ++index) {
+  for (size_t index = 0; index < base::size(kTestData); ++index) {
     SCOPED_TRACE(base::StringPrintf(
         "index %" PRIuS ", input %s", index, kTestData[index].string));
 

@@ -24,10 +24,10 @@
 #include "base/numerics/safe_conversions.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/scoped_generic.h"
+#include "base/stl_util.h"
 #include "base/strings/string_number_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "util/file/file_io.h"
-#include "util/misc/arraysize.h"
 #include "util/net/http_body.h"
 #include "util/net/url.h"
 #include "util/stdlib/string_number_conversion.h"
@@ -366,7 +366,7 @@ bool WriteRequest(Stream* stream,
 
   FileOperationResult data_bytes;
   do {
-    constexpr size_t kCRLFSize = ArraySize(kCRLFTerminator) - 1;
+    constexpr size_t kCRLFSize = base::size(kCRLFTerminator) - 1;
     struct __attribute__((packed)) {
       char size[8];
       char crlf[2];

@@ -20,8 +20,8 @@
 
 #include "base/files/file_path.h"
 #include "base/logging.h"
+#include "base/stl_util.h"
 #include "util/file/file_io.h"
-#include "util/misc/arraysize.h"
 #include "util/misc/lexing.h"
 #include "util/misc/time.h"
 
@@ -48,7 +48,7 @@ bool ProcStatReader::Initialize(PtraceConnection* connection, pid_t tid) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   char path[32];
-  snprintf(path, ArraySize(path), "/proc/%d/stat", tid);
+  snprintf(path, base::size(path), "/proc/%d/stat", tid);
   if (!connection->ReadFileContents(base::FilePath(path), &contents_)) {
     return false;
   }

@@ -20,9 +20,9 @@
 
 #include "base/logging.h"
 #include "base/scoped_generic.h"
+#include "base/stl_util.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
-#include "util/misc/arraysize.h"
 #include "util/win/scoped_local_alloc.h"
 
 namespace crashpad {
@@ -65,7 +65,7 @@ TEST(CommandLine, AppendCommandLineArgument) {
         L"argument 1",
         L"argument 2",
     };
-    AppendCommandLineArgumentTest(ArraySize(kArguments), kArguments);
+    AppendCommandLineArgumentTest(base::size(kArguments), kArguments);
   }
 
   {
@@ -77,7 +77,7 @@ TEST(CommandLine, AppendCommandLineArgument) {
         L"argument 2",
         L"\\some\\path with\\spaces",
     };
-    AppendCommandLineArgumentTest(ArraySize(kArguments), kArguments);
+    AppendCommandLineArgumentTest(base::size(kArguments), kArguments);
   }
 
   {
@@ -89,7 +89,7 @@ TEST(CommandLine, AppendCommandLineArgument) {
         L"she said, \"you had me at hello\"",
         L"\\some\\path with\\spaces",
     };
-    AppendCommandLineArgumentTest(ArraySize(kArguments), kArguments);
+    AppendCommandLineArgumentTest(base::size(kArguments), kArguments);
   }
 
   {
@@ -102,7 +102,7 @@ TEST(CommandLine, AppendCommandLineArgument) {
         L"argument3",
         L"argument4",
     };
-    AppendCommandLineArgumentTest(ArraySize(kArguments), kArguments);
+    AppendCommandLineArgumentTest(base::size(kArguments), kArguments);
   }
 
   {
@@ -113,7 +113,7 @@ TEST(CommandLine, AppendCommandLineArgument) {
         L"\\some\\directory with\\spaces\\",
         L"argument2",
     };
-    AppendCommandLineArgumentTest(ArraySize(kArguments), kArguments);
+    AppendCommandLineArgumentTest(base::size(kArguments), kArguments);
   }
 
   {
@@ -124,7 +124,7 @@ TEST(CommandLine, AppendCommandLineArgument) {
         L"",
         L"argument2",
     };
-    AppendCommandLineArgumentTest(ArraySize(kArguments), kArguments);
+    AppendCommandLineArgumentTest(base::size(kArguments), kArguments);
   }
 
   {
@@ -159,7 +159,7 @@ TEST(CommandLine, AppendCommandLineArgument) {
         L"\"\"",
         L" \t\n\v\"",
     };
-    AppendCommandLineArgumentTest(ArraySize(kArguments), kArguments);
+    AppendCommandLineArgumentTest(base::size(kArguments), kArguments);
   }
 }
 

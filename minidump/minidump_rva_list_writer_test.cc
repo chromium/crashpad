@@ -17,12 +17,12 @@
 #include <utility>
 
 #include "base/format_macros.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "minidump/test/minidump_rva_list_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file.h"
-#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -87,10 +87,10 @@ TEST(MinidumpRVAListWriter, ThreeChildren) {
   ASSERT_TRUE(list_writer.WriteEverything(&string_file));
 
   const MinidumpRVAList* list =
-      MinidumpRVAListAtStart(string_file.string(), ArraySize(kValues));
+      MinidumpRVAListAtStart(string_file.string(), base::size(kValues));
   ASSERT_TRUE(list);
 
-  for (size_t index = 0; index < ArraySize(kValues); ++index) {
+  for (size_t index = 0; index < base::size(kValues); ++index) {
     SCOPED_TRACE(base::StringPrintf("index %" PRIuS, index));
 
     const uint32_t* child = MinidumpWritableAtRVA<uint32_t>(

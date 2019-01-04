@@ -25,10 +25,10 @@
 #include "base/files/scoped_file.h"
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
+#include "base/stl_util.h"
 #include "base/strings/string_number_conversions.h"
 #include "build/build_config.h"
 #include "util/file/directory_reader.h"
-#include "util/misc/arraysize.h"
 #include "util/misc/implicit_cast.h"
 
 #if defined(OS_MACOSX)
@@ -153,7 +153,7 @@ void CloseMultipleNowOrOnExec(int fd, int preserve_fd) {
   int maxfilesperproc;
   size_t maxfilesperproc_size = sizeof(maxfilesperproc);
   if (sysctl(oid,
-             ArraySize(oid),
+             base::size(oid),
              &maxfilesperproc,
              &maxfilesperproc_size,
              nullptr,

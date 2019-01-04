@@ -21,6 +21,7 @@
 #include <vector>
 
 #include "base/logging.h"
+#include "base/stl_util.h"
 #include "util/mac/mac_util.h"
 #include "util/mach/composite_mach_message_server.h"
 #include "util/mach/exc.h"
@@ -29,7 +30,6 @@
 #include "util/mach/mach_exc.h"
 #include "util/mach/mach_excServer.h"
 #include "util/mach/mach_message.h"
-#include "util/misc/arraysize.h"
 
 namespace crashpad {
 
@@ -243,7 +243,7 @@ class ExcServer : public MachMessageServer::Interface {
         Traits::kMachMessageIDExceptionRaiseStateIdentity,
     };
     return std::set<mach_msg_id_t>(&request_ids[0],
-                                   &request_ids[ArraySize(request_ids)]);
+                                   &request_ids[base::size(request_ids)]);
   }
 
   mach_msg_size_t MachMessageServerRequestSize() override {
@@ -320,7 +320,7 @@ bool ExcServer<Traits>::MachMessageServerFunction(
       using Reply = typename Traits::ExceptionRaiseStateReply;
       Reply* out_reply = reinterpret_cast<Reply*>(out_header);
       out_reply->flavor = in_request_1->flavor;
-      out_reply->new_stateCnt = ArraySize(out_reply->new_state);
+      out_reply->new_stateCnt = base::size(out_reply->new_state);
       out_reply->RetCode =
           interface_->CatchExceptionRaiseState(in_header->msgh_local_port,
                                                in_request->exception,
@@ -363,7 +363,7 @@ bool ExcServer<Traits>::MachMessageServerFunction(
       using Reply = typename Traits::ExceptionRaiseStateIdentityReply;
       Reply* out_reply = reinterpret_cast<Reply*>(out_header);
       out_reply->flavor = in_request_1->flavor;
-      out_reply->new_stateCnt = ArraySize(out_reply->new_state);
+      out_reply->new_stateCnt = base::size(out_reply->new_state);
       out_reply->RetCode = interface_->CatchExceptionRaiseStateIdentity(
           in_header->msgh_local_port,
           in_request->thread.name,

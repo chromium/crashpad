@@ -18,7 +18,7 @@
 #include <windows.h>
 
 #include "base/logging.h"
-#include "util/misc/arraysize.h"
+#include "base/stl_util.h"
 #include "util/win/exception_handler_server.h"
 #include "util/win/scoped_handle.h"
 
@@ -168,7 +168,8 @@ const void* GetSecurityDescriptorForNamedPipeInstance(size_t* size) {
               ACL_REVISION,  // AclRevision.
               0,  // Sbz1.
               sizeof(kSecDescBlob.sacl),  // AclSize.
-              static_cast<WORD>(ArraySize(kSecDescBlob.sacl.ace)),  // AceCount.
+              static_cast<WORD>(
+                  base::size(kSecDescBlob.sacl.ace)),  // AceCount.
               0,  // Sbz2.
           },
 
@@ -189,8 +190,8 @@ const void* GetSecurityDescriptorForNamedPipeInstance(size_t* size) {
                   {
                       SID_REVISION,  // Revision.
                                      // SubAuthorityCount.
-                      static_cast<BYTE>(
-                          ArraySize(kSecDescBlob.sacl.ace[0].sid.SubAuthority)),
+                      static_cast<BYTE>(base::size(
+                          kSecDescBlob.sacl.ace[0].sid.SubAuthority)),
                       // IdentifierAuthority.
                       {SECURITY_MANDATORY_LABEL_AUTHORITY},
                       {SECURITY_MANDATORY_UNTRUSTED_RID},  // SubAuthority.

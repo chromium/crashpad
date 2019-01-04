@@ -19,6 +19,7 @@
 
 #include <utility>
 
+#include "base/stl_util.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_annotation_writer.h"
 #include "minidump/minidump_simple_string_dictionary_writer.h"
@@ -28,7 +29,6 @@
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_module_snapshot.h"
 #include "util/file/string_file.h"
-#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -155,9 +155,9 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
                 sizeof(MinidumpSimpleStringDictionaryEntry) +
                 sizeof(MinidumpAnnotationList) + 2 +  // padding
                 sizeof(MinidumpAnnotation) + sizeof(MinidumpUTF8String) +
-                ArraySize(kEntry) + 2 +  // padding
-                sizeof(MinidumpUTF8String) + ArraySize(kKey) +
-                sizeof(MinidumpUTF8String) + ArraySize(kValue) +
+                base::size(kEntry) + 2 +  // padding
+                sizeof(MinidumpUTF8String) + base::size(kKey) +
+                sizeof(MinidumpUTF8String) + base::size(kValue) +
                 sizeof(MinidumpUTF8String) + annotation.name.size() + 1 +
                 sizeof(MinidumpByteArray) + annotation.value.size());
 

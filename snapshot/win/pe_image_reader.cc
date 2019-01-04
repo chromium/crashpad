@@ -21,10 +21,10 @@
 #include <memory>
 
 #include "base/logging.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "client/crashpad_info.h"
 #include "snapshot/win/pe_image_resource_reader.h"
-#include "util/misc/arraysize.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/misc/pdb_structures.h"
 #include "util/win/process_structs.h"
@@ -288,7 +288,7 @@ bool PEImageReader::VSFixedFileInfo(
       version_info.wType != 0 ||
       wcsncmp(version_info.szKey,
               L"VS_VERSION_INFO",
-              ArraySize(version_info.szKey)) != 0) {
+              base::size(version_info.szKey)) != 0) {
     LOG(WARNING) << "unexpected VS_VERSIONINFO in "
                  << module_subrange_reader_.name();
     return false;

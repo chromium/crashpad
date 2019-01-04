@@ -17,13 +17,13 @@
 #include <string.h>
 #include <sys/types.h>
 
+#include "base/stl_util.h"
 #include "base/strings/utf_string_conversions.h"
 #include "client/annotation.h"
 #include "client/simple_string_dictionary.h"
 #include "snapshot/snapshot_constants.h"
 #include "snapshot/win/pe_image_reader.h"
 #include "snapshot/win/process_reader_win.h"
-#include "util/misc/arraysize.h"
 #include "util/win/process_structs.h"
 
 namespace crashpad {
@@ -156,7 +156,8 @@ void PEImageAnnotationsReader::ReadCrashpadAnnotationsList(
     snapshot.type = current.type;
 
     char name[Annotation::kNameMaxLength];
-    if (!process_reader_->Memory()->Read(current.name, ArraySize(name), name)) {
+    if (!process_reader_->Memory()->Read(
+            current.name, base::size(name), name)) {
       LOG(WARNING) << "could not read annotation name at index " << index
                    << " in " << base::UTF16ToUTF8(name_);
       continue;

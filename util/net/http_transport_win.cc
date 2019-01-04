@@ -25,13 +25,13 @@
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/scoped_generic.h"
+#include "base/stl_util.h"
 #include "base/strings/string_number_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "package.h"
 #include "util/file/file_io.h"
-#include "util/misc/arraysize.h"
 #include "util/net/http_body.h"
 #include "util/numeric/safe_assignment.h"
 #include "util/win/module_version.h"
@@ -96,7 +96,7 @@ std::string WinHttpMessage(const char* extra) {
                              error_code,
                              0,
                              msgbuf,
-                             static_cast<DWORD>(ArraySize(msgbuf)),
+                             static_cast<DWORD>(base::size(msgbuf)),
                              NULL);
   if (!len) {
     return base::StringPrintf("%s: error 0x%lx while retrieving error 0x%lx",

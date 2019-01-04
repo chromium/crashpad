@@ -18,6 +18,7 @@
 #include <string.h>
 
 #include "base/logging.h"
+#include "base/stl_util.h"
 #include "util/misc/arraysize.h"
 #include "util/misc/implicit_cast.h"
 
@@ -57,7 +58,7 @@ void CPUContextX86::FxsaveToFsave(const Fxsave& fxsave, Fsave* fsave) {
   fsave->reserved_4 = 0;
   static_assert(ArraySize(fsave->st) == ArraySize(fxsave.st_mm),
                 "FPU stack registers must be equivalent");
-  for (size_t index = 0; index < ArraySize(fsave->st); ++index) {
+  for (size_t index = 0; index < base::size(fsave->st); ++index) {
     memcpy(fsave->st[index], fxsave.st_mm[index].st, sizeof(fsave->st[index]));
   }
 }
@@ -79,7 +80,7 @@ void CPUContextX86::FsaveToFxsave(const Fsave& fsave, Fxsave* fxsave) {
   fxsave->mxcsr_mask = 0;
   static_assert(ArraySize(fxsave->st_mm) == ArraySize(fsave.st),
                 "FPU stack registers must be equivalent");
-  for (size_t index = 0; index < ArraySize(fsave.st); ++index) {
+  for (size_t index = 0; index < base::size(fsave.st); ++index) {
     memcpy(fxsave->st_mm[index].st, fsave.st[index], sizeof(fsave.st[index]));
     memset(fxsave->st_mm[index].st_reserved,
            0,

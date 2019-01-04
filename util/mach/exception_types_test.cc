@@ -20,11 +20,11 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "util/mac/mac_util.h"
 #include "util/mach/mach_extensions.h"
-#include "util/misc/arraysize.h"
 
 namespace crashpad {
 namespace test {
@@ -67,7 +67,7 @@ TEST(ExceptionTypes, ExcCrashRecoverOriginalException) {
       {0, 0, 0, 0},
   };
 
-  for (size_t index = 0; index < ArraySize(kTestData); ++index) {
+  for (size_t index = 0; index < base::size(kTestData); ++index) {
     const auto& test_data = kTestData[index];
     SCOPED_TRACE(base::StringPrintf(
         "index %zu, code_0 0x%llx", index, test_data.code_0));
@@ -84,7 +84,7 @@ TEST(ExceptionTypes, ExcCrashRecoverOriginalException) {
 
   // Now make sure that ExcCrashRecoverOriginalException() properly ignores
   // optional arguments.
-  static_assert(ArraySize(kTestData) >= 1, "must have something to test");
+  static_assert(base::size(kTestData) >= 1, "must have something to test");
   const auto& test_data = kTestData[0];
   EXPECT_EQ(
       ExcCrashRecoverOriginalException(test_data.code_0, nullptr, nullptr),
@@ -238,7 +238,7 @@ TEST(ExceptionTypes, ExceptionCodeForMetrics) {
       {0x00010000, 0x00010000, static_cast<int32_t>(0xffffffff)},
   };
 
-  for (size_t index = 0; index < ArraySize(kTestData); ++index) {
+  for (size_t index = 0; index < base::size(kTestData); ++index) {
     const auto& test_data = kTestData[index];
     SCOPED_TRACE(base::StringPrintf("index %zu, exception 0x%x, code_0 0x%llx",
                                     index,

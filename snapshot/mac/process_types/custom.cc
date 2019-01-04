@@ -23,9 +23,9 @@
 
 #include "base/logging.h"
 #include "base/numerics/safe_math.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "snapshot/mac/process_types/internal.h"
-#include "util/misc/arraysize.h"
 #include "util/process/process_memory_mac.h"
 
 #if !DOXYGEN
@@ -145,8 +145,8 @@ size_t dyld_all_image_infos<Traits>::ExpectedSizeForVersion(
       sizeof(dyld_all_image_infos<Traits>),  // 16
   };
 
-  if (version >= ArraySize(kSizeForVersion)) {
-    return kSizeForVersion[ArraySize(kSizeForVersion) - 1];
+  if (version >= base::size(kSizeForVersion)) {
+    return kSizeForVersion[base::size(kSizeForVersion) - 1];
   }
 
   static_assert(std::is_unsigned<decltype(version)>::value,

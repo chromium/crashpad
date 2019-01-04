@@ -17,19 +17,21 @@
 #include <windows.h>
 
 #include "base/logging.h"
-#include "util/misc/arraysize.h"
+#include "base/stl_util.h"
 
 namespace crashpad {
 
 // static
 bool Paths::Executable(base::FilePath* path) {
   wchar_t executable_path[_MAX_PATH];
-  unsigned int len = GetModuleFileName(
-      nullptr, executable_path, static_cast<DWORD>(ArraySize(executable_path)));
+  unsigned int len =
+      GetModuleFileName(nullptr,
+                        executable_path,
+                        static_cast<DWORD>(base::size(executable_path)));
   if (len == 0) {
     PLOG(ERROR) << "GetModuleFileName";
     return false;
-  } else if (len >= ArraySize(executable_path)) {
+  } else if (len >= base::size(executable_path)) {
     LOG(ERROR) << "GetModuleFileName";
     return false;
   }

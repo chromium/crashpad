@@ -31,6 +31,7 @@
 #include "base/mac/scoped_mach_port.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/rand_util.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "util/file/file_io.h"
 #include "util/mach/child_port.h"
@@ -38,7 +39,6 @@
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
-#include "util/misc/arraysize.h"
 #include "util/misc/implicit_cast.h"
 #include "util/misc/random_string.h"
 
@@ -158,8 +158,8 @@ mach_port_t ChildPortHandshakeServer::RunServer(
          0,
          0,
          nullptr);
-  int rv = HANDLE_EINTR(
-      kevent(kq.get(), changelist, ArraySize(changelist), nullptr, 0, nullptr));
+  int rv = HANDLE_EINTR(kevent(
+      kq.get(), changelist, base::size(changelist), nullptr, 0, nullptr));
   PCHECK(rv != -1) << "kevent";
 
   ChildPortServer child_port_server(this);
