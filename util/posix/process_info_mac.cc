@@ -18,7 +18,7 @@
 
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
-#include "util/misc/arraysize.h"
+#include "base/stl_util.h"
 
 namespace crashpad {
 
@@ -33,7 +33,7 @@ bool ProcessInfo::InitializeWithPid(pid_t pid) {
 
   int mib[] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, pid};
   size_t len = sizeof(kern_proc_info_);
-  if (sysctl(mib, ArraySize(mib), &kern_proc_info_, &len, nullptr, 0) != 0) {
+  if (sysctl(mib, base::size(mib), &kern_proc_info_, &len, nullptr, 0) != 0) {
     PLOG(ERROR) << "sysctl for pid " << pid;
     return false;
   }
@@ -112,7 +112,7 @@ std::set<gid_t> ProcessInfo::SupplementaryGroups() const {
   const short ngroups = kern_proc_info_.kp_eproc.e_ucred.cr_ngroups;
   DCHECK_GE(ngroups, 0);
   DCHECK_LE(static_cast<size_t>(ngroups),
-            ArraySize(kern_proc_info_.kp_eproc.e_ucred.cr_groups));
+            base::size(kern_proc_info_.kp_eproc.e_ucred.cr_groups));
 
   const gid_t* groups = kern_proc_info_.kp_eproc.e_ucred.cr_groups;
   return std::set<gid_t>(&groups[0], &groups[ngroups]);
@@ -169,7 +169,7 @@ bool ProcessInfo::Arguments(std::vector<std::string>* argv) const {
   do {
     int mib[] = {CTL_KERN, KERN_PROCARGS2, pid};
     int rv =
-        sysctl(mib, ArraySize(mib), nullptr, &args_size_estimate, nullptr, 0);
+        sysctl(mib, base::size(mib), nullptr, &args_size_estimate, nullptr, 0);
     if (rv != 0) {
       PLOG(ERROR) << "sysctl (size) for pid " << pid;
       return false;
@@ -177,7 +177,7 @@ bool ProcessInfo::Arguments(std::vector<std::string>* argv) const {
 
     args_size = args_size_estimate + 1;
     args.resize(args_size);
-    rv = sysctl(mib, ArraySize(mib), &args[0], &args_size, nullptr, 0);
+    rv = sysctl(mib, base::size(mib), &args[0], &args_size, nullptr, 0);
     if (rv != 0) {
       PLOG(ERROR) << "sysctl (data) for pid " << pid;
       return false;
