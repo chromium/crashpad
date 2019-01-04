@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ada93fa_d886e2a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-04T20:07:25Z",
+      "side": 1,
+      "message": "How very restrained of you. I would have been more opinionated.",
+      "revId": "f0585a26e92babf9a6ec72f85a17c29a28049d77",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
