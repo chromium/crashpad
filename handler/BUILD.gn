@@ -145,10 +145,15 @@ crashpad_executable("crashpad_handler") {
         "@loader_path/../../../../../../../..",
 
         # The handler is also in
-        # Content Shell.app/Contents/Frameworks/Content Shell Framework.framework/Helpers/
+        # Content Shell.app/Contents/Frameworks/Content Shell Framework.framework/Versions/C/Helpers/
         # so set the rpath for that too.
         "-rpath",
-        "@loader_path/../../../../..",
+        "@loader_path/../../../../../../..",
+
+        # The handler can also be executed in an unbundled framework at
+        # Chromium Framework.framework/Versions/A/Helpers/
+        "-rpath",
+        "@loader_path/../../../..",
       ]
     }
   }
