@@ -592,6 +592,70 @@ struct MinidumpContextMIPS64 {
   uint64_t fir;
 };
 
+//! \brief ppc64-specific flags for MinidumpPPC64::context_flags
+//! Based on minidump_cpu_ppc64.h from breakpad
+enum MinidumpContextPPC64Flags : uint32_t {
+  //! \brief Identifies the context as PPC64.
+  kMinidumpContextPPC64 = 0x01000000,
+
+  //! \brief Indicates the validity of general purpose registers.
+  //!
+  //! Registers `r0`-`r31`, `nip`, `msr`, `lr`, etc. are valid.
+  kMinidumpContextPPC64Base = kMinidumpContextPPC64 | 0x00000001,
+
+  //! \brief Indicates the validity of floating point registers.
+  //!
+  //! Registers `fp0`-`fp31`, `fpscr` are valid.
+  kMinidumpContextPPC64Floating = kMinidumpContextPPC64 | 0x00000008,
+
+  //! \brief Indicates the validity of Altivec/VMX registers.
+  //!
+  //! Registers `v0`-`v31`, `vscr`, `vrsave`.
+  kMinidumpContextPPC64Vector = kMinidumpContextPPC64 | 0x00000020,
+
+  //! \brief Indicates the validity of all registers
+  kMinidumpContextPPC64All = kMinidumpContextPPC64Base     |
+                             kMinidumpContextPPC64Floating |
+                             kMinidumpContextPPC64Vector
+};
+
+//! \brief A PPC64 CPU context carried in a minidump file.
+//! Based on minidump_cpu_ppc64.h from breakpad.
+struct MinidumpContextPPC64 {
+  uint64_t context_flags;
+
+  //! \brief General purpose registers.
+  uint64_t nip;
+  uint64_t msr;
+  uint64_t regs[32];
+  uint64_t ccr;
+  uint64_t xer;
+  uint64_t lnk;
+  uint64_t ctr;
+
+  //! \brief Floating point registers.
+  double fpregs[32];
+
+  //! \brief FPU status register.
+  double fpscr;
+
+  //! \brief Altivec/VMX vector registers.
+  struct {
+      //! \brief Vector registers are 128bits.
+      uint128_struct save_vr[32];
+      uint128_struct save_vscr;
+
+      //! \brief Padding included for breakpad compatibiltiy.
+      uint32_t save_pad5[4];
+
+      //! \brief VRSAVE register.
+      uint32_t save_vrsave;
+
+      //! \brief Padding included for breakpad compatibiltiy.
+      uint32_t save_pad6[7];
+  } vregs;
+};
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_H_

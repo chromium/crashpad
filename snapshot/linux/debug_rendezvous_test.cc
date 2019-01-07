@@ -159,9 +159,11 @@ void TestAgainstTarget(PtraceConnection* connection) {
           const bool is_vdso_mapping =
               device == 0 && inode == 0 && mapping_name == "[vdso]";
           static constexpr char kPrefix[] = "linux-vdso.so.";
+          static constexpr char kPrefix64[] = "linux-vdso64.so.";
           return is_vdso_mapping ==
                  (module_name.empty() ||
-                  module_name.compare(0, strlen(kPrefix), kPrefix) == 0);
+                  module_name.compare(0, strlen(kPrefix), kPrefix) == 0 ||
+                  module_name.compare(0, strlen(kPrefix64), kPrefix64) == 0);
         },
         module_mapping->name,
         module_mapping->device,

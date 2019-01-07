@@ -296,7 +296,28 @@ void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
             0);
 #undef CPU_ARCH_NAME
 }
+#elif defined(ARCH_CPU_PPC64_FAMILY)
+using NativeCPUContext = ucontext_t;
 
+void InitializeContext(NativeCPUContext* context) {
+  for (size_t reg = 0; reg < 32; ++reg) {
+    context->uc_mcontext.gp_regs[reg] = reg;
+  }
+
+  memset(&context->uc_mcontext.fp_regs, 44,
+      sizeof(context->uc_mcontext.fp_regs));
+}
+
+void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
+  EXPECT_EQ(actual.architecture, kCPUArchitecturePPC64);
+
+  for (size_t reg = 0; reg < 32; ++reg) {
+    EXPECT_EQ(actual.ppc64->regs[reg], expected.uc_mcontext.gp_regs[reg]);
+  }
+
+  EXPECT_EQ(memcmp(actual.ppc64->fpregs, expected.uc_mcontext.fp_regs,
+            sizeof(actual.ppc64->fpregs)), 0);
+}
 #else
 #error Port.
 #endif

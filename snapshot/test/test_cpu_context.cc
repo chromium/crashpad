@@ -292,5 +292,38 @@ void InitializeCPUContextMIPS64(CPUContext* context, uint32_t seed) {
   mips64->dsp_control = value++;
 }
 
+void InitializeCPUContextPPC64(CPUContext* context, uint32_t seed) {
+  context->architecture = kCPUArchitecturePPC64;
+  CPUContextPPC64* ppc64 = context->ppc64;
+
+  if (seed == 0) {
+      memset(ppc64, 0, sizeof(*ppc64));
+      return;
+  }
+
+  uint64_t value = seed;
+  for (size_t i = 0; i < base::size(ppc64->regs); ++i) {
+      ppc64->regs[i] = value++;
+  }
+
+  ppc64->nip = value++;
+  ppc64->msr = value++;
+  ppc64->ccr = value++;
+  ppc64->xer = value++;
+  ppc64->lnk = value++;
+  ppc64->ctr = value++;
+
+  for (size_t i = 0; i < base::size(ppc64->fpregs); ++i) {
+      ppc64->fpregs[i] = static_cast<double>(i);
+  }
+  ppc64->fpscr = value++;
+
+  for (size_t i = 0; i < base::size(ppc64->vregs.save_vr); ++i) {
+      ppc64->vregs.save_vr[i] = {value++, value++};
+  }
+  ppc64->vregs.save_vscr = {value++, value++};
+  ppc64->vregs.save_vrsave = value++;
+}
+
 }  // namespace test
 }  // namespace crashpad

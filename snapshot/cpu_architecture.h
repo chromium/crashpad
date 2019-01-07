@@ -43,7 +43,10 @@ enum CPUArchitecture {
   kCPUArchitectureMIPSEL,
 
   //! \brief 64-bit MIPSEL.
-  kCPUArchitectureMIPS64EL
+  kCPUArchitectureMIPS64EL,
+
+  //! \brief 64-bit PPC64.
+  kCPUArchitecturePPC64
 };
 
 }  // namespace crashpad

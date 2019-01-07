@@ -323,6 +323,69 @@ bool ExceptionSnapshotLinux::ReadContext<ContextTraits64>(
       reader, context_address, context_.mips64);
 }
 
+#elif defined(ARCH_CPU_PPC64_FAMILY)
+
+template <typename Traits>
+static bool ReadContext(ProcessReaderLinux* reader,
+                        LinuxVMAddress context_address,
+                        typename Traits::CPUContext* dest_context) {
+  const ProcessMemory* memory = reader->Memory();
+
+  LinuxVMAddress gp_regs_address = context_address +
+                                   offsetof(UContext, mcontext) +
+                                   offsetof(typename Traits::MContext, gp_regs);
+
+  typename Traits::SignalThreadContext thread_context;
+  if (!memory->Read(gp_regs_address, sizeof(thread_context), &thread_context)) {
+    LOG(ERROR) << "Couldn't read gp_regs!";
+    return false;
+  }
+
+  LinuxVMAddress fp_regs_address = context_address +
+                                   offsetof(UContext, mcontext) +
+                                   offsetof(typename Traits::MContext, fp_regs);
+
+  typename Traits::SignalFloatContext fp_context;
+  if (!memory->Read(fp_regs_address, sizeof(fp_context), &fp_context)) {
+    LOG(ERROR) << "Couldn't read fp_regs!";
+    return false;
+  }
+
+  LinuxVMAddress v_regs_ptr_address = context_address +
+                                  offsetof(UContext, mcontext) +
+                                  offsetof(typename Traits::MContext, vmx_reserve) + 8;
+
+  typename Traits::SignalVectorContext v_context;
+  if (!memory->Read(v_regs_ptr_address, sizeof(v_context), &v_context)) {
+    LOG(ERROR) << "Couldn't read v_regs!";
+    return false;
+  }
+
+  InitializeCPUContextPPC64<ContextTraits64>(thread_context, fp_context,
+                            v_context, dest_context);
+
+  return true;
+}
+
+template<>
+bool ExceptionSnapshotLinux::ReadContext<ContextTraits64>(
+    ProcessReaderLinux* reader,
+    LinuxVMAddress context_address) {
+  context_.architecture = kCPUArchitecturePPC64;
+  context_.ppc64 = &context_union_.ppc64;
+
+  return internal::ReadContext<ContextTraits64>(
+      reader, context_address, context_.ppc64);
+}
+
+template<>
+bool ExceptionSnapshotLinux::ReadContext<ContextTraits32>(
+    ProcessReaderLinux* reader,
+    LinuxVMAddress context_address) {
+  // PPC64 is 64-bit
+  return false;
+}
+
 #endif  // ARCH_CPU_X86_FAMILY
 
 bool ExceptionSnapshotLinux::Initialize(ProcessReaderLinux* process_reader,
