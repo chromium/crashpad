@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "790757fa_683988a3",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1305517
+      },
+      "writtenOn": "2019-01-07T18:05:59Z",
+      "side": 1,
+      "message": "getpagesize() was chosen because it is already used throughout the code base. If the crashpad team feels that the sysconf API is more appropriate, I could go in and change all occurrences, but for now I think it\u0027s best to be consistent.\n\nAs for declaring it static, that\u0027s a good idea and I\u0027ll incorporate it in my next rebase.",
+      "parentUuid": "fdb32950_36afc6f3",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0067408_274306e4",
         "filename": "util/linux/ptracer.cc",
         "patchSetId": 5
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "38fa48aa_02deba00",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1305517
+      },
+      "writtenOn": "2019-01-07T18:05:59Z",
+      "side": 1,
+      "message": "It was understanding that the codebase\u0027s style is in fact to derive the closing comment from the first preprocessor conditional. If this is not the case, I would be happy to go in and correct them.",
+      "parentUuid": "d0067408_274306e4",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73f52018_98238874",
         "filename": "util/linux/ptracer.cc",
         "patchSetId": 5
@@ -65,6 +101,24 @@
       "writtenOn": "2018-11-30T18:27:29Z",
       "side": 1,
       "message": "Wouldn\u0027t it make more sense to define this function on all archs, and create dummy versions for other archs?",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "113c0436_194200d5",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1305517
+      },
+      "writtenOn": "2019-01-07T18:05:59Z",
+      "side": 1,
+      "message": "From my point of view it could go either way, especially since this is the only invocation of the function. Does anybody have any strong feelings on this?",
+      "parentUuid": "73f52018_98238874",
       "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "d229a615_ac36b494",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1305517
+      },
+      "writtenOn": "2019-01-07T18:05:59Z",
+      "side": 1,
+      "message": "See above response.",
+      "parentUuid": "8956376b_2e130512",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "502a80b9_40f68344",
         "filename": "util/linux/thread_info.h",
         "patchSetId": 5
@@ -102,6 +174,24 @@
       "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30558477_79aa175e",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1305517
+      },
+      "writtenOn": "2019-01-07T18:05:59Z",
+      "side": 1,
+      "message": "See above response.",
+      "parentUuid": "502a80b9_40f68344",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "bf4a0f6d_d1fe40d8",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1305517
+      },
+      "writtenOn": "2019-01-07T18:05:59Z",
+      "side": 1,
+      "message": "See above response.",
+      "parentUuid": "080d89f5_de002101",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b7ca9e8_272e78d7",
         "filename": "util/linux/thread_info.h",
         "patchSetId": 5
@@ -136,6 +244,24 @@
       "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03c75c85_a4856844",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1305517
+      },
+      "writtenOn": "2019-01-07T18:05:59Z",
+      "side": 1,
+      "message": "This struct contains the floating point context for 32-bit variants of the supported architectures. The comment was meant to explain that since the port targets PPC64 only, the struct is declared as empty.\n\nI\u0027ll update it to be more clear in the next rebase.",
+      "parentUuid": "0b7ca9e8_272e78d7",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -156,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "326b8862_3fb0441c",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1305517
+      },
+      "writtenOn": "2019-01-07T18:05:59Z",
+      "side": 1,
+      "message": "See above response.",
+      "parentUuid": "97039823_01028d66",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fb19c9b_8e44748e",
         "filename": "util/linux/thread_info.h",
         "patchSetId": 5
@@ -173,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "aa78d1da_2e26cc30",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1305517
+      },
+      "writtenOn": "2019-01-07T18:05:59Z",
+      "side": 1,
+      "message": "See above response.",
+      "parentUuid": "6fb19c9b_8e44748e",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c8acf51_e2890a2d",
         "filename": "util/linux/thread_info.h",
         "patchSetId": 5
@@ -187,6 +349,24 @@
       "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cb4bb31_74d1bd3c",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1305517
+      },
+      "writtenOn": "2019-01-07T18:05:59Z",
+      "side": 1,
+      "message": "See above response.",
+      "parentUuid": "0c8acf51_e2890a2d",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -224,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "fc77d1b3_097cdb35",
+        "filename": "util/posix/signals_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1305517
+      },
+      "writtenOn": "2019-01-07T18:05:59Z",
+      "side": 1,
+      "message": "I think this is a rather subjective thing. Personally, I find the current conditional to be slightly easier to reason about.\n\nThat being said, if you or anybody else feels strongly about changing it, I can do so.",
+      "parentUuid": "960575cf_e542a3a0",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fe81f158_3872d2ea",
         "filename": "util/posix/signals_test.cc",
         "patchSetId": 5
@@ -241,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "32120066_8f7972e7",
+        "filename": "util/posix/signals_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1305517
+      },
+      "writtenOn": "2019-01-07T18:05:59Z",
+      "side": 1,
+      "message": "Good catch. Will update in the next rebase.",
+      "parentUuid": "fe81f158_3872d2ea",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebb7dd3a_7717b813",
         "filename": "util/posix/signals_test.cc",
         "patchSetId": 5
@@ -252,6 +468,24 @@
       "writtenOn": "2018-11-30T18:27:29Z",
       "side": 1,
       "message": "I think this comment (both about ARM64 and PPC64; not sure what is the behavior of PPC32) should be BEFORE the #if block.",
+      "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97db2797_e077c596",
+        "filename": "util/posix/signals_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1305517
+      },
+      "writtenOn": "2019-01-07T18:05:59Z",
+      "side": 1,
+      "message": "My goal here again was to replicate the existing style in the code base and from what I can tell this seems to be the preferred method of inserting comments that apply to preprocessor statement blocks.\n\nThat being said, if you can find some examples in the code base that contradict this or a team member chimes in I can change it.",
+      "parentUuid": "ebb7dd3a_7717b813",
       "revId": "c9e309634e7a7e042a55e1c8b5195cd1bb42ea41",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
