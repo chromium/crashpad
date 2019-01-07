@@ -40,16 +40,18 @@ bool LocalStringToNumber(const std::string& string, Type* number) {
   static_assert(sizeof(Type) == sizeof(int) || sizeof(Type) == sizeof(int64_t),
                 "Unexpected Type size");
 
+  char data[sizeof(Type)];
   if (sizeof(Type) == sizeof(int)) {
-    return std::numeric_limits<Type>::is_signed
-               ? StringToNumber(string, reinterpret_cast<int*>(number))
-               : StringToNumber(string,
-                                reinterpret_cast<unsigned int*>(number));
+    if (!StringToNumber(string, reinterpret_cast<unsigned int*>(data))) {
+      return false;
+    }
   } else {
-    return std::numeric_limits<Type>::is_signed
-               ? StringToNumber(string, reinterpret_cast<int64_t*>(number))
-               : StringToNumber(string, reinterpret_cast<uint64_t*>(number));
+    if (!StringToNumber(string, reinterpret_cast<uint64_t*>(data))) {
+      return false;
+    }
   }
+  *number = *reinterpret_cast<Type*>(data);
+  return true;
 }
 
 template <typename Type>
