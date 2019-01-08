@@ -18,6 +18,7 @@
 #include <string.h>
 #include <sys/sysmacros.h>
 
+#include "base/bit_cast.h"
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "build/build_config.h"
@@ -50,7 +51,7 @@ bool LocalStringToNumber(const std::string& string, Type* number) {
       return false;
     }
   }
-  *number = *reinterpret_cast<Type*>(data);
+  *number = bit_cast<Type>(data);
   return true;
 }
 
