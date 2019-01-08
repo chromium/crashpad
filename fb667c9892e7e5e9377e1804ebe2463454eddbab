@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b3f5e19_d71dd8bd",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-08T14:28:06Z",
+      "side": 1,
+      "message": "Strictly speaking, a memcpy() here would avoid any possibility of undefined behavior.",
+      "revId": "fb667c9892e7e5e9377e1804ebe2463454eddbab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
