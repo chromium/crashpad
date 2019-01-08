@@ -16,6 +16,24 @@
       "revId": "fb667c9892e7e5e9377e1804ebe2463454eddbab",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "835f63c5_45d56afe",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-01-08T17:05:18Z",
+      "side": 1,
+      "message": "Oh, right. I\u0027d gotten it into my head that the access-through-char safety went both ways.\nhttps://chromium-review.googlesource.com/c/crashpad/crashpad/+/1401103",
+      "parentUuid": "7b3f5e19_d71dd8bd",
+      "revId": "fb667c9892e7e5e9377e1804ebe2463454eddbab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
