@@ -16,6 +16,24 @@
       "revId": "13af1d25de89ee6b87e68231d72696033fec42c0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbbc0882_63934f61",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-01-08T01:20:03Z",
+      "side": 1,
+      "message": "I started out with bit_cast, but it got awkward because of this if block. bit_cast statically asserts that its input and output are the same size, but this function has code paths for multiple sizes.",
+      "parentUuid": "b84a79d2_f0dd3202",
+      "revId": "13af1d25de89ee6b87e68231d72696033fec42c0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
