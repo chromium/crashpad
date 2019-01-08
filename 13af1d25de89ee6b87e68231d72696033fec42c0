@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b84a79d2_f0dd3202",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-08T00:43:44Z",
+      "side": 1,
+      "message": "bit_cast\u003c\u003e() from base/bit_cast.h would be better.",
+      "revId": "13af1d25de89ee6b87e68231d72696033fec42c0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
