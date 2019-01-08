@@ -34,6 +34,24 @@
       "revId": "fb667c9892e7e5e9377e1804ebe2463454eddbab",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0ed8a9b_c58f58b8",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-08T17:09:02Z",
+      "side": 1,
+      "message": "\u003e Oh, right. I\u0027d gotten it into my head that the access-through-char safety went both ways.\n\u003e https://chromium-review.googlesource.com/c/crashpad/crashpad/+/1401103\n\nYeah, tricky stuff. The problem here was you never accessed it as char, even though the storage was declared that way. Thanks for the follow-up.",
+      "parentUuid": "835f63c5_45d56afe",
+      "revId": "fb667c9892e7e5e9377e1804ebe2463454eddbab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
