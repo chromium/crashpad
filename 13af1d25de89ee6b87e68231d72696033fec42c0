@@ -93,6 +93,30 @@
       "revId": "13af1d25de89ee6b87e68231d72696033fec42c0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac342842_01107bf9",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-08T03:25:08Z",
+      "side": 1,
+      "message": "I thought it’d be\n\nif (sizeof(Type) \u003d\u003d sizeof(int)) {\n  unsigned int i;\n  if (!StringToNumber(string, \u0026i)) {\n    return false;\n  }\n  number \u003d bit_cast\u003cType\u003e(i);\n} else {\n  // the same thing with uint64_t\n}\n\nBasically, I didn’t see a whole lot of value in maintaining the same char array for the out-parameter in the two different StringToNumber() calls. Without something like bit_cast\u003c\u003e(), it also exposed us to language ambiguity (and therefore possible UB, if -fstrict-aliasing is in effect, which it rarely is because it seems like you ought to be able to write code like this.)",
+      "parentUuid": "0c23da8a_cae3c179",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 42
+      },
+      "revId": "13af1d25de89ee6b87e68231d72696033fec42c0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
