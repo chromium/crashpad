@@ -34,6 +34,24 @@
       "revId": "13af1d25de89ee6b87e68231d72696033fec42c0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6db1eba7_60436234",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-01-08T01:53:57Z",
+      "side": 1,
+      "message": "Actually, I think I can do this with std::make_unsigned.",
+      "parentUuid": "cbbc0882_63934f61",
+      "revId": "13af1d25de89ee6b87e68231d72696033fec42c0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
