@@ -117,6 +117,30 @@
       "revId": "13af1d25de89ee6b87e68231d72696033fec42c0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34a01f33_f2e18f2b",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-01-08T03:47:18Z",
+      "side": 1,
+      "message": "The \"number \u003d bit_cast\u003cType\u003e(i)\" line is problematic. For any template instantiation, only one of the if-branches is able to compile:\n\nIn file included from ../../util/linux/memory_map.cc:23:\n../../third_party/mini_chromium/mini_chromium/base/bit_cast.h:64:3: error: static_assert failed \"bit_cast requires source and destination to be the same size\"\n  static_assert(sizeof(Dest) \u003d\u003d sizeof(Source),\n  ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n../../util/linux/memory_map.cc:51:15: note: in instantiation of function template specialization \u0027bit_cast\u003clong, unsigned int\u003e\u0027 requested here\n    *number \u003d bit_cast\u003cType\u003e(i);",
+      "parentUuid": "ac342842_01107bf9",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 42
+      },
+      "revId": "13af1d25de89ee6b87e68231d72696033fec42c0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
