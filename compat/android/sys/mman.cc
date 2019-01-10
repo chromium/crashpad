@@ -35,7 +35,7 @@ extern "C" void* __mmap2(void* addr,
 namespace {
 
 template <typename T>
-T Align(T value, uint8_t alignment) {
+T Align(T value, size_t alignment) {
   return (value + alignment - 1) & ~(alignment - 1);
 }
 
