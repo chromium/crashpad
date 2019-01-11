@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "base/logging.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/gtest_disabled.h"
@@ -50,15 +51,18 @@ bool GetChildTestFunctionName(std::string* child_func_name) {
 }  // namespace
 
 int main(int argc, char* argv[]) {
+  LOG(INFO) << "Hello, World\n";
   crashpad::test::InitializeMainArguments(argc, argv);
   testing::AddGlobalTestEnvironment(
       crashpad::test::DisabledTestGtestEnvironment::Get());
 
+  LOG(INFO) << "child function?";
   std::string child_func_name;
   if (GetChildTestFunctionName(&child_func_name)) {
     return crashpad::test::internal::CheckedInvokeMultiprocessChild(
         child_func_name);
   }
+  LOG(INFO) << "nope";
 
 #if defined(CRASHPAD_IS_IN_CHROMIUM)
 
@@ -72,6 +76,7 @@ int main(int argc, char* argv[]) {
   constexpr bool use_chromium_test_launcher = true;
 #endif  // OS_WIN
 
+  LOG(INFO) << "Using the chromium launcher?";
   if (use_chromium_test_launcher) {
     // This supports --test-launcher-summary-output, which writes a JSON file
     // containing test details needed by Swarming.
@@ -81,16 +86,19 @@ int main(int argc, char* argv[]) {
         argv,
         base::Bind(&base::TestSuite::Run, base::Unretained(&test_suite)));
   }
+  LOG(INFO) << "no?";
 
 #endif  // CRASHPAD_IS_IN_CHROMIUM
 
 #if defined(CRASHPAD_TEST_LAUNCHER_GMOCK)
   testing::InitGoogleMock(&argc, argv);
 #elif defined(CRASHPAD_TEST_LAUNCHER_GTEST)
+  LOG(INFO) << "initgoogle test probs";
   testing::InitGoogleTest(&argc, argv);
 #else  // CRASHPAD_TEST_LAUNCHER_GMOCK
 #error #define CRASHPAD_TEST_LAUNCHER_GTEST or CRASHPAD_TEST_LAUNCHER_GMOCK
 #endif  // CRASHPAD_TEST_LAUNCHER_GMOCK
 
+  LOG(INFO) << "just gonna run tests then";
   return RUN_ALL_TESTS();
 }
