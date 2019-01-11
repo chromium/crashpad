@@ -126,8 +126,12 @@ mach_port_t ChildPortHandshakeServer::RunServer(
     return MACH_PORT_NULL;
   }
 
-  // A kqueue cannot monitor a raw Mach receive right with EVFILT_MACHPORT. It
-  // requires a port set. Create a new port set and add the receive right to it.
+  // Prior to macOS 10.12, a kqueue cannot monitor a raw Mach receive right with
+  // EVFILT_MACHPORT. It requires a port set. Compare 10.11.6
+  // xnu-3248.60.10/osfmk/ipc/ipc_pset.c filt_machportattach(), which requires
+  // MACH_PORT_RIGHT_PORT_SET, to 10.12.0 xnu-3789.1.32/osfmk/ipc/ipc_pset.c
+  // filt_machportattach(), which also handles MACH_PORT_TYPE_RECEIVE. Create a
+  // new port set and add the receive right to it.
   base::mac::ScopedMachPortSet server_port_set(
       NewMachPort(MACH_PORT_RIGHT_PORT_SET));
   CHECK(server_port_set.is_valid());
