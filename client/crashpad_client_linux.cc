@@ -57,7 +57,7 @@ std::vector<std::string> BuildAppProcessArgs(
     const std::vector<std::string>& arguments,
     int socket) {
   std::vector<std::string> argv;
-#if defined(ARCH_CPU_64_BIT)
+#if defined(ARCH_CPU_64_BITS)
   argv.push_back("/system/bin/app_process64");
 #else
   argv.push_back("/system/bin/app_process32");
