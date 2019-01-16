@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd7386d1_0580e77f",
+        "filename": "snapshot/sanitized/process_snapshot_sanitized_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-16T15:31:51Z",
+      "side": 0,
+      "message": "Yeah, I guess it was kind of bogus to test this.",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 16
+      },
+      "revId": "e7895b44048166dd02824ddbb757e99eebe150bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
