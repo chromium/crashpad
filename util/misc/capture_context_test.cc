@@ -67,9 +67,9 @@ void TestCaptureContext() {
   // value can be the lowest value possible.
   NativeCPUContext context_2;
 
-// AddressSanitizer on Linux causes stack variables to be stored separately from
-// the call stack.
-#if !defined(ADDRESS_SANITIZER) || (!defined(OS_LINUX) && !defined(OS_ANDROID))
+  // AddressSanitizer with use-after-return detection causes stack variables to
+  // be allocated on the heap.
+#if !defined(ADDRESS_SANITIZER)
   // The stack pointer reference value is the lowest address of a local variable
   // in this function. The captured program counter will be slightly less than
   // or equal to the reference stack pointer.
@@ -82,7 +82,7 @@ void TestCaptureContext() {
                   uintptr_t reference) { return reference - actual < 768u; },
                sp,
                kReferenceSP);
-#endif  // !ADDRESS_SANITIZER || (!OS_LINUX && !OS_ANDROID)
+#endif  // !ADDRESS_SANITIZER
 
   // Capture the context again, expecting that the stack pointer stays the same
   // and the program counter increases. Strictly speaking, there’s no guarantee
