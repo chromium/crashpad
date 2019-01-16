@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f0b935d8_a3939eb0",
+        "filename": "snapshot/sanitized/process_snapshot_sanitized_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-01-16T17:05:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ef02ad4_27f73073",
+      "revId": "df8cc635b2972e17846248c6d598ec7290089d7b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e70de3_c10a2167",
         "filename": "snapshot/sanitized/process_snapshot_sanitized_test.cc",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "df8cc635b2972e17846248c6d598ec7290089d7b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e38efbcd_28250206",
+        "filename": "snapshot/sanitized/process_snapshot_sanitized_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-01-16T17:05:22Z",
+      "side": 1,
+      "message": "Ah, I see what happened: 1) I ran this change under a separate CL in chromium/ against the Win/Mac/Linux ASan bots but only the Mac and Windows bots ran crashpad_tests, the Linux bot just skipped checking anything and went green anyway and 2) I don\u0027t know what sanitized/ is for but it\u0027s only built on Linux/Android. The new changes builds crashpad_tests under Linux w/ ASan.",
+      "parentUuid": "b0e70de3_c10a2167",
+      "revId": "df8cc635b2972e17846248c6d598ec7290089d7b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
