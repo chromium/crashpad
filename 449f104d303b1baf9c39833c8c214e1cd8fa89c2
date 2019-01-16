@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fb9d3d4_71a048e1",
+        "filename": "util/misc/capture_context_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-16T17:15:53Z",
+      "side": 1,
+      "message": "Same here (sorry I didn\u0027t call it or explicitly on the first round.)",
+      "revId": "449f104d303b1baf9c39833c8c214e1cd8fa89c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
