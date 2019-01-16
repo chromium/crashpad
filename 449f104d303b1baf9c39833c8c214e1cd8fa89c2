@@ -16,6 +16,24 @@
       "revId": "449f104d303b1baf9c39833c8c214e1cd8fa89c2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9204a850_22a559fa",
+        "filename": "util/misc/capture_context_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-01-16T18:11:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fb9d3d4_71a048e1",
+      "revId": "449f104d303b1baf9c39833c8c214e1cd8fa89c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
