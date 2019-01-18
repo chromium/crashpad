@@ -58,6 +58,8 @@ CRASHPAD_CHILD_TEST_MAIN(AddressSpaceChildTestMain) {
     const size_t size = t.pages * PAGE_SIZE;
     zx_status_t status = zx_vmo_create(size, 0, &vmo);
     ZX_CHECK(status == ZX_OK, status) << "zx_vmo_create";
+    status = zx_vmo_replace_as_executable(vmo, ZX_HANDLE_INVALID, &vmo);
+    ZX_CHECK(status == ZX_OK, status) << "zx_vmo_replace_as_executable";
     uintptr_t mapping_addr = 0;
     status = zx_vmar_map(
         zx_vmar_root_self(), t.zircon_perm, 0, vmo, 0, size, &mapping_addr);
