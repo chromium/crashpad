@@ -45,6 +45,54 @@
       "revId": "d584f0ad0a8f71220a46c5809f7c4dd1fb33380f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b7da8b5_f7f73a72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1163599
+      },
+      "writtenOn": "2019-01-19T05:20:09Z",
+      "side": 1,
+      "message": "Gah, thank you very much for catching!",
+      "parentUuid": "b2268246_fdedea4a",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "d584f0ad0a8f71220a46c5809f7c4dd1fb33380f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c87fdced_07a54d31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1163599
+      },
+      "writtenOn": "2019-01-19T05:20:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef8a6fab_58b39bde",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "d584f0ad0a8f71220a46c5809f7c4dd1fb33380f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
