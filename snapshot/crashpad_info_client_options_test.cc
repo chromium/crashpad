@@ -326,10 +326,10 @@ TEST_P(CrashpadInfoSizes_ClientOptions, DifferentlySizedStruct) {
   }
 }
 
-INSTANTIATE_TEST_CASE_P(CrashpadInfoSizes_ClientOptions,
-                        CrashpadInfoSizes_ClientOptions,
-                        testing::Values(FILE_PATH_LITERAL("small"),
-                                        FILE_PATH_LITERAL("large")));
+INSTANTIATE_TEST_SUITE_P(CrashpadInfoSizes_ClientOptions,
+                         CrashpadInfoSizes_ClientOptions,
+                         testing::Values(FILE_PATH_LITERAL("small"),
+                                         FILE_PATH_LITERAL("large")));
 
 }  // namespace
 }  // namespace test

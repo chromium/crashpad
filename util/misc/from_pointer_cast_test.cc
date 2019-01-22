@@ -41,7 +41,7 @@ using FromPointerCastTestTypes = testing::Types<void*,
                                                 volatile SomeType*,
                                                 const volatile SomeType*>;
 
-TYPED_TEST_CASE(FromPointerCastTest, FromPointerCastTestTypes);
+TYPED_TEST_SUITE(FromPointerCastTest, FromPointerCastTestTypes);
 
 TYPED_TEST(FromPointerCastTest, ToSigned) {
   EXPECT_EQ(FromPointerCast<int64_t>(nullptr), 0);
