@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79f88eab_d249beb9",
+        "filename": "test/filesystem.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-01-23T21:45:43Z",
+      "side": 1,
+      "message": "I don\u0027t think WinBase.h is meant to be included directly.\n\ne.g. see the docs for a WinBase.h-defined function like https://msdn.microsoft.com/en-us/library/windows/desktop/aa366920(v\u003dvs.85).aspx which generally says:\n\n\"WinBase.h (include Windows.h)\"",
+      "revId": "2e4ce58e0ca1f26fae7e1198e3640b70eb056101",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
