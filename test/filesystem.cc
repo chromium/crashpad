@@ -34,6 +34,7 @@
 
 #include "base/posix/eintr_wrapper.h"
 #elif defined(OS_WIN)
+#include <winbase.h>
 #include <windows.h>
 #endif
 
