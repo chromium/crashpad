@@ -16,6 +16,23 @@
       "revId": "2e4ce58e0ca1f26fae7e1198e3640b70eb056101",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51e6f759_0a1bc32c",
+        "filename": "test/filesystem.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-23T21:46:53Z",
+      "side": 1,
+      "message": "\u003cwindows.h\u003e has always been enough to get \u003cwinbase.h\u003e, no?\n\nhttps://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-createsymboliclinkw says\n\nHeader\twinbase.h (include Windows.h)",
+      "revId": "2e4ce58e0ca1f26fae7e1198e3640b70eb056101",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
