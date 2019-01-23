@@ -35,6 +35,8 @@
 #include "base/posix/eintr_wrapper.h"
 #elif defined(OS_WIN)
 #include <windows.h>
+
+#include "compat/win/winbase.h"
 #endif
 
 namespace crashpad {
