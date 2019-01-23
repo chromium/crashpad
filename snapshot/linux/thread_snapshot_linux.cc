@@ -186,6 +186,14 @@ bool ThreadSnapshotLinux::Initialize(ProcessReaderLinux* process_reader,
         thread.thread_info.float_context.f32,
         context_.mipsel);
   }
+#elif defined(ARCH_CPU_PPC64_FAMILY)
+  context_.architecture = kCPUArchitecturePPC64;
+  context_.ppc64 = &context_union_.ppc64;
+  InitializeCPUContextPPC64<ContextTraits64>(
+      thread.thread_info.thread_context.t64,
+      thread.thread_info.float_context.f64,
+      thread.thread_info.vector_context.v64,
+      context_.ppc64);
 #else
 #error Port.
 #endif

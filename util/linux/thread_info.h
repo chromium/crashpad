@@ -28,6 +28,10 @@
 #include <android/api-level.h>
 #endif
 
+#if defined(ARCH_CPU_PPC64_FAMILY)
+#include <sys/ucontext.h>
+#endif
+
 namespace crashpad {
 
 //! \brief The set of general purpose registers for an architecture family.
@@ -79,6 +83,8 @@ union ThreadContext {
     uint32_t cp0_status;
     uint32_t cp0_cause;
     uint32_t padding1_;
+#elif defined(ARCH_CPU_PPC64_FAMILY)
+    // PPC64 is 64-bit
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -132,6 +138,21 @@ union ThreadContext {
     uint64_t cp0_badvaddr;
     uint64_t cp0_status;
     uint64_t cp0_cause;
+#elif defined(ARCH_CPU_PPC64_FAMILY)
+    // Reflects struct pt_regs in asm/ptrace.h.
+    uint64_t gpr[32];
+    uint64_t nip;
+    uint64_t msr;
+    uint64_t orig_gpr3;
+    uint64_t ctr;
+    uint64_t lnk;
+    uint64_t xer;
+    uint64_t ccr;
+    uint64_t softe;
+    uint64_t trap;
+    uint64_t dar;
+    uint64_t dsisr;
+    uint64_t result;
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -143,6 +164,8 @@ union ThreadContext {
   using NativeThreadContext = user_regs;
 #elif defined(ARCH_CPU_MIPS_FAMILY)
 // No appropriate NativeThreadsContext type available for MIPS
+#elif defined(ARCH_CPU_PPC64_FAMILY)
+  using NativeThreadContext = struct pt_regs;
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY || ARCH_CPU_ARM64
@@ -218,6 +241,9 @@ union FloatContext {
     } fpregs[32];
     uint32_t fpcsr;
     uint32_t fpu_id;
+#elif defined(ARCH_CPU_PPC64_FAMILY)
+    // Crashpad's PPC support is 64-bit only, so this
+    // 32bit-only struct is declared as empty.
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -252,6 +278,10 @@ union FloatContext {
     double fpregs[32];
     uint32_t fpcsr;
     uint32_t fpu_id;
+#elif defined(ARCH_CPU_PPC64_FAMILY)
+    // Reflects fpregset_t in sys/ucontext.h
+    double fpregs[32];
+    double fpscr;
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY
@@ -280,12 +310,34 @@ union FloatContext {
   static_assert(sizeof(f64) == sizeof(user_fpsimd_struct), "Size mismatch");
 #elif defined(ARCH_CPU_MIPS_FAMILY)
 // No appropriate floating point context native type for available MIPS.
+#elif defined(ARCH_CPU_PPC64_FAMILY)
+  static_assert(sizeof(f64) == sizeof(fpregset_t), "Size mismatch");
 #else
 #error Port.
 #endif  // ARCH_CPU_X86
 };
 static_assert(std::is_standard_layout<FloatContext>::value,
               "Not standard layout");
+
+//! \brief The vector registers used for an architecture family
+union VectorContext {
+  struct v32_t {} v32;
+#if defined(ARCH_CPU_PPC64_FAMILY)
+  __attribute__((__aligned__(16))) // Vector context must be doubleword aligned.
+#endif
+  struct v64_t {
+#if defined(ARCH_CPU_PPC64_FAMILY)
+    // Reflects vrregset_t in sys/ucontext.h
+    uint32_t vrregs[32][4];
+    struct {
+      uint32_t __pad[3];
+      uint32_t vscr_word;
+    } vscr;
+    uint32_t vrsave;
+    uint32_t __pad[3];
+#endif
+  } v64;
+};
 
 //! \brief A collection of `ptrace`-able information about a thread.
 struct ThreadInfo {
@@ -297,6 +349,9 @@ struct ThreadInfo {
 
   //! \brief The floating point registers for the thread.
   FloatContext float_context;
+
+  //! \brief (Optional) The vector registers used for the thread.
+  VectorContext vector_context;
 
   //! \brief The thread-local storage address for the thread.
   LinuxVMAddress thread_specific_data_address;

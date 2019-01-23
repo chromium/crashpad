@@ -213,6 +213,21 @@ TEST(MinidumpContextWriter, MIPS64_FromSnapshot) {
       context, ExpectMinidumpContextMIPS64, kSeed);
 }
 
+TEST(MinidumpContextWriter, PPC64_Zeros) {
+  EmptyContextTest<MinidumpContextPPC64Writer, MinidumpContextPPC64>(
+    ExpectMinidumpContextPPC64);
+}
+
+TEST(MinidumpContextWriter, PPC64_FromSnapshot) {
+  constexpr uint32_t kSeed = 64;
+  CPUContextPPC64 context_ppc64;
+  CPUContext context;
+  context.ppc64 = &context_ppc64;
+  InitializeCPUContextPPC64(&context, kSeed);
+  FromSnapshotTest<MinidumpContextPPC64Writer, MinidumpContextPPC64>(
+      context, ExpectMinidumpContextPPC64, kSeed);
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad

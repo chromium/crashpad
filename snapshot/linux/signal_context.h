@@ -422,6 +422,89 @@ static_assert(offsetof(UContext<ContextTraits64>, mcontext.fpregs) ==
               "context offset mismatch");
 #endif
 
+#elif defined(ARCH_CPU_PPC64_FAMILY)
+
+struct SignalThreadContext64 {
+  uint64_t regs[32];
+  uint64_t nip;
+  uint64_t msr;
+  uint64_t orig_r3;
+  uint64_t ctr;
+  uint64_t lnk;
+  uint64_t xer;
+  uint64_t ccr;
+  uint64_t softe;
+  uint64_t trap;
+  uint64_t dar;
+  uint64_t dsisr;
+  uint64_t result;
+  uint64_t dscr;
+  uint64_t fpr0[3];
+};
+
+struct SignalFloatContext64 {
+  double regs[32];
+  double fpscr;
+};
+
+struct SignalVectorContext64 {
+  int32_t vrregs[32][4];
+  struct {
+    int32_t __pad[3];
+    int32_t vscr_word;
+  } vscr;
+  int32_t vrsave;
+  int32_t __pad[3];
+} __attribute__((__aligned__(16)));
+
+
+#pragma pack(pop)
+struct MContext64 {
+  uint64_t reserved[4];
+  int32_t signal;
+  int32_t __pad0;
+  uint64_t handler;
+  uint64_t oldmask;
+  uint64_t pt_regs_ptr;
+  SignalThreadContext64 gp_regs;
+  SignalFloatContext64  fp_regs;
+  SignalVectorContext64 *v_regs;
+  int64_t vmx_reserve[69];
+};
+
+struct ContextTraits64 : public Traits64 {
+  using MContext = MContext64;
+  using SignalThreadContext = SignalThreadContext64;
+  using SignalFloatContext = SignalFloatContext64;
+  using SignalVectorContext = SignalVectorContext64;
+  using CPUContext = CPUContextPPC64;
+};
+
+struct ContextTraits32 : public Traits32 {};
+
+struct UContext {
+  uint64_t flags;
+  uint64_t link;
+  SignalStack<ContextTraits64> stack;
+  Sigset<ContextTraits64> sigmask;
+  MContext64 mcontext;
+};
+#pragma pack(push, 1)
+
+static_assert(sizeof(UContext) == sizeof(ucontext_t),
+              "ucontext_t size mismatch");
+static_assert(sizeof(MContext64) == sizeof(mcontext_t),
+              "mcontext_t size mismatch");
+static_assert(sizeof(SignalThreadContext64) == sizeof(gregset_t),
+              "gregset_t size mismatch");
+static_assert(sizeof(SignalFloatContext64) == sizeof(fpregset_t),
+              "fpregset_t size mismatch");
+static_assert(sizeof(SignalVectorContext64) == sizeof(_libc_vrstate),
+              "vrstate size mismatch");
+static_assert(offsetof(UContext, mcontext) ==
+              offsetof(ucontext_t, uc_mcontext), "mcontext offset mismatch");
+static_assert(offsetof(MContext64, gp_regs) ==
+              offsetof(mcontext_t, gp_regs), "gp_regs offset mismatch");
 #else
 #error Port.
 #endif  // ARCH_CPU_X86_FAMILY

@@ -85,6 +85,9 @@ void ExpectMinidumpContextMIPS(uint32_t expect_seed,
 void ExpectMinidumpContextMIPS64(uint32_t expect_seed,
                                  const MinidumpContextMIPS64* observed,
                                  bool snapshot);
+void ExpectMinidumpContextPPC64(uint32_t expect_seed,
+                                const MinidumpContextPPC64* observed,
+                                bool snapshot);
 //! \}
 
 }  // namespace test
