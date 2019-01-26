@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff9a448d_f2f2d642",
+        "filename": "commit-queue.cfg",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-01-26T21:25:25Z",
+      "side": 1,
+      "message": "We normally put the copyright boilerplate even on config files. For your convenience:\n\n# Copyright 2019 The Crashpad Authors. All rights reserved.\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# See http://luci-config.appspot.com/schemas/projects:commit-queue.cfg for the\n# documentation of this file format.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 36
+      },
+      "revId": "23f111491480ae0e05d5f9d22add823c7c73b3d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
