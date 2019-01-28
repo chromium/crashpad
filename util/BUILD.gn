@@ -66,6 +66,76 @@ if (crashpad_is_mac) {
   }
 }
 
+static_library("capture_context") {
+  sources = [ "misc/capture_context.h" ]
+
+  if (crashpad_is_linux || crashpad_is_android) {
+    sources += [ "misc/capture_context_linux.S" ]
+  }
+  if (crashpad_is_fuchsia) {
+    sources += [ "misc/capture_context_fuchsia.S" ]
+  }
+  if (crashpad_is_mac) {
+    sources += [ "misc/capture_context_mac.S" ]
+  }
+  
+  if (crashpad_is_win) {
+    # There's no ml.exe yet in cross builds, so cross builds assume a prebuilt
+    # copy is available under "prebuilt/".
+    #
+    # TODO(thakis): Use the .asm file in cross builds somehow,
+    # https://crbug.com/762167.
+    if (host_os == "win") {
+      if (current_cpu != "arm64") {
+        output_dir = "$root_out_dir/prebuilt"
+
+        sources += [
+          "misc/capture_context_win.asm",
+        ]
+      } else {
+        # TODO: Add assembly code of CaptureContext for Windows ARM64.
+        sources += [ "misc/capture_context_broken.cc" ]
+      }
+    } else {
+      libs = [ "prebuilt/capture_context.lib" ]
+    }
+
+    if (current_cpu == "x86") {
+      asmflags = [ "/safeseh" ]
+    }
+  }
+}
+
+if (crashpad_is_win) {
+  static_library("safe_terminate_process") {
+    sources = [ "win/safe_terminate_process.h" ]
+
+    # There's no ml.exe yet in cross builds, so cross builds assume a prebuilt
+    # copy is available under "prebuilt/".
+    #
+    # TODO(thakis): Use the .asm file in cross builds somehow,
+    # https://crbug.com/762167.
+    if (host_os == "win") {
+      if (current_cpu != "arm64") {
+        output_dir = "$root_out_dir/prebuilt"
+
+        sources += [
+          "win/safe_terminate_process.asm",
+        ]
+      } else {
+        # TODO: Add assembly code of CaptureContext for Windows ARM64.
+        sources += [ "win/safe_terminate_process_broken.cc" ]
+      }
+    } else {
+      libs = [ "prebuilt/safe_terminate_process.lib" ]
+    }
+
+    if (current_cpu == "x86") {
+      asmflags = [ "/safeseh" ]
+    }
+  }
+}
+
 static_library("util") {
   sources = [
     "file/delimited_file_reader.cc",
@@ -244,7 +314,6 @@ static_library("util") {
       "mach/symbolic_constants_mach.h",
       "mach/task_for_pid.cc",
       "mach/task_for_pid.h",
-      "misc/capture_context_mac.S",
       "misc/clock_mac.cc",
       "misc/paths_mac.cc",
       "net/http_transport_mac.mm",
@@ -256,7 +325,7 @@ static_library("util") {
     sources += get_target_outputs(":mig")
   }
 
-  deps = []
+  deps = [ ":capture_context" ]
 
   if (crashpad_is_linux || crashpad_is_fuchsia) {
     sources += [ "net/http_transport_socket.cc" ]
@@ -310,7 +379,6 @@ static_library("util") {
       "linux/thread_info.cc",
       "linux/thread_info.h",
       "linux/traits.h",
-      "misc/capture_context_linux.S",
       "misc/paths_linux.cc",
       "posix/process_info_linux.cc",
       "process/process_memory_linux.cc",
@@ -373,33 +441,6 @@ static_library("util") {
       "win/termination_codes.h",
       "win/xp_compat.h",
     ]
-
-    # There's no ml.exe yet in cross builds, so provide broken-but-not-asm
-    # versions of the functions defined in .asm files.
-    #
-    # CaptureContext() in capture_context_broken.cc just calls CHECK(false).
-    # SafeTerminateProcess() in safe_terminate_process.cc just calls regular
-    # TerminateProcess() without the protection against broken third-party
-    # patching of TerminateProcess().
-    #
-    # TODO(thakis): Use the .asm file in cross builds somehow,
-    # https://crbug.com/762167.
-    if (host_os == "win") {
-      if (current_cpu != "arm64") {
-        sources += [
-          "misc/capture_context_win.asm",
-          "win/safe_terminate_process.asm",
-        ]
-      } else {
-        # TODO: Add assembly code of CaptureContext for Windows ARM64.
-        sources += [ "misc/capture_context_broken.cc" ]
-      }
-    } else {
-      sources += [
-        "misc/capture_context_broken.cc",
-        "win/safe_terminate_process_broken.cc",
-      ]
-    }
   }
 
   if (crashpad_is_fuchsia) {
@@ -409,7 +450,6 @@ static_library("util") {
       "fuchsia/scoped_task_suspend.cc",
       "fuchsia/scoped_task_suspend.h",
       "fuchsia/system_exception_port_key.h",
-      "misc/capture_context_fuchsia.S",
       "misc/paths_fuchsia.cc",
       "process/process_memory_fuchsia.cc",
       "process/process_memory_fuchsia.h",
@@ -455,6 +495,7 @@ static_library("util") {
 
       "winhttp.lib",
     ]
+    deps += [ ":safe_terminate_process" ]
 
     cflags = [ "/wd4201" ]  # nonstandard extension used: nameless struct/union.
 

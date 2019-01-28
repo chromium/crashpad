@@ -18,6 +18,74 @@
   ],
   'targets': [
     {
+      'target_name': 'capture_context',
+      'type': 'static_library',
+      'dependencies': [],
+      'include_dirs': [ '..' ],
+      'sources': [
+        'misc/capture_context.h',
+        'misc/capture_context_linux.S',
+        'misc/capture_context_mac.S',
+        'misc/capture_context_win.asm',
+      ],
+      'conditions': [
+        ['OS!="mac"', {
+          'sources!': [ 'misc/capture_context_mac.S' ],
+        }],
+        ['OS=="win"', {
+          'conditions': [
+            ['target_arch=="ia32"', {
+              'msvs_settings': {
+                'MASM': {
+                  'UseSafeExceptionHandlers': 'true',
+                },
+              },
+            }],
+          },
+        }, {  # else: OS!="win"
+          'sources!': [ 'misc/capture_context_win.asm' ],
+        }],
+        ['OS!="linux"', {
+          'sources!': [
+            'misc/capture_context_linux.S',
+          ],
+        }],
+      ],
+      'target_conditions': [
+        ['OS=="android"', {
+          'sources/': [
+            ['include', '^misc/capture_context_linux\\.S$'],
+          ],
+        }],
+      ],
+    },
+    {
+      'target_name': 'safe_terminate_process',
+      'type': 'static_library',
+      'dependencies': [],
+      'include_dirs': [ '..' ],
+      'sources': [
+        'win/safe_terminate_process.asm',
+        'win/safe_terminate_process.h',
+      ],
+      'conditions': [
+        ['OS=="win"', {
+          'configurations': {
+          'conditions': [
+            ['target_arch=="ia32"', {
+              'msvs_settings': {
+                'MASM': {
+                  'UseSafeExceptionHandlers': 'true',
+                },
+              },
+            }],
+          },
+        }, {  # else: OS!="win"
+          'sources!': [ 'win/safe_terminate_process.asm' ],
+        }],
+      ],
+    },
+    {
       'target_name': 'crashpad_util',
       'type': 'static_library',
       'dependencies': [
@@ -128,10 +196,6 @@
         'misc/address_types.h',
         'misc/arraysize.h',
         'misc/as_underlying_type.h',
-        'misc/capture_context.h',
-        'misc/capture_context_linux.S',
-        'misc/capture_context_mac.S',
-        'misc/capture_context_win.asm',
         'misc/clock.h',
         'misc/clock_mac.cc',
         'misc/clock_posix.cc',
@@ -272,8 +336,6 @@
         'win/process_structs.h',
         'win/registration_protocol_win.cc',
         'win/registration_protocol_win.h',
-        'win/safe_terminate_process.asm',
-        'win/safe_terminate_process.h',
         'win/scoped_handle.cc',
         'win/scoped_handle.h',
         'win/scoped_local_alloc.cc',
@@ -352,8 +414,6 @@
               '$(SDKROOT)/usr/lib/libbsm.dylib',
             ],
           },
-        }, { # else: OS!=mac
-          'sources!': [ 'misc/capture_context_mac.S' ],
         }],
         ['OS=="win"', {
           'link_settings': {
@@ -372,28 +432,10 @@
               4577,  # 'noexcept' used with no exception handling mode specified
             ],
           },
-          'conditions': [
-            ['target_arch=="ia32"', {
-              'msvs_settings': {
-                'MASM': {
-                  'UseSafeExceptionHandlers': 'true',
-                },
-              },
-            }],
-          ],
-        }, {  # else: OS!="win"
-          'sources!': [
-            'misc/capture_context_win.asm',
-            'win/safe_terminate_process.asm',
-          ],
         }],
         ['OS=="linux"', {
           'sources': [
             'net/http_transport_socket.cc',
-          ],
-        }, {  # else: OS!="linux"
-          'sources!': [
-            'misc/capture_context_linux.S',
           ],
         }],
         ['OS!="android"', {
@@ -411,7 +453,6 @@
         ['OS=="android"', {
           'sources/': [
             ['include', '^linux/'],
-            ['include', '^misc/capture_context_linux\\.S$'],
             ['include', '^misc/paths_linux\\.cc$'],
             ['include', '^posix/process_info_linux\\.cc$'],
             ['include', '^process/process_memory_linux\\.cc$'],
