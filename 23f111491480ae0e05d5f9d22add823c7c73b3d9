@@ -22,6 +22,30 @@
       "revId": "23f111491480ae0e05d5f9d22add823c7c73b3d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b994837e_e724e919",
+        "filename": "commit-queue.cfg",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1141499
+      },
+      "writtenOn": "2019-01-28T08:25:20Z",
+      "side": 1,
+      "message": "My add-hoc autogenerator doesn\u0027t understand local repo copyright headers, but that\u0027d be an intersting feature to add to future tool in LUCI.\n\nBut, given that Gerrit makes it trivial edit, here you go.",
+      "parentUuid": "ff9a448d_f2f2d642",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 36
+      },
+      "revId": "23f111491480ae0e05d5f9d22add823c7c73b3d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
