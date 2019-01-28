@@ -26,11 +26,12 @@
 #include "minidump/minidump_file_writer.h"
 #include "tools/tool_support.h"
 #include "util/file/file_writer.h"
-#include "util/posix/drop_privileges.h"
 #include "util/stdlib/string_number_conversion.h"
 
 #if defined(OS_POSIX)
 #include <unistd.h>
+
+#include "util/posix/drop_privileges.h"
 #endif
 
 #if defined(OS_MACOSX)
