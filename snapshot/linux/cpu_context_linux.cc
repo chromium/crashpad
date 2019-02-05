@@ -17,6 +17,8 @@
 #include <stddef.h>
 #include <string.h>
 
+#include <limits>
+
 #include "base/logging.h"
 
 namespace crashpad {
