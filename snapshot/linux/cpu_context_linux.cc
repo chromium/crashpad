@@ -14,6 +14,8 @@
 
 #include "snapshot/linux/cpu_context_linux.h"
 
+#include <limits>
+
 #include <stddef.h>
 #include <string.h>
 
