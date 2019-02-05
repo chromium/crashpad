@@ -101,7 +101,7 @@ DWORD WINAPI NullThreadProc(void* param) {
   return 0;
 }
 
-// Creates a suspended background thread, and sets EDI/RDI to point at
+// Creates a suspended background thread, and sets EDI/RDI/X17 to point at
 // g_test_memory so we can confirm it's available in the minidump.
 bool CreateThreadWithRegisterPointingToTestMemory() {
   HANDLE thread = CreateThread(
@@ -121,6 +121,8 @@ bool CreateThreadWithRegisterPointingToTestMemory() {
   context.Rdi = reinterpret_cast<DWORD64>(g_test_memory);
 #elif defined(ARCH_CPU_X86)
   context.Edi = reinterpret_cast<DWORD>(g_test_memory);
+#elif defined(ARCH_CPU_ARM64)
+  context.X17 = reinterpret_cast<DWORD64>(g_test_memory);
 #endif
   if (!SetThreadContext(thread, &context)) {
     PLOG(ERROR) << "SetThreadContext";
