@@ -135,29 +135,6 @@ crashpad_executable("crashpad_handler") {
     "../third_party/mini_chromium:base",
   ]
 
-  if (crashpad_is_mac && crashpad_is_in_chromium) {
-    if (is_component_build) {
-      ldflags = [
-        # The handler is in
-        # Chromium.app/Contents/Versions/X/Chromium Framework.framework/Versions/A/Helpers/
-        # so set rpath up to the base.
-        "-rpath",
-        "@loader_path/../../../../../../../..",
-
-        # The handler is also in
-        # Content Shell.app/Contents/Frameworks/Content Shell Framework.framework/Versions/C/Helpers/
-        # so set the rpath for that too.
-        "-rpath",
-        "@loader_path/../../../../../../..",
-
-        # The handler can also be executed in an unbundled framework at
-        # Chromium Framework.framework/Versions/A/Helpers/
-        "-rpath",
-        "@loader_path/../../../..",
-      ]
-    }
-  }
-
   if (crashpad_is_win) {
     if (crashpad_is_in_chromium || crashpad_is_in_dart) {
       remove_configs = [ "//build/config/win:console" ]
