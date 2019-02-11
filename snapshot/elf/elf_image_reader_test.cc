@@ -49,8 +49,8 @@
 #endif  // OS_FUCHSIA
 
 extern "C" {
-__attribute__((visibility("default"))) void
-ElfImageReaderTestExportedSymbol(){};
+__attribute__((visibility("default"))) void ElfImageReaderTestExportedSymbol() {
+}
 }  // extern "C"
 
 namespace crashpad {

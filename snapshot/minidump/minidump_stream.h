@@ -25,7 +25,7 @@ namespace crashpad {
 class MinidumpStream {
  public:
   MinidumpStream(uint32_t stream_type, std::vector<uint8_t> data)
-      : stream_type_(stream_type), data_(data){};
+      : stream_type_(stream_type), data_(data) {}
 
   uint32_t stream_type() const { return stream_type_; }
   const std::vector<uint8_t>& data() const { return data_; }
