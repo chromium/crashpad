@@ -20,6 +20,7 @@
 #include "snapshot/win/pe_image_reader.h"
 #include "snapshot/win/process_reader_win.h"
 #include "test/errors.h"
+#include "test/gtest_disabled.h"
 #include "test/test_paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
@@ -119,7 +120,7 @@ TEST(ProcessSnapshotTest, CrashpadInfoChild) {
 #if defined(ARCH_CPU_64_BITS)
 TEST(ProcessSnapshotTest, CrashpadInfoChildWOW64) {
   if (!TestPaths::Has32BitBuildArtifacts()) {
-    GTEST_SKIP();
+    DISABLED_TEST();
   }
 
   TestImageReaderChild(TestPaths::Architecture::k32Bit);
