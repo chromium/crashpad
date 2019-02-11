@@ -23,6 +23,7 @@
 #include "gtest/gtest.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "test/errors.h"
+#include "test/gtest_disabled.h"
 #include "test/test_paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
@@ -175,7 +176,7 @@ TEST(ExceptionSnapshotWinTest, MAYBE_ChildCrash) {
 #if defined(ARCH_CPU_64_BITS)
 TEST(ExceptionSnapshotWinTest, ChildCrashWOW64) {
   if (!TestPaths::Has32BitBuildArtifacts()) {
-    GTEST_SKIP();
+    DISABLED_TEST();
   }
 
   TestCrashingChild(TestPaths::Architecture::k32Bit);
@@ -292,7 +293,7 @@ TEST(SimulateCrash, MAYBE_ChildDumpWithoutCrashing) {
 #if defined(ARCH_CPU_64_BITS)
 TEST(SimulateCrash, ChildDumpWithoutCrashingWOW64) {
   if (!TestPaths::Has32BitBuildArtifacts()) {
-    GTEST_SKIP();
+    DISABLED_TEST();
   }
 
   TestDumpWithoutCrashingChild(TestPaths::Architecture::k32Bit);

@@ -22,6 +22,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
 #include "test/filesystem.h"
+#include "test/gtest_disabled.h"
 #include "test/scoped_temp_dir.h"
 #include "util/file/file_io.h"
 #include "util/file/filesystem.h"
@@ -47,7 +48,7 @@ TEST(DirectoryReader, BadPaths) {
 
 TEST(DirectoryReader, BadPaths_SymbolicLinks) {
   if (!CanCreateSymbolicLinks()) {
-    GTEST_SKIP();
+    DISABLED_TEST();
   }
 
   ScopedTempDir temp_dir;
@@ -143,7 +144,7 @@ TEST(DirectoryReader, FilesAndDirectories) {
 
 TEST(DirectoryReader, FilesAndDirectories_SymbolicLinks) {
   if (!CanCreateSymbolicLinks()) {
-    GTEST_SKIP();
+    DISABLED_TEST();
   }
 
   TestFilesAndDirectories(true);

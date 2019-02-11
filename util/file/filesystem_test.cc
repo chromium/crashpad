@@ -21,6 +21,7 @@
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/filesystem.h"
+#include "test/gtest_disabled.h"
 #include "test/scoped_temp_dir.h"
 #include "util/misc/time.h"
 
@@ -92,7 +93,7 @@ TEST(Filesystem, FileModificationTime) {
 
 TEST(Filesystem, FileModificationTime_SymbolicLinks) {
   if (!CanCreateSymbolicLinks()) {
-    GTEST_SKIP();
+    DISABLED_TEST();
   }
 
   ScopedTempDir temp_dir;
@@ -223,7 +224,7 @@ TEST(Filesystem, MoveFileOrDirectory) {
 
 TEST(Filesystem, MoveFileOrDirectory_SymbolicLinks) {
   if (!CanCreateSymbolicLinks()) {
-    GTEST_SKIP();
+    DISABLED_TEST();
   }
 
   ScopedTempDir temp_dir;
@@ -301,7 +302,7 @@ TEST(Filesystem, IsRegularFile) {
 
 TEST(Filesystem, IsRegularFile_SymbolicLinks) {
   if (!CanCreateSymbolicLinks()) {
-    GTEST_SKIP();
+    DISABLED_TEST();
   }
 
   ScopedTempDir temp_dir;
@@ -343,7 +344,7 @@ TEST(Filesystem, IsDirectory) {
 
 TEST(Filesystem, IsDirectory_SymbolicLinks) {
   if (!CanCreateSymbolicLinks()) {
-    GTEST_SKIP();
+    DISABLED_TEST();
   }
 
   ScopedTempDir temp_dir;
@@ -392,7 +393,7 @@ TEST(Filesystem, RemoveFile) {
 
 TEST(Filesystem, RemoveFile_SymbolicLinks) {
   if (!CanCreateSymbolicLinks()) {
-    GTEST_SKIP();
+    DISABLED_TEST();
   }
 
   ScopedTempDir temp_dir;
@@ -449,7 +450,7 @@ TEST(Filesystem, RemoveDirectory) {
 
 TEST(Filesystem, RemoveDirectory_SymbolicLinks) {
   if (!CanCreateSymbolicLinks()) {
-    GTEST_SKIP();
+    DISABLED_TEST();
   }
 
   ScopedTempDir temp_dir;
