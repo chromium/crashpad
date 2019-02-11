@@ -42,7 +42,7 @@ class MinidumpUserStreamWriter::SnapshotContentsWriter final
     return snapshot_->Read(this);
   }
 
-  size_t GetSize() const override { return snapshot_ ? snapshot_->Size() : 0; };
+  size_t GetSize() const override { return snapshot_ ? snapshot_->Size() : 0; }
 
   bool MemorySnapshotDelegateRead(void* data, size_t size) override {
     return writer_->Write(data, size);
