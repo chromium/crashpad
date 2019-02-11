@@ -26,7 +26,7 @@ namespace test {
 
 namespace internal {
 struct MultiprocessInfo;
-};
+}
 
 //! \brief Manages a multiprocess test.
 //!

@@ -32,10 +32,10 @@ namespace {
   bool ConvertStringToNumber(const base::StringPiece& input, type* value) { \
     return function(input, value);                                          \
   }
-MAKE_ADAPTER(int, base::StringToInt);
-MAKE_ADAPTER(unsigned int, base::StringToUint);
-MAKE_ADAPTER(int64_t, base::StringToInt64);
-MAKE_ADAPTER(uint64_t, base::StringToUint64);
+MAKE_ADAPTER(int, base::StringToInt)
+MAKE_ADAPTER(unsigned int, base::StringToUint)
+MAKE_ADAPTER(int64_t, base::StringToInt64)
+MAKE_ADAPTER(uint64_t, base::StringToUint64)
 #undef MAKE_ADAPTER
 
 }  // namespace

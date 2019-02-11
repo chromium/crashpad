@@ -72,8 +72,7 @@ TEST(MultiprocessExec, MultiprocessExecSimpleChild) {
   TestMultiprocessExec exec;
   exec.SetChildTestMainFunction("SimpleMultiprocess");
   exec.Run();
-};
-
+}
 
 CRASHPAD_CHILD_TEST_MAIN(SimpleMultiprocessReturnsNonZero) {
   return 123;
@@ -96,7 +95,7 @@ TEST(MultiprocessExec, MultiprocessExecSimpleChildReturnsNonZero) {
   exec.SetExpectedChildTermination(
       Multiprocess::TerminationReason::kTerminationNormal, 123);
   exec.Run();
-};
+}
 
 #if !defined(OS_WIN)
 

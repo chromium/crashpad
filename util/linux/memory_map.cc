@@ -210,7 +210,7 @@ ParseResult ParseMapsLine(DelimitedFileReader* maps_file_reader,
 class SparseReverseIterator : public MemoryMap::Iterator {
  public:
   SparseReverseIterator(const std::vector<const MemoryMap::Mapping*>& mappings)
-      : mappings_(mappings), riter_(mappings_.rbegin()){};
+      : mappings_(mappings), riter_(mappings_.rbegin()) {}
 
   SparseReverseIterator() : mappings_(), riter_(mappings_.rend()) {}
 
