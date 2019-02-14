@@ -64,7 +64,7 @@ struct CrashpadInfoClientOptions {
   TriState gather_indirectly_referenced_memory;
 
   //! \sa CrashpadInfo::set_gather_indirectly_referenced_memory()
-  uint32_t indirectly_referenced_memory_cap;
+  uint32_t indirectly_referenced_memory_cap = 0;
 };
 
 }  // namespace crashpad
