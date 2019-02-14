@@ -55,7 +55,7 @@ void TestCaptureContext() {
   const uintptr_t kReferencePC =
       reinterpret_cast<uintptr_t>(TestCaptureContext);
   EXPECT_PRED2([](uintptr_t actual,
-                  uintptr_t reference) { return actual - reference < 64u; },
+                  uintptr_t reference) { return actual - reference < 128u; },
                pc,
                kReferencePC);
 #endif  // !defined(ADDRESS_SANITIZER)
