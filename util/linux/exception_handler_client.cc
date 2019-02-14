@@ -71,7 +71,7 @@ int ExceptionHandlerClient::SendCrashDumpRequest(
   iov.iov_base = &message;
   iov.iov_len = sizeof(message);
 
-  msghdr msg;
+  msghdr msg = {};
   msg.msg_name = nullptr;
   msg.msg_namelen = 0;
   msg.msg_iov = &iov;

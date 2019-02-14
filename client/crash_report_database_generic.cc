@@ -966,6 +966,7 @@ bool CrashReportDatabaseGeneric::WriteNewMetadata(const base::FilePath& path) {
   }
 
   ReportMetadata metadata;
+  memset(&metadata, 0, sizeof(metadata));
   metadata.creation_time = time(nullptr);
 
   return LoggingWriteFile(handle.get(), &metadata, sizeof(metadata));

@@ -328,6 +328,7 @@ class ChildThreadTest : public Multiprocess {
     thread_pool.StartThreads(kThreadCount, stack_size_);
 
     TestThreadPool::ThreadExpectation expectation;
+    memset(&expectation, 0, sizeof(expectation));
     expectation.tls = GetTLS();
     expectation.stack_address = reinterpret_cast<LinuxVMAddress>(&thread_pool);
 
@@ -762,7 +763,7 @@ class ChildModuleTest : public Multiprocess {
     ScopedModuleHandle empty_test_module(LoadTestModule(module_name_));
     ASSERT_TRUE(empty_test_module.valid());
 
-    char c;
+    char c = 0;
     ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(), &c, sizeof(c)));
 
     CheckedReadFileAtEOF(ReadPipeHandle());
