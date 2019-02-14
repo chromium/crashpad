@@ -229,6 +229,34 @@ CAPTURECONTEXT_SYMBOL2:
   // TODO(jperaza): save floating-point registers.
   movq %r8, 0xe0(%rdi)  // context->uc_mcontext.fpregs
 
+#ifdef MEMORY_SANITIZER
+  // Preserve callee-saved registers
+  pushq %rax
+  pushq %rdi
+  pushq %rsi
+  pushq %rdx
+  pushq %rcx
+  pushq %r8
+  pushq %r9
+  pushq %r10
+  pushq %r11
+
+  // The first argument, %rdi, is already the pointer to &context.
+  movq $0xe8, %rsi
+  call __msan_unpoison
+
+  popq %rax
+  popq %rdi
+  popq %rdi
+  popq %rsi
+  popq %rdx
+  popq %rcx
+  popq %r8
+  popq %r9
+  popq %r10
+  popq %r11
+#endif
+
   // Clean up by restoring clobbered registers, even those considered volatile
   // by the ABI, so that the captured context represents the state at this
   // function’s exit.
