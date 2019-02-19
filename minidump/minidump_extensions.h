@@ -30,7 +30,7 @@
 // compiler is buggy and only supports disabling it with a pragma, so we can't
 // disable it with other silly warnings in build/common.gypi. See:
 //   https://connect.microsoft.com/VisualStudio/feedback/details/1114440
-MSVC_PUSH_DISABLE_WARNING(4200);
+MSVC_PUSH_DISABLE_WARNING(4200)
 
 #if defined(COMPILER_MSVC)
 #define PACKED
@@ -501,7 +501,7 @@ struct ALIGNAS(4) PACKED MinidumpCrashpadInfo {
 #endif  // COMPILER_MSVC
 #undef PACKED
 
-MSVC_POP_WARNING();  // C4200
+MSVC_POP_WARNING()  // C4200
 
 }  // namespace crashpad
 
