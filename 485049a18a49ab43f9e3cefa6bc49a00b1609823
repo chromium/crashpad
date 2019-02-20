@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edbbd3ca_89346b03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-20T20:08:19Z",
+      "side": 1,
+      "message": "chromium:918626",
+      "revId": "485049a18a49ab43f9e3cefa6bc49a00b1609823",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f18bb300_f6949207",
+        "filename": "util/process/process_memory_mac.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-20T20:08:19Z",
+      "side": 1,
+      "message": "no “else” after “return”",
+      "revId": "485049a18a49ab43f9e3cefa6bc49a00b1609823",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "975e1e8a_4a693bb8",
+        "filename": "util/process/process_memory_mac.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-20T20:08:19Z",
+      "side": 1,
+      "message": "It might also be a long read. Present this as an unexpected read, say !\u003d",
+      "range": {
+        "startLine": 98,
+        "startChar": 24,
+        "endLine": 98,
+        "endChar": 54
+      },
+      "revId": "485049a18a49ab43f9e3cefa6bc49a00b1609823",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
