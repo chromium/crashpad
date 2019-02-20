@@ -94,8 +94,16 @@ std::unique_ptr<ProcessMemoryMac::MappedMemory> ProcessMemoryMac::ReadMapped(
         "mach_vm_read(0x%llx, 0x%llx)", region_address, region_size);
     return std::unique_ptr<MappedMemory>();
   }
+  if (region_count != region_size) {
+    LOG(ERROR) << base::StringPrintf(
+        "mach_vm_read() unexpected read: 0x%x != 0x%llx bytes",
+        region_count,
+        region_size);
+    if (region_count)
+      vm_deallocate(mach_task_self(), region, region_count);
+    return std::unique_ptr<MappedMemory>();
+  }
 
-  DCHECK_EQ(region_count, region_size);
   return std::unique_ptr<MappedMemory>(
       new MappedMemory(region, region_size, address - region_address, size));
 }
