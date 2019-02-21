@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "168de604_00cb3030",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 6
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-21T15:57:14Z",
+      "side": 1,
+      "message": "Finding this wouldn’t tell you what it actually does. Since this file will get published beyond just the Crashpad build, we should put crashpad in its name: libcrasphad_handler_trampoline.so. The target name should also begin with crashpad_.\n\nThis is why our handler is named crashpad_handler and not just handler.",
+      "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbe303e3_90df5f03",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-21T15:57:14Z",
+      "side": 1,
+      "message": "Since the symbol name is in our own control, we should use our own naming standard: CrashpadHandlerMain.",
+      "range": {
+        "startLine": 503,
+        "startChar": 49,
+        "endLine": 503,
+        "endChar": 70
+      },
+      "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd58059f_997d351a",
+        "filename": "handler/linux/handler_trampoline.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-21T15:57:14Z",
+      "side": 1,
+      "message": "License me.",
+      "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf29cf4d_01320da9",
+        "filename": "handler/linux/handler_trampoline.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-21T15:57:14Z",
+      "side": 1,
+      "message": "Note appearance in comment too.",
+      "range": {
+        "startLine": 4,
+        "startChar": 25,
+        "endLine": 4,
+        "endChar": 46
+      },
+      "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d017885_12aa1026",
+        "filename": "handler/linux/handler_trampoline.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-21T15:57:14Z",
+      "side": 1,
+      "message": "#include \u003cstdio.h\u003e\n\nif (argc !\u003d 2) {\n  fprintf(stderr, \"usage: %s \u003cpath\u003e\\n\", argv[0]);\n  return EXIT_FAILURE;\n}",
+      "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5af1e881_039824a9",
+        "filename": "handler/linux/handler_trampoline.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-21T15:57:14Z",
+      "side": 1,
+      "message": "#include \u003cstdlib.h\u003e and use EXIT_FAILURE.\n\nAlso, don’t silently drop the error. Instead:\n\n#include \u003cerr.h\u003e\n\nerrx(EXIT_FAILURE, \"dlopen: %s\", dlerror());",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fcbd34d_488a97b3",
+        "filename": "handler/linux/handler_trampoline.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-21T15:57:14Z",
+      "side": 1,
+      "message": "errx(EXIT_FAILURE, \"dlsym: %s\", dlerror());",
+      "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
