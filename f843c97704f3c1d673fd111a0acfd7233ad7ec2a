@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "899d829a_dc828e9e",
+        "filename": "DEPS",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-21T15:42:32Z",
+      "side": 1,
+      "message": "I’m breaking the mini_chromium roll out of this semicolon-removing change so that I can land it and roll it into Chrome.\n\nThe mini_chromium will wait for a gtest roll. I was optimistic that could happen last night, but…",
+      "revId": "f843c97704f3c1d673fd111a0acfd7233ad7ec2a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
