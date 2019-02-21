@@ -61,16 +61,21 @@ int HttpTransportTestServerMain(int argc, char* argv[]) {
     return 1;
   }
 
+  fprintf(stderr, "here0\n");
 
   if (!server->is_valid()) {
+    fprintf(stderr, "no ctx!\n");
     LOG(ERROR) << "server creation failed";
     return 1;
   }
 
+  fprintf(stderr, "here1\n");
   server->set_keep_alive_max_count(1);
+  fprintf(stderr, "here2\n");
 
   uint16_t response_code;
   char response[16];
+  fprintf(stderr, "here3\n");
 
   std::string to_stdout;
 
@@ -95,9 +100,11 @@ int HttpTransportTestServerMain(int argc, char* argv[]) {
 
                  server->stop();
                });
+  fprintf(stderr, "here4\n");
 
   uint16_t port =
       base::checked_cast<uint16_t>(server->bind_to_any_port("localhost"));
+  fprintf(stderr, "here5\n");
 
   CheckedWriteFile(
       StdioFileHandle(StdioStream::kStandardOutput), &port, sizeof(port));
