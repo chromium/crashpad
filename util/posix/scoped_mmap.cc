@@ -56,7 +56,6 @@ bool ScopedMmap::ResetAddrLen(void* addr, size_t len) {
   } else {
     DCHECK_NE(len, 0u);
     DCHECK_EQ(new_addr % getpagesize(), 0u);
-    DCHECK_EQ(len % getpagesize(), 0u);
     DCHECK((base::CheckedNumeric<uintptr_t>(new_addr) + (len - 1)).IsValid());
   }
 
