@@ -1,0 +1,15 @@
+{
+  "program": {
+    "binary": "test/crashpad_tests"
+  },
+  "sandbox": {
+    "features": [
+      "root-ssl-certificates",
+      "system-temp"
+    ],
+    "services": [
+      "fuchsia.net.SocketProvider",
+      "fuchsia.process.Launcher"
+    ]
+  }
+}
