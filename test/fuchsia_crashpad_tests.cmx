@@ -1,0 +1,21 @@
+{
+  "facets": {
+    "fuchsia.test": {
+      "system-services": [
+        "fuchsia.net.SocketProvider"
+      ]
+    }
+  },
+  "program": {
+    "binary": "test/crashpad_tests"
+  },
+  "sandbox": {
+    "features": [
+      "system-temp"
+    ],
+    "services": [
+      "fuchsia.net.SocketProvider",
+      "fuchsia.process.Launcher"
+    ]
+  }
+}
