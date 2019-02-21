@@ -32,6 +32,9 @@
 #include "base/test/test_suite.h"
 #endif  // CRASHPAD_IS_IN_CHROMIUM
 
+#include <sys/socket.h>
+#include <netdb.h>
+
 namespace {
 
 bool GetChildTestFunctionName(std::string* child_func_name) {
@@ -50,6 +53,28 @@ bool GetChildTestFunctionName(std::string* child_func_name) {
 }  // namespace
 
 int main(int argc, char* argv[]) {
+
+  struct addrinfo hints;
+  struct addrinfo* result;
+
+  memset(&hints, 0, sizeof(struct addrinfo));
+  hints.ai_family = AF_UNSPEC;
+  hints.ai_socktype = SOCK_STREAM;
+  hints.ai_flags = 0;
+  hints.ai_protocol = 0;
+
+  int port = 0;
+  auto service = std::to_string(port);
+
+  if (getaddrinfo("localhost", service.c_str(), &hints, &result)) {
+		fprintf(stderr, "getaddrinfo failed! errno=%d\n", errno);
+		return -1;
+  }
+
+	fprintf(stderr, "all good\n");
+	return 0;
+
+
   crashpad::test::InitializeMainArguments(argc, argv);
   testing::AddGlobalTestEnvironment(
       crashpad::test::DisabledTestGtestEnvironment::Get());

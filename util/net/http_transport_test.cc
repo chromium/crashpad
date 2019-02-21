@@ -38,6 +38,11 @@
 #include "util/net/http_headers.h"
 #include "util/net/http_multipart_builder.h"
 
+
+#include "base/numerics/safe_conversions.h"
+#define CPPHTTPLIB_ZLIB_SUPPORT
+#include "third_party/cpp-httplib/cpp-httplib/httplib.h"
+
 namespace crashpad {
 namespace test {
 namespace {
