@@ -163,7 +163,7 @@ class CrashReportDatabase {
     //! This is not implemented on macOS or Windows.
     std::map<std::string, FileReader*> GetAttachments() const {
       return attachment_map_;
-    };
+    }
 
    private:
     friend class CrashReportDatabase;
