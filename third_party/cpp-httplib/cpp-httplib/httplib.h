@@ -547,6 +547,7 @@ socket_t create_socket(const char* host, int port, Fn fn, int socket_flags = 0)
     int opt = SO_SYNCHRONOUS_NONALERT;
     setsockopt(INVALID_SOCKET, SOL_SOCKET, SO_OPENTYPE, (char*)&opt, sizeof(opt));
 #endif
+    fprintf(stderr, "create_socket 0\n");
 
     // Get address info
     struct addrinfo hints;
@@ -558,15 +559,20 @@ socket_t create_socket(const char* host, int port, Fn fn, int socket_flags = 0)
     hints.ai_flags = socket_flags;
     hints.ai_protocol = 0;
 
+    fprintf(stderr, "create_socket 1\n");
     auto service = std::to_string(port);
 
+    fprintf(stderr, "create_socket 2\n");
     if (getaddrinfo(host, service.c_str(), &hints, &result)) {
+    fprintf(stderr, "create_socket 3\n");
         return INVALID_SOCKET;
     }
+    fprintf(stderr, "create_socket 4\n");
 
     for (auto rp = result; rp; rp = rp->ai_next) {
        // Create a socket
        auto sock = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
+       fprintf(stderr, "socket() returned %d\n", sock);
        if (sock == INVALID_SOCKET) {
           continue;
        }
