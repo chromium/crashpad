@@ -294,6 +294,94 @@ TEST(ScopedMmapDeathTest, ResetMmap) {
   EXPECT_DEATH_CRASH(cookie.Check(), "");
 }
 
+TEST(ScopedMmapDeathTest, NotIntegralNumberOfPages) {
+  ScopedMmap mapping;
+  EXPECT_FALSE(mapping.is_valid());
+  EXPECT_EQ(mapping.addr(), MAP_FAILED);
+  EXPECT_EQ(mapping.len(), 0u);
+
+  ASSERT_TRUE(mapping.Reset());
+  EXPECT_FALSE(mapping.is_valid());
+
+  // Establishing a half-page mapping actually establishes a single page.
+  const size_t kPageSize = base::checked_cast<size_t>(getpagesize());
+  const size_t kHalfPageSize = kPageSize / 2;
+  ASSERT_TRUE(ScopedMmapResetMmap(&mapping, kHalfPageSize));
+  EXPECT_TRUE(mapping.is_valid());
+  EXPECT_NE(mapping.addr(), MAP_FAILED);
+  EXPECT_EQ(mapping.len(), kPageSize);
+
+  TestCookie cookie;
+  cookie.SetUp(mapping.addr_as<uint64_t*>());
+
+  // Shrinking a one-page mapping to a half page is a no-op.
+  void* orig_addr = mapping.addr();
+  ASSERT_TRUE(mapping.ResetAddrLen(orig_addr, kHalfPageSize));
+  EXPECT_TRUE(mapping.is_valid());
+  EXPECT_EQ(mapping.addr(), orig_addr);
+  EXPECT_EQ(mapping.len(), kPageSize);
+
+  EXPECT_EQ(cookie.Observed(), cookie.Expected());
+
+  // Same thing shrinking it to a single byte, or one byte less than a whole
+  // page.
+  ASSERT_TRUE(mapping.ResetAddrLen(orig_addr, 1));
+  EXPECT_TRUE(mapping.is_valid());
+  EXPECT_EQ(mapping.addr(), orig_addr);
+  EXPECT_EQ(mapping.len(), kPageSize);
+
+  EXPECT_EQ(cookie.Observed(), cookie.Expected());
+
+  ASSERT_TRUE(mapping.ResetAddrLen(orig_addr, kPageSize - 1));
+  EXPECT_TRUE(mapping.is_valid());
+  EXPECT_EQ(mapping.addr(), orig_addr);
+  EXPECT_EQ(mapping.len(), kPageSize);
+
+  EXPECT_EQ(cookie.Observed(), cookie.Expected());
+
+  // Shrinking a two-page mapping to a half page frees the second page but
+  // leaves the first alone.
+  ASSERT_TRUE(ScopedMmapResetMmap(&mapping, 2 * kPageSize));
+  EXPECT_TRUE(mapping.is_valid());
+  EXPECT_NE(mapping.addr(), MAP_FAILED);
+  EXPECT_EQ(mapping.len(), 2 * kPageSize);
+
+  TestCookie two_cookies[2];
+  for (size_t index = 0; index < base::size(two_cookies); ++index) {
+    two_cookies[index].SetUp(reinterpret_cast<uint64_t*>(
+        mapping.addr_as<uintptr_t>() + index * kPageSize));
+  }
+
+  orig_addr = mapping.addr();
+  ASSERT_TRUE(mapping.ResetAddrLen(orig_addr, kHalfPageSize));
+  EXPECT_TRUE(mapping.is_valid());
+  EXPECT_EQ(mapping.addr(), orig_addr);
+  EXPECT_EQ(mapping.len(), kPageSize);
+
+  EXPECT_EQ(two_cookies[0].Observed(), two_cookies[0].Expected());
+  EXPECT_DEATH_CRASH(two_cookies[1].Check(), "");
+
+  // Shrinking a two-page mapping to a page and a half is a no-op.
+  ASSERT_TRUE(ScopedMmapResetMmap(&mapping, 2 * kPageSize));
+  EXPECT_TRUE(mapping.is_valid());
+  EXPECT_NE(mapping.addr(), MAP_FAILED);
+  EXPECT_EQ(mapping.len(), 2 * kPageSize);
+
+  for (size_t index = 0; index < base::size(two_cookies); ++index) {
+    two_cookies[index].SetUp(reinterpret_cast<uint64_t*>(
+        mapping.addr_as<uintptr_t>() + index * kPageSize));
+  }
+
+  orig_addr = mapping.addr();
+  ASSERT_TRUE(mapping.ResetAddrLen(orig_addr, kPageSize + kHalfPageSize));
+  EXPECT_TRUE(mapping.is_valid());
+  EXPECT_EQ(mapping.addr(), orig_addr);
+  EXPECT_EQ(mapping.len(), 2 * kPageSize);
+
+  EXPECT_EQ(two_cookies[0].Observed(), two_cookies[0].Expected());
+  EXPECT_EQ(two_cookies[1].Observed(), two_cookies[1].Expected());
+}
+
 TEST(ScopedMmapDeathTest, Mprotect) {
   ScopedMmap mapping;
 

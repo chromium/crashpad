@@ -19,6 +19,7 @@
 #include <algorithm>
 
 #include "base/logging.h"
+#include "base/numerics/safe_conversions.h"
 #include "base/numerics/safe_math.h"
 
 namespace {
@@ -54,9 +55,12 @@ bool ScopedMmap::ResetAddrLen(void* addr, size_t len) {
   if (addr == MAP_FAILED) {
     DCHECK_EQ(len, 0u);
   } else {
+    // Round |len| up to the next page.
+    const size_t kPageMask = base::checked_cast<size_t>(getpagesize()) - 1;
+    len = (len + kPageMask) & ~kPageMask;
+
     DCHECK_NE(len, 0u);
     DCHECK_EQ(new_addr % getpagesize(), 0u);
-    DCHECK_EQ(len % getpagesize(), 0u);
     DCHECK((base::CheckedNumeric<uintptr_t>(new_addr) + (len - 1)).IsValid());
   }
 
