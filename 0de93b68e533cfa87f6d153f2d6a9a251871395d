@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe9b67f9_08d04580",
+        "filename": "BUILD.gn",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1310583
+      },
+      "writtenOn": "2019-02-22T17:29:22Z",
+      "side": 1,
+      "message": "i think this is incorrect for a packaged test; see http://cs/fuchsia/garnet/go/src/netstack/tests/BUILD.gn?l\u003d15-29\u0026rcl\u003d33c84cd6ad3bd1e4b3f9b421240e1ec1bfcb02b5",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 22
+      },
+      "revId": "0de93b68e533cfa87f6d153f2d6a9a251871395d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
