@@ -130,7 +130,7 @@ class ProcessReaderChildThreadSuspendCount final : public WinMultiprocess {
 
     void ThreadMain() override {
       done_->Wait();
-    };
+    }
 
    private:
     Semaphore* done_;
