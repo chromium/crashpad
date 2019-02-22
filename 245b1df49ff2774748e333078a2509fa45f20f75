@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "74561347_8271e4eb",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 6
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-02-22T02:44:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "168de604_00cb3030",
+      "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbe303e3_90df5f03",
         "filename": "handler/handler_main.cc",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "3502aad3_efaa5c1a",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-02-22T02:44:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbe303e3_90df5f03",
+      "range": {
+        "startLine": 503,
+        "startChar": 49,
+        "endLine": 503,
+        "endChar": 70
+      },
+      "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd58059f_997d351a",
         "filename": "handler/linux/handler_trampoline.cc",
         "patchSetId": 6
@@ -56,6 +98,24 @@
       "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d948ccac_40333a5f",
+        "filename": "handler/linux/handler_trampoline.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-02-22T02:44:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd58059f_997d351a",
+      "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "e70d2a33_6261fcc0",
+        "filename": "handler/linux/handler_trampoline.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-02-22T02:44:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf29cf4d_01320da9",
+      "range": {
+        "startLine": 4,
+        "startChar": 25,
+        "endLine": 4,
+        "endChar": 46
+      },
+      "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d017885_12aa1026",
         "filename": "handler/linux/handler_trampoline.cc",
         "patchSetId": 6
@@ -96,6 +180,24 @@
       "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9356058_2052b16b",
+        "filename": "handler/linux/handler_trampoline.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-02-22T02:44:01Z",
+      "side": 1,
+      "message": "Done, but with android logging functions so they appear in the logcat.",
+      "parentUuid": "7d017885_12aa1026",
+      "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "c4c5d5ae_6809b91e",
+        "filename": "handler/linux/handler_trampoline.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-02-22T02:44:01Z",
+      "side": 1,
+      "message": "Same.\n\nI think there\u0027s not much difference between return EXIT_FAILURE and exit(EXIT_FAILURE) in this context?",
+      "parentUuid": "5af1e881_039824a9",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fcbd34d_488a97b3",
         "filename": "handler/linux/handler_trampoline.cc",
         "patchSetId": 6
@@ -136,6 +262,24 @@
       "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "238164f3_19e19451",
+        "filename": "handler/linux/handler_trampoline.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-02-22T02:44:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fcbd34d_488a97b3",
+      "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
