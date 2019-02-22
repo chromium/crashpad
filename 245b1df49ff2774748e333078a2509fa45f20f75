@@ -248,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "9c4d94c9_18afc7cd",
+        "filename": "handler/linux/handler_trampoline.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-22T23:36:22Z",
+      "side": 1,
+      "message": "\u003e Same.\n\u003e \n\u003e I think there\u0027s not much difference between return EXIT_FAILURE and exit(EXIT_FAILURE) in this context?\n\nTrue. I generally prefer to return from main() instead of calling exit(). It’s very slightly cheaper, and main’s caller, typically start, essentially does exit(main(argc, argv)); anyway.",
+      "parentUuid": "c4c5d5ae_6809b91e",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "245b1df49ff2774748e333078a2509fa45f20f75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fcbd34d_488a97b3",
         "filename": "handler/linux/handler_trampoline.cc",
         "patchSetId": 6

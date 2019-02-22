@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a58183aa_51d617b8",
+        "filename": "handler/linux/handler_trampoline.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-22T23:36:22Z",
+      "side": 1,
+      "message": "This is a little weird because CrashpadHandlerMain() will see something other than the true executable as argv[0], which could be confusing.",
+      "revId": "42bf5ed645155c23aabdfd5f7e028dff7fe57f4d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
