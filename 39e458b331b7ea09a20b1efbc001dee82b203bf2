@@ -22,6 +22,30 @@
       "revId": "39e458b331b7ea09a20b1efbc001dee82b203bf2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e79d128_432ba250",
+        "filename": "util/posix/scoped_mmap.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-22T23:09:26Z",
+      "side": 0,
+      "message": "\u003e This needs to be rounded up to be a multiple of getpagesize() when len is not page sized.\n\u003e \n\u003e e.g.\n\u003e \n\u003e mapping.ResetAddrLen(X, 2 * getpagesize());\n\u003e mapping.ResetAddrLen(X, .5 * getpagesize();\n\u003e \n\u003e The second call to ResetAddrLen() should only munmap the second page.\n\nGood point. I was only considering the case where I’d use ResetAddrLen() with a completely new mapping, not with a change of the existing mapping.\n\nUpdated, and added a test to cover this situation.",
+      "parentUuid": "761af63b_0d747656",
+      "range": {
+        "startLine": 71,
+        "startChar": 49,
+        "endLine": 71,
+        "endChar": 63
+      },
+      "revId": "39e458b331b7ea09a20b1efbc001dee82b203bf2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
