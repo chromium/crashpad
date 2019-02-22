@@ -22,6 +22,30 @@
       "revId": "0de93b68e533cfa87f6d153f2d6a9a251871395d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d52a9d42_65769bc1",
+        "filename": "BUILD.gn",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-02-22T17:42:36Z",
+      "side": 1,
+      "message": "Thanks, Francois pointed out the same thing yesterday. (I think all that does is add a forwarder in /bin though, so unnecesary, but doesn\u0027t matter too much either way.)",
+      "parentUuid": "fe9b67f9_08d04580",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 22
+      },
+      "revId": "0de93b68e533cfa87f6d153f2d6a9a251871395d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
