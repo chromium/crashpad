@@ -16,6 +16,24 @@
       "revId": "42bf5ed645155c23aabdfd5f7e028dff7fe57f4d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5f60cb7_d46171d0",
+        "filename": "handler/linux/handler_trampoline.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-02-25T16:54:59Z",
+      "side": 1,
+      "message": "It wasn\u0027t immediately clear to me which would be more useful to see there. Other options I\u0027ve been thinking about are either copying argv[0] to argv[1], which would be inconsistent if the handler were to ever care about reading it\u0027s arguments from e.g. /proc/\u003cpid\u003e/cmdline, or passing the library name on to the handler, which is a little annoying because it doesn\u0027t currently have a use for it. It\u0027d have to read it and throw it away because it doesn\u0027t like unrecognized arguments.",
+      "parentUuid": "a58183aa_51d617b8",
+      "revId": "42bf5ed645155c23aabdfd5f7e028dff7fe57f4d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
