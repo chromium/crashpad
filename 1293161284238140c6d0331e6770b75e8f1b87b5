@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b3efcc4_53a9fe10",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-25T16:43:59Z",
+      "side": 1,
+      "message": "Should we be using something other than int for Fuchsia?",
+      "range": {
+        "startLine": 102,
+        "startChar": 28,
+        "endLine": 102,
+        "endChar": 44
+      },
+      "revId": "1293161284238140c6d0331e6770b75e8f1b87b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acd711ce_3912d28f",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-25T16:43:59Z",
+      "side": 1,
+      "message": "Give a little more detail in the name: expected what? Expected return code¹?",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 102,
+        "endChar": 25
+      },
+      "revId": "1293161284238140c6d0331e6770b75e8f1b87b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afcf280c_89996f55",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-25T16:43:59Z",
+      "side": 1,
+      "message": "¹ ’cuz this line is hard to understand otherwise.",
+      "range": {
+        "startLine": 106,
+        "startChar": 50,
+        "endLine": 106,
+        "endChar": 59
+      },
+      "revId": "1293161284238140c6d0331e6770b75e8f1b87b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
