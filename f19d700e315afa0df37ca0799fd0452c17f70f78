@@ -22,6 +22,30 @@
       "revId": "f19d700e315afa0df37ca0799fd0452c17f70f78",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a57e393_5e62d114",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-02-25T17:21:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06824ef7_a674139c",
+      "range": {
+        "startLine": 102,
+        "startChar": 12,
+        "endLine": 102,
+        "endChar": 19
+      },
+      "revId": "f19d700e315afa0df37ca0799fd0452c17f70f78",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
