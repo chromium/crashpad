@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06824ef7_a674139c",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-25T17:18:48Z",
+      "side": 1,
+      "message": "Can be ReturnCodeType now. Same on line 104.",
+      "range": {
+        "startLine": 102,
+        "startChar": 12,
+        "endLine": 102,
+        "endChar": 19
+      },
+      "revId": "f19d700e315afa0df37ca0799fd0452c17f70f78",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
