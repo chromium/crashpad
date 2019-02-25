@@ -95,7 +95,15 @@ void Multiprocess::SetExpectedChildTermination(TerminationReason reason,
 }
 
 void Multiprocess::SetExpectedChildTerminationBuiltinTrap() {
-  SetExpectedChildTermination(kTerminationNormal, -1);
+  // TODO(scottmg): Once
+  // https://fuchsia-review.googlesource.com/c/fuchsia/+/256771 lands, remove
+  // this #ifdef, and always use ZX_TASK_RETCODE_EXCEPTION_KILL.
+#ifdef ZX_TASK_RETCODE_EXCEPTION_KILL
+  constexpr int kExpected = static_cast<int>(ZX_TASK_RETCODE_EXCEPTION_KILL);
+#else
+  constexpr int kExpected = -1;
+#endif
+  SetExpectedChildTermination(kTerminationNormal, kExpected);
 }
 
 Multiprocess::~Multiprocess() {
