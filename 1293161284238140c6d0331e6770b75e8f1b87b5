@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "6d9a4811_bdde935a",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-02-25T17:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acd711ce_3912d28f",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 102,
+        "endChar": 25
+      },
+      "revId": "1293161284238140c6d0331e6770b75e8f1b87b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b46a682_12c57b83",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-02-25T17:15:26Z",
+      "side": 1,
+      "message": "Yeah, probably a better plan.",
+      "parentUuid": "5b3efcc4_53a9fe10",
+      "range": {
+        "startLine": 102,
+        "startChar": 28,
+        "endLine": 102,
+        "endChar": 44
+      },
+      "revId": "1293161284238140c6d0331e6770b75e8f1b87b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afcf280c_89996f55",
         "filename": "test/multiprocess_exec_fuchsia.cc",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "1293161284238140c6d0331e6770b75e8f1b87b5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0bf8caf_c9584f1f",
+        "filename": "test/multiprocess_exec_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-02-25T17:15:26Z",
+      "side": 1,
+      "message": "Wow, footnotes! :)",
+      "parentUuid": "afcf280c_89996f55",
+      "range": {
+        "startLine": 106,
+        "startChar": 50,
+        "endLine": 106,
+        "endChar": 59
+      },
+      "revId": "1293161284238140c6d0331e6770b75e8f1b87b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
