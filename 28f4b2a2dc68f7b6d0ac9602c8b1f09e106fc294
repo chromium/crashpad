@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27254c0d_acbc724e",
+        "filename": "crashpad_tests.cmx",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-02-25T20:03:10Z",
+      "side": 1,
+      "message": "Yeah :(\n\nParse error: Couldn\u0027t read input as JSON: expected value at line 1 column 1\n\nTremendously annoying to not have comments or trailing commas.",
+      "parentUuid": "86277923_6669bd61",
+      "revId": "28f4b2a2dc68f7b6d0ac9602c8b1f09e106fc294",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e909262f_161c4e50",
         "filename": "crashpad_tests.cmx",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2019-02-25T19:50:15Z",
       "side": 1,
       "message": "Also, since this is strictly about tests, can it live in the test directory?\n\nParticularly if you can’t put comments here to describe what this file is about (what’s cmx, anyway?) at least putting it in that directory would give a hint. But even if not for that reason, it’s just better organization.",
+      "revId": "28f4b2a2dc68f7b6d0ac9602c8b1f09e106fc294",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f810f83_408ad78d",
+        "filename": "crashpad_tests.cmx",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-02-25T20:03:10Z",
+      "side": 1,
+      "message": "Done. I\u0027m not sure what it stands for. Component Meta something maybe. It wants to be in a subdir off the root named \"meta/\" to be used with test_package() instead of package() but I drew the line at a new directory. Moved to test/.",
+      "parentUuid": "e909262f_161c4e50",
       "revId": "28f4b2a2dc68f7b6d0ac9602c8b1f09e106fc294",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
