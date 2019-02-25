@@ -37,6 +37,29 @@
     },
     {
       "key": {
+        "uuid": "236e08c2_1cc782a2",
+        "filename": "crashpad_tests.cmx",
+        "patchSetId": 13
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-02-25T20:47:41Z",
+      "side": 1,
+      "message": "I\u0027d be curious to know the difference between system-services and injected-services that I had to use in my integration test: https://fuchsia.googlesource.com/fuchsia/+/refs/heads/master/garnet/bin/crashpad/test/meta/crashpad_analyzer_integration_test.cmx#8\n\nBut that\u0027s for later.",
+      "range": {
+        "startLine": 4,
+        "startChar": 7,
+        "endLine": 4,
+        "endChar": 22
+      },
+      "revId": "28f4b2a2dc68f7b6d0ac9602c8b1f09e106fc294",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e909262f_161c4e50",
         "filename": "crashpad_tests.cmx",
         "patchSetId": 13
@@ -66,6 +89,24 @@
       "side": 1,
       "message": "Done. I\u0027m not sure what it stands for. Component Meta something maybe. It wants to be in a subdir off the root named \"meta/\" to be used with test_package() instead of package() but I drew the line at a new directory. Moved to test/.",
       "parentUuid": "e909262f_161c4e50",
+      "revId": "28f4b2a2dc68f7b6d0ac9602c8b1f09e106fc294",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c93abdc_5b3f2462",
+        "filename": "crashpad_tests.cmx",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-02-25T20:47:41Z",
+      "side": 1,
+      "message": "Technically this is not about testing. It\u0027s a metadata file for Fuchsia components. If we had a Crashpad Fuchsia component in Crashpad, it would also require a .cmx file.\n\nNow there is nothing forcing us to call it like that in Crashpad. The file could also be \"crashpad_tests.fuchsia_config\" or whatever. It\u0027s only in the package BUILD rule that we need the dest to be crashpad_tests.cmx.",
+      "parentUuid": "8f810f83_408ad78d",
       "revId": "28f4b2a2dc68f7b6d0ac9602c8b1f09e106fc294",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
