@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_TEST_MULTIPROCESS_H_
 #define CRASHPAD_TEST_MULTIPROCESS_H_
 
+#include <stdint.h>
 #include <sys/types.h>
 
 #include "base/macros.h"
@@ -27,6 +28,12 @@ namespace test {
 namespace internal {
 struct MultiprocessInfo;
 }  // namespace internal
+
+#if defined(OS_FUCHSIA)
+using ReturnCodeType = int64_t;
+#else
+using ReturnCodeType = int;
+#endif
 
 //! \brief Manages a multiprocess test.
 //!
@@ -76,7 +83,7 @@ class Multiprocess {
 
   //! \brief Sets the expected termination reason and code.
   //!
-  //! The default expected termination reasaon is
+  //! The default expected termination reason is
   //! TerminationReason::kTerminationNormal, and the default expected
   //! termination code is `EXIT_SUCCESS` (`0`).
   //!
@@ -91,7 +98,8 @@ class Multiprocess {
   //!     TerminationReason::kTerminationSignal, this is the signal that is
   //!     expected to kill the child. On Linux platforms, SIG_DFL will be
   //!     installed for \a code in the child process.
-  void SetExpectedChildTermination(TerminationReason reason, int code);
+  void SetExpectedChildTermination(TerminationReason reason,
+                                   ReturnCodeType code);
 
 #if !defined(OS_WIN)
   //! \brief Sets termination reason and code appropriately for a child that
@@ -211,7 +219,7 @@ class Multiprocess {
   virtual void MultiprocessChild() = 0;
 
   internal::MultiprocessInfo* info_;
-  int code_;
+  ReturnCodeType code_;
   TerminationReason reason_;
 
   DISALLOW_COPY_AND_ASSIGN(Multiprocess);
