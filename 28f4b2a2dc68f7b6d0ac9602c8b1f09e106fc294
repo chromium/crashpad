@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "f9cb1367_bebd9f73",
+        "filename": "crashpad_tests.cmx",
+        "patchSetId": 13
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-02-25T21:14:09Z",
+      "side": 1,
+      "message": "I\u0027m afraid I don\u0027t know. I was completely stumped all of Friday with getaddrinfo() and socket() returning strange errors.\n\nI eventually stumbled on this magic in the cmx for system_time_updater_test. But I\u0027m not sure about the subtle differences between yours and mine unfortunately.",
+      "parentUuid": "236e08c2_1cc782a2",
+      "range": {
+        "startLine": 4,
+        "startChar": 7,
+        "endLine": 4,
+        "endChar": 22
+      },
+      "revId": "28f4b2a2dc68f7b6d0ac9602c8b1f09e106fc294",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e909262f_161c4e50",
         "filename": "crashpad_tests.cmx",
         "patchSetId": 13
@@ -107,6 +131,24 @@
       "side": 1,
       "message": "Technically this is not about testing. It\u0027s a metadata file for Fuchsia components. If we had a Crashpad Fuchsia component in Crashpad, it would also require a .cmx file.\n\nNow there is nothing forcing us to call it like that in Crashpad. The file could also be \"crashpad_tests.fuchsia_config\" or whatever. It\u0027s only in the package BUILD rule that we need the dest to be crashpad_tests.cmx.",
       "parentUuid": "8f810f83_408ad78d",
+      "revId": "28f4b2a2dc68f7b6d0ac9602c8b1f09e106fc294",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "834857f1_60cb22e7",
+        "filename": "crashpad_tests.cmx",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-02-25T21:14:09Z",
+      "side": 1,
+      "message": "I think it should probably stay as a .cmx for grepping purposes, but I can add whatever we like in front of it. //test/fuchsia_crashpad_tests.cmx seems ok?",
+      "parentUuid": "0c93abdc_5b3f2462",
       "revId": "28f4b2a2dc68f7b6d0ac9602c8b1f09e106fc294",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
