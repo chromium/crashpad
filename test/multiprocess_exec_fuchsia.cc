@@ -87,7 +87,7 @@ void Multiprocess::Run() {
 }
 
 void Multiprocess::SetExpectedChildTermination(TerminationReason reason,
-                                               int code) {
+                                               ReturnCodeType code) {
   EXPECT_EQ(info_, nullptr)
       << "SetExpectedChildTermination() must be called before Run()";
   reason_ = reason;
@@ -95,7 +95,15 @@ void Multiprocess::SetExpectedChildTermination(TerminationReason reason,
 }
 
 void Multiprocess::SetExpectedChildTerminationBuiltinTrap() {
-  SetExpectedChildTermination(kTerminationNormal, -1);
+  // TODO(scottmg): Once
+  // https://fuchsia-review.googlesource.com/c/fuchsia/+/256771 lands, remove
+  // this #ifdef, and always use ZX_TASK_RETCODE_EXCEPTION_KILL.
+#if defined(ZX_TASK_RETCODE_EXCEPTION_KILL)
+  constexpr ReturnCodeType kExpectedReturnCode = ZX_TASK_RETCODE_EXCEPTION_KILL;
+#else
+  constexpr ReturnCodeType kExpectedReturnCode = -1;
+#endif
+  SetExpectedChildTermination(kTerminationNormal, kExpectedReturnCode);
 }
 
 Multiprocess::~Multiprocess() {

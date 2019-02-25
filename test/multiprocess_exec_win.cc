@@ -58,7 +58,7 @@ void Multiprocess::Run() {
 }
 
 void Multiprocess::SetExpectedChildTermination(TerminationReason reason,
-                                               int code) {
+                                               ReturnCodeType code) {
   EXPECT_EQ(info_, nullptr)
       << "SetExpectedChildTermination() must be called before Run()";
   reason_ = reason;
