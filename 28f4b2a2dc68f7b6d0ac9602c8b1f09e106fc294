@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86277923_6669bd61",
+        "filename": "crashpad_tests.cmx",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-25T19:50:15Z",
+      "side": 1,
+      "message": "License boilerplate?\n\n(Or is this strict json, no comments supported? Yuck.)",
+      "revId": "28f4b2a2dc68f7b6d0ac9602c8b1f09e106fc294",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e909262f_161c4e50",
+        "filename": "crashpad_tests.cmx",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-25T19:50:15Z",
+      "side": 1,
+      "message": "Also, since this is strictly about tests, can it live in the test directory?\n\nParticularly if you can’t put comments here to describe what this file is about (what’s cmx, anyway?) at least putting it in that directory would give a hint. But even if not for that reason, it’s just better organization.",
+      "revId": "28f4b2a2dc68f7b6d0ac9602c8b1f09e106fc294",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
