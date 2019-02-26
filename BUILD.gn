@@ -58,7 +58,7 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
         {
           path = "test/fuchsia_crashpad_tests.cmx"
           dest = "crashpad_tests.cmx"
-        }
+        },
       ]
 
       binaries = [
