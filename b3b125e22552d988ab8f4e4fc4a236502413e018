@@ -22,6 +22,30 @@
       "revId": "b3b125e22552d988ab8f4e4fc4a236502413e018",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af6abf6b_8cbe99af",
+        "filename": "util/posix/scoped_mmap_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-02-27T22:44:41Z",
+      "side": 1,
+      "message": "\u003e These comments are still true internally to ScopedMmap, but it\u0027s unclear what they are trying to communicate since none of the EXPECTs test that they are true.\n\u003e \n\u003e The documentation on len() promises to return the size of the memory-mapped region. It\u0027s ambiguous whether that means the implementation\u0027s internally mapped len, or the len we requested to be mapped. The second interpretation is now true, but I would expect the first to be true, given the documentation\u0027s references to mmap() and my knowledge of how mmap() works.\n\nI addressed this by revising the documentation on len().\n\nI was reluctant to change the comments in the test. I think they’re helpful to explain what mmap() is doing under the hood. But I’m not totally comfortable adding test cookies to assert that behavior, because it’s\n (1) more a test of mmap() than a test of ScopedMmap, and\n (2) somewhat wrong to try to work with memory beyond what you say its size\n     is, despite any round-page-size implementation detail. This is true\n     even if we all agree that this particular detail is effectively\n     guaranteed.",
+      "parentUuid": "e5758cc7_54ca4102",
+      "range": {
+        "startLine": 306,
+        "startChar": 2,
+        "endLine": 306,
+        "endChar": 73
+      },
+      "revId": "b3b125e22552d988ab8f4e4fc4a236502413e018",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
