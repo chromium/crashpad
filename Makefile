@@ -23,3 +23,7 @@ example:
 		-framework Foundation -framework Security -framework CoreText \
 		-framework CoreGraphics -framework IOKit -lbsm
 .PHONY: example
+
+gen-sentry-patch:
+	git format-patch --stdout master...HEAD > getsentry.patch
+.PHONY: get-sentry-patch

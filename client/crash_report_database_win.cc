@@ -675,13 +675,13 @@ void CrashReportDatabase::UploadReport::InitializeAttachments() {
   while ((dir_result = reader.NextFile(&filename)) ==
          DirectoryReader::Result::kSuccess) {
     const base::FilePath filepath(attachments_dir.Append(filename));
-    std::unique_ptr<FileReader> reader(std::make_unique<FileReader>());
-    if (!reader->Open(filepath)) {
+    std::unique_ptr<FileReader> fileReader(std::make_unique<FileReader>());
+    if (!fileReader->Open(filepath)) {
       LOG(ERROR) << "attachment " << base::UTF16ToUTF8(filepath.value())
                  << " couldn't be opened, skipping";
       continue;
     }
-    attachment_readers_.emplace_back(std::move(reader));
+    attachment_readers_.emplace_back(std::move(fileReader));
     attachment_map_[base::UTF16ToUTF8(filename.value())] =
       attachment_readers_.back().get();
   }

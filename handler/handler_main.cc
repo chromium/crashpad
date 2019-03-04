@@ -149,9 +149,9 @@ void Usage(const base::FilePath& me) {
 #endif  // OS_LINUX || OS_ANDROID
 "      --url=URL               send crash reports to this Breakpad server URL,\n"
 "                              only if uploads are enabled for the database\n"
-#if defined(OS_WIN) || defined(OS_MACOSX)
+#if !defined(OS_FUCHSIA)
 "      --attachment=NAME=PATH  attach a copy of a file, along with a crash dump\n"
-#endif // OS_WIN || OS_MACOSX
+#endif
 "      --help                  display this help and exit\n"
 "      --version               output version information and exit\n",
           me.value().c_str());
@@ -581,9 +581,9 @@ int HandlerMain(int argc,
     kOptionSanitizationInformation,
 #endif
     kOptionURL,
-#if defined(OS_WIN) || defined(OS_MACOSX)
+#if !defined(OS_FUCHSIA)
     kOptionAttachment,
-#endif // OS_WIN || OS_MACOSX
+#endif
 
     // Standard options.
     kOptionHelp = -2,
@@ -643,9 +643,9 @@ int HandlerMain(int argc,
      kOptionSanitizationInformation},
 #endif  // OS_LINUX || OS_ANDROID
     {"url", required_argument, nullptr, kOptionURL},
-#if defined(OS_WIN) || defined(OS_MACOSX)
+#if !defined(OS_FUCHSIA)
     {"attachment", required_argument, nullptr, kOptionAttachment},
-#endif // OS_WIN || O_MACOSX
+#endif
     {"help", no_argument, nullptr, kOptionHelp},
     {"version", no_argument, nullptr, kOptionVersion},
     {nullptr, 0, nullptr, 0},
@@ -783,14 +783,14 @@ int HandlerMain(int argc,
         options.url = optarg;
         break;
       }
-#if defined(OS_WIN) || defined(OS_MACOSX)
+#if !defined(OS_FUCHSIA)
       case kOptionAttachment: {
         if (!AddKeyValueToMap(&options.attachments, optarg, "--attachment")) {
           return ExitFailure();
         }
         break;
       }
-#endif // OS_WIN || OS_MACOSX
+#endif
       case kOptionHelp: {
         Usage(me);
         MetricsRecordExit(Metrics::LifetimeMilestone::kExitedEarly);
@@ -917,7 +917,7 @@ int HandlerMain(int argc,
 #if defined(OS_FUCHSIA)
       // TODO(scottmg): Process level file attachments, and for all platforms.
       nullptr,
-#elif defined(OS_WIN) || defined(OS_MACOSX)
+#else
       &options.attachments,
 #endif
       user_stream_sources);

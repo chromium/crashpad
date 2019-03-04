@@ -46,3 +46,7 @@ https://chromium.googlesource.com/crashpad/crashpad.
 File attachments support for MacOS and Windows.
 
 Based on changes made in https://github.com/Youw/crashpad/, distributed with Apache 2.0 License.
+
+Generating patch:
+
+    git format-patch --stdout master...HEAD > getsentry.patch

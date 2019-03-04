@@ -112,18 +112,18 @@ class CrashpadClient {
                     bool restartable,
                     bool asynchronous_start);
 
-#if defined(OS_MACOSX)
+#if defined(OS_WIN) || defined(OS_MACOSX)
   bool StartHandlerWithAttachments(
       const base::FilePath& handler,
       const base::FilePath& database,
       const base::FilePath& metrics_dir,
       const std::string& url,
       const std::map<std::string, std::string>& annotations,
-      const std::map<std::string, std::string>& fileAttachments,
+      const std::map<std::string, base::FilePath>& fileAttachments,
       const std::vector<std::string>& arguments,
       bool restartable,
       bool asynchronous_start);
-#endif
+#endif // OS_WIN || OS_MACOSX
 
 #if defined(OS_ANDROID) || DOXYGEN
   //! \brief Installs a signal handler to execute `/system/bin/app_process` and

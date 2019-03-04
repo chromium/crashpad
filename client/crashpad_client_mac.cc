@@ -465,6 +465,32 @@ bool CrashpadClient::StartHandler(
   return true;
 }
 
+bool CrashpadClient::StartHandlerWithAttachments(
+    const base::FilePath& handler,
+    const base::FilePath& database,
+    const base::FilePath& metrics_dir,
+    const std::string& url,
+    const std::map<std::string, std::string>& annotations,
+    const std::map<std::string, base::FilePath>& fileAttachments,
+    const std::vector<std::string>& arguments,
+    bool restartable,
+    bool asynchronous_start) {
+  std::vector<std::string> updated_arguments = arguments;
+  for (const auto& kv: fileAttachments) {
+    std::string attachmentArg = "--attachment=" + kv.first + "=" + kv.second.value();
+    updated_arguments.push_back(attachmentArg);
+  }
+
+  return StartHandler(handler,
+                  database,
+                  metrics_dir,
+                  url,
+                  annotations,
+                  updated_arguments,
+                  restartable,
+                  asynchronous_start);
+}
+
 bool CrashpadClient::SetHandlerMachService(const std::string& service_name) {
   base::mac::ScopedMachSendRight exception_port(BootstrapLookUp(service_name));
   if (!exception_port.is_valid()) {
