@@ -40,3 +40,9 @@ https://chromium.googlesource.com/crashpad/crashpad.
    perform automated builds and tests.
  * [crashpad-dev](https://groups.google.com/a/chromium.org/group/crashpad-dev)
    is the Crashpad developers’ mailing list.
+
+## Sentry modifications
+
+File attachments support for MacOS and Windows.
+
+Based on changes made in https://github.com/Youw/crashpad/, distributed with Apache 2.0 License.

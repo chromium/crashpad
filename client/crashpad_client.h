@@ -112,6 +112,19 @@ class CrashpadClient {
                     bool restartable,
                     bool asynchronous_start);
 
+#if defined(OS_MACOSX)
+  bool StartHandlerWithAttachments(
+      const base::FilePath& handler,
+      const base::FilePath& database,
+      const base::FilePath& metrics_dir,
+      const std::string& url,
+      const std::map<std::string, std::string>& annotations,
+      const std::map<std::string, std::string>& fileAttachments,
+      const std::vector<std::string>& arguments,
+      bool restartable,
+      bool asynchronous_start);
+#endif
+
 #if defined(OS_ANDROID) || DOXYGEN
   //! \brief Installs a signal handler to execute `/system/bin/app_process` and
   //!     load a Java class in response to a crash.
