@@ -240,6 +240,18 @@ const ProcessMemory* ProcessSnapshotMinidump::Memory() const {
   return nullptr;
 }
 
+bool ProcessSnapshotMinidump::CommandLine(std::wstring* command_line) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  NOTREACHED();
+  return false;
+}
+
+bool ProcessSnapshotMinidump::Environment(std::wstring* environment) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  NOTREACHED();
+  return false;
+}
+
 std::vector<const MinidumpStream*>
 ProcessSnapshotMinidump::CustomMinidumpStreams() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);

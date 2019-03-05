@@ -268,4 +268,14 @@ const ProcessMemory* ProcessSnapshotSanitized::Memory() const {
   return nullptr;
 }
 
+bool ProcessSnapshotSanitized::CommandLine(std::wstring* command_line) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return snapshot_->CommandLine(command_line);
+}
+
+bool ProcessSnapshotSanitized::Environment(std::wstring* environment) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return snapshot_->Environment(environment);
+}
+
 }  // namespace crashpad

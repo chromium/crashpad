@@ -204,6 +204,18 @@ const ProcessMemory* ProcessSnapshotFuchsia::Memory() const {
   return process_reader_.Memory();
 }
 
+bool ProcessSnapshotFuchsia::CommandLine(std::wstring* command_line) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  NOTREACHED();
+  return false;
+}
+
+bool ProcessSnapshotFuchsia::Environment(std::wstring* environment) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  NOTREACHED();
+  return false;
+}
+
 void ProcessSnapshotFuchsia::InitializeThreads() {
   const std::vector<ProcessReaderFuchsia::Thread>& process_reader_threads =
       process_reader_.Threads();

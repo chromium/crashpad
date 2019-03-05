@@ -238,6 +238,49 @@ bool GetProcessBasicInformation(HANDLE process,
   return true;
 }
 
+bool ReadProcessEnvironment(HANDLE process,
+                            WinVMAddress environment_pointer,
+                            std::wstring* result) {
+  // Try to get the size of the region containing the environment string.
+  MEMORY_BASIC_INFORMATION mbi;
+  if (!VirtualQueryEx(process, reinterpret_cast<void*>(environment_pointer),
+                      &mbi, sizeof(mbi))) {
+    return false;
+  }
+  mbi.RegionSize -= reinterpret_cast<char*>(environment_pointer) -
+                    reinterpret_cast<char*>(mbi.BaseAddress);
+
+  // We don't know the length of the environment variables. Try to read them
+  // by chunks untill the ending sequence "\0\0" encountered.
+  const std::wstring environment_separator = {L'\0', L'\0'};
+  const SIZE_T kChunkSize = 0x1000;  // Chunk size in bytes.
+  result->clear();
+  while (result->find(environment_separator) == result->npos) {
+    const SIZE_T symbols_to_read =
+        std::min(mbi.RegionSize / sizeof(wchar_t) - result->size(),
+                 kChunkSize / sizeof(wchar_t));
+    if (symbols_to_read == 0)
+      break;
+
+    SIZE_T bytes_read = 0;
+    const SIZE_T current_environment_size = result->size();
+    result->append(symbols_to_read, L'\n');
+    ReadProcessMemory(process, reinterpret_cast<void*>(
+                                   environment_pointer +
+                                   current_environment_size * sizeof(wchar_t)),
+                      &result->at(current_environment_size),
+                      symbols_to_read * sizeof(wchar_t), &bytes_read);
+    DCHECK_EQ(symbols_to_read * sizeof(wchar_t), bytes_read);
+  }
+
+  if (result->size() == 0)
+    return false;
+
+  *result = result->substr(
+      0, result->find(environment_separator) + environment_separator.size());
+  return true;
+}
+
 template <class Traits>
 bool ReadProcessData(HANDLE process,
                      WinVMAddress peb_address_vmaddr,
@@ -261,6 +304,11 @@ bool ReadProcessData(HANDLE process,
   if (!ReadUnicodeString(process,
                          process_parameters.CommandLine,
                          &process_info->command_line_)) {
+    return false;
+  }
+
+  if (!ReadProcessEnvironment(process, process_parameters.Environment,
+                              &process_info->environment_)) {
     return false;
   }
 
@@ -485,6 +533,7 @@ ProcessInfo::ProcessInfo()
       inherited_from_process_id_(),
       process_(),
       command_line_(),
+      environment_(),
       peb_address_(0),
       peb_size_(0),
       modules_(),
@@ -578,6 +627,12 @@ pid_t ProcessInfo::ParentProcessID() const {
 bool ProcessInfo::CommandLine(std::wstring* command_line) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   *command_line = command_line_;
+  return true;
+}
+
+bool ProcessInfo::Environment(std::wstring* environment) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  *environment = environment_;
   return true;
 }
 

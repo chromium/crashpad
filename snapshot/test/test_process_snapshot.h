@@ -144,6 +144,14 @@ class TestProcessSnapshot final : public ProcessSnapshot {
     process_memory_ = std::move(process_memory);
   }
 
+  void SetCommandLine(std::wstring command_line) {
+    command_line_ = std::move(command_line);
+  }
+
+  void SetEnvironment(std::wstring environment) {
+    environment_ = std::move(environment);
+  }
+
   // ProcessSnapshot:
 
   pid_t ProcessID() const override;
@@ -164,6 +172,8 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   std::vector<HandleSnapshot> Handles() const override;
   std::vector<const MemorySnapshot*> ExtraMemory() const override;
   const ProcessMemory* Memory() const override;
+  bool CommandLine(std::wstring* command_line) const override;
+  bool Environment(std::wstring* environment) const override;
 
  private:
   pid_t process_id_;
@@ -184,6 +194,8 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   std::vector<HandleSnapshot> handles_;
   std::vector<std::unique_ptr<MemorySnapshot>> extra_memory_;
   std::unique_ptr<ProcessMemory> process_memory_;
+  std::wstring command_line_;
+  std::wstring environment_;
 
   DISALLOW_COPY_AND_ASSIGN(TestProcessSnapshot);
 };

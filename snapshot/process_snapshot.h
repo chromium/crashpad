@@ -202,6 +202,14 @@ class ProcessSnapshot {
   //!     object, it is scoped to the lifetime of the ProcessSnapshot object
   //!     that it was obtained from.
   virtual const ProcessMemory* Memory() const = 0;
+
+  //! \brief Returns snaphot process' command line.
+  virtual bool CommandLine(std::wstring* command_line) const = 0;
+
+  //! \brief Returns snaphot process' environment. The result is not a regular
+  //      null-terminated string but a null-separated array of strings
+  //      terminated by a double null.
+  virtual bool Environment(std::wstring* environment) const = 0;
 };
 
 }  // namespace crashpad

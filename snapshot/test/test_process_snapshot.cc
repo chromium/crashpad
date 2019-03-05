@@ -131,5 +131,15 @@ const ProcessMemory* TestProcessSnapshot::Memory() const {
   return process_memory_.get();
 }
 
+bool TestProcessSnapshot::CommandLine(std::wstring* command_line) const {
+  *command_line = command_line_;
+  return true;
+}
+
+bool TestProcessSnapshot::Environment(std::wstring* environment) const {
+  *environment = environment_;
+  return true;
+}
+
 }  // namespace test
 }  // namespace crashpad
