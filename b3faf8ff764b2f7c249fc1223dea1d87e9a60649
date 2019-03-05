@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18887570_78977329",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-03-05T22:50:50Z",
+      "side": 1,
+      "message": "crashpad:",
+      "revId": "b3faf8ff764b2f7c249fc1223dea1d87e9a60649",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
