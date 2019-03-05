@@ -31,7 +31,7 @@ if (crashpad_is_in_fuchsia) {
     ]
   }
 } else {
-  sdk_path = "sdk/linux-amd64"
+  sdk_path = "sdk/$host_os-amd64"
   sdk_pkg_path = "$sdk_path/pkg"
   sdk_fidl_path = "$sdk_path/fidl"
 
