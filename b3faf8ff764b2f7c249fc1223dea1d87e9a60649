@@ -34,6 +34,24 @@
       "revId": "b3faf8ff764b2f7c249fc1223dea1d87e9a60649",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39fb6f29_9034fb61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-03-06T22:07:18Z",
+      "side": 1,
+      "message": "OK, I wasn\u0027t sure. When you click on it goes the wrong place, so I wasn\u0027t sure if bugdroid would also get confused.",
+      "parentUuid": "10708bed_fa8fb860",
+      "revId": "b3faf8ff764b2f7c249fc1223dea1d87e9a60649",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
