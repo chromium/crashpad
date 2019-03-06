@@ -89,22 +89,24 @@ deps = {
     'condition': 'checkout_fuchsia and host_os == "linux"',
     'dep_type': 'cipd'
   },
-  'crashpad/third_party/fuchsia/sdk/linux-amd64': {
-    # The SDK is keyed to the host system because it contains build tools.
-    # Currently, linux-amd64 is the only SDK published (see
-    # https://chrome-infra-packages.appspot.com/#/?path=fuchsia/sdk).
-    # As long as this is the case, use that SDK package
-    # even on other build hosts.
-    # The sysroot (containing headers and libraries) and other components are
-    # related to the target and should be functional with an appropriate
-    # toolchain that runs on the build host (fuchsia_clang, above).
+  'crashpad/third_party/fuchsia/sdk/mac-amd64': {
     'packages': [
       {
-        'package': 'fuchsia/sdk/linux-amd64',
+        'package': 'fuchsia/sdk/core/mac-amd64',
         'version': 'latest'
       },
     ],
-    'condition': 'checkout_fuchsia',
+    'condition': 'checkout_fuchsia and host_os == "mac"',
+    'dep_type': 'cipd'
+  },
+  'crashpad/third_party/fuchsia/sdk/linux-amd64': {
+    'packages': [
+      {
+        'package': 'fuchsia/sdk/core/linux-amd64',
+        'version': 'latest'
+      },
+    ],
+    'condition': 'checkout_fuchsia and host_os == "linux"',
     'dep_type': 'cipd'
   },
   'crashpad/third_party/win/toolchain': {
