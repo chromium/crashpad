@@ -15,7 +15,7 @@
 #include "util/fuchsia/koid_utilities.h"
 
 #include <fuchsia/sysinfo/c/fidl.h>
-#include <lib/fdio/util.h>
+#include <lib/fdio/fdio.h>
 #include <lib/zx/channel.h>
 #include <lib/zx/job.h>
 #include <lib/zx/process.h>
