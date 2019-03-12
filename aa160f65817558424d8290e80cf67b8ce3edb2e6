@@ -16,6 +16,24 @@
       "revId": "aa160f65817558424d8290e80cf67b8ce3edb2e6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a293965_9eebca49",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-03-12T22:07:47Z",
+      "side": 0,
+      "message": "Filed: https://bugs.chromium.org/p/crashpad/issues/detail?id\u003d282",
+      "parentUuid": "2f764ca7_c6ab4bbb",
+      "revId": "aa160f65817558424d8290e80cf67b8ce3edb2e6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
