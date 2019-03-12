@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f764ca7_c6ab4bbb",
+        "filename": "snapshot/minidump/thread_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-03-12T21:55:20Z",
+      "side": 0,
+      "message": "File a bug to add tests?",
+      "revId": "aa160f65817558424d8290e80cf67b8ce3edb2e6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
