@@ -86,7 +86,6 @@ bool ThreadSnapshotMinidump::InitializeContext(
   }
 
   if (context_.architecture == CPUArchitecture::kCPUArchitectureX86) {
-    LOG(WARNING) << "Snapshot X86 context support has no unit tests.";
     context_memory_.resize(sizeof(CPUContextX86));
     context_.x86 = reinterpret_cast<CPUContextX86*>(context_memory_.data());
     const MinidumpContextX86* src =
@@ -180,7 +179,6 @@ bool ThreadSnapshotMinidump::InitializeContext(
     context_.x86_64->dr4 = src->dr6;
     context_.x86_64->dr5 = src->dr7;
   } else if (context_.architecture == CPUArchitecture::kCPUArchitectureARM) {
-    LOG(WARNING) << "Snapshot ARM32 context support has no unit tests.";
     context_memory_.resize(sizeof(CPUContextARM));
     context_.arm = reinterpret_cast<CPUContextARM*>(context_memory_.data());
     const MinidumpContextARM* src =
@@ -242,7 +240,6 @@ bool ThreadSnapshotMinidump::InitializeContext(
     context_.arm64->fpsr = src->fpsr;
     context_.arm64->spsr = src->cpsr;
   } else if (context_.architecture == CPUArchitecture::kCPUArchitectureMIPSEL) {
-    LOG(WARNING) << "Snapshot MIPS context support has no unit tests.";
     context_memory_.resize(sizeof(CPUContextMIPS));
     context_.mipsel = reinterpret_cast<CPUContextMIPS*>(context_memory_.data());
     const MinidumpContextMIPS* src =
@@ -278,7 +275,6 @@ bool ThreadSnapshotMinidump::InitializeContext(
     memcpy(&context_.mipsel->fpregs, &src->fpregs, sizeof(src->fpregs));
   } else if (context_.architecture ==
              CPUArchitecture::kCPUArchitectureMIPS64EL) {
-    LOG(WARNING) << "Snapshot MIPS64 context support has no unit tests.";
     context_memory_.resize(sizeof(CPUContextMIPS64));
     context_.mips64 =
       reinterpret_cast<CPUContextMIPS64*>(context_memory_.data());
