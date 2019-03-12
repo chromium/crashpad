@@ -15,6 +15,7 @@
 #include "client/crash_report_database.h"
 
 #include <stdint.h>
+#include <sys/stat.h>
 #include <sys/types.h>
 
 #include <utility>
@@ -187,6 +188,7 @@ class CrashReportDatabaseGeneric : public CrashReportDatabase {
   OperationStatus DeleteReport(const UUID& uuid) override;
   OperationStatus RequestUpload(const UUID& uuid) override;
   int CleanDatabase(time_t lockfile_ttl) override;
+  OperationStatus GetReportSize(const UUID& uuid, uint64_t* size) override;
 
   // Build a filepath for the directory for the report to hold attachments.
   base::FilePath AttachmentsPath(const UUID& uuid);
@@ -649,6 +651,58 @@ OperationStatus CrashReportDatabaseGeneric::RecordUploadAttempt(
 
   if (!settings_.SetLastUploadAttemptTime(now)) {
     return kDatabaseError;
+  }
+
+  return kNoError;
+}
+
+namespace {
+
+#if defined(OS_POSIX)
+off_t GetFileSize(const base::FilePath& filepath) {
+  struct stat statbuf;
+  if (stat(filepath.value().c_str(), &statbuf) == 0) {
+    return statbuf.st_size;
+  }
+  LOG(ERROR) << "failed to stat() " << filepath.value();
+  return 0;
+}
+#elif defined(OS_WIN)
+__int64 GetFileSize(const base::FilePath& filepath) {
+  struct _stati64 statbuf;
+  if (_wstat64(filepath.value().c_str(), &statbuf) == 0) {
+    return statbuf.st_size;
+  }
+  LOG(ERROR) << "failed to stat() " << filepath.value();
+  return 0;
+}
+#endif
+
+}  // namespace
+
+OperationStatus CrashReportDatabaseGeneric::GetReportSize(const UUID& uuid,
+                                                          uint64_t* size) {
+  // Main report size;
+  Report report;
+  const OperationStatus lookup_status = LookUpCrashReport(uuid, &report);
+  if (lookup_status != kNoError) {
+    return lookup_status;
+  }
+  *size += GetFileSize(report.file_path);
+
+  // Attachments size.
+  base::FilePath attachments_dir = AttachmentsPath(uuid);
+  DirectoryReader reader;
+  if (!reader.Open(attachments_dir)) {
+    return kNoError;
+  }
+  base::FilePath attachment_filename;
+  DirectoryReader::Result result;
+  while ((result = reader.NextFile(&attachment_filename)) ==
+         DirectoryReader::Result::kSuccess) {
+    const base::FilePath attachment_filepath(
+        attachments_dir.Append(attachment_filename));
+    *size += GetFileSize(attachment_filepath);
   }
 
   return kNoError;

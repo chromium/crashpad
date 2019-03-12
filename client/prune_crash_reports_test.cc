@@ -51,6 +51,7 @@ class MockDatabase : public CrashReportDatabase {
                OperationStatus(const UUID&, Metrics::CrashSkippedReason));
   MOCK_METHOD1(DeleteReport, OperationStatus(const UUID&));
   MOCK_METHOD1(RequestUpload, OperationStatus(const UUID&));
+  MOCK_METHOD2(GetReportSize, OperationStatus(const UUID&, uint64_t*));
 
   // gmock doesn't support mocking methods with non-copyable types such as
   // unique_ptr.
@@ -100,8 +101,8 @@ TEST(PruneCrashReports, SizeCondition) {
       string.push_back(static_cast<char>(i));
 
     for (size_t i = 0; i < 1024; i += string.size()) {
-      ASSERT_TRUE(LoggingWriteFile(scoped_file_1k.get(),
-                                   string.c_str(), string.length()));
+      ASSERT_TRUE(LoggingWriteFile(
+          scoped_file_1k.get(), string.c_str(), string.length()));
     }
 
     ScopedFileHandle scoped_file_3k(
@@ -111,24 +112,25 @@ TEST(PruneCrashReports, SizeCondition) {
     ASSERT_TRUE(scoped_file_3k.is_valid());
 
     for (size_t i = 0; i < 3072; i += string.size()) {
-      ASSERT_TRUE(LoggingWriteFile(scoped_file_3k.get(),
-                                   string.c_str(), string.length()));
+      ASSERT_TRUE(LoggingWriteFile(
+          scoped_file_3k.get(), string.c_str(), string.length()));
     }
   }
 
+  MockDatabase db;
   {
-    DatabaseSizePruneCondition condition(1);
+    DatabaseSizePruneCondition condition(&db, 1);
     EXPECT_FALSE(condition.ShouldPruneReport(report_1k));
     EXPECT_TRUE(condition.ShouldPruneReport(report_1k));
   }
 
   {
-    DatabaseSizePruneCondition condition(1);
+    DatabaseSizePruneCondition condition(&db, 1);
     EXPECT_TRUE(condition.ShouldPruneReport(report_3k));
   }
 
   {
-    DatabaseSizePruneCondition condition(6);
+    DatabaseSizePruneCondition condition(&db, 6);
     EXPECT_FALSE(condition.ShouldPruneReport(report_3k));
     EXPECT_FALSE(condition.ShouldPruneReport(report_3k));
     EXPECT_TRUE(condition.ShouldPruneReport(report_1k));
@@ -164,30 +166,50 @@ TEST(PruneCrashReports, BinaryCondition) {
     bool lhs_executed;
     bool rhs_executed;
   } kTests[] = {
-    {"false && false",
-     BinaryPruneCondition::AND, false, false,
-     false, true, false},
-    {"false && true",
-     BinaryPruneCondition::AND, false, true,
-     false, true, false},
-    {"true && false",
-     BinaryPruneCondition::AND, true, false,
-     false, true, true},
-    {"true && true",
-     BinaryPruneCondition::AND, true, true,
-     true, true, true},
-    {"false || false",
-     BinaryPruneCondition::OR, false, false,
-     false, true, true},
-    {"false || true",
-     BinaryPruneCondition::OR, false, true,
-     true, true, true},
-    {"true || false",
-     BinaryPruneCondition::OR, true, false,
-     true, true, false},
-    {"true || true",
-     BinaryPruneCondition::OR, true, true,
-     true, true, false},
+      {"false && false",
+       BinaryPruneCondition::AND,
+       false,
+       false,
+       false,
+       true,
+       false},
+      {"false && true",
+       BinaryPruneCondition::AND,
+       false,
+       true,
+       false,
+       true,
+       false},
+      {"true && false",
+       BinaryPruneCondition::AND,
+       true,
+       false,
+       false,
+       true,
+       true},
+      {"true && true", BinaryPruneCondition::AND, true, true, true, true, true},
+      {"false || false",
+       BinaryPruneCondition::OR,
+       false,
+       false,
+       false,
+       true,
+       true},
+      {"false || true",
+       BinaryPruneCondition::OR,
+       false,
+       true,
+       true,
+       true,
+       true},
+      {"true || false",
+       BinaryPruneCondition::OR,
+       true,
+       false,
+       true,
+       true,
+       false},
+      {"true || true", BinaryPruneCondition::OR, true, true, true, true, false},
   };
   for (const auto& test : kTests) {
     SCOPED_TRACE(test.name);
@@ -220,18 +242,18 @@ TEST(PruneCrashReports, PruneOrder) {
   }
   std::mt19937 urng(std::random_device{}());
   std::shuffle(reports.begin(), reports.end(), urng);
-  std::vector<CrashReportDatabase::Report> pending_reports(
-      reports.begin(), reports.begin() + 5);
+  std::vector<CrashReportDatabase::Report> pending_reports(reports.begin(),
+                                                           reports.begin() + 5);
   std::vector<CrashReportDatabase::Report> completed_reports(
       reports.begin() + 5, reports.end());
 
   MockDatabase db;
-  EXPECT_CALL(db, GetPendingReports(_)).WillOnce(DoAll(
-      SetArgPointee<0>(pending_reports),
-      Return(CrashReportDatabase::kNoError)));
-  EXPECT_CALL(db, GetCompletedReports(_)).WillOnce(DoAll(
-      SetArgPointee<0>(completed_reports),
-      Return(CrashReportDatabase::kNoError)));
+  EXPECT_CALL(db, GetPendingReports(_))
+      .WillOnce(DoAll(SetArgPointee<0>(pending_reports),
+                      Return(CrashReportDatabase::kNoError)));
+  EXPECT_CALL(db, GetCompletedReports(_))
+      .WillOnce(DoAll(SetArgPointee<0>(completed_reports),
+                      Return(CrashReportDatabase::kNoError)));
   for (size_t i = 0; i < reports.size(); ++i) {
     EXPECT_CALL(db, DeleteReport(TestUUID(i)))
         .WillOnce(Return(CrashReportDatabase::kNoError));

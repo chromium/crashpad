@@ -41,14 +41,15 @@ void PruneCrashReportDatabase(CrashReportDatabase* database,
     LOG(ERROR) << "PruneCrashReportDatabase: Failed to get completed reports";
     return;
   }
-  all_reports.insert(all_reports.end(), completed_reports.begin(),
-                     completed_reports.end());
+  all_reports.insert(
+      all_reports.end(), completed_reports.begin(), completed_reports.end());
 
-  std::sort(all_reports.begin(), all_reports.end(),
-      [](const CrashReportDatabase::Report& lhs,
-         const CrashReportDatabase::Report& rhs) {
-        return lhs.creation_time > rhs.creation_time;
-      });
+  std::sort(all_reports.begin(),
+            all_reports.end(),
+            [](const CrashReportDatabase::Report& lhs,
+               const CrashReportDatabase::Report& rhs) {
+              return lhs.creation_time > rhs.creation_time;
+            });
 
   for (const auto& report : all_reports) {
     if (condition->ShouldPruneReport(report)) {
@@ -66,21 +67,22 @@ void PruneCrashReportDatabase(CrashReportDatabase* database,
 }
 
 // static
-std::unique_ptr<PruneCondition> PruneCondition::GetDefault() {
+std::unique_ptr<PruneCondition> PruneCondition::GetDefault(
+    CrashReportDatabase* database) {
   // DatabaseSizePruneCondition must be the LHS so that it is always evaluated,
   // due to the short-circuting behavior of BinaryPruneCondition.
   return std::make_unique<BinaryPruneCondition>(
       BinaryPruneCondition::OR,
-      new DatabaseSizePruneCondition(1024 * 128),
+      new DatabaseSizePruneCondition(database, 1024 * 128),
       new AgePruneCondition(365));
 }
 
 static const time_t kSecondsInDay = 60 * 60 * 24;
 
 AgePruneCondition::AgePruneCondition(int max_age_in_days)
-    : oldest_report_time_(
-        ((time(nullptr) - (max_age_in_days * kSecondsInDay))
-             / kSecondsInDay) * kSecondsInDay) {}
+    : oldest_report_time_(((time(nullptr) - (max_age_in_days * kSecondsInDay)) /
+                           kSecondsInDay) *
+                          kSecondsInDay) {}
 
 AgePruneCondition::~AgePruneCondition() {}
 
@@ -89,31 +91,30 @@ bool AgePruneCondition::ShouldPruneReport(
   return report.creation_time < oldest_report_time_;
 }
 
-DatabaseSizePruneCondition::DatabaseSizePruneCondition(size_t max_size_in_kb)
-    : max_size_in_kb_(max_size_in_kb), measured_size_in_kb_(0) {}
+DatabaseSizePruneCondition::DatabaseSizePruneCondition(
+    CrashReportDatabase* database,
+    size_t max_size_in_kb)
+    : database_(database),
+      max_size_in_kb_(max_size_in_kb),
+      measured_size_in_kb_(0) {}
 
 DatabaseSizePruneCondition::~DatabaseSizePruneCondition() {}
 
 bool DatabaseSizePruneCondition::ShouldPruneReport(
     const CrashReportDatabase::Report& report) {
-#if defined(OS_POSIX)
-  struct stat statbuf;
-  if (stat(report.file_path.value().c_str(), &statbuf) == 0) {
-#elif defined(OS_WIN)
-  struct _stati64 statbuf;
-  if (_wstat64(report.file_path.value().c_str(), &statbuf) == 0) {
-#else
-#error "Not implemented"
-#endif
+  uint64_t report_size;
+  const CrashReportDatabase::OperationStatus size_status =
+      database_->GetReportSize(report.uuid, &report_size);
+  if (size_status == CrashReportDatabase::kNoError) {
     // Round up fractional KB to the next 1-KB boundary.
-    measured_size_in_kb_ +=
-        static_cast<size_t>((statbuf.st_size + 1023) / 1024);
+    measured_size_in_kb_ += static_cast<size_t>((report_size + 1023) / 1024);
   }
   return measured_size_in_kb_ > max_size_in_kb_;
 }
 
-BinaryPruneCondition::BinaryPruneCondition(
-    Operator op, PruneCondition* lhs, PruneCondition* rhs)
+BinaryPruneCondition::BinaryPruneCondition(Operator op,
+                                           PruneCondition* lhs,
+                                           PruneCondition* rhs)
     : op_(op), lhs_(lhs), rhs_(rhs) {}
 
 BinaryPruneCondition::~BinaryPruneCondition() {}

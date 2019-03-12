@@ -40,7 +40,8 @@ class PruneCondition;
 void PruneCrashReportDatabase(CrashReportDatabase* database,
                               PruneCondition* condition);
 
-std::unique_ptr<PruneCondition> GetDefaultDatabasePruneCondition();
+std::unique_ptr<PruneCondition> GetDefaultDatabasePruneCondition(
+    CrashReportDatabase* database);
 
 //! \brief An abstract base class for evaluating crash reports for deletion.
 //!
@@ -57,7 +58,8 @@ class PruneCondition {
   //! of 128 MB.
   //!
   //! \return A PruneCondition for use with PruneCrashReportDatabase().
-  static std::unique_ptr<PruneCondition> GetDefault();
+  static std::unique_ptr<PruneCondition> GetDefault(
+      CrashReportDatabase* database);
 
   virtual ~PruneCondition() {}
 
@@ -99,12 +101,14 @@ class DatabaseSizePruneCondition final : public PruneCondition {
   //!
   //! \param[in] max_size_in_kb The maximum number of kilobytes that all crash
   //!     reports should consume.
-  explicit DatabaseSizePruneCondition(size_t max_size_in_kb);
+  explicit DatabaseSizePruneCondition(CrashReportDatabase* database,
+                                      size_t max_size_in_kb);
   ~DatabaseSizePruneCondition();
 
   bool ShouldPruneReport(const CrashReportDatabase::Report& report) override;
 
  private:
+  CrashReportDatabase* database_;
   const size_t max_size_in_kb_;
   size_t measured_size_in_kb_;
 
