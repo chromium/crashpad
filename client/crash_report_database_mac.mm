@@ -148,6 +148,7 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
                                    Metrics::CrashSkippedReason reason) override;
   OperationStatus DeleteReport(const UUID& uuid) override;
   OperationStatus RequestUpload(const UUID& uuid) override;
+  OperationStatus GetReportSize(const UUID& uuid, uint64_t* size) override;
 
  private:
   // CrashReportDatabase:
@@ -621,6 +622,25 @@ CrashReportDatabase::OperationStatus CrashReportDatabaseMac::RequestUpload(
   }
 
   Metrics::CrashReportPending(Metrics::PendingReportReason::kUserInitiated);
+
+  return kNoError;
+}
+
+CrashReportDatabase::OperationStatus CrashReportDatabaseMac::GetReportSize(const UUID& uuid,
+                                                                           uint64_t* size) {
+  CrashReportDatabase::Report report;
+  const CrashReportDatabase::OperationStatus lookup_status = LookUpCrashReport(uuid, &report);
+  if (lookup_status != kNoError) {
+    return lookup_status;
+  }
+
+  // We don't have attachments on Mac so the size is the only for the main report.
+  struct stat statbuf;
+  if (stat(report.file_path.value().c_str(), &statbuf) != 0) {
+    LOG(ERROR) << "failed to stat() " << report.file_path.value();
+    return kFileSystemError;
+  }
+  *size = statbuf.st_size;
 
   return kNoError;
 }

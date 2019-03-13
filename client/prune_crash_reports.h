@@ -63,11 +63,13 @@ class PruneCondition {
 
   //! \brief Evaluates a crash report for deletion.
   //!
+  //! \param[in] database The database to prune crash reports from.
   //! \param[in] report The crash report to evaluate.
   //!
   //! \return `true` if the crash report should be deleted, `false` if it
   //!     should be kept.
-  virtual bool ShouldPruneReport(const CrashReportDatabase::Report& report) = 0;
+  virtual bool ShouldPruneReport(CrashReportDatabase* database,
+                                 const CrashReportDatabase::Report& report) = 0;
 };
 
 //! \brief A PruneCondition that deletes reports older than the specified number
@@ -81,7 +83,8 @@ class AgePruneCondition final : public PruneCondition {
   explicit AgePruneCondition(int max_age_in_days);
   ~AgePruneCondition();
 
-  bool ShouldPruneReport(const CrashReportDatabase::Report& report) override;
+  bool ShouldPruneReport(CrashReportDatabase* database,
+                         const CrashReportDatabase::Report& report) override;
 
  private:
   const time_t oldest_report_time_;
@@ -102,7 +105,8 @@ class DatabaseSizePruneCondition final : public PruneCondition {
   explicit DatabaseSizePruneCondition(size_t max_size_in_kb);
   ~DatabaseSizePruneCondition();
 
-  bool ShouldPruneReport(const CrashReportDatabase::Report& report) override;
+  bool ShouldPruneReport(CrashReportDatabase* database,
+                         const CrashReportDatabase::Report& report) override;
 
  private:
   const size_t max_size_in_kb_;
@@ -133,7 +137,8 @@ class BinaryPruneCondition final : public PruneCondition {
   BinaryPruneCondition(Operator op, PruneCondition* lhs, PruneCondition* rhs);
   ~BinaryPruneCondition();
 
-  bool ShouldPruneReport(const CrashReportDatabase::Report& report) override;
+  bool ShouldPruneReport(CrashReportDatabase* database,
+                         const CrashReportDatabase::Report& report) override;
 
  private:
   const Operator op_;

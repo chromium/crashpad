@@ -27,6 +27,7 @@
 #include "gtest/gtest.h"
 #include "test/scoped_temp_dir.h"
 #include "util/file/file_io.h"
+#include "util/misc/uuid.h"
 
 namespace crashpad {
 namespace test {
@@ -51,6 +52,7 @@ class MockDatabase : public CrashReportDatabase {
                OperationStatus(const UUID&, Metrics::CrashSkippedReason));
   MOCK_METHOD1(DeleteReport, OperationStatus(const UUID&));
   MOCK_METHOD1(RequestUpload, OperationStatus(const UUID&));
+  MOCK_METHOD2(GetReportSize, OperationStatus(const UUID&, uint64_t*));
 
   // gmock doesn't support mocking methods with non-copyable types such as
   // unique_ptr.
@@ -75,63 +77,84 @@ TEST(PruneCrashReports, AgeCondition) {
   report_30_days.creation_time = NDaysAgo(30);
 
   AgePruneCondition condition(30);
-  EXPECT_TRUE(condition.ShouldPruneReport(report_80_days));
-  EXPECT_FALSE(condition.ShouldPruneReport(report_10_days));
-  EXPECT_FALSE(condition.ShouldPruneReport(report_30_days));
+  EXPECT_TRUE(condition.ShouldPruneReport(nullptr, report_80_days));
+  EXPECT_FALSE(condition.ShouldPruneReport(nullptr, report_10_days));
+  EXPECT_FALSE(condition.ShouldPruneReport(nullptr, report_30_days));
 }
 
 TEST(PruneCrashReports, SizeCondition) {
+  using ::testing::_;
+  using ::testing::DoAll;
+  using ::testing::Return;
+  using ::testing::SetArgPointee;
+
   ScopedTempDir temp_dir;
 
   CrashReportDatabase::Report report_1k;
-  report_1k.file_path = temp_dir.path().Append(FILE_PATH_LITERAL("file1024"));
   CrashReportDatabase::Report report_3k;
-  report_3k.file_path = temp_dir.path().Append(FILE_PATH_LITERAL("file3072"));
+  CrashReportDatabase::Report report_no_size;
+  // The UUIDs just need to be valid and unique within the test.
+  ASSERT_TRUE(report_1k.uuid.InitializeFromString(
+      "c6849cb5-fe14-4a79-8978-9ae6034c521d"));
+  ASSERT_TRUE(report_3k.uuid.InitializeFromString(
+      "4d7480ed-1019-46bd-bf91-08f63c0d0705"));
+  ASSERT_TRUE(report_no_size.uuid.InitializeFromString(
+      "c66fd20a-917f-4b13-8d9f-3969a7ae2514"));
+
+  MockDatabase db;
+  // We always return 1kB for |report_1k|.
+  EXPECT_CALL(db, GetReportSize(report_1k.uuid, _))
+      .WillRepeatedly(DoAll(SetArgPointee<1>(1024u),
+                            Return(CrashReportDatabase::kNoError)));
+  // We always return 3kB for |report_3k|.
+  EXPECT_CALL(db, GetReportSize(report_3k.uuid, _))
+      .WillRepeatedly(DoAll(SetArgPointee<1>(3u * 1024u),
+                            Return(CrashReportDatabase::kNoError)));
+  // We always return an error for |report_no_size|.
+  EXPECT_CALL(db, GetReportSize(report_no_size.uuid, _))
+      .WillRepeatedly(Return(CrashReportDatabase::kFileSystemError));
 
   {
-    ScopedFileHandle scoped_file_1k(
-        LoggingOpenFileForWrite(report_1k.file_path,
-                                FileWriteMode::kCreateOrFail,
-                                FilePermissions::kOwnerOnly));
-    ASSERT_TRUE(scoped_file_1k.is_valid());
-
-    std::string string;
-    for (int i = 0; i < 128; ++i)
-      string.push_back(static_cast<char>(i));
-
-    for (size_t i = 0; i < 1024; i += string.size()) {
-      ASSERT_TRUE(LoggingWriteFile(scoped_file_1k.get(),
-                                   string.c_str(), string.length()));
-    }
-
-    ScopedFileHandle scoped_file_3k(
-        LoggingOpenFileForWrite(report_3k.file_path,
-                                FileWriteMode::kCreateOrFail,
-                                FilePermissions::kOwnerOnly));
-    ASSERT_TRUE(scoped_file_3k.is_valid());
-
-    for (size_t i = 0; i < 3072; i += string.size()) {
-      ASSERT_TRUE(LoggingWriteFile(scoped_file_3k.get(),
-                                   string.c_str(), string.length()));
-    }
+    // We prune after 1kB cumulated.
+    DatabaseSizePruneCondition condition(/*max_size_in_kb=*/1);
+    // We will first ask for |report_1k|, which should not be pruned as we are
+    // not past 1kB. Then for |report_3k|, which should be pruned as we are past
+    // 1kB.
+    EXPECT_FALSE(condition.ShouldPruneReport(&db, report_1k));
+    EXPECT_TRUE(condition.ShouldPruneReport(&db, report_3k));
   }
 
   {
-    DatabaseSizePruneCondition condition(1);
-    EXPECT_FALSE(condition.ShouldPruneReport(report_1k));
-    EXPECT_TRUE(condition.ShouldPruneReport(report_1k));
+    // We prune after 1kB cumulated.
+    DatabaseSizePruneCondition condition(/*max_size_in_kb=*/1);
+    // We will immediately ask for |report_3k|, which should be pruned as we are
+    // past 1kB already.
+    EXPECT_TRUE(condition.ShouldPruneReport(&db, report_3k));
   }
 
   {
-    DatabaseSizePruneCondition condition(1);
-    EXPECT_TRUE(condition.ShouldPruneReport(report_3k));
+    // We prune after 6kB cumulated.
+    DatabaseSizePruneCondition condition(/*max_size_in_kb=*/6);
+    // We will ask twice for |report_3k|, which should not be pruned as we are
+    // not past 6kB. Then for |report_1k|, which should be pruned as we are past
+    // 6kB.
+    EXPECT_FALSE(condition.ShouldPruneReport(&db, report_3k));
+    EXPECT_FALSE(condition.ShouldPruneReport(&db, report_3k));
+    EXPECT_TRUE(condition.ShouldPruneReport(&db, report_1k));
   }
 
   {
-    DatabaseSizePruneCondition condition(6);
-    EXPECT_FALSE(condition.ShouldPruneReport(report_3k));
-    EXPECT_FALSE(condition.ShouldPruneReport(report_3k));
-    EXPECT_TRUE(condition.ShouldPruneReport(report_1k));
+    // We prune after 1kB cumulated.
+    DatabaseSizePruneCondition condition(/*max_size_in_kb=*/1);
+    // We will first ask for |report_1k|, which should not be pruned as we are
+    // not past 1kB. Then for |report_no_size| repeatedly, which should not be
+    // pruned as they have no size. Then for |report_3k|, which should be pruned
+    // as we are past 1kB.
+    EXPECT_FALSE(condition.ShouldPruneReport(&db, report_1k));
+    EXPECT_FALSE(condition.ShouldPruneReport(&db, report_no_size));
+    EXPECT_FALSE(condition.ShouldPruneReport(&db, report_no_size));
+    EXPECT_FALSE(condition.ShouldPruneReport(&db, report_no_size));
+    EXPECT_TRUE(condition.ShouldPruneReport(&db, report_3k));
   }
 }
 
@@ -140,7 +163,8 @@ class StaticCondition final : public PruneCondition {
   explicit StaticCondition(bool value) : value_(value), did_execute_(false) {}
   ~StaticCondition() {}
 
-  bool ShouldPruneReport(const CrashReportDatabase::Report& report) override {
+  bool ShouldPruneReport(CrashReportDatabase* database,
+                         const CrashReportDatabase::Report& report) override {
     did_execute_ = true;
     return value_;
   }
@@ -195,7 +219,7 @@ TEST(PruneCrashReports, BinaryCondition) {
     auto rhs = new StaticCondition(test.rhs_value);
     BinaryPruneCondition condition(test.op, lhs, rhs);
     CrashReportDatabase::Report report;
-    EXPECT_EQ(condition.ShouldPruneReport(report), test.cond_result);
+    EXPECT_EQ(condition.ShouldPruneReport(nullptr, report), test.cond_result);
     EXPECT_EQ(lhs->did_execute(), test.lhs_executed);
     EXPECT_EQ(rhs->did_execute(), test.rhs_executed);
   }

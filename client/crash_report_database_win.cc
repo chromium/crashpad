@@ -600,6 +600,7 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
                                    Metrics::CrashSkippedReason reason) override;
   OperationStatus DeleteReport(const UUID& uuid) override;
   OperationStatus RequestUpload(const UUID& uuid) override;
+  OperationStatus GetReportSize(const UUID& uuid, uint64_t* size) override;
 
  private:
   // CrashReportDatabase:
@@ -836,6 +837,27 @@ OperationStatus CrashReportDatabaseWin::SkipReportUpload(
     report_disk->upload_explicitly_requested = false;
   }
   return os;
+}
+
+OperationStatus CrashReportDatabaseWin::GetReportSize(const UUID& uuid,
+                                                      uint64_t* size) {
+  Report report;
+  const OperationStatus lookup_status = LookUpCrashReport(uuid, &report);
+  if (lookup_status != kNoError) {
+    return lookup_status;
+  }
+
+  // We don't have attachments on Windows so the size is the only for the main
+  // report.
+  struct _stati64 statbuf;
+  if (_wstat64(report.file_path.value().c_str(), &statbuf) != 0) {
+    LOG(ERROR) << "failed to stat() "
+               << base::UTF16ToUTF8(report.file_path.value());
+    return kFileSystemError;
+  }
+  *size = statbuf.st_size;
+
+  return kNoError;
 }
 
 std::unique_ptr<Metadata> CrashReportDatabaseWin::AcquireMetadata() {
