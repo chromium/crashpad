@@ -88,6 +88,24 @@
       "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b17137c9_237fa79a",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-03-13T19:25:53Z",
+      "side": 1,
+      "message": "So where exactly should I be setting this field?\n\nCrashReportDatabaseGeneric::CheckoutReport() seems to be the underlying method most other methods uses to construct a Report, but it is CrashReportDatabaseGeneric specific. For Windows, it seems that the Records come from records_ augmented in Metadata::AddNewRecord(). For Mac, there is at least CrashReportDatabaseMac::ReportsInDirectory() that creates Reports.\n\nI am fine to make it a field in Report as this was my first idea. I just found it hard to track down all the places where we construct a Report.",
+      "parentUuid": "23de3ada_94692033",
+      "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
