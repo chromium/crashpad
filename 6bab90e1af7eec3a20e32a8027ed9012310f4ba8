@@ -106,6 +106,24 @@
       "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfca438e_1f589eab",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2019-03-13T20:27:02Z",
+      "side": 1,
+      "message": "The only thing that creates Report objects is the Database. But there are different implementations depending on platform, so there are a few locations to add it. I\u0027d probably put it in:\n\n- CrashReportDatabaseGeneric::ReadMetadata\n- CrashReportDatabaseMac::ReadReportMetadataLocked\n- Metadata::FindSingleReport and ::FindReports in _win (Scott can speak up if he thinks there\u0027s a better place).\n\nOn Windows we don\u0027t want to keep the size in the metadata sidecar file; we want to compute it when producing a ReportDisk.",
+      "parentUuid": "b17137c9_237fa79a",
+      "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
