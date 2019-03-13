@@ -16,6 +16,24 @@
       "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27f9e782_81eb6c9a",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-03-13T17:54:20Z",
+      "side": 1,
+      "message": "That was my first thought as well!\n\nAnd maybe it\u0027s because I don\u0027t know much about Crashpad, but (1) I figured this assumes that everywhere we increase the total size then we need to increment that field (people have to know about it - now one could argue they have to know to update GetReportSize(), but at least the logic lives in one place) and (2) I am actually not sure how Report is \"serialized\" or passed around. I see many methods where we give it a UUID as input and the database constructs a report struct or object so I am not sure how the total_size would be preserved or initialized to.",
+      "parentUuid": "e0847ce9_aa643c23",
+      "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
