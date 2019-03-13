@@ -52,6 +52,24 @@
       "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f28dd0b0_05fafd52",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-03-13T18:31:59Z",
+      "side": 1,
+      "message": "I guess that\u0027s the part I am confused about. Sorry I don\u0027t have the full picture about Crashpad.\n\nAre we suggesting to compute the size every time we generate a Report? Isn\u0027t that somewhat expensive? Or would we store the size in the Metadata struct that\u0027s serialized? Either way, is there a central place where we generate Reports? I can see that sometimes we rely on CleaningReadMetadata(), but some call sites copy a Report into another one and we lose the new field (maybe that\u0027s fine?).",
+      "parentUuid": "bdd4b70f_162ba5f4",
+      "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
