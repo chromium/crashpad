@@ -335,6 +335,16 @@ std::unique_ptr<Metadata> Metadata::Create(const base::FilePath& metadata_file,
 
 void Metadata::AddNewRecord(const ReportDisk& new_report_disk) {
   DCHECK(new_report_disk.state == ReportState::kPending);
+  ReportDisk report = new_report_disk;
+
+  // There are no attachments on Windows so the total size is the main report size.
+  struct _stati64 statbuf;
+  if (_wstat64(report.file_path.value().c_str(), &statbuf) == 0) {
+    report.total_size = statbuf.st_size;
+  } else {
+    PLOG(ERROR) << "stat " << base::UTF16ToUTF8(path.value());
+  }
+
   reports_.push_back(new_report_disk);
   dirty_ = true;
 }
