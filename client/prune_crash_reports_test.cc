@@ -81,54 +81,35 @@ TEST(PruneCrashReports, AgeCondition) {
 }
 
 TEST(PruneCrashReports, SizeCondition) {
-  ScopedTempDir temp_dir;
-
   CrashReportDatabase::Report report_1k;
-  report_1k.file_path = temp_dir.path().Append(FILE_PATH_LITERAL("file1024"));
+  report_1k.total_size = 1024u;
   CrashReportDatabase::Report report_3k;
-  report_3k.file_path = temp_dir.path().Append(FILE_PATH_LITERAL("file3072"));
+  report_3k.total_size = 1024u * 3u;
 
   {
-    ScopedFileHandle scoped_file_1k(
-        LoggingOpenFileForWrite(report_1k.file_path,
-                                FileWriteMode::kCreateOrFail,
-                                FilePermissions::kOwnerOnly));
-    ASSERT_TRUE(scoped_file_1k.is_valid());
-
-    std::string string;
-    for (int i = 0; i < 128; ++i)
-      string.push_back(static_cast<char>(i));
-
-    for (size_t i = 0; i < 1024; i += string.size()) {
-      ASSERT_TRUE(LoggingWriteFile(scoped_file_1k.get(),
-                                   string.c_str(), string.length()));
-    }
-
-    ScopedFileHandle scoped_file_3k(
-        LoggingOpenFileForWrite(report_3k.file_path,
-                                FileWriteMode::kCreateOrFail,
-                                FilePermissions::kOwnerOnly));
-    ASSERT_TRUE(scoped_file_3k.is_valid());
-
-    for (size_t i = 0; i < 3072; i += string.size()) {
-      ASSERT_TRUE(LoggingWriteFile(scoped_file_3k.get(),
-                                   string.c_str(), string.length()));
-    }
-  }
-
-  {
-    DatabaseSizePruneCondition condition(1);
+    // We prune after 1kB cumulated.
+    DatabaseSizePruneCondition condition(/*max_size_in_kb=*/1);
+    // We will first ask for |report_1k|, which should not be pruned as we are
+    // not past 1kB. Then for |report_3k|, which should be pruned as we are past
+    // 1kB.
     EXPECT_FALSE(condition.ShouldPruneReport(report_1k));
-    EXPECT_TRUE(condition.ShouldPruneReport(report_1k));
-  }
-
-  {
-    DatabaseSizePruneCondition condition(1);
     EXPECT_TRUE(condition.ShouldPruneReport(report_3k));
   }
 
   {
-    DatabaseSizePruneCondition condition(6);
+    // We prune after 1kB cumulated.
+    DatabaseSizePruneCondition condition(/*max_size_in_kb=*/1);
+    // We will immediately ask for |report_3k|, which should be pruned as we are
+    // past 1kB already.
+    EXPECT_TRUE(condition.ShouldPruneReport(report_3k));
+  }
+
+  {
+    // We prune after 6kB cumulated.
+    DatabaseSizePruneCondition condition(/*max_size_in_kb=*/6);
+    // We will ask twice for |report_3k|, which should not be pruned as we are
+    // not past 6kB. Then for |report_1k|, which should be pruned as we are past
+    // 6kB.
     EXPECT_FALSE(condition.ShouldPruneReport(report_3k));
     EXPECT_FALSE(condition.ShouldPruneReport(report_3k));
     EXPECT_TRUE(condition.ShouldPruneReport(report_1k));
@@ -164,30 +145,50 @@ TEST(PruneCrashReports, BinaryCondition) {
     bool lhs_executed;
     bool rhs_executed;
   } kTests[] = {
-    {"false && false",
-     BinaryPruneCondition::AND, false, false,
-     false, true, false},
-    {"false && true",
-     BinaryPruneCondition::AND, false, true,
-     false, true, false},
-    {"true && false",
-     BinaryPruneCondition::AND, true, false,
-     false, true, true},
-    {"true && true",
-     BinaryPruneCondition::AND, true, true,
-     true, true, true},
-    {"false || false",
-     BinaryPruneCondition::OR, false, false,
-     false, true, true},
-    {"false || true",
-     BinaryPruneCondition::OR, false, true,
-     true, true, true},
-    {"true || false",
-     BinaryPruneCondition::OR, true, false,
-     true, true, false},
-    {"true || true",
-     BinaryPruneCondition::OR, true, true,
-     true, true, false},
+      {"false && false",
+       BinaryPruneCondition::AND,
+       false,
+       false,
+       false,
+       true,
+       false},
+      {"false && true",
+       BinaryPruneCondition::AND,
+       false,
+       true,
+       false,
+       true,
+       false},
+      {"true && false",
+       BinaryPruneCondition::AND,
+       true,
+       false,
+       false,
+       true,
+       true},
+      {"true && true", BinaryPruneCondition::AND, true, true, true, true, true},
+      {"false || false",
+       BinaryPruneCondition::OR,
+       false,
+       false,
+       false,
+       true,
+       true},
+      {"false || true",
+       BinaryPruneCondition::OR,
+       false,
+       true,
+       true,
+       true,
+       true},
+      {"true || false",
+       BinaryPruneCondition::OR,
+       true,
+       false,
+       true,
+       true,
+       false},
+      {"true || true", BinaryPruneCondition::OR, true, true, true, true, false},
   };
   for (const auto& test : kTests) {
     SCOPED_TRACE(test.name);
@@ -220,18 +221,18 @@ TEST(PruneCrashReports, PruneOrder) {
   }
   std::mt19937 urng(std::random_device{}());
   std::shuffle(reports.begin(), reports.end(), urng);
-  std::vector<CrashReportDatabase::Report> pending_reports(
-      reports.begin(), reports.begin() + 5);
+  std::vector<CrashReportDatabase::Report> pending_reports(reports.begin(),
+                                                           reports.begin() + 5);
   std::vector<CrashReportDatabase::Report> completed_reports(
       reports.begin() + 5, reports.end());
 
   MockDatabase db;
-  EXPECT_CALL(db, GetPendingReports(_)).WillOnce(DoAll(
-      SetArgPointee<0>(pending_reports),
-      Return(CrashReportDatabase::kNoError)));
-  EXPECT_CALL(db, GetCompletedReports(_)).WillOnce(DoAll(
-      SetArgPointee<0>(completed_reports),
-      Return(CrashReportDatabase::kNoError)));
+  EXPECT_CALL(db, GetPendingReports(_))
+      .WillOnce(DoAll(SetArgPointee<0>(pending_reports),
+                      Return(CrashReportDatabase::kNoError)));
+  EXPECT_CALL(db, GetCompletedReports(_))
+      .WillOnce(DoAll(SetArgPointee<0>(completed_reports),
+                      Return(CrashReportDatabase::kNoError)));
   for (size_t i = 0; i < reports.size(); ++i) {
     EXPECT_CALL(db, DeleteReport(TestUUID(i)))
         .WillOnce(Return(CrashReportDatabase::kNoError));

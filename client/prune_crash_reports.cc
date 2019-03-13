@@ -41,14 +41,15 @@ void PruneCrashReportDatabase(CrashReportDatabase* database,
     LOG(ERROR) << "PruneCrashReportDatabase: Failed to get completed reports";
     return;
   }
-  all_reports.insert(all_reports.end(), completed_reports.begin(),
-                     completed_reports.end());
+  all_reports.insert(
+      all_reports.end(), completed_reports.begin(), completed_reports.end());
 
-  std::sort(all_reports.begin(), all_reports.end(),
-      [](const CrashReportDatabase::Report& lhs,
-         const CrashReportDatabase::Report& rhs) {
-        return lhs.creation_time > rhs.creation_time;
-      });
+  std::sort(all_reports.begin(),
+            all_reports.end(),
+            [](const CrashReportDatabase::Report& lhs,
+               const CrashReportDatabase::Report& rhs) {
+              return lhs.creation_time > rhs.creation_time;
+            });
 
   for (const auto& report : all_reports) {
     if (condition->ShouldPruneReport(report)) {
@@ -78,9 +79,9 @@ std::unique_ptr<PruneCondition> PruneCondition::GetDefault() {
 static const time_t kSecondsInDay = 60 * 60 * 24;
 
 AgePruneCondition::AgePruneCondition(int max_age_in_days)
-    : oldest_report_time_(
-        ((time(nullptr) - (max_age_in_days * kSecondsInDay))
-             / kSecondsInDay) * kSecondsInDay) {}
+    : oldest_report_time_(((time(nullptr) - (max_age_in_days * kSecondsInDay)) /
+                           kSecondsInDay) *
+                          kSecondsInDay) {}
 
 AgePruneCondition::~AgePruneCondition() {}
 
@@ -96,24 +97,15 @@ DatabaseSizePruneCondition::~DatabaseSizePruneCondition() {}
 
 bool DatabaseSizePruneCondition::ShouldPruneReport(
     const CrashReportDatabase::Report& report) {
-#if defined(OS_POSIX)
-  struct stat statbuf;
-  if (stat(report.file_path.value().c_str(), &statbuf) == 0) {
-#elif defined(OS_WIN)
-  struct _stati64 statbuf;
-  if (_wstat64(report.file_path.value().c_str(), &statbuf) == 0) {
-#else
-#error "Not implemented"
-#endif
-    // Round up fractional KB to the next 1-KB boundary.
-    measured_size_in_kb_ +=
-        static_cast<size_t>((statbuf.st_size + 1023) / 1024);
-  }
+  // Round up fractional KB to the next 1-KB boundary.
+  measured_size_in_kb_ +=
+      static_cast<size_t>((report.total_size + 1023) / 1024);
   return measured_size_in_kb_ > max_size_in_kb_;
 }
 
-BinaryPruneCondition::BinaryPruneCondition(
-    Operator op, PruneCondition* lhs, PruneCondition* rhs)
+BinaryPruneCondition::BinaryPruneCondition(Operator op,
+                                           PruneCondition* lhs,
+                                           PruneCondition* rhs)
     : op_(op), lhs_(lhs), rhs_(rhs) {}
 
 BinaryPruneCondition::~BinaryPruneCondition() {}
