@@ -51,7 +51,7 @@ void PruneCrashReportDatabase(CrashReportDatabase* database,
       });
 
   for (const auto& report : all_reports) {
-    if (condition->ShouldPruneReport(report)) {
+    if (condition->ShouldPruneReport(database, report)) {
       status = database->DeleteReport(report.uuid);
       if (status != CrashReportDatabase::kNoError) {
         LOG(ERROR) << "Database Pruning: Failed to remove report "
@@ -85,6 +85,7 @@ AgePruneCondition::AgePruneCondition(int max_age_in_days)
 AgePruneCondition::~AgePruneCondition() {}
 
 bool AgePruneCondition::ShouldPruneReport(
+    CrashReportDatabase* database,
     const CrashReportDatabase::Report& report) {
   return report.creation_time < oldest_report_time_;
 }
@@ -95,19 +96,17 @@ DatabaseSizePruneCondition::DatabaseSizePruneCondition(size_t max_size_in_kb)
 DatabaseSizePruneCondition::~DatabaseSizePruneCondition() {}
 
 bool DatabaseSizePruneCondition::ShouldPruneReport(
+    CrashReportDatabase* database,
     const CrashReportDatabase::Report& report) {
-#if defined(OS_POSIX)
-  struct stat statbuf;
-  if (stat(report.file_path.value().c_str(), &statbuf) == 0) {
-#elif defined(OS_WIN)
-  struct _stati64 statbuf;
-  if (_wstat64(report.file_path.value().c_str(), &statbuf) == 0) {
-#else
-#error "Not implemented"
-#endif
+  uint64_t report_size;
+  const CrashReportDatabase::OperationStatus size_status =
+      database->GetReportSize(report.uuid, &report_size);
+  if (size_status == CrashReportDatabase::kNoError) {
     // Round up fractional KB to the next 1-KB boundary.
-    measured_size_in_kb_ +=
-        static_cast<size_t>((statbuf.st_size + 1023) / 1024);
+    measured_size_in_kb_ += static_cast<size_t>((report_size + 1023) / 1024);
+  } else {
+    LOG(ERROR) << "Database Pruning: Failed to get size for report "
+               << report.uuid.ToString() << "; skipping";
   }
   return measured_size_in_kb_ > max_size_in_kb_;
 }
@@ -119,12 +118,15 @@ BinaryPruneCondition::BinaryPruneCondition(
 BinaryPruneCondition::~BinaryPruneCondition() {}
 
 bool BinaryPruneCondition::ShouldPruneReport(
+    CrashReportDatabase* database,
     const CrashReportDatabase::Report& report) {
   switch (op_) {
     case AND:
-      return lhs_->ShouldPruneReport(report) && rhs_->ShouldPruneReport(report);
+      return lhs_->ShouldPruneReport(database, report) &&
+             rhs_->ShouldPruneReport(database, report);
     case OR:
-      return lhs_->ShouldPruneReport(report) || rhs_->ShouldPruneReport(report);
+      return lhs_->ShouldPruneReport(database, report) ||
+             rhs_->ShouldPruneReport(database, report);
     default:
       NOTREACHED();
       return false;

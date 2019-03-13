@@ -31,8 +31,7 @@ namespace {
 
 class CrashReportDatabaseTest : public testing::Test {
  public:
-  CrashReportDatabaseTest() {
-  }
+  CrashReportDatabaseTest() {}
 
  protected:
   // testing::Test:
@@ -41,9 +40,7 @@ class CrashReportDatabaseTest : public testing::Test {
     ASSERT_TRUE(db_);
   }
 
-  void ResetDatabase() {
-    db_.reset();
-  }
+  void ResetDatabase() { db_.reset(); }
 
   CrashReportDatabase* db() { return db_.get(); }
   base::FilePath path() const {
@@ -834,6 +831,84 @@ TEST_F(CrashReportDatabaseTest, CleanBrokenDatabase) {
   EXPECT_FALSE(PathExists(metadata3));
 }
 #endif  // !OS_MACOSX && !OS_WIN
+
+TEST_F(CrashReportDatabaseTest, GetReportSize_SucceedOnExistingReport) {
+  CrashReportDatabase::Report report;
+  ASSERT_NO_FATAL_FAILURE(CreateCrashReport(&report));
+
+  uint64_t report_size = 0u;
+  EXPECT_EQ(db()->GetReportSize(report.uuid, &report_size),
+            CrashReportDatabase::kNoError);
+  EXPECT_GE(report_size, 0u);
+}
+
+TEST_F(CrashReportDatabaseTest, GetReportSize_FailOnMissingReport) {
+  CrashReportDatabase::Report report;
+
+  uint64_t report_size = 0u;
+  EXPECT_EQ(db()->GetReportSize(report.uuid, &report_size),
+            CrashReportDatabase::kReportNotFound);
+  EXPECT_EQ(report_size, 0u);
+}
+
+TEST_F(CrashReportDatabaseTest, GetReportSize_RightSizeMainReportOnly) {
+  std::unique_ptr<CrashReportDatabase::NewReport> new_report;
+  ASSERT_EQ(db()->PrepareNewCrashReport(&new_report),
+            CrashReportDatabase::kNoError);
+
+  // Main report.
+  static constexpr char main_report_data[] = "dlbvandslhb";
+  ASSERT_TRUE(
+      new_report->Writer()->Write(main_report_data, sizeof(main_report_data)));
+
+  UUID uuid;
+  ASSERT_EQ(db()->FinishedWritingCrashReport(std::move(new_report), &uuid),
+            CrashReportDatabase::kNoError);
+
+  uint64_t report_size = 0u;
+  EXPECT_EQ(db()->GetReportSize(uuid, &report_size),
+            CrashReportDatabase::kNoError);
+  EXPECT_EQ(report_size, sizeof(main_report_data));
+}
+
+TEST_F(CrashReportDatabaseTest, GetReportSize_RightSizeWithAttachments) {
+#if defined(OS_MACOSX) || defined(OS_WIN)
+  // Attachments aren't supported on Mac and Windows yet.
+  DISABLED_TEST();
+#else
+  std::unique_ptr<CrashReportDatabase::NewReport> new_report;
+  ASSERT_EQ(db()->PrepareNewCrashReport(&new_report),
+            CrashReportDatabase::kNoError);
+
+  // Main report.
+  static constexpr char main_report_data[] = "dlbvandslhb";
+  ASSERT_TRUE(
+      new_report->Writer()->Write(main_report_data, sizeof(main_report_data)));
+
+  // First attachment.
+  FileWriter* attachment_1 = new_report->AddAttachment("my_attachment_1");
+  ASSERT_NE(attachment_1, nullptr);
+  static constexpr char attachment_1_data[] = "vKDnidhvbiudshoihbvdsoiuh nhh";
+  attachment_1->Write(attachment_1_data, sizeof(attachment_1_data));
+
+  // Second attachment.
+  FileWriter* attachment_2 = new_report->AddAttachment("my_attachment_2");
+  ASSERT_NE(attachment_2, nullptr);
+  static constexpr char attachment_2_data[] = "sgvsvgusiyguysigfkhpmo-[";
+  attachment_2->Write(attachment_2_data, sizeof(attachment_2_data));
+
+  UUID uuid;
+  ASSERT_EQ(db()->FinishedWritingCrashReport(std::move(new_report), &uuid),
+            CrashReportDatabase::kNoError);
+
+  uint64_t report_size = 0u;
+  EXPECT_EQ(db()->GetReportSize(uuid, &report_size),
+            CrashReportDatabase::kNoError);
+  EXPECT_EQ(report_size,
+            sizeof(main_report_data) + sizeof(attachment_1_data) +
+                sizeof(attachment_2_data));
+#endif
+}
 
 }  // namespace
 }  // namespace test

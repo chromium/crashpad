@@ -394,6 +394,16 @@ class CrashReportDatabase {
   //! \return The number of reports cleaned.
   virtual int CleanDatabase(time_t lockfile_ttl) { return 0; }
 
+  //! \brief Returns the size of a report, including its attachments if
+  //! relevant.
+  //!
+  //! \param[in] uuid The UUID of the report for which we want its size.
+  //! \param[out] size The size of the report.
+  //!     Only valid if this returns #kNoError.
+  //!
+  //! \return The operation status code.
+  virtual OperationStatus GetReportSize(const UUID& uuid, uint64_t* size) = 0;
+
  protected:
   CrashReportDatabase() {}
 
