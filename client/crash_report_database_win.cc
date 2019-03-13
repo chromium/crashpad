@@ -14,12 +14,12 @@
 
 #include "client/crash_report_database.h"
 
-#include <windows.h>
 #include <stdint.h>
 #include <string.h>
 #include <sys/types.h>
 #include <time.h>
 #include <wchar.h>
+#include <windows.h>
 
 #include <utility>
 
@@ -260,8 +260,7 @@ class Metadata {
   //! \param[in] uuid The report identifier to remove.
   //! \param[out] report_path The found report's file_path, valid only if
   //!     CrashReportDatabase::kNoError is returned.
-  OperationStatus DeleteReport(const UUID& uuid,
-                               base::FilePath* report_path);
+  OperationStatus DeleteReport(const UUID& uuid, base::FilePath* report_path);
 
  private:
   Metadata(FileHandle handle, const base::FilePath& report_dir);
@@ -400,8 +399,7 @@ OperationStatus Metadata::DeleteReport(const UUID& uuid,
 }
 
 Metadata::Metadata(FileHandle handle, const base::FilePath& report_dir)
-    : handle_(handle), report_dir_(report_dir), dirty_(false), reports_() {
-}
+    : handle_(handle), report_dir_(report_dir), dirty_(false), reports_() {}
 
 bool Metadata::Rewind() {
   FileOffset result = LoggingSeekFile(handle_.get(), 0, SEEK_SET);
@@ -548,8 +546,7 @@ bool EnsureDirectory(const base::FilePath& path) {
     return false;
   }
   if ((fileattr & FILE_ATTRIBUTE_DIRECTORY) == 0) {
-    LOG(ERROR) << "GetFileAttributes "
-               << base::UTF16ToUTF8(path.value())
+    LOG(ERROR) << "GetFileAttributes " << base::UTF16ToUTF8(path.value())
                << ": not a directory";
     return false;
   }
@@ -600,6 +597,7 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
                                    Metrics::CrashSkippedReason reason) override;
   OperationStatus DeleteReport(const UUID& uuid) override;
   OperationStatus RequestUpload(const UUID& uuid) override;
+  OperationStatus GetReportSize(const UUID& uuid, uint64_t* size) override;
 
  private:
   // CrashReportDatabase:
@@ -629,8 +627,7 @@ void CrashReportDatabase::UploadReport::InitializeAttachments() {
 CrashReportDatabaseWin::CrashReportDatabaseWin(const base::FilePath& path)
     : CrashReportDatabase(), base_dir_(path), settings_(), initialized_() {}
 
-CrashReportDatabaseWin::~CrashReportDatabaseWin() {
-}
+CrashReportDatabaseWin::~CrashReportDatabaseWin() {}
 
 bool CrashReportDatabaseWin::Initialize(bool may_create) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
@@ -811,8 +808,7 @@ OperationStatus CrashReportDatabaseWin::DeleteReport(const UUID& uuid) {
     return os;
 
   if (!DeleteFile(report_path.value().c_str())) {
-    PLOG(ERROR) << "DeleteFile "
-                << base::UTF16ToUTF8(report_path.value());
+    PLOG(ERROR) << "DeleteFile " << base::UTF16ToUTF8(report_path.value());
     return kFileSystemError;
   }
   return kNoError;
@@ -836,6 +832,27 @@ OperationStatus CrashReportDatabaseWin::SkipReportUpload(
     report_disk->upload_explicitly_requested = false;
   }
   return os;
+}
+
+OperationStatus CrashReportDatabaseWin::GetReportSize(const UUID& uuid,
+                                                      uint64_t* size) {
+  Report report;
+  const OperationStatus lookup_status = LookUpCrashReport(uuid, &report);
+  if (lookup_status != kNoError) {
+    return lookup_status;
+  }
+
+  // We don't have attachments on Windows so the size is the only for the main
+  // report.
+  struct _stati64 statbuf;
+  if (_wstat64(report.file_path.value().c_str(), &statbuf) != 0) {
+    LOG(ERROR) << "failed to stat() "
+               << base::UTF16ToUTF8(report.file_path.value());
+    return kFileSystemError;
+  }
+  *size = statbuf.st_size;
+
+  return kNoError;
 }
 
 std::unique_ptr<Metadata> CrashReportDatabaseWin::AcquireMetadata() {
