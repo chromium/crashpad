@@ -81,54 +81,35 @@ TEST(PruneCrashReports, AgeCondition) {
 }
 
 TEST(PruneCrashReports, SizeCondition) {
-  ScopedTempDir temp_dir;
-
   CrashReportDatabase::Report report_1k;
-  report_1k.file_path = temp_dir.path().Append(FILE_PATH_LITERAL("file1024"));
+  report_1k.total_size = 1024u;
   CrashReportDatabase::Report report_3k;
-  report_3k.file_path = temp_dir.path().Append(FILE_PATH_LITERAL("file3072"));
+  report_3k.total_size = 1024u * 3u;
 
   {
-    ScopedFileHandle scoped_file_1k(
-        LoggingOpenFileForWrite(report_1k.file_path,
-                                FileWriteMode::kCreateOrFail,
-                                FilePermissions::kOwnerOnly));
-    ASSERT_TRUE(scoped_file_1k.is_valid());
-
-    std::string string;
-    for (int i = 0; i < 128; ++i)
-      string.push_back(static_cast<char>(i));
-
-    for (size_t i = 0; i < 1024; i += string.size()) {
-      ASSERT_TRUE(LoggingWriteFile(scoped_file_1k.get(),
-                                   string.c_str(), string.length()));
-    }
-
-    ScopedFileHandle scoped_file_3k(
-        LoggingOpenFileForWrite(report_3k.file_path,
-                                FileWriteMode::kCreateOrFail,
-                                FilePermissions::kOwnerOnly));
-    ASSERT_TRUE(scoped_file_3k.is_valid());
-
-    for (size_t i = 0; i < 3072; i += string.size()) {
-      ASSERT_TRUE(LoggingWriteFile(scoped_file_3k.get(),
-                                   string.c_str(), string.length()));
-    }
-  }
-
-  {
-    DatabaseSizePruneCondition condition(1);
+    // We prune after 1kB cumulated.
+    DatabaseSizePruneCondition condition(/*max_size_in_kb=*/1);
+    // We will first ask for |report_1k|, which should not be pruned as we are
+    // not past 1kB. Then for |report_3k|, which should be pruned as we are past
+    // 1kB.
     EXPECT_FALSE(condition.ShouldPruneReport(report_1k));
-    EXPECT_TRUE(condition.ShouldPruneReport(report_1k));
-  }
-
-  {
-    DatabaseSizePruneCondition condition(1);
     EXPECT_TRUE(condition.ShouldPruneReport(report_3k));
   }
 
   {
-    DatabaseSizePruneCondition condition(6);
+    // We prune after 1kB cumulated.
+    DatabaseSizePruneCondition condition(/*max_size_in_kb=*/1);
+    // We will immediately ask for |report_3k|, which should be pruned as we are
+    // past 1kB already.
+    EXPECT_TRUE(condition.ShouldPruneReport(report_3k));
+  }
+
+  {
+    // We prune after 6kB cumulated.
+    DatabaseSizePruneCondition condition(/*max_size_in_kb=*/6);
+    // We will ask twice for |report_3k|, which should not be pruned as we are
+    // not past 6kB. Then for |report_1k|, which should be pruned as we are past
+    // 6kB.
     EXPECT_FALSE(condition.ShouldPruneReport(report_3k));
     EXPECT_FALSE(condition.ShouldPruneReport(report_3k));
     EXPECT_TRUE(condition.ShouldPruneReport(report_1k));
