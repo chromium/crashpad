@@ -31,8 +31,7 @@ namespace {
 
 class CrashReportDatabaseTest : public testing::Test {
  public:
-  CrashReportDatabaseTest() {
-  }
+  CrashReportDatabaseTest() {}
 
  protected:
   // testing::Test:
@@ -41,9 +40,7 @@ class CrashReportDatabaseTest : public testing::Test {
     ASSERT_TRUE(db_);
   }
 
-  void ResetDatabase() {
-    db_.reset();
-  }
+  void ResetDatabase() { db_.reset(); }
 
   CrashReportDatabase* db() { return db_.get(); }
   base::FilePath path() const {
@@ -834,6 +831,59 @@ TEST_F(CrashReportDatabaseTest, CleanBrokenDatabase) {
   EXPECT_FALSE(PathExists(metadata3));
 }
 #endif  // !OS_MACOSX && !OS_WIN
+
+TEST_F(CrashReportDatabaseTest, GetReportSize_SucceedOnExistingReport) {
+  CrashReportDatabase::Report report;
+  ASSERT_NO_FATAL_FAILURE(CreateCrashReport(&report));
+
+  uint64_t report_size = 0u;
+  EXPECT_EQ(db()->GetReportSize(report.uuid, &report_size),
+            CrashReportDatabase::kNoError);
+  EXPECT_GE(report_size, 0u);
+}
+
+TEST_F(CrashReportDatabaseTest, GetReportSize_FailOnMissingReport) {
+  CrashReportDatabase::Report report;
+
+  uint64_t report_size = 0u;
+  EXPECT_EQ(db()->GetReportSize(report.uuid, &report_size),
+            CrashReportDatabase::kReportNotFound);
+  EXPECT_EQ(report_size, 0u);
+}
+
+TEST_F(CrashReportDatabaseTest, GetReportSize_RightSizeMainReportOnly) {
+  CrashReportDatabase::Report report;
+  ASSERT_NO_FATAL_FAILURE(CreateCrashReport(&report));
+
+  // We overwrite the main report with exactly 1 kB of contents.
+  size_t true_report_size = 1024u;
+  {
+    ScopedFileHandle scoped_file_1k(
+        LoggingOpenFileForWrite(report.file_path,
+                                FileWriteMode::kTruncateOrCreate,
+                                FilePermissions::kOwnerOnly));
+    ASSERT_TRUE(scoped_file_1k.is_valid());
+
+    // We write the first 128 characters again and again until we fill
+    // |true_report_size|. To guarantee the report to be exactly of that size,
+    // |true_report_size| needs to be a multiple of 128.
+    size_t base_string_length = 128u;
+    ASSERT_EQ(true_report_size % base_string_length, 0u);
+    std::string str;
+    for (size_t i = 0; i < base_string_length; ++i) {
+      str.push_back(static_cast<char>(i));
+    }
+    for (size_t i = 0; i < true_report_size; i += str.size()) {
+      ASSERT_TRUE(
+          LoggingWriteFile(scoped_file_1k.get(), str.c_str(), str.length()));
+    }
+  }
+
+  uint64_t report_size = 0u;
+  EXPECT_EQ(db()->GetReportSize(report.uuid, &report_size),
+            CrashReportDatabase::kNoError);
+  EXPECT_EQ(report_size, true_report_size);
+}
 
 }  // namespace
 }  // namespace test
