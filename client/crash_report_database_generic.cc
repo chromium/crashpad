@@ -15,6 +15,7 @@
 #include "client/crash_report_database.h"
 
 #include <stdint.h>
+#include <sys/stat.h>
 #include <sys/types.h>
 
 #include <utility>
@@ -160,6 +161,35 @@ class ScopedLockFile {
   DISALLOW_COPY_AND_ASSIGN(ScopedLockFile);
 };
 
+off_t GetFileSize(const base::FilePath& filepath) {
+  struct stat statbuf;
+  if (stat(filepath.value().c_str(), &statbuf) == 0) {
+    return statbuf.st_size;
+  }
+  PLOG(ERROR) << "stat " << filepath.value();
+  return 0;
+}
+
+void AddAttachmentSize(const base::FilePath& attachments_dir, uint64_t* size) {
+  // Early return if the attachment directory does not exist.
+  struct stat statbuf;
+  if (stat(attachments_dir.value().c_str(), &statbuf) != 0) {
+    return;
+  }
+  DirectoryReader reader;
+  if (!reader.Open(attachments_dir)) {
+    return;
+  }
+  base::FilePath attachment_filename;
+  DirectoryReader::Result result;
+  while ((result = reader.NextFile(&attachment_filename)) ==
+         DirectoryReader::Result::kSuccess) {
+    const base::FilePath attachment_filepath(
+        attachments_dir.Append(attachment_filename));
+    *size += GetFileSize(attachment_filepath);
+  }
+}
+
 }  // namespace
 
 class CrashReportDatabaseGeneric : public CrashReportDatabase {
@@ -253,7 +283,7 @@ class CrashReportDatabaseGeneric : public CrashReportDatabase {
   void RemoveAttachmentsByUUID(const UUID& uuid);
 
   // Reads the metadata for a report from path and returns it in report.
-  static bool ReadMetadata(const base::FilePath& path, Report* report);
+  bool ReadMetadata(const base::FilePath& path, Report* report);
 
   // Wraps ReadMetadata and removes the report from the database on failure.
   bool CleaningReadMetadata(const base::FilePath& path, Report* report);
@@ -899,7 +929,6 @@ void CrashReportDatabaseGeneric::RemoveAttachmentsByUUID(const UUID& uuid) {
   LoggingRemoveDirectory(attachments_dir);
 }
 
-// static
 bool CrashReportDatabaseGeneric::ReadMetadata(const base::FilePath& path,
                                               Report* report) {
   const base::FilePath metadata_path(
@@ -910,7 +939,8 @@ bool CrashReportDatabaseGeneric::ReadMetadata(const base::FilePath& path,
     return false;
   }
 
-  if (!report->uuid.InitializeFromString(
+  UUID uuid;
+  if (!uuid.InitializeFromString(
           path.BaseName().RemoveFinalExtension().value())) {
     LOG(ERROR) << "Couldn't interpret report uuid";
     return false;
@@ -930,6 +960,12 @@ bool CrashReportDatabaseGeneric::ReadMetadata(const base::FilePath& path,
     return false;
   }
 
+  // Seed the total size with the main report size and then add the sizes of any
+  // potential attachments.
+  uint64_t total_size = GetFileSize(path);
+  AddAttachmentSize(AttachmentsPath(uuid), &total_size);
+
+  report->uuid = uuid;
   report->upload_attempts = metadata.upload_attempts;
   report->last_upload_attempt_time = metadata.last_upload_attempt_time;
   report->creation_time = metadata.creation_time;
@@ -937,6 +973,7 @@ bool CrashReportDatabaseGeneric::ReadMetadata(const base::FilePath& path,
   report->upload_explicitly_requested =
       (metadata.attributes & kAttributeUploadExplicitlyRequested) != 0;
   report->file_path = path;
+  report->total_size = total_size;
   return true;
 }
 
