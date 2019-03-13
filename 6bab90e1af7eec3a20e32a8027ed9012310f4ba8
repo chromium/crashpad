@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0847ce9_aa643c23",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2019-03-13T17:46:59Z",
+      "side": 1,
+      "message": "Why not add a total_size member to Report? Then the database doesn\u0027t have to be passed around to the PruneConditions.",
+      "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
