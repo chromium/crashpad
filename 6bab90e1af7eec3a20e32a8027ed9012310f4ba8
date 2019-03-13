@@ -142,6 +142,24 @@
       "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c6785c5_52596103",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-03-13T23:33:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bc8a2ccb_c530c140",
+      "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
