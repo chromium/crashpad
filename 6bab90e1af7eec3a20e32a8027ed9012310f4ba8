@@ -70,6 +70,24 @@
       "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23de3ada_94692033",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2019-03-13T18:35:39Z",
+      "side": 1,
+      "message": "stat() is pretty fast. Database operations already have to access disk to scan the directory listing.\n\nWhat do you mean \"we lose the new field\" ?",
+      "parentUuid": "f28dd0b0_05fafd52",
+      "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
