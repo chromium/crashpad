@@ -31,8 +31,7 @@ namespace {
 
 class CrashReportDatabaseTest : public testing::Test {
  public:
-  CrashReportDatabaseTest() {
-  }
+  CrashReportDatabaseTest() {}
 
  protected:
   // testing::Test:
@@ -41,9 +40,7 @@ class CrashReportDatabaseTest : public testing::Test {
     ASSERT_TRUE(db_);
   }
 
-  void ResetDatabase() {
-    db_.reset();
-  }
+  void ResetDatabase() { db_.reset(); }
 
   CrashReportDatabase* db() { return db_.get(); }
   base::FilePath path() const {
@@ -834,6 +831,25 @@ TEST_F(CrashReportDatabaseTest, CleanBrokenDatabase) {
   EXPECT_FALSE(PathExists(metadata3));
 }
 #endif  // !OS_MACOSX && !OS_WIN
+
+TEST_F(CrashReportDatabaseTest, GetReportSize_SucceedOnExistingReport) {
+  CrashReportDatabase::Report report;
+  ASSERT_NO_FATAL_FAILURE(CreateCrashReport(&report));
+
+  uint64_t report_size;
+  EXPECT_EQ(db()->GetReportSize(report.uuid, &report_size),
+            CrashReportDatabase::kNoError);
+  EXPECT_GE(report_size, 0u);
+}
+
+TEST_F(CrashReportDatabaseTest, GetReportSize_FailOnMissingReport) {
+  CrashReportDatabase::Report report;
+
+  uint64_t report_size;
+  EXPECT_EQ(db()->GetReportSize(report.uuid, &report_size),
+            CrashReportDatabase::kFileSystemError);
+  EXPECT_EQ(report_size, 0u);
+}
 
 }  // namespace
 }  // namespace test
