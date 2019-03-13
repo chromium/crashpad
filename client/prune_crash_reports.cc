@@ -96,19 +96,9 @@ DatabaseSizePruneCondition::~DatabaseSizePruneCondition() {}
 
 bool DatabaseSizePruneCondition::ShouldPruneReport(
     const CrashReportDatabase::Report& report) {
-#if defined(OS_POSIX)
-  struct stat statbuf;
-  if (stat(report.file_path.value().c_str(), &statbuf) == 0) {
-#elif defined(OS_WIN)
-  struct _stati64 statbuf;
-  if (_wstat64(report.file_path.value().c_str(), &statbuf) == 0) {
-#else
-#error "Not implemented"
-#endif
-    // Round up fractional KB to the next 1-KB boundary.
-    measured_size_in_kb_ +=
-        static_cast<size_t>((statbuf.st_size + 1023) / 1024);
-  }
+  // Round up fractional KB to the next 1-KB boundary.
+  measured_size_in_kb_ +=
+      static_cast<size_t>((report.total_size + 1023) / 1024);
   return measured_size_in_kb_ > max_size_in_kb_;
 }
 
