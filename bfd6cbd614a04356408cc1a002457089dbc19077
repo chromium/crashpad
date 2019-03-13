@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "650724df_c918fbc3",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2019-03-13T22:31:15Z",
+      "side": 1,
+      "message": "Switch to PLOG to also print the errno value.",
+      "range": {
+        "startLine": 911,
+        "startChar": 2,
+        "endLine": 911,
+        "endChar": 3
+      },
+      "revId": "bfd6cbd614a04356408cc1a002457089dbc19077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eeffd7cb_d215b990",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2019-03-13T22:31:15Z",
+      "side": 1,
+      "message": "There\u0027s already an anonymous namespace at the top of the file, so this should go up there.",
+      "revId": "bfd6cbd614a04356408cc1a002457089dbc19077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5309733d_1249fbba",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2019-03-13T22:31:15Z",
+      "side": 1,
+      "message": "Let this compile on Mac and Windows, just put an early return in the #ifdef block.",
+      "revId": "bfd6cbd614a04356408cc1a002457089dbc19077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85d87a0e_bcb68a17",
+        "filename": "client/prune_crash_reports_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2019-03-13T22:31:15Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t add much value, given line 91.",
+      "revId": "bfd6cbd614a04356408cc1a002457089dbc19077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b998483_6b50f87f",
+        "filename": "client/prune_crash_reports_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2019-03-13T22:31:15Z",
+      "side": 1,
+      "message": "Avoid personal pronouns in comments (general project convention).",
+      "range": {
+        "startLine": 92,
+        "startChar": 7,
+        "endLine": 92,
+        "endChar": 9
+      },
+      "revId": "bfd6cbd614a04356408cc1a002457089dbc19077",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
