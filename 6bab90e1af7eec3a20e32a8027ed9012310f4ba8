@@ -2,6 +2,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "a743642b_9982c43b",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-03-14T05:28:51Z",
+      "side": 1,
+      "message": "+4 indent here",
+      "range": {
+        "startLine": 398,
+        "startChar": 6,
+        "endLine": 398,
+        "endChar": 7
+      },
+      "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b45f0c15_0da4047a",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-03-14T05:28:51Z",
+      "side": 1,
+      "message": "the size is being requested.\n\n(We avoid \"we\" in Crashpad\")",
+      "range": {
+        "startLine": 400,
+        "startChar": 55,
+        "endLine": 400,
+        "endChar": 71
+      },
+      "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "299a651c_eb3f3a38",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-03-14T05:28:51Z",
+      "side": 1,
+      "message": "Back on previous line?",
+      "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e0847ce9_aa643c23",
         "filename": "client/crash_report_database.h",
         "patchSetId": 10
@@ -160,6 +223,23 @@
       "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23487b18_e725c031",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 10
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-03-14T05:28:51Z",
+      "side": 1,
+      "message": "This function needs to be clang-format\u0027ed.",
+      "revId": "6bab90e1af7eec3a20e32a8027ed9012310f4ba8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }

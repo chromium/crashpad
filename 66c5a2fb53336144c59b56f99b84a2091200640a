@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6124d093_8a719c5c",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-03-14T05:28:51Z",
+      "side": 1,
+      "message": "|ReportDisk|s are stored and loaded to/from the metadata file on Windows here. It\u0027s been way too long, but I think you can avoid storing the size on Write() (which would mean a backwards-incompatible on-disk format change) and instead just recalculate it here when the ReportDisks are created from the disk version (MetadataFileReportRecord).",
+      "revId": "66c5a2fb53336144c59b56f99b84a2091200640a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
