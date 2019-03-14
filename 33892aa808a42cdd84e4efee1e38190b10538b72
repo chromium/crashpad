@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4878349a_ce6c0c8c",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-03-14T17:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc657f80_f3fcf38b",
+      "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8c39b90_6a093f34",
         "filename": "client/crash_report_database_generic.cc",
         "patchSetId": 18
@@ -33,6 +51,24 @@
       "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5291a0bb_d2a86278",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-03-14T17:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8c39b90_6a093f34",
+      "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "fa56b26e_784a0c17",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-03-14T17:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e456d5f4_26d9a8ce",
+      "range": {
+        "startLine": 461,
+        "startChar": 6,
+        "endLine": 461,
+        "endChar": 42
+      },
+      "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc565f38_64aaa528",
         "filename": "client/crash_report_database_win.cc",
         "patchSetId": 18
@@ -73,6 +133,24 @@
       "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "107e29d6_38266654",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-03-14T17:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc565f38_64aaa528",
+      "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "a9038e39_08af3e78",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-03-14T17:20:59Z",
+      "side": 1,
+      "message": "Yeah I saw \"std::unique_ptr\u003cMetadata\u003e metadata(AcquireMetadata());\" in all the query methods, which eventually call Metadata::Read()",
+      "parentUuid": "def24923_202e1353",
+      "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02960090_d903e043",
         "filename": "client/prune_crash_reports_test.cc",
         "patchSetId": 18
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "c4bff676_5c4bd6f6",
+        "filename": "client/prune_crash_reports_test.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-03-14T17:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02960090_d903e043",
+      "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea133238_26390145",
         "filename": "client/prune_crash_reports_test.cc",
         "patchSetId": 18
@@ -124,6 +238,24 @@
       "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31d49876_f76beb3f",
+        "filename": "client/prune_crash_reports_test.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-03-14T17:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea133238_26390145",
+      "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
