@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc657f80_f3fcf38b",
+        "filename": "client/crash_report_database.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-03-14T15:54:47Z",
+      "side": 1,
+      "message": "total_size needs to be initialized here.",
+      "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8c39b90_6a093f34",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-03-14T15:54:47Z",
+      "side": 1,
+      "message": "I don\u0027t think this or the one below needs to be OS_POSIX guarded.\n\nThis file is only used on Linux, Android, and Fuchsia so the OS_POSIX is more confusing than helpful I think (especially since Chromium doesn\u0027t define OS_POSIX on Fuchsia any more, even though Crashpad hasn\u0027t flipped that off yet.)",
+      "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e456d5f4_26d9a8ce",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-03-14T15:54:47Z",
+      "side": 1,
+      "message": "just `ReportDisk report_disk(record, report_dir_, string_table)",
+      "range": {
+        "startLine": 461,
+        "startChar": 6,
+        "endLine": 461,
+        "endChar": 42
+      },
+      "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc565f38_64aaa528",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-03-14T15:54:47Z",
+      "side": 1,
+      "message": "format for line length",
+      "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "def24923_202e1353",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-03-14T15:54:47Z",
+      "side": 1,
+      "message": "I was slightly nervous that someone could read the Report before the total_size was filled, but I think all queries will AcquireMetadata() first. Is that what you were thinking too?",
+      "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02960090_d903e043",
+        "filename": "client/prune_crash_reports_test.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-03-14T15:54:47Z",
+      "side": 1,
+      "message": "Maybe a CrashReportDatabase::Report report_unset_size, which might catch and uninitialized total_size.",
+      "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea133238_26390145",
+        "filename": "client/prune_crash_reports_test.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-03-14T15:54:47Z",
+      "side": 1,
+      "message": "80 col in this file.",
+      "revId": "33892aa808a42cdd84e4efee1e38190b10538b72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
