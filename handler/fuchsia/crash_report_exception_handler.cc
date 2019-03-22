@@ -23,6 +23,7 @@
 #include "minidump/minidump_user_extension_stream_data_source.h"
 #include "snapshot/fuchsia/process_snapshot_fuchsia.h"
 #include "util/fuchsia/koid_utilities.h"
+#include "util/fuchsia/scoped_task_suspend.h"
 
 namespace crashpad {
 
@@ -96,6 +97,8 @@ bool CrashReportExceptionHandler::HandleExceptionHandles(
     const zx::thread& thread,
     const zx::unowned_port& exception_port,
     UUID* local_report_id) {
+  ScopedTaskSuspend suspend(process);
+
   // Now that the thread has been successfully retrieved, it is possible to
   // correctly call zx_task_resume_from_exception() to continue exception
   // processing, even if something else during this function fails.
