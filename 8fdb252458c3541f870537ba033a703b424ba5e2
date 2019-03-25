@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de13b9d2_671ae637",
+        "filename": "util/fuchsia/scoped_task_suspend.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1311398
+      },
+      "writtenOn": "2019-03-25T19:27:40Z",
+      "side": 1,
+      "message": "NIT: Can you separate this into 2 ifs?\nI got a bit confused thinking thread.get_info returned ZX_THREAD_STATE_BLOCKED.",
+      "revId": "8fdb252458c3541f870537ba033a703b424ba5e2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
