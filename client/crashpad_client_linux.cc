@@ -25,6 +25,7 @@
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "client/client_argv_handling.h"
+#include "lss/linux_syscall_support.h"
 #include "util/file/file_io.h"
 #include "util/linux/exception_handler_client.h"
 #include "util/linux/exception_information.h"
@@ -152,7 +153,7 @@ class LaunchAtCrashHandler {
     ScopedPrSetPtracer set_ptracer(getpid(), /* may_log= */ false);
     ScopedPrSetDumpable set_dumpable(/* may_log= */ false);
 
-    pid_t pid = fork();
+    pid_t pid = sys_fork();
     if (pid < 0) {
       return false;
     }

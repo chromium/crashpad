@@ -49,6 +49,8 @@ static_library("client") {
       "crashpad_client_linux.cc",
       "simulate_crash_linux.h",
     ]
+
+    deps = [ "../third_party/lss" ]
   }
 
   if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
