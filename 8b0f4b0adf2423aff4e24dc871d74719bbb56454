@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe7893d4_150e075d",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-03-27T15:41:43Z",
+      "side": 1,
+      "message": "We should be #including this from a third_party path.",
+      "revId": "8b0f4b0adf2423aff4e24dc871d74719bbb56454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a7f6ec3_2d566e22",
+        "filename": "third_party/lss/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-03-27T15:41:43Z",
+      "side": 1,
+      "message": "OK, I see what you’re doing here.\n\nHere’s a better way to handle it: leave our own forwarding header in here, at Crashpad’s third_party/lss/lss.h. If it’s in Crashpad, it #includes the LSS header at the location it’ll be checked out in the Crashpad tree. If it’s in Chromium, it #includes the LSS header at the Chromium location.\n\nThen we can include everything at a natural third_party path in our own code, and leave it to the forwarding header to decide who to pass it on to for the implementation.",
+      "revId": "8b0f4b0adf2423aff4e24dc871d74719bbb56454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
