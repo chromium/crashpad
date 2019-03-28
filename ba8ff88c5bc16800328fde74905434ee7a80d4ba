@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78057f4d_1fe1aae0",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1268034
+      },
+      "writtenOn": "2019-03-28T23:46:40Z",
+      "side": 1,
+      "message": "Hm, I don\u0027t think the union is necessary. How about using first using snprintf, then using strncpy to get rid of the null byte.",
+      "range": {
+        "startLine": 400,
+        "startChar": 6,
+        "endLine": 404,
+        "endChar": 69
+      },
+      "revId": "ba8ff88c5bc16800328fde74905434ee7a80d4ba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
