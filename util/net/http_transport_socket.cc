@@ -367,11 +367,14 @@ bool WriteRequest(Stream* stream,
   FileOperationResult data_bytes;
   do {
     constexpr size_t kCRLFSize = base::size(kCRLFTerminator) - 1;
-    struct __attribute__((packed)) {
-      char size[8];
-      char crlf[2];
-      uint8_t data[32 * 1024 + kCRLFSize];
-    } buf;
+    union {
+      struct __attribute__((packed)) {
+        char size[8];
+        char crlf[2];
+        uint8_t data[32 * 1024 + kCRLFSize];
+      } buf;
+      char raw_buf[];
+    };
     static_assert(
         sizeof(buf) == sizeof(buf.size) + sizeof(buf.crlf) + sizeof(buf.data),
         "buf should not have padding");
@@ -394,9 +397,11 @@ bool WriteRequest(Stream* stream,
       // placed immediately following the used portion of buf.data, even if
       // buf.data is not full.
 
-      // Not snprintf because non-null terminated is desired.
-      int rv = sprintf(
-          buf.size, "%08x", base::checked_cast<unsigned int>(data_bytes));
+      // Write the formatted size via raw_buf to allow the nul-terminator to
+      // overflow into crlf.
+      int rv = sprintf(raw_buf + offsetof(decltype(buf), size),
+                       "%08x",
+                       base::checked_cast<unsigned int>(data_bytes));
       DCHECK_GE(rv, 0);
       DCHECK_EQ(static_cast<size_t>(rv), sizeof(buf.size));
       DCHECK_NE(buf.size[sizeof(buf.size) - 1], '\0');
