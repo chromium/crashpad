@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36728ed7_e6e9507d",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-03-29T16:31:46Z",
+      "side": 1,
+      "message": "dlsym() for a non-existent symbol crashes on KitKat. We\u0027ve got a non-crashing wrapper in compand/android/dlfcn_internal.h or we could guard this call on a sufficiently high API level.",
+      "range": {
+        "startLine": 123,
+        "startChar": 6,
+        "endLine": 123,
+        "endChar": 11
+      },
+      "revId": "b6c9df5042e51d176ea7fb555f899233ab5b3a01",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56c9cb15_d750223c",
+        "filename": "snapshot/linux/process_reader_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-03-29T16:31:46Z",
+      "side": 1,
+      "message": "Crashpad is able to trace cross-bitness. Typical style is to use templated structs where bitness affects the size of types. snapshot/linux/debug_rendezvous.cc has some examples.",
+      "range": {
+        "startLine": 294,
+        "startChar": 4,
+        "endLine": 294,
+        "endChar": 10
+      },
+      "revId": "b6c9df5042e51d176ea7fb555f899233ab5b3a01",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
