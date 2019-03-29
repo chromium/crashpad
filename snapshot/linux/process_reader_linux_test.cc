@@ -38,6 +38,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
+#include "test/gtest_disabled.h"
 #include "test/linux/fake_ptrace_connection.h"
 #include "test/linux/get_tls.h"
 #include "test/multiprocess.h"
@@ -53,6 +54,12 @@
 
 #if defined(OS_ANDROID)
 #include <android/api-level.h>
+#include <android/set_abort_message.h>
+#include "dlfcn_internal.h"
+
+// Normally this comes from set_abort_message.h, but only at API level 21.
+extern "C" void android_set_abort_message(const char* msg)
+    __attribute__((weak));
 #endif
 
 namespace crashpad {
@@ -86,6 +93,8 @@ TEST(ProcessReaderLinux, SelfBasic) {
       sizeof(kTestMemory),
       &buffer));
   EXPECT_STREQ(kTestMemory, buffer);
+
+  EXPECT_EQ("", process_reader.AbortMessage());
 }
 
 constexpr char kTestMemory[] = "Read me from another process";
@@ -777,6 +786,30 @@ TEST(ProcessReaderLinux, ChildModules) {
   ChildModuleTest test;
   test.Run();
 }
+
+#if defined(OS_ANDROID)
+const char kTestAbortMessage[] = "test abort message";
+
+TEST(ProcessReaderLinux, AbortMessage) {
+  // This test requires Q. The API level on Q devices will be 28 until the API
+  // is finalized, so we can't check API level yet. For now, test for the
+  // presence of a libc symbol which was introduced in Q.
+  if (!crashpad::internal::Dlsym(RTLD_DEFAULT,
+                                 "android_fdsan_close_with_tag")) {
+    DISABLED_TEST();
+  }
+
+  android_set_abort_message(kTestAbortMessage);
+
+  FakePtraceConnection connection;
+  connection.Initialize(getpid());
+
+  ProcessReaderLinux process_reader;
+  ASSERT_TRUE(process_reader.Initialize(&connection));
+
+  EXPECT_EQ(kTestAbortMessage, process_reader.AbortMessage());
+}
+#endif
 
 }  // namespace
 }  // namespace test
