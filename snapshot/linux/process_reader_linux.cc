@@ -280,6 +280,53 @@ const std::vector<ProcessReaderLinux::Module>& ProcessReaderLinux::Modules() {
   return modules_;
 }
 
+void ProcessReaderLinux::InitializeAbortMessage() {
+#if defined(OS_ANDROID)
+  const MemoryMap::Mapping* mapping =
+      memory_map_.FindMappingWithName("[anon:abort message]");
+  if (!mapping)
+    return;
+
+  // These structure definitions and the magic numbers below were copied from
+  // bionic/libc/bionic/android_set_abort_message.cpp
+
+  struct abort_msg_t {
+    size_t size;
+    char msg[0];
+  };
+
+  struct magic_abort_msg_t {
+    uint64_t magic1;
+    uint64_t magic2;
+    abort_msg_t msg;
+  };
+
+  magic_abort_msg_t header;
+  if (!Memory()->Read(mapping->range.Base(), sizeof(magic_abort_msg_t), &header))
+    return;
+
+  size_t size = header.msg.size - sizeof(magic_abort_msg_t) - 1;
+  if (header.magic1 != 0xb18e40886ac388f0ULL ||
+      header.magic2 != 0xc6dfba755a1de0b5ULL ||
+      mapping->range.Size() < offsetof(magic_abort_msg_t, msg.msg) + size)
+    return;
+
+  abort_message_.resize(size);
+  if (!Memory()->Read(
+          mapping->range.Base() + offsetof(magic_abort_msg_t, msg.msg),
+          size,
+          &abort_message_[0]))
+    abort_message_.clear();
+#endif
+}
+
+const std::string& ProcessReaderLinux::AbortMessage() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  if (abort_message_.empty())
+    InitializeAbortMessage();
+  return abort_message_;
+}
+
 void ProcessReaderLinux::InitializeThreads() {
   DCHECK(threads_.empty());
   initialized_threads_ = true;
