@@ -14,6 +14,7 @@
 
 #include "client/crashpad_client.h"
 
+#include <dlfcn.h>
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <sys/syscall.h>
@@ -40,6 +41,10 @@
 #include "util/misc/address_types.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/posix/signals.h"
+
+#if defined(OS_ANDROID)
+#include <android/set_abort_message.h>
+#endif
 
 namespace crashpad {
 namespace test {
@@ -102,10 +107,23 @@ TEST(CrashpadClient, SimulateCrash) {
 
 constexpr char kTestAnnotationName[] = "name_of_annotation";
 constexpr char kTestAnnotationValue[] = "value_of_annotation";
+constexpr char kTestAbortMessage[] = "test abort message";
 
 void ValidateDump(const CrashReportDatabase::UploadReport* report) {
   ProcessSnapshotMinidump minidump_snapshot;
   ASSERT_TRUE(minidump_snapshot.Initialize(report->Reader()));
+
+#if defined(OS_ANDROID)
+  // This part of the test requires Q. The API level on Q devices will be 28
+  // until the API is finalized, so we can't check API level yet. For now, test
+  // for the presence of a libc symbol which was introduced in Q.
+  if (dlsym(RTLD_DEFAULT, "android_fdsan_close_with_tag")) {
+    const auto& annotations = minidump_snapshot.AnnotationsSimpleMap();
+    auto abort_message = annotations.find("abort_message");
+    ASSERT_NE(annotations.end(), abort_message);
+    EXPECT_EQ(kTestAbortMessage, abort_message->second);
+  }
+#endif
 
   for (const ModuleSnapshot* module : minidump_snapshot.Modules()) {
     for (const AnnotationSnapshot& annotation : module->AnnotationObjects()) {
@@ -152,6 +170,10 @@ CRASHPAD_CHILD_TEST_MAIN(StartHandlerAtCrashChild) {
                                   std::vector<std::string>())) {
     return EXIT_FAILURE;
   }
+
+#if defined(OS_ANDROID)
+  android_set_abort_message(kTestAbortMessage);
+#endif
 
   __builtin_trap();
 
