@@ -33,6 +33,24 @@
       "revId": "9f2eb86cda54b430f51621c81fc077193769caa7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "364e5215_2785aedc",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-03-29T15:33:48Z",
+      "side": 1,
+      "message": "snprintf() insists on nul-terminating and will overwrite the last char of formatted content with the nul byte if not given a big enough buffer.",
+      "parentUuid": "98dda82b_350ee83d",
+      "revId": "9f2eb86cda54b430f51621c81fc077193769caa7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
