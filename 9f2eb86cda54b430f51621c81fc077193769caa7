@@ -51,6 +51,47 @@
       "revId": "9f2eb86cda54b430f51621c81fc077193769caa7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7175e377_947f77ff",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1268034
+      },
+      "writtenOn": "2019-03-29T15:38:38Z",
+      "side": 1,
+      "message": "instead of a number, use sizeof(buf.size) + 1",
+      "range": {
+        "startLine": 397,
+        "startChar": 15,
+        "endLine": 397,
+        "endChar": 16
+      },
+      "revId": "9f2eb86cda54b430f51621c81fc077193769caa7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21b55e69_126101ee",
+        "filename": "util/net/http_transport_socket.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1268034
+      },
+      "writtenOn": "2019-03-29T15:38:38Z",
+      "side": 1,
+      "message": "snprintf would then format in 7 characters, then write a null-byte. http://www.cplusplus.com/reference/cstdio/snprintf/",
+      "parentUuid": "98dda82b_350ee83d",
+      "revId": "9f2eb86cda54b430f51621c81fc077193769caa7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
