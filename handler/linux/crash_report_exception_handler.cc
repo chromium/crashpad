@@ -107,7 +107,9 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
     }
 
     process_snapshot.SetClientID(client_id);
-    process_snapshot.SetAnnotationsSimpleMap(*process_annotations_);
+    for (auto& p : *process_annotations_) {
+      process_snapshot.AddAnnotation(p.first, p.second);
+    }
 
     std::unique_ptr<CrashReportDatabase::NewReport> new_report;
     CrashReportDatabase::OperationStatus database_status =

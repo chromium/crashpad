@@ -78,15 +78,16 @@ class ProcessSnapshotLinux final : public ProcessSnapshot {
   //! ClientID() will return an identifier consisting entirely of zeroes.
   void SetClientID(const UUID& client_id) { client_id_ = client_id; }
 
-  //! \brief Sets the value to be returned by AnnotationsSimpleMap().
+  //! \brief Add an annotation to be returned by AnnotationsSimpleMap().
   //!
-  //! All process annotations are under the control of the snapshot
+  //! Most process annotations are under the control of the snapshot
   //! producer, which may call this method to establish these annotations.
-  //! Contrast this with module annotations, which are under the control of the
-  //! process being snapshotted.
-  void SetAnnotationsSimpleMap(
-      const std::map<std::string, std::string>& annotations_simple_map) {
-    annotations_simple_map_ = annotations_simple_map;
+  //! On Android Q or later, the process snapshot may add an "abort_message"
+  //! annotation, which will contain the abort message passed to the
+  //! android_set_abort_message() function. Contrast this with module
+  //! annotations, which are under the control of the process being snapshotted.
+  void AddAnnotation(const std::string& key, const std::string& value) {
+    annotations_simple_map_[key] = value;
   }
 
   //! \brief Returns options from CrashpadInfo structures found in modules in
@@ -120,6 +121,7 @@ class ProcessSnapshotLinux final : public ProcessSnapshot {
  private:
   void InitializeThreads();
   void InitializeModules();
+  void InitializeAnnotations();
 
   std::map<std::string, std::string> annotations_simple_map_;
   timeval snapshot_time_;
