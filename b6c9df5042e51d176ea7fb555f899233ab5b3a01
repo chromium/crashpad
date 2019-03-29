@@ -93,6 +93,30 @@
       "revId": "b6c9df5042e51d176ea7fb555f899233ab5b3a01",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad9c8b3c_8d7aa8f0",
+        "filename": "snapshot/linux/process_reader_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-03-29T21:46:26Z",
+      "side": 1,
+      "message": "I guess I meant Crashpad *will* be able to trace cross-bitness. :P\n\nMost of the linux unit tests used to be fork() based (and I think many still are), so this hasn\u0027t really been thoroughly tested yet. This diff looks like good progress towards that goal though!",
+      "parentUuid": "08a20b1a_6b9e968a",
+      "range": {
+        "startLine": 294,
+        "startChar": 4,
+        "endLine": 294,
+        "endChar": 10
+      },
+      "revId": "b6c9df5042e51d176ea7fb555f899233ab5b3a01",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
