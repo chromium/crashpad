@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "39de589d_f7b6b430",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1125980
+      },
+      "writtenOn": "2019-03-29T18:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36728ed7_e6e9507d",
+      "range": {
+        "startLine": 123,
+        "startChar": 6,
+        "endLine": 123,
+        "endChar": 11
+      },
+      "revId": "b6c9df5042e51d176ea7fb555f899233ab5b3a01",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56c9cb15_d750223c",
         "filename": "snapshot/linux/process_reader_linux.cc",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2019-03-29T16:31:46Z",
       "side": 1,
       "message": "Crashpad is able to trace cross-bitness. Typical style is to use templated structs where bitness affects the size of types. snapshot/linux/debug_rendezvous.cc has some examples.",
+      "range": {
+        "startLine": 294,
+        "startChar": 4,
+        "endLine": 294,
+        "endChar": 10
+      },
+      "revId": "b6c9df5042e51d176ea7fb555f899233ab5b3a01",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08a20b1a_6b9e968a",
+        "filename": "snapshot/linux/process_reader_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1125980
+      },
+      "writtenOn": "2019-03-29T18:53:38Z",
+      "side": 1,
+      "message": "Done.\n\nIs there any way to test cross-bitness tracing? I figure that this change to run_tests.py might do the trick:\n\ndiff --git a/build/run_tests.py b/build/run_tests.py\nindex 29fd3c1b..847a9314 100755\n--- a/build/run_tests.py\n+++ b/build/run_tests.py\n@@ -134,7 +134,8 @@ def _EnableVTProcessingOnWindowsConsole():\n   return True\n \n \n-def _RunOnAndroidTarget(binary_dir, test, android_device, extra_command_line):\n+def _RunOnAndroidTarget(binary_dir, cross_binary_dir, test, android_device,\n+                        extra_command_line):\n   local_test_path \u003d os.path.join(binary_dir, test)\n   MAYBE_UNSUPPORTED_TESTS \u003d (\n       \u0027crashpad_client_test\u0027,\n@@ -237,7 +238,7 @@ def _RunOnAndroidTarget(binary_dir, test, android_device, extra_command_line):\n     # determined automatically in a GN build, following the example used for\n     # Fuchsia. Since nothing like that exists for GYP, hard-code it for\n     # supported tests.\n-    test_build_artifacts \u003d [test, \u0027crashpad_handler\u0027]\n+    test_build_artifacts \u003d [test]\n     test_data \u003d [\u0027test/test_paths_test_data_root.txt\u0027]\n \n     if test \u003d\u003d \u0027crashpad_test_test\u0027:\n@@ -271,6 +272,9 @@ def _RunOnAndroidTarget(binary_dir, test, android_device, extra_command_line):\n     local_test_build_artifacts \u003d []\n     for artifact in test_build_artifacts:\n       local_test_build_artifacts.append(os.path.join(binary_dir, artifact))\n+    local_test_build_artifacts.append(os.path.join(\n+        cross_binary_dir if cross_binary_dir else binary_dir,\n+        \u0027crashpad_handler\u0027))\n     _adb_push(local_test_build_artifacts, device_out_dir)\n \n     # Push test data to the device.\n@@ -441,6 +445,8 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name, extra_command_line):\n def main(args):\n   parser \u003d argparse.ArgumentParser(description\u003d\u0027Run Crashpad unittests.\u0027)\n   parser.add_argument(\u0027binary_dir\u0027, help\u003d\u0027Root of build dir\u0027)\n+  parser.add_argument(\u0027--cross-binary-dir\u0027,\n+                      help\u003d\u0027Root of other-bitness build dir\u0027)\n   parser.add_argument(\u0027test\u0027, nargs\u003d\u0027*\u0027, help\u003d\u0027Specific test(s) to run.\u0027)\n   parser.add_argument(\u0027--gtest_filter\u0027,\n                       help\u003d\u0027GTest filter applied to GTest binary runs.\u0027)\n@@ -526,8 +532,8 @@ def main(args):\n       if args.gtest_filter:\n         extra_command_line.append(\u0027--gtest_filter\u003d\u0027 + args.gtest_filter)\n       if is_android:\n-        _RunOnAndroidTarget(args.binary_dir, test, android_device,\n-                            extra_command_line)\n+        _RunOnAndroidTarget(args.binary_dir, args.cross_binary_dir, test,\n+                            android_device, extra_command_line)\n       elif is_fuchsia:\n         _RunOnFuchsiaTarget(args.binary_dir, test, zircon_nodename,\n                             extra_command_line)\n\nbut 32b-tracing-64b fails like this:\n\n[ RUN      ] CrashpadClient.SimulateCrash\n[29848:29848:20190329,182715.727729:WARNING process_reader_linux.cc:125] no stack mapping\n[29848:29848:20190329,182715.728319:WARNING exception_snapshot_linux.cc:261] fpsimd not found\n[29848:29848:20190329,182715.728381:WARNING exception_snapshot_linux.cc:427] Unhandled signal -1\n[29848:29848:20190329,182715.728449:WARNING process_reader_linux.cc:125] no stack mapping\n[29846:29846:20190329,182715.731028:ERROR file_io.cc:89] ReadExactly: expected 32, observed 24\n[29846:29846:20190329,182715.731377:ERROR directory_reader_posix.cc:42] opendir: No such file or directory (2)\n../../../../client/crashpad_client_linux_test.cc:103: Failure\nExpected equality of these values:\n  reports.size()\n    Which is: 0\n  1u\n    Which is: 1\n[  FAILED  ] CrashpadClient.SimulateCrash (20 ms)\n\nand 64b-tracing-32b fails like this:\n\n[ RUN      ] CrashpadClient.SimulateCrash\n[30770:30770:20190329,183544.911217:WARNING ptracer.cc:247] 64-bit ARM cannot trace TLS area for a 32-bit process\n[30770:30770:20190329,183544.911556:WARNING process_reader_linux.cc:372] Couldn\u0027t initialize main thread.\n[30770:30770:20190329,183544.912558:WARNING exception_snapshot_linux.cc:427] Unhandled signal -1\n[30770:30770:20190329,183544.912609:ERROR process_snapshot_linux.cc:101] thread not found 30757\n../../../../client/crashpad_client_linux_test.cc:103: Failure\nExpected equality of these values:\n  reports.size()\n    Which is: 0\n  1u\n    Which is: 1\n[  FAILED  ] CrashpadClient.SimulateCrash (12 ms)",
+      "parentUuid": "56c9cb15_d750223c",
       "range": {
         "startLine": 294,
         "startChar": 4,
