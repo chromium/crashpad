@@ -14,10 +14,6 @@
 
 import("../build/crashpad_buildconfig.gni")
 
-if (crashpad_is_in_chromium) {
-  import("//build/config/sanitizers/sanitizers.gni")
-}
-
 static_library("handler") {
   sources = [
     "crash_report_upload_thread.cc",
@@ -181,8 +177,7 @@ if (crashpad_is_android) {
 
     ldflags = [ "-llog" ]
 
-    # TODO(thakis): Remove !using_sanitizer, https://crbug.com/936418
-    if (crashpad_is_in_chromium && !using_sanitizer) {
+    if (crashpad_is_in_chromium) {
       no_default_deps = true
     }
   }
