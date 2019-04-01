@@ -28,6 +28,9 @@ deps = {
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
       '8bee09f4a57807136593ddc906b0b213c21f9014',
+  'crashpad/third_party/lss/lss':
+      Var('chromium_git') + '/linux-syscall-support.git@' +
+      '8048ece6c16c91acfe0d36d1d3cc0890ab6e945c',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
       '471390dc9c5a4244364c0f9c5d463ebc78083e2b',
