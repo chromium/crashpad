@@ -130,19 +130,6 @@ void ProcessReaderFuchsia::InitializeModules() {
   // retrieves (some of) the data into internal structures. It may be worth
   // trying to refactor/upstream some of this into Fuchsia.
 
-  std::string app_name;
-  {
-    char name[ZX_MAX_NAME_LEN];
-    zx_status_t status =
-        process_->get_property(ZX_PROP_NAME, name, sizeof(name));
-    if (status != ZX_OK) {
-      LOG(ERROR) << "zx_object_get_property ZX_PROP_NAME";
-      return;
-    }
-
-    app_name = name;
-  }
-
   // Starting from the ld.so's _dl_debug_addr, read the link_map structure and
   // walk the list to fill out modules_.
 
@@ -204,19 +191,44 @@ void ProcessReaderFuchsia::InitializeModules() {
       LOG(ERROR) << "ReadCString name";
     }
 
-    // The vDSO is libzircon.so, but it's not actually loaded normally, it's
-    // injected by the kernel, so doesn't have a normal name. When dump_syms is
-    // run on libzircon.so, it uses that file name, and in order for the crash
-    // server to match symbols both the debug id and the name of the binary have
-    // to match. So, map from "<vDSO>" to "libzircon.so" so that symbol
-    // resolution works correctly.
+    // Debug symbols are indexed by module name x build-id on the crash server.
+    // The module name in the indexed Breakpad files is set at build time. So
+    // Crashpad needs to use the same module name at run time for symbol
+    // resolution to work properly.
+    //
+    // TODO(fuchsia/DX-1234): once Crashpad switches to elf-search, the
+    // following overwrites won't be necessary as only shared libraries will
+    // have a soname at runtime, just like at build time.
+    //
+    // * For shared libraries, the soname is used as module name at build time,
+    //   which is the dsoname here except for libzircon.so (because it is
+    //   injected by the kernel, its load name is "<vDSO>" and Crashpad needs to
+    //   replace it for symbol resolution to work properly).
     if (dsoname == "<vDSO>") {
       dsoname = "libzircon.so";
+    }
+    // * For executables and loadable modules, the dummy value "<_>" is used as
+    //   module name at build time. This is because executable and loadable
+    //   modules don't have a name on Fuchsia. So we need to use the same dummy
+    //   value at build and run times.
+    //   Most executables have an empty dsoname. Loadable modules (and some rare
+    //   executables) have a non-empty dsoname starting with a specific prefix,
+    //   which Crashpas can use to identify loadable modules and clear the
+    //   dsoname for them.
+    static constexpr const char kLoadableModuleLoadNamePrefix[] = "<VMO#";
+    // Pre-C++ 20 std::basic_string::starts_with
+    if (dsoname.compare(0,
+                        strlen(kLoadableModuleLoadNamePrefix),
+                        kLoadableModuleLoadNamePrefix) == 0) {
+      dsoname = "";
     }
 
     Module module;
     if (dsoname.empty()) {
-      module.name = app_name;
+      // This value must be kept in sync with what is used at build time to
+      // index symbols for executables and loadable modules.
+      // See fuchsia/DX-1193 for more details.
+      module.name = "<_>";
       module.type = ModuleSnapshot::kModuleTypeExecutable;
     } else {
       module.name = dsoname;
