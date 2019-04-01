@@ -130,19 +130,6 @@ void ProcessReaderFuchsia::InitializeModules() {
   // retrieves (some of) the data into internal structures. It may be worth
   // trying to refactor/upstream some of this into Fuchsia.
 
-  std::string app_name;
-  {
-    char name[ZX_MAX_NAME_LEN];
-    zx_status_t status =
-        process_->get_property(ZX_PROP_NAME, name, sizeof(name));
-    if (status != ZX_OK) {
-      LOG(ERROR) << "zx_object_get_property ZX_PROP_NAME";
-      return;
-    }
-
-    app_name = name;
-  }
-
   // Starting from the ld.so's _dl_debug_addr, read the link_map structure and
   // walk the list to fill out modules_.
 
@@ -204,19 +191,38 @@ void ProcessReaderFuchsia::InitializeModules() {
       LOG(ERROR) << "ReadCString name";
     }
 
-    // The vDSO is libzircon.so, but it's not actually loaded normally, it's
-    // injected by the kernel, so doesn't have a normal name. When dump_syms is
-    // run on libzircon.so, it uses that file name, and in order for the crash
-    // server to match symbols both the debug id and the name of the binary have
-    // to match. So, map from "<vDSO>" to "libzircon.so" so that symbol
-    // resolution works correctly.
+    // At build time, debug symbols are indexed by module name x build-id on the
+    // crash server. So we need to use the same module name at run time.
+    //
+    // TODO(fuchsia/DX-1234): once we switch to elf-search, the following
+    // overwrites won't be necessary as only shared libraries will have a soname
+    // at runtime, just like at build time.
+    //
+    // * For shared libraries, we use to soname at build time, which is the
+    //   dsoname here except for libzircon.so (because it is injected by the
+    //   kernel, its load name is "<vDSO>" and we need to replace it for symbol
+    //   resolution to work properly).
     if (dsoname == "<vDSO>") {
       dsoname = "libzircon.so";
+    }
+    // * For executables and loadable modules, we use "<_>" at build time. Most
+    //   executables have an empty dsoname. Loadable modules (and some rare
+    //   executables) have a non-empty dsoname starting with a specific prefix,
+    //   which we can use to identify loadable modules and clear the dsoname for
+    //   them.
+    static constexpr const char kLoadableModuleLoadNamePrefix[] = "<VMO#";
+    // pre-C++ 20 starts_with
+    if (dsoname.compare(0,
+                        strlen(kLoadableModuleLoadNamePrefix),
+                        kLoadableModuleLoadNamePrefix)) {
+      dsoname = "";
     }
 
     Module module;
     if (dsoname.empty()) {
-      module.name = app_name;
+      // This value must be kept in sync with what we use at build time to index
+      // symbols for executables and loadable modules, cf. fuchsia/DX-1193.
+      module.name = "<_>";
       module.type = ModuleSnapshot::kModuleTypeExecutable;
     } else {
       module.name = dsoname;
