@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b7266cbf_c8a2e987",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-02T20:01:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe7893d4_150e075d",
+      "revId": "8b0f4b0adf2423aff4e24dc871d74719bbb56454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a7f6ec3_2d566e22",
         "filename": "third_party/lss/BUILD.gn",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "8b0f4b0adf2423aff4e24dc871d74719bbb56454",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3b56d25_37bac151",
+        "filename": "third_party/lss/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-02T20:01:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a7f6ec3_2d566e22",
+      "revId": "8b0f4b0adf2423aff4e24dc871d74719bbb56454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
