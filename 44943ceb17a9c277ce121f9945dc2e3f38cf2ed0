@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b00f35aa_2cf760f9",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-04-02T20:49:54Z",
+      "side": 1,
+      "message": "This isn\u0027t really at build time, but the end of the sentence makes sense -- \"on the crash server\".",
+      "range": {
+        "startLine": 194,
+        "startChar": 7,
+        "endLine": 194,
+        "endChar": 23
+      },
+      "revId": "44943ceb17a9c277ce121f9945dc2e3f38cf2ed0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b5f6697_fd147ea7",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-04-02T20:49:54Z",
+      "side": 1,
+      "message": "Could you clarify that this is something special that the Fuchsia OS/toolchain team is doing during symbol upload, rather than something that\u0027s actually specific to Fuchsia?",
+      "range": {
+        "startLine": 208,
+        "startChar": 47,
+        "endLine": 208,
+        "endChar": 73
+      },
+      "revId": "44943ceb17a9c277ce121f9945dc2e3f38cf2ed0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5f784e4_b5ca6726",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-04-02T20:49:54Z",
+      "side": 1,
+      "message": "This is pretty weird! But I guess if the toolchain team likes it, it\u0027s OK and fairly obvious that it\u0027s something unusual to investigate.",
+      "range": {
+        "startLine": 225,
+        "startChar": 21,
+        "endLine": 225,
+        "endChar": 24
+      },
+      "revId": "44943ceb17a9c277ce121f9945dc2e3f38cf2ed0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
