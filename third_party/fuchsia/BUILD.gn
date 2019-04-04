@@ -17,6 +17,7 @@ import("../../build/crashpad_buildconfig.gni")
 if (crashpad_is_in_fuchsia) {
   group("fuchsia") {
     public_deps = [
+      "//zircon/public/fidl/fuchsia-mem",
       "//zircon/public/fidl/fuchsia-sysinfo:fuchsia-sysinfo_c",
       "//zircon/public/lib/fdio",
       "//zircon/public/lib/zx",
@@ -26,6 +27,7 @@ if (crashpad_is_in_fuchsia) {
   group("fuchsia") {
     public_deps = [
       "//third_party/fuchsia-sdk/sdk:fdio",
+      "//third_party/fuchsia-sdk/sdk:mem",
       "//third_party/fuchsia-sdk/sdk:sysinfo",
       "//third_party/fuchsia-sdk/sdk:zx",
     ]
