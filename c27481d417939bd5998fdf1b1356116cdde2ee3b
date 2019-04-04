@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e970567_9def88d0",
+        "filename": "handler/fuchsia/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-04-04T23:59:14Z",
+      "side": 1,
+      "message": "How about continue and no else to match if (!writer) above.",
+      "revId": "c27481d417939bd5998fdf1b1356116cdde2ee3b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5eed60a1_04e803a1",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-04-04T23:59:14Z",
+      "side": 1,
+      "message": "fidl isn\u0027t too convenient outside of the Fuchsia tree. :( I think you\u0027ll need an addition here, and down in deps\u003d[] too.",
+      "revId": "c27481d417939bd5998fdf1b1356116cdde2ee3b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
