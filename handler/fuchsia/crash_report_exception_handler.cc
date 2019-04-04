@@ -15,6 +15,7 @@
 #include "handler/fuchsia/crash_report_exception_handler.h"
 
 #include <lib/zx/thread.h>
+#include <zircon/errors.h>
 #include <zircon/syscalls/exception.h>
 
 #include "base/fuchsia/fuchsia_logging.h"
@@ -64,6 +65,20 @@ CrashReportExceptionHandler::CrashReportExceptionHandler(
       upload_thread_(upload_thread),
       process_annotations_(process_annotations),
       process_attachments_(process_attachments),
+      process_attachments_vmo_(nullptr),
+      user_stream_data_sources_(user_stream_data_sources) {}
+
+CrashReportExceptionHandler::CrashReportExceptionHandler(
+    CrashReportDatabase* database,
+    CrashReportUploadThread* upload_thread,
+    const std::map<std::string, std::string>* process_annotations,
+    const std::map<std::string, fuchsia::mem::Buffer>* process_attachments,
+    const UserStreamDataSources* user_stream_data_sources)
+    : database_(database),
+      upload_thread_(upload_thread),
+      process_annotations_(process_annotations),
+      process_attachments_(nullptr),
+      process_attachments_vmo_(process_attachments),
       user_stream_data_sources_(user_stream_data_sources) {}
 
 CrashReportExceptionHandler::~CrashReportExceptionHandler() {}
@@ -178,6 +193,22 @@ bool CrashReportExceptionHandler::HandleExceptionHandles(
         }
         writer->Write(contents.data(), contents.size());
       }
+    }
+  } else if (process_attachments_vmo_) {
+    // Note that attachments are read at this point each time rather than once
+    // so that if the contents of the VMO has changed it will be re-read for
+    // each upload (e.g. in the case of a log file).
+    for (const auto& it : *process_attachments_vmo_) {
+      // TODO(frousseau): make FileWriter VMO-aware.
+      FileWriter* writer = new_report->AddAttachment(it.first);
+      if (!writer) {
+        continue;
+      }
+      auto data = std::make_unique<uint8_t[]>(it.second.size);
+      if (it.second.vmo.read(data.get(), 0u, it.second.size) != ZX_OK) {
+        continue;
+      }
+      writer->Write(data.get(), it.second.size);
     }
   }
 
