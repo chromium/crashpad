@@ -355,7 +355,12 @@ void RunUpload33k(const base::FilePath::StringType& scheme,
   test.Run();
 }
 
+#if defined(OS_FUCHSIA)
+// TODO(DX-1281): re-enable once source of flakiness is resolved.
+TEST_P(HTTPTransport, DISABLED_Upload33k) {
+#else
 TEST_P(HTTPTransport, Upload33k) {
+#endif
   RunUpload33k(GetParam(), true);
 }
 
