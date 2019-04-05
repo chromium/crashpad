@@ -84,7 +84,7 @@ static_library("handler") {
   }
 
   if (crashpad_is_fuchsia) {
-    deps += [ "../third_party/fuchsia:zx" ]
+    deps += [ "../third_party/fuchsia" ]
   }
 }
 

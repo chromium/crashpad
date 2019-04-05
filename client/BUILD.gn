@@ -88,7 +88,9 @@ static_library("client") {
   }
 
   if (crashpad_is_fuchsia) {
-    deps = [ "../third_party/fuchsia:zx" ]
+    deps = [
+      "../third_party/fuchsia",
+    ]
     if (crashpad_is_in_fuchsia) {
       deps += [ "//zircon/public/lib/fdio" ]
     }

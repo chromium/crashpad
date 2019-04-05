@@ -15,7 +15,7 @@
 import("../../build/crashpad_buildconfig.gni")
 
 if (crashpad_is_in_fuchsia) {
-  group("zx") {
+  group("fuchsia") {
     public_deps = [
       "//zircon/public/fidl/fuchsia-sysinfo:fuchsia-sysinfo_c",
       "//zircon/public/lib/fdio",
@@ -23,7 +23,7 @@ if (crashpad_is_in_fuchsia) {
     ]
   }
 } else if (crashpad_is_in_chromium) {
-  group("zx") {
+  group("fuchsia") {
     public_deps = [
       "//third_party/fuchsia-sdk/sdk:fdio",
       "//third_party/fuchsia-sdk/sdk:sysinfo",
@@ -36,12 +36,16 @@ if (crashpad_is_in_fuchsia) {
   sdk_fidl_path = "$sdk_path/fidl"
 
   config("zx_config") {
-    visibility = [ ":zx" ]
+    visibility = [ ":fuchsia" ]
+    include_dirs = [ "$sdk_pkg_path/zx/include" ]
+  }
+
+  config("fidl_config") {
+    visibility = [ ":fuchsia" ]
     include_dirs = [
       "$root_gen_dir/fidl/include",
       "$sdk_pkg_path/fidl/include",
       "$sdk_pkg_path/fidl_base/include",
-      "$sdk_pkg_path/zx/include",
     ]
   }
 
@@ -94,7 +98,7 @@ if (crashpad_is_in_fuchsia) {
     }
   }
 
-  static_library("zx") {
+  static_library("fuchsia") {
     sources =
         [
           # This is the zx library.
@@ -166,6 +170,9 @@ if (crashpad_is_in_fuchsia) {
       ":fuchsia.sysinfo",
     ]
 
-    public_configs = [ ":zx_config" ]
+    public_configs = [
+      ":fidl_config",
+      ":zx_config",
+    ]
   }
 }
