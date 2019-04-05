@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b7111458_da454a30",
+        "filename": "handler/fuchsia/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-04-05T16:34:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e970567_9def88d0",
+      "revId": "c27481d417939bd5998fdf1b1356116cdde2ee3b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5eed60a1_04e803a1",
         "filename": "third_party/fuchsia/BUILD.gn",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "c27481d417939bd5998fdf1b1356116cdde2ee3b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24ee225f_7a32947a",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-04-05T16:34:48Z",
+      "side": 1,
+      "message": "Done.\n\nUnfortunately that would only give me the C bindings. I\u0027ll explore how to get the C++ bindings.",
+      "parentUuid": "5eed60a1_04e803a1",
+      "revId": "c27481d417939bd5998fdf1b1356116cdde2ee3b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
