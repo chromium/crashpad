@@ -33,17 +33,18 @@ if (crashpad_is_in_fuchsia) {
 } else {
   sdk_path = "sdk/$host_os-amd64"
   sdk_pkg_path = "$sdk_path/pkg"
-  sdk_fidl_path = "$sdk_path/fidl"
+  sdk_fidl_sources_path = "$sdk_path/fidl"
 
   config("zx_config") {
     visibility = [ ":fuchsia" ]
     include_dirs = [ "$sdk_pkg_path/zx/include" ]
   }
 
+  fidl_root_gen_dir = "$root_gen_dir/fidl/include"
   config("fidl_config") {
     visibility = [ ":fuchsia" ]
     include_dirs = [
-      "$root_gen_dir/fidl/include",
+      fidl_root_gen_dir,
       "$sdk_pkg_path/fidl/include",
       "$sdk_pkg_path/fidl_base/include",
     ]
@@ -51,7 +52,7 @@ if (crashpad_is_in_fuchsia) {
 
   fidl_sources = [
     {
-      fidl = "$sdk_fidl_path/fuchsia.sysinfo/sysinfo.fidl"
+      fidl = "$sdk_fidl_sources_path/fuchsia.sysinfo/sysinfo.fidl"
       header_stem = "fuchsia/sysinfo"
       library_name = "fuchsia.sysinfo"
     },
@@ -60,8 +61,9 @@ if (crashpad_is_in_fuchsia) {
   fidl_gen_sources = []
   foreach(fidl_source, fidl_sources) {
     fidl_stem = "$target_gen_dir/fidl/${fidl_source.library_name}"
-    c_header = "$root_gen_dir/fidl/include/${fidl_source.header_stem}/c/fidl.h"
-    c_client = "$fidl_stem/client.cc"
+    c_stem = "$fidl_root_gen_dir/${fidl_source.header_stem}/c"
+    c_header = "$c_stem/fidl.h"
+    c_client = "$c_stem/client.cc"
     coding_tables = "$fidl_stem/tables.cc"
 
     fidl_gen_sources += [
@@ -69,25 +71,29 @@ if (crashpad_is_in_fuchsia) {
       coding_tables,
     ]
 
-    action(fidl_source.library_name) {
+    # Compiles the .fidl file and generates the C bindings.
+    action("fidlc_${fidl_source.library_name}") {
       visibility = [ ":*" ]
 
       script = "runner.py"
 
       args = [
-               rebase_path("$sdk_path/tools/fidlc", root_build_dir),
-               "--c-header",
-               rebase_path(c_header, root_build_dir),
-               "--c-client",
-               rebase_path(c_client, root_build_dir),
-               "--tables",
-               rebase_path(coding_tables, root_build_dir),
-               "--files",
-             ] + [ rebase_path(fidl_source.fidl, root_build_dir) ]
+        rebase_path("$sdk_path/tools/fidlc", root_build_dir),
+        "--c-header",
+        rebase_path(c_header, root_build_dir),
+        "--c-client",
+        rebase_path(c_client, root_build_dir),
+        "--tables",
+        rebase_path(coding_tables, root_build_dir),
+        "--name",
+        fidl_source.library_name,
+        "--files",
+        rebase_path(fidl_source.fidl, root_build_dir),
+      ]
 
       inputs = [
-        fidl_source.fidl,
         "$sdk_path/tools/fidlc",
+        fidl_source.fidl,
       ]
 
       outputs = [
@@ -167,7 +173,7 @@ if (crashpad_is_in_fuchsia) {
         ] + fidl_gen_sources
 
     deps = [
-      ":fuchsia.sysinfo",
+      ":fidlc_fuchsia.sysinfo",
     ]
 
     public_configs = [
