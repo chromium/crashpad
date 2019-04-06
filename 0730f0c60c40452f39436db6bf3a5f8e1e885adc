@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0852ad6b_e530814d",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-04-06T00:56:36Z",
+      "side": 0,
+      "message": "I am not sure why we were doing this.",
+      "range": {
+        "startLine": 86,
+        "startChar": 13,
+        "endLine": 86,
+        "endChar": 66
+      },
+      "revId": "0730f0c60c40452f39436db6bf3a5f8e1e885adc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}

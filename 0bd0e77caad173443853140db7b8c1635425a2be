@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f18ec5db_c54b8d74",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-04-06T00:56:36Z",
+      "side": 1,
+      "message": "I am not sure why the client wasn\u0027t next to the API header, like in https://fuchsia.googlesource.com/fuchsia/+/refs/heads/master/build/fidl/fidl_library.gni#36",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 34
+      },
+      "revId": "0bd0e77caad173443853140db7b8c1635425a2be",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b3118e7_6f4d083d",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-04-06T00:56:36Z",
+      "side": 1,
+      "message": "this will be more convenient once we also have the fidlgen action",
+      "range": {
+        "startLine": 75,
+        "startChar": 12,
+        "endLine": 75,
+        "endChar": 18
+      },
+      "revId": "0bd0e77caad173443853140db7b8c1635425a2be",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "872269bf_7ec8c48e",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-04-06T00:56:36Z",
+      "side": 1,
+      "message": "it took me a while to understand that this was referring to the action above!",
+      "revId": "0bd0e77caad173443853140db7b8c1635425a2be",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
