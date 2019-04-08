@@ -466,8 +466,7 @@ void Metadata::Read() {
       if (_wstat64(report_disk.file_path.value().c_str(), &statbuf) == 0) {
         report_disk.total_size = statbuf.st_size;
       } else {
-        PLOG(ERROR) << "stat "
-                    << base::UTF16ToUTF8(report_disk.file_path.value());
+        LOG(ERROR) << "failed to stat report";
       }
 
       reports.push_back(report_disk);
