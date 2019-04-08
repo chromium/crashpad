@@ -377,7 +377,10 @@ bool CrashpadClient::StartHandlerForClient(
 
 // static
 void CrashpadClient::DumpWithoutCrash(NativeCPUContext* context) {
-  DCHECK(g_crash_handler);
+  if (!g_crash_handler) {
+    DLOG(ERROR) << "Crashpad isn't enabled";
+    return;
+  }
 
 #if defined(ARCH_CPU_ARMEL)
   memset(context->uc_regspace, 0, sizeof(context->uc_regspace));
