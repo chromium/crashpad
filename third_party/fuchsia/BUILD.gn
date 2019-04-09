@@ -36,18 +36,58 @@ if (crashpad_is_in_fuchsia) {
   sdk_fidl_sources_path = "$sdk_path/fidl"
 
   config("zx_config") {
-    visibility = [ ":fuchsia" ]
     include_dirs = [ "$sdk_pkg_path/zx/include" ]
   }
 
   fidl_root_gen_dir = "$root_gen_dir/fidl/include"
   config("fidl_config") {
-    visibility = [ ":fuchsia" ]
     include_dirs = [
       fidl_root_gen_dir,
       "$sdk_pkg_path/fidl/include",
       "$sdk_pkg_path/fidl_base/include",
     ]
+  }
+
+  source_set("zx") {
+    sources = [
+      "$sdk_pkg_path/zx/channel.cpp",
+      "$sdk_pkg_path/zx/event.cpp",
+      "$sdk_pkg_path/zx/eventpair.cpp",
+      "$sdk_pkg_path/zx/fifo.cpp",
+      "$sdk_pkg_path/zx/guest.cpp",
+      "$sdk_pkg_path/zx/interrupt.cpp",
+      "$sdk_pkg_path/zx/job.cpp",
+      "$sdk_pkg_path/zx/port.cpp",
+      "$sdk_pkg_path/zx/process.cpp",
+      "$sdk_pkg_path/zx/resource.cpp",
+      "$sdk_pkg_path/zx/socket.cpp",
+      "$sdk_pkg_path/zx/thread.cpp",
+      "$sdk_pkg_path/zx/timer.cpp",
+      "$sdk_pkg_path/zx/vmar.cpp",
+      "$sdk_pkg_path/zx/vmo.cpp",
+    ]
+
+    public_configs = [ ":zx_config" ]
+  }
+
+  source_set("fidl_base") {
+    sources = [
+      "$sdk_pkg_path/fidl_base/builder.cpp",
+      "$sdk_pkg_path/fidl_base/decoding.cpp",
+      "$sdk_pkg_path/fidl_base/encoding.cpp",
+      "$sdk_pkg_path/fidl_base/envelope_frames.h",
+      "$sdk_pkg_path/fidl_base/formatting.cpp",
+      "$sdk_pkg_path/fidl_base/linearizing.cpp",
+      "$sdk_pkg_path/fidl_base/message.cpp",
+      "$sdk_pkg_path/fidl_base/message_buffer.cpp",
+      "$sdk_pkg_path/fidl_base/message_builder.cpp",
+      "$sdk_pkg_path/fidl_base/validating.cpp",
+      "$sdk_pkg_path/fidl_base/visitor.h",
+      "$sdk_pkg_path/fidl_base/walker.cpp",
+      "$sdk_pkg_path/fidl_base/walker.h",
+    ]
+
+    public_configs = [ ":fidl_config" ]
   }
 
   fidl_sources = [
@@ -113,74 +153,10 @@ if (crashpad_is_in_fuchsia) {
   }
 
   static_library("fuchsia") {
-    sources = [
-      # This is the zx library.
-      "$sdk_pkg_path/zx/channel.cpp",
-      "$sdk_pkg_path/zx/event.cpp",
-      "$sdk_pkg_path/zx/eventpair.cpp",
-      "$sdk_pkg_path/zx/fifo.cpp",
-      "$sdk_pkg_path/zx/guest.cpp",
-      "$sdk_pkg_path/zx/include/lib/zx/bti.h",
-      "$sdk_pkg_path/zx/include/lib/zx/channel.h",
-      "$sdk_pkg_path/zx/include/lib/zx/event.h",
-      "$sdk_pkg_path/zx/include/lib/zx/eventpair.h",
-      "$sdk_pkg_path/zx/include/lib/zx/fifo.h",
-      "$sdk_pkg_path/zx/include/lib/zx/guest.h",
-      "$sdk_pkg_path/zx/include/lib/zx/handle.h",
-      "$sdk_pkg_path/zx/include/lib/zx/interrupt.h",
-      "$sdk_pkg_path/zx/include/lib/zx/job.h",
-      "$sdk_pkg_path/zx/include/lib/zx/object.h",
-      "$sdk_pkg_path/zx/include/lib/zx/object_traits.h",
-      "$sdk_pkg_path/zx/include/lib/zx/pmt.h",
-      "$sdk_pkg_path/zx/include/lib/zx/port.h",
-      "$sdk_pkg_path/zx/include/lib/zx/process.h",
-      "$sdk_pkg_path/zx/include/lib/zx/resource.h",
-      "$sdk_pkg_path/zx/include/lib/zx/socket.h",
-      "$sdk_pkg_path/zx/include/lib/zx/task.h",
-      "$sdk_pkg_path/zx/include/lib/zx/thread.h",
-      "$sdk_pkg_path/zx/include/lib/zx/time.h",
-      "$sdk_pkg_path/zx/include/lib/zx/timer.h",
-      "$sdk_pkg_path/zx/include/lib/zx/vmar.h",
-      "$sdk_pkg_path/zx/include/lib/zx/vmo.h",
-      "$sdk_pkg_path/zx/interrupt.cpp",
-      "$sdk_pkg_path/zx/job.cpp",
-      "$sdk_pkg_path/zx/port.cpp",
-      "$sdk_pkg_path/zx/process.cpp",
-      "$sdk_pkg_path/zx/resource.cpp",
-      "$sdk_pkg_path/zx/socket.cpp",
-      "$sdk_pkg_path/zx/thread.cpp",
-      "$sdk_pkg_path/zx/timer.cpp",
-      "$sdk_pkg_path/zx/vmar.cpp",
-      "$sdk_pkg_path/zx/vmo.cpp",
-
-      # This is the fidl_base library.
-      "$sdk_pkg_path/fidl_base/builder.cpp",
-      "$sdk_pkg_path/fidl_base/decoding.cpp",
-      "$sdk_pkg_path/fidl_base/encoding.cpp",
-      "$sdk_pkg_path/fidl_base/envelope_frames.h",
-      "$sdk_pkg_path/fidl_base/formatting.cpp",
-      "$sdk_pkg_path/fidl_base/include/lib/fidl/coding.h",
-      "$sdk_pkg_path/fidl_base/include/lib/fidl/cpp/builder.h",
-      "$sdk_pkg_path/fidl_base/include/lib/fidl/cpp/message.h",
-      "$sdk_pkg_path/fidl_base/include/lib/fidl/cpp/message_buffer.h",
-      "$sdk_pkg_path/fidl_base/include/lib/fidl/cpp/message_builder.h",
-      "$sdk_pkg_path/fidl_base/include/lib/fidl/cpp/message_part.h",
-      "$sdk_pkg_path/fidl_base/include/lib/fidl/cpp/string_view.h",
-      "$sdk_pkg_path/fidl_base/include/lib/fidl/cpp/vector_view.h",
-      "$sdk_pkg_path/fidl_base/include/lib/fidl/internal.h",
-      "$sdk_pkg_path/fidl_base/include/lib/fidl/internal_callable_traits.h",
-      "$sdk_pkg_path/fidl_base/linearizing.cpp",
-      "$sdk_pkg_path/fidl_base/message.cpp",
-      "$sdk_pkg_path/fidl_base/message_buffer.cpp",
-      "$sdk_pkg_path/fidl_base/message_builder.cpp",
-      "$sdk_pkg_path/fidl_base/validating.cpp",
-      "$sdk_pkg_path/fidl_base/visitor.h",
-      "$sdk_pkg_path/fidl_base/walker.cpp",
-      "$sdk_pkg_path/fidl_base/walker.h",
-    ]
-
     deps = [
+      ":fidl_base",
       ":fuchsia.sysinfo_c",
+      ":zx",
     ]
 
     public_configs = [
