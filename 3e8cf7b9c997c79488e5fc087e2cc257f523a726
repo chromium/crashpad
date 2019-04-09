@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "947e98a2_a7ba174d",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-04-09T17:35:35Z",
+      "side": 1,
+      "message": "Enh, I wouldn\u0027t bother. Please fix the 80 col if you want to leave the comment.",
+      "revId": "3e8cf7b9c997c79488e5fc087e2cc257f523a726",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
