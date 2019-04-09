@@ -15,6 +15,7 @@
 #include "util/linux/exception_handler_client.h"
 
 #include <errno.h>
+#include <signal.h>
 #include <sys/prctl.h>
 #include <sys/socket.h>
 #include <sys/wait.h>
@@ -23,6 +24,7 @@
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "build/build_config.h"
+#include "third_party/lss/lss.h"
 #include "util/file/file_io.h"
 #include "util/linux/ptrace_broker.h"
 #include "util/misc/from_pointer_cast.h"
@@ -30,8 +32,11 @@
 
 namespace crashpad {
 
-ExceptionHandlerClient::ExceptionHandlerClient(int sock)
-    : server_sock_(sock), ptracer_(-1), can_set_ptracer_(true) {}
+ExceptionHandlerClient::ExceptionHandlerClient(int sock, bool multiple_clients)
+    : server_sock_(sock),
+      ptracer_(-1),
+      can_set_ptracer_(true),
+      multiple_clients_(multiple_clients) {}
 
 ExceptionHandlerClient::~ExceptionHandlerClient() = default;
 
@@ -53,6 +58,10 @@ int ExceptionHandlerClient::RequestCrashDump(const ClientInformation& info) {
 #error Port.
 #endif
   const_cast<ClientInformation*>(&info)->requesting_thread_stack_address = sp;
+
+  if (multiple_clients_) {
+    return SignalCrashDump(info);
+  }
 
   int status = SendCrashDumpRequest(info);
   if (status != 0) {
@@ -78,6 +87,29 @@ int ExceptionHandlerClient::SetPtracer(pid_t pid) {
 
 void ExceptionHandlerClient::SetCanSetPtracer(bool can_set_ptracer) {
   can_set_ptracer_ = can_set_ptracer;
+}
+
+int ExceptionHandlerClient::SignalCrashDump(const ClientInformation& info) {
+  sigset_t dump_done_sigset;
+  sigemptyset(&dump_done_sigset);
+  sigaddset(&dump_done_sigset, kDumpDoneSignal);
+  sigprocmask(SIG_BLOCK, &dump_done_sigset, nullptr);
+
+  int status = SendCrashDumpRequest(info);
+  if (status != 0) {
+    return status;
+  }
+
+  siginfo_t siginfo = {};
+  timespec timeout;
+  timeout.tv_sec = 5;
+  timeout.tv_nsec = 0;
+  if (HANDLE_EINTR(sigtimedwait(&dump_done_sigset, &siginfo, &timeout)) < 0) {
+    PLOG(ERROR) << "sigtimedwait";
+    return errno;
+  }
+
+  return 0;
 }
 
 int ExceptionHandlerClient::SendCrashDumpRequest(

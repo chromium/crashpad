@@ -49,6 +49,7 @@ bool CrashReportExceptionHandler::HandleException(pid_t client_process_id,
                                                   UUID* local_report_id) {
   Metrics::ExceptionEncountered();
 
+  LOG(INFO) << "handling exception";
   DirectPtraceConnection connection;
   if (!connection.Initialize(client_process_id)) {
     Metrics::ExceptionCaptureResult(

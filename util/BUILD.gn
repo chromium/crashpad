@@ -316,6 +316,8 @@ static_library("util") {
       "process/process_memory_linux.cc",
       "process/process_memory_linux.h",
     ]
+
+    deps += [ "../third_party/lss" ]
   }
 
   if (crashpad_is_win) {

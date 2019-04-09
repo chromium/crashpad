@@ -16,6 +16,7 @@
 #define CRASHPAD_UTIL_LINUX_EXCEPTION_HANDLER_PROTOCOL_H_
 
 #include <errno.h>
+#include <signal.h>
 #include <stdint.h>
 #include <sys/types.h>
 
@@ -32,6 +33,8 @@ static_assert(sizeof(Errno) >= sizeof(errno), "Errno type is too small");
 
 //! \brief A boolean status suitable for communication between processes.
 enum Bool : char { kBoolFalse, kBoolTrue };
+
+constexpr int kDumpDoneSignal = SIGCONT;
 
 //! \brief Information about a client registered with an ExceptionHandlerServer.
 struct ClientInformation {

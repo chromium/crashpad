@@ -28,7 +28,9 @@ class ExceptionHandlerClient {
   //! \brief Constructs this object.
   //!
   //! \param[in] sock A socket connected to an ExceptionHandlerServer.
-  explicit ExceptionHandlerClient(int sock);
+  //! \param[in] multiple_clients `true` if this socket is used by multiple
+  //!     clients.
+  explicit ExceptionHandlerClient(int sock, bool multiple_clients);
 
   ~ExceptionHandlerClient();
 
@@ -53,12 +55,14 @@ class ExceptionHandlerClient {
   void SetCanSetPtracer(bool can_set_ptracer);
 
  private:
+  int SignalCrashDump(const ClientInformation& info);
   int SendCrashDumpRequest(const ClientInformation& info);
   int WaitForCrashDumpComplete();
 
   int server_sock_;
   pid_t ptracer_;
   bool can_set_ptracer_;
+  bool multiple_clients_;
 
   DISALLOW_COPY_AND_ASSIGN(ExceptionHandlerClient);
 };
