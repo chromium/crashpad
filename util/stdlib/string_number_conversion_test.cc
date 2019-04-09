@@ -30,7 +30,7 @@ TEST(StringNumberConversion, StringToInt) {
     const char* string;
     bool valid;
     int value;
-  } kTestData[] = {
+  } kTestData[] = {  // Assume signed 32-bit
       {"", false, 0},
       {"0", true, 0},
       {"1", true, 1},
@@ -124,7 +124,7 @@ TEST(StringNumberConversion, StringToUnsignedInt) {
     const char* string;
     bool valid;
     unsigned int value;
-  } kTestData[] = {
+  } kTestData[] = {  // Assume unsigned 32-bit
       {"", false, 0},
       {"0", true, 0},
       {"1", true, 1},
@@ -210,6 +210,128 @@ TEST(StringNumberConversion, StringToUnsignedInt) {
   static constexpr char input[] = "6\000" "6";
   std::string input_string(input, base::size(input) - 1);
   unsigned int output;
+  EXPECT_FALSE(StringToNumber(input_string, &output));
+}
+
+TEST(StringNumberConversion, StringToUnsignedLong) {
+  static constexpr struct {
+    const char* string;
+    bool valid;
+    unsigned long value;
+  } kTestData[] = {
+#ifdef _WIN32  // Assume unsigned 32-bit
+      {"", false, 0},
+      {"0", true, 0},
+      {"1", true, 1},
+      {"2147483647", true, 2147483647},
+      {"2147483648", true, 2147483648},
+      {"4294967295", true, std::numeric_limits<unsigned int>::max()},
+      {"4294967296", false, 0},
+      {"-1", false, 0},
+      {"-2147483648", false, 0},
+      {"-2147483649", false, 0},
+      {"00", true, 0},
+      {"01", true, 1},
+      {"-01", false, 0},
+      {"+2", true, 2},
+      {"0x10", true, 16},
+      {"-0x10", false, 0},
+      {"+0x20", true, 32},
+      {"0xf", true, 15},
+      {"0xg", false, 0},
+      {"0x7fffffff", true, 0x7fffffff},
+      {"0x7FfFfFfF", true, 0x7fffffff},
+      {"0x80000000", true, 0x80000000},
+      {"0xFFFFFFFF", true, 0xffffffff},
+      {"-0x7fffffff", false, 0},
+      {"-0x80000000", false, 0},
+      {"-0x80000001", false, 0},
+      {"-0xffffffff", false, 0},
+      {"0x100000000", false, 0},
+      {"0xabcdef", true, 11259375},
+      {"010", true, 8},
+      {"-010", false, 0},
+      {"+020", true, 16},
+      {"07", true, 7},
+      {"08", false, 0},
+      {" 0", false, 0},
+      {"0 ", false, 0},
+      {" 0 ", false, 0},
+      {" 1", false, 0},
+      {"1 ", false, 0},
+      {" 1 ", false, 0},
+      {"a2", false, 0},
+      {"2a", false, 0},
+      {"2a2", false, 0},
+      {".0", false, 0},
+      {".1", false, 0},
+      {"-.2", false, 0},
+      {"+.3", false, 0},
+      {"1.23", false, 0},
+      {"-273.15", false, 0},
+      {"+98.6", false, 0},
+      {"1e1", false, 0},
+      {"1E1", false, 0},
+      {"0x123p4", false, 0},
+      {"infinity", false, 0},
+      {"NaN", false, 0},
+      {"-9223372036854775810", false, 0},
+      {"-9223372036854775809", false, 0},
+      {"9223372036854775808", false, 0},
+      {"9223372036854775809", false, 0},
+      {"18446744073709551615", false, 0},
+      {"18446744073709551616", false, 0},
+#else  // Assume unsigned 64-bit
+      {"", false, 0},
+      {"0", true, 0},
+      {"1", true, 1},
+      {"2147483647", true, 2147483647},
+      {"2147483648", true, 2147483648},
+      {"4294967295", true, 4294967295},
+      {"4294967296", true, 4294967296},
+      {"9223372036854775807", true, 9223372036854775807},
+      {"9223372036854775808", true, 9223372036854775808u},
+      {"18446744073709551615", true, std::numeric_limits<uint64_t>::max()},
+      {"18446744073709551616", false, 0},
+      {"-1", false, 0},
+      {"-2147483648", false, 0},
+      {"-2147483649", false, 0},
+      {"-2147483648", false, 0},
+      {"-9223372036854775808", false, 0},
+      {"-9223372036854775809", false, 0},
+      {"0x7fffffffffffffff", true, 9223372036854775807},
+      {"0x8000000000000000", true, 9223372036854775808u},
+      {"0xffffffffffffffff", true, std::numeric_limits<uint64_t>::max()},
+      {"0x10000000000000000", false, 0},
+      {"-0x7fffffffffffffff", false, 0},
+      {"-0x8000000000000000", false, 0},
+      {"-0x8000000000000001", false, 0},
+      {"0xFfffffffffffffff", true, std::numeric_limits<uint64_t>::max()},
+#endif
+  };
+
+  for (size_t index = 0; index < base::size(kTestData); ++index) {
+    unsigned long value;
+    bool valid = StringToNumber(kTestData[index].string, &value);
+    if (kTestData[index].valid) {
+      EXPECT_TRUE(valid) << "index " << index << ", string "
+                         << kTestData[index].string;
+      if (valid) {
+        EXPECT_EQ(value, kTestData[index].value)
+            << "index " << index << ", string " << kTestData[index].string;
+      }
+    } else {
+      EXPECT_FALSE(valid) << "index " << index << ", string "
+                          << kTestData[index].string << ", value " << value;
+    }
+  }
+
+  // Ensure that embedded NUL characters are treated as bad input. The string
+  // is split to avoid MSVC warning:
+  //   "decimal digit terminates octal escape sequence".
+  static constexpr char input[] = "6\000" "6";
+  std::string input_string(input, base::size(input) - 1);
+  unsigned long output;
   EXPECT_FALSE(StringToNumber(input_string, &output));
 }
 
