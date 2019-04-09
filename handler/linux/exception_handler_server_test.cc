@@ -103,6 +103,7 @@ class TestDelegate : public ExceptionHandlerServer::Delegate {
 
   bool HandleException(pid_t client_process_id,
                        const ClientInformation& info,
+                       pid_t* requesting_thread_id = nullptr,
                        UUID* local_report_id = nullptr) override {
     DirectPtraceConnection connection;
     bool connected = connection.Initialize(client_process_id);

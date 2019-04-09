@@ -25,6 +25,7 @@
 #include "build/build_config.h"
 #include "util/file/file_io.h"
 #include "util/linux/ptrace_broker.h"
+#include "util/misc/from_pointer_cast.h"
 #include "util/posix/signals.h"
 
 namespace crashpad {
@@ -35,6 +36,24 @@ ExceptionHandlerClient::ExceptionHandlerClient(int sock)
 ExceptionHandlerClient::~ExceptionHandlerClient() = default;
 
 int ExceptionHandlerClient::RequestCrashDump(const ClientInformation& info) {
+  VMAddress sp;
+#if defined(ARCH_CPU_X86)
+  uint32_t sp_32;
+  asm("movl %%esp, %0" : "=r"(sp_32));
+  sp = sp_32;
+#elif defined(ARCH_CPU_X86_64)
+  asm("movq %%rsp, %0" : "=r"(sp));
+#elif defined(ARCH_CPU_ARMEL)
+  uint32_t sp_32;
+  asm("mov %0, SP" : "=r"(sp_32));
+  sp = sp_32;
+#elif defined(ARCH_CPU_ARM64)
+  asm("mov %0, SP" : "=r"(sp));
+#else
+#error Port.
+#endif
+  const_cast<ClientInformation*>(&info)->requesting_thread_stack_address = sp;
+
   int status = SendCrashDumpRequest(info);
   if (status != 0) {
     return status;
