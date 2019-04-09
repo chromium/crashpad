@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96b8e245_1e18795d",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-09T00:19:01Z",
+      "side": 1,
+      "message": "We should put a deps \u003d [] in the right place, and then +\u003d into deps in the appropriate conditionals.",
+      "revId": "e8aa718fba3468dba0e87ab1a557672178ea6773",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77fc427d_1b733c75",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-09T00:19:01Z",
+      "side": 1,
+      "message": "The style we’ve generally used is: source stuff, conditionals for source stuff, link stuff (including deps), conditionals for those.",
+      "revId": "e8aa718fba3468dba0e87ab1a557672178ea6773",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
