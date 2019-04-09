@@ -16,6 +16,24 @@
       "revId": "3e8cf7b9c997c79488e5fc087e2cc257f523a726",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "539044fc_9412f704",
+        "filename": "third_party/fuchsia/BUILD.gn",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-04-09T20:09:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "947e98a2_a7ba174d",
+      "revId": "3e8cf7b9c997c79488e5fc087e2cc257f523a726",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
