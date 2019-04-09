@@ -56,6 +56,9 @@ namespace crashpad {
 //!     where such prefix recognition is desirable.
 bool StringToNumber(const std::string& string, int* number);
 bool StringToNumber(const std::string& string, unsigned int* number);
+#ifdef _WIN32  // Assume 32-bit long, and pid_t is an unsigned long.
+bool StringToNumber(const std::string& string, unsigned long* number);
+#endif
 bool StringToNumber(const std::string& string, int64_t* number);
 bool StringToNumber(const std::string& string, uint64_t* number);
 //! \}

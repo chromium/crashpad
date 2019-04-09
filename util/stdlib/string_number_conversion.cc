@@ -97,6 +97,17 @@ struct StringToUnsignedIntTraits
   }
 };
 
+struct StringToUnsignedLongTraits
+    : public StringToUnsignedIntegerTraits<unsigned long, unsigned long long> {
+  static LongType Convert(const char* str, char** end, int base) {
+    if (str[0] == '-') {
+      *end = const_cast<char*>(str);
+      return 0;
+    }
+    return strtoull(str, end, base);
+  }
+};
+
 struct StringToInt64Traits
     : public StringToSignedIntegerTraits<int64_t, int64_t> {
   static LongType Convert(const char* str, char** end, int base) {
@@ -136,7 +147,7 @@ bool StringToIntegerInternal(const std::string& string,
       end != string.data() + string.length()) {
     return false;
   }
-  *number = result;
+  *number = static_cast<IntType>(result);
   return true;
 }
 
@@ -151,6 +162,12 @@ bool StringToNumber(const std::string& string, int* number) {
 bool StringToNumber(const std::string& string, unsigned int* number) {
   return StringToIntegerInternal<StringToUnsignedIntTraits>(string, number);
 }
+
+#ifdef _WIN32  // Assume 32-bit long, and pid_t is an unsigned long.
+bool StringToNumber(const std::string& string, unsigned long* number) {
+  return StringToIntegerInternal<StringToUnsignedLongTraits>(string, number);
+}
+#endif
 
 bool StringToNumber(const std::string& string, int64_t* number) {
   return StringToIntegerInternal<StringToInt64Traits>(string, number);
