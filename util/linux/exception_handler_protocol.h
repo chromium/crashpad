@@ -45,6 +45,10 @@ struct ClientInformation {
   //! \brief The address in the client's address space of a
   //!     SanitizationInformation struct, or 0 if there is no such struct.
   VMAddress sanitization_information_address;
+
+  //! \brief A stack address of the thread requesting a crash dump. This member
+  //!     is set automatically by ExceptionHandlerClient.
+  VMAddress requesting_thread_stack_address;
 };
 
 //! \brief The message passed from client to server.

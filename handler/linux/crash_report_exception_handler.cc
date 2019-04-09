@@ -45,6 +45,7 @@ CrashReportExceptionHandler::~CrashReportExceptionHandler() = default;
 
 bool CrashReportExceptionHandler::HandleException(pid_t client_process_id,
                                                   const ClientInformation& info,
+                                                  pid_t* requesting_thread_id,
                                                   UUID* local_report_id) {
   Metrics::ExceptionEncountered();
 
@@ -55,7 +56,8 @@ bool CrashReportExceptionHandler::HandleException(pid_t client_process_id,
     return false;
   }
 
-  return HandleExceptionWithConnection(&connection, info, local_report_id);
+  return HandleExceptionWithConnection(
+      &connection, info, requesting_thread_id, local_report_id);
 }
 
 bool CrashReportExceptionHandler::HandleExceptionWithBroker(
@@ -72,17 +74,23 @@ bool CrashReportExceptionHandler::HandleExceptionWithBroker(
     return false;
   }
 
-  return HandleExceptionWithConnection(&client, info, local_report_id);
+  return HandleExceptionWithConnection(&client, info, nullptr, local_report_id);
 }
 
 bool CrashReportExceptionHandler::HandleExceptionWithConnection(
     PtraceConnection* connection,
     const ClientInformation& info,
+    pid_t* requesting_thread_id,
     UUID* local_report_id) {
   ProcessSnapshotLinux process_snapshot;
   if (!process_snapshot.Initialize(connection)) {
     Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSnapshotFailed);
     return false;
+  }
+
+  if (requesting_thread_id) {
+    *requesting_thread_id = process_snapshot.FindThreadWithStackAddress(
+        info.requesting_thread_stack_address);
   }
 
   if (!process_snapshot.InitializeException(

@@ -78,6 +78,7 @@ class ExceptionHandlerServer {
     //! \return `true` on success. `false` on failure with a message logged.
     virtual bool HandleException(pid_t client_process_id,
                                  const ClientInformation& info,
+                                 pid_t* requesting_thread_id = nullptr,
                                  UUID* local_report_id = nullptr) = 0;
 
     //! \brief Called on the receipt of a crash dump request from a client for a
