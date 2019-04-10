@@ -53,38 +53,6 @@ class CrashReportExceptionHandler {
   //!     To interoperate with Breakpad servers, the recommended practice is to
   //!     specify values for the `"prod"` and `"ver"` keys as process
   //!     annotations.
-  //! \param[in] process_attachments A map of file name keys to file paths to be
-  //!     included in the report. Each time a report is written, the file paths
-  //!     will be read in their entirety and included in the report using the
-  //!     file name key as the name in the http upload.
-  //! \param[in] user_stream_data_sources Data sources to be used to extend
-  //!     crash reports. For each crash report that is written, the data sources
-  //!     are called in turn. These data sources may contribute additional
-  //!     minidump streams. `nullptr` if not required.
-  //
-  // TODO(DX-1270): remove once callers have switched to passing VMOs.
-  CrashReportExceptionHandler(
-      CrashReportDatabase* database,
-      CrashReportUploadThread* upload_thread,
-      const std::map<std::string, std::string>* process_annotations,
-      const std::map<std::string, base::FilePath>* process_attachments,
-      const UserStreamDataSources* user_stream_data_sources);
-
-  //! \brief Creates a new object that will store crash reports in \a database.
-  //!
-  //! \param[in] database The database to store crash reports in. Weak.
-  //! \param[in] upload_thread The upload thread to notify when a new crash
-  //!     report is written into \a database.
-  //! \param[in] process_annotations A map of annotations to insert as
-  //!     process-level annotations into each crash report that is written. Do
-  //!     not confuse this with module-level annotations, which are under the
-  //!     control of the crashing process, and are used to implement Chrome's
-  //!     "crash keys." Process-level annotations are those that are beyond the
-  //!     control of the crashing process, which must reliably be set even if
-  //!     the process crashes before it’s able to establish its own annotations.
-  //!     To interoperate with Breakpad servers, the recommended practice is to
-  //!     specify values for the `"prod"` and `"ver"` keys as process
-  //!     annotations.
   //! \param[in] process_attachments A map of keys to VMOs to be included in the
   //!     report. Each time a report is written, the VMOs will be read in their
   //!     entirety and included in the report using the key as the name in the
@@ -145,10 +113,8 @@ class CrashReportExceptionHandler {
   CrashReportDatabase* database_;  // weak
   CrashReportUploadThread* upload_thread_;  // weak
   const std::map<std::string, std::string>* process_annotations_;  // weak
-  // TODO(DX-1270): remove once callers have switched to passing VMOs.
-  const std::map<std::string, base::FilePath>* process_attachments_;  // weak
   const std::map<std::string, fuchsia::mem::Buffer>*
-      process_attachments_vmo_;  // weak
+      process_attachments_;  // weak
   const UserStreamDataSources* user_stream_data_sources_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
