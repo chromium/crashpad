@@ -874,7 +874,7 @@ int HandlerMain(int argc,
       &options.annotations,
 #if defined(OS_FUCHSIA)
       // TODO(scottmg): Process level file attachments, and for all platforms.
-      static_cast<std::map<std::string, base::FilePath>*>(nullptr),
+      nullptr,
 #endif
       user_stream_sources);
 
