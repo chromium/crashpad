@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0eab776a_2436bbbd",
+        "filename": "util/stdlib/string_number_conversion.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-10T15:47:36Z",
+      "side": 1,
+      "message": "The problem with these is that we’ve mixed fundamental types (int) with typedefs (int64_t). If it weren’t for that, this wouldn’t need to be protected by OS.\n\nWhat we should do here is just define these in terms of fundamental types, so provide overloads for:\n\nint\nunsigned int\nlong\nunsigned long\nlong long\nunsigned long long\n\n(P.S. if this did need to be protected, we wouldn’t use the compiler predefined macro directly, we’d use something from build/build_config.h: OS_WIN.)",
+      "revId": "f0e2c1e81a50fdb3a30b6a467ef254c270b58efe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
