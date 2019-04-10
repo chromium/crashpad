@@ -19,6 +19,7 @@
 #include <limits>
 
 #include "base/stl_util.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 
 namespace crashpad {
@@ -30,7 +31,7 @@ TEST(StringNumberConversion, StringToInt) {
     const char* string;
     bool valid;
     int value;
-  } kTestData[] = {
+  } kTestData[] = {  // Assume signed 32-bit
       {"", false, 0},
       {"0", true, 0},
       {"1", true, 1},
@@ -124,7 +125,7 @@ TEST(StringNumberConversion, StringToUnsignedInt) {
     const char* string;
     bool valid;
     unsigned int value;
-  } kTestData[] = {
+  } kTestData[] = {  // Assume unsigned 32-bit
       {"", false, 0},
       {"0", true, 0},
       {"1", true, 1},
@@ -213,11 +214,258 @@ TEST(StringNumberConversion, StringToUnsignedInt) {
   EXPECT_FALSE(StringToNumber(input_string, &output));
 }
 
-TEST(StringNumberConversion, StringToInt64) {
+TEST(StringNumberConversion, StringToLong) {
   static constexpr struct {
     const char* string;
     bool valid;
-    int64_t value;
+    long value;
+  } kTestData[] = {
+#if defined(OS_WIN)
+      // 32-bit long (ILP64 data model)
+      {"", false, 0},
+      {"0", true, 0},
+      {"1", true, 1},
+      {"2147483647", true, std::numeric_limits<long>::max()},
+      {"2147483648", false, 0},
+      {"4294967295", false, 0},
+      {"4294967296", false, 0},
+      {"-1", true, -1},
+      {"-2147483648", true, std::numeric_limits<long>::min()},
+      {"-2147483649", false, 0},
+      {"00", true, 0},
+      {"01", true, 1},
+      {"-01", true, -1},
+      {"+2", true, 2},
+      {"0x10", true, 16},
+      {"-0x10", true, -16},
+      {"+0x20", true, 32},
+      {"0xf", true, 15},
+      {"0xg", false, 0},
+      {"0x7fffffff", true, std::numeric_limits<long>::max()},
+      {"0x7FfFfFfF", true, std::numeric_limits<long>::max()},
+      {"0x80000000", false, 0},
+      {"0xFFFFFFFF", false, 0},
+      {"-0x7fffffff", true, -2147483647},
+      {"-0x80000000", true, std::numeric_limits<long>::min()},
+      {"-0x80000001", false, 0},
+      {"-0xffffffff", false, 0},
+      {"0x100000000", false, 0},
+      {"0xabcdef", true, 11259375},
+      {"010", true, 8},
+      {"-010", true, -8},
+      {"+020", true, 16},
+      {"07", true, 7},
+      {"08", false, 0},
+      {" 0", false, 0},
+      {"0 ", false, 0},
+      {" 0 ", false, 0},
+      {" 1", false, 0},
+      {"1 ", false, 0},
+      {" 1 ", false, 0},
+      {"a2", false, 0},
+      {"2a", false, 0},
+      {"2a2", false, 0},
+      {".0", false, 0},
+      {".1", false, 0},
+      {"-.2", false, 0},
+      {"+.3", false, 0},
+      {"1.23", false, 0},
+      {"-273.15", false, 0},
+      {"+98.6", false, 0},
+      {"1e1", false, 0},
+      {"1E1", false, 0},
+      {"0x123p4", false, 0},
+      {"infinity", false, 0},
+      {"NaN", false, 0},
+      {"-9223372036854775810", false, 0},
+      {"-9223372036854775809", false, 0},
+      {"9223372036854775808", false, 0},
+      {"9223372036854775809", false, 0},
+      {"18446744073709551615", false, 0},
+      {"18446744073709551616", false, 0},
+#else  // OS_WIN
+      // 64-bit long (LP64 data model)
+      {"", false, 0},
+      {"0", true, 0},
+      {"1", true, 1},
+      {"2147483647", true, 2147483647},
+      {"2147483648", true, 2147483648},
+      {"4294967295", true, 4294967295},
+      {"4294967296", true, 4294967296},
+      {"9223372036854775807", true, std::numeric_limits<long>::max()},
+      {"9223372036854775808", false, 0},
+      {"18446744073709551615", false, 0},
+      {"18446744073709551616", false, 0},
+      {"-1", true, -1},
+      {"-2147483648", true, -2147483648LL},
+      {"-2147483649", true, -2147483649LL},
+      {"-9223372036854775808", true, std::numeric_limits<long>::min()},
+      {"-9223372036854775809", false, 0},
+      {"0x7fffffffffffffff", true, std::numeric_limits<long>::max()},
+      {"0x8000000000000000", false, 0},
+      {"0xffffffffffffffff", false, 0},
+      {"0x10000000000000000", false, 0},
+      {"-0x7fffffffffffffff", true, -9223372036854775807},
+      {"-0x8000000000000000", true, std::numeric_limits<long>::min()},
+      {"-0x8000000000000001", false, 0},
+      {"0x7Fffffffffffffff", true, std::numeric_limits<long>::max()},
+#endif  // OS_WIN
+  };
+
+  for (size_t index = 0; index < base::size(kTestData); ++index) {
+    long value;
+    bool valid = StringToNumber(kTestData[index].string, &value);
+    if (kTestData[index].valid) {
+      EXPECT_TRUE(valid) << "index " << index << ", string "
+                         << kTestData[index].string;
+      if (valid) {
+        EXPECT_EQ(value, kTestData[index].value)
+            << "index " << index << ", string " << kTestData[index].string;
+      }
+    } else {
+      EXPECT_FALSE(valid) << "index " << index << ", string "
+                          << kTestData[index].string << ", value " << value;
+    }
+  }
+
+  // Ensure that embedded NUL characters are treated as bad input. The string
+  // is split to avoid MSVC warning:
+  //   "decimal digit terminates octal escape sequence".
+  static constexpr char input[] = "6\000" "6";
+  std::string input_string(input, base::size(input) - 1);
+  long output;
+  EXPECT_FALSE(StringToNumber(input_string, &output));
+}
+
+TEST(StringNumberConversion, StringToUnsignedLong) {
+  static constexpr struct {
+    const char* string;
+    bool valid;
+    unsigned long value;
+  } kTestData[] = {
+#if defined(OS_WIN)
+      // 32-bit long (ILP64 data model)
+      {"", false, 0},
+      {"0", true, 0},
+      {"1", true, 1},
+      {"2147483647", true, 2147483647},
+      {"2147483648", true, 2147483648},
+      {"4294967295", true, std::numeric_limits<unsigned long>::max()},
+      {"4294967296", false, 0},
+      {"-1", false, 0},
+      {"-2147483648", false, 0},
+      {"-2147483649", false, 0},
+      {"00", true, 0},
+      {"01", true, 1},
+      {"-01", false, 0},
+      {"+2", true, 2},
+      {"0x10", true, 16},
+      {"-0x10", false, 0},
+      {"+0x20", true, 32},
+      {"0xf", true, 15},
+      {"0xg", false, 0},
+      {"0x7fffffff", true, 0x7fffffff},
+      {"0x7FfFfFfF", true, 0x7fffffff},
+      {"0x80000000", true, 0x80000000},
+      {"0xFFFFFFFF", true, 0xffffffff},
+      {"-0x7fffffff", false, 0},
+      {"-0x80000000", false, 0},
+      {"-0x80000001", false, 0},
+      {"-0xffffffff", false, 0},
+      {"0x100000000", false, 0},
+      {"0xabcdef", true, 11259375},
+      {"010", true, 8},
+      {"-010", false, 0},
+      {"+020", true, 16},
+      {"07", true, 7},
+      {"08", false, 0},
+      {" 0", false, 0},
+      {"0 ", false, 0},
+      {" 0 ", false, 0},
+      {" 1", false, 0},
+      {"1 ", false, 0},
+      {" 1 ", false, 0},
+      {"a2", false, 0},
+      {"2a", false, 0},
+      {"2a2", false, 0},
+      {".0", false, 0},
+      {".1", false, 0},
+      {"-.2", false, 0},
+      {"+.3", false, 0},
+      {"1.23", false, 0},
+      {"-273.15", false, 0},
+      {"+98.6", false, 0},
+      {"1e1", false, 0},
+      {"1E1", false, 0},
+      {"0x123p4", false, 0},
+      {"infinity", false, 0},
+      {"NaN", false, 0},
+      {"-9223372036854775810", false, 0},
+      {"-9223372036854775809", false, 0},
+      {"9223372036854775808", false, 0},
+      {"9223372036854775809", false, 0},
+      {"18446744073709551615", false, 0},
+      {"18446744073709551616", false, 0},
+#else  // OS_WIN
+      // 64-bit long (LP64 data model)
+      {"", false, 0},
+      {"0", true, 0},
+      {"1", true, 1},
+      {"2147483647", true, 2147483647},
+      {"2147483648", true, 2147483648},
+      {"4294967295", true, 4294967295},
+      {"4294967296", true, 4294967296},
+      {"9223372036854775807", true, 9223372036854775807},
+      {"9223372036854775808", true, 9223372036854775808u},
+      {"18446744073709551615", true, std::numeric_limits<unsigned long>::max()},
+      {"18446744073709551616", false, 0},
+      {"-1", false, 0},
+      {"-2147483648", false, 0},
+      {"-2147483649", false, 0},
+      {"-2147483648", false, 0},
+      {"-9223372036854775808", false, 0},
+      {"-9223372036854775809", false, 0},
+      {"0x7fffffffffffffff", true, 9223372036854775807},
+      {"0x8000000000000000", true, 9223372036854775808u},
+      {"0xffffffffffffffff", true, std::numeric_limits<unsigned long>::max()},
+      {"0x10000000000000000", false, 0},
+      {"-0x7fffffffffffffff", false, 0},
+      {"-0x8000000000000000", false, 0},
+      {"-0x8000000000000001", false, 0},
+      {"0xFfffffffffffffff", true, std::numeric_limits<unsigned long>::max()},
+#endif  // OS_WIN
+  };
+
+  for (size_t index = 0; index < base::size(kTestData); ++index) {
+    unsigned long value;
+    bool valid = StringToNumber(kTestData[index].string, &value);
+    if (kTestData[index].valid) {
+      EXPECT_TRUE(valid) << "index " << index << ", string "
+                         << kTestData[index].string;
+      if (valid) {
+        EXPECT_EQ(value, kTestData[index].value)
+            << "index " << index << ", string " << kTestData[index].string;
+      }
+    } else {
+      EXPECT_FALSE(valid) << "index " << index << ", string "
+                          << kTestData[index].string << ", value " << value;
+    }
+  }
+
+  // Ensure that embedded NUL characters are treated as bad input. The string
+  // is split to avoid MSVC warning:
+  //   "decimal digit terminates octal escape sequence".
+  static constexpr char input[] = "6\000" "6";
+  std::string input_string(input, base::size(input) - 1);
+  unsigned long output;
+  EXPECT_FALSE(StringToNumber(input_string, &output));
+}
+
+TEST(StringNumberConversion, StringToLongLong) {
+  static constexpr struct {
+    const char* string;
+    bool valid;
+    long long value;
   } kTestData[] = {
       {"", false, 0},
       {"0", true, 0},
@@ -226,27 +474,27 @@ TEST(StringNumberConversion, StringToInt64) {
       {"2147483648", true, 2147483648},
       {"4294967295", true, 4294967295},
       {"4294967296", true, 4294967296},
-      {"9223372036854775807", true, std::numeric_limits<int64_t>::max()},
+      {"9223372036854775807", true, std::numeric_limits<long long>::max()},
       {"9223372036854775808", false, 0},
       {"18446744073709551615", false, 0},
       {"18446744073709551616", false, 0},
       {"-1", true, -1},
-      {"-2147483648", true, INT64_C(-2147483648)},
-      {"-2147483649", true, INT64_C(-2147483649)},
-      {"-9223372036854775808", true, std::numeric_limits<int64_t>::min()},
+      {"-2147483648", true, -2147483648LL},
+      {"-2147483649", true, -2147483649LL},
+      {"-9223372036854775808", true, std::numeric_limits<long long>::min()},
       {"-9223372036854775809", false, 0},
-      {"0x7fffffffffffffff", true, std::numeric_limits<int64_t>::max()},
+      {"0x7fffffffffffffff", true, std::numeric_limits<long long>::max()},
       {"0x8000000000000000", false, 0},
       {"0xffffffffffffffff", false, 0},
       {"0x10000000000000000", false, 0},
       {"-0x7fffffffffffffff", true, -9223372036854775807},
-      {"-0x8000000000000000", true, std::numeric_limits<int64_t>::min()},
+      {"-0x8000000000000000", true, std::numeric_limits<long long>::min()},
       {"-0x8000000000000001", false, 0},
-      {"0x7Fffffffffffffff", true, std::numeric_limits<int64_t>::max()},
+      {"0x7Fffffffffffffff", true, std::numeric_limits<long long>::max()},
   };
 
   for (size_t index = 0; index < base::size(kTestData); ++index) {
-    int64_t value;
+    long long value;
     bool valid = StringToNumber(kTestData[index].string, &value);
     if (kTestData[index].valid) {
       EXPECT_TRUE(valid) << "index " << index << ", string "
@@ -262,11 +510,11 @@ TEST(StringNumberConversion, StringToInt64) {
   }
 }
 
-TEST(StringNumberConversion, StringToUnsignedInt64) {
+TEST(StringNumberConversion, StringToUnsignedLongLong) {
   static constexpr struct {
     const char* string;
     bool valid;
-    uint64_t value;
+    unsigned long long value;
   } kTestData[] = {
       {"", false, 0},
       {"0", true, 0},
@@ -277,7 +525,7 @@ TEST(StringNumberConversion, StringToUnsignedInt64) {
       {"4294967296", true, 4294967296},
       {"9223372036854775807", true, 9223372036854775807},
       {"9223372036854775808", true, 9223372036854775808u},
-      {"18446744073709551615", true, std::numeric_limits<uint64_t>::max()},
+      {"18446744073709551615", true, std::numeric_limits<unsigned long long>::max()},
       {"18446744073709551616", false, 0},
       {"-1", false, 0},
       {"-2147483648", false, 0},
@@ -287,16 +535,16 @@ TEST(StringNumberConversion, StringToUnsignedInt64) {
       {"-9223372036854775809", false, 0},
       {"0x7fffffffffffffff", true, 9223372036854775807},
       {"0x8000000000000000", true, 9223372036854775808u},
-      {"0xffffffffffffffff", true, std::numeric_limits<uint64_t>::max()},
+      {"0xffffffffffffffff", true, std::numeric_limits<unsigned long long>::max()},
       {"0x10000000000000000", false, 0},
       {"-0x7fffffffffffffff", false, 0},
       {"-0x8000000000000000", false, 0},
       {"-0x8000000000000001", false, 0},
-      {"0xFfffffffffffffff", true, std::numeric_limits<uint64_t>::max()},
+      {"0xFfffffffffffffff", true, std::numeric_limits<unsigned long long>::max()},
   };
 
   for (size_t index = 0; index < base::size(kTestData); ++index) {
-    uint64_t value;
+    unsigned long long value;
     bool valid = StringToNumber(kTestData[index].string, &value);
     if (kTestData[index].valid) {
       EXPECT_TRUE(valid) << "index " << index << ", string "
