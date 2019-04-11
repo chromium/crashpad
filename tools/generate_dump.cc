@@ -26,6 +26,7 @@
 #include "minidump/minidump_file_writer.h"
 #include "tools/tool_support.h"
 #include "util/file/file_writer.h"
+#include "util/process/process_id.h"
 #include "util/stdlib/string_number_conversion.h"
 
 #if defined(OS_POSIX)
@@ -92,7 +93,7 @@ int GenerateDumpMain(int argc, char* argv[]) {
 
   struct {
     std::string dump_path;
-    pid_t pid;
+    ProcessId pid;
     bool suspend;
   } options = {};
   options.suspend = true;
