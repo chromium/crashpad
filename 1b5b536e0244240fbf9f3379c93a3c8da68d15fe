@@ -1,0 +1,215 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f3c225f_f9c88cc1",
+        "filename": "util/stdlib/string_number_conversion.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-11T03:46:31Z",
+      "side": 1,
+      "message": "Was there a reason to not use long and strtol for this?",
+      "range": {
+        "startLine": 100,
+        "startChar": 69,
+        "endLine": 100,
+        "endChar": 78
+      },
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0f22e1b_b33a2c38",
+        "filename": "util/stdlib/string_number_conversion.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-11T03:46:31Z",
+      "side": 1,
+      "message": "unsigned long and strtoul for this?",
+      "range": {
+        "startLine": 107,
+        "startChar": 58,
+        "endLine": 107,
+        "endChar": 76
+      },
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21dc9412_c56d3a53",
+        "filename": "util/stdlib/string_number_conversion.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-11T03:46:31Z",
+      "side": 1,
+      "message": "Run “git cl format” to take care of these 80-column violations for you.",
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49909287_c3d645e9",
+        "filename": "util/stdlib/string_number_conversion_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-11T03:46:31Z",
+      "side": 1,
+      "message": "Don’t comment about it, static_assert it.",
+      "range": {
+        "startLine": 34,
+        "startChar": 21,
+        "endLine": 34,
+        "endChar": 44
+      },
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c09e1ce8_e90af472",
+        "filename": "util/stdlib/string_number_conversion_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-11T03:46:31Z",
+      "side": 1,
+      "message": "Same.",
+      "range": {
+        "startLine": 128,
+        "startChar": 21,
+        "endLine": 128,
+        "endChar": 46
+      },
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d25f8d5_2fd227e2",
+        "filename": "util/stdlib/string_number_conversion_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-11T03:46:31Z",
+      "side": 1,
+      "message": "1. Much of this test data is shared between L32 and L64.\n\n2. Don’t switch on OS, but on sizeof(long), that is: __SIZEOF_LONG__ with the preprocessor, or std::numeric_limits\u003clong\u003e::digits at runtime.",
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e021c7cc_053c4c52",
+        "filename": "util/stdlib/string_number_conversion_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-11T03:46:31Z",
+      "side": 1,
+      "message": "I almost feel like we could just have a 32-bit test data table and a 64-bit test data table, and this StringToLong test could decide which one to use. It’s a little tricky because of the type of the third field in the struct, though. But as it stands now, the StringToLong test will exactly duplicate either StringToInt or StringToLongLong.",
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd20d658_48e7173f",
+        "filename": "util/stdlib/string_number_conversion_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-11T03:46:31Z",
+      "side": 1,
+      "message": "Same, obviously.",
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9489c961_75682129",
+        "filename": "util/stdlib/string_number_conversion_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-11T03:46:31Z",
+      "side": 1,
+      "message": "You can even static_assert this one to validate the assumption that long long is 64 bits, the same way that I mentioned using static_assert in response to the comment that you added in the StringToInt test.",
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2223b925_2e52275e",
+        "filename": "util/stdlib/string_number_conversion_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-11T03:46:31Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cde54a12_f05c86d0",
+        "filename": "util/stdlib/string_number_conversion_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-11T03:46:31Z",
+      "side": 1,
+      "message": "git cl format will help these too.",
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
