@@ -884,8 +884,9 @@ int HandlerMain(int argc,
     info.exception_information_address = options.exception_information_address;
     info.sanitization_information_address =
         options.sanitization_information_address;
-    return exception_handler.HandleException(getppid(), info) ? EXIT_SUCCESS
-                                                              : ExitFailure();
+    return exception_handler.HandleException(getppid(), info, 0)
+               ? EXIT_SUCCESS
+               : ExitFailure();
   }
 #endif  // OS_LINUX || OS_ANDROID
 
