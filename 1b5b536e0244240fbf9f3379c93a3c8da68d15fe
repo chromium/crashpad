@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "9af6c492_0b3a28bf",
+        "filename": "util/stdlib/string_number_conversion.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-11T19:47:52Z",
+      "side": 1,
+      "message": "I was matching IntTraits above; it appears we convert to the next larger fundamental type, then let StringToIntegerInternal confirm it\u0027s in range and force it back down. This was implicit before this changeset, and is now made explicit below.\n\nAs such, \"long long\" is the next larger fundamental type. (And of course, the difference matters when we\u0027re dealing with a 32-bit long on Windows.)",
+      "parentUuid": "9f3c225f_f9c88cc1",
+      "range": {
+        "startLine": 100,
+        "startChar": 69,
+        "endLine": 100,
+        "endChar": 78
+      },
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0f22e1b_b33a2c38",
         "filename": "util/stdlib/string_number_conversion.cc",
         "patchSetId": 4
@@ -65,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "da171fa6_6b073b1a",
+        "filename": "util/stdlib/string_number_conversion.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-11T19:47:52Z",
+      "side": 1,
+      "message": "As above.",
+      "parentUuid": "f0f22e1b_b33a2c38",
+      "range": {
+        "startLine": 107,
+        "startChar": 58,
+        "endLine": 107,
+        "endChar": 76
+      },
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21dc9412_c56d3a53",
         "filename": "util/stdlib/string_number_conversion.cc",
         "patchSetId": 4
@@ -79,6 +127,24 @@
       "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcc4e409_d01d2c82",
+        "filename": "util/stdlib/string_number_conversion.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-11T19:47:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21dc9412_c56d3a53",
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -145,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "38dfecde_9d23963f",
+        "filename": "util/stdlib/string_number_conversion_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-11T19:47:52Z",
+      "side": 1,
+      "message": "1. Agreed, though I think it\u0027s better to create shared data tables per bitness as you suggested below; not sure whether it\u0027s worth factoring out the remaining redundancies.\n\n2. Ah, my C++ ignorance is showing again! Thanks, and done.",
+      "parentUuid": "2d25f8d5_2fd227e2",
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e021c7cc_053c4c52",
         "filename": "util/stdlib/string_number_conversion_test.cc",
         "patchSetId": 4
@@ -159,6 +243,24 @@
       "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bddbe4c_fdbd4fdd",
+        "filename": "util/stdlib/string_number_conversion_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-11T19:47:52Z",
+      "side": 1,
+      "message": "I\u0027d been trying to think of how to manage that. I\u0027ve gone with a set of templated constexpr functions. I would have used variable templates, but I figured it was best to stay C++11 compatible.",
+      "parentUuid": "e021c7cc_053c4c52",
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -179,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "766e1d6c_ccaf6c04",
+        "filename": "util/stdlib/string_number_conversion_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-11T19:47:52Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dd20d658_48e7173f",
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9489c961_75682129",
         "filename": "util/stdlib/string_number_conversion_test.cc",
         "patchSetId": 4
@@ -193,6 +313,24 @@
       "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "368fc1df_4f9881df",
+        "filename": "util/stdlib/string_number_conversion_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-11T19:47:52Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9489c961_75682129",
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -213,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "89a7fc14_392e70b6",
+        "filename": "util/stdlib/string_number_conversion_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-11T19:47:52Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2223b925_2e52275e",
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cde54a12_f05c86d0",
         "filename": "util/stdlib/string_number_conversion_test.cc",
         "patchSetId": 4
@@ -227,6 +383,24 @@
       "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8702a706_eecf1286",
+        "filename": "util/stdlib/string_number_conversion_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-11T19:47:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cde54a12_f05c86d0",
+      "revId": "1b5b536e0244240fbf9f3379c93a3c8da68d15fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
