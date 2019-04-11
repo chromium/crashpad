@@ -35,7 +35,24 @@ ExceptionHandlerClient::ExceptionHandlerClient(int sock)
 ExceptionHandlerClient::~ExceptionHandlerClient() = default;
 
 int ExceptionHandlerClient::RequestCrashDump(const ClientInformation& info) {
-  int status = SendCrashDumpRequest(info);
+  VMAddress sp;
+#if defined(ARCH_CPU_X86)
+  uint32_t sp_32;
+  asm("movl %%esp, %0" : "=r"(sp_32));
+  sp = sp_32;
+#elif defined(ARCH_CPU_X86_64)
+  asm("movq %%rsp, %0" : "=r"(sp));
+#elif defined(ARCH_CPU_ARMEL)
+  uint32_t sp_32;
+  asm("mov %0, SP" : "=r"(sp_32));
+  sp = sp_32;
+#elif defined(ARCH_CPU_ARM64)
+  asm("mov %0, SP" : "=r"(sp));
+#else
+#error Port.
+#endif
+
+  int status = SendCrashDumpRequest(info, sp);
   if (status != 0) {
     return status;
   }
@@ -61,10 +78,11 @@ void ExceptionHandlerClient::SetCanSetPtracer(bool can_set_ptracer) {
   can_set_ptracer_ = can_set_ptracer;
 }
 
-int ExceptionHandlerClient::SendCrashDumpRequest(
-    const ClientInformation& info) {
+int ExceptionHandlerClient::SendCrashDumpRequest(const ClientInformation& info,
+                                                 VMAddress stack_pointer) {
   ClientToServerMessage message;
   message.type = ClientToServerMessage::kCrashDumpRequest;
+  message.requesting_thread_stack_address = stack_pointer;
   message.client_info = info;
 
   iovec iov;
