@@ -117,6 +117,8 @@ class ProcessSnapshotLinux final : public ProcessSnapshot {
   std::vector<HandleSnapshot> Handles() const override;
   std::vector<const MemorySnapshot*> ExtraMemory() const override;
   const ProcessMemory* Memory() const override;
+  bool CommandLine(std::wstring* command_line) const override;
+  bool Environment(std::wstring* environment) const override;
 
  private:
   void InitializeThreads();

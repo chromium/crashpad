@@ -240,6 +240,18 @@ const ProcessMemory* ProcessSnapshotLinux::Memory() const {
   return process_reader_.Memory();
 }
 
+bool ProcessSnapshotLinux::CommandLine(std::wstring* command_line) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  NOTREACHED();
+  return false;
+}
+
+bool ProcessSnapshotLinux::Environment(std::wstring* environment) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  NOTREACHED();
+  return false;
+}
+
 void ProcessSnapshotLinux::InitializeThreads() {
   const std::vector<ProcessReaderLinux::Thread>& process_reader_threads =
       process_reader_.Threads();

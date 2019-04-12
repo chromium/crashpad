@@ -114,6 +114,11 @@ class ProcessInfo {
   //!     Block.
   bool CommandLine(std::wstring* command_line) const;
 
+  //! \brief Returns process' environment. The result is not a regular
+  //      null-terminated string but a null-separated array of strings
+  //      terminated by a double null.
+  bool Environment(std::wstring* environment) const;
+
   //! \brief Gets the address and size of the process's Process Environment
   //!     Block.
   //!
@@ -177,6 +182,7 @@ class ProcessInfo {
   pid_t inherited_from_process_id_;
   HANDLE process_;
   std::wstring command_line_;
+  std::wstring environment_;
   WinVMAddress peb_address_;
   WinVMSize peb_size_;
   std::vector<Module> modules_;

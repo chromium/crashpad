@@ -83,6 +83,8 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   std::vector<HandleSnapshot> Handles() const override;
   std::vector<const MemorySnapshot*> ExtraMemory() const override;
   const ProcessMemory* Memory() const override;
+  bool CommandLine(std::wstring* command_line) const override;
+  bool Environment(std::wstring* environment) const override;
 
   //! \brief Returns a list of custom minidump streams. This routine is the
   //!     equivalent of ModuleSnapshot::CustomMinidumpStreams(), except that in

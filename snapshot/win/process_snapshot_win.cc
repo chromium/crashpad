@@ -234,6 +234,16 @@ std::vector<const MemorySnapshot*> ProcessSnapshotWin::ExtraMemory() const {
   return extra_memory;
 }
 
+bool ProcessSnapshotWin::CommandLine(std::wstring* command_line) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return process_reader_.GetProcessInfo().CommandLine(command_line);
+}
+
+bool ProcessSnapshotWin::Environment(std::wstring* environment) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return process_reader_.GetProcessInfo().Environment(environment);
+}
+
 const ProcessMemory* ProcessSnapshotWin::Memory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return process_reader_.Memory();
