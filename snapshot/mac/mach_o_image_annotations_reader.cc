@@ -21,6 +21,7 @@
 #include <utility>
 
 #include "base/logging.h"
+#include "client/annotation.h"
 #include "client/crashpad_info.h"
 #include "client/simple_string_dictionary.h"
 #include "snapshot/mac/mach_o_image_reader.h"

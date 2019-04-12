@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "base/rand_util.h"
+#include "client/annotation_list.h"
 #include "client/crashpad_info.h"
 #include "gtest/gtest.h"
 #include "util/misc/clock.h"
