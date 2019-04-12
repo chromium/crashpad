@@ -142,6 +142,7 @@ static_library("util") {
     "process/process_memory_native.h",
     "process/process_memory_range.cc",
     "process/process_memory_range.h",
+    "process/process_id.h",
     "stdlib/aligned_allocator.cc",
     "stdlib/aligned_allocator.h",
     "stdlib/map_insert.h",
