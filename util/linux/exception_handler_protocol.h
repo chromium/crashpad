@@ -16,6 +16,7 @@
 #define CRASHPAD_UTIL_LINUX_EXCEPTION_HANDLER_PROTOCOL_H_
 
 #include <errno.h>
+#include <signal.h>
 #include <stdint.h>
 #include <sys/types.h>
 
@@ -32,6 +33,13 @@ static_assert(sizeof(Errno) >= sizeof(errno), "Errno type is too small");
 
 //! \brief A boolean status suitable for communication between processes.
 enum Bool : char { kBoolFalse, kBoolTrue };
+
+//! \brief The signal used to indicate a crash dump is complete.
+//!
+//! When multiple clients share a single socket connection with the handler,
+//! the handler sends this signal to the dump requestor to indicate when the
+//! the dump is either done or has failed and the client may continue.
+constexpr int kDumpDoneSignal = SIGCONT;
 
 //! \brief Information about a client registered with an ExceptionHandlerServer.
 struct ClientInformation {
