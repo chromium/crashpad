@@ -42,11 +42,11 @@ TestProcessSnapshot::TestProcessSnapshot()
 TestProcessSnapshot::~TestProcessSnapshot() {
 }
 
-pid_t TestProcessSnapshot::ProcessID() const {
+ProcessId TestProcessSnapshot::ProcessID() const {
   return process_id_;
 }
 
-pid_t TestProcessSnapshot::ParentProcessID() const {
+ProcessId TestProcessSnapshot::ParentProcessID() const {
   return parent_process_id_;
 }
 
