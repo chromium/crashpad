@@ -56,7 +56,7 @@ ProcessSnapshotMinidump::ProcessSnapshotMinidump()
       arch_(CPUArchitecture::kCPUArchitectureUnknown),
       annotations_simple_map_(),
       file_reader_(nullptr),
-      process_id_(static_cast<pid_t>(-1)),
+      process_id_(static_cast<ProcessId>(-1)),
       initialized_() {
 }
 
@@ -123,12 +123,12 @@ bool ProcessSnapshotMinidump::Initialize(FileReaderInterface* file_reader) {
   return true;
 }
 
-pid_t ProcessSnapshotMinidump::ProcessID() const {
+ProcessId ProcessSnapshotMinidump::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return process_id_;
 }
 
-pid_t ProcessSnapshotMinidump::ParentProcessID() const {
+ProcessId ProcessSnapshotMinidump::ParentProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // https://crashpad.chromium.org/bug/10
   return 0;
