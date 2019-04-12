@@ -20,6 +20,6 @@
 
 #include <stdint.h>
 
-typedef unsigned int pid_t;
+typedef unsigned long pid_t;
 
 #endif  // CRASHPAD_COMPAT_WIN_SYS_TYPES_H_
