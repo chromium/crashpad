@@ -16,6 +16,24 @@
       "revId": "e1ab6a42fc994479d0136e0c64b7ef0f9eac95f3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7767a23a_15e811eb",
+        "filename": "util/stdlib/string_number_conversion.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-12T17:40:57Z",
+      "side": 1,
+      "message": "Reverted.",
+      "parentUuid": "2cafce8e_7c92e8c7",
+      "revId": "e1ab6a42fc994479d0136e0c64b7ef0f9eac95f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
