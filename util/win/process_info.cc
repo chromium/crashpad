@@ -565,12 +565,12 @@ bool ProcessInfo::IsWow64() const {
   return is_wow64_;
 }
 
-pid_t ProcessInfo::ProcessID() const {
+ProcessId ProcessInfo::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return process_id_;
 }
 
-pid_t ProcessInfo::ParentProcessID() const {
+ProcessId ProcessInfo::ParentProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return inherited_from_process_id_;
 }
