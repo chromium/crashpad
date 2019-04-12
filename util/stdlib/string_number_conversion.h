@@ -27,7 +27,7 @@ namespace crashpad {
 // overflow the targeted data type. If a perfect conversion is possible, *number
 // is set and these functions return true. Otherwise, they return false.
 //
-// The interface in base/strings/string_number_conversions.h doesn’t allow
+// The interface in base/strings/string_number_conversions.h doesn't allow
 // arbitrary bases based on whether the string begins with prefixes such as "0x"
 // as strtol does with base = 0. The functions here are implemented on the
 // strtol family with base = 0, and thus do accept such input.
@@ -50,14 +50,16 @@ namespace crashpad {
 //! \return `true` if a perfect conversion could be performed, with \a number
 //!     set appropriately. `false` if a perfect conversion was not possible.
 //!
-//! \note The interface in `base/strings/string_number_conversions.h` doesn’t
+//! \note The interface in `base/strings/string_number_conversions.h` doesn't
 //!     allow arbitrary bases based on whether the string begins with a prefix
 //!     indicating its base. The functions here are provided for situations
 //!     where such prefix recognition is desirable.
 bool StringToNumber(const std::string& string, int* number);
 bool StringToNumber(const std::string& string, unsigned int* number);
-bool StringToNumber(const std::string& string, int64_t* number);
-bool StringToNumber(const std::string& string, uint64_t* number);
+bool StringToNumber(const std::string& string, long* number);
+bool StringToNumber(const std::string& string, unsigned long* number);
+bool StringToNumber(const std::string& string, long long* number);
+bool StringToNumber(const std::string& string, unsigned long long* number);
 //! \}
 
 }  // namespace crashpad
