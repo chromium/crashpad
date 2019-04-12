@@ -123,12 +123,12 @@ void ProcessSnapshotWin::GetCrashpadOptions(
   *options = options_;
 }
 
-pid_t ProcessSnapshotWin::ProcessID() const {
+ProcessId ProcessSnapshotWin::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return process_reader_.GetProcessInfo().ProcessID();
 }
 
-pid_t ProcessSnapshotWin::ParentProcessID() const {
+ProcessId ProcessSnapshotWin::ParentProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return process_reader_.GetProcessInfo().ParentProcessID();
 }
