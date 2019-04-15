@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "101a588c_91e59f05",
+        "filename": "doc/developing.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-15T17:12:04Z",
+      "side": 1,
+      "message": "\u003e Agreed that this doesn\u0027t belong in the generic section, although it seems on-par with the level of detail in the Android section.\n\u003e \n\u003e WDYT of the new Linux section?\n\nThe Android section is different for a couple of reasons. Since it’s always a cross build, it has to be explicit about more configuration aspects. Even so, it prefers to not take a stance on things like “is_debug” that should remain the developer’s choice.\n\nI don’t think that the added verbiage here is terribly useful considering that the generic instructions above are more than sufficient to set up a build on a Linux system (perhaps with a few packages added). Especially because you’ve given a laundry list of settings without explaining what they control or why autodetected defaults might not be suitable, most of this seems unnecessary and encourages cargo-cult copypasta.",
+      "parentUuid": "b0c0079e_e1942c0d",
+      "revId": "84aee01a8aac0d0bb33eebb20f3eea6862898979",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0b23625_1ad01491",
         "filename": "doc/developing.md",
         "patchSetId": 1
