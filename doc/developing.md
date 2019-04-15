@@ -106,6 +106,21 @@ GN and Ninja are part of the
 [depot_tools](https://www.chromium.org/developers/how-tos/depottools). There’s
 no need to install them separately.
 
+#### Optional Linux Configs
+
+To pull and use Crashpad's version of clang and sysroot, make the following
+changes.
+
+Add the following to `~/crashpad/.gclient`.
+```
+"custom_vars": { "pull_linux_clang": True },
+```
+Add these args to `out/Default/args.gn`.
+```
+clang_path = "//third_party/linux/clang/linux-amd64"
+target_sysroot = "//third_party/linux/sysroot"
+```
+
 ### Android
 
 Crashpad’s Android port is in its early stages. This build relies on
