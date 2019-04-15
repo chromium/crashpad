@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c62f39d9_85441b96",
+        "filename": "doc/developing.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-04-15T16:58:56Z",
+      "side": 1,
+      "message": "Can you put this under a ### Linux section similar to Android below?",
+      "revId": "84aee01a8aac0d0bb33eebb20f3eea6862898979",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0b23625_1ad01491",
+        "filename": "doc/developing.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-04-15T16:58:56Z",
+      "side": 1,
+      "message": "But keep this up in the generic section, not the Linux one.",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 35
+      },
+      "revId": "84aee01a8aac0d0bb33eebb20f3eea6862898979",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
