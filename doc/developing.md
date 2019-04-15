@@ -102,6 +102,33 @@ You can then use `gn args out/Default` or edit `out/Default/args.gn` to
 configure the build, for example things like `is_debug=true` or
 `target_cpu="x86"`.
 
+Sample `out/Default/args.gn`:
+```
+target_os = "linux"
+target_cpu = "x64"
+is_debug = true
+clang_path = "//third_party/linux/clang/linux-amd64"
+target_sysroot = "//third_party/linux/sysroot"
+link_libstdcpp_statically = true
+```
+
+You may also need to update your `~/crashpad/.gclient` file. A working sample
+is provided below:
+```
+solutions = [
+  {
+    "url": "https://chromium.googlesource.com/crashpad/crashpad.git",
+    "deps_file": ".DEPS.git",
+    "managed": False,
+    "name": "crashpad",
+    "custom_vars": {
+      "pull_linux_clang": True
+    },
+  },
+]
+target_os=['linux']
+```
+
 GN and Ninja are part of the
 [depot_tools](https://www.chromium.org/developers/how-tos/depottools). There’s
 no need to install them separately.
