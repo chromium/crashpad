@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "bc8ba234_73dd9887",
+        "filename": "doc/developing.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1002869
+      },
+      "writtenOn": "2019-04-15T18:26:50Z",
+      "side": 1,
+      "message": "I see. Thank you for explaining why the Android section needs to be more explicit. I agree that a minimal set of recommended configs is more desirable.\n\nI\u0027ve gone through, tested, and reduced the number of necessary configs to just a few. PTAL.",
+      "parentUuid": "101a588c_91e59f05",
+      "revId": "84aee01a8aac0d0bb33eebb20f3eea6862898979",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0b23625_1ad01491",
         "filename": "doc/developing.md",
         "patchSetId": 1
