@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "265cc778_268007a3",
+        "filename": "snapshot/minidump/exception_snapshot_minidump.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-04-15T22:25:26Z",
+      "side": 1,
+      "message": "I believe \u003cwindows.h\u003e has to be #included before \u003cdbghelp.h\u003e which is probably the source of the compile errors.",
+      "revId": "ad2181d7483a20428a2b6d77cca2f3669a687ff9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c21cb812_c59ac03a",
         "filename": "snapshot/minidump/exception_snapshot_minidump.h",
         "patchSetId": 2
