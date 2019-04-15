@@ -106,6 +106,38 @@ GN and Ninja are part of the
 [depot_tools](https://www.chromium.org/developers/how-tos/depottools). There’s
 no need to install them separately.
 
+### Linux
+
+Here are some additional information you may find useful to set up Crashpad
+development on Linux.
+
+Sample `out/Default/args.gn`:
+```
+target_os = "linux"
+target_cpu = "x64"
+is_debug = true
+clang_path = "//third_party/linux/clang/linux-amd64"
+target_sysroot = "//third_party/linux/sysroot"
+link_libstdcpp_statically = true
+```
+
+You may also need to update your `~/crashpad/.gclient` file. A working sample
+is provided below:
+```
+solutions = [
+  {
+    "url": "https://chromium.googlesource.com/crashpad/crashpad.git",
+    "deps_file": ".DEPS.git",
+    "managed": False,
+    "name": "crashpad",
+    "custom_vars": {
+      "pull_linux_clang": True
+    },
+  },
+]
+target_os=['linux']
+```
+
 ### Android
 
 Crashpad’s Android port is in its early stages. This build relies on
