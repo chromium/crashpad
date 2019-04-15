@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cc39e760_b4f6dd86",
+        "filename": "doc/developing.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1002869
+      },
+      "writtenOn": "2019-04-15T17:07:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c62f39d9_85441b96",
+      "revId": "84aee01a8aac0d0bb33eebb20f3eea6862898979",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a27d5a6a_aac0b502",
         "filename": "doc/developing.md",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-04-15T17:02:17Z",
       "side": 1,
       "message": "This way seems more involved than anticipated. Most of these things should be auto-detected appropriately for the system (target_os, target_cpu), or have no direct bearing on the build’s success (is_debug). It seems like you’re trying to solve a specific problem (obtaining clang) but you’re writing it in the generic development instructions doc as though it’s globally applicable.",
+      "revId": "84aee01a8aac0d0bb33eebb20f3eea6862898979",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0c0079e_e1942c0d",
+        "filename": "doc/developing.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1002869
+      },
+      "writtenOn": "2019-04-15T17:07:17Z",
+      "side": 1,
+      "message": "Agreed that this doesn\u0027t belong in the generic section, although it seems on-par with the level of detail in the Android section.\n\nWDYT of the new Linux section?",
+      "parentUuid": "a27d5a6a_aac0b502",
       "revId": "84aee01a8aac0d0bb33eebb20f3eea6862898979",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -56,6 +92,30 @@
       "revId": "84aee01a8aac0d0bb33eebb20f3eea6862898979",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6d00015_c71b9715",
+        "filename": "doc/developing.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1002869
+      },
+      "writtenOn": "2019-04-15T17:07:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0b23625_1ad01491",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 35
+      },
+      "revId": "84aee01a8aac0d0bb33eebb20f3eea6862898979",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
