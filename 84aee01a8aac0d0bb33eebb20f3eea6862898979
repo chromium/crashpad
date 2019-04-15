@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "a27d5a6a_aac0b502",
+        "filename": "doc/developing.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-15T17:02:17Z",
+      "side": 1,
+      "message": "This way seems more involved than anticipated. Most of these things should be auto-detected appropriately for the system (target_os, target_cpu), or have no direct bearing on the build’s success (is_debug). It seems like you’re trying to solve a specific problem (obtaining clang) but you’re writing it in the generic development instructions doc as though it’s globally applicable.",
+      "revId": "84aee01a8aac0d0bb33eebb20f3eea6862898979",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0b23625_1ad01491",
         "filename": "doc/developing.md",
         "patchSetId": 1
