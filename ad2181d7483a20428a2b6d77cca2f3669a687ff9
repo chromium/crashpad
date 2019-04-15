@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21f855b7_455f48cf",
+        "filename": "snapshot/minidump/exception_snapshot_minidump.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-04-15T22:24:28Z",
+      "side": 1,
+      "message": "Consider num_parameters.",
+      "range": {
+        "startLine": 39,
+        "startChar": 15,
+        "endLine": 39,
+        "endChar": 25
+      },
+      "revId": "ad2181d7483a20428a2b6d77cca2f3669a687ff9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e956472d_3f7e066e",
+        "filename": "snapshot/minidump/exception_snapshot_minidump.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-04-15T22:24:28Z",
+      "side": 1,
+      "message": "This doesn\u0027t look like it needs to be outside of the loop, and \"i\" would be fine.",
+      "range": {
+        "startLine": 41,
+        "startChar": 9,
+        "endLine": 41,
+        "endChar": 12
+      },
+      "revId": "ad2181d7483a20428a2b6d77cca2f3669a687ff9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c21cb812_c59ac03a",
+        "filename": "snapshot/minidump/exception_snapshot_minidump.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-04-15T22:24:28Z",
+      "side": 1,
+      "message": "nit; extra space",
+      "range": {
+        "startLine": 41,
+        "startChar": 22,
+        "endLine": 41,
+        "endChar": 23
+      },
+      "revId": "ad2181d7483a20428a2b6d77cca2f3669a687ff9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "886e101c_b2047eb4",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-04-15T22:24:28Z",
+      "side": 1,
+      "message": "These need to be removed.",
+      "range": {
+        "startLine": 213,
+        "startChar": 2,
+        "endLine": 214,
+        "endChar": 17
+      },
+      "revId": "ad2181d7483a20428a2b6d77cca2f3669a687ff9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
