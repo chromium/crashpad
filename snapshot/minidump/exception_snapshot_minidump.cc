@@ -1,0 +1,93 @@
+// Copyright 2019 The Crashpad Authors. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#include "snapshot/minidump/exception_snapshot_minidump.h"
+
+#include "snapshot/minidump/minidump_string_reader.h"
+
+namespace crashpad {
+namespace internal {
+
+ExceptionSnapshotMinidump::ExceptionSnapshotMinidump()
+    : ExceptionSnapshot(),
+      minidump_exception_stream_(),
+      initialized_() {
+}
+
+ExceptionSnapshotMinidump::~ExceptionSnapshotMinidump() {
+}
+
+bool ExceptionSnapshotMinidump::Initialize(
+    FileReaderInterface* file_reader,
+    RVA minidump_exception_stream_rva) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+  if (!file_reader->SeekSet(minidump_exception_stream_rva)) {
+    return false;
+  }
+
+  if (!file_reader->ReadExactly(&minidump_exception_stream_,
+                                sizeof(minidump_exception_stream_))) {
+    return false;
+  }
+
+  const size_t parameters = minidump_exception_stream_.ExceptionRecord.NumberParameters;
+  size_t idx = 0;
+  for (; idx < parameters; ++idx) {
+    exception_information_.push_back(
+        minidump_exception_stream_.ExceptionRecord.ExceptionInformation[idx]);
+  }
+
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
+
+const CPUContext* ExceptionSnapshotMinidump::Context() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  NOTREACHED();  // https://crashpad.chromium.org/bug/10
+  return nullptr;
+}
+
+uint64_t ExceptionSnapshotMinidump::ThreadID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return minidump_exception_stream_.ThreadId;
+}
+
+uint32_t ExceptionSnapshotMinidump::Exception() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return minidump_exception_stream_.ExceptionRecord.ExceptionCode;
+}
+
+uint32_t ExceptionSnapshotMinidump::ExceptionInfo() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return minidump_exception_stream_.ExceptionRecord.ExceptionFlags;
+}
+
+uint64_t ExceptionSnapshotMinidump::ExceptionAddress() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return minidump_exception_stream_.ExceptionRecord.ExceptionAddress;
+}
+
+const std::vector<uint64_t>& ExceptionSnapshotMinidump::Codes() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return exception_information_;
+}
+
+std::vector<const MemorySnapshot*> ExceptionSnapshotMinidump::ExtraMemory()
+    const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return std::vector<const MemorySnapshot*>();
+}
+
+}  // namespace internal
+}  // namespace crashpad
