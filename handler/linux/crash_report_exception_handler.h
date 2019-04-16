@@ -66,6 +66,8 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
 
   bool HandleException(pid_t client_process_id,
                        const ClientInformation& info,
+                       VMAddress requesting_thread_stack_address = 0,
+                       pid_t* requesting_thread_id = nullptr,
                        UUID* local_report_id = nullptr) override;
 
   bool HandleExceptionWithBroker(pid_t client_process_id,
@@ -76,6 +78,8 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
  private:
   bool HandleExceptionWithConnection(PtraceConnection* connection,
                                      const ClientInformation& info,
+                                     VMAddress requesting_thread_stack_address,
+                                     pid_t* requesting_thread_id,
                                      UUID* local_report_id = nullptr);
 
   CrashReportDatabase* database_;  // weak

@@ -19,6 +19,7 @@
 
 #include "base/logging.h"
 #include "gtest/gtest.h"
+#include "snapshot/linux/process_snapshot_linux.h"
 #include "test/errors.h"
 #include "test/multiprocess.h"
 #include "util/linux/direct_ptrace_connection.h"
@@ -103,6 +104,8 @@ class TestDelegate : public ExceptionHandlerServer::Delegate {
 
   bool HandleException(pid_t client_process_id,
                        const ClientInformation& info,
+                       VMAddress requesting_thread_stack_address,
+                       pid_t* requesting_thread_id = nullptr,
                        UUID* local_report_id = nullptr) override {
     DirectPtraceConnection connection;
     bool connected = connection.Initialize(client_process_id);
@@ -111,7 +114,24 @@ class TestDelegate : public ExceptionHandlerServer::Delegate {
     last_exception_address_ = info.exception_information_address;
     last_client_ = client_process_id;
     sem_.Signal();
-    return connected;
+    if (!connected) {
+      return false;
+    }
+
+    if (requesting_thread_id) {
+      if (requesting_thread_stack_address) {
+        ProcessSnapshotLinux process_snapshot;
+        if (!process_snapshot.Initialize(&connection)) {
+          ADD_FAILURE();
+          return false;
+        }
+        *requesting_thread_id = process_snapshot.FindThreadWithStackAddress(
+            requesting_thread_stack_address);
+      } else {
+        *requesting_thread_id = -1;
+      }
+    }
+    return true;
   }
 
   bool HandleExceptionWithBroker(pid_t client_process_id,
