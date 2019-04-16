@@ -16,6 +16,24 @@
       "revId": "82b890c1d46a2546c9e8d43dbbc8870868c07aa5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20ccf358_7d9dfa00",
+        "filename": "handler/linux/exception_handler_server_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-16T18:03:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02389d55_0dc957b9",
+      "revId": "82b890c1d46a2546c9e8d43dbbc8870868c07aa5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
