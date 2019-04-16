@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08e18887_7b71ba88",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-16T15:14:49Z",
+      "side": 1,
+      "message": "Clarify: this can be any address in the stack, right? As written, it’s ambiguous and sounds like you might intend stack base or top address.",
+      "revId": "7c9b557d3d3d8cc0e5a3b6a2d12a0c730c90687c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b09039c_bb06ac40",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-16T15:14:49Z",
+      "side": 1,
+      "message": "requesting_thread_id says that requesting_thread_stack_address can be 0, which is also something that you should address here in the documentation for requesting_thread_stack_address.",
+      "revId": "7c9b557d3d3d8cc0e5a3b6a2d12a0c730c90687c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b55a63f0_c3362f54",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-16T15:14:49Z",
+      "side": 1,
+      "message": "This is optional, right?",
+      "revId": "7c9b557d3d3d8cc0e5a3b6a2d12a0c730c90687c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "474ccd7b_7ae80990",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-16T15:14:49Z",
+      "side": 1,
+      "message": "I guess this is fine, but the rules are starting to get confusing. It’d be easier if you didn’t have to say this here at all, and you just treated a requesting_thread_stack_address \u003d 0 as *requesting_thread_id \u003d -1.",
+      "range": {
+        "startLine": 79,
+        "startChar": 54,
+        "endLine": 80,
+        "endChar": 54
+      },
+      "revId": "7c9b557d3d3d8cc0e5a3b6a2d12a0c730c90687c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50f3eb49_7eb94796",
+        "filename": "util/linux/exception_handler_client.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-16T15:14:49Z",
+      "side": 1,
+      "message": "I doubt this really needs to rise to the level of asm. You can just grab the address of some in-scope local.",
+      "revId": "7c9b557d3d3d8cc0e5a3b6a2d12a0c730c90687c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
