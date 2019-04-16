@@ -58,6 +58,13 @@ class ProcessSnapshotLinux final : public ProcessSnapshot {
   //!     an appropriate message logged.
   bool Initialize(PtraceConnection* connection);
 
+  //! \brief Finds the thread whose stack contains \a stack_address.
+  //!
+  //! \param[in] stack_address A stack address to search for.
+  //! \return The thread ID of the thread whose stack contains \a stack_address
+  //!     or -1 if no matching thread is found.
+  pid_t FindThreadWithStackAddress(VMAddress stack_address);
+
   //! \brief Initializes the object's exception.
   //!
   //! \param[in] exception_info The address of an ExceptionInformation in the

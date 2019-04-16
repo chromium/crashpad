@@ -49,6 +49,20 @@ bool ProcessSnapshotLinux::Initialize(PtraceConnection* connection) {
   return true;
 }
 
+pid_t ProcessSnapshotLinux::FindThreadWithStackAddress(
+    VMAddress stack_address) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  for (const auto& thread : process_reader_.Threads()) {
+    if (stack_address >= thread.stack_region_address &&
+        stack_address <
+            thread.stack_region_address + thread.stack_region_size) {
+      return thread.tid;
+    }
+  }
+  return -1;
+}
+
 bool ProcessSnapshotLinux::InitializeException(
     LinuxVMAddress exception_info_address) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
