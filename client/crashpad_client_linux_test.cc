@@ -55,23 +55,49 @@ namespace crashpad {
 namespace test {
 namespace {
 
+class StartHandlerForSelfTest : public testing::TestWithParam<bool> {
+ public:
+  StartHandlerForSelfTest() = default;
+  ~StartHandlerForSelfTest() = default;
+
+ private:
+  DISALLOW_COPY_AND_ASSIGN(StartHandlerForSelfTest);
+};
+
 bool HandleCrashSuccessfully(int, siginfo_t*, ucontext_t*) {
   return true;
 }
 
-TEST(CrashpadClient, SimulateCrash) {
+bool InstallHandler(CrashpadClient* client,
+                    bool start_at_crash,
+                    const base::FilePath& handler_path,
+                    const base::FilePath& database_path) {
+  return start_at_crash
+             ? client->StartHandlerAtCrash(handler_path,
+                                           database_path,
+                                           base::FilePath(),
+                                           "",
+                                           std::map<std::string, std::string>(),
+                                           std::vector<std::string>())
+             : client->StartHandler(handler_path,
+                                    database_path,
+                                    base::FilePath(),
+                                    "",
+                                    std::map<std::string, std::string>(),
+                                    std::vector<std::string>(),
+                                    false,
+                                    false);
+}
+
+TEST_P(StartHandlerForSelfTest, SimulateCrash) {
   ScopedTempDir temp_dir;
 
   base::FilePath handler_path = TestPaths::Executable().DirName().Append(
       FILE_PATH_LITERAL("crashpad_handler"));
 
   crashpad::CrashpadClient client;
-  ASSERT_TRUE(client.StartHandlerAtCrash(handler_path,
-                                         base::FilePath(temp_dir.path()),
-                                         base::FilePath(),
-                                         "",
-                                         std::map<std::string, std::string>(),
-                                         std::vector<std::string>()));
+  ASSERT_TRUE(InstallHandler(
+      &client, GetParam(), handler_path, base::FilePath(temp_dir.path())));
 
   auto database =
       CrashReportDatabase::InitializeWithoutCreating(temp_dir.path());
@@ -152,7 +178,7 @@ void ValidateDump(const CrashReportDatabase::UploadReport* report) {
   ADD_FAILURE();
 }
 
-CRASHPAD_CHILD_TEST_MAIN(StartHandlerAtCrashChild) {
+CRASHPAD_CHILD_TEST_MAIN(StartHandlerForSelfTestChild) {
   FileHandle in = StdioFileHandle(StdioStream::kStandardInput);
 
   VMSize temp_dir_length;
@@ -160,6 +186,10 @@ CRASHPAD_CHILD_TEST_MAIN(StartHandlerAtCrashChild) {
 
   std::string temp_dir(temp_dir_length, '\0');
   CheckedReadFileExactly(in, &temp_dir[0], temp_dir_length);
+
+  bool start_handler_at_crash;
+  CheckedReadFileExactly(
+      in, &start_handler_at_crash, sizeof(start_handler_at_crash));
 
   base::FilePath handler_path = TestPaths::Executable().DirName().Append(
       FILE_PATH_LITERAL("crashpad_handler"));
@@ -170,12 +200,10 @@ CRASHPAD_CHILD_TEST_MAIN(StartHandlerAtCrashChild) {
   test_annotation.Set(kTestAnnotationValue);
 
   crashpad::CrashpadClient client;
-  if (!client.StartHandlerAtCrash(handler_path,
-                                  base::FilePath(temp_dir),
-                                  base::FilePath(),
-                                  "",
-                                  std::map<std::string, std::string>(),
-                                  std::vector<std::string>())) {
+  if (!InstallHandler(&client,
+                      start_handler_at_crash,
+                      handler_path,
+                      base::FilePath(temp_dir))) {
     return EXIT_FAILURE;
   }
 
@@ -191,10 +219,11 @@ CRASHPAD_CHILD_TEST_MAIN(StartHandlerAtCrashChild) {
   return EXIT_SUCCESS;
 }
 
-class StartHandlerAtCrashTest : public MultiprocessExec {
+class StartHandlerForSelfCrashTest : public MultiprocessExec {
  public:
-  StartHandlerAtCrashTest() : MultiprocessExec() {
-    SetChildTestMainFunction("StartHandlerAtCrashChild");
+  StartHandlerForSelfCrashTest(bool start_handler_at_crash)
+      : MultiprocessExec(), start_handler_at_crash_(start_handler_at_crash) {
+    SetChildTestMainFunction("StartHandlerForSelfTestChild");
     SetExpectedChildTerminationBuiltinTrap();
   }
 
@@ -206,6 +235,9 @@ class StartHandlerAtCrashTest : public MultiprocessExec {
         WritePipeHandle(), &temp_dir_length, sizeof(temp_dir_length)));
     ASSERT_TRUE(LoggingWriteFile(
         WritePipeHandle(), temp_dir.path().value().data(), temp_dir_length));
+    ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(),
+                                 &start_handler_at_crash_,
+                                 sizeof(start_handler_at_crash_)));
 
     // Wait for child to finish.
     CheckedReadFileAtEOF(ReadPipeHandle());
@@ -229,13 +261,19 @@ class StartHandlerAtCrashTest : public MultiprocessExec {
     ValidateDump(report.get());
   }
 
-  DISALLOW_COPY_AND_ASSIGN(StartHandlerAtCrashTest);
+  bool start_handler_at_crash_;
+
+  DISALLOW_COPY_AND_ASSIGN(StartHandlerForSelfCrashTest);
 };
 
-TEST(CrashpadClient, StartHandlerAtCrash) {
-  StartHandlerAtCrashTest test;
+TEST_P(StartHandlerForSelfTest, StartHandlerAtCrash) {
+  StartHandlerForSelfCrashTest test(GetParam());
   test.Run();
 }
+
+INSTANTIATE_TEST_SUITE_P(StartHandlerForSelfTestSuite,
+                         StartHandlerForSelfTest,
+                         testing::Bool());
 
 // Test state for starting the handler for another process.
 class StartHandlerForClientTest {
