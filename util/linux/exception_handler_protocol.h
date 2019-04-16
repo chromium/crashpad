@@ -57,6 +57,9 @@ struct ClientToServerMessage {
   //! \brief Indicates what message version is being used.
   int32_t version;
 
+  //! \brief A stack address of the thread sending the message.
+  VMAddress requesting_thread_stack_address;
+
   enum Type : uint32_t {
     //! \brief Used to request a crash dump for the sending client.
     kCrashDumpRequest
