@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1ce2999a_e0532e10",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-16T17:45:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08e18887_7b71ba88",
+      "revId": "7c9b557d3d3d8cc0e5a3b6a2d12a0c730c90687c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b09039c_bb06ac40",
         "filename": "handler/linux/exception_handler_server.h",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a8aaf6a4_028deb08",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-16T17:45:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b09039c_bb06ac40",
+      "revId": "7c9b557d3d3d8cc0e5a3b6a2d12a0c730c90687c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b55a63f0_c3362f54",
         "filename": "handler/linux/exception_handler_server.h",
         "patchSetId": 7
@@ -50,6 +86,24 @@
       "revId": "7c9b557d3d3d8cc0e5a3b6a2d12a0c730c90687c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0138f536_01c849d6",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-16T17:45:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b55a63f0_c3362f54",
+      "revId": "7c9b557d3d3d8cc0e5a3b6a2d12a0c730c90687c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "6b5b5dd4_81df3559",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-16T17:45:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "474ccd7b_7ae80990",
+      "range": {
+        "startLine": 79,
+        "startChar": 54,
+        "endLine": 80,
+        "endChar": 54
+      },
+      "revId": "7c9b557d3d3d8cc0e5a3b6a2d12a0c730c90687c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50f3eb49_7eb94796",
         "filename": "util/linux/exception_handler_client.cc",
         "patchSetId": 7
@@ -87,6 +165,24 @@
       "writtenOn": "2019-04-16T15:14:49Z",
       "side": 1,
       "message": "I doubt this really needs to rise to the level of asm. You can just grab the address of some in-scope local.",
+      "revId": "7c9b557d3d3d8cc0e5a3b6a2d12a0c730c90687c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bef533cd_9abc5cd7",
+        "filename": "util/linux/exception_handler_client.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-16T17:45:01Z",
+      "side": 1,
+      "message": "My motivation was to let this work with address sanitizer where local variables might not be allocated on the call-stack, but it doesn\u0027t seem to be affecting any tests that use this code... so done.",
+      "parentUuid": "50f3eb49_7eb94796",
       "revId": "7c9b557d3d3d8cc0e5a3b6a2d12a0c730c90687c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
