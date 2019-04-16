@@ -73,11 +73,19 @@ class ExceptionHandlerServer {
     //!
     //! \param[in] client_process_id The process ID of the crashing client.
     //! \param[in] info Information on the client.
+    //! \param[in] requesting_thread_stack_address Any address within the stack
+    //!     range for the the thread that sent the crash dump request. Optional.
+    //!     If unspecified or 0, \a requesting_thread_id will be -1.
+    //! \param[out] requesting_thread_id The thread ID of the thread which
+    //!     requested the crash dump if not `nullptr`. Set to -1 if the thread
+    //!     ID could not be determined. Optional.
     //! \param[out] local_report_id The unique identifier for the report created
     //!     in the local report database. Optional.
     //! \return `true` on success. `false` on failure with a message logged.
     virtual bool HandleException(pid_t client_process_id,
                                  const ClientInformation& info,
+                                 VMAddress requesting_thread_stack_address = 0,
+                                 pid_t* requesting_thread_id = nullptr,
                                  UUID* local_report_id = nullptr) = 0;
 
     //! \brief Called on the receipt of a crash dump request from a client for a
@@ -141,6 +149,7 @@ class ExceptionHandlerServer {
   bool ReceiveClientMessage(Event* event);
   bool HandleCrashDumpRequest(const msghdr& msg,
                               const ClientInformation& client_info,
+                              VMAddress requesting_thread_stack_address,
                               int client_sock);
 
   std::unordered_map<int, std::unique_ptr<Event>> clients_;
