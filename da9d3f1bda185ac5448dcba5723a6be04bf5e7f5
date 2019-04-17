@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6543de5c_fc81eefe",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-17T16:07:46Z",
+      "side": 1,
+      "message": "It looks like this is consistent with our treatment of other missing streams, but this means that the ProcessSnapshotMinidump user doesn\u0027t know whether exception_snapshot_ has been initialized and is safe to use. We should arrange for Exception() to return nullptr if the minidump didn\u0027t contain an exception stream.",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 579,
+        "endChar": 3
+      },
+      "revId": "da9d3f1bda185ac5448dcba5723a6be04bf5e7f5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
