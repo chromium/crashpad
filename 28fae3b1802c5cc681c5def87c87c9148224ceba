@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd37b672_a97a0c76",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-17T21:26:04Z",
+      "side": 1,
+      "message": "I don’t prefer this style. If you’re concerned about this not being readable because “what is false?”, I recommend making a new enum class for this argument, so that you can use an appropriate named constant as the argument.",
+      "revId": "28fae3b1802c5cc681c5def87c87c9148224ceba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d879a4a1_d04d11ae",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-17T21:26:04Z",
+      "side": 1,
+      "message": "Provide your own wrapper for this system call, use it on line 136 too.",
+      "range": {
+        "startLine": 125,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 26
+      },
+      "revId": "28fae3b1802c5cc681c5def87c87c9148224ceba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b407e45c_fbff065b",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-17T21:26:04Z",
+      "side": 1,
+      "message": "There are lots and lots of options now. I think we’d benefit from having a doc at some point that describes all of them.",
+      "revId": "28fae3b1802c5cc681c5def87c87c9148224ceba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78f78356_e8ac5c08",
+        "filename": "util/linux/exception_handler_protocol.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-17T21:26:04Z",
+      "side": 1,
+      "message": "Having these names loose in “namespace crashpad” seems likely to conflict with something in the future (“these” also includes Errno and Bool above). Can this be tightened up by loading them into some non-instantiable ExceptionHandlerProtocol class?",
+      "revId": "28fae3b1802c5cc681c5def87c87c9148224ceba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4c7a836_0fac51d5",
+        "filename": "util/linux/proc_task_reader.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-17T21:26:04Z",
+      "side": 1,
+      "message": "This shouldn’t be too difficult to write a test for.",
+      "revId": "28fae3b1802c5cc681c5def87c87c9148224ceba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
