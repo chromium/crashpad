@@ -36,6 +36,8 @@ static_library("snapshot") {
     "memory_snapshot.cc",
     "memory_snapshot.h",
     "memory_snapshot_generic.h",
+    "minidump/exception_snapshot_minidump.cc",
+    "minidump/exception_snapshot_minidump.h",
     "minidump/memory_snapshot_minidump.cc",
     "minidump/memory_snapshot_minidump.h",
     "minidump/minidump_annotation_reader.cc",
