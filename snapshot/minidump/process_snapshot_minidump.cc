@@ -109,13 +109,10 @@ bool ProcessSnapshotMinidump::Initialize(FileReaderInterface* file_reader) {
     stream_map_[stream_type] = &directory.Location;
   }
 
-  if (!InitializeCrashpadInfo() ||
-      !InitializeMiscInfo() ||
-      !InitializeModules() ||
-      !InitializeSystemSnapshot() ||
-      !InitializeMemoryInfo() ||
-      !InitializeThreads() ||
-      !InitializeCustomMinidumpStreams()) {
+  if (!InitializeCrashpadInfo() || !InitializeMiscInfo() ||
+      !InitializeModules() || !InitializeSystemSnapshot() ||
+      !InitializeMemoryInfo() || !InitializeThreads() ||
+      !InitializeCustomMinidumpStreams() || !InitializeExceptionSnapshot()) {
     return false;
   }
 
@@ -212,8 +209,7 @@ std::vector<UnloadedModuleSnapshot> ProcessSnapshotMinidump::UnloadedModules()
 
 const ExceptionSnapshot* ProcessSnapshotMinidump::Exception() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  return nullptr;
+  return &exception_snapshot_;
 }
 
 std::vector<const MemoryMapRegionSnapshot*> ProcessSnapshotMinidump::MemoryMap()
@@ -571,6 +567,24 @@ bool ProcessSnapshotMinidump::InitializeCustomMinidumpStreams() {
 
     custom_streams_.push_back(
         std::make_unique<MinidumpStream>(stream_type, std::move(data)));
+  }
+
+  return true;
+}
+
+bool ProcessSnapshotMinidump::InitializeExceptionSnapshot() {
+  const auto& stream_it = stream_map_.find(kMinidumpStreamTypeException);
+  if (stream_it == stream_map_.end()) {
+    return true;
+  }
+
+  if (stream_it->second->DataSize < sizeof(MINIDUMP_EXCEPTION_STREAM)) {
+    LOG(ERROR) << "system info size mismatch";
+    return false;
+  }
+
+  if (!exception_snapshot_.Initialize(file_reader_, stream_it->second->Rva)) {
+    return false;
   }
 
   return true;

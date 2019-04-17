@@ -29,6 +29,7 @@
 #include "minidump/minidump_extensions.h"
 #include "snapshot/exception_snapshot.h"
 #include "snapshot/memory_snapshot.h"
+#include "snapshot/minidump/exception_snapshot_minidump.h"
 #include "snapshot/minidump/minidump_stream.h"
 #include "snapshot/minidump/module_snapshot_minidump.h"
 #include "snapshot/minidump/system_snapshot_minidump.h"
@@ -129,6 +130,10 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   // Initializes custom minidump streams.
   bool InitializeCustomMinidumpStreams();
 
+  // Initializes data carried in a MINIDUMP_EXCEPTION_STREAM stream on behalf of
+  // Initialize().
+  bool InitializeExceptionSnapshot();
+
   MINIDUMP_HEADER header_;
   std::vector<MINIDUMP_DIRECTORY> stream_directory_;
   std::map<MinidumpStreamType, const MINIDUMP_LOCATION_DESCRIPTOR*> stream_map_;
@@ -141,6 +146,7 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   std::vector<std::unique_ptr<MinidumpStream>> custom_streams_;
   MinidumpCrashpadInfo crashpad_info_;
   internal::SystemSnapshotMinidump system_snapshot_;
+  internal::ExceptionSnapshotMinidump exception_snapshot_;
   CPUArchitecture arch_;
   std::map<std::string, std::string> annotations_simple_map_;
   FileReaderInterface* file_reader_;  // weak
