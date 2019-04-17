@@ -116,6 +116,8 @@
         'minidump/minidump_string_list_reader.h',
         'minidump/minidump_string_reader.cc',
         'minidump/minidump_string_reader.h',
+        'minidump/exception_snapshot_minidump.cc',
+        'minidump/exception_snapshot_minidump.h',
         'minidump/memory_snapshot_minidump.cc',
         'minidump/memory_snapshot_minidump.h',
         'minidump/module_snapshot_minidump.cc',
