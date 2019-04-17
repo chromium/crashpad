@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a2a4677_1ab89ff4",
+        "filename": "snapshot/minidump/exception_snapshot_minidump.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-04-17T15:30:38Z",
+      "side": 1,
+      "message": "Crashpad prefers to explicitly initialize all members, so \"exception_information_(), \" here.",
+      "range": {
+        "startLine": 23,
+        "startChar": 56,
+        "endLine": 23,
+        "endChar": 57
+      },
+      "revId": "aec54422a22ac0dc2512821fd5808a3581f87583",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
