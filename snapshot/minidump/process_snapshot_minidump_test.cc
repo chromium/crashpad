@@ -1170,6 +1170,83 @@ TEST(ProcessSnapshotMinidump, CustomMinidumpStreams) {
   EXPECT_STREQ((char*)&stream_data.front(), kStreamUnreservedData);
 }
 
+TEST(ProcessSnapshotMinidump, Exception) {
+  StringFile string_file;
+
+  MINIDUMP_HEADER header = {};
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  uint32_t exception_signo =
+      static_cast<uint32_t>(-1);  // crashpad::Signals::kSimulatedSigno
+
+  MINIDUMP_EXCEPTION minidump_exception = {};
+  minidump_exception.ExceptionCode = exception_signo;
+  minidump_exception.ExceptionFlags = 2;
+  minidump_exception.ExceptionRecord = 4;
+  minidump_exception.ExceptionAddress = 0xdeedb00f;
+  minidump_exception.NumberParameters = 2;
+  minidump_exception.ExceptionInformation[0] = 51;
+  minidump_exception.ExceptionInformation[1] = 62;
+
+  MINIDUMP_EXCEPTION_STREAM minidump_exception_stream = {};
+  minidump_exception_stream.ThreadId = 5;
+  minidump_exception_stream.ExceptionRecord = minidump_exception;
+
+  MINIDUMP_DIRECTORY minidump_exception_directory = {};
+  minidump_exception_directory.StreamType = kMinidumpStreamTypeException;
+  minidump_exception_directory.Location.DataSize =
+      sizeof(MINIDUMP_EXCEPTION_STREAM);
+  minidump_exception_directory.Location.Rva =
+      static_cast<RVA>(string_file.SeekGet());
+
+  ASSERT_TRUE(string_file.Write(&minidump_exception_stream,
+                                sizeof(minidump_exception_stream)));
+
+  header.StreamDirectoryRva = static_cast<RVA>(string_file.SeekGet());
+  ASSERT_TRUE(string_file.Write(&minidump_exception_directory,
+                                sizeof(minidump_exception_directory)));
+
+  header.Signature = MINIDUMP_SIGNATURE;
+  header.Version = MINIDUMP_VERSION;
+  header.NumberOfStreams = 1;
+  EXPECT_TRUE(string_file.SeekSet(0));
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  ProcessSnapshotMinidump process_snapshot;
+  EXPECT_TRUE(process_snapshot.Initialize(&string_file));
+
+  const ExceptionSnapshot* s = process_snapshot.Exception();
+
+  EXPECT_EQ(s->ThreadID(), 5UL);
+  EXPECT_EQ(s->Exception(), exception_signo);
+  EXPECT_EQ(s->ExceptionInfo(), 2U);
+  EXPECT_EQ(s->ExceptionAddress(), 0xdeedb00f);
+
+  const std::vector<uint64_t> codes = s->Codes();
+  EXPECT_EQ(codes.size(), 2UL);
+  EXPECT_EQ(codes[0], 51UL);
+  EXPECT_EQ(codes[1], 62UL);
+}
+
+TEST(ProcessSnapshotMinidump, NoExceptionInMinidump) {
+  StringFile string_file;
+
+  MINIDUMP_HEADER header = {};
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  header.Signature = MINIDUMP_SIGNATURE;
+  header.Version = MINIDUMP_VERSION;
+  header.NumberOfStreams = 0;
+  EXPECT_TRUE(string_file.SeekSet(0));
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  ProcessSnapshotMinidump process_snapshot;
+  EXPECT_TRUE(process_snapshot.Initialize(&string_file));
+
+  const ExceptionSnapshot* s = process_snapshot.Exception();
+  EXPECT_EQ(s, nullptr);
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
