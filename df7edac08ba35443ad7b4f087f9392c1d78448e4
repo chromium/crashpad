@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5585aa42_17c56f89",
+        "filename": "snapshot/minidump/exception_snapshot_minidump.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-17T16:45:45Z",
+      "side": 1,
+      "message": "We normally use an InitializationState to do this (util/misc/initialization_state.h), which allows keeping track of other states including:\nkStateUninitialized: Initialize() was never called\nkStateInvalid: Initialize() failed\nkStateValid: Initialize() succeeded\nkStateDestroyed: This object is gone!",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 14
+      },
+      "revId": "df7edac08ba35443ad7b4f087f9392c1d78448e4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
