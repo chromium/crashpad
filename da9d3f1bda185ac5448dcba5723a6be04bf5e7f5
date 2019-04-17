@@ -22,6 +22,30 @@
       "revId": "da9d3f1bda185ac5448dcba5723a6be04bf5e7f5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "409292e1_94faf92b",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1002869
+      },
+      "writtenOn": "2019-04-17T16:27:50Z",
+      "side": 1,
+      "message": "Done, thanks! That makes a lot of sense for consuming this value in the mime rewriter.",
+      "parentUuid": "6543de5c_fc81eefe",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 579,
+        "endChar": 3
+      },
+      "revId": "da9d3f1bda185ac5448dcba5723a6be04bf5e7f5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
