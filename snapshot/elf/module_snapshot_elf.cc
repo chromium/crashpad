@@ -150,13 +150,10 @@ void ModuleSnapshotElf::UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   *age = 0;
 
-  std::unique_ptr<ElfImageReader::NoteReader> notes =
-      elf_reader_->NotesWithNameAndType(ELF_NOTE_GNU, NT_GNU_BUILD_ID, 64);
-  std::string desc;
-  VMAddress desc_addr;
-  notes->NextNote(nullptr, nullptr, &desc, &desc_addr);
-  desc.insert(desc.end(), 16 - std::min(desc.size(), size_t{16}), '\0');
-  uuid->InitializeFromBytes(reinterpret_cast<const uint8_t*>(&desc[0]));
+  auto build_id = BuildID();
+  build_id.insert(
+      build_id.end(), 16 - std::min(build_id.size(), size_t{16}), '\0');
+  uuid->InitializeFromBytes(build_id.data());
 
   // TODO(scottmg): https://crashpad.chromium.org/bug/229. These are
   // endian-swapped to match FileID::ConvertIdentifierToUUIDString() in
@@ -169,6 +166,21 @@ void ModuleSnapshotElf::UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const {
 std::string ModuleSnapshotElf::DebugFileName() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return base::FilePath(Name()).BaseName().value();
+}
+
+std::vector<uint8_t> ModuleSnapshotElf::BuildID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  std::unique_ptr<ElfImageReader::NoteReader> notes =
+      elf_reader_->NotesWithNameAndType(ELF_NOTE_GNU, NT_GNU_BUILD_ID, 64);
+  std::string desc;
+  VMAddress desc_addr;
+  notes->NextNote(nullptr, nullptr, &desc, &desc_addr);
+
+  std::vector<uint8_t> build_id;
+  build_id.reserve(desc.size());
+  std::copy(desc.begin(), desc.end(), std::back_inserter(build_id));
+  return build_id;
 }
 
 std::vector<std::string> ModuleSnapshotElf::AnnotationsVector() const {
