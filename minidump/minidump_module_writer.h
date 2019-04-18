@@ -173,6 +173,26 @@ class MinidumpModuleMiscDebugRecordWriter final
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleMiscDebugRecordWriter);
 };
 
+//! \brief The writer for a CodeViewRecordBuildId object in a minidump file.
+class MinidumpModuleCodeViewRecordBuildIdWriter final
+    : public MinidumpModuleCodeViewRecordWriter {
+ public:
+  MinidumpModuleCodeViewRecordBuildIdWriter();
+  ~MinidumpModuleCodeViewRecordBuildIdWriter() override;
+
+  //! \brief Sets the build ID used for symbol lookup.
+  void SetBuildID(const std::vector<uint8_t>& build_id);
+
+ private:
+  // MinidumpWritable:
+  size_t SizeOfObject() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
+
+  std::vector<uint8_t> data_;
+
+  DISALLOW_COPY_AND_ASSIGN(MinidumpModuleCodeViewRecordBuildIdWriter);
+};
+
 //! \brief The writer for a MINIDUMP_MODULE object in a minidump file.
 //!
 //! Because MINIDUMP_MODULE objects only appear as elements of
