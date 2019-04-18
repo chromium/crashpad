@@ -15,11 +15,11 @@
 #ifndef CRASHPAD_MINIDUMP_MINIDUMP_MODULE_WRITER_H_
 #define CRASHPAD_MINIDUMP_MINIDUMP_MODULE_WRITER_H_
 
-#include <windows.h>
 #include <dbghelp.h>
 #include <stdint.h>
 #include <sys/types.h>
 #include <time.h>
+#include <windows.h>
 
 #include <memory>
 #include <string>
@@ -85,6 +85,28 @@ class MinidumpModuleCodeViewRecordPDBLinkWriter
 };
 
 }  // namespace internal
+
+//! \brief The base class for writers of ELF CodeView records.
+class MinidumpModuleCodeViewRecordElfWriter
+    : public MinidumpModuleCodeViewRecordWriter {
+ public:
+  MinidumpModuleCodeViewRecordElfWriter();
+  ~MinidumpModuleCodeViewRecordElfWriter() override;
+
+  //! \brief Sets the name of the `.pdb` file being linked to.
+  void SetBuildID(const std::vector<uint8_t>& build_id);
+
+ private:
+  // MinidumpWritable:
+  size_t SizeOfObject() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
+
+  CodeViewRecordElf* CodeViewRecord();
+
+  std::vector<uint8_t> data_;
+
+  DISALLOW_COPY_AND_ASSIGN(MinidumpModuleCodeViewRecordElfWriter);
+};
 
 //! \brief The writer for a CodeViewRecordPDB20 object in a minidump file.
 //!

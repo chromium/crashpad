@@ -15,8 +15,8 @@
 #ifndef CRASHPAD_SNAPSHOT_WIN_MODULE_SNAPSHOT_WIN_H_
 #define CRASHPAD_SNAPSHOT_WIN_MODULE_SNAPSHOT_WIN_H_
 
-#include <windows.h>
 #include <stdint.h>
+#include <windows.h>
 
 #include <map>
 #include <memory>
@@ -83,6 +83,7 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
                      uint16_t* version_3) const override;
   ModuleType GetModuleType() const override;
   void UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const override;
+  std::vector<uint8_t> BuildID() const override;
   std::string DebugFileName() const override;
   std::vector<std::string> AnnotationsVector() const override;
   std::map<std::string, std::string> AnnotationsSimpleMap() const override;

@@ -44,8 +44,7 @@ ModuleSnapshotWin::ModuleSnapshotWin()
       age_(0),
       initialized_() {}
 
-ModuleSnapshotWin::~ModuleSnapshotWin() {
-}
+ModuleSnapshotWin::~ModuleSnapshotWin() {}
 
 bool ModuleSnapshotWin::Initialize(
     ProcessReaderWin* process_reader,
@@ -188,6 +187,11 @@ void ModuleSnapshotWin::UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   *uuid = uuid_;
   *age = age_;
+}
+
+std::vector<uint8_t> BuildID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return std::vector<uint8_t>();
 }
 
 std::string ModuleSnapshotWin::DebugFileName() const {
