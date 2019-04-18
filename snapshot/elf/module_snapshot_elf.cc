@@ -146,6 +146,21 @@ ModuleSnapshot::ModuleType ModuleSnapshotElf::GetModuleType() const {
   return type_;
 }
 
+std::vector<uint8_t> ModuleSnapshotElf::BuildID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  std::unique_ptr<ElfImageReader::NoteReader> notes =
+      elf_reader_->NotesWithNameAndType(ELF_NOTE_GNU, NT_GNU_BUILD_ID, 64);
+  std::string desc;
+  VMAddress desc_addr;
+  notes->NextNote(nullptr, nullptr, &desc, &desc_addr);
+
+  std::vector<uint8_t> ret;
+  ret.reserve(desc.size());
+  std::copy(desc.begin(), desc.end(), std::back_inserter(ret));
+  return ret;
+}
+
 void ModuleSnapshotElf::UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   *age = 0;

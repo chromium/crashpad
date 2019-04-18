@@ -31,8 +31,7 @@
 
 namespace crashpad {
 
-MinidumpModuleCodeViewRecordWriter::~MinidumpModuleCodeViewRecordWriter() {
-}
+MinidumpModuleCodeViewRecordWriter::~MinidumpModuleCodeViewRecordWriter() {}
 
 namespace internal {
 
@@ -45,8 +44,7 @@ MinidumpModuleCodeViewRecordPDBLinkWriter<
 
 template <typename CodeViewRecordType>
 MinidumpModuleCodeViewRecordPDBLinkWriter<
-    CodeViewRecordType>::~MinidumpModuleCodeViewRecordPDBLinkWriter() {
-}
+    CodeViewRecordType>::~MinidumpModuleCodeViewRecordPDBLinkWriter() {}
 
 template <typename CodeViewRecordType>
 size_t
@@ -78,12 +76,42 @@ bool MinidumpModuleCodeViewRecordPDBLinkWriter<CodeViewRecordType>::WriteObject(
 
 }  // namespace internal
 
+MinidumpModuleCodeViewRecordElfWriter::MinidumpModuleCodeViewRecordElfWriter()
+    : MinidumpModuleCodeViewRecordWriter(),
+      data_(offsetof(CodeViewRecordElf, build_id)) {
+  CodeViewRecord()->signature = CodeViewRecordElf::kSignature;
+}
+
+CodeViewRecordElf* MinidumpModuleCodeViewRecordElfWriter::CodeViewRecord() {
+  return reinterpret_cast<CodeViewRecordElf*>(data_.data());
+}
+
+MinidumpModuleCodeViewRecordElfWriter::
+    ~MinidumpModuleCodeViewRecordElfWriter() {}
+
+size_t MinidumpModuleCodeViewRecordElfWriter::SizeOfObject() {
+  DCHECK_GE(state(), kStateFrozen);
+  return data_.size();
+}
+
+void MinidumpModuleCodeViewRecordElfWriter::SetBuildID(
+    const std::vector<uint8_t>& build_id) {
+  DCHECK_EQ(state(), kStateMutable);
+  data_.resize(offsetof(CodeViewRecordElf, build_id));
+  std::copy(build_id.begin(), build_id.end(), std::back_inserter(data_));
+}
+
+bool MinidumpModuleCodeViewRecordElfWriter::WriteObject(
+    FileWriterInterface* file_writer) {
+  DCHECK_EQ(state(), kStateWritable);
+  return file_writer->Write(data_.data(), data_.size());
+}
+
 template class internal::MinidumpModuleCodeViewRecordPDBLinkWriter<
     CodeViewRecordPDB20>;
 
 MinidumpModuleCodeViewRecordPDB20Writer::
-    ~MinidumpModuleCodeViewRecordPDB20Writer() {
-}
+    ~MinidumpModuleCodeViewRecordPDB20Writer() {}
 
 void MinidumpModuleCodeViewRecordPDB20Writer::SetTimestampAndAge(
     time_t timestamp,
@@ -100,8 +128,7 @@ template class internal::MinidumpModuleCodeViewRecordPDBLinkWriter<
     CodeViewRecordPDB70>;
 
 MinidumpModuleCodeViewRecordPDB70Writer::
-    ~MinidumpModuleCodeViewRecordPDB70Writer() {
-}
+    ~MinidumpModuleCodeViewRecordPDB70Writer() {}
 
 void MinidumpModuleCodeViewRecordPDB70Writer::InitializeFromSnapshot(
     const ModuleSnapshot* module_snapshot) {
@@ -119,11 +146,9 @@ MinidumpModuleMiscDebugRecordWriter::MinidumpModuleMiscDebugRecordWriter()
     : internal::MinidumpWritable(),
       image_debug_misc_(),
       data_(),
-      data_utf16_() {
-}
+      data_utf16_() {}
 
-MinidumpModuleMiscDebugRecordWriter::~MinidumpModuleMiscDebugRecordWriter() {
-}
+MinidumpModuleMiscDebugRecordWriter::~MinidumpModuleMiscDebugRecordWriter() {}
 
 void MinidumpModuleMiscDebugRecordWriter::SetData(const std::string& data,
                                                   bool utf16) {
@@ -203,8 +228,7 @@ MinidumpModuleWriter::MinidumpModuleWriter()
   module_.VersionInfo.dwStrucVersion = VS_FFI_STRUCVERSION;
 }
 
-MinidumpModuleWriter::~MinidumpModuleWriter() {
-}
+MinidumpModuleWriter::~MinidumpModuleWriter() {}
 
 void MinidumpModuleWriter::InitializeFromSnapshot(
     const ModuleSnapshot* module_snapshot) {
@@ -242,9 +266,19 @@ void MinidumpModuleWriter::InitializeFromSnapshot(
   }
   SetFileTypeAndSubtype(file_type, VFT2_UNKNOWN);
 
-  auto codeview_record =
-      std::make_unique<MinidumpModuleCodeViewRecordPDB70Writer>();
-  codeview_record->InitializeFromSnapshot(module_snapshot);
+  auto build_id = module_snapshot->BuildID();
+
+  std::unique_ptr<MinidumpModuleCodeViewRecordWriter> codeview_record;
+  if (!build_id.empty()) {
+    auto record = std::make_unique<MinidumpModuleCodeViewRecordElfWriter>();
+    record->SetBuildID(build_id);
+    codeview_record = std::move(record);
+  } else {
+    auto record = std::make_unique<MinidumpModuleCodeViewRecordPDB70Writer>();
+    record->InitializeFromSnapshot(module_snapshot);
+    codeview_record = std::move(record);
+  }
+
   SetCodeViewRecord(std::move(codeview_record));
 }
 
@@ -372,11 +406,9 @@ bool MinidumpModuleWriter::WriteObject(FileWriterInterface* file_writer) {
 }
 
 MinidumpModuleListWriter::MinidumpModuleListWriter()
-    : MinidumpStreamWriter(), modules_(), module_list_base_() {
-}
+    : MinidumpStreamWriter(), modules_(), module_list_base_() {}
 
-MinidumpModuleListWriter::~MinidumpModuleListWriter() {
-}
+MinidumpModuleListWriter::~MinidumpModuleListWriter() {}
 
 void MinidumpModuleListWriter::InitializeFromSnapshot(
     const std::vector<const ModuleSnapshot*>& module_snapshots) {
