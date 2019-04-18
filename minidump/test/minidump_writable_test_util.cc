@@ -372,6 +372,31 @@ const CodeViewRecordPDB70* MinidumpWritableAtLocationDescriptor<
                                                                 location);
 }
 
+template <>
+const CodeViewRecordGoogle* MinidumpWritableAtLocationDescriptor<
+    CodeViewRecordGoogle>(const std::string& file_contents,
+                          const MINIDUMP_LOCATION_DESCRIPTOR& location) {
+  const CodeViewRecordGoogle* cv = reinterpret_cast<const CodeViewRecordGoogle*>(
+    MinidumpWritableAtLocationDescriptorInternal(file_contents, location,
+                                                 offsetof(CodeViewRecordGoogle,
+                                                          build_id),
+                                                 true));
+
+  if (!cv) {
+    return nullptr;
+  }
+
+  if (cv->signature != CodeViewRecordGoogle::kSignature) {
+    return nullptr;
+  }
+
+  if (cv->version != 0) {
+    return nullptr;
+  }
+
+  return cv;
+}
+
 TestUInt32MinidumpWritable::TestUInt32MinidumpWritable(uint32_t value)
     : MinidumpWritable(),
       value_(value) {

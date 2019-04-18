@@ -265,6 +265,61 @@ void ExpectModule(const MINIDUMP_MODULE* expected,
                                                          expected_debug_utf16));
 }
 
+// ExpectModuleWithGoogleCv() is like ExpectModule( but expects the module to
+// have a Google CodeView Record.
+void ExpectModuleWithGoogleCv(const MINIDUMP_MODULE* expected,
+                              const MINIDUMP_MODULE* observed,
+                              const std::string& file_contents,
+                              const std::string& expected_module_name,
+                              const std::vector<uint8_t>& expected_build_id) {
+  EXPECT_EQ(observed->BaseOfImage, expected->BaseOfImage);
+  EXPECT_EQ(observed->SizeOfImage, expected->SizeOfImage);
+  EXPECT_EQ(observed->CheckSum, expected->CheckSum);
+  EXPECT_EQ(observed->TimeDateStamp, expected->TimeDateStamp);
+  EXPECT_EQ(observed->VersionInfo.dwSignature,
+            implicit_cast<uint32_t>(VS_FFI_SIGNATURE));
+  EXPECT_EQ(observed->VersionInfo.dwStrucVersion,
+            implicit_cast<uint32_t>(VS_FFI_STRUCVERSION));
+  EXPECT_EQ(observed->VersionInfo.dwFileVersionMS,
+            expected->VersionInfo.dwFileVersionMS);
+  EXPECT_EQ(observed->VersionInfo.dwFileVersionLS,
+            expected->VersionInfo.dwFileVersionLS);
+  EXPECT_EQ(observed->VersionInfo.dwProductVersionMS,
+            expected->VersionInfo.dwProductVersionMS);
+  EXPECT_EQ(observed->VersionInfo.dwProductVersionLS,
+            expected->VersionInfo.dwProductVersionLS);
+  EXPECT_EQ(observed->VersionInfo.dwFileFlagsMask,
+            expected->VersionInfo.dwFileFlagsMask);
+  EXPECT_EQ(observed->VersionInfo.dwFileFlags,
+            expected->VersionInfo.dwFileFlags);
+  EXPECT_EQ(observed->VersionInfo.dwFileOS, expected->VersionInfo.dwFileOS);
+  EXPECT_EQ(observed->VersionInfo.dwFileType, expected->VersionInfo.dwFileType);
+  EXPECT_EQ(observed->VersionInfo.dwFileSubtype,
+            expected->VersionInfo.dwFileSubtype);
+  EXPECT_EQ(observed->VersionInfo.dwFileDateMS,
+            expected->VersionInfo.dwFileDateMS);
+  EXPECT_EQ(observed->VersionInfo.dwFileDateLS,
+            expected->VersionInfo.dwFileDateLS);
+  EXPECT_EQ(observed->Reserved0, 0u);
+  EXPECT_EQ(observed->Reserved1, 0u);
+
+  EXPECT_NE(observed->ModuleNameRva, 0u);
+  base::string16 observed_module_name_utf16 =
+      MinidumpStringAtRVAAsString(file_contents, observed->ModuleNameRva);
+  base::string16 expected_module_name_utf16 =
+      base::UTF8ToUTF16(expected_module_name);
+  EXPECT_EQ(observed_module_name_utf16, expected_module_name_utf16);
+
+  const CodeViewRecordGoogle* codeview_google_record =
+      MinidumpWritableAtLocationDescriptor<CodeViewRecordGoogle>(
+          file_contents, observed->CvRecord);
+  ASSERT_TRUE(codeview_google_record);
+  EXPECT_EQ(memcmp(expected_build_id.data(),
+                   &codeview_google_record->build_id,
+                   expected_build_id.size()),
+            0);
+}
+
 TEST(MinidumpModuleWriter, EmptyModule) {
   MinidumpFileWriter minidump_file_writer;
   auto module_list_writer = std::make_unique<MinidumpModuleListWriter>();
@@ -469,6 +524,50 @@ TEST(MinidumpModuleWriter, OneModule_CodeViewUsesPDB20_MiscUsesUTF16) {
                                        kDebugName,
                                        kDebugType,
                                        kDebugUTF16));
+}
+
+TEST(MinidumpModuleWriter, OneModule_CodeViewGoogle) {
+  // MinidumpModuleWriter.OneModule tested with a Google CodeView
+  MinidumpFileWriter minidump_file_writer;
+  auto module_list_writer = std::make_unique<MinidumpModuleListWriter>();
+
+  static constexpr char kModuleName[] = "dinosaur";
+  static constexpr char kBuildID[] =
+    "averylonghashcodeormaybeitsjustrandomnumbershardtosay";
+
+  std::vector<uint8_t> build_id_data(kBuildID, kBuildID + 53);
+
+  auto module_writer = std::make_unique<MinidumpModuleWriter>();
+  module_writer->SetName(kModuleName);
+
+  auto codeview_google_writer =
+      std::make_unique<MinidumpModuleCodeViewRecordGoogleWriter>();
+  codeview_google_writer->SetBuildID(build_id_data);
+  module_writer->SetCodeViewRecord(std::move(codeview_google_writer));
+
+  module_list_writer->AddModule(std::move(module_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(module_list_writer)));
+
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
+
+  ASSERT_GT(string_file.string().size(),
+            sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
+                sizeof(MINIDUMP_MODULE_LIST) + 1 * sizeof(MINIDUMP_MODULE));
+
+  const MINIDUMP_MODULE_LIST* module_list = nullptr;
+  ASSERT_NO_FATAL_FAILURE(
+      GetModuleListStream(string_file.string(), &module_list));
+
+  EXPECT_EQ(module_list->NumberOfModules, 1u);
+
+  MINIDUMP_MODULE expected = {};
+
+  ASSERT_NO_FATAL_FAILURE(ExpectModuleWithGoogleCv(&expected,
+                                                   &module_list->Modules[0],
+                                                   string_file.string(),
+                                                   kModuleName,
+                                                   build_id_data));
 }
 
 TEST(MinidumpModuleWriter, ThreeModules) {

@@ -165,6 +165,11 @@ void ModuleSnapshotMac::UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const {
   *age = 0;
 }
 
+std::vector<uint8_t> ModuleSnapshotMac::BuildID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return {};
+}
+
 std::string ModuleSnapshotMac::DebugFileName() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return base::FilePath(Name()).BaseName().value();

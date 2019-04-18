@@ -127,6 +127,28 @@ struct CodeViewRecordPDB70 {
   uint8_t pdb_name[1];
 };
 
+//! \brief A CodeView record containing Google-defined data.
+//!
+//! At this time the only correct form of this structure just stores a build
+//! identifier (usually from NT_GNU_BUILD_ID).
+struct CodeViewRecordGoogle {
+  //! \brief The magic number identifying this structure version, stored in
+  //!     #signature.
+  static const uint32_t kSignature = 'GOOG';
+
+  //! \brief The magic number identifying this structure version, the value of
+  //!     #kSignature.
+  uint32_t signature;
+
+  //! \brief Version of this structure. Should always be set to 0 as of today.
+  uint32_t version;
+
+  //! \brief The build ID for this object.
+  //!
+  //! This usually comes from NT_GNU_BUILD_ID on ELF objects.
+  uint8_t build_id[1];
+};
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_MISC_PDB_STRUCTURES_H_

@@ -337,10 +337,26 @@ TEST(ProcessSnapshotMinidump, Modules) {
   cv.uuid.InitializeFromString("00112233-4455-6677-8899-aabbccddeeff");
   cv.pdb_name[0] = '\0';
 
+  /*
   minidump_module.CvRecord.Rva = static_cast<RVA>(string_file.SeekGet());
-  minidump_module.CvRecord.DataSize = sizeof(cv);
+  minidump_module.CvRecord.DataSize = sizeof(cv);*/
+
+  auto pdb70_loc = static_cast<RVA>(string_file.SeekGet());
+  auto pdb70_size = sizeof(cv);
 
   EXPECT_TRUE(string_file.Write(&cv, sizeof(cv)));
+
+  CodeViewRecordGoogle cvg;
+  cvg.signature = CodeViewRecordGoogle::kSignature;
+  cvg.version = 0;
+
+  auto googlecv_loc = static_cast<RVA>(string_file.SeekGet());
+
+  EXPECT_TRUE(string_file.Write(&cvg, offsetof(CodeViewRecordGoogle, build_id)));
+  EXPECT_TRUE(string_file.Write("atestbuildidbecausewhynot", 25));
+
+  auto googlecv_size = static_cast<size_t>(string_file.SeekGet() -
+                                           googlecv_loc);
 
   MINIDUMP_DIRECTORY minidump_module_list_directory = {};
   minidump_module_list_directory.StreamType = kMinidumpStreamTypeModuleList;
@@ -355,6 +371,14 @@ TEST(ProcessSnapshotMinidump, Modules) {
   for (uint32_t minidump_module_index = 0;
        minidump_module_index < minidump_module_count;
        ++minidump_module_index) {
+    if (minidump_module_index % 2) {
+      minidump_module.CvRecord.Rva = pdb70_loc;
+      minidump_module.CvRecord.DataSize = pdb70_size;
+    } else {
+      minidump_module.CvRecord.Rva = googlecv_loc;
+      minidump_module.CvRecord.DataSize = googlecv_size;
+    }
+
     minidump_module.ModuleNameRva = name_rvas[minidump_module_index];
     EXPECT_TRUE(string_file.Write(&minidump_module, sizeof(minidump_module)));
     minidump_module.TimeDateStamp++;
@@ -479,12 +503,18 @@ TEST(ProcessSnapshotMinidump, Modules) {
     EXPECT_EQ(modules[i]->GetModuleType(),
               ModuleSnapshot::kModuleTypeExecutable);
 
-    uint32_t age;
-    UUID uuid;
-    modules[i]->UUIDAndAge(&uuid, &age);
+    if (i % 2) {
+      uint32_t age;
+      UUID uuid;
+      modules[i]->UUIDAndAge(&uuid, &age);
 
-    EXPECT_EQ(uuid.ToString(), "00112233-4455-6677-8899-aabbccddeeff");
-    EXPECT_EQ(age, 7U);
+      EXPECT_EQ(uuid.ToString(), "00112233-4455-6677-8899-aabbccddeeff");
+      EXPECT_EQ(age, 7U);
+    } else {
+      auto build_id = modules[i]->BuildID();
+      std::string build_id_text(build_id.data(), build_id.data() + build_id.size());
+      EXPECT_EQ(build_id_text, "atestbuildidbecausewhynot");
+    }
   }
 
   auto annotations_simple_map = modules[0]->AnnotationsSimpleMap();

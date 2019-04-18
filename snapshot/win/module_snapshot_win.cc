@@ -190,6 +190,11 @@ void ModuleSnapshotWin::UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const {
   *age = age_;
 }
 
+std::vector<uint8_t> BuildID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return {};
+}
+
 std::string ModuleSnapshotWin::DebugFileName() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return pdb_name_;

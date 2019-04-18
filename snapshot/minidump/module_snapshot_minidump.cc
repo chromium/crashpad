@@ -16,6 +16,8 @@
 
 #include <string.h>
 
+#include <cstddef>
+
 #include "minidump/minidump_extensions.h"
 #include "snapshot/minidump/minidump_annotation_reader.h"
 #include "snapshot/minidump/minidump_string_reader.h"
@@ -63,30 +65,86 @@ bool ModuleSnapshotMinidump::Initialize(
 
   ReadMinidumpUTF16String(file_reader, minidump_module_.ModuleNameRva, &name_);
 
-  if (minidump_module_.CvRecord.Rva != 0) {
-    CodeViewRecordPDB70 cv;
-
-    if (!file_reader->SeekSet(minidump_module_.CvRecord.Rva)) {
-      return false;
-    }
-
-    if (!file_reader->ReadExactly(&cv, sizeof(cv))) {
-      return false;
-    }
-
-    if (cv.signature == 'SDSR') {
-      age_ = cv.age;
-      uuid_ = cv.uuid;
-    } else if (cv.signature != '01BN') {
-      LOG(ERROR) << "Bad CodeView signature in module";
-      return false;
-    } else {
-      LOG(ERROR) << "NB10 not supported";
-      return false;
-    }
+  if (minidump_module_.CvRecord.Rva != 0 && !InitializeModuleCv(file_reader)) {
+    return false;
   }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
+
+bool ModuleSnapshotMinidump::InitializeModuleCv(FileReaderInterface* file_reader) {
+  uint32_t signature;
+
+  if (!file_reader->SeekSet(minidump_module_.CvRecord.Rva)) {
+    return false;
+  }
+
+  if (!file_reader->ReadExactly(&signature, sizeof(signature))) {
+    return false;
+  }
+
+  if (signature == 'SDSR') {
+    return InitializeModuleCvPB70(file_reader);
+  }
+
+  if (signature == 'GOOG') {
+    return InitializeModuleCvGOOG(file_reader);
+  }
+
+  LOG(ERROR) << "Bad CodeView signature in module";
+  return false;
+}
+
+bool ModuleSnapshotMinidump::InitializeModuleCvPB70(
+    FileReaderInterface* file_reader) {
+  CodeViewRecordPDB70 cv;
+
+  if (!file_reader->SeekSet(minidump_module_.CvRecord.Rva)) {
+    return false;
+  }
+
+  if (!file_reader->ReadExactly(&cv, sizeof(cv))) {
+    return false;
+  }
+
+  if (cv.signature != 'SDSR') {
+    // Caller should have checked this already. We should never get here.
+    return false;
+  }
+
+  age_ = cv.age;
+  uuid_ = cv.uuid;
+  return true;
+}
+
+bool ModuleSnapshotMinidump::InitializeModuleCvGOOG(FileReaderInterface* file_reader) {
+  std::vector<uint8_t> data;
+  data.resize(minidump_module_.CvRecord.DataSize);
+
+  if (!file_reader->SeekSet(minidump_module_.CvRecord.Rva)) {
+    return false;
+  }
+
+  if (!file_reader->ReadExactly(data.data(), data.size())) {
+    return false;
+  }
+
+  CodeViewRecordGoogle* cv =
+      reinterpret_cast<CodeViewRecordGoogle*>(data.data());
+
+  if (cv->signature != 'GOOG') {
+    // Caller should have checked this already. We should never get here.
+    return false;
+  }
+
+  if (cv->version != 0) {
+    LOG(ERROR) << "Unknown Google CvRecord version.";
+    return false;
+  }
+
+  std::copy(data.begin() + offsetof(CodeViewRecordGoogle, build_id),
+            data.end(), std::back_inserter(build_id_));
   return true;
 }
 
@@ -151,6 +209,11 @@ void ModuleSnapshotMinidump::UUIDAndAge(crashpad::UUID* uuid,
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   *uuid = uuid_;
   *age = age_;
+}
+
+std::vector<uint8_t> ModuleSnapshotMinidump::BuildID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return build_id_;
 }
 
 std::string ModuleSnapshotMinidump::DebugFileName() const {

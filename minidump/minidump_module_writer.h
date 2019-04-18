@@ -86,6 +86,28 @@ class MinidumpModuleCodeViewRecordPDBLinkWriter
 
 }  // namespace internal
 
+//! \brief The base class for writers of Google extension CodeView records.
+class MinidumpModuleCodeViewRecordGoogleWriter
+    : public MinidumpModuleCodeViewRecordWriter {
+ public:
+  MinidumpModuleCodeViewRecordGoogleWriter();
+  ~MinidumpModuleCodeViewRecordGoogleWriter() override;
+
+  //! \brief Sets the name of the `.pdb` file being linked to.
+  void SetBuildID(const std::vector<uint8_t>& build_id);
+
+ private:
+  // MinidumpWritable:
+  size_t SizeOfObject() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
+
+  CodeViewRecordGoogle* CodeViewRecord();
+
+  std::vector<uint8_t> data_;
+
+  DISALLOW_COPY_AND_ASSIGN(MinidumpModuleCodeViewRecordGoogleWriter);
+};
+
 //! \brief The writer for a CodeViewRecordPDB20 object in a minidump file.
 //!
 //! Most users will want MinidumpModuleCodeViewRecordPDB70Writer instead.

@@ -78,6 +78,42 @@ bool MinidumpModuleCodeViewRecordPDBLinkWriter<CodeViewRecordType>::WriteObject(
 
 }  // namespace internal
 
+MinidumpModuleCodeViewRecordGoogleWriter::
+    MinidumpModuleCodeViewRecordGoogleWriter()
+        : MinidumpModuleCodeViewRecordWriter(),
+          data_(offsetof(CodeViewRecordGoogle, build_id)) {
+  CodeViewRecord()->signature = CodeViewRecordGoogle::kSignature;
+
+  CodeViewRecord()->version = 0;
+}
+
+CodeViewRecordGoogle* MinidumpModuleCodeViewRecordGoogleWriter::
+    CodeViewRecord() {
+  return reinterpret_cast<CodeViewRecordGoogle*>(data_.data());
+}
+
+MinidumpModuleCodeViewRecordGoogleWriter::
+    ~MinidumpModuleCodeViewRecordGoogleWriter() {
+}
+
+size_t MinidumpModuleCodeViewRecordGoogleWriter::SizeOfObject() {
+  DCHECK_GE(state(), kStateFrozen);
+  return data_.size();
+}
+
+void MinidumpModuleCodeViewRecordGoogleWriter::SetBuildID(
+    const std::vector<uint8_t>& build_id) {
+  DCHECK_EQ(state(), kStateMutable);
+  data_.resize(offsetof(CodeViewRecordGoogle, build_id));
+  std::copy(build_id.begin(), build_id.end(), std::back_inserter(data_));
+}
+
+bool MinidumpModuleCodeViewRecordGoogleWriter::WriteObject(
+    FileWriterInterface* file_writer) {
+  DCHECK_EQ(state(), kStateWritable);
+  return file_writer->Write(data_.data(), data_.size());
+}
+
 template class internal::MinidumpModuleCodeViewRecordPDBLinkWriter<
     CodeViewRecordPDB20>;
 
@@ -242,9 +278,19 @@ void MinidumpModuleWriter::InitializeFromSnapshot(
   }
   SetFileTypeAndSubtype(file_type, VFT2_UNKNOWN);
 
-  auto codeview_record =
-      std::make_unique<MinidumpModuleCodeViewRecordPDB70Writer>();
-  codeview_record->InitializeFromSnapshot(module_snapshot);
+  auto build_id = module_snapshot->BuildID();
+
+  std::unique_ptr<MinidumpModuleCodeViewRecordWriter> codeview_record;
+  if (!build_id.empty()) {
+    auto record = std::make_unique<MinidumpModuleCodeViewRecordGoogleWriter>();
+    record->SetBuildID(build_id);
+    codeview_record = std::move(record);
+  } else {
+    auto record = std::make_unique<MinidumpModuleCodeViewRecordPDB70Writer>();
+    record->InitializeFromSnapshot(module_snapshot);
+    codeview_record = std::move(record);
+  }
+
   SetCodeViewRecord(std::move(codeview_record));
 }
 

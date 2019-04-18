@@ -81,6 +81,10 @@ void TestModuleSnapshot::UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const {
   *age = age_;
 }
 
+std::vector<uint8_t> TestModuleSnapshot::BuildID() const {
+  return build_id_;
+}
+
 std::string TestModuleSnapshot::DebugFileName() const {
   return debug_file_name_;
 }

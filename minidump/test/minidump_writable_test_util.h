@@ -104,6 +104,7 @@ MINIDUMP_ALLOW_OVERSIZED_DATA(IMAGE_DEBUG_MISC);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_STRING);
 MINIDUMP_ALLOW_OVERSIZED_DATA(CodeViewRecordPDB20);
 MINIDUMP_ALLOW_OVERSIZED_DATA(CodeViewRecordPDB70);
+MINIDUMP_ALLOW_OVERSIZED_DATA(CodeViewRecordGoogle);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpUTF8String);
 
 // minidump_file_writer_test accesses its variable-sized test streams via a
@@ -218,6 +219,11 @@ template <>
 const CodeViewRecordPDB70* MinidumpWritableAtLocationDescriptor<
     CodeViewRecordPDB70>(const std::string& file_contents,
                          const MINIDUMP_LOCATION_DESCRIPTOR& location);
+
+template <>
+const CodeViewRecordGoogle* MinidumpWritableAtLocationDescriptor<
+    CodeViewRecordGoogle>(const std::string& file_contents,
+                          const MINIDUMP_LOCATION_DESCRIPTOR& location);
 
 template <>
 const MinidumpModuleCrashpadInfoList*
