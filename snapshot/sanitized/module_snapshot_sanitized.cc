@@ -77,6 +77,10 @@ void ModuleSnapshotSanitized::UUIDAndAge(crashpad::UUID* uuid,
   snapshot_->UUIDAndAge(uuid, age);
 }
 
+std::vector<uint8_t> ModuleSnapshotSanitized::BuildID() const {
+  return snapshot_->BuildID();
+}
+
 std::string ModuleSnapshotSanitized::DebugFileName() const {
   return snapshot_->DebugFileName();
 }

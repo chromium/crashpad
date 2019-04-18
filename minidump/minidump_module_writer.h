@@ -136,6 +136,26 @@ class MinidumpModuleCodeViewRecordPDB70Writer final
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleCodeViewRecordPDB70Writer);
 };
 
+//! \brief The writer for a CodeViewRecordBuildId object in a minidump file.
+class MinidumpModuleCodeViewRecordBuildIdWriter final
+    : public MinidumpModuleCodeViewRecordWriter {
+ public:
+  MinidumpModuleCodeViewRecordBuildIdWriter();
+  ~MinidumpModuleCodeViewRecordBuildIdWriter() override;
+
+  //! \brief Sets the build ID used for symbol lookup.
+  void SetBuildID(const std::vector<uint8_t>& build_id);
+
+ private:
+  // MinidumpWritable:
+  size_t SizeOfObject() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
+
+  std::vector<uint8_t> build_id_;
+
+  DISALLOW_COPY_AND_ASSIGN(MinidumpModuleCodeViewRecordBuildIdWriter);
+};
+
 //! \brief The writer for an IMAGE_DEBUG_MISC object in a minidump file.
 //!
 //! Most users will want MinidumpModuleCodeViewRecordPDB70Writer instead.
