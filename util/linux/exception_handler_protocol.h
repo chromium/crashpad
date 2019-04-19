@@ -24,6 +24,8 @@
 
 namespace crashpad {
 
+class ExceptionHandlerProtocol {
+ public:
 #pragma pack(push, 1)
 
 //! \brief The type used for error reporting.
@@ -93,6 +95,9 @@ struct ServerToClientMessage {
 };
 
 #pragma pack(pop)
+
+DISALLOW_IMPLICIT_CONSTRUCTORS(ExceptionHandlerProtocol);
+};
 
 }  // namespace crashpad
 
