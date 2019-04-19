@@ -18,6 +18,7 @@
 #include <dbghelp.h>
 #include <string.h>
 
+#include <algorithm>
 #include <memory>
 
 #include "base/numerics/safe_math.h"
@@ -647,6 +648,13 @@ TEST(ProcessSnapshotMinidump, System) {
   minidump_system_info.Cpu.X86CpuInfo.VendorId[1] = cpu_info_bytes[1];
   minidump_system_info.Cpu.X86CpuInfo.VendorId[2] = cpu_info_bytes[2];
 
+  MINIDUMP_MISC_INFO_5 minidump_misc_info = {};
+  base::string16 build_string;
+  ASSERT_TRUE(base::UTF8ToUTF16(
+      "MyOSVersion; MyMachineDescription", 33, &build_string));
+  std::copy(build_string.begin(), build_string.end(),
+            minidump_misc_info.BuildString);
+
   MINIDUMP_DIRECTORY minidump_system_info_directory = {};
   minidump_system_info_directory.StreamType = kMinidumpStreamTypeSystemInfo;
   minidump_system_info_directory.Location.DataSize =
@@ -657,13 +665,24 @@ TEST(ProcessSnapshotMinidump, System) {
   ASSERT_TRUE(
       string_file.Write(&minidump_system_info, sizeof(minidump_system_info)));
 
+  MINIDUMP_DIRECTORY minidump_misc_info_directory = {};
+  minidump_misc_info_directory.StreamType = kMinidumpStreamTypeMiscInfo;
+  minidump_misc_info_directory.Location.DataSize = sizeof(MINIDUMP_MISC_INFO_5);
+  minidump_misc_info_directory.Location.Rva =
+      static_cast<RVA>(string_file.SeekGet());
+
+  ASSERT_TRUE(
+      string_file.Write(&minidump_misc_info, sizeof(minidump_misc_info)));
+
   header.StreamDirectoryRva = static_cast<RVA>(string_file.SeekGet());
   ASSERT_TRUE(string_file.Write(&minidump_system_info_directory,
                                 sizeof(minidump_system_info_directory)));
+  ASSERT_TRUE(string_file.Write(&minidump_misc_info_directory,
+                                sizeof(minidump_misc_info_directory)));
 
   header.Signature = MINIDUMP_SIGNATURE;
   header.Version = MINIDUMP_VERSION;
-  header.NumberOfStreams = 1;
+  header.NumberOfStreams = 2;
   EXPECT_TRUE(string_file.SeekSet(0));
   EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
 
@@ -677,6 +696,7 @@ TEST(ProcessSnapshotMinidump, System) {
   EXPECT_EQ(s->CPUVendor(), "GenuineIntel");
   EXPECT_EQ(s->GetOperatingSystem(),
             SystemSnapshot::OperatingSystem::kOperatingSystemFuchsia);
+  EXPECT_EQ(s->OSVersionFull(), "MyOSVersion");
 
   int major, minor, bugfix;
   std::string build;

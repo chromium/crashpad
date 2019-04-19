@@ -149,6 +149,7 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   internal::ExceptionSnapshotMinidump exception_snapshot_;
   CPUArchitecture arch_;
   std::map<std::string, std::string> annotations_simple_map_;
+  std::string full_version_;
   FileReaderInterface* file_reader_;  // weak
   pid_t process_id_;
   InitializationStateDcheck initialized_;
