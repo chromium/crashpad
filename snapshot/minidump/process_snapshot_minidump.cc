@@ -16,6 +16,7 @@
 
 #include <utility>
 
+#include "base/strings/utf_string_conversions.h"
 #include "minidump/minidump_extensions.h"
 #include "snapshot/memory_map_region_snapshot.h"
 #include "snapshot/minidump/minidump_simple_string_dictionary_reader.h"
@@ -60,8 +61,7 @@ ProcessSnapshotMinidump::ProcessSnapshotMinidump()
       process_id_(static_cast<pid_t>(-1)),
       initialized_() {}
 
-ProcessSnapshotMinidump::~ProcessSnapshotMinidump() {
-}
+ProcessSnapshotMinidump::~ProcessSnapshotMinidump() {}
 
 bool ProcessSnapshotMinidump::Initialize(FileReaderInterface* file_reader) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
@@ -310,6 +310,9 @@ bool ProcessSnapshotMinidump::InitializeMiscInfo() {
   switch (stream_it->second->DataSize) {
     case sizeof(MINIDUMP_MISC_INFO_5):
     case sizeof(MINIDUMP_MISC_INFO_4):
+      full_version_ = base::UTF16ToUTF8(info.BuildString);
+      full_version_ = full_version_.substr(0, full_version_.find(";"));
+      FALLTHROUGH;
     case sizeof(MINIDUMP_MISC_INFO_3):
     case sizeof(MINIDUMP_MISC_INFO_2):
     case sizeof(MINIDUMP_MISC_INFO):
@@ -347,7 +350,7 @@ bool ProcessSnapshotMinidump::InitializeModules() {
   }
 
   if (sizeof(MINIDUMP_MODULE_LIST) + module_count * sizeof(MINIDUMP_MODULE) !=
-          stream_it->second->DataSize) {
+      stream_it->second->DataSize) {
     LOG(ERROR) << "module_list size mismatch";
     return false;
   }
@@ -389,7 +392,7 @@ bool ProcessSnapshotMinidump::InitializeModulesCrashpadInfo(
   }
 
   if (crashpad_info_.module_list.DataSize <
-          sizeof(MinidumpModuleCrashpadInfoList)) {
+      sizeof(MinidumpModuleCrashpadInfoList)) {
     LOG(ERROR) << "module_crashpad_info_list size mismatch";
     return false;
   }
@@ -405,8 +408,8 @@ bool ProcessSnapshotMinidump::InitializeModulesCrashpadInfo(
   }
 
   if (crashpad_info_.module_list.DataSize !=
-          sizeof(MinidumpModuleCrashpadInfoList) +
-              crashpad_module_count * sizeof(MinidumpModuleCrashpadInfoLink)) {
+      sizeof(MinidumpModuleCrashpadInfoList) +
+          crashpad_module_count * sizeof(MinidumpModuleCrashpadInfoLink)) {
     LOG(ERROR) << "module_crashpad_info_list size mismatch";
     return false;
   }
@@ -426,7 +429,8 @@ bool ProcessSnapshotMinidump::InitializeModulesCrashpadInfo(
         minidump_links[crashpad_module_index];
     if (!module_crashpad_info_links
              ->insert(std::make_pair(minidump_link.minidump_module_list_index,
-                                     minidump_link.location)).second) {
+                                     minidump_link.location))
+             .second) {
       LOG(WARNING)
           << "duplicate module_crashpad_info_list minidump_module_list_index "
           << minidump_link.minidump_module_list_index;
@@ -467,7 +471,8 @@ bool ProcessSnapshotMinidump::InitializeMemoryInfo() {
   }
 
   if (sizeof(MINIDUMP_MEMORY_INFO_LIST) +
-      list.NumberOfEntries * list.SizeOfEntry != stream_it->second->DataSize) {
+          list.NumberOfEntries * list.SizeOfEntry !=
+      stream_it->second->DataSize) {
     LOG(ERROR) << "memory_info_list size mismatch";
     return false;
   }
@@ -480,7 +485,7 @@ bool ProcessSnapshotMinidump::InitializeMemoryInfo() {
     }
 
     mem_regions_.emplace_back(
-      std::make_unique<internal::MemoryMapRegionSnapshotMinidump>(info));
+        std::make_unique<internal::MemoryMapRegionSnapshotMinidump>(info));
     mem_regions_exposed_.emplace_back(mem_regions_.back().get());
   }
 
@@ -508,7 +513,7 @@ bool ProcessSnapshotMinidump::InitializeThreads() {
   }
 
   if (sizeof(MINIDUMP_THREAD_LIST) + thread_count * sizeof(MINIDUMP_THREAD) !=
-          stream_it->second->DataSize) {
+      stream_it->second->DataSize) {
     LOG(ERROR) << "thread_list size mismatch";
     return false;
   }
@@ -539,7 +544,8 @@ bool ProcessSnapshotMinidump::InitializeSystemSnapshot() {
     return false;
   }
 
-  if (!system_snapshot_.Initialize(file_reader_, stream_it->second->Rva)) {
+  if (!system_snapshot_.Initialize(
+          file_reader_, stream_it->second->Rva, full_version_)) {
     return false;
   }
 
