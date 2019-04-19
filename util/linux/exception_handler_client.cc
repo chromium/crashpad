@@ -15,6 +15,7 @@
 #include "util/linux/exception_handler_client.h"
 
 #include <errno.h>
+#include <signal.h>
 #include <sys/prctl.h>
 #include <sys/socket.h>
 #include <sys/wait.h>
@@ -30,14 +31,21 @@
 
 namespace crashpad {
 
-ExceptionHandlerClient::ExceptionHandlerClient(int sock)
-    : server_sock_(sock), ptracer_(-1), can_set_ptracer_(true) {}
+ExceptionHandlerClient::ExceptionHandlerClient(int sock, bool multiple_clients)
+    : server_sock_(sock),
+      ptracer_(-1),
+      can_set_ptracer_(true),
+      multiple_clients_(multiple_clients) {}
 
 ExceptionHandlerClient::~ExceptionHandlerClient() = default;
 
 int ExceptionHandlerClient::RequestCrashDump(
     const ExceptionHandlerProtocol::ClientInformation& info) {
   VMAddress sp = FromPointerCast<VMAddress>(&sp);
+
+  if (multiple_clients_) {
+    return SignalCrashDump(info, sp);
+  }
 
   int status = SendCrashDumpRequest(info, sp);
   if (status != 0) {
@@ -63,6 +71,32 @@ int ExceptionHandlerClient::SetPtracer(pid_t pid) {
 
 void ExceptionHandlerClient::SetCanSetPtracer(bool can_set_ptracer) {
   can_set_ptracer_ = can_set_ptracer;
+}
+
+int ExceptionHandlerClient::SignalCrashDump(
+    const ExceptionHandlerProtocol::ClientInformation& info,
+    VMAddress stack_pointer) {
+  // TODO(jperaza): use lss versions of system calls when they exist.
+  // https://crbug.com/crashpad/265
+  sigset_t dump_done_sigset;
+  sigemptyset(&dump_done_sigset);
+  sigaddset(&dump_done_sigset, ExceptionHandlerProtocol::kDumpDoneSignal);
+  sigprocmask(SIG_BLOCK, &dump_done_sigset, nullptr);
+
+  int status = SendCrashDumpRequest(info, stack_pointer);
+  if (status != 0) {
+    return status;
+  }
+
+  siginfo_t siginfo = {};
+  timespec timeout;
+  timeout.tv_sec = 5;
+  timeout.tv_nsec = 0;
+  if (HANDLE_EINTR(sigtimedwait(&dump_done_sigset, &siginfo, &timeout)) < 0) {
+    return errno;
+  }
+
+  return 0;
 }
 
 int ExceptionHandlerClient::SendCrashDumpRequest(
