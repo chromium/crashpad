@@ -15,10 +15,10 @@
 #ifndef CRASHPAD_SNAPSHOT_MINIDUMP_PROCESS_SNAPSHOT_MINIDUMP_H_
 #define CRASHPAD_SNAPSHOT_MINIDUMP_PROCESS_SNAPSHOT_MINIDUMP_H_
 
-#include <windows.h>
 #include <dbghelp.h>
 #include <stdint.h>
 #include <sys/time.h>
+#include <windows.h>
 
 #include <map>
 #include <memory>
@@ -149,6 +149,7 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   internal::ExceptionSnapshotMinidump exception_snapshot_;
   CPUArchitecture arch_;
   std::map<std::string, std::string> annotations_simple_map_;
+  std::string full_version_;
   FileReaderInterface* file_reader_;  // weak
   pid_t process_id_;
   InitializationStateDcheck initialized_;
