@@ -16,6 +16,24 @@
       "revId": "a7859e9bc63e54e972906745cbcc1b8543a4fe10",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cfd63c2_7a7daf94",
+        "filename": "snapshot/module_snapshot.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2019-04-22T20:42:35Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "867a78b6_9ab26b39",
+      "revId": "a7859e9bc63e54e972906745cbcc1b8543a4fe10",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
