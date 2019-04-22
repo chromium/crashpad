@@ -1,0 +1,499 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5f3b85a_6ff8f60e",
+        "filename": "minidump/minidump_module_writer.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "As in the .h file, re-sort so that the order in this file matches the header. Don’t intermix the new stuff with the existing base and derived classes for the PDB CodeView link.",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81e5ed24_cd129f38",
+        "filename": "minidump/minidump_module_writer.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "This seems like an awfully roundabout way to achieve this.\n\nThe normal thing in Crashpad’s minidump-writing classes would be to split this into two fields…",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4833a190_5a84ab10",
+        "filename": "minidump/minidump_module_writer.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "…that’d get rid of silly things like this cast…",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53c7efca_7c21c795",
+        "filename": "minidump/minidump_module_writer.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "…and this, which is a little more roundabout than it really needs to be.",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1841e1a1_277ea66f",
+        "filename": "minidump/minidump_module_writer.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "Here and on line 277, “record” is a little too ambiguous. Since these inner versions are actually the more-specific versions, give them more specific names to describe what they actually are. For example, codeview_record_pdb70.",
+      "range": {
+        "startLine": 273,
+        "startChar": 9,
+        "endLine": 273,
+        "endChar": 15
+      },
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61342326_a24e9450",
+        "filename": "minidump/minidump_module_writer.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "\u003cwindows.h\u003e needs to be first.",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6400b6f_9745d5ff",
+        "filename": "minidump/minidump_module_writer.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "This isn’t a base class, it’s just the writer itself. (You should have copied the \\brief from one of the examples below, not the one above).",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8935431_6ccdc458",
+        "filename": "minidump/minidump_module_writer.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "can be final.",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4ce6d95_9a6bdc62",
+        "filename": "minidump/minidump_module_writer.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "CodeViewRecordElf isn’t really right, nor is it really descriptive enough. It’s just an arbitrary-length byte-oriented build ID. In ELF terminology, it’s just called a “build ID” so this should be either BuildID or, if you must, ELFBuildID.\n\nBut I think this would be usable for more than just ELF: we may want to transition Mach-O to use it too. So I’d be in favor of the more generic naming.",
+      "range": {
+        "startLine": 93,
+        "startChar": 16,
+        "endLine": 93,
+        "endChar": 33
+      },
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d112d4d_35a424dc",
+        "filename": "minidump/minidump_module_writer.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "This comment isn’t correct.",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c1fac99_c62ea12d",
+        "filename": "minidump/minidump_module_writer.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "This and the PDB70 variant should immediately follow their base class. We shouldn’t have an intervening unrelated ELF one.",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95370bdf_3d9897e2",
+        "filename": "minidump/test/minidump_writable_test_util.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "\u003cwindows.h\u003e precedes \u003cdbghelp.h\u003e.",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6319b816_925e805c",
+        "filename": "snapshot/elf/module_snapshot_elf.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "This should now be based on BuildID().",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae04e067_aadf64fa",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "\u003cstddef.h\u003e, not \u003ccstddef\u003e.",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0e691cb_630aba27",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "There are constants for these, aren’t there? Lines 91, 111, and 136 too.",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5c83ba2_46737c4a",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "Remove all of this including the comment and just make it a DCHECK. Same for lines 136–139.",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 0
+      },
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1de9be93_c6d028c4",
+        "filename": "snapshot/minidump/module_snapshot_minidump.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "\u003cwindows.h\u003e ordering.",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73ae737a_bfb276f0",
+        "filename": "snapshot/minidump/module_snapshot_minidump.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "Remove as unnecessary.",
+      "range": {
+        "startLine": 92,
+        "startChar": 69,
+        "endLine": 92,
+        "endChar": 72
+      },
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fc1abc4_36d9a4b7",
+        "filename": "snapshot/minidump/module_snapshot_minidump.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "We wouldn’t abbreviate these things. Spell out CodeView.",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c16c905_9f4cd2c4",
+        "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "Ordering",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e9907e9_ff5564ef",
+        "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "These new variables could all use some naming help.\n\nSome of them just need some underscores like “elfcv”; some of them need a little more context (if you have elf_cv, then you should have pdb70_cv instead of just pdb70), but some, like this, are just puzzling. What is the “g” in cvg supposed to mean? Unless it refers to Cincinnati, I’ve got no idea.",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6472d882_d843e895",
+        "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 1109,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "This is clearly worse, but I guess we’re not fighting clang-format anymore.",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28722b15_a7ce8b98",
+        "filename": "snapshot/module_snapshot.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "\\sa BuildID()",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc8723ee_9b2b7eca",
+        "filename": "snapshot/module_snapshot.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "Somewhere, probably here, we need to define what the expected interplay between BuildID() and UUIDAndAge(), and to a lesser extent, DebugFileName(), is.\n\nBased on what the code does, it appears that the intention is: if BuildID() is non-empty, UUIDAndAge() and DebugFileName() are irrelevant.",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa073d52_387a0c4d",
+        "filename": "snapshot/win/module_snapshot_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "\u003cwindows.h\u003e always first.",
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c5942c6_34588f68",
+        "filename": "util/misc/pdb_structures.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "Surround in backticks for nice formatting: `NT_GNU_BUILD_ID`. Same on line 142.",
+      "range": {
+        "startLine": 127,
+        "startChar": 47,
+        "endLine": 127,
+        "endChar": 62
+      },
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2024be86_063bdb31",
+        "filename": "util/misc/pdb_structures.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T15:05:29Z",
+      "side": 1,
+      "message": "Double-check this.",
+      "range": {
+        "startLine": 132,
+        "startChar": 42,
+        "endLine": 132,
+        "endChar": 46
+      },
+      "revId": "393c90233ee0af0255d35997ccaaf827a7b54c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
