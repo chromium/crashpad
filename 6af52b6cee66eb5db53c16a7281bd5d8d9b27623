@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88131301_6e261da1",
+        "filename": "snapshot/module_snapshot.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T21:50:20Z",
+      "side": 1,
+      "message": "This describes how ModuleSnapshotMinidump works, but now how ModuleSnapshotELF works. DebugFileName() is always valid there.",
+      "revId": "6af52b6cee66eb5db53c16a7281bd5d8d9b27623",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
