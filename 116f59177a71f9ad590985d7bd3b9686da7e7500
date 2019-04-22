@@ -1,0 +1,186 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37efbbe6_5d54ba04",
+        "filename": "minidump/minidump_module_writer.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T21:03:26Z",
+      "side": 1,
+      "message": "One final naming nit: Crashpad generally would capitalize ID instead of Id. You mixed styles in here: we have BuildID() in ModuleSnapshot, and even SetBuildID() in this class, but this class is named with Id, pdb_structures.h also has Id, and so does ModuleSnapshotMinidump’s internal initialization function.",
+      "revId": "116f59177a71f9ad590985d7bd3b9686da7e7500",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6762d84a_09ddff29",
+        "filename": "minidump/minidump_module_writer.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T21:03:26Z",
+      "side": 1,
+      "message": "Add a hint here too: “or MinidumpModuleCodeViewRecordBuildIDWriter”.",
+      "revId": "116f59177a71f9ad590985d7bd3b9686da7e7500",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3185a5c_19c53181",
+        "filename": "snapshot/elf/module_snapshot_elf.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T21:03:26Z",
+      "side": 1,
+      "message": "Order should match the header.",
+      "revId": "116f59177a71f9ad590985d7bd3b9686da7e7500",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09e33da7_ff5c3ee4",
+        "filename": "snapshot/elf/module_snapshot_elf.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T21:03:26Z",
+      "side": 1,
+      "message": "In ModuleSnapshot, BuildId follows DebugFileName. The order in the derived classes and their implementation files should agree. This applies in all derived classes.",
+      "revId": "116f59177a71f9ad590985d7bd3b9686da7e7500",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3d8c976_516a07b7",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T21:03:26Z",
+      "side": 1,
+      "message": "Actually, Rva \u003d\u003d 0 alone is defined to be “missing”, regardless of DataSize. Elsewhere in the *SnapshotMinidump family, including this file, we only consider Rva \u003d\u003d 0 for this purpose, not DataSize.\n\nBecause the only caller to this function already checked whether Rva \u003d\u003d 0, this check right here can be changed to a DCHECK. No need to check again in non-debug code or handle gracefully, since there’s no other way into this function.",
+      "revId": "116f59177a71f9ad590985d7bd3b9686da7e7500",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "496f279f_4a231c64",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T21:03:26Z",
+      "side": 1,
+      "message": "false (but rendered moot by the above).",
+      "revId": "116f59177a71f9ad590985d7bd3b9686da7e7500",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4454058d_1248fc73",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T21:03:26Z",
+      "side": 1,
+      "message": "Log something here (because nothing else will). Line 248 has an example.",
+      "revId": "116f59177a71f9ad590985d7bd3b9686da7e7500",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8123f714_ba20c382",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T21:03:26Z",
+      "side": 1,
+      "message": "Log something here too.",
+      "revId": "116f59177a71f9ad590985d7bd3b9686da7e7500",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeb10ec3_24e71764",
+        "filename": "snapshot/minidump/module_snapshot_minidump.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T21:03:26Z",
+      "side": 1,
+      "message": "Remove, as these two are obsolete.",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 73
+      },
+      "revId": "116f59177a71f9ad590985d7bd3b9686da7e7500",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e1a6f03_2893bb8b",
+        "filename": "snapshot/module_snapshot.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T21:03:26Z",
+      "side": 1,
+      "message": "an empty",
+      "range": {
+        "startLine": 175,
+        "startChar": 13,
+        "endLine": 175,
+        "endChar": 18
+      },
+      "revId": "116f59177a71f9ad590985d7bd3b9686da7e7500",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
