@@ -1,0 +1,237 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67630f8b_aad6d441",
+        "filename": "minidump/minidump_module_writer.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T19:13:04Z",
+      "side": 1,
+      "message": "Reorder to follow MinidumpModuleCodeViewRecordPDB70Writer::InitializeFromSnapshot().",
+      "revId": "81e7cacb724b1d3e03b6435a5195de7cb2e80a54",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3786ca60_baf16c0a",
+        "filename": "minidump/minidump_module_writer.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T19:13:04Z",
+      "side": 1,
+      "message": "Sanitizers get upset if a single iovec entry is 0-sized, so we normally take care to do this only if !build_id_.empty().",
+      "revId": "81e7cacb724b1d3e03b6435a5195de7cb2e80a54",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbc5c929_37f6f9f8",
+        "filename": "minidump/minidump_module_writer.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T19:13:04Z",
+      "side": 1,
+      "message": "Sorry for the reordering _again_, but “misc debug record” occupies a distinct “slot” in the minidump from the CodeView record, and we’re sticking these build IDs in the CodeView slot. Let’s keep the CodeView stuff together, in this file and the .cc.",
+      "revId": "81e7cacb724b1d3e03b6435a5195de7cb2e80a54",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ddc98d1_d888ab85",
+        "filename": "minidump/minidump_module_writer.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T19:13:04Z",
+      "side": 1,
+      "message": "I’m on the fence about suggesting “void InitializeFromSnapshot(const ModuleSnapshot* module_snapshot);” here. That’s the architecture that we have for everything else that’s initialized out of a module snapshot, and you would be able to call that from MinidumpModuleWriter::InitializeFromSnapshot() instead of calling MinidumpModuleCodeViewRecordBuildIdWriter::SetBuildID().",
+      "revId": "81e7cacb724b1d3e03b6435a5195de7cb2e80a54",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee8142b5_91b83ae0",
+        "filename": "minidump/minidump_module_writer.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T19:13:04Z",
+      "side": 1,
+      "message": "Since this is single-purpose now, build_id_ is more descriptive than data_.",
+      "revId": "81e7cacb724b1d3e03b6435a5195de7cb2e80a54",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2b63d37_52d4de0c",
+        "filename": "snapshot/elf/module_snapshot_elf.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T19:13:04Z",
+      "side": 1,
+      "message": "build_id",
+      "range": {
+        "startLine": 158,
+        "startChar": 23,
+        "endLine": 158,
+        "endChar": 26
+      },
+      "revId": "81e7cacb724b1d3e03b6435a5195de7cb2e80a54",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5eea59aa_19ec520e",
+        "filename": "snapshot/elf/module_snapshot_elf.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T19:13:04Z",
+      "side": 1,
+      "message": "This is now build_id too.",
+      "range": {
+        "startLine": 168,
+        "startChar": 7,
+        "endLine": 168,
+        "endChar": 11
+      },
+      "revId": "81e7cacb724b1d3e03b6435a5195de7cb2e80a54",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4910db99_da29fe00",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T19:13:04Z",
+      "side": 1,
+      "message": "Did .CvRecord.DataSize indicate that it was large enough to carry this?",
+      "revId": "81e7cacb724b1d3e03b6435a5195de7cb2e80a54",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dc4fe42_075c0f44",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T19:13:04Z",
+      "side": 1,
+      "message": "1. Did .CvRecord.DataSize indicate that it was large enough to carry this?\n\n2. Oops, this read the first byte of the filename that trails the uuid/age.",
+      "revId": "81e7cacb724b1d3e03b6435a5195de7cb2e80a54",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dd20535_a0aa04df",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T19:13:04Z",
+      "side": 1,
+      "message": "#include \"base/logging.h\"",
+      "revId": "81e7cacb724b1d3e03b6435a5195de7cb2e80a54",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92fba766_50ea9ba1",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T19:13:04Z",
+      "side": 1,
+      "message": "What’s the consumer of this information right now? Technically we should also be carrying out the filename included in this style of CodeView record.",
+      "revId": "81e7cacb724b1d3e03b6435a5195de7cb2e80a54",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7fb3bff_49bd418b",
+        "filename": "snapshot/minidump/module_snapshot_minidump.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T19:13:04Z",
+      "side": 1,
+      "message": "Did .CvRecord.DataSize indicate that it was large enough?\n\nI know I’ve asked this a few times. Maybe a more reasonable layout would be to do this all in a single InitializeModuleCodeView() function:\n\n1. check that CvRecord.DataSize is big enough for signature, fail early if not\n2. read signature\n3. conditional on signature:\n   3a. check that CvRecord.DataSize is big enough for fixed-length data to read next (only applies to PDB70)\n   3b. read fixed-length data\n   3c. read variable-length data as remainder of CvRecord.DataSize\n4. if signature is unknown, fail\n\nNote that doing it all in a single function means that you don’t need to double-check the signature everywhere, which in turn means that you don’t need to check that CvRecord.DataSize can store the signature multiple times, and you don’t even need to read the signature more than once.",
+      "revId": "81e7cacb724b1d3e03b6435a5195de7cb2e80a54",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "810cc262_ce8ef68d",
+        "filename": "snapshot/module_snapshot.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T19:13:04Z",
+      "side": 1,
+      "message": "Style: parenthesize function/method names throughout this and the next paragraph for consistency in generated documentation.",
+      "revId": "81e7cacb724b1d3e03b6435a5195de7cb2e80a54",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
