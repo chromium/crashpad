@@ -26,6 +26,7 @@
 #include "build/build_config.h"
 #include "util/file/file_io.h"
 #include "util/linux/ptrace_broker.h"
+#include "util/linux/recvmsg.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/posix/signals.h"
 
@@ -38,6 +39,31 @@ ExceptionHandlerClient::ExceptionHandlerClient(int sock, bool multiple_clients)
       multiple_clients_(multiple_clients) {}
 
 ExceptionHandlerClient::~ExceptionHandlerClient() = default;
+
+bool ExceptionHandlerClient::InitializePtracer() {
+  ExceptionHandlerProtocol::ClientToServerMessage message;
+  message.type = ExceptionHandlerProtocol::ClientToServerMessage::kCheckCreds;
+  if (!SendMessage(message)) {
+    return false;
+  }
+
+  ExceptionHandlerProtocol::ServerToClientMessage ack;
+  ucred creds;
+  if (!RecvMsg(
+          server_sock_, reinterpret_cast<char*>(&ack), sizeof(ack), &creds)) {
+    return false;
+  }
+
+  // pid == 0 is an invalid pid suggesting the sending process does not exist in
+  // this PID namespace.
+  if (creds.pid != 0) {
+    if (prctl(PR_SET_PTRACER, creds.pid, 0, 0, 0) != 0) {
+      PLOG(ERROR) << "prctl";
+      return false;
+    }
+  }
+  return true;
+}
 
 int ExceptionHandlerClient::RequestCrashDump(
     const ExceptionHandlerProtocol::ClientInformation& info) {
@@ -107,9 +133,13 @@ int ExceptionHandlerClient::SendCrashDumpRequest(
       ExceptionHandlerProtocol::ClientToServerMessage::kCrashDumpRequest;
   message.requesting_thread_stack_address = stack_pointer;
   message.client_info = info;
+  return SendMessage(message);
+}
 
+int ExceptionHandlerClient::SendMessage(
+    const ExceptionHandlerProtocol::ClientToServerMessage& message) {
   iovec iov;
-  iov.iov_base = &message;
+  iov.iov_base = const_cast<void*>(reinterpret_cast<const void*>(&message));
   iov.iov_len = sizeof(message);
 
   msghdr msg;

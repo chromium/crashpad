@@ -34,6 +34,8 @@ class ExceptionHandlerClient {
 
   ~ExceptionHandlerClient();
 
+  bool InitializePtracer();
+
   //! \brief Request a crash dump from the ExceptionHandlerServer.
   //!
   //! This method blocks until the crash dump is complete.
@@ -58,6 +60,7 @@ class ExceptionHandlerClient {
   int SendCrashDumpRequest(
       const ExceptionHandlerProtocol::ClientInformation& info,
       VMAddress stack_pointer);
+  int SendMessage(const ExceptionHandlerProtocol::ClientToServerMessage& msg);
   int SignalCrashDump(const ExceptionHandlerProtocol::ClientInformation& info,
                       VMAddress stack_pointer);
   int WaitForCrashDumpComplete();

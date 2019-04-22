@@ -33,6 +33,7 @@
 #include "util/file/file_io.h"
 #include "util/file/filesystem.h"
 #include "util/linux/proc_task_reader.h"
+#include "util/linux/recvmsg.h"
 #include "util/misc/as_underlying_type.h"
 
 namespace crashpad {
@@ -144,6 +145,35 @@ void SendSIGCONT(pid_t pid, pid_t tid) {
       PLOG(ERROR) << "tgkill";
     }
   }
+}
+
+bool SendCreds(int client_sock) {
+  msghdr msg;
+  msg.msg_name = nullptr;
+  msg.msg_namelen = 0;
+  msg.msg_iov = nullptr;
+  msg.msg_iovlen = 0;
+
+  ucred creds;
+  creds.pid = getpid();
+  creds.uid = geteuid();
+  creds.gid = getegid();
+
+  char cmsg_buf[CMSG_SPACE(sizeof(creds))];
+  msg.msg_control = cmsg_buf;
+  msg.msg_controllen = sizeof(cmsg_buf);
+
+  cmsghdr* cmsg = CMSG_FIRSTHDR(&msg);
+  cmsg->cmsg_level = SOL_SOCKET;
+  cmsg->cmsg_type = SCM_CREDENTIALS;
+  cmsg->cmsg_len = CMSG_LEN(sizeof(creds));
+  *reinterpret_cast<ucred*>(CMSG_DATA(cmsg)) = creds;
+
+  if (HANDLE_EINTR(sendmsg(client_sock, &msg, MSG_NOSIGNAL)) < 0) {
+    PLOG(ERROR) << "sendmsg";
+    return false;
+  }
+  return true;
 }
 
 class PtraceStrategyDeciderImpl : public PtraceStrategyDecider {
@@ -405,56 +435,23 @@ bool ExceptionHandlerServer::UninstallClientSocket(Event* event) {
 
 bool ExceptionHandlerServer::ReceiveClientMessage(Event* event) {
   ExceptionHandlerProtocol::ClientToServerMessage message;
-  iovec iov;
-  iov.iov_base = &message;
-  iov.iov_len = sizeof(message);
-
-  msghdr msg;
-  msg.msg_name = nullptr;
-  msg.msg_namelen = 0;
-  msg.msg_iov = &iov;
-  msg.msg_iovlen = 1;
-
-  char cmsg_buf[CMSG_SPACE(sizeof(ucred))];
-  msg.msg_control = cmsg_buf;
-  msg.msg_controllen = sizeof(cmsg_buf);
-  msg.msg_flags = 0;
-
-  int res = HANDLE_EINTR(recvmsg(event->fd.get(), &msg, 0));
-  if (res < 0) {
-    PLOG(ERROR) << "recvmsg";
-    return false;
-  }
-  if (res == 0) {
-    // The client had an orderly shutdown.
+  ucred creds;
+  if (!RecvMsg(event->fd.get(),
+               reinterpret_cast<char*>(&message),
+               sizeof(message),
+               &creds)) {
     return false;
   }
 
-  if (msg.msg_name != nullptr || msg.msg_namelen != 0) {
-    LOG(ERROR) << "unexpected msg name";
-    return false;
-  }
+  switch (message.type) {
+    case ExceptionHandlerProtocol::ClientToServerMessage::kCheckCreds:
+      return SendCreds(event->fd.get());
 
-  if (msg.msg_iovlen != 1) {
-    LOG(ERROR) << "unexpected iovlen";
-    return false;
-  }
-
-  if (msg.msg_iov[0].iov_len !=
-      sizeof(ExceptionHandlerProtocol::ClientToServerMessage)) {
-    LOG(ERROR) << "unexpected message size " << msg.msg_iov[0].iov_len;
-    return false;
-  }
-  auto client_msg =
-      reinterpret_cast<ExceptionHandlerProtocol::ClientToServerMessage*>(
-          msg.msg_iov[0].iov_base);
-
-  switch (client_msg->type) {
     case ExceptionHandlerProtocol::ClientToServerMessage::kCrashDumpRequest:
       return HandleCrashDumpRequest(
-          msg,
-          client_msg->client_info,
-          client_msg->requesting_thread_stack_address,
+          creds,
+          message.client_info,
+          message.requesting_thread_stack_address,
           event->fd.get(),
           event->type == Event::Type::kSharedSocketMessage);
   }
@@ -465,38 +462,16 @@ bool ExceptionHandlerServer::ReceiveClientMessage(Event* event) {
 }
 
 bool ExceptionHandlerServer::HandleCrashDumpRequest(
-    const msghdr& msg,
+    const ucred& creds,
     const ExceptionHandlerProtocol::ClientInformation& client_info,
     VMAddress requesting_thread_stack_address,
     int client_sock,
     bool multiple_clients) {
-  cmsghdr* cmsg = CMSG_FIRSTHDR(&msg);
-  if (cmsg == nullptr) {
-    LOG(ERROR) << "missing credentials";
-    return false;
-  }
-
-  if (cmsg->cmsg_level != SOL_SOCKET) {
-    LOG(ERROR) << "unexpected cmsg_level " << cmsg->cmsg_level;
-    return false;
-  }
-
-  if (cmsg->cmsg_type != SCM_CREDENTIALS) {
-    LOG(ERROR) << "unexpected cmsg_type " << cmsg->cmsg_type;
-    return false;
-  }
-
-  if (cmsg->cmsg_len != CMSG_LEN(sizeof(ucred))) {
-    LOG(ERROR) << "unexpected cmsg_len " << cmsg->cmsg_len;
-    return false;
-  }
-
-  ucred* client_credentials = reinterpret_cast<ucred*>(CMSG_DATA(cmsg));
-  pid_t client_process_id = client_credentials->pid;
+  pid_t client_process_id = creds.pid;
   pid_t requesting_thread_id = -1;
 
-  switch (strategy_decider_->ChooseStrategy(
-      client_sock, multiple_clients, *client_credentials)) {
+  switch (
+      strategy_decider_->ChooseStrategy(client_sock, multiple_clients, creds)) {
     case PtraceStrategyDecider::Strategy::kError:
       if (multiple_clients) {
         SendSIGCONT(client_process_id, requesting_thread_id);
