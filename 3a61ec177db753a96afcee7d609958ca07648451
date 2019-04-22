@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "596e4445_405a212b",
+        "filename": "util/process/process_id.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T21:16:49Z",
+      "side": 1,
+      "message": "I’d prefer a true constant to a macro for at least INVALID_PROCESS_ID.",
+      "revId": "3a61ec177db753a96afcee7d609958ca07648451",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ea17c78_af00d7f9",
+        "filename": "util/process/process_id.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T21:16:49Z",
+      "side": 1,
+      "message": "It’s a little disappointing that this would be necessary. Is it actually?",
+      "revId": "3a61ec177db753a96afcee7d609958ca07648451",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09c6a083_24838c4c",
+        "filename": "util/process/process_id.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-22T21:16:49Z",
+      "side": 1,
+      "message": "I’m assuming that for the POSIX case, we can assume (perhaps checked via static_cast) that pid_t is a particular underlying type (int) and not have to cast to int_max_t or use PRIdMAX.",
+      "revId": "3a61ec177db753a96afcee7d609958ca07648451",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
