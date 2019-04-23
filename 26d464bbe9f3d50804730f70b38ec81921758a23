@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67e35425_b23a58e1",
+        "filename": "util/linux/exception_handler_protocol.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-23T16:29:20Z",
+      "side": 1,
+      "message": "#include \"base/macros.h\"",
+      "revId": "26d464bbe9f3d50804730f70b38ec81921758a23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
