@@ -103,7 +103,7 @@ class TestDelegate : public ExceptionHandlerServer::Delegate {
   }
 
   bool HandleException(pid_t client_process_id,
-                       const ClientInformation& info,
+                       const ExceptionHandlerProtocol::ClientInformation& info,
                        VMAddress requesting_thread_stack_address,
                        pid_t* requesting_thread_id = nullptr,
                        UUID* local_report_id = nullptr) override {
@@ -134,10 +134,11 @@ class TestDelegate : public ExceptionHandlerServer::Delegate {
     return true;
   }
 
-  bool HandleExceptionWithBroker(pid_t client_process_id,
-                                 const ClientInformation& info,
-                                 int broker_sock,
-                                 UUID* local_report_id = nullptr) override {
+  bool HandleExceptionWithBroker(
+      pid_t client_process_id,
+      const ExceptionHandlerProtocol::ClientInformation& info,
+      int broker_sock,
+      UUID* local_report_id = nullptr) override {
     PtraceClient client;
     bool connected = client.Initialize(broker_sock, client_process_id);
     EXPECT_TRUE(connected);
@@ -165,10 +166,11 @@ class MockPtraceStrategyDecider : public PtraceStrategyDecider {
 
   Strategy ChooseStrategy(int sock, const ucred& client_credentials) override {
     if (strategy_ == Strategy::kUseBroker) {
-      ServerToClientMessage message = {};
-      message.type = ServerToClientMessage::kTypeForkBroker;
+      ExceptionHandlerProtocol::ServerToClientMessage message = {};
+      message.type =
+          ExceptionHandlerProtocol::ServerToClientMessage::kTypeForkBroker;
 
-      Errno status;
+      ExceptionHandlerProtocol::Errno status;
       bool result = LoggingWriteFile(sock, &message, sizeof(message)) &&
                     LoggingReadFileExactly(sock, &status, sizeof(status));
       EXPECT_TRUE(result);
@@ -220,7 +222,7 @@ class ExceptionHandlerServerTest : public testing::Test {
     ~CrashDumpTest() = default;
 
     void MultiprocessParent() override {
-      ClientInformation info;
+      ExceptionHandlerProtocol::ClientInformation info;
       ASSERT_TRUE(
           LoggingReadFileExactly(ReadPipeHandle(), &info, sizeof(info)));
 
@@ -239,7 +241,7 @@ class ExceptionHandlerServerTest : public testing::Test {
     void MultiprocessChild() override {
       ASSERT_EQ(close(server_test_->sock_to_client_), 0);
 
-      ClientInformation info;
+      ExceptionHandlerProtocol::ClientInformation info;
       info.exception_information_address = 42;
 
       ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(), &info, sizeof(info)));

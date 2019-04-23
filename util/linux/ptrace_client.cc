@@ -31,7 +31,7 @@ namespace crashpad {
 namespace {
 
 bool ReceiveAndLogError(int sock, const std::string& operation) {
-  Errno error;
+  ExceptionHandlerProtocol::Errno error;
   if (!LoggingReadFileExactly(sock, &error, sizeof(error))) {
     return false;
   }
@@ -69,12 +69,12 @@ bool AttachImpl(int sock, pid_t tid) {
     return false;
   }
 
-  Bool success;
+  ExceptionHandlerProtocol::Bool success;
   if (!LoggingReadFileExactly(sock, &success, sizeof(success))) {
     return false;
   }
 
-  if (success != kBoolTrue) {
+  if (success != ExceptionHandlerProtocol::kBoolTrue) {
     ReceiveAndLogError(sock, "PtraceBroker Attach");
     return false;
   }
@@ -159,11 +159,11 @@ bool PtraceClient::Initialize(int sock, pid_t pid, bool try_direct_memory) {
     return false;
   }
 
-  Bool is_64_bit;
+  ExceptionHandlerProtocol::Bool is_64_bit;
   if (!LoggingReadFileExactly(sock_, &is_64_bit, sizeof(is_64_bit))) {
     return false;
   }
-  is_64_bit_ = is_64_bit == kBoolTrue;
+  is_64_bit_ = is_64_bit == ExceptionHandlerProtocol::kBoolTrue;
 
   if (try_direct_memory) {
     auto direct_mem = std::make_unique<ProcessMemoryLinux>();
@@ -209,7 +209,7 @@ bool PtraceClient::GetThreadInfo(pid_t tid, ThreadInfo* info) {
     return false;
   }
 
-  if (response.success == kBoolTrue) {
+  if (response.success == ExceptionHandlerProtocol::kBoolTrue) {
     *info = response.info;
     return true;
   }
