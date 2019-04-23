@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "717e66b2_55674189",
+        "filename": "util/process/process_id.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-23T15:17:34Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "596e4445_405a212b",
+      "revId": "3a61ec177db753a96afcee7d609958ca07648451",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ea17c78_af00d7f9",
         "filename": "util/process/process_id.h",
         "patchSetId": 19
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "e7b17b26_453b55ac",
+        "filename": "util/process/process_id.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-23T15:17:34Z",
+      "side": 1,
+      "message": "We need the macro for standards-compliance in the POSIX case, discussed below; without an explicit convert to intmax_t, sprintf gets unhappy on some platforms.\n\nLet me try making it a true no-op on other platforms, though.",
+      "parentUuid": "5ea17c78_af00d7f9",
+      "revId": "3a61ec177db753a96afcee7d609958ca07648451",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "09c6a083_24838c4c",
         "filename": "util/process/process_id.h",
         "patchSetId": 19
@@ -47,6 +83,24 @@
       "writtenOn": "2019-04-22T21:16:49Z",
       "side": 1,
       "message": "I’m assuming that for the POSIX case, we can assume (perhaps checked via static_cast) that pid_t is a particular underlying type (int) and not have to cast to int_max_t or use PRIdMAX.",
+      "revId": "3a61ec177db753a96afcee7d609958ca07648451",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72946962_19b7f5a2",
+        "filename": "util/process/process_id.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-23T15:17:34Z",
+      "side": 1,
+      "message": "Actually, not according to the POSIX standard. The strict POSIX standard only specifies that pid_t is a signed integer, and explicitly does not specify its size or underlying type.\n\nThe GNU C library, on the other hand, explicitly states that pid_t is an int. (https://www.gnu.org/software/libc/manual/html_node/Process-Identification.html)\n\nI went with standards compliance, figuring taking this as broadly as possible was a good idea. Which should we go with here: cleanliness, or strict standards compliance?",
+      "parentUuid": "09c6a083_24838c4c",
       "revId": "3a61ec177db753a96afcee7d609958ca07648451",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
