@@ -104,6 +104,24 @@
       "revId": "3a61ec177db753a96afcee7d609958ca07648451",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62469090_b372ad8c",
+        "filename": "util/process/process_id.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-23T15:43:21Z",
+      "side": 1,
+      "message": "This is not what I had in mind when I said \"POSIX case.\" I meant _our_ POSIX platforms, not _all_ POSIX platforms.\n\nCrashpad is necessarily very platform-specific, there can never be a true generic \"POSIX port\" of so much of this code that it\u0027s not valuable to attempt just for its own sake. We know that pid_t is int on _our_ POSIX platforms and can use that knowledge to simplify here. You are correct about it not being truly conformant, which is why I suggested a static_assert to guarantee equivalence. If we ever do need to support a POSIX platform where pid_t is, say, long, this assertion (like so many others) would alert us and we could easily accommodate it in this #if cascade.",
+      "parentUuid": "72946962_19b7f5a2",
+      "revId": "3a61ec177db753a96afcee7d609958ca07648451",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
