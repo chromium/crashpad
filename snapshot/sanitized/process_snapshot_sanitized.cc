@@ -161,12 +161,12 @@ bool ProcessSnapshotSanitized::Initialize(
   return true;
 }
 
-pid_t ProcessSnapshotSanitized::ProcessID() const {
+crashpad::ProcessID ProcessSnapshotSanitized::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return snapshot_->ProcessID();
 }
 
-pid_t ProcessSnapshotSanitized::ParentProcessID() const {
+crashpad::ProcessID ProcessSnapshotSanitized::ParentProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return snapshot_->ParentProcessID();
 }
