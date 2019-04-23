@@ -342,7 +342,7 @@ class StartHandlerForClientTest {
               context);
       exception_information.thread_id = syscall(SYS_gettid);
 
-      ClientInformation info;
+      ExceptionHandlerProtocol::ClientInformation info;
       info.exception_information_address =
           FromPointerCast<decltype(info.exception_information_address)>(
               &exception_information);

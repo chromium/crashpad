@@ -35,7 +35,8 @@ ExceptionHandlerClient::ExceptionHandlerClient(int sock)
 
 ExceptionHandlerClient::~ExceptionHandlerClient() = default;
 
-int ExceptionHandlerClient::RequestCrashDump(const ClientInformation& info) {
+int ExceptionHandlerClient::RequestCrashDump(
+    const ExceptionHandlerProtocol::ClientInformation& info) {
   VMAddress sp = FromPointerCast<VMAddress>(&sp);
 
   int status = SendCrashDumpRequest(info, sp);
@@ -64,10 +65,12 @@ void ExceptionHandlerClient::SetCanSetPtracer(bool can_set_ptracer) {
   can_set_ptracer_ = can_set_ptracer;
 }
 
-int ExceptionHandlerClient::SendCrashDumpRequest(const ClientInformation& info,
-                                                 VMAddress stack_pointer) {
-  ClientToServerMessage message;
-  message.type = ClientToServerMessage::kCrashDumpRequest;
+int ExceptionHandlerClient::SendCrashDumpRequest(
+    const ExceptionHandlerProtocol::ClientInformation& info,
+    VMAddress stack_pointer) {
+  ExceptionHandlerProtocol::ClientToServerMessage message;
+  message.type =
+      ExceptionHandlerProtocol::ClientToServerMessage::kCrashDumpRequest;
   message.requesting_thread_stack_address = stack_pointer;
   message.client_info = info;
 
@@ -105,19 +108,19 @@ int ExceptionHandlerClient::SendCrashDumpRequest(const ClientInformation& info,
 }
 
 int ExceptionHandlerClient::WaitForCrashDumpComplete() {
-  ServerToClientMessage message;
+  ExceptionHandlerProtocol::ServerToClientMessage message;
 
   // If the server hangs up, ReadFileExactly will return false without setting
   // errno.
   errno = 0;
   while (ReadFileExactly(server_sock_, &message, sizeof(message))) {
     switch (message.type) {
-      case ServerToClientMessage::kTypeForkBroker: {
+      case ExceptionHandlerProtocol::ServerToClientMessage::kTypeForkBroker: {
         Signals::InstallDefaultHandler(SIGCHLD);
 
         pid_t pid = fork();
         if (pid <= 0) {
-          Errno error = pid < 0 ? errno : 0;
+          ExceptionHandlerProtocol::Errno error = pid < 0 ? errno : 0;
           if (!WriteFile(server_sock_, &error, sizeof(error))) {
             return errno;
           }
@@ -148,16 +151,18 @@ int ExceptionHandlerClient::WaitForCrashDumpComplete() {
         continue;
       }
 
-      case ServerToClientMessage::kTypeSetPtracer: {
-        Errno result = SetPtracer(message.pid);
+      case ExceptionHandlerProtocol::ServerToClientMessage::kTypeSetPtracer: {
+        ExceptionHandlerProtocol::Errno result = SetPtracer(message.pid);
         if (!WriteFile(server_sock_, &result, sizeof(result))) {
           return errno;
         }
         continue;
       }
 
-      case ServerToClientMessage::kTypeCrashDumpComplete:
-      case ServerToClientMessage::kTypeCrashDumpFailed:
+      case ExceptionHandlerProtocol::ServerToClientMessage::
+          kTypeCrashDumpComplete:
+      case ExceptionHandlerProtocol::ServerToClientMessage::
+          kTypeCrashDumpFailed:
         return 0;
     }
 

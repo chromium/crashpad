@@ -110,10 +110,13 @@ bool HaveCapSysPtrace() {
   return (cap_data.effective & (1 << CAP_SYS_PTRACE)) != 0;
 }
 
-bool SendMessageToClient(int client_sock, ServerToClientMessage::Type type) {
-  ServerToClientMessage message = {};
+bool SendMessageToClient(
+    int client_sock,
+    ExceptionHandlerProtocol::ServerToClientMessage::Type type) {
+  ExceptionHandlerProtocol::ServerToClientMessage message = {};
   message.type = type;
-  if (type == ServerToClientMessage::kTypeSetPtracer) {
+  if (type ==
+      ExceptionHandlerProtocol::ServerToClientMessage::kTypeSetPtracer) {
     message.pid = getpid();
   }
   return LoggingWriteFile(client_sock, &message, sizeof(message));
@@ -134,11 +137,12 @@ class PtraceStrategyDeciderImpl : public PtraceStrategyDecider {
 
       case PtraceScope::kRestricted:
         if (!SendMessageToClient(sock,
-                                 ServerToClientMessage::kTypeSetPtracer)) {
+                                 ExceptionHandlerProtocol::
+                                     ServerToClientMessage::kTypeSetPtracer)) {
           return Strategy::kError;
         }
 
-        Errno status;
+        ExceptionHandlerProtocol::Errno status;
         if (!LoggingReadFileExactly(sock, &status, sizeof(status))) {
           return Strategy::kError;
         }
@@ -170,12 +174,13 @@ class PtraceStrategyDeciderImpl : public PtraceStrategyDecider {
 
  private:
   static Strategy TryForkingBroker(int client_sock) {
-    if (!SendMessageToClient(client_sock,
-                             ServerToClientMessage::kTypeForkBroker)) {
+    if (!SendMessageToClient(
+            client_sock,
+            ExceptionHandlerProtocol::ServerToClientMessage::kTypeForkBroker)) {
       return Strategy::kError;
     }
 
-    Errno status;
+    ExceptionHandlerProtocol::Errno status;
     if (!LoggingReadFileExactly(client_sock, &status, sizeof(status))) {
       return Strategy::kError;
     }
@@ -369,7 +374,7 @@ bool ExceptionHandlerServer::UninstallClientSocket(Event* event) {
 }
 
 bool ExceptionHandlerServer::ReceiveClientMessage(Event* event) {
-  ClientToServerMessage message;
+  ExceptionHandlerProtocol::ClientToServerMessage message;
   iovec iov;
   iov.iov_base = &message;
   iov.iov_len = sizeof(message);
@@ -405,15 +410,17 @@ bool ExceptionHandlerServer::ReceiveClientMessage(Event* event) {
     return false;
   }
 
-  if (msg.msg_iov[0].iov_len != sizeof(ClientToServerMessage)) {
+  if (msg.msg_iov[0].iov_len !=
+      sizeof(ExceptionHandlerProtocol::ClientToServerMessage)) {
     LOG(ERROR) << "unexpected message size " << msg.msg_iov[0].iov_len;
     return false;
   }
   auto client_msg =
-      reinterpret_cast<ClientToServerMessage*>(msg.msg_iov[0].iov_base);
+      reinterpret_cast<ExceptionHandlerProtocol::ClientToServerMessage*>(
+          msg.msg_iov[0].iov_base);
 
   switch (client_msg->type) {
-    case ClientToServerMessage::kCrashDumpRequest:
+    case ExceptionHandlerProtocol::ClientToServerMessage::kCrashDumpRequest:
       return HandleCrashDumpRequest(msg,
                                     client_msg->client_info,
                                     client_msg->requesting_thread_stack_address,
@@ -427,7 +434,7 @@ bool ExceptionHandlerServer::ReceiveClientMessage(Event* event) {
 
 bool ExceptionHandlerServer::HandleCrashDumpRequest(
     const msghdr& msg,
-    const ClientInformation& client_info,
+    const ExceptionHandlerProtocol::ClientInformation& client_info,
     VMAddress requesting_thread_stack_address,
     int client_sock) {
   cmsghdr* cmsg = CMSG_FIRSTHDR(&msg);
@@ -459,8 +466,10 @@ bool ExceptionHandlerServer::HandleCrashDumpRequest(
       return false;
 
     case PtraceStrategyDecider::Strategy::kNoPtrace:
-      return SendMessageToClient(client_sock,
-                                 ServerToClientMessage::kTypeCrashDumpFailed);
+      return SendMessageToClient(
+          client_sock,
+          ExceptionHandlerProtocol::ServerToClientMessage::
+              kTypeCrashDumpFailed);
 
     case PtraceStrategyDecider::Strategy::kDirectPtrace:
       delegate_->HandleException(
@@ -473,8 +482,9 @@ bool ExceptionHandlerServer::HandleCrashDumpRequest(
       break;
   }
 
-  return SendMessageToClient(client_sock,
-                             ServerToClientMessage::kTypeCrashDumpComplete);
+  return SendMessageToClient(
+      client_sock,
+      ExceptionHandlerProtocol::ServerToClientMessage::kTypeCrashDumpComplete);
 }
 
 }  // namespace crashpad

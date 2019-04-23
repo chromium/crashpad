@@ -82,11 +82,12 @@ class ExceptionHandlerServer {
     //! \param[out] local_report_id The unique identifier for the report created
     //!     in the local report database. Optional.
     //! \return `true` on success. `false` on failure with a message logged.
-    virtual bool HandleException(pid_t client_process_id,
-                                 const ClientInformation& info,
-                                 VMAddress requesting_thread_stack_address = 0,
-                                 pid_t* requesting_thread_id = nullptr,
-                                 UUID* local_report_id = nullptr) = 0;
+    virtual bool HandleException(
+        pid_t client_process_id,
+        const ExceptionHandlerProtocol::ClientInformation& info,
+        VMAddress requesting_thread_stack_address = 0,
+        pid_t* requesting_thread_id = nullptr,
+        UUID* local_report_id = nullptr) = 0;
 
     //! \brief Called on the receipt of a crash dump request from a client for a
     //!     crash that should be mediated by a PtraceBroker.
@@ -97,10 +98,11 @@ class ExceptionHandlerServer {
     //! \param[out] local_report_id The unique identifier for the report created
     //!     in the local report database. Optional.
     //! \return `true` on success. `false` on failure with a message logged.
-    virtual bool HandleExceptionWithBroker(pid_t client_process_id,
-                                           const ClientInformation& info,
-                                           int broker_sock,
-                                           UUID* local_report_id = nullptr) = 0;
+    virtual bool HandleExceptionWithBroker(
+        pid_t client_process_id,
+        const ExceptionHandlerProtocol::ClientInformation& info,
+        int broker_sock,
+        UUID* local_report_id = nullptr) = 0;
 
    protected:
     ~Delegate() {}
@@ -147,10 +149,11 @@ class ExceptionHandlerServer {
   bool InstallClientSocket(ScopedFileHandle socket);
   bool UninstallClientSocket(Event* event);
   bool ReceiveClientMessage(Event* event);
-  bool HandleCrashDumpRequest(const msghdr& msg,
-                              const ClientInformation& client_info,
-                              VMAddress requesting_thread_stack_address,
-                              int client_sock);
+  bool HandleCrashDumpRequest(
+      const msghdr& msg,
+      const ExceptionHandlerProtocol::ClientInformation& client_info,
+      VMAddress requesting_thread_stack_address,
+      int client_sock);
 
   std::unordered_map<int, std::unique_ptr<Event>> clients_;
   std::unique_ptr<Event> shutdown_event_;

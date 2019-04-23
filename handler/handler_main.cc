@@ -880,7 +880,7 @@ int HandlerMain(int argc,
 
  #if defined(OS_LINUX) || defined(OS_ANDROID)
   if (options.exception_information_address) {
-    ClientInformation info;
+    ExceptionHandlerProtocol::ClientInformation info;
     info.exception_information_address = options.exception_information_address;
     info.sanitization_information_address =
         options.sanitization_information_address;

@@ -38,7 +38,7 @@ class ExceptionHandlerClient {
   //!
   //! \param[in] info Information about this client.
   //! \return 0 on success or an error code on failure.
-  int RequestCrashDump(const ClientInformation& info);
+  int RequestCrashDump(const ExceptionHandlerProtocol::ClientInformation& info);
 
   //! \brief Uses `prctl(PR_SET_PTRACER, ...)` to set the process with
   //!     process ID \a pid as the ptracer for this process.
@@ -53,8 +53,9 @@ class ExceptionHandlerClient {
   void SetCanSetPtracer(bool can_set_ptracer);
 
  private:
-  int SendCrashDumpRequest(const ClientInformation& info,
-                           VMAddress stack_pointer);
+  int SendCrashDumpRequest(
+      const ExceptionHandlerProtocol::ClientInformation& info,
+      VMAddress stack_pointer);
   int WaitForCrashDumpComplete();
 
   int server_sock_;

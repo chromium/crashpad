@@ -45,7 +45,7 @@ CrashReportExceptionHandler::~CrashReportExceptionHandler() = default;
 
 bool CrashReportExceptionHandler::HandleException(
     pid_t client_process_id,
-    const ClientInformation& info,
+    const ExceptionHandlerProtocol::ClientInformation& info,
     VMAddress requesting_thread_stack_address,
     pid_t* requesting_thread_id,
     UUID* local_report_id) {
@@ -67,7 +67,7 @@ bool CrashReportExceptionHandler::HandleException(
 
 bool CrashReportExceptionHandler::HandleExceptionWithBroker(
     pid_t client_process_id,
-    const ClientInformation& info,
+    const ExceptionHandlerProtocol::ClientInformation& info,
     int broker_sock,
     UUID* local_report_id) {
   Metrics::ExceptionEncountered();
@@ -85,7 +85,7 @@ bool CrashReportExceptionHandler::HandleExceptionWithBroker(
 
 bool CrashReportExceptionHandler::HandleExceptionWithConnection(
     PtraceConnection* connection,
-    const ClientInformation& info,
+    const ExceptionHandlerProtocol::ClientInformation& info,
     VMAddress requesting_thread_stack_address,
     pid_t* requesting_thread_id,
     UUID* local_report_id) {
