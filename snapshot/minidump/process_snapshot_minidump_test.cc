@@ -544,7 +544,7 @@ TEST(ProcessSnapshotMinidump, ProcessID) {
   MINIDUMP_HEADER header = {};
   ASSERT_TRUE(string_file.Write(&header, sizeof(header)));
 
-  static const pid_t kTestProcessId = 42;
+  static const crashpad::ProcessID kTestProcessId = 42;
   MINIDUMP_MISC_INFO misc_info = {};
   misc_info.SizeOfInfo = sizeof(misc_info);
   misc_info.Flags1 = MINIDUMP_MISC1_PROCESS_ID;

@@ -155,12 +155,12 @@ void ProcessSnapshotLinux::GetCrashpadOptions(
   *options = local_options;
 }
 
-pid_t ProcessSnapshotLinux::ProcessID() const {
+crashpad::ProcessID ProcessSnapshotLinux::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return process_reader_.ProcessID();
 }
 
-pid_t ProcessSnapshotLinux::ParentProcessID() const {
+crashpad::ProcessID ProcessSnapshotLinux::ParentProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return process_reader_.ParentProcessID();
 }

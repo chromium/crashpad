@@ -137,6 +137,7 @@ static_library("util") {
     "numeric/in_range_cast.h",
     "numeric/int128.h",
     "numeric/safe_assignment.h",
+    "process/process_id.h",
     "process/process_memory.cc",
     "process/process_memory.h",
     "process/process_memory_native.h",

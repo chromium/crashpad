@@ -42,6 +42,7 @@
 #include "util/file/file_reader.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/uuid.h"
+#include "util/process/process_id.h"
 
 namespace crashpad {
 
@@ -66,8 +67,8 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
 
   // ProcessSnapshot:
 
-  pid_t ProcessID() const override;
-  pid_t ParentProcessID() const override;
+  crashpad::ProcessID ProcessID() const override;
+  crashpad::ProcessID ParentProcessID() const override;
   void SnapshotTime(timeval* snapshot_time) const override;
   void ProcessStartTime(timeval* start_time) const override;
   void ProcessCPUTimes(timeval* user_time, timeval* system_time) const override;
@@ -151,7 +152,7 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   std::map<std::string, std::string> annotations_simple_map_;
   std::string full_version_;
   FileReaderInterface* file_reader_;  // weak
-  pid_t process_id_;
+  crashpad::ProcessID process_id_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessSnapshotMinidump);

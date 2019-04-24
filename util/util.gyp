@@ -209,6 +209,7 @@
         'posix/signals.h',
         'posix/symbolic_constants_posix.cc',
         'posix/symbolic_constants_posix.h',
+        'process/process_id.h',
         'process/process_memory.cc',
         'process/process_memory.h',
         'process/process_memory_linux.cc',
