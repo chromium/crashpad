@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d24be324_2774aa8a",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-24T15:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd37b672_a97a0c76",
+      "revId": "28fae3b1802c5cc681c5def87c87c9148224ceba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d879a4a1_d04d11ae",
         "filename": "handler/linux/exception_handler_server.cc",
         "patchSetId": 9
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "cff327ad_c464ed1b",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-24T15:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d879a4a1_d04d11ae",
+      "range": {
+        "startLine": 125,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 26
+      },
+      "revId": "28fae3b1802c5cc681c5def87c87c9148224ceba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b407e45c_fbff065b",
         "filename": "handler/linux/exception_handler_server.cc",
         "patchSetId": 9
@@ -56,6 +98,24 @@
       "revId": "28fae3b1802c5cc681c5def87c87c9148224ceba",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7846c62f_0e6b3068",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-24T15:53:14Z",
+      "side": 1,
+      "message": "Opened a bug:\nhttps://bugs.chromium.org/p/crashpad/issues/detail?id\u003d294",
+      "parentUuid": "b407e45c_fbff065b",
+      "revId": "28fae3b1802c5cc681c5def87c87c9148224ceba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "bbf4ed2b_80885936",
+        "filename": "util/linux/exception_handler_protocol.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-24T15:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78f78356_e8ac5c08",
+      "revId": "28fae3b1802c5cc681c5def87c87c9148224ceba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4c7a836_0fac51d5",
         "filename": "util/linux/proc_task_reader.cc",
         "patchSetId": 9
@@ -90,6 +168,24 @@
       "revId": "28fae3b1802c5cc681c5def87c87c9148224ceba",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "563165cc_c95a7e6b",
+        "filename": "util/linux/proc_task_reader.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-24T15:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4c7a836_0fac51d5",
+      "revId": "28fae3b1802c5cc681c5def87c87c9148224ceba",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
