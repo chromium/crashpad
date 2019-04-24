@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "510dd662_394900c5",
+        "filename": "util/process/process_id.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T16:41:28Z",
+      "side": 1,
+      "message": "\u003e Done.\n\u003e \n\u003e (On the observation and discussion...)\n\u003e \n\u003e I agree, the plan you gave would be best possible. I\u0027d suggest a full-width-pid, if 4 redundant bytes isn\u0027t too big a price to pay... it feels like an unnecessary optimization.\n\nIt’s not that the bytes are precious and I’m trying to optimize them away, it’s just that I like to avoid ambiguities and redundancies. If the low bits duplicate each other in two locations, it’s an extra thing to get out of sync, and an extra thing that a reader would ideally remember to check for equivalence. Another design that avoids redundancy throws readers that don’t understand the Crashpad extension under the bus by writing a constant value to the legacy field, putting all of the real bits in the extension field.\n\nCertainly not critical.",
+      "parentUuid": "1068132f_da82fb4d",
+      "revId": "bb9aecf5121f3cfa0561d1787e5ff4732717fb81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "065a642c_1b056eb1",
         "filename": "util/process/process_id.h",
         "patchSetId": 27
