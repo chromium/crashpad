@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "daff09b0_81ab98f3",
+        "filename": "compat/win/sys/types.h",
+        "patchSetId": 24
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-24T14:28:48Z",
+      "side": 1,
+      "message": "I\u0027ll do that as a followup, then.",
+      "parentUuid": "290a5ea1_c6ca1d53",
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da15a647_851879a0",
         "filename": "snapshot/fuchsia/process_snapshot_fuchsia.h",
         "patchSetId": 24
@@ -33,6 +51,24 @@
       "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e652b347_d5d49882",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia.h",
+        "patchSetId": 24
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-24T14:28:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da15a647_851879a0",
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6701b0ec_f93e2582",
+        "filename": "snapshot/linux/process_snapshot_linux.h",
+        "patchSetId": 24
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-24T14:28:48Z",
+      "side": 1,
+      "message": "Done here and in all files touched.",
+      "parentUuid": "53d0ef6c_e6813077",
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d254dfaf_5b974bad",
         "filename": "test/win/win_multiprocess_with_temp_dir.cc",
         "patchSetId": 24
@@ -67,6 +121,24 @@
       "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfa4652a_fd6d87b4",
+        "filename": "test/win/win_multiprocess_with_temp_dir.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-24T14:28:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d254dfaf_5b974bad",
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "53d5854a_f1d8fb17",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 24
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-24T14:28:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73cbf117_a6f7e947",
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4fbfb1b_08c0f3dc",
         "filename": "util/process/process_id.h",
         "patchSetId": 24
@@ -101,6 +191,24 @@
       "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8af60001_0fab8f98",
+        "filename": "util/process/process_id.h",
+        "patchSetId": 24
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-24T14:28:48Z",
+      "side": 1,
+      "message": "Done. For context, this was pulled from somewhere else in the Chromium codebase, then put through only minor revisions; I had been preserving its sort order.",
+      "parentUuid": "c4fbfb1b_08c0f3dc",
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +235,30 @@
     },
     {
       "key": {
+        "uuid": "5c89c225_06010110",
+        "filename": "util/process/process_id.h",
+        "patchSetId": 24
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-24T14:28:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20e9d6cd_80b97375",
+      "range": {
+        "startLine": 39,
+        "startChar": 27,
+        "endLine": 39,
+        "endChar": 32
+      },
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e3a8166_b2943402",
         "filename": "util/process/process_id.h",
         "patchSetId": 24
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "c089d110_0e2e458a",
+        "filename": "util/process/process_id.h",
+        "patchSetId": 24
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-24T14:28:48Z",
+      "side": 1,
+      "message": "Having tested - yes! (I ended up misled by errors when I\u0027d tried to make it a const instead.) Done.",
+      "parentUuid": "9e3a8166_b2943402",
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6598b096_f4e0e3ef",
         "filename": "util/util.gyp",
         "patchSetId": 24
@@ -158,6 +308,24 @@
       "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36922e11_88cb0d73",
+        "filename": "util/util.gyp",
+        "patchSetId": 24
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2019-04-24T14:28:48Z",
+      "side": 1,
+      "message": "Sorted.\n\nAnd: just checking to see if I was paying attention. (Apparently I wasn\u0027t.) Fixed.",
+      "parentUuid": "6598b096_f4e0e3ef",
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
