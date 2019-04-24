@@ -159,6 +159,30 @@
     },
     {
       "key": {
+        "uuid": "c3de4136_4b220d3f",
+        "filename": "util/linux/exception_handler_client.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-24T19:45:39Z",
+      "side": 1,
+      "message": "Maybe something weaker than a DLOG? Perhaps only logging when running tests?",
+      "parentUuid": "a11c0624_5a214383",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3d03ba47_fca9ae48",
         "filename": "util/linux/exception_handler_client.cc",
         "patchSetId": 14
