@@ -183,6 +183,30 @@
     },
     {
       "key": {
+        "uuid": "bff71038_7b68ba53",
+        "filename": "util/linux/exception_handler_client.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T19:58:30Z",
+      "side": 1,
+      "message": "\u003e Maybe something weaker than a DLOG? Perhaps only logging when running tests?\n\nIf you want to press on as-is, I’d buy your “DLOG isn’t in release/production” argument as a justification to hang on to this.\n\nIn similar cases in Chrome, we’ve got RAW_LOG, which is essentially write(STDERR_FILENO, …). ’Course, here, you’d want to put the write() through LSS too.",
+      "parentUuid": "c3de4136_4b220d3f",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3d03ba47_fca9ae48",
         "filename": "util/linux/exception_handler_client.cc",
         "patchSetId": 14
