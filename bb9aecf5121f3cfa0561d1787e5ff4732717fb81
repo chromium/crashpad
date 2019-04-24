@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a349dbed_9e3df5a6",
+        "filename": "util/process/process_id.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T14:58:11Z",
+      "side": 1,
+      "message": "ZX_KOID_INVALID is 0, but that (the symbolic name, not a literal 0) seems like what Fuchsia wants to use. A Fuchsia expert can confirm if you’d like, but that’s probably not necessary. This constant is only used in ProcessSnapshotMinidump’s constructor as an initial value, and will in all cases be set to a real process ID value from the minidump before it’s possible to use it, as guarded by the InitializationStateDcheck.\n\n(The only immediate action recommended is above this line. The rest is observation and discussion.)\n\nBecause the only use of kInvalidProcessID is essentially unused, the thing that’s happening in ProcessSnapshotMinidump, strictly speaking, doesn’t even need to be an OS-specific “invalid” constant. For that matter, for the purposes of the snapshot interface, ProcessID doesn’t even need to be an OS-specific type, and it may even be harmful for it to be.\n\nIf we wanted to do this the best possible way, I think we’d keep your new ProcessID as the generic platform process ID type, and then make the snapshot interface use the broadest possible type for process IDs (int64_t would do it), so that a snapshot of a Fuchsia process being inspected on a Linux host, for example, would be able to represent the true original value. But even this is moot for the time being, because as a transport format, minidump is limited to 32-bit process IDs. We’d also need to define a full-width-pid or upper-32-bits-of-pid field in our Crashpad extension structure in order to finish this off. The utility is marginal at best.",
+      "revId": "bb9aecf5121f3cfa0561d1787e5ff4732717fb81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "065a642c_1b056eb1",
+        "filename": "util/process/process_id.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T14:58:11Z",
+      "side": 1,
+      "message": "Perhaps a static_assert that ProcessID is int64_t here, for compatibility with PRId64, as was done on line 36?",
+      "revId": "bb9aecf5121f3cfa0561d1787e5ff4732717fb81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
