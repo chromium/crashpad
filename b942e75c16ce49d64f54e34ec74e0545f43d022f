@@ -1,0 +1,216 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d40ecdda_d0f16079",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T17:23:32Z",
+      "side": 1,
+      "message": "I do appreciate this style and sometimes use it in tests, but I think that for a raw data-carrying class like this, it’s a little unexpected. It’s very easy to miss that this declares a member variable and not just a type. Can you break the “enum class Type” declaration apart from the “Type type” one?",
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10e12392_dff2e1e5",
+        "filename": "handler/linux/exception_handler_server_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T17:23:32Z",
+      "side": 1,
+      "message": "#include \"build/build_config.h\"",
+      "range": {
+        "startLine": 363,
+        "startChar": 12,
+        "endLine": 363,
+        "endChar": 22
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9a16a8e_3acf7f85",
+        "filename": "handler/linux/exception_handler_server_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T17:23:32Z",
+      "side": 1,
+      "message": "#if defined(OS_ANDROID)\n#include \u003candroid/api-level.h\u003e\n#endif",
+      "range": {
+        "startLine": 363,
+        "startChar": 27,
+        "endLine": 363,
+        "endChar": 42
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89d31448_275a137f",
+        "filename": "handler/linux/exception_handler_server_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T17:23:32Z",
+      "side": 1,
+      "message": "Are you planning on adding this? Is there a bug for it?",
+      "range": {
+        "startLine": 365,
+        "startChar": 49,
+        "endLine": 366,
+        "endChar": 48
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d696c22_fbe46416",
+        "filename": "util/linux/exception_handler_client.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T17:23:32Z",
+      "side": 1,
+      "message": "DPLOG_IF. Do we need to avoid logging in this function?",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d03ba47_fca9ae48",
+        "filename": "util/linux/exception_handler_client.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T17:23:32Z",
+      "side": 1,
+      "message": "These two conditions can be \u0026\u0026-chained into a single |if|.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 64
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c7e7f60_f2752662",
+        "filename": "util/linux/exception_handler_client.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T17:23:32Z",
+      "side": 1,
+      "message": "PLOG, but see above.",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 12
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adcec9f9_842a31cd",
+        "filename": "util/linux/exception_handler_client.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T17:23:32Z",
+      "side": 1,
+      "message": "#include \"build/build_config.h\" and \u003candroid/api-level.h\u003e.",
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b79d260_71e69882",
+        "filename": "util/linux/proc_task_reader.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T17:23:32Z",
+      "side": 1,
+      "message": "DCHECK(!local_tids.empty())",
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f87f0af_17f51935",
+        "filename": "util/linux/proc_task_reader.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T17:23:32Z",
+      "side": 1,
+      "message": "I wonder if a std::set would be better for our purposes.",
+      "range": {
+        "startLine": 30,
+        "startChar": 30,
+        "endLine": 30,
+        "endChar": 41
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
