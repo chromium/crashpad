@@ -88,6 +88,30 @@
     },
     {
       "key": {
+        "uuid": "94130735_bb2537c3",
+        "filename": "handler/linux/exception_handler_server_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-24T19:41:03Z",
+      "side": 1,
+      "message": "Yep, I expect that\u0027s what will happen.\ncrbug.com/crashpad/265 is about lss for all the various signal handler system calls, which I was planning on including this on. I\u0027ll stick that link here too.\n\nI\u0027m planning on getting this bit done in parallel with the in-chromium development.",
+      "parentUuid": "89d31448_275a137f",
+      "range": {
+        "startLine": 365,
+        "startChar": 49,
+        "endLine": 366,
+        "endChar": 48
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6d696c22_fbe46416",
         "filename": "util/linux/exception_handler_client.cc",
         "patchSetId": 14
@@ -99,6 +123,30 @@
       "writtenOn": "2019-04-24T17:23:32Z",
       "side": 1,
       "message": "DPLOG_IF. Do we need to avoid logging in this function?",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a11c0624_5a214383",
+        "filename": "util/linux/exception_handler_client.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-24T19:41:03Z",
+      "side": 1,
+      "message": "I was considering whether it would be acceptable to use DLOG variants in signal handlers. It could make crash handling less reliable in debug builds (I suppose we\u0027d also need to do something to handle crashes in signal handlers), but if these system calls are failing, that might be more important to know about and this is a little more convenient than knowing when/where to inject `can_log \u003d true` as we do elsewhere.",
+      "parentUuid": "6d696c22_fbe46416",
       "range": {
         "startLine": 41,
         "startChar": 4,
