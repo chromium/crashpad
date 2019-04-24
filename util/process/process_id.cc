@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2019 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_COMPAT_WIN_SYS_TYPES_H_
-#define CRASHPAD_COMPAT_WIN_SYS_TYPES_H_
+#include "util/process/process_id.h"
 
-// This is intended to be roughly equivalent to #include_next.
-#include <../ucrt/sys/types.h>
+#include "build/build_config.h"
 
-#include <stdint.h>
+namespace crashpad {
 
-#endif  // CRASHPAD_COMPAT_WIN_SYS_TYPES_H_
+#if FALSE
+#if defined(OS_POSIX) || DOXYGEN
+const ProcessID kInvalidProcessID = -1;
+#elif defined(OS_WIN)
+const ProcessID kInvalidProcessID = 0;
+#elif defined(OS_FUCHSIA)
+const ProcessID kInvalidProcessID = -1;
+#else
+#error Port.
+#endif
+#endif
+
+}  // namespace crashpad
