@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "290a5ea1_c6ca1d53",
+        "filename": "compat/win/sys/types.h",
+        "patchSetId": 24
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T03:44:12Z",
+      "side": 1,
+      "message": "\u003e \u003e As part of this, are you able to drop pid_t from compat/win/sys/types.h?\n\u003e \u003e Actually, are you able to drop that file altogether?\n\u003e \n\u003e We can drop pid_t. I don\u0027t think we should drop the file altogether, given\n\u003e that it\u0027s injecting \u003cstdint.h\u003e, unless we want to clean that up with an\n\u003e include-what-you-use pass in a separate change.\n\n\u003cstdint.h\u003e is here for historical reasons that no longer apply.\n\nIt was introduced in https://chromium.googlesource.com/crashpad/crashpad/+/07fcf63c2183%5E%21/#F1 to make a former definition of ssize_t and a different (and temporary) definition of pid_t work. pid_t was changed back to “unsigned int” in https://chromium.googlesource.com/crashpad/crashpad/+/ff52791faf30%5E%21/#F1, and ssize_t disappeared entirely in https://chromium.googlesource.com/crashpad/crashpad/+/3d598cdbcd74%5E%21/#F0.\n\n(A further historical note you may find interesting in light of https://chromium-review.googlesource.com/c/1565288: we did have “unsigned long” here originally, https://chromium.googlesource.com/crashpad/crashpad/+/429a3368d476%5E%21/#F3.)\n\nI don’t think we get any benefit from having a custom \u003csys/types.h\u003e that does its own #include of \u003cstdint.h\u003e on Windows, so I think we should do the follow-up that removes this entirely and adds #includes elsewhere that need to be added as a result, if any.",
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da15a647_851879a0",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia.h",
+        "patchSetId": 24
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T03:44:12Z",
+      "side": 1,
+      "message": "Sort.",
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53d0ef6c_e6813077",
+        "filename": "snapshot/linux/process_snapshot_linux.h",
+        "patchSetId": 24
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T03:44:12Z",
+      "side": 1,
+      "message": "Throughout this change.",
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d254dfaf_5b974bad",
+        "filename": "test/win/win_multiprocess_with_temp_dir.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T03:44:12Z",
+      "side": 1,
+      "message": "#include \"util/process/process_id.h\"",
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73cbf117_a6f7e947",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 24
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T03:44:12Z",
+      "side": 1,
+      "message": "Sort.",
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4fbfb1b_08c0f3dc",
+        "filename": "util/process/process_id.h",
+        "patchSetId": 24
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T03:44:12Z",
+      "side": 1,
+      "message": "Our normal sort order for these cascades is posix-win-fuchsia—less alphabetical, more historical—but we’re fairly consistent about this.\n\nApplies to this cascade, the one below, and the one in the .cc file.",
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20e9d6cd_80b97375",
+        "filename": "util/process/process_id.h",
+        "patchSetId": 24
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T03:44:12Z",
+      "side": 1,
+      "message": "ProcessID, since you just defined it.",
+      "range": {
+        "startLine": 39,
+        "startChar": 27,
+        "endLine": 39,
+        "endChar": 32
+      },
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e3a8166_b2943402",
+        "filename": "util/process/process_id.h",
+        "patchSetId": 24
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T03:44:12Z",
+      "side": 1,
+      "message": "Could this have been done in-line here as a constexpr? (It’s OK if not, sometimes the answer is “no.”)",
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6598b096_f4e0e3ef",
+        "filename": "util/util.gyp",
+        "patchSetId": 24
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-24T03:44:12Z",
+      "side": 1,
+      "message": "Sort.\n\nAlso, process_id.cc?",
+      "revId": "c97ac478e70a885d26b2f8a6e1ae9df71c4b6d68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
