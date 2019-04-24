@@ -356,7 +356,7 @@ class StartHandlerForClientTest {
             FromPointerCast<VMAddress>(&sanitization_info);
       }
 
-      ExceptionHandlerClient handler_client(state->client_sock_);
+      ExceptionHandlerClient handler_client(state->client_sock_, false);
       CHECK_EQ(handler_client.RequestCrashDump(info), 0);
 
       Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, nullptr);
