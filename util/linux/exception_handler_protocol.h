@@ -16,6 +16,7 @@
 #define CRASHPAD_UTIL_LINUX_EXCEPTION_HANDLER_PROTOCOL_H_
 
 #include <errno.h>
+#include <signal.h>
 #include <stdint.h>
 #include <sys/types.h>
 
@@ -50,6 +51,13 @@ class ExceptionHandlerProtocol {
     //!     SanitizationInformation struct, or 0 if there is no such struct.
     VMAddress sanitization_information_address;
   };
+
+  //! \brief The signal used to indicate a crash dump is complete.
+  //!
+  //! When multiple clients share a single socket connection with the handler,
+  //! the handler sends this signal to the dump requestor to indicate when the
+  //! the dump is either done or has failed and the client may continue.
+  static constexpr int kDumpDoneSignal = SIGCONT;
 
   //! \brief The message passed from client to server.
   struct ClientToServerMessage {
