@@ -69,13 +69,16 @@ class ExceptionHandlerProtocol {
     //! \brief Indicates what message version is being used.
     int32_t version;
 
+    enum Type : uint32_t {
+      //! \brief Request that the server respond with its credentials.
+      kTypeCheckCreds,
+
+      //! \brief Used to request a crash dump for the sending client.
+      kTypeCrashDumpRequest
+    } type;
+
     //! \brief A stack address of the thread sending the message.
     VMAddress requesting_thread_stack_address;
-
-    enum Type : uint32_t {
-      //! \brief Used to request a crash dump for the sending client.
-      kCrashDumpRequest
-    } type;
 
     union {
       //! \brief Valid for type == kCrashDumpRequest
@@ -99,7 +102,10 @@ class ExceptionHandlerProtocol {
 
       //! \brief Indicicates that the handler was unable to produce a crash
       //!     dump.
-      kTypeCrashDumpFailed
+      kTypeCrashDumpFailed,
+
+      //! \brief
+      kTypeCreds
     } type;
 
     //! \brief The handler's process ID. Valid for kTypeSetPtracer.
@@ -114,3 +120,4 @@ class ExceptionHandlerProtocol {
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_LINUX_EXCEPTION_HANDLER_PROTOCOL_H_
+

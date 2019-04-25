@@ -34,6 +34,8 @@ class ExceptionHandlerClient {
 
   ~ExceptionHandlerClient();
 
+  bool InitializePtracer();
+
   //! \brief Request a crash dump from the ExceptionHandlerServer.
   //!
   //! This method blocks until the crash dump is complete.
