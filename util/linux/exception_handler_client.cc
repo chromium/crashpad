@@ -65,6 +65,30 @@ ExceptionHandlerClient::ExceptionHandlerClient(int sock, bool multiple_clients)
 
 ExceptionHandlerClient::~ExceptionHandlerClient() = default;
 
+bool ExceptionHandlerClient::InitializePtracer() {
+  ExceptionHandlerProtocol::ClientToServerMessage message = {};
+  message.type = ExceptionHandlerProtocol::ClientToServerMessage::kTypeCheckCreds;
+  if (SendMsg(server_sock_, &message, sizeof(message)) != 0) {
+    return false;
+  }
+
+  ExceptionHandlerProtocol::ServerToClientMessage ack;
+  ucred creds;
+  if (!RecvMsg(server_sock_, &ack, sizeof(ack), &creds)) {
+    return false;
+  }
+
+  // pid == 0 is an invalid pid suggesting the sending process does not exist in
+  // this PID namespace.
+  if (creds.pid != 0) {
+    if (prctl(PR_SET_PTRACER, creds.pid, 0, 0, 0) != 0) {
+      PLOG(ERROR) << "prctl";
+      return false;
+    }
+  }
+  return true;
+}
+
 int ExceptionHandlerClient::RequestCrashDump(
     const ExceptionHandlerProtocol::ClientInformation& info) {
   VMAddress sp = FromPointerCast<VMAddress>(&sp);
@@ -136,7 +160,7 @@ int ExceptionHandlerClient::SendCrashDumpRequest(
     VMAddress stack_pointer) {
   ExceptionHandlerProtocol::ClientToServerMessage message;
   message.type =
-      ExceptionHandlerProtocol::ClientToServerMessage::kCrashDumpRequest;
+      ExceptionHandlerProtocol::ClientToServerMessage::kTypeCrashDumpRequest;
   message.requesting_thread_stack_address = stack_pointer;
   message.client_info = info;
   return SendMsg(server_sock_, &message, sizeof(message));
@@ -193,6 +217,10 @@ int ExceptionHandlerClient::WaitForCrashDumpComplete() {
         }
         continue;
       }
+
+      case ExceptionHandlerProtocol::ServerToClientMessage::kTypeCreds:
+        DCHECK(false);
+        continue;
 
       case ExceptionHandlerProtocol::ServerToClientMessage::
           kTypeCrashDumpComplete:
