@@ -170,7 +170,7 @@ class ExceptionHandlerServer {
   bool UninstallClientSocket(Event* event);
   bool ReceiveClientMessage(Event* event);
   bool HandleCrashDumpRequest(
-      const msghdr& msg,
+      const ucred& creds,
       const ExceptionHandlerProtocol::ClientInformation& client_info,
       VMAddress requesting_thread_stack_address,
       int client_sock,

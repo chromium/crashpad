@@ -82,6 +82,8 @@
         'linux/scoped_pr_set_ptracer.h',
         'linux/scoped_ptrace_attach.cc',
         'linux/scoped_ptrace_attach.h',
+        'linux/socket.cc',
+        'linux/socket.h',
         'linux/thread_info.cc',
         'linux/thread_info.h',
         'linux/traits.h',
