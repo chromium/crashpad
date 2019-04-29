@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1e78d83f_b50782cf",
+        "filename": "handler/linux/exception_handler_server.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-29T16:41:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d40ecdda_d0f16079",
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10e12392_dff2e1e5",
         "filename": "handler/linux/exception_handler_server_test.cc",
         "patchSetId": 14
@@ -62,6 +80,54 @@
       "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d647de21_45170c2e",
+        "filename": "handler/linux/exception_handler_server_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-29T16:41:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9a16a8e_3acf7f85",
+      "range": {
+        "startLine": 363,
+        "startChar": 27,
+        "endLine": 363,
+        "endChar": 42
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b661562_c545c2b9",
+        "filename": "handler/linux/exception_handler_server_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-29T16:41:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10e12392_dff2e1e5",
+      "range": {
+        "startLine": 363,
+        "startChar": 12,
+        "endLine": 363,
+        "endChar": 22
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -207,6 +273,30 @@
     },
     {
       "key": {
+        "uuid": "76dd953c_0eaec3ee",
+        "filename": "util/linux/exception_handler_client.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-29T16:41:32Z",
+      "side": 1,
+      "message": "I stuck with DLOG for now, which seems especially handy to have during integration.",
+      "parentUuid": "bff71038_7b68ba53",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3d03ba47_fca9ae48",
         "filename": "util/linux/exception_handler_client.cc",
         "patchSetId": 14
@@ -227,6 +317,30 @@
       "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e83181d_fc612d42",
+        "filename": "util/linux/exception_handler_client.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-29T16:41:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d03ba47_fca9ae48",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 64
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -253,6 +367,30 @@
     },
     {
       "key": {
+        "uuid": "20365cac_8203f004",
+        "filename": "util/linux/exception_handler_client.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-29T16:41:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c7e7f60_f2752662",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 12
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "adcec9f9_842a31cd",
         "filename": "util/linux/exception_handler_client.cc",
         "patchSetId": 14
@@ -267,6 +405,24 @@
       "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd42d9a9_d5ef0604",
+        "filename": "util/linux/exception_handler_client.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-29T16:41:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adcec9f9_842a31cd",
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -287,6 +443,24 @@
     },
     {
       "key": {
+        "uuid": "968d97db_73ea9e1f",
+        "filename": "util/linux/proc_task_reader.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-29T16:41:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b79d260_71e69882",
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f87f0af_17f51935",
         "filename": "util/linux/proc_task_reader.h",
         "patchSetId": 14
@@ -298,6 +472,30 @@
       "writtenOn": "2019-04-24T17:23:32Z",
       "side": 1,
       "message": "I wonder if a std::set would be better for our purposes.",
+      "range": {
+        "startLine": 30,
+        "startChar": 30,
+        "endLine": 30,
+        "endChar": 41
+      },
+      "revId": "b942e75c16ce49d64f54e34ec74e0545f43d022f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01d73b18_bbd4d97f",
+        "filename": "util/linux/proc_task_reader.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-29T16:41:32Z",
+      "side": 1,
+      "message": "Outside of tests, we currently only ever enumerate the tids.",
+      "parentUuid": "2f87f0af_17f51935",
       "range": {
         "startLine": 30,
         "startChar": 30,
