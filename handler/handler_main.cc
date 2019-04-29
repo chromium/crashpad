@@ -993,8 +993,8 @@ int HandlerMain(int argc,
   }
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
   if (options.initial_client_fd == kInvalidFileHandle ||
-             !exception_handler_server.InitializeWithClient(
-                 ScopedFileHandle(options.initial_client_fd))) {
+      !exception_handler_server.InitializeWithClient(
+          ScopedFileHandle(options.initial_client_fd), false)) {
     return ExitFailure();
   }
 #endif  // OS_WIN

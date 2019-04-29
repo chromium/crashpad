@@ -28,7 +28,9 @@ class ExceptionHandlerClient {
   //! \brief Constructs this object.
   //!
   //! \param[in] sock A socket connected to an ExceptionHandlerServer.
-  explicit ExceptionHandlerClient(int sock);
+  //! \param[in] multiple_clients `true` if this socket may be used by multiple
+  //!     clients.
+  ExceptionHandlerClient(int sock, bool multiple_clients);
 
   ~ExceptionHandlerClient();
 
@@ -56,11 +58,14 @@ class ExceptionHandlerClient {
   int SendCrashDumpRequest(
       const ExceptionHandlerProtocol::ClientInformation& info,
       VMAddress stack_pointer);
+  int SignalCrashDump(const ExceptionHandlerProtocol::ClientInformation& info,
+                      VMAddress stack_pointer);
   int WaitForCrashDumpComplete();
 
   int server_sock_;
   pid_t ptracer_;
   bool can_set_ptracer_;
+  bool multiple_clients_;
 
   DISALLOW_COPY_AND_ASSIGN(ExceptionHandlerClient);
 };
