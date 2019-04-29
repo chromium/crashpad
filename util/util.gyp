@@ -67,6 +67,8 @@
         'linux/memory_map.h',
         'linux/proc_stat_reader.cc',
         'linux/proc_stat_reader.h',
+        'linux/proc_task_reader.cc',
+        'linux/proc_task_reader.h',
         'linux/ptrace_broker.cc',
         'linux/ptrace_broker.h',
         'linux/ptrace_client.cc',
