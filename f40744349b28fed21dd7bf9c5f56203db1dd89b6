@@ -16,6 +16,24 @@
       "revId": "f40744349b28fed21dd7bf9c5f56203db1dd89b6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0587a56a_7f571e73",
+        "filename": "util/linux/exception_handler_client.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-29T21:29:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e10046a_204a6a32",
+      "revId": "f40744349b28fed21dd7bf9c5f56203db1dd89b6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
