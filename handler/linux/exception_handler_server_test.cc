@@ -18,6 +18,7 @@
 #include <unistd.h>
 
 #include "base/logging.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "snapshot/linux/process_snapshot_linux.h"
 #include "test/errors.h"
@@ -29,6 +30,10 @@
 #include "util/misc/uuid.h"
 #include "util/synchronization/semaphore.h"
 #include "util/thread/thread.h"
+
+#if defined(OS_ANDROID)
+#include <android/api-level.h>
+#endif
 
 namespace crashpad {
 namespace test {
@@ -164,7 +169,9 @@ class MockPtraceStrategyDecider : public PtraceStrategyDecider {
 
   ~MockPtraceStrategyDecider() {}
 
-  Strategy ChooseStrategy(int sock, const ucred& client_credentials) override {
+  Strategy ChooseStrategy(int sock,
+                          bool multiple_clients,
+                          const ucred& client_credentials) override {
     if (strategy_ == Strategy::kUseBroker) {
       ExceptionHandlerProtocol::ServerToClientMessage message = {};
       message.type =
@@ -194,13 +201,14 @@ class MockPtraceStrategyDecider : public PtraceStrategyDecider {
   DISALLOW_COPY_AND_ASSIGN(MockPtraceStrategyDecider);
 };
 
-class ExceptionHandlerServerTest : public testing::Test {
+class ExceptionHandlerServerTest : public testing::TestWithParam<bool> {
  public:
   ExceptionHandlerServerTest()
       : server_(),
         delegate_(),
         server_thread_(&server_, &delegate_),
-        sock_to_handler_() {}
+        sock_to_handler_(),
+        use_multi_client_socket_(GetParam()) {}
 
   ~ExceptionHandlerServerTest() = default;
 
@@ -243,7 +251,6 @@ class ExceptionHandlerServerTest : public testing::Test {
 
       ExceptionHandlerProtocol::ClientInformation info;
       info.exception_information_address = 42;
-
       ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(), &info, sizeof(info)));
 
       // If the current ptrace_scope is restricted, the broker needs to be set
@@ -251,7 +258,8 @@ class ExceptionHandlerServerTest : public testing::Test {
       // ptracer allows the broker to inherit this condition.
       ScopedPrSetPtracer set_ptracer(getpid(), /* may_log= */ true);
 
-      ExceptionHandlerClient client(server_test_->SockToHandler());
+      ExceptionHandlerClient client(server_test_->SockToHandler(),
+                                    server_test_->use_multi_client_socket_);
       ASSERT_EQ(client.RequestCrashDump(info), 0);
     }
 
@@ -274,6 +282,8 @@ class ExceptionHandlerServerTest : public testing::Test {
     test.Run();
   }
 
+  bool UsingMultiClientSocket() const { return use_multi_client_socket_; }
+
  protected:
   void SetUp() override {
     int socks[2];
@@ -281,7 +291,8 @@ class ExceptionHandlerServerTest : public testing::Test {
     sock_to_handler_.reset(socks[0]);
     sock_to_client_ = socks[1];
 
-    ASSERT_TRUE(server_.InitializeWithClient(ScopedFileHandle(socks[1])));
+    ASSERT_TRUE(server_.InitializeWithClient(ScopedFileHandle(socks[1]),
+                                             use_multi_client_socket_));
   }
 
  private:
@@ -290,36 +301,37 @@ class ExceptionHandlerServerTest : public testing::Test {
   RunServerThread server_thread_;
   ScopedFileHandle sock_to_handler_;
   int sock_to_client_;
+  bool use_multi_client_socket_;
 
   DISALLOW_COPY_AND_ASSIGN(ExceptionHandlerServerTest);
 };
 
-TEST_F(ExceptionHandlerServerTest, ShutdownWithNoClients) {
+TEST_P(ExceptionHandlerServerTest, ShutdownWithNoClients) {
   ServerThread()->Start();
   Hangup();
   ASSERT_TRUE(ServerThread()->JoinWithTimeout(5.0));
 }
 
-TEST_F(ExceptionHandlerServerTest, StopWithClients) {
+TEST_P(ExceptionHandlerServerTest, StopWithClients) {
   ServerThread()->Start();
   Server()->Stop();
   ASSERT_TRUE(ServerThread()->JoinWithTimeout(5.0));
 }
 
-TEST_F(ExceptionHandlerServerTest, StopBeforeRun) {
+TEST_P(ExceptionHandlerServerTest, StopBeforeRun) {
   Server()->Stop();
   ServerThread()->Start();
   ASSERT_TRUE(ServerThread()->JoinWithTimeout(5.0));
 }
 
-TEST_F(ExceptionHandlerServerTest, MultipleStops) {
+TEST_P(ExceptionHandlerServerTest, MultipleStops) {
   ServerThread()->Start();
   Server()->Stop();
   Server()->Stop();
   ASSERT_TRUE(ServerThread()->JoinWithTimeout(5.0));
 }
 
-TEST_F(ExceptionHandlerServerTest, RequestCrashDumpDefault) {
+TEST_P(ExceptionHandlerServerTest, RequestCrashDumpDefault) {
   ScopedStopServerAndJoinThread stop_server(Server(), ServerThread());
   ServerThread()->Start();
 
@@ -327,24 +339,43 @@ TEST_F(ExceptionHandlerServerTest, RequestCrashDumpDefault) {
   test.Run();
 }
 
-TEST_F(ExceptionHandlerServerTest, RequestCrashDumpNoPtrace) {
+TEST_P(ExceptionHandlerServerTest, RequestCrashDumpNoPtrace) {
   ExpectCrashDumpUsingStrategy(PtraceStrategyDecider::Strategy::kNoPtrace,
                                false);
 }
 
-TEST_F(ExceptionHandlerServerTest, RequestCrashDumpForkBroker) {
+TEST_P(ExceptionHandlerServerTest, RequestCrashDumpForkBroker) {
+  if (UsingMultiClientSocket()) {
+    // The broker is not supported with multiple clients connected on a single
+    // socket.
+    return;
+  }
   ExpectCrashDumpUsingStrategy(PtraceStrategyDecider::Strategy::kUseBroker,
                                true);
 }
 
-TEST_F(ExceptionHandlerServerTest, RequestCrashDumpDirectPtrace) {
+TEST_P(ExceptionHandlerServerTest, RequestCrashDumpDirectPtrace) {
   ExpectCrashDumpUsingStrategy(PtraceStrategyDecider::Strategy::kDirectPtrace,
                                true);
 }
 
-TEST_F(ExceptionHandlerServerTest, RequestCrashDumpError) {
+TEST_P(ExceptionHandlerServerTest, RequestCrashDumpError) {
   ExpectCrashDumpUsingStrategy(PtraceStrategyDecider::Strategy::kError, false);
 }
+
+INSTANTIATE_TEST_SUITE_P(ExceptionHandlerServerTestSuite,
+                         ExceptionHandlerServerTest,
+#if defined(OS_ANDROID) && __ANDROID_API__ < 23
+                         // TODO(jperaza): Using a multi-client socket is not
+                         // supported on Android until an lss sigtimedwait()
+                         // wrapper is available to use in
+                         // ExceptionHandlerClient::SignalCrashDump().
+                         // https://crbug.com/crashpad/265
+                         testing::Values(false)
+#else
+                         testing::Bool()
+#endif
+);
 
 }  // namespace
 }  // namespace test

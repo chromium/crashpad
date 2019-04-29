@@ -15,6 +15,7 @@
 #include "util/linux/exception_handler_client.h"
 
 #include <errno.h>
+#include <signal.h>
 #include <sys/prctl.h>
 #include <sys/socket.h>
 #include <sys/wait.h>
@@ -28,16 +29,52 @@
 #include "util/misc/from_pointer_cast.h"
 #include "util/posix/signals.h"
 
+#if defined(OS_ANDROID)
+#include <android/api-level.h>
+#endif
+
 namespace crashpad {
 
-ExceptionHandlerClient::ExceptionHandlerClient(int sock)
-    : server_sock_(sock), ptracer_(-1), can_set_ptracer_(true) {}
+namespace {
+
+class ScopedSigprocmaskRestore {
+ public:
+  explicit ScopedSigprocmaskRestore(const sigset_t& set_to_block)
+      : orig_mask_(), mask_is_set_(false) {
+    mask_is_set_ = sigprocmask(SIG_BLOCK, &set_to_block, &orig_mask_) == 0;
+    DPLOG_IF(ERROR, !mask_is_set_) << "sigprocmask";
+  }
+
+  ~ScopedSigprocmaskRestore() {
+    if (mask_is_set_ && sigprocmask(SIG_SETMASK, &orig_mask_, nullptr) != 0) {
+      DPLOG(ERROR) << "sigprocmask";
+    }
+  }
+
+ private:
+  sigset_t orig_mask_;
+  bool mask_is_set_;
+
+  DISALLOW_COPY_AND_ASSIGN(ScopedSigprocmaskRestore);
+};
+
+}  // namespace
+
+ExceptionHandlerClient::ExceptionHandlerClient(int sock, bool multiple_clients)
+    : server_sock_(sock),
+      ptracer_(-1),
+      can_set_ptracer_(true),
+      multiple_clients_(multiple_clients) {}
 
 ExceptionHandlerClient::~ExceptionHandlerClient() = default;
 
 int ExceptionHandlerClient::RequestCrashDump(
     const ExceptionHandlerProtocol::ClientInformation& info) {
   VMAddress sp = FromPointerCast<VMAddress>(&sp);
+
+  if (multiple_clients_) {
+    return SignalCrashDump(info, sp);
+  }
 
   int status = SendCrashDumpRequest(info, sp);
   if (status != 0) {
@@ -63,6 +100,38 @@ int ExceptionHandlerClient::SetPtracer(pid_t pid) {
 
 void ExceptionHandlerClient::SetCanSetPtracer(bool can_set_ptracer) {
   can_set_ptracer_ = can_set_ptracer;
+}
+
+int ExceptionHandlerClient::SignalCrashDump(
+    const ExceptionHandlerProtocol::ClientInformation& info,
+    VMAddress stack_pointer) {
+  // TODO(jperaza): Use lss for system calls when sys_sigtimedwait() exists.
+  // https://crbug.com/crashpad/265
+  sigset_t dump_done_sigset;
+  sigemptyset(&dump_done_sigset);
+  sigaddset(&dump_done_sigset, ExceptionHandlerProtocol::kDumpDoneSignal);
+  ScopedSigprocmaskRestore scoped_block(dump_done_sigset);
+
+  int status = SendCrashDumpRequest(info, stack_pointer);
+  if (status != 0) {
+    return status;
+  }
+
+#if defined(OS_ANDROID) && __ANDROID_API__ < 23
+  // sigtimedwait() wrappers aren't available on Android until API 23 but this
+  // can use the lss wrapper when it's available.
+  NOTREACHED();
+#else
+  siginfo_t siginfo = {};
+  timespec timeout;
+  timeout.tv_sec = 5;
+  timeout.tv_nsec = 0;
+  if (HANDLE_EINTR(sigtimedwait(&dump_done_sigset, &siginfo, &timeout)) < 0) {
+    return errno;
+  }
+#endif
+
+  return 0;
 }
 
 int ExceptionHandlerClient::SendCrashDumpRequest(
