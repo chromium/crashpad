@@ -147,6 +147,12 @@ void SendSIGCONT(pid_t pid, pid_t tid) {
   }
 }
 
+bool SendCreds(int client_sock) {
+  ExceptionHandlerProtocol::ServerToClientMessage message = {};
+  message.type = ExceptionHandlerProtocol::ServerToClientMessage::kTypeCreds;
+  return SendMsg(client_sock, &message, sizeof(message)) == 0;
+}
+
 class PtraceStrategyDeciderImpl : public PtraceStrategyDecider {
  public:
   PtraceStrategyDeciderImpl() : PtraceStrategyDecider() {}
@@ -414,7 +420,10 @@ bool ExceptionHandlerServer::ReceiveClientMessage(Event* event) {
   }
 
   switch (message.type) {
-    case ExceptionHandlerProtocol::ClientToServerMessage::kCrashDumpRequest:
+    case ExceptionHandlerProtocol::ClientToServerMessage::kTypeCheckCreds:
+      return SendCreds(event->fd.get());
+
+    case ExceptionHandlerProtocol::ClientToServerMessage::kTypeCrashDumpRequest:
       return HandleCrashDumpRequest(
           creds,
           message.client_info,
