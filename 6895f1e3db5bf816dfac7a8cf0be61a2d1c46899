@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "35efd424_aec770e6",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-30T21:09:47Z",
+      "side": 1,
+      "message": "For now, it makes my life easier. :)\n\nIt\u0027s probably not infeasible to lift this restriction:\nRecvMsg() can use peeks, allocating increasingly larger control buffers until it\u0027s able to read the entire message without truncation.\n\nSendMsg() is meant to be used after a crash, so it can\u0027t allocate memory, which places the burden on the caller to provide a buffer at least CMSG_SPACE(sizeof(int) * fd_count) sized.\n\nAllowing arbitrarily many file descriptors might be useful in the future (file attachments?), but for now at least, we only ever want to send at most one (and I only allowed multiple descriptors in this iteration to make it easier to test RecvMsg a little more thoroughly).",
+      "parentUuid": "2e253d3d_7fbc083a",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3910ad99_35cc324d",
         "filename": "util/linux/socket.h",
         "patchSetId": 6
@@ -155,6 +173,30 @@
       "writtenOn": "2019-04-30T18:09:27Z",
       "side": 1,
       "message": "Instead of fds and fd_count, accept a const vector\u003cint\u003e*.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 26
+      },
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f200606_77d2c13c",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-04-30T21:09:47Z",
+      "side": 1,
+      "message": "I was hesitant to force callers to use a vector, which they would have to create in advance of a crash.",
+      "parentUuid": "3910ad99_35cc324d",
       "range": {
         "startLine": 49,
         "startChar": 0,
