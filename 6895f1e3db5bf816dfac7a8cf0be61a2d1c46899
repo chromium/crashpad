@@ -162,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "ade279aa_b6b2d918",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-30T21:11:36Z",
+      "side": 1,
+      "message": "\u003e For now, it makes my life easier. :)\n\u003e \n\u003e It\u0027s probably not infeasible to lift this restriction:\n\u003e RecvMsg() can use peeks, allocating increasingly larger control buffers until it\u0027s able to read the entire message without truncation.\n\u003e \n\u003e SendMsg() is meant to be used after a crash, so it can\u0027t allocate memory, which places the burden on the caller to provide a buffer at least CMSG_SPACE(sizeof(int) * fd_count) sized.\n\u003e \n\u003e Allowing arbitrarily many file descriptors might be useful in the future (file attachments?), but for now at least, we only ever want to send at most one (and I only allowed multiple descriptors in this iteration to make it easier to test RecvMsg a little more thoroughly).\n\nOK. It’s fair to go with this for now and revisit only if needed.",
+      "parentUuid": "35efd424_aec770e6",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3910ad99_35cc324d",
         "filename": "util/linux/socket.h",
         "patchSetId": 6
@@ -197,6 +215,30 @@
       "side": 1,
       "message": "I was hesitant to force callers to use a vector, which they would have to create in advance of a crash.",
       "parentUuid": "3910ad99_35cc324d",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 26
+      },
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c5fdc93_0c3ec2ad",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-30T21:11:36Z",
+      "side": 1,
+      "message": "\u003e I was hesitant to force callers to use a vector, which they would have to create in advance of a crash.\n\nTrue. Document that in the implementation, at least.",
+      "parentUuid": "3f200606_77d2c13c",
       "range": {
         "startLine": 49,
         "startChar": 0,
