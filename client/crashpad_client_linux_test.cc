@@ -38,6 +38,7 @@
 #include "util/file/filesystem.h"
 #include "util/linux/exception_handler_client.h"
 #include "util/linux/exception_information.h"
+#include "util/linux/socket.h"
 #include "util/misc/address_types.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/posix/signals.h"
@@ -245,16 +246,7 @@ class StartHandlerForClientTest {
 
   bool Initialize(bool sanitize) {
     sanitize_ = sanitize;
-
-    int socks[2];
-    if (socketpair(AF_UNIX, SOCK_STREAM, 0, socks) != 0) {
-      PLOG(ERROR) << "socketpair";
-      return false;
-    }
-    client_sock_.reset(socks[0]);
-    server_sock_.reset(socks[1]);
-
-    return true;
+    return CredentialSocketpair(&client_sock_, &server_sock_);
   }
 
   bool StartHandlerOnDemand() {
