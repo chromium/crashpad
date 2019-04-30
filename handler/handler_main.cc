@@ -168,8 +168,9 @@ struct Options {
   bool reset_own_crash_exception_port_to_system_default;
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
   VMAddress exception_information_address;
-  int initial_client_fd;
   VMAddress sanitization_information_address;
+  int initial_client_fd;
+  bool shared_client_connection;
 #elif defined(OS_WIN)
   std::string pipe_name;
   InitialClientData initial_client_data;
@@ -549,8 +550,9 @@ int HandlerMain(int argc,
 #endif  // OS_MACOSX
 #if defined(OS_LINUX) || defined(OS_ANDROID)
     kOptionTraceParentWithException,
-    kOptionInitialClientFD,
     kOptionSanitizationInformation,
+    kOptionInitialClientFD,
+    kOptionSharedClientConnection,
 #endif
     kOptionURL,
 
@@ -605,11 +607,15 @@ int HandlerMain(int argc,
      required_argument,
      nullptr,
      kOptionTraceParentWithException},
-    {"initial-client-fd", required_argument, nullptr, kOptionInitialClientFD},
     {"sanitization-information",
      required_argument,
      nullptr,
      kOptionSanitizationInformation},
+    {"initial-client-fd", required_argument, nullptr, kOptionInitialClientFD},
+    {"shared-client-connection",
+     no_argument,
+     nullptr,
+     kOptionSharedClientConnection},
 #endif  // OS_LINUX || OS_ANDROID
     {"url", required_argument, nullptr, kOptionURL},
     {"help", no_argument, nullptr, kOptionHelp},
@@ -627,8 +633,8 @@ int HandlerMain(int argc,
   options.upload_gzip = true;
 #if defined(OS_LINUX) || defined(OS_ANDROID)
   options.exception_information_address = 0;
-  options.initial_client_fd = kInvalidFileHandle;
   options.sanitization_information_address = 0;
+  options.initial_client_fd = kInvalidFileHandle;
 #endif
 
   int opt;
@@ -728,13 +734,6 @@ int HandlerMain(int argc,
         }
         break;
       }
-      case kOptionInitialClientFD: {
-        if (!base::StringToInt(optarg, &options.initial_client_fd)) {
-          ToolSupport::UsageHint(me, "failed to parse --initial-client-fd");
-          return ExitFailure();
-        }
-        break;
-      }
       case kOptionSanitizationInformation: {
         if (!StringToNumber(optarg,
                             &options.sanitization_information_address)) {
@@ -742,6 +741,17 @@ int HandlerMain(int argc,
                                  "failed to parse --sanitization-information");
           return ExitFailure();
         }
+        break;
+      }
+      case kOptionInitialClientFD: {
+        if (!base::StringToInt(optarg, &options.initial_client_fd)) {
+          ToolSupport::UsageHint(me, "failed to parse --initial-client-fd");
+          return ExitFailure();
+        }
+        break;
+      }
+      case kOptionSharedClientConnection: {
+        options.shared_client_connection = true;
         break;
       }
 #endif  // OS_LINUX || OS_ANDROID
@@ -801,6 +811,12 @@ int HandlerMain(int argc,
     ToolSupport::UsageHint(
         me,
         "--sanitization_information requires --trace-parent-with-exception");
+    return ExitFailure();
+  }
+  if (options.shared_client_connection &&
+      options.initial_client_fd == kInvalidFileHandle) {
+    ToolSupport::UsageHint(
+        me, "--shared-client-connection requires --initial-client-fd");
     return ExitFailure();
   }
 #endif  // OS_MACOSX
@@ -994,7 +1010,8 @@ int HandlerMain(int argc,
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
   if (options.initial_client_fd == kInvalidFileHandle ||
       !exception_handler_server.InitializeWithClient(
-          ScopedFileHandle(options.initial_client_fd), false)) {
+          ScopedFileHandle(options.initial_client_fd),
+          options.shared_client_connection)) {
     return ExitFailure();
   }
 #endif  // OS_WIN
