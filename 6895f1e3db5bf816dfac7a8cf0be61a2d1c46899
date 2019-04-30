@@ -1,0 +1,226 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b86faf9_65da6a75",
+        "filename": "util/linux/socket.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-30T18:09:27Z",
+      "side": 1,
+      "message": "The documentation implied that fd_count would not be consulted if fds was null, but this will be moot if fds becomes a vector.",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34678b3c_14101221",
+        "filename": "util/linux/socket.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-30T18:09:27Z",
+      "side": 1,
+      "message": "DLOG?",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fce73ac3_15ff0c76",
+        "filename": "util/linux/socket.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-30T18:09:27Z",
+      "side": 1,
+      "message": "You can \u003d {} this and then just set the fields you need as you need them, as you did in the next function.",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f3bad5c_9bb819c9",
+        "filename": "util/linux/socket.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-30T18:09:27Z",
+      "side": 1,
+      "message": "We shouldn’t have a DCHECK followed immediately by something that handles the situation that trips the DCHECK.",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 24
+      },
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd786dc9_edb5aa0b",
+        "filename": "util/linux/socket.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-30T18:09:27Z",
+      "side": 1,
+      "message": "DCHECK_LE(fd_count, kMaxSendRecvMsgFDs);",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "451f2f2a_4b9d5d8a",
+        "filename": "util/linux/socket.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-30T18:09:27Z",
+      "side": 1,
+      "message": "Maybe you want to stream cmsg_level and cmsg_type to help debug.",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6247feda_26d4cdd2",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-30T18:09:27Z",
+      "side": 1,
+      "message": "\"Create\" naming would make its function clearer at use sites: CreateCredentialSocketPair().",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e253d3d_7fbc083a",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-30T18:09:27Z",
+      "side": 1,
+      "message": "Why does there need to be a limit at all?",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3910ad99_35cc324d",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-30T18:09:27Z",
+      "side": 1,
+      "message": "Instead of fds and fd_count, accept a const vector\u003cint\u003e*.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 26
+      },
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32c4be56_dc0d5a11",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-30T18:09:27Z",
+      "side": 1,
+      "message": "Perhaps use a name that indicates that this isn\u0027t just RecvMsg, but that it\u0027s intended for credential-passing sockets.\n\nPulling all of these functions into a static-function-only class could help.",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9c8e0b5_18934dea",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-30T18:09:27Z",
+      "side": 1,
+      "message": "all received file descriptors",
+      "range": {
+        "startLine": 71,
+        "startChar": 75,
+        "endLine": 72,
+        "endChar": 24
+      },
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72a95cb6_772630f1",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-04-30T18:09:27Z",
+      "side": 1,
+      "message": "How do we know how much of buf was actually filled?",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
