@@ -68,6 +68,18 @@ ExceptionHandlerClient::ExceptionHandlerClient(int sock, bool multiple_clients)
 
 ExceptionHandlerClient::~ExceptionHandlerClient() = default;
 
+bool ExceptionHandlerClient::GetHandlerCredentials(ucred* creds) {
+  ExceptionHandlerProtocol::ClientToServerMessage message = {};
+  message.type =
+      ExceptionHandlerProtocol::ClientToServerMessage::kTypeCheckCreds;
+  if (SendMsg(server_sock_, &message, sizeof(message)) != 0) {
+    return false;
+  }
+
+  ExceptionHandlerProtocol::ServerToClientMessage response;
+  return RecvMsg(server_sock_, &response, sizeof(response), creds);
+}
+
 int ExceptionHandlerClient::RequestCrashDump(
     const ExceptionHandlerProtocol::ClientInformation& info) {
   VMAddress sp = FromPointerCast<VMAddress>(&sp);
@@ -139,7 +151,7 @@ int ExceptionHandlerClient::SendCrashDumpRequest(
     VMAddress stack_pointer) {
   ExceptionHandlerProtocol::ClientToServerMessage message;
   message.type =
-      ExceptionHandlerProtocol::ClientToServerMessage::kCrashDumpRequest;
+      ExceptionHandlerProtocol::ClientToServerMessage::kTypeCrashDumpRequest;
   message.requesting_thread_stack_address = stack_pointer;
   message.client_info = info;
   return SendMsg(server_sock_, &message, sizeof(message));
@@ -196,6 +208,10 @@ int ExceptionHandlerClient::WaitForCrashDumpComplete() {
         }
         continue;
       }
+
+      case ExceptionHandlerProtocol::ServerToClientMessage::kTypeCreds:
+        DCHECK(false);
+        continue;
 
       case ExceptionHandlerProtocol::ServerToClientMessage::
           kTypeCrashDumpComplete:
