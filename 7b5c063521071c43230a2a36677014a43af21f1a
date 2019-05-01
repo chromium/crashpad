@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15e8d4ca_cc3c5798",
+        "filename": "util/linux/socket.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-05-01T17:46:50Z",
+      "side": 1,
+      "message": "WritableIoVec from util/file/file_writer.h gives you a const iov_base member, so you don’t need the cast. But then you’d need a different cast when you stuff it in msghdr::msg_iov, so it’s probably not worth it. Never mind.",
+      "revId": "7b5c063521071c43230a2a36677014a43af21f1a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eced5a1a_4729cf2d",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-05-01T17:46:50Z",
+      "side": 1,
+      "message": "Class-level //! \\brief, at least.",
+      "revId": "7b5c063521071c43230a2a36677014a43af21f1a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2374443e_5559d3da",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-05-01T17:46:50Z",
+      "side": 1,
+      "message": "Can be constexpr and inline here, instead of in the .cc file.",
+      "revId": "7b5c063521071c43230a2a36677014a43af21f1a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "677d3dec_f53fabb0",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-05-01T17:46:50Z",
+      "side": 1,
+      "message": "private:",
+      "revId": "7b5c063521071c43230a2a36677014a43af21f1a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
