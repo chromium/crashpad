@@ -94,6 +94,24 @@
     },
     {
       "key": {
+        "uuid": "d26584de_49e4b81b",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-05-01T18:03:15Z",
+      "side": 1,
+      "message": "\u003e I tried that, but clang told me it needed c++17\n\nHmm, I thought it was C++14. OK.",
+      "parentUuid": "ff2ad2f2_057b654f",
+      "revId": "7b5c063521071c43230a2a36677014a43af21f1a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "677d3dec_f53fabb0",
         "filename": "util/linux/socket.h",
         "patchSetId": 7
