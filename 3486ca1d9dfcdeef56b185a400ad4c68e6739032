@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0358fd7_10612e6e",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-05-01T15:46:17Z",
+      "side": 1,
+      "message": "Applies on a per-thread basis only, so name it accordingly.",
+      "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "507d6af6_b74b643b",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-05-01T15:46:17Z",
+      "side": 1,
+      "message": "DCHECK(handler_)?",
+      "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12782f13_8e38ad09",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-05-01T15:46:17Z",
+      "side": 1,
+      "message": "The naming here isn’t the most helpful, and the lack of comments isn’t helping. We have HandleCrash, HandleCrashFatal, and HandleCrashNonFatal.",
+      "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31331a1a_1e1f41f1",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-05-01T15:46:17Z",
+      "side": 1,
+      "message": "Make private, provide a protected getter.",
+      "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a59ce3cd_303e2b51",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-05-01T15:46:17Z",
+      "side": 1,
+      "message": "If you structured this as disabled_ instead of enabled_, it’d qualify for .tbss instead of .tdata, where it wouldn’t need to take up any space in the image because the zeroes of .tbss are implicit.\n\nThis is generally good practice with anything of static storage duration, thread_local or not: .bss wins over .data.",
+      "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1544fa77_15f41b3d",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-05-01T15:46:17Z",
+      "side": 1,
+      "message": "Add this to the man page, crashpad_handler.md.",
+      "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1da62d6_352c7bb7",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-05-01T15:46:17Z",
+      "side": 1,
+      "message": "It was intended that the whole list be alphabetical, with OS #if guards where needed.\n\nSame for OptionFlags above, the getopt_long() loop below, and the man page.",
+      "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
