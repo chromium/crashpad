@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "75081096_26be45d9",
+        "filename": "util/linux/socket.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-01T17:36:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b86faf9_65da6a75",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34678b3c_14101221",
         "filename": "util/linux/socket.cc",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a223ca60_8cd4c91d",
+        "filename": "util/linux/socket.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-01T17:36:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34678b3c_14101221",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fce73ac3_15ff0c76",
         "filename": "util/linux/socket.cc",
         "patchSetId": 6
@@ -50,6 +86,24 @@
       "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed11b5dc_efbc9ad1",
+        "filename": "util/linux/socket.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-01T17:36:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fce73ac3_15ff0c76",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "6b170c08_1c913e28",
+        "filename": "util/linux/socket.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-01T17:36:10Z",
+      "side": 1,
+      "message": "After further contemplation, I think neither of those lines was necessary. Removed! (I also tried out sending multiple SCM_RIGHTS control messages to see what would happen and the kernel consolidated them into a single control message, though I don\u0027t think that\u0027s explicitly promised by documentation.)",
+      "parentUuid": "6f3bad5c_9bb819c9",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 24
+      },
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd786dc9_edb5aa0b",
         "filename": "util/linux/socket.cc",
         "patchSetId": 6
@@ -90,6 +168,24 @@
       "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec490641_adee0ae2",
+        "filename": "util/linux/socket.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-01T17:36:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd786dc9_edb5aa0b",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "8c7cdec6_130317e7",
+        "filename": "util/linux/socket.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-01T17:36:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "451f2f2a_4b9d5d8a",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6247feda_26d4cdd2",
         "filename": "util/linux/socket.h",
         "patchSetId": 6
@@ -124,6 +238,24 @@
       "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de3262cb_5a5ef69d",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-01T17:36:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6247feda_26d4cdd2",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -251,6 +383,30 @@
     },
     {
       "key": {
+        "uuid": "15836a09_eed42558",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-01T17:36:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c5fdc93_0c3ec2ad",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 26
+      },
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32c4be56_dc0d5a11",
         "filename": "util/linux/socket.h",
         "patchSetId": 6
@@ -265,6 +421,24 @@
       "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78a77129_ebc503e6",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-01T17:36:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32c4be56_dc0d5a11",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -291,6 +465,30 @@
     },
     {
       "key": {
+        "uuid": "25bb688a_5ad29df5",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-01T17:36:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9c8e0b5_18934dea",
+      "range": {
+        "startLine": 71,
+        "startChar": 75,
+        "endLine": 72,
+        "endChar": 24
+      },
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72a95cb6_772630f1",
         "filename": "util/linux/socket.h",
         "patchSetId": 6
@@ -305,6 +503,24 @@
       "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b33a57c3_8ae3c7e3",
+        "filename": "util/linux/socket.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-01T17:36:10Z",
+      "side": 1,
+      "message": "It\u0027s now checked in the implemenation.",
+      "parentUuid": "72a95cb6_772630f1",
+      "revId": "6895f1e3db5bf816dfac7a8cf0be61a2d1c46899",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
