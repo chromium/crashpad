@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_UTIL_LINUX_EXCEPTION_HANDLER_CLIENT_H_
 #define CRASHPAD_UTIL_LINUX_EXCEPTION_HANDLER_CLIENT_H_
 
+#include <sys/socket.h>
 #include <sys/types.h>
 
 #include "base/macros.h"
@@ -33,6 +34,17 @@ class ExceptionHandlerClient {
   ExceptionHandlerClient(int sock, bool multiple_clients);
 
   ~ExceptionHandlerClient();
+
+  //! \brief Communicates with the handler to determine its credentials.
+  //!
+  //! If using a multi-client socket, this method should be called before
+  //! sharing the client socket end, or the handler's response may not be
+  //! received.
+  //!
+  //! \param[out] creds The handler process' credentials, valid if this method
+  //!     returns `true`.
+  //! \return `true` on success. Otherwise, `false` with a message logged.
+  bool GetHandlerCredentials(ucred* creds);
 
   //! \brief Request a crash dump from the ExceptionHandlerServer.
   //!

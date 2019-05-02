@@ -69,13 +69,18 @@ class ExceptionHandlerProtocol {
     //! \brief Indicates what message version is being used.
     int32_t version;
 
+    enum Type : uint32_t {
+      //! \brief Request that the server respond with its credentials.
+      kTypeCheckCredentials,
+
+      //! \brief Used to request a crash dump for the sending client.
+      kTypeCrashDumpRequest
+    };
+
+    Type type;
+
     //! \brief A stack address of the thread sending the message.
     VMAddress requesting_thread_stack_address;
-
-    enum Type : uint32_t {
-      //! \brief Used to request a crash dump for the sending client.
-      kCrashDumpRequest
-    } type;
 
     union {
       //! \brief Valid for type == kCrashDumpRequest
@@ -86,6 +91,9 @@ class ExceptionHandlerProtocol {
   //! \brief The message passed from server to client.
   struct ServerToClientMessage {
     enum Type : uint32_t {
+      //! \brief Used to pass credentials with `SCM_CREDENTIALS`.
+      kTypeCredentials,
+
       //! \brief Indicates that the client should fork a PtraceBroker process.
       kTypeForkBroker,
 
@@ -100,7 +108,9 @@ class ExceptionHandlerProtocol {
       //! \brief Indicicates that the handler was unable to produce a crash
       //!     dump.
       kTypeCrashDumpFailed
-    } type;
+    };
+
+    Type type;
 
     //! \brief The handler's process ID. Valid for kTypeSetPtracer.
     pid_t pid;
