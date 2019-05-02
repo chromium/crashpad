@@ -24,6 +24,7 @@
         '../compat/compat.gyp:crashpad_compat',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
         '../third_party/zlib/zlib.gyp:zlib',
+        '../third_party/lss/lss.gyp:lss',
       ],
       'include_dirs': [
         '..',
@@ -82,6 +83,8 @@
         'linux/scoped_pr_set_ptracer.h',
         'linux/scoped_ptrace_attach.cc',
         'linux/scoped_ptrace_attach.h',
+        'linux/socket.cc',
+        'linux/socket.h',
         'linux/thread_info.cc',
         'linux/thread_info.h',
         'linux/traits.h',
