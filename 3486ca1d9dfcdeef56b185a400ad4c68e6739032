@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "32d0a5fa_b071ec7b",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-02T04:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0358fd7_10612e6e",
+      "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "507d6af6_b74b643b",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7b60f98_9eeb4397",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-02T04:39:53Z",
+      "side": 1,
+      "message": "This one\u0027s allowed to be nullptr. Documentation added.",
+      "parentUuid": "507d6af6_b74b643b",
+      "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "4206e209_1b795b26",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-02T04:39:53Z",
+      "side": 1,
+      "message": "Increased documentation and re-organized things a bit.",
+      "parentUuid": "12782f13_8e38ad09",
+      "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31331a1a_1e1f41f1",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 8
@@ -67,6 +121,24 @@
       "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d197432_58867dc3",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-02T04:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31331a1a_1e1f41f1",
+      "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "5a218a54_d7b7d1ea",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-02T04:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a59ce3cd_303e2b51",
+      "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1544fa77_15f41b3d",
         "filename": "handler/handler_main.cc",
         "patchSetId": 8
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "dc8e5c89_8dc7964c",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-02T04:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1544fa77_15f41b3d",
+      "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1da62d6_352c7bb7",
         "filename": "handler/handler_main.cc",
         "patchSetId": 8
@@ -118,6 +226,24 @@
       "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "701a28be_6e1af930",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-02T04:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1da62d6_352c7bb7",
+      "revId": "3486ca1d9dfcdeef56b185a400ad4c68e6739032",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
