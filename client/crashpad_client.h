@@ -78,6 +78,10 @@ class CrashpadClient {
   //! On Fuchsia, this method binds to the exception port of the current default
   //! job, and starts a Crashpad handler to monitor that port.
   //!
+  //! On Linux, this method starts a Crashpad handler, connected to this process
+  //! via an `AF_UNIX` socket pair and installs signal handlers to request crash
+  //! dumps on the client's socket end.
+  //!
   //! \param[in] handler The path to a Crashpad handler executable.
   //! \param[in] database The path to a Crashpad database. The handler will be
   //!     started with this path as its `--database` argument.

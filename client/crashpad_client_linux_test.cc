@@ -55,59 +55,55 @@ namespace crashpad {
 namespace test {
 namespace {
 
+struct StartHandlerForSelfTestOptions {
+  bool start_handler_at_crash;
+  bool simulate_crash;
+  bool set_first_chance_handler;
+};
+
+class StartHandlerForSelfTest
+    : public testing::TestWithParam<std::tuple<bool, bool, bool>> {
+ public:
+  StartHandlerForSelfTest() = default;
+  ~StartHandlerForSelfTest() = default;
+
+  void SetUp() override {
+    std::tie(options_.start_handler_at_crash,
+             options_.simulate_crash,
+             options_.set_first_chance_handler) = GetParam();
+  }
+
+  const StartHandlerForSelfTestOptions& Options() const { return options_; }
+
+ private:
+  StartHandlerForSelfTestOptions options_;
+
+  DISALLOW_COPY_AND_ASSIGN(StartHandlerForSelfTest);
+};
+
 bool HandleCrashSuccessfully(int, siginfo_t*, ucontext_t*) {
   return true;
 }
 
-TEST(CrashpadClient, SimulateCrash) {
-  ScopedTempDir temp_dir;
-
-  base::FilePath handler_path = TestPaths::Executable().DirName().Append(
-      FILE_PATH_LITERAL("crashpad_handler"));
-
-  crashpad::CrashpadClient client;
-  ASSERT_TRUE(client.StartHandlerAtCrash(handler_path,
-                                         base::FilePath(temp_dir.path()),
-                                         base::FilePath(),
-                                         "",
-                                         std::map<std::string, std::string>(),
-                                         std::vector<std::string>()));
-
-  auto database =
-      CrashReportDatabase::InitializeWithoutCreating(temp_dir.path());
-  ASSERT_TRUE(database);
-
-  {
-    CrashpadClient::SetFirstChanceExceptionHandler(HandleCrashSuccessfully);
-
-    CRASHPAD_SIMULATE_CRASH();
-
-    std::vector<CrashReportDatabase::Report> reports;
-    ASSERT_EQ(database->GetPendingReports(&reports),
-              CrashReportDatabase::kNoError);
-    EXPECT_EQ(reports.size(), 0u);
-
-    reports.clear();
-    ASSERT_EQ(database->GetCompletedReports(&reports),
-              CrashReportDatabase::kNoError);
-    EXPECT_EQ(reports.size(), 0u);
-  }
-
-  {
-    CrashpadClient::SetFirstChanceExceptionHandler(nullptr);
-
-    CRASHPAD_SIMULATE_CRASH();
-
-    std::vector<CrashReportDatabase::Report> reports;
-    ASSERT_EQ(database->GetPendingReports(&reports),
-              CrashReportDatabase::kNoError);
-    EXPECT_EQ(reports.size(), 1u);
-
-    reports.clear();
-    ASSERT_EQ(database->GetCompletedReports(&reports),
-              CrashReportDatabase::kNoError);
-    EXPECT_EQ(reports.size(), 0u);
-  }
+bool InstallHandler(CrashpadClient* client,
+                    bool start_at_crash,
+                    const base::FilePath& handler_path,
+                    const base::FilePath& database_path) {
+  return start_at_crash
+             ? client->StartHandlerAtCrash(handler_path,
+                                           database_path,
+                                           base::FilePath(),
+                                           "",
+                                           std::map<std::string, std::string>(),
+                                           std::vector<std::string>())
+             : client->StartHandler(handler_path,
+                                    database_path,
+                                    base::FilePath(),
+                                    "",
+                                    std::map<std::string, std::string>(),
+                                    std::vector<std::string>(),
+                                    false,
+                                    false);
 }
 
 constexpr char kTestAnnotationName[] = "name_of_annotation";
@@ -152,7 +148,7 @@ void ValidateDump(const CrashReportDatabase::UploadReport* report) {
   ADD_FAILURE();
 }
 
-CRASHPAD_CHILD_TEST_MAIN(StartHandlerAtCrashChild) {
+CRASHPAD_CHILD_TEST_MAIN(StartHandlerForSelfTestChild) {
   FileHandle in = StdioFileHandle(StdioStream::kStandardInput);
 
   VMSize temp_dir_length;
@@ -160,6 +156,9 @@ CRASHPAD_CHILD_TEST_MAIN(StartHandlerAtCrashChild) {
 
   std::string temp_dir(temp_dir_length, '\0');
   CheckedReadFileExactly(in, &temp_dir[0], temp_dir_length);
+
+  StartHandlerForSelfTestOptions options;
+  CheckedReadFileExactly(in, &options, sizeof(options));
 
   base::FilePath handler_path = TestPaths::Executable().DirName().Append(
       FILE_PATH_LITERAL("crashpad_handler"));
@@ -170,12 +169,10 @@ CRASHPAD_CHILD_TEST_MAIN(StartHandlerAtCrashChild) {
   test_annotation.Set(kTestAnnotationValue);
 
   crashpad::CrashpadClient client;
-  if (!client.StartHandlerAtCrash(handler_path,
-                                  base::FilePath(temp_dir),
-                                  base::FilePath(),
-                                  "",
-                                  std::map<std::string, std::string>(),
-                                  std::vector<std::string>())) {
+  if (!InstallHandler(&client,
+                      options.start_handler_at_crash,
+                      handler_path,
+                      base::FilePath(temp_dir))) {
     return EXIT_FAILURE;
   }
 
@@ -185,17 +182,28 @@ CRASHPAD_CHILD_TEST_MAIN(StartHandlerAtCrashChild) {
   }
 #endif
 
+  if (options.simulate_crash) {
+    if (options.set_first_chance_handler) {
+      client.SetFirstChanceExceptionHandler(HandleCrashSuccessfully);
+    }
+    CRASHPAD_SIMULATE_CRASH();
+    return EXIT_SUCCESS;
+  }
+
   __builtin_trap();
 
   NOTREACHED();
   return EXIT_SUCCESS;
 }
 
-class StartHandlerAtCrashTest : public MultiprocessExec {
+class StartHandlerForSelfInChildTest : public MultiprocessExec {
  public:
-  StartHandlerAtCrashTest() : MultiprocessExec() {
-    SetChildTestMainFunction("StartHandlerAtCrashChild");
-    SetExpectedChildTerminationBuiltinTrap();
+  StartHandlerForSelfInChildTest(const StartHandlerForSelfTestOptions& options)
+      : MultiprocessExec(), options_(options) {
+    SetChildTestMainFunction("StartHandlerForSelfTestChild");
+    if (!options.simulate_crash) {
+      SetExpectedChildTerminationBuiltinTrap();
+    }
   }
 
  private:
@@ -206,6 +214,8 @@ class StartHandlerAtCrashTest : public MultiprocessExec {
         WritePipeHandle(), &temp_dir_length, sizeof(temp_dir_length)));
     ASSERT_TRUE(LoggingWriteFile(
         WritePipeHandle(), temp_dir.path().value().data(), temp_dir_length));
+    ASSERT_TRUE(
+        LoggingWriteFile(WritePipeHandle(), &options_, sizeof(options_)));
 
     // Wait for child to finish.
     CheckedReadFileAtEOF(ReadPipeHandle());
@@ -221,7 +231,11 @@ class StartHandlerAtCrashTest : public MultiprocessExec {
     reports.clear();
     ASSERT_EQ(database->GetPendingReports(&reports),
               CrashReportDatabase::kNoError);
-    ASSERT_EQ(reports.size(), 1u);
+    ASSERT_EQ(reports.size(), options_.set_first_chance_handler ? 0u : 1u);
+
+    if (options_.set_first_chance_handler) {
+      return;
+    }
 
     std::unique_ptr<const CrashReportDatabase::UploadReport> report;
     ASSERT_EQ(database->GetReportForUploading(reports[0].uuid, &report),
@@ -229,13 +243,25 @@ class StartHandlerAtCrashTest : public MultiprocessExec {
     ValidateDump(report.get());
   }
 
-  DISALLOW_COPY_AND_ASSIGN(StartHandlerAtCrashTest);
+  StartHandlerForSelfTestOptions options_;
+
+  DISALLOW_COPY_AND_ASSIGN(StartHandlerForSelfInChildTest);
 };
 
-TEST(CrashpadClient, StartHandlerAtCrash) {
-  StartHandlerAtCrashTest test;
+TEST_P(StartHandlerForSelfTest, StartHandlerInChild) {
+  if (Options().set_first_chance_handler && !Options().simulate_crash) {
+    // TODO(jperaza): test first chance handlers with real crashes.
+    return;
+  }
+  StartHandlerForSelfInChildTest test(Options());
   test.Run();
 }
+
+INSTANTIATE_TEST_SUITE_P(StartHandlerForSelfTestSuite,
+                         StartHandlerForSelfTest,
+                         testing::Combine(testing::Bool(),
+                                          testing::Bool(),
+                                          testing::Bool()));
 
 // Test state for starting the handler for another process.
 class StartHandlerForClientTest {
