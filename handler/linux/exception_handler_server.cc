@@ -147,6 +147,14 @@ void SendSIGCONT(pid_t pid, pid_t tid) {
   }
 }
 
+bool SendCredentials(int client_sock) {
+  ExceptionHandlerProtocol::ServerToClientMessage message = {};
+  message.type =
+      ExceptionHandlerProtocol::ServerToClientMessage::kTypeCredentials;
+  return UnixCredentialSocket::SendMsg(
+             client_sock, &message, sizeof(message)) == 0;
+}
+
 class PtraceStrategyDeciderImpl : public PtraceStrategyDecider {
  public:
   PtraceStrategyDeciderImpl() : PtraceStrategyDecider() {}
@@ -415,7 +423,10 @@ bool ExceptionHandlerServer::ReceiveClientMessage(Event* event) {
   }
 
   switch (message.type) {
-    case ExceptionHandlerProtocol::ClientToServerMessage::kCrashDumpRequest:
+    case ExceptionHandlerProtocol::ClientToServerMessage::kTypeCheckCredentials:
+      return SendCredentials(event->fd.get());
+
+    case ExceptionHandlerProtocol::ClientToServerMessage::kTypeCrashDumpRequest:
       return HandleCrashDumpRequest(
           creds,
           message.client_info,
