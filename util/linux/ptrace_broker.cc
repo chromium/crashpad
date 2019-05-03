@@ -93,8 +93,8 @@ int PtraceBroker::Run() {
 }
 
 bool PtraceBroker::AllocateAttachments() {
-  constexpr size_t page_size = 4096;
-  constexpr size_t alloc_size =
+  static size_t page_size = getpagesize();
+  size_t alloc_size =
       (sizeof(ScopedPtraceAttach) + page_size - 1) & ~(page_size - 1);
   void* alloc = sbrk(alloc_size);
   if (reinterpret_cast<intptr_t>(alloc) == -1) {

@@ -600,6 +600,8 @@ bool WriteTestModule(const base::FilePath& module_path) {
   module.ehdr.e_machine = EM_AARCH64;
 #elif defined(ARCH_CPU_MIPSEL) || defined(ARCH_CPU_MIPS64EL)
   module.ehdr.e_machine = EM_MIPS;
+#elif defined(ARCH_CPU_PPC64)
+  module.ehdr.e_machine = EM_PPC64;
 #endif
 
   module.ehdr.e_version = EV_CURRENT;

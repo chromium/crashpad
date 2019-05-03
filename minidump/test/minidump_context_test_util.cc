@@ -272,6 +272,40 @@ void InitializeMinidumpContextMIPS64(MinidumpContextMIPS64* context,
   context->dsp_control = value++;
 }
 
+void InitializeMinidumpContextPPC64(MinidumpContextPPC64* context,
+                                    uint32_t seed) {
+  if (seed == 0) {
+    memset(context, 0, sizeof(*context));
+    context->context_flags = kMinidumpContextPPC64;
+    return;
+  }
+
+  context->context_flags = kMinidumpContextPPC64All;
+
+  uint64_t value = seed;
+  for (size_t i = 0; i < base::size(context->regs); ++i) {
+    context->regs[i] = value++;
+  }
+
+  context->nip = value++;
+  context->msr = value++;
+  context->ccr = value++;
+  context->xer = value++;
+  context->lnk = value++;
+  context->ctr = value++;
+
+  for (size_t i = 0; i < base::size(context->fpregs); ++i) {
+    context->fpregs[i] = static_cast<double>(i);
+  }
+  context->fpscr = value++;
+
+  for (size_t i = 0; i < base::size(context->vregs.save_vr); ++i) {
+    context->vregs.save_vr[i] = {value++, value++};
+  }
+  context->vregs.save_vscr = {value++, value++};
+  context->vregs.save_vrsave = value++;
+}
+
 namespace {
 
 // Using gtest assertions, compares |expected| to |observed|. This is
@@ -592,6 +626,39 @@ void ExpectMinidumpContextMIPS64(uint32_t expect_seed,
     EXPECT_EQ(observed->lo[index], expected.lo[index]);
   }
   EXPECT_EQ(observed->dsp_control, expected.dsp_control);
+}
+
+void ExpectMinidumpContextPPC64(uint32_t expect_seed,
+                                const MinidumpContextPPC64* observed,
+                                bool snapshot) {
+  MinidumpContextPPC64 expected;
+  InitializeMinidumpContextPPC64(&expected, expect_seed);
+
+  EXPECT_EQ(observed->context_flags, expected.context_flags);
+
+  for (size_t i = 0; i < base::size(expected.regs); ++i) {
+    EXPECT_EQ(observed->regs[i], expected.regs[i]);
+  }
+
+  EXPECT_EQ(observed->nip, expected.nip);
+  EXPECT_EQ(observed->msr, expected.msr);
+  EXPECT_EQ(observed->ccr, expected.ccr);
+  EXPECT_EQ(observed->xer, expected.xer);
+  EXPECT_EQ(observed->lnk, expected.lnk);
+  EXPECT_EQ(observed->ctr, expected.ctr);
+
+  for (size_t i = 0; i < base::size(expected.fpregs); ++i) {
+    EXPECT_EQ(observed->fpregs[i], expected.fpregs[i]);
+  }
+  EXPECT_EQ(observed->fpscr, expected.fpscr);
+
+  for (size_t i = 0; i < base::size(expected.vregs.save_vr); ++ i) {
+    EXPECT_EQ(observed->vregs.save_vr[i].lo, expected.vregs.save_vr[i].lo);
+    EXPECT_EQ(observed->vregs.save_vr[i].hi, expected.vregs.save_vr[i].hi);
+  }
+  EXPECT_EQ(observed->vregs.save_vscr.lo, expected.vregs.save_vscr.lo);
+  EXPECT_EQ(observed->vregs.save_vscr.hi, expected.vregs.save_vscr.hi);
+  EXPECT_EQ(observed->vregs.save_vrsave, expected.vregs.save_vrsave);
 }
 
 }  // namespace test

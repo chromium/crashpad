@@ -101,6 +101,13 @@ MinidumpContextWriter::CreateFromSnapshot(const CPUContext* context_snapshot) {
       break;
     }
 
+    case kCPUArchitecturePPC64: {
+      context = std::make_unique<MinidumpContextPPC64Writer>();
+      reinterpret_cast<MinidumpContextPPC64Writer*>(context.get())
+          ->InitalizeFromSnapshot(context_snapshot->ppc64);
+      break;
+    }
+
     default: {
       LOG(ERROR) << "unknown context architecture "
                  << context_snapshot->architecture;
@@ -449,6 +456,49 @@ bool MinidumpContextMIPS64Writer::WriteObject(
 }
 
 size_t MinidumpContextMIPS64Writer::ContextSize() const {
+  DCHECK_GE(state(), kStateFrozen);
+  return sizeof(context_);
+}
+
+MinidumpContextPPC64Writer::MinidumpContextPPC64Writer()
+  : MinidumpContextWriter(), context_() {
+    context_.context_flags = kMinidumpContextPPC64;
+}
+
+MinidumpContextPPC64Writer::~MinidumpContextPPC64Writer() = default;
+
+void MinidumpContextPPC64Writer::InitalizeFromSnapshot(
+    const CPUContextPPC64* context_snapshot) {
+  DCHECK_EQ(state(), kStateMutable);
+  DCHECK_EQ(context_.context_flags, kMinidumpContextPPC64);
+
+  context_.context_flags = kMinidumpContextPPC64All;
+
+  memcpy(context_.regs, context_snapshot->regs, sizeof(context_.regs));
+  context_.nip = context_snapshot->nip;
+  context_.msr = context_snapshot->msr;
+  context_.ccr = context_snapshot->ccr;
+  context_.xer = context_snapshot->xer;
+  context_.lnk = context_snapshot->lnk;
+  context_.ctr = context_snapshot->ctr;
+
+  memcpy(context_.fpregs, context_snapshot->fpregs, sizeof(context_.fpregs));
+  context_.fpscr = context_snapshot->fpscr;
+
+  memcpy(context_.vregs.save_vr, context_snapshot->vregs.save_vr,
+         sizeof(context_.vregs.save_vr));
+  memcpy(&context_.vregs.save_vscr, &context_snapshot->vregs.save_vscr,
+         sizeof(context_.vregs.save_vscr));
+  context_.vregs.save_vrsave = context_snapshot->vregs.save_vrsave;
+}
+
+bool MinidumpContextPPC64Writer::WriteObject(
+    FileWriterInterface* file_writer) {
+  DCHECK_EQ(state(), kStateWritable);
+  return file_writer->Write(&context_, sizeof(context_));
+}
+
+size_t MinidumpContextPPC64Writer::ContextSize() const {
   DCHECK_GE(state(), kStateFrozen);
   return sizeof(context_);
 }

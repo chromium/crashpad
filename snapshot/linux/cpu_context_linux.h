@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_SNAPSHOT_LINUX_CPU_CONTEXT_LINUX_H_
 #define CRASHPAD_SNAPSHOT_LINUX_CPU_CONTEXT_LINUX_H_
 
+#include <cstring>
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/linux/signal_context.h"
@@ -173,6 +174,78 @@ void InitializeCPUContextMIPS(
 };
 
 #endif  // ARCH_CPU_MIPS_FAMILY || DOXYGEN
+
+#if defined(ARCH_CPU_PPC64_FAMILY) || DOXYGEN
+
+//! \brief Initalizes a CPUContextPPC64 structure from native context
+//!     structures on Linux.
+//!
+//! \param[in] thread_context The native thread context.
+//! \param[in] float_context The native float context.
+//! \param[in] vector_context The native vector context.
+//! \param[out] context The CPUContextPPC64 structure to initalize.
+template <typename Traits>
+void InitializeCPUContextPPC64(
+    const ThreadContext::t64_t& thread_context,
+    const FloatContext::f64_t& float_context,
+    const VectorContext::v64_t& vector_context,
+    typename Traits::CPUContext* context) {
+
+  memcpy(context->regs, thread_context.gpr, sizeof(context->regs));
+  context->nip = thread_context.nip;
+  context->msr = thread_context.msr;
+  context->ccr = thread_context.ccr;
+  context->xer = thread_context.xer;
+  context->lnk = thread_context.lnk;
+  context->ctr = thread_context.ctr;
+
+  memcpy(context->fpregs, float_context.fpregs, sizeof(context->fpregs));
+  context->fpscr = float_context.fpscr;
+
+  for (uint8_t i = 0; i < 32; i++) {
+    context->vregs.save_vr[i] = {
+      (((uint64_t)vector_context.vrregs[i][0]) << 32) |
+        vector_context.vrregs[i][1],
+      (((uint64_t)vector_context.vrregs[i][2]) << 32) |
+        vector_context.vrregs[i][3]
+    };
+  }
+  context->vregs.save_vrsave = vector_context.vrsave;
+  context->vregs.save_vscr = {0, (uint64_t)vector_context.vscr.vscr_word};
+}
+
+template <typename Traits>
+void InitializeCPUContextPPC64(
+    const SignalThreadContext64 &thread_context,
+    const SignalFloatContext64 &float_context,
+    const SignalVectorContext64 &vector_context,
+    typename Traits::CPUContext* context) {
+
+  memcpy(context->regs, thread_context.regs, sizeof(context->regs));
+  context->nip = thread_context.nip;
+  context->msr = thread_context.msr;
+  context->ccr = thread_context.ccr;
+  context->xer = thread_context.xer;
+  context->lnk = thread_context.lnk;
+  context->ctr = thread_context.ctr;
+
+  memcpy(context->fpregs, float_context.regs, sizeof(context->fpregs));
+  context->fpscr = float_context.fpscr;
+
+  for (uint8_t i = 0; i < 32; i++) {
+    context->vregs.save_vr[i] = {
+      (((uint64_t)vector_context.vrregs[i][0]) << 32) |
+        vector_context.vrregs[i][1],
+      (((uint64_t)vector_context.vrregs[i][2]) << 32) |
+        vector_context.vrregs[i][3]
+    };
+  }
+  context->vregs.save_vrsave = vector_context.vrsave;
+  context->vregs.save_vscr = {0, (uint64_t)vector_context.vscr.vscr_word};
+}
+
+
+#endif
 
 }  // namespace internal
 }  // namespace crashpad
