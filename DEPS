@@ -24,7 +24,7 @@ deps = {
       '3e50219fc4503f461b2176a9976891b28d80f9ab',
   'crashpad/third_party/gtest/gtest':
       Var('chromium_git') + '/external/github.com/google/googletest@' +
-      '8b6d3f9c4a774bef3081195d422993323b6bb2e0',
+      '3f5b5b8f8493a03fa25f1e4a7eae7678514a431d',
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
       '8bee09f4a57807136593ddc906b0b213c21f9014',
