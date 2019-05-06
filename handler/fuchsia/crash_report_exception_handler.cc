@@ -99,12 +99,15 @@ bool CrashReportExceptionHandler::HandleExceptionHandles(
     const zx::thread& thread,
     const zx::unowned_port& exception_port,
     UUID* local_report_id) {
-  ScopedTaskSuspend suspend(process);
-
-  // Now that the thread has been successfully retrieved, it is possible to
-  // correctly call zx_task_resume_from_exception() to continue exception
-  // processing, even if something else during this function fails.
   ScopedThreadResumeAfterException resume(thread, exception_port);
+  return HandleException(process, thread, local_report_id);
+}
+
+bool CrashReportExceptionHandler::HandleException(
+    const zx::process& process,
+    const zx::thread& thread,
+    UUID* local_report_id) {
+  ScopedTaskSuspend suspend(process);
 
   ProcessSnapshotFuchsia process_snapshot;
   if (!process_snapshot.Initialize(process)) {
