@@ -13,10 +13,12 @@
 # limitations under the License.
 
 import("../build/crashpad_buildconfig.gni")
-import("../build/crashpad_fuzzer_test.gni")
 
 if (crashpad_is_in_chromium) {
   import("//build/config/compiler/compiler.gni")
+  import("//testing/libfuzzer/fuzzer_test.gni")
+} else {
+  import("../build/crashpad_fuzzer_test.gni")
 }
 
 static_library("snapshot") {
@@ -243,7 +245,10 @@ static_library("snapshot") {
   }
 }
 
-fuzzer_test("elf_image_reader_fuzzer") {
+group("fuzzers") {
+}
+
+fuzzer_test("crashpad_elf_image_reader_fuzzer") {
   sources = [
     "elf/elf_image_reader_fuzzer.cc",
   ]
