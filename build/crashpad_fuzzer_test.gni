@@ -14,8 +14,11 @@
 
 import("crashpad_buildconfig.gni")
 import("test.gni")
+if (crashpad_is_in_chromium) {
+  import("//testing/libfuzzer/fuzzer_test.gni")
+}
 
-template("fuzzer_test") {
+template("crashpad_fuzzer_test") {
   if (crashpad_is_standalone && crashpad_use_libfuzzer) {
     test(target_name) {
       forward_variables_from(invoker,
@@ -37,6 +40,18 @@ template("fuzzer_test") {
         cflags = []
       }
       cflags += [ "-fsanitize=fuzzer" ]
+    }
+    not_needed(invoker,
+               [
+                 "seed_corpus",
+                 "seed_corpuses",
+                 "dict",
+               ])
+  } else if (crashpad_is_in_chromium) {
+    # Append "crashpad_" to the beginning of the fuzzer's name to make it easier
+    # in Chromium to recognize where fuzzer came from.
+    fuzzer_test("crashpad_" + target_name) {
+      forward_variables_from(invoker, "*")
     }
   } else {
     not_needed(invoker, "*")
