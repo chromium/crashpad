@@ -243,15 +243,18 @@ static_library("snapshot") {
   }
 }
 
-fuzzer_test("elf_image_reader_fuzzer") {
-  sources = [
-    "elf/elf_image_reader_fuzzer.cc",
-  ]
+if (crashpad_is_linux) {
+  crashpad_fuzzer_test("elf_image_reader_fuzzer") {
+    sources = [
+      "elf/elf_image_reader_fuzzer.cc",
+    ]
 
-  deps = [
-    ":snapshot",
-    "../third_party/mini_chromium:base",
-  ]
+    deps = [
+      ":snapshot",
+      "../third_party/mini_chromium:base",
+    ]
+    seed_corpus = "elf/elf_image_reader_fuzzer_corpus"
+  }
 }
 
 static_library("test_support") {
