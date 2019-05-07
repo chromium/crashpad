@@ -22,6 +22,30 @@
       "revId": "810673de9ade68959caeac6aded883bf91972a4b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c252cf9_249eed2e",
+        "filename": "handler/fuchsia/crash_report_exception_handler.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1116195
+      },
+      "writtenOn": "2019-05-07T17:42:14Z",
+      "side": 1,
+      "message": "Ah right I meant just the function of the same name w/o ports but the comment could be clearer, but yeah this is only used by the standalone client and will be going away shortly anyway.",
+      "parentUuid": "4d5b6c7d_d158f0f0",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 79
+      },
+      "revId": "810673de9ade68959caeac6aded883bf91972a4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
