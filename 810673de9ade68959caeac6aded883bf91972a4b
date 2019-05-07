@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d5b6c7d_d158f0f0",
+        "filename": "handler/fuchsia/crash_report_exception_handler.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-05-07T17:18:27Z",
+      "side": 1,
+      "message": "technically this one doesn\u0027t have a port-less version, but that\u0027s not the one we are calling from Fuchsia.",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 79
+      },
+      "revId": "810673de9ade68959caeac6aded883bf91972a4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
