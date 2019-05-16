@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5e52ff4_f78df412",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-05-16T13:41:28Z",
+      "side": 1,
+      "message": "This is only concerned with the native system architecture (32 and 64), not with other architectures. When this is compiled for x86 (32 and 64 both), it doesn’t need to waste time or energy worrying about whether it might be running on ARM, and likewise when it’s compiled for ARM (32 and 64 both), it doesn’t need to worry about seeing x86 here.\n\n#if defined(ARCH_CPU_X86_FAMILY)\n    constexpr uint16_t kNative64BitArchitecture \u003d PROCESSOR_ARCHITECTURE_AMD64;\n#elif defined(ARCH_CPU_ARM_FAMILY)\n    constexpr uint16_t kNative64BitArchitecture \u003d PROCESSOR_ARCHITECTURE_ARM64;\n#endif\n\n    is_64_bit_ \u003d system_info.wProcessorArchitecture \u003d\u003d kNative64BitArchitecture;",
+      "revId": "53cda503959c54cc81208da2d4d56af1f8be1392",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
