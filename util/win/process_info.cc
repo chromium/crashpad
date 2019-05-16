@@ -514,7 +514,8 @@ bool ProcessInfo::Initialize(HANDLE process) {
     SYSTEM_INFO system_info;
     GetSystemInfo(&system_info);
     is_64_bit_ =
-        system_info.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64;
+        system_info.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64 ||
+        system_info.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_ARM64;
   }
 
 #if defined(ARCH_CPU_32_BITS)
