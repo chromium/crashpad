@@ -513,8 +513,14 @@ bool ProcessInfo::Initialize(HANDLE process) {
     // distinguish between these two cases.
     SYSTEM_INFO system_info;
     GetSystemInfo(&system_info);
-    is_64_bit_ =
-        system_info.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64;
+
+#if defined(ARCH_CPU_X86_FAMILY)
+    constexpr uint16_t kNative64BitArchitecture = PROCESSOR_ARCHITECTURE_AMD64;
+#elif defined(ARCH_CPU_ARM_FAMILY)
+    constexpr uint16_t kNative64BitArchitecture = PROCESSOR_ARCHITECTURE_ARM64;
+#endif
+
+    is_64_bit_ = system_info.wProcessorArchitecture == kNative64BitArchitecture;
   }
 
 #if defined(ARCH_CPU_32_BITS)
