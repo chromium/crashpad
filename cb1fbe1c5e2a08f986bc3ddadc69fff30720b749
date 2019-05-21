@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5ad42dc_af88130d",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-05-21T21:53:49Z",
+      "side": 1,
+      "message": "This is causing the test failure, I realized that ReportMetadata has padding but it also uses inline field initialization so this memset() is overwriting the original values. I spoke with a coworker and the only solutions we could come up with are either:\n1) memset() + explicit construction\n  ReportMetadata metadata;\n  memset(\u0026metadata, 0, sizeof(metadata));\n  metadata \u003d {};\n\n2) using a padding field\n  // Required to explicitly initialize padding to null for MSan tests.\n  uint8_t padding[];\n...\n  ReportMetadata metadata;\n  memset(metadata.padding, 0, sizeof(metadata) - offsetof(ReportMetadata, padding));\n\nThe memset()s for PtraceBroker::Request below are safe because the object is not constructed, it\u0027s just this object that causes this problem. What do you prefer/any other ideas?",
+      "revId": "cb1fbe1c5e2a08f986bc3ddadc69fff30720b749",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
