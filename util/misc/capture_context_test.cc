@@ -21,6 +21,7 @@
 #include "gtest/gtest.h"
 #include "util/misc/address_sanitizer.h"
 #include "util/misc/capture_context_test_util.h"
+#include "util/misc/memory_sanitizer.h"
 
 namespace crashpad {
 namespace test {
@@ -33,7 +34,12 @@ namespace {
 // find an approximately valid stack pointer by comparing locals to the
 // captured one, disable safe-stack for this function.
 __attribute__((no_sanitize("safe-stack")))
-#endif
+#endif  // defined(OS_FUCHSIA)
+
+#if defined(MEMORY_SANITIZER)
+// CaptureContext() calls inline assembly and is incompatible with MSan.
+__attribute__((no_sanitize("memory")))
+#endif  // defined(MEMORY_SANITIZER)
 
 void TestCaptureContext() {
   NativeCPUContext context_1;
