@@ -19,6 +19,75 @@
     },
     {
       "key": {
+        "uuid": "b4abedbf_de734568",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-05-21T20:05:57Z",
+      "side": 1,
+      "message": "Mark in this case the metadata struct has padding which is left uninitialized by \u0027\u003d {}\u0027 and then written to a file which MSan doesn\u0027t like. I could introduce char __padding[] elements and then use \u003d{} but I think memset() is cleaner, WDYT?",
+      "parentUuid": "b75392fa_e7a5cb02",
+      "revId": "5ef0d9606ac110f88d50393d2b66df79247b1422",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ef74f5a_8434c1d0",
+        "filename": "snapshot/linux/process_reader_linux_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-05-21T20:05:57Z",
+      "side": 1,
+      "message": "Ditto, written to a pipe and includes padding.",
+      "revId": "5ef0d9606ac110f88d50393d2b66df79247b1422",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a24fa9b_4467e989",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-05-21T20:05:57Z",
+      "side": 1,
+      "message": "Ditto, written to a socket.",
+      "revId": "5ef0d9606ac110f88d50393d2b66df79247b1422",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "451f9a19_9835265d",
+        "filename": "util/linux/ptrace_client.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-05-21T20:05:57Z",
+      "side": 1,
+      "message": "Ditto, written to a socket.",
+      "revId": "5ef0d9606ac110f88d50393d2b66df79247b1422",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b3a6d972_40097614",
         "filename": "util/misc/capture_context_linux.S",
         "patchSetId": 2
@@ -64,6 +133,24 @@
       "writtenOn": "2019-02-14T21:59:53Z",
       "side": 1,
       "message": "Does %rsp have proper alignment at this call?",
+      "revId": "5ef0d9606ac110f88d50393d2b66df79247b1422",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eac89891_86adeff4",
+        "filename": "util/misc/capture_context_linux.S",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-05-21T20:05:57Z",
+      "side": 1,
+      "message": "Ended up abandoning this part of the change and just disabling MSan for this test.",
+      "parentUuid": "e65cdea3_9e177f77",
       "revId": "5ef0d9606ac110f88d50393d2b66df79247b1422",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
