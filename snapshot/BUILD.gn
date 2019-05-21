@@ -353,7 +353,6 @@ source_set("snapshot_test") {
       "crashpad_types/image_annotation_reader_test.cc",
       "elf/elf_image_reader_test.cc",
       "elf/elf_image_reader_test_note.S",
-      "elf/test_exported_symbols.sym",
     ]
   }
 
