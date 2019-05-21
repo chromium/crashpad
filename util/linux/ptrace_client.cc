@@ -63,6 +63,7 @@ bool ReceiveAndLogReadError(int sock, const std::string& operation) {
 
 bool AttachImpl(int sock, pid_t tid) {
   PtraceBroker::Request request;
+  memset(&request, 0, sizeof(request));
   request.type = PtraceBroker::Request::kTypeAttach;
   request.tid = tid;
   if (!LoggingWriteFile(sock, &request, sizeof(request))) {
@@ -136,7 +137,7 @@ PtraceClient::PtraceClient()
 
 PtraceClient::~PtraceClient() {
   if (sock_ != kInvalidFileHandle) {
-    PtraceBroker::Request request;
+    PtraceBroker::Request request = {};
     request.type = PtraceBroker::Request::kTypeExit;
     LoggingWriteFile(sock_, &request, sizeof(request));
   }
@@ -152,6 +153,7 @@ bool PtraceClient::Initialize(int sock, pid_t pid, bool try_direct_memory) {
   }
 
   PtraceBroker::Request request;
+  memset(&request, 0, sizeof(request));
   request.type = PtraceBroker::Request::kTypeIs64Bit;
   request.tid = pid_;
 
