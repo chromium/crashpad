@@ -30,14 +30,12 @@ namespace test {
 namespace {
 
 void AddPipe(fdio_spawn_action_t* action, int target_fd, int* fd_out) {
-  zx_handle_t handle;
-  uint32_t id;
-  zx_status_t status = fdio_pipe_half(&handle, &id);
-  ZX_CHECK(status >= 0, status) << "fdio_pipe_half";
+  zx_handle_t handle = ZX_HANDLE_INVALID;
+  zx_status_t status = fdio_pipe_half2(fd_out, &handle);
+  ZX_CHECK(status == ZX_OK, status) << "fdio_pipe_half2";
   action->action = FDIO_SPAWN_ACTION_ADD_HANDLE;
-  action->h.id = PA_HND(PA_HND_TYPE(id), target_fd);
+  action->h.id = PA_HND(PA_FD, target_fd);
   action->h.handle = handle;
-  *fd_out = status;
 }
 
 }  // namespace
