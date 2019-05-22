@@ -16,6 +16,24 @@
       "revId": "cb1fbe1c5e2a08f986bc3ddadc69fff30720b749",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44d41f76_c2116bb5",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-05-22T17:08:18Z",
+      "side": 1,
+      "message": "I was wrong, PtraceBroker::Request has one field initializer and TestThreadPool::ThreadExpectation uses them as well. I\u0027ve updated the change to use approach #1 where necessary.",
+      "parentUuid": "c5ad42dc_af88130d",
+      "revId": "cb1fbe1c5e2a08f986bc3ddadc69fff30720b749",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }

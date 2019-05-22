@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66e534c2_a6859030",
+        "filename": "util/linux/ptrace_broker.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-05-22T17:08:18Z",
+      "side": 1,
+      "message": "This is to work around the fact that MSan can\u0027t intercept the explicit syscall() below, perhaps I should #ifdef MEMORY_SANITIZER __attribute(no_sanitize()) instead?",
+      "revId": "66b63ef14d85f33de93a161165b7cb7efff02fe9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
