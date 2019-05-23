@@ -31,7 +31,8 @@ class FakeProcessMemory : public ProcessMemory {
     VMAddress offset_in_data = address - fake_base_;
     if (offset_in_data > size_)
       return -1;
-    ssize_t read_size = std::min(size_ - offset_in_data, size);
+    size_t read_size =
+        std::min(static_cast<size_t>(size_ - offset_in_data), size);
     memcpy(buffer, &data_[offset_in_data], read_size);
     return read_size;
   }
