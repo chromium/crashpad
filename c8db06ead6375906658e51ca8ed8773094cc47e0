@@ -70,6 +70,30 @@
       "revId": "c8db06ead6375906658e51ca8ed8773094cc47e0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56db10df_5eef1fc4",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-05-24T17:49:24Z",
+      "side": 1,
+      "message": "Or better probably change Notes() to only allow [0..SOME_MAX] rather than supporting -1?",
+      "parentUuid": "25fcf926_3dd457af",
+      "range": {
+        "startLine": 291,
+        "startChar": 0,
+        "endLine": 295,
+        "endChar": 3
+      },
+      "revId": "c8db06ead6375906658e51ca8ed8773094cc47e0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
