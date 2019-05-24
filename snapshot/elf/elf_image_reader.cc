@@ -228,10 +228,19 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::NextNote(
   return Result::kError;
 }
 
+namespace {
+
+// The maximum size we allow the user to specify for maximum size of a note.
+// Clamping this ensures that buffer allocations cannot be wildly large. We do
+// not expect to read anything more than approximately 1k from a note.
+constexpr size_t kMaxMaxNoteSize = 16384;
+
+}  // namespace
+
 ElfImageReader::NoteReader::NoteReader(const ElfImageReader* elf_reader,
                                        const ProcessMemoryRange* range,
                                        const ProgramHeaderTable* phdr_table,
-                                       ssize_t max_note_size,
+                                       size_t max_note_size,
                                        const std::string& name_filter,
                                        NoteType type_filter,
                                        bool use_filter)
@@ -242,7 +251,7 @@ ElfImageReader::NoteReader::NoteReader(const ElfImageReader* elf_reader,
       phdr_table_(phdr_table),
       segment_range_(),
       phdr_index_(0),
-      max_note_size_(max_note_size),
+      max_note_size_(std::min(kMaxMaxNoteSize, max_note_size)),
       name_filter_(name_filter),
       type_filter_(type_filter),
       use_filter_(use_filter),
@@ -790,7 +799,7 @@ bool ElfImageReader::GetNumberOfSymbolEntriesFromDtGnuHash(
 }
 
 std::unique_ptr<ElfImageReader::NoteReader> ElfImageReader::Notes(
-    ssize_t max_note_size) {
+    size_t max_note_size) {
   return std::make_unique<NoteReader>(
       this, &memory_, program_headers_.get(), max_note_size);
 }
@@ -798,7 +807,7 @@ std::unique_ptr<ElfImageReader::NoteReader> ElfImageReader::Notes(
 std::unique_ptr<ElfImageReader::NoteReader>
 ElfImageReader::NotesWithNameAndType(const std::string& name,
                                      NoteReader::NoteType type,
-                                     ssize_t max_note_size) {
+                                     size_t max_note_size) {
   return std::make_unique<NoteReader>(
       this, &memory_, program_headers_.get(), max_note_size, name, type, true);
 }
