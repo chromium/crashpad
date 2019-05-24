@@ -118,6 +118,30 @@
       "revId": "c8db06ead6375906658e51ca8ed8773094cc47e0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fee34542_6f19ef4c",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-24T17:56:47Z",
+      "side": 1,
+      "message": "Yeah, requiring a bound seems like a good idea.",
+      "parentUuid": "48c8a23e_4d13098b",
+      "range": {
+        "startLine": 291,
+        "startChar": 0,
+        "endLine": 295,
+        "endChar": 3
+      },
+      "revId": "c8db06ead6375906658e51ca8ed8773094cc47e0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
