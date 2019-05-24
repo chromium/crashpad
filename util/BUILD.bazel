@@ -1,0 +1,402 @@
+# Copyright 2019 The Crashpad Authors. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+licenses(["notice"])  # Apache 2
+
+cc_library(
+    name = "headers",
+    hdrs = [
+        "file/delimited_file_reader.h",
+        "file/directory_reader.h",
+        "file/file_io.h",
+        "file/file_reader.h",
+        "file/file_seeker.h",
+        "file/file_writer.h",
+        "file/filesystem.h",
+        "file/scoped_remove_file.h",
+        "file/string_file.h",
+        "misc/address_sanitizer.h",
+        "misc/address_types.h",
+        "misc/arraysize.h",
+        "misc/as_underlying_type.h",
+        "misc/capture_context.h",
+        "misc/clock.h",
+        "misc/elf_note_types.h",
+        "misc/from_pointer_cast.h",
+        "misc/implicit_cast.h",
+        "misc/initialization_state.h",
+        "misc/initialization_state_dcheck.h",
+        "misc/lexing.h",
+        "misc/metrics.h",
+        "misc/paths.h",
+        "misc/pdb_structures.h",
+        "misc/random_string.h",
+        "misc/range_set.h",
+        "misc/reinterpret_bytes.h",
+        "misc/scoped_forbid_return.h",
+        "misc/symbolic_constants_common.h",
+        "misc/time.h",
+        "misc/tri_state.h",
+        "misc/uuid.h",
+        "misc/zlib.h",
+        "net/http_body.h",
+        "net/http_body_gzip.h",
+        "net/http_headers.h",
+        "net/http_multipart_builder.h",
+        "net/http_transport.h",
+        "net/url.h",
+        "numeric/checked_address_range.h",
+        "numeric/checked_range.h",
+        "numeric/checked_vm_address_range.h",
+        "numeric/in_range_cast.h",
+        "numeric/int128.h",
+        "numeric/safe_assignment.h",
+        "process/process_id.h",
+        "process/process_memory.h",
+        "process/process_memory_native.h",
+        "process/process_memory_range.h",
+        "stdlib/aligned_allocator.h",
+        "stdlib/map_insert.h",
+        "stdlib/objc.h",
+        "stdlib/string_number_conversion.h",
+        "stdlib/strlcpy.h",
+        "stdlib/strnlen.h",
+        "stdlib/thread_safe_vector.h",
+        "string/split_string.h",
+        "synchronization/semaphore.h",
+        "thread/stoppable.h",
+        "thread/thread.h",
+        "thread/thread_log_messages.h",
+        "thread/worker_thread.h",
+    ] + [
+        # if (crashpad_is_posix || crashpad_is_fuchsia)
+        "posix/close_stdio.h",
+        "posix/scoped_dir.h",
+        "posix/scoped_mmap.h",
+        "posix/signals.h",
+    ] + [
+        # if (crashpad_is_posix && !crashpad_is_fuchsia)
+        "posix/close_multiple.h",
+        "posix/double_fork_and_exec.h",
+        "posix/drop_privileges.h",
+        "posix/process_info.h",
+
+        # These map signals to and from strings. While Fuchsia defines some of
+        # the common SIGx defines, signals are never raised on Fuchsia, so
+        # there's need to include this mapping code.
+        "posix/symbolic_constants_posix.h",
+    ] + [
+        # if (crashpad_is_mac)
+        "mac/checked_mach_address_range.h",
+        "mac/launchd.h",
+        "mac/mac_util.h",
+        "mac/service_management.h",
+        "mac/xattr.h",
+        "mach/child_port_handshake.h",
+        "mach/child_port_server.h",
+        "mach/child_port_types.h",
+        "mach/composite_mach_message_server.h",
+        "mach/exc_client_variants.h",
+        "mach/exc_server_variants.h",
+        "mach/exception_behaviors.h",
+        "mach/exception_ports.h",
+        "mach/exception_types.h",
+        "mach/mach_extensions.h",
+        "mach/mach_message.h",
+        "mach/mach_message_server.h",
+        "mach/notify_server.h",
+        "mach/scoped_task_suspend.h",
+        "mach/symbolic_constants_mach.h",
+        "mach/task_for_pid.h",
+        "process/process_memory_mac.h",
+    ],
+    deps = [
+        "//compat",
+        "//third_party/mini_chromium:base",
+        "//third_party/zlib",
+    ],
+)
+
+cc_library(
+    name = "mig",
+    srcs = [
+        # if (crashpad_is_mac)
+        "//out/Default/gen/util/mach:mig_c",
+    ],
+    hdrs = [
+        # if (crashpad_is_mac)
+        "//out/Default/gen/util/mach:mig_h",
+    ],
+    copts = [
+        "-Iout/Default/gen",
+    ],
+    deps = [
+        ":headers",
+    ],
+)
+
+objc_library(
+    name = "mac",
+    copts = [
+        "-std=c++14",
+    ],
+    non_arc_srcs = [
+        # if (crashpad_is_mac)
+        "mac/launchd.mm",
+        "net/http_transport_mac.mm",
+    ],
+    sdk_frameworks = [
+        # if (crashpad_is_mac)
+        "CoreFoundation",
+        "Foundation",
+        "IOKit",
+    ],
+    deps = [
+        ":headers",
+        "//:package",
+        "//third_party/apple_cf",
+    ],
+)
+
+cc_library(
+    name = "util",
+    srcs = [
+        "file/delimited_file_reader.cc",
+        "file/file_io.cc",
+        "file/file_reader.cc",
+        "file/file_seeker.cc",
+        "file/file_writer.cc",
+        "file/scoped_remove_file.cc",
+        "file/string_file.cc",
+        "misc/initialization_state_dcheck.cc",
+        "misc/lexing.cc",
+        "misc/metrics.cc",
+        "misc/pdb_structures.cc",
+        "misc/random_string.cc",
+        "misc/range_set.cc",
+        "misc/reinterpret_bytes.cc",
+        "misc/scoped_forbid_return.cc",
+        "misc/time.cc",
+        "misc/uuid.cc",
+        "misc/zlib.cc",
+        "net/http_body.cc",
+        "net/http_body_gzip.cc",
+        "net/http_multipart_builder.cc",
+        "net/http_transport.cc",
+        "net/url.cc",
+        "numeric/checked_address_range.cc",
+        "process/process_memory.cc",
+        "process/process_memory_range.cc",
+        "stdlib/aligned_allocator.cc",
+        "stdlib/string_number_conversion.cc",
+        "stdlib/strlcpy.cc",
+        "stdlib/strnlen.cc",
+        "string/split_string.cc",
+        "thread/thread.cc",
+        "thread/thread_log_messages.cc",
+        "thread/worker_thread.cc",
+    ] + [
+        # if (crashpad_is_posix || crashpad_is_fuchsia)
+        "file/directory_reader_posix.cc",
+        "file/file_io_posix.cc",
+        "file/filesystem_posix.cc",
+        "misc/clock_posix.cc",
+        "posix/close_stdio.cc",
+        "posix/scoped_dir.cc",
+        "posix/scoped_mmap.cc",
+        "posix/signals.cc",
+        "synchronization/semaphore_posix.cc",
+        "thread/thread_posix.cc",
+    ] + [
+        # if (crashpad_is_posix && !crashpad_is_fuchsia)
+        "posix/close_multiple.cc",
+        "posix/double_fork_and_exec.cc",
+        "posix/drop_privileges.cc",
+
+        # These map signals to and from strings. While Fuchsia defines some of
+        # the common SIGx defines, signals are never raised on Fuchsia, so
+        # there's need to include this mapping code.
+        "posix/symbolic_constants_posix.cc",
+    ] + [
+        # if (crashpad_is_mac)
+        "mach/notify_server.cc",
+        "mac/mac_util.cc",
+        "mac/service_management.cc",
+        "mac/xattr.cc",
+        "mach/child_port_handshake.cc",
+        "mach/child_port_server.cc",
+        "mach/composite_mach_message_server.cc",
+        "mach/exc_client_variants.cc",
+        "mach/exc_server_variants.cc",
+        "mach/exception_behaviors.cc",
+        "mach/exception_ports.cc",
+        "mach/exception_types.cc",
+        "mach/mach_extensions.cc",
+        "mach/mach_message.cc",
+        "mach/mach_message_server.cc",
+        "mach/scoped_task_suspend.cc",
+        "mach/symbolic_constants_mach.cc",
+        "mach/task_for_pid.cc",
+        "misc/capture_context_mac.S",
+        "misc/clock_mac.cc",
+        "misc/paths_mac.cc",
+        "posix/process_info_mac.cc",
+        "process/process_memory_mac.cc",
+        "synchronization/semaphore_mac.cc",
+    ],
+    copts = [
+        "-Iout/Default/gen",
+    ],
+    linkopts = [
+        "-lbsm",
+    ],
+    visibility = [
+        "//:__subpackages__",
+    ],
+    deps = [
+        ":headers",
+    ] + [
+        # if (crashpad_is_mac)
+        ":mac",
+        ":mig",
+    ],
+)
+
+# TODO(yannic): This doesn't work yet.
+objc_library(
+    name = "test_mac",
+    testonly = True,
+    copts = [
+        "-std=c++14",
+    ],
+    non_arc_srcs = [
+        # if (crashpad_is_mac)
+        "mac/launchd_test.mm",
+        "mac/mac_util_test.mm",
+        "mac/service_management_test.mm",
+    ],
+    sdk_frameworks = [
+        # if (mini_chromium_is_mac)
+        "Foundation",
+    ],
+    deps = [
+        ":util",
+        "@gtest",
+    ],
+)
+
+cc_test(
+    name = "crashpad_util_test",
+    srcs = [
+        "misc/capture_context_test_util.h",
+        "net/http_body_test_util.h",
+        "net/http_body_test_util.cc",
+        "file/delimited_file_reader_test.cc",
+        "file/directory_reader_test.cc",
+        "file/file_io_test.cc",
+        "file/file_reader_test.cc",
+        "file/filesystem_test.cc",
+        "file/string_file_test.cc",
+        "misc/arraysize_test.cc",
+        "misc/capture_context_test.cc",
+        "misc/clock_test.cc",
+        "misc/from_pointer_cast_test.cc",
+        "misc/initialization_state_dcheck_test.cc",
+        "misc/initialization_state_test.cc",
+        "misc/paths_test.cc",
+        "misc/random_string_test.cc",
+        "misc/range_set_test.cc",
+        "misc/reinterpret_bytes_test.cc",
+        "misc/scoped_forbid_return_test.cc",
+        "misc/time_test.cc",
+        "misc/uuid_test.cc",
+        "net/http_body_gzip_test.cc",
+        "net/http_body_test.cc",
+        "net/http_multipart_builder_test.cc",
+        "net/url_test.cc",
+        "numeric/checked_address_range_test.cc",
+        "numeric/checked_range_test.cc",
+        "numeric/in_range_cast_test.cc",
+        "numeric/int128_test.cc",
+        "process/process_memory_range_test.cc",
+        "process/process_memory_test.cc",
+        # "stdlib/aligned_allocator_test.cc",
+        "stdlib/map_insert_test.cc",
+        "stdlib/string_number_conversion_test.cc",
+        "stdlib/strlcpy_test.cc",
+        "stdlib/strnlen_test.cc",
+        "stdlib/thread_safe_vector_test.cc",
+        "string/split_string_test.cc",
+        "synchronization/semaphore_test.cc",
+        "thread/thread_log_messages_test.cc",
+        "thread/thread_test.cc",
+        "thread/worker_thread_test.cc",
+    ] + [
+        # if (!crashpad_is_android)
+        "net/http_transport_test.cc",
+    ] + [
+        # if (crashpad_is_posix && !crashpad_is_fuchsia)
+        "posix/process_info_test.cc",
+        "posix/signals_test.cc",
+        "posix/symbolic_constants_posix_test.cc",
+    ] + [
+        # if (crashpad_is_posix || crashpad_is_fuchsia)
+        "posix/scoped_mmap_test.cc",
+    ] + [
+        # if (crashpad_is_mac)
+        "mac/xattr_test.cc",
+        "mach/child_port_handshake_test.cc",
+        "mach/child_port_server_test.cc",
+        "mach/composite_mach_message_server_test.cc",
+        "mach/exc_client_variants_test.cc",
+        "mach/exc_server_variants_test.cc",
+        "mach/exception_behaviors_test.cc",
+        "mach/exception_ports_test.cc",
+        "mach/exception_types_test.cc",
+        "mach/mach_extensions_test.cc",
+        "mach/mach_message_server_test.cc",
+        "mach/mach_message_test.cc",
+        "mach/notify_server_test.cc",
+        "mach/scoped_task_suspend_test.cc",
+        "mach/symbolic_constants_mach_test.cc",
+        "misc/capture_context_test_util_mac.cc",
+        "process/process_memory_mac_test.cc",
+    ],
+    data = [
+        "net/testdata/ascii_http_body.txt",
+        "net/testdata/binary_http_body.dat",
+        ":http_transport_test_server",
+    ],
+    deps = [
+        ":test_mac",
+        ":util",
+        "//test",
+        "//test:gmock_main",
+    ],
+)
+
+cc_binary(
+    name = "http_transport_test_server",
+    testonly = True,
+    srcs = [
+        "net/http_transport_test_server.cc",
+    ],
+    deps = [
+        ":util",
+        "//third_party/cpp-httplib",
+        "//third_party/mini_chromium:base",
+        "//third_party/zlib",
+        "//tools:tool_support",
+    ],
+)

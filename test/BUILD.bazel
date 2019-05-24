@@ -1,0 +1,169 @@
+# Copyright 2019 The Crashpad Authors. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+licenses(["notice"])  # Apache 2
+
+cc_library(
+    name = "test",
+    testonly = True,
+    srcs = [
+        "errors.cc",
+        "file.cc",
+        "filesystem.cc",
+        "gtest_disabled.cc",
+        "hex_string.cc",
+        "main_arguments.cc",
+        "multiprocess_exec.cc",
+        "process_type.cc",
+        "scoped_module_handle.cc",
+        "scoped_temp_dir.cc",
+        "test_paths.cc",
+    ] + [
+        # if (crashpad_is_posix || crashpad_is_fuchsia)
+        "scoped_guarded_page_posix.cc",
+        "scoped_temp_dir_posix.cc",
+    ] + [
+        # if (crashpad_is_posix && !crashpad_is_fuchsia)
+        "multiprocess_exec_posix.cc",
+        "multiprocess_posix.cc",
+    ] + [
+        # if (crashpad_is_mac)
+        "mac/dyld.cc",
+        "mac/exception_swallower.cc",
+        "mac/mach_errors.cc",
+        "mac/mach_multiprocess.cc",
+    ],
+    hdrs = [
+        "errors.h",
+        "file.h",
+        "filesystem.h",
+        "gtest_death.h",
+        "gtest_disabled.h",
+        "hex_string.h",
+        "main_arguments.h",
+        "multiprocess.h",
+        "multiprocess_exec.h",
+        "process_type.h",
+        "scoped_guarded_page.h",
+        "scoped_module_handle.h",
+        "scoped_temp_dir.h",
+        "test_paths.h",
+    ] + [
+        # if (crashpad_is_mac)
+        "mac/dyld.h",
+        "mac/exception_swallower.h",
+        "mac/mach_errors.h",
+        "mac/mach_multiprocess.h",
+    ],
+    data = [
+        "test_paths_test_data_root.txt",
+    ],
+    linkopts = [
+    ] + [
+        # if (crashpad_is_mac)
+        "-lbsm",
+    ],
+    visibility = [
+        "//:__subpackages__",
+    ],
+    deps = [
+        "//compat",
+        "@gtest",
+        "//third_party/mini_chromium:base",
+        "//util",
+    ] + [
+        # if (crashpad_is_mac)
+        "//handler",
+        "//snapshot",
+    ],
+)
+
+cc_test(
+    name = "crashpad_test_test",
+    srcs = [
+        "hex_string_test.cc",
+        "main_arguments_test.cc",
+        "multiprocess_exec_test.cc",
+        "scoped_guarded_page_test.cc",
+        "scoped_temp_dir_test.cc",
+        "test_paths_test.cc",
+    ] + [
+        # if (crashpad_is_posix && !crashpad_is_fuchsia)
+        "multiprocess_posix_test.cc",
+    ] + [
+        # if (crashpad_is_mac)
+        "mac/mach_multiprocess_test.cc",
+    ],
+    data = [
+        ":crashpad_test_test_multiprocess_exec_test_child",
+    ],
+    deps = [
+        ":gmock_main",
+        ":test",
+        "//compat",
+        "//third_party/mini_chromium:base",
+        "//util",
+        "@gtest",
+    ],
+)
+
+cc_binary(
+    name = "crashpad_test_test_multiprocess_exec_test_child",
+    srcs = [
+        "multiprocess_exec_test_child.cc",
+    ],
+    deps = [
+        "//third_party/mini_chromium:base",
+    ],
+)
+
+cc_library(
+    name = "gmock_main",
+    testonly = True,
+    srcs = [
+        "gtest_main.cc",
+    ],
+    defines = [
+        "CRASHPAD_TEST_LAUNCHER_GMOCK",
+    ],
+    visibility = [
+        "//:__subpackages__",
+    ],
+    deps = [
+        ":test",
+        "@gtest",
+        "//third_party/mini_chromium:base",
+        # "//third_party/mini_chromium:base_test_support",
+    ],
+)
+
+cc_library(
+    name = "gtest_main",
+    testonly = True,
+    srcs = [
+        "gtest_main.cc",
+    ],
+    defines = [
+        "CRASHPAD_TEST_LAUNCHER_GTEST",
+    ],
+    visibility = [
+        "//:__subpackages__",
+    ],
+    deps = [
+        ":test",
+        "@gtest",
+        "//third_party/mini_chromium:base",
+        # "//third_party/mini_chromium:base_test_support",
+    ],
+)

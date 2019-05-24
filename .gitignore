@@ -9,6 +9,7 @@
 .gdb_history
 .gdbinit
 /Makefile
+/bazel-*
 /out
 /third_party/fuchsia/.cipd
 /third_party/fuchsia/clang

@@ -149,7 +149,7 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
   }  /* namespace process_types */           \
   }  /* namespace crashpad */
 
-#include "snapshot/mac/process_types/all.proctype"
+#include "snapshot/mac/process_types/all.inc"
 
 #undef PROCESS_TYPE_STRUCT_BEGIN
 #undef PROCESS_TYPE_STRUCT_MEMBER
@@ -191,7 +191,7 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
 
 #define PROCESS_TYPE_STRUCT_END(struct_name)
 
-#include "snapshot/mac/process_types/all.proctype"
+#include "snapshot/mac/process_types/all.inc"
 
 #undef PROCESS_TYPE_STRUCT_BEGIN
 #undef PROCESS_TYPE_STRUCT_MEMBER
@@ -265,7 +265,7 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
 
 #define PROCESS_TYPE_STRUCT_END(struct_name)
 
-#include "snapshot/mac/process_types/all.proctype"
+#include "snapshot/mac/process_types/all.inc"
 
 #undef PROCESS_TYPE_STRUCT_BEGIN
 #undef PROCESS_TYPE_STRUCT_MEMBER
@@ -311,7 +311,7 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
 
 #define PROCESS_TYPE_STRUCT_END(struct_name)
 
-#include "snapshot/mac/process_types/all.proctype"
+#include "snapshot/mac/process_types/all.inc"
 
 #undef PROCESS_TYPE_STRUCT_BEGIN
 #undef PROCESS_TYPE_STRUCT_MEMBER
@@ -367,7 +367,7 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
 
 #define PROCESS_TYPE_STRUCT_END(struct_name)
 
-#include "snapshot/mac/process_types/all.proctype"
+#include "snapshot/mac/process_types/all.inc"
 
 #undef PROCESS_TYPE_STRUCT_BEGIN
 #undef PROCESS_TYPE_STRUCT_MEMBER

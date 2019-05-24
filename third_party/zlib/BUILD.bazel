@@ -1,0 +1,114 @@
+# Copyright 2019 The Crashpad Authors. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+licenses(["notice"])  # Apache 2
+
+cc_library(
+    name = "zlib",
+    srcs = [
+        "zlib_crashpad.h",
+    ] + [
+        # if (zlib_source == "embedded")
+        "zlib/adler32.c",
+        "zlib/compress.c",
+        "zlib/crc32.c",
+        "zlib/crc32.h",
+        "zlib/deflate.c",
+        "zlib/deflate.h",
+        "zlib/gzclose.c",
+        "zlib/gzguts.h",
+        "zlib/gzlib.c",
+        "zlib/gzread.c",
+        "zlib/gzwrite.c",
+        "zlib/infback.c",
+        "zlib/inffast.c",
+        "zlib/inffast.h",
+        "zlib/inffixed.h",
+        "zlib/inflate.c",
+        "zlib/inflate.h",
+        "zlib/inftrees.c",
+        "zlib/inftrees.h",
+        "zlib/names.h",
+        "zlib/trees.c",
+        "zlib/trees.h",
+        "zlib/uncompr.c",
+        "zlib/zconf.h",
+        "zlib/zlib.h",
+        "zlib/zutil.c",
+        "zlib/zutil.h",
+    ] + [
+        # if (zlib_source == "embedded" && (current_cpu == "x86" || current_cpu == "x64"))
+        "zlib/crc_folding.c",
+        "zlib/fill_window_sse.c",
+        "zlib/x86.c",
+        "zlib/x86.h",
+    ],
+    hdrs = [
+        "zlib_crashpad.h",
+    ] + [
+        # if (zlib_source == "embedded")
+        #     "zlib/adler32.c",
+        #     "zlib/compress.c",
+        #     "zlib/crc32.c",
+        #     "zlib/crc32.h",
+        #     "zlib/deflate.c",
+        #     "zlib/deflate.h",
+        #     "zlib/gzclose.c",
+        #     "zlib/gzguts.h",
+        #     "zlib/gzlib.c",
+        #     "zlib/gzread.c",
+        #     "zlib/gzwrite.c",
+        #     "zlib/infback.c",
+        #     "zlib/inffast.c",
+        #     "zlib/inffast.h",
+        #     "zlib/inffixed.h",
+        #     "zlib/inflate.c",
+        #     "zlib/inflate.h",
+        #     "zlib/inftrees.c",
+        #     "zlib/inftrees.h",
+        #     "zlib/names.h",
+        #     "zlib/trees.c",
+        #     "zlib/trees.h",
+        #     "zlib/uncompr.c",
+        #     "zlib/zconf.h",
+        #     "zlib/zlib.h",
+        #     "zlib/zlib_crashpad.h",
+        #     "zlib/zutil.c",
+        #     "zlib/zutil.h",
+    ] + [
+        # if (zlib_source == "embedded" && (current_cpu == "x86" || current_cpu == "x64"))
+        #     "zlib/crc_folding.c",
+        #     "zlib/fill_window_sse.c",
+        #     "zlib/x86.c",
+        #     "zlib/x86.h",
+    ],
+    copts = [
+        # if (zlib_source == "embedded" && (current_cpu == "x86" || current_cpu == "x64") && (!crashpad_is_win || crashpad_is_clang))
+        "-msse4.2",
+        "-mpclmul",
+    ],
+    defines = [
+        "CRASHPAD_ZLIB_SOURCE_EMBEDDED",
+    ] + [
+        # if (zlib_source == "embedded")
+        "HAVE_STDARG_H",
+    ] + [
+        # if (zlib_source == "embedded" && !crashpad_is_win)
+        "HAVE_HIDDEN",
+        "HAVE_UNISTD_H",
+    ],
+    visibility = [
+        "//:__subpackages__",
+    ],
+)

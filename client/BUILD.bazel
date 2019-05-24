@@ -1,0 +1,106 @@
+# Copyright 2019 The Crashpad Authors. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+licenses(["notice"])  # Apache 2
+
+cc_library(
+    name = "headers",
+    hdrs = [
+        "annotation.h",
+        "annotation_list.h",
+        "crash_report_database.h",
+        "crashpad_client.h",
+        "crashpad_info.h",
+        "prune_crash_reports.h",
+        "settings.h",
+        "simple_address_range_bag.h",
+        "simple_string_dictionary.h",
+        "simulate_crash.h",
+    ] + [
+        # if (crashpad_is_mac)
+        "simulate_crash_mac.h",
+    ],
+    visibility = [
+        "//snapshot:__pkg__",
+    ],
+    deps = [
+        "//third_party/mini_chromium:base",
+        "//util",
+    ],
+)
+
+objc_library(
+    name = "mac",
+    copts = [
+        "-std=c++14",
+    ],
+    non_arc_srcs = [
+        # if (crashpad_is_mac)
+        "crash_report_database_mac.mm",
+    ],
+    deps = [
+        ":headers",
+    ],
+)
+
+cc_library(
+    name = "client",
+    srcs = [
+        "annotation.cc",
+        "annotation_list.cc",
+        "crash_report_database.cc",
+        "crashpad_info.cc",
+        "prune_crash_reports.cc",
+        "settings.cc",
+    ] + [
+        # if (crashpad_is_mac)
+        "crashpad_client_mac.cc",
+        "simulate_crash_mac.cc",
+    ],
+    visibility = [
+        "//:__subpackages__",
+    ],
+    deps = [
+        ":headers",
+    ] + [
+        # if (crashpad_is_mac)
+        ":mac",
+    ],
+)
+
+cc_test(
+    name = "crashpad_client_test",
+    srcs = [
+        "annotation_list_test.cc",
+        "annotation_test.cc",
+        "crash_report_database_test.cc",
+        "prune_crash_reports_test.cc",
+        "settings_test.cc",
+        "simple_address_range_bag_test.cc",
+        "simple_string_dictionary_test.cc",
+    ] + [
+        # if (crashpad_is_mac)
+        "simulate_crash_mac_test.cc",
+    ],
+    deps = [
+        ":client",
+        "//compat",
+        "//snapshot",
+        "//test",
+        "//test:gmock_main",
+        "//third_party/mini_chromium:base",
+        "//util",
+        "@gtest",
+    ],
+)

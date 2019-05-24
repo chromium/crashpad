@@ -118,6 +118,8 @@ static_library("test_support") {
   ]
 
   deps = [
+    "../snapshot:test_support",
+    "../test",
     "../third_party/gtest:gtest",
     "../third_party/mini_chromium:base",
   ]

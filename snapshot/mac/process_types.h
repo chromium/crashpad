@@ -145,7 +145,7 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
   } /* namespace process_types */                                     \
   } /* namespace crashpad */
 
-#include "snapshot/mac/process_types/all.proctype"
+#include "snapshot/mac/process_types/all.inc"
 
 #undef PROCESS_TYPE_STRUCT_BEGIN
 #undef PROCESS_TYPE_STRUCT_MEMBER
@@ -222,7 +222,7 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
   } /* namespace process_types */                                  \
   } /* namespace crashpad */
 
-#include "snapshot/mac/process_types/all.proctype"
+#include "snapshot/mac/process_types/all.inc"
 
 #undef PROCESS_TYPE_STRUCT_BEGIN
 #undef PROCESS_TYPE_STRUCT_MEMBER

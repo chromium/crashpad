@@ -19,9 +19,9 @@
 // snapshot/mac/process_types.cc to produce process type struct definitions and
 // accessors.
 
-#include "snapshot/mac/process_types/annotation.proctype"
-#include "snapshot/mac/process_types/crashpad_info.proctype"
-#include "snapshot/mac/process_types/crashreporterclient.proctype"
-#include "snapshot/mac/process_types/dyld_images.proctype"
-#include "snapshot/mac/process_types/loader.proctype"
-#include "snapshot/mac/process_types/nlist.proctype"
+#include "snapshot/mac/process_types/annotation.inc"
+#include "snapshot/mac/process_types/crashpad_info.inc"
+#include "snapshot/mac/process_types/crashreporterclient.inc"
+#include "snapshot/mac/process_types/dyld_images.inc"
+#include "snapshot/mac/process_types/loader.inc"
+#include "snapshot/mac/process_types/nlist.inc"
