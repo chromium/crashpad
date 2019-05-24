@@ -46,6 +46,30 @@
       "revId": "c8db06ead6375906658e51ca8ed8773094cc47e0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25fcf926_3dd457af",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-05-24T17:48:13Z",
+      "side": 1,
+      "message": "Oops, sorry you\u0027re right! I always read that Notes(-1) as the limit on the number of notes, rather than the limit on the individual note size.\n\nSeems like I should change the fuzzer from -1 to something else then. What do you think\u0027s a reasonable limit per-note? 16k? Maybe a meg or two?",
+      "parentUuid": "2e63560f_9be9a9ad",
+      "range": {
+        "startLine": 291,
+        "startChar": 0,
+        "endLine": 295,
+        "endChar": 3
+      },
+      "revId": "c8db06ead6375906658e51ca8ed8773094cc47e0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
