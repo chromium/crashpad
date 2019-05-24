@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27f6e59a_b5fd8e98",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-05-24T17:37:11Z",
+      "side": 1,
+      "message": "There\u0027s already a check on the note size here. The fuzzer crashed because it\u0027s explicitly requesting to fetch Notes with an unbounded size:\nhttps://cs.chromium.org/chromium/src/third_party/crashpad/crashpad/snapshot/elf/elf_image_reader_fuzzer.cc?rcl\u003d4bccd8c491eaca44112685588d6519104f372994\u0026l\u003d70\n\nProduction code always sets an appropriate bound:\nhttps://cs.chromium.org/chromium/src/third_party/crashpad/crashpad/snapshot/elf/module_snapshot_elf.cc?rcl\u003ddeceeb0ab696e72ed989b174859f01d5bbf8dcb1\u0026l\u003d175\n\nhttps://cs.chromium.org/chromium/src/third_party/crashpad/crashpad/snapshot/elf/module_snapshot_elf.cc?rcl\u003ddeceeb0ab696e72ed989b174859f01d5bbf8dcb1\u0026l\u003d52",
+      "range": {
+        "startLine": 291,
+        "startChar": 0,
+        "endLine": 295,
+        "endChar": 3
+      },
+      "revId": "c8db06ead6375906658e51ca8ed8773094cc47e0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
