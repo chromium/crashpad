@@ -194,6 +194,7 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::NextNote(
     std::string* desc,
     VMAddress* desc_address) {
   if (!is_valid_) {
+    fprintf(stderr, "invalid note reader\n");
     LOG(ERROR) << "invalid note reader";
     return Result::kError;
   }
@@ -204,13 +205,16 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::NextNote(
       VMSize segment_size;
       if (!phdr_table_->GetNoteSegment(
               &phdr_index_, &current_address_, &segment_size)) {
+        fprintf(stderr, "returning no more notes\n");
         return Result::kNoMoreNotes;
       }
       current_address_ += elf_reader_->GetLoadBias();
       segment_end_address_ = current_address_ + segment_size;
+      fprintf(stderr, "  current_address_ now %zu\n", current_address_);
       segment_range_ = std::make_unique<ProcessMemoryRange>();
       if (!segment_range_->Initialize(*range_) ||
           !segment_range_->RestrictRange(current_address_, segment_size)) {
+        fprintf(stderr, "returning error\n");
         return Result::kError;
       }
     }
@@ -219,19 +223,31 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::NextNote(
     result = range_->Is64Bit()
                  ? ReadNote<Elf64_Nhdr>(name, type, desc, desc_address)
                  : ReadNote<Elf32_Nhdr>(name, type, desc, desc_address);
+    fprintf(stderr, "retry was %d after ReadNote<>\n", retry_);
   } while (retry_);
 
   if (result == Result::kSuccess) {
+    fprintf(stderr, "returning success\n");
     return Result::kSuccess;
   }
   is_valid_ = false;
+  fprintf(stderr, "returning error 2\n");
   return Result::kError;
 }
+
+namespace {
+
+// The maximum size the user can specify for maximum note size. Clamping this
+// ensures that buffer allocations cannot be wildly large. It is not expected
+// that a note would be larger than ~1k in normal usage.
+constexpr size_t kMaxMaxNoteSize = 16384;
+
+}  // namespace
 
 ElfImageReader::NoteReader::NoteReader(const ElfImageReader* elf_reader,
                                        const ProcessMemoryRange* range,
                                        const ProgramHeaderTable* phdr_table,
-                                       ssize_t max_note_size,
+                                       size_t max_note_size,
                                        const std::string& name_filter,
                                        NoteType type_filter,
                                        bool use_filter)
@@ -242,12 +258,14 @@ ElfImageReader::NoteReader::NoteReader(const ElfImageReader* elf_reader,
       phdr_table_(phdr_table),
       segment_range_(),
       phdr_index_(0),
-      max_note_size_(max_note_size),
+      max_note_size_(std::min(kMaxMaxNoteSize, max_note_size)),
       name_filter_(name_filter),
       type_filter_(type_filter),
       use_filter_(use_filter),
       is_valid_(true),
-      retry_(false) {}
+      retry_(false) {
+  DCHECK_LT(max_note_size, kMaxMaxNoteSize);
+}
 
 template <typename NhdrType>
 ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::ReadNote(
@@ -282,14 +300,30 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::ReadNote(
       std::min(PAD(current_address_ + note_size), segment_end_address_);
 #undef PAD
 
-  if (max_note_size_ >= 0 && note_size > static_cast<size_t>(max_note_size_)) {
+  fprintf(stderr,
+          "note_size %zu, max_note_size %zu padded_namesz %zu, padded_descsz %zu\n",
+          note_size,
+          max_note_size_,
+          padded_namesz,
+          padded_descsz);
+
+  /*
+  if (note_size > max_note_size_) {
     current_address_ = end_of_note;
+    fprintf(stderr, "  setting retry because note size\n");
     retry_ = true;
     return Result::kError;
   }
+  */
 
+  fprintf(stderr,
+          "use_filter_ %d, note_info.n_type %d type_filter_ %d\n",
+          use_filter_,
+          note_info.n_type,
+          type_filter_);
   if (use_filter_ && note_info.n_type != type_filter_) {
     current_address_ = end_of_note;
+    fprintf(stderr, "  setting retry because filter 1\n");
     retry_ = true;
     return Result::kError;
   }
@@ -307,8 +341,14 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::ReadNote(
     local_name.pop_back();
   }
 
+  fprintf(stderr,
+          "use_filter_ %d, local_name %s name_filter_ %s",
+          use_filter_,
+          local_name.c_str(),
+          name_filter_.c_str());
   if (use_filter_ && local_name != name_filter_) {
     current_address_ = end_of_note;
+    fprintf(stderr, "  setting retry because filter 2\n");
     retry_ = true;
     return Result::kError;
   }
@@ -790,7 +830,7 @@ bool ElfImageReader::GetNumberOfSymbolEntriesFromDtGnuHash(
 }
 
 std::unique_ptr<ElfImageReader::NoteReader> ElfImageReader::Notes(
-    ssize_t max_note_size) {
+    size_t max_note_size) {
   return std::make_unique<NoteReader>(
       this, &memory_, program_headers_.get(), max_note_size);
 }
@@ -798,7 +838,7 @@ std::unique_ptr<ElfImageReader::NoteReader> ElfImageReader::Notes(
 std::unique_ptr<ElfImageReader::NoteReader>
 ElfImageReader::NotesWithNameAndType(const std::string& name,
                                      NoteReader::NoteType type,
-                                     ssize_t max_note_size) {
+                                     size_t max_note_size) {
   return std::make_unique<NoteReader>(
       this, &memory_, program_headers_.get(), max_note_size, name, type, true);
 }
