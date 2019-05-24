@@ -265,6 +265,12 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::ReadNote(
   }
   current_address_ += sizeof(note_info);
 
+  constexpr size_t kMaxNoteStringSize = 16384;
+  if (note_info.n_namesz > kMaxNoteStringSize ||
+      note_info.n_descsz > kMaxNoteStringSize) {
+    return Result::kError;
+  }
+
   constexpr size_t align = sizeof(note_info.n_namesz);
 #define PAD(x) (((x) + align - 1) & ~(align - 1))
   size_t padded_namesz = PAD(note_info.n_namesz);
