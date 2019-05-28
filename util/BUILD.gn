@@ -396,8 +396,7 @@ static_library("util") {
           "win/safe_terminate_process.asm",
         ]
       } else {
-        # TODO: Add assembly code of CaptureContext for Windows ARM64.
-        sources += [ "misc/capture_context_broken.cc" ]
+        sources += [ "misc/capture_context_win_arm64.asm" ]
       }
     } else {
       sources += [
