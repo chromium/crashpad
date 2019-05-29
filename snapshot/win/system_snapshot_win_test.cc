@@ -21,6 +21,7 @@
 
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "test/gtest_disabled.h"
 #include "snapshot/win/process_reader_win.h"
 
 namespace crashpad {
@@ -80,9 +81,13 @@ TEST_F(SystemSnapshotWinTest, CPUVendor) {
 }
 
 TEST_F(SystemSnapshotWinTest, CPUX86SupportsDAZ) {
+#if defined(ARCH_CPU_ARM64)
+  DISABLED_TEST();
+#else
   // Most SSE2+ machines support Denormals-Are-Zero. This may fail if run on
   // older machines.
   EXPECT_TRUE(system_snapshot().CPUX86SupportsDAZ());
+#endif
 }
 
 TEST_F(SystemSnapshotWinTest, GetOperatingSystem) {
