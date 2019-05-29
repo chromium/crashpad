@@ -131,7 +131,13 @@ void TestAnnotationsOnCrash(TestType type,
       break;
     case kCrashDebugBreak:
       c = 'd';
+#if defined(ARCH_CPU_ARM64)
+      // brk on aarch64 causes an illegal instruction exception.
+      // modify expectation vaule on aarch64 until it is fixed.
+      expected_exit_code = STATUS_ILLEGAL_INSTRUCTION;
+#else
       expected_exit_code = STATUS_BREAKPOINT;
+#endif
       break;
     default:
       FAIL();
