@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75ca6acc_ba844197",
+        "filename": "snapshot/win/exception_snapshot_win_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-05-29T21:35:11Z",
+      "side": 1,
+      "message": "This is worded “out of order”—we should have moved all of these to put the constant on the right side, like\n\n    EXPECT_EQ(snapshot.Exception()-\u003eException(), EXCEPTION_ILLEGAL_INSTRUCTION);\n\nsame on line 106.",
+      "revId": "170bd696361a80226c10437ce8865ad784dbe5e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
