@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4fe1f24_4b648253",
+        "filename": "snapshot/win/system_snapshot_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-05-29T21:38:05Z",
+      "side": 1,
+      "message": "DISABLED_TEST() is for tests that can only be disabled dynamically at runtime.\n\nAs an x86-only feature, DAZ is something that we know we won’t be supporting when we’re building for non-x86 at compile time. Not to mention, CPUX86Anything() won’t work on non-x86. This is not a runtime matter.\n\nThe correct way to handle this situation is to just #if out the entire TEST_F under the desired condition.\n\nNote that the correct condition to test for is not defined(ARCH_CPU_ARM64), but actually !defined(ARCH_CPU_X86_FAMILY).",
+      "revId": "f9e3b6dc28208c9a4caf2c76fbfeee23c147017e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
