@@ -20,6 +20,7 @@
 
 #include "base/files/file_path.h"
 #include "snapshot/crashpad_types/image_annotation_reader.h"
+#include "snapshot/memory_snapshot_generic.h"
 #include "util/misc/elf_note_types.h"
 
 namespace crashpad {
@@ -28,14 +29,17 @@ namespace internal {
 ModuleSnapshotElf::ModuleSnapshotElf(const std::string& name,
                                      ElfImageReader* elf_reader,
                                      ModuleSnapshot::ModuleType type,
-                                     ProcessMemoryRange* process_memory_range)
+                                     ProcessMemoryRange* process_memory_range,
+                                     ProcessReader* process_reader)
     : ModuleSnapshot(),
       name_(name),
       elf_reader_(elf_reader),
       process_memory_range_(process_memory_range),
+      process_reader_(process_reader),
       crashpad_info_(),
       type_(type),
-      initialized_() {}
+      initialized_(),
+      streams_() {}
 
 ModuleSnapshotElf::~ModuleSnapshotElf() = default;
 
@@ -216,7 +220,41 @@ std::set<CheckedRange<uint64_t>> ModuleSnapshotElf::ExtraMemoryRanges() const {
 
 std::vector<const UserMinidumpStream*>
 ModuleSnapshotElf::CustomMinidumpStreams() const {
-  return std::vector<const UserMinidumpStream*>();
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  streams_.clear();
+  GetCrashpadUserMinidumpStreams(&streams_);
+
+  std::vector<const UserMinidumpStream*> result;
+  for (const auto& stream : streams_) {
+    result.push_back(stream.get());
+  }
+  return result;
+}
+
+void ModuleSnapshotElf::GetCrashpadUserMinidumpStreams(
+    std::vector<std::unique_ptr<const UserMinidumpStream>>* streams) const {
+  if (!crashpad_info_)
+    return;
+
+  for (uint64_t cur = crashpad_info_->UserDataMinidumpStreamHead(); cur;) {
+    internal::UserDataMinidumpStreamListEntry list_entry;
+    if (!process_reader_->Memory()->Read(
+            cur, sizeof(list_entry), &list_entry)) {
+      LOG(WARNING) << "could not read user data stream entry from " << name_;
+      return;
+    }
+
+    if (list_entry.size != 0) {
+      auto memory =
+          std::make_unique<internal::MemorySnapshotGeneric<ProcessReader>>();
+      memory->Initialize(
+          process_reader_, list_entry.base_address, list_entry.size);
+      streams->push_back(std::make_unique<UserMinidumpStream>(
+          list_entry.stream_type, memory.release()));
+    }
+
+    cur = list_entry.next;
+  }
 }
 
 }  // namespace internal
