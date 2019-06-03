@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4046bf95_106f5083",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-03T13:24:43Z",
+      "side": 1,
+      "message": "Has this been reported to Microsoft? Have they weighed in?",
+      "range": {
+        "startLine": 10,
+        "startChar": 52,
+        "endLine": 10,
+        "endChar": 78
+      },
+      "revId": "4a0b7b5c2942d75933deb2f77f1577edac433fa9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
