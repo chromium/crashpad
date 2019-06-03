@@ -214,7 +214,7 @@ union __attribute__((packed, aligned(4))) CPU_INFORMATION {
     //!     `cpuid 0x80000001` `edx`.
     //!
     //! This field is only valid if #VendorId identifies the CPU vendor as
-    //! “AuthenticAMD”.
+    //! “AuthenticAMD” or "HygonGenuine".
     uint32_t AMDExtendedCpuFeatures;
   } X86CpuInfo;
 
