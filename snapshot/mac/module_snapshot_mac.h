@@ -85,11 +85,16 @@ class ModuleSnapshotMac final : public ModuleSnapshot {
   std::vector<const UserMinidumpStream*> CustomMinidumpStreams() const override;
 
  private:
+  void GetCrashpadUserMinidumpStreams(
+      std::vector<std::unique_ptr<const UserMinidumpStream>>* streams) const;
+
   std::string name_;
   time_t timestamp_;
   const MachOImageReader* mach_o_image_reader_;  // weak
   ProcessReaderMac* process_reader_;  // weak
   InitializationStateDcheck initialized_;
+  // Too const-y: https://crashpad.chromium.org/bug/9.
+  mutable std::vector<std::unique_ptr<const UserMinidumpStream>> streams_;
 
   DISALLOW_COPY_AND_ASSIGN(ModuleSnapshotMac);
 };

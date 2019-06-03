@@ -34,7 +34,8 @@ ModuleSnapshotMac::ModuleSnapshotMac()
       timestamp_(0),
       mach_o_image_reader_(nullptr),
       process_reader_(nullptr),
-      initialized_() {}
+      initialized_(),
+      streams_() {}
 
 ModuleSnapshotMac::~ModuleSnapshotMac() {}
 
@@ -202,7 +203,42 @@ std::set<CheckedRange<uint64_t>> ModuleSnapshotMac::ExtraMemoryRanges() const {
 
 std::vector<const UserMinidumpStream*>
 ModuleSnapshotMac::CustomMinidumpStreams() const {
-  return std::vector<const UserMinidumpStream*>();
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  streams_.clear();
+  GetCrashpadUserMinidumpStreams(&streams_);
+
+  std::vector<const UserMinidumpStream*> result;
+  for (const auto& stream : streams_) {
+    result.push_back(stream.get());
+  }
+  return result;
+}
+
+void ModuleSnapshotMac::GetCrashpadUserMinidumpStreams(
+    std::vector<std::unique_ptr<const UserMinidumpStream>>* streams) const {
+  if (!crashpad_info_)
+    return;
+
+  for (uint64_t cur = crashpad_info_->UserDataMinidumpStreamHead(); cur;) {
+    internal::UserDataMinidumpStreamListEntry list_entry;
+    if (!process_reader_->Memory()->Read(
+            cur, sizeof(list_entry), &list_entry)) {
+      LOG(WARNING) << "could not read user data stream entry from "
+                   << base::UTF16ToUTF8(name_);
+      return;
+    }
+
+    if (list_entry.size != 0) {
+      std::unique_ptr<internal::MemorySnapshotGeneric> memory(
+          new internal::MemorySnapshotGeneric());
+      memory->Initialize(
+          process_reader_, list_entry.base_address, list_entry.size);
+      streams->push_back(std::make_unique<UserMinidumpStream>(
+          list_entry.stream_type, memory.release()));
+    }
+
+    cur = list_entry.next;
+  }
 }
 
 }  // namespace internal

@@ -30,6 +30,12 @@
 #include "snapshot/module_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
 
+#if defined(OS_FUCHSIA)
+#include "snapshot/fuchsia/process_reader_fuchsia.h"
+#else
+#include "snapshot/linux/process_reader_linux.h"
+#endif
+
 namespace crashpad {
 
 namespace internal {
@@ -38,6 +44,12 @@ namespace internal {
 //!     running (or crashed) process on a system that uses ELF modules.
 class ModuleSnapshotElf final : public ModuleSnapshot {
  public:
+#if defined(OS_FUCHSIA)
+  using ProcessReader = ProcessReaderFuchsia;
+#else
+  using ProcessReader = ProcessReaderLinux;
+#endif
+
   //! \param[in] name The pathname used to load the module from disk.
   //! \param[in] elf_reader An image reader for the module.
   //! \param[in] type The module's type.
@@ -45,7 +57,8 @@ class ModuleSnapshotElf final : public ModuleSnapshot {
   ModuleSnapshotElf(const std::string& name,
                     ElfImageReader* elf_reader,
                     ModuleSnapshot::ModuleType type,
-                    ProcessMemoryRange* process_memory_range);
+                    ProcessMemoryRange* process_memory_range,
+                    ProcessReader* process_reader);
   ~ModuleSnapshotElf() override;
 
   //! \brief Initializes the object.
@@ -85,12 +98,18 @@ class ModuleSnapshotElf final : public ModuleSnapshot {
   std::vector<const UserMinidumpStream*> CustomMinidumpStreams() const override;
 
  private:
+  void GetCrashpadUserMinidumpStreams(
+      std::vector<std::unique_ptr<const UserMinidumpStream>>* streams) const;
+
   std::string name_;
   ElfImageReader* elf_reader_;
   ProcessMemoryRange* process_memory_range_;
+  ProcessReader* process_reader_;
   std::unique_ptr<CrashpadInfoReader> crashpad_info_;
   ModuleType type_;
   InitializationStateDcheck initialized_;
+  // Too const-y: https://crashpad.chromium.org/bug/9.
+  mutable std::vector<std::unique_ptr<const UserMinidumpStream>> streams_;
 
   DISALLOW_COPY_AND_ASSIGN(ModuleSnapshotElf);
 };
