@@ -79,11 +79,13 @@ TEST_F(SystemSnapshotWinTest, CPUVendor) {
   EXPECT_TRUE(cpu_vendor == "GenuineIntel" || cpu_vendor == "AuthenticAMD");
 }
 
+#if defined(ARCH_CPU_X86_FAMILY)
 TEST_F(SystemSnapshotWinTest, CPUX86SupportsDAZ) {
   // Most SSE2+ machines support Denormals-Are-Zero. This may fail if run on
   // older machines.
   EXPECT_TRUE(system_snapshot().CPUX86SupportsDAZ());
 }
+#endif
 
 TEST_F(SystemSnapshotWinTest, GetOperatingSystem) {
   EXPECT_EQ(system_snapshot().GetOperatingSystem(),
