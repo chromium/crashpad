@@ -22,6 +22,30 @@
       "revId": "4a0b7b5c2942d75933deb2f77f1577edac433fa9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d8d48b5_42deb834",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1283828
+      },
+      "writtenOn": "2019-06-03T14:27:27Z",
+      "side": 1,
+      "message": "As I see from this CL: https://chromium-review.googlesource.com/c/chromium/src/+/1593360\nTom Tan from Microsoft left some comments on that, and the conclusion was that the clang should be modify to emit proper brk instruction for Windows. I cc\u0027d Tom to this CL as well.",
+      "parentUuid": "4046bf95_106f5083",
+      "range": {
+        "startLine": 10,
+        "startChar": 52,
+        "endLine": 10,
+        "endChar": 78
+      },
+      "revId": "4a0b7b5c2942d75933deb2f77f1577edac433fa9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
