@@ -30,7 +30,6 @@ namespace internal {
 //! \brief A MemorySnapshot of a memory region in a process on the running
 //!     system. Used on Mac, Linux, Android, and Fuchsia, templated on the
 //!     platform-specific ProcessReader type.
-template <class ProcessReaderType>
 class MemorySnapshotGeneric final : public MemorySnapshot {
  public:
   MemorySnapshotGeneric() = default;
@@ -42,17 +41,19 @@ class MemorySnapshotGeneric final : public MemorySnapshot {
   //! until Read() is called, and the memory snapshot data is discared when
   //! Read() returns.
   //!
-  //! \param[in] process_reader A reader for the process being snapshotted.
+  //! \param[in] process_memory A reader for the process being snapshotted.
   //! \param[in] address The base address of the memory region to snapshot, in
   //!     the snapshot process’ address space.
   //! \param[in] size The size of the memory region to snapshot.
-  void Initialize(ProcessReaderType* process_reader,
+  void Initialize(const ProcessMemory* process_memory,
                   VMAddress address,
                   VMSize size) {
     INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
-    process_reader_ = process_reader;
+    process_memory_ = process_memory;
     address_ = address;
-    size_ = size;
+    DLOG_IF(WARNING, size >= std::numeric_limits<size_t>::max())
+        << "size overflow";
+    size_ = static_cast<size_t>(size);
     INITIALIZATION_STATE_SET_VALID(initialized_);
   }
 
@@ -76,7 +77,7 @@ class MemorySnapshotGeneric final : public MemorySnapshot {
     }
 
     std::unique_ptr<uint8_t[]> buffer(new uint8_t[size_]);
-    if (!process_reader_->Memory()->Read(address_, size_, buffer.get())) {
+    if (!process_memory_->Read(address_, size_, buffer.get())) {
       return false;
     }
     return delegate->MemorySnapshotDelegateRead(buffer.get(), size_);
@@ -93,7 +94,7 @@ class MemorySnapshotGeneric final : public MemorySnapshot {
       const T* self,
       const MemorySnapshot* other);
 
-  ProcessReaderType* process_reader_;  // weak
+  const ProcessMemory* process_memory_;  // weak
   uint64_t address_;
   uint64_t size_;
   InitializationStateDcheck initialized_;
