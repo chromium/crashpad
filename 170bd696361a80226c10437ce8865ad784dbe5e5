@@ -16,6 +16,24 @@
       "revId": "170bd696361a80226c10437ce8865ad784dbe5e5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95232218_337c42d7",
+        "filename": "snapshot/win/exception_snapshot_win_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1283828
+      },
+      "writtenOn": "2019-06-03T07:57:29Z",
+      "side": 1,
+      "message": "Thanks for the review. It\u0027s done.",
+      "parentUuid": "75ca6acc_ba844197",
+      "revId": "170bd696361a80226c10437ce8865ad784dbe5e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
