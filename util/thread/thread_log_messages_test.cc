@@ -168,6 +168,7 @@ class LoggingTestThread : public Thread {
   DISALLOW_COPY_AND_ASSIGN(LoggingTestThread);
 };
 
+#if !defined(OS_FUCHSIA)
 TEST(ThreadLogMessages, Multithreaded) {
   // Logging must be enabled at least at this level for this test to work.
   ASSERT_TRUE(LOG_IS_ON(WARNING));
@@ -186,6 +187,7 @@ TEST(ThreadLogMessages, Multithreaded) {
     thread.Join();
   }
 }
+#endif
 
 }  // namespace
 }  // namespace test
