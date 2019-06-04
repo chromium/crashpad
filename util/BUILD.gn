@@ -396,8 +396,16 @@ static_library("util") {
           "win/safe_terminate_process.asm",
         ]
       } else {
-        # TODO: Add assembly code of CaptureContext for Windows ARM64.
-        sources += [ "misc/capture_context_broken.cc" ]
+        # TODO: Currently in Chromium, clang-cl is used as an assembler for .asm files.
+        # However standalone Crashpad uses armasm64.exe macro assembler. They recognize different kind of asm syntax.
+        # It seems we should implement both version of asm file.
+        # We cannot manage both version in one file, since armasm64 doesn't handle define macros,
+        # so we cannot detect which part of source code should be used based on the assembler.
+        if (crashpad_is_in_chromium) {
+          sources += [ "misc/capture_context_win_arm64.asm" ]
+        } else {
+          sources += [ "misc/capture_context_broken.cc" ]
+        }
       }
     } else {
       sources += [
