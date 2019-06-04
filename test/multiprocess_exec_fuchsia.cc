@@ -31,8 +31,8 @@ namespace {
 
 void AddPipe(fdio_spawn_action_t* action, int target_fd, int* fd_out) {
   zx_handle_t handle = ZX_HANDLE_INVALID;
-  zx_status_t status = fdio_pipe_half2(fd_out, &handle);
-  ZX_CHECK(status == ZX_OK, status) << "fdio_pipe_half2";
+  zx_status_t status = fdio_pipe_half(fd_out, &handle);
+  ZX_CHECK(status == ZX_OK, status) << "fdio_pipe_half";
   action->action = FDIO_SPAWN_ACTION_ADD_HANDLE;
   action->h.id = PA_HND(PA_FD, target_fd);
   action->h.handle = handle;
