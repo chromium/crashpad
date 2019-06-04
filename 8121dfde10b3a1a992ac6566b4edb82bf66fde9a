@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6937fee_4681397f",
+        "filename": "snapshot/memory_snapshot.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-06-04T17:10:13Z",
+      "side": 1,
+      "message": "We could get rid of this template once there\u0027s only a single MemorySnapshot class.",
+      "revId": "8121dfde10b3a1a992ac6566b4edb82bf66fde9a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61a9ba64_fceba596",
+        "filename": "snapshot/memory_snapshot_generic.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-06-04T17:10:13Z",
+      "side": 1,
+      "message": "ProcessMemory will DCHECK that size \u003c\u003d the appropriate max limit so no need for the DLOG_IF here.",
+      "revId": "8121dfde10b3a1a992ac6566b4edb82bf66fde9a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c8ee14c_6ee80698",
+        "filename": "snapshot/memory_snapshot_generic.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-06-04T17:10:13Z",
+      "side": 1,
+      "message": "VMAddress here and VMSize below",
+      "revId": "8121dfde10b3a1a992ac6566b4edb82bf66fde9a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "797df26a_f714df68",
+        "filename": "snapshot/win/capture_memory_delegate_win.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-06-04T17:10:13Z",
+      "side": 1,
+      "message": "nit: indent to match other params",
+      "revId": "8121dfde10b3a1a992ac6566b4edb82bf66fde9a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
