@@ -27,11 +27,11 @@ TestMemorySnapshot::TestMemorySnapshot()
 TestMemorySnapshot::~TestMemorySnapshot() {
 }
 
-uint64_t TestMemorySnapshot::Address() const {
+VMAddress TestMemorySnapshot::Address() const {
   return address_;
 }
 
-size_t TestMemorySnapshot::Size() const {
+VMSize TestMemorySnapshot::Size() const {
   return size_;
 }
 

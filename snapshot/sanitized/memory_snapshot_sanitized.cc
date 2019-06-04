@@ -90,11 +90,11 @@ MemorySnapshotSanitized::MemorySnapshotSanitized(const MemorySnapshot* snapshot,
 
 MemorySnapshotSanitized::~MemorySnapshotSanitized() = default;
 
-uint64_t MemorySnapshotSanitized::Address() const {
+VMAddress MemorySnapshotSanitized::Address() const {
   return snapshot_->Address();
 }
 
-size_t MemorySnapshotSanitized::Size() const {
+VMSize MemorySnapshotSanitized::Size() const {
   return snapshot_->Size();
 }
 

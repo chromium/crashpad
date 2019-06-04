@@ -31,8 +31,8 @@ class TestMemorySnapshot final : public MemorySnapshot {
   TestMemorySnapshot();
   ~TestMemorySnapshot();
 
-  void SetAddress(uint64_t address) { address_ = address; }
-  void SetSize(size_t size) { size_ = size; }
+  void SetAddress(VMAddress address) { address_ = address; }
+  void SetSize(VMSize size) { size_ = size; }
 
   //! \brief Sets the value to fill the test memory region with.
   //!
@@ -44,15 +44,15 @@ class TestMemorySnapshot final : public MemorySnapshot {
 
   // MemorySnapshot:
 
-  uint64_t Address() const override;
-  size_t Size() const override;
+  VMAddress Address() const override;
+  VMSize Size() const override;
   bool Read(Delegate* delegate) const override;
   const MemorySnapshot* MergeWithOtherSnapshot(
       const MemorySnapshot* other) const override;
 
  private:
-  uint64_t address_;
-  size_t size_;
+  VMAddress address_;
+  VMSize size_;
   char value_;
   bool should_fail_;
 

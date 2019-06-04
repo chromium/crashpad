@@ -51,8 +51,8 @@ class MemorySnapshotSanitized final : public MemorySnapshot {
 
   // MemorySnapshot:
 
-  uint64_t Address() const override;
-  size_t Size() const override;
+  VMAddress Address() const override;
+  VMSize Size() const override;
   bool Read(Delegate* delegate) const override;
 
   const MemorySnapshot* MergeWithOtherSnapshot(

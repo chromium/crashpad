@@ -58,12 +58,12 @@ bool MemorySnapshotMinidump::Initialize(FileReaderInterface* file_reader,
   return true;
 }
 
-uint64_t MemorySnapshotMinidump::Address() const {
+VMAddress MemorySnapshotMinidump::Address() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return address_;
 }
 
-size_t MemorySnapshotMinidump::Size() const {
+VMSize MemorySnapshotMinidump::Size() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return data_.size();
 }

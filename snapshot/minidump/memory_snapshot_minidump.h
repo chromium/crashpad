@@ -43,14 +43,14 @@ class MemorySnapshotMinidump : public MemorySnapshot {
   //!     an appropriate message logged.
   bool Initialize(FileReaderInterface* file_reader, RVA location);
 
-  uint64_t Address() const override;
-  size_t Size() const override;
+  VMAddress Address() const override;
+  VMSize Size() const override;
   bool Read(Delegate* delegate) const override;
   const MemorySnapshot* MergeWithOtherSnapshot(
       const MemorySnapshot* other) const override;
 
  private:
-  uint64_t address_;
+  VMAddress address_;
   std::vector<uint8_t> data_;
   InitializationStateDcheck initialized_;
 
