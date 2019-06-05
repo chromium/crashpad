@@ -98,7 +98,15 @@ class CrashingDelegate : public ExceptionHandlerServer::Delegate {
 
     // Confirm the exception record was read correctly.
     EXPECT_NE(snapshot.Exception()->ThreadID(), 0u);
-    EXPECT_EQ(EXCEPTION_BREAKPOINT, snapshot.Exception()->Exception());
+#if defined(ARCH_CPU_ARM64)
+    // Clang doesn't emit proper brk instruction for __debugbreak().
+    // Since Windows' exception handler cannot understand that,
+    // so it causes an illegal instruction exception on Windows on ARM64.
+    // Modify expectation vaule until the generation is fixed in Clang.
+    EXPECT_EQ(snapshot.Exception()->Exception(), EXCEPTION_ILLEGAL_INSTRUCTION);
+#else
+    EXPECT_EQ(snapshot.Exception()->Exception(), EXCEPTION_BREAKPOINT);
+#endif
 
     // Verify the exception happened at the expected location with a bit of
     // slop space to allow for reading the current PC before the exception
@@ -160,7 +168,15 @@ void TestCrashingChild(TestPaths::Architecture architecture) {
   EXPECT_EQ(WaitForSingleObject(completed.get(), INFINITE), WAIT_OBJECT_0)
       << ErrorMessage("WaitForSingleObject");
 
+#if defined(ARCH_CPU_ARM64)
+  // Clang doesn't emit proper brk instruction for __debugbreak().
+  // Since Windows' exception handler cannot understand that,
+  // so it causes an illegal instruction exception on Windows on ARM64.
+  // Modify expectation vaule until the generation is fixed in Clang.
+  EXPECT_EQ(child.WaitForExit(), EXCEPTION_ILLEGAL_INSTRUCTION);
+#else
   EXPECT_EQ(child.WaitForExit(), EXCEPTION_BREAKPOINT);
+#endif
 }
 
 #if defined(ADDRESS_SANITIZER)
