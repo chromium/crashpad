@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3534668_fb4fc7ce",
+        "filename": "snapshot/memory_snapshot.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-06-05T06:56:59Z",
+      "side": 1,
+      "message": "This method is now only used by MemorySnapshotGeneric, you can get rid of the templating and move the definition into MemorySnapshotGeneric::MergeWithOtherSnapshot.",
+      "revId": "9de83df04f065f62a28fe2f92032c449d0cf9520",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd005a96_8aaba27a",
+        "filename": "snapshot/memory_snapshot_generic.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-06-05T06:56:59Z",
+      "side": 1,
+      "message": "No longer required.",
+      "revId": "9de83df04f065f62a28fe2f92032c449d0cf9520",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
