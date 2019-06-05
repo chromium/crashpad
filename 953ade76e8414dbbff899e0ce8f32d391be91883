@@ -16,6 +16,24 @@
       "revId": "953ade76e8414dbbff899e0ce8f32d391be91883",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e37741c7_1b58cecf",
+        "filename": "snapshot/memory_snapshot_generic.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1287199
+      },
+      "writtenOn": "2019-06-05T19:53:12Z",
+      "side": 1,
+      "message": "Since other is the base MemorySnapshot, we still need to do the cast to be able to access process_memory_ on line 90.",
+      "parentUuid": "4cb84d6a_322dcc76",
+      "revId": "953ade76e8414dbbff899e0ce8f32d391be91883",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
