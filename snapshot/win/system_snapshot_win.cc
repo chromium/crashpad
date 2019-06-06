@@ -192,6 +192,24 @@ std::string SystemSnapshotWin::CPUVendor() const {
 #elif defined(ARCH_CPU_ARM64)
   // TODO(jperaza): do this. https://crashpad.chromium.org/bug/30
   // This is the same as SystemSnapshotLinux::CPURevision.
+  HKEY key;
+  const size_t buffersize = 1024;
+
+  if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0"), 0, KEY_QUERY_VALUE, &key) == ERROR_SUCCESS){
+    DWORD dwType = REG_SZ;
+
+    wchar_t buf[buffersize] = {0};
+    DWORD dwBufSize = sizeof(buf);
+
+    RegQueryValueEx(
+        key, TEXT("VendorIdentifier"), 0, &dwType, (LPBYTE)buf, &dwBufSize);
+
+	char* t = new char[buffersize];
+	wcstombs(t, buf, buffersize);
+
+	return std::string(t);
+  }
+  
   return std::string();
 #else
 #error Unsupported Windows Arch

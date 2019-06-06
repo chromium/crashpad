@@ -76,7 +76,11 @@ TEST_F(SystemSnapshotWinTest, CPUVendor) {
 
   // There are a variety of other values, but we don't expect to run our tests
   // on them.
+#if defined(ARCH_CPU_ARM64)
+  EXPECT_TRUE(cpu_vendor == "Qualcomm Technologies Inc");
+#else
   EXPECT_TRUE(cpu_vendor == "GenuineIntel" || cpu_vendor == "AuthenticAMD");
+#endif
 }
 
 TEST_F(SystemSnapshotWinTest, CPUX86SupportsDAZ) {
