@@ -47,9 +47,19 @@ if (crashpad_is_mac) {
     args += rebase_path(outputs, root_build_dir)
     if (crashpad_is_in_chromium) {
       if (!use_system_xcode) {
+        import("//build/config/clang/clang.gni")
+        import("//build/config/mac/mac_sdk.gni")
+        clang_path = rebase_path("$clang_base_path/bin/", root_build_dir) + "clang"
+        mig_path = "$mac_bin_path" + "mig"
+        migcom_path = "$mac_bin_path" + "../libexec/migcom"
+
         args += [
-          "--developer-dir",
-          hermetic_xcode_path,
+          "--clang-path",
+          clang_path,
+          "--mig-path",
+          mig_path,
+          "--migcom-path",
+          migcom_path,
         ]
       }
     }
