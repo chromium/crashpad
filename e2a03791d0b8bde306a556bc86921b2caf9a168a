@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57130810_e87cd138",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-07T18:02:00Z",
+      "side": 1,
+      "message": "Can you say which one? I assume it’s 31200def0dec.",
+      "revId": "e2a03791d0b8bde306a556bc86921b2caf9a168a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
