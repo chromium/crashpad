@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d5de9f9f_c24eb39f",
+        "filename": "snapshot/memory_snapshot_generic.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-10T18:35:58Z",
+      "side": 1,
+      "message": "This, and other similar casts, truncates from VMSize. We shouldn’t do that silently.",
+      "revId": "953ade76e8414dbbff899e0ce8f32d391be91883",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4cb84d6a_322dcc76",
         "filename": "snapshot/memory_snapshot_generic.h",
         "patchSetId": 9
