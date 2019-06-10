@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7c46b2ad_c81a8d73",
+        "filename": "snapshot/memory_snapshot_generic.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-10T18:43:11Z",
+      "side": 1,
+      "message": "\u003e I switched size_ and address_ back to being uint64_t so the casts aren\u0027t needed, it seems to be cleaner with how the MemorySnapshot interface currently is.\n\nIt still happens implicitly as a return from Size().\n\nThe buffer-based design means that we can’t really get away from size_t here at all. That’s fine, we’ve just got to take care because we are accepting VMSize (\u003d\u003d uint64_t) on the way in to this class.",
+      "parentUuid": "4fd4b07d_d91e660b",
+      "revId": "953ade76e8414dbbff899e0ce8f32d391be91883",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4cb84d6a_322dcc76",
         "filename": "snapshot/memory_snapshot_generic.h",
         "patchSetId": 9
