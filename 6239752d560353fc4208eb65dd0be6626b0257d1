@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8078d2f8_f1653e56",
+        "filename": "snapshot/elf/module_snapshot_elf.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-10T19:51:22Z",
+      "side": 1,
+      "message": "The Windows implementation had a reason to split ModuleSnapshotWin::CustomMinidumpStreams() up into an inner ModuleSnapshotWin::GetCrashpadUserMinidumpStreams\u003c\u003e() function as an implementation detail. I don’t see the same justification here. In fact, I think that this would be cleaner if you just had the single outer function, ModuleSnapshotElf::CustomMinidumpStreams(), with its own single-pass loop.",
+      "revId": "6239752d560353fc4208eb65dd0be6626b0257d1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
