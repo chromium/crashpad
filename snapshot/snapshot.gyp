@@ -155,8 +155,6 @@
         'win/capture_memory_delegate_win.h',
         'win/memory_map_region_snapshot_win.cc',
         'win/memory_map_region_snapshot_win.h',
-        'win/memory_snapshot_win.cc',
-        'win/memory_snapshot_win.h',
         'win/module_snapshot_win.cc',
         'win/module_snapshot_win.h',
         'win/pe_image_annotations_reader.cc',

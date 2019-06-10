@@ -31,6 +31,7 @@
 #include "snapshot/exception_snapshot.h"
 #include "snapshot/memory_map_region_snapshot.h"
 #include "snapshot/memory_snapshot.h"
+#include "snapshot/memory_snapshot_generic.h"
 #include "snapshot/module_snapshot.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/system_snapshot.h"
@@ -38,7 +39,6 @@
 #include "snapshot/unloaded_module_snapshot.h"
 #include "snapshot/win/exception_snapshot_win.h"
 #include "snapshot/win/memory_map_region_snapshot_win.h"
-#include "snapshot/win/memory_snapshot_win.h"
 #include "snapshot/win/module_snapshot_win.h"
 #include "snapshot/win/system_snapshot_win.h"
 #include "snapshot/win/thread_snapshot_win.h"
@@ -154,18 +154,18 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   void AddMemorySnapshot(
       WinVMAddress address,
       WinVMSize size,
-      std::vector<std::unique_ptr<internal::MemorySnapshotWin>>* into);
+      std::vector<std::unique_ptr<internal::MemorySnapshotGeneric>>* into);
 
   template <class Traits>
   void AddMemorySnapshotForUNICODE_STRING(
       const process_types::UNICODE_STRING<Traits>& us,
-      std::vector<std::unique_ptr<internal::MemorySnapshotWin>>* into);
+      std::vector<std::unique_ptr<internal::MemorySnapshotGeneric>>* into);
 
   template <class Traits>
   void AddMemorySnapshotForLdrLIST_ENTRY(
       const process_types::LIST_ENTRY<Traits>& le,
       size_t offset_of_member,
-      std::vector<std::unique_ptr<internal::MemorySnapshotWin>>* into);
+      std::vector<std::unique_ptr<internal::MemorySnapshotGeneric>>* into);
 
   WinVMSize DetermineSizeOfEnvironmentBlock(
       WinVMAddress start_of_environment_block);
@@ -175,10 +175,10 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   template <class Traits>
   void ReadLock(
       WinVMAddress start,
-      std::vector<std::unique_ptr<internal::MemorySnapshotWin>>* into);
+      std::vector<std::unique_ptr<internal::MemorySnapshotGeneric>>* into);
 
   internal::SystemSnapshotWin system_;
-  std::vector<std::unique_ptr<internal::MemorySnapshotWin>> extra_memory_;
+  std::vector<std::unique_ptr<internal::MemorySnapshotGeneric>> extra_memory_;
   std::vector<std::unique_ptr<internal::ThreadSnapshotWin>> threads_;
   std::vector<std::unique_ptr<internal::ModuleSnapshotWin>> modules_;
   std::vector<UnloadedModuleSnapshot> unloaded_modules_;
