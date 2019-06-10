@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "9e05bd4d_e8af9c82",
+        "filename": "snapshot/memory_snapshot_generic.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1287199
+      },
+      "writtenOn": "2019-06-10T18:55:18Z",
+      "side": 1,
+      "message": "I changed size_ to be a size_t since it\u0027s always expected to be when it\u0027s used, and added a DLOG in the constructor if the size provided will overflow. Let me know if you prefer leaving size_ as uint64_t or VMSize.",
+      "parentUuid": "7c46b2ad_c81a8d73",
+      "revId": "953ade76e8414dbbff899e0ce8f32d391be91883",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4cb84d6a_322dcc76",
         "filename": "snapshot/memory_snapshot_generic.h",
         "patchSetId": 9
