@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4fd4b07d_d91e660b",
+        "filename": "snapshot/memory_snapshot_generic.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1287199
+      },
+      "writtenOn": "2019-06-10T18:41:00Z",
+      "side": 1,
+      "message": "I switched size_ and address_ back to being uint64_t so the casts aren\u0027t needed, it seems to be cleaner with how the MemorySnapshot interface currently is.",
+      "parentUuid": "d5de9f9f_c24eb39f",
+      "revId": "953ade76e8414dbbff899e0ce8f32d391be91883",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4cb84d6a_322dcc76",
         "filename": "snapshot/memory_snapshot_generic.h",
         "patchSetId": 9
