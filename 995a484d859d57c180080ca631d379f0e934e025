@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5341f1fc_85021c74",
+        "filename": "snapshot/memory_snapshot_generic.h",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-10T19:06:29Z",
+      "side": 1,
+      "message": "Because the truncation will produce breakage, this shouldn’t be a debug-only check, and it shouldn’t be a log-only result. You can make this function return a bool, or even do size_ \u003d checked_cast\u003csize_t\u003e(size).",
+      "revId": "995a484d859d57c180080ca631d379f0e934e025",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
