@@ -16,6 +16,24 @@
       "revId": "6239752d560353fc4208eb65dd0be6626b0257d1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9891b377_cce3e099",
+        "filename": "snapshot/elf/module_snapshot_elf.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1287199
+      },
+      "writtenOn": "2019-06-10T21:55:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8078d2f8_f1653e56",
+      "revId": "6239752d560353fc4208eb65dd0be6626b0257d1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
