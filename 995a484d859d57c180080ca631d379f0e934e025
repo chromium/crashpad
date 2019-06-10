@@ -16,6 +16,24 @@
       "revId": "995a484d859d57c180080ca631d379f0e934e025",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edde4fa7_b68c802b",
+        "filename": "snapshot/memory_snapshot_generic.h",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1287199
+      },
+      "writtenOn": "2019-06-10T19:16:03Z",
+      "side": 1,
+      "message": "Switched to checked_cast.\n\n(I had originally taken this from the memory_snapshot_win.cc implementation that is being deleted in this CL)",
+      "parentUuid": "5341f1fc_85021c74",
+      "revId": "995a484d859d57c180080ca631d379f0e934e025",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
