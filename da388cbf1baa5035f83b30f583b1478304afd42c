@@ -88,6 +88,24 @@
       "revId": "da388cbf1baa5035f83b30f583b1478304afd42c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa2fb1a7_33ad5ec7",
+        "filename": "snapshot/elf/module_snapshot_elf.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1287199
+      },
+      "writtenOn": "2019-06-11T16:54:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c175151_8b642848",
+      "revId": "da388cbf1baa5035f83b30f583b1478304afd42c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
