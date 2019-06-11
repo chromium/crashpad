@@ -16,6 +16,24 @@
       "revId": "da388cbf1baa5035f83b30f583b1478304afd42c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c666ccc2_146aec95",
+        "filename": "snapshot/elf/module_snapshot_elf.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-11T01:01:51Z",
+      "side": 1,
+      "message": "\u003e We pass in a ProcessMemory and a ProcessMemoryRange and either of the upstream callers (ProcessSnapshot{Fuchsia,Linux}) actually limit the range object at all. Perhaps we should just use a ProcessMemory since the ModuleSnapshot can also read outside of the modules bounds? Mark do you have an opinion?\n\nThis ProcessMemoryRange is basically just clamping us to 32 bits in 32-bit processes, not restricting to the module image, right?\n\nIt doesn’t seem worth a whole separate parameter for that. ProcessMemory ought to handle this for us.",
+      "parentUuid": "27fb2a1b_5dfa58e3",
+      "revId": "da388cbf1baa5035f83b30f583b1478304afd42c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
