@@ -70,6 +70,24 @@
       "revId": "da388cbf1baa5035f83b30f583b1478304afd42c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c175151_8b642848",
+        "filename": "snapshot/elf/module_snapshot_elf.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-11T16:40:00Z",
+      "side": 1,
+      "message": "\u003e Changing from ProcessMemoryRange to ProcessMemory would require either modifying ImageAnnotationReader to take ProcessMemory (which doesn\u0027t look trivial since it is using the Is64Bit() method), or creating the ProcessMemoryRange inside ModuleSnapshotElf, which would need a is_64_bit param added to the constructor (which doesn\u0027t seem much better than just passing ProcessMemoryRange directly). Is it ok to submit this as-is?\n\nA different solution would be to push is_64_bit into the ProcessMemory implementations, and have them reject reads that are beyond the address space of the process they’re reading. That would probably be best.\n\nFor now, I think that the interface wart can be tolerated as long as you update the //! docstring above to include process_memory, explaining the difference between these two related parameters.",
+      "parentUuid": "e7701e25_e6c05735",
+      "revId": "da388cbf1baa5035f83b30f583b1478304afd42c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
