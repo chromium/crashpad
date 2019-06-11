@@ -273,7 +273,8 @@ void ProcessSnapshotLinux::InitializeModules() {
         std::make_unique<internal::ModuleSnapshotElf>(reader_module.name,
                                                       reader_module.elf_reader,
                                                       reader_module.type,
-                                                      &memory_range_);
+                                                      &memory_range_,
+                                                      process_reader_.Memory());
     if (module->Initialize()) {
       modules_.push_back(std::move(module));
     }
