@@ -34,6 +34,24 @@
       "revId": "da388cbf1baa5035f83b30f583b1478304afd42c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48beb2cb_25dadaa8",
+        "filename": "snapshot/elf/module_snapshot_elf.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-06-11T01:09:06Z",
+      "side": 1,
+      "message": "I had assumed that was the purpose of the use of range, but it sounds like I misunderstood the initial purpose.",
+      "parentUuid": "c666ccc2_146aec95",
+      "revId": "da388cbf1baa5035f83b30f583b1478304afd42c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
