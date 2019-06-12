@@ -158,9 +158,10 @@ uint32_t SystemSnapshotWin::CPURevision() const {
   uint8_t adjusted_model = model + (extended_model << 4);
   return (adjusted_family << 16) | (adjusted_model << 8) | stepping;
 #elif defined(ARCH_CPU_ARM64)
-  // TODO(jperaza): do this. https://crashpad.chromium.org/bug/30
-  // This is the same as SystemSnapshotLinux::CPURevision.
-  return 0;
+  SYSTEM_INFO system_info;
+  GetSystemInfo(&system_info);
+
+  return system_info.wProcessorRevision;
 #else
 #error Unsupported Windows Arch
 #endif
