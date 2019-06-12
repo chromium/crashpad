@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb8c65e6_57c4fc6d",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:59:53Z",
+      "side": 1,
+      "message": "Is this correct?\n\nhttps://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/ns-sysinfoapi-_system_info\n\nUnder Members/wProcessorRevision:\n\n\u003e Processor  Value\n\u003e ---------  ---------\n[…]\n\u003e ARM        Reserved.\n\nOf course, this may be a case of the documentation lagging the implementation.\n\nWhat values do you see here? Do they comport with the CPU that you’re running on?",
+      "revId": "2f8a68a1d98965345a457add6c75688cc9bb0166",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
