@@ -160,7 +160,10 @@ uint32_t SystemSnapshotWin::CPURevision() const {
 #elif defined(ARCH_CPU_ARM64)
   // TODO(jperaza): do this. https://crashpad.chromium.org/bug/30
   // This is the same as SystemSnapshotLinux::CPURevision.
-  return 0;
+  SYSTEM_INFO system_info;
+  GetSystemInfo(&system_info);
+
+  return system_info.wProcessorRevision;
 #else
 #error Unsupported Windows Arch
 #endif
