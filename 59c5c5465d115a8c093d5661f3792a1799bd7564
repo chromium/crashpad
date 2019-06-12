@@ -423,6 +423,30 @@
       "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0307502_2344a9ac",
+        "filename": "snapshot/win/system_snapshot_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2019-06-12T17:17:09Z",
+      "side": 1,
+      "message": "Yes, this check looks too tight. There could be other vendors.",
+      "parentUuid": "8d424a10_b433fcd4",
+      "range": {
+        "startLine": 80,
+        "startChar": 28,
+        "endLine": 80,
+        "endChar": 55
+      },
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
