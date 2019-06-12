@@ -1,0 +1,428 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2817995_362d5b19",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "As this is now being implemented, remove this comment saying that it needs to be implemented.\n\n(The comment referenced the wrong bug anyway.)",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 0
+      },
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40345c17_9b34d93e",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "Can be constexpr as used, and naming should be kBufferSize, but see below.",
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "961dd298_32931d5b",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "Stay within 80 columns.",
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5138c90b_8403ca43",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "Don’t bother with TEXT(), we will never support building this in the narrow non-Unicode environment. We normally use L\"\" for these. Same on line 205.",
+      "range": {
+        "startLine": 198,
+        "startChar": 39,
+        "endLine": 198,
+        "endChar": 44
+      },
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "216e6cdd_4311a333",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "This is never closed.\n\nWe have ScopedRegistryKey in util/win/process_info_test.cc. Promote it tot util/win/scoped_registry_key.{h,cc} so that you can use it here.",
+      "range": {
+        "startLine": 198,
+        "startChar": 119,
+        "endLine": 198,
+        "endChar": 123
+      },
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "005dc7e1_c97e022c",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "We don’t use this style of naming here where the type is encoded in the variable name. We also don’t use camelCase. This should be, simply, “type”. Same on line 202.",
+      "range": {
+        "startLine": 199,
+        "startChar": 10,
+        "endLine": 199,
+        "endChar": 16
+      },
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f28f1ec5_b44e37a2",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "This is an out-parameter from RegQueryValueEx() and does not need to be initialized.",
+      "range": {
+        "startLine": 199,
+        "startChar": 19,
+        "endLine": 199,
+        "endChar": 25
+      },
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99862200_5faadc2a",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "This is also an out-parameter and requires no initialization.",
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44efa16b_7455abc4",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "You’ve never checked this for success.",
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "107a3126_66e39644",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "This parameter is a pointer. Use nullptr, not 0.",
+      "range": {
+        "startLine": 205,
+        "startChar": 39,
+        "endLine": 205,
+        "endChar": 40
+      },
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48d33a73_dfb17e54",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "Never use (c_style)casts. Only use cplusplus\u003cstyle\u003e(casts).\n\nDon’t use LPBYTE. BYTE* suffices and we consider it more readable.",
+      "range": {
+        "startLine": 205,
+        "startChar": 51,
+        "endLine": 205,
+        "endChar": 59
+      },
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bd4a373_c60b96d0",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "Spaces only, no tabs. Lines 208 and 210 too.",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 1
+      },
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea6ebc6d_8f05ed2f",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "You have two buffers here. One is named “buf” and the other is named “t”. These names make it impossible to tell what either is intended to do.",
+      "range": {
+        "startLine": 207,
+        "startChar": 7,
+        "endLine": 207,
+        "endChar": 8
+      },
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03313c71_04c8cd4d",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "You’ve leaked this too.\n\nSince your buffer size was a smallish constant, why is this even heap-allocated?\n\nWhat does the size of one buffer (buf) even have to do with the size of the other (t)?\n\nI don’t think you want this at all anyway. See below.",
+      "range": {
+        "startLine": 207,
+        "startChar": 1,
+        "endLine": 207,
+        "endChar": 32
+      },
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a2852d6_da88a83f",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "Locale-sensitive. I don’t think that this is what you want. You probably meant UTF16ToUTF8.",
+      "range": {
+        "startLine": 208,
+        "startChar": 1,
+        "endLine": 208,
+        "endChar": 9
+      },
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06edd689_1591faf3",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "You’ve never checked that dwType is the expected value (REG_SZ), which you must do before interpreting it as a string.",
+      "range": {
+        "startLine": 208,
+        "startChar": 13,
+        "endLine": 208,
+        "endChar": 16
+      },
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "472efd97_1f4d700b",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "No trailing whitespace.",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 2
+      },
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcc744b1_c47c36bc",
+        "filename": "snapshot/win/system_snapshot_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "When we need to #if on CPU, we always put x86 family first, and then other families.\n\nWhen we need to do something on a per-CPU basis that’s not implemented for future CPUs, we’d leave an #else #error.\n\nSo, here:\n\n#if defined(ARCH_CPU_X86_FAMILY)\n  // do x86 and x86-64 stuff\n#elif defined(ARCH_CPU_ARM64)\n  // do aarch64 stuff\n#else\n#error Port\n#endif\n\nNote that this matches exactly the #if cascade used in system_snapshot_win.cc.",
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c9ee17c_506adb69",
+        "filename": "snapshot/win/system_snapshot_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "This is better as EXPECT_EQ. The x86-family one is EXPECT_TRUE because it’s testing for more than one possible vendor string.",
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d424a10_b433fcd4",
+        "filename": "snapshot/win/system_snapshot_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-12T16:54:03Z",
+      "side": 1,
+      "message": "Is this really the only vendor string we can expect to see here?",
+      "range": {
+        "startLine": 80,
+        "startChar": 28,
+        "endLine": 80,
+        "endChar": 55
+      },
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
