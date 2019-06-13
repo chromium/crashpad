@@ -131,7 +131,15 @@ void TestAnnotationsOnCrash(TestType type,
       break;
     case kCrashDebugBreak:
       c = 'd';
+#if defined(ARCH_CPU_ARM64)
+      // Clang doesn't emit proper brk instruction for __debugbreak().
+      // Since Windows' exception handler cannot understand that,
+      // so it causes an illegal instruction exception on Windows on ARM64.
+      // Modify expectation vaule until the generation is fixed in Clang.
+      expected_exit_code = STATUS_ILLEGAL_INSTRUCTION;
+#else
       expected_exit_code = STATUS_BREAKPOINT;
+#endif
       break;
     default:
       FAIL();
