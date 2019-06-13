@@ -447,6 +447,30 @@
       "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb7ff663_621eb363",
+        "filename": "snapshot/win/system_snapshot_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1339467
+      },
+      "writtenOn": "2019-06-13T09:17:37Z",
+      "side": 1,
+      "message": "We have only an Asus NovaGo TP370 but every Windows on ARM capable computer I read about has Qualcomm Snapdragon CPU.\nI\u0027m sure there will be other CPU vendors too, but I couldn\u0027t find anything different yet.",
+      "parentUuid": "c0307502_2344a9ac",
+      "range": {
+        "startLine": 80,
+        "startChar": 28,
+        "endLine": 80,
+        "endChar": 55
+      },
+      "revId": "59c5c5465d115a8c093d5661f3792a1799bd7564",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
