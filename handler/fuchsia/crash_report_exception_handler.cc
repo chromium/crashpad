@@ -90,23 +90,13 @@ bool CrashReportExceptionHandler::HandleException(
     return false;
   }
 
-  return HandleExceptionHandles(
-      process, thread, exception_port, local_report_id);
-}
-
-bool CrashReportExceptionHandler::HandleExceptionHandles(
-    const zx::process& process,
-    const zx::thread& thread,
-    const zx::unowned_port& exception_port,
-    UUID* local_report_id) {
   ScopedThreadResumeAfterException resume(thread, exception_port);
   return HandleException(process, thread, local_report_id);
 }
 
-bool CrashReportExceptionHandler::HandleException(
-    const zx::process& process,
-    const zx::thread& thread,
-    UUID* local_report_id) {
+bool CrashReportExceptionHandler::HandleException(const zx::process& process,
+                                                  const zx::thread& thread,
+                                                  UUID* local_report_id) {
   ScopedTaskSuspend suspend(process);
 
   ProcessSnapshotFuchsia process_snapshot;
