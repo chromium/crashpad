@@ -34,6 +34,24 @@
       "revId": "2f8a68a1d98965345a457add6c75688cc9bb0166",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33996364_ec22e49f",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1307249
+      },
+      "writtenOn": "2019-06-14T18:02:37Z",
+      "side": 1,
+      "message": "The least significant byte is for minor revision. Any one checks the revision probably needs to ignore it because of the big-little system.",
+      "parentUuid": "51bd8997_4b77c2b0",
+      "revId": "2f8a68a1d98965345a457add6c75688cc9bb0166",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
