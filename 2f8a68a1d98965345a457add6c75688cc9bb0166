@@ -16,6 +16,24 @@
       "revId": "2f8a68a1d98965345a457add6c75688cc9bb0166",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51bd8997_4b77c2b0",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1339467
+      },
+      "writtenOn": "2019-06-14T08:06:49Z",
+      "side": 1,
+      "message": "The CPU it\u0027s running on is \"ARMv8 (64-bit) Family 8 Model 801 Revision A04\" (read from device manager, same value is in the registry)\n\nThe wProcessorRevision in the struct is 2564 (0xA04) so it seems correct.\n\nBut there is another problem: this CPU has 4 big and 4 little cores and the revision of little cores are A01.",
+      "parentUuid": "bb8c65e6_57c4fc6d",
+      "revId": "2f8a68a1d98965345a457add6c75688cc9bb0166",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
