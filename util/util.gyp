@@ -184,7 +184,6 @@
         'net/http_transport.cc',
         'net/http_transport.h',
         'net/http_transport_mac.mm',
-        'net/http_transport_none.cc',
         'net/http_transport_win.cc',
         'net/url.cc',
         'net/url.h',
@@ -393,18 +392,13 @@
             'win/safe_terminate_process.asm',
           ],
         }],
-        ['OS=="linux"', {
+        ['OS=="linux" or OS=="android"', {
           'sources': [
             'net/http_transport_socket.cc',
           ],
         }, {  # else: OS!="linux"
           'sources!': [
             'misc/capture_context_linux.S',
-          ],
-        }],
-        ['OS!="android"', {
-          'sources!': [
-            'net/http_transport_none.cc',
           ],
         }],
         ['OS!="linux" and OS!="android"', {
