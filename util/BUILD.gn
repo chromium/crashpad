@@ -269,7 +269,7 @@ static_library("util") {
 
   deps = []
 
-  if (crashpad_is_linux || crashpad_is_fuchsia) {
+  if (crashpad_is_linux || crashpad_is_fuchsia || crashpad_is_android) {
     sources += [ "net/http_transport_socket.cc" ]
     if (crashpad_use_boringssl_for_http_transport_socket) {
       defines = [ "CRASHPAD_USE_BORINGSSL" ]
@@ -283,8 +283,6 @@ static_library("util") {
         ]
       }
     }
-  } else if (crashpad_is_android) {
-    sources += [ "net/http_transport_none.cc" ]
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
