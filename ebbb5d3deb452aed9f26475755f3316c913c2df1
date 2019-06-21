@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d605b715_a44252ed",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-21T14:07:05Z",
+      "side": 1,
+      "message": "There are more choices than “crashpad_is_in_chromium” and “crashpad_is_standalone”. Not all of them make sense for Windows, but “crashpad_is_external” does. It’s more similar to the standalone build than the Chromium build in that it uses mini_chromium and the same build configuration as the standalone build. The only thing way that external differs from standalone is that the location of some third_party dependencies changes so that they’re “external” to the Crashpad root rather than being contained within.\n\nBecause Chromium is the odd one out, it makes more sense to base the .asm/.obj decision on crashpad_is_in_chromium than on any other condition.\n\nSee the top of build/crashpad_buildconfig.gni for more information on the various options available.\n\nSuggested revised comment block to go above this:\n\n        # Most Crashpad builds use Microsoft’s armasm64.exe macro assembler for\n        # .asm source files. When building in Chromium, clang-cl is used as the\n        # assembler instead. Since the two assemblers recognize different\n        # assembly dialects, the same .asm file can’t be used for each. As a\n        # workaround, use a prebuilt .obj file when the Microsoft-dialect\n        # assembler isn’t available.",
+      "revId": "ebbb5d3deb452aed9f26475755f3316c913c2df1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "602f27fa_7014cb7d",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-21T14:07:05Z",
+      "side": 1,
+      "message": "Good. Separately, we can adopt this template for the two other .asm files that we have.",
+      "revId": "ebbb5d3deb452aed9f26475755f3316c913c2df1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
