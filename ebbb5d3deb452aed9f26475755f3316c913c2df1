@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f86f2277_3380d523",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1283828
+      },
+      "writtenOn": "2019-06-21T15:47:04Z",
+      "side": 1,
+      "message": "Thanks to clarifying this. Comment block is updated.\n\nI\u0027ve changed the condition as well.",
+      "parentUuid": "d605b715_a44252ed",
+      "revId": "ebbb5d3deb452aed9f26475755f3316c913c2df1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "602f27fa_7014cb7d",
         "filename": "util/BUILD.gn",
         "patchSetId": 4
