@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75fc4114_5bff088c",
+        "filename": "util/misc/capture_context_win_arm64.asm",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-21T16:21:26Z",
+      "side": 1,
+      "message": "Seems like there’s one extra blank line here.",
+      "revId": "996645a38cbbea2f1aa4b98ed33fe8418021a9ac",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d85f2de_9f182ea1",
+        "filename": "util/misc/capture_context_win_arm64.asm",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-21T16:21:26Z",
+      "side": 1,
+      "message": "Was a 5-space indent intended for these two lines?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 23
+      },
+      "revId": "996645a38cbbea2f1aa4b98ed33fe8418021a9ac",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9932567e_0744d29a",
+        "filename": "util/misc/capture_context_win_arm64.asm",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-21T16:21:26Z",
+      "side": 1,
+      "message": "I know that the _linux and _fuchsia files are also missing this. I filed https://crashpad.chromium.org/bug/300 to track this. Please change this to\n\nTODO(https://crashpad.chromium.org/bug/300): save floating-point registers.\n\nand make the same change where this appears in the _linux and _fuchsia files.",
+      "revId": "996645a38cbbea2f1aa4b98ed33fe8418021a9ac",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c6b6f2a_b9dd4d4d",
+        "filename": "util/misc/capture_context_win_arm64.asm",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-21T16:21:26Z",
+      "side": 1,
+      "message": "Flush left to match the opening PROC?",
+      "revId": "996645a38cbbea2f1aa4b98ed33fe8418021a9ac",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "392dd8e4_f2017185",
+        "filename": "util/misc/capture_context_win_arm64.asm",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-21T16:21:26Z",
+      "side": 1,
+      "message": "Me too?",
+      "revId": "996645a38cbbea2f1aa4b98ed33fe8418021a9ac",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
