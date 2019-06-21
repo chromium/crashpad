@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20546bef_d2041fd5",
+        "filename": "snapshot/linux/system_snapshot_linux_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-21T13:54:50Z",
+      "side": 1,
+      "message": "Follow the style guide, which requires staying within 80 columns. “git cl format” can help.",
+      "revId": "04031f94ecdba54095c13dfbfae54147dcf33f25",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
