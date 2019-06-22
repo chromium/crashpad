@@ -16,6 +16,24 @@
       "revId": "04031f94ecdba54095c13dfbfae54147dcf33f25",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55d9e8dc_a76bb45e",
+        "filename": "snapshot/linux/system_snapshot_linux_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1350251
+      },
+      "writtenOn": "2019-06-22T01:14:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20546bef_d2041fd5",
+      "revId": "04031f94ecdba54095c13dfbfae54147dcf33f25",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
