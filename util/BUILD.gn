@@ -108,6 +108,7 @@ static_library("util") {
     "misc/initialization_state_dcheck.h",
     "misc/lexing.cc",
     "misc/lexing.h",
+    "misc/memory_sanitizer.h",
     "misc/metrics.cc",
     "misc/metrics.h",
     "misc/paths.h",

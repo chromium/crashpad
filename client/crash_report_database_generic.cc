@@ -1003,6 +1003,9 @@ bool CrashReportDatabaseGeneric::WriteNewMetadata(const base::FilePath& path) {
   }
 
   ReportMetadata metadata;
+  // memset() + re-initialization is required to zero padding bytes for MSan.
+  memset(&metadata, 0, sizeof(metadata));
+  metadata = {};
   metadata.creation_time = time(nullptr);
 
   return LoggingWriteFile(handle.get(), &metadata, sizeof(metadata));
@@ -1023,6 +1026,9 @@ bool CrashReportDatabaseGeneric::WriteMetadata(const base::FilePath& path,
   }
 
   ReportMetadata metadata;
+  // memset() + re-initialization is required to zero padding bytes for MSan.
+  memset(&metadata, 0, sizeof(metadata));
+  metadata = {};
   metadata.creation_time = report.creation_time;
   metadata.last_upload_attempt_time = report.last_upload_attempt_time;
   metadata.upload_attempts = report.upload_attempts;
