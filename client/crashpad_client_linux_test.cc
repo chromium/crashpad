@@ -348,7 +348,7 @@ class StartHandlerForClientTest {
     static void HandleCrash(int signo, siginfo_t* siginfo, void* context) {
       auto state = Get();
 
-      char c;
+      char c = 0;
       CHECK(LoggingWriteFile(state->client_sock_, &c, sizeof(c)));
 
       ExceptionInformation exception_information;

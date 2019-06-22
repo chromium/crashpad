@@ -356,7 +356,7 @@ int PtraceBroker::SendMemory(pid_t pid, VMAddress address, VMSize size) {
 }
 
 int PtraceBroker::SendDirectory(FileHandle handle) {
-  char buffer[4096];
+  char buffer[4096] = {};
   int rv;
   do {
     rv = syscall(SYS_getdents64, handle, buffer, sizeof(buffer));
