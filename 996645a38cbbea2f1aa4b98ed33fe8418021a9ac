@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bb814e98_e913b4a0",
+        "filename": "util/misc/capture_context_win_arm64.asm",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1283828
+      },
+      "writtenOn": "2019-06-24T09:04:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75fc4114_5bff088c",
+      "revId": "996645a38cbbea2f1aa4b98ed33fe8418021a9ac",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d85f2de_9f182ea1",
         "filename": "util/misc/capture_context_win_arm64.asm",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2019-06-21T16:21:26Z",
       "side": 1,
       "message": "Was a 5-space indent intended for these two lines?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 23
+      },
+      "revId": "996645a38cbbea2f1aa4b98ed33fe8418021a9ac",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c79ea09_29341755",
+        "filename": "util/misc/capture_context_win_arm64.asm",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1283828
+      },
+      "writtenOn": "2019-06-24T09:04:32Z",
+      "side": 1,
+      "message": "No, it wasn\u0027t. I saw this armasm syntax somewhere in Chromium third_party, there was used this indentation. But of course it is not needed to use 5 white-spaces. However instructions, pseudo-instructions, and directives must be preceded by white space.\nThe symbol such as name of the procedure must begin in the first column.\nPlease see: http://infocenter.arm.com/help/index.jsp?topic\u003d/com.arm.doc.dui0473j/deb1353594352617.html",
+      "parentUuid": "2d85f2de_9f182ea1",
       "range": {
         "startLine": 16,
         "startChar": 0,
@@ -56,6 +98,24 @@
       "revId": "996645a38cbbea2f1aa4b98ed33fe8418021a9ac",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23d0f337_5146fa66",
+        "filename": "util/misc/capture_context_win_arm64.asm",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1283828
+      },
+      "writtenOn": "2019-06-24T09:04:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9932567e_0744d29a",
+      "revId": "996645a38cbbea2f1aa4b98ed33fe8418021a9ac",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
