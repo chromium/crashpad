@@ -1,22 +1,26 @@
 {
-  "facets": {
-    "fuchsia.test": {
-      "system-services": [
-        "fuchsia.net.SocketProvider"
-      ]
+    "facets": {
+        "fuchsia.test": {
+            "system-services": [
+                "fuchsia.posix.socket.Provider",
+                "fuchsia.net.NameLookup",
+                "fuchsia.net.SocketProvider"
+            ]
+        }
+    },
+    "program": {
+        "binary": "test/crashpad_tests"
+    },
+    "sandbox": {
+        "features": [
+            "system-temp",
+            "deprecated-ambient-replace-as-executable"
+        ],
+        "services": [
+            "fuchsia.posix.socket.Provider",
+            "fuchsia.net.NameLookup",
+            "fuchsia.net.SocketProvider",
+            "fuchsia.process.Launcher"
+        ]
     }
-  },
-  "program": {
-    "binary": "test/crashpad_tests"
-  },
-  "sandbox": {
-    "features": [
-      "system-temp",
-      "deprecated-ambient-replace-as-executable"
-    ],
-    "services": [
-      "fuchsia.net.SocketProvider",
-      "fuchsia.process.Launcher"
-    ]
-  }
 }
