@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dea8a8d_e574b01a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1116524
+      },
+      "writtenOn": "2019-06-27T19:59:30Z",
+      "side": 1,
+      "message": "Could you add a bug line like this?\nBug: chromium:979080",
+      "revId": "f6c07a81b14eb70305555e6fa11c021c435eec7e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
