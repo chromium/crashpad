@@ -2,7 +2,8 @@
   "facets": {
     "fuchsia.test": {
       "system-services": [
-        "fuchsia.net.SocketProvider"
+        "fuchsia.net.SocketProvider",
+        "fuchsia.posix.socket.Provider"
       ]
     }
   },
@@ -16,6 +17,7 @@
     ],
     "services": [
       "fuchsia.net.SocketProvider",
+      "fuchsia.posix.socket.Provider",
       "fuchsia.process.Launcher"
     ]
   }
