@@ -24,6 +24,7 @@
 
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
+#include "util/misc/memory_sanitizer.h"
 
 namespace crashpad {
 
@@ -355,6 +356,10 @@ int PtraceBroker::SendMemory(pid_t pid, VMAddress address, VMSize size) {
   return 0;
 }
 
+#if defined(MEMORY_SANITIZER)
+// MSan doesn't intercept syscall() and doesn't see that buffer is initialized.
+__attribute__((no_sanitize("memory")))
+#endif  // defined(MEMORY_SANITIZER)
 int PtraceBroker::SendDirectory(FileHandle handle) {
   char buffer[4096];
   int rv;

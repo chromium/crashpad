@@ -62,7 +62,7 @@ bool ReceiveAndLogReadError(int sock, const std::string& operation) {
 }
 
 bool AttachImpl(int sock, pid_t tid) {
-  PtraceBroker::Request request;
+  PtraceBroker::Request request = {};
   request.type = PtraceBroker::Request::kTypeAttach;
   request.tid = tid;
   if (!LoggingWriteFile(sock, &request, sizeof(request))) {
@@ -136,7 +136,7 @@ PtraceClient::PtraceClient()
 
 PtraceClient::~PtraceClient() {
   if (sock_ != kInvalidFileHandle) {
-    PtraceBroker::Request request;
+    PtraceBroker::Request request = {};
     request.type = PtraceBroker::Request::kTypeExit;
     LoggingWriteFile(sock_, &request, sizeof(request));
   }
@@ -151,7 +151,7 @@ bool PtraceClient::Initialize(int sock, pid_t pid, bool try_direct_memory) {
     return false;
   }
 
-  PtraceBroker::Request request;
+  PtraceBroker::Request request = {};
   request.type = PtraceBroker::Request::kTypeIs64Bit;
   request.tid = pid_;
 
@@ -197,7 +197,7 @@ bool PtraceClient::Is64Bit() {
 bool PtraceClient::GetThreadInfo(pid_t tid, ThreadInfo* info) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  PtraceBroker::Request request;
+  PtraceBroker::Request request = {};
   request.type = PtraceBroker::Request::kTypeGetThreadInfo;
   request.tid = tid;
   if (!LoggingWriteFile(sock_, &request, sizeof(request))) {
@@ -222,7 +222,7 @@ bool PtraceClient::ReadFileContents(const base::FilePath& path,
                                     std::string* contents) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  PtraceBroker::Request request;
+  PtraceBroker::Request request = {};
   request.type = PtraceBroker::Request::kTypeReadFile;
   request.path.path_length = path.value().size();
 
@@ -273,7 +273,7 @@ bool PtraceClient::Threads(std::vector<pid_t>* threads) {
   char path[32];
   snprintf(path, base::size(path), "/proc/%d/task", pid_);
 
-  PtraceBroker::Request request;
+  PtraceBroker::Request request = {};
   request.type = PtraceBroker::Request::kTypeListDirectory;
   request.path.path_length = strlen(path);
 
@@ -324,7 +324,7 @@ ssize_t PtraceClient::ReadUpTo(VMAddress address,
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   char* buffer_c = reinterpret_cast<char*>(buffer);
 
-  PtraceBroker::Request request;
+  PtraceBroker::Request request = {};
   request.type = PtraceBroker::Request::kTypeReadMemory;
   request.tid = pid_;
   request.iov.base = address;
