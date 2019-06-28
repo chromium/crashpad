@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aafc74f2_13252e60",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 1007,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-06-28T18:40:13Z",
+      "side": 1,
+      "message": "Is clang’s optimizer smart enough to eliminate the redundancy in non-memory sanitizer builds?\n\nIf not, I think it might be best to include #ifdef MEMORY_SANITIZER guards around this pattern.",
+      "revId": "22f07e14406d3f54b510d0eaf12808baae7e707d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
