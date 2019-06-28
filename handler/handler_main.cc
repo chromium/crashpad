@@ -506,7 +506,7 @@ class ScopedStoppable {
 #if defined(OS_ANDROID)
 
 extern "C" {
-__attribute__((visibility("default"), used)) int CrashpadHandlerMain(
+__attribute__((visibility("default"), used, weak)) int CrashpadHandlerMain(
     int argc,
     char* argv[]) {
   return HandlerMain(argc, argv, nullptr);
