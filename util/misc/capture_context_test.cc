@@ -18,6 +18,7 @@
 
 #include <algorithm>
 
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "util/misc/address_sanitizer.h"
 #include "util/misc/capture_context_test_util.h"
