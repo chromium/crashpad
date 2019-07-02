@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "099f4d66_b49da49d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-02T00:38:58Z",
+      "side": 1,
+      "message": "Name the test in the description. If it won\u0027t fit on the first summary line, it can go in a new paragraph.",
+      "revId": "4089a9461a70f1f5a0a8cfdb25e53931039ae20b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
