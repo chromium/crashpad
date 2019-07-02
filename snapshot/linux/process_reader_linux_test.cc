@@ -469,7 +469,14 @@ class ChildWithSplitStackTest : public Multiprocess {
   DISALLOW_COPY_AND_ASSIGN(ChildWithSplitStackTest);
 };
 
-TEST(ProcessReaderLinux, ChildWithSplitStack) {
+// AddressSanitizer with use-after-return detection causes stack variables to
+// be allocated on the heap.
+#if defined(ADDRESS_SANITIZER)
+#define MAYBE_ChildWithSplitStack DISABLED_ChildWithSplitStack
+#else
+#define MAYBE_ChildWithSplitStack ChildWithSplitStack
+#endif
+TEST(ProcessReaderLinux, MAYBE_ChildWithSplitStack) {
   ChildWithSplitStackTest test;
   test.Run();
 }
