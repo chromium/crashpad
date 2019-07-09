@@ -15,12 +15,12 @@
 #ifndef CRASHPAD_CLIENT_ANNOTATION_H_
 #define CRASHPAD_CLIENT_ANNOTATION_H_
 
-#include <algorithm>
-#include <atomic>
-
 #include <stdint.h>
 #include <string.h>
 #include <sys/types.h>
+
+#include <algorithm>
+#include <atomic>
 
 #include "base/logging.h"
 #include "base/macros.h"
