@@ -16,6 +16,12 @@
 # whether code is being built standalone, or in Chromium, or potentially in some
 # other configutation.
 
+declare_args() {
+  extra_cflags = []
+  extra_ldflags = []
+  extra_arflags = []
+}
+
 import("crashpad_buildconfig.gni")
 
 config("crashpad_is_in_chromium") {
@@ -48,4 +54,10 @@ config("crashpad_fuzzer_flags") {
   ldflags = [
     "-fsanitize=address",
   ]
+}
+
+config("extra_flags"){
+  cflags = extra_cflags
+  ldflags = extra_ldflags
+  arflags = extra_arflags
 }
