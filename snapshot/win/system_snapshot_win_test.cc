@@ -18,6 +18,7 @@
 #include <time.h>
 
 #include <string>
+#include <regex>
 
 #include "build/build_config.h"
 #include "gtest/gtest.h"
@@ -73,10 +74,14 @@ TEST_F(SystemSnapshotWinTest, CPUCount) {
 
 TEST_F(SystemSnapshotWinTest, CPUVendor) {
   std::string cpu_vendor = system_snapshot().CPUVendor();
-
-  // There are a variety of other values, but we don't expect to run our tests
-  // on them.
+#if defined(ARCH_CPU_X86_FAMILY)
   EXPECT_TRUE(cpu_vendor == "GenuineIntel" || cpu_vendor == "AuthenticAMD");
+#elif defined(ARCH_CPU_ARM64)
+  std::regex vendor_regex("[a-zA-Z0-9 \\-\\.]+");
+  EXPECT_TRUE(std::regex_match(cpu_vendor, vendor_regex));
+#else
+#error Unsupported Windows Arch
+#endif
 }
 
 #if defined(ARCH_CPU_X86_FAMILY)

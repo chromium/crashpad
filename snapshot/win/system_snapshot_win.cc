@@ -28,6 +28,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "util/win/module_version.h"
+#include "util/win/scoped_registry_key.h"
 
 namespace crashpad {
 
@@ -190,8 +191,28 @@ std::string SystemSnapshotWin::CPUVendor() const {
   *reinterpret_cast<int*>(vendor + 8) = cpu_info[2];
   return std::string(vendor, sizeof(vendor));
 #elif defined(ARCH_CPU_ARM64)
-  // TODO(jperaza): do this. https://crashpad.chromium.org/bug/30
-  // This is the same as SystemSnapshotLinux::CPURevision.
+  HKEY key;
+  constexpr int kBufferSize = 1024;
+
+  if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+                   L"HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
+                   0,
+                   KEY_QUERY_VALUE,
+                   &key) == ERROR_SUCCESS){
+    crashpad::ScopedRegistryKey scoped_key(key);
+    DWORD type;
+    wchar_t buffer[kBufferSize];
+    DWORD datalength = sizeof(buffer);
+
+    if (RegQueryValueEx(key,
+                        L"VendorIdentifier",
+                        nullptr,
+                        &type,
+                        reinterpret_cast<BYTE*>(buffer),
+                        &datalength) == ERROR_SUCCESS && type == REG_SZ){
+      return base::UTF16ToUTF8(buffer);
+    }
+  }
   return std::string();
 #else
 #error Unsupported Windows Arch
