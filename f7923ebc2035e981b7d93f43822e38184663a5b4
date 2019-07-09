@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d749b7c8_8a76ed0c",
+        "filename": "build/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-09T20:14:33Z",
+      "side": 1,
+      "message": "Wouldn’t this normally follow the import(…)?",
+      "revId": "f7923ebc2035e981b7d93f43822e38184663a5b4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c74e8a0a_3d00a27e",
+        "filename": "build/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-09T20:14:33Z",
+      "side": 1,
+      "message": "These should be commented so that GN generates nice help for them. (gn args --list)",
+      "revId": "f7923ebc2035e981b7d93f43822e38184663a5b4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04680bd4_a401df1b",
+        "filename": "build/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-09T20:14:33Z",
+      "side": 1,
+      "message": "Missing intervening space.",
+      "range": {
+        "startLine": 59,
+        "startChar": 20,
+        "endLine": 59,
+        "endChar": 22
+      },
+      "revId": "f7923ebc2035e981b7d93f43822e38184663a5b4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19f28746_281e00fc",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-09T20:14:33Z",
+      "side": 1,
+      "message": "These new arguments seem like a better fit for mini_chromium, where I expect they’d come in via this.",
+      "revId": "f7923ebc2035e981b7d93f43822e38184663a5b4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
