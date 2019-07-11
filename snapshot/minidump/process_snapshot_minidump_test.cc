@@ -570,6 +570,25 @@ TEST(ProcessSnapshotMinidump, ProcessID) {
   EXPECT_EQ(process_snapshot.ProcessID(), kTestProcessId);
 }
 
+TEST(ProcessSnapshotMinidump, SnapshotTime) {
+  StringFile string_file;
+
+  MINIDUMP_HEADER header = {};
+  header.Signature = MINIDUMP_SIGNATURE;
+  header.Version = MINIDUMP_VERSION;
+
+  header.TimeDateStamp = 42;
+  ASSERT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  ProcessSnapshotMinidump process_snapshot;
+  ASSERT_TRUE(process_snapshot.Initialize(&string_file));
+
+  timeval snapshot_time;
+  process_snapshot.SnapshotTime(&snapshot_time);
+  EXPECT_EQ(snapshot_time.tv_sec, 42);
+  EXPECT_EQ(snapshot_time.tv_usec, 0);
+}
+
 TEST(ProcessSnapshotMinidump, Threads) {
   StringFile string_file;
 

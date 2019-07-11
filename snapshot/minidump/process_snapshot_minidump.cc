@@ -133,8 +133,7 @@ crashpad::ProcessID ProcessSnapshotMinidump::ParentProcessID() const {
 
 void ProcessSnapshotMinidump::SnapshotTime(timeval* snapshot_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  snapshot_time->tv_sec = 0;
+  snapshot_time->tv_sec = header_.TimeDateStamp;
   snapshot_time->tv_usec = 0;
 }
 
