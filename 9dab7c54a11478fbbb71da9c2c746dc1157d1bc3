@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "b69dd992_423f7587",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-07-11T17:54:38Z",
+      "side": 1,
+      "message": "Bug: crashpad:10",
+      "revId": "9dab7c54a11478fbbb71da9c2c746dc1157d1bc3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e5f087c_e4c653d1",
         "filename": "snapshot/minidump/process_snapshot_minidump.cc",
         "patchSetId": 3
