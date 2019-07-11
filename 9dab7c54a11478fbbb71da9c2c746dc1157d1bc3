@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e5f087c_e4c653d1",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-11T17:50:45Z",
+      "side": 1,
+      "message": "These three should be (0) since we know they’re all integers.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 21
+      },
+      "revId": "9dab7c54a11478fbbb71da9c2c746dc1157d1bc3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
