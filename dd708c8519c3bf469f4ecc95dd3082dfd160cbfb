@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f6dfe37_1eb82025",
+        "filename": "handler/crashpad_handler_main.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-07-11T21:21:00Z",
+      "side": 1,
+      "message": "This sentence is obsolete.",
+      "range": {
+        "startLine": 23,
+        "startChar": 30,
+        "endLine": 24,
+        "endChar": 30
+      },
+      "revId": "dd708c8519c3bf469f4ecc95dd3082dfd160cbfb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
