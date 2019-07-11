@@ -153,6 +153,9 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   std::string full_version_;
   FileReaderInterface* file_reader_;  // weak
   crashpad::ProcessID process_id_;
+  uint32_t create_time_;
+  uint32_t user_time_;
+  uint32_t kernel_time_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessSnapshotMinidump);

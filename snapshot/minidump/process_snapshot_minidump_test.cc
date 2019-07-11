@@ -570,6 +570,68 @@ TEST(ProcessSnapshotMinidump, ProcessID) {
   EXPECT_EQ(process_snapshot.ProcessID(), kTestProcessId);
 }
 
+TEST(ProcessSnapshotMinidump, SnapshotTime) {
+  StringFile string_file;
+
+  MINIDUMP_HEADER header = {};
+  header.Signature = MINIDUMP_SIGNATURE;
+  header.Version = MINIDUMP_VERSION;
+  header.TimeDateStamp = 42;
+  ASSERT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  ProcessSnapshotMinidump process_snapshot;
+  ASSERT_TRUE(process_snapshot.Initialize(&string_file));
+
+  timeval snapshot_time;
+  process_snapshot.SnapshotTime(&snapshot_time);
+  EXPECT_EQ(snapshot_time.tv_sec, 42);
+  EXPECT_EQ(snapshot_time.tv_usec, 0);
+}
+
+TEST(ProcessSnapshotMinidump, MiscTimes) {
+  StringFile string_file;
+
+  MINIDUMP_HEADER header = {};
+  ASSERT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  MINIDUMP_MISC_INFO misc_info = {};
+  misc_info.SizeOfInfo = sizeof(misc_info);
+  misc_info.Flags1 = MINIDUMP_MISC1_PROCESS_TIMES;
+  misc_info.ProcessCreateTime = 42;
+  misc_info.ProcessUserTime = 43;
+  misc_info.ProcessKernelTime = 44;
+
+  MINIDUMP_DIRECTORY misc_directory = {};
+  misc_directory.StreamType = kMinidumpStreamTypeMiscInfo;
+  misc_directory.Location.DataSize = sizeof(misc_info);
+  misc_directory.Location.Rva = static_cast<RVA>(string_file.SeekGet());
+  ASSERT_TRUE(string_file.Write(&misc_info, sizeof(misc_info)));
+
+  header.StreamDirectoryRva = static_cast<RVA>(string_file.SeekGet());
+  ASSERT_TRUE(string_file.Write(&misc_directory, sizeof(misc_directory)));
+
+  header.Signature = MINIDUMP_SIGNATURE;
+  header.Version = MINIDUMP_VERSION;
+  header.NumberOfStreams = 1;
+  ASSERT_TRUE(string_file.SeekSet(0));
+  ASSERT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  ProcessSnapshotMinidump process_snapshot;
+  ASSERT_TRUE(process_snapshot.Initialize(&string_file));
+
+  timeval start_time, user_time, kernel_time;
+  process_snapshot.ProcessStartTime(&start_time);
+  process_snapshot.ProcessCPUTimes(&user_time, &kernel_time);
+  EXPECT_EQ(static_cast<uint32_t>(start_time.tv_sec),
+            misc_info.ProcessCreateTime);
+  EXPECT_EQ(start_time.tv_usec, 0);
+  EXPECT_EQ(static_cast<uint32_t>(user_time.tv_sec), misc_info.ProcessUserTime);
+  EXPECT_EQ(user_time.tv_usec, 0);
+  EXPECT_EQ(static_cast<uint32_t>(kernel_time.tv_sec),
+            misc_info.ProcessKernelTime);
+  EXPECT_EQ(kernel_time.tv_usec, 0);
+}
+
 TEST(ProcessSnapshotMinidump, Threads) {
   StringFile string_file;
 

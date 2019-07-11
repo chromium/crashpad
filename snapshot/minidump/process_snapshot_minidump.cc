@@ -59,6 +59,9 @@ ProcessSnapshotMinidump::ProcessSnapshotMinidump()
       annotations_simple_map_(),
       file_reader_(nullptr),
       process_id_(kInvalidProcessID),
+      create_time_(0),
+      user_time_(0),
+      kernel_time_(0),
       initialized_() {}
 
 ProcessSnapshotMinidump::~ProcessSnapshotMinidump() {}
@@ -133,25 +136,22 @@ crashpad::ProcessID ProcessSnapshotMinidump::ParentProcessID() const {
 
 void ProcessSnapshotMinidump::SnapshotTime(timeval* snapshot_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  snapshot_time->tv_sec = 0;
+  snapshot_time->tv_sec = header_.TimeDateStamp;
   snapshot_time->tv_usec = 0;
 }
 
 void ProcessSnapshotMinidump::ProcessStartTime(timeval* start_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  start_time->tv_sec = 0;
+  start_time->tv_sec = create_time_;
   start_time->tv_usec = 0;
 }
 
 void ProcessSnapshotMinidump::ProcessCPUTimes(timeval* user_time,
                                               timeval* system_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  user_time->tv_sec = 0;
+  user_time->tv_sec = user_time_;
   user_time->tv_usec = 0;
-  system_time->tv_sec = 0;
+  system_time->tv_sec = kernel_time_;
   system_time->tv_usec = 0;
 }
 
@@ -319,6 +319,9 @@ bool ProcessSnapshotMinidump::InitializeMiscInfo() {
       // TODO(jperaza): Save the remaining misc info.
       // https://crashpad.chromium.org/bug/10
       process_id_ = info.ProcessId;
+      create_time_ = info.ProcessCreateTime;
+      user_time_ = info.ProcessUserTime;
+      kernel_time_ = info.ProcessKernelTime;
   }
 
   return true;
