@@ -86,6 +86,9 @@
 #include <zircon/process.h>
 #include <zircon/processargs.h>
 
+#include <lib/zx/channel.h>
+#include <lib/zx/job.h>
+
 #include "handler/fuchsia/crash_report_exception_handler.h"
 #include "handler/fuchsia/exception_handler_server.h"
 #elif defined(OS_LINUX)
@@ -982,18 +985,18 @@ int HandlerMain(int argc,
   // crashpad_handler.
   zx::job root_job(zx_take_startup_handle(PA_HND(PA_USER0, 0)));
   if (!root_job.is_valid()) {
-    LOG(ERROR) << "no process handle passed in startup handle 0";
+    LOG(ERROR) << "no job handle passed in startup handle 0";
     return EXIT_FAILURE;
   }
 
-  zx::port exception_port(zx_take_startup_handle(PA_HND(PA_USER0, 1)));
-  if (!exception_port.is_valid()) {
-    LOG(ERROR) << "no exception port handle passed in startup handle 1";
+  zx::channel exception_channel(zx_take_startup_handle(PA_HND(PA_USER0, 1)));
+  if (!exception_channel.is_valid()) {
+    LOG(ERROR) << "no exception channel handle passed in startup handle 1";
     return EXIT_FAILURE;
   }
 
   ExceptionHandlerServer exception_handler_server(std::move(root_job),
-                                                  std::move(exception_port));
+                                                  std::move(exception_channel));
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
   ExceptionHandlerServer exception_handler_server;
 #endif  // OS_MACOSX
