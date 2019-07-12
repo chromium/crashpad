@@ -73,25 +73,6 @@ class CrashReportExceptionHandler {
   //! \brief Called when the exception handler server has caught an exception
   //!     and wants a crash dump to be taken.
   //!
-  //! This function is expected to call `zx_task_resume_from_exception()` in
-  //! order to complete handling of the exception.
-  //!
-  //! \param[in] process_id The koid of the process which sustained the
-  //!     exception.
-  //! \param[in] thread_id The koid of the thread which sustained the exception.
-  //! \param[in] exception_port The exception port on which the exception was
-  //!     serviced. This can be used to resume the excepting thread.
-  //! \param[out] local_report_id The unique identifier for the report created
-  //!     in the local report database. Optional.
-  //! \return `true` on success, or `false` with an error logged.
-  bool HandleException(uint64_t process_id,
-                       uint64_t thread_id,
-                       const zx::unowned_port& exception_port,
-                       UUID* local_report_id = nullptr);
-
-  //! \brief Called when the exception handler server has caught an exception
-  //!     and wants a crash dump to be taken.
-  //!
   //! \param[in] process The handle to the process which sustained the
   //!     exception.
   //! \param[in] thread The handle to the thread of \a process which sustained
