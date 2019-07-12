@@ -16,6 +16,24 @@
       "revId": "d2e04f978d029399b012463df34037f066fe503e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d34b4919_6f9aec1f",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1116195
+      },
+      "writtenOn": "2019-07-12T18:28:06Z",
+      "side": 1,
+      "message": "I think the idea is that this is a helper function for any job to spawn a separate crash-handler process on itself. So all a user has to do is call StartHandler() and it will automatically launch a separate process which catches exceptions and handles them appropriately.",
+      "parentUuid": "3866acc8_5e9c4124",
+      "revId": "d2e04f978d029399b012463df34037f066fe503e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
