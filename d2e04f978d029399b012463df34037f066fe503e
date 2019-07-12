@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3866acc8_5e9c4124",
+        "filename": "client/crashpad_client_fuchsia.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1311398
+      },
+      "writtenOn": "2019-07-12T18:06:18Z",
+      "side": 1,
+      "message": "So this is more crashpad client specific that this change... but who is receiving the exception channel for the job the crashpad client is in? and why?\n\nSeems like a weird pattern.",
+      "revId": "d2e04f978d029399b012463df34037f066fe503e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
