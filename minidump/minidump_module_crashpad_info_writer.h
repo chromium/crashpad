@@ -22,9 +22,9 @@
 #include <vector>
 
 #include "base/macros.h"
-#include "minidump/minidump_extensions.h"
 #include "minidump/minidump_string_writer.h"
 #include "minidump/minidump_writable.h"
+#include "snapshot/minidump/minidump_extensions.h"
 
 namespace crashpad {
 

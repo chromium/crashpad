@@ -18,7 +18,7 @@
 #include <string.h>
 
 #include "base/stl_util.h"
-#include "minidump/minidump_context.h"
+#include "snapshot/minidump/minidump_context.h"
 
 namespace crashpad {
 namespace internal {

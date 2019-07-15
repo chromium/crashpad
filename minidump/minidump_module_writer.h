@@ -27,9 +27,9 @@
 
 #include "base/macros.h"
 #include "base/strings/string16.h"
-#include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
+#include "snapshot/minidump/minidump_extensions.h"
 
 namespace crashpad {
 

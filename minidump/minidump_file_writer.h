@@ -24,9 +24,9 @@
 #include <vector>
 
 #include "base/macros.h"
-#include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
+#include "snapshot/minidump/minidump_extensions.h"
 #include "util/file/file_io.h"
 
 namespace crashpad {

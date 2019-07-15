@@ -20,7 +20,7 @@
 
 #include "base/macros.h"
 
-#include "minidump/minidump_extensions.h"
+#include "snapshot/minidump/minidump_extensions.h"
 
 namespace crashpad {
 
