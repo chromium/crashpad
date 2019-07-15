@@ -18,7 +18,7 @@
 #include <windows.h>
 
 #include "base/macros.h"
-#include "minidump/minidump_extensions.h"
+#include "snapshot/minidump/minidump_extensions.h"
 #include "snapshot/system_snapshot.h"
 #include "util/file/file_reader.h"
 #include "util/misc/initialization_state_dcheck.h"

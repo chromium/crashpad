@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_extensions.h"
+#include "snapshot/minidump/minidump_extensions.h"
 
 namespace crashpad {
 

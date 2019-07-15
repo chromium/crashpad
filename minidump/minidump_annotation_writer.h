@@ -19,10 +19,10 @@
 #include <vector>
 
 #include "minidump/minidump_byte_array_writer.h"
-#include "minidump/minidump_extensions.h"
 #include "minidump/minidump_string_writer.h"
 #include "minidump/minidump_writable.h"
 #include "snapshot/annotation_snapshot.h"
+#include "snapshot/minidump/minidump_extensions.h"
 
 namespace crashpad {
 

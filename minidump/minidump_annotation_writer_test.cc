@@ -18,7 +18,6 @@
 
 #include "base/stl_util.h"
 #include "gtest/gtest.h"
-#include "minidump/minidump_extensions.h"
 #include "minidump/test/minidump_byte_array_writer_test_util.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"

@@ -23,11 +23,11 @@
 #include <vector>
 
 #include "base/macros.h"
-#include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
 #include "minidump/minidump_user_extension_stream_data_source.h"
 #include "snapshot/module_snapshot.h"
+#include "snapshot/minidump/minidump_extensions.h"
 
 namespace crashpad {
 
