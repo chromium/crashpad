@@ -17,8 +17,8 @@
 #include <sys/types.h>
 
 #include "gtest/gtest.h"
-#include "minidump/minidump_extensions.h"
 #include "minidump/test/minidump_writable_test_util.h"
+#include "snapshot/minidump/minidump_extensions.h"
 
 namespace crashpad {
 namespace test {

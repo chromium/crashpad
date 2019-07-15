@@ -17,7 +17,7 @@
 
 #include <stdint.h>
 
-#include "minidump/minidump_context.h"
+#include "snapshot/minidump/minidump_context.h"
 
 namespace crashpad {
 namespace test {

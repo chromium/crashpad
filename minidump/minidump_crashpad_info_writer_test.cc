@@ -22,7 +22,6 @@
 #include <utility>
 
 #include "gtest/gtest.h"
-#include "minidump/minidump_extensions.h"
 #include "minidump/minidump_file_writer.h"
 #include "minidump/minidump_module_crashpad_info_writer.h"
 #include "minidump/minidump_simple_string_dictionary_writer.h"

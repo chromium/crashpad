@@ -26,10 +26,10 @@
 #include <vector>
 
 #include "base/macros.h"
-#include "minidump/minidump_extensions.h"
 #include "snapshot/exception_snapshot.h"
 #include "snapshot/memory_snapshot.h"
 #include "snapshot/minidump/exception_snapshot_minidump.h"
+#include "snapshot/minidump/minidump_extensions.h"
 #include "snapshot/minidump/minidump_stream.h"
 #include "snapshot/minidump/module_snapshot_minidump.h"
 #include "snapshot/minidump/system_snapshot_minidump.h"

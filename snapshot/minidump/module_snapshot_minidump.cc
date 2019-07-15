@@ -18,8 +18,8 @@
 #include <string.h>
 
 #include "base/logging.h"
-#include "minidump/minidump_extensions.h"
 #include "snapshot/minidump/minidump_annotation_reader.h"
+#include "snapshot/minidump/minidump_extensions.h"
 #include "snapshot/minidump/minidump_simple_string_dictionary_reader.h"
 #include "snapshot/minidump/minidump_string_list_reader.h"
 #include "snapshot/minidump/minidump_string_reader.h"

@@ -17,7 +17,6 @@
 #include <utility>
 
 #include "base/strings/utf_string_conversions.h"
-#include "minidump/minidump_extensions.h"
 #include "snapshot/memory_map_region_snapshot.h"
 #include "snapshot/minidump/minidump_simple_string_dictionary_reader.h"
 #include "util/file/file_io.h"

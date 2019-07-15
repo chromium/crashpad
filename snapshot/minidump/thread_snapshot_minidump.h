@@ -17,9 +17,9 @@
 
 #include <windows.h>
 
-#include "minidump/minidump_extensions.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/minidump/memory_snapshot_minidump.h"
+#include "snapshot/minidump/minidump_extensions.h"
 #include "snapshot/thread_snapshot.h"
 #include "util/file/file_reader.h"
 #include "util/misc/initialization_state_dcheck.h"
