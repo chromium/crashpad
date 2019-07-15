@@ -88,6 +88,20 @@ static_library("handler") {
   }
 }
 
+if (crashpad_is_android) {
+  # CrashpadHandlerMain is defined in a separate target so that it can be
+  # overriden by implementers
+  source_set("crashpad_handler_main") {
+    sources = [
+      "crashpad_handler_main.cc",
+    ]
+
+    deps = [
+      ":handler",
+    ]
+  }
+}
+
 source_set("handler_test") {
   testonly = true
 

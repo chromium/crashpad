@@ -506,18 +506,6 @@ class ScopedStoppable {
 
 }  // namespace
 
-#if defined(OS_ANDROID)
-
-extern "C" {
-__attribute__((visibility("default"), used)) int CrashpadHandlerMain(
-    int argc,
-    char* argv[]) {
-  return HandlerMain(argc, argv, nullptr);
-}
-}  // extern "C"
-
-#endif  // OS_ANDROID
-
 int HandlerMain(int argc,
                 char* argv[],
                 const UserStreamDataSources* user_stream_sources) {
