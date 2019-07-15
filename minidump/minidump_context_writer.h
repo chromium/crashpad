@@ -20,8 +20,8 @@
 #include <memory>
 
 #include "base/macros.h"
-#include "minidump/minidump_context.h"
 #include "minidump/minidump_writable.h"
+#include "snapshot/minidump/minidump_context.h"
 
 namespace crashpad {
 
