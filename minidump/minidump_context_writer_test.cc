@@ -17,7 +17,6 @@
 #include <stdint.h>
 
 #include "gtest/gtest.h"
-#include "minidump/minidump_context.h"
 #include "minidump/test/minidump_context_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/cpu_context.h"
