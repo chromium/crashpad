@@ -1,0 +1,221 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38e7f79a_6f57caf8",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-16T17:34:37Z",
+      "side": 1,
+      "message": "This is not properly formatted. Hint: run “git cl format”.",
+      "range": {
+        "startLine": 201,
+        "startChar": 41,
+        "endLine": 201,
+        "endChar": 43
+      },
+      "revId": "dde6a0dba04424e28cf24e4b3429865fd6784856",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66e53b85_e23c3f86",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-16T17:34:37Z",
+      "side": 1,
+      "message": "kBufferSize is only used in one place, and it’s needlessly separated from this declaration.\n\nInstead, just write:\n\n  wchar_t buffer[1024];\n\nAlso, better to name after what it’s storing, so:\n\n  wchar_t vendor_identifier[1024];",
+      "revId": "dde6a0dba04424e28cf24e4b3429865fd6784856",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cda5e4d7_b49b934a",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-16T17:34:37Z",
+      "side": 1,
+      "message": "data_length, or since it’s tracking the size (and eventually the used size) of vendor_identifier, it’s best to call it vendor_identifier_size.",
+      "revId": "dde6a0dba04424e28cf24e4b3429865fd6784856",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bce575d2_8fddacd0",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-16T17:34:37Z",
+      "side": 1,
+      "message": "buffer (or, renamed, vendor_identifier) may not be NUL-terminated at all. Consider the notes about NUL-termination in the RegQueryValueEx() documentation.\n\nYou should consider vendor_identifier_size. You should call base::UTF16ToUTF8() with a size, explicitly. Note that in the general case, a REG_SZ may or may not be NUL-terminated already, you’ll need to detect and handle appropriately.",
+      "range": {
+        "startLine": 213,
+        "startChar": 13,
+        "endLine": 213,
+        "endChar": 38
+      },
+      "revId": "dde6a0dba04424e28cf24e4b3429865fd6784856",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b033767_8796ee5a",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-16T17:34:37Z",
+      "side": 1,
+      "message": "To avoid having the indentation start to get out of hand, prefer early returns:\n\n  HKEY key;\n  if (RegOpenKeyEx(…) !\u003d ERROR_SUCCESS) {\n    return std::string();\n  }\n  crashpad::ScopedRegistryKey scoped_key(key);\n\n  DWORD type;\n  // …\n  if (RegQueryValueEx(…) !\u003d ERROR_SUCCESS || type !\u003d REG_SZ) {\n    return std::string();\n  }\n\n  return base::UTF16ToUTF8(buffer);",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 6
+      },
+      "revId": "dde6a0dba04424e28cf24e4b3429865fd6784856",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f139f680_4b956c00",
+        "filename": "snapshot/win/system_snapshot_win_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-16T17:34:37Z",
+      "side": 1,
+      "message": "You don’t need to \\backslash .dots when they’re in [brackets].",
+      "range": {
+        "startLine": 80,
+        "startChar": 41,
+        "endLine": 80,
+        "endChar": 44
+      },
+      "revId": "dde6a0dba04424e28cf24e4b3429865fd6784856",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a887fc85_0cd8f097",
+        "filename": "snapshot/win/system_snapshot_win_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-16T17:34:37Z",
+      "side": 1,
+      "message": "Since this applies to cpu_vendor, name more specifically: cpu_vendor_regex.",
+      "range": {
+        "startLine": 80,
+        "startChar": 13,
+        "endLine": 80,
+        "endChar": 25
+      },
+      "revId": "dde6a0dba04424e28cf24e4b3429865fd6784856",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7bc245c_e67f3176",
+        "filename": "util/win/scoped_registry_key.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-16T17:34:37Z",
+      "side": 1,
+      "message": "Provide #include guards.",
+      "revId": "dde6a0dba04424e28cf24e4b3429865fd6784856",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f04a5c33_1ed06d34",
+        "filename": "util/win/scoped_registry_key.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-16T17:34:37Z",
+      "side": 1,
+      "message": "Blank line before this.",
+      "revId": "dde6a0dba04424e28cf24e4b3429865fd6784856",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b0355f9_3b7d0649",
+        "filename": "util/win/scoped_registry_key.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-16T17:34:37Z",
+      "side": 1,
+      "message": "This code was lifted out of util/win/process_info_test.cc.\n\nThat’s fine, but you shouldn’t just _copy_ it here, you should _move_ it here. Remove the distinct implementation in util/win/process_info_test.cc and make #include this file from that one so that we have a single implementation shared by all users.",
+      "revId": "dde6a0dba04424e28cf24e4b3429865fd6784856",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c9f53f8_3badfbb7",
+        "filename": "util/win/scoped_registry_key.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-16T17:34:37Z",
+      "side": 1,
+      "message": "}  // namespace crashpad\n\nAlso, you’ll notice from around you that we always leave a blank line after opening the namespace and before closing it. We don’t indent within the namespace So:\n\n  namespace crashpad {\n\n  struct ScopedRegistryKeyCloseTraits {\n    // …\n  };\n\n  using ScopedRegistryKey \u003d …\n\n  }  // namespace crashpad\n\nAgain, “git cl format” would have taken care of some of this for you.",
+      "revId": "dde6a0dba04424e28cf24e4b3429865fd6784856",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
