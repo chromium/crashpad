@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07359cd0_850cbe86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-16T17:38:03Z",
+      "side": 1,
+      "message": "The change description should say where the .obj file comes from. If you just did a standalone Crashpad build and got it from the output directory, that’s fine, but you’ve got to say so somewhere. It may seem obvious to you and me when we’re looking at the problem from this angle today, but it may not be obvious to those who follow us in the future.",
+      "revId": "34f8f3238b4be9cfcc4d7d91bdd518ed304d0ec1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f9b96d5_4ab2d6b7",
+        "filename": "util/misc/capture_context_win_arm64.asm",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-16T17:38:03Z",
+      "side": 1,
+      "message": "Break the comment up onto two lines so it doesn’t go past 80 columns.",
+      "revId": "34f8f3238b4be9cfcc4d7d91bdd518ed304d0ec1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
