@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a73850b_188c557c",
+        "filename": "snapshot/minidump/minidump_extensions.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-16T17:47:56Z",
+      "side": 1,
+      "message": "But this doesn’t really belong here. It’s a property of minidumps, not snapshots.\n\nScott and I came up against it in the past. I think we punted because it was a header-only dependency, not a “real” cycle, so we let it stand. But I think that the plan of record, if we ever needed it, was to introduce a new library in minidump for format-related things, like //minidump:minidump_format. That’s where minidump_extensions and minidump_context could live. That way, both minidump and snapshot would be able to depend on minidump_extensions without having to depend on one another.\n\nI think that’s cleaner and more logical. What do you think?",
+      "revId": "6fe92f6cd4cd6d28f2bf82822943b9ebb21af3ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
