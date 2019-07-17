@@ -18,6 +18,7 @@
 #include <stdint.h>
 #include <sys/socket.h>
 
+#include <atomic>
 #include <memory>
 #include <unordered_map>
 
@@ -181,7 +182,7 @@ class ExceptionHandlerServer {
   std::unique_ptr<PtraceStrategyDecider> strategy_decider_;
   Delegate* delegate_;
   ScopedFileHandle pollfd_;
-  bool keep_running_;
+  std::atomic<bool> keep_running_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ExceptionHandlerServer);
