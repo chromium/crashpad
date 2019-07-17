@@ -509,6 +509,12 @@ class ScopedStoppable {
 int HandlerMain(int argc,
                 char* argv[],
                 const UserStreamDataSources* user_stream_sources) {
+#if defined(OS_CHROMEOS)
+  if (freopen("/var/log/chrome/chrome", "a", stderr) == nullptr) {
+    PLOG(ERROR) << "Failed to redirect stderr to /var/log/chrome/chrome";
+  }
+#endif
+
   InstallCrashHandler();
   CallMetricsRecordNormalExit metrics_record_normal_exit;
 

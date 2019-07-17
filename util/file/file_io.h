@@ -398,6 +398,19 @@ FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
                                    FileWriteMode mode,
                                    FilePermissions permissions);
 
+#if defined(OS_CHROMEOS)
+//! \brief Wraps OpenMemFileForOutput(), logging an error if the operation
+//!     fails.
+//!
+//! \return The newly opened FileHandle, or an invalid FileHandle on failure.
+//!
+//! \sa ScopedFileHandle
+//! \sa LoggingOpenFileForRead
+//! \sa LoggingOpenFileForWrite
+//! \sa LoggingOpenFileForReadAndWrite
+FileHandle LoggingOpenMemFileForWrite(const base::FilePath& path);
+#endif
+
 //! \brief Wraps OpenFileForReadAndWrite(), logging an error if the operation
 //!     fails.
 //!

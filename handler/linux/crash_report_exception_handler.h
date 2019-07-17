@@ -85,7 +85,9 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
       UUID* local_report_id = nullptr);
 
   CrashReportDatabase* database_;  // weak
+#if !defined(OS_CHROMEOS)
   CrashReportUploadThread* upload_thread_;  // weak
+#endif
   const std::map<std::string, std::string>* process_annotations_;  // weak
   const UserStreamDataSources* user_stream_data_sources_;  // weak
 
