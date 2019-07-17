@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e4872c68_9d7ef786",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1283828
+      },
+      "writtenOn": "2019-07-17T14:16:16Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right. I\u0027ve updated the commit message.",
+      "parentUuid": "07359cd0_850cbe86",
+      "revId": "34f8f3238b4be9cfcc4d7d91bdd518ed304d0ec1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f9b96d5_4ab2d6b7",
         "filename": "util/misc/capture_context_win_arm64.asm",
         "patchSetId": 11
@@ -33,6 +51,24 @@
       "revId": "34f8f3238b4be9cfcc4d7d91bdd518ed304d0ec1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16a59d4c_e8270fe4",
+        "filename": "util/misc/capture_context_win_arm64.asm",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1283828
+      },
+      "writtenOn": "2019-07-17T14:16:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f9b96d5_4ab2d6b7",
+      "revId": "34f8f3238b4be9cfcc4d7d91bdd518ed304d0ec1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
