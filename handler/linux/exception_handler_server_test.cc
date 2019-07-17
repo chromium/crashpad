@@ -272,11 +272,11 @@ class ExceptionHandlerServerTest : public testing::TestWithParam<bool> {
 
   void ExpectCrashDumpUsingStrategy(PtraceStrategyDecider::Strategy strategy,
                                     bool succeeds) {
-    ScopedStopServerAndJoinThread stop_server(Server(), ServerThread());
-    ServerThread()->Start();
-
     Server()->SetPtraceStrategyDecider(
         std::make_unique<MockPtraceStrategyDecider>(strategy));
+
+    ScopedStopServerAndJoinThread stop_server(Server(), ServerThread());
+    ServerThread()->Start();
 
     CrashDumpTest test(this, succeeds);
     test.Run();
