@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d88cb20_9110b364",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1298800
+      },
+      "writtenOn": "2019-07-17T20:22:47Z",
+      "side": 1,
+      "message": "Is this right? Do we want to always redirect here and not to the user\u0027s home dir for logging?",
+      "range": {
+        "startLine": 513,
+        "startChar": 0,
+        "endLine": 513,
+        "endChar": 66
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76f5bdea_64dba6a4",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1298800
+      },
+      "writtenOn": "2019-07-17T20:22:47Z",
+      "side": 1,
+      "message": "Unless they\u0027re doing this already in this library, don\u0027t hardcode numeric constants like this...instead calculate them from the strings.",
+      "range": {
+        "startLine": 249,
+        "startChar": 68,
+        "endLine": 249,
+        "endChar": 70
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69968f9a_26ac491e",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1298800
+      },
+      "writtenOn": "2019-07-17T20:22:47Z",
+      "side": 1,
+      "message": "Can\u0027t you do?: argv({\"/sbin/crash_reporter\"})",
+      "range": {
+        "startLine": 282,
+        "startChar": 29,
+        "endLine": 282,
+        "endChar": 60
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
