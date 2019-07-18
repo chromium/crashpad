@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "94704a69_e8c7a4d3",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-07-18T00:52:46Z",
+      "side": 1,
+      "message": "Is this comment still true and meaningful here in Crashpad?",
+      "range": {
+        "startLine": 319,
+        "startChar": 54,
+        "endLine": 321,
+        "endChar": 16
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6d88cb20_9110b364",
         "filename": "handler/handler_main.cc",
         "patchSetId": 1
@@ -18,6 +41,52 @@
         "startChar": 0,
         "endLine": 513,
         "endChar": 66
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dafa0a5_07ca2ff7",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-07-18T00:52:46Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to duplicate this logic here in Crashpad. Passing this flag around to the right process types is already handled by Chrome.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 1
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23f3d0cb_1736795a",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-07-18T00:52:46Z",
+      "side": 1,
+      "message": "Do we need to continue writing the dumps like this? Why can\u0027t crash_reporter extract these keys from a plain old minidump itself?\n\nIf we do need to re-write the minidump like this, we can use an HTTPMultipartBuilder to do this. We did this on Android to avoid modifying its minidump uploader: https://osscs.corp.google.com/chromium/chromium/src/+/master:components/minidump_uploader/rewrite_minidumps_as_mimes.cc;l\u003d129",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 5
       },
       "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
@@ -64,6 +133,121 @@
         "startChar": 29,
         "endLine": 282,
         "endChar": 60
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04f25133_4efd66f7",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-07-18T00:52:46Z",
+      "side": 1,
+      "message": "This should be chrome\u0027s euid, which might not always be the same as Crashpad\u0027s. We can pass this information in from the client\u0027s dump request:\nhttps://osscs.corp.google.com/chromium/chromium/src/+/master:third_party/crashpad/crashpad/handler/linux/exception_handler_server.cc;l\u003d444\n\nOr Crashpad can collect it with a ProcessInfo:\nhttps://osscs.corp.google.com/chromium/chromium/src/+/master:third_party/crashpad/crashpad/util/posix/process_info.h;l\u003d104",
+      "range": {
+        "startLine": 286,
+        "startChar": 45,
+        "endLine": 286,
+        "endChar": 52
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de5fcec0_e6566ec9",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-07-18T00:52:46Z",
+      "side": 1,
+      "message": "I\u0027m not familiar with subtleties of memfd_create(). Do we need any synchronization with crash_reporter here (i.e. a waitpid())? What happens if crashpad_handler exits before crash_reporter is finished with the file? Does the memory backing the file get preserved somewhere if this process has exited and crash_reporter has called execv()?",
+      "range": {
+        "startLine": 297,
+        "startChar": 0,
+        "endLine": 304,
+        "endChar": 24
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "550d350a_824bee80",
+        "filename": "handler/linux/crash_report_exception_handler.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-07-18T00:52:46Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to define this out. As long as we don\u0027t pass a --url option to the handler, this upload thread won\u0027t be created.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 25
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1adeb6b_219cb9e3",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-07-18T00:52:46Z",
+      "side": 1,
+      "message": "OpenMemFileForOutput() isn\u0027t defined in the header, but it may be better to refer to memfd_create() directly.",
+      "range": {
+        "startLine": 402,
+        "startChar": 17,
+        "endLine": 402,
+        "endChar": 37
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbd7909c_e39401d9",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-07-18T00:52:46Z",
+      "side": 1,
+      "message": "We should probably also say something about not setting O_CLOEXEC since that option is generally set by default for other ways that Crashpad opens files.",
+      "range": {
+        "startLine": 404,
+        "startChar": 1,
+        "endLine": 404,
+        "endChar": 2
       },
       "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
