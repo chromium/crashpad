@@ -17,17 +17,13 @@
 namespace crashpad {
 
 extern "C" {
-//! \brief The `main()` entry point for Android libraries.
-//!
-//! This symbol is the entry point for crashpad when it is dynamically loaded
-//! using /system/bin/linker.
-//!
-//! \sa CrashpadClient::StartHandlerWithLinkerAtCrash()
+
 __attribute__((visibility("default"), used)) int CrashpadHandlerMain(
     int argc,
     char* argv[]) {
   return HandlerMain(argc, argv, nullptr);
 }
+
 }  // extern "C"
 
 }  // namespace crashpad
