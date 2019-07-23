@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/cpu_context.h"
+#include "util/misc/cpu_context.h"
 
 #include <stddef.h>
 #include <string.h>
