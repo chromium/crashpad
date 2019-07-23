@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f52ab66b_a5ea786b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-23T17:59:11Z",
+      "side": 1,
+      "message": "1. Bug: crashpad:297\n\n(our tools automatically turn that into a correct link.)\n\n2. Even if you did want a URL here, URLs should now always be https (except in rare cases where a server doesn’t do TLS.)",
+      "revId": "19e14c7e87534b5bb9cbe33eb3c8adbf26c75c16",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9061774_60d27861",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-23T17:59:11Z",
+      "side": 1,
+      "message": "Undo this manually. \u003cwindows.h\u003e needs to come before other Windows headers. Some headers in the Windows SDK won’t work unless \u003cwindows.h\u003e is already #included.",
+      "revId": "19e14c7e87534b5bb9cbe33eb3c8adbf26c75c16",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb67409d_4104bc41",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-23T17:59:11Z",
+      "side": 1,
+      "message": "DCHECK_EQ(vendor_identifier_size % sizeof(wchar_t), 0u);",
+      "revId": "19e14c7e87534b5bb9cbe33eb3c8adbf26c75c16",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "312babce_98573dcf",
+        "filename": "util/win/process_info_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-23T17:59:11Z",
+      "side": 1,
+      "message": "Don’t just comment it out, remove it entirely.",
+      "range": {
+        "startLine": 532,
+        "startChar": 0,
+        "endLine": 543,
+        "endChar": 0
+      },
+      "revId": "19e14c7e87534b5bb9cbe33eb3c8adbf26c75c16",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68c16a04_4c6f8f36",
+        "filename": "util/win/scoped_registry_key.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-07-23T17:59:11Z",
+      "side": 1,
+      "message": "Blank line between system headers and our headers.",
+      "revId": "19e14c7e87534b5bb9cbe33eb3c8adbf26c75c16",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
