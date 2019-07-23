@@ -140,6 +140,24 @@
     },
     {
       "key": {
+        "uuid": "eda77cdf_9ab0fe36",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1339467
+      },
+      "writtenOn": "2019-07-23T10:38:20Z",
+      "side": 1,
+      "message": "vendor_identifier_size is 26.\nIt seems it returns the byte length of the data, not the actual string length, also the terminating \\0 is included.",
+      "parentUuid": "fa9b2f03_63098cd0",
+      "revId": "dde6a0dba04424e28cf24e4b3429865fd6784856",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f139f680_4b956c00",
         "filename": "snapshot/win/system_snapshot_win_test.cc",
         "patchSetId": 4
