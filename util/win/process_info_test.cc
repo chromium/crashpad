@@ -38,6 +38,7 @@
 #include "util/win/get_function.h"
 #include "util/win/handle.h"
 #include "util/win/scoped_handle.h"
+#include "util/win/scoped_registry_key.h"
 
 namespace crashpad {
 namespace test {
@@ -528,17 +529,17 @@ TEST(ProcessInfo, ReadableRanges) {
                                  &bytes_read));
 }
 
-struct ScopedRegistryKeyCloseTraits {
-  static HKEY InvalidValue() {
-    return nullptr;
-  }
-  static void Free(HKEY key) {
-    RegCloseKey(key);
-  }
-};
-
-using ScopedRegistryKey =
-    base::ScopedGeneric<HKEY, ScopedRegistryKeyCloseTraits>;
+// struct ScopedRegistryKeyCloseTraits {
+//  static HKEY InvalidValue() {
+//    return nullptr;
+//  }
+//  static void Free(HKEY key) {
+//    RegCloseKey(key);
+//  }
+//};
+//
+// using ScopedRegistryKey =
+//    base::ScopedGeneric<HKEY, ScopedRegistryKeyCloseTraits>;
 
 TEST(ProcessInfo, Handles) {
   ScopedTempDir temp_dir;
