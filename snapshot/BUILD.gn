@@ -224,6 +224,7 @@ static_library("snapshot") {
   deps = [
     "../client",
     "../compat",
+    "../minidump:minidump_format",
     "../third_party/mini_chromium:base",
     "../util",
   ]
@@ -304,7 +305,6 @@ source_set("snapshot_test") {
   testonly = true
 
   sources = [
-    "cpu_context_test.cc",
     "memory_snapshot_test.cc",
     "minidump/process_snapshot_minidump_test.cc",
   ]

@@ -14,21 +14,35 @@
 
 import("../build/crashpad_buildconfig.gni")
 
+source_set("minidump_format") {
+  sources = [
+    "minidump_context.h",
+    "minidump_extensions.cc",
+    "minidump_extensions.h",
+  ]
+
+  public_deps = [
+    "../compat",
+  ]
+
+  deps = [
+    "../third_party/mini_chromium:base",
+    "../util",
+  ]
+}
+
 static_library("minidump") {
   sources = [
     "minidump_annotation_writer.cc",
     "minidump_annotation_writer.h",
     "minidump_byte_array_writer.cc",
     "minidump_byte_array_writer.h",
-    "minidump_context.h",
     "minidump_context_writer.cc",
     "minidump_context_writer.h",
     "minidump_crashpad_info_writer.cc",
     "minidump_crashpad_info_writer.h",
     "minidump_exception_writer.cc",
     "minidump_exception_writer.h",
-    "minidump_extensions.cc",
-    "minidump_extensions.h",
     "minidump_file_writer.cc",
     "minidump_file_writer.h",
     "minidump_handle_writer.cc",
@@ -72,6 +86,7 @@ static_library("minidump") {
   public_configs = [ "..:crashpad_config" ]
 
   public_deps = [
+    ":minidump_format",
     "../compat",
   ]
 
@@ -154,9 +169,7 @@ source_set("minidump_test") {
     "minidump_writable_test.cc",
   ]
 
-  configs += [
-    "../build:crashpad_is_in_fuchsia",
-  ]
+  configs += [ "../build:crashpad_is_in_fuchsia" ]
 
   deps = [
     ":test_support",

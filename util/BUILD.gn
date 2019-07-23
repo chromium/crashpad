@@ -49,7 +49,8 @@ if (crashpad_is_mac) {
       if (!use_system_xcode) {
         import("//build/config/clang/clang.gni")
         import("//build/config/mac/mac_sdk.gni")
-        clang_path = rebase_path("$clang_base_path/bin/", root_build_dir) + "clang"
+        clang_path =
+            rebase_path("$clang_base_path/bin/", root_build_dir) + "clang"
         mig_path = "$mac_bin_path" + "mig"
         migcom_path = "$mac_bin_path" + "../libexec/migcom"
 
@@ -100,6 +101,8 @@ static_library("util") {
     "misc/as_underlying_type.h",
     "misc/capture_context.h",
     "misc/clock.h",
+    "misc/cpu_context.cc",
+    "misc/cpu_context.h",
     "misc/elf_note_types.h",
     "misc/from_pointer_cast.h",
     "misc/implicit_cast.h",
@@ -563,6 +566,7 @@ source_set("util_test") {
     "misc/capture_context_test.cc",
     "misc/capture_context_test_util.h",
     "misc/clock_test.cc",
+    "misc/cpu_context_test.cc",
     "misc/from_pointer_cast_test.cc",
     "misc/initialization_state_dcheck_test.cc",
     "misc/initialization_state_test.cc",
