@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "ee452ba5_239e57ed",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1339467
+      },
+      "writtenOn": "2019-07-24T13:22:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9061774_60d27861",
+      "revId": "19e14c7e87534b5bb9cbe33eb3c8adbf26c75c16",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb67409d_4104bc41",
         "filename": "snapshot/win/system_snapshot_win.cc",
         "patchSetId": 5
@@ -50,6 +68,24 @@
       "revId": "19e14c7e87534b5bb9cbe33eb3c8adbf26c75c16",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3db23ba6_3e4b193d",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1339467
+      },
+      "writtenOn": "2019-07-24T13:22:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb67409d_4104bc41",
+      "revId": "19e14c7e87534b5bb9cbe33eb3c8adbf26c75c16",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +112,30 @@
     },
     {
       "key": {
+        "uuid": "07d39b3e_bf4f24f6",
+        "filename": "util/win/process_info_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1339467
+      },
+      "writtenOn": "2019-07-24T13:22:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "312babce_98573dcf",
+      "range": {
+        "startLine": 532,
+        "startChar": 0,
+        "endLine": 543,
+        "endChar": 0
+      },
+      "revId": "19e14c7e87534b5bb9cbe33eb3c8adbf26c75c16",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c16a04_4c6f8f36",
         "filename": "util/win/scoped_registry_key.h",
         "patchSetId": 5
@@ -90,6 +150,24 @@
       "revId": "19e14c7e87534b5bb9cbe33eb3c8adbf26c75c16",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3231ca85_ab0aa036",
+        "filename": "util/win/scoped_registry_key.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1339467
+      },
+      "writtenOn": "2019-07-24T13:22:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68c16a04_4c6f8f36",
+      "revId": "19e14c7e87534b5bb9cbe33eb3c8adbf26c75c16",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
