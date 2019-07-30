@@ -563,6 +563,12 @@ class CrashpadClient {
   static void UseSystemDefaultHandler();
 #endif
 
+#if defined(OS_CHROMEOS)
+  //! \brief Sets a timestamp on the signal handler to be passed on to
+  // crashpad_handler and then eventually Chrome OS's crash_reporter.
+  static void SetCrashLoopBefore(uint64_t crash_loop_before_time);
+#endif
+
  private:
 #if defined(OS_MACOSX)
   base::mac::ScopedMachSendRight exception_port_;
