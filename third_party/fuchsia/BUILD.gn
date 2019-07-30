@@ -102,7 +102,6 @@ if (crashpad_is_in_fuchsia) {
       "$sdk_pkg_path/fidl_cpp_base/clone.cc",
       "$sdk_pkg_path/fidl_cpp_base/decoder.cc",
       "$sdk_pkg_path/fidl_cpp_base/encoder.cc",
-      "$sdk_pkg_path/fidl_cpp_base/string.cc",
     ]
 
     public_configs = [
