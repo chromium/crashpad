@@ -18,8 +18,8 @@ if (crashpad_is_in_fuchsia) {
   group("fuchsia") {
     public_deps = [
       "//zircon/public/fidl/fuchsia.mem",
-      "//zircon/public/fidl/fuchsia.sysinfo:fuchsia.sysinfo_c",
       "//zircon/public/lib/fdio",
+      "//zircon/public/lib/task-utils",
       "//zircon/public/lib/zx",
     ]
   }
@@ -28,7 +28,6 @@ if (crashpad_is_in_fuchsia) {
     public_deps = [
       "//third_party/fuchsia-sdk/sdk:fdio",
       "//third_party/fuchsia-sdk/sdk:mem",
-      "//third_party/fuchsia-sdk/sdk:sysinfo",
       "//third_party/fuchsia-sdk/sdk:zx",
     ]
   }
@@ -116,11 +115,6 @@ if (crashpad_is_in_fuchsia) {
       fidl = "$sdk_fidl_sources_path/fuchsia.mem/buffer.fidl"
       header_stem = "fuchsia/mem"
       library_name = "fuchsia.mem"
-    },
-    {
-      fidl = "$sdk_fidl_sources_path/fuchsia.sysinfo/sysinfo.fidl"
-      header_stem = "fuchsia/sysinfo"
-      library_name = "fuchsia.sysinfo"
     },
   ]
 
@@ -253,7 +247,6 @@ if (crashpad_is_in_fuchsia) {
       ":fidl_base",
       ":fidl_cpp_base",
       ":fuchsia.mem_cpp",
-      ":fuchsia.sysinfo_c",
       ":zx",
     ]
 
