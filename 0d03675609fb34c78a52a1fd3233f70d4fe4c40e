@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b91d61d7_1a0048b1",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-07-30T22:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94704a69_e8c7a4d3",
+      "range": {
+        "startLine": 319,
+        "startChar": 54,
+        "endLine": 321,
+        "endChar": 16
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d88cb20_9110b364",
         "filename": "handler/handler_main.cc",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f5ba59f_66ab9b0d",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-07-30T22:59:07Z",
+      "side": 1,
+      "message": "I think it\u0027s better if we can switch between users\u0027 home dir and here as users log in and out. It\u0027s just more work since this is out of process from Chrome and a new message between Chrome and this crashpad_handler needs to be build for that. And it\u0027s not really necessary since the log messages are very limited and they don\u0027t contain PII now.",
+      "parentUuid": "6d88cb20_9110b364",
+      "range": {
+        "startLine": 513,
+        "startChar": 0,
+        "endLine": 513,
+        "endChar": 66
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "7c769a36_57d5746e",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-07-30T22:59:07Z",
+      "side": 1,
+      "message": "crashpad_handler needs to know if it needs to pass the timestamp to crash_reporter and crashpad_handler knows the process_type when it\u0027s called by the different Chrome processes when they crash. How else is crashpad_handler knows?",
+      "parentUuid": "8dafa0a5_07ca2ff7",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 1
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23f3d0cb_1736795a",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abecbf50_c584389b",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-07-30T22:59:07Z",
+      "side": 1,
+      "message": "crash_reporter code is in Chrome OS repository, which is separate from the Chrome one. At this time Chrome OS doesn\u0027t use crashpad and has not imported crashpad library. So crash_reporter has no access to crashpad code and specifically no access to the code to extract these values from the minidumps.\ncrash_reporter already handles this Chrome OS specific TLV format data file. That\u0027s why I\u0027m writing the data with this format instead of modifying crash_reporter to use another format.",
+      "parentUuid": "23f3d0cb_1736795a",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 5
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "cb312930_1df3726e",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-07-30T22:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76f5bdea_64dba6a4",
+      "range": {
+        "startLine": 249,
+        "startChar": 68,
+        "endLine": 249,
+        "endChar": 70
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69968f9a_26ac491e",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 1
@@ -137,6 +257,30 @@
       "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a2a2868_350e1a75",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-07-30T22:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69968f9a_26ac491e",
+      "range": {
+        "startLine": 282,
+        "startChar": 29,
+        "endLine": 282,
+        "endChar": 60
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "1033a233_aaf6d6cf",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-07-30T22:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04f25133_4efd66f7",
+      "range": {
+        "startLine": 286,
+        "startChar": 45,
+        "endLine": 286,
+        "endChar": 52
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de5fcec0_e6566ec9",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 1
@@ -183,6 +351,30 @@
       "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06ad100b_ffd26731",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-07-30T22:59:07Z",
+      "side": 1,
+      "message": "This is what the memfd_create manual says:\n       With respect to fork(2) and execve(2), the usual semantics apply for\n       the file descriptor created by memfd_create().  A copy of the file\n       descriptor is inherited by the child produced by fork(2) and refers\n       to the same file.  The file descriptor is preserved across execve(2),\n       unless the close-on-exec flag has been set.",
+      "parentUuid": "de5fcec0_e6566ec9",
+      "range": {
+        "startLine": 297,
+        "startChar": 0,
+        "endLine": 304,
+        "endChar": 24
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "4b71cebc_7b542295",
+        "filename": "handler/linux/crash_report_exception_handler.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-07-30T22:59:07Z",
+      "side": 1,
+      "message": "Technically it is not really necessary. But I merged this CL to Chrome repo to test and it produces a warning at compile time to leave this here.",
+      "parentUuid": "550d350a_824bee80",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 25
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1adeb6b_219cb9e3",
         "filename": "util/file/file_io.h",
         "patchSetId": 1
@@ -232,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "f313b0f2_6b2c3e6b",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-07-30T22:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1adeb6b_219cb9e3",
+      "range": {
+        "startLine": 402,
+        "startChar": 17,
+        "endLine": 402,
+        "endChar": 37
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbd7909c_e39401d9",
         "filename": "util/file/file_io.h",
         "patchSetId": 1
@@ -252,6 +492,30 @@
       "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3934c21d_327548dd",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-07-30T22:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbd7909c_e39401d9",
+      "range": {
+        "startLine": 404,
+        "startChar": 1,
+        "endLine": 404,
+        "endChar": 2
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
