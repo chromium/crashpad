@@ -47,12 +47,6 @@
 #include "snapshot/win/process_snapshot_win.h"
 #include "util/win/scoped_process_suspend.h"
 #include "util/win/xp_compat.h"
-#elif defined(OS_FUCHSIA)
-#include <lib/zx/process.h>
-
-#include "snapshot/fuchsia/process_snapshot_fuchsia.h"
-#include "util/fuchsia/koid_utilities.h"
-#include "util/fuchsia/scoped_task_suspend.h"
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
 #include "snapshot/linux/process_snapshot_linux.h"
 #endif  // OS_MACOSX
@@ -167,12 +161,6 @@ int GenerateDumpMain(int argc, char* argv[]) {
     PLOG(ERROR) << "could not open process " << options.pid;
     return EXIT_FAILURE;
   }
-#elif defined(OS_FUCHSIA)
-  zx::process process = GetProcessFromKoid(options.pid);
-  if (!process.is_valid()) {
-    LOG(ERROR) << "could not open process " << options.pid;
-    return EXIT_FAILURE;
-  }
 #endif  // OS_MACOSX
 
   if (options.dump_path.empty()) {
@@ -191,11 +179,6 @@ int GenerateDumpMain(int argc, char* argv[]) {
     if (options.suspend) {
       suspend.reset(new ScopedProcessSuspend(process.get()));
     }
-#elif defined(OS_FUCHSIA)
-    std::unique_ptr<ScopedTaskSuspend> suspend;
-    if (options.suspend) {
-      suspend.reset(new ScopedTaskSuspend(process));
-    }
 #endif  // OS_MACOSX
 
 #if defined(OS_MACOSX)
@@ -211,11 +194,6 @@ int GenerateDumpMain(int argc, char* argv[]) {
                                          : ProcessSuspensionState::kRunning,
                                      0,
                                      0)) {
-      return EXIT_FAILURE;
-    }
-#elif defined(OS_FUCHSIA)
-    ProcessSnapshotFuchsia process_snapshot;
-    if (!process_snapshot.Initialize(process)) {
       return EXIT_FAILURE;
     }
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
