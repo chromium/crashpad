@@ -48,33 +48,6 @@ T CastHandle(zx::handle handle) {
   return T(std::move(handle));
 }
 
-zx::job GetRootJob() {
-  ScopedFileHandle sysinfo(
-      LoggingOpenFileForRead(base::FilePath("/dev/misc/sysinfo")));
-  if (!sysinfo.is_valid())
-    return zx::job();
-
-  zx::channel channel;
-  zx_status_t status = fdio_get_service_handle(sysinfo.release(),
-                                               channel.reset_and_get_address());
-  if (status != ZX_OK) {
-    ZX_LOG(ERROR, status) << "fdio_get_service_handle";
-    return zx::job();
-  }
-
-  zx::handle root_job;
-  zx_status_t fidl_status = fuchsia_sysinfo_DeviceGetRootJob(
-      channel.get(), &status, root_job.reset_and_get_address());
-  if (fidl_status != ZX_OK) {
-    ZX_LOG(ERROR, fidl_status) << "fuchsia_sysinfo_DeviceGetRootJob";
-    return zx::job();
-  } else if (status != ZX_OK) {
-    ZX_LOG(ERROR, status) << "fuchsia_sysinfo_DeviceGetRootJob";
-    return zx::job();
-  }
-  return CastHandle<zx::job>(std::move(root_job));
-}
-
 // Returns null handle if |koid| is not found or an error occurs. If |was_found|
 // is non-null then it will be set, to distinguish not-found from other errors.
 template <typename T, typename U>
@@ -193,18 +166,6 @@ zx_koid_t GetKoidForHandle(const zx::object_base& object) {
     return ZX_KOID_INVALID;
   }
   return info.koid;
-}
-
-// TODO(scottmg): This implementation uses some debug/temporary/hacky APIs and
-// ioctls that are currently the only way to go from pid to handle. This should
-// hopefully eventually be replaced by more or less a single
-// zx_debug_something() syscall.
-zx::process GetProcessFromKoid(zx_koid_t koid) {
-  bool was_found = false;
-  zx::process result = FindProcess(GetRootJob(), koid, &was_found);
-  if (!result.is_valid())
-    LOG(ERROR) << "process " << koid << " not found";
-  return result;
 }
 
 }  // namespace crashpad
