@@ -106,6 +106,18 @@ GN and Ninja are part of the
 [depot_tools](https://www.chromium.org/developers/how-tos/depottools). There’s
 no need to install them separately.
 
+#### Fuchsia
+
+In order to instruct gclient to download the Fuchsia SDK, you need to add the
+following to `~/crashpad/.gclient`.
+
+```
+target_os=["fuchsia"]
+```
+
+If you're using this tree to develop for multiple targets, you can also add
+other entries to the the list (e.g. `target_os=["fuchsia", "mac"]`).
+
 #### Optional Linux Configs
 
 To pull and use Crashpad's version of clang and sysroot, make the following
