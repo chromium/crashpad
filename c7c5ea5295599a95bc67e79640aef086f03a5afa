@@ -1,0 +1,395 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "571df8d3_aaeaa688",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "Missing \u0027!\u0027 plus 4 spaces of indentation.",
+      "range": {
+        "startLine": 568,
+        "startChar": 4,
+        "endLine": 568,
+        "endChar": 6
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "736e9570_161b43e3",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "Let\u0027s also mention that this method is only used by clients using \"StartHandler()\" and not the other handler starting methods.",
+      "range": {
+        "startLine": 568,
+        "startChar": 68,
+        "endLine": 568,
+        "endChar": 69
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa993b78_d5f0c50a",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "I think it\u0027s fine to directly call RequestCrashDumpHandler::Get() instead of casting a SignalHandler.",
+      "range": {
+        "startLine": 529,
+        "startChar": 2,
+        "endLine": 529,
+        "endChar": 55
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a47a76c0_5a1ea1e5",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "Add a blank line above this one.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 24
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2db2a38a_f053c1e8",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "Lets move this closer to where it\u0027s set.",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 20
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f7d6822_d9dc67b6",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "constexpr",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 7
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7b1a8cc_ee79a616",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "Log something on failure",
+      "range": {
+        "startLine": 45,
+        "startChar": 17,
+        "endLine": 45,
+        "endChar": 25
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a73afb0e_149945d3",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "This isn\u0027t necessary (I think you meant size-1, but even then result.substr(size) \u003d\u003d \"\").",
+      "range": {
+        "startLine": 49,
+        "startChar": 44,
+        "endLine": 50,
+        "endChar": 51
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72ff26a8_dd3812af",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "kv.first.size()?",
+      "range": {
+        "startLine": 245,
+        "startChar": 42,
+        "endLine": 245,
+        "endChar": 66
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0fbe0f8_946c993c",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "static constexpr char kMinidumpName[] \u003d ....",
+      "range": {
+        "startLine": 254,
+        "startChar": 4,
+        "endLine": 254,
+        "endChar": 29
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9248740a_760e89c7",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "Then you can do sizeof(kMinidumpName) - 1",
+      "range": {
+        "startLine": 255,
+        "startChar": 36,
+        "endLine": 255,
+        "endChar": 59
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff5a2258_993599cc",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "Can we give this a descriptive name too? That\u0027d also help us avoid the implicit references to its size.",
+      "range": {
+        "startLine": 261,
+        "startChar": 23,
+        "endLine": 261,
+        "endChar": 43
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fff7a0d9_6712b191",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "Since we\u0027re writing to an in-memory file, does this do anything?",
+      "range": {
+        "startLine": 284,
+        "startChar": 4,
+        "endLine": 284,
+        "endChar": 27
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d2295eb_a477669e",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "Why is \"chrome\" the right thing to do if we couldn\u0027t read the executable name?",
+      "range": {
+        "startLine": 294,
+        "startChar": 55,
+        "endLine": 294,
+        "endChar": 61
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a464317f_da71bb4b",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "Does this need to be explicitly closed? Why not let the FileWriter do it when we return from this method?",
+      "range": {
+        "startLine": 310,
+        "startChar": 4,
+        "endLine": 310,
+        "endChar": 24
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14417570_8fef19c2",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "Enclose these sorts of constants in Doxygen in backticks like `O_CLOEXEC`",
+      "range": {
+        "startLine": 403,
+        "startChar": 60,
+        "endLine": 403,
+        "endChar": 69
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaae0ec8_eb9ed86f",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-05T18:38:19Z",
+      "side": 1,
+      "message": "memfd_create",
+      "range": {
+        "startLine": 162,
+        "startChar": 29,
+        "endLine": 162,
+        "endChar": 33
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
