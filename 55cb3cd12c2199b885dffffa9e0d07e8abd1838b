@@ -22,6 +22,30 @@
       "revId": "55cb3cd12c2199b885dffffa9e0d07e8abd1838b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51cf9be9_65976bba",
+        "filename": "test/fuchsia_crashpad_tests.cmx",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1362438
+      },
+      "writtenOn": "2019-08-06T17:59:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c999fbf5_90158f7b",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 40
+      },
+      "revId": "55cb3cd12c2199b885dffffa9e0d07e8abd1838b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
