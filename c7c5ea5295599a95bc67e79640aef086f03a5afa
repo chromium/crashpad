@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "6f64b54d_5819bf12",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "571df8d3_aaeaa688",
+      "range": {
+        "startLine": 568,
+        "startChar": 4,
+        "endLine": 568,
+        "endChar": 6
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d46fb02_1a008fa7",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "736e9570_161b43e3",
+      "range": {
+        "startLine": 568,
+        "startChar": 68,
+        "endLine": 568,
+        "endChar": 69
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa993b78_d5f0c50a",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "362247b9_cf414c44",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa993b78_d5f0c50a",
+      "range": {
+        "startLine": 529,
+        "startChar": 2,
+        "endLine": 529,
+        "endChar": 55
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "8a4688a6_eb2db5dc",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a47a76c0_5a1ea1e5",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 24
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2db2a38a_f053c1e8",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 2
@@ -114,6 +210,30 @@
       "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05fc4fc2_14bcc6c8",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2db2a38a_f053c1e8",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 20
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "ae90ef35_8a46dbc1",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f7d6822_d9dc67b6",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 7
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7b1a8cc_ee79a616",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 2
@@ -160,6 +304,30 @@
       "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9eb73c7e_c825bc12",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7b1a8cc_ee79a616",
+      "range": {
+        "startLine": 45,
+        "startChar": 17,
+        "endLine": 45,
+        "endChar": 25
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "be32ce88_b52d5ec5",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a73afb0e_149945d3",
+      "range": {
+        "startLine": 49,
+        "startChar": 44,
+        "endLine": 50,
+        "endChar": 51
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72ff26a8_dd3812af",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 2
@@ -206,6 +398,30 @@
       "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c02cfbcc_ad05a3cd",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "I think they are the same in this context since the annotation should not have \\0 in them but I prefer the current format since it\u0027s more technically correct.",
+      "parentUuid": "72ff26a8_dd3812af",
+      "range": {
+        "startLine": 245,
+        "startChar": 42,
+        "endLine": 245,
+        "endChar": 66
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -232,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "b2a3e28e_748effd5",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0fbe0f8_946c993c",
+      "range": {
+        "startLine": 254,
+        "startChar": 4,
+        "endLine": 254,
+        "endChar": 29
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9248740a_760e89c7",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 2
@@ -252,6 +492,30 @@
       "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd1411df_3ec9e934",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9248740a_760e89c7",
+      "range": {
+        "startLine": 255,
+        "startChar": 36,
+        "endLine": 255,
+        "endChar": 59
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -278,6 +542,30 @@
     },
     {
       "key": {
+        "uuid": "ce0285f9_f509687c",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff5a2258_993599cc",
+      "range": {
+        "startLine": 261,
+        "startChar": 23,
+        "endLine": 261,
+        "endChar": 43
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fff7a0d9_6712b191",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 2
@@ -298,6 +586,30 @@
       "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6594ce0b_bc8c593c",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fff7a0d9_6712b191",
+      "range": {
+        "startLine": 284,
+        "startChar": 4,
+        "endLine": 284,
+        "endChar": 27
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -324,6 +636,30 @@
     },
     {
       "key": {
+        "uuid": "c37b1dec_71697e08",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "We are enabling crashapd to handle Chrome crashes at this point so the process name should be \"chrome\".\nWe might enable crashpad to handle Chrome OS system programs. We don\u0027t know how we\u0027d like to do that so we\u0027ll deal with it when we do it.",
+      "parentUuid": "0d2295eb_a477669e",
+      "range": {
+        "startLine": 294,
+        "startChar": 55,
+        "endLine": 294,
+        "endChar": 61
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a464317f_da71bb4b",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 2
@@ -344,6 +680,30 @@
       "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c484d41_543df950",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a464317f_da71bb4b",
+      "range": {
+        "startLine": 310,
+        "startChar": 4,
+        "endLine": 310,
+        "endChar": 24
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -370,6 +730,30 @@
     },
     {
       "key": {
+        "uuid": "879a4a0d_48a1d0d9",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14417570_8fef19c2",
+      "range": {
+        "startLine": 403,
+        "startChar": 60,
+        "endLine": 403,
+        "endChar": 69
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eaae0ec8_eb9ed86f",
         "filename": "util/file/file_io_posix.cc",
         "patchSetId": 2
@@ -390,6 +774,30 @@
       "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caa2b09d_fbdff1ca",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-06T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eaae0ec8_eb9ed86f",
+      "range": {
+        "startLine": 162,
+        "startChar": 29,
+        "endLine": 162,
+        "endChar": 33
+      },
+      "revId": "c7c5ea5295599a95bc67e79640aef086f03a5afa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
