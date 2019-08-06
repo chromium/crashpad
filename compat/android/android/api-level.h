@@ -16,10 +16,11 @@
 #define CRASHPAD_COMPAT_ANDROID_ANDROID_API_LEVEL_H_
 
 #include_next <android/api-level.h>
+#include <android/ndk-version.h>
 
 #include <sys/cdefs.h>
 
-#if __ANDROID_API__ < 29
+#if __ANDROID_API__ < 29 || __NDK_MAJOR__ < 20
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,6 +34,6 @@ int android_get_device_api_level();
 }  // extern "C"
 #endif
 
-#endif  // __ANDROID_API__ < 29
+#endif  // __ANDROID_API__ < 29 || __NDK_MAJOR__ < 20
 
 #endif  // CRASHPAD_COMPAT_ANDROID_ANDROID_API_LEVEL_H_
