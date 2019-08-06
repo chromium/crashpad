@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c999fbf5_90158f7b",
+        "filename": "test/fuchsia_crashpad_tests.cmx",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1310583
+      },
+      "writtenOn": "2019-08-06T17:51:57Z",
+      "side": 1,
+      "message": "nit: alphabetize while you\u0027re here?",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 40
+      },
+      "revId": "55cb3cd12c2199b885dffffa9e0d07e8abd1838b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
