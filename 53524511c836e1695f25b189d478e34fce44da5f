@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3925a78c_1015cbf8",
+        "filename": "cr-buildbucket.cfg",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1001907
+      },
+      "writtenOn": "2019-08-09T20:55:55Z",
+      "side": 1,
+      "message": "I would want to make this as explicit and as scoped as possible. `group` seems closer than \u0027config\u0027. I would also strongly consider doing this in the style of kitchen below:\n\n   properties_j: \u003c\u003cEOF\n     $gatekeeper:{\n       \"group\": \"client.crashpad\"\n     }\n   EOF\n\nThis way if you need to add additional properties for gatekeeper, they\u0027re all together, and as concise as possible.",
+      "range": {
+        "startLine": 167,
+        "startChar": 21,
+        "endLine": 167,
+        "endChar": 38
+      },
+      "revId": "53524511c836e1695f25b189d478e34fce44da5f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
