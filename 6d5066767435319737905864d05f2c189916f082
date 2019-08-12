@@ -1,0 +1,604 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa6d6e83_a1136dd8",
+        "filename": "util/stream/output_stream.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "I don’t believe that we should have any implementation for OutputStream. It should be a pure interface. In fact, in Crashpad nomenclature, we would call it OutputStreamInterface to make the point crystal clear.",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52ade9bf_2752b093",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "for an output",
+      "range": {
+        "startLine": 24,
+        "startChar": 26,
+        "endLine": 24,
+        "endChar": 36
+      },
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bde42708_001a9536",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "Put in \\code … \\endcode. Search this codebase for \\code for examples.",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbbf3757_68380640",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "Even examples should be formatted correctly:\n\n//!   };\n\n(semicolon)",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78f506f8_285caaf8",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "Even examples should be formatted correctly:\n\n//!   while (has_data) {\n\n(space)",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "301d3f95_179feb29",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "This comment is not helpful.",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c5ae03e_496324c5",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "is the stream that",
+      "range": {
+        "startLine": 45,
+        "startChar": 64,
+        "endLine": 45,
+        "endChar": 78
+      },
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "225f1c44_2e3e6e7e",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "This is confusing: why would it not be specified? What happens to output if unspecified?",
+      "range": {
+        "startLine": 45,
+        "startChar": 50,
+        "endLine": 45,
+        "endChar": 63
+      },
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fb4df0a_5ebde836",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "This class appears to want to be a pure interface, so it seems a little weird for it to have a concrete constructor.",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82e2b426_9b234261",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "Unless anyone needs to delete this through an interface pointer (not likely), make it protected and non-virtual.",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1121a0e_725299c5",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "stream. This method may",
+      "range": {
+        "startLine": 50,
+        "startChar": 36,
+        "endLine": 50,
+        "endChar": 61
+      },
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b080b67_b217f58f",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "data that should",
+      "range": {
+        "startLine": 53,
+        "startChar": 26,
+        "endLine": 53,
+        "endChar": 37
+      },
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ccaf363_6f33406b",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "`true`",
+      "range": {
+        "startLine": 56,
+        "startChar": 14,
+        "endLine": 56,
+        "endChar": 20
+      },
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b78923a_48d79e36",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "Write is not a parameter here, so \\a is incorrect.",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 8
+      },
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "151429f5_dd465811",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "Write()\n\n(this gets the auto-linking that you may have meant when writing \\a.)",
+      "range": {
+        "startLine": 61,
+        "startChar": 9,
+        "endLine": 61,
+        "endChar": 14
+      },
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "610a59e6_8a99d0ce",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "can’t",
+      "range": {
+        "startLine": 61,
+        "startChar": 15,
+        "endLine": 61,
+        "endChar": 21
+      },
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fe6b0a3_e8fcfb37",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "`true`",
+      "range": {
+        "startLine": 62,
+        "startChar": 14,
+        "endLine": 62,
+        "endChar": 20
+      },
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb63c891_1ac64d40",
+        "filename": "util/stream/output_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "Must this method be called before destruction? (Implementation DCHECK hint.)",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fcf76c0_09124dd2",
+        "filename": "util/stream/z_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "ZlibOutputStream.\n\nRename the file accordingly (, fix comments, fix the #include guards, etc.)",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 13
+      },
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d86d598_879c3cad",
+        "filename": "util/stream/z_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "Write(). Same on line 31. But I think that these definitions can be made clearer, and it doesn’t even need to reference Write() by name.\n\n  //! \\brief Whether this object is configured to compress or decompress data.\n  enum class Mode : bool {\n    //! \\brief Data passed through this object is compressed.\n    kCompress,\n    //! \\brief Data passed through this object is decompressed.\n    kDecompress,\n  };",
+      "range": {
+        "startLine": 29,
+        "startChar": 38,
+        "endLine": 29,
+        "endChar": 46
+      },
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a193d78_c8dac655",
+        "filename": "util/stream/z_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "“deflate” less familiar to those not conversant in zlib’s internals. kCompress is better. Same for “inflate.”",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d60d3d4_5a34c2aa",
+        "filename": "util/stream/z_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "Full sentences, please.",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0874620b_daab9e92",
+        "filename": "util/stream/z_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "mode of this",
+      "range": {
+        "startLine": 36,
+        "startChar": 31,
+        "endLine": 36,
+        "endChar": 40
+      },
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21499173_02cc0941",
+        "filename": "util/stream/z_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "Blank line after.",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "765df81d_560dcd73",
+        "filename": "util/stream/z_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "We wouldn‘t abbreviate this, we’d write Initialize().\n\nI count 63 non-comment instances of \u0027Initialize(\u0027 in headers in our codebase, and 0 \u0027Init(\u0027.",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b02c251_83d5209c",
+        "filename": "util/stream/z_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "You should still comment all internal bits.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 0
+      },
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f773bf8a_28facf95",
+        "filename": "util/stream/z_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "Don’t do this. Just size buffer_ properly with a literal at the point of declaration, and use arraysize(buffer_) to obtain the size.\n\nOur buffers are almost all uniformly 4096, which should also be used here unless you have a good reason to do something else. If there is a reason to use a non-standard buffer size, the rationale should be captured in a comment.",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "355bc33a_ce0e30c9",
+        "filename": "util/stream/z_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "Don’t put one initializer here and the rest in the .cc file on the constructor. They should all be in the same place.",
+      "range": {
+        "startLine": 59,
+        "startChar": 13,
+        "endLine": 59,
+        "endChar": 21
+      },
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c83463a_679ec16a",
+        "filename": "util/stream/z_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "What’s this used for? Should it be an InitializationState or an InitializationStateDcheck?",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77d78b09_ddc91de9",
+        "filename": "util/stream/z_stream.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-12T17:56:33Z",
+      "side": 1,
+      "message": "#include \"base/macros.h\"",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
