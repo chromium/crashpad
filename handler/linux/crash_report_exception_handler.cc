@@ -140,7 +140,7 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
 
     ProcessSnapshot* snapshot = nullptr;
     ProcessSnapshotSanitized sanitized;
-    std::vector<std::string> whitelist;
+    std::vector<std::string> annotations_whitelist;
     if (info.sanitization_information_address) {
       SanitizationInformation sanitization_info;
       ProcessMemoryRange range;
@@ -157,7 +157,7 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
           !ReadAnnotationsWhitelist(
               range,
               sanitization_info.annotations_whitelist_address,
-              &whitelist)) {
+              &annotations_whitelist)) {
         Metrics::ExceptionCaptureResult(
             Metrics::CaptureResult::kSanitizationInitializationFailed);
         return false;
@@ -165,7 +165,7 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
 
       if (!sanitized.Initialize(&process_snapshot,
                                 sanitization_info.annotations_whitelist_address
-                                    ? &whitelist
+                                    ? &annotations_whitelist
                                     : nullptr,
                                 sanitization_info.target_module_address,
                                 sanitization_info.sanitize_stacks)) {

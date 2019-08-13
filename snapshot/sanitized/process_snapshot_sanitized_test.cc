@@ -252,12 +252,12 @@ class SanitizeTest : public MultiprocessExec {
     ExpectAnnotations(&snapshot, /* sanitized= */ false);
     ExpectStackData(&snapshot, addrs, /* sanitized= */ false);
 
-    std::vector<std::string> whitelist;
-    whitelist.push_back(kWhitelistedAnnotationName);
+    std::vector<std::string> annotations_whitelist;
+    annotations_whitelist.push_back(kWhitelistedAnnotationName);
 
     ProcessSnapshotSanitized sanitized;
     ASSERT_TRUE(sanitized.Initialize(
-        &snapshot, &whitelist, addrs.module_address, true));
+        &snapshot, &annotations_whitelist, addrs.module_address, true));
 
     ExpectAnnotations(&sanitized, /* sanitized= */ true);
     ExpectStackData(&sanitized, addrs, /* sanitized= */ true);
