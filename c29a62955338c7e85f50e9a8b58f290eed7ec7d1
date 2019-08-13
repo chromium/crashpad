@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dc87d6e7_77e44720",
+        "filename": "snapshot/minidump/exception_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2019-08-13T22:56:20Z",
+      "side": 1,
+      "message": "We fail on file read failures. I assume those should pretty much always fail to be consistent.",
+      "parentUuid": "5ba8ff4d_3341fd5a",
+      "revId": "c29a62955338c7e85f50e9a8b58f290eed7ec7d1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3c2cc060_6b6ac434",
         "filename": "snapshot/minidump/exception_snapshot_minidump.h",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "c29a62955338c7e85f50e9a8b58f290eed7ec7d1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "406624b0_f09965c3",
+        "filename": "snapshot/minidump/exception_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2019-08-13T22:56:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c2cc060_6b6ac434",
+      "revId": "c29a62955338c7e85f50e9a8b58f290eed7ec7d1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "93fbb9ed_350fd59e",
+        "filename": "snapshot/minidump/exception_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2019-08-13T22:56:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06d16230_0c5c33a1",
+      "range": {
+        "startLine": 41,
+        "startChar": 30,
+        "endLine": 41,
+        "endChar": 31
+      },
+      "revId": "c29a62955338c7e85f50e9a8b58f290eed7ec7d1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74990aea_f1ddc5f7",
         "filename": "snapshot/minidump/minidump_context_converter.cc",
         "patchSetId": 1
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "7d551373_425c184d",
+        "filename": "snapshot/minidump/minidump_context_converter.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2019-08-13T22:56:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74990aea_f1ddc5f7",
+      "range": {
+        "startLine": 264,
+        "startChar": 25,
+        "endLine": 264,
+        "endChar": 26
+      },
+      "revId": "c29a62955338c7e85f50e9a8b58f290eed7ec7d1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e218d2_bcb6f6aa",
         "filename": "snapshot/minidump/minidump_context_converter.cc",
         "patchSetId": 1
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "121bb707_70e12066",
+        "filename": "snapshot/minidump/minidump_context_converter.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2019-08-13T22:56:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e218d2_bcb6f6aa",
+      "revId": "c29a62955338c7e85f50e9a8b58f290eed7ec7d1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e91c4f91_53752160",
         "filename": "snapshot/minidump/minidump_context_converter.h",
         "patchSetId": 1
@@ -113,6 +215,24 @@
       "revId": "c29a62955338c7e85f50e9a8b58f290eed7ec7d1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ba5f75e_1fa6e708",
+        "filename": "snapshot/minidump/minidump_context_converter.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2019-08-13T22:56:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e91c4f91_53752160",
+      "revId": "c29a62955338c7e85f50e9a8b58f290eed7ec7d1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
