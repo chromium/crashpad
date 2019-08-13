@@ -22,15 +22,19 @@ namespace internal {
 ExceptionSnapshotMinidump::ExceptionSnapshotMinidump()
     : ExceptionSnapshot(),
       minidump_exception_stream_(),
+      context_(),
       exception_information_(),
       initialized_() {}
 
 ExceptionSnapshotMinidump::~ExceptionSnapshotMinidump() {}
 
 bool ExceptionSnapshotMinidump::Initialize(FileReaderInterface* file_reader,
+                                           CPUArchitecture arch,
                                            RVA minidump_exception_stream_rva) {
   DCHECK(initialized_.is_uninitialized());
   initialized_.set_invalid();
+
+  std::vector<unsigned char> minidump_context;
 
   if (!file_reader->SeekSet(minidump_exception_stream_rva)) {
     return false;
@@ -48,14 +52,28 @@ bool ExceptionSnapshotMinidump::Initialize(FileReaderInterface* file_reader,
         minidump_exception_stream_.ExceptionRecord.ExceptionInformation[i]);
   }
 
+  if (!file_reader->SeekSet(minidump_exception_stream_.ThreadContext.Rva)) {
+    return false;
+  }
+
+  minidump_context.resize(minidump_exception_stream_.ThreadContext.DataSize);
+
+  if (!file_reader->ReadExactly(minidump_context.data(),
+                                minidump_context.size())) {
+    return false;
+  }
+
+  if (!context_.Initialize(arch, minidump_context)) {
+    return false;
+  }
+
   initialized_.set_valid();
   return true;
 }
 
 const CPUContext* ExceptionSnapshotMinidump::Context() const {
   DCHECK(initialized_.is_valid());
-  NOTREACHED();  // https://crashpad.chromium.org/bug/10
-  return nullptr;
+  return context_.Get();
 }
 
 uint64_t ExceptionSnapshotMinidump::ThreadID() const {
