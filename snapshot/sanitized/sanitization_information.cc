@@ -21,9 +21,9 @@ namespace crashpad {
 namespace {
 
 template <typename Pointer>
-bool ReadWhitelist(const ProcessMemoryRange& memory,
-                   VMAddress whitelist_address,
-                   std::vector<std::string>* whitelist) {
+bool ReadAnnotationsWhitelist(const ProcessMemoryRange& memory,
+                              VMAddress whitelist_address,
+                              std::vector<std::string>* whitelist) {
   if (!whitelist_address) {
     return true;
   }
@@ -53,9 +53,10 @@ bool ReadWhitelist(const ProcessMemoryRange& memory,
 bool ReadAnnotationsWhitelist(const ProcessMemoryRange& memory,
                               VMAddress whitelist_address,
                               std::vector<std::string>* whitelist) {
-  return memory.Is64Bit()
-             ? ReadWhitelist<uint64_t>(memory, whitelist_address, whitelist)
-             : ReadWhitelist<uint32_t>(memory, whitelist_address, whitelist);
+  return memory.Is64Bit() ? ReadAnnotationsWhitelist<uint64_t>(
+                                memory, whitelist_address, whitelist)
+                          : ReadAnnotationsWhitelist<uint32_t>(
+                                memory, whitelist_address, whitelist);
 }
 
 }  // namespace crashpad
