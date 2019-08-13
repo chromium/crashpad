@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ba8ff4d_3341fd5a",
+        "filename": "snapshot/minidump/exception_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-13T22:30:55Z",
+      "side": 1,
+      "message": "Should failing here be fatal to loading the minidump? (Non-rhetorical question, I\u0027m not sure.)",
+      "revId": "c29a62955338c7e85f50e9a8b58f290eed7ec7d1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c2cc060_6b6ac434",
+        "filename": "snapshot/minidump/exception_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-13T22:30:55Z",
+      "side": 1,
+      "message": "I\u0027m assuming this was Fuchsia\u0027s clang-format wrapper? I don\u0027t think this will compile on real-Windows. (Chromium\u0027s clang-format makes sure that windows.h stays at the top, I believe.)\n\nIf it\u0027s troublesome, normally Chromium and Crashpad add a \\n to separate them (though I know Fuchsia\u0027s ignores all that a blorps them together.)",
+      "revId": "c29a62955338c7e85f50e9a8b58f290eed7ec7d1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06d16230_0c5c33a1",
+        "filename": "snapshot/minidump/exception_snapshot_minidump.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-13T22:30:55Z",
+      "side": 1,
+      "message": "architecture",
+      "range": {
+        "startLine": 41,
+        "startChar": 30,
+        "endLine": 41,
+        "endChar": 31
+      },
+      "revId": "c29a62955338c7e85f50e9a8b58f290eed7ec7d1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74990aea_f1ddc5f7",
+        "filename": "snapshot/minidump/minidump_context_converter.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-13T22:30:55Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 264,
+        "startChar": 25,
+        "endLine": 264,
+        "endChar": 26
+      },
+      "revId": "c29a62955338c7e85f50e9a8b58f290eed7ec7d1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8e218d2_bcb6f6aa",
+        "filename": "snapshot/minidump/minidump_context_converter.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-13T22:30:55Z",
+      "side": 1,
+      "message": "Probably worth a DLOG here, since you\u0027ve handled all the cases we could reasonably expect.",
+      "revId": "c29a62955338c7e85f50e9a8b58f290eed7ec7d1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e91c4f91_53752160",
+        "filename": "snapshot/minidump/minidump_context_converter.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-13T22:30:55Z",
+      "side": 1,
+      "message": "Since there\u0027s a separate Initialize and Get, this could use a util/misc/initialization_state_dcheck.h member, INITIALIZATION_STATE_SET_INITIALIZING(), etc.",
+      "revId": "c29a62955338c7e85f50e9a8b58f290eed7ec7d1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
