@@ -109,6 +109,8 @@
         'memory_snapshot_generic.h',
         'minidump/minidump_annotation_reader.cc',
         'minidump/minidump_annotation_reader.h',
+        'minidump/minidump_context_converter.cc',
+        'minidump/minidump_context_converter.h',
         'minidump/minidump_simple_string_dictionary_reader.cc',
         'minidump/minidump_simple_string_dictionary_reader.h',
         'minidump/minidump_stream.h',

@@ -21,6 +21,7 @@
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/exception_snapshot.h"
+#include "snapshot/minidump/minidump_context_converter.h"
 #include "util/file/file_reader.h"
 #include "util/misc/initialization_state.h"
 
@@ -37,12 +38,14 @@ class ExceptionSnapshotMinidump final : public ExceptionSnapshot {
   //!
   //! \param[in] file_reader A file reader corresponding to a minidump file.
   //!     The file reader must support seeking.
+  //! \param[in] arch The CPU architecture of this snapshot.
   //! \param[in] minidump_exception_stream_rva The file offset in \a file_reader
   //!     at which the MINIDUMP_EXCEPTION_STREAM structure is located.
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
   bool Initialize(FileReaderInterface* file_reader,
+                  CPUArchitecture arch,
                   RVA minidump_exception_stream_rva);
 
   // ExceptionSnapshot:
@@ -60,6 +63,7 @@ class ExceptionSnapshotMinidump final : public ExceptionSnapshot {
 
  private:
   MINIDUMP_EXCEPTION_STREAM minidump_exception_stream_;
+  MinidumpContextConverter context_;
   std::vector<uint64_t> exception_information_;
   InitializationState initialized_;
 
