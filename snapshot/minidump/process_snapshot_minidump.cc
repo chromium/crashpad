@@ -596,7 +596,8 @@ bool ProcessSnapshotMinidump::InitializeExceptionSnapshot() {
     return false;
   }
 
-  if (!exception_snapshot_.Initialize(file_reader_, stream_it->second->Rva)) {
+  if (!exception_snapshot_.Initialize(
+          file_reader_, arch_, stream_it->second->Rva)) {
     return false;
   }
 
