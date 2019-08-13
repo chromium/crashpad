@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "508fab43_96270b02",
+        "filename": "snapshot/minidump/exception_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-13T23:29:08Z",
+      "side": 1,
+      "message": "OK, I was thinking more that it might not have one, or be invalid, but you might want to see the rest of a minidump\u0027s data? Up to you.",
+      "parentUuid": "dc87d6e7_77e44720",
+      "revId": "c29a62955338c7e85f50e9a8b58f290eed7ec7d1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3c2cc060_6b6ac434",
         "filename": "snapshot/minidump/exception_snapshot_minidump.h",
         "patchSetId": 1
