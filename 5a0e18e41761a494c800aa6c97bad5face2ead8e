@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13477cd8_821917e4",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-08-14T23:40:04Z",
+      "side": 0,
+      "message": "Note I delete the sanitization_info.annotations_whitelist_address check because it\u0027s redundant (ReadAnnotationsWhitelist returns true if it\u0027s null) and would make this change harder to understand.",
+      "revId": "5a0e18e41761a494c800aa6c97bad5face2ead8e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
