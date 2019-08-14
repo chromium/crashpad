@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "6e9ce9f4_3adda18a",
+        "filename": "util/stream/output_stream.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-14T20:22:43Z",
+      "side": 1,
+      "message": "Got it, basically, I need to rename OutputStream to OutputStreamInterface, and have all implementation inline, OutputStreamBase isn\u0027t needed.",
+      "parentUuid": "fabf5c82_c19af95e",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "52ade9bf_2752b093",
         "filename": "util/stream/output_stream.h",
         "patchSetId": 1
