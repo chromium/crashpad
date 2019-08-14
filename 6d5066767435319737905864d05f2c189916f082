@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d2e6d2d4_94c11f9d",
+        "filename": "util/stream/output_stream.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-14T20:03:20Z",
+      "side": 1,
+      "message": "\u003e I want to construct the pipeline, compress-\u003ebase94 encoding-\u003elog like below\n\u003e \n\u003e       ZStream z_stream(\n\u003e           std::make_unique\u003cBase94Stream\u003e(std::make_unique\u003cLogStream\u003e(),\n\u003e                                          Base94Stream::Mode::kEncode),\n\u003e           ZStream::Mode::kDeflate);\n\u003e \n\u003e To have a output_stream is most OutputStream implementations will do, I don\u0027t know what the design pattern you preferred.\n\u003e \n\u003e Should I have something like below?\n\u003e OutputStreamInterface (pure interface)\n\u003e OutputStreamBase : public OutputStreamInterface (more like current OutputStream)\n\u003e ZlibOutputStream : public OutputStreamBase\n\nIt sounds like you do want these objects to be deleted through pointers to the base class. That’s fine.\n\nOur pure interface classes are permitted to have implementations of public virtual destructors in the interface class itself to enable this pattern.\n\nLeave the destructor public and virtual as you have it now. Move the implementation into the header file, either as {} or \u003ddefault. Since the base class destructor will never result in the generation of any code (owing to the absence of code in the base’s destructor, absence of data members in the base, and absence of any superclass), there’s zero cost to inlining it into subclass destructors (and, actually, nonzero cost to not inlining it).",
+      "parentUuid": "06173579_668330b0",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "52ade9bf_2752b093",
         "filename": "util/stream/output_stream.h",
         "patchSetId": 1
