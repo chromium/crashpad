@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "157eafa1_38701990",
+        "filename": "compat/android/android/api-level.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-14T01:20:09Z",
+      "side": 1,
+      "message": "When was \u003candroid/ndk-version.h\u003e and __NDK_MAJOR__ introduced?",
+      "revId": "2469e8a6f7ab5b477c716238db8ad37b3319388b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
