@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "fabf5c82_c19af95e",
+        "filename": "util/stream/output_stream.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-14T20:16:33Z",
+      "side": 1,
+      "message": "\u003e Should I have something like below?\n\u003e OutputStreamInterface (pure interface)\n\u003e OutputStreamBase : public OutputStreamInterface (more like current OutputStream)\n\u003e ZlibOutputStream : public OutputStreamBase\n\nForgo OutputStreamBase, which just muddies things. Just have OutputStreamInterface, then derive ZlibOutputStream and Base94OutputStream from that independently.",
+      "parentUuid": "d2e6d2d4_94c11f9d",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "52ade9bf_2752b093",
         "filename": "util/stream/output_stream.h",
         "patchSetId": 1
