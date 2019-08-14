@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c50beca2_e8c9e1d0",
+        "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-14T15:50:55Z",
+      "side": 1,
+      "message": "80 col format",
+      "revId": "f0b083217a9d20609f400dc2737a40ed70a2e48c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08cba52b_607ea4ee",
+        "filename": "snapshot/minidump/process_snapshot_minidump_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 1409,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-14T15:50:55Z",
+      "side": 1,
+      "message": "Might as well check bcr, bvr, wcr, wvr, since you went to the trouble of setting them above?",
+      "revId": "f0b083217a9d20609f400dc2737a40ed70a2e48c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
