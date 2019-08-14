@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49ed8bdd_c7a567d9",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-14T20:44:05Z",
+      "side": 1,
+      "message": "#L109 will “float”, can you pin to a specific revision?",
+      "revId": "006d3f98f90dcd5296397d7d5e8fb2812d02a0e2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f676863d_2bc948b1",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-14T20:44:05Z",
+      "side": 1,
+      "message": "Is a gmock bug filed that you can also link to?",
+      "revId": "006d3f98f90dcd5296397d7d5e8fb2812d02a0e2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
