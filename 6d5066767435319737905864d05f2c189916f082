@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "06173579_668330b0",
+        "filename": "util/stream/output_stream.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-14T19:14:19Z",
+      "side": 1,
+      "message": "I want to construct the pipeline, compress-\u003ebase94 encoding-\u003elog like below\n\n      ZStream z_stream(\n          std::make_unique\u003cBase94Stream\u003e(std::make_unique\u003cLogStream\u003e(),\n                                         Base94Stream::Mode::kEncode),\n          ZStream::Mode::kDeflate);\n\nTo have a output_stream is most OutputStream implementations will do, I don\u0027t know what the design pattern you preferred.\n\nShould I have something like below?\nOutputStreamInterface (pure interface)\nOutputStreamBase : public OutputStreamInterface (more like current OutputStream)\nZlibOutputStream : public OutputStreamBase",
+      "parentUuid": "fa6d6e83_a1136dd8",
+      "revId": "6d5066767435319737905864d05f2c189916f082",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "52ade9bf_2752b093",
         "filename": "util/stream/output_stream.h",
         "patchSetId": 1
