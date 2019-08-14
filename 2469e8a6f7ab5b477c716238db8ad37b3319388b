@@ -16,6 +16,24 @@
       "revId": "2469e8a6f7ab5b477c716238db8ad37b3319388b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27a29f2e_1b889ef9",
+        "filename": "compat/android/android/api-level.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1125980
+      },
+      "writtenOn": "2019-08-14T01:52:45Z",
+      "side": 1,
+      "message": "Looks like they were introduced in r16. Do we support anything older than that?",
+      "parentUuid": "157eafa1_38701990",
+      "revId": "2469e8a6f7ab5b477c716238db8ad37b3319388b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
