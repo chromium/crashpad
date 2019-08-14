@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "78426205_4f4b590f",
+        "filename": "snapshot/minidump/exception_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1148039
+      },
+      "writtenOn": "2019-08-14T00:27:12Z",
+      "side": 1,
+      "message": "The call itself shouldn\u0027t fail in this sense when those conditions happen. Only a read error will trigger it, and we\u0027d only attempt a read when we shouldn\u0027t if we got a bad RVA.",
+      "parentUuid": "508fab43_96270b02",
+      "revId": "c29a62955338c7e85f50e9a8b58f290eed7ec7d1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c2cc060_6b6ac434",
         "filename": "snapshot/minidump/exception_snapshot_minidump.h",
         "patchSetId": 1
