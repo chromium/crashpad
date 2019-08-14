@@ -329,6 +329,8 @@ static_library("util") {
       "posix/process_info_linux.cc",
       "process/process_memory_linux.cc",
       "process/process_memory_linux.h",
+      "process/process_memory_sanitized.cc",
+      "process/process_memory_sanitized.h",
     ]
   }
 
@@ -651,6 +653,7 @@ source_set("util_test") {
       "linux/scoped_ptrace_attach_test.cc",
       "linux/socket_test.cc",
       "misc/capture_context_test_util_linux.cc",
+      "process/process_memory_sanitized_test.cc",
     ]
   }
 
