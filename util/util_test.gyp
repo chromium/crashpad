@@ -154,6 +154,11 @@
             ['exclude', '^net/http_transport_test\\.cc$'],
           ]
         }],
+        ['OS=="linux" or OS=="android"', {
+          'sources': [
+            'util/process_memory_sanitized_test.cc',
+          ],
+        }],
         ['OS!="linux" and OS!="android"', {
           'sources/': [
             ['exclude', '^process/'],
