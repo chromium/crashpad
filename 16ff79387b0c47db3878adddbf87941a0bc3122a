@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96dcd890_e845321d",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-14T17:04:45Z",
+      "side": 1,
+      "message": "This will never be nullptr. If a RequestCrashDumpHandler hasn\u0027t been created yet, a singleton will be created and later fetched again when it is installed.",
+      "range": {
+        "startLine": 525,
+        "startChar": 0,
+        "endLine": 528,
+        "endChar": 3
+      },
+      "revId": "16ff79387b0c47db3878adddbf87941a0bc3122a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fadec21_eae67546",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-14T17:04:45Z",
+      "side": 1,
+      "message": "PLOG(ERROR) if size \u003c 0",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 7
+      },
+      "revId": "16ff79387b0c47db3878adddbf87941a0bc3122a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f0202da_41132763",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-14T17:04:45Z",
+      "side": 1,
+      "message": "if (!file_writer.OpenMemfd(base::FilePath(\"/tmp/minidump\")) {\n  Metrics::ExceptionCaptureResult(\n    Metrics::CaptureResult::kOpenMemfdFailed);\n  return false;\n}\n\nWe\u0027ll also need to add Metrics::CaptureResult::kOpenMemfdFailed to\ncrashpad/util/misc/metrics.h\nand\nchromium/src/tools/metrics/histograms/enums.xml",
+      "range": {
+        "startLine": 242,
+        "startChar": 4,
+        "endLine": 242,
+        "endChar": 59
+      },
+      "revId": "16ff79387b0c47db3878adddbf87941a0bc3122a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbe5f21e_86c285df",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-14T17:04:45Z",
+      "side": 1,
+      "message": "Similarly, we should check that these writes succeed. How about we pull all these file_writer.Write() and minidump.WriteEverything() calls out into a function WriteAnnotationsAndMinidump() so we can record a Metrics::ExceptionCaptureResult::kMinidumpWriteFailed if any of them failed.",
+      "range": {
+        "startLine": 247,
+        "startChar": 5,
+        "endLine": 247,
+        "endChar": 68
+      },
+      "revId": "16ff79387b0c47db3878adddbf87941a0bc3122a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "904a7cd2_436738af",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-14T17:04:45Z",
+      "side": 1,
+      "message": "strlen(kMinidumpLengthFilling) - 1",
+      "range": {
+        "startLine": 286,
+        "startChar": 46,
+        "endLine": 286,
+        "endChar": 48
+      },
+      "revId": "16ff79387b0c47db3878adddbf87941a0bc3122a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
