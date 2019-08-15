@@ -30,6 +30,7 @@
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/range_set.h"
 #include "util/process/process_id.h"
+#include "util/process/process_memory_sanitized.h"
 
 namespace crashpad {
 
@@ -62,6 +63,8 @@ class ProcessSnapshotSanitized final : public ProcessSnapshot {
   //!     should be filtered entirely. Otherwise `true`.
   bool Initialize(const ProcessSnapshot* snapshot,
                   const std::vector<std::string>* annotations_whitelist,
+                  const std::vector<std::pair<VMAddress, VMAddress>>*
+                      memory_range_whitelist,
                   VMAddress target_module_address,
                   bool sanitize_stacks);
 
@@ -95,6 +98,7 @@ class ProcessSnapshotSanitized final : public ProcessSnapshot {
 
   RangeSet address_ranges_;
   const ProcessSnapshot* snapshot_;
+  ProcessMemorySanitized process_memory_;
   const std::vector<std::string>* annotations_whitelist_;
   bool sanitize_stacks_;
   InitializationStateDcheck initialized_;
