@@ -215,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "ec72c0af_ba630cb4",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-15T01:02:39Z",
+      "side": 1,
+      "message": "So to make this work, another change has to be made in addition to your CL. Here is the file that I modified in order to successfully test this.\nhttps://chromium-review.googlesource.com/c/chromium/src/+/1754186",
+      "parentUuid": "8c957442_3cc8a162",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 1
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23f3d0cb_1736795a",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 1
