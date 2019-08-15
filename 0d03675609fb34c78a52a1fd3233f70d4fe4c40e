@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "8c957442_3cc8a162",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-15T00:51:18Z",
+      "side": 1,
+      "message": "Even when crash_loop_before_time is not zero, it should not be passed if the process types are \"renderer\", \"utility\", \"ppapi\", or \"zygote\". Since there is only one crash_loop_before_time, and the single crashpad_handler will get crashes from all different process types, this is necessary.",
+      "parentUuid": "6a12ecb4_54936398",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 1
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23f3d0cb_1736795a",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 1
