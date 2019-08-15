@@ -239,6 +239,30 @@
     },
     {
       "key": {
+        "uuid": "00ffd50e_9db272f1",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-15T20:19:07Z",
+      "side": 1,
+      "message": "Every process has its own copy of CrashpadClient where we set this value and the ClientInformation which carries the crash_loop_before_time to the crashpad_handler only applies to that process.\n\nChrome decides which processes should receive this flag here:\nhttps://osscs.corp.google.com/chromium/chromium/src/+/master:chrome/browser/chrome_content_browser_client.cc;l\u003d2243?q\u003dkCrashLoopBefore\u0026ss\u003dchromium\n\nSo, child processes which aren\u0027t included in that breakpad::ShouldPassCrashLoopBefore() call will never get the flag and leave their crash_loop_before_time \u003d 0.\n\nI\u0027m also sending out a CL to re-factor that a little bit:\nhttps://chromium-review.googlesource.com/c/chromium/src/+/1756423\n\nI\u0027m working on breaking up the prototype CL (and flag enabling it) now. I\u0027ll include your changes.",
+      "parentUuid": "ec72c0af_ba630cb4",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 1
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23f3d0cb_1736795a",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 1

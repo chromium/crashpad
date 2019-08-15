@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a84b9f96_434f299a",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-15T20:19:07Z",
+      "side": 1,
+      "message": "Crashpad convention is just \"readlink\"",
+      "range": {
+        "startLine": 48,
+        "startChar": 20,
+        "endLine": 48,
+        "endChar": 40
+      },
+      "revId": "f3e039c79820e3dfbd5b11a01ad064983fc81dd2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55eb5a5a_f977dafd",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-15T20:19:07Z",
+      "side": 1,
+      "message": "I think we\u0027ll want to record metrics for failure here too.\n\nWhat kind of work does crash_reporter do?\nNormally, we\u0027d record something like Metrics::CrashSkippedReason::kUploadFailed if Crashpad failed the upload. Maybe that\u0027d be appropriate.\n\nAlso, DoubleForkAndExec() is intended for situations where we explicitly *don\u0027t* want to be responsible for waiting for the child, but that also means we can\u0027t determine whether it ultimately succeeded or not. I think there\u0027s no reason Crashpad can\u0027t waitpid() for crash_reporter to finish and doing so would allow us to definitively record metrics about its success.",
+      "range": {
+        "startLine": 338,
+        "startChar": 0,
+        "endLine": 344,
+        "endChar": 5
+      },
+      "revId": "f3e039c79820e3dfbd5b11a01ad064983fc81dd2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
