@@ -291,10 +291,19 @@ class RequestCrashDumpHandler : public SignalHandler {
     ExceptionHandlerProtocol::ClientInformation info = {};
     info.exception_information_address =
         FromPointerCast<VMAddress>(&GetExceptionInfo());
+#if defined(OS_CHROMEOS)
+    info.crash_loop_before_time = crash_loop_before_time_;
+#endif
 
     ExceptionHandlerClient client(sock_to_handler_.get(), true);
     client.RequestCrashDump(info);
   }
+
+#if defined(OS_CHROMEOS)
+  void SetCrashLoopBefore(uint64_t crash_loop_before_time) {
+    crash_loop_before_time_ = crash_loop_before_time;
+  }
+#endif
 
  private:
   RequestCrashDumpHandler() = default;
@@ -302,6 +311,14 @@ class RequestCrashDumpHandler : public SignalHandler {
   ~RequestCrashDumpHandler() = delete;
 
   ScopedFileHandle sock_to_handler_;
+
+#if defined(OS_CHROMEOS)
+  // An optional UNIX timestamp passed to us from Chrome.
+  // This will pass to crashpad_handler and then to Chrome OS crash_reporter.
+  // This should really be a time_t, but it's basically an opaque value (we
+  // don't anything with it except pass it along).
+  uint64_t crash_loop_before_time_ = 0;
+#endif
 
   DISALLOW_COPY_AND_ASSIGN(RequestCrashDumpHandler);
 };
@@ -500,5 +517,13 @@ void CrashpadClient::SetFirstChanceExceptionHandler(
   DCHECK(SignalHandler::Get());
   SignalHandler::Get()->SetFirstChanceHandler(handler);
 }
+
+#if defined(OS_CHROMEOS)
+// static
+void CrashpadClient::SetCrashLoopBefore(uint64_t crash_loop_before_time) {
+  auto request_crash_dump_handler = RequestCrashDumpHandler::Get();
+  request_crash_dump_handler->SetCrashLoopBefore(crash_loop_before_time);
+}
+#endif
 
 }  // namespace crashpad
