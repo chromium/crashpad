@@ -17,7 +17,6 @@
 #include <sys/time.h>
 #include <time.h>
 
-#include <regex>
 #include <string>
 
 #include "build/build_config.h"
@@ -77,8 +76,7 @@ TEST_F(SystemSnapshotWinTest, CPUVendor) {
 #if defined(ARCH_CPU_X86_FAMILY)
   EXPECT_TRUE(cpu_vendor == "GenuineIntel" || cpu_vendor == "AuthenticAMD");
 #elif defined(ARCH_CPU_ARM64)
-  std::regex cpu_vendor_regex("[a-zA-Z0-9 \\-.]+");
-  EXPECT_TRUE(std::regex_match(cpu_vendor, cpu_vendor_regex));
+  EXPECT_FALSE(cpu_vendor.empty());
 #else
 #error Unsupported Windows Arch
 #endif
