@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2754e873_273ca51a",
+        "filename": "snapshot/sanitized/sanitization_information.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-08-15T19:39:11Z",
+      "side": 1,
+      "message": "Looks like DLOG(ERROR) is uncommon in crashpad, updated.",
+      "parentUuid": "c2d95ec4_e42c02e0",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 5
+      },
+      "revId": "8170358d7fc21fde23b0677595b6b204a987d466",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40cb1269_32b5904a",
         "filename": "snapshot/sanitized/sanitization_information.cc",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "8170358d7fc21fde23b0677595b6b204a987d466",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9b26472_48edbcdf",
+        "filename": "snapshot/sanitized/sanitization_information.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1238767
+      },
+      "writtenOn": "2019-08-15T19:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40cb1269_32b5904a",
+      "range": {
+        "startLine": 98,
+        "startChar": 7,
+        "endLine": 101,
+        "endChar": 70
+      },
+      "revId": "8170358d7fc21fde23b0677595b6b204a987d466",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
