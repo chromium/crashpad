@@ -263,6 +263,30 @@
     },
     {
       "key": {
+        "uuid": "ceaab2fc_6188e8a3",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-15T20:46:35Z",
+      "side": 1,
+      "message": "Ok. Based on what you described, the CrashpadClient or ClientInformation should carry the crash_loop_before_time to the crashpad_handler when a crash happens. I don\u0027t remember that part being implemented. Do you know which files need to be updated to do that?",
+      "parentUuid": "00ffd50e_9db272f1",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 1
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23f3d0cb_1736795a",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 1
