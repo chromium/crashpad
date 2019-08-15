@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d5cab9b2_30b52391",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-15T21:16:59Z",
+      "side": 1,
+      "message": "This signal handler is unique per process (and so the crash_loop_before_time_ value is too).\n\nclient.RequestCrashDump(info) sendmsg()s the info struct to the handler here:\nhttps://osscs.corp.google.com/chromium/chromium/src/+/master:third_party/crashpad/crashpad/util/linux/exception_handler_client.cc;l\u003d159?q\u003dexception_handler_client\u0026ss\u003dchromium",
+      "revId": "f3e039c79820e3dfbd5b11a01ad064983fc81dd2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a84b9f96_434f299a",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 4
