@@ -61,8 +61,14 @@ void GetStackRegions(
         << "stack range is unexpectedly marked executable, continuing anyway";
   }
 
+  // Rather than including the whole stack range (which can be huge) capture up
+  // to some reasonable amount from both sides of sp inside the mapping.
+  constexpr uint64_t kAroundSize = 4096;
+  uint64_t before_sp = std::max(range_with_sp.base, sp - kAroundSize);
+  uint64_t after_sp =
+      std::min(range_with_sp.base + range_with_sp.size, sp + kAroundSize);
   stack_regions->push_back(
-      CheckedRange<zx_vaddr_t, size_t>(range_with_sp.base, range_with_sp.size));
+      CheckedRange<zx_vaddr_t, size_t>(before_sp, after_sp - before_sp);
 
   // TODO(scottmg): https://crashpad.chromium.org/bug/196, once the retrievable
   // registers include FS and similar for ARM, retrieve the region for the
