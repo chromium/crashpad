@@ -1,0 +1,288 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22003b35_7254d27c",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-16T21:15:47Z",
+      "side": 1,
+      "message": "Please explicitly initialize at least initialized_() too.",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8874ae54_677575cf",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-16T21:15:47Z",
+      "side": 1,
+      "message": "This can fail. Handle it by testing for failure and logging the error. See elsewhere for logging guidance.",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee6860ad_20466b88",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-16T21:15:47Z",
+      "side": 1,
+      "message": "This becomes hard to use. The public API is Write() and Flush(). If a consumer has some data they need to push through this class, they’ll essentially allocate a ZlibOutputStream, do whatever it takes to Write(), and then call Flush(). But assume that they Write() chunks of data in a loop. If there’s no data to write at all, they’ll never call Write(). This should not be an error. The subsequent Flush() will trip this DCHECK.\n\nOverall, I’d say that your entire use of initialized_ is a bit freaky. Usually we consider “initialization” to be something that an external user would direct. Here, it’s more of a nonstandard implementation detail. Under that regime, it needs to be entirely transparent to the user.\n\nIn fact, what I’d suggest is that nothing about your Initialize() really needs to be broken out as something independent of the constructor at all. I’d move all of that initialization stuff into the constructor, which will simplify things considerably because initialized_ won’t need to exist and be checked at all. That’d resolve the complex interactions between initialized_ and flushed_. However, see below about the potential for Initialize() to fail. I’ll continue the discussion there.",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5836c12_f30eedeb",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-16T21:15:47Z",
+      "side": 1,
+      "message": "Possible to LOG(ERROR) something from zlib here?",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ceee6c7_34322ebd",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-16T21:15:47Z",
+      "side": 1,
+      "message": "This is a bad name for a variable per Google style. Did you mean “result?” If so, write it out.",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "175e0ccb_860a511b",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-16T21:15:47Z",
+      "side": 1,
+      "message": "This is pointless noise for an “enum class : bool”.",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 11
+      },
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cfacd3c_f9e03eed",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-16T21:15:47Z",
+      "side": 1,
+      "message": "Our style would not be to log the name of the function logging the error, but the name of the function that returned the error. Stylistically, we’d normally move logging up into where you call inflateInit() or deflateInit() above. For example:\n\n  if (mode \u003d\u003d Mode::kDecompress) {\n    res \u003d inflateInit(\u0026zlib_stream_);\n    if (res !\u003d Z_OK) {\n      LOG(ERROR) \u003c\u003c \"inflateInit: \" \u003c\u003c zlib_stream_.msg;\n      return;\n    }\n  } else {\n    // …\n\nBUT: if infliateInit() or deflateInit() fail, zlib_stream_ is not valid. In this case, unlike most other zlib calls, you can’t actually use zlib_stream_.msg at all.",
+      "range": {
+        "startLine": 81,
+        "startChar": 19,
+        "endLine": 81,
+        "endChar": 29
+      },
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da9d25ab_cff08047",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-16T21:15:47Z",
+      "side": 1,
+      "message": "The fact that this can fail silently is bad for callers of this interface. Callers need to know and test for an unusable object following initialization.\n\nIn Crashpad, the pattern that we follow in this case is a public bool Initialize() method that must be called before using the object. The constructor just sets a sane but unusable object state. Callers must call Initialize() and test its result, and not use any object that fails to initialize (propagating any error, if appropriate). We guard against use of uninitialized, failed-to-initialize, and destroyed objects with an InitializationStateDcheck (instead of an InitializationState). Because of its purpose-specific nature, InitializationStateDcheck comes with macros that are the approved interface for using them. Essentially:\n\n - via initializer:\n    - constructor sets state to uninitialized\n - via macros:\n   - Initialize() sets state to initializing at top, and sets state to initialized only upon successful initialization\n   - any other method than those listed here that requires an initialized object will DCHECK that the state is initialized\n - via destructor:\n   - destructor sets state to destroyed\n\nLook all around the Crashpad codebase for good examples of InitializationStateDcheck usgae.",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97e1f683_30dccd52",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-16T21:15:47Z",
+      "side": 1,
+      "message": "Google style: never use (c_style)casts, always use cplusplus\u003cstyle\u003e(casts).",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7408e870_4f15a4d3",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-16T21:15:47Z",
+      "side": 1,
+      "message": "Don’t invert logic like this. The natural form to test a variable against a constant is to list the variable first.",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecf8025d_f71e1a24",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-16T21:15:47Z",
+      "side": 1,
+      "message": "Log something about the error.",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16088fca_ea9ccee9",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-16T21:15:47Z",
+      "side": 1,
+      "message": "These overloads are confusing and undesirable.",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "023529d2_91621dca",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-16T21:15:47Z",
+      "side": 1,
+      "message": "Log something about the error.",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3487bbd9_1e66088e",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-16T21:15:47Z",
+      "side": 1,
+      "message": "Inflate() and Deflate() are almost identical. I wouldn’t separate them. I’d provide a single function whose operation is directed by mode_.",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3538a521_ea97f8f1",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-16T21:15:47Z",
+      "side": 1,
+      "message": "Why not uint8_t buffer_[4096]? We use C arrays all over Crashpad, and really never use std::array at all.",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "035e3ad9_98f490d6",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-16T21:15:47Z",
+      "side": 1,
+      "message": "Don’t abbreviate: stream_ or, even better, zlib_stream_.",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
