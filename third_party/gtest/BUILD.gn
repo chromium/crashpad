@@ -267,17 +267,6 @@ if (crashpad_is_in_chromium) {
   config("gmock_private_config") {
     visibility = [ ":*" ]
     include_dirs = [ "gtest/googlemock" ]
-    if (crashpad_is_clang && (crashpad_is_linux || crashpad_is_fuchsia)) {
-      cflags_cc = [
-        # This seems a bit questionable:
-        #   https://github.com/google/googletest/blob/bf6df7eaee5cfaafe2655fab143f348eba98c9af/googlemock/include/gmock/internal/gmock-internal-utils.h#L109
-        # and causes a warning/error on recent clangs (Linux/Fuchsia currently
-        # have this, other platforms don't yet).
-        # Temporarily disable this warning for building gmock tests until
-        # internal CL 263406158 lands and rolls.
-        "-Wno-signed-unsigned-wchar",
-      ]
-    }
   }
 
   config("gmock_public_config") {
