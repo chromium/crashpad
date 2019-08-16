@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "2f2b2fe7_f4752d9d",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-16T22:26:59Z",
+      "side": 1,
+      "message": "The purpose of DCHECK(flushed) is to prevent caller from calling Write() but not Flush(), I actually should have bool alert_flush_not_called \u003d false, turn it on in Write() and turn it off in Flush, and dcheck it destructor.\n\nIt seems not related to initialization, right?",
+      "parentUuid": "ee6860ad_20466b88",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c5836c12_f30eedeb",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 3
@@ -150,6 +168,24 @@
     },
     {
       "key": {
+        "uuid": "24f59884_a435aed0",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-16T22:26:59Z",
+      "side": 1,
+      "message": "I misunderstood the purpose of InitializationState, the caller has to check the initialized_ in my design. \n\nThe purpose to have initialized_ in first place is to call deflateEnd/inflateEnd in destruct and avoid to repeatedly call inflateInit/deflateInit.\n\nI don\u0027t want the Initialize() method to be part of interface, returning false from Write() should be enough, from my example of how to construct pipeline, Initialize() is redundant.\n\nAre you fine without Initialize()?\n\nIf so, IIUC, since both InitializationState and  InitializationStateDcheck requires caller to call Initialize() method, shall I just\n\n1. Declare bool initialized_\n2. Call inflateInit/deflateInit in constructor.\n3. Return false from Write() if initialization failed.\n4. Call deflateEnd/inflateEnd in destructor if initialization succeeded.\n\nWDYT?",
+      "parentUuid": "da9d25ab_cff08047",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "97e1f683_30dccd52",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 3
@@ -161,6 +197,24 @@
       "writtenOn": "2019-08-16T21:15:47Z",
       "side": 1,
       "message": "Google style: never use (c_style)casts, always use cplusplus\u003cstyle\u003e(casts).",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dcbaa0d_66b94345",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-16T22:26:59Z",
+      "side": 1,
+      "message": "We need a little bit hack here, using c++ style can\u0027t cast const to non-const, I will add comment here.",
+      "parentUuid": "97e1f683_30dccd52",
       "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -263,6 +317,24 @@
       "writtenOn": "2019-08-16T21:15:47Z",
       "side": 1,
       "message": "Why not uint8_t buffer_[4096]? We use C arrays all over Crashpad, and really never use std::array at all.",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "668947b5_73a9d075",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-16T22:26:59Z",
+      "side": 1,
+      "message": "I actually search crashpad code, std::array is used, but in test code, I supposed it could be used in crashpad.",
+      "parentUuid": "3538a521_ea97f8f1",
       "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
