@@ -311,6 +311,30 @@
     },
     {
       "key": {
+        "uuid": "ae6e8a20_0b825044",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-16T22:19:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed4479e3_c4c78121",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 1
+      },
+      "revId": "0d03675609fb34c78a52a1fd3233f70d4fe4c40e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23f3d0cb_1736795a",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 1

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b5df0326_382e6803",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-16T22:19:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d5cab9b2_30b52391",
+      "revId": "f3e039c79820e3dfbd5b11a01ad064983fc81dd2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a84b9f96_434f299a",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 4
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "32edbc25_0835ab1b",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-16T22:19:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a84b9f96_434f299a",
+      "range": {
+        "startLine": 48,
+        "startChar": 20,
+        "endLine": 48,
+        "endChar": 40
+      },
+      "revId": "f3e039c79820e3dfbd5b11a01ad064983fc81dd2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55eb5a5a_f977dafd",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 4
@@ -62,6 +104,30 @@
       "revId": "f3e039c79820e3dfbd5b11a01ad064983fc81dd2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2ee1946_34b4cbf9",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-16T22:19:39Z",
+      "side": 1,
+      "message": "Done.\nI\u0027m adding a log message and adding to the metrics \"kFinishedWritingCrashReportFailed\" if the invocation failed.\nI think that not waiting for crash_reporter here is appropriate. For Chrome OS, the crash_reporter is a bit of a misnomer, it doesn\u0027t upload the crashes. It just writes the crashes on a local directory and from there the crashes are queued to be uploaded, by another program the crash_sender, subject to rate limiting etc. Both the crash_reporter and crash_sender process all other kinds of crashes including kernel, services, anomaly etc. The crash_reporter failure are reported by itself.",
+      "parentUuid": "55eb5a5a_f977dafd",
+      "range": {
+        "startLine": 338,
+        "startChar": 0,
+        "endLine": 344,
+        "endChar": 5
+      },
+      "revId": "f3e039c79820e3dfbd5b11a01ad064983fc81dd2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
