@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82fb9b3c_0e83c8e7",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-08-17T00:23:46Z",
+      "side": 1,
+      "message": "The stack covers [range_with_sp.base, range_with_sp.base + range_with_sp.size]. The stack pointer (sp) can be anywhere in that range. It starts at the end of the range (range_with_sp.base + range_with_sp.size) and goes backwards until range_with_sp.base. We want to capture the part of the stack that is currently used, i.e. [sp, range_with_sp.base + range_with_sp.size].",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 12
+      },
+      "revId": "633a6f81d80f0044a3835888ef203cdd9017ab25",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4604eaad_f222eee1",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-08-17T00:23:46Z",
+      "side": 1,
+      "message": "// CheckedRange expects the beginning of the range (beyond_sp) and its size (range_high_address - beyond_sp), not the end of the range.",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 2
+      },
+      "revId": "633a6f81d80f0044a3835888ef203cdd9017ab25",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
