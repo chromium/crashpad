@@ -70,7 +70,12 @@ class ProcessSnapshotLinux final : public ProcessSnapshot {
   //!
   //! \param[in] exception_info The address of an ExceptionInformation in the
   //!     target process' address space.
-  bool InitializeException(LinuxVMAddress exception_info);
+  //! \param[in] exception_thread_id The thread ID to assocaite the thread with.
+  //!     Optional. If -1, the exception thread will be identified by the
+  //!     ExceptionInformation struct which contains the thread ID in the target
+  //!     process' namespace.
+  bool InitializeException(LinuxVMAddress exception_info,
+                           pid_t exception_thread_id = -1);
 
   //! \brief Sets the value to be returned by ReportID().
   //!

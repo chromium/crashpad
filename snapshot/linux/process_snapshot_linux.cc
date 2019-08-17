@@ -64,7 +64,8 @@ pid_t ProcessSnapshotLinux::FindThreadWithStackAddress(
 }
 
 bool ProcessSnapshotLinux::InitializeException(
-    LinuxVMAddress exception_info_address) {
+    LinuxVMAddress exception_info_address,
+    pid_t exception_thread_id) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   DCHECK(!exception_);
 
@@ -73,6 +74,10 @@ bool ProcessSnapshotLinux::InitializeException(
           exception_info_address, sizeof(info), &info)) {
     LOG(ERROR) << "Couldn't read exception info";
     return false;
+  }
+
+  if (exception_thread_id >= 0) {
+    info.thread_id = exception_thread_id;
   }
 
   exception_.reset(new internal::ExceptionSnapshotLinux());
