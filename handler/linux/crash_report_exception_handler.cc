@@ -95,13 +95,18 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
     return false;
   }
 
-  if (requesting_thread_id && requesting_thread_stack_address) {
-    *requesting_thread_id = process_snapshot.FindThreadWithStackAddress(
+  pid_t local_requesting_thread_id = -1;
+  if (requesting_thread_stack_address) {
+    local_requesting_thread_id = process_snapshot.FindThreadWithStackAddress(
         requesting_thread_stack_address);
   }
 
-  if (!process_snapshot.InitializeException(
-          info.exception_information_address)) {
+  if (requesting_thread_id) {
+    *requesting_thread_id = local_requesting_thread_id;
+  }
+
+  if (!process_snapshot.InitializeException(info.exception_information_address,
+                                            local_requesting_thread_id)) {
     Metrics::ExceptionCaptureResult(
         Metrics::CaptureResult::kExceptionInitializationFailed);
     return false;
