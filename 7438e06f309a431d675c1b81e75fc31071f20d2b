@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "d5dbdda5_82f51099",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1136770
+      },
+      "writtenOn": "2019-08-17T01:50:39Z",
+      "side": 1,
+      "message": "\u003e The purpose of DCHECK(flushed) is to prevent caller from calling Write() but not Flush(), I actually should have bool alert_flush_not_called \u003d false, turn it on in Write() and turn it off in Flush, and dcheck it destructor.\n\u003e \n\u003e It seems not related to initialization, right?\n\nThis should conceptually decoupled from initialization. I was discussing initialization becauseb your DCHECK(initialized_.is_valid()) on this line, as you’ve written the code, mandates that Write() (which has Initialize() as a side effect, and being the only way for anything outside of the class to trigger Initialize()) be called before FLush().\n\nI understand what you’re using flushed_ for. The problem is that it’s impossible to use this class as you’ve written it by (1) allocating a ZlibOutputStream, (2) not calling Write() (for example, because there’s no data to write), and then (3) calling Flush(). I gave an example scenario detailing when that pattern might occur.\n\nAs far as flushed_ goes, my recommendation would be to switch it to flush_needed_. In the constructor, you’d set flush_needed_ \u003d false. Whenever Write() is called, you’d set it to true. In Flush(), you’d set it to false. And in the destructor, you’d DCHECK(!flush_needed_).",
+      "parentUuid": "2f2b2fe7_f4752d9d",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c5836c12_f30eedeb",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 3
@@ -186,6 +204,24 @@
     },
     {
       "key": {
+        "uuid": "5ec762a2_1aa442fa",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1136770
+      },
+      "writtenOn": "2019-08-17T01:50:39Z",
+      "side": 1,
+      "message": "\u003e I misunderstood the purpose of InitializationState, the caller has to check the initialized_ in my design. \n\nThe caller can’t check initialized_ because it’s private and there’s no accessor. Nor should it be. Given these two:\n\nclass BadExample {\n public:\n  BadExample();\n\n  // You should call this before using \n  bool initialized() const { return initialized_; }\n\n private:\n  bool initialized_;\n};\n\nclass GoodExample {\n public:\n  GoodExample();\n  bool Initialize();\n};\n\nthe second, “good”, example, is far easier to use. Its intent and usage is much more clear just from the declarations without any comments. It’s much more likely to be implemented and used correctly.\n\n\u003e The purpose to have initialized_ in first place is to call deflateEnd/inflateEnd in destruct and avoid to repeatedly call inflateInit/deflateInit.\n\u003e\n\u003e I don\u0027t want the Initialize() method to be part of interface, returning false from Write() should be enough, from my example of how to construct pipeline, Initialize() is redundant.\n\nBut Initialize() would be canonical and expected in this codebase. It’s how we deal with object initialization where the initialization can fail and so a constructor alone is insufficient.\n\n\u003e Are you fine without Initialize()?\n\nWhat I’d suggest to you, if you want to make it possible to Write() into a newly constructed object immediately without requiring an intervening call, would be to eliminate the confusing distinct Initialize() method and move what you’re now calling “initialization” into Write(). You would still use a private bool to track whether this needs to be done.\n\n\u003e If so, IIUC, since both InitializationState and  InitializationStateDcheck requires caller to call Initialize() method, shall I just\n\u003e \n\u003e 1. Declare bool initialized_\n\u003e 2. Call inflateInit/deflateInit in constructor.\n\nDon’t call anything that can fail in the constructor.\n\n\u003e 3. Return false from Write() if initialization failed.\n\u003e 4. Call deflateEnd/inflateEnd in destructor if initialization succeeded.\n\nYour two options are to use a traditional public bool Initialize(), or to not have Initialize() at all, but put inflateInit() and deflateInit() into Write(), guarded by a bool member variable. If you have a bool Initialize(), callers will be expected to check the return value. If not, callers are still expected to check Write()’s return value. Please take care to check all return values of calls into library code as well as calls into other Crashpad code and your new code, logging per local convention as appropriate, and handling or propagating as needed.",
+      "parentUuid": "24f59884_a435aed0",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "97e1f683_30dccd52",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 3
@@ -215,6 +251,24 @@
       "side": 1,
       "message": "We need a little bit hack here, using c++ style can\u0027t cast const to non-const, I will add comment here.",
       "parentUuid": "97e1f683_30dccd52",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb27b305_b9cebeb9",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1136770
+      },
+      "writtenOn": "2019-08-17T01:50:39Z",
+      "side": 1,
+      "message": "\u003e We need a little bit hack here\n\nDon’t be so quick to reach for a hack. Or for a style guide violation.\n\nMost style rules exist for a reason, even if the reasons aren’t immediately apparent.\n\n\u003e using c++ style can\u0027t cast const to non-const, I will add comment here.\n\nTe correct solution when you need to cast for two reasons is to use two casts. If you search the Crashpad source code for cast.*cast, you’ll find numerous hits. You shouldn’t find any C-style casts.\n\nBecause C-style casts are so powerful, they’re more dangerous. If the types involved change, a C-style cast won’t let you know if the types of cast operations performed have become riskier. C++-style casts, because they are explicit, will result in an error in this case, allowing the programmer to consider proper handling.",
+      "parentUuid": "2dcbaa0d_66b94345",
       "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -335,6 +389,24 @@
       "side": 1,
       "message": "I actually search crashpad code, std::array is used, but in test code, I supposed it could be used in crashpad.",
       "parentUuid": "3538a521_ea97f8f1",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9650d98_358f239c",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1136770
+      },
+      "writtenOn": "2019-08-17T01:50:39Z",
+      "side": 1,
+      "message": "\u003e I actually search crashpad code, std::array is used, but in test code, I supposed it could be used in crashpad.\n\nIt’s very uncommon in Crashpad.",
+      "parentUuid": "668947b5_73a9d075",
       "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
