@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b2724f00_a4cfe80d",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-17T21:02:18Z",
+      "side": 1,
+      "message": "Could you explain why the explicit initialization is preferred or this is just convention?\n\nFrom chromium\u0027s style, this is not needed, I think it is simple https://chromium.googlesource.com/chromium/src/+/master/styleguide/c++/c++-dos-and-donts.md#initialize-members-in-the-declaration-where-possible",
+      "parentUuid": "22003b35_7254d27c",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8874ae54_677575cf",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3f1a204_ec1c04bc",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-17T21:02:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8874ae54_677575cf",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -89,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "fe43c741_975ace72",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-17T21:02:18Z",
+      "side": 1,
+      "message": "used flush_needed_",
+      "parentUuid": "d5dbdda5_82f51099",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c5836c12_f30eedeb",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 3
@@ -106,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "70ac7ea3_8b76f10f",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-17T21:02:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5836c12_f30eedeb",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ceee6c7_34322ebd",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 3
@@ -120,6 +192,24 @@
       "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4ee8e3f_30fad3dc",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-17T21:02:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ceee6c7_34322ebd",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -146,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "5375201b_cbcbebd5",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-17T21:02:18Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "175e0ccb_860a511b",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 11
+      },
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0cfacd3c_f9e03eed",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 3
@@ -166,6 +280,30 @@
       "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83bf10e9_5410eb51",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-17T21:02:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cfacd3c_f9e03eed",
+      "range": {
+        "startLine": 81,
+        "startChar": 19,
+        "endLine": 81,
+        "endChar": 29
+      },
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -216,6 +354,24 @@
       "side": 1,
       "message": "\u003e I misunderstood the purpose of InitializationState, the caller has to check the initialized_ in my design. \n\nThe caller can’t check initialized_ because it’s private and there’s no accessor. Nor should it be. Given these two:\n\nclass BadExample {\n public:\n  BadExample();\n\n  // You should call this before using \n  bool initialized() const { return initialized_; }\n\n private:\n  bool initialized_;\n};\n\nclass GoodExample {\n public:\n  GoodExample();\n  bool Initialize();\n};\n\nthe second, “good”, example, is far easier to use. Its intent and usage is much more clear just from the declarations without any comments. It’s much more likely to be implemented and used correctly.\n\n\u003e The purpose to have initialized_ in first place is to call deflateEnd/inflateEnd in destruct and avoid to repeatedly call inflateInit/deflateInit.\n\u003e\n\u003e I don\u0027t want the Initialize() method to be part of interface, returning false from Write() should be enough, from my example of how to construct pipeline, Initialize() is redundant.\n\nBut Initialize() would be canonical and expected in this codebase. It’s how we deal with object initialization where the initialization can fail and so a constructor alone is insufficient.\n\n\u003e Are you fine without Initialize()?\n\nWhat I’d suggest to you, if you want to make it possible to Write() into a newly constructed object immediately without requiring an intervening call, would be to eliminate the confusing distinct Initialize() method and move what you’re now calling “initialization” into Write(). You would still use a private bool to track whether this needs to be done.\n\n\u003e If so, IIUC, since both InitializationState and  InitializationStateDcheck requires caller to call Initialize() method, shall I just\n\u003e \n\u003e 1. Declare bool initialized_\n\u003e 2. Call inflateInit/deflateInit in constructor.\n\nDon’t call anything that can fail in the constructor.\n\n\u003e 3. Return false from Write() if initialization failed.\n\u003e 4. Call deflateEnd/inflateEnd in destructor if initialization succeeded.\n\nYour two options are to use a traditional public bool Initialize(), or to not have Initialize() at all, but put inflateInit() and deflateInit() into Write(), guarded by a bool member variable. If you have a bool Initialize(), callers will be expected to check the return value. If not, callers are still expected to check Write()’s return value. Please take care to check all return values of calls into library code as well as calls into other Crashpad code and your new code, logging per local convention as appropriate, and handling or propagating as needed.",
       "parentUuid": "24f59884_a435aed0",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fbf4cff_21e0e7ff",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-17T21:02:18Z",
+      "side": 1,
+      "message": "I kind of combine them, I have bool Initialize() but it is private, so Write() method won\u0027t be too long.",
+      "parentUuid": "5ec762a2_1aa442fa",
       "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -275,6 +431,24 @@
     },
     {
       "key": {
+        "uuid": "c6a12d9b_6fc96e1a",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-17T21:02:18Z",
+      "side": 1,
+      "message": "I supposed that you refer to const_cast.",
+      "parentUuid": "eb27b305_b9cebeb9",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7408e870_4f15a4d3",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 3
@@ -286,6 +460,24 @@
       "writtenOn": "2019-08-16T21:15:47Z",
       "side": 1,
       "message": "Don’t invert logic like this. The natural form to test a variable against a constant is to list the variable first.",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0bf8069_89a2c6f5",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-17T21:02:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7408e870_4f15a4d3",
       "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -309,6 +501,24 @@
     },
     {
       "key": {
+        "uuid": "0890ec38_1ac9f8de",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-17T21:02:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecf8025d_f71e1a24",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16088fca_ea9ccee9",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 3
@@ -320,6 +530,24 @@
       "writtenOn": "2019-08-16T21:15:47Z",
       "side": 1,
       "message": "These overloads are confusing and undesirable.",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "319c18fc_4f29fe12",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-17T21:02:18Z",
+      "side": 1,
+      "message": "combined",
+      "parentUuid": "16088fca_ea9ccee9",
       "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -343,6 +571,24 @@
     },
     {
       "key": {
+        "uuid": "c60c8c49_bd8f1cca",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-17T21:02:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "023529d2_91621dca",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3487bbd9_1e66088e",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 3
@@ -357,6 +603,24 @@
       "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a45edbde_604ce54b",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-17T21:02:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3487bbd9_1e66088e",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -413,6 +677,24 @@
     },
     {
       "key": {
+        "uuid": "5b51e794_0711f88a",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-17T21:02:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9650d98_358f239c",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "035e3ad9_98f490d6",
         "filename": "util/stream/zlib_output_stream.h",
         "patchSetId": 3
@@ -427,6 +709,24 @@
       "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2592c19e_473b4fef",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-17T21:02:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "035e3ad9_98f490d6",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
