@@ -448,6 +448,7 @@ bool ExceptionHandlerServer::HandleCrashDumpRequest(
     bool multiple_clients) {
   pid_t client_process_id = creds.pid;
   pid_t requesting_thread_id = -1;
+  uid_t client_uid = creds.uid;
 
   switch (
       strategy_decider_->ChooseStrategy(client_sock, multiple_clients, creds)) {
@@ -469,6 +470,7 @@ bool ExceptionHandlerServer::HandleCrashDumpRequest(
 
     case PtraceStrategyDecider::Strategy::kDirectPtrace: {
       delegate_->HandleException(client_process_id,
+                                 client_uid,
                                  client_info,
                                  requesting_thread_stack_address,
                                  &requesting_thread_id);
@@ -482,7 +484,7 @@ bool ExceptionHandlerServer::HandleCrashDumpRequest(
     case PtraceStrategyDecider::Strategy::kUseBroker:
       DCHECK(!multiple_clients);
       delegate_->HandleExceptionWithBroker(
-          client_process_id, client_info, client_sock);
+          client_process_id, client_uid, client_info, client_sock);
       break;
   }
 
