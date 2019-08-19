@@ -61,8 +61,21 @@ void GetStackRegions(
         << "stack range is unexpectedly marked executable, continuing anyway";
   }
 
-  stack_regions->push_back(
-      CheckedRange<zx_vaddr_t, size_t>(range_with_sp.base, range_with_sp.size));
+  // The stack covers [range_with_sp.base, range_with_sp.base +
+  // range_with_sp.size). The stack pointer (sp) can be anywhere in that range.
+  // It starts at the end of the range (range_with_sp.base + range_with_sp.size)
+  // and goes downwards until range_with_sp.base. Capture the part of the stack
+  // that is currently used: [sp, range_with_sp.base + range_with_sp.size).
+  constexpr uint64_t kSlop = 128;
+  // Capture a bit beyond the stack pointer for red zones, etc.
+  if (sp < kSlop) {
+    LOG(ERROR) << "very small stack pointer (" << sp << "), aborting";
+    return;
+  }
+  const uint64_t beyond_sp = std::max(range_with_sp.base, sp - kSlop);
+  const uint64_t range_high_address = range_with_sp.base + range_with_sp.size;
+  stack_regions->push_back(CheckedRange<zx_vaddr_t, size_t>(
+      beyond_sp, range_high_address - beyond_sp));
 
   // TODO(scottmg): https://crashpad.chromium.org/bug/196, once the retrievable
   // registers include FS and similar for ARM, retrieve the region for the
