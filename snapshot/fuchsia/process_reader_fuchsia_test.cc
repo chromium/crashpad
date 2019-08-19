@@ -174,7 +174,8 @@ class ThreadsChildTest : public MultiprocessExec {
 
     for (size_t i = 1; i < 6; ++i) {
       ASSERT_GT(threads[i].stack_regions.size(), 0u);
-      EXPECT_EQ(threads[i].stack_regions[0].size(), i * 4096u);
+      EXPECT_GT(threads[i].stack_regions[0].size(), 0u);
+      EXPECT_LE(threads[i].stack_regions[0].size(), i * 4096u);
     }
   }
 
