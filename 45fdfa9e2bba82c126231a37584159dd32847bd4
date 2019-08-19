@@ -16,6 +16,24 @@
       "revId": "45fdfa9e2bba82c126231a37584159dd32847bd4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "154e77ed_2531f1bf",
+        "filename": "snapshot/linux/process_snapshot_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-19T18:10:34Z",
+      "side": 1,
+      "message": "Modifying info.thread_id directly seemed okay to me because the struct is scoped to this method.\n\nThe way I\u0027ve thought about this is that the thread IDs used in the handler should always (unless we have a specific reason to do otherwise) be the IDs in the handler\u0027s namespace (so that they can be used in system calls). Any time we read a thread ID from the crasher\u0027s memory, we need to translate it since the OS isn\u0027t doing it for us. If the dump wasn\u0027t requested by a message (so this value isn\u0027t being overriden), it\u0027s because the was launched to dump its parent, so info.thread_id can already be expected to be correct in the handler\u0027s namespace.",
+      "parentUuid": "05d659ba_110c9d71",
+      "revId": "45fdfa9e2bba82c126231a37584159dd32847bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
