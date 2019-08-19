@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e8d44f41_dea4e09b",
+        "filename": "util/stream/output_stream_interface.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-19T23:58:17Z",
+      "side": 1,
+      "message": "I thought we have agreement on this implementation that is inline all implementation. (https://chromium-review.googlesource.com/c/crashpad/crashpad/+/1745355/1/util/stream/output_stream.cc)\n\nShall I go back to my previous suggestion, like below\n\nOutputStreamInterface (pure interface)\n\nOutputStreamBase : public OutputStreamInterface  {\n\n public:\n  OutputStreamInterface* GetOutputStreamForTesting() const {\n    return output_stream_.get();\n  }\n  \n protected:\n  OutputStreamInterface* output_stream() {\n      return output_stream_.get();\n  }\n\n private:\n  std::unique_ptr\u003cOutputStreamInterface\u003e output_stream_;\n}\n\nZlibOutputStream : public OutputStreamBase {\n}\n\nPlease help to confirm this.",
+      "parentUuid": "ce70731a_d0282bc5",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3965908b_44c8fb18",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 5
@@ -87,6 +105,24 @@
       "writtenOn": "2019-08-19T21:30:36Z",
       "side": 1,
       "message": "Furthermore, with this structure, you actually can benefit from the non-DCHECK variant of InitializationState, because it’ll protect you against interface abuse if Write() fails due to inflateInit()/deflateInit() failing. You shouldn’t ever have to attempt to call those more than once.\n\nThis gives you much more control and better protection against interface abuse than a simple bool.\n\nHere’s how InitializationState is intended to be used in this situation:\n\nclass ZlibOutputStream {\n public:\n  bool ZlibOutputStream::Write(const uint8_t* data, size_t size) {\n    if (initialized_.is_uninitialized()) {\n      initialized_.set_invalid();\n\n      // do initialization stuff, return early if there’s a failure.\n      // if no failure:\n      initialized_.set_valid();\n    }\n\n    if (!initialized_.is_valid()) {\n      return false;\n    }\n  }\n\n private:\n  InitializationState initialized_;\n};",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "643d8744_3c1db734",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-19T23:58:17Z",
+      "side": 1,
+      "message": "This is very similar with patchset #3, just want to confirm you are fine to use InitializationState even without public Initialize() method, correct?",
+      "parentUuid": "3634a05f_393c608a",
       "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -309,6 +345,24 @@
       "writtenOn": "2019-08-19T21:30:36Z",
       "side": 1,
       "message": "I can’t imagine why you would even need this. This is the kind of thing that it’s OK to write in-line in the test. But if you absolutely insist, this doesn’t make use of any object context at all, so it shouldn’t be const, it should be static.",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4476fcdf_f0f65542",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-19T23:58:17Z",
+      "side": 1,
+      "message": "In the test, I test the compressed data is less or larger than the buffer. It return the length of the buffer, and can\u0027t be static, right?",
+      "parentUuid": "1b539d75_2f92e54f",
       "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
