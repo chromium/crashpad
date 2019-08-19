@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05d659ba_110c9d71",
+        "filename": "snapshot/linux/process_snapshot_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T17:59:19Z",
+      "side": 1,
+      "message": "info.thread_id is now ambiguous, since you can’t tell whose namespace it’s relative to.",
+      "revId": "45fdfa9e2bba82c126231a37584159dd32847bd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
