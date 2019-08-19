@@ -108,6 +108,7 @@ class TestDelegate : public ExceptionHandlerServer::Delegate {
   }
 
   bool HandleException(pid_t client_process_id,
+                       uid_t client_uid,
                        const ExceptionHandlerProtocol::ClientInformation& info,
                        VMAddress requesting_thread_stack_address,
                        pid_t* requesting_thread_id = nullptr,
@@ -141,6 +142,7 @@ class TestDelegate : public ExceptionHandlerServer::Delegate {
 
   bool HandleExceptionWithBroker(
       pid_t client_process_id,
+      uid_t client_uid,
       const ExceptionHandlerProtocol::ClientInformation& info,
       int broker_sock,
       UUID* local_report_id = nullptr) override {

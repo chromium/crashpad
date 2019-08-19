@@ -509,6 +509,12 @@ class ScopedStoppable {
 int HandlerMain(int argc,
                 char* argv[],
                 const UserStreamDataSources* user_stream_sources) {
+#if defined(OS_CHROMEOS)
+  if (freopen("/var/log/chrome/chrome", "a", stderr) == nullptr) {
+    PLOG(ERROR) << "Failed to redirect stderr to /var/log/chrome/chrome";
+  }
+#endif
+
   InstallCrashHandler();
   CallMetricsRecordNormalExit metrics_record_normal_exit;
 
@@ -900,8 +906,9 @@ int HandlerMain(int argc,
     info.exception_information_address = options.exception_information_address;
     info.sanitization_information_address =
         options.sanitization_information_address;
-    return exception_handler.HandleException(getppid(), info) ? EXIT_SUCCESS
-                                                              : ExitFailure();
+    return exception_handler.HandleException(getppid(), geteuid(), info)
+               ? EXIT_SUCCESS
+               : ExitFailure();
   }
 #endif  // OS_LINUX || OS_ANDROID
 
