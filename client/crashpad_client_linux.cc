@@ -284,7 +284,17 @@ class RequestCrashDumpHandler : public SignalHandler {
       return false;
     }
     sock_to_handler_.reset(sock.release());
+    handler_pid_ = pid;
     return Install();
+  }
+
+  bool GetHandlerSocket(int* sock, pid_t* pid) {
+    if (!sock_to_handler_.is_valid()) {
+      return false;
+    }
+    *sock = sock_to_handler_.get();
+    *pid = handler_pid_;
+    return true;
   }
 
   void HandleCrashImpl() override {
@@ -302,6 +312,7 @@ class RequestCrashDumpHandler : public SignalHandler {
   ~RequestCrashDumpHandler() = delete;
 
   ScopedFileHandle sock_to_handler_;
+  pid_t handler_pid_ = -1;
 
   DISALLOW_COPY_AND_ASSIGN(RequestCrashDumpHandler);
 };
@@ -342,6 +353,20 @@ bool CrashpadClient::StartHandler(
   auto signal_handler = RequestCrashDumpHandler::Get();
   return signal_handler->Initialize(std::move(client_sock), -1);
 }
+
+#if defined(OS_ANDROID) || defined(OS_LINUX)
+// static
+bool CrashpadClient::GetHandlerSocket(int* sock, pid_t* pid) {
+  auto signal_handler = RequestCrashDumpHandler::Get();
+  return signal_handler->GetHandlerSocket(sock, pid);
+}
+
+// static
+bool CrashpadClient::SetHandlerSocket(ScopedFileHandle sock, pid_t pid) {
+  auto signal_handler = RequestCrashDumpHandler::Get();
+  return signal_handler->Initialize(std::move(sock), pid);
+}
+#endif  // OS_ANDROID || OS_LINUX
 
 #if defined(OS_ANDROID)
 

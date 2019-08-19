@@ -24,6 +24,7 @@
 #include "base/files/file_path.h"
 #include "base/macros.h"
 #include "build/build_config.h"
+#include "util/file/file_io.h"
 #include "util/misc/capture_context.h"
 
 #if defined(OS_MACOSX)
@@ -115,6 +116,30 @@ class CrashpadClient {
                     const std::vector<std::string>& arguments,
                     bool restartable,
                     bool asynchronous_start);
+
+#if defined(OS_ANDROID) || defined(OS_LINUX) || DOXYGEN
+  //! \brief Retrieve the socket and process ID for the handler.
+  //!
+  //! `StartHandler()` must have successfully been called before calling this
+  //!     method.
+  //!
+  //! \param[out] sock The socket connected to the handler.
+  //! \param[out] pid The handler's process ID.
+  //! \return `true` on success. Otherwise `false` with a message logged.
+  static bool GetHandlerSocket(int* sock, pid_t* pid);
+
+  //! \brief Sets the socket to a presumably-running Crashpad handler process
+  //!      which was started with StartHandler().
+  //!
+  //! This method installs a signal handler to request crash dumps on \a sock.
+  //!
+  //! \param[in] sock A socket connected to a Crashpad handler.
+  //! \param[in] pid The process ID of the handler, used to set the handler as
+  //!     this process' ptracer. 0 indicates it is not necessary to set the
+  //!     handler as this process' ptracer. -1 indicates that the handler's
+  //!     process ID should be determined by communicating over the socket.
+  static bool SetHandlerSocket(ScopedFileHandle sock, pid_t pid);
+#endif  // OS_ANDROID || OS_LINUX || DOXYGEN
 
 #if defined(OS_ANDROID) || DOXYGEN
   //! \brief Installs a signal handler to execute `/system/bin/app_process` and
