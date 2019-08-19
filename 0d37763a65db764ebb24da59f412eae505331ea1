@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bcf8275_0fc356d6",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-19T17:32:42Z",
+      "side": 1,
+      "message": "handler",
+      "range": {
+        "startLine": 571,
+        "startChar": 12,
+        "endLine": 571,
+        "endChar": 19
+      },
+      "revId": "0d37763a65db764ebb24da59f412eae505331ea1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c42791db_0addfbbe",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-19T17:32:42Z",
+      "side": 1,
+      "message": "Maybe this isn\u0027t a big deal right now since we\u0027ve been doing things this way, but I think there\u0027s no reason someone couldn\u0027t put a \":\" in the name of their crash-key which could confuse crash_reporter trying to parse these keys.",
+      "range": {
+        "startLine": 66,
+        "startChar": 28,
+        "endLine": 66,
+        "endChar": 29
+      },
+      "revId": "0d37763a65db764ebb24da59f412eae505331ea1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0844970e_6835bf2b",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-19T17:32:42Z",
+      "side": 1,
+      "message": "#endif  // OS_CHROMEOS",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 6
+      },
+      "revId": "0d37763a65db764ebb24da59f412eae505331ea1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4aa7ac32_6b380915",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-19T17:32:42Z",
+      "side": 1,
+      "message": "Intended to differentiate between breakpad and crashpad reports while we ramp up?",
+      "range": {
+        "startLine": 303,
+        "startChar": 4,
+        "endLine": 303,
+        "endChar": 52
+      },
+      "revId": "0d37763a65db764ebb24da59f412eae505331ea1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
