@@ -1,0 +1,351 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce70731a_d0282bc5",
+        "filename": "util/stream/output_stream_interface.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "I had asked that the member be removed from this class so that it could serve as a pure interface. There are two style points that address this:\n\n1. Quite literally, interfaces must be pure and not bear their own data members or have their own implementations, except for a protected destructor as needed.\n\n2. Protected data members are prohibited.\n\nHere’s the discussion we had on this point: https://chromium-review.googlesource.com/c/1745355/1/util/stream/output_stream.h#47. The part that we discussed was restricted solely to the use of the protected virtual destructor (which, to reiterate the above, is permitted to exist and have an implementation even in an interface class). That doesn’t constitute a waiver to permit a constructor implementation or any data members in this class.\n\noutput_stream_ should not be here (it belongs in the subclasses, and each subclass may manage as needed), nor should GetOutputStreamForTesting(). The only constructor should be a no-argument \u003ddefault. This header should not #include \u003cmemory\u003e.",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3965908b_44c8fb18",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "Put the constant second. Same on lines 36, 53, and 59.\n\nI definitely mentioned this previously: https://chromium-review.googlesource.com/c/1745355/3/util/stream/zlib_output_stream.cc#96. When I call something like this out, I intend for it to be corrected throughout the change, even if I haven’t explicitly noted all of the locations that need to be revised.",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f751ff0f_53b451d9",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "1. Our style is simply \"deflateEnd: \" \u003c\u003c zlib_stream_.msg;\n\n2. Note the correct spelling of deflateEnd.\n\nSame on lines 38, 54, 60, 77, and 85.",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fa1839f_c87ea407",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "As previously discussed, I’m not a big fan of this. I’d feel somewhat differently if Initialize() were reachable any way other than a direct call to Write(). But since it’s essentially just hoisting a bit of conditionalized code out of Write(), I think it just makes things harder to follow.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 19
+      },
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3634a05f_393c608a",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "Furthermore, with this structure, you actually can benefit from the non-DCHECK variant of InitializationState, because it’ll protect you against interface abuse if Write() fails due to inflateInit()/deflateInit() failing. You shouldn’t ever have to attempt to call those more than once.\n\nThis gives you much more control and better protection against interface abuse than a simple bool.\n\nHere’s how InitializationState is intended to be used in this situation:\n\nclass ZlibOutputStream {\n public:\n  bool ZlibOutputStream::Write(const uint8_t* data, size_t size) {\n    if (initialized_.is_uninitialized()) {\n      initialized_.set_invalid();\n\n      // do initialization stuff, return early if there’s a failure.\n      // if no failure:\n      initialized_.set_valid();\n    }\n\n    if (!initialized_.is_valid()) {\n      return false;\n    }\n  }\n\n private:\n  InitializationState initialized_;\n};",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e033dc0_69196b21",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "This is better now.\n\nHowever:\n\n1. #define ZLIB_CONST or the equivalent in the build configuration would be even better than const_cast.\n\n2. If you broke the insistence on using void* for data and instead operated on uint8_t*, which is perfectly reasonable for byte-oriented data, you’d eliminate the need for the static_cast too.",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33d21127_c46793df",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "What’s the desired handling if you reach Z_STREAM_END but continue to feed data into zlib? That input will be unconsumed.\n\nBy the same token, if you reach Z_STREAM_END with zlib_stream_.avail_in nonzero, there was unconsumed input to the decompressor.\n\nYou should handle these cases.",
+      "range": {
+        "startLine": 59,
+        "startChar": 28,
+        "endLine": 59,
+        "endChar": 50
+      },
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb41f501_58d9f549",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "The proper construct to clarify that you insist that the loop run at least once is not this, but\n\n  do {} while (condition);",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fbde7e9_89ec28c4",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "Not Z_OK?",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a3b650b_18320ff5",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "If you did want to memset(), you would do it much more easily from the constructor, by specifying in the initializer list: zlib_stream_().\n\nBut you don’t actually need to zero out the entire struct. inflateInit() and deflateInit() will set the entirety of the struct up appropriately, you only need to set a few values. See the zlib manual and our other zlib-using implementation in util/net/http_body_gzip.cc.",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b469060_8507ff72",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "#include \"util/misc/zlib.h\" and use:\n\n\"inflateInit: \" \u003c\u003c ZlibErrorString(result);\n\nBecause you’re writing zlib code, please familiarize yourself with util/misc/zlib.h and our other zlib user, util/net/http_body_gzip.{cc,h}. You will very likely find some valuable ideas hiding in both the interface and implementation.\n\nSame on line 104.",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4556b5f_d8358a12",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "This simplifies to:\n\n  if (valid_size \u003e 0 \u0026\u0026 !output_stream_-\u003eWrite(buffer_, valid_size))",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 52
+      },
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a789b007_068f0ba7",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "Not for now, but for later:\n\nSpeaking of util/net/http_body_gzip.cc, it would be good if that could be based on this implementation once your work on this change is wrapped up. There’s no reason to have two different codepaths that drive zlib, when this can be adapted to serve both users’ needs.",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb6a4ed8_148c3037",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "With the anticipated usage, I expect that putting the Mode parameter first will make for more readable call sites.\n\nFor an example call site, see your \u003ccode\u003e at https://chromium-review.googlesource.com/c/1745355/5/util/stream/output_stream_interface.h#53. Putting mode last separates the ZlibOutputStream::Mode option away from the ZlibOutputStream token responsible for constructing the object. With intervening Base94OutputStream and LogOutputStream, it becomes unnecessarily difficult to see which mode goes with which constructor.\n\nYou will need to rewrite that example to correspond to this code change.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 30
+      },
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "886b9724_ffa3aa79",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "override",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ec738cf_f223599d",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "// OutputStreamInterface:\n\n(missing colon)",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b539d75_2f92e54f",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "I can’t imagine why you would even need this. This is the kind of thing that it’s OK to write in-line in the test. But if you absolutely insist, this doesn’t make use of any object context at all, so it shouldn’t be const, it should be static.",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "189159e3_73bda027",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "What is strm_? Same on line 54.",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aeb7b1f_823381ec",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T21:30:36Z",
+      "side": 1,
+      "message": "#include \u003cstdint.h\u003e",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
