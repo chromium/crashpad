@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67027a4f_80af13f2",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-19T18:01:55Z",
+      "side": 1,
+      "message": "\u003d -1;",
+      "revId": "3a5c3ad7cb89be0fce641ae78712120f0da7a913",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
