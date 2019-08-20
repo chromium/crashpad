@@ -332,6 +332,24 @@
     },
     {
       "key": {
+        "uuid": "ef76e37e_e42162dd",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-20T18:44:34Z",
+      "side": 1,
+      "message": "This is interesting, I update the patch, let me know if it is what you are thinking, personally, I don\u0027t expect to find this definition in BUILD.gn.",
+      "parentUuid": "f626da78_cb24ac21",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "33d21127_c46793df",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 5
