@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "593bb014_5ab7c5ca",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-20T18:27:57Z",
+      "side": 1,
+      "message": "I think this is fine while we\u0027re testing this out, but I think it\u0027d be better to not have this restriction long-term. It would be easy for someone to add a crash-key with a colon, which would break all crash-reports containing that key. This wouldn\u0027t necessarily be apparent during development because they key might only be present in certain situations, resulting in crash reports somewhat quietly disappearing.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 5
+      },
+      "revId": "726ab2a6553954ac3ade3b4f14272c58e7f3c85a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
