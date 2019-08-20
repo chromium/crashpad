@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "48c0c4da_2e1a7650",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-20T22:17:45Z",
+      "side": 1,
+      "message": "1) the location seems random in chromium.\n\n2) OMG, I see what you meant, I shall figure out ZLIB_CONST should be something that is used in zlib.",
+      "parentUuid": "2af1b057_413fa283",
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c13bd7bb_b93c4241",
         "filename": "util/stream/output_stream_interface.h",
         "patchSetId": 7
@@ -39,6 +57,30 @@
       "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6775c92_478fd68b",
+        "filename": "util/stream/output_stream_interface.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-20T22:17:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c13bd7bb_b93c4241",
+      "range": {
+        "startLine": 52,
+        "startChar": 42,
+        "endLine": 52,
+        "endChar": 53
+      },
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "a7ae2e52_4ad664a2",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-20T22:17:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3864557_592e1e9f",
+      "range": {
+        "startLine": 37,
+        "startChar": 21,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12f4be12_2c30f179",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 7
@@ -79,6 +145,24 @@
       "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f75ba4a1_4d9bcfbc",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-20T22:17:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "12f4be12_2c30f179",
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "2e09d04c_3c65692b",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-20T22:17:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4170ccf_769130be",
+      "range": {
+        "startLine": 85,
+        "startChar": 34,
+        "endLine": 85,
+        "endChar": 62
+      },
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "560620a4_03a50373",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 7
@@ -119,6 +227,24 @@
       "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ac90ff8_e33340f5",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-20T22:17:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "560620a4_03a50373",
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "4385dfc0_525f6376",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-20T22:17:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ab2f3b2_c503b005",
+      "range": {
+        "startLine": 41,
+        "startChar": 29,
+        "endLine": 41,
+        "endChar": 74
+      },
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0fb39b5_c9cc767f",
         "filename": "util/stream/zlib_output_stream.h",
         "patchSetId": 7
@@ -165,6 +315,30 @@
       "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "002d2ac8_33f08031",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-20T22:17:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0fb39b5_c9cc767f",
+      "range": {
+        "startLine": 42,
+        "startChar": 40,
+        "endLine": 42,
+        "endChar": 67
+      },
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -191,6 +365,30 @@
     },
     {
       "key": {
+        "uuid": "f87fb0ed_d1b4a071",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-20T22:17:45Z",
+      "side": 1,
+      "message": "Managed to remove this.",
+      "parentUuid": "1555d21b_dfd1a158",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 0
+      },
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17951b1c_dddcd689",
         "filename": "util/stream/zlib_output_stream.h",
         "patchSetId": 7
@@ -208,6 +406,24 @@
     },
     {
       "key": {
+        "uuid": "d1ca9087_a4cdfbce",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-20T22:17:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17951b1c_dddcd689",
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29c2eebe_eab9774b",
         "filename": "util/stream/zlib_output_stream.h",
         "patchSetId": 7
@@ -222,6 +438,24 @@
       "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dd35c1c_d6fb4d12",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-20T22:17:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29c2eebe_eab9774b",
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
