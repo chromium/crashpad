@@ -105,7 +105,9 @@ bool ProcessReaderFuchsia::Initialize(const zx::process& process) {
   process_memory_.reset(new ProcessMemoryFuchsia());
   process_memory_->Initialize(*process_);
 
-  memory_map_.Initialize(*process_);
+  if (!memory_map_.Initialize(*process_)) {
+    return false;
+  }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -255,13 +257,15 @@ void ProcessReaderFuchsia::InitializeModules() {
     std::unique_ptr<ProcessMemoryRange> process_memory_range(
         new ProcessMemoryRange());
     // TODO(scottmg): Could this be limited range?
-    process_memory_range->Initialize(process_memory_.get(), true);
-    process_memory_ranges_.push_back(std::move(process_memory_range));
+    if (process_memory_range->Initialize(process_memory_.get(), true)) {
+      process_memory_ranges_.push_back(std::move(process_memory_range));
 
-    reader->Initialize(*process_memory_ranges_.back(), base);
-    module.reader = reader.get();
-    module_readers_.push_back(std::move(reader));
-    modules_.push_back(module);
+      if (reader->Initialize(*process_memory_ranges_.back(), base)) {
+        module.reader = reader.get();
+        module_readers_.push_back(std::move(reader));
+        modules_.push_back(module);
+      }
+    }
 
     map = next;
   }
