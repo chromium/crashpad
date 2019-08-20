@@ -22,6 +22,30 @@
       "revId": "726ab2a6553954ac3ade3b4f14272c58e7f3c85a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37522ac0_a0cffaeb",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-20T21:58:11Z",
+      "side": 1,
+      "message": "Ack.\nI\u0027ve created a crbug.com/995971 to track it.",
+      "parentUuid": "593bb014_5ab7c5ca",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 5
+      },
+      "revId": "726ab2a6553954ac3ade3b4f14272c58e7f3c85a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
