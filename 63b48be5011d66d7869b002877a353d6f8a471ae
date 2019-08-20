@@ -1,0 +1,227 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2af1b057_413fa283",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T20:47:46Z",
+      "side": 1,
+      "message": "???\n\n(1) Put this after “sources” in the location I originally pointed you to. You will notice that we’ve standardized on certain locations for things. “defines” always follows “sources”. It’s easier to find what you’re looking for when things are always in the same place.\n\n(2) Just define ZLIB_CONST. You don’t need to set a value at all.\n\nIn fact, the value will be ignored. \u003czconf.h\u003e is the only place ZLIB_CONST is used, and it has:\n\n#if defined(ZLIB_CONST) \u0026\u0026 !defined(z_const)\n#  define z_const const\n#else\n#  define z_const\n#endif",
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c13bd7bb_b93c4241",
+        "filename": "util/stream/output_stream_interface.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T20:47:46Z",
+      "side": 1,
+      "message": "#include \u003cstddef.h\u003e for this.",
+      "range": {
+        "startLine": 52,
+        "startChar": 42,
+        "endLine": 52,
+        "endChar": 53
+      },
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3864557_592e1e9f",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T20:47:46Z",
+      "side": 1,
+      "message": "Please correct the spelling. This should be deflateEnd, you’re missing an “e”. Same for inflateEnd on line 40.",
+      "range": {
+        "startLine": 37,
+        "startChar": 21,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12f4be12_2c30f179",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T20:47:46Z",
+      "side": 1,
+      "message": "Oh, I see what you’re doing with ZLIB_CONST. Don’t do this. Hopefully these snippets from \u003czconf.h\u003e and \u003czlib.h\u003e will show you how ZLIB_CONST and const in zlib are intended to work.\n\n\u003czconf.h\u003e:\n\n#if defined(ZLIB_CONST) \u0026\u0026 !defined(z_const)\n#  define z_const const\n#else\n#  define z_const\n#endif\n\n// …\n\n#  define FAR\ntypedef unsigned char  Byte;  /* 8 bits */\n   typedef Byte  FAR Bytef;\n\nSo:\n - z_const is #defined as “const”\n - Bytef is a type alias for unsigned char\n\n\u003czlib.h\u003e:\n\ntypedef struct z_stream_s {\n    z_const Bytef *next_in;     /* next input byte */\n    // …\n\nSo:\n - decltype(z_stream_s::next_in) is const unsigned char*",
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4170ccf_769130be",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T20:47:46Z",
+      "side": 1,
+      "message": "This check is good but I think the error reporting on the next line is incorrect. What we want is:\n\n  if (result \u003d\u003d Z_STREAM_END) {\n    if (zlib_stream_.avail_in \u003e 0) {\n      LOG(ERROR) \u003c\u003c \"inflate: unconsumed input\";\n      return false;\n    }\n  } else if (result !\u003d Z_OK) {\n    LOG(ERROR) \u003c\u003c \"inflate: \" \u003c\u003c zlib_stream_.msg;\n    return false;\n  }",
+      "range": {
+        "startLine": 85,
+        "startChar": 34,
+        "endLine": 85,
+        "endChar": 62
+      },
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "560620a4_03a50373",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T20:47:46Z",
+      "side": 1,
+      "message": "// Support calling Flush() without Write().",
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ab2f3b2_c503b005",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T20:47:46Z",
+      "side": 1,
+      "message": "pipeline, the output stream needs an\n\n(not sure what was intended by “normally”, since the output stream to chain to is an interface requirement.)",
+      "range": {
+        "startLine": 41,
+        "startChar": 29,
+        "endLine": 41,
+        "endChar": 74
+      },
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0fb39b5_c9cc767f",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T20:47:46Z",
+      "side": 1,
+      "message": "to. For example, the code below",
+      "range": {
+        "startLine": 42,
+        "startChar": 40,
+        "endLine": 42,
+        "endChar": 67
+      },
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1555d21b_dfd1a158",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T20:47:46Z",
+      "side": 1,
+      "message": "I haven’t reviewed the test yet, but I don’t see why you would need to do this. The test would be constructing the ZlibOutputStream designating the OutputStreamInterface that it should write to. Since it already has access to that OutputStreamInterface, it should just use it directly, instead of having to expose it back out from ZlibStreamInterface here.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 0
+      },
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17951b1c_dddcd689",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T20:47:46Z",
+      "side": 1,
+      "message": "Because your usage of InitializationState is slightly nonstandard, add a comment to this saying whose initialization is being tracked:\n\n  InitializationState initialized_;  // protects zlib_stream_",
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29c2eebe_eab9774b",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T20:47:46Z",
+      "side": 1,
+      "message": "For best space efficiency in this class’ layout, put output_stream_ (a pointer) after the z_stream.",
+      "revId": "63b48be5011d66d7869b002877a353d6f8a471ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
