@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "3abfebe5_7b684e2f",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T04:12:38Z",
+      "side": 1,
+      "message": "\u003e I am still curious about the reason behind this.\n\nWhat’s the question? The link you’re pointing to is about the choice between initializing at a member variable’s declaration vs. doing it in the constructors. That’s not about explicit initialization.\n\nThe general rule in Crashpad (it applies here, but it may not apply Chrome-wide) is that for variables that can be initialized equally in a constructor or at the declaration, you’ve got to choose one. We don’t want to have two places to look for an initializer. Call this rule 1.\n\nHaving chosen to initialize at the constructor, you need to explicitly initialize each member that requires initialization. Call this rule 2. If you don’t meet rule 2, you haven’t actually met rule 1 either, because if you don’t find an initializer in the constructor, you still have to hunt down the declaration to see if there’s one there.",
+      "parentUuid": "45b32937_98b0c651",
+      "revId": "7438e06f309a431d675c1b81e75fc31071f20d2b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8874ae54_677575cf",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 3

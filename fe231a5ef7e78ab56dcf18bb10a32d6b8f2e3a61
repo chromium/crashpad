@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c50aa38e_32ee9902",
+        "filename": "util/stream/output_stream_interface.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T04:12:38Z",
+      "side": 1,
+      "message": "\u003e I thought we have agreement on this implementation that is inline all implementation. (https://chromium-review.googlesource.com/c/crashpad/crashpad/+/1745355/1/util/stream/output_stream.cc)\n\u003e \n\u003e Shall I go back to my previous suggestion, like below\n\u003e \n\u003e OutputStreamInterface (pure interface)\n\u003e \n\u003e OutputStreamBase : public OutputStreamInterface  {\n\u003e \n\u003e  public:\n\u003e   OutputStreamInterface* GetOutputStreamForTesting() const {\n\u003e     return output_stream_.get();\n\u003e   }\n\u003e   \n\u003e  protected:\n\u003e   OutputStreamInterface* output_stream() {\n\u003e       return output_stream_.get();\n\u003e   }\n\u003e \n\u003e  private:\n\u003e   std::unique_ptr\u003cOutputStreamInterface\u003e output_stream_;\n\u003e }\n\u003e \n\u003e ZlibOutputStream : public OutputStreamBase {\n\u003e }\n\u003e \n\u003e Please help to confirm this.\n\nOutputStreamBase is not worth it. The only thing you’d be using it to share is a single constructor and member variable, and as I pointed out, access to that member variable from subclasses cannot be via direct access to a protected member, so you’d also need an accessor. The “shared” constructor doesn’t even help you out because each subclass would need to invoke the base constructor explicitly, where they could just as easily set a per-class member variable. It’s much more straightforward because the opportunity for sharing is so low to omit the unnecessary intermediate class and just have\n\nOutputStreamInterface  // abstract base\nZlibOutputStream : public OutputStreamInterface\nBase94OutputStream : public OutputStreamInterface\netc.",
+      "parentUuid": "e8d44f41_dea4e09b",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3965908b_44c8fb18",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 5
@@ -123,6 +141,24 @@
       "side": 1,
       "message": "This is very similar with patchset #3, just want to confirm you are fine to use InitializationState even without public Initialize() method, correct?",
       "parentUuid": "3634a05f_393c608a",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33afdadf_fba4e110",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T04:12:38Z",
+      "side": 1,
+      "message": "\u003e This is very similar with patchset #3, just want to confirm you are fine to use InitializationState even without public Initialize() method, correct?\n\nYes, it’s OK.\n\nWe’re just whittling things down to the minimum required to do the job completely correctly, with an eye toward both readability and maintainability. Simplifying control flow like this eliminates bugs. (Example: the no-Write()-but-Flush() DCHECKing in earlier versions of this patch was probably caused by, and was certainly harder to spot because of, control flow more complex than necessary.)",
+      "parentUuid": "643d8744_3c1db734",
       "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -363,6 +399,24 @@
       "side": 1,
       "message": "In the test, I test the compressed data is less or larger than the buffer. It return the length of the buffer, and can\u0027t be static, right?",
       "parentUuid": "1b539d75_2f92e54f",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8e6c396_4c28e426",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T04:12:38Z",
+      "side": 1,
+      "message": "\u003e In the test, I test the compressed data is less or larger than the buffer. It return the length of the buffer, and can\u0027t be static, right?\n\nHmm. The old arraysize() would have worked and ARRAYSIZE_UNSAFE would work, but it won’t work with std::size() or base::size(), which is based on std::size().\n\nBut like I said, I don’t think you need this at all. It’s generally considered OK for a test to “know” things like the internal buffer size of the class it’s testing so that it can choose sizes equal to or near, and sizes definitely much smaller and definitely much larger.\n\nI don’t like complicating main implementations solely for the benefit of the tests.",
+      "parentUuid": "4476fcdf_f0f65542",
       "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
