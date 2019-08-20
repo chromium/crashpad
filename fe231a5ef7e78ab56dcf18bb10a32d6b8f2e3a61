@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "17fe38f7_21d90b44",
+        "filename": "util/stream/output_stream_interface.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T17:50:09Z",
+      "side": 1,
+      "message": "\u003e Done, The Destructor can\u0027t be protected, because the ZlibOutputStream has unique_ptr of this interface.\n\nYes, this is fine. Either protected non-virtual or public virtual is OK, even for a pure interface class.",
+      "parentUuid": "95d549d7_6c148d24",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3965908b_44c8fb18",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 5
@@ -290,6 +308,24 @@
       "side": 1,
       "message": "Re 1: which build configuration you refer to? I found build/build_config.h which seems in chromium. Does it make sense to add it in util/misc/zlib.h?\n\nRe 2: change to Write\u0027 parameter to uint8_t.",
       "parentUuid": "3e033dc0_69196b21",
+      "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f626da78_cb24ac21",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-20T17:50:09Z",
+      "side": 1,
+      "message": "\u003e Re 1: which build configuration you refer to? I found build/build_config.h which seems in chromium. Does it make sense to add it in util/misc/zlib.h?\n\nNo, there’s less of a guarantee of that having the desired effect (see below).\n\nI was thinking it’d be best to define it for the entire util library. You could put a “defines \u003d [\"ZLIB_CONST\"]” right here: https://chromium-review.googlesource.com/c/1745355/5/util/BUILD.gn#182.\n\nOther locations can cause problems. You really only care about ZLIB_CONST being set for zlib_output_stream.cc, it’s irrelevant to other users of zlib_output_stream.h. But \u003czlib.h\u003e (its wrapper, actually) is #included by zlib_output_stream.h. Now you’re looking at an #include order problem, in the event that someone else includes \u003czlib.h\u003e (or its wrapper) without defining ZLIB_CONST before you have a chance to.",
+      "parentUuid": "d642ee7e_d4d67df5",
       "revId": "fe231a5ef7e78ab56dcf18bb10a32d6b8f2e3a61",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
