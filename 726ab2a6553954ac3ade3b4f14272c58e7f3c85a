@@ -93,6 +93,30 @@
       "revId": "726ab2a6553954ac3ade3b4f14272c58e7f3c85a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4cc5ae4_a540ff57",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-21T19:41:18Z",
+      "side": 1,
+      "message": "Here is some example that the tests are excluded due to lack of support from the bot. https://cs.corp.google.com/chromeos_public/src/third_party/chromiumos-overlay/chromeos-base/crosvm/crosvm-9999.ebuild?rcl\u003ddc5a461f5c12118dc039b15ae823838c4bfdd00b\u0026l\u003d141",
+      "parentUuid": "1a9e29f7_8147cbd5",
+      "range": {
+        "startLine": 104,
+        "startChar": 22,
+        "endLine": 104,
+        "endChar": 59
+      },
+      "revId": "726ab2a6553954ac3ade3b4f14272c58e7f3c85a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
