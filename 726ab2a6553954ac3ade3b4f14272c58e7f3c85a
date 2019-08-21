@@ -69,6 +69,30 @@
       "revId": "726ab2a6553954ac3ade3b4f14272c58e7f3c85a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a9e29f7_8147cbd5",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-21T19:36:34Z",
+      "side": 1,
+      "message": "Yes, Chrome OS should always be running Linux 3.17+.\nThis function memfd_create has been used in Chrome OS code since months ago. https://cs.corp.google.com/chromeos_public/src/platform2/crash-reporter/crash_collector.cc?rcl\u003de2e90722237b9a2d595a3f5a336c81922001bf9c\u0026l\u003d381",
+      "parentUuid": "1faa59a0_8c4eb67d",
+      "range": {
+        "startLine": 104,
+        "startChar": 22,
+        "endLine": 104,
+        "endChar": 59
+      },
+      "revId": "726ab2a6553954ac3ade3b4f14272c58e7f3c85a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
