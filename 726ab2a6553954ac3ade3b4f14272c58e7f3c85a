@@ -46,6 +46,29 @@
       "revId": "726ab2a6553954ac3ade3b4f14272c58e7f3c85a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1faa59a0_8c4eb67d",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-21T19:02:22Z",
+      "side": 1,
+      "message": "I\u0027ve encountered a hitch rolling this into chromium. memfd_create() is only available in glibc from 2.27. Can we expect a sufficiently recent version of libc to be available on ChromeOS?\n\nThe failing bot:\nhttps://ci.chromium.org/p/chromium/builders/try/linux-chromeos-rel/358045\n(Commenting out memfd_create() allows the build to succeed, but there are also some failing tests that probably need disabling or updating on ChromeOS: https://chromium-review.googlesource.com/c/chromium/src/+/1764250)\n\nIf 2.27+ should be available, maybe we just need to update the sysroot on that bot. If not, maybe we could provide our own wrapper, as long as we can expect ChromeOS to always be running Linux 3.17+?",
+      "range": {
+        "startLine": 104,
+        "startChar": 22,
+        "endLine": 104,
+        "endChar": 59
+      },
+      "revId": "726ab2a6553954ac3ade3b4f14272c58e7f3c85a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
