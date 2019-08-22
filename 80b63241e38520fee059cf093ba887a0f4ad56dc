@@ -1,0 +1,322 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e1d00ac_d5a4aaef",
+        "filename": "util/stream/output_stream_test_helper.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "I think you’d be better off with a std::vector\u003cuint8_t\u003e here because you could use resize(). Very often, you’ll avoid unnecessary memory allocations with a vector.",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "480c9d69_97a76d22",
+        "filename": "util/stream/output_stream_test_helper.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "std::vector\u003cuint8_t\u003e is even more significant here because you could insert(). Not only will you avoid many allocations, you’ll avoid all of the copies from the old all_data_ into the new all_data_.",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebb2aba2_06c75b38",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "I think of this as simply a “TestOutputStream”.",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e0de3f8_427e95ae",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "1. const-qualify, because you don’t want outsiders modifying object-internal data.\n\n2. Type as uint8_t* since that’s what you’re storing it as.\n\n3. Outside of the context of “GetAllData()”, which isn’t even right next to this, it’s not clear whether this applies to the last write or to all writes, just by name alone as you’d see it at a call site.\n\nSuggestion: GetLastWrittenData() and GetAllData().",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee6e20a9_4bda05b4",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "Will this ever be used independently of GetLastWrittenData()? Seems like it might not be. In that case, just do:\n\n  const uint8_t* GetLastWrittenData(size_t* size) const;\n\nAlternative, using object orientation and the standard library to your advantage:\n\n  const std::vector\u003cuint8_t\u003e\u0026 GetLastWrittenData() const;\n\nFor more hints favoring the vector implementation (regardless of how you provide the interface here), see my comments in the .cc file.\n\nIf you do need to maintain this as an independent method, adapt its name consistent with the previous comment.\n\nSame applies on line 46.",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47b52ff7_f77f4f20",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "As on line 40, either merge into GetAllData() or rename so that it’s clear that it corresponds to GetAllData().",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acef1905_0cb9ac76",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "“the times,” which sounds like it means “the number of times,” isn’t possible because this returns a bool. Same on line 52.",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9f4be1d_b0ea3cb6",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "That’s odd. What’s the point of not resetting those? When would you expect this to be called?",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8220f68_cba68d80",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "Rename as appropriate per the above comments.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 21
+      },
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dc01be6_93134ff2",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "Never \u003ccstdlib\u003e, always \u003cstdlib.h\u003e\n\nI assume you did this for srand() and rand(). \u003ccstdlib\u003e only guarantees making std::srand() and std::rand() available, but you didn’t use them by those names (nor should you).\n\nBut I’m going to ask you to not use srand() or rand() at all (see below), so if those are the only things you #included this header for, you can remove this #include altogether.",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "219b39ee_6cbda01e",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "Remove, not used.",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d260fa06_30e3aa85",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "There are no subclasses, so why not private?",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "225db53a_55514a03",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "Use \"base/rand_util.h\" instead.",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb3c0a5f_fb560b80",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "const (the method, not the return type)",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aee2ede1_ea6a88c4",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "DISALLOW_COPY_AND_ASSIGN",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9efb514d_d3fb7548",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "Call Write() a random number of times",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34995587_14bbf86a",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "Just “FlushWithoutWrite” for consistency. (You didn’t name the one above “NoWriteCallOrFlushCall”.)",
+      "range": {
+        "startLine": 91,
+        "startChar": 29,
+        "endLine": 91,
+        "endChar": 50
+      },
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f9f8514_e861a9fe",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-22T19:56:32Z",
+      "side": 1,
+      "message": "The random data tests are basically fine, but non-deterministic. As such, they may exhibit flake. That’ll be difficult to reproduce or fix.\n\nI’m not going to ask you to remove them, but I will ask you to add a few basic tests that run first that operate on fixed, rather than random, data.",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
