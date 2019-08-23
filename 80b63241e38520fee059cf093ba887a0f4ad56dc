@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a3c1ef3f_743255cd",
+        "filename": "util/stream/output_stream_test_helper.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e1d00ac_d5a4aaef",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "480c9d69_97a76d22",
         "filename": "util/stream/output_stream_test_helper.cc",
         "patchSetId": 9
@@ -33,6 +51,24 @@
       "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee789d1c_c473de73",
+        "filename": "util/stream/output_stream_test_helper.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "480c9d69_97a76d22",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "25f141be_34daecee",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebb2aba2_06c75b38",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e0de3f8_427e95ae",
         "filename": "util/stream/output_stream_test_helper.h",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2019-08-22T19:56:32Z",
       "side": 1,
       "message": "1. const-qualify, because you don’t want outsiders modifying object-internal data.\n\n2. Type as uint8_t* since that’s what you’re storing it as.\n\n3. Outside of the context of “GetAllData()”, which isn’t even right next to this, it’s not clear whether this applies to the last write or to all writes, just by name alone as you’d see it at a call site.\n\nSuggestion: GetLastWrittenData() and GetAllData().",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8180172a_ad71e5f8",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "Thanks, using vector is much better.",
+      "parentUuid": "2e0de3f8_427e95ae",
       "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "c26ead1e_bfd60770",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ee6e20a9_4bda05b4",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b52ff7_f77f4f20",
         "filename": "util/stream/output_stream_test_helper.h",
         "patchSetId": 9
@@ -101,6 +191,24 @@
       "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e8835e4_f039e723",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b52ff7_f77f4f20",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "ffffb0d5_4af9346a",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "Sorry, the comment was obsolete.",
+      "parentUuid": "acef1905_0cb9ac76",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e9f4be1d_b0ea3cb6",
         "filename": "util/stream/output_stream_test_helper.h",
         "patchSetId": 9
@@ -132,6 +258,24 @@
       "writtenOn": "2019-08-22T19:56:32Z",
       "side": 1,
       "message": "That’s odd. What’s the point of not resetting those? When would you expect this to be called?",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02f573a9_f2a0b85b",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "I used it to verify the status between Write() and Flush(), please refer to\n\nhttps://chromium-review.googlesource.com/c/chromium/src/+/1687090/10/third_party/crashpad/crashpad/util/stream/log_stream_test.cc#58\n\nWe might discuss this once the code is in review.",
+      "parentUuid": "e9f4be1d_b0ea3cb6",
       "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -161,6 +305,30 @@
     },
     {
       "key": {
+        "uuid": "9f54bbb2_9d32037b",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8220f68_cba68d80",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 21
+      },
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0dc01be6_93134ff2",
         "filename": "util/stream/zlib_output_stream_test.cc",
         "patchSetId": 9
@@ -175,6 +343,24 @@
       "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62ab4b16_0323c945",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dc01be6_93134ff2",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -195,6 +381,24 @@
     },
     {
       "key": {
+        "uuid": "300ce80b_72e28fbe",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "219b39ee_6cbda01e",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d260fa06_30e3aa85",
         "filename": "util/stream/zlib_output_stream_test.cc",
         "patchSetId": 9
@@ -206,6 +410,24 @@
       "writtenOn": "2019-08-22T19:56:32Z",
       "side": 1,
       "message": "There are no subclasses, so why not private?",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ed1fe7b_b6c049bf",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "Those protected methods are used in test. Do you prefer them to be public member?",
+      "parentUuid": "d260fa06_30e3aa85",
       "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -229,6 +451,24 @@
     },
     {
       "key": {
+        "uuid": "077ae704_bdb2713b",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "225db53a_55514a03",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb3c0a5f_fb560b80",
         "filename": "util/stream/zlib_output_stream_test.cc",
         "patchSetId": 9
@@ -243,6 +483,24 @@
       "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19c3c15b_078817a3",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb3c0a5f_fb560b80",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -263,6 +521,24 @@
     },
     {
       "key": {
+        "uuid": "0b0c7950_9e443066",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aee2ede1_ea6a88c4",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9efb514d_d3fb7548",
         "filename": "util/stream/zlib_output_stream_test.cc",
         "patchSetId": 9
@@ -277,6 +553,24 @@
       "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4905e0d_e2f161a7",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9efb514d_d3fb7548",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -303,6 +597,53 @@
     },
     {
       "key": {
+        "uuid": "792e0852_1b295ffd",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34995587_14bbf86a",
+      "range": {
+        "startLine": 91,
+        "startChar": 29,
+        "endLine": 91,
+        "endChar": 50
+      },
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "656c3eb6_7b99000c",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "I think we still want output_stream_\u0027s Flush is called in this case.",
+      "range": {
+        "startLine": 92,
+        "startChar": 2,
+        "endLine": 92,
+        "endChar": 45
+      },
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f9f8514_e861a9fe",
         "filename": "util/stream/zlib_output_stream_test.cc",
         "patchSetId": 9
@@ -314,6 +655,24 @@
       "writtenOn": "2019-08-22T19:56:32Z",
       "side": 1,
       "message": "The random data tests are basically fine, but non-deterministic. As such, they may exhibit flake. That’ll be difficult to reproduce or fix.\n\nI’m not going to ask you to remove them, but I will ask you to add a few basic tests that run first that operate on fixed, rather than random, data.",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1f0dca5_8f2154a3",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-23T05:43:06Z",
+      "side": 1,
+      "message": "The reason I used random data is that this test isn\u0027t supposed to test zlib (compress/decompress feature). Added fix data tests.",
+      "parentUuid": "4f9f8514_e861a9fe",
       "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
