@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa70d486_476912ce",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T18:31:12Z",
+      "side": 1,
+      "message": "Show the error message you experienced. I don’t believe that this could possibly fix anything, because",
+      "revId": "d1776e0bfbb048b6a2b208b7095004dedebc183e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e691432e_a6a1fa2a",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T18:31:12Z",
+      "side": 1,
+      "message": "we still have this.",
+      "revId": "d1776e0bfbb048b6a2b208b7095004dedebc183e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
