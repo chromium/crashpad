@@ -282,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "e1658e7d_2cdba46a",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "\u003e I used it to verify the status between Write() and Flush(), please refer to\n\u003e \n\u003e https://chromium-review.googlesource.com/c/chromium/src/+/1687090/10/third_party/crashpad/crashpad/util/stream/log_stream_test.cc#58\n\u003e \n\u003e We might discuss this once the code is in review.\n\nYes, I see that. But it still seems that it’s possible to write the test with Reset() that fully resets the object state, including all_data_. The test expectations would need to be adjusted for the shorter size and to begin the memcmp() at input + offset, but that shouldn’t be a problem.\n\nI think it’s much easier to conceptualize what’s happening and to reason about an object and its state when Reset() operates on all fields.",
+      "parentUuid": "02f573a9_f2a0b85b",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8220f68_cba68d80",
         "filename": "util/stream/output_stream_test_helper.h",
         "patchSetId": 9
@@ -428,6 +446,24 @@
       "side": 1,
       "message": "Those protected methods are used in test. Do you prefer them to be public member?",
       "parentUuid": "d260fa06_30e3aa85",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "325c5f18_cb2a031c",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "\u003e Those protected methods are used in test. Do you prefer them to be public member?\n\nAs I said, there are no subclasses. Can’t they be private?",
+      "parentUuid": "0ed1fe7b_b6c049bf",
       "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true

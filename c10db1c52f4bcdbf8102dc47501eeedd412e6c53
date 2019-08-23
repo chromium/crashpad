@@ -1,0 +1,409 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff4d4b72_cb91076c",
+        "filename": "util/stream/test_output_stream.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "1. You shouldn’t need to construct a brand-new vector each time.\n\n2. If you were using memcpy(), you’d #include \u003cstring.h\u003e.\n\n3. Don’t use memcpy(). Use last_written_data_.assign(data, data + size).",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 48
+      },
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7439ae8d_30afa759",
+        "filename": "util/stream/test_output_stream.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "This is kind of in a random location. I could see doing it before the vector operations or after the vector operations, but it seems very weird to do it in between the vector operations.",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1aa790f9_c8b6397e",
+        "filename": "util/stream/test_output_stream.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "This comment isn’t helpful. (And if you follow the next suggestion, the entire operation becomes a one-liner so obvious that there shouldn’t be any temptation to comment it.)",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c5bde2a_c1538acd",
+        "filename": "util/stream/test_output_stream.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "Again, don’t use memcpy(). std::vector\u003c\u003e has enough built-in support to do exactly what you want to achieve.\n\n  all_data_.insert(all_data_.end(), data, data + size);",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 50
+      },
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ad2d8ab_89430665",
+        "filename": "util/stream/test_output_stream.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "To ensure that Write()/Flush() is driven correctly, you should also have flush_needed_ as you now have in the main ZlibOutputStream implementation. This can either replace or supplement the flush_called_ logic that you have.",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be96141a_8e2d489a",
+        "filename": "util/stream/test_output_stream.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "Remove this, it’s not used any longer.",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d412ad6_6e39a4f5",
+        "filename": "util/stream/test_output_stream.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "All test-only code is in namespace crashpad::test.",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f562a689_4bacd494",
+        "filename": "util/stream/test_output_stream.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "IWYU doesn’t really let you rely on output_stream_interface.h for these types, so:\n\n  #include \u003cstddef.h\u003e\n  #include \u003cstdint.h\u003e",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aa21994_a3a50160",
+        "filename": "util/stream/test_output_stream.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "These should be\n\n  //! \\return The data that has been received…\n\nSame on lines 41, 44, and 47.",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 17
+      },
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d552b992_5305c2c9",
+        "filename": "util/stream/test_output_stream.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "There’s no longer any total_size_.",
+      "range": {
+        "startLine": 50,
+        "startChar": 57,
+        "endLine": 50,
+        "endChar": 75
+      },
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a33d29aa_4abccdfa",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "Test implementations in Crashpad are always:\n\n  namespace crashpad {\n  namespace test {\n  namespace {\n\nIn other words, add the “test” namespace as is also needed in test_output_stream.{cc,h}. And the anonymous namespace you begin on line 23 should extend to the entire length of the file, it shouldn’t end on line 28.",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d735082_2888079d",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "Not just const, but constexpr.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 41
+      },
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afad35a5_a4d77205",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "Comment about ownership:\n\n  TestOutputStream* test_output_stream_;  // weak, owned by zlib_output_stream_\n\nI’d also prefer to see this raw pointer member as the last-declared member variable, not the first-declared, mostly because of the destruction order. (Really irrelevant here because a weak pointer’s destruction is a no-op, but it’s a good practice to be thinking in these terms because sometimes it does make a difference.)",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2239fe93_4dd61dbb",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "Throughout this file: these conditions are inverted. Put the constant on the right side.\n\nI see that some in this file were done correctly, but others were inverted. (1) be consistent with yourself, and (2) be consistent with the code around you. Crashpad has standardized on putting the constant second.",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 14
+      },
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "852ba7f5_848b7e9d",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "#include \u003cstring.h\u003e",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 78,
+        "endChar": 18
+      },
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15b9f18d_0d9af879",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "This is exactly the test I was hoping to see. I’m glad you included it.",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7266f1f6_23140880",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "There isn’t much value to building a vector for this at runtime. I would do:\n\n  static constexpr size_t kWriteLengths[] \u003d {4, 96, 40, …};\n\nand loop over it as:\n\n  for (size_t index \u003d 0; index \u003c base::size(kWriteLengths); ++index)",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0ed487c_3448b290",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "In Crashpad tests, whenever a gtest assertion like this is inside a loop, we always include a hint to indicate where things are in the loop iteration. That way, if a gtest assertion fails, it’s clear which iteration is the problem. Troubleshooting can be much easier if you know whether it’s the first time through the loop or last time, or what the value iterated was. So, if you look around, you’ll find that what we’d do here (given the loop structure I suggested above) is:\n\n  #include \"base/stringprintf.h\"\n\n  const size_t write_length \u003d kWriteLengths[index];\n  SCOPED_TRACE(base::StringPrintf(\"index %zu, write_length %zu\", index, write_length));\n\nI think we can use %zu everywhere in cross-platform code now. That used to not be the case, as the Microsoft CRT didn’t support the ‘z’ length modifier. However, if you do find that %zu isn’t accepted uniformly, you’d #include \"base/format_macros.h\" and use \"%\" PRIuS. There are ample examples of this in our codebase.\n\nThis also applies to the other loop that contains a gtest assertion within, at line 137.",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfac856f_09ad1600",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "Choose a better name than “cur”. “write_length” seems more appropriate.",
+      "range": {
+        "startLine": 138,
+        "startChar": 11,
+        "endLine": 138,
+        "endChar": 14
+      },
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23ea4e1b_7d2dbd88",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "#include \u003calgorithm\u003e and use std::min(). This makes things so compact that you can save a line:\n\n  size_t write_length \u003d std::min(base::RandInt(0, 4096 * 2), kLongDataLength - index);",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f21d03f8_23cde4e2",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-23T20:36:58Z",
+      "side": 1,
+      "message": "Other things to test, to make sure that they behave correctly:\n\n - 0-length Write() (and where you randomize the Write() length, it’s OK to allow the range to be (0, 4096 * 2) instead of (1, 4096 * 2))\n - Write() followed by two calls to Flush()",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
