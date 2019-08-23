@@ -158,7 +158,7 @@ uint32_t SystemSnapshotWin::CPURevision() const {
   return (adjusted_family << 16) | (adjusted_model << 8) | stepping;
 #elif defined(ARCH_CPU_ARM64)
   SYSTEM_INFO system_info;
-  GetSystemInfo(&system_info);
+  ::GetSystemInfo(&system_info);
 
   return system_info.wProcessorRevision;
 #else
