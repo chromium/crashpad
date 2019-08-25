@@ -300,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "aa2cb968_1b8d0d86",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-25T01:47:32Z",
+      "side": 1,
+      "message": "hmm, after change to use vector, I actually only need to reset flush_called_ and  write_called_, but let me add this back in the patch it is needed.",
+      "parentUuid": "e1658e7d_2cdba46a",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8220f68_cba68d80",
         "filename": "util/stream/output_stream_test_helper.h",
         "patchSetId": 9
