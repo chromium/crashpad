@@ -318,6 +318,24 @@
     },
     {
       "key": {
+        "uuid": "97b695c3_e846699b",
+        "filename": "util/stream/output_stream_test_helper.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-25T02:27:15Z",
+      "side": 1,
+      "message": "In that case, instead of bool write_called_ and bool flush_called_, consider size_t write_count_ and size_t flush_count_, and get rid of Reset() entirely.",
+      "parentUuid": "aa2cb968_1b8d0d86",
+      "revId": "80b63241e38520fee059cf093ba887a0f4ad56dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8220f68_cba68d80",
         "filename": "util/stream/output_stream_test_helper.h",
         "patchSetId": 9

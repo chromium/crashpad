@@ -201,6 +201,24 @@
     },
     {
       "key": {
+        "uuid": "51d657e2_f9d93c1f",
+        "filename": "util/stream/test_output_stream.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-25T02:27:15Z",
+      "side": 1,
+      "message": "I\u0027ll tell you what: if, after we have a few more non-test implementations, we find that we want a base class, we can consider it then.\n\nI\u0027m not convinced because what you\u0027re proposing seems like it\u0027d require subclasses to call the base class implementation, which is extra work that it\u0027s very easy to forget to do. You could devise an alternative where the public interface was nonvirtual and it delegated to private internal interface methods, but that seems like overkill for the task at hand.",
+      "parentUuid": "420172ea_0503a539",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be96141a_8e2d489a",
         "filename": "util/stream/test_output_stream.h",
         "patchSetId": 10
@@ -300,6 +318,24 @@
       "side": 1,
       "message": "Could you help me understand reason? to me, it is obvious those types are defined in parent class, there is no need to repeat including header files, the benefit is that compiler doesn\u0027t need to read the files again.",
       "parentUuid": "f562a689_4bacd494",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f61be08e_57fba2c0",
+        "filename": "util/stream/test_output_stream.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-25T02:27:15Z",
+      "side": 1,
+      "message": "This is true, but my understanding of the IWYU rule doesn\u0027t allow an exception for this. You may use size_t and uint8_t independently is the interface, and in that case you\u0027d need distinct #includes because the interface may change.",
+      "parentUuid": "ca4bdfc5_23f04d5f",
       "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -827,6 +863,24 @@
       "side": 1,
       "message": "Added test, but why \"two calls to Flush()\"?",
       "parentUuid": "f21d03f8_23cde4e2",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9ef6638_e20e7a01",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-25T02:27:15Z",
+      "side": 1,
+      "message": "Because it\u0027s a place bugs are likely to show up. Flushing no data could trigger an invalid read, crash, rewrite already-written data, etc. This test ensures that Flush() implementations don\u0027t have any unintentional dependency on unintended side effects of Write().",
+      "parentUuid": "4cbbafbc_5d9a615a",
       "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
