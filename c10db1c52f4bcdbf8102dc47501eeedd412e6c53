@@ -342,6 +342,24 @@
     },
     {
       "key": {
+        "uuid": "ab46c39c_68f169e9",
+        "filename": "util/stream/test_output_stream.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-25T05:11:58Z",
+      "side": 1,
+      "message": "I understand that if the types are used independently, like uint8_t in this file.",
+      "parentUuid": "f61be08e_57fba2c0",
+      "revId": "c10db1c52f4bcdbf8102dc47501eeedd412e6c53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6aa21994_a3a50160",
         "filename": "util/stream/test_output_stream.h",
         "patchSetId": 10
