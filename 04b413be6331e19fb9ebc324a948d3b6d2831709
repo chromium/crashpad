@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d812f658_6ed26a63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-27T14:39:59Z",
+      "side": 1,
+      "message": "Bug: fuchsia:35562\n\nfor context",
+      "revId": "04b413be6331e19fb9ebc324a948d3b6d2831709",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
