@@ -31,6 +31,9 @@ config("zlib_config") {
     defines = [ "CRASHPAD_ZLIB_SOURCE_EMBEDDED" ]
     include_dirs = [ "zlib" ]
   }
+  if (crashpad_is_clang) {
+    cflags = [ "-Wno-implicit-fallthrough" ]
+  }
 }
 
 if (zlib_source == "external") {
