@@ -22,6 +22,30 @@
       "revId": "cfb619ddc4c04474bd9fa16ddc44053d402d7084",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b770f05_5acf7885",
+        "filename": "third_party/zlib/BUILD.gn",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-27T18:41:13Z",
+      "side": 1,
+      "message": "Yeah, you caught me. :)\n\nUnfortunately it applies later if it\u0027s in the main target rather than a config, so I put it here lazily. I\u0027ll send a CL to factor it out in mini_chromium instead.",
+      "parentUuid": "c035dcd2_444d26f6",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 3
+      },
+      "revId": "cfb619ddc4c04474bd9fa16ddc44053d402d7084",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
