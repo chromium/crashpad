@@ -271,17 +271,18 @@ class SanitizeTest : public MultiprocessExec {
                         addrs.string_address,
                         /* sanitized= */ false);
 
-    std::vector<std::string> annotations_whitelist;
-    annotations_whitelist.push_back(kWhitelistedAnnotationName);
+    auto annotations_whitelist = std::make_unique<std::vector<std::string>>();
+    annotations_whitelist->push_back(kWhitelistedAnnotationName);
 
-    std::vector<std::pair<VMAddress, VMAddress>> memory_ranges_whitelist;
-    memory_ranges_whitelist.push_back(
+    auto memory_ranges_whitelist =
+        std::make_unique<std::vector<std::pair<VMAddress, VMAddress>>>();
+    memory_ranges_whitelist->push_back(
         std::make_pair(addrs.string_address, addrs.string_address + 1));
 
     ProcessSnapshotSanitized sanitized;
     ASSERT_TRUE(sanitized.Initialize(&snapshot,
-                                     &annotations_whitelist,
-                                     &memory_ranges_whitelist,
+                                     std::move(annotations_whitelist),
+                                     std::move(memory_ranges_whitelist),
                                      addrs.module_address,
                                      true));
 

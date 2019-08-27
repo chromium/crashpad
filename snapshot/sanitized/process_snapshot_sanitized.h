@@ -61,12 +61,13 @@ class ProcessSnapshotSanitized final : public ProcessSnapshot {
   //!     internal::StackSnapshotSanitized.
   //! \return `false` if \a snapshot does not meet sanitization requirements and
   //!     should be filtered entirely. Otherwise `true`.
-  bool Initialize(const ProcessSnapshot* snapshot,
-                  const std::vector<std::string>* annotations_whitelist,
-                  const std::vector<std::pair<VMAddress, VMAddress>>*
-                      memory_range_whitelist,
-                  VMAddress target_module_address,
-                  bool sanitize_stacks);
+  bool Initialize(
+      const ProcessSnapshot* snapshot,
+      std::unique_ptr<const std::vector<std::string>> annotations_whitelist,
+      std::unique_ptr<const std::vector<std::pair<VMAddress, VMAddress>>>
+          memory_range_whitelist,
+      VMAddress target_module_address,
+      bool sanitize_stacks);
 
   // ProcessSnapshot:
 
@@ -99,7 +100,7 @@ class ProcessSnapshotSanitized final : public ProcessSnapshot {
   RangeSet address_ranges_;
   const ProcessSnapshot* snapshot_;
   ProcessMemorySanitized process_memory_;
-  const std::vector<std::string>* annotations_whitelist_;
+  std::unique_ptr<const std::vector<std::string>> annotations_whitelist_;
   bool sanitize_stacks_;
   InitializationStateDcheck initialized_;
 
