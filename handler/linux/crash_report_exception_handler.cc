@@ -16,7 +16,6 @@
 
 #include <memory>
 #include <utility>
-#include <vector>
 
 #include "base/logging.h"
 #include "client/settings.h"
@@ -26,107 +25,9 @@
 #include "snapshot/sanitized/process_snapshot_sanitized.h"
 #include "util/linux/direct_ptrace_connection.h"
 #include "util/linux/ptrace_client.h"
+#include "util/misc/implicit_cast.h"
 #include "util/misc/metrics.h"
 #include "util/misc/uuid.h"
-
-#if defined(OS_CHROMEOS)
-#include "handler/minidump_to_upload_parameters.h"
-#include "snapshot/minidump/process_snapshot_minidump.h"
-#include "util/posix/double_fork_and_exec.h"
-
-namespace {
-// Returns the process name for a pid.
-const std::string GetProcessNameFromPid(pid_t pid) {
-  // Symlink to process binary is at /proc/###/exe.
-  std::string link_path = "/proc/" + std::to_string(pid) + "/exe";
-
-  constexpr int kMaxSize = 4096;
-  std::unique_ptr<char[]> buf(new char[kMaxSize]);
-  ssize_t size = readlink(link_path.c_str(), buf.get(), kMaxSize);
-  std::string result;
-  if (size < 0) {
-    PLOG(ERROR) << "Failed to readlink " << link_path;
-  } else {
-    result.assign(buf.get(), size);
-    size_t last_slash_pos = result.rfind('/');
-    if (last_slash_pos != std::string::npos) {
-      result = result.substr(last_slash_pos + 1);
-    }
-  }
-  return result;
-}
-
-bool WriteAnnotationsAndMinidump(
-    const std::map<std::string, std::string>& parameters,
-    crashpad::MinidumpFileWriter& minidump,
-    crashpad::FileWriter& file_writer) {
-  for (const auto& kv : parameters) {
-    if (kv.first.find(':') != std::string::npos) {
-      LOG(ERROR) << "Annotation key cannot have ':' in it " << kv.first;
-      return false;
-    }
-    if (!file_writer.Write(kv.first.c_str(), strlen(kv.first.c_str()))) {
-      return false;
-    }
-    if (!file_writer.Write(":", 1)) {
-      return false;
-    }
-    size_t value_size = strlen(kv.second.c_str());
-    std::string value_size_str = std::to_string(value_size);
-    if (!file_writer.Write(value_size_str.c_str(), value_size_str.size())) {
-      return false;
-    }
-    if (!file_writer.Write(":", 1)) {
-      return false;
-    }
-    if (!file_writer.Write(kv.second.c_str(), strlen(kv.second.c_str()))) {
-      return false;
-    }
-  }
-
-  static constexpr char kMinidumpName[] =
-      "upload_file_minidump\"; filename=\"dump\":";
-  if (!file_writer.Write(kMinidumpName, sizeof(kMinidumpName) - 1)) {
-    return false;
-  }
-  crashpad::FileOffset dump_size_start_offset = file_writer.Seek(0, SEEK_CUR);
-  if (dump_size_start_offset < 0) {
-    LOG(ERROR) << "Failed to get minidump size start offset";
-    return false;
-  }
-  static constexpr char kMinidumpLengthFilling[] = "00000000000000000000:";
-  if (!file_writer.Write(kMinidumpLengthFilling,
-                         sizeof(kMinidumpLengthFilling) - 1)) {
-    return false;
-  }
-  crashpad::FileOffset dump_start_offset = file_writer.Seek(0, SEEK_CUR);
-  if (dump_start_offset < 0) {
-    LOG(ERROR) << "Failed to get minidump start offset";
-    return false;
-  }
-  if (!minidump.WriteEverything(&file_writer)) {
-    return false;
-  }
-  crashpad::FileOffset dump_end_offset = file_writer.Seek(0, SEEK_CUR);
-  if (dump_end_offset < 0) {
-    LOG(ERROR) << "Failed to get minidump end offset";
-    return false;
-  }
-
-  size_t dump_data_size = dump_end_offset - dump_start_offset;
-  std::string dump_data_size_str = std::to_string(dump_data_size);
-  file_writer.Seek(dump_size_start_offset + strlen(kMinidumpLengthFilling) - 1 -
-                       dump_data_size_str.size(),
-                   SEEK_SET);
-  if (!file_writer.Write(dump_data_size_str.c_str(),
-                         dump_data_size_str.size())) {
-    return false;
-  }
-  return true;
-}
-
-}  // namespace
-#endif  // defined(OS_CHROMEOS)
 
 namespace crashpad {
 
@@ -136,12 +37,9 @@ CrashReportExceptionHandler::CrashReportExceptionHandler(
     const std::map<std::string, std::string>* process_annotations,
     const UserStreamDataSources* user_stream_data_sources)
     : database_(database),
-#if !defined(OS_CHROMEOS)
       upload_thread_(upload_thread),
-#endif
       process_annotations_(process_annotations),
-      user_stream_data_sources_(user_stream_data_sources) {
-}
+      user_stream_data_sources_(user_stream_data_sources) {}
 
 CrashReportExceptionHandler::~CrashReportExceptionHandler() = default;
 
@@ -218,12 +116,6 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
   }
   process_snapshot->SetClientID(client_id);
 
-  UUID uuid;
-#if defined(OS_CHROMEOS)
-  uuid.InitializeWithNew();
-  process_snapshot->SetReportID(uuid);
-#else
-
   std::unique_ptr<CrashReportDatabase::NewReport> new_report;
   CrashReportDatabase::OperationStatus database_status =
       database_->PrepareNewCrashReport(&new_report);
@@ -235,7 +127,6 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
   }
 
   process_snapshot->SetReportID(new_report->ReportID());
-#endif
 
   ProcessSnapshot* snapshot =
       sanitized_snapshot
@@ -246,53 +137,6 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
   minidump.InitializeFromSnapshot(snapshot);
   AddUserExtensionStreams(user_stream_data_sources_, snapshot, &minidump);
 
-#if defined(OS_CHROMEOS)
-  FileWriter file_writer;
-  if (!file_writer.OpenMemfd(base::FilePath("/tmp/minidump"))) {
-    Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kOpenMemfdFailed);
-    return false;
-  }
-
-  std::map<std::string, std::string> parameters =
-      BreakpadHTTPFormParametersFromMinidump(snapshot);
-  // Used to differenciate between breakpad and crashpad while the switch is
-  // ramping up.
-  parameters.emplace("crash_library", "crashpad");
-
-  if (!WriteAnnotationsAndMinidump(parameters, minidump, file_writer)) {
-    Metrics::ExceptionCaptureResult(
-        Metrics::CaptureResult::kMinidumpWriteFailed);
-    return false;
-  }
-
-  // CrOS uses crash_reporter instead of Crashpad to report crashes.
-  // crash_reporter needs to know the pid and uid of the crashing process.
-  std::vector<std::string> argv({"/sbin/crash_reporter"});
-
-  argv.push_back("--chrome_memfd=" + std::to_string(file_writer.fd()));
-  argv.push_back("--pid=" + std::to_string(*requesting_thread_id));
-  argv.push_back("--uid=" + std::to_string(client_uid));
-  std::string process_name = GetProcessNameFromPid(*requesting_thread_id);
-  argv.push_back("--exe=" + (process_name.empty() ? "chrome" : process_name));
-
-  if (info.crash_loop_before_time != 0) {
-    argv.push_back("--crash_loop_before=" +
-                   std::to_string(info.crash_loop_before_time));
-  }
-
-  if (!DoubleForkAndExec(argv,
-                         nullptr /* envp */,
-                         file_writer.fd() /* preserve_fd */,
-                         false /* use_path */,
-                         nullptr /* child_function */)) {
-    LOG(ERROR) << "DoubleForkAndExec failed";
-    Metrics::ExceptionCaptureResult(
-        Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
-    return false;
-  }
-
-#else
-
   if (!minidump.WriteEverything(new_report->Writer())) {
     LOG(ERROR) << "WriteEverything failed";
     Metrics::ExceptionCaptureResult(
@@ -300,6 +144,7 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
     return false;
   }
 
+  UUID uuid;
   database_status =
       database_->FinishedWritingCrashReport(std::move(new_report), &uuid);
   if (database_status != CrashReportDatabase::kNoError) {
@@ -312,7 +157,7 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
   if (upload_thread_) {
     upload_thread_->ReportPending(uuid);
   }
-#endif
+
   if (local_report_id != nullptr) {
     *local_report_id = uuid;
   }
