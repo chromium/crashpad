@@ -14,19 +14,19 @@
 
 #include "handler/linux/crash_report_exception_handler.h"
 
+#include <memory>
+#include <utility>
 #include <vector>
 
 #include "base/logging.h"
 #include "client/settings.h"
+#include "handler/linux/capture_snapshot.h"
 #include "minidump/minidump_file_writer.h"
-#include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/linux/process_snapshot_linux.h"
 #include "snapshot/sanitized/process_snapshot_sanitized.h"
-#include "snapshot/sanitized/sanitization_information.h"
 #include "util/linux/direct_ptrace_connection.h"
 #include "util/linux/ptrace_client.h"
 #include "util/misc/metrics.h"
-#include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
 
 #if defined(OS_CHROMEOS)
@@ -195,188 +195,126 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
     VMAddress requesting_thread_stack_address,
     pid_t* requesting_thread_id,
     UUID* local_report_id) {
-  ProcessSnapshotLinux process_snapshot;
-  if (!process_snapshot.Initialize(connection)) {
-    Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSnapshotFailed);
+  std::unique_ptr<ProcessSnapshotLinux> process_snapshot;
+  std::unique_ptr<ProcessSnapshotSanitized> sanitized_snapshot;
+  if (!CaptureSnapshot(connection,
+                       info,
+                       *process_annotations_,
+                       client_uid,
+                       requesting_thread_stack_address,
+                       requesting_thread_id,
+                       &process_snapshot,
+                       &sanitized_snapshot)) {
     return false;
   }
 
-  pid_t local_requesting_thread_id = -1;
-  if (requesting_thread_stack_address) {
-    local_requesting_thread_id = process_snapshot.FindThreadWithStackAddress(
-        requesting_thread_stack_address);
+  UUID client_id;
+  Settings* const settings = database_->GetSettings();
+  if (settings) {
+    // If GetSettings() or GetClientID() fails, something else will log a
+    // message and client_id will be left at its default value, all zeroes,
+    // which is appropriate.
+    settings->GetClientID(&client_id);
   }
+  process_snapshot->SetClientID(client_id);
 
-  if (requesting_thread_id) {
-    *requesting_thread_id = local_requesting_thread_id;
-  }
+  UUID uuid;
+#if defined(OS_CHROMEOS)
+  uuid.InitializeWithNew();
+  process_snapshot->SetReportID(uuid);
+#else
 
-  if (!process_snapshot.InitializeException(info.exception_information_address,
-                                            local_requesting_thread_id)) {
+  std::unique_ptr<CrashReportDatabase::NewReport> new_report;
+  CrashReportDatabase::OperationStatus database_status =
+      database_->PrepareNewCrashReport(&new_report);
+  if (database_status != CrashReportDatabase::kNoError) {
+    LOG(ERROR) << "PrepareNewCrashReport failed";
     Metrics::ExceptionCaptureResult(
-        Metrics::CaptureResult::kExceptionInitializationFailed);
+        Metrics::CaptureResult::kPrepareNewCrashReportFailed);
     return false;
   }
 
-  Metrics::ExceptionCode(process_snapshot.Exception()->Exception());
-
-  CrashpadInfoClientOptions client_options;
-  process_snapshot.GetCrashpadOptions(&client_options);
-  if (client_options.crashpad_handler_behavior != TriState::kDisabled) {
-    UUID client_id;
-    Settings* const settings = database_->GetSettings();
-    if (settings) {
-      // If GetSettings() or GetClientID() fails, something else will log a
-      // message and client_id will be left at its default value, all zeroes,
-      // which is appropriate.
-      settings->GetClientID(&client_id);
-    }
-
-    process_snapshot.SetClientID(client_id);
-    for (auto& p : *process_annotations_) {
-      process_snapshot.AddAnnotation(p.first, p.second);
-    }
-
-    UUID uuid;
-#if defined(OS_CHROMEOS)
-    uuid.InitializeWithNew();
-    process_snapshot.SetReportID(uuid);
-#else
-
-    std::unique_ptr<CrashReportDatabase::NewReport> new_report;
-    CrashReportDatabase::OperationStatus database_status =
-        database_->PrepareNewCrashReport(&new_report);
-    if (database_status != CrashReportDatabase::kNoError) {
-      LOG(ERROR) << "PrepareNewCrashReport failed";
-      Metrics::ExceptionCaptureResult(
-          Metrics::CaptureResult::kPrepareNewCrashReportFailed);
-      return false;
-    }
-
-    process_snapshot.SetReportID(new_report->ReportID());
+  process_snapshot->SetReportID(new_report->ReportID());
 #endif
 
-    ProcessSnapshot* snapshot = nullptr;
-    ProcessSnapshotSanitized sanitized;
-    if (info.sanitization_information_address) {
-      SanitizationInformation sanitization_info;
-      ProcessMemoryRange range;
-      if (!range.Initialize(connection->Memory(), connection->Is64Bit()) ||
-          !range.Read(info.sanitization_information_address,
-                      sizeof(sanitization_info),
-                      &sanitization_info)) {
-        Metrics::ExceptionCaptureResult(
-            Metrics::CaptureResult::kSanitizationInitializationFailed);
-        return false;
-      }
+  ProcessSnapshot* snapshot =
+      sanitized_snapshot
+          ? implicit_cast<ProcessSnapshot*>(sanitized_snapshot.get())
+          : implicit_cast<ProcessSnapshot*>(process_snapshot.get());
 
-      auto annotations_whitelist = std::make_unique<std::vector<std::string>>();
-      auto memory_range_whitelist =
-          std::make_unique<std::vector<std::pair<VMAddress, VMAddress>>>();
-      if (!ReadAnnotationsWhitelist(
-              range,
-              sanitization_info.annotations_whitelist_address,
-              annotations_whitelist.get()) ||
-          !ReadMemoryRangeWhitelist(
-              range,
-              sanitization_info.memory_range_whitelist_address,
-              memory_range_whitelist.get())) {
-        Metrics::ExceptionCaptureResult(
-            Metrics::CaptureResult::kSanitizationInitializationFailed);
-        return false;
-      }
-
-      if (!sanitized.Initialize(&process_snapshot,
-                                sanitization_info.annotations_whitelist_address
-                                    ? std::move(annotations_whitelist)
-                                    : nullptr,
-                                std::move(memory_range_whitelist),
-                                sanitization_info.target_module_address,
-                                sanitization_info.sanitize_stacks)) {
-        Metrics::ExceptionCaptureResult(
-            Metrics::CaptureResult::kSkippedDueToSanitization);
-        return true;
-      }
-
-      snapshot = &sanitized;
-    } else {
-      snapshot = &process_snapshot;
-    }
-
-    MinidumpFileWriter minidump;
-    minidump.InitializeFromSnapshot(snapshot);
-    AddUserExtensionStreams(user_stream_data_sources_, snapshot, &minidump);
+  MinidumpFileWriter minidump;
+  minidump.InitializeFromSnapshot(snapshot);
+  AddUserExtensionStreams(user_stream_data_sources_, snapshot, &minidump);
 
 #if defined(OS_CHROMEOS)
-    FileWriter file_writer;
-    if (!file_writer.OpenMemfd(base::FilePath("/tmp/minidump"))) {
-      Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kOpenMemfdFailed);
-      return false;
-    }
+  FileWriter file_writer;
+  if (!file_writer.OpenMemfd(base::FilePath("/tmp/minidump"))) {
+    Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kOpenMemfdFailed);
+    return false;
+  }
 
-    std::map<std::string, std::string> parameters =
-        BreakpadHTTPFormParametersFromMinidump(snapshot);
-    // Used to differenciate between breakpad and crashpad while the switch is
-    // ramping up.
-    parameters.emplace("crash_library", "crashpad");
+  std::map<std::string, std::string> parameters =
+      BreakpadHTTPFormParametersFromMinidump(snapshot);
+  // Used to differenciate between breakpad and crashpad while the switch is
+  // ramping up.
+  parameters.emplace("crash_library", "crashpad");
 
-    if (!WriteAnnotationsAndMinidump(parameters, minidump, file_writer)) {
-      Metrics::ExceptionCaptureResult(
-          Metrics::CaptureResult::kMinidumpWriteFailed);
-      return false;
-    }
+  if (!WriteAnnotationsAndMinidump(parameters, minidump, file_writer)) {
+    Metrics::ExceptionCaptureResult(
+        Metrics::CaptureResult::kMinidumpWriteFailed);
+    return false;
+  }
 
-    // CrOS uses crash_reporter instead of Crashpad to report crashes.
-    // crash_reporter needs to know the pid and uid of the crashing process.
-    std::vector<std::string> argv({"/sbin/crash_reporter"});
+  // CrOS uses crash_reporter instead of Crashpad to report crashes.
+  // crash_reporter needs to know the pid and uid of the crashing process.
+  std::vector<std::string> argv({"/sbin/crash_reporter"});
 
-    argv.push_back("--chrome_memfd=" + std::to_string(file_writer.fd()));
-    argv.push_back("--pid=" + std::to_string(*requesting_thread_id));
-    argv.push_back("--uid=" + std::to_string(client_uid));
-    std::string process_name = GetProcessNameFromPid(*requesting_thread_id);
-    argv.push_back("--exe=" + (process_name.empty() ? "chrome" : process_name));
+  argv.push_back("--chrome_memfd=" + std::to_string(file_writer.fd()));
+  argv.push_back("--pid=" + std::to_string(*requesting_thread_id));
+  argv.push_back("--uid=" + std::to_string(client_uid));
+  std::string process_name = GetProcessNameFromPid(*requesting_thread_id);
+  argv.push_back("--exe=" + (process_name.empty() ? "chrome" : process_name));
 
-    if (info.crash_loop_before_time != 0) {
-      argv.push_back("--crash_loop_before=" +
-                     std::to_string(info.crash_loop_before_time));
-    }
+  if (info.crash_loop_before_time != 0) {
+    argv.push_back("--crash_loop_before=" +
+                   std::to_string(info.crash_loop_before_time));
+  }
 
-    if (!DoubleForkAndExec(argv,
-                           nullptr /* envp */,
-                           file_writer.fd() /* preserve_fd */,
-                           false /* use_path */,
-                           nullptr /* child_function */)) {
-      LOG(ERROR) << "DoubleForkAndExec failed";
-      Metrics::ExceptionCaptureResult(
-          Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
-      return false;
-    }
+  if (!DoubleForkAndExec(argv,
+                         nullptr /* envp */,
+                         file_writer.fd() /* preserve_fd */,
+                         false /* use_path */,
+                         nullptr /* child_function */)) {
+    LOG(ERROR) << "DoubleForkAndExec failed";
+    Metrics::ExceptionCaptureResult(
+        Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
+    return false;
+  }
 
 #else
 
-    if (!minidump.WriteEverything(new_report->Writer())) {
-      LOG(ERROR) << "WriteEverything failed";
-      Metrics::ExceptionCaptureResult(
-          Metrics::CaptureResult::kMinidumpWriteFailed);
-      return false;
-    }
+  if (!minidump.WriteEverything(new_report->Writer())) {
+    LOG(ERROR) << "WriteEverything failed";
+    Metrics::ExceptionCaptureResult(
+        Metrics::CaptureResult::kMinidumpWriteFailed);
+    return false;
+  }
 
-    database_status =
-        database_->FinishedWritingCrashReport(std::move(new_report), &uuid);
-    if (database_status != CrashReportDatabase::kNoError) {
-      LOG(ERROR) << "FinishedWritingCrashReport failed";
-      Metrics::ExceptionCaptureResult(
-          Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
-      return false;
-    }
+  database_status =
+      database_->FinishedWritingCrashReport(std::move(new_report), &uuid);
+  if (database_status != CrashReportDatabase::kNoError) {
+    LOG(ERROR) << "FinishedWritingCrashReport failed";
+    Metrics::ExceptionCaptureResult(
+        Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
+    return false;
+  }
 
-    if (upload_thread_) {
-      upload_thread_->ReportPending(uuid);
-    }
+  if (upload_thread_) {
+    upload_thread_->ReportPending(uuid);
+  }
 #endif
-    if (local_report_id != nullptr) {
-      *local_report_id = uuid;
-    }
+  if (local_report_id != nullptr) {
+    *local_report_id = uuid;
   }
 
   Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSuccess);
