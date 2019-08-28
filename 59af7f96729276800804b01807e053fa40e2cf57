@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5125a145_2ba182b3",
+        "filename": "handler/linux/cros_crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-28T23:32:01Z",
+      "side": 1,
+      "message": "I also snuck this in here.\n\nThe database also keeps track of consent to upload crashes. The docs for the ChromeOS crash reporter mentioned that consent is checked before upload:\nhttps://cs.corp.google.com/chromeos_public/src/platform2/crash-reporter/README.md\n\nWe could also check consent here if there are reasons it\u0027d be preferable to not write the dump without consent.",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 211,
+        "endChar": 42
+      },
+      "revId": "59af7f96729276800804b01807e053fa40e2cf57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
