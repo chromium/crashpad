@@ -51,9 +51,7 @@ class ExceptionHandlerProtocol {
     //!     SanitizationInformation struct, or 0 if there is no such struct.
     VMAddress sanitization_information_address;
 
-#if defined(OS_CHROMEOS)
     uint64_t crash_loop_before_time;
-#endif
   };
 
   //! \brief The signal used to indicate a crash dump is complete.

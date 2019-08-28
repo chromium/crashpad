@@ -398,7 +398,6 @@ FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
                                    FileWriteMode mode,
                                    FilePermissions permissions);
 
-#if defined(OS_CHROMEOS)
 //! \brief Wraps memfd_create(), logging an error if the operation fails.
 //!     Unlike other file open operations, this doesn't set `O_CLOEXEC`.
 //!
@@ -409,7 +408,6 @@ FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
 //! \sa LoggingOpenFileForWrite
 //! \sa LoggingOpenFileForReadAndWrite
 FileHandle LoggingOpenMemFileForWrite(const base::FilePath& path);
-#endif
 
 //! \brief Wraps OpenFileForReadAndWrite(), logging an error if the operation
 //!     fails.

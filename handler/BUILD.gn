@@ -51,6 +51,13 @@ static_library("handler") {
     ]
   }
 
+  if (crashpad_is_linux) {
+    sources += [
+      "linux/cros_crash_report_exception_handler.cc",
+      "linux/cros_crash_report_exception_handler.h",
+    ]
+  }
+
   if (crashpad_is_win) {
     sources += [
       "win/crash_report_exception_handler.cc",
