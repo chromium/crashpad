@@ -33,6 +33,24 @@
       "revId": "32e678de7820884dad15b2d0bedc4165a7466bd5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ae6d2c3_59a65865",
+        "filename": "compat/linux/sys/mman.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-29T18:24:53Z",
+      "side": 1,
+      "message": "I\u0027m glad you asked! I attempted to do that but it turns out the bot (linux-chromeos-rel) that this change is meant to fix builds this code using the sysroot at chromium/src/build/linux/debian_sid_amd64-sysroot. That sysroot does have glibc 2.27 so this definition would be ommitted. The bot then turns around and tries to run this code on Ubuntu 16.04, which doesn\u0027t apparently have glibc 2.27:\nhttps://ci.chromium.org/p/chromium/builders/try/linux-chromeos-rel/363761",
+      "parentUuid": "b97fa13a_e05c52de",
+      "revId": "32e678de7820884dad15b2d0bedc4165a7466bd5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
