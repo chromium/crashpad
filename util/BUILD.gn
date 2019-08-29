@@ -49,7 +49,8 @@ if (crashpad_is_mac) {
       if (!use_system_xcode) {
         import("//build/config/clang/clang.gni")
         import("//build/config/mac/mac_sdk.gni")
-        clang_path = rebase_path("$clang_base_path/bin/", root_build_dir) + "clang"
+        clang_path =
+            rebase_path("$clang_base_path/bin/", root_build_dir) + "clang"
         mig_path = "$mac_bin_path" + "mig"
         migcom_path = "$mac_bin_path" + "../libexec/migcom"
 
@@ -429,6 +430,8 @@ static_library("util") {
 
   if (crashpad_is_fuchsia) {
     sources += [
+      "file/vmo_file_writer_fuchsia.cc",
+      "file/vmo_file_writer_fuchsia.h",
       "fuchsia/koid_utilities.cc",
       "fuchsia/koid_utilities.h",
       "fuchsia/scoped_task_suspend.cc",
@@ -658,7 +661,10 @@ source_set("util_test") {
   }
 
   if (crashpad_is_fuchsia) {
-    sources += [ "misc/capture_context_test_util_fuchsia.cc" ]
+    sources += [
+      "file/vmo_file_writer_fuchsia_test.cc",
+      "misc/capture_context_test_util_fuchsia.cc",
+    ]
   }
 
   if (crashpad_is_win) {
