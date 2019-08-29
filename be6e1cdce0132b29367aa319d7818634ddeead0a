@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63c2d170_503b9a9f",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1300299
+      },
+      "writtenOn": "2019-08-29T18:46:30Z",
+      "side": 1,
+      "message": "I don\u0027t understand why this is called chrome_unattended. If I set a flag called chrome_unattended, I wouldn\u0027t expect its main / only effect to be setting a test option.",
+      "range": {
+        "startLine": 530,
+        "startChar": 4,
+        "endLine": 530,
+        "endChar": 27
+      },
+      "revId": "be6e1cdce0132b29367aa319d7818634ddeead0a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5040dc49_0f62c33d",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1300299
+      },
+      "writtenOn": "2019-08-29T18:46:30Z",
+      "side": 1,
+      "message": "Could this just be \"if (!dump_dir_.empty())\" or such?",
+      "range": {
+        "startLine": 342,
+        "startChar": 8,
+        "endLine": 342,
+        "endChar": 26
+      },
+      "revId": "be6e1cdce0132b29367aa319d7818634ddeead0a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
