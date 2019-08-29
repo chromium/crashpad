@@ -1,0 +1,278 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "582cbc2f_edfd7359",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T15:27:07Z",
+      "side": 1,
+      "message": "This can\u0027t explicitly refer to //zircon here because Crashpad builds in multiple different trees (with different BUILDCONFIG.gn and different tree layouts).\n\n../third_party/fuchsia has a public_deps on zx and is listed below already, so you can just remove this.",
+      "revId": "88d52df27e8a612323e2ce200e137ac54e2f8cff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0b9fdf9_3add91c8",
+        "filename": "util/file/vmo_file_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T15:27:07Z",
+      "side": 1,
+      "message": "Please remove this comment and the similar ones below. (Also, Crashpad uses standard 80 col formatting.)",
+      "revId": "88d52df27e8a612323e2ce200e137ac54e2f8cff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1e03403_04f4a588",
+        "filename": "util/file/vmo_file_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T15:27:07Z",
+      "side": 1,
+      "message": "This is converted from unsigned to signed. I\u0027m not concerned about the actual range, but this should be converted using a CheckedNumeric\u003c\u003e, and similar below.",
+      "range": {
+        "startLine": 48,
+        "startChar": 34,
+        "endLine": 48,
+        "endChar": 46
+      },
+      "revId": "88d52df27e8a612323e2ce200e137ac54e2f8cff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd4f189b_d25e1996",
+        "filename": "util/file/vmo_file_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T15:27:07Z",
+      "side": 1,
+      "message": "Please make the .cc definition order make the .h declaration order, so ~VMOFileWriter() should be above Seek().",
+      "revId": "88d52df27e8a612323e2ce200e137ac54e2f8cff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57c3c856_e6f4887b",
+        "filename": "util/file/vmo_file_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T15:27:07Z",
+      "side": 1,
+      "message": "I didn\u0027t look too closely at the details, but this looks like it could be perhaps using some std:: algorithms?",
+      "revId": "88d52df27e8a612323e2ce200e137ac54e2f8cff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ab16d8a_eb89d176",
+        "filename": "util/file/vmo_file_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T15:27:07Z",
+      "side": 1,
+      "message": "data",
+      "range": {
+        "startLine": 125,
+        "startChar": 15,
+        "endLine": 125,
+        "endChar": 18
+      },
+      "revId": "88d52df27e8a612323e2ce200e137ac54e2f8cff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "377e0434_079ff554",
+        "filename": "util/file/vmo_file_writer.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T15:27:07Z",
+      "side": 1,
+      "message": "I think these files should be called vmo_file_writer_fuchsia.h, etc. as they\u0027re not useful for any other platform.",
+      "revId": "88d52df27e8a612323e2ce200e137ac54e2f8cff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0e88a91_1dcd9d0e",
+        "filename": "util/file/vmo_file_writer.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T15:27:07Z",
+      "side": 1,
+      "message": "Please follow local style for header guards which would be:\n\n  #ifndef CRASHPAD_UTIL_FILE_VMO_FILE_WRITER_H_\n\nhere.",
+      "revId": "88d52df27e8a612323e2ce200e137ac54e2f8cff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b4f5895_0cc8ee08",
+        "filename": "util/file/vmo_file_writer.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T15:27:07Z",
+      "side": 1,
+      "message": "//! \\brief description here (see other headers in this directory).\n\nThere\u0027s no need to further annotate the overridden methods as they\u0027re implementations that are documented in their headers, but GenerateVMO() needs a doxygen comment too.",
+      "revId": "88d52df27e8a612323e2ce200e137ac54e2f8cff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34a5ac94_0d8924e3",
+        "filename": "util/file/vmo_file_writer.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T15:27:07Z",
+      "side": 1,
+      "message": "lower case \u0027i\u0027 on implementation and interface here and below.",
+      "range": {
+        "startLine": 27,
+        "startChar": 16,
+        "endLine": 27,
+        "endChar": 17
+      },
+      "revId": "88d52df27e8a612323e2ce200e137ac54e2f8cff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4305bf6_7ddbe4b1",
+        "filename": "util/file/vmo_file_writer.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T15:27:07Z",
+      "side": 1,
+      "message": "FileSeekerInterface?",
+      "range": {
+        "startLine": 27,
+        "startChar": 5,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "88d52df27e8a612323e2ce200e137ac54e2f8cff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb80879f_23fe8063",
+        "filename": "util/file/vmo_file_writer.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T15:27:07Z",
+      "side": 1,
+      "message": "FileWriterInterface?",
+      "range": {
+        "startLine": 31,
+        "startChar": 5,
+        "endLine": 31,
+        "endChar": 15
+      },
+      "revId": "88d52df27e8a612323e2ce200e137ac54e2f8cff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f3034d9_ecd12e96",
+        "filename": "util/file/vmo_file_writer.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T15:27:07Z",
+      "side": 1,
+      "message": "i",
+      "range": {
+        "startLine": 31,
+        "startChar": 16,
+        "endLine": 31,
+        "endChar": 17
+      },
+      "revId": "88d52df27e8a612323e2ce200e137ac54e2f8cff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "139fd9b9_7b20f682",
+        "filename": "util/file/vmo_file_writer.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T15:27:07Z",
+      "side": 1,
+      "message": "It seems like offset_ would be better as a size_t if it\u0027s an index into data_. Is there some reason why we\u0027d expect negative values for offset_?\n\n... I see later that it\u0027s being compared with both vector sizes and FileOffset. Perhaps this would make sense as a crashpad::FileOffset then?",
+      "revId": "88d52df27e8a612323e2ce200e137ac54e2f8cff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
