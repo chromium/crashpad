@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "f1c5a3c1_bbc870ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-08-29T16:50:40Z",
+      "side": 1,
+      "message": "[fuchsia]\n\neverything is [crashpad] in Crashpad",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "88d52df27e8a612323e2ce200e137ac54e2f8cff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9973559_9e151391",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-08-29T16:50:40Z",
+      "side": 1,
+      "message": "Bug: fuchsia:6643",
+      "revId": "88d52df27e8a612323e2ce200e137ac54e2f8cff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "582cbc2f_edfd7359",
         "filename": "util/BUILD.gn",
         "patchSetId": 1
