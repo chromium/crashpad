@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "9892f9f5_0b89a7ae",
+        "filename": "handler/linux/cros_crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-29T18:31:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f93a8bc4_1f4dbe75",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 211,
+        "endChar": 42
+      },
+      "revId": "59af7f96729276800804b01807e053fa40e2cf57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61a6667e_8e67ecc5",
         "filename": "util/linux/exception_handler_protocol.h",
         "patchSetId": 2
@@ -105,6 +129,24 @@
       "revId": "59af7f96729276800804b01807e053fa40e2cf57",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a9d3a03_3a88c682",
+        "filename": "util/linux/exception_handler_protocol.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-29T18:31:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f892ef6b_023fe076",
+      "revId": "59af7f96729276800804b01807e053fa40e2cf57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
