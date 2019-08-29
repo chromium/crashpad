@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4adb069_f7e7709c",
+        "filename": "compat/linux/sys/mman.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-29T17:41:33Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "32e678de7820884dad15b2d0bedc4165a7466bd5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b97fa13a_e05c52de",
+        "filename": "compat/linux/sys/mman.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-29T17:41:33Z",
+      "side": 1,
+      "message": "Can you test for glibc \u0026\u0026 glibc \u003c 2.27 and avoid this in that case?",
+      "revId": "32e678de7820884dad15b2d0bedc4165a7466bd5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
