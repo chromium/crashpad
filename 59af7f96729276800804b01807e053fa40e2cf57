@@ -22,6 +22,47 @@
       "revId": "59af7f96729276800804b01807e053fa40e2cf57",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1e5ffd3_e3cfa19a",
+        "filename": "handler/linux/cros_crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-29T17:27:24Z",
+      "side": 1,
+      "message": "What is a client_id? Does it identifies a device or an user account?\nFor Chrome OS, this database construct is problematic. As I understand, the database basically is a fixed directory in the file system.\nChrome on Chrome OS handles several different user states, namely before the user logs in, and different user account can log in to the same device. For privacy and security considerations, the file system changes between user not logged in, and different user accounts logged in. For example, before user is logged in, a system directory is used for this database. After a user logs in, the user account\u0027s sub file system is mounted and all user data should be written into that sub file system instead of the system place. The database here doesn\u0027t change its location based on the user login states at all.\nIt\u0027s okay to consider not to write dumps without user consent since user consent is per device. But there it is not necessary to skip writing dumps without user consent either.",
+      "parentUuid": "5125a145_2ba182b3",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 211,
+        "endChar": 42
+      },
+      "revId": "59af7f96729276800804b01807e053fa40e2cf57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61a6667e_8e67ecc5",
+        "filename": "util/linux/exception_handler_protocol.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-08-29T17:27:24Z",
+      "side": 1,
+      "message": "This value only applies to Cros and there is no meaning of this for generic Linux.",
+      "revId": "59af7f96729276800804b01807e053fa40e2cf57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
