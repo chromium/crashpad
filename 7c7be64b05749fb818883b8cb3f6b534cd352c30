@@ -1,0 +1,417 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a86c77a6_d4366694",
+        "filename": "util/fuchsia/string_file_to_vmo.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "What year is it!?",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2abd68a_04bef2f6",
+        "filename": "util/fuchsia/string_file_to_vmo.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "Is it important to disallow a zero-sized output? If so, there should be a corresponding test for this case.",
+      "range": {
+        "startLine": 25,
+        "startChar": 11,
+        "endLine": 25,
+        "endChar": 30
+      },
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19e7dcc0_e45e0bcb",
+        "filename": "util/fuchsia/string_file_to_vmo.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "You don\u0027t want PLOG() here and below on Fuchsia as they look at POSIX errno, not the local zx_status_t. Instead, use ZX_LOG(ERROR, status) after including base/fuchsia/fuchsia_logging.h.",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 8
+      },
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a106b4b_64830d6a",
+        "filename": "util/fuchsia/string_file_to_vmo.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "Missing \"not\".\n\nLocal style is just \"zx::vmo::create\" for the string. These strings aren\u0027t removed in release builds, so we try to keep them relatively terse.",
+      "range": {
+        "startLine": 30,
+        "startChar": 20,
+        "endLine": 30,
+        "endChar": 37
+      },
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "629040c9_a6f9e239",
+        "filename": "util/fuchsia/string_file_to_vmo.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "missing a word here, \"containing\" maybe?",
+      "range": {
+        "startLine": 24,
+        "startChar": 36,
+        "endLine": 24,
+        "endChar": 39
+      },
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b6f6093_23415e5d",
+        "filename": "util/fuchsia/string_file_to_vmo.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "No indent here.",
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "417b491b_4403aa97",
+        "filename": "util/fuchsia/string_file_to_vmo.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "Couple typos here, how about:\n\n\\return `ZX_OK` on success, with \\a out containing a copy of the data of \\string_file. On failure, a `zx_status_t` returned, and \\a out will be untouched.",
+      "range": {
+        "startLine": 26,
+        "startChar": 5,
+        "endLine": 28,
+        "endChar": 73
+      },
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4daf0a0f_f486ea06",
+        "filename": "util/fuchsia/string_file_to_vmo.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "maybe \"\\a string_file\"?",
+      "range": {
+        "startLine": 30,
+        "startChar": 36,
+        "endLine": 30,
+        "endChar": 70
+      },
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "482b283d_145bf412",
+        "filename": "util/fuchsia/string_file_to_vmo.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "this \"then\" and the next one can be deleted.",
+      "range": {
+        "startLine": 31,
+        "startChar": 47,
+        "endLine": 31,
+        "endChar": 52
+      },
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbff0d22_1d10cd91",
+        "filename": "util/fuchsia/string_file_to_vmo.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "\"\\a string_file\" again here",
+      "range": {
+        "startLine": 31,
+        "startChar": 67,
+        "endLine": 32,
+        "endChar": 19
+      },
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "054aa68f_210e88ea",
+        "filename": "util/fuchsia/string_file_to_vmo_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "No right-alignment formatting in Crashpad.",
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34a6793e_e661e667",
+        "filename": "util/fuchsia/string_file_to_vmo_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "These could probably be constexpr since the int below is.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 5
+      },
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0db7756_5f1f0d9b",
+        "filename": "util/fuchsia/string_file_to_vmo_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "size_t",
+      "range": {
+        "startLine": 26,
+        "startChar": 10,
+        "endLine": 26,
+        "endChar": 13
+      },
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebad1e05_489a7c1d",
+        "filename": "util/fuchsia/string_file_to_vmo_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "Do you mean to use sizeof()s in here rather than strlen()s? It\u0027s a bit unusual to treat the \\0 as part of the data.",
+      "range": {
+        "startLine": 32,
+        "startChar": 38,
+        "endLine": 32,
+        "endChar": 44
+      },
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fed9983_4674241c",
+        "filename": "util/fuchsia/string_file_to_vmo_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "Maybe check that the data from [6] onwards is still \"ghi\" as well since you\u0027re specifically testing replacement.\n\n... ah, I see that it won\u0027t be because of the \\0 now. If you want to keep the sizeof(), then I\u0027d say it\u0027s definitely worth confirming that the remainder of the buffer is { \u0027\\0\u0027, \u0027h\u0027, \u0027i\u0027, \u0027\\0\u0027 } then.",
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a36b2605_26ae6ce1",
+        "filename": "util/fuchsia/string_file_to_vmo_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "80 col please (generally running clang-format with the local .clang-format will stop me from bothering you about formatting. :)",
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "779921bb_f3fa922c",
+        "filename": "util/fuchsia/string_file_to_vmo_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "Sneakily",
+      "range": {
+        "startLine": 68,
+        "startChar": 7,
+        "endLine": 68,
+        "endChar": 15
+      },
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c34fe8c_5901184e",
+        "filename": "util/fuchsia/string_file_to_vmo_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "strlen(kSomeOtherData) would express this nicely.",
+      "range": {
+        "startLine": 69,
+        "startChar": 39,
+        "endLine": 69,
+        "endChar": 65
+      },
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d23c906e_dab41e5e",
+        "filename": "util/fuchsia/string_file_to_vmo_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T23:31:07Z",
+      "side": 1,
+      "message": "How about a memcmp(buf, \"...\", expected_length) \u003d\u003d 0, since you\u0027re specifically being sneaky about \\0s here.",
+      "range": {
+        "startLine": 84,
+        "startChar": 12,
+        "endLine": 84,
+        "endChar": 18
+      },
+      "revId": "7c7be64b05749fb818883b8cb3f6b534cd352c30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
