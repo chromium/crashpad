@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f93a8bc4_1f4dbe75",
+        "filename": "handler/linux/cros_crash_report_exception_handler.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-29T18:26:08Z",
+      "side": 1,
+      "message": "With Breakpad, the client_id was the same as the UMA client_id (using this Crashpad owned client_id instead of the UMA client_id is preferred for privacy). I\u0027m pretty sure this value was unique per-device and not per-account (it was the value in \"/home/chronos/Consent To Send Stats\"). I agree that we can\u0027t store reports in this database because that data needs to be kept in each users sub file system, but I think using it for device-wide settings is consistent with Breakpad\u0027s behavior.\n\nI\u0027ll let this keep writing reports for now, and leave it up to crash_reporter/crash_sender to figure consent.",
+      "parentUuid": "d1e5ffd3_e3cfa19a",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 211,
+        "endChar": 42
+      },
+      "revId": "59af7f96729276800804b01807e053fa40e2cf57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61a6667e_8e67ecc5",
         "filename": "util/linux/exception_handler_protocol.h",
         "patchSetId": 2
@@ -60,6 +84,24 @@
       "writtenOn": "2019-08-29T17:27:24Z",
       "side": 1,
       "message": "This value only applies to Cros and there is no meaning of this for generic Linux.",
+      "revId": "59af7f96729276800804b01807e053fa40e2cf57",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f892ef6b_023fe076",
+        "filename": "util/linux/exception_handler_protocol.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-29T18:26:08Z",
+      "side": 1,
+      "message": "Yeah, it shouldn\u0027t ever be used on Linux. I let it exist on Linux anyways so we can compile CrosCrashReportExceptionHandler on the Crashpad CQ\u0027s Linux bots. This is convenient to verify that simple changes compile since Crashpad folks frequently make cross-platform changes.",
+      "parentUuid": "61a6667e_8e67ecc5",
       "revId": "59af7f96729276800804b01807e053fa40e2cf57",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
