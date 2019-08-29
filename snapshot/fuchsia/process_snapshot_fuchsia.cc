@@ -41,10 +41,13 @@ bool ProcessSnapshotFuchsia::Initialize(const zx::process& process) {
   InitializeThreads();
   InitializeModules();
 
-  for (const auto& entry : process_reader_.MemoryMap()->Entries()) {
-    if (entry.type == ZX_INFO_MAPS_TYPE_MAPPING) {
-      memory_map_.push_back(
-          std::make_unique<internal::MemoryMapRegionSnapshotFuchsia>(entry));
+  const MemoryMapFuchsia* memory_map = process_reader_.MemoryMap();
+  if (memory_map) {
+    for (const auto& entry : memory_map->Entries()) {
+      if (entry.type == ZX_INFO_MAPS_TYPE_MAPPING) {
+        memory_map_.push_back(
+            std::make_unique<internal::MemoryMapRegionSnapshotFuchsia>(entry));
+      }
     }
   }
 
