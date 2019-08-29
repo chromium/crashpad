@@ -78,6 +78,12 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
       int broker_sock,
       UUID* local_report_id = nullptr) override;
 
+  void SetChromeUnattended(bool chrome_unattended) {
+    chrome_unattended_ = chrome_unattended;
+  }
+
+  void SetDumpDir(const base::FilePath& dump_dir) { dump_dir_ = dump_dir; }
+
  private:
   bool HandleExceptionWithConnection(
       PtraceConnection* connection,
@@ -93,6 +99,8 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
 #endif
   const std::map<std::string, std::string>* process_annotations_;  // weak
   const UserStreamDataSources* user_stream_data_sources_;  // weak
+  bool chrome_unattended_;
+  base::FilePath dump_dir_;
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
 };

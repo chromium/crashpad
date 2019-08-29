@@ -339,6 +339,9 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
       argv.push_back("--crash_loop_before=" +
                      std::to_string(info.crash_loop_before_time));
     }
+    if (chrome_unattended_) {
+      argv.push_back("--dump_dir=" + dump_dir_.value());
+    }
 
     if (!DoubleForkAndExec(argv,
                            nullptr /* envp */,
@@ -376,6 +379,7 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
     if (local_report_id != nullptr) {
       *local_report_id = uuid;
     }
+    LOG(INFO) << "Successfully wrote report " << uuid.ToString();
   }
 
   Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSuccess);

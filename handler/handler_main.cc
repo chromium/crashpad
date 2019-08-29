@@ -188,6 +188,7 @@ struct Options {
   bool periodic_tasks;
   bool rate_limit;
   bool upload_gzip;
+  bool chrome_unattended;
 };
 
 // Splits |key_value| on '=' and inserts the resulting key and value into |map|.
@@ -526,6 +527,7 @@ int HandlerMain(int argc,
     // Long options without short equivalents.
     kOptionLastChar = 255,
     kOptionAnnotation,
+    kOptionChromeUnattended,
     kOptionDatabase,
 #if defined(OS_MACOSX)
     kOptionHandshakeFD,
@@ -567,6 +569,7 @@ int HandlerMain(int argc,
 
   static constexpr option long_options[] = {
     {"annotation", required_argument, nullptr, kOptionAnnotation},
+    {"chrome-unattended", no_argument, nullptr, kOptionChromeUnattended},
     {"database", required_argument, nullptr, kOptionDatabase},
 #if defined(OS_MACOSX)
     {"handshake-fd", required_argument, nullptr, kOptionHandshakeFD},
@@ -648,6 +651,10 @@ int HandlerMain(int argc,
         if (!AddKeyValueToMap(&options.annotations, optarg, "--annotation")) {
           return ExitFailure();
         }
+        break;
+      }
+      case kOptionChromeUnattended: {
+        options.chrome_unattended = true;
         break;
       }
       case kOptionDatabase: {
@@ -900,7 +907,14 @@ int HandlerMain(int argc,
 #endif
       user_stream_sources);
 
- #if defined(OS_LINUX) || defined(OS_ANDROID)
+#if defined(OS_CHROMEOS)
+  if (options.chrome_unattended) {
+    exception_handler.SetChromeUnattended(true);
+    exception_handler.SetDumpDir(options.database);
+  }
+#endif
+
+#if defined(OS_LINUX) || defined(OS_ANDROID)
   if (options.exception_information_address) {
     ExceptionHandlerProtocol::ClientInformation info;
     info.exception_information_address = options.exception_information_address;
