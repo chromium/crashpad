@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5545556a_4f6b6b03",
+        "filename": "util/file/vmo_file_writer_fuchsia.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-08-29T21:41:30Z",
+      "side": 1,
+      "message": "Does this need to use inheritance? How about just using StringFile directly, and adding a utility function like GenerateVMOFromStringFile()?",
+      "revId": "31759804343dd721c113a2274a1972ffe0a34007",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
