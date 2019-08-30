@@ -79,6 +79,8 @@ compat_target("compat") {
   if (crashpad_is_linux || crashpad_is_android) {
     sources += [
       "linux/signal.h",
+      "linux/sys/mman.cc",
+      "linux/sys/mman.h",
       "linux/sys/ptrace.h",
       "linux/sys/user.h",
     ]
