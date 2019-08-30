@@ -99,7 +99,7 @@ FileHandle OpenFileForOutput(int rdwr_or_wronly,
            permissions == FilePermissions::kWorldReadable ? 0644 : 0600));
 }
 
-#if defined(OS_CHROMEOS)
+#if defined(OS_LINUX)
 FileHandle OpenMemFileForOutput(const base::FilePath& path) {
   return HANDLE_EINTR(memfd_create(path.value().c_str(), 0));
 }
@@ -156,7 +156,7 @@ FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
   return fd;
 }
 
-#if defined(OS_CHROMEOS)
+#if defined(OS_LINUX)
 FileHandle LoggingOpenMemFileForWrite(const base::FilePath& path) {
   FileHandle fd = OpenMemFileForOutput(path);
   PLOG_IF(ERROR, fd < 0) << "memfd_create " << path.value();

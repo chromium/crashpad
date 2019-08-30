@@ -112,8 +112,7 @@ class ExceptionHandlerServer {
         int broker_sock,
         UUID* local_report_id = nullptr) = 0;
 
-   protected:
-    ~Delegate() {}
+    virtual ~Delegate() {}
   };
 
   ExceptionHandlerServer();
