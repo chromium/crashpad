@@ -22,6 +22,30 @@
       "revId": "a64dcd34d2fd00d8afb1d31500f5be6b3fae0166",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b24b395_c04f0db3",
+        "filename": "compat/linux/sys/mman.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-30T18:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2175b0f9_a41bbf7e",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "a64dcd34d2fd00d8afb1d31500f5be6b3fae0166",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
