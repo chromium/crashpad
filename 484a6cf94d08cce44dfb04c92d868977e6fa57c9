@@ -16,6 +16,24 @@
       "revId": "484a6cf94d08cce44dfb04c92d868977e6fa57c9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4482db9d_cf993524",
+        "filename": "handler/linux/capture_snapshot.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-08-30T16:19:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec4e40e_58f4a3d3",
+      "revId": "484a6cf94d08cce44dfb04c92d868977e6fa57c9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
