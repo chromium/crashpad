@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60e24a83_072dbe79",
+        "filename": "util/stream/test_output_stream.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-30T20:48:55Z",
+      "side": 1,
+      "message": "There should be a blank line between C and C++ system headers, so add a blank line before this.",
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03966b63_34bf2536",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-30T20:48:55Z",
+      "side": 1,
+      "message": "Don’t throw away the result:\n\n  return output_stream_-\u003eFlush();",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 16
+      },
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c0ed497_6b3b013f",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-30T20:48:55Z",
+      "side": 1,
+      "message": "Just because _this_ object doesn’t want to flush doesn’t mean that the object it owns definitely doesn’t want to flush also. This should also:\n\n  return output_stream_-\u003eFlush();",
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e97c4b5_d5e23a5a",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-30T20:48:55Z",
+      "side": 1,
+      "message": "Given that the return behavior should be the same in three cases, what I’d suggest for structuring this entire function is:\n\n  if (initialized_.is_valid() \u0026\u0026 flush_needed_) {\n    flush_needed_ \u003d false;\n    int result \u003d Z_OK;\n    do {\n      // …\n    } while (result !\u003d Z_STREAM_END);\n  }\n\n  return output_stream_-\u003eFlush();\n\nThat makes it much more likely that output_stream_-\u003eFlush() will be called in every desirable situation, even as the code is maintained and modified.",
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc939feb_0c9463fd",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-30T20:48:55Z",
+      "side": 1,
+      "message": "There should be a blank line between C and C++ system headers, so add a blank line before this.",
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ecb2682_3ff81b8e",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-30T20:48:55Z",
+      "side": 1,
+      "message": "There should be a blank line between C and C++ system headers, so add a blank line before this.",
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c7ccdb9_f7d7cd50",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-30T20:48:55Z",
+      "side": 1,
+      "message": "You don’t need your own loop for this. Use:\n\n  base::RandBytes(\u0026input_[0], size);\n\nThis is functionally equivalent and will generally be more direct and faster than looping around base::RandInt().",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 49
+      },
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c910ceb_5f4d93df",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-30T20:48:55Z",
+      "side": 1,
+      "message": "I think you had base::RandInt() here before. base::RandInt(0, 4096 * 2) is probably more familiar and nearly equivalent (it gives you [0, 8192] as opposed to [0, 8191] as you have here.)",
+      "range": {
+        "startLine": 145,
+        "startChar": 17,
+        "endLine": 145,
+        "endChar": 46
+      },
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
