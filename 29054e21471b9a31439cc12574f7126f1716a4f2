@@ -315,6 +315,30 @@
       "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e1a9724_7b3d87ce",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-08-31T03:47:58Z",
+      "side": 1,
+      "message": "\u003e Yes, I changed it to avoid type cast, base::RandInt() return int, but size_t is unsigned. change to [0, 8192]\n\nI don’t think you can avoid casting even with base::RandGenerator(). We build for platforms where size_t ≠ uint64_t. 32-bit platforms, for example.",
+      "parentUuid": "98297af4_075d2f75",
+      "range": {
+        "startLine": 145,
+        "startChar": 17,
+        "endLine": 145,
+        "endChar": 46
+      },
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
