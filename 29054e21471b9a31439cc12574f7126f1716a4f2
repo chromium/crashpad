@@ -339,6 +339,30 @@
       "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7eafb4e_e09dafdf",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-31T04:15:46Z",
+      "side": 1,
+      "message": "used static_cast\u003c\u003e, WDYT?",
+      "parentUuid": "9e1a9724_7b3d87ce",
+      "range": {
+        "startLine": 145,
+        "startChar": 17,
+        "endLine": 145,
+        "endChar": 46
+      },
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
