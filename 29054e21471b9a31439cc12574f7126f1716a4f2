@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "555f2027_118cc2ca",
+        "filename": "util/stream/test_output_stream.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-31T02:58:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60e24a83_072dbe79",
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03966b63_34bf2536",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 12
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "ecaffc98_c217447d",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-31T02:58:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "03966b63_34bf2536",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 16
+      },
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c0ed497_6b3b013f",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 12
@@ -56,6 +98,24 @@
       "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7652ad6_e9538551",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-31T02:58:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4c0ed497_6b3b013f",
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "9f579c8b_df1a3247",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-31T02:58:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e97c4b5_d5e23a5a",
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc939feb_0c9463fd",
         "filename": "util/stream/zlib_output_stream.h",
         "patchSetId": 12
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "29a8cd0e_1aeacfc9",
+        "filename": "util/stream/zlib_output_stream.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-31T02:58:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc939feb_0c9463fd",
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ecb2682_3ff81b8e",
         "filename": "util/stream/zlib_output_stream_test.cc",
         "patchSetId": 12
@@ -107,6 +203,24 @@
       "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4294bd0c_4ee79e2e",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-31T02:58:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ecb2682_3ff81b8e",
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -133,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "569a8b6f_ce696484",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-31T02:58:50Z",
+      "side": 1,
+      "message": "aha, thanks!",
+      "parentUuid": "5c7ccdb9_f7d7cd50",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 49
+      },
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3c910ceb_5f4d93df",
         "filename": "util/stream/zlib_output_stream_test.cc",
         "patchSetId": 12
@@ -144,6 +282,30 @@
       "writtenOn": "2019-08-30T20:48:55Z",
       "side": 1,
       "message": "I think you had base::RandInt() here before. base::RandInt(0, 4096 * 2) is probably more familiar and nearly equivalent (it gives you [0, 8192] as opposed to [0, 8191] as you have here.)",
+      "range": {
+        "startLine": 145,
+        "startChar": 17,
+        "endLine": 145,
+        "endChar": 46
+      },
+      "revId": "29054e21471b9a31439cc12574f7126f1716a4f2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98297af4_075d2f75",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-08-31T02:58:50Z",
+      "side": 1,
+      "message": "Yes, I changed it to avoid type cast, base::RandInt() return int, but size_t is unsigned. change to [0, 8192]",
+      "parentUuid": "3c910ceb_5f4d93df",
       "range": {
         "startLine": 145,
         "startChar": 17,
