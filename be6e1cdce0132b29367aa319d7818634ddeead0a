@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c9c08227_93a084d1",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-09-04T23:09:05Z",
+      "side": 1,
+      "message": "This is where I get the name from https://cs.chromium.org/chromium/src/chrome/app/chrome_crash_reporter_client.cc?rcl\u003d17fa2e623635da7853b7d819a8759a4ff1807cac\u0026l\u003d129. I\u0027m trying to not reinvent names. So in the tast the flag is test_mode and then it sets the Chrome environment flag of HEADLESS to actually implement it. And current crash reporting code in Chrome calls it unattended.",
+      "parentUuid": "63c2d170_503b9a9f",
+      "range": {
+        "startLine": 530,
+        "startChar": 4,
+        "endLine": 530,
+        "endChar": 27
+      },
+      "revId": "be6e1cdce0132b29367aa319d7818634ddeead0a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5040dc49_0f62c33d",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "be6e1cdce0132b29367aa319d7818634ddeead0a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7290ab29_dcac44cd",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1212939
+      },
+      "writtenOn": "2019-09-04T23:09:05Z",
+      "side": 1,
+      "message": "I intend to use chrome_unattended_ as the flag for tests. I\u0027m kind reusing options.database, which is used by all other platform to designate the directory to write minidumps.",
+      "parentUuid": "5040dc49_0f62c33d",
+      "range": {
+        "startLine": 342,
+        "startChar": 8,
+        "endLine": 342,
+        "endChar": 26
+      },
+      "revId": "be6e1cdce0132b29367aa319d7818634ddeead0a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
