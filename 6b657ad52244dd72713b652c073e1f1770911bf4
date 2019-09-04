@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065388d_caf9da87",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-09-04T17:09:20Z",
+      "side": 1,
+      "message": "Optional: since deterministic_input_.get() won’t change, I’d suggest:\n\n  uint8_t* deterministic_input_base \u003d deterministic_input_.get();\n  while (size-- \u003e 0) {\n    deterministic_input_base[size] \u003d static_cast\u003cuint8_t\u003e(size);\n  return deterministic_input_base;",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 38
+      },
+      "revId": "6b657ad52244dd72713b652c073e1f1770911bf4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99a6469b_8977e402",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-09-04T17:09:20Z",
+      "side": 1,
+      "message": "You couldn’t do this in one step, a static_cast straight to size_t without the intermediate unsigned int step?",
+      "range": {
+        "startLine": 145,
+        "startChar": 17,
+        "endLine": 146,
+        "endChar": 47
+      },
+      "revId": "6b657ad52244dd72713b652c073e1f1770911bf4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
