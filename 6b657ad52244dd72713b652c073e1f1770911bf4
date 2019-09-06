@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "48e032a9_28bf6f32",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-09-06T00:53:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065388d_caf9da87",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 38
+      },
+      "revId": "6b657ad52244dd72713b652c073e1f1770911bf4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99a6469b_8977e402",
         "filename": "util/stream/zlib_output_stream_test.cc",
         "patchSetId": 14
@@ -36,6 +60,30 @@
       "writtenOn": "2019-09-04T17:09:20Z",
       "side": 1,
       "message": "You couldn’t do this in one step, a static_cast straight to size_t without the intermediate unsigned int step?",
+      "range": {
+        "startLine": 145,
+        "startChar": 17,
+        "endLine": 146,
+        "endChar": 47
+      },
+      "revId": "6b657ad52244dd72713b652c073e1f1770911bf4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c00b39a3_e3ac439b",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-09-06T00:53:27Z",
+      "side": 1,
+      "message": "there was some error, I just want to show you the error message, but it worked this time. I probably made a mistake last time.",
+      "parentUuid": "99a6469b_8977e402",
       "range": {
         "startLine": 145,
         "startChar": 17,
