@@ -49,7 +49,8 @@ if (crashpad_is_mac) {
       if (!use_system_xcode) {
         import("//build/config/clang/clang.gni")
         import("//build/config/mac/mac_sdk.gni")
-        clang_path = rebase_path("$clang_base_path/bin/", root_build_dir) + "clang"
+        clang_path =
+            rebase_path("$clang_base_path/bin/", root_build_dir) + "clang"
         mig_path = "$mac_bin_path" + "mig"
         migcom_path = "$mac_bin_path" + "../libexec/migcom"
 
@@ -165,6 +166,9 @@ static_library("util") {
     "stdlib/strnlen.cc",
     "stdlib/strnlen.h",
     "stdlib/thread_safe_vector.h",
+    "stream/output_stream_interface.h",
+    "stream/zlib_output_stream.cc",
+    "stream/zlib_output_stream.h",
     "string/split_string.cc",
     "string/split_string.h",
     "synchronization/semaphore.h",
@@ -176,6 +180,8 @@ static_library("util") {
     "thread/worker_thread.cc",
     "thread/worker_thread.h",
   ]
+
+  defines = [ "ZLIB_CONST" ]
 
   if (crashpad_is_posix || crashpad_is_fuchsia) {
     sources += [
@@ -593,6 +599,9 @@ source_set("util_test") {
     "stdlib/strlcpy_test.cc",
     "stdlib/strnlen_test.cc",
     "stdlib/thread_safe_vector_test.cc",
+    "stream/test_output_stream.cc",
+    "stream/test_output_stream.h",
+    "stream/zlib_output_stream_test.cc",
     "string/split_string_test.cc",
     "synchronization/semaphore_test.cc",
     "thread/thread_log_messages_test.cc",
