@@ -255,6 +255,9 @@ bool CrosCrashReportExceptionHandler::HandleExceptionWithConnection(
     argv.push_back("--crash_loop_before=" +
                    std::to_string(info.crash_loop_before_time));
   }
+  if (!dump_dir_.empty()) {
+    argv.push_back("--chrome_dump_dir=" + dump_dir_.value());
+  }
 
   if (!DoubleForkAndExec(argv,
                          nullptr /* envp */,
@@ -270,6 +273,7 @@ bool CrosCrashReportExceptionHandler::HandleExceptionWithConnection(
   if (local_report_id != nullptr) {
     *local_report_id = uuid;
   }
+  LOG(INFO) << "Successfully wrote report " << uuid.ToString();
 
   Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSuccess);
   return true;

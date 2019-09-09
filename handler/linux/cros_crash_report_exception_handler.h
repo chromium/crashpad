@@ -76,6 +76,7 @@ class CrosCrashReportExceptionHandler
       int broker_sock,
       UUID* local_report_id = nullptr) override;
 
+  void SetDumpDir(const base::FilePath& dump_dir) { dump_dir_ = dump_dir; }
  private:
   bool HandleExceptionWithConnection(
       PtraceConnection* connection,
@@ -88,6 +89,7 @@ class CrosCrashReportExceptionHandler
   CrashReportDatabase* database_;  // weak
   const std::map<std::string, std::string>* process_annotations_;  // weak
   const UserStreamDataSources* user_stream_data_sources_;  // weak
+  base::FilePath dump_dir_;
 
   DISALLOW_COPY_AND_ASSIGN(CrosCrashReportExceptionHandler);
 };
