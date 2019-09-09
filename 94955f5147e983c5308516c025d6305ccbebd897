@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff7b2551_cd7d6665",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-09-09T16:08:30Z",
+      "side": 1,
+      "message": "Any new flags should be included in this usage message.",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 10
+      },
+      "revId": "94955f5147e983c5308516c025d6305ccbebd897",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df515330_145415f6",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-09-09T16:08:30Z",
+      "side": 1,
+      "message": "Let\u0027s put this inside the OS_CHROMEOS guard since it doesn\u0027t have meaning on other platforms.",
+      "range": {
+        "startLine": 201,
+        "startChar": 2,
+        "endLine": 201,
+        "endChar": 25
+      },
+      "revId": "94955f5147e983c5308516c025d6305ccbebd897",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cea4465d_dc67fb1d",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-09-09T16:08:30Z",
+      "side": 1,
+      "message": "-\u003e",
+      "range": {
+        "startLine": 958,
+        "startChar": 21,
+        "endLine": 958,
+        "endChar": 22
+      },
+      "revId": "94955f5147e983c5308516c025d6305ccbebd897",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a616e25_b62ed947",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-09-09T16:08:30Z",
+      "side": 1,
+      "message": "I still think it\u0027s weird/wrong to be re-using the database argument in this way. This isn\u0027t how --database is documented and it\u0027s inconsistent with the fact that crash_reporter is normally responsible for determining dump directories itself.",
+      "range": {
+        "startLine": 959,
+        "startChar": 3,
+        "endLine": 959,
+        "endChar": 51
+      },
+      "revId": "94955f5147e983c5308516c025d6305ccbebd897",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
