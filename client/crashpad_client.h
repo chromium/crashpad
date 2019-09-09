@@ -16,6 +16,7 @@
 #define CRASHPAD_CLIENT_CRASHPAD_CLIENT_H_
 
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -138,7 +139,7 @@ class CrashpadClient {
   //!     this process' ptracer. 0 indicates it is not necessary to set the
   //!     handler as this process' ptracer. -1 indicates that the handler's
   //!     process ID should be determined by communicating over the socket.
-  static bool SetHandlerSocket(ScopedFileHandle sock, pid_t pid);
+  bool SetHandlerSocket(ScopedFileHandle sock, pid_t pid);
 #endif  // OS_ANDROID || OS_LINUX || DOXYGEN
 
 #if defined(OS_ANDROID) || DOXYGEN
@@ -170,7 +171,7 @@ class CrashpadClient {
   //!     specified in this parameter.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
-  static bool StartJavaHandlerAtCrash(
+  bool StartJavaHandlerAtCrash(
       const std::string& class_name,
       const std::vector<std::string>* env,
       const base::FilePath& database,
@@ -251,7 +252,7 @@ class CrashpadClient {
   //!     specified in this parameter.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
-  static bool StartHandlerWithLinkerAtCrash(
+  bool StartHandlerWithLinkerAtCrash(
       const std::string& handler_trampoline,
       const std::string& handler_library,
       bool is_64_bit,
@@ -333,7 +334,7 @@ class CrashpadClient {
   //!     specified in this parameter.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
-  static bool StartHandlerAtCrash(
+  bool StartHandlerAtCrash(
       const base::FilePath& handler,
       const base::FilePath& database,
       const base::FilePath& metrics_dir,
@@ -412,6 +413,16 @@ class CrashpadClient {
   //!
   //! \param[in] handler The custom crash signal handler to install.
   static void SetFirstChanceExceptionHandler(FirstChanceHandler handler);
+
+  //! \brief Configures a set of signals that shouldn't have Crashpad signal
+  //!     handlers installed.
+  //!
+  //! This method should be called before calling StartHandler(),
+  //! SetHandlerSocket(), or other methods that install Crashpad signal
+  //! handlers.
+  //!
+  //! \param[in] unhandled_signals The set of unhandled signals
+  void SetUnhandledSignals(const std::set<int>& unhandled_signals);
 
 #endif  // OS_LINUX || OS_ANDROID || DOXYGEN
 
@@ -604,6 +615,8 @@ class CrashpadClient {
 #elif defined(OS_WIN)
   std::wstring ipc_pipe_;
   ScopedKernelHANDLE handler_start_thread_;
+#elif defined(OS_LINUX)
+  std::set<int> unhandled_signals_;
 #endif  // OS_MACOSX
 
   DISALLOW_COPY_AND_ASSIGN(CrashpadClient);
