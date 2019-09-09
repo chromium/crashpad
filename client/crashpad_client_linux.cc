@@ -155,11 +155,11 @@ class SignalHandler {
  protected:
   SignalHandler() = default;
 
-  bool Install() {
+  bool Install(const std::set<int>* unhandled_signals) {
     DCHECK(!handler_);
     handler_ = this;
     return Signals::InstallCrashHandlers(
-        HandleOrReraiseSignal, 0, &old_actions_);
+        HandleOrReraiseSignal, 0, &old_actions_, unhandled_signals);
   }
 
   const ExceptionInformation& GetExceptionInfo() {
@@ -202,7 +202,8 @@ class LaunchAtCrashHandler : public SignalHandler {
   }
 
   bool Initialize(std::vector<std::string>* argv_in,
-                  const std::vector<std::string>* envp) {
+                  const std::vector<std::string>* envp,
+                  const std::set<int>* unhandled_signals) {
     argv_strings_.swap(*argv_in);
 
     if (envp) {
@@ -215,7 +216,7 @@ class LaunchAtCrashHandler : public SignalHandler {
                                                   &GetExceptionInfo()));
 
     StringVectorToCStringVector(argv_strings_, &argv_);
-    return Install();
+    return Install(unhandled_signals);
   }
 
   void HandleCrashImpl() override {
@@ -270,7 +271,9 @@ class RequestCrashDumpHandler : public SignalHandler {
   // created the namespace.
   // pid > 0 directly indicates what the handler's pid is expected to be, so
   // retrieving this information from the handler is not necessary.
-  bool Initialize(ScopedFileHandle sock, pid_t pid) {
+  bool Initialize(ScopedFileHandle sock,
+                  pid_t pid,
+                  const std::set<int>* unhandled_signals) {
     ExceptionHandlerClient client(sock.get(), true);
     if (pid < 0) {
       ucred creds;
@@ -285,7 +288,7 @@ class RequestCrashDumpHandler : public SignalHandler {
     }
     sock_to_handler_.reset(sock.release());
     handler_pid_ = pid;
-    return Install();
+    return Install(unhandled_signals);
   }
 
   bool GetHandlerSocket(int* sock, pid_t* pid) {
@@ -368,7 +371,8 @@ bool CrashpadClient::StartHandler(
   }
 
   auto signal_handler = RequestCrashDumpHandler::Get();
-  return signal_handler->Initialize(std::move(client_sock), -1);
+  return signal_handler->Initialize(
+      std::move(client_sock), -1, &unhandled_signals_);
 }
 
 #if defined(OS_ANDROID) || defined(OS_LINUX)
@@ -378,16 +382,14 @@ bool CrashpadClient::GetHandlerSocket(int* sock, pid_t* pid) {
   return signal_handler->GetHandlerSocket(sock, pid);
 }
 
-// static
 bool CrashpadClient::SetHandlerSocket(ScopedFileHandle sock, pid_t pid) {
   auto signal_handler = RequestCrashDumpHandler::Get();
-  return signal_handler->Initialize(std::move(sock), pid);
+  return signal_handler->Initialize(std::move(sock), pid, &unhandled_signals_);
 }
 #endif  // OS_ANDROID || OS_LINUX
 
 #if defined(OS_ANDROID)
 
-// static
 bool CrashpadClient::StartJavaHandlerAtCrash(
     const std::string& class_name,
     const std::vector<std::string>* env,
@@ -405,7 +407,7 @@ bool CrashpadClient::StartJavaHandlerAtCrash(
                                                       kInvalidFileHandle);
 
   auto signal_handler = LaunchAtCrashHandler::Get();
-  return signal_handler->Initialize(&argv, env);
+  return signal_handler->Initialize(&argv, env, &unhandled_signals_);
 }
 
 // static
@@ -423,7 +425,6 @@ bool CrashpadClient::StartJavaHandlerForClient(
   return DoubleForkAndExec(argv, env, socket, false, nullptr);
 }
 
-// static
 bool CrashpadClient::StartHandlerWithLinkerAtCrash(
     const std::string& handler_trampoline,
     const std::string& handler_library,
@@ -445,7 +446,7 @@ bool CrashpadClient::StartHandlerWithLinkerAtCrash(
                                   arguments,
                                   kInvalidFileHandle);
   auto signal_handler = LaunchAtCrashHandler::Get();
-  return signal_handler->Initialize(&argv, env);
+  return signal_handler->Initialize(&argv, env, &unhandled_signals_);
 }
 
 // static
@@ -475,7 +476,6 @@ bool CrashpadClient::StartHandlerWithLinkerForClient(
 
 #endif
 
-// static
 bool CrashpadClient::StartHandlerAtCrash(
     const base::FilePath& handler,
     const base::FilePath& database,
@@ -487,7 +487,7 @@ bool CrashpadClient::StartHandlerAtCrash(
       handler, database, metrics_dir, url, annotations, arguments);
 
   auto signal_handler = LaunchAtCrashHandler::Get();
-  return signal_handler->Initialize(&argv, nullptr);
+  return signal_handler->Initialize(&argv, nullptr, &unhandled_signals_);
 }
 
 // static
@@ -541,6 +541,11 @@ void CrashpadClient::SetFirstChanceExceptionHandler(
     FirstChanceHandler handler) {
   DCHECK(SignalHandler::Get());
   SignalHandler::Get()->SetFirstChanceHandler(handler);
+}
+
+void CrashpadClient::SetUnhandledSignals(const std::set<int>& signals) {
+  DCHECK(!SignalHandler::Get());
+  unhandled_signals_ = signals;
 }
 
 #if defined(OS_CHROMEOS)
