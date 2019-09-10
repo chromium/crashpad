@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3190ce7e_0927723f",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-09-10T22:23:00Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to allow symlinks here and we don\u0027t allow them in other calls to IsDirectory() for database directories.",
+      "range": {
+        "startLine": 176,
+        "startChar": 36,
+        "endLine": 176,
+        "endChar": 40
+      },
+      "revId": "3a8923c144ca2be24d1c0942f4967650266e1ffa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b2e3083_139f2d0d",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-09-10T22:23:00Z",
+      "side": 1,
+      "message": "It looks like I lied a little bit before. This root attachment directory is also created during initialization so I don\u0027t think we need to check for it first here.",
+      "range": {
+        "startLine": 876,
+        "startChar": 0,
+        "endLine": 879,
+        "endChar": 3
+      },
+      "revId": "3a8923c144ca2be24d1c0942f4967650266e1ffa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
