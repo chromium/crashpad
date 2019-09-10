@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "528a43e4_2f4dbd47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2019-09-10T18:00:50Z",
+      "side": 1,
+      "message": "POSIX also includes Android and Mac.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "b5a94b656d16db70c0e87eded2efb7a82035fb96",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8a67a18d_2b3244ce",
         "filename": "util/file/directory_reader_posix.cc",
         "patchSetId": 1
