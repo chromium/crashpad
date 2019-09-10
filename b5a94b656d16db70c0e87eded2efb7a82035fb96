@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "9b543928_de40fec6",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1369013
+      },
+      "writtenOn": "2019-09-10T20:07:36Z",
+      "side": 1,
+      "message": "Cool, thanks",
+      "parentUuid": "9a56a13e_073d78b0",
+      "range": {
+        "startLine": 39,
+        "startChar": 22,
+        "endLine": 39,
+        "endChar": 26
+      },
+      "revId": "b5a94b656d16db70c0e87eded2efb7a82035fb96",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8a67a18d_2b3244ce",
         "filename": "util/file/directory_reader_posix.cc",
         "patchSetId": 1
