@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "45713c1b_67b68573",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-09-10T18:09:25Z",
+      "side": 1,
+      "message": "DirectoryReader::Open() is often called on directories we expect to exist. Maybe it would be better to call IsDirectory() first instead (and disable IsDirectory()\u0027s logging when the file doesn\u0027t exist instead).\n\nWe already almost do this in one instance:\nhttps://cs.chromium.org/chromium/src/third_party/crashpad/crashpad/client/crash_report_database_generic.cc?rcl\u003d2da5c1e23132535d9362173d96d632037de46d1d\u0026l\u003d177",
+      "range": {
+        "startLine": 39,
+        "startChar": 22,
+        "endLine": 39,
+        "endChar": 26
+      },
+      "revId": "b5a94b656d16db70c0e87eded2efb7a82035fb96",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8a67a18d_2b3244ce",
         "filename": "util/file/directory_reader_posix.cc",
         "patchSetId": 1
@@ -41,6 +64,29 @@
         "startChar": 6,
         "endLine": 43,
         "endChar": 17
+      },
+      "revId": "b5a94b656d16db70c0e87eded2efb7a82035fb96",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6df9dae9_46141e4e",
+        "filename": "util/file/filesystem_posix.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-09-10T18:09:25Z",
+      "side": 1,
+      "message": "Can we also mention in the docs for these methods that nothing is logged if the file doesn\u0027t exist?",
+      "range": {
+        "startLine": 76,
+        "startChar": 5,
+        "endLine": 76,
+        "endChar": 18
       },
       "revId": "b5a94b656d16db70c0e87eded2efb7a82035fb96",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
