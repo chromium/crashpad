@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a67a18d_2b3244ce",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-09-10T17:59:47Z",
+      "side": 1,
+      "message": "nit; Crashpad has a PLOG_IF(ERROR, errno !\u003d ENOENT) \u003c\u003c ... that you could user here instead of a separate if block.",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 17
+      },
+      "revId": "b5a94b656d16db70c0e87eded2efb7a82035fb96",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
