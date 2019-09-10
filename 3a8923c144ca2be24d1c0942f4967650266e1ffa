@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "043507c7_f1e5e159",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-09-10T22:59:46Z",
+      "side": 1,
+      "message": "This one should be changed.\n\nI suspect the existing call to stat() was added without consideration for symbolic links. The database doesn\u0027t ever use them itself (and they aren\u0027t always available on all our platforms).",
+      "parentUuid": "a4a94c96_6d75c0b0",
+      "range": {
+        "startLine": 176,
+        "startChar": 36,
+        "endLine": 176,
+        "endChar": 40
+      },
+      "revId": "3a8923c144ca2be24d1c0942f4967650266e1ffa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b2e3083_139f2d0d",
         "filename": "client/crash_report_database_generic.cc",
         "patchSetId": 1
