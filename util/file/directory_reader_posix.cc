@@ -39,7 +39,9 @@ DirectoryReader::~DirectoryReader() {}
 bool DirectoryReader::Open(const base::FilePath& path) {
   dir_.reset(HANDLE_EINTR_IF_EQ(opendir(path.value().c_str()), nullptr));
   if (!dir_.is_valid()) {
-    PLOG(ERROR) << "opendir " << path.value();
+    if (errno != ENOENT) {
+      PLOG(ERROR) << "opendir " << path.value();
+    }
     return false;
   }
   return true;
