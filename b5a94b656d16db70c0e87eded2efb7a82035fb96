@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "9a56a13e_073d78b0",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-09-10T20:03:30Z",
+      "side": 1,
+      "message": "Yeah, but just for the optional directories. The attachments related directories are optional, but the \"new\", \"pending\", and \"completed\" directories should always be there since they are set up during database initialization.",
+      "parentUuid": "484ae59c_0db9594c",
+      "range": {
+        "startLine": 39,
+        "startChar": 22,
+        "endLine": 39,
+        "endChar": 26
+      },
+      "revId": "b5a94b656d16db70c0e87eded2efb7a82035fb96",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8a67a18d_2b3244ce",
         "filename": "util/file/directory_reader_posix.cc",
         "patchSetId": 1
