@@ -173,8 +173,7 @@ off_t GetFileSize(const base::FilePath& filepath) {
 
 void AddAttachmentSize(const base::FilePath& attachments_dir, uint64_t* size) {
   // Early return if the attachment directory does not exist.
-  struct stat statbuf;
-  if (stat(attachments_dir.value().c_str(), &statbuf) != 0) {
+  if (!IsDirectory(attachments_dir, /*allow_symlinks=*/false)) {
     return;
   }
   DirectoryReader reader;
@@ -334,6 +333,9 @@ void CrashReportDatabase::UploadReport::InitializeAttachments() {
   base::FilePath attachments_dir =
       static_cast<CrashReportDatabaseGeneric*>(database_)->AttachmentsPath(
           uuid);
+  if (!IsDirectory(attachments_dir, /*allow_symlinks=*/false)) {
+    return;
+  }
   DirectoryReader reader;
   if (!reader.Open(attachments_dir)) {
     return;
@@ -873,7 +875,6 @@ void CrashReportDatabaseGeneric::CleanOrphanedAttachments() {
   base::FilePath root_attachments_dir(base_dir_.Append(kAttachmentsDirectory));
   DirectoryReader reader;
   if (!reader.Open(root_attachments_dir)) {
-    LOG(ERROR) << "no attachments dir";
     return;
   }
 
@@ -914,6 +915,9 @@ void CrashReportDatabaseGeneric::CleanOrphanedAttachments() {
 
 void CrashReportDatabaseGeneric::RemoveAttachmentsByUUID(const UUID& uuid) {
   base::FilePath attachments_dir = AttachmentsPath(uuid);
+  if (!IsDirectory(attachments_dir, /*allow_symlinks=*/false)) {
+    return;
+  }
   DirectoryReader reader;
   if (!reader.Open(attachments_dir)) {
     return;
