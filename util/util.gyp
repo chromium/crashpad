@@ -395,8 +395,8 @@
         ['OS=="linux" or OS=="android"', {
           'sources': [
             'net/http_transport_socket.cc',
-            'util/process_memory_sanitized.cc',
-            'util/process_memory_sanitized.h',
+            'process/process_memory_sanitized.cc',
+            'process/process_memory_sanitized.h',
           ],
         }, {  # else: OS!="linux"
           'sources!': [
