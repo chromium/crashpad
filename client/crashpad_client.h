@@ -615,7 +615,7 @@ class CrashpadClient {
 #elif defined(OS_WIN)
   std::wstring ipc_pipe_;
   ScopedKernelHANDLE handler_start_thread_;
-#elif defined(OS_LINUX)
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
   std::set<int> unhandled_signals_;
 #endif  // OS_MACOSX
 

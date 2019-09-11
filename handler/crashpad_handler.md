@@ -279,6 +279,13 @@ establish the Crashpad client environment before running a program.
    library, typically in response to a user requesting this behavior. If this
    option is not specified, this program will behave as if uploads are disabled.
 
+ * **--use-cros-crash-reporter**
+
+   Causes crash reports to be passed via an in-memory file to
+   `/sbin/crash_reporter` instead of storing them in the database. The database
+   is still used for Crashpad settings. This option is only valid on Chromium
+   OS.
+
  * **--help**
 
    Display help and exit.
