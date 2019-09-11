@@ -156,7 +156,7 @@
         }],
         ['OS=="linux" or OS=="android"', {
           'sources': [
-            'util/process_memory_sanitized_test.cc',
+            'process/process_memory_sanitized_test.cc',
           ],
         }],
         ['OS!="linux" and OS!="android"', {
