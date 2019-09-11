@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7886ee11_221f7881",
+        "filename": "client/crash_report_database_generic.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-09-11T16:42:43Z",
+      "side": 1,
+      "message": "I don\u0027t know what\u0027s the convention in Crashpad, but here I feel like /*allow_symlinks\u003d*/false would be more readable than just false.\n\nAnd if we ever enable bugprone-argument-comment in clang-tidy for Crashpad (maybe we already do?), it would complain if the argument name ever changes.",
+      "range": {
+        "startLine": 176,
+        "startChar": 35,
+        "endLine": 176,
+        "endChar": 36
+      },
+      "revId": "618d495f920bbdeb6700e36f56f613da180a7dc1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
