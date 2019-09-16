@@ -18,6 +18,7 @@
 #include <stdlib.h>
 
 #include <algorithm>
+#include <cstdint>
 #include <random>
 #include <string>
 #include <vector>
@@ -204,8 +205,9 @@ TEST(PruneCrashReports, PruneOrder) {
   using ::testing::Return;
   using ::testing::SetArgPointee;
 
+  const uint64_t kNumReports = 10;
   std::vector<CrashReportDatabase::Report> reports;
-  for (int i = 0; i < 10; ++i) {
+  for (uint64_t i = 0; i < kNumReports; ++i) {
     CrashReportDatabase::Report temp;
     temp.uuid.data_1 = i;
     temp.creation_time = NDaysAgo(i * 10);
@@ -231,7 +233,7 @@ TEST(PruneCrashReports, PruneOrder) {
   }
 
   StaticCondition delete_all(true);
-  PruneCrashReportDatabase(&db, &delete_all);
+  EXPECT_EQ(PruneCrashReportDatabase(&db, &delete_all), kNumReports);
 }
 
 }  // namespace
