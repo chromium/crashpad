@@ -644,7 +644,7 @@ int HandlerMain(int argc,
      kOptionTraceParentWithException},
 #endif  // OS_LINUX || OS_ANDROID
     {"url", required_argument, nullptr, kOptionURL},
-#if defined(OS_CHROEMOS)
+#if defined(OS_CHROMEOS)
     {"use-cros-crash-reporter",
       no_argument,
       nullptr,
