@@ -531,6 +531,8 @@ int HandlerMain(int argc,
   }
 #endif
 
+  base::PlatformThread::SetName("CrashpadMainThread");
+
   InstallCrashHandler();
   CallMetricsRecordNormalExit metrics_record_normal_exit;
 
