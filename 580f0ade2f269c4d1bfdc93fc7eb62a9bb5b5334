@@ -22,6 +22,30 @@
       "revId": "580f0ade2f269c4d1bfdc93fc7eb62a9bb5b5334",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f869370_69abea8d",
+        "filename": "client/prune_crash_reports_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-09-18T18:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3d07312_947e7ec5",
+      "range": {
+        "startLine": 21,
+        "startChar": 10,
+        "endLine": 21,
+        "endChar": 17
+      },
+      "revId": "580f0ade2f269c4d1bfdc93fc7eb62a9bb5b5334",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
