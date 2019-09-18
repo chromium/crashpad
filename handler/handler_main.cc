@@ -37,6 +37,7 @@
 #include "base/strings/string_number_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
+#include "base/threading/platform_thread.h"
 #include "build/build_config.h"
 #include "client/crash_report_database.h"
 #include "client/crashpad_client.h"
@@ -530,6 +531,8 @@ int HandlerMain(int argc,
     PLOG(ERROR) << "Failed to redirect stderr to /var/log/chrome/chrome";
   }
 #endif
+
+  base::PlatformThread::SetName("CrashpadMainThread");
 
   InstallCrashHandler();
   CallMetricsRecordNormalExit metrics_record_normal_exit;
