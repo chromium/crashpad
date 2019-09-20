@@ -168,17 +168,17 @@ bool UnixCredentialSocket::RecvMsg(int fd,
     return false;
   }
 
+  // Credentials are missing from the message either when the recv socket wasn't
+  // configured with SO_PASSCRED or when all sending sockets have been closed.
+  // In the latter case, res == 0. This case is also indistinguishable from an
+  // empty message sent to a recv socket which hasn't set SO_PASSCRED.
   if (!local_creds) {
-    LOG(ERROR) << "missing credentials";
+    LOG_IF(ERROR, res != 0) << "missing credentials";
     return false;
   }
 
-  // res == 0 may also indicate that the sending socket disconnected, but in
-  // that case, the message will also have missing or invalid credentials.
   if (static_cast<size_t>(res) != buf_size) {
-    if (res != 0 || (local_creds && local_creds->pid != 0)) {
-      LOG(ERROR) << "incorrect payload size " << res;
-    }
+    LOG(ERROR) << "incorrect payload size " << res;
     return false;
   }
 

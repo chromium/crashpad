@@ -76,7 +76,11 @@ class UnixCredentialSocket {
   //! \param[out] creds The credentials of the sender.
   //! \param[out] fds The recieved file descriptors. Optional. If `nullptr`, all
   //!     received file descriptors will be closed.
-  //! \return `true` on success. Otherwise, `false`, with a message logged.
+  //! \return `true` on success. Otherwise, `false`, with a message logged. No
+  //!     message will be logged if the message was detected to be an EOF
+  //!     condition triggered by all clients disconnecting. This case is
+  //!     indistinguishable from misuses of this interface that haven't set
+  //!     `SO_PASSCRED` on \a fd.
   static bool RecvMsg(int fd,
                       void* buf,
                       size_t buf_size,
