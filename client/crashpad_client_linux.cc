@@ -352,7 +352,6 @@ bool CrashpadClient::StartHandler(
     const std::vector<std::string>& arguments,
     bool restartable,
     bool asynchronous_start) {
-  DCHECK(!restartable);
   DCHECK(!asynchronous_start);
 
   ScopedFileHandle client_sock, handler_sock;

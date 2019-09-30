@@ -263,8 +263,6 @@ class CallMetricsRecordNormalExit {
 
 #if defined(OS_MACOSX) || defined(OS_LINUX) || defined(OS_ANDROID)
 
-Signals::OldActions g_old_crash_signal_handlers;
-
 void HandleCrashSignal(int sig, siginfo_t* siginfo, void* context) {
   MetricsRecordExit(Metrics::LifetimeMilestone::kCrashed);
 
@@ -299,9 +297,7 @@ void HandleCrashSignal(int sig, siginfo_t* siginfo, void* context) {
   }
   Metrics::HandlerCrashed(metrics_code);
 
-  struct sigaction* old_action =
-      g_old_crash_signal_handlers.ActionForSignal(sig);
-  Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, old_action);
+  Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, nullptr);
 }
 
 void HandleTerminateSignal(int sig, siginfo_t* siginfo, void* context) {
@@ -309,13 +305,13 @@ void HandleTerminateSignal(int sig, siginfo_t* siginfo, void* context) {
   Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, nullptr);
 }
 
-#if defined(OS_MACOSX)
-
 void ReinstallCrashHandler() {
   // This is used to re-enable the metrics-recording crash handler after
   // MonitorSelf() sets up a Crashpad exception handler. On macOS, the
   // metrics-recording handler uses signals and the Crashpad handler uses Mach
   // exceptions, so there’s nothing to re-enable.
+  // On Linux, the signal handler installed by StartHandler() restores the
+  // previously installed signal handler by default.
 }
 
 void InstallCrashHandler() {
@@ -324,6 +320,8 @@ void InstallCrashHandler() {
   // Not a crash handler, but close enough.
   Signals::InstallTerminateHandlers(HandleTerminateSignal, 0, nullptr);
 }
+
+#if defined(OS_MACOSX)
 
 struct ResetSIGTERMTraits {
   static struct sigaction* InvalidValue() {
@@ -347,21 +345,6 @@ void HandleSIGTERM(int sig, siginfo_t* siginfo, void* context) {
 
   DCHECK(g_exception_handler_server);
   g_exception_handler_server->Stop();
-}
-
-#else
-
-void ReinstallCrashHandler() {
-  // This is used to re-enable the metrics-recording crash handler after
-  // MonitorSelf() sets up a Crashpad signal handler.
-  Signals::InstallCrashHandlers(
-      HandleCrashSignal, 0, &g_old_crash_signal_handlers);
-}
-
-void InstallCrashHandler() {
-  ReinstallCrashHandler();
-
-  Signals::InstallTerminateHandlers(HandleTerminateSignal, 0, nullptr);
 }
 
 #endif  // OS_MACOSX
@@ -473,7 +456,7 @@ void MonitorSelf(const Options& options) {
   // instance of crashpad_handler to be writing metrics at a time, and it should
   // be the primary instance.
   CrashpadClient crashpad_client;
-#if defined(OS_LINUX) || defined(OS_ANDROID)
+#if defined(OS_ANDROID)
   if (!crashpad_client.StartHandlerAtCrash(executable_path,
                                            options.database,
                                            base::FilePath(),
