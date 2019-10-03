@@ -124,8 +124,8 @@ class CrashpadClient {
   //! `StartHandler()` must have successfully been called before calling this
   //!     method.
   //!
-  //! \param[out] sock The socket connected to the handler.
-  //! \param[out] pid The handler's process ID.
+  //! \param[out] sock The socket connected to the handler, if not `nullptr`.
+  //! \param[out] pid The handler's process ID, if not `nullptr`.
   //! \return `true` on success. Otherwise `false` with a message logged.
   static bool GetHandlerSocket(int* sock, pid_t* pid);
 

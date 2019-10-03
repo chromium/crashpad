@@ -295,8 +295,12 @@ class RequestCrashDumpHandler : public SignalHandler {
     if (!sock_to_handler_.is_valid()) {
       return false;
     }
-    *sock = sock_to_handler_.get();
-    *pid = handler_pid_;
+    if (sock) {
+      *sock = sock_to_handler_.get();
+    }
+    if (pid) {
+      *pid = handler_pid_;
+    }
     return true;
   }
 
