@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d2171b3b_156684be",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-10-04T19:14:30Z",
+      "side": 1,
+      "message": "You did!\n\nand here\u0027s how I responded:\nYes, but using app_process at all should only work on L+ because that\u0027s when the system linker became capable of loading native libs from the APK and L has an app_process32 even on 32-bit only images.",
+      "parentUuid": "3b8a3d54_bdedcfd0",
+      "revId": "71128044fd2953ddf2d81c91178e1b1119dbc04b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f574ae8_4dd236c6",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "71128044fd2953ddf2d81c91178e1b1119dbc04b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65d3b9c2_20f8e412",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-10-04T19:14:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f574ae8_4dd236c6",
+      "revId": "71128044fd2953ddf2d81c91178e1b1119dbc04b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
