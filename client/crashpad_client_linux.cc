@@ -58,24 +58,26 @@ std::vector<std::string> BuildAppProcessArgs(
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments,
     int socket) {
-  std::vector<std::string> argv;
 #if defined(ARCH_CPU_64_BITS)
-  argv.push_back("/system/bin/app_process64");
+  static constexpr char kAppProcess[] = "/system/bin/app_process64";
 #else
-  argv.push_back("/system/bin/app_process32");
+  static constexpr char kAppProcess[] = "/system/bin/app_process32";
 #endif
+
+  std::vector<std::string> argv;
+  argv.push_back(kAppProcess);
   argv.push_back("/system/bin");
   argv.push_back("--application");
   argv.push_back(class_name);
 
   std::vector<std::string> handler_argv = BuildHandlerArgvStrings(
-      base::FilePath(), database, metrics_dir, url, annotations, arguments);
+      base::FilePath(kAppProcess), database, metrics_dir, url, annotations, arguments);
 
   if (socket != kInvalidFileHandle) {
     handler_argv.push_back(FormatArgumentInt("initial-client-fd", socket));
   }
 
-  argv.insert(argv.end(), handler_argv.begin() + 1, handler_argv.end());
+  argv.insert(argv.end(), handler_argv.begin(), handler_argv.end());
   return argv;
 }
 
@@ -295,8 +297,12 @@ class RequestCrashDumpHandler : public SignalHandler {
     if (!sock_to_handler_.is_valid()) {
       return false;
     }
-    *sock = sock_to_handler_.get();
-    *pid = handler_pid_;
+    if (sock) {
+      *sock = sock_to_handler_.get();
+    }
+    if (pid) {
+      *pid = handler_pid_;
+    }
     return true;
   }
 
