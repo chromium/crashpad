@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b8a3d54_bdedcfd0",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-10-04T19:00:57Z",
+      "side": 1,
+      "message": "On oldish Androids, wasn’t it just app_process without 32?\n\n(I think I may have asked this a long time ago.)",
+      "revId": "71128044fd2953ddf2d81c91178e1b1119dbc04b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f574ae8_4dd236c6",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-10-04T19:00:57Z",
+      "side": 1,
+      "message": "80 columns",
+      "revId": "71128044fd2953ddf2d81c91178e1b1119dbc04b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
