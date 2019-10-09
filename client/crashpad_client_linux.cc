@@ -155,6 +155,7 @@ class SignalHandler {
             context);
     exception_information_.thread_id = sys_gettid();
 
+    ScopedPrSetDumpable set_dumpable(false);
     HandleCrashImpl();
     return false;
   }
@@ -228,7 +229,6 @@ class LaunchAtCrashHandler : public SignalHandler {
 
   void HandleCrashImpl() override {
     ScopedPrSetPtracer set_ptracer(sys_getpid(), /* may_log= */ false);
-    ScopedPrSetDumpable set_dumpable(/* may_log= */ false);
 
     pid_t pid = fork();
     if (pid < 0) {
