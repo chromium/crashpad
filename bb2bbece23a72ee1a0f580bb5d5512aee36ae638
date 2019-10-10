@@ -22,6 +22,30 @@
       "revId": "bb2bbece23a72ee1a0f580bb5d5512aee36ae638",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a0214de_df06eaae",
+        "filename": "snapshot/mac/process_types/dyld_images.proctype",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-10-10T21:34:30Z",
+      "side": 1,
+      "message": "\u003e extra space?\n\nvi’s rewrapper did that. :(",
+      "parentUuid": "5544962e_5c206b68",
+      "range": {
+        "startLine": 128,
+        "startChar": 28,
+        "endLine": 128,
+        "endChar": 29
+      },
+      "revId": "bb2bbece23a72ee1a0f580bb5d5512aee36ae638",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
