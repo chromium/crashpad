@@ -14,7 +14,6 @@
 
 #include "build/build_config.h"
 #include "gtest/gtest.h"
-#include "test/gtest_disabled.h"
 #include "test/main_arguments.h"
 #include "test/multiprocess_exec.h"
 
@@ -51,8 +50,6 @@ bool GetChildTestFunctionName(std::string* child_func_name) {
 
 int main(int argc, char* argv[]) {
   crashpad::test::InitializeMainArguments(argc, argv);
-  testing::AddGlobalTestEnvironment(
-      crashpad::test::DisabledTestGtestEnvironment::Get());
 
   std::string child_func_name;
   if (GetChildTestFunctionName(&child_func_name)) {

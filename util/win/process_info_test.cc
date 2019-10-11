@@ -26,7 +26,6 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
-#include "test/gtest_disabled.h"
 #include "test/scoped_temp_dir.h"
 #include "test/test_paths.h"
 #include "test/win/child_launcher.h"
@@ -203,7 +202,7 @@ TEST(ProcessInfo, OtherProcess) {
 #if defined(ARCH_CPU_64_BITS)
 TEST(ProcessInfo, OtherProcessWOW64) {
   if (!TestPaths::Has32BitBuildArtifacts()) {
-    DISABLED_TEST();
+    GTEST_SKIP();
   }
 
   TestOtherProcess(TestPaths::Architecture::k32Bit);
