@@ -1,4 +1,4 @@
-// Copyright 2018 The Crashpad Authors. All rights reserved.
+// Copyright 2019 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_FUCHSIA_EXCEPTION_PORT_KEY_H_
-#define CRASHPAD_UTIL_FUCHSIA_EXCEPTION_PORT_KEY_H_
+#ifndef CRASHPAD_THIRD_PARTY_LSS_LSS_H_
+#define CRASHPAD_THIRD_PARTY_LSS_LSS_H_
 
-namespace crashpad {
+#if defined(CRASHPAD_LSS_SOURCE_EXTERNAL)
+#include "third_party/lss/linux_syscall_support.h"
+#elif defined(CRASHPAD_LSS_SOURCE_EMBEDDED)
+#include "third_party/lss/lss/linux_syscall_support.h"
+#else
+#error Unknown lss source
+#endif
 
-//! \brief The key used in `zx_task_bind_exception_port()` and packet
-//!     processing. This matches the value that Zircon's `devmgr` and
-//!     `crashlogger` use for interoperability, for now.
-constexpr uint64_t kSystemExceptionPortKey = 1166444u;
-
-}  // namespace crashpad
-
-#endif  // CRASHPAD_UTIL_FUCHSIA_EXCEPTION_PORT_KEY_H_
+#endif  // CRASHPAD_THIRD_PARTY_LSS_LSS_H_

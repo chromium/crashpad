@@ -1,4 +1,4 @@
-// Copyright 2017 The Crashpad Authors. All rights reserved.
+// Copyright 2019 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/net/http_transport.h"
+#ifndef CRASHPAD_UTIL_WIN_SCOPED_REGISTRY_KEY_H_
+#define CRASHPAD_UTIL_WIN_SCOPED_REGISTRY_KEY_H_
 
-#include "base/logging.h"
+#include <windows.h>
+
+#include "base/scoped_generic.h"
 
 namespace crashpad {
 
-std::unique_ptr<HTTPTransport> HTTPTransport::Create() {
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196
-  return std::unique_ptr<HTTPTransport>();
-}
+struct ScopedRegistryKeyCloseTraits {
+  static HKEY InvalidValue() { return nullptr; }
+  static void Free(HKEY key) { RegCloseKey(key); }
+};
+
+using ScopedRegistryKey =
+    base::ScopedGeneric<HKEY, ScopedRegistryKeyCloseTraits>;
 
 }  // namespace crashpad
+
+#endif  // CRASHPAD_UTIL_WIN_SCOPED_REGISTRY_KEY_H_
