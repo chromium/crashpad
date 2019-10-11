@@ -38,7 +38,6 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
-#include "test/gtest_disabled.h"
 #include "test/linux/fake_ptrace_connection.h"
 #include "test/linux/get_tls.h"
 #include "test/multiprocess.h"
@@ -809,7 +808,7 @@ TEST(ProcessReaderLinux, AbortMessage) {
   // presence of a libc symbol which was introduced in Q.
   if (!crashpad::internal::Dlsym(RTLD_DEFAULT,
                                  "android_fdsan_close_with_tag")) {
-    DISABLED_TEST();
+    GTEST_SKIP();
   }
 
   android_set_abort_message(kTestAbortMessage);
