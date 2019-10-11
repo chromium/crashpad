@@ -427,7 +427,7 @@ class ChildWithSplitStackTest : public Multiprocess {
   }
 
   void MultiprocessChild() override {
-    const LinuxVMSize stack_size = page_size_ * 3;
+    const LinuxVMSize stack_size = page_size_ * 4;
     GrowStack(stack_size, reinterpret_cast<LinuxVMAddress>(&stack_size));
   }
 
@@ -440,7 +440,7 @@ class ChildWithSplitStackTest : public Multiprocess {
     } else {
       // Write-protect a page on our stack to split up the mapping
       LinuxVMAddress page_addr =
-          stack_address - (stack_address % page_size_) + page_size_;
+          stack_address - (stack_address % page_size_) + 2 * page_size_;
       ASSERT_EQ(
           mprotect(reinterpret_cast<void*>(page_addr), page_size_, PROT_READ),
           0)
