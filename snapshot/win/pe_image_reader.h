@@ -58,7 +58,7 @@ struct CrashpadInfo {
 //! This class is capable of reading both 32-bit and 64-bit images based on the
 //! bitness of the remote process.
 //!
-//! \sa PEImageAnnotationsReader
+//! \sa ImageAnnotationsReader
 //! \sa PEImageResourceReader
 class PEImageReader {
  public:
@@ -103,15 +103,6 @@ class PEImageReader {
   //!     a `CPADinfo` section, this will return `false` without logging any
   //!     messages. Other failures will result in messages being logged.
   bool GetCrashpadInfoSection(WinVMAddress* address, WinVMSize* size) const;
-
-  //! \brief Obtains the module's CrashpadInfo structure.
-  //!
-  //! \return `true` on success, `false` on failure. If the module does not have
-  //!     a `CPADinfo` section, this will return `false` without logging any
-  //!     messages. Other failures will result in messages being logged.
-  template <class Traits>
-  bool GetCrashpadInfo(
-      process_types::CrashpadInfo<Traits>* crashpad_info) const;
 
   //! \brief Obtains information from the module's debug directory, if any.
   //!

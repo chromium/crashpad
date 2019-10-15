@@ -144,13 +144,13 @@ static_library("snapshot") {
     sources += [
       "crashpad_types/crashpad_info_reader.cc",
       "crashpad_types/crashpad_info_reader.h",
+      "crashpad_types/image_annotation_reader.cc",
+      "crashpad_types/image_annotation_reader.h",
     ]
   }
 
   if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
     sources += [
-      "crashpad_types/image_annotation_reader.cc",
-      "crashpad_types/image_annotation_reader.h",
       "elf/elf_dynamic_array_reader.cc",
       "elf/elf_dynamic_array_reader.h",
       "elf/elf_image_reader.cc",
@@ -174,8 +174,6 @@ static_library("snapshot") {
       "win/memory_map_region_snapshot_win.h",
       "win/module_snapshot_win.cc",
       "win/module_snapshot_win.h",
-      "win/pe_image_annotations_reader.cc",
-      "win/pe_image_annotations_reader.h",
       "win/pe_image_reader.cc",
       "win/pe_image_reader.h",
       "win/pe_image_resource_reader.cc",
@@ -338,12 +336,14 @@ source_set("snapshot_test") {
 
   if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia ||
       crashpad_is_win) {
-    sources += [ "crashpad_types/crashpad_info_reader_test.cc" ]
+    sources += [
+      "crashpad_types/crashpad_info_reader_test.cc",
+      "crashpad_types/image_annotation_reader_test.cc",
+    ]
   }
 
   if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
     sources += [
-      "crashpad_types/image_annotation_reader_test.cc",
       "elf/elf_image_reader_test.cc",
       "elf/elf_image_reader_test_note.S",
     ]

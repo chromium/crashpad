@@ -19,8 +19,8 @@
 #include "base/strings/utf_string_conversions.h"
 #include "client/crashpad_info.h"
 #include "client/simple_address_range_bag.h"
+#include "snapshot/crashpad_types/image_annotation_reader.h"
 #include "snapshot/memory_snapshot_generic.h"
-#include "snapshot/win/pe_image_annotations_reader.h"
 #include "snapshot/win/pe_image_reader.h"
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
@@ -210,16 +210,23 @@ std::vector<std::string> ModuleSnapshotWin::AnnotationsVector() const {
 std::map<std::string, std::string> ModuleSnapshotWin::AnnotationsSimpleMap()
     const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  PEImageAnnotationsReader annotations_reader(
-      process_reader_, pe_image_reader_.get(), name_);
-  return annotations_reader.SimpleMap();
+  std::map<std::string, std::string> annotations;
+  if (crashpad_info_ && crashpad_info_->SimpleAnnotations()) {
+    ImageAnnotationReader reader(&memory_range_);
+    reader.SimpleMap(crashpad_info_->SimpleAnnotations(), &annotations);
+  }
+
+  return annotations;
 }
 
 std::vector<AnnotationSnapshot> ModuleSnapshotWin::AnnotationObjects() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  PEImageAnnotationsReader annotations_reader(
-      process_reader_, pe_image_reader_.get(), name_);
-  return annotations_reader.AnnotationsList();
+  std::vector<AnnotationSnapshot> annotations;
+  if (crashpad_info_ && crashpad_info_->AnnotationsList()) {
+    ImageAnnotationReader reader(&memory_range_);
+    reader.AnnotationsList(crashpad_info_->AnnotationsList(), &annotations);
+  }
+  return annotations;
 }
 
 std::set<CheckedRange<uint64_t>> ModuleSnapshotWin::ExtraMemoryRanges() const {

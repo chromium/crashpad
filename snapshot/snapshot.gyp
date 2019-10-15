@@ -159,8 +159,6 @@
         'win/memory_map_region_snapshot_win.h',
         'win/module_snapshot_win.cc',
         'win/module_snapshot_win.h',
-        'win/pe_image_annotations_reader.cc',
-        'win/pe_image_annotations_reader.h',
         'win/pe_image_reader.cc',
         'win/pe_image_reader.h',
         'win/pe_image_resource_reader.cc',
