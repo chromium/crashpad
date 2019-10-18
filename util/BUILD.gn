@@ -281,7 +281,7 @@ static_library("util") {
     if (crashpad_use_boringssl_for_http_transport_socket) {
       defines += [ "CRASHPAD_USE_BORINGSSL" ]
 
-      if (crashpad_is_in_fuchsia) {
+      if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
         deps += [ "//third_party/boringssl" ]
       } else {
         libs = [
@@ -545,7 +545,7 @@ if (!crashpad_is_android) {
       ]
       defines = [ "CRASHPAD_USE_BORINGSSL" ]
 
-      if (crashpad_is_in_fuchsia) {
+      if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
         deps += [ "//third_party/boringssl" ]
       } else {
         libs = [
