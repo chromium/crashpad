@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c232e7a6_2125f35f",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-21T13:23:53Z",
+      "side": 1,
+      "message": "Does the table buy us anything over just computing values if the translation is only ever adding/subtracting \u0027!\u0027 (plus a bit of invalid value processing)?",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 12
+      },
+      "revId": "1534f84559f5d225614a04af80f14b30291e152f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3801adc5_174eb7eb",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-21T13:23:53Z",
+      "side": 1,
+      "message": "As written, how can this ever be false?",
+      "range": {
+        "startLine": 59,
+        "startChar": 7,
+        "endLine": 59,
+        "endChar": 28
+      },
+      "revId": "1534f84559f5d225614a04af80f14b30291e152f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3482fc7_bae99594",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-21T13:23:53Z",
+      "side": 1,
+      "message": "Probably a good idea to assert that this can\u0027t be called multiple times, and Write can\u0027t be called after Flush (given that those are documented as the contract in OutputStreamInterface). Maybe initialized_.set_invalid() once flushed?",
+      "range": {
+        "startLine": 69,
+        "startChar": 25,
+        "endLine": 69,
+        "endChar": 30
+      },
+      "revId": "1534f84559f5d225614a04af80f14b30291e152f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "882d1e99_6fc64852",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-21T13:23:53Z",
+      "side": 1,
+      "message": "I have a personal preference for hex constants for masks. Up to you (although if you prefer decimal constants, maybe change the 0xff below?).",
+      "range": {
+        "startLine": 93,
+        "startChar": 20,
+        "endLine": 93,
+        "endChar": 24
+      },
+      "revId": "1534f84559f5d225614a04af80f14b30291e152f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22ebc862_fcc17e2b",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-21T13:23:53Z",
+      "side": 1,
+      "message": "It might be good to name and document this constant, so that its meaning is clear without referring to the doc. Especially as it\u0027s duplicated below.",
+      "range": {
+        "startLine": 93,
+        "startChar": 28,
+        "endLine": 93,
+        "endChar": 31
+      },
+      "revId": "1534f84559f5d225614a04af80f14b30291e152f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2831f809_e40a6bff",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-21T13:23:53Z",
+      "side": 1,
+      "message": "This might not cover all the cases where bits remain to output. I think it fails if there are either 7 or 8 bits left to output, but the last written byte was 0.",
+      "range": {
+        "startLine": 148,
+        "startChar": 6,
+        "endLine": 148,
+        "endChar": 37
+      },
+      "revId": "1534f84559f5d225614a04af80f14b30291e152f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff72e218_fa05e8da",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-21T13:23:53Z",
+      "side": 1,
+      "message": "I feel a bit unsure about this code too. bit_count_ can never be greater than or equal to 8, due to the loop starting at l130. This means that, by the DCHECK below, it must be zero. If that\u0027s the case, then it must be that what remains in symbol_buffer_ must decode to 8 bits, but that\u0027s also impossible.",
+      "range": {
+        "startLine": 162,
+        "startChar": 2,
+        "endLine": 162,
+        "endChar": 51
+      },
+      "revId": "1534f84559f5d225614a04af80f14b30291e152f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
