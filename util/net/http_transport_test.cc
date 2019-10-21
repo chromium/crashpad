@@ -81,14 +81,12 @@ class HTTPTransportTestFixture : public MultiprocessExec {
       SetChildCommand(server_path, nullptr);
     } else {
       std::vector<std::string> args;
-      cert_ = TestPaths::BuildArtifact(FILE_PATH_LITERAL("util"),
-                                       FILE_PATH_LITERAL("cert"),
-                                       TestPaths::FileType::kCertificate);
+      cert_ = TestPaths::TestDataRoot().Append(
+          "util/net/testdata/crashpad_util_test_cert.pem");
       args.push_back(ToUTF8IfWin(cert_.value()));
       args.emplace_back(ToUTF8IfWin(
-          TestPaths::BuildArtifact(FILE_PATH_LITERAL("util"),
-                                   FILE_PATH_LITERAL("key"),
-                                   TestPaths::FileType::kCertificate)
+          TestPaths::TestDataRoot()
+              .Append("util/net/testdata/crashpad_util_test_key.pem")
               .value()));
       SetChildCommand(server_path, &args);
       scheme_and_host_ = "https://localhost";

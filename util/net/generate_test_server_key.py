@@ -20,9 +20,9 @@ import subprocess
 # GN requires a Python script for actions, so this just wraps the openssl
 # command needed to generate a test private key and a certificate. These names
 # must correspond to what TestPaths::BuildArtifact() constructs.
-key = 'crashpad_util_test_key.pem'
-cert = 'crashpad_util_test_cert.pem'
+key = 'testdata/crashpad_util_test_key.pem'
+cert = 'testdata/crashpad_util_test_cert.pem'
 subprocess.check_call(
     ['openssl', 'req', '-x509', '-nodes', '-subj', '/CN=localhost',
-     '-days', '365', '-newkey', 'rsa:2048', '-keyout', key, '-out', cert],
+     '-days', '3650', '-newkey', 'rsa:2048', '-keyout', key, '-out', cert],
     stderr=open(os.devnull, 'w'))
