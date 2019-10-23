@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "73c65054_b8fa26c9",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-23T10:16:32Z",
+      "side": 1,
+      "message": "I would replace with something like\n\n  static inline uint8_t EncodeByte(uint8_t byte) {\n    return (byte \u003e\u003d 94u) ? 0xff : (byte + \u0027!\u0027);\n  }\n\n  static inline uint8_t DecodeByte(uint8_t byte) {\n    return std::min(\n      static_cast\u003cuint8_t\u003e(byte - \u0027!\u0027),\n      static_cast\u003cuint8_t\u003e(94));\n  }\n\nand delete all the table allocation and initialization, and replace lookups with function calls.",
+      "parentUuid": "64b40e44_1c417c1c",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 12
+      },
+      "revId": "1534f84559f5d225614a04af80f14b30291e152f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3801adc5_174eb7eb",
         "filename": "util/stream/base94_output_stream.cc",
         "patchSetId": 2
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "The flush_needed_ is reset after flush, it has the same effect of initialized_.set_invalid(), currently, FinishEncoding/Decoding() won\u0027t be called again, just another call to output_stream_-\u003eFlush().\n\nSince we allowed to call Flush() without Write(), maybe add another boolean data memeber and have DCHECK() here? or it is over-skill?",
       "parentUuid": "e3482fc7_bae99594",
+      "range": {
+        "startLine": 69,
+        "startChar": 25,
+        "endLine": 69,
+        "endChar": 30
+      },
+      "revId": "1534f84559f5d225614a04af80f14b30291e152f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cea30a7c_b7b35bba",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-23T10:16:32Z",
+      "side": 1,
+      "message": "All I was proposing was that you set_invalid() here, and then DCHECK(is_valid()) in Write() to ensure that Write isn\u0027t called after Flush.",
+      "parentUuid": "a321451f_830d6036",
       "range": {
         "startLine": 69,
         "startChar": 25,
@@ -284,6 +332,30 @@
     },
     {
       "key": {
+        "uuid": "d8fb384b_2a3a0cf9",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-23T10:16:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8ce4d9b0_cb939ffd",
+      "range": {
+        "startLine": 148,
+        "startChar": 6,
+        "endLine": 148,
+        "endChar": 37
+      },
+      "revId": "1534f84559f5d225614a04af80f14b30291e152f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff72e218_fa05e8da",
         "filename": "util/stream/base94_output_stream.cc",
         "patchSetId": 2
@@ -319,6 +391,30 @@
       "side": 1,
       "message": "It can be greater than 8, see the continue statement in line 123.",
       "parentUuid": "ff72e218_fa05e8da",
+      "range": {
+        "startLine": 162,
+        "startChar": 2,
+        "endLine": 162,
+        "endChar": 51
+      },
+      "revId": "1534f84559f5d225614a04af80f14b30291e152f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a328c35c_a77b8323",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-23T10:16:32Z",
+      "side": 1,
+      "message": "I don\u0027t think this is right. Yes, it\u0027s possible to consume one byte and continue at 123, but bit_count_ isn\u0027t incremented there (and would have to be incremented by a fractional value). The only point that bit_count_ is modified is 128-134, and a postcondition of that block of code is that bit_count_ \u003c 8.",
+      "parentUuid": "d00708cc_e4fb5739",
       "range": {
         "startLine": 162,
         "startChar": 2,

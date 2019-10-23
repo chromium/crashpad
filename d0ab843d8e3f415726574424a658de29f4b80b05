@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd39ddc7_28105afb",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-23T10:16:32Z",
+      "side": 1,
+      "message": "greater than or equal to",
+      "range": {
+        "startLine": 24,
+        "startChar": 26,
+        "endLine": 24,
+        "endChar": 38
+      },
+      "revId": "d0ab843d8e3f415726574424a658de29f4b80b05",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9da03726_2e215649",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-23T10:16:32Z",
+      "side": 1,
+      "message": "(94 * 94 - 1) \u0026 0x1fff; would explain the value better.",
+      "range": {
+        "startLine": 28,
+        "startChar": 46,
+        "endLine": 28,
+        "endChar": 49
+      },
+      "revId": "d0ab843d8e3f415726574424a658de29f4b80b05",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8e64275_764a4e4b",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-23T10:16:32Z",
+      "side": 1,
+      "message": "Nit: don\u0027t need brackets around constant.",
+      "range": {
+        "startLine": 133,
+        "startChar": 23,
+        "endLine": 133,
+        "endChar": 24
+      },
+      "revId": "d0ab843d8e3f415726574424a658de29f4b80b05",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7baee10_bf410ca4",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-23T10:16:32Z",
+      "side": 1,
+      "message": "If you wanted to avoid the possibility that buffer_ was reallocated, this would have to be \u003e\u003d kMaxBuffer, and it would also need to be done every time you push_back.",
+      "range": {
+        "startLine": 139,
+        "startChar": 8,
+        "endLine": 139,
+        "endChar": 35
+      },
+      "revId": "d0ab843d8e3f415726574424a658de29f4b80b05",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8577b1be_41cfcd88",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-23T10:16:32Z",
+      "side": 1,
+      "message": "Although this produces the right output, I think is not really the most clear way to write it.\n\nBefore this point, bit_count_ is definitely \u003c 8, and we must have one symbol to decode that fills the remaining buffer up to 8 bits (it can\u0027t be more than that because each symbol can only provide 6.6 bits). Adding 8 to bit_count_ doesn\u0027t give a correct value; it just makes the loop execute once.\n\nI\u0027d advise removing the loop, and references to bit_count_ and leaving just:\n\n  buffer_.push_back(bit_buf_ \u0026 0xff);\n  bit_buf_ \u003e\u003e\u003d 8;\n  DCHECK(!bit_buf_)",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 167,
+        "endChar": 18
+      },
+      "revId": "d0ab843d8e3f415726574424a658de29f4b80b05",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee70c0a6_036bcaf9",
+        "filename": "util/stream/base94_output_stream_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-23T10:16:32Z",
+      "side": 1,
+      "message": "I don\u0027t think you should have tests that rely on random numbers, especially because if it were to fail, I don\u0027t think the failure case is recorded anywhere.",
+      "range": {
+        "startLine": 64,
+        "startChar": 17,
+        "endLine": 64,
+        "endChar": 33
+      },
+      "revId": "d0ab843d8e3f415726574424a658de29f4b80b05",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3457a0c0_69a506c8",
+        "filename": "util/stream/base94_output_stream_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2019-10-23T10:16:32Z",
+      "side": 1,
+      "message": "This isn\u0027t called.",
+      "range": {
+        "startLine": 99,
+        "startChar": 7,
+        "endLine": 99,
+        "endChar": 22
+      },
+      "revId": "d0ab843d8e3f415726574424a658de29f4b80b05",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
