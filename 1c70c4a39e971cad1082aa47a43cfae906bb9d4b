@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31889c3c_3dc7ef29",
+        "filename": "util/net/generate_test_server_key.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-10-23T20:43:02Z",
+      "side": 1,
+      "message": "Make these relative to __file__ instead of the working directory.",
+      "revId": "1c70c4a39e971cad1082aa47a43cfae906bb9d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f918c43d_007f70df",
+        "filename": "util/net/testdata/crashpad_util_test_cert.pem",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-10-23T20:43:02Z",
+      "side": 1,
+      "message": "Can you add a line of text above this saying what generates it? You can even make the script spit that out.",
+      "revId": "1c70c4a39e971cad1082aa47a43cfae906bb9d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
