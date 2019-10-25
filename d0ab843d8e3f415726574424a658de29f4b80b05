@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4d5cccb8_fe872ea9",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-10-25T05:14:35Z",
+      "side": 1,
+      "message": "used \u0027is less than\u0027",
+      "parentUuid": "cd39ddc7_28105afb",
+      "range": {
+        "startLine": 24,
+        "startChar": 26,
+        "endLine": 24,
+        "endChar": 38
+      },
+      "revId": "d0ab843d8e3f415726574424a658de29f4b80b05",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9da03726_2e215649",
         "filename": "util/stream/base94_output_stream.cc",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "d0ab843d8e3f415726574424a658de29f4b80b05",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35974b1e_88be1b95",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-10-25T05:14:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9da03726_2e215649",
+      "range": {
+        "startLine": 28,
+        "startChar": 46,
+        "endLine": 28,
+        "endChar": 49
+      },
+      "revId": "d0ab843d8e3f415726574424a658de29f4b80b05",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a33e36f7_f2e929bd",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-10-25T05:14:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8e64275_764a4e4b",
+      "range": {
+        "startLine": 133,
+        "startChar": 23,
+        "endLine": 133,
+        "endChar": 24
+      },
+      "revId": "d0ab843d8e3f415726574424a658de29f4b80b05",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7baee10_bf410ca4",
         "filename": "util/stream/base94_output_stream.cc",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2019-10-23T10:16:32Z",
       "side": 1,
       "message": "If you wanted to avoid the possibility that buffer_ was reallocated, this would have to be \u003e\u003d kMaxBuffer, and it would also need to be done every time you push_back.",
+      "range": {
+        "startLine": 139,
+        "startChar": 8,
+        "endLine": 139,
+        "endChar": 35
+      },
+      "revId": "d0ab843d8e3f415726574424a658de29f4b80b05",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ea94156_db3b49c8",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-10-25T05:14:35Z",
+      "side": 1,
+      "message": "I didn\u0027t intent to avoid reallocation, the interesting thing is that vector reverses the extra space, it is probably implementation specific.\n\nSince while loop won\u0027t decode more than 2 bytes, kMaxBuffer - 2 shall work.",
+      "parentUuid": "d7baee10_bf410ca4",
       "range": {
         "startLine": 139,
         "startChar": 8,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "49d18478_c70ca906",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-10-25T05:14:35Z",
+      "side": 1,
+      "message": "Thanks, I see what you mean, I were trying to make this part similar to previous decoding code, but as you point out, \u0027bit_count_ +\u003d 8\u0027 really doesn\u0027t make sense.\n\nchanged.",
+      "parentUuid": "8577b1be_41cfcd88",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 167,
+        "endChar": 18
+      },
+      "revId": "d0ab843d8e3f415726574424a658de29f4b80b05",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee70c0a6_036bcaf9",
         "filename": "util/stream/base94_output_stream_test.cc",
         "patchSetId": 3
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "b282377f_8ca62814",
+        "filename": "util/stream/base94_output_stream_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-10-25T05:14:35Z",
+      "side": 1,
+      "message": "Dump the input when failed.",
+      "parentUuid": "ee70c0a6_036bcaf9",
+      "range": {
+        "startLine": 64,
+        "startChar": 17,
+        "endLine": 64,
+        "endChar": 33
+      },
+      "revId": "d0ab843d8e3f415726574424a658de29f4b80b05",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3457a0c0_69a506c8",
         "filename": "util/stream/base94_output_stream_test.cc",
         "patchSetId": 3
@@ -151,6 +295,30 @@
       "writtenOn": "2019-10-23T10:16:32Z",
       "side": 1,
       "message": "This isn\u0027t called.",
+      "range": {
+        "startLine": 99,
+        "startChar": 7,
+        "endLine": 99,
+        "endChar": 22
+      },
+      "revId": "d0ab843d8e3f415726574424a658de29f4b80b05",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fed98351_48a0ac03",
+        "filename": "util/stream/base94_output_stream_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-10-25T05:14:35Z",
+      "side": 1,
+      "message": "Call this in the test case you suggested :).",
+      "parentUuid": "3457a0c0_69a506c8",
       "range": {
         "startLine": 99,
         "startChar": 7,

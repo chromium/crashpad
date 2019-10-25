@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "737938d0_ac151ef3",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-10-25T05:14:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73c65054_b8fa26c9",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 12
+      },
+      "revId": "1534f84559f5d225614a04af80f14b30291e152f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3801adc5_174eb7eb",
         "filename": "util/stream/base94_output_stream.cc",
         "patchSetId": 2
@@ -179,6 +203,30 @@
       "side": 1,
       "message": "All I was proposing was that you set_invalid() here, and then DCHECK(is_valid()) in Write() to ensure that Write isn\u0027t called after Flush.",
       "parentUuid": "a321451f_830d6036",
+      "range": {
+        "startLine": 69,
+        "startChar": 25,
+        "endLine": 69,
+        "endChar": 30
+      },
+      "revId": "1534f84559f5d225614a04af80f14b30291e152f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e876c528_97dcb2b8",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-10-25T05:14:35Z",
+      "side": 1,
+      "message": "After remove the table, initialized_ member isn\u0027t needed. I added comment here to see Mark\u0027s opinion.",
+      "parentUuid": "cea30a7c_b7b35bba",
       "range": {
         "startLine": 69,
         "startChar": 25,
