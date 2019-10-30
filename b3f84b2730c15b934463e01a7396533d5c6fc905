@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf0a11c5_b7b4d950",
+        "filename": "util/net/testdata/crashpad_util_test_key.pem",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-10-30T17:54:31Z",
+      "side": 1,
+      "message": "I was auto-generated too. No explanatory header for me?",
+      "revId": "b3f84b2730c15b934463e01a7396533d5c6fc905",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
