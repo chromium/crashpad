@@ -60,11 +60,12 @@ class ProcStatReader {
 
   //! \brief Determines the target thread’s start time.
   //!
+  //! \param[in] boot_time The kernel boot time.
   //! \param[out] start_time The time that the thread started.
   //!
   //! \return `true` on success, with \a start_time set. Otherwise, `false` with
   //!     a message logged.
-  bool StartTime(timeval* start_time) const;
+  bool StartTime(const timeval& boot_time, timeval* start_time) const;
 
  private:
   bool FindColumn(int index, const char** column) const;
@@ -73,6 +74,10 @@ class ProcStatReader {
   std::string contents_;
   size_t third_column_position_;
   InitializationStateDcheck initialized_;
+
+  timeval time_after_boot_;
+  timespec uptime_;
+  timespec current_time_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcStatReader);
 };

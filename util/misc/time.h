@@ -69,6 +69,10 @@ void GetTimeOfDay(timeval* tv);
 
 #endif  // OS_WIN
 
+#if defined(OS_LINUX) || defined(OS_ANDROID) || DOXYGEN
+bool GetBootTime(timespec* ts);
+#endif  // OS_LINUX || OS_ANDROID || DOXYGEN
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_MISC_TIME_H_

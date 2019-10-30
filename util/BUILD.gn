@@ -332,6 +332,7 @@ static_library("util") {
       "linux/traits.h",
       "misc/capture_context_linux.S",
       "misc/paths_linux.cc",
+      "misc/time_linux.cc",
       "posix/process_info_linux.cc",
       "process/process_memory_linux.cc",
       "process/process_memory_linux.h",
