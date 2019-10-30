@@ -81,15 +81,14 @@ class HTTPTransportTestFixture : public MultiprocessExec {
       SetChildCommand(server_path, nullptr);
     } else {
       std::vector<std::string> args;
-      cert_ = TestPaths::BuildArtifact(FILE_PATH_LITERAL("util"),
-                                       FILE_PATH_LITERAL("cert"),
-                                       TestPaths::FileType::kCertificate);
+      cert_ = TestPaths::TestDataRoot().Append(
+          FILE_PATH_LITERAL("util/net/testdata/crashpad_util_test_cert.pem"));
       args.push_back(ToUTF8IfWin(cert_.value()));
-      args.emplace_back(ToUTF8IfWin(
-          TestPaths::BuildArtifact(FILE_PATH_LITERAL("util"),
-                                   FILE_PATH_LITERAL("key"),
-                                   TestPaths::FileType::kCertificate)
-              .value()));
+      args.emplace_back(
+          ToUTF8IfWin(TestPaths::TestDataRoot()
+                          .Append(FILE_PATH_LITERAL(
+                              "util/net/testdata/crashpad_util_test_key.pem"))
+                          .value()));
       SetChildCommand(server_path, &args);
       scheme_and_host_ = "https://localhost";
     }
@@ -371,6 +370,9 @@ TEST_P(HTTPTransport, Upload33k_LengthUnknown) {
 // lacking libcrypto.so.1.1, so disabled there for now. On Mac, they could also
 // likely be enabled relatively easily, if HTTPTransportMac learned to respect
 // the user-supplied cert.
+//
+// If tests with boringssl are failing because of expired certificates, try
+// re-running generate_test_server_key.py.
 INSTANTIATE_TEST_SUITE_P(HTTPTransport,
                          HTTPTransport,
                          testing::Values(FILE_PATH_LITERAL("http"),
