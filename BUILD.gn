@@ -103,15 +103,14 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       ]
 
       if (crashpad_use_boringssl_for_http_transport_socket) {
-        deps += [ "util:generate_test_server_key" ]
         resources += [
           {
-            path = "$root_out_dir/crashpad_util_test_cert.pem"
-            dest = "crashpad_util_test_cert.pem"
+            path = "util/net/testdata/crashpad_util_test_cert.pem"
+            dest = "util/net/testdata/crashpad_util_test_cert.pem"
           },
           {
-            path = "$root_out_dir/crashpad_util_test_key.pem"
-            dest = "crashpad_util_test_key.pem"
+            path = "util/net/testdata/crashpad_util_test_key.pem"
+            dest = "util/net/testdata/crashpad_util_test_key.pem"
           },
         ]
       }
