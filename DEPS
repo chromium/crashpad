@@ -45,7 +45,7 @@ deps = {
   'crashpad/third_party/linux/clang/linux-amd64': {
     'packages': [
       {
-        'package': 'fuchsia/clang/linux-amd64',
+        'package': 'fuchsia/third_party/clang/linux-amd64',
         'version': 'goma',
       },
     ],
@@ -55,7 +55,7 @@ deps = {
   'crashpad/third_party/linux/clang/mac-amd64': {
     'packages': [
       {
-        'package': 'fuchsia/clang/mac-amd64',
+        'package': 'fuchsia/third_party/clang/mac-amd64',
         'version': 'goma',
       },
     ],
@@ -65,7 +65,7 @@ deps = {
   'crashpad/third_party/fuchsia/clang/linux-amd64': {
     'packages': [
       {
-        'package': 'fuchsia/clang/linux-amd64',
+        'package': 'fuchsia/third_party/clang/linux-amd64',
         'version': 'goma',
       },
     ],
