@@ -25,7 +25,7 @@
 
 //! \file
 
-#if defined(OS_MACOSX) || DOXYGEN
+#if (defined(OS_MACOSX) && !defined(OS_IOS)) || DOXYGEN
 
 //! \brief Wraps the gtest `ASSERT_DEATH_IF_SUPPORTED()` macro to make
 //!     assertions about death caused by crashes.
