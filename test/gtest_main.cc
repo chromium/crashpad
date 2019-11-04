@@ -33,6 +33,7 @@
 
 namespace {
 
+
 bool GetChildTestFunctionName(std::string* child_func_name) {
   constexpr size_t arg_length =
       sizeof(crashpad::test::internal::kChildTestFunction) - 1;
