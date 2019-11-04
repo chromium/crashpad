@@ -173,3 +173,13 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
     ]
   }
 }
+
+if (crashpad_is_ios) {
+
+  group("ios_xcuitests") {
+    testonly = true
+    deps = [
+      "test/ios:all_tests",
+    ]
+  }
+}

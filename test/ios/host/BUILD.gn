@@ -1,0 +1,49 @@
+# Copyright 2019 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+import("../../../build/crashpad_buildconfig.gni")
+
+if (crashpad_is_in_chromium) {
+  import("//build/config/ios/rules.gni")
+} else if (crashpad_is_standalone) {
+  import("//third_party/mini_chromium/mini_chromium/build/ios/rules.gni")
+}
+
+bundle_data("app_host_bundle_data") {
+  testonly = true
+  sources = [
+    "Default.png",
+  ]
+  outputs = [
+    "{{bundle_contents_dir}}/{{source_file_part}}",
+  ]
+}
+
+source_set("app_host_sources") {
+  sources = [
+    "application_delegate.h",
+    "application_delegate.mm",
+    "main.mm",
+    "crash_view_controller.h",
+    "crash_view_controller.mm",    
+  ]
+  configs += [
+    "../../..:crashpad_config",
+  ]
+  deps = [
+    "../../../build:ios_enable_arc",
+  ]
+  libs = [
+    "Foundation.framework",
+    "UIKit.framework",
+  ]
+}
+
+ios_app_bundle("ios_crash_xcuitests") {
+  testonly = true
+  deps = [
+    ":app_host_bundle_data",
+    ":app_host_sources",
+  ]
+}

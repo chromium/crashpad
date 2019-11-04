@@ -274,6 +274,57 @@ static_library("util") {
     sources += get_target_outputs(":mig")
   }
 
+  if (crashpad_is_ios) {
+    sources += [
+      "mac/checked_mach_address_range.h",
+      #"mac/launchd.h",
+      #"mac/launchd.mm",
+      #"mac/service_management.cc",
+      #"mac/service_management.h",
+      "mac/xattr.cc",
+      "mac/xattr.h",
+      #"mach/child_port_handshake.cc",
+      #"mach/child_port_handshake.h",
+      #"mach/child_port_server.cc",
+      #"mach/child_port_server.h",
+      #"mach/child_port_types.h",
+      #"mach/composite_mach_message_server.cc",
+      #"mach/composite_mach_message_server.h",
+      #"mach/exc_client_variants.cc",
+      #"mach/exc_client_variants.h",
+      #"mach/exc_server_variants.cc",
+      #"mach/exc_server_variants.h",
+      #"mach/exception_behaviors.cc",
+      #"mach/exception_behaviors.h",
+      #"mach/exception_ports.cc",
+      #"mach/exception_ports.h",
+      #"mach/exception_types.cc",
+      #"mach/exception_types.h",
+      #"mach/mach_extensions.cc",
+      #"mach/mach_extensions.h",
+      #"mach/mach_message.cc",
+      #"mach/mach_message.h",
+      #"mach/mach_message_server.cc",
+      #"mach/mach_message_server.h",
+      #"mach/notify_server.cc",
+      #"mach/notify_server.h",
+      #"mach/scoped_task_suspend.cc",
+      #"mach/scoped_task_suspend.h",
+      #"mach/symbolic_constants_mach.cc",
+      #"mach/symbolic_constants_mach.h",
+      #"mach/task_for_pid.cc",
+      #"mach/task_for_pid.h",
+      "misc/capture_context_mac.S",
+      "misc/clock_mac.cc",
+      "misc/paths_mac.cc",
+      "net/http_transport_mac.mm",
+      "posix/process_info_mac.cc",
+      #"process/process_memory_mac.cc",
+      #"process/process_memory_mac.h",
+      "synchronization/semaphore_mac.cc",
+    ]
+  }
+
   deps = []
 
   if (crashpad_is_linux || crashpad_is_fuchsia || crashpad_is_android) {
@@ -476,6 +527,13 @@ static_library("util") {
       "../third_party/apple_cf:apple_cf",
     ]
     include_dirs += [ "$root_build_dir/gen" ]
+  }
+
+  if (crashpad_is_ios) {
+    libs = [
+      "CoreFoundation.framework",
+      "Foundation.framework",
+    ]
   }
 
   if (crashpad_is_win) {
