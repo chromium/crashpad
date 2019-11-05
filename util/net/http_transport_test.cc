@@ -373,14 +373,21 @@ TEST_P(HTTPTransport, Upload33k_LengthUnknown) {
 //
 // If tests with boringssl are failing because of expired certificates, try
 // re-running generate_test_server_key.py.
-INSTANTIATE_TEST_SUITE_P(HTTPTransport,
-                         HTTPTransport,
-                         testing::Values(FILE_PATH_LITERAL("http"),
-                                         FILE_PATH_LITERAL("https")));
+INSTANTIATE_TEST_SUITE_P(
+    HTTPTransport,
+    HTTPTransport,
+    testing::Values(FILE_PATH_LITERAL("http"), FILE_PATH_LITERAL("https")),
+    [](const testing::TestParamInfo<base::FilePath::StringType>& info) {
+      return info.param;
+    });
 #else
-INSTANTIATE_TEST_SUITE_P(HTTPTransport,
-                         HTTPTransport,
-                         testing::Values(FILE_PATH_LITERAL("http")));
+INSTANTIATE_TEST_SUITE_P(
+    HTTPTransport,
+    HTTPTransport,
+    testing::Values(FILE_PATH_LITERAL("http")),
+    [](const testing::TestParamInfo<base::FilePath::StringType>& info) {
+      return info.param;
+    });
 #endif
 
 }  // namespace
