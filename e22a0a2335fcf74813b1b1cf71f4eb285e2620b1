@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9ce89945_8b5b3511",
+        "filename": "BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2019-11-05T02:20:28Z",
+      "side": 1,
+      "message": "Done.  Tell me if the -\u003d syntax looks weird when applied to deps.",
+      "parentUuid": "b9e94211_daa470e4",
+      "revId": "e22a0a2335fcf74813b1b1cf71f4eb285e2620b1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "83a8a679_0445eb17",
         "filename": "test/BUILD.gn",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-11-05T01:08:17Z",
       "side": 1,
       "message": "As repetitive as it is, I think that at the initial stage of a port, “sources -\u003d” makes more sense. It’s preferable anywhere we’d expect further porting efforts to bring the files back into the “compile everywhere including iOS” fold.\n\nWe can go a different way for things where we definitely know we won’t be building on iOS ever.",
+      "revId": "e22a0a2335fcf74813b1b1cf71f4eb285e2620b1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38d813f7_81268829",
+        "filename": "test/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2019-11-05T02:20:28Z",
+      "side": 1,
+      "message": "Done.  Went with \"deps -\u003d\" and \"data_deps -\u003d\" as well, but could change those back to what\u0027s in patchset 1 if you prefer.",
+      "parentUuid": "83a8a679_0445eb17",
       "revId": "e22a0a2335fcf74813b1b1cf71f4eb285e2620b1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -50,6 +86,24 @@
       "revId": "e22a0a2335fcf74813b1b1cf71f4eb285e2620b1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33e6bf8e_3cb7d16b",
+        "filename": "test/gtest_death.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2019-11-05T02:20:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "842ef4eb_3a7e086d",
+      "revId": "e22a0a2335fcf74813b1b1cf71f4eb285e2620b1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
