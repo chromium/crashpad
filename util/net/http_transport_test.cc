@@ -371,14 +371,21 @@ TEST_P(HTTPTransport, Upload33k_LengthUnknown) {
 // lacking libcrypto.so.1.1, so disabled there for now. On Mac, they could also
 // likely be enabled relatively easily, if HTTPTransportMac learned to respect
 // the user-supplied cert.
-INSTANTIATE_TEST_SUITE_P(HTTPTransport,
-                         HTTPTransport,
-                         testing::Values(FILE_PATH_LITERAL("http"),
-                                         FILE_PATH_LITERAL("https")));
+INSTANTIATE_TEST_SUITE_P(
+    HTTPTransport,
+    HTTPTransport,
+    testing::Values(FILE_PATH_LITERAL("http"), FILE_PATH_LITERAL("https")),
+    [](const testing::TestParamInfo<base::FilePath::StringType>& info) {
+      return info.param;
+    });
 #else
-INSTANTIATE_TEST_SUITE_P(HTTPTransport,
-                         HTTPTransport,
-                         testing::Values(FILE_PATH_LITERAL("http")));
+INSTANTIATE_TEST_SUITE_P(
+    HTTPTransport,
+    HTTPTransport,
+    testing::Values(FILE_PATH_LITERAL("http")),
+    [](const testing::TestParamInfo<base::FilePath::StringType>& info) {
+      return info.param;
+    });
 #endif
 
 }  // namespace
