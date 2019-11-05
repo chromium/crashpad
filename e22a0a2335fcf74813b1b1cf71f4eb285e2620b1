@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9e94211_daa470e4",
+        "filename": "BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-11-05T01:08:17Z",
+      "side": 1,
+      "message": "Can we do this the other way, where we’d leave test(\"crashpad_client_test\") and friends alone for now, but wrap their innards in !crasahpad_is_ios? Would that work?",
+      "revId": "e22a0a2335fcf74813b1b1cf71f4eb285e2620b1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83a8a679_0445eb17",
+        "filename": "test/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-11-05T01:08:17Z",
+      "side": 1,
+      "message": "As repetitive as it is, I think that at the initial stage of a port, “sources -\u003d” makes more sense. It’s preferable anywhere we’d expect further porting efforts to bring the files back into the “compile everywhere including iOS” fold.\n\nWe can go a different way for things where we definitely know we won’t be building on iOS ever.",
+      "revId": "e22a0a2335fcf74813b1b1cf71f4eb285e2620b1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "842ef4eb_3a7e086d",
+        "filename": "test/gtest_death.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-11-05T01:08:17Z",
+      "side": 1,
+      "message": "\u0026\u0026 !OS_IOS",
+      "revId": "e22a0a2335fcf74813b1b1cf71f4eb285e2620b1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
