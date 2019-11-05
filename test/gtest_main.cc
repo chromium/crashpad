@@ -33,6 +33,7 @@
 
 namespace {
 
+#if !defined(OS_IOS)
 bool GetChildTestFunctionName(std::string* child_func_name) {
   constexpr size_t arg_length =
       sizeof(crashpad::test::internal::kChildTestFunction) - 1;
@@ -45,17 +46,20 @@ bool GetChildTestFunctionName(std::string* child_func_name) {
   }
   return false;
 }
+#endif  // !OS_IOS
 
 }  // namespace
 
 int main(int argc, char* argv[]) {
   crashpad::test::InitializeMainArguments(argc, argv);
 
+#if !defined(OS_IOS)
   std::string child_func_name;
   if (GetChildTestFunctionName(&child_func_name)) {
     return crashpad::test::internal::CheckedInvokeMultiprocessChild(
         child_func_name);
   }
+#endif  // !OS_IOS
 
 #if defined(CRASHPAD_IS_IN_CHROMIUM)
 
