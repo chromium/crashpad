@@ -88,6 +88,7 @@ if (crashpad_is_in_fuchsia) {
       "$sdk_pkg_path/fidl_base/message.cc",
       "$sdk_pkg_path/fidl_base/message_buffer.cc",
       "$sdk_pkg_path/fidl_base/message_builder.cc",
+      "$sdk_pkg_path/fidl_base/transformer.cc",
       "$sdk_pkg_path/fidl_base/txn_header.c",
       "$sdk_pkg_path/fidl_base/validating.cc",
       "$sdk_pkg_path/fidl_base/visitor.h",
