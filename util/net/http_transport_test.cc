@@ -52,12 +52,25 @@ std::string ToUTF8IfWin(const std::string& x) {
 }
 #endif
 
+enum class Scheme { HTTP = 0, HTTPS };
+
+// This allows us to see meaningful names rather than /0, /1 and /2 in the
+// parameterized test case names.
+std::string PrettyPrint(const testing::TestParamInfo<Scheme>& info) {
+  switch (info.param) {
+    case Scheme::HTTP:
+      return "HTTP";
+    case Scheme::HTTPS:
+      return "HTTPS";
+  }
+}
+
 class HTTPTransportTestFixture : public MultiprocessExec {
  public:
-  using RequestValidator =
-      void(*)(HTTPTransportTestFixture*, const std::string&);
+  using RequestValidator = void (*)(HTTPTransportTestFixture*,
+                                    const std::string&);
 
-  HTTPTransportTestFixture(const base::FilePath::StringType& scheme,
+  HTTPTransportTestFixture(const Scheme& scheme,
                            const HTTPHeaders& headers,
                            std::unique_ptr<HTTPBodyStream> body_stream,
                            uint16_t http_response_code,
@@ -74,23 +87,26 @@ class HTTPTransportTestFixture : public MultiprocessExec {
 #if defined(OS_WIN)
             FILE_PATH_LITERAL(".exe")
 #endif
-        );
+    );
 
-    if (ToUTF8IfWin(scheme) == "http") {
-      scheme_and_host_ = "http://localhost";
-      SetChildCommand(server_path, nullptr);
-    } else {
-      std::vector<std::string> args;
-      cert_ = TestPaths::TestDataRoot().Append(
-          FILE_PATH_LITERAL("util/net/testdata/crashpad_util_test_cert.pem"));
-      args.push_back(ToUTF8IfWin(cert_.value()));
-      args.emplace_back(
-          ToUTF8IfWin(TestPaths::TestDataRoot()
-                          .Append(FILE_PATH_LITERAL(
-                              "util/net/testdata/crashpad_util_test_key.pem"))
-                          .value()));
-      SetChildCommand(server_path, &args);
-      scheme_and_host_ = "https://localhost";
+    switch (scheme) {
+      case Scheme::HTTP:
+        scheme_and_host_ = "http://localhost";
+        SetChildCommand(server_path, nullptr);
+        break;
+      case Scheme::HTTPS:
+        std::vector<std::string> args;
+        cert_ = TestPaths::TestDataRoot().Append(
+            FILE_PATH_LITERAL("util/net/testdata/crashpad_util_test_cert.pem"));
+        args.push_back(ToUTF8IfWin(cert_.value()));
+        args.emplace_back(
+            ToUTF8IfWin(TestPaths::TestDataRoot()
+                            .Append(FILE_PATH_LITERAL(
+                                "util/net/testdata/crashpad_util_test_key.pem"))
+                            .value()));
+        SetChildCommand(server_path, &args);
+        scheme_and_host_ = "https://localhost";
+        break;
     }
   }
 
@@ -116,9 +132,8 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     // 200.
     const std::string random_string = RandomString();
 
-    ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(),
-                                 random_string.c_str(),
-                                 random_string.size()));
+    ASSERT_TRUE(LoggingWriteFile(
+        WritePipeHandle(), random_string.c_str(), random_string.size()));
 
     // Now execute the HTTP request.
     std::unique_ptr<HTTPTransport> transport(HTTPTransport::Create());
@@ -245,8 +260,7 @@ void ValidFormData(HTTPTransportTestFixture* fixture,
   EXPECT_EQ(request.substr(body_start), expected);
 }
 
-class HTTPTransport
-    : public testing::TestWithParam<base::FilePath::StringType> {};
+class HTTPTransport : public testing::TestWithParam<Scheme> {};
 
 TEST_P(HTTPTransport, ValidFormData) {
   HTTPMultipartBuilder builder;
@@ -256,8 +270,8 @@ TEST_P(HTTPTransport, ValidFormData) {
   HTTPHeaders headers;
   builder.PopulateContentHeaders(&headers);
 
-  HTTPTransportTestFixture test(GetParam(),
-      headers, builder.GetBodyStream(), 200, &ValidFormData);
+  HTTPTransportTestFixture test(
+      GetParam(), headers, builder.GetBodyStream(), 200, &ValidFormData);
   test.Run();
 }
 
@@ -288,8 +302,8 @@ TEST_P(HTTPTransport, ErrorResponse) {
   HTTPMultipartBuilder builder;
   HTTPHeaders headers;
   headers[kContentType] = kTextPlain;
-  HTTPTransportTestFixture test(GetParam(), headers, builder.GetBodyStream(),
-      404, &ErrorResponse);
+  HTTPTransportTestFixture test(
+      GetParam(), headers, builder.GetBodyStream(), 404, &ErrorResponse);
   test.Run();
 }
 
@@ -320,13 +334,12 @@ TEST_P(HTTPTransport, UnchunkedPlainText) {
   headers[kContentType] = kTextPlain;
   headers[kContentLength] = base::StringPrintf("%" PRIuS, strlen(kTextBody));
 
-  HTTPTransportTestFixture test(GetParam(),
-      headers, std::move(body_stream), 200, &UnchunkedPlainText);
+  HTTPTransportTestFixture test(
+      GetParam(), headers, std::move(body_stream), 200, &UnchunkedPlainText);
   test.Run();
 }
 
-void RunUpload33k(const base::FilePath::StringType& scheme,
-                  bool has_content_length) {
+void RunUpload33k(const Scheme& scheme, bool has_content_length) {
   // On macOS, NSMutableURLRequest winds up calling into a CFReadStream’s Read()
   // callback with a 32kB buffer. Make sure that it’s able to get everything
   // when enough is available to fill this buffer, requiring more than one
@@ -375,12 +388,13 @@ TEST_P(HTTPTransport, Upload33k_LengthUnknown) {
 // re-running generate_test_server_key.py.
 INSTANTIATE_TEST_SUITE_P(HTTPTransport,
                          HTTPTransport,
-                         testing::Values(FILE_PATH_LITERAL("http"),
-                                         FILE_PATH_LITERAL("https")));
+                         testing::Values(Scheme::HTTP, Scheme::HTTPS),
+                         &PrettyPrint);
 #else
 INSTANTIATE_TEST_SUITE_P(HTTPTransport,
                          HTTPTransport,
-                         testing::Values(FILE_PATH_LITERAL("http")));
+                         testing::Values(Scheme::HTTP),
+                         &PrettyPrint);
 #endif
 
 }  // namespace
