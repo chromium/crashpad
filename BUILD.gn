@@ -28,10 +28,10 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
     ]
     if (!crashpad_is_ios) {
       deps += [
-        "client:client_test",
-        "handler:handler_test",
-        "minidump:minidump_test",
-        "snapshot:snapshot_test",
+        #"client:client_test",
+        #"handler:handler_test",
+        #"minidump:minidump_test",
+        #"snapshot:snapshot_test",
         "util:util_test",
       ]
     }
