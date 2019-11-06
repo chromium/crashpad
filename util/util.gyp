@@ -168,6 +168,7 @@
         'misc/symbolic_constants_common.h',
         'misc/time.cc',
         'misc/time.h',
+        'misc/time_linux.cc',
         'misc/time_win.cc',
         'misc/tri_state.h',
         'misc/uuid.cc',
