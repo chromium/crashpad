@@ -683,6 +683,21 @@ source_set("util_test") {
     sources += [ "posix/scoped_mmap_test.cc" ]
   }
 
+  if (crashpad_is_ios) {
+    sources -= [
+      "misc/capture_context_test.cc",
+      "net/http_transport_test.cc",
+      "posix/process_info_test.cc",
+      "posix/signals_test.cc",
+      "process/process_memory_range_test.cc",
+      "process/process_memory_test.cc",
+    ]
+    sources += [
+      "posix/signals_ios_test.cc",
+    ]
+  }
+
+
   if (crashpad_is_mac) {
     sources += [
       "mac/launchd_test.mm",
