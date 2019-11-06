@@ -31,7 +31,7 @@
 
 #if COMPILER_MSVC
 #pragma warning(push)
-#pragma warning(disable: 4244 4245 4267 4702)
+#pragma warning(disable : 4244 4245 4267 4702)
 #endif
 
 #if defined(CRASHPAD_USE_BORINGSSL)
@@ -60,7 +60,6 @@ int HttpTransportTestServerMain(int argc, char* argv[]) {
     LOG(ERROR) << "usage: http_transport_test_server [cert.pem key.pem]";
     return 1;
   }
-
 
   if (!server->is_valid()) {
     LOG(ERROR) << "server creation failed";
@@ -105,10 +104,12 @@ int HttpTransportTestServerMain(int argc, char* argv[]) {
   CheckedReadFileExactly(StdioFileHandle(StdioStream::kStandardInput),
                          &response_code,
                          sizeof(response_code));
+  fprintf(stderr, "response_code=%u\n", response_code);
 
   CheckedReadFileExactly(StdioFileHandle(StdioStream::kStandardInput),
                          &response,
                          sizeof(response));
+  fprintf(stderr, "response=%s\n", response);
 
   server->listen_after_bind();
 

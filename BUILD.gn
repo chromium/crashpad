@@ -23,12 +23,13 @@ config("crashpad_config") {
 if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
   test("crashpad_tests") {
     deps = [
-      "client:client_test",
-      "handler:handler_test",
-      "minidump:minidump_test",
-      "snapshot:snapshot_test",
+      # "client:client_test",
+      # "handler:handler_test",
+      # "minidump:minidump_test",
+      # "snapshot:snapshot_test",
       "test:gmock_main",
-      "test:test_test",
+
+      # "test:test_test",
       "util:util_test",
     ]
   }
