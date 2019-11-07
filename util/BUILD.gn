@@ -277,12 +277,14 @@ static_library("util") {
   if (crashpad_is_ios) {
     sources += [
       "mac/checked_mach_address_range.h",
+
       #"mac/launchd.h",
       #"mac/launchd.mm",
       #"mac/service_management.cc",
       #"mac/service_management.h",
       "mac/xattr.cc",
       "mac/xattr.h",
+
       #"mach/child_port_handshake.cc",
       #"mach/child_port_handshake.h",
       #"mach/child_port_server.cc",
@@ -319,6 +321,7 @@ static_library("util") {
       "misc/paths_mac.cc",
       "net/http_transport_mac.mm",
       "posix/process_info_mac.cc",
+
       #"process/process_memory_mac.cc",
       #"process/process_memory_mac.h",
       "synchronization/semaphore_mac.cc",
@@ -681,6 +684,18 @@ source_set("util_test") {
       ]
     }
     sources += [ "posix/scoped_mmap_test.cc" ]
+  }
+
+  if (crashpad_is_ios) {
+    sources -= [
+      "misc/capture_context_test.cc",
+      "net/http_transport_test.cc",
+      "posix/process_info_test.cc",
+      "posix/signals_test.cc",
+      "process/process_memory_range_test.cc",
+      "process/process_memory_test.cc",
+    ]
+    sources += [ "posix/signals_ios_test.cc" ]
   }
 
   if (crashpad_is_mac) {
