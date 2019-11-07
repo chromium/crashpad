@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0569e5e3_22959aaf",
+        "filename": "util/posix/signals_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-11-07T21:03:14Z",
+      "side": 1,
+      "message": "This argument is for flags, it’s not a signal number.",
+      "range": {
+        "startLine": 265,
+        "startChar": 21,
+        "endLine": 265,
+        "endChar": 24
+      },
+      "revId": "fc44a3747cf596be25ef0d6ee2c69d1f9dcad143",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
