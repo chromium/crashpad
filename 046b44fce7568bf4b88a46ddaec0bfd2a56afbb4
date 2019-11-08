@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a32c2250_4255cc3a",
+        "filename": "test/gtest_runner_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-11-08T04:16:19Z",
+      "side": 1,
+      "message": "#include guards",
+      "revId": "046b44fce7568bf4b88a46ddaec0bfd2a56afbb4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5349a5dc_cb83db26",
+        "filename": "test/gtest_runner_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-11-08T04:16:19Z",
+      "side": 1,
+      "message": "Please use Doxygen syntax. Look around, you’ll see it everywhere.",
+      "revId": "046b44fce7568bf4b88a46ddaec0bfd2a56afbb4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fa1dae8_6847a7b9",
+        "filename": "test/gtest_runner_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-11-08T04:16:19Z",
+      "side": 1,
+      "message": "Why doesn’t it just return instead of calling exit(), so that the caller can use it the same way that it uses RUN_ALL_TESTS()?",
+      "range": {
+        "startLine": 16,
+        "startChar": 63,
+        "endLine": 18,
+        "endChar": 11
+      },
+      "revId": "046b44fce7568bf4b88a46ddaec0bfd2a56afbb4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0d258a2_d1e0b461",
+        "filename": "test/gtest_runner_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-11-08T04:16:19Z",
+      "side": 1,
+      "message": "This should be in namespace crashpad::test.",
+      "revId": "046b44fce7568bf4b88a46ddaec0bfd2a56afbb4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
