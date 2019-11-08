@@ -259,10 +259,10 @@ class SignalsTest : public Multiprocess {
     bool (*install_handlers)(Signals::Handler, int, Signals::OldActions*);
     if (Signals::IsCrashSignal(sig_)) {
       install_handlers = [](Signals::Handler handler,
-                            int sig,
+                            int flags,
                             Signals::OldActions* old_actions) {
         return Signals::InstallCrashHandlers(
-            handler, sig, old_actions, nullptr);
+            handler, flags, old_actions, nullptr);
       };
     } else if (Signals::IsTerminateSignal(sig_)) {
       install_handlers = Signals::InstallTerminateHandlers;
