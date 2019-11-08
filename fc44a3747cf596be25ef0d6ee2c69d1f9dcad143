@@ -22,6 +22,30 @@
       "revId": "fc44a3747cf596be25ef0d6ee2c69d1f9dcad143",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "979b77a1_546c5a3c",
+        "filename": "util/posix/signals_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-11-08T03:52:52Z",
+      "side": 1,
+      "message": "Oops.\n\nhttps://chromium-review.googlesource.com/c/crashpad/crashpad/+/1905146",
+      "parentUuid": "0569e5e3_22959aaf",
+      "range": {
+        "startLine": 265,
+        "startChar": 21,
+        "endLine": 265,
+        "endChar": 24
+      },
+      "revId": "fc44a3747cf596be25ef0d6ee2c69d1f9dcad143",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
