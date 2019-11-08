@@ -27,6 +27,7 @@
 #include "client/client_argv_handling.h"
 #include "third_party/lss/lss.h"
 #include "util/file/file_io.h"
+#include "util/file/filesystem.h"
 #include "util/linux/exception_handler_client.h"
 #include "util/linux/exception_information.h"
 #include "util/linux/scoped_pr_set_dumpable.h"
@@ -380,9 +381,14 @@ bool CrashpadClient::StartHandler(
     return false;
   }
 
+  pid_t handler_pid = -1;
+  if (!IsRegularFile(base::FilePath("/proc/sys/kernel/yama/ptrace_scope"))) {
+    handler_pid = 0;
+  }
+
   auto signal_handler = RequestCrashDumpHandler::Get();
   return signal_handler->Initialize(
-      std::move(client_sock), -1, &unhandled_signals_);
+      std::move(client_sock), handler_pid, &unhandled_signals_);
 }
 
 #if defined(OS_ANDROID) || defined(OS_LINUX)
