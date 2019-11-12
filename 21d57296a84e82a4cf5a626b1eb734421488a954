@@ -22,6 +22,30 @@
       "revId": "21d57296a84e82a4cf5a626b1eb734421488a954",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e760dd77_a6768e3c",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-11-12T22:36:26Z",
+      "side": 1,
+      "message": "Hmm, good point. Well, I\u0027m going to contend that we don\u0027t want gigabyte minidumps all the same, so we should still clamp arbitrarily here.\n\nBut I\u0027ll make it somewhat larger... We\u0027re capturing from SP up to the stack bottom, so if Chromium is actually blowing out the full stack (not very common, typically only in very deep recursive Blink layout trees, IIRC), it\u0027ll be the less interesting \"end\" of the stack.",
+      "parentUuid": "7ea0b8df_aa56d0a9",
+      "range": {
+        "startLine": 81,
+        "startChar": 13,
+        "endLine": 81,
+        "endChar": 35
+      },
+      "revId": "21d57296a84e82a4cf5a626b1eb734421488a954",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
