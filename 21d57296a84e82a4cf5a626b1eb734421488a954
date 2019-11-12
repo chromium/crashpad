@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ea0b8df_aa56d0a9",
+        "filename": "snapshot/fuchsia/process_reader_fuchsia.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-11-12T20:53:58Z",
+      "side": 1,
+      "message": "what about Chromium (and its derivatives) that disables safestack and also use up to 8MB stacks?",
+      "range": {
+        "startLine": 81,
+        "startChar": 13,
+        "endLine": 81,
+        "endChar": 35
+      },
+      "revId": "21d57296a84e82a4cf5a626b1eb734421488a954",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
