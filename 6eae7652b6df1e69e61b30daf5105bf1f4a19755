@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2d0db51_9585429a",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2019-11-12T23:48:59Z",
+      "side": 1,
+      "message": ":-)",
+      "range": {
+        "startLine": 163,
+        "startChar": 2,
+        "endLine": 163,
+        "endChar": 33
+      },
+      "revId": "6eae7652b6df1e69e61b30daf5105bf1f4a19755",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
