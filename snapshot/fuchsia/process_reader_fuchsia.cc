@@ -53,7 +53,9 @@ void GetStackRegions(
   }
 
   if (range_with_sp.type != ZX_INFO_MAPS_TYPE_MAPPING) {
-    LOG(ERROR) << "stack range has unexpected type, continuing anyway";
+    LOG(ERROR) << "stack range has unexpected type " << range_with_sp.type
+               << ", aborting";
+    return;
   }
 
   if (range_with_sp.u.mapping.mmu_flags & ZX_VM_PERM_EXECUTE) {
@@ -75,8 +77,16 @@ void GetStackRegions(
                range_with_sp.base);
   const size_t region_size =
       range_with_sp.size - (start_address - range_with_sp.base);
+
+  // Because most Fuchsia processes use safestack, it is very unlikely that a
+  // stack this large would be valid. Even if it were, avoid creating
+  // unreasonably large dumps by artificially limiting the captured amount.
+  constexpr uint64_t kMaxStackCapture = 1048576u;
+  LOG_IF(ERROR, region_size > kMaxStackCapture)
+      << "clamping unexpectedly large stack capture of " << region_size;
+  const size_t clamped_region_size = std::min(region_size, kMaxStackCapture);
   stack_regions->push_back(
-      CheckedRange<zx_vaddr_t, size_t>(start_address, region_size));
+      CheckedRange<zx_vaddr_t, size_t>(start_address, clamped_region_size));
 
   // TODO(scottmg): https://crashpad.chromium.org/bug/196, once the retrievable
   // registers include FS and similar for ARM, retrieve the region for the
