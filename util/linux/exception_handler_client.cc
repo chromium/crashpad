@@ -23,6 +23,7 @@
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "build/build_config.h"
+#include "third_party/lss/lss.h"
 #include "util/file/file_io.h"
 #include "util/linux/ptrace_broker.h"
 #include "util/linux/socket.h"
@@ -39,20 +40,21 @@ namespace {
 
 class ScopedSigprocmaskRestore {
  public:
-  explicit ScopedSigprocmaskRestore(const sigset_t& set_to_block)
+  explicit ScopedSigprocmaskRestore(const kernel_sigset_t& set_to_block)
       : orig_mask_(), mask_is_set_(false) {
-    mask_is_set_ = sigprocmask(SIG_BLOCK, &set_to_block, &orig_mask_) == 0;
+    mask_is_set_ = sys_sigprocmask(SIG_BLOCK, &set_to_block, &orig_mask_) == 0;
     DPLOG_IF(ERROR, !mask_is_set_) << "sigprocmask";
   }
 
   ~ScopedSigprocmaskRestore() {
-    if (mask_is_set_ && sigprocmask(SIG_SETMASK, &orig_mask_, nullptr) != 0) {
+    if (mask_is_set_ &&
+        sys_sigprocmask(SIG_SETMASK, &orig_mask_, nullptr) != 0) {
       DPLOG(ERROR) << "sigprocmask";
     }
   }
 
  private:
-  sigset_t orig_mask_;
+  kernel_sigset_t orig_mask_;
   bool mask_is_set_;
 
   DISALLOW_COPY_AND_ASSIGN(ScopedSigprocmaskRestore);
@@ -119,11 +121,9 @@ void ExceptionHandlerClient::SetCanSetPtracer(bool can_set_ptracer) {
 int ExceptionHandlerClient::SignalCrashDump(
     const ExceptionHandlerProtocol::ClientInformation& info,
     VMAddress stack_pointer) {
-  // TODO(jperaza): Use lss for system calls when sys_sigtimedwait() exists.
-  // https://crbug.com/crashpad/265
-  sigset_t dump_done_sigset;
-  sigemptyset(&dump_done_sigset);
-  sigaddset(&dump_done_sigset, ExceptionHandlerProtocol::kDumpDoneSignal);
+  kernel_sigset_t dump_done_sigset;
+  sys_sigemptyset(&dump_done_sigset);
+  sys_sigaddset(&dump_done_sigset, ExceptionHandlerProtocol::kDumpDoneSignal);
   ScopedSigprocmaskRestore scoped_block(dump_done_sigset);
 
   int status = SendCrashDumpRequest(info, stack_pointer);
@@ -131,19 +131,14 @@ int ExceptionHandlerClient::SignalCrashDump(
     return status;
   }
 
-#if defined(OS_ANDROID) && __ANDROID_API__ < 23
-  // sigtimedwait() wrappers aren't available on Android until API 23 but this
-  // can use the lss wrapper when it's available.
-  NOTREACHED();
-#else
   siginfo_t siginfo = {};
   timespec timeout;
   timeout.tv_sec = 5;
   timeout.tv_nsec = 0;
-  if (HANDLE_EINTR(sigtimedwait(&dump_done_sigset, &siginfo, &timeout)) < 0) {
+  if (HANDLE_EINTR(sys_sigtimedwait(&dump_done_sigset, &siginfo, &timeout)) <
+      0) {
     return errno;
   }
-#endif
 
   return 0;
 }
