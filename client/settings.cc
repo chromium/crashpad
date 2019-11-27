@@ -226,10 +226,10 @@ Settings::ScopedLockedFileHandle Settings::OpenForReadingAndWriting(
   FileHandle handle;
   if (log_open_error) {
     handle = LoggingOpenFileForReadAndWrite(
-        file_path(), mode, FilePermissions::kWorldReadable);
+        file_path(), mode, FilePermissions::kOwnerOnly);
   } else {
     handle = OpenFileForReadAndWrite(
-        file_path(), mode, FilePermissions::kWorldReadable);
+        file_path(), mode, FilePermissions::kOwnerOnly);
   }
 
   return MakeScopedLockedFileHandle(
