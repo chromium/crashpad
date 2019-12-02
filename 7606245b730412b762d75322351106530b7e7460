@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6af3623b_9d1e6d6c",
+        "filename": "util/win/loader_lock.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-12-02T21:29:04Z",
+      "side": 1,
+      "message": "Can you add some \\ns at the end of the new files to stop things from whining about that?",
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "742d3188_ab18bffa",
+        "filename": "util/win/loader_lock_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2019-12-02T21:29:04Z",
+      "side": 1,
+      "message": "This can just be ARCH_CPU_X86_FAMILY",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 53
+      },
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
