@@ -2,6 +2,200 @@
   "comments": [
     {
       "key": {
+        "uuid": "fa58092b_c1c369bb",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-02T21:35:35Z",
+      "side": 1,
+      "message": "\u003cwindows.h\u003e should come first even though it violates sorting, because some parts of the SDK depend on that (or historically have).",
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f1e53b7_02cf98e4",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-02T21:35:35Z",
+      "side": 1,
+      "message": "This name isn’t so self-descriptive either. “Base?” You use this to read at an offset into the TIB.",
+      "range": {
+        "startLine": 30,
+        "startChar": 10,
+        "endLine": 30,
+        "endChar": 18
+      },
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5179a7b2_39c6e86a",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-02T21:35:35Z",
+      "side": 1,
+      "message": "The return types are a surprise because they’re not the return types of __read?s?word and they’re not really the names Crashpad would use either.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 9
+      },
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c25a045_e5219b7e",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-02T21:35:35Z",
+      "side": 1,
+      "message": "You can accommodate 32/64-bit variants of other architectures by bringing NativeTraits out into its own #if, testing ARCH_CPU_64_BITS.",
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "802f8ef6_3b7b36f7",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-02T21:35:35Z",
+      "side": 1,
+      "message": "Either #error or leave off this #else altogether.\n\nYou want something that’s not implemented to scream for attention. As written, this will easily be forgotten.",
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de3bdf2f_93caf528",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-02T21:35:35Z",
+      "side": 1,
+      "message": "\u003cwinnt.h\u003e already has NtCurrentTeb(). Why don’t you use that directly? (This will obviate the need for addressing most of the comments above. NtCurrentTeb() is already implemented for arm64, for example.)",
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3606d7bb_b1a1a470",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-02T21:35:35Z",
+      "side": 1,
+      "message": "The type isn’t complex, don’t use auto.",
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ec525c7_21437186",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-02T21:35:35Z",
+      "side": 1,
+      "message": "Crashpad would use CRITICAL_SECTION*.",
+      "range": {
+        "startLine": 64,
+        "startChar": 39,
+        "endLine": 64,
+        "endChar": 56
+      },
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8212a6c7_9ebb2005",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-02T21:35:35Z",
+      "side": 1,
+      "message": "Why are you turning this into a HANDLE?",
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16ff1dfb_875f80d8",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-02T21:35:35Z",
+      "side": 1,
+      "message": "No ::",
+      "range": {
+        "startLine": 66,
+        "startChar": 54,
+        "endLine": 66,
+        "endChar": 56
+      },
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6af3623b_9d1e6d6c",
         "filename": "util/win/loader_lock.h",
         "patchSetId": 2

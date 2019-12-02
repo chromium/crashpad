@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f0f85a3_7562b354",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-02T21:35:35Z",
+      "side": 1,
+      "message": "Seems bad. Like something you ought to log a warning for.",
+      "revId": "6f153cff61063eb39dc5cc18f7e8871dbbe8d26b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
