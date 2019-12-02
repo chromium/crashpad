@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "46335de5_9c521a96",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-02T22:36:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa58092b_c1c369bb",
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f1e53b7_02cf98e4",
         "filename": "util/win/loader_lock.cc",
         "patchSetId": 2
@@ -65,6 +83,54 @@
     },
     {
       "key": {
+        "uuid": "4504797e_c07cb2c5",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-02T22:36:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5179a7b2_39c6e86a",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 9
+      },
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a80c9853_d66c6777",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-02T22:36:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f1e53b7_02cf98e4",
+      "range": {
+        "startLine": 30,
+        "startChar": 10,
+        "endLine": 30,
+        "endChar": 18
+      },
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c25a045_e5219b7e",
         "filename": "util/win/loader_lock.cc",
         "patchSetId": 2
@@ -79,6 +145,24 @@
       "revId": "7606245b730412b762d75322351106530b7e7460",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fab85733_03eb6dd4",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-02T22:36:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c25a045_e5219b7e",
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "5150cf40_e0bef4e5",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-02T22:36:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "802f8ef6_3b7b36f7",
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de3bdf2f_93caf528",
         "filename": "util/win/loader_lock.cc",
         "patchSetId": 2
@@ -110,6 +212,24 @@
       "writtenOn": "2019-12-02T21:35:35Z",
       "side": 1,
       "message": "\u003cwinnt.h\u003e already has NtCurrentTeb(). Why don’t you use that directly? (This will obviate the need for addressing most of the comments above. NtCurrentTeb() is already implemented for arm64, for example.)",
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16c18288_03b1084a",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-02T22:36:49Z",
+      "side": 1,
+      "message": "Thanks for that. I think I must have assumed NtCurrentTeb was implemented inside NTDLL which would have potentially required the loader lock to look up. As it\u0027s just a macro I\u0027ll use that instead and massively simplify the code.",
+      "parentUuid": "de3bdf2f_93caf528",
       "revId": "7606245b730412b762d75322351106530b7e7460",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -130,6 +250,24 @@
       "revId": "7606245b730412b762d75322351106530b7e7460",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fada7b8_3086c0f9",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-02T22:36:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3606d7bb_b1a1a470",
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -156,6 +294,30 @@
     },
     {
       "key": {
+        "uuid": "3f47274f_2d3a2f95",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-02T22:36:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ec525c7_21437186",
+      "range": {
+        "startLine": 64,
+        "startChar": 39,
+        "endLine": 64,
+        "endChar": 56
+      },
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8212a6c7_9ebb2005",
         "filename": "util/win/loader_lock.cc",
         "patchSetId": 2
@@ -167,6 +329,24 @@
       "writtenOn": "2019-12-02T21:35:35Z",
       "side": 1,
       "message": "Why are you turning this into a HANDLE?",
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a8a5754_08c272ef",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-02T22:36:49Z",
+      "side": 1,
+      "message": "The field in CRITICAL_SECTION for the Thread ID is of a HANDLE type, so I either cast the DWORD to HANDLE or cast the HANDLE to a DWORD. Casting to the larger type seemed the \"safer\" approach.",
+      "parentUuid": "8212a6c7_9ebb2005",
       "revId": "7606245b730412b762d75322351106530b7e7460",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -196,6 +376,30 @@
     },
     {
       "key": {
+        "uuid": "97d58382_fd9a95d3",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-02T22:36:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16ff1dfb_875f80d8",
+      "range": {
+        "startLine": 66,
+        "startChar": 54,
+        "endLine": 66,
+        "endChar": 56
+      },
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6af3623b_9d1e6d6c",
         "filename": "util/win/loader_lock.h",
         "patchSetId": 2
@@ -210,6 +414,24 @@
       "revId": "7606245b730412b762d75322351106530b7e7460",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fd3523b_42fa1247",
+        "filename": "util/win/loader_lock.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-02T22:36:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6af3623b_9d1e6d6c",
+      "revId": "7606245b730412b762d75322351106530b7e7460",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {

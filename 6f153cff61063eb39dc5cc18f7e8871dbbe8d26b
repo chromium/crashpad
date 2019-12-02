@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "727c9567_0195b284",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-02T22:36:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0e279f4_c98b4e0f",
+      "revId": "6f153cff61063eb39dc5cc18f7e8871dbbe8d26b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1c1ccbf_940109c7",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "6f153cff61063eb39dc5cc18f7e8871dbbe8d26b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4b50296_6b83f973",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-02T22:36:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1c1ccbf_940109c7",
+      "revId": "6f153cff61063eb39dc5cc18f7e8871dbbe8d26b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
