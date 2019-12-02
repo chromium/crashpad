@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "d0e279f4_c98b4e0f",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-02T21:37:11Z",
+      "side": 1,
+      "message": "This comment just says the same thing that the next line does. Remove it.",
+      "revId": "6f153cff61063eb39dc5cc18f7e8871dbbe8d26b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1c1ccbf_940109c7",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-02T21:37:11Z",
+      "side": 1,
+      "message": "This is very different than the thing that comes before it, so leave a blank line.",
+      "revId": "6f153cff61063eb39dc5cc18f7e8871dbbe8d26b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8f0f85a3_7562b354",
         "filename": "util/win/loader_lock.cc",
         "patchSetId": 3
