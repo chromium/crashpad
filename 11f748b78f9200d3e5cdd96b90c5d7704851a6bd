@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "72289851_44107889",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-03T15:31:20Z",
+      "side": 1,
+      "message": "My initial thoughts was all this checking for loader lock would be for debugging purposes only as it\u0027s still relying on undocumented behavior and so didn\u0027t want something to unexpectedly break in production code (say due to third party code interactions). I guess as we\u0027re doing a test in all cases it should be safe to enable as a CHECK and we\u0027d quickly see if it starts hitting in places in production we didn\u0027t expect.",
+      "parentUuid": "eba20c35_6aedab29",
+      "revId": "11f748b78f9200d3e5cdd96b90c5d7704851a6bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63a4f5d3_5614cf6b",
         "filename": "util/BUILD.gn",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2019-12-03T05:09:18Z",
       "side": 1,
       "message": "1. We’d normally prefix the name with the main test name because the “out” directory doesn’t provide any other form of namespacing, and especially in a large Chrome build, it’s nice to have some kind of attribution for these sorts of things. See the two targets immediately above. So, crashpad_util_test_loader_lock_test_dll or something. Maybe even leave off the trailing _dll, because it‘ll already be part of the filename.\n\n2. We already have a test-only target named loader_lock_dll in handler. I know it violates the rule I just gave you. Having two similar targets is confusing, but I guess the namespace prefix I suggested would resolve that.",
+      "revId": "11f748b78f9200d3e5cdd96b90c5d7704851a6bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71d753b5_a3703462",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 6
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-03T15:31:20Z",
+      "side": 1,
+      "message": "Renamed it. I did initially just look at whether I could re-purpose the existing DLL to save a file but it didn\u0027t seem sensible.",
+      "parentUuid": "63a4f5d3_5614cf6b",
       "revId": "11f748b78f9200d3e5cdd96b90c5d7704851a6bd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "4db77ecf_3dd342cd",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-03T15:31:20Z",
+      "side": 1,
+      "message": "Internally Windows uses the handle allocator to generated PIDs/TIDs and stores everything as HANDLEs (for example CLIENT_ID uses two handles for PID and TID which is reflected here) so really HANDLE is the correct type and DWORD is not. If I wanted to be a pedant about it I probably should extract the UniqueThread handle from the TEB\u0027s CLIENT_ID and do the comparison with that as that ensures some unexpected bits are not set which are being truncated by GetCurrentThreadId.\n\nOf course if the TID happened to be larger than 2^32 which is pretty unlikely things would start breaking anyway so it\u0027s probably a moot point. As it\u0027s not likely in practice I\u0027ll just cast the other way.",
+      "parentUuid": "70b366e0_7279c00e",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 74
+      },
+      "revId": "11f748b78f9200d3e5cdd96b90c5d7704851a6bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "009db671_9f4033b7",
         "filename": "util/win/loader_lock_test.cc",
         "patchSetId": 6
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "2c8f7d7c_bf0bea37",
+        "filename": "util/win/loader_lock_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-03T15:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "009db671_9f4033b7",
+      "revId": "11f748b78f9200d3e5cdd96b90c5d7704851a6bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0adb3624_f27e1e26",
         "filename": "util/win/loader_lock_test.cc",
         "patchSetId": 6
@@ -87,6 +165,30 @@
       "writtenOn": "2019-12-03T05:09:18Z",
       "side": 1,
       "message": "Instead of GET_FUNCTION and ASSERT, just use GET_FUNCTION_REQUIRED.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 43
+      },
+      "revId": "11f748b78f9200d3e5cdd96b90c5d7704851a6bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50227f95_f62d418e",
+        "filename": "util/win/loader_lock_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-03T15:31:20Z",
+      "side": 1,
+      "message": "Will do, although GET_FUNCTION_REQUIRED only DCHECKs and not CHECKs where as ASSERT would always fire, it won\u0027t even do the log to let you know why it failed in release builds. The assert would then at least tell you immediately what\u0027s wrong rather than the test failing with a NPD.",
+      "parentUuid": "0adb3624_f27e1e26",
       "range": {
         "startLine": 30,
         "startChar": 0,
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "2f6fe825_a986e0ac",
+        "filename": "util/win/loader_lock_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-03T15:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fbcd473_fd2f2499",
+      "revId": "11f748b78f9200d3e5cdd96b90c5d7704851a6bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f533ab4_e3854418",
         "filename": "util/win/loader_lock_test_dll.cc",
         "patchSetId": 6
@@ -130,6 +250,24 @@
       "revId": "11f748b78f9200d3e5cdd96b90c5d7704851a6bd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "466c39be_79b14187",
+        "filename": "util/win/loader_lock_test_dll.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-03T15:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f533ab4_e3854418",
+      "revId": "11f748b78f9200d3e5cdd96b90c5d7704851a6bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
