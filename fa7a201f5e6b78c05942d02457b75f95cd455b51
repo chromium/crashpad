@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ceb008d4_04ef8f6e",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-03T21:19:14Z",
+      "side": 1,
+      "message": "I might leave it as is for now. At least it might shake out any bad code in the wild abusing crashpad or similar.",
+      "parentUuid": "3ab3fe44_bcc3b83f",
+      "revId": "fa7a201f5e6b78c05942d02457b75f95cd455b51",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d5ad170a_c2c27867",
         "filename": "util/win/loader_lock.cc",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2019-12-03T19:47:00Z",
       "side": 1,
       "message": "You lost the LockCount check here? I kind of liked that, it meant I didn’t have to disassemble RtlLeaveCriticalSection from a bunch of different past versions.",
+      "revId": "fa7a201f5e6b78c05942d02457b75f95cd455b51",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "554b6e24_13fc65ef",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-03T21:19:14Z",
+      "side": 1,
+      "message": "Yes, I decided to go back through Win7 to Win10 versions of RtlIsCriticalSectionLockedByThread and the check is only on the OwningThread field and not the LockCount. Assuming MS might know this better than me I decided to only do the one check and leave the LockCount check out of it.",
+      "parentUuid": "d5ad170a_c2c27867",
       "revId": "fa7a201f5e6b78c05942d02457b75f95cd455b51",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
