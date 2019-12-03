@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9305df90_76a935c2",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-03T16:56:49Z",
+      "side": 1,
+      "message": "\u003e Internally Windows uses the handle allocator to generated PIDs/TIDs and stores everything as HANDLEs (for example CLIENT_ID uses two handles for PID and TID which is reflected here) so really HANDLE is the correct type and DWORD is not.\n\nThat aspect of the interface is regarded as a bug, or at the very least, a historical artifact. Since it’s not actually publicly documented for use, we can’t draw much more of a conclusion than “Windows-internal structs rarely change even when repurposed, and its source is full of casts anyway.”\n\nIs the allocator even really what’s important? Once allocated, process and thread IDs are valid system-wide in a strictly numerical context, and are entirely meaningless as handles, right? This is in contrast to proper process and thread handles, which may have different values in different processes despite referring to the same object.\n\nThe other thing you could do, that might be acceptable to both of us (although we might also agree it’s overkill) would be to compare peb-\u003eLoaderLock-\u003eOwningThread to teb-\u003eClientId-\u003eUniqueThread. It’s more undocumented internals, but we’re using undocumented internals anyway. It keeps everything the same type (no casts, which is something we shoot for, even if Microsoft doesn’t), uses information obtained directly from the system, and it’s also exactly where RtlEnterCriticalSection() pulls the OwningThread from (because an NT-level interface wouldn’t actually call the Win32-level GetCurrentThreadId(), although this is exactly what GetCurrentThreadId() does too).",
+      "parentUuid": "4db77ecf_3dd342cd",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 74
+      },
+      "revId": "11f748b78f9200d3e5cdd96b90c5d7704851a6bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "009db671_9f4033b7",
         "filename": "util/win/loader_lock_test.cc",
         "patchSetId": 6
@@ -198,6 +222,30 @@
       "revId": "11f748b78f9200d3e5cdd96b90c5d7704851a6bd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe930787_b11baee5",
+        "filename": "util/win/loader_lock_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-03T16:56:49Z",
+      "side": 1,
+      "message": "\u003e Will do, although GET_FUNCTION_REQUIRED only DCHECKs and not CHECKs where as ASSERT would always fire, it won\u0027t even do the log to let you know why it failed in release builds. The assert would then at least tell you immediately what\u0027s wrong rather than the test failing with a NPD.\n\nI think this is OK.",
+      "parentUuid": "50227f95_f62d418e",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 43
+      },
+      "revId": "11f748b78f9200d3e5cdd96b90c5d7704851a6bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
