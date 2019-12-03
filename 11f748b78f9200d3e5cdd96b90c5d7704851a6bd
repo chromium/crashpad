@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "309ea021_8f889ea2",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-03T19:08:19Z",
+      "side": 1,
+      "message": "Of course it\u0027d be far simpler to just use the undocumented RtlIsCriticalSectionLockedByThread NTDLL export which does exactly that, compares the CS TID against the TEB\u0027s ClientId-\u003eUniqueThread, but I don\u0027t want to require linking to NTDLL.LIB (where available), I don\u0027t know how far back that function goes (according to https://www.geoffchappell.com/studies/windows/win32/ntdll/api/index.htm it was introduced in 5.2 so it\u0027s might be okay) and I don\u0027t want to dynamically link to it because I want to avoid taking the loader lock when you could be inside the loader lock (even if it\u0027s supposed to be fine being locked recursively). As we have all the internal types in crashpad, I\u0027ll just update it to use the TEB method and not call GetCurrentThreadId at all.",
+      "parentUuid": "9305df90_76a935c2",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 74
+      },
+      "revId": "11f748b78f9200d3e5cdd96b90c5d7704851a6bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "009db671_9f4033b7",
         "filename": "util/win/loader_lock_test.cc",
         "patchSetId": 6
