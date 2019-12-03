@@ -41,6 +41,7 @@
 #include "util/win/get_function.h"
 #include "util/win/handle.h"
 #include "util/win/initial_client_data.h"
+#include "util/win/loader_lock.h"
 #include "util/win/nt_internals.h"
 #include "util/win/ntstatus_logging.h"
 #include "util/win/process_info.h"
@@ -346,6 +347,8 @@ class ScopedCallSetHandlerStartupState {
 
 bool StartHandlerProcess(
     std::unique_ptr<BackgroundHandlerStartThreadData> data) {
+  CHECK(!IsThreadInLoaderLock());
+
   ScopedCallSetHandlerStartupState scoped_startup_state_caller;
 
   std::wstring command_line;
