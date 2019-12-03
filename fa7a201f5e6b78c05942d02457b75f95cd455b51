@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ab3fe44_bcc3b83f",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-03T19:47:00Z",
+      "side": 1,
+      "message": "At your option here. What you described by e-mail makes sense, so if you’d prefer this to be a DCHECK, go for it.\n\nMy rule of thumb: a DCHECK is OK if the thing you’re trying to protect against is likely to show up in a developer’s debug build. Since your concern was refactoring accidentally moving this code under the loader lock, a DCHECK would be appropriate. A CHECK would be better if you wanted to protect against oddball field conditions not likely to be encountered (or encountered frequently) on a development system.",
+      "revId": "fa7a201f5e6b78c05942d02457b75f95cd455b51",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5ad170a_c2c27867",
+        "filename": "util/win/loader_lock.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-03T19:47:00Z",
+      "side": 1,
+      "message": "You lost the LockCount check here? I kind of liked that, it meant I didn’t have to disassemble RtlLeaveCriticalSection from a bunch of different past versions.",
+      "revId": "fa7a201f5e6b78c05942d02457b75f95cd455b51",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
