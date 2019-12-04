@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "471df11e_b910d6c2",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-04T21:38:42Z",
+      "side": 1,
+      "message": "These casts don\u0027t look necessary.",
+      "range": {
+        "startLine": 39,
+        "startChar": 18,
+        "endLine": 39,
+        "endChar": 73
+      },
+      "revId": "3a638c10708e288f278479a5fecf126b088f156e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c7ee4c4_9e60121a",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-04T21:38:42Z",
+      "side": 1,
+      "message": "It\u0027s encouraged!\n\nFinishEncoding/FinishDecoding() look like their okay to call without having called Write(), so how about using a member \"flushed_\" instead of \"flush_needed_\" with a DCHECK(!flushed_) here.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 71
+      },
+      "revId": "3a638c10708e288f278479a5fecf126b088f156e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2fdb6bd_91518722",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-04T21:38:42Z",
+      "side": 1,
+      "message": "Optional: I think this reads cleaner as:\nreturn mode_ \u003d\u003d Mode::kEncode ? Encode(data, size) : Decode(data, size);",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 30
+      },
+      "revId": "3a638c10708e288f278479a5fecf126b088f156e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f034cfed_9e790be2",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-04T21:38:42Z",
+      "side": 1,
+      "message": "Similarly here. If Mode is meant to be a named boolean, I think these branches become easier to read using ternary operators.\n\n(If you expect Mode might include other values in the future and not remain boolean, a switch is better so that if will fail to compile when new values are added.)\n\nThis whole function could be:\n\nbool Base94OutputStream::Flush() {\n  flushed_ \u003d true;\n  bool result \u003d mode_ \u003d\u003d Mode::Encode ? FinishEncoding() : FinishDecoding();\n  return result \u0026\u0026 output_stream_-\u003eFlush();\n}",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 32
+      },
+      "revId": "3a638c10708e288f278479a5fecf126b088f156e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39e2fc20_298142b1",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-04T21:38:42Z",
+      "side": 1,
+      "message": "nit: \u0026\u0026 these two ifs together.\n\nalso on line 135",
+      "range": {
+        "startLine": 105,
+        "startChar": 39,
+        "endLine": 106,
+        "endChar": 10
+      },
+      "revId": "3a638c10708e288f278479a5fecf126b088f156e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d00daba_11fb0343",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-04T21:38:42Z",
+      "side": 1,
+      "message": "This is subtle and worth a brief comment describing why we know the remaining bits are zero and not needed.",
+      "range": {
+        "startLine": 165,
+        "startChar": 2,
+        "endLine": 165,
+        "endChar": 20
+      },
+      "revId": "3a638c10708e288f278479a5fecf126b088f156e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
