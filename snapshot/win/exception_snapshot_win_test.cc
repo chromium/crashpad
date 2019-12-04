@@ -213,7 +213,7 @@ class SimulateDelegate : public ExceptionHandlerServer::Delegate {
     // ASan instrumentation inserts more instructions between the expected
     // location and what's reported. https://crbug.com/845011.
     constexpr uint64_t kAllowedOffset = 500;
-#elif !NDEBUG
+#elif !defined(NDEBUG)
     // Debug build is likely not optimized and contains more instructions.
     constexpr uint64_t kAllowedOffset = 150;
 #else
