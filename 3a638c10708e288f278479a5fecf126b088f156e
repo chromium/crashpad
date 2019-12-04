@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b833784f_a1734391",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-04T23:34:04Z",
+      "side": 1,
+      "message": "I think we do need casts, without casts, code the will be\n\nstd::min(byte - \u0027!\u0027, 94);\n\nfor byte\u003d\u0027!\u0027-1, it will return -1, but we actually want all invalid value of byte, return 94.",
+      "parentUuid": "471df11e_b910d6c2",
+      "range": {
+        "startLine": 39,
+        "startChar": 18,
+        "endLine": 39,
+        "endChar": 73
+      },
+      "revId": "3a638c10708e288f278479a5fecf126b088f156e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c7ee4c4_9e60121a",
         "filename": "util/stream/base94_output_stream.cc",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2019-12-04T21:38:42Z",
       "side": 1,
       "message": "It\u0027s encouraged!\n\nFinishEncoding/FinishDecoding() look like their okay to call without having called Write(), so how about using a member \"flushed_\" instead of \"flush_needed_\" with a DCHECK(!flushed_) here.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 71
+      },
+      "revId": "3a638c10708e288f278479a5fecf126b088f156e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50bb694b_64cdbba2",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-04T23:34:04Z",
+      "side": 1,
+      "message": "flush_needed_ is for DCHECKing Flush() is called if Write() is ever called, Not calling flush() is allowed for other cases.\n\nI added new member flushed_ for this purpose.",
+      "parentUuid": "6c7ee4c4_9e60121a",
       "range": {
         "startLine": 61,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "70718905_ceec431f",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-04T23:34:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2fdb6bd_91518722",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 30
+      },
+      "revId": "3a638c10708e288f278479a5fecf126b088f156e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f034cfed_9e790be2",
         "filename": "util/stream/base94_output_stream.cc",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2019-12-04T21:38:42Z",
       "side": 1,
       "message": "Similarly here. If Mode is meant to be a named boolean, I think these branches become easier to read using ternary operators.\n\n(If you expect Mode might include other values in the future and not remain boolean, a switch is better so that if will fail to compile when new values are added.)\n\nThis whole function could be:\n\nbool Base94OutputStream::Flush() {\n  flushed_ \u003d true;\n  bool result \u003d mode_ \u003d\u003d Mode::Encode ? FinishEncoding() : FinishDecoding();\n  return result \u0026\u0026 output_stream_-\u003eFlush();\n}",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 32
+      },
+      "revId": "3a638c10708e288f278479a5fecf126b088f156e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d4e7208_d10ef858",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-04T23:34:04Z",
+      "side": 1,
+      "message": "This will require that the FinishEncoding/Decoding() methods always return true even Encode/Decode method wasn\u0027t called. since flush_needed_ is still needed, I used various of your version.",
+      "parentUuid": "f034cfed_9e790be2",
       "range": {
         "startLine": 72,
         "startChar": 0,
@@ -114,6 +210,30 @@
       "revId": "3a638c10708e288f278479a5fecf126b088f156e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08f62955_e9267582",
+        "filename": "util/stream/base94_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-04T23:34:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39e2fc20_298142b1",
+      "range": {
+        "startLine": 105,
+        "startChar": 39,
+        "endLine": 106,
+        "endChar": 10
+      },
+      "revId": "3a638c10708e288f278479a5fecf126b088f156e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
