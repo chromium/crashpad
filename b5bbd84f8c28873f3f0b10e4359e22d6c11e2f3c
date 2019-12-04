@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a6899ce_4cd740fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-04T03:49:03Z",
+      "side": 1,
+      "message": "Fix.",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "b5bbd84f8c28873f3f0b10e4359e22d6c11e2f3c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6d5dd0b_05609fd1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-04T03:49:03Z",
+      "side": 1,
+      "message": "Since you’re not in the Chromium repository here, you need to write this as:\n\nBug: chromium:1030261\n\nfor auto-linking to work as you intend everywhere.",
+      "revId": "b5bbd84f8c28873f3f0b10e4359e22d6c11e2f3c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e1295c2_c73af52b",
+        "filename": "snapshot/win/exception_snapshot_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-04T03:49:03Z",
+      "side": 1,
+      "message": "!defined(NDEBUG)",
+      "revId": "b5bbd84f8c28873f3f0b10e4359e22d6c11e2f3c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
