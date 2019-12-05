@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "19041ea2_3dbec9ea",
+        "filename": "infra/config/codereview.settings",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1114919
+      },
+      "writtenOn": "2019-12-05T17:50:21Z",
+      "side": 1,
+      "message": "remove this file.",
+      "revId": "55f8ad16775943e9aba8e26d2d65b4bda6e26337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "31c035f5_a093022f",
         "filename": "infra/config/luci-milo.cfg",
         "patchSetId": 1
