@@ -31,33 +31,9 @@ namespace crashpad {
 
 namespace {
 
-// This function is used in this file specfically for signed or unsigned longs.
-// longs are typically either int or int64 sized, but pointers to longs are not
-// automatically coerced to pointers to ints when they are the same size.
-// Simply adding a StringToNumber for longs doesn't work since sometimes long
-// and int64_t are actually the same type, resulting in a redefinition error.
-template <typename Type>
-bool LocalStringToNumber(const std::string& string, Type* number) {
-  static_assert(sizeof(Type) == sizeof(int) || sizeof(Type) == sizeof(int64_t),
-                "Unexpected Type size");
-
-  char data[sizeof(Type)];
-  if (sizeof(Type) == sizeof(int)) {
-    if (!StringToNumber(string, reinterpret_cast<unsigned int*>(data))) {
-      return false;
-    }
-  } else {
-    if (!StringToNumber(string, reinterpret_cast<uint64_t*>(data))) {
-      return false;
-    }
-  }
-  *number = bit_cast<Type>(data);
-  return true;
-}
-
 template <typename Type>
 bool HexStringToNumber(const std::string& string, Type* number) {
-  return LocalStringToNumber("0x" + string, number);
+  return StringToNumber("0x" + string, number);
 }
 
 // The result from parsing a line from the maps file.
@@ -182,7 +158,7 @@ ParseResult ParseMapsLine(DelimitedFileReader* maps_file_reader,
 
   if (maps_file_reader->GetDelim(' ', &field) !=
           DelimitedFileReader::Result::kSuccess ||
-      (field.pop_back(), !LocalStringToNumber(field, &mapping.inode))) {
+      (field.pop_back(), !StringToNumber(field, &mapping.inode))) {
     LOG(ERROR) << "format error";
     return ParseResult::kError;
   }
