@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aacbcedb_279a3dce",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-05T20:46:33Z",
+      "side": 0,
+      "message": "I also removed this helper because StringToNumber() was updated to convert native types so this comment no longer applies.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 77
+      },
+      "revId": "5a5eb05270696246f79e8ded4b519fd1a6122682",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
