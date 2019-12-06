@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "58a2adb8_7fece1b9",
+        "filename": ".gitattributes",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2019-12-06T17:52:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9fe2326a_5620e792",
+      "revId": "47ca1a1a9b406c511473e24917fbec30b34da0d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ca90a8_8f63b1df",
         "filename": ".gitattributes",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-12-06T17:48:36Z",
       "side": 1,
       "message": "Not having an extension isn’t a big deal for an ELF executable, which is what this one is, but the directory just has a couple of checked-in binaries without a README explaining where they came from or how they were built. That doesn’t seem great.",
+      "revId": "47ca1a1a9b406c511473e24917fbec30b34da0d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "098880e2_f615f429",
+        "filename": ".gitattributes",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2019-12-06T17:52:40Z",
+      "side": 1,
+      "message": "It seems like this could go into snapshot/elf/elf_image_reader_fuzzer_corpus/ ?\n\n       When deciding what attributes are assigned to a path, Git consults $GIT_DIR/info/attributes\n       file (which has the highest precedence), .gitattributes file in the same directory as the\n       path in question, and its parent directories up to the toplevel of the work tree (the\n       further the directory that contains .gitattributes is from the path in question, the lower\n       its precedence). Finally global and system-wide files are considered (they have the lowest\n       precedence).",
+      "parentUuid": "67ca90a8_8f63b1df",
       "revId": "47ca1a1a9b406c511473e24917fbec30b34da0d5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
