@@ -69,6 +69,24 @@
       "revId": "47ca1a1a9b406c511473e24917fbec30b34da0d5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9158e6e_a3b827fa",
+        "filename": ".gitattributes",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-06T18:08:40Z",
+      "side": 1,
+      "message": "\u003e It seems like this could go into snapshot/elf/elf_image_reader_fuzzer_corpus/ ?\n\u003e \n\u003e        When deciding what attributes are assigned to a path, Git consults $GIT_DIR/info/attributes\n\u003e        file (which has the highest precedence), .gitattributes file in the same directory as the\n\u003e        path in question, and its parent directories up to the toplevel of the work tree (the\n\u003e        further the directory that contains .gitattributes is from the path in question, the lower\n\u003e        its precedence). Finally global and system-wide files are considered (they have the lowest\n\u003e        precedence).\n\nTrue, I can .gitattributes both of the absolute paths right in their own directories. Good place to leave some comments about why they’re necessary, too.",
+      "parentUuid": "098880e2_f615f429",
+      "revId": "47ca1a1a9b406c511473e24917fbec30b34da0d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

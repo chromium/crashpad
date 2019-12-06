@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9af21fa8_3ce4e2b5",
+        "filename": ".gitattributes",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-06T18:08:40Z",
+      "side": 1,
+      "message": "Anchored these four at the root, since they shouldn’t appear anywhere else.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 32
+      },
+      "revId": "23af6741f576441947d3fbee6c15ec3abc4cf743",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
