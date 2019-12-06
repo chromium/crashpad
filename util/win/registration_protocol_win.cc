@@ -14,15 +14,59 @@
 
 #include "util/win/registration_protocol_win.h"
 
-#include <stddef.h>
 #include <windows.h>
+#include <aclapi.h>
+#include <sddl.h>
+#include <stddef.h>
 
 #include "base/logging.h"
 #include "base/stl_util.h"
 #include "util/win/exception_handler_server.h"
+#include "util/win/loader_lock.h"
 #include "util/win/scoped_handle.h"
+#include "util/win/scoped_local_alloc.h"
 
 namespace crashpad {
+
+namespace {
+
+ScopedLocalAlloc GetSecurityDescriptorWithUser(const base::char16* sddl_string,
+                                               size_t* size) {
+  if (size)
+    *size = 0;
+
+  PSECURITY_DESCRIPTOR sec_desc;
+  if (!ConvertStringSecurityDescriptorToSecurityDescriptor(
+          sddl_string, SDDL_REVISION_1, &sec_desc, nullptr)) {
+    PLOG(ERROR) << "ConvertStringSecurityDescriptorToSecurityDescriptor";
+    return ScopedLocalAlloc();
+  }
+
+  ScopedLocalAlloc base_sec_desc(sec_desc);
+  EXPLICIT_ACCESS access = {};
+  wchar_t username[] = L"CURRENT_USER";
+  BuildExplicitAccessWithName(
+      &access, username, GENERIC_ALL, GRANT_ACCESS, NO_INHERITANCE);
+
+  ULONG sd_size;
+  if (BuildSecurityDescriptor(nullptr,
+                              nullptr,
+                              1,
+                              &access,
+                              0,
+                              nullptr,
+                              base_sec_desc.get(),
+                              &sd_size,
+                              &sec_desc) != ERROR_SUCCESS) {
+    PLOG(ERROR) << "BuildSecurityDescriptor";
+    return ScopedLocalAlloc();
+  }
+
+  *size = sd_size;
+  return ScopedLocalAlloc(sec_desc);
+}
+
+}  // namespace
 
 bool SendToCrashHandlerServer(const base::string16& pipe_name,
                               const ClientToServerMessage& message,
@@ -124,7 +168,7 @@ HANDLE CreateNamedPipeInstance(const std::wstring& pipe_name,
       security_attributes_pointer);
 }
 
-const void* GetSecurityDescriptorForNamedPipeInstance(size_t* size) {
+const void* GetFallbackSecurityDescriptorForNamedPipeInstance(size_t* size) {
   // Mandatory Label, no ACE flags, no ObjectType, integrity level untrusted is
   // "S:(ML;;;;;S-1-16-0)". Typically
   // ConvertStringSecurityDescriptorToSecurityDescriptor() would be used to
@@ -205,6 +249,25 @@ const void* GetSecurityDescriptorForNamedPipeInstance(size_t* size) {
   if (size)
     *size = sizeof(kSecDescBlob);
   return reinterpret_cast<const void*>(&kSecDescBlob);
+}
+
+const void* GetSecurityDescriptorForNamedPipeInstance(size_t* size) {
+  CHECK(!IsThreadInLoaderLock());
+
+  // Get a security descriptor which grants the current user and SYSTEM full
+  // access to the named pipe. Also grant AppContainer RW access through the ALL
+  // APPLICATION PACKAGES SID (S-1-15-2-1). Finally add an Untrusted Mandatory
+  // Label for non-AppContainer sandboxed users.
+  static size_t sd_size;
+  static ScopedLocalAlloc sec_desc = GetSecurityDescriptorWithUser(
+      L"D:(A;;GA;;;SY)(A;;GWGR;;;S-1-15-2-1)S:(ML;;;;;S-1-16-0)", &sd_size);
+
+  if (!sec_desc.is_valid())
+    return GetFallbackSecurityDescriptorForNamedPipeInstance(size);
+
+  if (size)
+    *size = sd_size;
+  return sec_desc.get();
 }
 
 }  // namespace crashpad
