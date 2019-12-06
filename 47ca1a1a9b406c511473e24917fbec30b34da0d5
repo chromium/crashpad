@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fe2326a_5620e792",
+        "filename": ".gitattributes",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-06T17:48:36Z",
+      "side": 1,
+      "message": "This is the only .cpp file. I wasn’t sure if it could be renamed to .cc, because the whole point of that file is to be built with a complier at least 20 years old, and I didn’t want to dig it up again to test. It wouldn’t be surprising if it didn’t understand .cc to mean C++ easily.",
+      "revId": "47ca1a1a9b406c511473e24917fbec30b34da0d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67ca90a8_8f63b1df",
+        "filename": ".gitattributes",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-06T17:48:36Z",
+      "side": 1,
+      "message": "Not having an extension isn’t a big deal for an ELF executable, which is what this one is, but the directory just has a couple of checked-in binaries without a README explaining where they came from or how they were built. That doesn’t seem great.",
+      "revId": "47ca1a1a9b406c511473e24917fbec30b34da0d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
