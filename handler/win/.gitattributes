@@ -1,4 +1,4 @@
-# Copyright 2014 The Crashpad Authors. All rights reserved.
+# Copyright 2019 The Crashpad Authors. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,30 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-*.Makefile
-*.ninja
-*.pyc
-*.target.mk
-*.xcodeproj
-*~
-.*.sw?
-.DS_Store
-.gdb_history
-.gdbinit
-/Makefile
-/out
-/third_party/fuchsia/.cipd
-/third_party/fuchsia/clang
-/third_party/fuchsia/qemu
-/third_party/fuchsia/sdk
-/third_party/gtest/gtest
-/third_party/libfuzzer
-/third_party/linux/.cipd
-/third_party/linux/clang
-/third_party/linux/sysroot
-/third_party/lss/lss
-/third_party/gyp/gyp
-/third_party/mini_chromium/mini_chromium
-/third_party/zlib/zlib
-/xcodebuild
-tags
+# This should be a .cc file, which would allow its attributes to be controlled
+# by the *.cc pattern in the root .gitattributes file, but it’s named with a
+# .cpp extension instead. This file needs to be built with VC++6, a vintage 1998
+# compiler, which might not understand .cc to mean C++.  Rather than setting
+# attributes globally for .cpp files, which are undesirable (.cc should be used
+# in its place), provide a file-specific mapping here.
+/z7_test.cpp text eol=lf
