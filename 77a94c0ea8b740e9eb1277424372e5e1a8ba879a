@@ -16,6 +16,24 @@
       "revId": "77a94c0ea8b740e9eb1277424372e5e1a8ba879a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4ed4bb0_08f8bfc9",
+        "filename": "luci-scheduler.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1181690
+      },
+      "writtenOn": "2019-12-09T23:26:18Z",
+      "side": 1,
+      "message": "I believe you need this to be able to trigger the bot from the web ui.",
+      "parentUuid": "34640556_351f81cc",
+      "revId": "77a94c0ea8b740e9eb1277424372e5e1a8ba879a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

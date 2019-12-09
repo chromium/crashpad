@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "983ffdb8_3e9ec21e",
+        "filename": "cr-buildbucket.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1181690
+      },
+      "writtenOn": "2019-12-09T23:26:18Z",
+      "side": 0,
+      "message": "This is an old buildbot master bucket, so you should be able to delete it entirely.",
+      "parentUuid": "1f35855f_ee0fe196",
+      "revId": "ab64a5aab2745bb1282f5c183bf06480d14b23f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "46b77630_b0014601",
         "filename": "cr-buildbucket.cfg",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "ab64a5aab2745bb1282f5c183bf06480d14b23f3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a245140_b8513d9c",
+        "filename": "cr-buildbucket.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1181690
+      },
+      "writtenOn": "2019-12-09T23:26:18Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "46b77630_b0014601",
+      "revId": "ab64a5aab2745bb1282f5c183bf06480d14b23f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
