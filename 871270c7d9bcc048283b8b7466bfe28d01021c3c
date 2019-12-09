@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb2aac63_0498e56c",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-09T18:11:36Z",
+      "side": 1,
+      "message": "Can’t do this. It results in a module destructor. You’ll have to do without the “scoped” part.",
+      "range": {
+        "startLine": 261,
+        "startChar": 2,
+        "endLine": 261,
+        "endChar": 25
+      },
+      "revId": "871270c7d9bcc048283b8b7466bfe28d01021c3c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
