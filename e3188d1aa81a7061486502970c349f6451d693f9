@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cfa9e3d_7e18de1d",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-09T19:49:48Z",
+      "side": 1,
+      "message": "Seems unnecessary given our use.",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 18
+      },
+      "revId": "e3188d1aa81a7061486502970c349f6451d693f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9416e316_dfc4f3ca",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-09T19:49:48Z",
+      "side": 1,
+      "message": "I don’t think this comment is necessary because (1) this is a pretty common pattern already and (2) it’s not technically a leak because it remains accessible through this static variable.",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 23
+      },
+      "revId": "e3188d1aa81a7061486502970c349f6451d693f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aab8bd9_970b9bb6",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-09T19:49:48Z",
+      "side": 1,
+      "message": "Let’s not defeat the type system while we’re doing this. Why not SECURITY_DESCRIPTOR* for this?\n\nFor that matter, why doesn’t this function or the inner fallback one return SECURITY_DESCRIPTOR*?",
+      "revId": "e3188d1aa81a7061486502970c349f6451d693f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
