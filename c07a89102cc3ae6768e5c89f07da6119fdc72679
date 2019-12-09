@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e58561f6_dc81d7dc",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-09T15:50:09Z",
+      "side": 1,
+      "message": "Is initialization really needed?",
+      "range": {
+        "startLine": 46,
+        "startChar": 24,
+        "endLine": 46,
+        "endChar": 29
+      },
+      "revId": "c07a89102cc3ae6768e5c89f07da6119fdc72679",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e8ced1c_962a566b",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-09T15:50:09Z",
+      "side": 1,
+      "message": "This recycling of sec_desc while base_sec_desc still applies to the original sec_desc is confusing.\n\nHow about:\n\nbase_sec_desc\nbase_sec_desc_owner\nuser_sec_desc (or something else meaningful?)\n(user_sec_desc_owner isn’t necessary because of how you return.)",
+      "range": {
+        "startLine": 60,
+        "startChar": 30,
+        "endLine": 60,
+        "endChar": 39
+      },
+      "revId": "c07a89102cc3ae6768e5c89f07da6119fdc72679",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d7a6bc0_eb16f472",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-09T15:50:09Z",
+      "side": 1,
+      "message": "PLOG uses GetLastError(), but the documentation doesn’t say that BuildSecurityDescriptor() calls SetLastError(), it says that it returns an error code.\n\nI’d accept empirical evidence that it works, though.",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 8
+      },
+      "revId": "c07a89102cc3ae6768e5c89f07da6119fdc72679",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba3f72d6_48428dba",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-09T15:50:09Z",
+      "side": 1,
+      "message": "Seems like this comment should be up for review now.",
+      "range": {
+        "startLine": 175,
+        "startChar": 43,
+        "endLine": 180,
+        "endChar": 34
+      },
+      "revId": "c07a89102cc3ae6768e5c89f07da6119fdc72679",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "250d2179_6c12d836",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-09T15:50:09Z",
+      "side": 1,
+      "message": "`SECURITY_DESCRIPTOR` in backticks.",
+      "range": {
+        "startLine": 160,
+        "startChar": 23,
+        "endLine": 160,
+        "endChar": 42
+      },
+      "revId": "c07a89102cc3ae6768e5c89f07da6119fdc72679",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
