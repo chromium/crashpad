@@ -22,7 +22,7 @@
 
 extern "C" {
 
-int memfd_create(const char* name, unsigned int flags) {
+int memfd_create(const char* name, unsigned int flags) __THROW {
   using MemfdCreateType = int (*)(const char*, int);
   static const MemfdCreateType next_memfd_create =
       reinterpret_cast<MemfdCreateType>(dlsym(RTLD_NEXT, "memfd_create"));
