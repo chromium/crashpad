@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34640556_351f81cc",
+        "filename": "luci-scheduler.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2019-12-09T22:51:27Z",
+      "side": 1,
+      "message": "Do I need to add this block here?  I\u0027m intentionally not triggering this bot off of commits, because I want to make sure that it\u0027s green first.\n\nMy understanding is that if the bot exists, I can trigger manual runs from the web UI as needed.",
+      "revId": "77a94c0ea8b740e9eb1277424372e5e1a8ba879a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

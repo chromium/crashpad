@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f35855f_ee0fe196",
+        "filename": "cr-buildbucket.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2019-12-09T22:51:27Z",
+      "side": 0,
+      "message": "Presubmit asked me to reorder this to the end.  It was just a warning, so I could move it back.",
+      "revId": "ab64a5aab2745bb1282f5c183bf06480d14b23f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46b77630_b0014601",
+        "filename": "cr-buildbucket.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2019-12-09T22:51:27Z",
+      "side": 0,
+      "message": "Presubmit asked me to remove these migration lines.  This was an error.",
+      "revId": "ab64a5aab2745bb1282f5c183bf06480d14b23f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
