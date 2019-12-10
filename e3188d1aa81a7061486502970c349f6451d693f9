@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "f584c24a_620c3d96",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-10T01:35:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c133edf_b6775dce",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 18
+      },
+      "revId": "e3188d1aa81a7061486502970c349f6451d693f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9416e316_dfc4f3ca",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 6
@@ -117,6 +141,30 @@
       "revId": "e3188d1aa81a7061486502970c349f6451d693f9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d5498fb_5ec42841",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-10T01:35:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19efea8e_9d047fc7",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 23
+      },
+      "revId": "e3188d1aa81a7061486502970c349f6451d693f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
