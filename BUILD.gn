@@ -55,7 +55,7 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
   }
 
   if (crashpad_is_in_fuchsia) {
-    import("//build/package.gni")
+     import("//build/package.gni")
     package("crashpad_test") {
       testonly = true
 
