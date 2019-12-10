@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b22da4a7_26d0e106",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-10T23:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2715648a_9a78112d",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 24
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "433a9e99_12c44bb9",
         "filename": "util/stream/log_output_stream.cc",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2019-12-10T19:09:35Z",
       "side": 1,
       "message": "This value is duplicated in tests, documented in the header, and is relevant knowledge for a user of this class. I think it makes sense to upgrade it to a public static class member OR pass it through the constructor so the caller can decide how large a log message to tolerate.",
+      "range": {
+        "startLine": 34,
+        "startChar": 17,
+        "endLine": 34,
+        "endChar": 41
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43979fee_e9d2429d",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-10T23:45:57Z",
+      "side": 1,
+      "message": "From previous review (https://chromium-review.googlesource.com/c/crashpad/crashpad/+/1745355/5/util/stream/zlib_output_stream.h#46), IIUC, Mark preferred to simple the implementation by not sharing these const with test, I think that is fine as it is implementation detail and shouldn\u0027t be changed often, and once changed, the test should be modified as well.\n\nIf passed through constructor, it isn\u0027t implementation detail, and kLineBufferSize might also be passed in.\n\nI tend to keep it as implementation detail, what do you prefer to?",
+      "parentUuid": "433a9e99_12c44bb9",
       "range": {
         "startLine": 34,
         "startChar": 17,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "235a30c8_3860ef65",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-10T23:45:57Z",
+      "side": 1,
+      "message": "IDK, from my testing the 2048 worked, the length might be different on devices, uses the 512 for safe.",
+      "parentUuid": "033a3ddb_2f2bfb49",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 40
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3f73d253_5afb02c0",
         "filename": "util/stream/log_output_stream.cc",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2019-12-10T19:09:35Z",
       "side": 1,
       "message": "This is now present in NDK 20 so there\u0027s no need to declare it ourselves or do a dynamic lookup.",
+      "range": {
+        "startLine": 42,
+        "startChar": 3,
+        "endLine": 42,
+        "endChar": 55
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f44b572f_92f3656a",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-10T23:45:57Z",
+      "side": 1,
+      "message": "Thanks for spotting this, they were added in NDK 20, all of those aren\u0027t needed, code is much simple now.",
+      "parentUuid": "3f73d253_5afb02c0",
       "range": {
         "startLine": 42,
         "startChar": 3,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "6aa565d0_a7742b95",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-10T23:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d455a08_a33f0539",
+      "range": {
+        "startLine": 49,
+        "startChar": 10,
+        "endLine": 49,
+        "endChar": 29
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef8f8fce_02f9beb5",
         "filename": "util/stream/log_output_stream.cc",
         "patchSetId": 4
@@ -137,6 +257,30 @@
       "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22279f6f_201b38c4",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-10T23:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef8f8fce_02f9beb5",
+      "range": {
+        "startLine": 83,
+        "startChar": 19,
+        "endLine": 83,
+        "endChar": 34
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "3d50e949_9f2fd05f",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-10T23:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9409bbb_e79e117f",
+      "range": {
+        "startLine": 128,
+        "startChar": 38,
+        "endLine": 128,
+        "endChar": 53
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c34bf13_20953279",
         "filename": "util/stream/log_output_stream.h",
         "patchSetId": 4
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "d71d58ec_fa4a5b0a",
+        "filename": "util/stream/log_output_stream.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-10T23:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c34bf13_20953279",
+      "range": {
+        "startLine": 29,
+        "startChar": 11,
+        "endLine": 29,
+        "endChar": 27
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1817d37d_f4b7563a",
         "filename": "util/stream/log_output_stream_test.cc",
         "patchSetId": 4
@@ -206,6 +398,30 @@
       "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bd4b160_6f251647",
+        "filename": "util/stream/log_output_stream_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-10T23:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1817d37d_f4b7563a",
+      "range": {
+        "startLine": 83,
+        "startChar": 33,
+        "endLine": 83,
+        "endChar": 37
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
