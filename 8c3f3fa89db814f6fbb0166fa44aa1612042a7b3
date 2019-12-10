@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17d8bde4_257b415e",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-10T02:15:07Z",
+      "side": 1,
+      "message": "Change this word to “This” to make clear that you’re talking about this function’s job.",
+      "range": {
+        "startLine": 176,
+        "startChar": 28,
+        "endLine": 176,
+        "endChar": 29
+      },
+      "revId": "8c3f3fa89db814f6fbb0166fa44aa1612042a7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
