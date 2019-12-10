@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6c133edf_b6775dce",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-10T00:36:47Z",
+      "side": 1,
+      "message": "\u003e Ack\n\nSo remove it and return void* here too?\n\nMaybe we’re missing a “git cl upload” here.",
+      "parentUuid": "5f49e08c_81425ac4",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 18
+      },
+      "revId": "e3188d1aa81a7061486502970c349f6451d693f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9416e316_dfc4f3ca",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 6
@@ -128,6 +152,24 @@
       "revId": "e3188d1aa81a7061486502970c349f6451d693f9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf3acad8_8b75b126",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-10T00:36:47Z",
+      "side": 1,
+      "message": "\u003e A good question, to ask the original author of the old code no doubt\n\nOf course I would have asked about that during the original review too.\n\nhttps://chromium-review.googlesource.com/c/crashpad/crashpad/+/417223/2/util/win/registration_protocol_win_test.cc#35\n\nLeaving it as void* is fine. Thanks!",
+      "parentUuid": "42ba3721_3aace0af",
+      "revId": "e3188d1aa81a7061486502970c349f6451d693f9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
