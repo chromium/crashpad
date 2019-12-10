@@ -22,6 +22,30 @@
       "revId": "8c3f3fa89db814f6fbb0166fa44aa1612042a7b3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "618d2e5e_368466cf",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1149139
+      },
+      "writtenOn": "2019-12-10T16:53:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17d8bde4_257b415e",
+      "range": {
+        "startLine": 176,
+        "startChar": 28,
+        "endLine": 176,
+        "endChar": 29
+      },
+      "revId": "8c3f3fa89db814f6fbb0166fa44aa1612042a7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
