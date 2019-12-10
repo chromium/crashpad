@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2715648a_9a78112d",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-10T19:09:35Z",
+      "side": 1,
+      "message": "I love that you measured this, but I think this comment will be confusing to future readers who aren\u0027t aware of the experiment. Perhaps something more vague like:\n\"Most minidumps are expected to be compressed and encoded into less than 128k\"",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 24
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "433a9e99_12c44bb9",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-10T19:09:35Z",
+      "side": 1,
+      "message": "This value is duplicated in tests, documented in the header, and is relevant knowledge for a user of this class. I think it makes sense to upgrade it to a public static class member OR pass it through the constructor so the caller can decide how large a log message to tolerate.",
+      "range": {
+        "startLine": 34,
+        "startChar": 17,
+        "endLine": 34,
+        "endChar": 41
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "033a3ddb_2f2bfb49",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-10T19:09:35Z",
+      "side": 1,
+      "message": "There\u0027s a comment in the NDK 20\u0027s header \u003candroid/log.h\u003e:\n\n * Log message text may be truncated to less than an implementation-specific\n * limit (1023 bytes).\n\nIs that referring to the same buffer?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 40
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f73d253_5afb02c0",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-10T19:09:35Z",
+      "side": 1,
+      "message": "This is now present in NDK 20 so there\u0027s no need to declare it ourselves or do a dynamic lookup.",
+      "range": {
+        "startLine": 42,
+        "startChar": 3,
+        "endLine": 42,
+        "endChar": 55
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d455a08_a33f0539",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-10T19:09:35Z",
+      "side": 1,
+      "message": "Same here. This is now declared in the NDK.",
+      "range": {
+        "startLine": 49,
+        "startChar": 10,
+        "endLine": 49,
+        "endChar": 29
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef8f8fce_02f9beb5",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-10T19:09:35Z",
+      "side": 1,
+      "message": "While technically fine, FromPointerCast() is intended to cast to non-pointer types. I think a reinterpret_cast would be preferable here.",
+      "range": {
+        "startLine": 83,
+        "startChar": 19,
+        "endLine": 83,
+        "endChar": 34
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9409bbb_e79e117f",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-10T19:09:35Z",
+      "side": 1,
+      "message": "This can be a reinterpret_cast too.",
+      "range": {
+        "startLine": 128,
+        "startChar": 38,
+        "endLine": 128,
+        "endChar": 53
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c34bf13_20953279",
+        "filename": "util/stream/log_output_stream.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-10T19:09:35Z",
+      "side": 1,
+      "message": "This class outputs",
+      "range": {
+        "startLine": 29,
+        "startChar": 11,
+        "endLine": 29,
+        "endChar": 27
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1817d37d_f4b7563a",
+        "filename": "util/stream/log_output_stream_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-10T19:09:35Z",
+      "side": 1,
+      "message": "Short",
+      "range": {
+        "startLine": 83,
+        "startChar": 33,
+        "endLine": 83,
+        "endChar": 37
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
