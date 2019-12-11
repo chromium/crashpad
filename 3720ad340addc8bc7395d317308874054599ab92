@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f22a2538_4469f1dc",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-11T23:29:59Z",
+      "side": 1,
+      "message": "errno \u003d -ret;\nPLOG(ERROR) \u003c\u003c \"__android_log_buf_write\";",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 40
+      },
+      "revId": "3720ad340addc8bc7395d317308874054599ab92",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
