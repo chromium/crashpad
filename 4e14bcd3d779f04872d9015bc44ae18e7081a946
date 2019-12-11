@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "4c8987dc_d1b906d4",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-11T22:37:51Z",
+      "side": 1,
+      "message": "hmm, it is the chain of stream, it is hard for caller of stream chain to prevent the overflow, since it is impossible to predict the output length.",
+      "parentUuid": "266e454e_e5fb85fb",
+      "range": {
+        "startLine": 34,
+        "startChar": 17,
+        "endLine": 34,
+        "endChar": 41
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "033a3ddb_2f2bfb49",
         "filename": "util/stream/log_output_stream.cc",
         "patchSetId": 4
