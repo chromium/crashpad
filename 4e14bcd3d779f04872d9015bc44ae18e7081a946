@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "266e454e_e5fb85fb",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-11T20:02:47Z",
+      "side": 1,
+      "message": "I agree this is unlikely to change (and has limited enough scope that it would be easy to change if we need to) so take this comment as a nit and feel free to use your own judgement here. I\u0027m mostly intending to share my own thoughts on interface design.\n\nThe buffer in that review is an implementation detail because you can change it without any caller-visible effect. You can change the size of that buffer and expect that all your tests and other uses of the class continue to operate the same way they did before. It\u0027s only relevant to tests for testing edge cases.\n\nThese values *do* have a caller-visible effect. If kOutputCap is made too small, calls to Write() or Flush() will start failing and in that sense, the limit of how much the caller is allowed to write is public information.",
+      "parentUuid": "43979fee_e9d2429d",
+      "range": {
+        "startLine": 34,
+        "startChar": 17,
+        "endLine": 34,
+        "endChar": 41
+      },
+      "revId": "4e14bcd3d779f04872d9015bc44ae18e7081a946",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "033a3ddb_2f2bfb49",
         "filename": "util/stream/log_output_stream.cc",
         "patchSetId": 4

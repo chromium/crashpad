@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aea2895f_b0552c03",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-11T20:02:47Z",
+      "side": 1,
+      "message": "This include looks unused?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 43
+      },
+      "revId": "ec5a2266943324797ecfadd56e171aceaffb9f90",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eee28d79_a6243841",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-11T20:02:47Z",
+      "side": 1,
+      "message": "\u003candroid/log.h\u003e",
+      "range": {
+        "startLine": 33,
+        "startChar": 24,
+        "endLine": 33,
+        "endChar": 37
+      },
+      "revId": "ec5a2266943324797ecfadd56e171aceaffb9f90",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d4a0833_3b4991c4",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-11T20:02:47Z",
+      "side": 1,
+      "message": "r20",
+      "range": {
+        "startLine": 33,
+        "startChar": 20,
+        "endLine": 33,
+        "endChar": 23
+      },
+      "revId": "ec5a2266943324797ecfadd56e171aceaffb9f90",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d959a72d_ec1da29a",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-11T20:02:47Z",
+      "side": 1,
+      "message": "\"for the sake of safety and being easy to read in the logcat, choose 512.\"",
+      "range": {
+        "startLine": 34,
+        "startChar": 60,
+        "endLine": 35,
+        "endChar": 44
+      },
+      "revId": "ec5a2266943324797ecfadd56e171aceaffb9f90",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dd0fe89_3855cfa7",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-11T20:02:47Z",
+      "side": 1,
+      "message": "This is only used once so I think it\u0027d be fine to just use \"crashpad\" inline.\n\nIf you want to keep the variable, make it constexpr.",
+      "range": {
+        "startLine": 39,
+        "startChar": 11,
+        "endLine": 39,
+        "endChar": 25
+      },
+      "revId": "ec5a2266943324797ecfadd56e171aceaffb9f90",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28e97c7c_a7c8e495",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-11T20:02:47Z",
+      "side": 1,
+      "message": "data() doesn\u0027t guarantee null termination. You want c_str() here.",
+      "range": {
+        "startLine": 84,
+        "startChar": 21,
+        "endLine": 84,
+        "endChar": 25
+      },
+      "revId": "ec5a2266943324797ecfadd56e171aceaffb9f90",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86e0ed28_b937b347",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-11T20:02:47Z",
+      "side": 1,
+      "message": "It looks like this returns the number of bytes written or a negative errno.\nhttps://cs.corp.google.com/aosp-master/system/core/liblog/logger.h?rcl\u003dda776c394d18c7a067ca520c5d99e60b683b3565\u0026l\u003d44\n\nLet\u0027s check for those errors and log them.",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 25
+      },
+      "revId": "ec5a2266943324797ecfadd56e171aceaffb9f90",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "880452b0_e8dbdf87",
+        "filename": "util/stream/log_output_stream.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-11T20:02:47Z",
+      "side": 1,
+      "message": "SetOutputStreamForTesting",
+      "range": {
+        "startLine": 43,
+        "startChar": 7,
+        "endLine": 43,
+        "endChar": 36
+      },
+      "revId": "ec5a2266943324797ecfadd56e171aceaffb9f90",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "125b83de_d617dfa2",
+        "filename": "util/stream/log_output_stream_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-11T20:02:47Z",
+      "side": 1,
+      "message": "Add a blank line after this one.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 19
+      },
+      "revId": "ec5a2266943324797ecfadd56e171aceaffb9f90",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
