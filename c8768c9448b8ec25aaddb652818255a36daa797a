@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99260ee0_52306c1d",
+        "filename": "cr-buildbucket.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1181690
+      },
+      "writtenOn": "2019-12-12T20:48:59Z",
+      "side": 1,
+      "message": "I think you\u0027ve got these reversed -- I think name should be \"osx_sdk_{mac,ios}\" and path should be \"osx_sdk\"",
+      "revId": "c8768c9448b8ec25aaddb652818255a36daa797a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
