@@ -134,7 +134,7 @@ if (crashpad_is_in_fuchsia) {
     cpp_stem = "$fidl_root_gen_dir/${fidl_source.header_stem}/cpp/fidl"
     cpp_header = "$cpp_stem.h"
     cpp_source = "$cpp_stem.cc"
-    coding_tables = "$fidl_stem/tables.cc"
+    coding_tables = "$fidl_stem/tables.c"
 
     # Compiles the .fidl file, outputs the intermediary JSON representation
     # and generates the C bindings.
