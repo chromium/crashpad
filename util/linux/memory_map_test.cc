@@ -101,7 +101,10 @@ TEST(MemoryMap, SelfBasic) {
   ASSERT_TRUE(mapping);
   EXPECT_GE(code_address, mapping->range.Base());
   EXPECT_LT(code_address, mapping->range.End());
+#if !defined(OS_ANDROID)
+  // Android Q+ supports execute only memory.
   EXPECT_TRUE(mapping->readable);
+#endif
   EXPECT_FALSE(mapping->writable);
   EXPECT_TRUE(mapping->executable);
 
@@ -167,7 +170,10 @@ class MapChildTest : public Multiprocess {
     ASSERT_TRUE(mapping);
     EXPECT_GE(code_address, mapping->range.Base());
     EXPECT_LT(code_address, mapping->range.End());
+#if !defined(OS_ANDROID)
+    // Android Q+ supports execute only memory.
     EXPECT_TRUE(mapping->readable);
+#endif
     EXPECT_TRUE(mapping->executable);
     EXPECT_FALSE(mapping->writable);
 
