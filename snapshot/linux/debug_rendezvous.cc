@@ -122,6 +122,7 @@ bool DebugRendezvous::InitializeSpecific(const ProcessMemoryRange& memory,
   if (!ReadLinkEntry<Traits>(memory, &link_entry_address, &executable_)) {
     return false;
   }
+  LOG(INFO) << "read exe " << executable_.name;
 
   std::set<LinuxVMAddress> visited;
   while (link_entry_address) {
@@ -135,6 +136,8 @@ bool DebugRendezvous::InitializeSpecific(const ProcessMemoryRange& memory,
       return false;
     }
     modules_.push_back(entry);
+
+    LOG(INFO) << "read module " << entry.name;
   }
 
   return true;
