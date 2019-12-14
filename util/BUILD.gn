@@ -168,6 +168,10 @@ static_library("util") {
     "stdlib/thread_safe_vector.h",
     "stream/base94_output_stream.cc",
     "stream/base94_output_stream.h",
+    "stream/file_output_stream.cc",
+    "stream/file_output_stream.h",
+    "stream/log_file_processor.cc",
+    "stream/log_file_processor.h",
     "stream/log_output_stream.cc",
     "stream/log_output_stream.h",
     "stream/output_stream_interface.h",
@@ -593,6 +597,7 @@ source_set("util_test") {
     "stdlib/strnlen_test.cc",
     "stdlib/thread_safe_vector_test.cc",
     "stream/base94_output_stream_test.cc",
+    "stream/log_file_processor_test.cc",
     "stream/log_output_stream_test.cc",
     "stream/test_output_stream.cc",
     "stream/test_output_stream.h",
@@ -757,5 +762,20 @@ if (crashpad_is_win) {
     deps = [
       ":util",
     ]
+  }
+}
+
+if (crashpad_is_posix) {
+  if (!defined(host_toolchain) || current_toolchain == host_toolchain) {
+    executable("minidump_log_processor") {
+      sources = [
+        "stream/minidump_log_processor.cc",
+      ]
+      deps = [
+        ":util",
+        "../third_party/mini_chromium:base",
+        "../third_party/zlib",
+      ]
+    }
   }
 }
