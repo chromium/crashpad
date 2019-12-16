@@ -15,7 +15,8 @@
 vars = {
   'chromium_git': 'https://chromium.googlesource.com',
   'pull_linux_clang': False,
-  'pull_win_toolchain': False
+  'pull_win_toolchain': False,
+  'pull_ios_bot_support': False
 }
 
 deps = {
@@ -40,6 +41,13 @@ deps = {
   'crashpad/third_party/zlib/zlib':
       Var('chromium_git') + '/chromium/src/third_party/zlib@' +
       '13dc246a58e4b72104d35f9b1809af95221ebda7',
+
+  # Dependencies needed to run iOS tests on the bots.
+  'crashpad/tools/swarming_client': {
+      'url': Var('chromium_git') + '/infra/luci/client-py.git@' +
+             '885b3febcc170a60f25795304e60927b77d1e92d',
+      'condition': 'pull_ios_bot_support'
+  },
 
   # CIPD packages below.
   'crashpad/third_party/linux/clang/linux-amd64': {
