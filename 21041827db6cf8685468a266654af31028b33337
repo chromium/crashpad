@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "146c738c_71dd5caf",
+        "filename": "util/stream/file_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-16T22:19:56Z",
+      "side": 1,
+      "message": "I think it\u0027d be cleaner to take an input FileHandle (which you can write to with a WeakFileHandleFileWriter) instead of a FilePath.",
+      "range": {
+        "startLine": 22,
+        "startChar": 35,
+        "endLine": 22,
+        "endChar": 66
+      },
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "617f4b75_585e2f20",
+        "filename": "util/stream/file_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-16T22:19:56Z",
+      "side": 1,
+      "message": "Using a FileHandle means you don\u0027t need to deal with initialized_ here.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 40
+      },
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cae8489_b7d77f6a",
+        "filename": "util/stream/file_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-16T22:19:56Z",
+      "side": 1,
+      "message": "This class doesn\u0027t have enough context to know whether kWorldReadable is appropriate. kWorldReadable is fine for tests, but we should use kOwnerOnly when operating on real, user data.",
+      "range": {
+        "startLine": 38,
+        "startChar": 48,
+        "endLine": 38,
+        "endChar": 63
+      },
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9e29355_c2dae7e3",
+        "filename": "util/stream/log_file_processor.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-16T22:19:56Z",
+      "side": 1,
+      "message": "This seems better placed in the constructor.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 3
+      },
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e8e120f_9b4adb13",
+        "filename": "util/stream/log_file_processor.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-16T22:19:56Z",
+      "side": 1,
+      "message": "Continuing my comment about naming this class StreamPipeline:\n\nHow are you planning on setting up the pipeline to log the minidump?\n\nDo we need to re-implement this read-buffer-write loop for each pipeline we set up or can it be re-used for any pipeline?",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 1
+      },
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99166f96_0145b8d7",
+        "filename": "util/stream/log_file_processor.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-16T22:19:56Z",
+      "side": 1,
+      "message": "\"Processor\" is already used conventionally to refer to stackwalking or other dump analysis that we\u0027re not doing here and I think it\u0027d be better to avoid overloading that name.\n\nOther possible names:\n- LogFileEncoder\n- FileEncoder (since there\u0027s no requirement that we\u0027re actually operating on log files here).\n- StreamPipeline. I expect you\u0027re going to have other similar classes for differently constructed pipelines (e.g. something that will output to a LogOutputStream). I suspect this class can be abstracted to handle all of them. WDYT?",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 22
+      },
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87782ee2_421d2faa",
+        "filename": "util/stream/minidump_log_processor.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-16T22:19:56Z",
+      "side": 1,
+      "message": "These sorts of standalone tools go under the crashpad/tools/ directory.\n\nThere\u0027s also some examples of handling options in Crashpad style there.",
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e16a7164_0a489180",
+        "filename": "util/stream/minidump_log_processor.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-16T22:19:56Z",
+      "side": 1,
+      "message": "base::FilePath",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76507926_d6b016bc",
+        "filename": "util/stream/minidump_log_processor.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-16T22:19:56Z",
+      "side": 1,
+      "message": "EXIT_SUCCESS or EXIT_FAILURE instead of 0 or 1 for all these exit() calls and return values.",
+      "range": {
+        "startLine": 51,
+        "startChar": 13,
+        "endLine": 51,
+        "endChar": 14
+      },
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
