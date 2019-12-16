@@ -117,6 +117,30 @@
     },
     {
       "key": {
+        "uuid": "f7a07998_dca91335",
+        "filename": "util/stream/log_file_processor.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-16T23:43:54Z",
+      "side": 1,
+      "message": "Sorry to miss the context here, my plan roughly like to this prototype( https://chromium-review.googlesource.com/c/chromium/src/+/1687090 )\n\nBut this patch is another side of story (https://chrome-internal-review.googlesource.com/c/clank/internal/apps/+/1550611 it has different tool name, but you know the idea), it is used for to decode the minidump log, In the patch, the script extracts the encoded minidump from the android log by removing the log header etc, then use this tool to decode to the binary minidump, finally, symbolize the stack.\n\nWDYT?",
+      "parentUuid": "5e8e120f_9b4adb13",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 1
+      },
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "99166f96_0145b8d7",
         "filename": "util/stream/log_file_processor.h",
         "patchSetId": 3
