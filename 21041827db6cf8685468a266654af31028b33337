@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3591b392_3daf301b",
+        "filename": "util/stream/file_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-17T06:48:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "146c738c_71dd5caf",
+      "range": {
+        "startLine": 22,
+        "startChar": 35,
+        "endLine": 22,
+        "endChar": 66
+      },
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "617f4b75_585e2f20",
         "filename": "util/stream/file_output_stream.cc",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "21041827db6cf8685468a266654af31028b33337",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9cb0280_24086460",
+        "filename": "util/stream/file_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-17T06:48:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "617f4b75_585e2f20",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 40
+      },
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b90a2853_0302fc0a",
+        "filename": "util/stream/file_output_stream.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-17T06:48:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cae8489_b7d77f6a",
+      "range": {
+        "startLine": 38,
+        "startChar": 48,
+        "endLine": 38,
+        "endChar": 63
+      },
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9e29355_c2dae7e3",
         "filename": "util/stream/log_file_processor.cc",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2019-12-16T22:19:56Z",
       "side": 1,
       "message": "This seems better placed in the constructor.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 3
+      },
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a506b4fe_e1f18d9a",
+        "filename": "util/stream/log_file_processor.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-17T06:48:20Z",
+      "side": 1,
+      "message": "Since FileOutputStream using FileHandle now, this needs in Process",
+      "parentUuid": "a9e29355_c2dae7e3",
       "range": {
         "startLine": 41,
         "startChar": 0,
@@ -164,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "2fbc7638_d293052f",
+        "filename": "util/stream/log_file_processor.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-17T06:48:20Z",
+      "side": 1,
+      "message": "Chose FileEncoder.\n\nThe minidump will be written to logcat like below, no new class needed.\n\n      StringFile minidump_string_file;\n      minidump.WriteEverything(\u0026minidump_string_file);\n      ZlibOutputStream z_stream(ZlibOutputStream::Mode::kCompress,\n                                std::make_unique\u003cBase94OutputStream\u003e(Base94OutputStream::Mode::kEncode, std::make_unique\u003cLogOutputStream\u003e()));\n\n      z_stream.Write(reinterpret_cast\u003cconst uint8_t *\u003e(minidump_string_file.string().data()),\n                     minidump_string_file.string().size());\n      z_stream.Flush();",
+      "parentUuid": "99166f96_0145b8d7",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 22
+      },
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87782ee2_421d2faa",
         "filename": "util/stream/minidump_log_processor.cc",
         "patchSetId": 3
@@ -178,6 +298,24 @@
       "revId": "21041827db6cf8685468a266654af31028b33337",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e203766_ce1f866c",
+        "filename": "util/stream/minidump_log_processor.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-17T06:48:20Z",
+      "side": 1,
+      "message": "Thanks, I were copying most minidump_stackwalk code.",
+      "parentUuid": "87782ee2_421d2faa",
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -204,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "7eac74fb_8cac0c31",
+        "filename": "util/stream/minidump_log_processor.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-17T06:48:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e16a7164_0a489180",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76507926_d6b016bc",
         "filename": "util/stream/minidump_log_processor.cc",
         "patchSetId": 3
@@ -224,6 +386,30 @@
       "revId": "21041827db6cf8685468a266654af31028b33337",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8e74522_879c299b",
+        "filename": "util/stream/minidump_log_processor.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-17T06:48:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76507926_d6b016bc",
+      "range": {
+        "startLine": 51,
+        "startChar": 13,
+        "endLine": 51,
+        "endChar": 14
+      },
+      "revId": "21041827db6cf8685468a266654af31028b33337",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
