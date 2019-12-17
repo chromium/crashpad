@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a996ba7_336ca5a0",
+        "filename": "tools/minidump_log_processor.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-17T21:49:18Z",
+      "side": 1,
+      "message": "My comments on naming apply to this file too. This tool can operate on any sort of file. There\u0027s no requirement that the file contains a minidump or is used for logging and \"encoder\" is a more meaningful name than \"processor.\"",
+      "revId": "b3ccce27cf9082a1bef94fc87ecfca2eddbe28f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d8a7922_b6aa5af5",
+        "filename": "util/stream/file_encoder.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-17T21:49:18Z",
+      "side": 1,
+      "message": "Add path_ to these variable names so they are more immediately distinguishable from |output| below.",
+      "range": {
+        "startLine": 36,
+        "startChar": 19,
+        "endLine": 36,
+        "endChar": 49
+      },
+      "revId": "b3ccce27cf9082a1bef94fc87ecfca2eddbe28f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2483300_d9e0e210",
+        "filename": "util/stream/file_encoder.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-17T21:49:18Z",
+      "side": 1,
+      "message": "LoggingOpenFileForWrite",
+      "range": {
+        "startLine": 41,
+        "startChar": 32,
+        "endLine": 41,
+        "endChar": 48
+      },
+      "revId": "b3ccce27cf9082a1bef94fc87ecfca2eddbe28f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2efca136_97c320b4",
+        "filename": "util/stream/file_encoder.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-17T21:49:18Z",
+      "side": 1,
+      "message": "Add a blank line after this one.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 17
+      },
+      "revId": "b3ccce27cf9082a1bef94fc87ecfca2eddbe28f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c3cedf8_724c25d5",
+        "filename": "util/stream/file_encoder.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-17T21:49:18Z",
+      "side": 1,
+      "message": "It may be better to do this before opening the output file. If the input file doesn\u0027t exist or can\u0027t be opened, would we want to leave an empty output file lying around.\n\nFurther, if at any point this method fails, would it be better to remove the half-written file so nothing attempts to use it later? Documentation should be updated to reflect what happens to the output file if any part of this method fails.\n\nutil/file/scoepd_remove_file.h could be helpful here.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 3
+      },
+      "revId": "b3ccce27cf9082a1bef94fc87ecfca2eddbe28f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0725416d_357d4f71",
+        "filename": "util/stream/file_encoder.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-17T21:49:18Z",
+      "side": 1,
+      "message": "Using a literal for the buffer size and then doing sizeof(buffer) is more in Crashpad style:\n\nuint8_t buffer[4096];\nread_result \u003d file_reader.Read(buffer, sizeof(buffer));",
+      "range": {
+        "startLine": 68,
+        "startChar": 43,
+        "endLine": 68,
+        "endChar": 54
+      },
+      "revId": "b3ccce27cf9082a1bef94fc87ecfca2eddbe28f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4559ab3a_3671ccb4",
+        "filename": "util/stream/file_encoder.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-17T21:49:18Z",
+      "side": 1,
+      "message": "No need to manually call Close(). FileReader will do that automatically on destruction.",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 26
+      },
+      "revId": "b3ccce27cf9082a1bef94fc87ecfca2eddbe28f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cccfa57f_804f31fc",
+        "filename": "util/stream/file_encoder.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-17T21:49:18Z",
+      "side": 1,
+      "message": "also remove this Close() and the Close() on lines 81 and 85.",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 25
+      },
+      "revId": "b3ccce27cf9082a1bef94fc87ecfca2eddbe28f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "765c2bf9_38aefae4",
+        "filename": "util/stream/file_encoder.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-17T21:49:18Z",
+      "side": 1,
+      "message": "Needs documentation",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 17
+      },
+      "revId": "b3ccce27cf9082a1bef94fc87ecfca2eddbe28f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21086c5f_0c30b98e",
+        "filename": "util/stream/file_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-17T21:49:18Z",
+      "side": 1,
+      "message": "I\u0027m not sure sticking two \"Write\"s in there gives us any more useful information. We already get file/line numbers logged automatically.",
+      "range": {
+        "startLine": 32,
+        "startChar": 19,
+        "endLine": 32,
+        "endChar": 31
+      },
+      "revId": "b3ccce27cf9082a1bef94fc87ecfca2eddbe28f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e29f5945_08b1f4fd",
+        "filename": "util/stream/file_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-17T21:49:18Z",
+      "side": 1,
+      "message": "Optional: since this method doesn\u0027t do anything, feel free to remove flushed_ and flush_needed_.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 18
+      },
+      "revId": "b3ccce27cf9082a1bef94fc87ecfca2eddbe28f1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
