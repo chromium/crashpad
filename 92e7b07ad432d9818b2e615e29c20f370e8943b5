@@ -22,6 +22,30 @@
       "revId": "92e7b07ad432d9818b2e615e29c20f370e8943b5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58bb26d4_99b73eb9",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-17T19:52:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bcfcae0_31b29544",
+      "range": {
+        "startLine": 297,
+        "startChar": 31,
+        "endLine": 297,
+        "endChar": 36
+      },
+      "revId": "92e7b07ad432d9818b2e615e29c20f370e8943b5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

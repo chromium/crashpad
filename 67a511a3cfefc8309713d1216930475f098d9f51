@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6a5bb36c_1b13e22d",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-17T19:52:42Z",
+      "side": 1,
+      "message": "There\u0027s nothing wrong with client.SetPtracer() exactly. Writing it this way just avoids needing to save the return value (an errno) and setting errno before the PLOG.\n\nI want to revisit client.SetPtracer() in the TODO. The original intent motivating CanSetPtracer() was to prevent a call to prctl on Android where it would get the process killed by secommp-bpf, but that case doesn\u0027t actually happen as far as I\u0027ve seen because YAMA isn\u0027t generally present on Android.\n\nExceptionHandlerClient hasn\u0027t been used to maintain state and SetPtracer() doesn\u0027t save the pid of the ptracer it sets (despite having a member for it). I\u0027m not sure yet whether I want to update it to be responsible for maintaining that state, or maintain the state here in the RequestCrashDumpHandler.\n\nMy primary motivations for this patch are to:\n1. Get more information about why prctl is failing, which maybe will give me a better idea of what to do here.\n2. Ensure this handler gets installed so we don\u0027t cause crashes later if this call failed (e.g. when attempting to call other methods via SignalHandler::Get()). I\u0027d like those sorts of calls to fail in debug builds, but only log some warnings in non-debug builds since ptrace might just not be possible in the current environment.",
+      "parentUuid": "7cddc0a4_2f507601",
+      "range": {
+        "startLine": 293,
+        "startChar": 19,
+        "endLine": 293,
+        "endChar": 54
+      },
+      "revId": "67a511a3cfefc8309713d1216930475f098d9f51",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd3b636e_77c3aa9a",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "67a511a3cfefc8309713d1216930475f098d9f51",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69991fbf_b809e7e3",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-17T19:52:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd3b636e_77c3aa9a",
+      "revId": "67a511a3cfefc8309713d1216930475f098d9f51",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
