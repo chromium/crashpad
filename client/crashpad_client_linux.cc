@@ -16,6 +16,7 @@
 
 #include <fcntl.h>
 #include <stdlib.h>
+#include <sys/prctl.h>
 #include <sys/socket.h>
 #include <sys/syscall.h>
 #include <sys/types.h>
@@ -290,9 +291,11 @@ class RequestCrashDumpHandler : public SignalHandler {
       }
       pid = creds.pid;
     }
-    if (pid > 0 && client.SetPtracer(pid) != 0) {
-      LOG(ERROR) << "failed to set ptracer";
-      return false;
+    if (pid > 0 && prctl(PR_SET_PTRACER, pid, 0, 0, 0) != 0) {
+      PLOG(WARNING) << "prctl";
+      // TODO(jperaza): If this call to set the ptracer failed, it might be
+      // possible to try again just before a dump request, in case the
+      // environment has changed.
     }
     sock_to_handler_.reset(sock.release());
     handler_pid_ = pid;
