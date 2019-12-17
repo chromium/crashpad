@@ -166,3 +166,20 @@ if (crashpad_is_mac) {
     ]
   }
 }
+
+if (crashpad_is_posix) {
+  # Not to build this on Android.
+  if (!defined(host_toolchain) || current_toolchain == host_toolchain) {
+    crashpad_executable("minidump_log_processor") {
+      sources = [
+        "minidump_log_processor.cc",
+      ]
+      deps = [
+        ":tool_support",
+        "../third_party/mini_chromium:base",
+        "../third_party/zlib",
+        "../util",
+      ]
+    }
+  }
+}
