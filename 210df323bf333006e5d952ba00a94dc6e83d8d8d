@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fa87a3b1_ac42da3c",
+        "filename": "tools/base94_encoder.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-18T16:23:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42fa3e42_2e4a5e5e",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 17
+      },
+      "revId": "210df323bf333006e5d952ba00a94dc6e83d8d8d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e110863_f040d9c4",
         "filename": "tools/base94_encoder.cc",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2019-12-18T00:14:30Z",
       "side": 1,
       "message": "Don\u0027t indent these lines. (git cl format doesn\u0027t do the right thing here)",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 67
+      },
+      "revId": "210df323bf333006e5d952ba00a94dc6e83d8d8d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a476abd2_f606c69b",
+        "filename": "tools/base94_encoder.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-18T16:23:58Z",
+      "side": 1,
+      "message": "It was the result of git cl format.",
+      "parentUuid": "0e110863_f040d9c4",
       "range": {
         "startLine": 29,
         "startChar": 0,
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "3c4a7b2b_7c1d5073",
+        "filename": "tools/base94_encoder.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-18T16:23:58Z",
+      "side": 1,
+      "message": "I thought this tool isn\u0027t supposed to used in other platform.\nMake it same as others.",
+      "parentUuid": "ca92206e_599430c2",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 21
+      },
+      "revId": "210df323bf333006e5d952ba00a94dc6e83d8d8d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a4ee3943_e078788f",
         "filename": "util/stream/file_encoder.h",
         "patchSetId": 5
@@ -115,6 +187,30 @@
       "revId": "210df323bf333006e5d952ba00a94dc6e83d8d8d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8eac913d_03f3567b",
+        "filename": "util/stream/file_encoder.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-18T16:23:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4ee3943_e078788f",
+      "range": {
+        "startLine": 44,
+        "startChar": 49,
+        "endLine": 44,
+        "endChar": 54
+      },
+      "revId": "210df323bf333006e5d952ba00a94dc6e83d8d8d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -141,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "baf6edd9_86d0af87",
+        "filename": "util/stream/file_encoder_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-18T16:23:58Z",
+      "side": 1,
+      "message": "It is much simple!",
+      "parentUuid": "283dd786_25896b35",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 54
+      },
+      "revId": "210df323bf333006e5d952ba00a94dc6e83d8d8d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6750a5e_9de916f2",
         "filename": "util/stream/file_encoder_test.cc",
         "patchSetId": 5
@@ -152,6 +272,30 @@
       "writtenOn": "2019-12-18T00:14:30Z",
       "side": 1,
       "message": "I\u0027m not sure what \"Org\" is supposed to mean here. Orig(inal)?",
+      "range": {
+        "startLine": 63,
+        "startChar": 15,
+        "endLine": 63,
+        "endChar": 18
+      },
+      "revId": "210df323bf333006e5d952ba00a94dc6e83d8d8d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9df6e63_9091c684",
+        "filename": "util/stream/file_encoder_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2019-12-18T16:23:58Z",
+      "side": 1,
+      "message": "replace with orig",
+      "parentUuid": "a6750a5e_9de916f2",
       "range": {
         "startLine": 63,
         "startChar": 15,
