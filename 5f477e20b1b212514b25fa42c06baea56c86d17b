@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5c541cc_44391775",
+        "filename": "tools/base94_encoder.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-18T19:04:04Z",
+      "side": 1,
+      "message": "You still need to #include \"build/build_config.h\" for these OS defs",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 21
+      },
+      "revId": "5f477e20b1b212514b25fa42c06baea56c86d17b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33e80540_83458e86",
+        "filename": "util/stream/file_encoder.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-18T19:04:04Z",
+      "side": 1,
+      "message": "This is fine on Linux, but I think Windows return errors if this attempts to remove the file before closing the descriptor. You can fix this by declaring |file_remover| before |write_handle| and then doing a file_remover.reset(output_path_) here.",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 46
+      },
+      "revId": "5f477e20b1b212514b25fa42c06baea56c86d17b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
