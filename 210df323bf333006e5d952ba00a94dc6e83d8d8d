@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42fa3e42_2e4a5e5e",
+        "filename": "tools/base94_encoder.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-18T00:14:30Z",
+      "side": 1,
+      "message": "This is now unused.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 17
+      },
+      "revId": "210df323bf333006e5d952ba00a94dc6e83d8d8d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e110863_f040d9c4",
+        "filename": "tools/base94_encoder.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-18T00:14:30Z",
+      "side": 1,
+      "message": "Don\u0027t indent these lines. (git cl format doesn\u0027t do the right thing here)",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 67
+      },
+      "revId": "210df323bf333006e5d952ba00a94dc6e83d8d8d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b1697b6_098ab9fe",
+        "filename": "tools/base94_encoder.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-18T00:14:30Z",
+      "side": 1,
+      "message": "The BUILD.gn file put this file under a crashpad_is_posix guard. Is this necessary?\n\n(If yes, include build/build_config.h)",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 21
+      },
+      "revId": "210df323bf333006e5d952ba00a94dc6e83d8d8d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4ee3943_e078788f",
+        "filename": "util/stream/file_encoder.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-18T00:14:30Z",
+      "side": 1,
+      "message": "path",
+      "range": {
+        "startLine": 44,
+        "startChar": 49,
+        "endLine": 44,
+        "endChar": 54
+      },
+      "revId": "210df323bf333006e5d952ba00a94dc6e83d8d8d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "283dd786_25896b35",
+        "filename": "util/stream/file_encoder_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-18T00:14:30Z",
+      "side": 1,
+      "message": "Since this is test code and we\u0027re not giving it any super large files, we could just read/verify the entire file contents at once:\n\nstd::string contents;\nASSERT_TRUE(LoggingReadEntireFile(decoded_, \u0026contents));\nASSERT_EQ(contents.size(), size);\nEXPECT_EQ(memcmp(deterministic_input_.get(), contents.data(), size), 0);",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 54
+      },
+      "revId": "210df323bf333006e5d952ba00a94dc6e83d8d8d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6750a5e_9de916f2",
+        "filename": "util/stream/file_encoder_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2019-12-18T00:14:30Z",
+      "side": 1,
+      "message": "I\u0027m not sure what \"Org\" is supposed to mean here. Orig(inal)?",
+      "range": {
+        "startLine": 63,
+        "startChar": 15,
+        "endLine": 63,
+        "endChar": 18
+      },
+      "revId": "210df323bf333006e5d952ba00a94dc6e83d8d8d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
