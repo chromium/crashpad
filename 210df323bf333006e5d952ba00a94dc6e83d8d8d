@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "ca92206e_599430c2",
+        "filename": "tools/base94_encoder.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2019-12-18T00:28:55Z",
+      "side": 1,
+      "message": "\u003e The BUILD.gn file put this file under a crashpad_is_posix guard. Is this necessary?\n\u003e \n\u003e (If yes, include build/build_config.h)\n\nPlease don\u0027t make a tool like this POSIX-only.",
+      "parentUuid": "8b1697b6_098ab9fe",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 21
+      },
+      "revId": "210df323bf333006e5d952ba00a94dc6e83d8d8d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a4ee3943_e078788f",
         "filename": "util/stream/file_encoder.h",
         "patchSetId": 5
