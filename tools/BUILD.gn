@@ -56,6 +56,19 @@ crashpad_executable("crashpad_http_upload") {
   ]
 }
 
+crashpad_executable("base94_encoder") {
+  sources = [
+    "base94_encoder.cc",
+  ]
+  deps = [
+    ":tool_support",
+    "../build:default_exe_manifest_win",
+    "../third_party/mini_chromium:base",
+    "../third_party/zlib",
+    "../util",
+  ]
+}
+
 if (!crashpad_is_fuchsia) {
   crashpad_executable("generate_dump") {
     sources = [
