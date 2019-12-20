@@ -28,9 +28,8 @@
 namespace crashpad {
 namespace internal {
 
-//! \brief A MemorySnapshot of a memory region in a process on the running
-//!     system. Used on Mac, Linux, Android, and Fuchsia, templated on the
-//!     platform-specific ProcessReader type.
+//! \brief An implementation of MemorySnapshot, a snapshot of a memory region in
+//!     a process on the running, used on all platforms.
 class MemorySnapshotGeneric final : public MemorySnapshot {
  public:
   MemorySnapshotGeneric() = default;
