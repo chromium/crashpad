@@ -168,6 +168,10 @@ void Usage(const base::FilePath& me) {
 "      --minidump-dir-for-tests=TEST_MINIDUMP_DIR\n"
 "                              causes /sbin/crash_reporter to leave dumps in\n"
 "                              this directory instead of the normal location\n"
+"      --always-allow-feedback\n"
+"                              pass the --always_allow_feedback flag to\n"
+"                              crash_reporter, thus skipping metrics consent\n"
+"                              checks\n"
 #endif  // OS_CHROMEOS
 "      --help                  display this help and exit\n"
 "      --version               output version information and exit\n",
@@ -201,8 +205,9 @@ struct Options {
   bool rate_limit;
   bool upload_gzip;
 #if defined(OS_CHROMEOS)
-  bool use_cros_crash_reporter;
+  bool use_cros_crash_reporter = false;
   base::FilePath minidump_dir_for_tests;
+  bool always_allow_feedback = false;
 #endif  // OS_CHROMEOS
 };
 
@@ -561,6 +566,7 @@ int HandlerMain(int argc,
 #if defined(OS_CHROMEOS)
     kOptionUseCrosCrashReporter,
     kOptionMinidumpDirForTests,
+    kOptionAlwaysAllowFeedback,
 #endif  // OS_CHROMEOS
 
     // Standard options.
@@ -636,6 +642,10 @@ int HandlerMain(int argc,
       required_argument,
       nullptr,
       kOptionMinidumpDirForTests},
+    {"always-allow-feedback",
+      no_argument,
+      nullptr,
+      kOptionAlwaysAllowFeedback},
 #endif  // OS_CHROMEOS
     {"help", no_argument, nullptr, kOptionHelp},
     {"version", no_argument, nullptr, kOptionVersion},
@@ -788,6 +798,10 @@ int HandlerMain(int argc,
             ToolSupport::CommandLineArgumentToFilePathStringType(optarg));
         break;
       }
+      case kOptionAlwaysAllowFeedback: {
+        options.always_allow_feedback = true;
+        break;
+      }
 #endif  // OS_CHROMEOS
       case kOptionHelp: {
         Usage(me);
@@ -929,6 +943,10 @@ int HandlerMain(int argc,
 
     if (!options.minidump_dir_for_tests.empty()) {
       cros_handler->SetDumpDir(options.minidump_dir_for_tests);
+    }
+
+    if (options.always_allow_feedback) {
+      cros_handler->SetAlwaysAllowFeedback();
     }
 
     exception_handler = std::move(cros_handler);
