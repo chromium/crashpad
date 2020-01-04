@@ -578,6 +578,90 @@ TEST(MinidumpFileWriter, SameStreamType) {
   EXPECT_EQ(memcmp(stream_data, expected_stream.c_str(), kStream0Size), 0);
 }
 
+TEST(MinidumpFileWriter, CompactMode) {
+  // In a 32-bit environment, this will give a “timestamp out of range” warning,
+  // but the test should complete without failure.
+  constexpr uint32_t kSnapshotTime = 0xfd469ab8;
+  constexpr timeval kSnapshotTimeval = {
+#ifdef OS_WIN
+      static_cast<long>(kSnapshotTime),
+#else
+      static_cast<time_t>(kSnapshotTime),
+#endif
+      0};
+
+  TestProcessSnapshot process_snapshot;
+  process_snapshot.SetSnapshotTime(kSnapshotTimeval);
+
+  auto system_snapshot = std::make_unique<TestSystemSnapshot>();
+  system_snapshot->SetCPUArchitecture(kCPUArchitectureX86_64);
+  system_snapshot->SetOperatingSystem(SystemSnapshot::kOperatingSystemMacOSX);
+  process_snapshot.SetSystem(std::move(system_snapshot));
+
+  auto thread_snapshot = std::make_unique<TestThreadSnapshot>();
+  InitializeCPUContextX86_64(thread_snapshot->MutableContext(), 5);
+  process_snapshot.AddThread(std::move(thread_snapshot));
+
+  constexpr uint64_t kExceptionThreadId = 100;
+
+  auto exception_thread_snapshot = std::make_unique<TestThreadSnapshot>();
+  InitializeCPUContextX86_64(exception_thread_snapshot->MutableContext(), 5);
+  exception_thread_snapshot->SetThreadID(kExceptionThreadId);
+  process_snapshot.AddThread(std::move(exception_thread_snapshot));
+
+  auto exception_snapshot = std::make_unique<TestExceptionSnapshot>();
+  InitializeCPUContextX86_64(exception_snapshot->MutableContext(), 11);
+  exception_snapshot->SetThreadID(kExceptionThreadId);
+  process_snapshot.SetException(std::move(exception_snapshot));
+
+  // The module does not have anything that needs to be represented in a
+  // MinidumpModuleCrashpadInfo structure, so no such structure is expected to
+  // be present, which will in turn suppress the addition of a
+  // MinidumpCrashpadInfo stream.
+  auto module_snapshot = std::make_unique<TestModuleSnapshot>();
+  process_snapshot.AddModule(std::move(module_snapshot));
+
+  MinidumpFileWriter minidump_file_writer(MinidumpFileWriter::Mode::kCompact);
+  minidump_file_writer.InitializeFromSnapshot(&process_snapshot);
+
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
+
+  const MINIDUMP_DIRECTORY* directory;
+  const MINIDUMP_HEADER* header =
+      MinidumpHeaderAtStart(string_file.string(), &directory);
+  ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 6, kSnapshotTime));
+  ASSERT_TRUE(directory);
+
+  EXPECT_EQ(directory[0].StreamType, kMinidumpStreamTypeSystemInfo);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_SYSTEM_INFO>(
+      string_file.string(), directory[0].Location));
+
+  EXPECT_EQ(directory[1].StreamType, kMinidumpStreamTypeMiscInfo);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MISC_INFO_4>(
+      string_file.string(), directory[1].Location));
+
+  EXPECT_EQ(directory[2].StreamType, kMinidumpStreamTypeThreadList);
+  const MINIDUMP_THREAD_LIST* thread_list =
+      MinidumpWritableAtLocationDescriptor<MINIDUMP_THREAD_LIST>(
+          string_file.string(), directory[2].Location);
+  EXPECT_TRUE(thread_list);
+  EXPECT_EQ(thread_list->NumberOfThreads, 1u);
+  EXPECT_EQ(thread_list->Threads[0].ThreadId, kExceptionThreadId);
+
+  EXPECT_EQ(directory[3].StreamType, kMinidumpStreamTypeException);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_EXCEPTION_STREAM>(
+      string_file.string(), directory[3].Location));
+
+  EXPECT_EQ(directory[4].StreamType, kMinidumpStreamTypeModuleList);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MODULE_LIST>(
+      string_file.string(), directory[4].Location));
+
+  EXPECT_EQ(directory[5].StreamType, kMinidumpStreamTypeMemoryList);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MEMORY_LIST>(
+      string_file.string(), directory[5].Location));
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
