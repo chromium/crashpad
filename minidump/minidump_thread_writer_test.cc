@@ -19,6 +19,7 @@
 
 #include "base/compiler_specific.h"
 #include "base/format_macros.h"
+#include "base/macros.h"
 #include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
@@ -271,115 +272,177 @@ TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
       ExpectMinidumpContextAMD64(kSeed, observed_context, false));
 }
 
-TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
-  MinidumpFileWriter minidump_file_writer;
-  auto thread_list_writer = std::make_unique<MinidumpThreadListWriter>();
-  auto memory_list_writer = std::make_unique<MinidumpMemoryListWriter>();
-  thread_list_writer->SetMemoryListWriter(memory_list_writer.get());
+class MinidumpThreadWriterX86Test : public testing::Test {
+ public:
+  static constexpr uint32_t kThreadID0 = 1111111;
+  static constexpr uint32_t kSuspendCount0 = 111111;
+  static constexpr uint32_t kPriorityClass0 = 11111;
+  static constexpr uint32_t kPriority0 = 1111;
+  static constexpr uint64_t kTEB0 = 111;
+  static constexpr uint64_t kMemoryBase0 = 0x1110;
+  static constexpr size_t kMemorySize0 = 16;
+  static constexpr uint8_t kMemoryValue0 = 11;
+  static constexpr uint32_t kSeed0 = 1;
 
-  constexpr uint32_t kThreadID0 = 1111111;
-  constexpr uint32_t kSuspendCount0 = 111111;
-  constexpr uint32_t kPriorityClass0 = 11111;
-  constexpr uint32_t kPriority0 = 1111;
-  constexpr uint64_t kTEB0 = 111;
-  constexpr uint64_t kMemoryBase0 = 0x1110;
-  constexpr size_t kMemorySize0 = 16;
-  constexpr uint8_t kMemoryValue0 = 11;
-  constexpr uint32_t kSeed0 = 1;
+  static constexpr uint32_t kThreadID1 = 2222222;
+  static constexpr uint32_t kSuspendCount1 = 222222;
+  static constexpr uint32_t kPriorityClass1 = 22222;
+  static constexpr uint32_t kPriority1 = 2222;
+  static constexpr uint64_t kTEB1 = 222;
+  static constexpr uint64_t kMemoryBase1 = 0x2220;
+  static constexpr size_t kMemorySize1 = 32;
+  static constexpr uint8_t kMemoryValue1 = 22;
+  static constexpr uint32_t kSeed1 = 2;
 
-  auto thread_writer_0 = std::make_unique<MinidumpThreadWriter>();
-  thread_writer_0->SetThreadID(kThreadID0);
-  thread_writer_0->SetSuspendCount(kSuspendCount0);
-  thread_writer_0->SetPriorityClass(kPriorityClass0);
-  thread_writer_0->SetPriority(kPriority0);
-  thread_writer_0->SetTEB(kTEB0);
+  static constexpr uint32_t kThreadID2 = 3333333;
+  static constexpr uint32_t kSuspendCount2 = 333333;
+  static constexpr uint32_t kPriorityClass2 = 33333;
+  static constexpr uint32_t kPriority2 = 3333;
+  static constexpr uint64_t kTEB2 = 333;
+  static constexpr uint64_t kMemoryBase2 = 0x3330;
+  static constexpr size_t kMemorySize2 = 48;
+  static constexpr uint8_t kMemoryValue2 = 33;
+  static constexpr uint32_t kSeed2 = 3;
 
-  auto memory_writer_0 = std::make_unique<TestMinidumpMemoryWriter>(
-      kMemoryBase0, kMemorySize0, kMemoryValue0);
-  thread_writer_0->SetStack(std::move(memory_writer_0));
+  MinidumpThreadWriterX86Test()
+      : thread_list_(nullptr), memory_list_(nullptr), string_file_() {}
 
-  auto context_x86_writer_0 = std::make_unique<MinidumpContextX86Writer>();
-  InitializeMinidumpContextX86(context_x86_writer_0->context(), kSeed0);
-  thread_writer_0->SetContext(std::move(context_x86_writer_0));
+  ~MinidumpThreadWriterX86Test() override = default;
 
-  thread_list_writer->AddThread(std::move(thread_writer_0));
+  const StringFile& string_file() const { return string_file_; }
+  const MINIDUMP_THREAD_LIST& thread_list() const { return *thread_list_; }
+  const MINIDUMP_MEMORY_LIST& memory_list() const { return *memory_list_; }
 
-  constexpr uint32_t kThreadID1 = 2222222;
-  constexpr uint32_t kSuspendCount1 = 222222;
-  constexpr uint32_t kPriorityClass1 = 22222;
-  constexpr uint32_t kPriority1 = 2222;
-  constexpr uint64_t kTEB1 = 222;
-  constexpr uint64_t kMemoryBase1 = 0x2220;
-  constexpr size_t kMemorySize1 = 32;
-  constexpr uint8_t kMemoryValue1 = 22;
-  constexpr uint32_t kSeed1 = 2;
+  // testing::Test:
+  void SetUp() override {
+    thread_list_ = nullptr;
+    memory_list_ = nullptr;
+  }
 
-  auto thread_writer_1 = std::make_unique<MinidumpThreadWriter>();
-  thread_writer_1->SetThreadID(kThreadID1);
-  thread_writer_1->SetSuspendCount(kSuspendCount1);
-  thread_writer_1->SetPriorityClass(kPriorityClass1);
-  thread_writer_1->SetPriority(kPriority1);
-  thread_writer_1->SetTEB(kTEB1);
+  void InitThreadWriter(bool has_dump_thread) {
+    MinidumpFileWriter minidump_file_writer;
+    std::unique_ptr<MinidumpThreadListWriter> thread_list_writer =
+        has_dump_thread ? std::make_unique<MinidumpThreadListWriter>(kThreadID1)
+                        : std::make_unique<MinidumpThreadListWriter>();
+    auto memory_list_writer = std::make_unique<MinidumpMemoryListWriter>();
+    thread_list_writer->SetMemoryListWriter(memory_list_writer.get());
 
-  auto memory_writer_1 = std::make_unique<TestMinidumpMemoryWriter>(
-      kMemoryBase1, kMemorySize1, kMemoryValue1);
-  thread_writer_1->SetStack(std::move(memory_writer_1));
+    auto thread_writer_0 = std::make_unique<MinidumpThreadWriter>();
+    thread_writer_0->SetThreadID(kThreadID0);
+    thread_writer_0->SetSuspendCount(kSuspendCount0);
+    thread_writer_0->SetPriorityClass(kPriorityClass0);
+    thread_writer_0->SetPriority(kPriority0);
+    thread_writer_0->SetTEB(kTEB0);
 
-  auto context_x86_writer_1 = std::make_unique<MinidumpContextX86Writer>();
-  InitializeMinidumpContextX86(context_x86_writer_1->context(), kSeed1);
-  thread_writer_1->SetContext(std::move(context_x86_writer_1));
+    auto memory_writer_0 = std::make_unique<TestMinidumpMemoryWriter>(
+        kMemoryBase0, kMemorySize0, kMemoryValue0);
+    thread_writer_0->SetStack(std::move(memory_writer_0));
 
-  thread_list_writer->AddThread(std::move(thread_writer_1));
+    auto context_x86_writer_0 = std::make_unique<MinidumpContextX86Writer>();
+    InitializeMinidumpContextX86(context_x86_writer_0->context(), kSeed0);
+    thread_writer_0->SetContext(std::move(context_x86_writer_0));
 
-  constexpr uint32_t kThreadID2 = 3333333;
-  constexpr uint32_t kSuspendCount2 = 333333;
-  constexpr uint32_t kPriorityClass2 = 33333;
-  constexpr uint32_t kPriority2 = 3333;
-  constexpr uint64_t kTEB2 = 333;
-  constexpr uint64_t kMemoryBase2 = 0x3330;
-  constexpr size_t kMemorySize2 = 48;
-  constexpr uint8_t kMemoryValue2 = 33;
-  constexpr uint32_t kSeed2 = 3;
+    thread_list_writer->AddThread(std::move(thread_writer_0));
 
-  auto thread_writer_2 = std::make_unique<MinidumpThreadWriter>();
-  thread_writer_2->SetThreadID(kThreadID2);
-  thread_writer_2->SetSuspendCount(kSuspendCount2);
-  thread_writer_2->SetPriorityClass(kPriorityClass2);
-  thread_writer_2->SetPriority(kPriority2);
-  thread_writer_2->SetTEB(kTEB2);
+    auto thread_writer_1 = std::make_unique<MinidumpThreadWriter>();
+    thread_writer_1->SetThreadID(kThreadID1);
+    thread_writer_1->SetSuspendCount(kSuspendCount1);
+    thread_writer_1->SetPriorityClass(kPriorityClass1);
+    thread_writer_1->SetPriority(kPriority1);
+    thread_writer_1->SetTEB(kTEB1);
 
-  auto memory_writer_2 = std::make_unique<TestMinidumpMemoryWriter>(
-      kMemoryBase2, kMemorySize2, kMemoryValue2);
-  thread_writer_2->SetStack(std::move(memory_writer_2));
+    auto memory_writer_1 = std::make_unique<TestMinidumpMemoryWriter>(
+        kMemoryBase1, kMemorySize1, kMemoryValue1);
+    thread_writer_1->SetStack(std::move(memory_writer_1));
 
-  auto context_x86_writer_2 = std::make_unique<MinidumpContextX86Writer>();
-  InitializeMinidumpContextX86(context_x86_writer_2->context(), kSeed2);
-  thread_writer_2->SetContext(std::move(context_x86_writer_2));
+    auto context_x86_writer_1 = std::make_unique<MinidumpContextX86Writer>();
+    InitializeMinidumpContextX86(context_x86_writer_1->context(), kSeed1);
+    thread_writer_1->SetContext(std::move(context_x86_writer_1));
 
-  thread_list_writer->AddThread(std::move(thread_writer_2));
+    thread_list_writer->AddThread(std::move(thread_writer_1));
 
-  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(thread_list_writer)));
-  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(memory_list_writer)));
+    auto thread_writer_2 = std::make_unique<MinidumpThreadWriter>();
+    thread_writer_2->SetThreadID(kThreadID2);
+    thread_writer_2->SetSuspendCount(kSuspendCount2);
+    thread_writer_2->SetPriorityClass(kPriorityClass2);
+    thread_writer_2->SetPriority(kPriority2);
+    thread_writer_2->SetTEB(kTEB2);
 
-  StringFile string_file;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
+    auto memory_writer_2 = std::make_unique<TestMinidumpMemoryWriter>(
+        kMemoryBase2, kMemorySize2, kMemoryValue2);
+    thread_writer_2->SetStack(std::move(memory_writer_2));
+    auto context_x86_writer_2 = std::make_unique<MinidumpContextX86Writer>();
+    InitializeMinidumpContextX86(context_x86_writer_2->context(), kSeed2);
+    thread_writer_2->SetContext(std::move(context_x86_writer_2));
 
-  ASSERT_EQ(
-      string_file.string().size(),
-      sizeof(MINIDUMP_HEADER) + 2 * sizeof(MINIDUMP_DIRECTORY) +
-          sizeof(MINIDUMP_THREAD_LIST) + 3 * sizeof(MINIDUMP_THREAD) +
-          sizeof(MINIDUMP_MEMORY_LIST) +
-          3 * sizeof(MINIDUMP_MEMORY_DESCRIPTOR) +
-          3 * sizeof(MinidumpContextX86) + kMemorySize0 + kMemorySize1 +
-          kMemorySize2 + 12);  // 12 for alignment
+    thread_list_writer->AddThread(std::move(thread_writer_2));
 
-  const MINIDUMP_THREAD_LIST* thread_list = nullptr;
-  const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
-  ASSERT_NO_FATAL_FAILURE(
-      GetThreadListStream(string_file.string(), &thread_list, &memory_list));
+    ASSERT_TRUE(minidump_file_writer.AddStream(std::move(thread_list_writer)));
+    ASSERT_TRUE(minidump_file_writer.AddStream(std::move(memory_list_writer)));
 
-  EXPECT_EQ(thread_list->NumberOfThreads, 3u);
-  EXPECT_EQ(memory_list->NumberOfMemoryRanges, 3u);
+    ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file_));
+    auto thread_count = has_dump_thread ? 1 : 3;
+    auto memory_size = has_dump_thread
+                           ? kMemorySize1
+                           : kMemorySize0 + kMemorySize1 + kMemorySize2;
+    auto padding_size = has_dump_thread ? 4 : 12;  // for alignment
+    ASSERT_EQ(string_file_.string().size(),
+              sizeof(MINIDUMP_HEADER) + 2 * sizeof(MINIDUMP_DIRECTORY) +
+                  sizeof(MINIDUMP_THREAD_LIST) +
+                  thread_count * sizeof(MINIDUMP_THREAD) +
+                  sizeof(MINIDUMP_MEMORY_LIST) +
+                  thread_count * sizeof(MINIDUMP_MEMORY_DESCRIPTOR) +
+                  thread_count * sizeof(MinidumpContextX86) + memory_size +
+                  padding_size);
+
+    ASSERT_NO_FATAL_FAILURE(GetThreadListStream(
+        string_file_.string(), &thread_list_, &memory_list_));
+    ASSERT_TRUE(thread_list_);
+    ASSERT_TRUE(memory_list_);
+  }
+
+  const MINIDUMP_THREAD_LIST* thread_list_;
+  const MINIDUMP_MEMORY_LIST* memory_list_;
+  StringFile string_file_;
+
+  DISALLOW_COPY_AND_ASSIGN(MinidumpThreadWriterX86Test);
+};
+
+// static
+constexpr uint32_t MinidumpThreadWriterX86Test::kThreadID0;
+constexpr uint32_t MinidumpThreadWriterX86Test::kSuspendCount0;
+constexpr uint32_t MinidumpThreadWriterX86Test::kPriorityClass0;
+constexpr uint32_t MinidumpThreadWriterX86Test::kPriority0;
+constexpr uint64_t MinidumpThreadWriterX86Test::kTEB0;
+constexpr uint64_t MinidumpThreadWriterX86Test::kMemoryBase0;
+constexpr size_t MinidumpThreadWriterX86Test::kMemorySize0;
+constexpr uint8_t MinidumpThreadWriterX86Test::kMemoryValue0;
+constexpr uint32_t MinidumpThreadWriterX86Test::kSeed0;
+
+constexpr uint32_t MinidumpThreadWriterX86Test::kThreadID1;
+constexpr uint32_t MinidumpThreadWriterX86Test::kSuspendCount1;
+constexpr uint32_t MinidumpThreadWriterX86Test::kPriorityClass1;
+constexpr uint32_t MinidumpThreadWriterX86Test::kPriority1;
+constexpr uint64_t MinidumpThreadWriterX86Test::kTEB1;
+constexpr uint64_t MinidumpThreadWriterX86Test::kMemoryBase1;
+constexpr size_t MinidumpThreadWriterX86Test::kMemorySize1;
+constexpr uint8_t MinidumpThreadWriterX86Test::kMemoryValue1;
+constexpr uint32_t MinidumpThreadWriterX86Test::kSeed1;
+
+constexpr uint32_t MinidumpThreadWriterX86Test::kThreadID2;
+constexpr uint32_t MinidumpThreadWriterX86Test::kSuspendCount2;
+constexpr uint32_t MinidumpThreadWriterX86Test::kPriorityClass2;
+constexpr uint32_t MinidumpThreadWriterX86Test::kPriority2;
+constexpr uint64_t MinidumpThreadWriterX86Test::kTEB2;
+constexpr uint64_t MinidumpThreadWriterX86Test::kMemoryBase2;
+constexpr size_t MinidumpThreadWriterX86Test::kMemorySize2;
+constexpr uint8_t MinidumpThreadWriterX86Test::kMemoryValue2;
+constexpr uint32_t MinidumpThreadWriterX86Test::kSeed2;
+
+TEST_F(MinidumpThreadWriterX86Test, ThreeThreads_x86_MemoryList) {
+  InitThreadWriter(false /* has_dump_thread */);
+  EXPECT_EQ(thread_list().NumberOfThreads, 3u);
+  EXPECT_EQ(memory_list().NumberOfMemoryRanges, 3u);
 
   {
     SCOPED_TRACE("thread 0");
@@ -398,21 +461,21 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
     const MinidumpContextX86* observed_context = nullptr;
     ASSERT_NO_FATAL_FAILURE(
         ExpectThread(&expected,
-                     &thread_list->Threads[0],
-                     string_file.string(),
+                     &thread_list().Threads[0],
+                     string_file().string(),
                      &observed_stack,
                      reinterpret_cast<const void**>(&observed_context)));
 
     ASSERT_NO_FATAL_FAILURE(
         ExpectMinidumpMemoryDescriptorAndContents(&expected.Stack,
                                                   observed_stack,
-                                                  string_file.string(),
+                                                  string_file().string(),
                                                   kMemoryValue0,
                                                   false));
     ASSERT_NO_FATAL_FAILURE(
         ExpectMinidumpContextX86(kSeed0, observed_context, false));
     ASSERT_NO_FATAL_FAILURE(ExpectMinidumpMemoryDescriptor(
-        observed_stack, &memory_list->MemoryRanges[0]));
+        observed_stack, &memory_list().MemoryRanges[0]));
   }
 
   {
@@ -432,21 +495,21 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
     const MinidumpContextX86* observed_context = nullptr;
     ASSERT_NO_FATAL_FAILURE(
         ExpectThread(&expected,
-                     &thread_list->Threads[1],
-                     string_file.string(),
+                     &thread_list().Threads[1],
+                     string_file().string(),
                      &observed_stack,
                      reinterpret_cast<const void**>(&observed_context)));
 
     ASSERT_NO_FATAL_FAILURE(
         ExpectMinidumpMemoryDescriptorAndContents(&expected.Stack,
                                                   observed_stack,
-                                                  string_file.string(),
+                                                  string_file().string(),
                                                   kMemoryValue1,
                                                   false));
     ASSERT_NO_FATAL_FAILURE(
         ExpectMinidumpContextX86(kSeed1, observed_context, false));
     ASSERT_NO_FATAL_FAILURE(ExpectMinidumpMemoryDescriptor(
-        observed_stack, &memory_list->MemoryRanges[1]));
+        observed_stack, &memory_list().MemoryRanges[1]));
   }
 
   {
@@ -466,22 +529,28 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
     const MinidumpContextX86* observed_context = nullptr;
     ASSERT_NO_FATAL_FAILURE(
         ExpectThread(&expected,
-                     &thread_list->Threads[2],
-                     string_file.string(),
+                     &thread_list().Threads[2],
+                     string_file().string(),
                      &observed_stack,
                      reinterpret_cast<const void**>(&observed_context)));
 
     ASSERT_NO_FATAL_FAILURE(
         ExpectMinidumpMemoryDescriptorAndContents(&expected.Stack,
                                                   observed_stack,
-                                                  string_file.string(),
+                                                  string_file().string(),
                                                   kMemoryValue2,
                                                   true));
     ASSERT_NO_FATAL_FAILURE(
         ExpectMinidumpContextX86(kSeed2, observed_context, false));
     ASSERT_NO_FATAL_FAILURE(ExpectMinidumpMemoryDescriptor(
-        observed_stack, &memory_list->MemoryRanges[2]));
+        observed_stack, &memory_list().MemoryRanges[2]));
   }
+}
+
+TEST_F(MinidumpThreadWriterX86Test, ThreeThreads_x86_With_Dump_Thread) {
+  InitThreadWriter(true /* has_dump_thread */);
+  EXPECT_EQ(thread_list().NumberOfThreads, 1u);
+  EXPECT_EQ(memory_list().NumberOfMemoryRanges, 1u);
 }
 
 struct InitializeFromSnapshotX86Traits {
@@ -489,8 +558,9 @@ struct InitializeFromSnapshotX86Traits {
   static void InitializeCPUContext(CPUContext* context, uint32_t seed) {
     return InitializeCPUContextX86(context, seed);
   }
-  static void ExpectMinidumpContext(
-      uint32_t expect_seed, const MinidumpContextX86* observed, bool snapshot) {
+  static void ExpectMinidumpContext(uint32_t expect_seed,
+                                    const MinidumpContextX86* observed,
+                                    bool snapshot) {
     return ExpectMinidumpContextX86(expect_seed, observed, snapshot);
   }
 };
@@ -520,175 +590,253 @@ struct InitializeFromSnapshotNoContextTraits {
 };
 
 template <typename Traits>
-void RunInitializeFromSnapshotTest(bool thread_id_collision) {
+class MinidumpThreadWriterSnapshotTest : public testing::Test {
+ public:
   using MinidumpContextType = typename Traits::MinidumpContextType;
-  MINIDUMP_THREAD expect_threads[3] = {};
-  uint64_t thread_ids[base::size(expect_threads)] = {};
-  uint8_t memory_values[base::size(expect_threads)] = {};
-  uint32_t context_seeds[base::size(expect_threads)] = {};
-  MINIDUMP_MEMORY_DESCRIPTOR tebs[base::size(expect_threads)] = {};
+  MinidumpThreadWriterSnapshotTest()
+      : thread_list_(nullptr),
+        memory_list_(nullptr),
+        string_file_(),
+        expect_threads_(),
+        context_seeds_(),
+        memory_values_(),
+        tebs_() {}
 
-  constexpr size_t kTebSize = 1024;
+  void InitializeFromSnapshot(bool thread_id_collision, bool has_dump_thread) {
+    uint64_t thread_ids[sizeof(expect_threads_)] = {};
+    expect_threads_[0].ThreadId = 1;
+    expect_threads_[0].SuspendCount = 2;
+    expect_threads_[0].Priority = 3;
+    expect_threads_[0].Teb = 0x0123456789abcdef;
+    expect_threads_[0].Stack.StartOfMemoryRange = 0x1000;
+    expect_threads_[0].Stack.Memory.DataSize = 0x100;
+    expect_threads_[0].ThreadContext.DataSize = sizeof(MinidumpContextType);
+    memory_values_[0] = 'A';
+    context_seeds_[0] = 0x80000000;
+    tebs_[0].StartOfMemoryRange = expect_threads_[0].Teb;
+    tebs_[0].Memory.DataSize = kTebSize;
 
-  expect_threads[0].ThreadId = 1;
-  expect_threads[0].SuspendCount = 2;
-  expect_threads[0].Priority = 3;
-  expect_threads[0].Teb = 0x0123456789abcdef;
-  expect_threads[0].Stack.StartOfMemoryRange = 0x1000;
-  expect_threads[0].Stack.Memory.DataSize = 0x100;
-  expect_threads[0].ThreadContext.DataSize = sizeof(MinidumpContextType);
-  memory_values[0] = 'A';
-  context_seeds[0] = 0x80000000;
-  tebs[0].StartOfMemoryRange = expect_threads[0].Teb;
-  tebs[0].Memory.DataSize = kTebSize;
+    // The thread at index 1 has no stack.
+    expect_threads_[1].ThreadId = 11;
+    expect_threads_[1].SuspendCount = 12;
+    expect_threads_[1].Priority = 13;
+    expect_threads_[1].Teb = 0x1111111111111111;
+    expect_threads_[1].ThreadContext.DataSize = sizeof(MinidumpContextType);
+    context_seeds_[1] = 0x40000001;
+    tebs_[1].StartOfMemoryRange = expect_threads_[1].Teb;
+    tebs_[1].Memory.DataSize = kTebSize;
 
-  // The thread at index 1 has no stack.
-  expect_threads[1].ThreadId = 11;
-  expect_threads[1].SuspendCount = 12;
-  expect_threads[1].Priority = 13;
-  expect_threads[1].Teb = 0x1111111111111111;
-  expect_threads[1].ThreadContext.DataSize = sizeof(MinidumpContextType);
-  context_seeds[1] = 0x40000001;
-  tebs[1].StartOfMemoryRange = expect_threads[1].Teb;
-  tebs[1].Memory.DataSize = kTebSize;
+    expect_threads_[2].ThreadId = 21;
+    expect_threads_[2].SuspendCount = 22;
+    expect_threads_[2].Priority = 23;
+    expect_threads_[2].Teb = 0xfedcba9876543210;
+    expect_threads_[2].Stack.StartOfMemoryRange = 0x3000;
+    expect_threads_[2].Stack.Memory.DataSize = 0x300;
+    expect_threads_[2].ThreadContext.DataSize = sizeof(MinidumpContextType);
+    memory_values_[2] = 'd';
+    context_seeds_[2] = 0x20000002;
+    tebs_[2].StartOfMemoryRange = expect_threads_[2].Teb;
+    tebs_[2].Memory.DataSize = kTebSize;
 
-  expect_threads[2].ThreadId = 21;
-  expect_threads[2].SuspendCount = 22;
-  expect_threads[2].Priority = 23;
-  expect_threads[2].Teb = 0xfedcba9876543210;
-  expect_threads[2].Stack.StartOfMemoryRange = 0x3000;
-  expect_threads[2].Stack.Memory.DataSize = 0x300;
-  expect_threads[2].ThreadContext.DataSize = sizeof(MinidumpContextType);
-  memory_values[2] = 'd';
-  context_seeds[2] = 0x20000002;
-  tebs[2].StartOfMemoryRange = expect_threads[2].Teb;
-  tebs[2].Memory.DataSize = kTebSize;
-
-  if (thread_id_collision) {
-    thread_ids[0] = 0x0123456700000001;
-    thread_ids[1] = 0x89abcdef00000001;
-    thread_ids[2] = 4;
-    expect_threads[0].ThreadId = 0;
-    expect_threads[1].ThreadId = 1;
-    expect_threads[2].ThreadId = 2;
-  } else {
-    thread_ids[0] = 1;
-    thread_ids[1] = 11;
-    thread_ids[2] = 22;
-    expect_threads[0].ThreadId = static_cast<uint32_t>(thread_ids[0]);
-    expect_threads[1].ThreadId = static_cast<uint32_t>(thread_ids[1]);
-    expect_threads[2].ThreadId = static_cast<uint32_t>(thread_ids[2]);
-  }
-
-  std::vector<std::unique_ptr<TestThreadSnapshot>> thread_snapshots_owner;
-  std::vector<const ThreadSnapshot*> thread_snapshots;
-  for (size_t index = 0; index < base::size(expect_threads); ++index) {
-    thread_snapshots_owner.push_back(std::make_unique<TestThreadSnapshot>());
-    TestThreadSnapshot* thread_snapshot = thread_snapshots_owner.back().get();
-
-    thread_snapshot->SetThreadID(thread_ids[index]);
-    thread_snapshot->SetSuspendCount(expect_threads[index].SuspendCount);
-    thread_snapshot->SetPriority(expect_threads[index].Priority);
-    thread_snapshot->SetThreadSpecificDataAddress(expect_threads[index].Teb);
-
-    if (expect_threads[index].Stack.Memory.DataSize) {
-      auto memory_snapshot = std::make_unique<TestMemorySnapshot>();
-      memory_snapshot->SetAddress(
-          expect_threads[index].Stack.StartOfMemoryRange);
-      memory_snapshot->SetSize(expect_threads[index].Stack.Memory.DataSize);
-      memory_snapshot->SetValue(memory_values[index]);
-      thread_snapshot->SetStack(std::move(memory_snapshot));
+    if (thread_id_collision) {
+      thread_ids[0] = 0x0123456700000001;
+      thread_ids[1] = 0x89abcdef00000001;
+      thread_ids[2] = 4;
+      expect_threads_[0].ThreadId = 0;
+      expect_threads_[1].ThreadId = 1;
+      expect_threads_[2].ThreadId = 2;
+    } else {
+      thread_ids[0] = 1;
+      thread_ids[1] = 11;
+      thread_ids[2] = 22;
+      expect_threads_[0].ThreadId = static_cast<uint32_t>(thread_ids[0]);
+      expect_threads_[1].ThreadId = static_cast<uint32_t>(thread_ids[1]);
+      expect_threads_[2].ThreadId = static_cast<uint32_t>(thread_ids[2]);
     }
 
-    Traits::InitializeCPUContext(thread_snapshot->MutableContext(),
-                                 context_seeds[index]);
+    std::vector<std::unique_ptr<TestThreadSnapshot>> thread_snapshots_owner;
+    std::vector<const ThreadSnapshot*> thread_snapshots;
+    for (size_t index = 0; index < base::size(expect_threads_); ++index) {
+      thread_snapshots_owner.push_back(std::make_unique<TestThreadSnapshot>());
+      TestThreadSnapshot* thread_snapshot = thread_snapshots_owner.back().get();
 
-    auto teb_snapshot = std::make_unique<TestMemorySnapshot>();
-    teb_snapshot->SetAddress(expect_threads[index].Teb);
-    teb_snapshot->SetSize(kTebSize);
-    teb_snapshot->SetValue(static_cast<char>('t' + index));
-    thread_snapshot->AddExtraMemory(std::move(teb_snapshot));
+      thread_snapshot->SetThreadID(thread_ids[index]);
+      thread_snapshot->SetSuspendCount(expect_threads_[index].SuspendCount);
+      thread_snapshot->SetPriority(expect_threads_[index].Priority);
+      thread_snapshot->SetThreadSpecificDataAddress(expect_threads_[index].Teb);
 
-    thread_snapshots.push_back(thread_snapshot);
+      if (expect_threads_[index].Stack.Memory.DataSize) {
+        auto memory_snapshot = std::make_unique<TestMemorySnapshot>();
+        memory_snapshot->SetAddress(
+            expect_threads_[index].Stack.StartOfMemoryRange);
+        memory_snapshot->SetSize(expect_threads_[index].Stack.Memory.DataSize);
+        memory_snapshot->SetValue(memory_values_[index]);
+        thread_snapshot->SetStack(std::move(memory_snapshot));
+      }
+
+      Traits::InitializeCPUContext(thread_snapshot->MutableContext(),
+                                   context_seeds_[index]);
+
+      auto teb_snapshot = std::make_unique<TestMemorySnapshot>();
+      teb_snapshot->SetAddress(expect_threads_[index].Teb);
+      teb_snapshot->SetSize(kTebSize);
+      teb_snapshot->SetValue(static_cast<char>('t' + index));
+      thread_snapshot->AddExtraMemory(std::move(teb_snapshot));
+
+      thread_snapshots.push_back(thread_snapshot);
+    }
+
+    auto thread_list_writer =
+        has_dump_thread ? std::make_unique<MinidumpThreadListWriter>(
+                              expect_threads_[kDumpThreadIndex].ThreadId)
+                        : std::make_unique<MinidumpThreadListWriter>();
+    auto memory_list_writer = std::make_unique<MinidumpMemoryListWriter>();
+    thread_list_writer->SetMemoryListWriter(memory_list_writer.get());
+    MinidumpThreadIDMap thread_id_map;
+    BuildMinidumpThreadIDMap(thread_snapshots, &thread_id_map);
+    thread_list_writer->InitializeFromSnapshot(thread_snapshots, thread_id_map);
+
+    MinidumpFileWriter minidump_file_writer;
+    ASSERT_TRUE(minidump_file_writer.AddStream(std::move(thread_list_writer)));
+    ASSERT_TRUE(minidump_file_writer.AddStream(std::move(memory_list_writer)));
+
+    ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file_));
+    ASSERT_NO_FATAL_FAILURE(GetThreadListStream(
+        string_file_.string(), &thread_list_, &memory_list_));
   }
 
-  auto thread_list_writer = std::make_unique<MinidumpThreadListWriter>();
-  auto memory_list_writer = std::make_unique<MinidumpMemoryListWriter>();
-  thread_list_writer->SetMemoryListWriter(memory_list_writer.get());
-  MinidumpThreadIDMap thread_id_map;
-  thread_list_writer->InitializeFromSnapshot(thread_snapshots, &thread_id_map);
+  void RunTest() {
+    ASSERT_EQ(thread_list_->NumberOfThreads, 3u);
+    ASSERT_EQ(memory_list_->NumberOfMemoryRanges, 5u);
 
-  MinidumpFileWriter minidump_file_writer;
-  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(thread_list_writer)));
-  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(memory_list_writer)));
+    size_t memory_index = 0;
+    for (size_t index = 0; index < thread_list_->NumberOfThreads; ++index) {
+      SCOPED_TRACE(base::StringPrintf("index %" PRIuS, index));
 
-  StringFile string_file;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
+      const MINIDUMP_MEMORY_DESCRIPTOR* observed_stack = nullptr;
+      const MINIDUMP_MEMORY_DESCRIPTOR** observed_stack_p =
+          expect_threads_[index].Stack.Memory.DataSize ? &observed_stack
+                                                       : nullptr;
+      const MinidumpContextType* observed_context = nullptr;
+      ASSERT_NO_FATAL_FAILURE(
+          ExpectThread(&expect_threads_[index],
+                       &thread_list_->Threads[index],
+                       string_file_.string(),
+                       observed_stack_p,
+                       reinterpret_cast<const void**>(&observed_context)));
 
-  const MINIDUMP_THREAD_LIST* thread_list = nullptr;
-  const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
-  ASSERT_NO_FATAL_FAILURE(
-      GetThreadListStream(string_file.string(), &thread_list, &memory_list));
+      ASSERT_NO_FATAL_FAILURE(Traits::ExpectMinidumpContext(
+          context_seeds_[index], observed_context, true));
 
-  ASSERT_EQ(thread_list->NumberOfThreads, 3u);
-  ASSERT_EQ(memory_list->NumberOfMemoryRanges, 5u);
+      if (observed_stack_p) {
+        ASSERT_NO_FATAL_FAILURE(ExpectMinidumpMemoryDescriptorAndContents(
+            &expect_threads_[index].Stack,
+            observed_stack,
+            string_file_.string(),
+            memory_values_[index],
+            false));
 
-  size_t memory_index = 0;
-  for (size_t index = 0; index < thread_list->NumberOfThreads; ++index) {
-    SCOPED_TRACE(base::StringPrintf("index %" PRIuS, index));
+        ASSERT_NO_FATAL_FAILURE(ExpectMinidumpMemoryDescriptor(
+            observed_stack, &memory_list_->MemoryRanges[memory_index]));
 
-    const MINIDUMP_MEMORY_DESCRIPTOR* observed_stack = nullptr;
-    const MINIDUMP_MEMORY_DESCRIPTOR** observed_stack_p =
-        expect_threads[index].Stack.Memory.DataSize ? &observed_stack : nullptr;
-    const MinidumpContextType* observed_context = nullptr;
-    ASSERT_NO_FATAL_FAILURE(
-        ExpectThread(&expect_threads[index],
-                     &thread_list->Threads[index],
-                     string_file.string(),
-                     observed_stack_p,
-                     reinterpret_cast<const void**>(&observed_context)));
+        ++memory_index;
+      }
+    }
 
-    ASSERT_NO_FATAL_FAILURE(Traits::ExpectMinidumpContext(
-        context_seeds[index], observed_context, true));
-
-    if (observed_stack_p) {
-      ASSERT_NO_FATAL_FAILURE(ExpectMinidumpMemoryDescriptorAndContents(
-          &expect_threads[index].Stack,
-          observed_stack,
-          string_file.string(),
-          memory_values[index],
-          false));
-
-      ASSERT_NO_FATAL_FAILURE(ExpectMinidumpMemoryDescriptor(
-          observed_stack, &memory_list->MemoryRanges[memory_index]));
-
+    for (size_t index = 0; index < thread_list_->NumberOfThreads; ++index) {
+      const MINIDUMP_MEMORY_DESCRIPTOR* memory =
+          &memory_list_->MemoryRanges[memory_index];
+      ASSERT_NO_FATAL_FAILURE(
+          ExpectMinidumpMemoryDescriptor(&tebs_[index], memory));
+      std::string expected_data(kTebSize, static_cast<char>('t' + index));
+      std::string observed_data(&string_file_.string()[memory->Memory.Rva],
+                                memory->Memory.DataSize);
+      EXPECT_EQ(observed_data, expected_data);
       ++memory_index;
     }
   }
 
-  for (size_t index = 0; index < thread_list->NumberOfThreads; ++index) {
-    const MINIDUMP_MEMORY_DESCRIPTOR* memory =
-        &memory_list->MemoryRanges[memory_index];
+  void VerifyDumpThread() {
+    ASSERT_EQ(thread_list_->NumberOfThreads, 1u);
+    ASSERT_EQ(memory_list_->NumberOfMemoryRanges, 2u);
+    size_t memory_index = 0;
+    const MINIDUMP_MEMORY_DESCRIPTOR* observed_stack = nullptr;
+    const MINIDUMP_MEMORY_DESCRIPTOR** observed_stack_p =
+        expect_threads_[kDumpThreadIndex].Stack.Memory.DataSize
+            ? &observed_stack
+            : nullptr;
+    ASSERT_TRUE(observed_stack_p);
+    const MinidumpContextType* observed_context = nullptr;
     ASSERT_NO_FATAL_FAILURE(
-        ExpectMinidumpMemoryDescriptor(&tebs[index], memory));
-    std::string expected_data(kTebSize, static_cast<char>('t' + index));
-    std::string observed_data(&string_file.string()[memory->Memory.Rva],
+        ExpectThread(&expect_threads_[kDumpThreadIndex],
+                     &thread_list_->Threads[0],
+                     string_file_.string(),
+                     observed_stack_p,
+                     reinterpret_cast<const void**>(&observed_context)));
+
+    ASSERT_NO_FATAL_FAILURE(Traits::ExpectMinidumpContext(
+        context_seeds_[kDumpThreadIndex], observed_context, true));
+
+    ASSERT_NO_FATAL_FAILURE(ExpectMinidumpMemoryDescriptorAndContents(
+        &expect_threads_[kDumpThreadIndex].Stack,
+        observed_stack,
+        string_file_.string(),
+        memory_values_[0],
+        false));
+
+    ASSERT_NO_FATAL_FAILURE(ExpectMinidumpMemoryDescriptor(
+        observed_stack, &memory_list_->MemoryRanges[memory_index++]));
+
+    const MINIDUMP_MEMORY_DESCRIPTOR* memory =
+        &memory_list_->MemoryRanges[memory_index];
+    ASSERT_NO_FATAL_FAILURE(
+        ExpectMinidumpMemoryDescriptor(&tebs_[kDumpThreadIndex], memory));
+    std::string expected_data(kTebSize,
+                              static_cast<char>('t' + kDumpThreadIndex));
+    std::string observed_data(&string_file_.string()[memory->Memory.Rva],
                               memory->Memory.DataSize);
     EXPECT_EQ(observed_data, expected_data);
-    ++memory_index;
   }
+
+ private:
+  static constexpr size_t kDumpThreadIndex = 0;
+  static constexpr size_t kTebSize = 1024;
+  const MINIDUMP_THREAD_LIST* thread_list_;
+  const MINIDUMP_MEMORY_LIST* memory_list_;
+  StringFile string_file_;
+  MINIDUMP_THREAD expect_threads_[3];
+  uint32_t context_seeds_[sizeof(expect_threads_)];
+  uint8_t memory_values_[sizeof(expect_threads_)];
+  MINIDUMP_MEMORY_DESCRIPTOR tebs_[sizeof(expect_threads_)];
+};
+
+// static
+template <typename Traits>
+constexpr size_t MinidumpThreadWriterSnapshotTest<Traits>::kDumpThreadIndex;
+template <typename Traits>
+constexpr size_t MinidumpThreadWriterSnapshotTest<Traits>::kTebSize;
+
+using IntializeFromSnapshotType =
+    ::testing::Types<InitializeFromSnapshotX86Traits,
+                     InitializeFromSnapshotAMD64Traits>;
+TYPED_TEST_SUITE(MinidumpThreadWriterSnapshotTest, IntializeFromSnapshotType);
+TYPED_TEST(MinidumpThreadWriterSnapshotTest, InitializeFromSnapshot) {
+  this->InitializeFromSnapshot(false /* thread_id_collision */,
+                               false /* has_dump_thread */);
+  this->RunTest();
 }
 
-TEST(MinidumpThreadWriter, InitializeFromSnapshot_x86) {
-  RunInitializeFromSnapshotTest<InitializeFromSnapshotX86Traits>(false);
+TYPED_TEST(MinidumpThreadWriterSnapshotTest,
+           IntializeFromSnapshotTypeCollision) {
+  this->InitializeFromSnapshot(true /* thread_id_collision */,
+                               false /* has_dump_thread */);
+  this->RunTest();
 }
 
-TEST(MinidumpThreadWriter, InitializeFromSnapshot_AMD64) {
-  RunInitializeFromSnapshotTest<InitializeFromSnapshotAMD64Traits>(false);
-}
-
-TEST(MinidumpThreadWriter, InitializeFromSnapshot_ThreadIDCollision) {
-  RunInitializeFromSnapshotTest<InitializeFromSnapshotX86Traits>(true);
+TYPED_TEST(MinidumpThreadWriterSnapshotTest, HasDumpThread) {
+  this->InitializeFromSnapshot(false /* thread_id_collision */,
+                               true /* has_dump_thread */);
+  this->VerifyDumpThread();
 }
 
 TEST(MinidumpThreadWriterDeathTest, NoContext) {
@@ -705,10 +853,14 @@ TEST(MinidumpThreadWriterDeathTest, NoContext) {
                      "context_");
 }
 
-TEST(MinidumpThreadWriterDeathTest, InitializeFromSnapshot_NoContext) {
-  ASSERT_DEATH_CHECK(
-      RunInitializeFromSnapshotTest<InitializeFromSnapshotNoContextTraits>(
-          false), "context_");
+class MinidumpThreadWriterSnapshotNoContextTest
+    : public MinidumpThreadWriterSnapshotTest<
+          InitializeFromSnapshotNoContextTraits> {};
+TEST_F(MinidumpThreadWriterSnapshotNoContextTest,
+       InitializeFromSnapshot_NoContext) {
+  ASSERT_DEATH_CHECK(InitializeFromSnapshot(false /* thread_id_collision */,
+                                            false /* has_dump_thread */),
+                     "context_");
 }
 
 }  // namespace
