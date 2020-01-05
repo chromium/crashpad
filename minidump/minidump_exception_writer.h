@@ -68,6 +68,8 @@ class MinidumpExceptionWriter final : public internal::MinidumpStreamWriter {
   //! \brief Sets MINIDUMP_EXCEPTION_STREAM::ThreadId.
   void SetThreadID(uint32_t thread_id) { exception_.ThreadId = thread_id; }
 
+  uint32_t GetThreadID() const { return exception_.ThreadId; }
+
   //! \brief Sets MINIDUMP_EXCEPTION::ExceptionCode.
   void SetExceptionCode(uint32_t exception_code) {
     exception_.ExceptionRecord.ExceptionCode = exception_code;

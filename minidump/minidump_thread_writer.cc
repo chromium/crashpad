@@ -27,21 +27,19 @@
 namespace crashpad {
 
 MinidumpThreadWriter::MinidumpThreadWriter()
-    : MinidumpWritable(), thread_(), stack_(nullptr), context_(nullptr) {
-}
+    : MinidumpWritable(), thread_(), stack_(nullptr), context_(nullptr) {}
 
-MinidumpThreadWriter::~MinidumpThreadWriter() {
-}
+MinidumpThreadWriter::~MinidumpThreadWriter() = default;
 
 void MinidumpThreadWriter::InitializeFromSnapshot(
     const ThreadSnapshot* thread_snapshot,
-    const MinidumpThreadIDMap* thread_id_map) {
+    const MinidumpThreadIDMap& thread_id_map) {
   DCHECK_EQ(state(), kStateMutable);
   DCHECK(!stack_);
   DCHECK(!context_);
 
-  auto thread_id_it = thread_id_map->find(thread_snapshot->ThreadID());
-  DCHECK(thread_id_it != thread_id_map->end());
+  auto thread_id_it = thread_id_map.find(thread_snapshot->ThreadID());
+  DCHECK(thread_id_it != thread_id_map.end());
   SetThreadID(thread_id_it->second);
 
   SetSuspendCount(thread_snapshot->SuspendCount());
@@ -131,22 +129,30 @@ bool MinidumpThreadWriter::WriteObject(FileWriterInterface* file_writer) {
 MinidumpThreadListWriter::MinidumpThreadListWriter()
     : MinidumpStreamWriter(),
       threads_(),
+      dump_thread_id_(0),
+      memory_list_writer_(nullptr),
+      thread_list_base_() {}
+
+MinidumpThreadListWriter::MinidumpThreadListWriter(uint32_t dump_thread_id)
+    : MinidumpStreamWriter(),
+      threads_(),
+      dump_thread_id_(dump_thread_id) ,
       memory_list_writer_(nullptr),
       thread_list_base_() {
+  DCHECK(dump_thread_id);
 }
 
-MinidumpThreadListWriter::~MinidumpThreadListWriter() {
-}
+MinidumpThreadListWriter::~MinidumpThreadListWriter() = default;
 
 void MinidumpThreadListWriter::InitializeFromSnapshot(
     const std::vector<const ThreadSnapshot*>& thread_snapshots,
-    MinidumpThreadIDMap* thread_id_map) {
+    const MinidumpThreadIDMap& thread_id_map) {
   DCHECK_EQ(state(), kStateMutable);
   DCHECK(threads_.empty());
 
-  BuildMinidumpThreadIDMap(thread_snapshots, thread_id_map);
-
   for (const ThreadSnapshot* thread_snapshot : thread_snapshots) {
+    if (!ShouldWriteThreadSnapshot(*thread_snapshot, thread_id_map))
+      continue;
     auto thread = std::make_unique<MinidumpThreadWriter>();
     thread->InitializeFromSnapshot(thread_snapshot, thread_id_map);
     AddThread(std::move(thread));
@@ -154,8 +160,11 @@ void MinidumpThreadListWriter::InitializeFromSnapshot(
 
   // Do this in a separate loop to keep the thread stacks earlier in the dump,
   // and together.
-  for (const ThreadSnapshot* thread_snapshot : thread_snapshots)
+  for (const ThreadSnapshot* thread_snapshot : thread_snapshots) {
+    if (!ShouldWriteThreadSnapshot(*thread_snapshot, thread_id_map))
+      continue;
     memory_list_writer_->AddFromSnapshot(thread_snapshot->ExtraMemory());
+  }
 }
 
 void MinidumpThreadListWriter::SetMemoryListWriter(
@@ -169,6 +178,9 @@ void MinidumpThreadListWriter::SetMemoryListWriter(
 void MinidumpThreadListWriter::AddThread(
     std::unique_ptr<MinidumpThreadWriter> thread) {
   DCHECK_EQ(state(), kStateMutable);
+
+  if (dump_thread_id_ != 0 && dump_thread_id_ != thread->GetThreadID())
+    return;
 
   if (memory_list_writer_) {
     SnapshotMinidumpMemoryWriter* stack = thread->Stack();
@@ -232,6 +244,16 @@ bool MinidumpThreadListWriter::WriteObject(FileWriterInterface* file_writer) {
 
 MinidumpStreamType MinidumpThreadListWriter::StreamType() const {
   return kMinidumpStreamTypeThreadList;
+}
+
+bool MinidumpThreadListWriter::ShouldWriteThreadSnapshot(
+    const ThreadSnapshot& thread_snapshot,
+    const MinidumpThreadIDMap& thread_id_map) const {
+  if (dump_thread_id_ == 0)
+    return true;
+  auto thread_id_it = thread_id_map.find(thread_snapshot.ThreadID());
+  DCHECK(thread_id_it != thread_id_map.end());
+  return dump_thread_id_ == thread_id_it->second;
 }
 
 }  // namespace crashpad
