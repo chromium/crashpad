@@ -56,7 +56,7 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
   //!     this method, and it is not normally necessary to call any mutator
   //!     methods after this method.
   void InitializeFromSnapshot(const ThreadSnapshot* thread_snapshot,
-                              const MinidumpThreadIDMap* thread_id_map);
+                              const MinidumpThreadIDMap& thread_id_map);
 
   //! \brief Returns a MINIDUMP_THREAD referencing this object’s data.
   //!
@@ -104,6 +104,9 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
   //! \brief Sets MINIDUMP_THREAD::ThreadId.
   void SetThreadID(uint32_t thread_id) { thread_.ThreadId = thread_id; }
 
+  //! \brief Gets MINIDUMP_THREAD::ThreadId.
+  uint32_t GetThreadID() const { return thread_.ThreadId; }
+
   //! \brief Sets MINIDUMP_THREAD::SuspendCount.
   void SetSuspendCount(uint32_t suspend_count) {
     thread_.SuspendCount = suspend_count;
@@ -140,6 +143,12 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
 class MinidumpThreadListWriter final : public internal::MinidumpStreamWriter {
  public:
   MinidumpThreadListWriter();
+
+  //! \brief Only writes the given thread and ignores the others
+  //!
+  //! \param[in] dump_thread_id The id of thread that shall be written.
+  explicit MinidumpThreadListWriter(uint32_t dump_thread_id);
+
   ~MinidumpThreadListWriter() override;
 
   //! \brief Adds an initialized MINIDUMP_THREAD for each thread in \a
@@ -154,7 +163,7 @@ class MinidumpThreadListWriter final : public internal::MinidumpStreamWriter {
   //!     this method.
   void InitializeFromSnapshot(
       const std::vector<const ThreadSnapshot*>& thread_snapshots,
-      MinidumpThreadIDMap* thread_id_map);
+      const MinidumpThreadIDMap& thread_id_map);
 
   //! \brief Sets the MinidumpMemoryListWriter that each thread’s stack memory
   //!     region should be added to as extra memory.
@@ -202,7 +211,13 @@ class MinidumpThreadListWriter final : public internal::MinidumpStreamWriter {
   MinidumpStreamType StreamType() const override;
 
  private:
+  // Returns true if the given |thread_snapshot| should be written.
+  bool ShouldWriteThreadSnapshot(
+      const ThreadSnapshot& thread_snapshot,
+      const MinidumpThreadIDMap& thread_id_map) const;
+
   std::vector<std::unique_ptr<MinidumpThreadWriter>> threads_;
+  uint32_t dump_thread_id_;
   MinidumpMemoryListWriter* memory_list_writer_;  // weak
   MINIDUMP_THREAD_LIST thread_list_base_;
 
