@@ -40,7 +40,15 @@ class MinidumpUserExtensionStreamDataSource;
 //! to a minidump file.
 class MinidumpFileWriter final : public internal::MinidumpWritable {
  public:
+  //! \brief Whether this object writes the full or compact minidump.
+  //!
+  //! In \a kCompact mode, only the exception thread is written to the minidump
+  //! file if any, otherwise all threads will be written.
+  enum class Mode : bool { kFull = false, kCompact = true };
+
+  // TODO (crashpad:308): Remove the default constructor.
   MinidumpFileWriter();
+  explicit MinidumpFileWriter(Mode mode);
   ~MinidumpFileWriter() override;
 
   //! \brief Initializes the MinidumpFileWriter and populates it with
@@ -143,11 +151,13 @@ class MinidumpFileWriter final : public internal::MinidumpWritable {
   bool WriteObject(FileWriterInterface* file_writer) override;
 
  private:
+  void Init();
   MINIDUMP_HEADER header_;
   std::vector<std::unique_ptr<internal::MinidumpStreamWriter>> streams_;
 
   // Protects against multiple streams with the same ID being added.
   std::set<MinidumpStreamType> stream_types_;
+  Mode mode_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpFileWriter);
 };
