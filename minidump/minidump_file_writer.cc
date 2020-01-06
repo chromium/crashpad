@@ -40,7 +40,20 @@
 namespace crashpad {
 
 MinidumpFileWriter::MinidumpFileWriter()
-    : MinidumpWritable(), header_(), streams_(), stream_types_() {
+    : MinidumpWritable(),
+      header_(),
+      streams_(),
+      stream_types_(),
+      mode_(Mode::kFull) {
+  Init();
+}
+
+MinidumpFileWriter::MinidumpFileWriter(Mode mode)
+    : MinidumpWritable(), header_(), streams_(), stream_types_(), mode_(mode) {
+  Init();
+}
+
+void MinidumpFileWriter::Init() {
   // Don’t set the signature field right away. Leave it set to 0, so that a
   // partially-written minidump file isn’t confused for a complete and valid
   // one. The header will be rewritten in WriteToFile().
@@ -51,8 +64,7 @@ MinidumpFileWriter::MinidumpFileWriter()
   header_.Flags = MiniDumpNormal;
 }
 
-MinidumpFileWriter::~MinidumpFileWriter() {
-}
+MinidumpFileWriter::~MinidumpFileWriter() = default;
 
 void MinidumpFileWriter::InitializeFromSnapshot(
     const ProcessSnapshot* process_snapshot) {
@@ -82,22 +94,31 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   add_stream_result = AddStream(std::move(misc_info));
   DCHECK(add_stream_result);
 
-  auto memory_list = std::make_unique<MinidumpMemoryListWriter>();
-  auto thread_list = std::make_unique<MinidumpThreadListWriter>();
-  thread_list->SetMemoryListWriter(memory_list.get());
   MinidumpThreadIDMap thread_id_map;
-  thread_list->InitializeFromSnapshot(process_snapshot->Threads(),
-                                      &thread_id_map);
-  add_stream_result = AddStream(std::move(thread_list));
-  DCHECK(add_stream_result);
+  BuildMinidumpThreadIDMap(process_snapshot->Threads(), &thread_id_map);
 
+  // Get exception thread for MinidumpThreadListWriter.
+  uint32_t exception_thread_id = 0;
   const ExceptionSnapshot* exception_snapshot = process_snapshot->Exception();
   if (exception_snapshot) {
     auto exception = std::make_unique<MinidumpExceptionWriter>();
     exception->InitializeFromSnapshot(exception_snapshot, thread_id_map);
+    exception_thread_id = exception->GetThreadID();
     add_stream_result = AddStream(std::move(exception));
     DCHECK(add_stream_result);
   }
+
+  auto memory_list = std::make_unique<MinidumpMemoryListWriter>();
+  std::unique_ptr<MinidumpThreadListWriter> thread_list =
+      (mode_ == Mode::kCompact && exception_snapshot)
+          ? std::make_unique<MinidumpThreadListWriter>(exception_thread_id)
+          : std::make_unique<MinidumpThreadListWriter>();
+
+  thread_list->SetMemoryListWriter(memory_list.get());
+  thread_list->InitializeFromSnapshot(process_snapshot->Threads(),
+                                      thread_id_map);
+  add_stream_result = AddStream(std::move(thread_list));
+  DCHECK(add_stream_result);
 
   auto module_list = std::make_unique<MinidumpModuleListWriter>();
   module_list->InitializeFromSnapshot(process_snapshot->Modules());
