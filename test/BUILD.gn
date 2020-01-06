@@ -243,6 +243,21 @@ if (!crashpad_is_ios) {
   }
 }
 
+if (crashpad_is_ios) {
+  source_set("test_runner_ios") {
+    testonly = true
+    sources = [
+      "gtest_runner_ios.h",
+      "gtest_runner_ios.mm",
+    ]
+    configs += [ "..:crashpad_config" ]
+    deps = [
+      "../third_party/gtest:gtest",
+    ]
+    libs = [ "UIKit.framework" ]
+  }
+}
+
 static_library("gmock_main") {
   testonly = true
   sources = [
@@ -257,6 +272,9 @@ static_library("gmock_main") {
     "../third_party/mini_chromium:base",
     "../third_party/mini_chromium:base_test_support",
   ]
+  if (crashpad_is_ios) {
+    deps += [ ":test_runner_ios" ]
+  }
 }
 
 static_library("gtest_main") {
@@ -272,4 +290,7 @@ static_library("gtest_main") {
     "../third_party/mini_chromium:base",
     "../third_party/mini_chromium:base_test_support",
   ]
+  if (crashpad_is_ios) {
+    deps += [ ":test_runner_ios" ]
+  }
 }
