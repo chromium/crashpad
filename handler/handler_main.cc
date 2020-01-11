@@ -190,6 +190,8 @@ struct Options {
   VMAddress exception_information_address;
   VMAddress sanitization_information_address;
   int initial_client_fd;
+  bool log_minidump;
+  bool disable_dump_minidump;
   bool shared_client_connection;
 #elif defined(OS_WIN)
   std::string pipe_name;
@@ -526,6 +528,9 @@ int HandlerMain(int argc,
     kOptionLastChar = 255,
     kOptionAnnotation,
     kOptionDatabase,
+#if defined(OS_ANDROID) || defined(OS_LINUX)
+    kOptionDisableDumpMinidump,
+#endif  // OS_ANDROID || OS_LINUX
 #if defined(OS_MACOSX)
     kOptionHandshakeFD,
 #endif  // OS_MACOSX
@@ -534,6 +539,7 @@ int HandlerMain(int argc,
 #endif  // OS_WIN
 #if defined(OS_ANDROID) || defined(OS_LINUX)
     kOptionInitialClientFD,
+    kOptionLogMinidump,
 #endif  // OS_ANDROID || OS_LINUX
 #if defined(OS_MACOSX)
     kOptionMachService,
@@ -582,6 +588,8 @@ int HandlerMain(int argc,
 #endif  // OS_MACOSX
 #if defined(OS_ANDROID) || defined(OS_LINUX)
     {"initial-client-fd", required_argument, nullptr, kOptionInitialClientFD},
+    {"log-minidump", no_argument, nullptr, kOptionLogMinidump},
+    {"disable-dump-minidump", no_argument, nullptr, kOptionDisableDumpMinidump},
 #endif  // OS_ANDROID || OS_LINUX
 #if defined(OS_MACOSX)
     {"mach-service", required_argument, nullptr, kOptionMachService},
@@ -699,6 +707,14 @@ int HandlerMain(int argc,
           ToolSupport::UsageHint(me, "failed to parse --initial-client-fd");
           return ExitFailure();
         }
+        break;
+      }
+      case kOptionLogMinidump: {
+        options.log_minidump = true;
+        break;
+      }
+      case kOptionDisableDumpMinidump: {
+        options.disable_dump_minidump = true;
         break;
       }
 #endif  // OS_ANDROID || OS_LINUX
@@ -940,6 +956,13 @@ int HandlerMain(int argc,
         user_stream_sources);
   }
 #else
+  if (!options.log_minidump && options.disable_dump_minidump)
+    ExitFailure();
+  CrashReportExceptionHandler::Mode mode =
+      options.log_minidump ? CrashReportExceptionHandler::Mode::kLogMinidump
+                           : CrashReportExceptionHandler::Mode::kDumpMinidump;
+  if (options.log_minidump && !options.disable_dump_minidump)
+    mode = CrashReportExceptionHandler::Mode::kDumpAndLogMinidump;
   exception_handler = std::make_unique<CrashReportExceptionHandler>(
       database.get(),
       static_cast<CrashReportUploadThread*>(upload_thread.Get()),
@@ -947,6 +970,9 @@ int HandlerMain(int argc,
 #if defined(OS_FUCHSIA)
       // TODO(scottmg): Process level file attachments, and for all platforms.
       nullptr,
+#endif
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+      mode,
 #endif
       user_stream_sources);
 #endif  // OS_CHROMEOS

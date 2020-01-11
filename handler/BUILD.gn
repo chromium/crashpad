@@ -88,6 +88,10 @@ static_library("handler") {
     "../tools:tool_support",
   ]
 
+  if (crashpad_is_linux || crashpad_is_android) {
+    deps += [ "../third_party/zlib" ]
+  }
+
   if (crashpad_is_win) {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
   }

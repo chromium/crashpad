@@ -30,10 +30,22 @@
 
 namespace crashpad {
 
+class ProcessSnapshot;
+
 //! \brief An exception handler that writes crash reports for exceptions
 //!     to a CrashReportDatabase.
 class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
  public:
+  //! \brief Whether this object should dump or log, or dump and log minidump.
+  enum class Mode : int {
+    //! \brief Dump the minidump and generate report only.
+    kDumpMinidump,
+    //! \brief Log the minidump only.
+    kLogMinidump,
+    //! \brief Dump and Log the minidump.
+    kDumpAndLogMinidump,
+  };
+
   //! \brief Creates a new object that will store crash reports in \a database.
   //!
   //! \param[in] database The database to store crash reports in. Weak.
@@ -50,6 +62,7 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
   //!     To interoperate with Breakpad servers, the recommended practice is to
   //!     specify values for the `"prod"` and `"ver"` keys as process
   //!     annotations.
+  //! \param[in] mode The work mode of this object.
   //! \param[in] user_stream_data_sources Data sources to be used to extend
   //!     crash reports. For each crash report that is written, the data sources
   //!     are called in turn. These data sources may contribute additional
@@ -58,6 +71,7 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
       CrashReportDatabase* database,
       CrashReportUploadThread* upload_thread,
       const std::map<std::string, std::string>* process_annotations,
+      Mode mode,
       const UserStreamDataSources* user_stream_data_sources);
 
   ~CrashReportExceptionHandler() override;
@@ -87,9 +101,15 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
       pid_t* requesting_thread_id,
       UUID* local_report_id = nullptr);
 
+  bool DumpMinidump(ProcessSnapshot* snapshot,
+                    std::unique_ptr<CrashReportDatabase::NewReport> new_report,
+                    UUID* local_report_id);
+  bool LogMinidump(ProcessSnapshot* snapshot);
+
   CrashReportDatabase* database_;  // weak
   CrashReportUploadThread* upload_thread_;  // weak
   const std::map<std::string, std::string>* process_annotations_;  // weak
+  Mode mode_;
   const UserStreamDataSources* user_stream_data_sources_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
