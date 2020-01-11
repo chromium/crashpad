@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27836596_662f987c",
+        "filename": "snapshot/win/exception_snapshot_win_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1306855
+      },
+      "writtenOn": "2020-01-11T01:06:10Z",
+      "side": 1,
+      "message": "I don\u0027t see that on bot but on my local build it\u0027s 152 is required.",
+      "revId": "1829a018feff5d0c48bdc436b4548e571b0394bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
