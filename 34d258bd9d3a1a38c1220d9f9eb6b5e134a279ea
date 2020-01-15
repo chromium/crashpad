@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44cc0416_6efe5f7d",
+        "filename": "handler/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-15T20:11:29Z",
+      "side": 1,
+      "message": "You don’t interface directly with zlib in handler. Should this have been public_deps of util?",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1638e471_f8a2716d",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-15T20:11:29Z",
+      "side": 1,
+      "message": "You need some --help strings (reminder: don’t let git cl format mess this long string up.) You’ll also need to edit the man page (crashpad_handler.md).",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d83eaa8_3f1dd7f5",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-15T20:11:29Z",
+      "side": 1,
+      "message": "I don’t understand how you chose the #ifdef here. Why would you want to restrict this feature to Android _or Linux_? If it makes sense on Linux, it makes sense everywhere.",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da9d5ee4_47486327",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-15T20:11:29Z",
+      "side": 1,
+      "message": "You will note that this entire thing is sorted, with #ifdefs inserted as needed.",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2ba1b25_1166d2c9",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-15T20:11:29Z",
+      "side": 1,
+      "message": "I think these names could use a little help. Instead of “--log-minidump”, “--write-minidump-to-log”. (Because otherwise it sounds like it might just write a single log message indicating that a minidump was written.)\n\nInstead of “--disable-dump-minidump”, “--no-write-minidump-to-database”. (Most of our negative options start with “no”, see below.)",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8272f4c_613e223b",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-15T20:11:29Z",
+      "side": 1,
+      "message": "This just exits “quietly” with a nonzero status.\n\nLook around and you’ll see that you can’t do this unless you say what you didn’t like about the configuration (or unless something failed leaving its own log message about the problem). Use ToolSupport::UsageHint() to show your message.",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9986ed56_62ae4585",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-15T20:11:29Z",
+      "side": 1,
+      "message": "This enum feels restrictive. Can we just have bool bits?",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5e73cf4_c93556ec",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-15T20:11:29Z",
+      "side": 1,
+      "message": "What’s the point of doing all of this if you’re not going to write the report to the database? It just leaves a dangling unwritten orphan zombie entry in the database.",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "453e5055_b43f47ec",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-15T20:11:29Z",
+      "side": 1,
+      "message": "This goes through all of the minidump build-up a second time. That’s wasteful if a minidump has already been written to disk. It’s also error-prone because you’ve written two different implementations of the code that does the minidump build-up.",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13f90a7c_fcf583d7",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-15T20:11:29Z",
+      "side": 1,
+      "message": "The terminology is off. “dump mini dump” doesn’t sound very descriptive.\n\nWriteMinidumpToDatabase.\n\nWriteMinidumpToLog.",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da8c1658_9557e902",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-15T20:11:29Z",
+      "side": 1,
+      "message": "Are you sure it’s even safe to reuse user_stream_data_sources_ if you already went through the same thing on line 162? I’m not.",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3372660_3fbcd620",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-15T20:11:29Z",
+      "side": 1,
+      "message": "Can’t you have WriteEverything write to an adapter that feeds data directly to your output stream? You shouldn’t accumulate everything into a temporary StringFile.",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
