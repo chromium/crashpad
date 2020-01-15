@@ -172,6 +172,8 @@ void Usage(const base::FilePath& me) {
 "                              pass the --always_allow_feedback flag to\n"
 "                              crash_reporter, thus skipping metrics consent\n"
 "                              checks\n"
+"      --no-uploads            pass the --no_uploads flag to crash_reporter,\n"
+"                              ensuring the crash report isn't uploaded.\n"
 #endif  // OS_CHROMEOS
 "      --help                  display this help and exit\n"
 "      --version               output version information and exit\n",
@@ -208,6 +210,7 @@ struct Options {
   bool use_cros_crash_reporter = false;
   base::FilePath minidump_dir_for_tests;
   bool always_allow_feedback = false;
+  bool no_uploads = false;
 #endif  // OS_CHROMEOS
 };
 
@@ -567,6 +570,7 @@ int HandlerMain(int argc,
     kOptionUseCrosCrashReporter,
     kOptionMinidumpDirForTests,
     kOptionAlwaysAllowFeedback,
+    kOptionNoUploads,
 #endif  // OS_CHROMEOS
 
     // Standard options.
@@ -646,6 +650,10 @@ int HandlerMain(int argc,
       no_argument,
       nullptr,
       kOptionAlwaysAllowFeedback},
+    {"no-uploads",
+      no_argument,
+      nullptr,
+      kOptionNoUploads},
 #endif  // OS_CHROMEOS
     {"help", no_argument, nullptr, kOptionHelp},
     {"version", no_argument, nullptr, kOptionVersion},
@@ -802,6 +810,10 @@ int HandlerMain(int argc,
         options.always_allow_feedback = true;
         break;
       }
+      case kOptionNoUploads: {
+        options.no_uploads = true;
+        break;
+      }
 #endif  // OS_CHROMEOS
       case kOptionHelp: {
         Usage(me);
@@ -947,6 +959,9 @@ int HandlerMain(int argc,
 
     if (options.always_allow_feedback) {
       cros_handler->SetAlwaysAllowFeedback();
+    }
+    if (options.no_uploads) {
+      cros_handler->SetNoUploads();
     }
 
     exception_handler = std::move(cros_handler);

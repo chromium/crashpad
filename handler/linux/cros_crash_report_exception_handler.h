@@ -78,6 +78,7 @@ class CrosCrashReportExceptionHandler
 
   void SetDumpDir(const base::FilePath& dump_dir) { dump_dir_ = dump_dir; }
   void SetAlwaysAllowFeedback() { always_allow_feedback_ = true; }
+  void SetNoUploads() { no_uploads_ = true; }
  private:
   bool HandleExceptionWithConnection(
       PtraceConnection* connection,
@@ -92,6 +93,7 @@ class CrosCrashReportExceptionHandler
   const UserStreamDataSources* user_stream_data_sources_;  // weak
   base::FilePath dump_dir_;
   bool always_allow_feedback_;
+  bool no_uploads_;
 
   DISALLOW_COPY_AND_ASSIGN(CrosCrashReportExceptionHandler);
 };

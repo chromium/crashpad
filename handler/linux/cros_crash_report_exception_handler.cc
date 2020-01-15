@@ -134,7 +134,8 @@ CrosCrashReportExceptionHandler::CrosCrashReportExceptionHandler(
     : database_(database),
       process_annotations_(process_annotations),
       user_stream_data_sources_(user_stream_data_sources),
-      always_allow_feedback_(false) {}
+      always_allow_feedback_(false),
+      no_uploads_(false) {}
 
 CrosCrashReportExceptionHandler::~CrosCrashReportExceptionHandler() = default;
 
@@ -261,6 +262,9 @@ bool CrosCrashReportExceptionHandler::HandleExceptionWithConnection(
   }
   if (always_allow_feedback_) {
     argv.push_back("--always_allow_feedback");
+  }
+  if (no_uploads_) {
+    argv.push_back("--no_uploads");
   }
 
   if (!DoubleForkAndExec(argv,
