@@ -263,6 +263,24 @@
     },
     {
       "key": {
+        "uuid": "96dcf13f_902fa85e",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-16T05:47:53Z",
+      "side": 1,
+      "message": "\u003e \u003e I thought building another MinidumpFileWriter is simple, since\n\u003e \u003e - The document of MinidumpFileWriter::WriteEverything() doesn\u0027t mention the method could be called multiple times.\n\u003e \n\u003e You are correct that you can’t WriteEverything() twice. But that’s not what I meant. I meant that if you already wrote the minidump to a file, don’t waste time building another (should-be-identical) minidump. Instead, open the existing, already-written minidump, and put that through your zlib-base94-log stream pipeline.\n\u003e \n\nhmm, it is weird to me, there will be two approaches for one feature, but it is probably fine to save time.\n\n\u003e \u003e What\u0027s your advice here?\n\u003e \u003e \n\u003e \u003e Is it OK to read the data from database, and delete the database record when handler shouldn\u0027t generate the report?\n\u003e \n\u003e I’m talking about the case where you want to _both_ write the minidump to the database _and_ log it. I’m not talking about writing to _only_ the database or _only_ the log.",
+      "parentUuid": "71186c01_436a7611",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13f90a7c_fcf583d7",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 1
@@ -327,6 +345,24 @@
       "side": 1,
       "message": "\u003e I looked through the code, it seems safe, but this probably not a good approach?\n\nYou can’t say it’s safe because you don’t know how the user extension stream implementations are written, and they may not be expecting this behavior at all.",
       "parentUuid": "e49c3519_19d47abe",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abac508a_9d10e8ea",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-16T05:47:53Z",
+      "side": 1,
+      "message": "I checked the code again, the data source is moved to MinidumpFileWriter 😞,\n\nDo you think we can ignore the UserExtensionStream for log? It seemed there are two implementations of UserStreamDataSource (https://cs.chromium.org/chromium/src/third_party/crashpad/crashpad/handler/user_stream_data_source.h?type\u003dcs\u0026g\u003d0\u0026l\u003d29), any critical information out there?\n\nIf we can\u0027t ignore it, MinidumpUserStreamWriter can cache the data from StreamDataSource in MinidumpUserStreamWriter::ExtensionStreamDataSourceRead(), and we can move MinidumpUserStreamWriter to another MinidumpFileWriter after the first MinidumpFileWriter write everything, is this a little hacky? \n\nAny suggestion?",
+      "parentUuid": "9c3dacc1_c7e87a8c",
       "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
