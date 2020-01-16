@@ -369,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "7e55250a_a29611d7",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-16T20:38:21Z",
+      "side": 1,
+      "message": "\u003e I checked the code again, the data source is moved to MinidumpFileWriter 😞,\n\u003e \n\u003e Do you think we can ignore the UserExtensionStream for log?\n\nPeople add them for a reason, so I don’t think so.\n\nThey’re not typically big, either.\n\n\u003e It seemed there are two implementations of UserStreamDataSource (https://cs.chromium.org/chromium/src/third_party/crashpad/crashpad/handler/user_stream_data_source.h?type\u003dcs\u0026g\u003d0\u0026l\u003d29), any critical information out there?\n\u003e \n\u003e If we can\u0027t ignore it, MinidumpUserStreamWriter can cache the data from StreamDataSource in MinidumpUserStreamWriter::ExtensionStreamDataSourceRead(), and we can move MinidumpUserStreamWriter to another MinidumpFileWriter after the first MinidumpFileWriter write everything, is this a little hacky? \n\nToo hacky.\n\n\u003e Any suggestion?\n\nThis is exactly what I’m talking about. It becomes a non-issue if you would just build a minidump up one time and then reuse what’s on disk if you need it.",
+      "parentUuid": "abac508a_9d10e8ea",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f3372660_3fbcd620",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 1
