@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "a8daccaa_bb0cb006",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-16T00:29:14Z",
+      "side": 1,
+      "message": "I don\u0027t want to change other handler to support the log minidump, do you mean make the option available for all platform, but only support it in linux/crash_report_exception_handler.cc?",
+      "parentUuid": "2d83eaa8_3f1dd7f5",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da9d5ee4_47486327",
         "filename": "handler/handler_main.cc",
         "patchSetId": 1
@@ -121,6 +139,24 @@
     },
     {
       "key": {
+        "uuid": "7ec6594c_5cae86f9",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-16T00:29:14Z",
+      "side": 1,
+      "message": "Did you suggest change CrashReportExceptionHandler as below?\n\n  CrashReportExceptionHandler(\n      CrashReportDatabase* database,\n      CrashReportUploadThread* upload_thread,\n      const std::map\u003cstd::string, std::string\u003e* process_annotations,\n      bool write_minidump_to_database,\n      bool log_minidump,\n      const UserStreamDataSources* user_stream_data_sources);",
+      "parentUuid": "9986ed56_62ae4585",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b5e73cf4_c93556ec",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 1
@@ -149,6 +185,24 @@
       "writtenOn": "2020-01-15T20:11:29Z",
       "side": 1,
       "message": "This goes through all of the minidump build-up a second time. That’s wasteful if a minidump has already been written to disk. It’s also error-prone because you’ve written two different implementations of the code that does the minidump build-up.",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00a26614_72601cf3",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-16T00:29:14Z",
+      "side": 1,
+      "message": "I thought building another MinidumpFileWriter is simple, since\n- The document of MinidumpFileWriter::WriteEverything() doesn\u0027t mention the method could be called multiple times.\n- If it can\u0027t, and we want to support multiple write(), it appears complicated to make sure all stream support it.\n\nWhat\u0027s your advice here?\n\nIs it OK to read the data from database, and delete the database record when handler shouldn\u0027t generate the report?\n\nSince it has disk I/O, I gave it up at the first place.",
+      "parentUuid": "453e5055_b43f47ec",
       "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -189,6 +243,24 @@
     },
     {
       "key": {
+        "uuid": "e49c3519_19d47abe",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-16T00:29:14Z",
+      "side": 1,
+      "message": "I looked through the code, it seems safe, but this probably not a good approach?",
+      "parentUuid": "da8c1658_9557e902",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f3372660_3fbcd620",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 1
@@ -200,6 +272,24 @@
       "writtenOn": "2020-01-15T20:11:29Z",
       "side": 1,
       "message": "Can’t you have WriteEverything write to an adapter that feeds data directly to your output stream? You shouldn’t accumulate everything into a temporary StringFile.",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a5e9de1_dcb6f1db",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-16T00:29:14Z",
+      "side": 1,
+      "message": "Did you mean has adapter to stream the data to output stream? I thought about it, but\nMinidumpFileWriter::WriteEverything() will jump back the begin of file and rewrite something, it seems not possible.",
+      "parentUuid": "f3372660_3fbcd620",
       "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
