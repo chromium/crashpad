@@ -387,6 +387,24 @@
     },
     {
       "key": {
+        "uuid": "2ba608c6_3f748898",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-16T20:47:19Z",
+      "side": 1,
+      "message": "Right, I think about this a little further, that once we need the compact minidump..., good thing is that we don\u0027t need to handle it right now.",
+      "parentUuid": "7e55250a_a29611d7",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f3372660_3fbcd620",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 1
