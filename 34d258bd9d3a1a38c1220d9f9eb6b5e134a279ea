@@ -455,6 +455,24 @@
       "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baee9884_607a0f15",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-17T18:10:48Z",
+      "side": 1,
+      "message": "Did you want to add parameter to MinidumpWritable::WriteEverything() and apply it to all MinidumpWritable subclasses?\n\nand the signature will be\n\nbool WriteEverything(FileWriterInterface* file_writer, bool write_to_stream)?\n\nAs to the implementation of MinidumpFileWriter::WriteEverything()\nShall we just set the signature first before write to stream? so the signature will always be set.",
+      "parentUuid": "9f8ce261_8cb77086",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
