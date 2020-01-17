@@ -473,6 +473,24 @@
       "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72be21f4_dc7de1d1",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-17T21:12:24Z",
+      "side": 1,
+      "message": "\u003e Did you want to add parameter to MinidumpWritable::WriteEverything() and apply it to all MinidumpWritable subclasses?\n\nNo, don’t do this. Just add the capability to avoid seeking to MinidumpFileWriter. Since all consumers outside of the minidump directory only call this method on MinidumpFileWriter, it doesn’t need to be part of the MinidumpWritable interface at all.\n\nYou’d wind up with:\n\nbool MinidumpFileWriter::WriteEverything(FileWriterInterface* file_writer) {\n  return WriteMinidump(file_writer, true);\n}\n\nbool MinidumpFileWriter::WriteMinidump(FileWriterInterface* file_writer, bool allow_seek) {\n  // this becomes the new function that contains all of the existing\n  // WriteEverything, but with added handling for allow_seek.\n\n  if (allow_seek) {\n    // do seek here\n  } else {\n    header_.Signature \u003d MINIDUMP_SIGNATURE;\n  }\n\n  if (!MinidumpWritable::WriteEverything(file_writer)) {\n    return false;\n  }\n\n  if (allow_seek) {\n    header_.Signature \u003d MINIDUMP_SIGNATURE;\n    // do seek, write, and re-seek to end here\n  }\n\n  return true;\n}\n\nTransition the caller that you have that needs to set allow_seek \u003d false to use WriteMinidump() instead of WriteEverything(). Since you’ll have a WriteEverything() nearby, transition that call also, specifying true. You don’t need to change callers in other files.",
+      "parentUuid": "baee9884_607a0f15",
+      "revId": "34d258bd9d3a1a38c1220d9f9eb6b5e134a279ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
