@@ -233,6 +233,12 @@ establish the Crashpad client environment before running a program.
    for use with collection servers that don’t accept uploads compressed in this
    way.
 
+ * **--no-write-minidump-to-database**
+
+   Do not write the minidump to database. Normally, the minidump is written to
+   database for upload. Using this option with **--write-minidump-to-log** to
+   only write the minidump to log. This option is only available to Android.
+
  * **--pipe-name**=_PIPE_
 
    Listen on the given pipe name for connections from clients. _PIPE_ must be of
@@ -285,6 +291,13 @@ establish the Crashpad client environment before running a program.
    `/sbin/crash_reporter` instead of storing them in the database. The database
    is still used for Crashpad settings. This option is only valid on Chromium
    OS.
+
+* **--write-minidump-to-log**
+
+  Write the minidump to log, by default the minidump is only written to
+  database, this option cause the handler also write the minidump to log. Using
+  this option with **--no-write-minidump-to-database** to only write the
+  minidump to log. This option is only available to Android.
 
  * **--help**
 
