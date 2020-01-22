@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "df06e386_bc011ec8",
+        "filename": "handler/crashpad_handler.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-22T23:53:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "598116c8_082027cb",
+      "range": {
+        "startLine": 239,
+        "startChar": 24,
+        "endLine": 239,
+        "endChar": 29
+      },
+      "revId": "81a5b55a94ad91219c84d30df30fc5e645f266bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9143a9fe_93965220",
         "filename": "handler/crashpad_handler.md",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "81a5b55a94ad91219c84d30df30fc5e645f266bf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "852b60cb_245ad208",
+        "filename": "handler/crashpad_handler.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-22T23:53:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9143a9fe_93965220",
+      "range": {
+        "startLine": 297,
+        "startChar": 27,
+        "endLine": 297,
+        "endChar": 30
+      },
+      "revId": "81a5b55a94ad91219c84d30df30fc5e645f266bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "ae28e3a1_d0c830b4",
+        "filename": "handler/crashpad_handler.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-22T23:53:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5219f84c_f405b599",
+      "range": {
+        "startLine": 298,
+        "startChar": 12,
+        "endLine": 298,
+        "endChar": 72
+      },
+      "revId": "81a5b55a94ad91219c84d30df30fc5e645f266bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d5e8893_df6f1fc1",
+        "filename": "handler/crashpad_handler.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-22T23:53:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c50473f_08045921",
+      "range": {
+        "startLine": 298,
+        "startChar": 74,
+        "endLine": 298,
+        "endChar": 79
+      },
+      "revId": "81a5b55a94ad91219c84d30df30fc5e645f266bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9f4b4cd_e859c52d",
         "filename": "handler/handler_main.cc",
         "patchSetId": 3
@@ -114,6 +210,30 @@
       "revId": "81a5b55a94ad91219c84d30df30fc5e645f266bf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdc32fb2_b754ab92",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-22T23:53:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9f4b4cd_e859c52d",
+      "range": {
+        "startLine": 207,
+        "startChar": 7,
+        "endLine": 207,
+        "endChar": 37
+      },
+      "revId": "81a5b55a94ad91219c84d30df30fc5e645f266bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "48e939e3_4d71d1e7",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-22T23:53:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f9c616e_56aa8f3b",
+      "range": {
+        "startLine": 41,
+        "startChar": 30,
+        "endLine": 41,
+        "endChar": 44
+      },
+      "revId": "81a5b55a94ad91219c84d30df30fc5e645f266bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "512b5e5b_6882c467",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 3
@@ -151,6 +295,30 @@
       "writtenOn": "2020-01-22T22:03:26Z",
       "side": 1,
       "message": "This is potentially racy.\n\nupload_thread_ or WebView\u0027s uploader will move the report when checking for pending reports.\n\nMaybe that\u0027s actually okay though. If we\u0027ve already uploaded the report, the uploader can just log the report ID so we don\u0027t need to log the whole minidump. I think it\u0027d be reasonable to reduce these ERRORs to WARNINGs.\n\nupload_thread_ isn\u0027t currently used by Chrome/WebView but moving this block to line 205 could reduce the chances the report is picked up by the Crashpad uploader for other users (it might still periodically poll for reports, even if not triggered here).\n\nIf you really want to make it not racy, I think NewReport needs to provide a FileReaderInterface to the report. As soon as you call FinishedWritingCrashReport(), it becomes available for WebView\u0027s uploader to access.",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 3
+      },
+      "revId": "81a5b55a94ad91219c84d30df30fc5e645f266bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e53565bf_f802eb21",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-22T23:53:45Z",
+      "side": 1,
+      "message": "Thanks, since I always saw the report is uploaded after restart, didn\u0027t realized it could be done here.\n\nI moved the code, but hasn\u0027t changed the LOG message yet, my question is if we don\u0027t report the report pending, the report will still be polled? I briefed code it seem that the upload thread only process known_pending_report_uuids_, I may miss some details, what\u0027s the other users you referred to?",
+      "parentUuid": "512b5e5b_6882c467",
       "range": {
         "startLine": 216,
         "startChar": 0,
@@ -209,6 +377,54 @@
     },
     {
       "key": {
+        "uuid": "d8f1d4b4_fad4454f",
+        "filename": "minidump/minidump_file_writer.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-22T23:53:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be4b67f0_5dd41062",
+      "range": {
+        "startLine": 139,
+        "startChar": 73,
+        "endLine": 139,
+        "endChar": 74
+      },
+      "revId": "81a5b55a94ad91219c84d30df30fc5e645f266bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575f5174_3d5be8c3",
+        "filename": "minidump/minidump_file_writer.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-22T23:53:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "939c719c_3ea58ab8",
+      "range": {
+        "startLine": 139,
+        "startChar": 75,
+        "endLine": 139,
+        "endChar": 76
+      },
+      "revId": "81a5b55a94ad91219c84d30df30fc5e645f266bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cfb5841c_22cefc82",
         "filename": "util/file/output_stream_file_writer.cc",
         "patchSetId": 3
@@ -220,6 +436,30 @@
       "writtenOn": "2020-01-22T22:03:26Z",
       "side": 1,
       "message": "I don\u0027t think we want to read all those iovecs into memory. Making these writes streaming is the purpose of this class, right?",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 33
+      },
+      "revId": "81a5b55a94ad91219c84d30df30fc5e645f266bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15f451d7_38f8ff2f",
+        "filename": "util/file/output_stream_file_writer.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-22T23:53:45Z",
+      "side": 1,
+      "message": "I wanna to avoid duplicate the code, since I saw different WriteIoVec() implementations from WeakFileHandleFileWriter and StringFile, I can copy the code from StringFile, and write each WritableIoVec to stream before read next one. I wonder if it really having benefit considering of duplicating the code.",
+      "parentUuid": "cfb5841c_22cefc82",
       "range": {
         "startLine": 46,
         "startChar": 0,
