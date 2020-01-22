@@ -202,12 +202,14 @@ bool CrosCrashReportExceptionHandler::HandleExceptionWithConnection(
   }
 
   UUID client_id;
+  bool uploads_enabled = false;
   Settings* const settings = database_->GetSettings();
   if (settings) {
     // If GetSettings() or GetClientID() fails, something else will log a
     // message and client_id will be left at its default value, all zeroes,
     // which is appropriate.
     settings->GetClientID(&client_id);
+    settings->GetUploadsEnabled(&uploads_enabled);
   }
   process_snapshot->SetClientID(client_id);
 
@@ -261,6 +263,9 @@ bool CrosCrashReportExceptionHandler::HandleExceptionWithConnection(
   }
   if (always_allow_feedback_) {
     argv.push_back("--always_allow_feedback");
+  }
+  if (!uploads_enabled) {
+    argv.push_back("--no_uploads");
   }
 
   if (!DoubleForkAndExec(argv,
