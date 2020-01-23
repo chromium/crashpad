@@ -71,9 +71,7 @@ static_library("minidump") {
 
   public_configs = [ "..:crashpad_config" ]
 
-  public_deps = [
-    "../compat",
-  ]
+  public_deps = [ "../compat" ]
 
   deps = [
     "../snapshot",
@@ -113,9 +111,7 @@ static_library("test_support") {
 
   public_configs = [ "..:crashpad_config" ]
 
-  public_deps = [
-    ":minidump",
-  ]
+  public_deps = [ ":minidump" ]
 
   deps = [
     "../third_party/gtest:gtest",
@@ -154,9 +150,7 @@ source_set("minidump_test") {
     "minidump_writable_test.cc",
   ]
 
-  configs += [
-    "../build:crashpad_is_in_fuchsia",
-  ]
+  configs += [ "../build:crashpad_is_in_fuchsia" ]
 
   deps = [
     ":test_support",

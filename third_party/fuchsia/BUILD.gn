@@ -200,19 +200,13 @@ if (crashpad_is_in_fuchsia) {
         cpp_source,
       ]
 
-      deps = [
-        ":fidlc_${fidl_source.library_name}",
-      ]
+      deps = [ ":fidlc_${fidl_source.library_name}" ]
     }
 
     source_set("${fidl_source.library_name}_tables") {
-      sources = [
-        coding_tables,
-      ]
+      sources = [ coding_tables ]
 
-      deps = [
-        ":fidlc_${fidl_source.library_name}",
-      ]
+      deps = [ ":fidlc_${fidl_source.library_name}" ]
 
       public_configs = [ ":fidl_config" ]
     }

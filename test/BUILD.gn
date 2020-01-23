@@ -130,9 +130,7 @@ static_library("test") {
     "../build:crashpad_is_in_fuchsia",
   ]
 
-  data = [
-    "test_paths_test_data_root.txt",
-  ]
+  data = [ "test_paths_test_data_root.txt" ]
 
   deps = [
     "../compat",
@@ -161,9 +159,7 @@ static_library("test") {
   }
 
   if (crashpad_is_fuchsia) {
-    public_deps = [
-      "../third_party/fuchsia",
-    ]
+    public_deps = [ "../third_party/fuchsia" ]
     if (crashpad_is_in_fuchsia) {
       deps += [ "//zircon/public/lib/fdio" ]
     }
@@ -217,9 +213,7 @@ source_set("test_test") {
     "../util",
   ]
 
-  data_deps = [
-    ":crashpad_test_test_multiprocess_exec_test_child",
-  ]
+  data_deps = [ ":crashpad_test_test_multiprocess_exec_test_child" ]
 
   if (crashpad_is_ios) {
     deps -= [
@@ -233,13 +227,9 @@ source_set("test_test") {
 
 if (!crashpad_is_ios) {
   crashpad_executable("crashpad_test_test_multiprocess_exec_test_child") {
-    sources = [
-      "multiprocess_exec_test_child.cc",
-    ]
+    sources = [ "multiprocess_exec_test_child.cc" ]
 
-    deps = [
-      "../third_party/mini_chromium:base",
-    ]
+    deps = [ "../third_party/mini_chromium:base" ]
   }
 }
 
@@ -251,18 +241,14 @@ if (crashpad_is_ios) {
       "gtest_runner_ios.mm",
     ]
     configs += [ "..:crashpad_config" ]
-    deps = [
-      "../third_party/gtest:gtest",
-    ]
+    deps = [ "../third_party/gtest:gtest" ]
     libs = [ "UIKit.framework" ]
   }
 }
 
 static_library("gmock_main") {
   testonly = true
-  sources = [
-    "gtest_main.cc",
-  ]
+  sources = [ "gtest_main.cc" ]
   configs += [ "../build:crashpad_is_in_chromium" ]
   defines = [ "CRASHPAD_TEST_LAUNCHER_GMOCK" ]
   deps = [
@@ -279,9 +265,7 @@ static_library("gmock_main") {
 
 static_library("gtest_main") {
   testonly = true
-  sources = [
-    "gtest_main.cc",
-  ]
+  sources = [ "gtest_main.cc" ]
   configs += [ "../build:crashpad_is_in_chromium" ]
   defines = [ "CRASHPAD_TEST_LAUNCHER_GTEST" ]
   deps = [
