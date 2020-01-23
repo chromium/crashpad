@@ -379,6 +379,30 @@
     },
     {
       "key": {
+        "uuid": "183349a9_855d0b4b",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-01-23T22:06:40Z",
+      "side": 1,
+      "message": "IIUC, the race condition is already here, e.g. the WebView uploader tries to read the file while the file is still locked by report writer. (though it might not be a problem for uploader, it can always retry.)\n\nTo avoid race condition, we might have a uuid.tmp file for report writer to write and us to read, then rename it to uuid.dump?",
+      "parentUuid": "54c2bcd2_174a9c5d",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 3
+      },
+      "revId": "81a5b55a94ad91219c84d30df30fc5e645f266bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be4b67f0_5dd41062",
         "filename": "minidump/minidump_file_writer.h",
         "patchSetId": 3
