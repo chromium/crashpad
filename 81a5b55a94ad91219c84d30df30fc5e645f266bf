@@ -355,6 +355,30 @@
     },
     {
       "key": {
+        "uuid": "54c2bcd2_174a9c5d",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-01-23T17:42:37Z",
+      "side": 1,
+      "message": "I think it shouldn\u0027t currently be typical. WebView triggers its uploader either at startup or from AwBrowserTerminator after observing a child exit. Crashpad will keep the child alive/attached until HandleExceptionWithBroker() returns, but something else could kill the process before that happens. If there could be other WebView browser processes, threads polling for reports, or anything else that has access to this database, they might remove the report.\n\nBy \"other users\" I mean non-chromium projects using Crashpad. Projects built in chromium will typically use //components/minidump_uploader which has more upload scheduling features for Android, but other projects might be using Crashpad\u0027s built-in uploader.",
+      "parentUuid": "e28ef5cd_9c7fc541",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 3
+      },
+      "revId": "81a5b55a94ad91219c84d30df30fc5e645f266bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be4b67f0_5dd41062",
         "filename": "minidump/minidump_file_writer.h",
         "patchSetId": 3
