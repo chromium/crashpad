@@ -331,6 +331,30 @@
     },
     {
       "key": {
+        "uuid": "e28ef5cd_9c7fc541",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1109505
+      },
+      "writtenOn": "2020-01-23T11:52:07Z",
+      "side": 1,
+      "message": "I\u0027ve not looked into this code deeply but replying to Joshua\u0027s comment: if this is a normal condition that can occur due to bad timing, then we ideally should not log anything *at all* in a release build, and certainly not anything that reads \"like an error\" to a human regardless of the log level, because this often confuses app developers greatly.\n\nAlso, I don\u0027t think we can conclude that because the report has been moved by the webview uploader that it\u0027s actually going to be uploaded; IIRC we\u0027re now (or soon) transferring all the crash dumps to the webview crash uploader service (as long as we have user consent), so that they can be shown in the webview developer UI, but we only upload a small sample of the reports after that. (i.e. we moved/are moving the sampling from dump generation time to upload time)\n\nSo, it might be best to come up with a way to avoid the race altogether :|",
+      "parentUuid": "e53565bf_f802eb21",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 3
+      },
+      "revId": "81a5b55a94ad91219c84d30df30fc5e645f266bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be4b67f0_5dd41062",
         "filename": "minidump/minidump_file_writer.h",
         "patchSetId": 3
