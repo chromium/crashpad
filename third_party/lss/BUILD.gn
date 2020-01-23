@@ -25,7 +25,5 @@ config("lss_config") {
 source_set("lss") {
   public_configs = [ ":lss_config" ]
 
-  sources = [
-    "lss.h",
-  ]
+  sources = [ "lss.h" ]
 }

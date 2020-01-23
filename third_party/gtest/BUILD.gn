@@ -18,28 +18,20 @@ import("../../build/test.gni")
 if (crashpad_is_in_chromium) {
   group("gtest") {
     testonly = true
-    public_deps = [
-      "//testing/gtest",
-    ]
+    public_deps = [ "//testing/gtest" ]
   }
   group("gmock") {
     testonly = true
-    public_deps = [
-      "//testing/gmock",
-    ]
+    public_deps = [ "//testing/gmock" ]
   }
 } else if (crashpad_is_in_dart || crashpad_is_in_fuchsia) {
   group("gtest") {
     testonly = true
-    public_deps = [
-      "//third_party/googletest:gtest",
-    ]
+    public_deps = [ "//third_party/googletest:gtest" ]
   }
   group("gmock") {
     testonly = true
-    public_deps = [
-      "//third_party/googletest:gmock",
-    ]
+    public_deps = [ "//third_party/googletest:gmock" ]
   }
 } else if (crashpad_is_standalone) {
   config("gtest_private_config") {
@@ -96,9 +88,7 @@ if (crashpad_is_in_chromium) {
     ]
     configs += [ ":gtest_private_config" ]
     if (crashpad_is_fuchsia) {
-      deps = [
-        "../fuchsia",
-      ]
+      deps = [ "../fuchsia" ]
     }
   }
 
@@ -107,12 +97,8 @@ if (crashpad_is_in_chromium) {
     visibility = [ ":*" ]
 
     testonly = true
-    sources = [
-      "gtest/googletest/src/gtest_main.cc",
-    ]
-    deps = [
-      ":gtest",
-    ]
+    sources = [ "gtest/googletest/src/gtest_main.cc" ]
+    deps = [ ":gtest" ]
   }
 
   test("gtest_all_test") {
@@ -150,31 +136,19 @@ if (crashpad_is_in_chromium) {
   }
 
   test("gtest_environment_test") {
-    sources = [
-      "gtest/googletest/test/gtest_environment_test.cc",
-    ]
+    sources = [ "gtest/googletest/test/gtest_environment_test.cc" ]
     configs += [ ":gtest_private_config" ]
-    deps = [
-      ":gtest",
-    ]
+    deps = [ ":gtest" ]
   }
 
   test("gtest_listener_test") {
-    sources = [
-      "gtest/googletest/test/googletest-listener-test.cc",
-    ]
-    deps = [
-      ":gtest",
-    ]
+    sources = [ "gtest/googletest/test/googletest-listener-test.cc" ]
+    deps = [ ":gtest" ]
   }
 
   test("gtest_no_test") {
-    sources = [
-      "gtest/googletest/test/gtest_no_test_unittest.cc",
-    ]
-    deps = [
-      ":gtest",
-    ]
+    sources = [ "gtest/googletest/test/gtest_no_test_unittest.cc" ]
+    deps = [ ":gtest" ]
   }
 
   test("gtest_param_test") {
@@ -187,9 +161,7 @@ if (crashpad_is_in_chromium) {
       "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
     ]
     configs += [ ":gtest_private_config" ]
-    deps = [
-      ":gtest",
-    ]
+    deps = [ ":gtest" ]
 
     if (crashpad_is_clang) {
       cflags_cc = [
@@ -201,28 +173,18 @@ if (crashpad_is_in_chromium) {
   }
 
   test("gtest_premature_exit_test") {
-    sources = [
-      "gtest/googletest/test/gtest_premature_exit_test.cc",
-    ]
-    deps = [
-      ":gtest",
-    ]
+    sources = [ "gtest/googletest/test/gtest_premature_exit_test.cc" ]
+    deps = [ ":gtest" ]
   }
 
   test("gtest_repeat_test") {
-    sources = [
-      "gtest/googletest/test/gtest_repeat_test.cc",
-    ]
+    sources = [ "gtest/googletest/test/gtest_repeat_test.cc" ]
     configs += [ ":gtest_private_config" ]
-    deps = [
-      ":gtest",
-    ]
+    deps = [ ":gtest" ]
   }
 
   test("gtest_sole_header_test") {
-    sources = [
-      "gtest/googletest/test/gtest_sole_header_test.cc",
-    ]
+    sources = [ "gtest/googletest/test/gtest_sole_header_test.cc" ]
     deps = [
       ":gtest",
       ":gtest_main",
@@ -230,22 +192,14 @@ if (crashpad_is_in_chromium) {
   }
 
   test("gtest_stress_test") {
-    sources = [
-      "gtest/googletest/test/gtest_stress_test.cc",
-    ]
+    sources = [ "gtest/googletest/test/gtest_stress_test.cc" ]
     configs += [ ":gtest_private_config" ]
-    deps = [
-      ":gtest",
-    ]
+    deps = [ ":gtest" ]
   }
 
   test("gtest_unittest_api_test") {
-    sources = [
-      "gtest/googletest/test/gtest-unittest-api_test.cc",
-    ]
-    deps = [
-      ":gtest",
-    ]
+    sources = [ "gtest/googletest/test/gtest-unittest-api_test.cc" ]
+    deps = [ ":gtest" ]
   }
 
   group("gtest_all_tests") {
@@ -319,18 +273,14 @@ if (crashpad_is_in_chromium) {
       "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
     ]
     configs += [ ":gmock_private_config" ]
-    deps = [
-      ":gtest",
-    ]
+    deps = [ ":gtest" ]
   }
 
   static_library("gmock_main") {
     # Tests outside of this file should use ../../test:gmock_main instead.
     visibility = [ ":*" ]
     testonly = true
-    sources = [
-      "gtest/googlemock/src/gmock_main.cc",
-    ]
+    sources = [ "gtest/googlemock/src/gmock_main.cc" ]
     deps = [
       ":gmock",
       ":gtest",
@@ -389,9 +339,7 @@ if (crashpad_is_in_chromium) {
   }
 
   test("gmock_stress_test") {
-    sources = [
-      "gtest/googlemock/test/gmock_stress_test.cc",
-    ]
+    sources = [ "gtest/googlemock/test/gmock_stress_test.cc" ]
     configs -= [
       "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
     ]

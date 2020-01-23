@@ -238,9 +238,7 @@ static_library("snapshot") {
 
 if (crashpad_is_linux) {
   crashpad_fuzzer_test("elf_image_reader_fuzzer") {
-    sources = [
-      "elf/elf_image_reader_fuzzer.cc",
-    ]
+    sources = [ "elf/elf_image_reader_fuzzer.cc" ]
 
     deps = [
       ":snapshot",
@@ -274,9 +272,7 @@ static_library("test_support") {
 
   public_configs = [ "..:crashpad_config" ]
 
-  public_deps = [
-    ":snapshot",
-  ]
+  public_deps = [ ":snapshot" ]
 
   deps = [
     "../compat",
@@ -295,9 +291,7 @@ config("snapshot_test_link") {
     # There’s no way to make the link depend on this file. “inputs” doesn’t have
     # the intended effect in a config. https://crbug.com/781858,
     # https://crbug.com/796187.
-    inputs = [
-      "elf/test_exported_symbols.sym",
-    ]
+    inputs = [ "elf/test_exported_symbols.sym" ]
     ldflags = [ "-Wl,--dynamic-list," + rebase_path(inputs[0], root_build_dir) ]
   }
 }
@@ -431,9 +425,7 @@ source_set("snapshot_test") {
 
 crashpad_loadable_module("crashpad_snapshot_test_module") {
   testonly = true
-  sources = [
-    "crashpad_info_client_options_test_module.cc",
-  ]
+  sources = [ "crashpad_info_client_options_test_module.cc" ]
   deps = [
     "../client",
     "../third_party/mini_chromium:base",
@@ -442,9 +434,7 @@ crashpad_loadable_module("crashpad_snapshot_test_module") {
 
 crashpad_loadable_module("crashpad_snapshot_test_module_large") {
   testonly = true
-  sources = [
-    "crashpad_info_size_test_module.cc",
-  ]
+  sources = [ "crashpad_info_size_test_module.cc" ]
 
   deps = []
   if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
@@ -458,9 +448,7 @@ crashpad_loadable_module("crashpad_snapshot_test_module_large") {
 
 crashpad_loadable_module("crashpad_snapshot_test_module_small") {
   testonly = true
-  sources = [
-    "crashpad_info_size_test_module.cc",
-  ]
+  sources = [ "crashpad_info_size_test_module.cc" ]
 
   deps = []
   if (crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) {
@@ -476,9 +464,7 @@ if ((crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) &&
     target_cpu != "mipsel" && target_cpu != "mips64el") {
   crashpad_loadable_module("crashpad_snapshot_test_both_dt_hash_styles") {
     testonly = true
-    sources = [
-      "hash_types_test.cc",
-    ]
+    sources = [ "hash_types_test.cc" ]
 
     # This makes `ld` emit both .hash and .gnu.hash sections.
     ldflags = [ "-Wl,--hash-style=both" ]
@@ -495,18 +481,14 @@ if (crashpad_is_mac) {
 
   crashpad_executable("crashpad_snapshot_test_no_op") {
     testonly = true
-    sources = [
-      "mac/mach_o_image_annotations_reader_test_no_op.cc",
-    ]
+    sources = [ "mac/mach_o_image_annotations_reader_test_no_op.cc" ]
   }
 }
 
 if (crashpad_is_win) {
   crashpad_executable("crashpad_snapshot_test_annotations") {
     testonly = true
-    sources = [
-      "win/crashpad_snapshot_test_annotations.cc",
-    ]
+    sources = [ "win/crashpad_snapshot_test_annotations.cc" ]
     deps = [
       "../client",
       "../compat",
@@ -516,9 +498,7 @@ if (crashpad_is_win) {
 
   crashpad_executable("crashpad_snapshot_test_crashing_child") {
     testonly = true
-    sources = [
-      "win/crashpad_snapshot_test_crashing_child.cc",
-    ]
+    sources = [ "win/crashpad_snapshot_test_crashing_child.cc" ]
     deps = [
       "../client",
       "../compat",
@@ -529,9 +509,7 @@ if (crashpad_is_win) {
 
   crashpad_executable("crashpad_snapshot_test_dump_without_crashing") {
     testonly = true
-    sources = [
-      "win/crashpad_snapshot_test_dump_without_crashing.cc",
-    ]
+    sources = [ "win/crashpad_snapshot_test_dump_without_crashing.cc" ]
     deps = [
       "../client",
       "../compat",
@@ -542,9 +520,7 @@ if (crashpad_is_win) {
 
   crashpad_executable("crashpad_snapshot_test_extra_memory_ranges") {
     testonly = true
-    sources = [
-      "win/crashpad_snapshot_test_extra_memory_ranges.cc",
-    ]
+    sources = [ "win/crashpad_snapshot_test_extra_memory_ranges.cc" ]
     deps = [
       "../client",
       "../compat",
@@ -554,9 +530,7 @@ if (crashpad_is_win) {
 
   crashpad_executable("crashpad_snapshot_test_image_reader") {
     testonly = true
-    sources = [
-      "win/crashpad_snapshot_test_image_reader.cc",
-    ]
+    sources = [ "win/crashpad_snapshot_test_image_reader.cc" ]
     deps = [
       "../client",
       "../compat",
@@ -575,9 +549,7 @@ if (crashpad_is_win) {
 
   crashpad_loadable_module("crashpad_snapshot_test_image_reader_module") {
     testonly = true
-    sources = [
-      "win/crashpad_snapshot_test_image_reader_module.cc",
-    ]
+    sources = [ "win/crashpad_snapshot_test_image_reader_module.cc" ]
     deps = [
       "../client",
       "../third_party/mini_chromium:base",

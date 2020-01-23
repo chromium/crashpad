@@ -121,9 +121,7 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
     }
 
     package("crashpad_database_util") {
-      deps = [
-        "tools:crashpad_database_util",
-      ]
+      deps = [ "tools:crashpad_database_util" ]
 
       binaries = [
         {

@@ -101,22 +101,16 @@ if (crashpad_is_android) {
   # CrashpadHandlerMain is defined in a separate target so that it can be
   # overriden by implementers
   source_set("crashpad_handler_main") {
-    sources = [
-      "crashpad_handler_main.cc",
-    ]
+    sources = [ "crashpad_handler_main.cc" ]
 
-    deps = [
-      ":handler",
-    ]
+    deps = [ ":handler" ]
   }
 }
 
 source_set("handler_test") {
   testonly = true
 
-  sources = [
-    "minidump_to_upload_parameters_test.cc",
-  ]
+  sources = [ "minidump_to_upload_parameters_test.cc" ]
 
   if (crashpad_is_linux || crashpad_is_android) {
     sources += [ "linux/exception_handler_server_test.cc" ]
@@ -147,9 +141,7 @@ source_set("handler_test") {
 }
 
 crashpad_executable("crashpad_handler") {
-  sources = [
-    "main.cc",
-  ]
+  sources = [ "main.cc" ]
 
   deps = [
     ":handler",
@@ -177,26 +169,18 @@ crashpad_executable("crashpad_handler") {
 # handler executable an acceptable name.
 if (crashpad_is_android) {
   copy("crashpad_handler_named_as_so") {
-    deps = [
-      ":crashpad_handler",
-    ]
+    deps = [ ":crashpad_handler" ]
 
-    sources = [
-      "$root_out_dir/crashpad_handler",
-    ]
+    sources = [ "$root_out_dir/crashpad_handler" ]
 
-    outputs = [
-      "$root_out_dir/libcrashpad_handler.so",
-    ]
+    outputs = [ "$root_out_dir/libcrashpad_handler.so" ]
   }
 
   crashpad_executable("crashpad_handler_trampoline") {
     set_sources_assignment_filter([])
     output_name = "libcrashpad_handler_trampoline.so"
 
-    sources = [
-      "linux/handler_trampoline.cc",
-    ]
+    sources = [ "linux/handler_trampoline.cc" ]
 
     ldflags = [ "-llog" ]
 
@@ -209,9 +193,7 @@ if (crashpad_is_android) {
 crashpad_executable("crashpad_handler_test_extended_handler") {
   testonly = true
 
-  sources = [
-    "crashpad_handler_test_extended_handler.cc",
-  ]
+  sources = [ "crashpad_handler_test_extended_handler.cc" ]
 
   deps = [
     ":handler",
@@ -225,9 +207,7 @@ crashpad_executable("crashpad_handler_test_extended_handler") {
 
 if (crashpad_is_win) {
   crashpad_executable("crashpad_handler_com") {
-    sources = [
-      "main.cc",
-    ]
+    sources = [ "main.cc" ]
 
     # Avoid .exp, .ilk, and .lib file collisions with crashpad_handler.exe by
     # having this target produce crashpad_handler_com.com. Don’t use this target
@@ -243,23 +223,15 @@ if (crashpad_is_win) {
   }
 
   copy("crashpad_handler_console") {
-    deps = [
-      ":crashpad_handler_com",
-    ]
-    sources = [
-      "$root_out_dir/crashpad_handler_com.com",
-    ]
-    outputs = [
-      "$root_out_dir/crashpad_handler.com",
-    ]
+    deps = [ ":crashpad_handler_com" ]
+    sources = [ "$root_out_dir/crashpad_handler_com.com" ]
+    outputs = [ "$root_out_dir/crashpad_handler.com" ]
   }
 
   crashpad_executable("crash_other_program") {
     testonly = true
 
-    sources = [
-      "win/crash_other_program.cc",
-    ]
+    sources = [ "win/crash_other_program.cc" ]
 
     deps = [
       "../client",
@@ -272,9 +244,7 @@ if (crashpad_is_win) {
   crashpad_executable("crashy_program") {
     testonly = true
 
-    sources = [
-      "win/crashy_test_program.cc",
-    ]
+    sources = [ "win/crashy_test_program.cc" ]
 
     deps = [
       "../client",
@@ -285,9 +255,7 @@ if (crashpad_is_win) {
   crashpad_executable("crashy_signal") {
     testonly = true
 
-    sources = [
-      "win/crashy_signal.cc",
-    ]
+    sources = [ "win/crashy_signal.cc" ]
 
     cflags = [ "/wd4702" ]  # Unreachable code.
 
@@ -300,17 +268,13 @@ if (crashpad_is_win) {
   crashpad_executable("fake_handler_that_crashes_at_startup") {
     testonly = true
 
-    sources = [
-      "win/fake_handler_that_crashes_at_startup.cc",
-    ]
+    sources = [ "win/fake_handler_that_crashes_at_startup.cc" ]
   }
 
   crashpad_executable("hanging_program") {
     testonly = true
 
-    sources = [
-      "win/hanging_program.cc",
-    ]
+    sources = [ "win/hanging_program.cc" ]
 
     deps = [
       "../client",
@@ -321,17 +285,13 @@ if (crashpad_is_win) {
   crashpad_loadable_module("loader_lock_dll") {
     testonly = true
 
-    sources = [
-      "win/loader_lock_dll.cc",
-    ]
+    sources = [ "win/loader_lock_dll.cc" ]
   }
 
   crashpad_executable("self_destroying_program") {
     testonly = true
 
-    sources = [
-      "win/self_destroying_test_program.cc",
-    ]
+    sources = [ "win/self_destroying_test_program.cc" ]
 
     deps = [
       "../client",
@@ -346,9 +306,7 @@ if (crashpad_is_win) {
     crashpad_executable("crashy_z7_loader") {
       testonly = true
 
-      sources = [
-        "win/crashy_test_z7_loader.cc",
-      ]
+      sources = [ "win/crashy_test_z7_loader.cc" ]
 
       deps = [
         "../client",

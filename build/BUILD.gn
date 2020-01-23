@@ -32,9 +32,7 @@ config("crashpad_is_in_fuchsia") {
 
 group("default_exe_manifest_win") {
   if (crashpad_is_in_chromium) {
-    deps = [
-      "//build/win:default_exe_manifest",
-    ]
+    deps = [ "//build/win:default_exe_manifest" ]
   }
 }
 
