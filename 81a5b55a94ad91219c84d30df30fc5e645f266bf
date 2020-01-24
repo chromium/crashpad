@@ -403,6 +403,30 @@
     },
     {
       "key": {
+        "uuid": "3259bc70_13a24de1",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-01-24T18:38:54Z",
+      "side": 1,
+      "message": "I wouldn\u0027t consider that a race because the lock prevents any undefined or unexpected behavior.\n\nThis should help you out here: https://chromium-review.googlesource.com/c/crashpad/crashpad/+/2019566",
+      "parentUuid": "183349a9_855d0b4b",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 3
+      },
+      "revId": "81a5b55a94ad91219c84d30df30fc5e645f266bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be4b67f0_5dd41062",
         "filename": "minidump/minidump_file_writer.h",
         "patchSetId": 3
