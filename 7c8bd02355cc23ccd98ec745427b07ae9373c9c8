@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1c315b8_bd1931b3",
+        "filename": "handler/linux/cros_crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-01-27T21:36:33Z",
+      "side": 1,
+      "message": "I think we want this to be:\nbool uploads_enabled;\nif (!settings-\u003eGetUploadsEnabled(\u0026uploads_enabled) ||\n    !uploads_enabled) {\n  argv.push_back(\"--no_uploads\");\n}",
+      "range": {
+        "startLine": 266,
+        "startChar": 0,
+        "endLine": 268,
+        "endChar": 3
+      },
+      "revId": "7c8bd02355cc23ccd98ec745427b07ae9373c9c8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
