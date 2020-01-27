@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24ed978a_bd360d9b",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-01-27T20:52:14Z",
+      "side": 1,
+      "message": "We\u0027ll want to return `true` if |write_minidump_to_log| was `false`.",
+      "range": {
+        "startLine": 223,
+        "startChar": 9,
+        "endLine": 223,
+        "endChar": 39
+      },
+      "revId": "70d9c4ab260a4a98964650ef66e07eed7426f014",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "816a0147_9860efdd",
+        "filename": "minidump/minidump_file_writer_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-01-27T20:52:14Z",
+      "side": 1,
+      "message": "CamelCase for method names.",
+      "range": {
+        "startLine": 101,
+        "startChar": 20,
+        "endLine": 101,
+        "endChar": 31
+      },
+      "revId": "70d9c4ab260a4a98964650ef66e07eed7426f014",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c5f5789_2a3d274e",
+        "filename": "minidump/minidump_file_writer_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-01-27T20:52:14Z",
+      "side": 1,
+      "message": "ASSERT_TRUE",
+      "range": {
+        "startLine": 617,
+        "startChar": 2,
+        "endLine": 617,
+        "endChar": 24
+      },
+      "revId": "70d9c4ab260a4a98964650ef66e07eed7426f014",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f379365f_5b5c126d",
+        "filename": "util/file/output_stream_file_writer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-01-27T20:52:14Z",
+      "side": 1,
+      "message": "flush_needed_ \u003d output_stream_-\u003eWrite(...);\nreturn flush_needed_;",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 14
+      },
+      "revId": "70d9c4ab260a4a98964650ef66e07eed7426f014",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6217453a_c09f6295",
+        "filename": "util/file/output_stream_file_writer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-01-27T20:52:14Z",
+      "side": 1,
+      "message": "if (iovecs-\u003eempty()) {\n    LOG(ERROR) \u003c\u003c \"no iovecs\";\n    flush_needed_ \u003d false;\n    return false;\n  }\n\nfor (const WritableIoVec\u0026 iov : *iovecs) {\n  if (!output_stream_-\u003eWrite(static_cast\u003cconst uint8_t*\u003e(iov.iov_base),\n                             iov.iov_len)) {\n    flush_needed_ \u003d false;\n    return false;\n  }\n}",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 3
+      },
+      "revId": "70d9c4ab260a4a98964650ef66e07eed7426f014",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
