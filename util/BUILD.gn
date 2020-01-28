@@ -91,6 +91,8 @@ static_library("util") {
     "file/file_writer.cc",
     "file/file_writer.h",
     "file/filesystem.h",
+    "file/output_stream_file_writer.cc",
+    "file/output_stream_file_writer.h",
     "file/scoped_remove_file.cc",
     "file/scoped_remove_file.h",
     "file/string_file.cc",
@@ -466,12 +468,12 @@ static_library("util") {
     include_dirs = [ "$root_gen_dir/third_party/crashpad/crashpad" ]
   }
 
-  public_deps = [ "../compat" ]
-
-  deps += [
-    "../third_party/mini_chromium:base",
+  public_deps = [
+    "../compat",
     "../third_party/zlib",
   ]
+
+  deps += [ "../third_party/mini_chromium:base" ]
 
   if (crashpad_is_mac) {
     libs = [
