@@ -56,7 +56,6 @@ crashpad_executable("base94_encoder") {
     ":tool_support",
     "../build:default_exe_manifest_win",
     "../third_party/mini_chromium:base",
-    "../third_party/zlib",
     "../util",
   ]
 }
