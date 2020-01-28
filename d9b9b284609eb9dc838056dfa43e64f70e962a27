@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd69f5d3_593b855b",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-01-28T17:54:49Z",
+      "side": 1,
+      "message": "needs sorting",
+      "range": {
+        "startLine": 554,
+        "startChar": 0,
+        "endLine": 556,
+        "endChar": 8
+      },
+      "revId": "d9b9b284609eb9dc838056dfa43e64f70e962a27",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15ffe2be_d988655e",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-01-28T17:54:49Z",
+      "side": 1,
+      "message": "here too",
+      "range": {
+        "startLine": 609,
+        "startChar": 0,
+        "endLine": 611,
+        "endChar": 21
+      },
+      "revId": "d9b9b284609eb9dc838056dfa43e64f70e962a27",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f506354_f5d3e1be",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-01-28T17:54:49Z",
+      "side": 1,
+      "message": "and here",
+      "range": {
+        "startLine": 744,
+        "startChar": 0,
+        "endLine": 749,
+        "endChar": 10
+      },
+      "revId": "d9b9b284609eb9dc838056dfa43e64f70e962a27",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "190e870a_d57eb350",
+        "filename": "util/file/output_stream_file_writer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-01-28T17:54:49Z",
+      "side": 1,
+      "message": "This should mention the rules for when Flush() should or shouldn\u0027t be called, as in output_stream_interface.h",
+      "range": {
+        "startLine": 47,
+        "startChar": 12,
+        "endLine": 47,
+        "endChar": 42
+      },
+      "revId": "d9b9b284609eb9dc838056dfa43e64f70e962a27",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
