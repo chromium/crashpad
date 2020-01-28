@@ -217,6 +217,15 @@ hooks = [
       'crashpad/build/install_linux_sysroot.py',
     ],
   },
+  {
+    'name': 'setup_gn_ios',
+    'pattern': '.',
+    'condition': 'checkout_ios',
+    'action': [
+        'python',
+        'crashpad/build/ios/setup-ios-gn.py'
+    ],
+  },
 ]
 
 recursedeps = [
