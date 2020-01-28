@@ -85,7 +85,10 @@ template("crashpad_executable") {
     }
 
     if (crashpad_is_in_fuchsia) {
-      configs += [ "//build/config/fuchsia:fdio_config" ]
+      fdio_config = [ "//build/config/fuchsia:fdio_config" ]
+      if (configs + fdio_config - fdio_config == configs) {
+        configs += fdio_config
+      }
     }
   }
 }
