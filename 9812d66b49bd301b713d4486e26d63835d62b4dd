@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d389ea2_baf0216d",
+        "filename": "build/ios/setup-ios-gn.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-01-28T19:46:09Z",
+      "side": 1,
+      "message": "Aside from a few config changes and path changes, this is the main difference between crashpad and chromium.  It seems --check does not work on crashpad.",
+      "revId": "9812d66b49bd301b713d4486e26d63835d62b4dd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
