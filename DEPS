@@ -15,7 +15,11 @@
 vars = {
   'chromium_git': 'https://chromium.googlesource.com',
   'pull_linux_clang': False,
-  'pull_win_toolchain': False
+  'pull_win_toolchain': False,
+  # Controls whether crashpad/build/ios/setup-ios-gn.py is run as part of
+  # gclient hooks. It is enabled by default for developer's convenience. It can
+  # be disabled with custom_vars (done automatically on the bots).
+  'run_setup_ios_gn': True,
 }
 
 deps = {
@@ -215,6 +219,15 @@ hooks = [
     'condition': 'checkout_linux and pull_linux_clang',
     'action': [
       'crashpad/build/install_linux_sysroot.py',
+    ],
+  },
+  {
+    'name': 'setup_gn_ios',
+    'pattern': '.',
+    'condition': 'run_setup_ios_gn and checkout_ios',
+    'action': [
+        'python',
+        'crashpad/build/ios/setup-ios-gn.py'
     ],
   },
 ]
