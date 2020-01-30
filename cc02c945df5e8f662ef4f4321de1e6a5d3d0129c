@@ -1,0 +1,317 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "378bab24_2d5bf4f8",
+        "filename": "DEPS",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "See all of the entries above (except for libfuzzer, hmm.) Crashpad style would be to use edo/edo, not edo/src. We let the directory have a more natural name for its repository, instead of putting things named “src” all over the place.",
+      "range": {
+        "startLine": 47,
+        "startChar": 28,
+        "endLine": 47,
+        "endChar": 31
+      },
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f820fdea_e2d7506c",
+        "filename": "DEPS",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "This whole list was sorted. Let’s keep it sorted.",
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a423fa0_57157f0c",
+        "filename": "test/ios/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "Adjust to be the proper form for Crashpad. This applies to all new files.",
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca190920_6c9ffa85",
+        "filename": "test/ios/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "Use relative paths throughout your .gn files. // won’t work for Crashpad-in-Chromium or Crashpad-in-other-products, plus it’s confusing in those cases.",
+      "range": {
+        "startLine": 8,
+        "startChar": 10,
+        "endLine": 8,
+        "endChar": 12
+      },
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9161b2fb_63f4d656",
+        "filename": "test/ios/crash_type_xctest.mm",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "Blank before this.",
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec2a97b7_9ea0915c",
+        "filename": "test/ios/crash_type_xctest.mm",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "Because Objective-C doesn’t do namespacing, I’d like to standardize on a prefix for all of our Objective-C class names. CP seems fine. For test-only, you can extend the prefix, like CPTest. This mirrors our use of C++ namespaces, where we have crashpad and crashpad::test.",
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "924b18b4_a5a5ea26",
+        "filename": "test/ios/crash_type_xctest.mm",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "This seems like more trouble than a test framework should make you go to.\n\nChecking quickly: XCTAssertEqualObjects looks right, right?",
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be911136_ae0cfb6d",
+        "filename": "test/ios/host/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "When?",
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a9f2d9f_d72f2a23",
+        "filename": "test/ios/host/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "I should be a static_library too.",
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d79a7a9b_33efc682",
+        "filename": "test/ios/host/Default.png",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "Does this file’s name have to begin with a capital letter?",
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d59aaaa2_b906520a",
+        "filename": "test/ios/host/application_delegate.mm",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "Start up, two words.",
+      "range": {
+        "startLine": 28,
+        "startChar": 5,
+        "endLine": 28,
+        "endChar": 12
+      },
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a889de98_9298ba27",
+        "filename": "test/ios/host/edo_placeholder.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "Doesn’t our style put a space between - and (?",
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2c74868_206db249",
+        "filename": "test/ios/host/edo_placeholder.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "Extra blank line here?",
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c47de25_66d18464",
+        "filename": "third_party/edo/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "This directory needs a README.crashpad too.",
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58f4b6a2_fb03a835",
+        "filename": "third_party/edo/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "No trailing slash.",
+      "range": {
+        "startLine": 8,
+        "startChar": 41,
+        "endLine": 8,
+        "endChar": 42
+      },
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2691136_0064e352",
+        "filename": "third_party/edo/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "Think this one’s better as a static_library in Crashpad.",
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cf5a7f6_6236dc4a",
+        "filename": "third_party/edo/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T04:01:23Z",
+      "side": 1,
+      "message": "When we’re in the Chromium tree, you’re going to want to pick up Chromium’s copy of edo, not this, which won’t even be available. (When checking out Chromium, we don’t recurse into Crashpad’s DEPS file.)\n\nThere’s precedent for handling this situation. See third_party/zlib/BUILD.gn, for example.\n\nIt’s not necessary that you handle this now, but I’m pointing it out so that you can be aware that it’ll need to happen before any of this works in Chromium.",
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
