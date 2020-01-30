@@ -1,0 +1,40 @@
+# Copyright 2020 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+import("../../build/crashpad_buildconfig.gni")
+
+if (crashpad_is_in_chromium) {
+  import("//build/config/ios/rules.gni")
+} else if (crashpad_is_standalone) {
+  import("//third_party/mini_chromium/mini_chromium/build/ios/rules.gni")
+}
+
+group("all_tests") {
+  testonly = true
+  deps = [
+    ":ios_crash_xcuitests_module",
+    "host:ios_crash_xcuitests",
+  ]
+}
+
+source_set("xcuitests") {
+  testonly = true
+  sources = [
+    "crash_type_xctest.mm",
+  ]
+  configs += [ "//:crashpad_config" ]
+  deps = [
+    "//build:ios_enable_arc",
+    "//build:ios_xctest",
+    "//test/ios/host:app_shared_sources",
+    "//third_party/edo",
+  ]
+}
+
+ios_xcuitest_test("ios_crash_xcuitests_module") {
+  xcode_test_application_name = "ios_crash_xcuitests"
+  deps = [
+    ":xcuitests",
+  ]
+}
