@@ -610,6 +610,24 @@
     },
     {
       "key": {
+        "uuid": "6498e5d9_c5bb30fc",
+        "filename": "third_party/edo/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T18:47:24Z",
+      "side": 1,
+      "message": "\u003e This breaks EDO -- I tried.  Reverted it back to source_set.\n\nOK if it’s required.\n\n\u003e Why is it better as a static library?  Specifically it seemed like Service/Sources/NSKeyedArchiver+EDOAdditions.m was broken.\n\nsource_set means that the linker has to look at each object file. That’s not true in a static_library. That can increase link times and bloat output, but sometimes it’s necessary to force the linker to look at every object. (Actually, it happens somewhat often in Objective-C.)",
+      "parentUuid": "34b49860_5f2aa7cc",
+      "revId": "cc02c945df5e8f662ef4f4321de1e6a5d3d0129c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9cf5a7f6_6236dc4a",
         "filename": "third_party/edo/BUILD.gn",
         "patchSetId": 4

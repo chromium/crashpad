@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95cdc4d6_960b3cdf",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T18:47:24Z",
+      "side": 0,
+      "message": "Was there a gtest update that removed these files?",
+      "revId": "f36f46d1ec95299218505ef0b3c6d9ba7baeef33",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

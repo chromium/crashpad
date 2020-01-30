@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27daec0f_3de652f6",
+        "filename": "DEPS",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T18:47:24Z",
+      "side": 1,
+      "message": "Taking a cue from the entries around you, put the \"@\u0027 on the URL with no +, and break the hash out onto its own line.",
+      "revId": "2497c09baca21bb814437f0fb5e3aadae00cd109",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76da694d_142e29a5",
+        "filename": "test/ios/host/BUILD.gn",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T18:47:24Z",
+      "side": 1,
+      "message": "No trailing /",
+      "range": {
+        "startLine": 28,
+        "startChar": 24,
+        "endLine": 28,
+        "endChar": 25
+      },
+      "revId": "2497c09baca21bb814437f0fb5e3aadae00cd109",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4edc6782_5f9c4a2e",
+        "filename": "test/ios/host/BUILD.gn",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T18:47:24Z",
+      "side": 1,
+      "message": "Make relative too.",
+      "range": {
+        "startLine": 45,
+        "startChar": 16,
+        "endLine": 45,
+        "endChar": 18
+      },
+      "revId": "2497c09baca21bb814437f0fb5e3aadae00cd109",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4db617fd_b136ac23",
+        "filename": "third_party/edo/README.crashpad",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T18:47:24Z",
+      "side": 1,
+      "message": "Don’t include Version. Instead, write\n\nRevision: See DEPS\n\nsee all of the other README.crashpad files for examples.",
+      "revId": "2497c09baca21bb814437f0fb5e3aadae00cd109",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad042cd3_690121ee",
+        "filename": "third_party/edo/README.crashpad",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T18:47:24Z",
+      "side": 1,
+      "message": "Not true. Should be edo/LICENSE.",
+      "revId": "2497c09baca21bb814437f0fb5e3aadae00cd109",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
