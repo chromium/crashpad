@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1950c578_cfce9291",
+        "filename": "DEPS",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T20:59:09Z",
+      "side": 1,
+      "message": "(sorry for the nits) follow the indentation pattern around you too.",
+      "revId": "010dd89deb78d0437b25cd72d93810b993b17395",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2ae2ecd_6819a529",
+        "filename": "test/ios/BUILD.gn",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-01-30T20:59:09Z",
+      "side": 1,
+      "message": "One more path to be made relative.",
+      "revId": "010dd89deb78d0437b25cd72d93810b993b17395",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
