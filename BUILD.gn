@@ -121,7 +121,9 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
     }
 
     package("crashpad_database_util") {
-      deps = [ "tools:crashpad_database_util" ]
+      deps = [
+        "tools:crashpad_database_util",
+      ]
 
       binaries = [
         {
@@ -187,5 +189,14 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
     if (crashpad_is_ios) {
       deps -= [ "util:util_test" ]
     }
+  }
+}
+
+if (crashpad_is_ios) {
+  group("ios_xcuitests") {
+    testonly = true
+    deps = [
+      "test/ios:all_tests",
+    ]
   }
 }
