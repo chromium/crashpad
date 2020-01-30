@@ -16,6 +16,24 @@
       "revId": "f36f46d1ec95299218505ef0b3c6d9ba7baeef33",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4349cc7f_b8dc375b",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-01-30T20:36:05Z",
+      "side": 0,
+      "message": "Yes, https://github.com/google/googletest/commit/216c37f057ae0fff38062984c890df912f40ccf6#diff-f97e8346f4078f5b97bd29340fd72b3e",
+      "parentUuid": "95cdc4d6_960b3cdf",
+      "revId": "f36f46d1ec95299218505ef0b3c6d9ba7baeef33",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
