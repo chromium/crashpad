@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f16e5d2_fdcebf6e",
+        "filename": "test/ios/BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-01-30T22:02:02Z",
+      "side": 1,
+      "message": "This should be \"../../../../../build/config/ios/rules.gni\".  Test in chromium and make sure it works.\n\nActually, if we know we\u0027re in chromium, can we just use \"//build/config/ios/rules.gni\" instead of a relative path, since this file is coming from chromium?",
+      "revId": "d16a26cc444c90c32e9e16f5cf0a664a1d2308a0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ea99ce1_9171590a",
+        "filename": "test/ios/BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-01-30T22:02:02Z",
+      "side": 1,
+      "message": "Perhaps add a comment that this app is defined in test/ios/host/BUILD.gn.\n\nOr we could define the app target in this BUILD.gn file.",
+      "revId": "d16a26cc444c90c32e9e16f5cf0a664a1d2308a0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c76d5c18_3abb7a9d",
+        "filename": "test/ios/host/BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-01-30T22:02:02Z",
+      "side": 1,
+      "message": "Same comment about checking the location to this file.",
+      "revId": "d16a26cc444c90c32e9e16f5cf0a664a1d2308a0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21c9c3b7_d1284025",
+        "filename": "test/ios/host/BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-01-30T22:02:02Z",
+      "side": 1,
+      "message": "Nit: this should technically be pulled out into a separate target that can be shared by both the app host and the test module.  Gn check would complain, if it worked \u003d)",
+      "revId": "d16a26cc444c90c32e9e16f5cf0a664a1d2308a0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bdf3f44_596f9071",
+        "filename": "test/ios/host/crash_view_controller.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-01-30T22:02:02Z",
+      "side": 1,
+      "message": "You sure it should be redColor?",
+      "revId": "d16a26cc444c90c32e9e16f5cf0a664a1d2308a0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
