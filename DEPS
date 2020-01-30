@@ -26,6 +26,10 @@ deps = {
   'buildtools':
       Var('chromium_git') + '/chromium/src/buildtools.git@' +
       '3e50219fc4503f461b2176a9976891b28d80f9ab',
+  'crashpad/third_party/edo/edo': {
+      'url': Var('chromium_git') + '/external/github.com/google/eDistantObject.git' + '@' + '243fc89ae95b24717d41f3786f6a9abeeef87c92',
+      'condition': 'checkout_ios',
+  },
   'crashpad/third_party/gtest/gtest':
       Var('chromium_git') + '/external/github.com/google/googletest@' +
       'eb78ee170ac9eb21487f4d127720c060351fa8a2',
@@ -44,7 +48,6 @@ deps = {
   'crashpad/third_party/zlib/zlib':
       Var('chromium_git') + '/chromium/src/third_party/zlib@' +
       '13dc246a58e4b72104d35f9b1809af95221ebda7',
-
   # CIPD packages below.
   'crashpad/third_party/linux/clang/linux-amd64': {
     'packages': [
