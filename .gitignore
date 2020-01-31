@@ -24,6 +24,7 @@
 .gdbinit
 /Makefile
 /out
+/third_party/edo/edo
 /third_party/fuchsia/.cipd
 /third_party/fuchsia/clang
 /third_party/fuchsia/qemu
