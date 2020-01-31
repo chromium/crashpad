@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0579b094_d1018a0b",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-01-31T20:31:56Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure if plistlib would be present on all platforms, so I imported it here rather than at the top of the file.",
+      "revId": "383ac3698cd28f39edc5c69f608152c54c635c80",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1757f49b_92ef4656",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-01-31T20:31:56Z",
+      "side": 1,
+      "message": "Note that if a test fails, we won\u0027t run any subsequent test binaries.  This matches the current behavior on other platforms.",
+      "revId": "383ac3698cd28f39edc5c69f608152c54c635c80",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a876bb37_d4739c2d",
+        "filename": "build/run_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-01-31T20:31:56Z",
+      "side": 1,
+      "message": "We probably shouldn\u0027t use string comparisons to determine what kind of test we\u0027re running, but this works \u003d/",
+      "revId": "383ac3698cd28f39edc5c69f608152c54c635c80",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
