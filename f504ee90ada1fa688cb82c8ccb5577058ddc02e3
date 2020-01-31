@@ -22,6 +22,30 @@
       "revId": "f504ee90ada1fa688cb82c8ccb5577058ddc02e3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97c9da61_60f6e0e9",
+        "filename": "test/ios/google_test_setup.mm",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-01-31T19:54:23Z",
+      "side": 1,
+      "message": "So they are.",
+      "parentUuid": "d276c4d2_586793e8",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 20
+      },
+      "revId": "f504ee90ada1fa688cb82c8ccb5577058ddc02e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
