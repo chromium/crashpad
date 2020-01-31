@@ -28,8 +28,9 @@ if (crashpad_is_in_chromium) {
         outputs = [ "{{bundle_contents_dir}}/{{source_file_part}}" ]
       }
 
-      ios_app_bundle(target_name) {
+      ios_xctest_test(target_name) {
         testonly = true
+        xctest_module_target = "//test/ios:google_test_runner"
         info_plist = "//build/ios/Unittest-Info.plist"
         extra_substitutions = [ "GTEST_BUNDLE_ID_SUFFIX=$target_name" ]
         forward_variables_from(invoker, "*")

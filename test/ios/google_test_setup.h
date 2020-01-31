@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_TEST_GTEST_RUNNER_IOS_
-#define CRASHPAD_TEST_GTEST_RUNNER_IOS_
+#ifndef CRASHPAD_TEST_IOS_GOOGLE_TEST_SETUP_
+#define CRASHPAD_TEST_IOS_GOOGLE_TEST_SETUP_
 
 namespace crashpad {
 namespace test {
@@ -30,4 +30,4 @@ void IOSLaunchApplicationAndRunTests(int argc, char* argv[]);
 }  // namespace test
 }  // namespace crashpad
 
-#endif  // CRASHPAD_TEST_GTEST_RUNNER_IOS_
+#endif  // CRASHPAD_TEST_IOS_GOOGLE_TEST_SETUP_
