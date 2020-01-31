@@ -68,6 +68,7 @@ def _BinaryDirTargetOS(binary_dir):
   explicitly specified."""
 
   gn_path = _FindGNFromBinaryDir(binary_dir)
+  print(gn_path)
 
   if gn_path:
     # Look for a GN “target_os”.
@@ -77,6 +78,7 @@ def _BinaryDirTargetOS(binary_dir):
                               shell=IS_WINDOWS_HOST,
                               stdout=subprocess.PIPE, stderr=open(os.devnull))
     value = popen.communicate()[0]
+    print('gn returned', value)
     if popen.returncode == 0:
       match = re.match('target_os = "(.*)"$', value.decode('utf-8'))
       if match:
@@ -524,6 +526,7 @@ def main(args):
   target_os = _BinaryDirTargetOS(args.binary_dir)
   is_android = target_os == 'android'
   is_fuchsia = target_os == 'fuchsia'
+  print('Target OS', target_os)
   is_ios = target_os == 'ios'
 
   tests = [
