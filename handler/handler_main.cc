@@ -1004,6 +1004,8 @@ int HandlerMain(int argc,
         database.get(),
         static_cast<CrashReportUploadThread*>(upload_thread.Get()),
         &options.annotations,
+        true,
+        false,
         user_stream_sources);
   }
 #else
@@ -1023,9 +1025,8 @@ int HandlerMain(int argc,
       true,
       false,
 #endif  // OS_LINUX
-#endif  // OS_CHROMEOS
       user_stream_sources);
-
+#endif  // OS_CHROMEOS
 
 #if defined(OS_LINUX) || defined(OS_ANDROID)
   if (options.exception_information_address) {
