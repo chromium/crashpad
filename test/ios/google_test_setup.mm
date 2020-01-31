@@ -12,11 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "test/gtest_runner_ios.h"
+#include "test/ios/google_test_setup.h"
 
 #import <UIKit/UIKit.h>
 
+#include "base/logging.h"
 #include "gtest/gtest.h"
+#include "test/ios/cptest_google_test_runner_delegate.h"
+
+#if !defined(__has_feature) || !__has_feature(objc_arc)
+#error "This file requires ARC support."
+#endif
 
 @interface UIApplication (Testing)
 - (void)_terminateWithStatus:(int)status;
@@ -47,7 +53,7 @@ void RegisterTestEndListener() {
 
 }  // namespace
 
-@interface CrashpadUnitTestDelegate : NSObject
+@interface CrashpadUnitTestDelegate : NSObject <CPTestGoogleTestRunnerDelegate>
 @property(nonatomic, readwrite, strong) UIWindow* window;
 - (void)runTests;
 @end
@@ -71,15 +77,29 @@ void RegisterTestEndListener() {
   [controller.view addSubview:label];
 
   // Queue up the test run.
-  [self performSelector:@selector(runTests) withObject:nil afterDelay:0.1];
+  if (![self supportsRunningGoogleTestsWithXCTest]) {
+    // When running in XCTest mode, XCTest will invoke |runGoogleTest| directly.
+    // Otherwise, schedule a call to |runTests|.
+    [self performSelector:@selector(runTests) withObject:nil afterDelay:0.1];
+  }
 
   return YES;
 }
 
-- (void)runTests {
-  RegisterTestEndListener();
+- (BOOL)supportsRunningGoogleTestsWithXCTest {
+  return getenv("XCTestConfigurationFilePath") != nullptr;
+}
 
+- (int)runGoogleTests {
+  RegisterTestEndListener();
   int exitStatus = RUN_ALL_TESTS();
+  return exitStatus;
+}
+
+- (void)runTests {
+  DCHECK(![self supportsRunningGoogleTestsWithXCTest]);
+
+  int exitStatus = [self runGoogleTests];
 
   // If a test app is too fast, it will exit before Instruments has has a
   // a chance to initialize and no test results will be seen.
@@ -98,7 +118,6 @@ void RegisterTestEndListener() {
 
 @end
 
-
 namespace crashpad {
 namespace test {
 
@@ -110,5 +129,5 @@ void IOSLaunchApplicationAndRunTests(int argc, char* argv[]) {
   }
 }
 
-} // namespace crashpad
-} // namespace test
+}  // namespace test
+}  // namespace crashpad
