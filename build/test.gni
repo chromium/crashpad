@@ -24,12 +24,17 @@ if (crashpad_is_in_chromium) {
       _launch_image_bundle_target = target_name + "_launch_image"
       bundle_data(_launch_image_bundle_target) {
         forward_variables_from(invoker, [ "testonly" ])
-        sources = [ "//build/ios/Default.png" ]
-        outputs = [ "{{bundle_contents_dir}}/{{source_file_part}}" ]
+        sources = [
+          "//build/ios/Default.png",
+        ]
+        outputs = [
+          "{{bundle_contents_dir}}/{{source_file_part}}",
+        ]
       }
 
-      ios_app_bundle(target_name) {
+      ios_xctest_test(target_name) {
         testonly = true
+        xctest_module_target = "//test/ios:google_test_runner"
         info_plist = "//build/ios/Unittest-Info.plist"
         extra_substitutions = [ "GTEST_BUNDLE_ID_SUFFIX=$target_name" ]
         forward_variables_from(invoker, "*")

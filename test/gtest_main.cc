@@ -22,7 +22,7 @@
 #endif  // CRASHPAD_TEST_LAUNCHER_GMOCK
 
 #if defined(OS_IOS)
-#include "test/gtest_runner_ios.h"
+#include "test/ios/google_test_setup.h"
 #endif
 
 #if defined(OS_WIN)
