@@ -16,16 +16,20 @@ vars = {
   'chromium_git': 'https://chromium.googlesource.com',
   'pull_linux_clang': False,
   'pull_win_toolchain': False,
+
   # Controls whether crashpad/build/ios/setup-ios-gn.py is run as part of
   # gclient hooks. It is enabled by default for developer's convenience. It can
   # be disabled with custom_vars (done automatically on the bots).
   'run_setup_ios_gn': True,
+
+  # GN CIPD package version.
+  'gn_version': 'git_revision:97cc440d84f050f99ff0161f9414bfa2ffa38f65',
 }
 
 deps = {
   'buildtools':
       Var('chromium_git') + '/chromium/src/buildtools.git@' +
-      '3e50219fc4503f461b2176a9976891b28d80f9ab',
+      'afc5b798c72905e85f9991152be878714c579958',
   'crashpad/third_party/edo/edo': {
       'url': Var('chromium_git') + '/external/github.com/google/eDistantObject.git@' +
       '243fc89ae95b24717d41f3786f6a9abeeef87c92',
@@ -51,6 +55,36 @@ deps = {
       '13dc246a58e4b72104d35f9b1809af95221ebda7',
 
   # CIPD packages below.
+  'src/buildtools/linux64': {
+    'packages': [
+      {
+        'package': 'gn/gn/linux-amd64',
+        'version': Var('gn_version'),
+      }
+    ],
+    'dep_type': 'cipd',
+    'condition': 'host_os == "linux"',
+  },
+  'src/buildtools/mac': {
+    'packages': [
+      {
+        'package': 'gn/gn/mac-amd64',
+        'version': Var('gn_version'),
+      }
+    ],
+    'dep_type': 'cipd',
+    'condition': 'host_os == "mac"',
+  },
+  'src/buildtools/win': {
+    'packages': [
+      {
+        'package': 'gn/gn/windows-amd64',
+        'version': Var('gn_version'),
+      }
+    ],
+    'dep_type': 'cipd',
+    'condition': 'host_os == "win"',
+  },
   'crashpad/third_party/linux/clang/linux-amd64': {
     'packages': [
       {
@@ -175,45 +209,6 @@ hooks = [
       '--bucket=chromium-clang-format',
       '--sha1_file',
       'buildtools/win/clang-format.exe.sha1',
-    ],
-  },
-  {
-    'name': 'gn_mac',
-    'pattern': '.',
-    'condition': 'host_os == "mac"',
-    'action': [
-      'download_from_google_storage',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-gn',
-      '--sha1_file',
-      'buildtools/mac/gn.sha1',
-    ],
-  },
-  {
-    'name': 'gn_linux',
-    'pattern': '.',
-    'condition': 'host_os == "linux"',
-    'action': [
-      'download_from_google_storage',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-gn',
-      '--sha1_file',
-      'buildtools/linux64/gn.sha1',
-    ],
-  },
-  {
-    'name': 'gn_win',
-    'pattern': '.',
-    'condition': 'host_os == "win"',
-    'action': [
-      'download_from_google_storage',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-gn',
-      '--sha1_file',
-      'buildtools/win/gn.exe.sha1',
     ],
   },
   {
