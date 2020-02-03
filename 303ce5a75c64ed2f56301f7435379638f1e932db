@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3543c670_fa38b883",
+        "filename": "DEPS",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-02-03T19:05:26Z",
+      "side": 1,
+      "message": "This script exists because CIPD was not properly updating the GN package after the binary was overwritten by GCS.  This would happen if you rolled back and forth across the CIPD/GCS switch.\n\nI have not been able to reproduce this problem locally on my Mac.  We could omit this hook, but there\u0027s a possibility that we (or the bots) might get permanently stuck on an earlier version of GN.\n\nThe downside to keeping this hook is that we have to duplicate the \"GN version\" variable at the top of this file and manually keep it in sync with //buildtools/DEPS.\n\n(Technically, the non-iOS bots are always pulling fresh checkouts and doing clean builds, so this isn\u0027t actually an issue, but I\u0027d like to fix that.)",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 210,
+        "endChar": 4
+      },
+      "revId": "303ce5a75c64ed2f56301f7435379638f1e932db",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
