@@ -20,12 +20,20 @@ vars = {
   # gclient hooks. It is enabled by default for developer's convenience. It can
   # be disabled with custom_vars (done automatically on the bots).
   'run_setup_ios_gn': True,
+
+  #
+  # TODO(crbug.com/941824): The GN version below needs to be kept in sync
+  # between //DEPS and //buildtools/DEPS, so if you're rolling buildtools,
+  # update this value here.
+  #
+  # GN CIPD package version.
+  'gn_version': 'git_revision:b85982b3cb9b3971173f77c7575b53b3ac00e774',
 }
 
 deps = {
   'buildtools':
       Var('chromium_git') + '/chromium/src/buildtools.git@' +
-      '62f9eb0d64d6bf48f620b8233d9f7a1dc07f8414',
+      'eda23acabd9a73b6ddadcdd626c05a85d93d31dd',
   'crashpad/third_party/edo/edo': {
       'url': Var('chromium_git') + '/external/github.com/google/eDistantObject.git@' +
       '243fc89ae95b24717d41f3786f6a9abeeef87c92',
@@ -178,45 +186,6 @@ hooks = [
     ],
   },
   {
-    'name': 'gn_mac',
-    'pattern': '.',
-    'condition': 'host_os == "mac"',
-    'action': [
-      'download_from_google_storage',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-gn',
-      '--sha1_file',
-      'buildtools/mac/gn.sha1',
-    ],
-  },
-  {
-    'name': 'gn_linux',
-    'pattern': '.',
-    'condition': 'host_os == "linux"',
-    'action': [
-      'download_from_google_storage',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-gn',
-      '--sha1_file',
-      'buildtools/linux64/gn.sha1',
-    ],
-  },
-  {
-    'name': 'gn_win',
-    'pattern': '.',
-    'condition': 'host_os == "win"',
-    'action': [
-      'download_from_google_storage',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-gn',
-      '--sha1_file',
-      'buildtools/win/gn.exe.sha1',
-    ],
-  },
-  {
     # If using a local clang ("pull_linux_clang" above), also pull down a
     # sysroot.
     'name': 'sysroot_linux',
@@ -224,6 +193,19 @@ hooks = [
     'condition': 'checkout_linux and pull_linux_clang',
     'action': [
       'crashpad/build/install_linux_sysroot.py',
+    ],
+  },
+  {
+    # Verify that we have the right GN binary and force-install it if we
+    # don't, in order to work around crbug.com/944367.
+    # TODO(crbug.com/944667) Get rid of this when cipd is ensuring we
+    # have the right binary more carefully and we no longer need this.
+    'name': 'ensure_gn_version',
+    'pattern': '.',
+    'action': [
+      'python',
+      'buildtools/ensure_gn_version.py',
+      Var('gn_version')
     ],
   },
   {
