@@ -63,6 +63,30 @@
       "revId": "303ce5a75c64ed2f56301f7435379638f1e932db",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07638833_f8433a2b",
+        "filename": "DEPS",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-02-03T19:38:49Z",
+      "side": 1,
+      "message": "It\u0027s easy to remove if we don\u0027t want it.  I suspect that it served a purpose when it was added back in March.  I don\u0027t know if it\u0027s still doing anything useful today (doesn\u0027t seem to make any difference locally for me), but the underlying CIPD bugs were never fixed, so who knows.",
+      "parentUuid": "940bcfbf_190932ee",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 210,
+        "endChar": 4
+      },
+      "revId": "303ce5a75c64ed2f56301f7435379638f1e932db",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
