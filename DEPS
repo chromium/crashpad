@@ -25,7 +25,7 @@ vars = {
 deps = {
   'buildtools':
       Var('chromium_git') + '/chromium/src/buildtools.git@' +
-      'eda23acabd9a73b6ddadcdd626c05a85d93d31dd',
+      '8d2132841536523249669813b928e29144d487f9',
   'crashpad/third_party/edo/edo': {
       'url': Var('chromium_git') + '/external/github.com/google/eDistantObject.git@' +
       '243fc89ae95b24717d41f3786f6a9abeeef87c92',
