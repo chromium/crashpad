@@ -311,7 +311,7 @@ class CrashpadClient {
       int socket);
 #endif  // OS_ANDROID || DOXYGEN
 
-#if defined(OS_LINUX) || defined(OS_ANDROID) || DOXYGEN
+#if defined(OS_LINUX) || defined(OS_IOS) || defined(OS_ANDROID) || DOXYGEN
   //! \brief Installs a signal handler to launch a handler process in reponse to
   //!     a crash.
   //!
@@ -424,7 +424,7 @@ class CrashpadClient {
   //! \param[in] unhandled_signals The set of unhandled signals
   void SetUnhandledSignals(const std::set<int>& unhandled_signals);
 
-#endif  // OS_LINUX || OS_ANDROID || DOXYGEN
+#endif  // OS_LINUX || OS_IOS || OS_ANDROID || DOXYGEN
 
 #if defined(OS_MACOSX) || DOXYGEN
   //! \brief Sets the process’ crash handler to a Mach service registered with
