@@ -16,6 +16,7 @@
 
 #import "Service/Sources/EDOHostNamingService.h"
 #import "Service/Sources/EDOHostService.h"
+#include "client/crashpad_client.h"
 #import "test/ios/host/crash_view_controller.h"
 #import "test/ios/host/edo_placeholder.h"
 
@@ -28,6 +29,17 @@
 
 - (BOOL)application:(UIApplication*)application
     didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
+  // start up crashpad.
+  crashpad::CrashpadClient client;
+  client.StartHandler(base::FilePath(),
+                      base::FilePath(),
+                      base::FilePath(),
+                      "",
+                      std::map<std::string, std::string>(),
+                      std::vector<std::string>(),
+                      false,
+                      false);
+
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   [self.window makeKeyAndVisible];
   self.window.backgroundColor = UIColor.greenColor;
@@ -39,7 +51,7 @@
   [EDOHostService serviceWithPort:12345
                        rootObject:[[EDOPlaceholder alloc] init]
                             queue:dispatch_get_main_queue()];
-  [EDOHostNamingService.sharedService start];
+//  [EDOHostNamingService.sharedService start];
 
   return YES;
 }
@@ -50,4 +62,26 @@
 - (NSString*)testEDO {
   return @"crashpad";
 }
+
+- (void)crashBadAccess {
+  strcpy(0, "bla");
+}
+
+- (void)crashKillAbort {
+  kill( getpid(), SIGABRT );
+}
+
+- (void)crashSegv {
+  long zero = 0;
+  *(long*)zero = 0xC045004d;
+}
+
+- (void)crashTrap {
+  __builtin_trap();
+}
+
+- (void)crashAbort {
+  abort();
+}
+
 @end

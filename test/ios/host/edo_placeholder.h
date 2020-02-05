@@ -18,7 +18,18 @@
 #import <UIKit/UIKit.h>
 
 @interface EDOPlaceholder : NSObject
+// Simply returns the string "crashpad" for testing.
 - (NSString*)testEDO;
+//
+- (void)crashBadAccess;
+//
+- (void)crashKillAbort;
+//
+- (void)crashSegv;
+//
+- (void)crashTrap;
+//
+- (void)crashAbort;
 @end
 
 #endif  // CRASHPAD_TEST_IOS_HOST_EDO_PLACEHOLDER_H_

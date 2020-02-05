@@ -21,19 +21,50 @@
 #error "This file requires ARC support."
 #endif
 
-@interface CPTestTestCase : XCTestCase
+@interface CPTestTestCase : XCTestCase {
+  XCUIApplication* _app;
+}
 @end
 
 @implementation CPTestTestCase
 
 - (void)setUp {
-  [[[XCUIApplication alloc] init] launch];
+  _app = [[XCUIApplication alloc] init];
+  [_app launch];
+
+  [EDOClientService setErrorHandler:^(NSError *error) {
+    // Do nothing.
+  }];
+
 }
 
 - (void)testEDO {
   EDOPlaceholder* rootObject = [EDOClientService rootObjectWithPort:12345];
   NSString* result = [rootObject testEDO];
   XCTAssertEqualObjects(result, @"crashpad");
+}
+
+- (void)testTrap {
+  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  EDOPlaceholder* rootObject = [EDOClientService rootObjectWithPort:12345];
+  NSLog(@"state is %d", (int)_app.state);
+  NSLog(@"state is %d", (int)_app.state);
+  NSLog(@"state is %d", (int)_app.state);
+  NSLog(@"state is %d", (int)_app.state);
+  NSLog(@"state is %d", (int)_app.state);
+  NSLog(@"state is %d", (int)_app.state);
+  NSLog(@"state is %d", (int)_app.state);
+  [rootObject crashTrap];
+  [_app terminate];
+  NSLog(@"state is %d", (int)_app.state);
+  NSLog(@"state is %d", (int)_app.state);
+  NSLog(@"state is %d", (int)_app.state);
+  NSLog(@"state is %d", (int)_app.state);
+  NSLog(@"state is %d", (int)_app.state);
+  NSLog(@"state is %d", (int)_app.state);
+  NSLog(@"state is %d", (int)_app.state);
+//  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
+  XCTAssertTrue(YES);
 }
 
 @end

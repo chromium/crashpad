@@ -30,16 +30,21 @@ group("all_tests") {
 
 source_set("google_test_runner_shared_headers") {
   testonly = true
-  sources = [ "cptest_google_test_runner_delegate.h" ]
+  sources = [
+    "cptest_google_test_runner_delegate.h",
+  ]
 }
 
 source_set("google_test_runner") {
   testonly = true
-  sources = [ "cptest_google_test_runner.mm" ]
+  sources = [
+    "cptest_google_test_runner.mm",
+  ]
   configs += [ "../..:crashpad_config" ]
   deps = [
     "../../build:ios_enable_arc",
     "../../build:ios_xctest",
+    "../../test/ios:google_test_runner_shared_headers",
     "../../third_party/mini_chromium:base",
   ]
   libs = [ "UIKit.framework" ]
@@ -63,7 +68,9 @@ source_set("google_test_setup") {
 
 source_set("xcuitests") {
   testonly = true
-  sources = [ "crash_type_xctest.mm" ]
+  sources = [
+    "crash_type_xctest.mm",
+  ]
   configs += [ "../..:crashpad_config" ]
   deps = [
     "../../build:ios_enable_arc",
@@ -75,5 +82,7 @@ source_set("xcuitests") {
 
 ios_xcuitest_test("ios_crash_xcuitests_module") {
   xcode_test_application_name = "ios_crash_xcuitests"
-  deps = [ ":xcuitests" ]
+  deps = [
+    ":xcuitests",
+  ]
 }

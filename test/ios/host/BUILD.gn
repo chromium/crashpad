@@ -45,6 +45,7 @@ static_library("app_host_sources") {
   deps = [
     ":app_shared_sources",
     "../../../build:ios_enable_arc",
+    "../../../client",
     "../../../third_party/edo",
   ]
   libs = [

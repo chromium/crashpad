@@ -311,7 +311,7 @@ class CrashpadClient {
       int socket);
 #endif  // OS_ANDROID || DOXYGEN
 
-#if defined(OS_LINUX) || defined(OS_ANDROID) || DOXYGEN
+#if defined(OS_LINUX) || defined(OS_IOS) || defined(OS_ANDROID) || DOXYGEN
   //! \brief Installs a signal handler to launch a handler process in reponse to
   //!     a crash.
   //!
