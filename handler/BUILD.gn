@@ -140,25 +140,27 @@ source_set("handler_test") {
   }
 }
 
-crashpad_executable("crashpad_handler") {
-  sources = [ "main.cc" ]
+if (!crashpad_is_ios) {
+  crashpad_executable("crashpad_handler") {
+    sources = [ "main.cc" ]
 
-  deps = [
-    ":handler",
-    "../build:default_exe_manifest_win",
-    "../compat",
-    "../third_party/mini_chromium:base",
-  ]
+    deps = [
+      ":handler",
+      "../build:default_exe_manifest_win",
+      "../compat",
+      "../third_party/mini_chromium:base",
+    ]
 
-  if (crashpad_is_win) {
-    if (crashpad_is_in_chromium || crashpad_is_in_dart) {
-      remove_configs = [ "//build/config/win:console" ]
-      configs = [ "//build/config/win:windowed" ]
-    } else {
-      remove_configs =
-          [ "//third_party/mini_chromium/mini_chromium/build:win_console" ]
-      configs =
-          [ "//third_party/mini_chromium/mini_chromium/build:win_windowed" ]
+    if (crashpad_is_win) {
+      if (crashpad_is_in_chromium || crashpad_is_in_dart) {
+        remove_configs = [ "//build/config/win:console" ]
+        configs = [ "//build/config/win:windowed" ]
+      } else {
+        remove_configs =
+            [ "//third_party/mini_chromium/mini_chromium/build:win_console" ]
+        configs =
+            [ "//third_party/mini_chromium/mini_chromium/build:win_windowed" ]
+      }
     }
   }
 }
@@ -190,19 +192,21 @@ if (crashpad_is_android) {
   }
 }
 
-crashpad_executable("crashpad_handler_test_extended_handler") {
-  testonly = true
+if (!crashpad_is_ios) {
+  crashpad_executable("crashpad_handler_test_extended_handler") {
+    testonly = true
 
-  sources = [ "crashpad_handler_test_extended_handler.cc" ]
+    sources = [ "crashpad_handler_test_extended_handler.cc" ]
 
-  deps = [
-    ":handler",
-    "../build:default_exe_manifest_win",
-    "../compat",
-    "../minidump:test_support",
-    "../third_party/mini_chromium:base",
-    "../tools:tool_support",
-  ]
+    deps = [
+      ":handler",
+      "../build:default_exe_manifest_win",
+      "../compat",
+      "../minidump:test_support",
+      "../third_party/mini_chromium:base",
+      "../tools:tool_support",
+    ]
+  }
 }
 
 if (crashpad_is_win) {
