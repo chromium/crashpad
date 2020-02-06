@@ -25,29 +25,31 @@ source_set("tool_support") {
   deps = [ "../third_party/mini_chromium:base" ]
 }
 
-crashpad_executable("crashpad_database_util") {
-  sources = [ "crashpad_database_util.cc" ]
+if (!crashpad_is_ios) {
+  crashpad_executable("crashpad_database_util") {
+    sources = [ "crashpad_database_util.cc" ]
 
-  deps = [
-    ":tool_support",
-    "../build:default_exe_manifest_win",
-    "../client",
-    "../compat",
-    "../third_party/mini_chromium:base",
-    "../util",
-  ]
-}
+    deps = [
+      ":tool_support",
+      "../build:default_exe_manifest_win",
+      "../client",
+      "../compat",
+      "../third_party/mini_chromium:base",
+      "../util",
+    ]
+  }
 
-crashpad_executable("crashpad_http_upload") {
-  sources = [ "crashpad_http_upload.cc" ]
+  crashpad_executable("crashpad_http_upload") {
+    sources = [ "crashpad_http_upload.cc" ]
 
-  deps = [
-    ":tool_support",
-    "../build:default_exe_manifest_win",
-    "../compat",
-    "../third_party/mini_chromium:base",
-    "../util",
-  ]
+    deps = [
+      ":tool_support",
+      "../build:default_exe_manifest_win",
+      "../compat",
+      "../third_party/mini_chromium:base",
+      "../util",
+    ]
+  }
 }
 
 crashpad_executable("base94_encoder") {
@@ -60,7 +62,7 @@ crashpad_executable("base94_encoder") {
   ]
 }
 
-if (!crashpad_is_fuchsia) {
+if (!crashpad_is_fuchsia && !crashpad_is_ios) {
   crashpad_executable("generate_dump") {
     sources = [ "generate_dump.cc" ]
 
@@ -88,7 +90,8 @@ if (!crashpad_is_fuchsia) {
     }
 
     if (crashpad_is_win) {
-      cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
+      cflags =
+          [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
     }
   }
 }
