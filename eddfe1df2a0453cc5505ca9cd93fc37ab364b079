@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9254e24_8b3f213b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-06T23:25:07Z",
+      "side": 1,
+      "message": "Present tense, please.\n\nIt helps the shortlog read more coherently.",
+      "revId": "eddfe1df2a0453cc5505ca9cd93fc37ab364b079",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
