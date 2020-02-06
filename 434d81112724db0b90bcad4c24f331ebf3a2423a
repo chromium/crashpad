@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1801ef8_187ec49d",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-06T17:31:54Z",
+      "side": 1,
+      "message": "I get that this is for fast bringup, but if the goal is going to be to land in bite-sized chunks, we should deal with this sort of thing now. (And if the goal is just early feedback, which you said was another option, it\u0027s still good to mention now.)\n\nThere will be no handler process on iOS, so this parameter and |arguments| both make no sense. We should have a different version for iOS. And, since there\u0027s no handler, it shouldn\u0027t be \"StartHandler\"-anything.",
+      "revId": "434d81112724db0b90bcad4c24f331ebf3a2423a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20662ee5_3b0ddb2c",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-06T17:31:54Z",
+      "side": 1,
+      "message": "2020 on new files.",
+      "revId": "434d81112724db0b90bcad4c24f331ebf3a2423a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53d57882_bb670437",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-06T17:31:54Z",
+      "side": 1,
+      "message": "Use the correct #include block format, which puts a blank line between system and local #includes (in Crashpad, anyway).",
+      "revId": "434d81112724db0b90bcad4c24f331ebf3a2423a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "485d64b6_abb615f9",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-06T17:31:54Z",
+      "side": 1,
+      "message": "Why not private?",
+      "revId": "434d81112724db0b90bcad4c24f331ebf3a2423a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9995b990_6bf973b7",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-06T17:31:54Z",
+      "side": 1,
+      "message": "Why not private?",
+      "revId": "434d81112724db0b90bcad4c24f331ebf3a2423a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a1c14f6_21cbadb4",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-06T17:31:54Z",
+      "side": 1,
+      "message": "There is no \"or\" here, it\u0027s an always thing.",
+      "revId": "434d81112724db0b90bcad4c24f331ebf3a2423a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c834858f_f1edbe11",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-06T17:31:54Z",
+      "side": 1,
+      "message": "Since you do this unconditionally, why not move it into HandleCrash() and get rid of the awkward handler_-\u003e ?",
+      "revId": "434d81112724db0b90bcad4c24f331ebf3a2423a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c410f745_8f649217",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-06T17:31:54Z",
+      "side": 1,
+      "message": "This is essentially identical to Get() and duplicates the static variable in Get(), except the two can get desynchronized. Do you need both?",
+      "revId": "434d81112724db0b90bcad4c24f331ebf3a2423a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
