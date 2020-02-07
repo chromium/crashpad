@@ -73,7 +73,7 @@ TEST(SimpleStringDictionary, SimpleStringDictionary) {
   EXPECT_FALSE(dict.GetValueForKey("key3"));
 
   // Remove by setting value to nullptr
-  dict.SetKeyValue("key2", nullptr);
+  dict.SetKeyValue("key2", base::StringPiece(nullptr, 0));
 
   // Now make sure it's not there anymore
   EXPECT_FALSE(dict.GetValueForKey("key2"));
