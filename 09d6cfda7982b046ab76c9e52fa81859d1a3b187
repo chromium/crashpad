@@ -133,6 +133,74 @@
     },
     {
       "key": {
+        "uuid": "5e2f9afb_3ce334c2",
+        "filename": "test/ios/crash_type_xctest.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-02-07T19:11:53Z",
+      "side": 1,
+      "message": "Please add detailed comments explaining why we swizzle handleCrashUnderSymbol and why we set an eDO error handler, since none of this is obvious and it took some work to figure it out.",
+      "revId": "09d6cfda7982b046ab76c9e52fa81859d1a3b187",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d1e4a28_69215e5a",
+        "filename": "test/ios/crash_type_xctest.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-02-07T19:11:53Z",
+      "side": 1,
+      "message": "This is all fine for now but is a good candidate for refactoring, once we figure out what tests we want.",
+      "revId": "09d6cfda7982b046ab76c9e52fa81859d1a3b187",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f482b0ef_ef87a7e7",
+        "filename": "test/ios/host/application_delegate.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-02-07T19:11:53Z",
+      "side": 1,
+      "message": "Nit: capitalization.",
+      "revId": "09d6cfda7982b046ab76c9e52fa81859d1a3b187",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50ab81e2_1a2c918b",
+        "filename": "test/ios/host/application_delegate.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-02-07T19:11:53Z",
+      "side": 1,
+      "message": "This should eventually be split out into its own file.\n\nI don\u0027t love the name, I think it\u0027s too generic.",
+      "revId": "09d6cfda7982b046ab76c9e52fa81859d1a3b187",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dc2b1daa_f19bc9d3",
         "filename": "test/ios/host/shared_object.h",
         "patchSetId": 5
