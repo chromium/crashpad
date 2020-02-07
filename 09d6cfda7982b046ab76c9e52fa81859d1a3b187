@@ -201,6 +201,24 @@
     },
     {
       "key": {
+        "uuid": "cfaa2f41_1e557e76",
+        "filename": "test/ios/host/application_delegate.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-07T21:23:24Z",
+      "side": 1,
+      "message": "\u003e This should eventually be split out into its own file.\n\u003e \n\u003e I don\u0027t love the name, I think it\u0027s too generic.\n\nPlease stick with the prefixing we agreed on last week to identify things as Crashpad or Crashpad+Test, parallel to our C++ namespacing.",
+      "parentUuid": "50ab81e2_1a2c918b",
+      "revId": "09d6cfda7982b046ab76c9e52fa81859d1a3b187",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dc2b1daa_f19bc9d3",
         "filename": "test/ios/host/shared_object.h",
         "patchSetId": 5
