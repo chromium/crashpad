@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "559f54f6_dda434ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-07T14:15:31Z",
+      "side": 1,
+      "message": "Don\u0027t say [crashpad] in the Crashpad repository.",
+      "revId": "4195565f68e62210fb423302be7e20b990663d9c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
