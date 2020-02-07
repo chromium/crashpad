@@ -284,6 +284,12 @@ static_library("util") {
     sources += get_target_outputs(":mig")
   }
 
+  if (crashpad_is_ios) {
+    sources += [
+      "posix/process_info_mac.cc",
+    ]
+  }
+
   deps = []
 
   if (crashpad_is_linux || crashpad_is_fuchsia || crashpad_is_android) {

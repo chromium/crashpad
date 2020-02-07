@@ -108,6 +108,17 @@ static_library("snapshot") {
     ]
   }
 
+  if (crashpad_is_ios) {
+    sources += [
+      "ios/process_reader_ios.cc",
+      "ios/process_reader_ios.h",
+      "ios/process_snapshot_ios.cc",
+      "ios/process_snapshot_ios.h",
+      "ios/module_snapshot_ios.cc",
+      "ios/module_snapshot_ios.h",
+    ]
+  }
+
   if (crashpad_is_linux || crashpad_is_android) {
     set_sources_assignment_filter([])
     sources += [
@@ -224,7 +235,7 @@ static_library("snapshot") {
   public_configs = [ "..:crashpad_config" ]
 
   deps = [
-    "../client",
+    #"../client",
     "../compat",
     "../third_party/mini_chromium:base",
     "../util",
