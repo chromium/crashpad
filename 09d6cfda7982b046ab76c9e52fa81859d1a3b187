@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec0b72ed_e1f60b10",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-07T18:44:34Z",
+      "side": 1,
+      "message": "Extra blank line?\n\nMaybe you were tempted by line 426. That doesn’t belong either.",
+      "revId": "09d6cfda7982b046ab76c9e52fa81859d1a3b187",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "071e539c_e2ef37b4",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-07T18:44:34Z",
+      "side": 1,
+      "message": "This isn’t possible, update.",
+      "range": {
+        "startLine": 31,
+        "startChar": 52,
+        "endLine": 32,
+        "endChar": 32
+      },
+      "revId": "09d6cfda7982b046ab76c9e52fa81859d1a3b187",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab7dae8f_636006e7",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-07T18:44:34Z",
+      "side": 1,
+      "message": "Gimme a blank line before this.",
+      "revId": "09d6cfda7982b046ab76c9e52fa81859d1a3b187",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e02e33ba_a83ed258",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-07T18:44:34Z",
+      "side": 1,
+      "message": "Install() takes a pointer, so nullptr is what we’d expect.",
+      "range": {
+        "startLine": 72,
+        "startChar": 39,
+        "endLine": 72,
+        "endChar": 41
+      },
+      "revId": "09d6cfda7982b046ab76c9e52fa81859d1a3b187",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d7026bd_a4588c47",
+        "filename": "test/ios/crash_type_xctest.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-07T18:44:34Z",
+      "side": 1,
+      "message": "Yesssssss!",
+      "revId": "09d6cfda7982b046ab76c9e52fa81859d1a3b187",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6278401_2d3705df",
+        "filename": "test/ios/crash_type_xctest.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-07T18:44:34Z",
+      "side": 1,
+      "message": "We might want this to be configurable per test. And we might not ever need that. OK to leave like this for now.",
+      "revId": "09d6cfda7982b046ab76c9e52fa81859d1a3b187",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16d574a7_9c181130",
+        "filename": "test/ios/crash_type_xctest.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-07T18:44:34Z",
+      "side": 1,
+      "message": "I think we don’t even want this.",
+      "revId": "09d6cfda7982b046ab76c9e52fa81859d1a3b187",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc2b1daa_f19bc9d3",
+        "filename": "test/ios/host/shared_object.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-07T18:44:34Z",
+      "side": 1,
+      "message": "Looks like a constant, but there’s no such constant. an EXC_BAD_ACCESS?",
+      "range": {
+        "startLine": 24,
+        "startChar": 12,
+        "endLine": 24,
+        "endChar": 23
+      },
+      "revId": "09d6cfda7982b046ab76c9e52fa81859d1a3b187",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
