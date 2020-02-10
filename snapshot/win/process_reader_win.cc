@@ -151,11 +151,17 @@ bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
       PLOG(ERROR) << "SuspendThread";
       return false;
     }
-    DCHECK(previous_suspend_count > 0 ||
-           suspension_state == ProcessSuspensionState::kRunning);
-    thread->suspend_count =
-        previous_suspend_count -
-        (suspension_state == ProcessSuspensionState::kSuspended ? 1 : 0);
+    if (previous_suspend_count <= 0 &&
+        suspension_state == ProcessSuspensionState::kSuspended) {
+      LOG(WARNING) << "Thread " << thread->id
+                   << " should be suspended, but previous_suspend_count is "
+                   << previous_suspend_count;
+      thread->suspend_count = 0;
+    } else {
+      thread->suspend_count =
+          previous_suspend_count -
+          (suspension_state == ProcessSuspensionState::kSuspended ? 1 : 0);
+    }
 
     memset(&thread->context, 0, sizeof(thread->context));
 #if defined(ARCH_CPU_32_BITS)
