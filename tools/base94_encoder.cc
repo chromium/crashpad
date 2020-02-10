@@ -68,7 +68,7 @@ int Base94EncoderMain(int argc, char* argv[]) {
 
   bool encoding_valid = false;
   int opt;
-  while ((opt = getopt_long(argc, argv, "d:e", long_options, nullptr)) != -1) {
+  while ((opt = getopt_long(argc, argv, "de", long_options, nullptr)) != -1) {
     switch (opt) {
       case kOptionEncode:
         options.encoding = true;
