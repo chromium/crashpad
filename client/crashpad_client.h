@@ -423,8 +423,15 @@ class CrashpadClient {
   //!
   //! \param[in] unhandled_signals The set of unhandled signals
   void SetUnhandledSignals(const std::set<int>& unhandled_signals);
-
 #endif  // OS_LINUX || OS_ANDROID || DOXYGEN
+
+#if defined(OS_IOS) || DOXYGEN
+  //! \brief Configures the process to direct its crashes to the iOS in process
+  //! Crashpad handler.
+  //!
+  //! \return `true` on success, `false` on failure with a message logged.
+  bool StartCrashpadInProcessHandler();
+#endif
 
 #if defined(OS_MACOSX) || DOXYGEN
   //! \brief Sets the process’ crash handler to a Mach service registered with
