@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e352cabb_c8cbe094",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-14T21:07:12Z",
+      "side": 1,
+      "message": "We’ll want to be able to pass these arguments into the start entry point on iOS. Did you leave them out just because they’re unused for now, with an eye toward adding them as they become necessary later? If so, you might want to leave a TODO behind, either in the .h or .cc.",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 74
+      },
+      "revId": "bf9baf38a763b2b3f941be0b844a97821acec6ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9841713_63a0ee86",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-14T21:07:12Z",
+      "side": 1,
+      "message": "in-process",
+      "range": {
+        "startLine": 429,
+        "startChar": 69,
+        "endLine": 429,
+        "endChar": 79
+      },
+      "revId": "bf9baf38a763b2b3f941be0b844a97821acec6ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
