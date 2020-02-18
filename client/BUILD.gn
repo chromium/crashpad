@@ -43,6 +43,10 @@ static_library("client") {
     ]
   }
 
+  if (crashpad_is_ios) {
+    sources += [ "crashpad_client_ios.cc" ]
+  }
+
   if (crashpad_is_linux || crashpad_is_android) {
     set_sources_assignment_filter([])
     sources += [
@@ -137,7 +141,9 @@ source_set("client_test") {
     "../util",
   ]
 
-  data_deps = [ "../handler:crashpad_handler" ]
+  if (!crashpad_is_ios) {
+    data_deps = [ "../handler:crashpad_handler" ]
+  }
 
   if (crashpad_is_win) {
     data_deps += [ "../handler:crashpad_handler_console" ]
