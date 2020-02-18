@@ -22,13 +22,9 @@ if (crashpad_is_in_chromium) {
 
 source_set("app_shared_sources") {
   testonly = true
-  sources = [
-    "edo_placeholder.h",
-  ]
+  sources = [ "cptest_shared_object.h" ]
   configs += [ "../../..:crashpad_config" ]
-  deps = [
-    "../../../build:ios_enable_arc",
-  ]
+  deps = [ "../../../build:ios_enable_arc" ]
   libs = [ "UIKit.framework" ]
 }
 
@@ -45,6 +41,7 @@ static_library("app_host_sources") {
   deps = [
     ":app_shared_sources",
     "../../../build:ios_enable_arc",
+    "../../../client",
     "../../../third_party/edo",
   ]
   libs = [
@@ -56,7 +53,5 @@ static_library("app_host_sources") {
 ios_app_bundle("ios_crash_xcuitests") {
   info_plist = "Info.plist"
   testonly = true
-  deps = [
-    ":app_host_sources",
-  ]
+  deps = [ ":app_host_sources" ]
 }

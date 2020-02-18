@@ -19,7 +19,7 @@ config("compat_config") {
 
   if (crashpad_is_mac) {
     include_dirs += [ "mac" ]
-  } else {
+  } else if (!crashpad_is_ios) {
     include_dirs += [ "non_mac" ]
   }
 
@@ -43,7 +43,7 @@ config("compat_config") {
 }
 
 template("compat_target") {
-  if (crashpad_is_mac) {
+  if (crashpad_is_mac || crashpad_is_ios) {
     # There are no sources to compile, which doesn’t mix will with a
     # static_library.
     group(target_name) {
@@ -67,7 +67,7 @@ compat_target("compat") {
       "mac/mach/mach.h",
       "mac/sys/resource.h",
     ]
-  } else {
+  } else if (!crashpad_is_ios) {
     sources += [
       "non_mac/mach-o/loader.h",
       "non_mac/mach/mach.h",
