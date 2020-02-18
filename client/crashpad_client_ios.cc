@@ -19,6 +19,7 @@
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "client/client_argv_handling.h"
+#include "snapshot/ios/process_snapshot_ios.h"
 #include "util/posix/signals.h"
 
 namespace crashpad {
@@ -46,6 +47,8 @@ class SignalHandler {
   // directly to simulate signal delivery.
   void HandleCrash(int signo, siginfo_t* siginfo, void* context) {
     // Do Something.
+    ProcessSnapshotIOS process_snapshot;
+    process_snapshot.Initialize();
 
     // Always call system handler.
     Signals::RestoreHandlerAndReraiseSignalOnReturn(
@@ -69,6 +72,8 @@ CrashpadClient::CrashpadClient() {}
 CrashpadClient::~CrashpadClient() {}
 
 bool CrashpadClient::StartCrashpadInProcessHandler() {
+  ProcessSnapshotIOS process_snapshot;
+  process_snapshot.Initialize();
   return SignalHandler::Get()->Install(nullptr);
 }
 
