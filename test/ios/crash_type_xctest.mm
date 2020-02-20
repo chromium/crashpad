@@ -113,7 +113,7 @@
   XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
 }
 
-- (void)testAbort {
+- (void)testAAbort {
   XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
 
   // Crash the app.
