@@ -35,6 +35,10 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
         "util:util_test",
       ]
     }
+    if (crashpad_is_in_fuchsia) {
+      # TODO(fuchsia:46559): Fix the leaks and remove this.
+      deps += [ "//build/config/sanitizers:suppress-lsan.DO-NOT-USE-THIS" ]
+    }
   }
 
   if (crashpad_is_in_fuchsia) {
