@@ -1,0 +1,89 @@
+list(APPEND COMPAT_SOURCES "")
+
+if(APPLE)
+    list(APPEND COMPAT_SOURCES
+        mac/AvailabilityMacros.h
+        mac/kern/exc_resource.h
+        mac/mach-o/loader.h
+        mac/mach/mach.h
+        mac/sys/resource.h
+    )
+else()
+    list(APPEND COMPAT_SOURCES
+        non_mac/mach-o/loader.h
+        non_mac/mach/mach.h
+        non_mac/mach/machine.h
+        non_mac/mach/vm_prot.h
+    )
+endif()
+
+if(LINUX OR ANDROID)
+    list(APPEND COMPAT_SOURCES
+        linux/signal.h
+        linux/sys/mman.cc
+        linux/sys/mman.h
+        linux/sys/ptrace.h
+        linux/sys/user.h
+    )
+endif()
+
+if(ANDROID)
+    list(APPEND COMPAT_SOURCES
+        android/android/api-level.cc
+        android/android/api-level.h
+        android/dlfcn_internal.cc
+        android/dlfcn_internal.h
+        android/elf.h
+        android/linux/elf.h
+        android/linux/prctl.h
+        android/linux/ptrace.h
+        android/sched.h
+        android/sys/epoll.cc
+        android/sys/epoll.h
+        android/sys/mman.cc
+        android/sys/mman.h
+        android/sys/syscall.h
+        android/sys/user.h
+    )
+endif()
+
+if(WIN32)
+    list(APPEND COMPAT_SOURCES
+        win/getopt.h
+        win/strings.cc
+        win/strings.h
+        win/sys/types.h
+        win/time.cc
+        win/time.h
+        win/winbase.h
+        win/winnt.h
+        win/winternl.h
+    )
+else()
+    list(APPEND COMPAT_SOURCES
+        non_win/dbghelp.h
+        non_win/minwinbase.h
+        non_win/timezoneapi.h
+        non_win/verrsrc.h
+        non_win/windows.h
+        non_win/winnt.h
+    )
+endif()
+
+if(NOT LINUX AND NOT ANDROID)
+    list(APPEND COMPAT_SOURCES
+        non_elf/elf.h
+    )
+endif()
+
+if(APPLE)
+    add_library(crashpad_compat INTERFACE)
+    list(TRANSFORM COMPAT_SOURCES PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/")
+    target_sources(crashpad_compat INTERFACE ${COMPAT_SOURCES})
+else()
+    add_library(crashpad_compat STATIC ${COMPAT_SOURCES})
+endif()
+
+if(WIN32)
+    target_link_libraries(crashpad_compat getopt)
+endif()

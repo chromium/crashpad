@@ -43,9 +43,8 @@ https://chromium.googlesource.com/crashpad/crashpad.
 
 ## Sentry modifications
 
-File attachments support for MacOS and Windows.
-
-Based on changes made in https://github.com/Youw/crashpad/, distributed with Apache 2.0 License.
+See [README.getsentry.md](README.getsentry.md) for more information on the
+changes, and on maintaining the fork.
 
 Generating patch:
 

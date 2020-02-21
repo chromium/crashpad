@@ -4,15 +4,22 @@ PATH := $(PWD)/../depot_tools:$(PATH)
 all:
 	echo 'Nothing to do' && exit 1
 
-build:
+build-with-gn:
 	gn gen out/Default
 	ninja -C out/Default
-.PHONY: build
+.PHONY: build-with-gn
 
-update:
+build-with-cmake:
+	mkdir -p cmakebuild
+	cd cmakebuild; cmake ..
+	cmake --build cmakebuild --parallel
+.PHONY: build-with-cmake
+
+update-with-gclient:
 	gclient sync
+.PHONY: update-with-gclient
 
-example:
+example: build-with-gn
 	g++ -g \
 		-o example example.cpp \
 		-I. -I./third_party/mini_chromium/mini_chromium \
