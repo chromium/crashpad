@@ -234,6 +234,8 @@ static_library("snapshot") {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
     libs = [ "powrprof.lib" ]
   }
+
+  configs += [ "..:disable_ubsan" ]
 }
 
 if (crashpad_is_linux) {
