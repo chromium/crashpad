@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cecb55c1_51dda846",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-02-21T06:22:00Z",
+      "side": 1,
+      "message": "Doesn\u0027t really seem fixed yet (but the Bug: tag is good for now until the leak is identified and resolved).",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 7
+      },
+      "revId": "475100f5e5fa6f38dcfe5fcdb7dc9704cc57d68f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
