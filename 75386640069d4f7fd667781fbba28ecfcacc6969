@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91f9be87_76de9050",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000336
+      },
+      "writtenOn": "2020-02-21T00:07:05Z",
+      "side": 1,
+      "message": "But fuchsia: before these bug numbers since this is a chromium repo.",
+      "revId": "75386640069d4f7fd667781fbba28ecfcacc6969",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fd4dbf3_f888e0ba",
+        "filename": "BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000336
+      },
+      "writtenOn": "2020-02-21T00:07:05Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 18
+      },
+      "revId": "75386640069d4f7fd667781fbba28ecfcacc6969",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
