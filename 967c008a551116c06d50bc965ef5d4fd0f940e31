@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61611bed_f7fc4773",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000336
+      },
+      "writtenOn": "2020-02-21T20:02:00Z",
+      "side": 1,
+      "message": "Use fuchsia:nnn since this is a chromium repo.",
+      "revId": "967c008a551116c06d50bc965ef5d4fd0f940e31",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ebca001_ea2b45ea",
+        "filename": "minidump/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000336
+      },
+      "writtenOn": "2020-02-21T20:02:00Z",
+      "side": 1,
+      "message": "Use fuchsia:nnn since this is a chromium repo.",
+      "revId": "967c008a551116c06d50bc965ef5d4fd0f940e31",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
