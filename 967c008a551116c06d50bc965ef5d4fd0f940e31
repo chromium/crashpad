@@ -33,6 +33,24 @@
       "revId": "967c008a551116c06d50bc965ef5d4fd0f940e31",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5277f22_46d88ead",
+        "filename": "minidump/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1373593
+      },
+      "writtenOn": "2020-02-21T20:21:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ebca001_ea2b45ea",
+      "revId": "967c008a551116c06d50bc965ef5d4fd0f940e31",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
