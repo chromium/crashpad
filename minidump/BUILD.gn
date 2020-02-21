@@ -123,6 +123,12 @@ static_library("test_support") {
   }
 }
 
+# TODO(46805): Remove this once instances of UB have been cleaned up.
+config("disable_ubsan") {
+  cflags = [ "-fno-sanitize=undefined" ]
+  visibility = [ ":minidump_test" ]
+}
+
 source_set("minidump_test") {
   testonly = true
 
@@ -164,4 +170,6 @@ source_set("minidump_test") {
   if (crashpad_is_win) {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
   }
+
+  configs += [ ":disable_ubsan" ]
 }
