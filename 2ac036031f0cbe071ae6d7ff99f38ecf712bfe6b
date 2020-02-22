@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9c835138_778b81dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1373593
+      },
+      "writtenOn": "2020-02-22T04:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "488458f7_5cecb210",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 5
+      },
+      "revId": "2ac036031f0cbe071ae6d7ff99f38ecf712bfe6b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d177842e_6e2e7f47",
         "filename": "util/BUILD.gn",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-02-22T04:52:04Z",
       "side": 1,
       "message": "I think you\u0027ll need to modify the visibility of the config?",
+      "range": {
+        "startLine": 518,
+        "startChar": 2,
+        "endLine": 518,
+        "endChar": 35
+      },
+      "revId": "2ac036031f0cbe071ae6d7ff99f38ecf712bfe6b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52597477_cadee5b8",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1373593
+      },
+      "writtenOn": "2020-02-22T04:57:24Z",
+      "side": 1,
+      "message": "Yup, forgot to. Thanks.",
+      "parentUuid": "d177842e_6e2e7f47",
       "range": {
         "startLine": 518,
         "startChar": 2,
