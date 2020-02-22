@@ -514,6 +514,8 @@ static_library("util") {
   if (crashpad_is_android || crashpad_is_linux) {
     deps += [ "../third_party/lss" ]
   }
+
+  configs += [ "..:disable_ubsan" ]
 }
 
 if (!crashpad_is_android) {

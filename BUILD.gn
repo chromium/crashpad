@@ -28,6 +28,8 @@ config("disable_ubsan") {
   visibility = [
     "snapshot:snapshot",
     "minidump:minidump_test",
+    "third_party/gtest:gtest",
+    "util:util",
   ]
 }
 
