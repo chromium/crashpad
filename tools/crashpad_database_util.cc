@@ -561,7 +561,7 @@ int DatabaseUtilMain(int argc, char* argv[]) {
   }
 
   bool used_stdin = false;
-  for (const base::FilePath new_report_path : options.new_report_paths) {
+  for (const base::FilePath& new_report_path : options.new_report_paths) {
     std::unique_ptr<FileReaderInterface> file_reader;
 
     if (new_report_path.value() == FILE_PATH_LITERAL("-")) {
