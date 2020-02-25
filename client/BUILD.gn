@@ -88,6 +88,10 @@ static_library("client") {
 
   deps = []
 
+  if (crashpad_is_ios) {
+    deps += [ "../snapshot" ]
+  }
+
   if (crashpad_is_win) {
     libs = [ "rpcrt4.lib" ]
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
