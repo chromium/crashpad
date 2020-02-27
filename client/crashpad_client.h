@@ -436,6 +436,16 @@ class CrashpadClient {
   //! TODO(justincohen): This method will need to take database, metrics_dir,
   //! url and annotations eventually.
   bool StartCrashpadInProcessHandler();
+
+  //! \brief Requests that the handler capture a dump even though there hasn't
+  //!     been a crash.
+  //!
+  //! A handler must have already been installed before calling this method.
+  //!
+  //! \param[in] context A NativeCPUContext, generally captured by
+  //!     CaptureContext() or similar.
+  static void DumpWithoutCrash(NativeCPUContext* context);
+
 #endif
 
 #if defined(OS_MACOSX) || DOXYGEN
