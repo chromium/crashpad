@@ -19,6 +19,7 @@
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "client/client_argv_handling.h"
+#include "snapshot/ios/process_snapshot_ios.h"
 #include "util/posix/signals.h"
 
 namespace crashpad {
@@ -39,13 +40,21 @@ class SignalHandler {
         HandleSignal, 0, &old_actions_, unhandled_signals);
   }
 
+  void HandleCrash(int signo, siginfo_t* siginfo, void* context) {
+    // TODO(justincohen): This is incomplete.
+    ProcessSnapshotIOS process_snapshot;
+    process_snapshot.Initialize();
+  }
+
  private:
   SignalHandler() = default;
 
   // The base implementation for all signal handlers, suitable for calling
   // directly to simulate signal delivery.
-  void HandleCrash(int signo, siginfo_t* siginfo, void* context) {
-    // Do Something.
+  void HandleCrashAndReraiseSignal(int signo,
+                                   siginfo_t* siginfo,
+                                   void* context) {
+    HandleCrash(signo, siginfo, context);
 
     // Always call system handler.
     Signals::RestoreHandlerAndReraiseSignalOnReturn(
@@ -54,7 +63,7 @@ class SignalHandler {
 
   // The signal handler installed at OS-level.
   static void HandleSignal(int signo, siginfo_t* siginfo, void* context) {
-    Get()->HandleCrash(signo, siginfo, context);
+    Get()->HandleCrashAndReraiseSignal(signo, siginfo, context);
   }
 
   Signals::OldActions old_actions_ = {};
@@ -72,4 +81,18 @@ bool CrashpadClient::StartCrashpadInProcessHandler() {
   return SignalHandler::Get()->Install(nullptr);
 }
 
+// static
+void CrashpadClient::DumpWithoutCrash(NativeCPUContext* context) {
+  if (!SignalHandler::Get()) {
+    DLOG(ERROR) << "Crashpad isn't enabled";
+    return;
+  }
+
+  siginfo_t siginfo;
+  siginfo.si_signo = Signals::kSimulatedSigno;
+  siginfo.si_errno = 0;
+  siginfo.si_code = 0;
+  SignalHandler::Get()->HandleCrash(
+      siginfo.si_signo, &siginfo, reinterpret_cast<void*>(context));
+}
 }  // namespace crashpad
