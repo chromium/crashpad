@@ -1,0 +1,786 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "530ba999_b64f1a0f",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "Is this temporary? If so, mark it as such with a TODO that identifies the iOS client project.\n\nIf not: we should think about this dependency, but I can’t think about it this early in the review before I’ve seen what you’ve done. Just noting it here now.",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1127493_85b70aef",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "DumpWithoutCrash with an arbitrary context argument isn’t an ideal general-purpose interface.\n\nIs this temporary for the bring-up? Identify if so.",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "883d7537_ba95d6c5",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "Remove blank line.",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "629e7f80_adc506f7",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "Better:\n\n  DCHECK(SignalHandler::Get());",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 3
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98e609e2_4ee959f9",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "There are many fields here that you’re not touching. Use:\n\n  siginfo_t siginfo \u003d {};",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79992b22_34011f14",
+        "filename": "client/crashpad_client_ios_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0906c77_8e4c5ce5",
+        "filename": "client/crashpad_client_ios_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "Not used.",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fc53a5a_5dae27a7",
+        "filename": "client/crashpad_client_ios_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "Identify iOS.",
+      "range": {
+        "startLine": 26,
+        "startChar": 5,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2fe09b3_785fd99b",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "What for?",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9799300_d0b874bf",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "What for?",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8836816c_9d388a3b",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "For iOS, we should be using vm_address_t and vm_size_t, because we’ll only ever need to deal with same-bitness.\n\nIn fact, since this is always in-process for us on iOS, this can return a live pointer: const dyld_all_image_infos*.\n\ntask_dyld_info_data_t carries a mach_vm_address_t/mach_vm_size_t pair. This would be the right spot to transform to the type that we’ll be using everywhere else. We expect this to always be a valid transformation because we’re only supporting 64-bit. A checked_cast would be appropriate (and should optimize away).",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 17
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "829041a3_36fe69b2",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "If using const dyld_all_image_infos* as recommended, this parameter should be size_t* instead of vm_size_t* or mach_vm_size_t*.\n\n(The size type should match the pointer or address type.)",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1badb14d_0036d601",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "Confusing, because the struct isn’t about a single image, you’re just using it to derive information about a single special image.",
+      "range": {
+        "startLine": 63,
+        "startChar": 67,
+        "endLine": 63,
+        "endChar": 72
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99ab361d_fe33261a",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "Because you’ve written this to strictly the 64-bit Mach-O variant, you should do something like:\n\n#ifndef ARCH_CPU_64_BIT\n#error Only 64-bit Mach-O is supported\n#endif",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd730fef_2b50b46d",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "Why?",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3d5261c_4ca8b4ba",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "Use C++-style casts, always. I won’t call out each use in this file.\n\nC++-style casts will help because they only let you perform the specific operation you ask for. Your cast here is both a reinterpret_cast and a const_cast, but you didn’t want a const_cast at all, you just wanted the reinterpret_cast. You should still deal with all of this stuff as pointers to const data.",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b054ded_350b5ea1",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "No need to say struct in C++ code. Throughout.",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 82,
+        "endChar": 14
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10587951_e72cc745",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "I don’t like “i” as a variable name, particularly when your loop body is long and lasts until you’ve forgotten what “i” is.",
+      "range": {
+        "startLine": 84,
+        "startChar": 16,
+        "endLine": 84,
+        "endChar": 17
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a830a5f_9925935a",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "At each step in here, you need to take care to ensure that you’re not reading beyond the load command area as defined by mach_header_64::sizeofcmds.",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b504dc72_df0b9d49",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "This is only OK because you know that __TEXT is NUL-terminated, but if you had an arbitrary string, you couldn’t do this, because segment_command_64::segname isn’t guaranteed to be NUL-terminated.",
+      "range": {
+        "startLine": 89,
+        "startChar": 10,
+        "endLine": 89,
+        "endChar": 16
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efed4a1a_f9407df2",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "SEG_TEXT",
+      "range": {
+        "startLine": 89,
+        "startChar": 35,
+        "endLine": 89,
+        "endChar": 43
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3afd97d8_88da2f73",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "This whole cascade would be:\n\n1. slightly better as an “else if” chain.\n2. even better than that as a switch/case block.",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f5198ed_56f000d0",
+        "filename": "snapshot/ios/module_snapshot_ios.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "??",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 15
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74056096_4376f005",
+        "filename": "snapshot/ios/module_snapshot_ios.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "Blank line before C++ headers.",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b97eadd_e226d819",
+        "filename": "snapshot/ios/module_snapshot_ios.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "Since there’s nothing here in crashpad that’s not in crashpad::internal, remove this blank line (mirroring how you close it at the bottom of the file).",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d4b016d_faee968f",
+        "filename": "snapshot/ios/module_snapshot_ios.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 17
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8814dfac_7a295070",
+        "filename": "snapshot/ios/module_snapshot_ios.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "??",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b426692_80a878eb",
+        "filename": "snapshot/ios/module_snapshot_ios.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "If we’re going to be using this code from our final signal handler, logging is out.\n\nBut we won’t want to adhere to the snapshot interface for anything in our final signal handler. There’s no reason to adhere to that interface, and it hampers flexibility in making the purpose-built thing that we need fit the purpose as closely as possible (meaning doing it with as few unsafe things as possible).\n\n(For example, some things in the snapshot interface return vectors, and vectors allocate memory…)",
+      "range": {
+        "startLine": 48,
+        "startChar": 55,
+        "endLine": 49,
+        "endChar": 40
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8a4a96e_228b5482",
+        "filename": "snapshot/ios/module_snapshot_ios.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "Give names to parameters. It has documentary value and headers are primary sources of documenation.",
+      "range": {
+        "startLine": 50,
+        "startChar": 18,
+        "endLine": 50,
+        "endChar": 40
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7353ba9_43ab4e40",
+        "filename": "snapshot/ios/module_snapshot_ios.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "I didn’t know what this was about until I read the code. I know, that might seem silly, because I worked with you on the design. But I really had no idea until I made it halfway through the .cc file. It needs a comment.",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c19eca0a_f94c1499",
+        "filename": "snapshot/ios/module_snapshot_ios.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "You don’t need to say crashpad:: from inside namespace crashpad.",
+      "range": {
+        "startLine": 76,
+        "startChar": 18,
+        "endLine": 76,
+        "endChar": 28
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9d8c99d_add5ba44",
+        "filename": "snapshot/ios/module_snapshot_ios.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "Not a (crashpad::)UUID?",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcb59b42_fe224e9b",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "Blank between C and C++,",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "468c95a7_4ff65d0b",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "and then blank again between C++ and our stuff.",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a62c3f7_b28be738",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "No need to say “struct” in C++ code.",
+      "range": {
+        "startLine": 146,
+        "startChar": 2,
+        "endLine": 146,
+        "endChar": 8
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0a67f3f_1eec7497",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "C++-style casts.",
+      "range": {
+        "startLine": 147,
+        "startChar": 6,
+        "endLine": 147,
+        "endChar": 36
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bed182e3_60ac482b",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "dyld should be the last image in the list, not the first.\n\nThe executable should be the first (but this is the order you’ll get it from dyld in, so you don’t need special handling for that).",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8420da7_1e8bebf7",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "naming",
+      "range": {
+        "startLine": 155,
+        "startChar": 16,
+        "endLine": 155,
+        "endChar": 17
+      },
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05bca0db_f62709db",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "image_array[i] (with fixed naming) makes the operation you’re performing much clearer.",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8225898b_8b7a8a14",
+        "filename": "util/misc/capture_context.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T21:33:03Z",
+      "side": 1,
+      "message": "This isn’t right. We’re using ucontext_t as the native CPU context type on iOS regardless of architecture, because ucontext_t is the type we use with signal handlers. When desktop macOS exists for ARM, we would use an out-of-process Mach exception handler, so we’d use a Mach context type and not ucontext_t.\n\nSummarizing:\n\nMac and not iOS: x86 uses x86_thread_state (and nothing else is defined yet)\niOS: always use ucontext_t",
+      "revId": "fbc3fd552020e02915cb8485c64d3ebe42bb2bd3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
