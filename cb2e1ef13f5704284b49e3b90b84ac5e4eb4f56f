@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb2df87b_10e99f0a",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T20:03:00Z",
+      "side": 1,
+      "message": "Before doing anything else, I think you should DCHECK that name doesn’t contain any slashes. (Update the interface documentation in the header to specify.)",
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b092ebec_7f817c2f",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T20:03:00Z",
+      "side": 1,
+      "message": "You need a mode argument here, because this creates a file (even though you don’t need to say O_CREAT). Here, 0600 or the symbolic form S_IRUSR | S_IWUSR are the only choices that makes any sense.",
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23640058_454e557a",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T20:03:00Z",
+      "side": 1,
+      "message": "/tmp or $TMPDIR (with /tmp fallback)?",
+      "range": {
+        "startLine": 163,
+        "startChar": 30,
+        "endLine": 163,
+        "endChar": 34
+      },
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3001cbf_3a70ac50",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T20:03:00Z",
+      "side": 1,
+      "message": "Do we need a backup definition in compat? (Maybe not.)",
+      "range": {
+        "startLine": 163,
+        "startChar": 55,
+        "endLine": 163,
+        "endChar": 64
+      },
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17352e40_7b5619a5",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T20:03:00Z",
+      "side": 1,
+      "message": "May also be EOPNOTSUPP if the filesystem doesn’t handle O_TMPFILE but the kernel understands it. The man page also says that EISDIR and ENOENT need to be checked to determine whether the kernel provides O_TMPFILE support, which is seemingly what you’re using EINVAL for. I think you’ll need to look at a pre-O_TMPFILE kernel to figure this out, in addition to glibc to see if it does anything like remap errors.",
+      "range": {
+        "startLine": 164,
+        "startChar": 30,
+        "endLine": 164,
+        "endChar": 36
+      },
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc7e297d_a17b797c",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T20:03:00Z",
+      "side": 1,
+      "message": "Since you’re looking at this as a FileHandle and not just an int fd, use kInvalidFileHandle. But read the next comment first.",
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4c6c0a4_0d4a2a68",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T20:03:00Z",
+      "side": 1,
+      "message": "What’s the point of using a base::FilePath for this when you just want to get the const char* out of the underlying std::string anyway? Why not just use the std::string from the start, and save a pair of .value() calls?",
+      "range": {
+        "startLine": 173,
+        "startChar": 2,
+        "endLine": 173,
+        "endChar": 16
+      },
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62e6bb21_cfc5396d",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T20:03:00Z",
+      "side": 1,
+      "message": "This is what we have RandomString() for, instead of UUID.\n\nYou can do %s.%d.%s and put getpid() in the middle. Doesn’t get you additional randomness, but avoids innocent collisions and, most importantly, provides attribution to the process in case the unlink() fails.",
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1f56393_43755fa5",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-02-28T20:03:00Z",
+      "side": 1,
+      "message": "With O_CREAT, you need a mode argument too, same as above.",
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
