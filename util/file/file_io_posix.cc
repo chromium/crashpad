@@ -14,6 +14,7 @@
 
 #include "util/file/file_io.h"
 
+#include <errno.h>
 #include <fcntl.h>
 #include <sys/file.h>
 #include <sys/mman.h>
@@ -26,7 +27,9 @@
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
+#include "base/strings/stringprintf.h"
 #include "build/build_config.h"
+#include "util/misc/uuid.h"
 
 namespace crashpad {
 
@@ -100,8 +103,34 @@ FileHandle OpenFileForOutput(int rdwr_or_wronly,
 }
 
 #if defined(OS_LINUX)
-FileHandle OpenMemFileForOutput(const base::FilePath& path) {
-  return HANDLE_EINTR(memfd_create(path.value().c_str(), 0));
+FileHandle OpenMemFileForOutput(const base::FilePath& name) {
+  int result = HANDLE_EINTR(memfd_create(name.value().c_str(), 0));
+  if (result >= 0 || errno != ENOSYS) {
+    PLOG_IF(ERROR, result < 0) << "memfd_create";
+    return result;
+  }
+
+  result = HANDLE_EINTR(open("/tmp", O_RDWR | O_EXCL | O_TMPFILE));
+  if (result >= 0 || errno != EINVAL) {
+    PLOG_IF(ERROR, result < 0) << "open";
+    return result;
+  }
+
+  UUID uuid;
+  if (!uuid.InitializeWithNew()) {
+    return -1;
+  }
+  base::FilePath path(base::StringPrintf(
+      "/tmp/%s.%s", name.value().c_str(), uuid.ToString().c_str()));
+  result = HANDLE_EINTR(open(path.value().c_str(), O_RDWR | O_CREAT | O_EXCL));
+  if (result < 0) {
+    PLOG(ERROR) << "open";
+    return result;
+  }
+  if (unlink(path.value().c_str()) != 0) {
+    PLOG(ERROR) << "unlink";
+  }
+  return result;
 }
 #endif
 
