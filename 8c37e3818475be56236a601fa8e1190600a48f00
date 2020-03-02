@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfe3110e_b7efd089",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-02T22:01:02Z",
+      "side": 1,
+      "message": "Maybe a comment explaining why we chose each of these, saying that we’re…less sure than we usually are? (Because we usually shoot for 100%.)\n\nI have half a mind to set up a really old kernel in a VM to see what happens. But only half a mind.\n\nIt’s easier to just pass a bogus bit into a contemporary kernel, see that it results in EINVAL (or whatever), and hope that old kernels did the same.",
+      "revId": "8c37e3818475be56236a601fa8e1190600a48f00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f95f8455_3c9596cc",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-02T22:01:02Z",
+      "side": 1,
+      "message": "More of a WARNING, don’t you think?",
+      "revId": "8c37e3818475be56236a601fa8e1190600a48f00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
