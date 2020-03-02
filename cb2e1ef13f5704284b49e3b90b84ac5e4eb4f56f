@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "41c65616_f30db7c9",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-02T21:49:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb2df87b_10e99f0a",
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b092ebec_7f817c2f",
         "filename": "util/file/file_io_posix.cc",
         "patchSetId": 3
@@ -82,6 +100,72 @@
     },
     {
       "key": {
+        "uuid": "b09d40ec_63d87588",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-02T21:49:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23640058_454e557a",
+      "range": {
+        "startLine": 163,
+        "startChar": 30,
+        "endLine": 163,
+        "endChar": 34
+      },
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ac2dd01_11994e12",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-02T21:49:19Z",
+      "side": 1,
+      "message": "I don\u0027t think we need one yet.",
+      "parentUuid": "c3001cbf_3a70ac50",
+      "range": {
+        "startLine": 163,
+        "startChar": 55,
+        "endLine": 163,
+        "endChar": 64
+      },
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e1f32fa_6b2fece9",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-02T21:49:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b092ebec_7f817c2f",
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17352e40_7b5619a5",
         "filename": "util/file/file_io_posix.cc",
         "patchSetId": 3
@@ -93,6 +177,30 @@
       "writtenOn": "2020-02-28T20:03:00Z",
       "side": 1,
       "message": "May also be EOPNOTSUPP if the filesystem doesn’t handle O_TMPFILE but the kernel understands it. The man page also says that EISDIR and ENOENT need to be checked to determine whether the kernel provides O_TMPFILE support, which is seemingly what you’re using EINVAL for. I think you’ll need to look at a pre-O_TMPFILE kernel to figure this out, in addition to glibc to see if it does anything like remap errors.",
+      "range": {
+        "startLine": 164,
+        "startChar": 30,
+        "endLine": 164,
+        "endChar": 36
+      },
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72a21e45_e936899f",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-02T21:49:19Z",
+      "side": 1,
+      "message": "I didn\u0027t find glibc doing anything with the errnos here. I browsed around an old kernel for a bit, but figuring out the possibilities definitively was difficult because the kernel isn\u0027t very proactive about checking for valid flags. It generally just passes them around so selecting error codes happens all over the place (and of course everything could be different in a different kernel version).\n\nI found user-mode Linux checking for three of the error codes (but not ENOENT):\nhttps://elixir.bootlin.com/linux/latest/source/arch/um/os-Linux/mem.c#L115\n\nRe-reading the description for ENOENT:\n\npathname refers to a nonexistent directory, O_TMPFILE and one of O_WRONLY or O_RDWR were specified in flags, but this kernel version does not\n              provide the O_TMPFILE functionality.\n\nIt sounds like it shouldn\u0027t really be an indicator of O_TMPFILE support not present since we do expect the tmp directory to exist. This would indicate an error even with O_TMPFILE support.\n\nI\u0027m also suspicious of EISDIR since O_TMPFILE also sets O_DIRECTORY, but I can\u0027t confidently say that error wouldn\u0027t ever happen on some old kernel.\n\nWhatever the error is, it might not be a bad idea to just try falling back to creating/unlinking a file anyway. I don\u0027t think anything bad would come from that, except maybe making it harder to notice O_TMPFILE mis-usage when kernel support does exist.",
+      "parentUuid": "17352e40_7b5619a5",
       "range": {
         "startLine": 164,
         "startChar": 30,
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "7915d68a_7d34fcd9",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-02T21:49:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cc7e297d_a17b797c",
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4c6c0a4_0d4a2a68",
         "filename": "util/file/file_io_posix.cc",
         "patchSetId": 3
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "b07af4a7_cd943846",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-02T21:49:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4c6c0a4_0d4a2a68",
+      "range": {
+        "startLine": 173,
+        "startChar": 2,
+        "endLine": 173,
+        "endChar": 16
+      },
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62e6bb21_cfc5396d",
         "filename": "util/file/file_io_posix.cc",
         "patchSetId": 3
@@ -162,6 +312,24 @@
     },
     {
       "key": {
+        "uuid": "71ae9466_5f1285c1",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-02T21:49:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62e6bb21_cfc5396d",
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1f56393_43755fa5",
         "filename": "util/file/file_io_posix.cc",
         "patchSetId": 3
@@ -176,6 +344,24 @@
       "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7d1f08f_8b4be672",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-02T21:49:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1f56393_43755fa5",
+      "revId": "cb2e1ef13f5704284b49e3b90b84ac5e4eb4f56f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
