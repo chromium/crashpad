@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "55091e71_10177b4f",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-02T23:04:46Z",
+      "side": 1,
+      "message": "I tried this out on two old kernels (for which I had relatively convenient access via Android emulators). Both 3.10 and 2.6.29 returned EISDIR.\n\nI removed EINVAL from the ignored errors here since we haven\u0027t actually observed it, the man pages only state that it means flags has some invalid, not-specifically O_TMPFILE value, and EINVAL seems more likely to indicate real misusage here. I think it\u0027d be easier for us to notice some kernel logging EINVAL here and silence it later than silence possibly real problems now.",
+      "parentUuid": "cfe3110e_b7efd089",
+      "revId": "8c37e3818475be56236a601fa8e1190600a48f00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f95f8455_3c9596cc",
         "filename": "util/file/file_io_posix.cc",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "8c37e3818475be56236a601fa8e1190600a48f00",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd09c646_6db7404f",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-02T23:04:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f95f8455_3c9596cc",
+      "revId": "8c37e3818475be56236a601fa8e1190600a48f00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
