@@ -225,7 +225,7 @@ bool CrosCrashReportExceptionHandler::HandleExceptionWithConnection(
   AddUserExtensionStreams(user_stream_data_sources_, snapshot, &minidump);
 
   FileWriter file_writer;
-  if (!file_writer.OpenMemfd(base::FilePath("/tmp/minidump"))) {
+  if (!file_writer.OpenMemfd(base::FilePath("minidump"))) {
     Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kOpenMemfdFailed);
     return false;
   }
