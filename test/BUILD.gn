@@ -59,8 +59,6 @@ static_library("test") {
       "scoped_guarded_page.h",
       "scoped_module_handle.cc",
       "scoped_module_handle.h",
-      "scoped_temp_dir.cc",
-      "scoped_temp_dir.h",
       "test_paths.cc",
       "test_paths.h",
     ]
