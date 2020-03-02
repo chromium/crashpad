@@ -14,6 +14,7 @@
 
 #include "util/file/file_io.h"
 
+#include <errno.h>
 #include <fcntl.h>
 #include <sys/file.h>
 #include <sys/mman.h>
@@ -26,7 +27,9 @@
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
+#include "base/strings/stringprintf.h"
 #include "build/build_config.h"
+#include "util/misc/random_string.h"
 
 namespace crashpad {
 
@@ -98,13 +101,6 @@ FileHandle OpenFileForOutput(int rdwr_or_wronly,
            flags,
            permissions == FilePermissions::kWorldReadable ? 0644 : 0600));
 }
-
-#if defined(OS_LINUX)
-FileHandle OpenMemFileForOutput(const base::FilePath& path) {
-  return HANDLE_EINTR(memfd_create(path.value().c_str(), 0));
-}
-#endif
-
 }  // namespace
 
 namespace internal {
@@ -157,10 +153,39 @@ FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
 }
 
 #if defined(OS_LINUX)
-FileHandle LoggingOpenMemFileForWrite(const base::FilePath& path) {
-  FileHandle fd = OpenMemFileForOutput(path);
-  PLOG_IF(ERROR, fd < 0) << "memfd_create " << path.value();
-  return fd;
+FileHandle LoggingOpenMemoryFileForReadAndWrite(const base::FilePath& name) {
+  DCHECK(name.value().find('/') == std::string::npos);
+
+  int result = HANDLE_EINTR(memfd_create(name.value().c_str(), 0));
+  if (result >= 0 || errno != ENOSYS) {
+    PLOG_IF(ERROR, result < 0) << "memfd_create";
+    return result;
+  }
+
+  const char* tmp = getenv("TMPDIR");
+  tmp = tmp ? tmp : "/tmp";
+
+  result = HANDLE_EINTR(open(tmp, O_RDWR | O_EXCL | O_TMPFILE, 0600));
+  if (result >= 0 ||
+      (errno != EINVAL && errno != EISDIR && errno != EOPNOTSUPP)) {
+    PLOG_IF(ERROR, result < 0) << "open";
+    return result;
+  }
+
+  std::string path = base::StringPrintf("%s/%s.%d.%s",
+                                        tmp,
+                                        name.value().c_str(),
+                                        getpid(),
+                                        RandomString().c_str());
+  result = HANDLE_EINTR(open(path.c_str(), O_RDWR | O_CREAT | O_EXCL, 0600));
+  if (result < 0) {
+    PLOG(ERROR) << "open";
+    return result;
+  }
+  if (unlink(path.c_str()) != 0) {
+    PLOG(ERROR) << "unlink";
+  }
+  return result;
 }
 #endif
 
