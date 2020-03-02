@@ -473,6 +473,23 @@ TEST(FileIO, LoggingOpenFileForReadAndWrite) {
   TestOpenFileForWrite(LoggingOpenFileForReadAndWrite);
 }
 
+#if defined(OS_LINUX)
+TEST(FileIO, LoggingOpenMemoryFileForReadAndWrite) {
+  ScopedFileHandle handle(
+      LoggingOpenMemoryFileForReadAndWrite(base::FilePath("memfile")));
+  ASSERT_TRUE(handle.is_valid());
+
+  static constexpr char kTestData[] = "somedata";
+  ASSERT_TRUE(LoggingWriteFile(handle.get(), kTestData, sizeof(kTestData)));
+
+  ASSERT_EQ(LoggingSeekFile(handle.get(), 0, SEEK_SET), 0);
+
+  char buffer[sizeof(kTestData)];
+  ASSERT_TRUE(LoggingReadFileExactly(handle.get(), buffer, sizeof(buffer)));
+  EXPECT_EQ(memcmp(buffer, kTestData, sizeof(buffer)), 0);
+}
+#endif  // OS_LINUX
+
 enum class ReadOrWrite : bool {
   kRead,
   kWrite,
