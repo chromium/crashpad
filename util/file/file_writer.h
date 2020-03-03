@@ -132,7 +132,7 @@ class FileWriter : public FileWriterInterface {
             FilePermissions permissions);
 
 #if defined(OS_LINUX)
-  //! \brief Wraps LoggingOpenMemFileForWrite().
+  //! \brief Wraps LoggingOpenMemoryFileForWrite().
   //!
   //! \return `true` if the operation succeeded, `false` if it failed, with an
   //!     error message logged.
