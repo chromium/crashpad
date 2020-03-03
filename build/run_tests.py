@@ -437,7 +437,7 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name, extra_command_line):
 
 
 def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False):
-  """Runs the given iOS |test| app on iPhone X with the default OS version."""
+  """Runs the given iOS |test| app on iPhone 8 with the default OS version."""
 
   def xctest(binary_dir, test):
     """Returns a dict containing the xctestrun data needed to run an
@@ -496,7 +496,7 @@ def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False):
 
     subprocess.check_call(['xcodebuild', 'test-without-building',
                            '-xctestrun', xctestrun_path, '-destination',
-                           'platform=iOS Simulator,name=iPhone X'])
+                           'platform=iOS Simulator,name=iPhone 8'])
 
 # This script is primarily used from the waterfall so that the list of tests
 # that are run is maintained in-tree, rather than in a separate infrastructure
