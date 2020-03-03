@@ -108,6 +108,15 @@ static_library("snapshot") {
     ]
   }
 
+  if (crashpad_is_ios) {
+    sources += [
+      "ios/module_snapshot_ios.cc",
+      "ios/module_snapshot_ios.h",
+      "ios/process_snapshot_ios.cc",
+      "ios/process_snapshot_ios.h",
+    ]
+  }
+
   if (crashpad_is_linux || crashpad_is_android) {
     set_sources_assignment_filter([])
     sources += [
@@ -229,6 +238,10 @@ static_library("snapshot") {
     "../third_party/mini_chromium:base",
     "../util",
   ]
+
+  if (crashpad_is_ios) {
+    deps -= [ "../client" ]
+  }
 
   if (crashpad_is_win) {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
