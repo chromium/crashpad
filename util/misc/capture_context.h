@@ -17,7 +17,9 @@
 
 #include "build/build_config.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_IOS)
+#include <sys/ucontext.h>
+#elif defined(OS_MACOSX)
 #include <mach/mach.h>
 #elif defined(OS_WIN)
 #include <windows.h>
@@ -29,7 +31,9 @@
 
 namespace crashpad {
 
-#if defined(OS_MACOSX)
+#if defined(OS_IOS)
+using NativeCPUContext = ucontext_t;
+#elif defined(OS_MACOSX)
 #if defined(ARCH_CPU_X86_FAMILY)
 using NativeCPUContext = x86_thread_state;
 #endif
