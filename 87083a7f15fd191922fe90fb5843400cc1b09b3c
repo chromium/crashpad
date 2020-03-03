@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "319ea5cb_e8a98b84",
+        "filename": "util/misc/capture_context.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-03T01:39:24Z",
+      "side": 1,
+      "message": "I could also mix this with the block on line 42, but then Il\u0027l also need a \u0026\u0026 !defined(OS_IOS) for the mac section, so I opted for this.  I could also embed the IOS portion within the mac section.  Many options.",
+      "revId": "87083a7f15fd191922fe90fb5843400cc1b09b3c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
