@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e108086_de8ec142",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 4
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-03T04:51:13Z",
+      "side": 1,
+      "message": "This mirrors adding the snapshot dependency to client/BUILD.gn.  I don\u0027t know enough about what\u0027s going to be needed here...",
+      "revId": "9d9495bb720f7bdb8bef25f29df380d4a7533807",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
