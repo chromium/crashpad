@@ -328,7 +328,7 @@ source_set("snapshot_test") {
       "sanitized/process_snapshot_sanitized_test.cc",
       "sanitized/sanitization_information_test.cc",
     ]
-  } else {
+  } else if (!crashpad_is_ios) {
     sources += [ "crashpad_info_client_options_test.cc" ]
   }
 
