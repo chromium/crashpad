@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a6294634_fa5512e8",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-03T15:49:18Z",
+      "side": 1,
+      "message": "\u003e I tried this out on two old kernels (for which I had relatively convenient access via Android emulators). Both 3.10 and 2.6.29 returned EISDIR.\n\u003e \n\u003e I removed EINVAL from the ignored errors here since we haven\u0027t actually observed it, the man pages only state that it means flags has some invalid, not-specifically O_TMPFILE value, and EINVAL seems more likely to indicate real misusage here. I think it\u0027d be easier for us to notice some kernel logging EINVAL here and silence it later than silence possibly real problems now.\n\nI read some old kernel source and don’t see how EINVAL would be a possibility here. Definitely EISDIR.",
+      "parentUuid": "55091e71_10177b4f",
+      "revId": "8c37e3818475be56236a601fa8e1190600a48f00",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f95f8455_3c9596cc",
         "filename": "util/file/file_io_posix.cc",
         "patchSetId": 4

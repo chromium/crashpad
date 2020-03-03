@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00cadd97_0ea068c7",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-03T15:49:18Z",
+      "side": 1,
+      "message": "Just for completeness, since we check this too: add that EOPNOTSUPP is here for filesystems that don’t implement O_TMPFILE semantics.\n\n(I did verify this in kernel source. I checked both 3.11 and 5.5.7.)",
+      "revId": "1efdf017bd51e63138d6f73de4ff97dbef6bbb9f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
