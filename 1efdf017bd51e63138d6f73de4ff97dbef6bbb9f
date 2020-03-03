@@ -16,6 +16,24 @@
       "revId": "1efdf017bd51e63138d6f73de4ff97dbef6bbb9f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ac336e1_08af893d",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-03T17:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00cadd97_0ea068c7",
+      "revId": "1efdf017bd51e63138d6f73de4ff97dbef6bbb9f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
