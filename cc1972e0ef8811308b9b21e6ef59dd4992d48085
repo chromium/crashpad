@@ -1,0 +1,227 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48a760f5_ff5702af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-04T17:29:29Z",
+      "side": 1,
+      "message": "- I don’t expect this to live in snapshot or adhere to the snapshot interface at all.",
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "086bdd96_99894f73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-04T17:29:29Z",
+      "side": 1,
+      "message": "spelling",
+      "range": {
+        "startLine": 17,
+        "startChar": 52,
+        "endLine": 17,
+        "endChar": 58
+      },
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4b9f5c8_d346080b",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-04T17:29:29Z",
+      "side": 1,
+      "message": "Remove this line.",
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "492facf7_068a78cc",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-04T17:29:29Z",
+      "side": 1,
+      "message": "Call this cumulative_cmd_size to make clear that it’s not command-\u003ecmdsize.",
+      "range": {
+        "startLine": 86,
+        "startChar": 11,
+        "endLine": 86,
+        "endChar": 19
+      },
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a278b5e5_c7d81ebe",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-04T17:29:29Z",
+      "side": 1,
+      "message": ", cumulative_cmd_size \u003d 0 on this line too?",
+      "range": {
+        "startLine": 87,
+        "startChar": 7,
+        "endLine": 87,
+        "endChar": 30
+      },
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79343be0_a2a97f83",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-04T17:29:29Z",
+      "side": 1,
+      "message": "\u003c\u003d",
+      "range": {
+        "startLine": 88,
+        "startChar": 45,
+        "endLine": 88,
+        "endChar": 46
+      },
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33dd6aba_84db8551",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-04T17:29:29Z",
+      "side": 1,
+      "message": "++preincrement form is usual in Crashpad.",
+      "range": {
+        "startLine": 89,
+        "startChar": 7,
+        "endLine": 89,
+        "endChar": 18
+      },
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7c6ec46_20df2ffc",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-04T17:29:29Z",
+      "side": 1,
+      "message": "header_ptr is a bad name for this because it’s not pointing at the header at all.",
+      "range": {
+        "startLine": 108,
+        "startChar": 19,
+        "endLine": 108,
+        "endChar": 29
+      },
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0eda6a2c_8d2de6e0",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-04T17:29:29Z",
+      "side": 1,
+      "message": "But you don’t need a distinct temporary for header_ptr, whatever you’d call it. You could write this all as one expression:\n\n    command \u003d reinterpret_cast\u003cconst load_command*\u003e(reinterpret_cast\u003cconst uint8_t*\u003e(command + command-\u003ecmdsize));",
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c432c888_23353bb6",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-04T17:29:29Z",
+      "side": 1,
+      "message": "TODO: warn-able things, for when we decide to have a way to carry errors to our serialization format:\n\n - Bad Mach-O magic (and give up trying to process the module)\n - Unrecognized Mach-O type\n - No SEG_TEXT\n - More than one SEG_TEXT\n - More than one LC_ID_DYLIB, LC_SOURCE_VERSION, or LC_UUID\n - No LC_ID_DYLIB in a dylib file\n - LC_ID_DYLIB in a non-dylib file\n\nNo error: missing LC_UUID (although it leaves us with a big \"?\"), missing LC_SOURCE_VERSION.",
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43cca462_40be7cf3",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-04T17:29:29Z",
+      "side": 1,
+      "message": "Why declare this here, when you only use it inside the loop below?",
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
