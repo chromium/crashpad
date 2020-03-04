@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "40195f50_976baecf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-04T20:18:38Z",
+      "side": 1,
+      "message": "How about:\n- The \u0027capture\u0027 portion of this CL will be moved out of the snapshot interface and into a separate in-process dump to disk location.",
+      "parentUuid": "48a760f5_ff5702af",
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "086bdd96_99894f73",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "eae767fa_b4ef3d16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-04T20:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "086bdd96_99894f73",
+      "range": {
+        "startLine": 17,
+        "startChar": 52,
+        "endLine": 17,
+        "endChar": 58
+      },
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4b9f5c8_d346080b",
         "filename": "client/crashpad_client.h",
         "patchSetId": 5
@@ -56,6 +98,24 @@
       "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68c52ac5_910fee17",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-04T20:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4b9f5c8_d346080b",
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "a4ad6ed0_7cf17d4e",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-04T20:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "492facf7_068a78cc",
+      "range": {
+        "startLine": 86,
+        "startChar": 11,
+        "endLine": 86,
+        "endChar": 19
+      },
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a278b5e5_c7d81ebe",
         "filename": "snapshot/ios/module_snapshot_ios.cc",
         "patchSetId": 5
@@ -102,6 +186,30 @@
       "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dba1ba8_76d73e2f",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-04T20:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a278b5e5_c7d81ebe",
+      "range": {
+        "startLine": 87,
+        "startChar": 7,
+        "endLine": 87,
+        "endChar": 30
+      },
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "00469d6a_3a1819ca",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-04T20:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79343be0_a2a97f83",
+      "range": {
+        "startLine": 88,
+        "startChar": 45,
+        "endLine": 88,
+        "endChar": 46
+      },
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33dd6aba_84db8551",
         "filename": "snapshot/ios/module_snapshot_ios.cc",
         "patchSetId": 5
@@ -148,6 +280,30 @@
       "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb4bb4bd_4fa68bac",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-04T20:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33dd6aba_84db8551",
+      "range": {
+        "startLine": 89,
+        "startChar": 7,
+        "endLine": 89,
+        "endChar": 18
+      },
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -174,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "f5a8d787_bf70ee88",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-04T20:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7c6ec46_20df2ffc",
+      "range": {
+        "startLine": 108,
+        "startChar": 19,
+        "endLine": 108,
+        "endChar": 29
+      },
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0eda6a2c_8d2de6e0",
         "filename": "snapshot/ios/module_snapshot_ios.cc",
         "patchSetId": 5
@@ -188,6 +368,24 @@
       "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "193a214f_4bbb5357",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-04T20:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eda6a2c_8d2de6e0",
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -208,6 +406,24 @@
     },
     {
       "key": {
+        "uuid": "b220a5b2_8029d889",
+        "filename": "snapshot/ios/module_snapshot_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-04T20:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c432c888_23353bb6",
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43cca462_40be7cf3",
         "filename": "snapshot/ios/process_snapshot_ios.cc",
         "patchSetId": 5
@@ -222,6 +438,24 @@
       "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb066402_bd4198f1",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-04T20:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43cca462_40be7cf3",
+      "revId": "cc1972e0ef8811308b9b21e6ef59dd4992d48085",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
