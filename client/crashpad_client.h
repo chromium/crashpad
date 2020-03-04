@@ -436,6 +436,13 @@ class CrashpadClient {
   //! TODO(justincohen): This method will need to take database, metrics_dir,
   //! url and annotations eventually.
   bool StartCrashpadInProcessHandler();
+
+  // TODO(justincohen): This method is purely for bringing up iOS interfaces.
+  //! \brief Requests that the handler capture a dump even though there hasn't
+  //!     been a crash.
+  //!
+  //! A handler must have already been installed before calling this method.
+  static void DumpWithoutCrash();
 #endif
 
 #if defined(OS_MACOSX) || DOXYGEN
