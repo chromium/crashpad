@@ -93,6 +93,11 @@ static_library("client") {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
   }
 
+  # TODO(justincohen): Temporary dependency to bring up the iOS client.
+  if (crashpad_is_ios) {
+    deps += [ "../snapshot" ]
+  }
+
   if (crashpad_is_linux || crashpad_is_android) {
     deps += [ "../third_party/lss" ]
   }
@@ -124,6 +129,17 @@ source_set("client_test") {
 
   if (crashpad_is_win) {
     sources += [ "crashpad_client_win_test.cc" ]
+  }
+
+  if (crashpad_is_ios) {
+    sources += [ "crashpad_client_ios_test.cc" ]
+    sources -= [
+      "annotation_list_test.cc",
+      "annotation_test.cc",
+      "crash_report_database_test.cc",
+      "prune_crash_reports_test.cc",
+      "settings_test.cc",
+    ]
   }
 
   if (crashpad_is_linux || crashpad_is_android) {

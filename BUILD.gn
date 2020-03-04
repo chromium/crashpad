@@ -36,12 +36,12 @@ config("disable_ubsan") {
 if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
   test("crashpad_tests") {
     deps = [
+      "client:client_test",
       "test:gmock_main",
       "test:test_test",
     ]
     if (!crashpad_is_ios) {
       deps += [
-        "client:client_test",
         "handler:handler_test",
         "minidump:minidump_test",
         "snapshot:snapshot_test",
@@ -138,9 +138,7 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
     }
 
     package("crashpad_database_util") {
-      deps = [
-        "tools:crashpad_database_util",
-      ]
+      deps = [ "tools:crashpad_database_util" ]
 
       binaries = [
         {
@@ -156,9 +154,6 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       "client:client_test",
       "test:gmock_main",
     ]
-    if (crashpad_is_ios) {
-      deps -= [ "client:client_test" ]
-    }
   }
 
   test("crashpad_handler_test") {
@@ -212,8 +207,6 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
 if (crashpad_is_ios) {
   group("ios_xcuitests") {
     testonly = true
-    deps = [
-      "test/ios:all_tests",
-    ]
+    deps = [ "test/ios:all_tests" ]
   }
 }
