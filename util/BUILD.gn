@@ -230,6 +230,10 @@ static_library("util") {
     }
   }
 
+  if (crashpad_is_ios) {
+    sources += [ "process/process_memory_ios.cc" ]
+  }
+
   if (crashpad_is_mac) {
     sources += [
       "mac/checked_mach_address_range.h",
