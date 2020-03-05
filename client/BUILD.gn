@@ -96,6 +96,7 @@ static_library("client") {
   # TODO(justincohen): Temporary dependency to bring up the iOS client.
   if (crashpad_is_ios) {
     deps += [ "../snapshot" ]
+    deps += [ "../minidump" ]
   }
 
   if (crashpad_is_linux || crashpad_is_android) {

@@ -44,6 +44,8 @@ bool ProcessSnapshotIOS::Initialize() {
     return false;
   }
 
+  system_.Initialize(&snapshot_time_);
+
   InitializeThreads();
   InitializeModules();
 
@@ -93,7 +95,7 @@ ProcessSnapshotIOS::AnnotationsSimpleMap() const {
 
 const SystemSnapshot* ProcessSnapshotIOS::System() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return nullptr;
+  return &system_;
 }
 
 std::vector<const ThreadSnapshot*> ProcessSnapshotIOS::Threads() const {

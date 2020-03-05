@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "snapshot/ios/module_snapshot_ios.h"
+#include "snapshot/ios/system_snapshot_ios.h"
 #include "snapshot/ios/thread_snapshot_ios.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/thread_snapshot.h"
@@ -64,6 +65,7 @@ class ProcessSnapshotIOS final : public ProcessSnapshot {
   // Initializes threads_ on behalf of Initialize().
   void InitializeThreads();
 
+  internal::SystemSnapshotIOS system_;
   std::vector<std::unique_ptr<internal::ThreadSnapshotIOS>> threads_;
   std::vector<std::unique_ptr<internal::ModuleSnapshotIOS>> modules_;
   UUID report_id_;

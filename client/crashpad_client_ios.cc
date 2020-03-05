@@ -19,7 +19,9 @@
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "client/client_argv_handling.h"
+#include "minidump/minidump_file_writer.h"
 #include "snapshot/ios/process_snapshot_ios.h"
+#include "util/file/string_file.h"
 #include "util/posix/signals.h"
 
 namespace crashpad {
@@ -85,7 +87,17 @@ bool CrashpadClient::StartCrashpadInProcessHandler() {
 void CrashpadClient::DumpWithoutCrash() {
   DCHECK(SignalHandler::Get());
 
-  siginfo_t siginfo = {};
-  SignalHandler::Get()->HandleCrash(siginfo.si_signo, &siginfo, nullptr);
+  // TODO(justincohen): This is incomplete.
+  ProcessSnapshotIOS process_snapshot;
+  process_snapshot.Initialize();
+
+  // This is wrong, and
+  MinidumpFileWriter minidump;
+  minidump.InitializeFromSnapshot(&process_snapshot);
+  StringFile string_file;
+  minidump.WriteEverything(&string_file);
+
+  //  siginfo_t siginfo = {};
+  //  SignalHandler::Get()->HandleCrash(siginfo.si_signo, &siginfo, nullptr);
 }
 }  // namespace crashpad
