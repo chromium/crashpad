@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15c4c932_b16ee39b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-05T11:39:54Z",
+      "side": 1,
+      "message": "Update.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "00959bc699608b8d681ae12c84988a67d73fe695",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
