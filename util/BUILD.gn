@@ -230,6 +230,15 @@ static_library("util") {
     }
   }
 
+  if (crashpad_is_ios) {
+    sources += [
+      "ios/ios_system_data.h",
+      "ios/ios_system_data.mm",
+      "mac/xattr.cc",
+      "mac/xattr.h",
+    ]
+  }
+
   if (crashpad_is_mac) {
     sources += [
       "mac/checked_mach_address_range.h",

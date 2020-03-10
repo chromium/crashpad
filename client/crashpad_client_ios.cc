@@ -19,7 +19,11 @@
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "client/client_argv_handling.h"
+#include "client/crash_report_database.h"
+#include "minidump/minidump_file_writer.h"
 #include "snapshot/ios/process_snapshot_ios.h"
+#include "util/file/string_file.h"
+#include "util/ios/ios_system_data.h"
 #include "util/posix/signals.h"
 
 namespace crashpad {
@@ -36,6 +40,8 @@ class SignalHandler {
   }
 
   bool Install(const std::set<int>* unhandled_signals) {
+    // Set up system snapshot.
+
     return Signals::InstallCrashHandlers(
         HandleSignal, 0, &old_actions_, unhandled_signals);
   }
@@ -43,11 +49,52 @@ class SignalHandler {
   void HandleCrash(int signo, siginfo_t* siginfo, void* context) {
     // TODO(justincohen): This is incomplete.
     ProcessSnapshotIOS process_snapshot;
-    process_snapshot.Initialize();
+    process_snapshot.Initialize(&system_data);
+
+    // TODO(justincohen): Temporary, only used for testing.
+    //    MinidumpFileWriter minidump;
+    //    minidump.InitializeFromSnapshot(&process_snapshot);
+    //    std::unique_ptr<CrashReportDatabase::NewReport> new_report;
+    char* tmpdir = getenv("TMPDIR");
+    std::string dir;
+    dir.assign(tmpdir);
+    dir.append("org.chromium.crashpad.test.XXXXXX");
+    mkdtemp(&dir[0]);
+    std::unique_ptr<CrashReportDatabase> database(
+        CrashReportDatabase::Initialize(base::FilePath(dir)));
+    //    database->PrepareNewCrashReport(&new_report);
+    //    minidump.WriteEverything(new_report->Writer());
+
+    std::unique_ptr<CrashReportDatabase::NewReport> new_report;
+    CrashReportDatabase::OperationStatus database_status =
+        database->PrepareNewCrashReport(&new_report);
+    if (database_status != CrashReportDatabase::kNoError) {
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kPrepareNewCrashReportFailed);
+    }
+
+    process_snapshot.SetReportID(new_report->ReportID());
+
+    MinidumpFileWriter minidump;
+    minidump.InitializeFromSnapshot(&process_snapshot);
+
+    if (!minidump.WriteEverything(new_report->Writer())) {
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kMinidumpWriteFailed);
+    }
+
+    UUID uuid;
+    database_status =
+        database->FinishedWritingCrashReport(std::move(new_report), &uuid);
+    if (database_status != CrashReportDatabase::kNoError) {
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
+    }
   }
 
  private:
   SignalHandler() = default;
+  ~SignalHandler() = delete;
 
   // The base implementation for all signal handlers, suitable for calling
   // directly to simulate signal delivery.
@@ -67,6 +114,8 @@ class SignalHandler {
   }
 
   Signals::OldActions old_actions_ = {};
+
+  IOSSystemData system_data;
 
   DISALLOW_COPY_AND_ASSIGN(SignalHandler);
 };

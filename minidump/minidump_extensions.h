@@ -264,7 +264,6 @@ enum MinidumpOS : uint32_t {
   kMinidumpOSUnknown = 0xffffffff,
 };
 
-
 //! \brief A list of ::RVA pointers.
 struct ALIGNAS(4) PACKED MinidumpRVAList {
   //! \brief The number of children present in the #children array.

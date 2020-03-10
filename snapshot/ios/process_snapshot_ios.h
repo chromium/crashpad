@@ -15,9 +15,11 @@
 #ifndef CRASHPAD_SNAPSHOT_IOS_PROCESS_SNAPSHOT_IOS_H_
 #define CRASHPAD_SNAPSHOT_IOS_PROCESS_SNAPSHOT_IOS_H_
 
+#include <sys/sysctl.h>
 #include <vector>
 
 #include "snapshot/ios/module_snapshot_ios.h"
+#include "snapshot/ios/system_snapshot_ios.h"
 #include "snapshot/ios/thread_snapshot_ios.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/thread_snapshot.h"
@@ -36,7 +38,21 @@ class ProcessSnapshotIOS final : public ProcessSnapshot {
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  bool Initialize();
+  bool Initialize(const IOSSystemData* system_data);
+
+  //! \brief Sets the value to be returned by ClientID().
+  //!
+  //! On iOS, the client ID is under the control of the snapshot producer,
+  //! which may call this method to set the client ID. If this is not done,
+  //! ClientID() will return an identifier consisting entirely of zeroes.
+  void SetClientID(const UUID& client_id) { client_id_ = client_id; }
+
+  //! \brief Sets the value to be returned by ReportID().
+  //!
+  //! On iOS, the crash report ID is under the control of the snapshot
+  //! producer, which may call this method to set the report ID. If this is not
+  //! done, ReportID() will return an identifier consisting entirely of zeroes.
+  void SetReportID(const UUID& report_id) { report_id_ = report_id; }
 
   // ProcessSnapshot:
   pid_t ProcessID() const override;
@@ -64,6 +80,8 @@ class ProcessSnapshotIOS final : public ProcessSnapshot {
   // Initializes threads_ on behalf of Initialize().
   void InitializeThreads();
 
+  kinfo_proc kern_proc_info_;
+  internal::SystemSnapshotIOS system_;
   std::vector<std::unique_ptr<internal::ThreadSnapshotIOS>> threads_;
   std::vector<std::unique_ptr<internal::ModuleSnapshotIOS>> modules_;
   UUID report_id_;
