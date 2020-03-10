@@ -87,25 +87,26 @@ bool ModuleSnapshotIOS::FinishInitialization() {
        cmd_index <= header->ncmds && cumulative_cmd_size < header->sizeofcmds;
        ++cmd_index, cumulative_cmd_size += command->cmdsize) {
     if (command->cmd == LC_SEGMENT_64) {
-      segment_command_64* segment =
-          reinterpret_cast<segment_command_64*>(&command);
+      const segment_command_64* segment =
+          reinterpret_cast<const segment_command_64*>(command);
       if (strcmp(segment->segname, SEG_TEXT) == 0) {
         size_ = segment->vmsize;
       }
     } else if (command->cmd == LC_ID_DYLIB) {
-      dylib_command* dylib = reinterpret_cast<dylib_command*>(&command);
+      const dylib_command* dylib =
+          reinterpret_cast<const dylib_command*>(command);
       dylib_version_ = dylib->dylib.current_version;
     } else if (command->cmd == LC_SOURCE_VERSION) {
-      source_version_command* source_version =
-          reinterpret_cast<source_version_command*>(&command);
+      const source_version_command* source_version =
+          reinterpret_cast<const source_version_command*>(command);
       source_version_ = source_version->version;
     } else if (command->cmd == LC_UUID) {
-      uuid_command* uuid = reinterpret_cast<uuid_command*>(&command);
+      const uuid_command* uuid = reinterpret_cast<const uuid_command*>(command);
       uuid_.InitializeFromBytes(uuid->uuid);
     }
 
     command = reinterpret_cast<const load_command*>(
-        reinterpret_cast<const uint8_t*>(command + command->cmdsize));
+        reinterpret_cast<const uint8_t*>(command) + command->cmdsize);
 
     // TODO(justincohen): Warn-able things:
     // - Bad Mach-O magic (and give up trying to process the module)
