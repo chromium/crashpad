@@ -46,7 +46,7 @@ class SignalHandler {
   void HandleCrash(int signo, siginfo_t* siginfo, void* context) {
     // TODO(justincohen): This is incomplete.
     ProcessSnapshotIOS process_snapshot;
-    process_snapshot.Initialize(&system_data);
+    process_snapshot.Initialize(siginfo, context, &system_data);
 
     // TODO(justincohen): For testing only!
     // To be removed before landing CL, but super useful in testing.
