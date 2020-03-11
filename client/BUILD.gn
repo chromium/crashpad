@@ -44,7 +44,10 @@ static_library("client") {
   }
 
   if (crashpad_is_ios) {
-    sources += [ "crashpad_client_ios.cc" ]
+    sources += [
+      "crash_report_database_ios.mm",
+      "crashpad_client_ios.cc",
+    ]
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
@@ -96,6 +99,7 @@ static_library("client") {
   # TODO(justincohen): Temporary dependency to bring up the iOS client.
   if (crashpad_is_ios) {
     deps += [ "../snapshot" ]
+    deps += [ "../minidump" ]
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
