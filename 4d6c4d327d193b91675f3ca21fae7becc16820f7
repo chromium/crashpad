@@ -22,6 +22,30 @@
       "revId": "4d6c4d327d193b91675f3ca21fae7becc16820f7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "335e5c0b_9df1ddab",
+        "filename": "util/fuchsia/scoped_task_suspend.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000608
+      },
+      "writtenOn": "2020-03-13T22:36:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "192deba1_c1b462c1",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 76
+      },
+      "revId": "4d6c4d327d193b91675f3ca21fae7becc16820f7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
