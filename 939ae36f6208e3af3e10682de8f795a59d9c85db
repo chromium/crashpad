@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f9fceca_97fc010a",
+        "filename": "util/fuchsia/scoped_task_suspend.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-03-13T21:37:52Z",
+      "side": 1,
+      "message": "zx_info_thread_t",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 56,
+        "endChar": 20
+      },
+      "revId": "939ae36f6208e3af3e10682de8f795a59d9c85db",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5591387c_fab0497e",
+        "filename": "util/fuchsia/scoped_task_suspend.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-03-13T21:37:52Z",
+      "side": 1,
+      "message": "This is uninitialized and possibly confusing, if info_status !\u003d ZX_OK I believe.",
+      "range": {
+        "startLine": 61,
+        "startChar": 33,
+        "endLine": 61,
+        "endChar": 43
+      },
+      "revId": "939ae36f6208e3af3e10682de8f795a59d9c85db",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
