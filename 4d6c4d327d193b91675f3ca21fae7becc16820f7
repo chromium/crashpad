@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "192deba1_c1b462c1",
+        "filename": "util/fuchsia/scoped_task_suspend.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-03-13T22:11:57Z",
+      "side": 1,
+      "message": "I think this is going to be a bit confusing now because the info_status and wait_status are merged. i.e you\u0027re going to get:\n\n  thread failed to suspend, thread info status -NNN: ZX_ERR_TIMED_OUT (-21)\n\nwhere the second one is wait_status but looks related to info_status.\n\nMaybe you want to break the thread info status into a separate line? But doesn\u0027t matter too much.",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 76
+      },
+      "revId": "4d6c4d327d193b91675f3ca21fae7becc16820f7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
