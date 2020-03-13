@@ -494,6 +494,12 @@ def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False):
     else:
       plistlib.writePlist(xctest(binary_dir, test), xctestrun_path)
 
+    # Don't bother checking the return code here, if the device is already
+    # shutdown.
+    subprocess.call(['xcrun', 'simctl', 'shutdown', 'iPhone 8'])
+
+    subprocess.check_call(['xcrun', 'simctl', 'erase', 'iPhone 8'])
+    subprocess.check_call(['xcrun', 'simctl', 'boot', 'iPhone 8'])
     subprocess.check_call(['xcodebuild', 'test-without-building',
                            '-xctestrun', xctestrun_path, '-destination',
                            'platform=iOS Simulator,name=iPhone 8'])
