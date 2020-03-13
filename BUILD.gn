@@ -20,6 +20,7 @@ config("crashpad_config") {
   include_dirs = [ "." ]
 }
 
+
 # TODO(fuchsia:46805): Remove this once instances of UB have been cleaned up.
 config("disable_ubsan") {
   if (crashpad_is_in_fuchsia) {
