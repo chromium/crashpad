@@ -52,8 +52,14 @@ ScopedTaskSuspend::ScopedTaskSuspend(const zx::process& process) {
     zx_signals_t observed = 0u;
     const zx_status_t wait_status = thread.wait_one(
         ZX_THREAD_SUSPENDED, zx::deadline_after(zx::msec(50)), &observed);
-    ZX_LOG_IF(ERROR, wait_status != ZX_OK, wait_status)
-        << "thread failed to suspend";
+    if (wait_status != ZX_OK) {
+      zx_info_thread info;
+      zx_status_t info_status = thread.get_info(
+          ZX_INFO_THREAD, &info, sizeof(info), nullptr, nullptr);
+      ZX_LOG(ERROR, wait_status)
+          << "thread failed to suspend, thread info status " << info_status
+          << " thread state " << info.state;
+    }
   }
 }
 
