@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08299682_0e32f9d5",
+        "filename": "snapshot/ios/thread_snapshot_ios.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:01:58Z",
+      "side": 1,
+      "message": "What’s this all about? I don’t think it’s necessary. (It wasn’t for any other platform.)\n\nIf we must have it (and I bet we won’t need it), we should rename it, because “CPUContextType” doesn’t really mean anything, or if it does, it sounds like it means something other than what it is (I’d think “type of CPU context,” which is really more what the field CPUContext::architecture, or type CPUArchitecture, is about.)\n\nAnd why is this loose, outside of any namespace?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 30
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42985dc4_473f9364",
+        "filename": "snapshot/ios/thread_snapshot_ios.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:01:58Z",
+      "side": 1,
+      "message": "Why do you have both of these? You should only need CPUContext.",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 31
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
