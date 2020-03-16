@@ -2,6 +2,194 @@
   "comments": [
     {
       "key": {
+        "uuid": "fc5aa399_382538a5",
+        "filename": "snapshot/ios/memory_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:43:10Z",
+      "side": 1,
+      "message": "Yup, OK. But we’re not so concerned with the final form of MemorySnapshotIOS, the one that reads things out of the serialized format, right? Right now, we’re working with these temporary snapshot implementations that are actually poking around in the live process.\n\nEven in this case, the buffer_ member is unnecessary. You can defer reading the memory until Read.\n\nAs I discussed, in reality, when this graduates to vm_read, you’ll want to do so in PAGE_SIZE-chunks, with a PAGE_SIZE-sized stack buffer.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 17
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff8d0c4d_bc28e801",
+        "filename": "snapshot/ios/memory_snapshot_ios.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:43:10Z",
+      "side": 1,
+      "message": "Can you share more of your thoughts here? The dynamically allocated member clearly won’t suffice.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 37
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c95a0ac_2e5d7f8b",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:43:10Z",
+      "side": 1,
+      "message": "Be specific and name the architecture that you’re defining things for.\n\nAlso, everywhere you have this kind of thing, you should standardize on the order that you present architectures. In the companion .h, you chose the opposite order. That makes it harder to review and maintain.\n\nGenerally in Crashpad, we put x86-anything before ARM-anything.",
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d82b047_46b35bbe",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:43:10Z",
+      "side": 1,
+      "message": "Don’t do stuff outside of any namespace.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 0
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12329091_aa89cd90",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:43:10Z",
+      "side": 1,
+      "message": "Since this is the same as the exception version of this function, my comments there apply here too.\n\nIf possible, we should aim for sharing. However, sharing may not be possible because you’re working with Mach context types here and POSIX signal handler context types for exceptions. They’re similar but entirely different, and not necessarily compatible because things are in different orders. Usually, the memcpy-able regions are compatible, though.",
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89a0e935_ba41e8a7",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:43:10Z",
+      "side": 1,
+      "message": "The constants are…constants…and should be named as such.",
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d944831_b3723535",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:43:10Z",
+      "side": 1,
+      "message": "Per the way we normally log things, this would be interpreted as “the thread_state_flavor() call failed”, but that’s not right. This should name thread_get_state.\n\nWhere you have a series of thread_get_state calls as you do here, but need to disambiguate them, the string should be something like \"thread_get_state(kThreadStateFlavor)\". In ProcessReaderMac::InitializeThreads, I just let the numeric value of kThreadStateFlavor pass through to the log message.",
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adae612b_d6086a86",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:43:10Z",
+      "side": 1,
+      "message": "Same here, with thread_info(THREAD_BASIC_INFO). Follow what you see in ProcessReaderMac::InitializeThreads.",
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c7cd357_c8923d08",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:43:10Z",
+      "side": 1,
+      "message": "thread_policy_get, and no disambiguation needed.",
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0b0d587_637733d2",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:43:10Z",
+      "side": 1,
+      "message": "I have a handful of comment lines explaining why this is correct for x86[_64] in ProcessReaderMac::InitializeThreads.\n\nDid you check that this is also correct for ARM? (Empirically is OK if source isn’t available.)",
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "08299682_0e32f9d5",
         "filename": "snapshot/ios/thread_snapshot_ios.h",
         "patchSetId": 17
@@ -25,6 +213,29 @@
     },
     {
       "key": {
+        "uuid": "2a5ef070_330abd90",
+        "filename": "snapshot/ios/thread_snapshot_ios.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:43:10Z",
+      "side": 1,
+      "message": "Without looking at the implementation or usage yet, I’m betting that this doesn’t need to be public, and doesn’t even need to be a member of ThreadSnapshotIOS.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 0
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "42985dc4_473f9364",
         "filename": "snapshot/ios/thread_snapshot_ios.h",
         "patchSetId": 17
@@ -41,6 +252,29 @@
         "startChar": 0,
         "endLine": 118,
         "endChar": 31
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10bbc247_12612d04",
+        "filename": "snapshot/ios/thread_snapshot_ios.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:43:10Z",
+      "side": 1,
+      "message": "Since we’ll be in-process for this stuff, the native types make a whole lot more sense. We won’t need _this_ to adhere to the snapshot interface, after all.\n\nI left a more completely developed description of this thought on the exception review.",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 41
       },
       "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
