@@ -1,0 +1,391 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85fae344_23b4f8e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "Flesh out…",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "716b7176_01d8e3c0",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "Why this change? If you get rid of the XXXXXX, the directory name won’t be randomized or unique, which also means that mkdtemp() may fail.",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95198494_a9e2c85c",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "926b8fc4_f5b2cb09",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "#elif defined(ARCH_CPU_X86_64)\n\nThings should break in obvious ways if this is attempted on another architecture, either by accident, or more importantly, as part of a port. “ThreadStateType isn’t a valid identifier” is much better error than “x86_thread_state64_t isn’t a valid identifier”, or worse, “convoluted error message at compile time or even runtime because x86_thread_state64_t _is_ a valid identifier /but/ it’s not the right thing for this architecture.”",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e57b4271_ac3cf590",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "We shouldn’t ever be writing anything outside of any namespace in C++.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 6
+      },
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdc5bd26_06a0dd98",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "These memcpys should be protected by static_asserts to ensure that the source and destination types appear compatible in size and layout. Lines 44 and 69, too.",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9fca735_0abda5d6",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "What am I?",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 0
+      },
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d18a97f7_fd31f702",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "C++-style casts, always. Lines 102, 106, 108, and probably elsewhere. You should get into the habit of never writing C-style casts. They do too much, and they perform operations you may not even be expecting.\n\nFor example, you’re casting away const-ness here. This is going to get you into trouble.",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55822e3f_ca9ff5c9",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "Nothing right now? Later, maybe define a way to shove it into the exception codes, but this is something that we should do for other operating systems and architectures in a consistent way if at all possible.",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2753edce_efd70184",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "Only if thread_info succeeded.",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43291f69_5b49da5f",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "We already have a utility function that does exactly this: MachThreadSelf().\n\nWhy is this commented? What’s the question here? You’re concerned about making these pthreads library calls at exception time?",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "440fe8c2_6afffdc4",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "Signal codes should be dealt with the same way as or similarly to the way we deal with them on Linux. See ExceptionSnapshotLinux::ReadSiginfo.\n\nYou’d think that some of that may be share-able, but probably only with a bit of #ifdefing, and maybe not at all given that you’ll be running in-process. But you can use it as a guide. However, note that the way that a kernel populates the fields of siginfo_t is very OS-specific, and what Linux does won’t match what xnu does 100%.",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1d51c67_cdc151d8",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "This is a strange dependency that you shouldn’t need.",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be99a69b_5ece2b69",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "void*, as passed to the signal handler, is a bad type. It should be casted to ucontext_t* as early as possible. This function should only accept ucontext_t*.",
+      "range": {
+        "startLine": 46,
+        "startChar": 44,
+        "endLine": 46,
+        "endChar": 63
+      },
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1458e570_16892b2d",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "This is weird, but you introduced it in the thread snapshot so I’ll talk about it there.",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e2af516_36e5d774",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "What’s this doing? Is it just holding siginfo_t::si_code? Is signal_code_ doing the same thing? We don’t need both.",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8778b55_2518c036",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "We should probably be using native types for these, although they’ll need a conversion on the way out in order to adhere to the ExceptionSnapshot interface, so it’s not such a huge deal.\n\nHowever, at whatever the point of conversion is, we should be checking to make sure statically that either the source and destination types are compatible (no data loss possible, even in theory), or if not to make sure that the source value fits into the target type at runtime (no data loss in practice).",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 30
+      },
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "849ea579_f163e53d",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "If this is the signal number as passed to the signal handler, it’s not an exception_type_t (which is a Mach thing), it’s an int.",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "324809f6_5755e767",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "uint32_t isn’t really the right type for this either. I’m guessing this is coming from siginfo_t::si_code? That’s an int too.",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8003142c_b662268d",
+        "filename": "snapshot/ios/process_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "const ucontext_t*.",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "875f0106_11d5b64c",
+        "filename": "snapshot/ios/process_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T20:23:33Z",
+      "side": 1,
+      "message": "const\u0026?",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
