@@ -1,0 +1,505 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4cbe865c_499612a8",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "Consolidate",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 29
+      },
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "934644b2_7fa18b0f",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "Reminder to remove, then.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 68
+      },
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f4d8e84_ff586bf3",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "You added fields, you should initialize them here.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 23
+      },
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9df41b56_54916562",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "base::size",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75f4f704_d383753f",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "Blank before (otherwise I won’t see).",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "619e891b_fdd1c6a4",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "New code, update the reference to whatever’s current. 10.15.0 xnu-6153.11.26 has calcru() in the same place and it still behaves the same way.",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7266d35_bb722080",
+        "filename": "snapshot/ios/process_snapshot_ios.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "Blank between C and C++ headers.",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d068969c_f2e5bc07",
+        "filename": "snapshot/ios/process_snapshot_ios.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "const\u0026 instead of const*?",
+      "range": {
+        "startLine": 43,
+        "startChar": 18,
+        "endLine": 43,
+        "endChar": 47
+      },
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fb0d763_4a40d8ab",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "We like to explicitly initialize all fields.\n\n(But, if you like, we also allow in-header initialization now, and if you do that, you don’t need an explicit initializer either in the header or the constructor for types that innately initialize themselves when constructed.)",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 0
+      },
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6275d919_9bbbfe7a",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "I’m sure we /can/ figure all of these out. If you don’t want to do it now, leave TODOs behind for each of the ones that you’re faking.",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f95d71f_d9827ae2",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "I think on macOS we just let this be %d.%d.%d all the time, even if bugfix \u003d\u003d 0.",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9db8baa4_b9eee446",
+        "filename": "snapshot/system_snapshot.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "Somewhere, I saw a constant like kOperatingSystemiOS (lowercase I). We should be consistent.",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c346d7c3_f8f5e756",
+        "filename": "snapshot/system_snapshot.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "Remove this blank line.",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3826df42_6b57dccb",
+        "filename": "util/ios/ios_system_data_collector.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "util isn’t allowed to depend on snapshot. You’ll need to figure something else out for IOSSystemDataCollector::DSTStatus().",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1acc29a0_16abb2d0",
+        "filename": "util/ios/ios_system_data_collector.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "#include \u003cstring\u003e",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 13
+      },
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5052f295_1ce7db71",
+        "filename": "util/ios/ios_system_data_collector.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "We didn’t abbreviate the type name, don’t abbreviate the function name either.",
+      "range": {
+        "startLine": 36,
+        "startChar": 43,
+        "endLine": 36,
+        "endChar": 46
+      },
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cfb726d_ed4e66cb",
+        "filename": "util/ios/ios_system_data_collector.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "This is more of a process property than a system one. Everything else in here is tightly coupled to the system snapshot, but this one is not.",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65c22e0d_c43db1aa",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "Remove this because you’re putting it in the header.",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0657f539_ddae05dd",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "If you did have any C++ headers, these C headers would go in the C header section before the C++ header section.",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa20ad49_6bdd9dae",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "Isn’t this less racy if you call this after adding the observer?\n\nSame with setting the initial values of orientation_ and application_state_.\n\n(Consider the orientation changing immediately after you fetch it, but before you register for the notification.)",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "076da21d_8d822dc4",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "Use C++-style casts. 97, 107, 114 too.",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f889749_0cc8c832",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "Use nullptr. 98, 108, 115 too.",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cfb3e15_41486437",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "Call OrientationDidChangeNotification(), which does this exact thing?",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43825704_e1f5cf3a",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "Call ApplicationStateDidChangeNotification(), which does this exact thing?",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1a6f920_d63f413a",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "// static\n\n129, 152, 166 also.\n\nLook through the codebase, you’ll find that we do this everywhere.",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3cabe18_9037a095",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "Extra parentheses? 158, 172 also.",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55fb555a_68f5a1a5",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-16T17:11:11Z",
+      "side": 1,
+      "message": "Ordering:\n\nIn the header, you had (orientation, application state, time zone).\n\nHere, you define (time zone, application state, orientation).\n\nAnd in Initialize(), you do (time zone, orientation, application state).\n\nBe consistent!",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
