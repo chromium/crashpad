@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a9f5d44e_d256a000",
+        "filename": "snapshot/ios/memory_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-17T20:11:46Z",
+      "side": 1,
+      "message": "At least in this CL, this is called in thread_snapshot_ios with:\n stack_.Initialize(stack_region_address, stack_region_size);\n\nIf we don\u0027t copy over the data, stack_region_address and size are meaningless pointers.\n\nThe final form of MemorySnapshotIOS will be very different, but right now we are doing \u0027both sides\u0027 of data collection in-process.  We are making sure we can get all the data we need, and making sure we can massage it into the format we need to dump things into snapshot.  This is kind of bridging the gap?\n\nI\u0027m fine taking an alternate approach, but that\u0027s where my thoughts are here.  WDYT?",
+      "parentUuid": "fc5aa399_382538a5",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 17
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ff8d0c4d_bc28e801",
         "filename": "snapshot/ios/memory_snapshot_ios.h",
         "patchSetId": 17
@@ -36,6 +60,30 @@
       "writtenOn": "2020-03-16T20:43:10Z",
       "side": 1,
       "message": "Can you share more of your thoughts here? The dynamically allocated member clearly won’t suffice.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 37
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6174bb1_7ac4339a",
+        "filename": "snapshot/ios/memory_snapshot_ios.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-17T20:11:46Z",
+      "side": 1,
+      "message": "See comment in memory_snapshot_ios.cc.  This is temporary.",
+      "parentUuid": "ff8d0c4d_bc28e801",
       "range": {
         "startLine": 51,
         "startChar": 0,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "7fa2eac9_bb8bdb5a",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-17T20:11:46Z",
+      "side": 1,
+      "message": "ack.",
+      "parentUuid": "6c95a0ac_2e5d7f8b",
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d82b047_46b35bbe",
         "filename": "snapshot/ios/thread_snapshot_ios.cc",
         "patchSetId": 17
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "ff0af6ea_9161a2e5",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-17T20:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d82b047_46b35bbe",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 0
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12329091_aa89cd90",
         "filename": "snapshot/ios/thread_snapshot_ios.cc",
         "patchSetId": 17
@@ -102,6 +192,24 @@
       "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f74487e_e22dd5bb",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-17T20:11:46Z",
+      "side": 1,
+      "message": "I moved this into cpu_context_ios, and I shared the x86 stuff with mac, but the arm stuff isn\u0027t shared (with say, linux).  wdyt?",
+      "parentUuid": "12329091_aa89cd90",
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "ba1d2711_89ffe827",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-17T20:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89a0e935_ba41e8a7",
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d944831_b3723535",
         "filename": "snapshot/ios/thread_snapshot_ios.cc",
         "patchSetId": 17
@@ -136,6 +262,24 @@
       "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2465ef3a_6494ca6c",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-17T20:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d944831_b3723535",
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -156,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "11b4acc0_792be322",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-17T20:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adae612b_d6086a86",
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c7cd357_c8923d08",
         "filename": "snapshot/ios/thread_snapshot_ios.cc",
         "patchSetId": 17
@@ -173,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "46788ff0_c4aa2a4a",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-17T20:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c7cd357_c8923d08",
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0b0d587_637733d2",
         "filename": "snapshot/ios/thread_snapshot_ios.cc",
         "patchSetId": 17
@@ -184,6 +364,24 @@
       "writtenOn": "2020-03-16T20:43:10Z",
       "side": 1,
       "message": "I have a handful of comment lines explaining why this is correct for x86[_64] in ProcessReaderMac::InitializeThreads.\n\nDid you check that this is also correct for ARM? (Empirically is OK if source isn’t available.)",
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f82b2088_4d6f24a4",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-17T20:11:46Z",
+      "side": 1,
+      "message": "I did not check, and I\u0027m not really sure what to check for.  I didn\u0027t immediately find source but I\u0027m probably looking in the wrong place.",
+      "parentUuid": "e0b0d587_637733d2",
       "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -213,6 +411,30 @@
     },
     {
       "key": {
+        "uuid": "21f6e0b3_23694c5c",
+        "filename": "snapshot/ios/thread_snapshot_ios.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-17T20:11:46Z",
+      "side": 1,
+      "message": "removed.",
+      "parentUuid": "08299682_0e32f9d5",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 30
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a5ef070_330abd90",
         "filename": "snapshot/ios/thread_snapshot_ios.h",
         "patchSetId": 17
@@ -233,6 +455,30 @@
       "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec808137_d10c1d5a",
+        "filename": "snapshot/ios/thread_snapshot_ios.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-17T20:11:46Z",
+      "side": 1,
+      "message": "moved to private.  I can move them out of the file, but I don\u0027t know if anyone else is going to use them yet?",
+      "parentUuid": "2a5ef070_330abd90",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 0
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -259,6 +505,30 @@
     },
     {
       "key": {
+        "uuid": "98f1d0ec_ef34b16d",
+        "filename": "snapshot/ios/thread_snapshot_ios.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-17T20:11:46Z",
+      "side": 1,
+      "message": "Asked on chat thread... how can i do this without both.  how about?\n#if defined(ARCH_CPU_X86_64)\n  CPUContextX86_64 x86_64_;\n#elif defined(ARCH_CPU_ARM64)\n  CPUContextARM64 arm64_;\n#else\n#error Port.\n#endif  // ARCH_CPU_X86_FAMILY\n  CPUContext context_;",
+      "parentUuid": "42985dc4_473f9364",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 31
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "10bbc247_12612d04",
         "filename": "snapshot/ios/thread_snapshot_ios.h",
         "patchSetId": 17
@@ -270,6 +540,30 @@
       "writtenOn": "2020-03-16T20:43:10Z",
       "side": 1,
       "message": "Since we’ll be in-process for this stuff, the native types make a whole lot more sense. We won’t need _this_ to adhere to the snapshot interface, after all.\n\nI left a more completely developed description of this thought on the exception review.",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 41
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62b5a47e_42d6f553",
+        "filename": "snapshot/ios/thread_snapshot_ios.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-17T20:11:46Z",
+      "side": 1,
+      "message": "Er, what is the native type?  Isn\u0027t this native?\nstruct thread_identifier_info {\n\tuint64_t        thread_id;      /* system-wide unique 64-bit thread id */\n\tuint64_t        thread_handle;  /* handle to be used by libproc */\n\tuint64_t        dispatch_qaddr; /* libdispatch queue address */\n};",
+      "parentUuid": "10bbc247_12612d04",
       "range": {
         "startLine": 120,
         "startChar": 0,
