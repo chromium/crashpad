@@ -18,6 +18,7 @@
 #include <sys/sysctl.h>
 #include <vector>
 
+#include "snapshot/ios/exception_snapshot_ios.h"
 #include "snapshot/ios/module_snapshot_ios.h"
 #include "snapshot/ios/system_snapshot_ios.h"
 #include "snapshot/ios/thread_snapshot_ios.h"
@@ -40,7 +41,9 @@ class ProcessSnapshotIOS final : public ProcessSnapshot {
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  bool Initialize(const IOSSystemDataCollector* system_data);
+  bool Initialize(const siginfo_t* siginfo,
+                  const void* context,
+                  const IOSSystemDataCollector* system_data);
 
   //! \brief Sets the value to be returned by ClientID().
   //!
@@ -90,6 +93,7 @@ class ProcessSnapshotIOS final : public ProcessSnapshot {
   internal::SystemSnapshotIOS system_;
   std::vector<std::unique_ptr<internal::ThreadSnapshotIOS>> threads_;
   std::vector<std::unique_ptr<internal::ModuleSnapshotIOS>> modules_;
+  std::unique_ptr<internal::ExceptionSnapshotIOS> exception_;
   UUID report_id_;
   UUID client_id_;
   std::map<std::string, std::string> annotations_simple_map_;
