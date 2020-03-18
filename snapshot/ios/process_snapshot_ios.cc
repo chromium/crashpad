@@ -26,6 +26,7 @@ namespace crashpad {
 
 ProcessSnapshotIOS::ProcessSnapshotIOS()
     : ProcessSnapshot(),
+      threads_(),
       modules_(),
       report_id_(),
       client_id_(),
@@ -43,6 +44,7 @@ bool ProcessSnapshotIOS::Initialize() {
     return false;
   }
 
+  InitializeThreads();
   InitializeModules();
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
@@ -96,7 +98,11 @@ const SystemSnapshot* ProcessSnapshotIOS::System() const {
 
 std::vector<const ThreadSnapshot*> ProcessSnapshotIOS::Threads() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return std::vector<const ThreadSnapshot*>();
+  std::vector<const ThreadSnapshot*> threads;
+  for (const auto& thread : threads_) {
+    threads.push_back(thread.get());
+  }
+  return threads;
 }
 
 std::vector<const ModuleSnapshot*> ProcessSnapshotIOS::Modules() const {
@@ -138,6 +144,25 @@ std::vector<const MemorySnapshot*> ProcessSnapshotIOS::ExtraMemory() const {
 const ProcessMemory* ProcessSnapshotIOS::Memory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return nullptr;
+}
+
+void ProcessSnapshotIOS::InitializeThreads() {
+  mach_msg_type_number_t thread_count = 0;
+  const thread_act_array_t threads =
+      internal::ThreadSnapshotIOS::GetThreads(&thread_count);
+  for (uint32_t thread_index = 0; thread_index < thread_count; ++thread_index) {
+    thread_t thread = threads[thread_index];
+    auto thread_snapshot = std::make_unique<internal::ThreadSnapshotIOS>();
+    if (thread_snapshot->Initialize(thread)) {
+      threads_.push_back(std::move(thread_snapshot));
+    }
+    mach_port_deallocate(mach_task_self(), thread);
+  }
+  // TODO(justincohen): This dealloc above and below needs to move with the
+  // call to task_threads inside internal::ThreadSnapshotIOS::GetThreads.
+  vm_deallocate(mach_task_self(),
+                reinterpret_cast<vm_address_t>(threads),
+                sizeof(thread_t) * thread_count);
 }
 
 void ProcessSnapshotIOS::InitializeModules() {

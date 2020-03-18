@@ -436,6 +436,32 @@ void InitializeCPUContextX86_64(CPUContextX86_64* context,
 
 }  // namespace internal
 
+#elif defined(ARCH_CPU_ARM_FAMILY)
+
+namespace internal {
+
+void InitializeCPUContextARM64(CPUContextARM64* context,
+                               const arm_thread_state64_t* arm_thread_state64,
+                               const arm_neon_state64_t* arm_neon_state64) {
+  // The structures of context->regs and arm_thread_state64->__x are laid out
+  // identically for this copy, even though the members are organized
+  // differently.  Because of this difference, there can't be a static assert
+  // similar to the one below for fpsimd.
+  memcpy(context->regs, arm_thread_state64->__x, sizeof(context->regs));
+  context->sp = arm_thread_state64->__sp;
+  context->pc = arm_thread_state64->__pc;
+  context->spsr =
+      static_cast<decltype(context->spsr)>(arm_thread_state64->__cpsr);
+
+  static_assert(sizeof(context->fpsimd) == sizeof(arm_neon_state64->__v),
+                "fpsimd context size mismatch");
+  memcpy(context->fpsimd, arm_neon_state64->__v, sizeof(arm_neon_state64->__v));
+  context->fpsr = arm_neon_state64->__fpsr;
+  context->fpcr = arm_neon_state64->__fpcr;
+}
+
+}  // namespace internal
+
 #endif
 
 }  // namespace crashpad
