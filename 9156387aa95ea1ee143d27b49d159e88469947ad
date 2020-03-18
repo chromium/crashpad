@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22ddf572_8dd4d809",
+        "filename": "snapshot/ios/cpu_context_ios.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-18T01:35:31Z",
+      "side": 1,
+      "message": "Remove this stuff if you’re not going to use it.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 47
+      },
+      "revId": "9156387aa95ea1ee143d27b49d159e88469947ad",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42a19177_435c12e4",
+        "filename": "snapshot/ios/cpu_context_ios.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-18T01:35:31Z",
+      "side": 1,
+      "message": "Yes. Turn this into a comment that’s authoritative about its safety: the structures are laid out identically for this portion, even though the members are organized differently.",
+      "revId": "9156387aa95ea1ee143d27b49d159e88469947ad",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc13e9d9_a643f5b3",
+        "filename": "snapshot/ios/cpu_context_ios.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-18T01:35:31Z",
+      "side": 1,
+      "message": "Why don’t you just load all of this ARM stuff into the _mac file, instead of having the iOS file delegate its x86-64 parts to the mac file?",
+      "revId": "9156387aa95ea1ee143d27b49d159e88469947ad",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00383858_df86cada",
+        "filename": "snapshot/ios/cpu_context_ios.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-18T01:35:31Z",
+      "side": 1,
+      "message": "Funky wrap. Line 43 too.",
+      "revId": "9156387aa95ea1ee143d27b49d159e88469947ad",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3340805_30c17787",
+        "filename": "snapshot/ios/cpu_context_ios.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-18T01:35:31Z",
+      "side": 1,
+      "message": "This would need to be renamed InitializeCPUContextARM64 to match the _mac file.",
+      "revId": "9156387aa95ea1ee143d27b49d159e88469947ad",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7caa8a3_d5f73b28",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-18T01:35:31Z",
+      "side": 1,
+      "message": "You’ve taken a reference to each port in threads, but you haven’t arranged to release them, so this is a Mach port leak.\n\nSee snapshot/mac/process_reader_mac.cc ProcessReaderMac::InitializeThreads.",
+      "revId": "9156387aa95ea1ee143d27b49d159e88469947ad",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
