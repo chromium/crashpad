@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "9d9d3c76_0719e307",
+        "filename": "snapshot/ios/memory_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-18T02:49:21Z",
+      "side": 1,
+      "message": "ack ack",
+      "parentUuid": "6e7b51de_b392aa5a",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 17
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff8d0c4d_bc28e801",
         "filename": "snapshot/ios/memory_snapshot_ios.h",
         "patchSetId": 17
@@ -566,6 +590,30 @@
     },
     {
       "key": {
+        "uuid": "33b58108_b6532412",
+        "filename": "snapshot/ios/thread_snapshot_ios.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-18T02:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4908849a_9c0591e0",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 0
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42985dc4_473f9364",
         "filename": "snapshot/ios/thread_snapshot_ios.h",
         "patchSetId": 17
@@ -637,6 +685,30 @@
     },
     {
       "key": {
+        "uuid": "88fcaa22_89de8907",
+        "filename": "snapshot/ios/thread_snapshot_ios.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-18T02:49:21Z",
+      "side": 1,
+      "message": "already done in the latest patch.",
+      "parentUuid": "de2db2c1_bf484939",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 31
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10bbc247_12612d04",
         "filename": "snapshot/ios/thread_snapshot_ios.h",
         "patchSetId": 17
@@ -696,6 +768,30 @@
       "side": 1,
       "message": "\u003e Er, what is the native type?  Isn\u0027t this native?\n\u003e struct thread_identifier_info {\n\u003e \tuint64_t        thread_id;      /* system-wide unique 64-bit thread id */\n\u003e \tuint64_t        thread_handle;  /* handle to be used by libproc */\n\u003e \tuint64_t        dispatch_qaddr; /* libdispatch queue address */\n\u003e };\n\nAcknowledged and conceded.\n\n(When I read this file, I wasn’t yet thinking that you’d be using the Mach interface to read these. But you rightly are.)",
       "parentUuid": "62b5a47e_42d6f553",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 41
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b967e699_8deec1ff",
+        "filename": "snapshot/ios/thread_snapshot_ios.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-18T02:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "559eb7b2_8347f092",
       "range": {
         "startLine": 120,
         "startChar": 0,
