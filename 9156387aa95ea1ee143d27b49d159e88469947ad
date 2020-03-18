@@ -107,6 +107,24 @@
       "revId": "9156387aa95ea1ee143d27b49d159e88469947ad",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81ee26cb_9ca61439",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-18T01:43:09Z",
+      "side": 1,
+      "message": "Oh, and a memory leak too. task_threads inserts memory into your process that you need to vm_deallocate when you’re done with it. ProcessReaderMac::InitializeThreads is a good example here too, via its threads_vm thing.",
+      "parentUuid": "e7caa8a3_d5f73b28",
+      "revId": "9156387aa95ea1ee143d27b49d159e88469947ad",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
