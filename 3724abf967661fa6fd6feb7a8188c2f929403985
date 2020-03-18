@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6e7b51de_b392aa5a",
+        "filename": "snapshot/ios/memory_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-18T00:27:42Z",
+      "side": 1,
+      "message": "\u003e At least in this CL, this is called in thread_snapshot_ios with:\n\u003e  stack_.Initialize(stack_region_address, stack_region_size);\n\u003e \n\u003e If we don\u0027t copy over the data, stack_region_address and size are meaningless pointers.\n\u003e \n\u003e The final form of MemorySnapshotIOS will be very different, but right now we are doing \u0027both sides\u0027 of data collection in-process.  We are making sure we can get all the data we need, and making sure we can massage it into the format we need to dump things into snapshot.  This is kind of bridging the gap?\n\u003e \n\u003e I\u0027m fine taking an alternate approach, but that\u0027s where my thoughts are here.  WDYT?\n\nIt’s fine, I was more just thinking that, when we write the final code for this, we won’t need to slurp everything up into a buffer_ member, so I wanted to make clear that this wasn’t an Initialize()-time thing, but more a Read()-time thing. As long as you get that distinction, it doesn’t matter much for this scaffolding.",
+      "parentUuid": "a9f5d44e_d256a000",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 17
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ff8d0c4d_bc28e801",
         "filename": "snapshot/ios/memory_snapshot_ios.h",
         "patchSetId": 17
@@ -207,6 +231,24 @@
       "side": 1,
       "message": "I moved this into cpu_context_ios, and I shared the x86 stuff with mac, but the arm stuff isn\u0027t shared (with say, linux).  wdyt?",
       "parentUuid": "12329091_aa89cd90",
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3b4604a_34b3697d",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-18T00:27:42Z",
+      "side": 1,
+      "message": "\u003e I moved this into cpu_context_ios, and I shared the x86 stuff with mac, but the arm stuff isn\u0027t shared (with say, linux).  wdyt?\n\nDidn’t read it yet, but it doesn’t need to be shared (with say, Linux) at this point. Sounds fine.",
+      "parentUuid": "5f74487e_e22dd5bb",
       "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -388,6 +430,24 @@
     },
     {
       "key": {
+        "uuid": "9907c6ce_759e8c17",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-18T00:27:42Z",
+      "side": 1,
+      "message": "\u003e I did not check, and I\u0027m not really sure what to check for.  I didn\u0027t immediately find source but I\u0027m probably looking in the wrong place.\n\nI’ll verify it and tell you how I did it, so you can follow along and see what I had in mind when other similar questions come up again.\n\nThe kernel-side implementation is 10.15.0 xnu-6153.11.26/osfmk/kern/thread.c thread_info_internal. With thread_t thread, it sets thread_identifier_info_t::thread_handle to thread-\u003emachine.cthread_self.\n\ncthread_self is machine-specific, as indicated by its being a part of the machine_struct structure (thread-\u003emachine). But looking around through the codebase, we can already see in other machine-independent code that cthread_self is used the same way on x86 and ARM. That’s a strong hint that this is correct and these are compatible. (Look at thread_dispatchqaddr in the same file, for example.)\n\nYou can be 100% certain that this is right by looking at where cthread_self is set. For x86, that’s osfmk/i386/pcb_native.c machine_thread_create (which just initializes it to 0, not too interesting) and machine_thread_set_tsd_base (interesting!) The latter is where cthread_self is set to the TSD (thread-specific data area) base, which is what we’re looking for here by definition (thread_specific_data_address_). You can also get a picture of how it achieves its goal in userspace by reading act_machine_switch_pcb. Hint here: “pcb” \u003d “process control block,” and this function is concerned with changing the thread that’s running, so it needs to deal with stuff like setting the TSD base according to the ABI. On x86_64, TSD accesses on macOS are through segment %gs, and sure enough, that function sets the IA32_GS_BASE model-specific register to the exact value of cthread_self.\n\nIs ARM similar? osfmk/arm64/pcb.c machine_thread_set_tsd_base (there’s also an osfmk/arm/pcb.c, but I’ll just look at ARM64 for now). cthread_self \u003d tsd_base, as-is, no funny business. That function also shows how the TSD base is set (for the current thread), which involves the TPIDRRO_EL0 register. The equivalent to x86’s act_machine_switch_pcb is actually in osfmk/arm64/cswitch.s set_thread_registers, but it’s assembler source and you’ll need to invest a little more energy to assure yourself that it’s equivalent to the C you see in machine_thread_set_tsd_base—you can trust that I’ve done it, and it is. Apple stuffs that register with both the cthread_self value and the CPU number. Now, I don’t know the ARM ABI like I know x86, so I’ve got to do some more research. The Internet tells me that TPIDRRO_EL0 is the “software thread ID register” (https://developer.arm.com/docs/ddi0595/c/aarch64-system-registers/tpidrro_el0) but who knows if that’s convention or ABI or if Apple even follows it, so let’s dig further. The user-space way that TSD is accessed begins at libpthread pthread_getspecific, but I’ll spare you all of the dirty details and tell you that it ends at _os_tsd_get_direct, which is in xnu’s libsyscall/os/tsd.h. For x86-64, you’ll see that it references %gs (as I mentioned above, but I skipped this step because I know the ABI well). For ARM64, it’s a reference through _os_tsd_get_base(), where _os_tsd_get_base() is a few lines up, and…you guessed it!…reads TPIDRRO_EL0 and strips out the bits identifying the CPU number.\n\nLong story short, I verified that this is correct, and if a fraction of the above helps you learn a little more about how thread-specific data/thread-local storage are implemented, then it’s a win for us all.",
+      "parentUuid": "f82b2088_4d6f24a4",
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "08299682_0e32f9d5",
         "filename": "snapshot/ios/thread_snapshot_ios.h",
         "patchSetId": 17
@@ -482,6 +542,30 @@
     },
     {
       "key": {
+        "uuid": "4908849a_9c0591e0",
+        "filename": "snapshot/ios/thread_snapshot_ios.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-18T00:27:42Z",
+      "side": 1,
+      "message": "\u003e moved to private.  I can move them out of the file, but I don\u0027t know if anyone else is going to use them yet?\n\nUsually, private + static (+ no access to things that you need to be a class member for, like private data or methods) \u003d function in an anonymous namespace in the .cc file.\n\nIt’s easy enough to promote things out to class-level and make them more broadly accessible if needed.",
+      "parentUuid": "ec808137_d10c1d5a",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 0
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42985dc4_473f9364",
         "filename": "snapshot/ios/thread_snapshot_ios.h",
         "patchSetId": 17
@@ -517,6 +601,30 @@
       "side": 1,
       "message": "Asked on chat thread... how can i do this without both.  how about?\n#if defined(ARCH_CPU_X86_64)\n  CPUContextX86_64 x86_64_;\n#elif defined(ARCH_CPU_ARM64)\n  CPUContextARM64 arm64_;\n#else\n#error Port.\n#endif  // ARCH_CPU_X86_FAMILY\n  CPUContext context_;",
       "parentUuid": "42985dc4_473f9364",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 31
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de2db2c1_bf484939",
+        "filename": "snapshot/ios/thread_snapshot_ios.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-18T00:27:42Z",
+      "side": 1,
+      "message": "\u003e Asked on chat thread... how can i do this without both.  how about?\n\u003e #if defined(ARCH_CPU_X86_64)\n\u003e   CPUContextX86_64 x86_64_;\n\u003e #elif defined(ARCH_CPU_ARM64)\n\u003e   CPUContextARM64 arm64_;\n\u003e #else\n\u003e #error Port.\n\u003e #endif  // ARCH_CPU_X86_FAMILY\n\u003e   CPUContext context_;\n\nYes, but change the names to context_x86_64_ and context_arm64_.",
+      "parentUuid": "98f1d0ec_ef34b16d",
       "range": {
         "startLine": 117,
         "startChar": 0,
@@ -573,6 +681,30 @@
       "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "559eb7b2_8347f092",
+        "filename": "snapshot/ios/thread_snapshot_ios.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-18T00:27:42Z",
+      "side": 1,
+      "message": "\u003e Er, what is the native type?  Isn\u0027t this native?\n\u003e struct thread_identifier_info {\n\u003e \tuint64_t        thread_id;      /* system-wide unique 64-bit thread id */\n\u003e \tuint64_t        thread_handle;  /* handle to be used by libproc */\n\u003e \tuint64_t        dispatch_qaddr; /* libdispatch queue address */\n\u003e };\n\nAcknowledged and conceded.\n\n(When I read this file, I wasn’t yet thinking that you’d be using the Mach interface to read these. But you rightly are.)",
+      "parentUuid": "62b5a47e_42d6f553",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 41
+      },
+      "revId": "3724abf967661fa6fd6feb7a8188c2f929403985",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
