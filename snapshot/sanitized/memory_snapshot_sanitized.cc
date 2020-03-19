@@ -14,6 +14,8 @@
 
 #include "snapshot/sanitized/memory_snapshot_sanitized.h"
 
+#include "snapshot/sanitized/pointer_sanitizer.h"
+
 #include <string.h>
 
 namespace crashpad {
@@ -24,11 +26,11 @@ namespace {
 class MemorySanitizer : public MemorySnapshot::Delegate {
  public:
   MemorySanitizer(MemorySnapshot::Delegate* delegate,
-                  RangeSet* ranges,
+                  PointerSanitizer* sanitizer,
                   VMAddress address,
                   bool is_64_bit)
       : delegate_(delegate),
-        ranges_(ranges),
+        sanitizer_(sanitizer),
         address_(address),
         is_64_bit_(is_64_bit) {}
 
@@ -36,45 +38,17 @@ class MemorySanitizer : public MemorySnapshot::Delegate {
 
   bool MemorySnapshotDelegateRead(void* data, size_t size) override {
     if (is_64_bit_) {
-      Sanitize<uint64_t>(data, size);
+      sanitizer_->SanitizeMemory<uint64_t>(data, address_, size);
     } else {
-      Sanitize<uint32_t>(data, size);
+      sanitizer_->SanitizeMemory<uint32_t>(data, address_, size);
     }
     return delegate_->MemorySnapshotDelegateRead(data, size);
   }
 
  private:
-  template <typename Pointer>
-  void Sanitize(void* data, size_t size) {
-    const Pointer defaced =
-        static_cast<Pointer>(MemorySnapshotSanitized::kDefaced);
-
-    // Sanitize up to a word-aligned address.
-    const size_t aligned_offset =
-        ((address_ + sizeof(Pointer) - 1) & ~(sizeof(Pointer) - 1)) - address_;
-    memcpy(data, &defaced, aligned_offset);
-
-    // Sanitize words that aren't small and don't look like pointers.
-    size_t word_count = (size - aligned_offset) / sizeof(Pointer);
-    auto words =
-        reinterpret_cast<Pointer*>(static_cast<char*>(data) + aligned_offset);
-    for (size_t index = 0; index < word_count; ++index) {
-      if (words[index] > MemorySnapshotSanitized::kSmallWordMax &&
-          !ranges_->Contains(words[index])) {
-        words[index] = defaced;
-      }
-    }
-
-    // Sanitize trailing bytes beyond the word-sized items.
-    const size_t sanitized_bytes =
-        aligned_offset + word_count * sizeof(Pointer);
-    memcpy(static_cast<char*>(data) + sanitized_bytes,
-           &defaced,
-           size - sanitized_bytes);
-  }
 
   MemorySnapshot::Delegate* delegate_;
-  RangeSet* ranges_;
+  PointerSanitizer* sanitizer_;
   VMAddress address_;
   bool is_64_bit_;
 
@@ -84,9 +58,9 @@ class MemorySanitizer : public MemorySnapshot::Delegate {
 }  // namespace
 
 MemorySnapshotSanitized::MemorySnapshotSanitized(const MemorySnapshot* snapshot,
-                                                 RangeSet* ranges,
+                                                 PointerSanitizer* sanitizer,
                                                  bool is_64_bit)
-    : snapshot_(snapshot), ranges_(ranges), is_64_bit_(is_64_bit) {}
+    : sanitizer_(sanitizer), snapshot_(snapshot), is_64_bit_(is_64_bit) {}
 
 MemorySnapshotSanitized::~MemorySnapshotSanitized() = default;
 
@@ -99,7 +73,7 @@ size_t MemorySnapshotSanitized::Size() const {
 }
 
 bool MemorySnapshotSanitized::Read(Delegate* delegate) const {
-  MemorySanitizer sanitizer(delegate, ranges_, Address(), is_64_bit_);
+  MemorySanitizer sanitizer(delegate, sanitizer_, Address(), is_64_bit_);
   return snapshot_->Read(&sanitizer);
 }
 

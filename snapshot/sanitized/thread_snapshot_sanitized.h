@@ -23,6 +23,8 @@
 namespace crashpad {
 namespace internal {
 
+class PointerSanitizer;
+
 //! \brief A ThreadSnapshot which wraps and filters sensitive information from
 //!     another ThreadSnapshot.
 class ThreadSnapshotSanitized final : public ThreadSnapshot {
@@ -48,6 +50,7 @@ class ThreadSnapshotSanitized final : public ThreadSnapshot {
 
  private:
   const ThreadSnapshot* snapshot_;
+  std::unique_ptr<PointerSanitizer> sanitizer_;
   MemorySnapshotSanitized stack_;
 
   DISALLOW_COPY_AND_ASSIGN(ThreadSnapshotSanitized);

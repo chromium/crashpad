@@ -15,6 +15,7 @@
 #include "snapshot/sanitized/thread_snapshot_sanitized.h"
 
 #include "snapshot/cpu_context.h"
+#include "snapshot/sanitized/pointer_sanitizer.h"
 
 namespace crashpad {
 namespace internal {
@@ -23,7 +24,10 @@ ThreadSnapshotSanitized::ThreadSnapshotSanitized(const ThreadSnapshot* snapshot,
                                                  RangeSet* ranges)
     : ThreadSnapshot(),
       snapshot_(snapshot),
-      stack_(snapshot_->Stack(), ranges, snapshot_->Context()->Is64Bit()) {}
+      sanitizer_(std::make_unique<PointerSanitizer>(ranges)),
+      stack_(snapshot_->Stack(),
+             sanitizer_.get(),
+             snapshot_->Context()->Is64Bit()) {}
 
 ThreadSnapshotSanitized::~ThreadSnapshotSanitized() = default;
 

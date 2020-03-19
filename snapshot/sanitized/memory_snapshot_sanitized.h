@@ -23,6 +23,8 @@
 namespace crashpad {
 namespace internal {
 
+class PointerSanitizer;
+
 //! \brief A MemorySnapshot which wraps and filters sensitive information from
 //!     another MemorySnapshot.
 //!
@@ -31,20 +33,13 @@ namespace internal {
 //! 2. The data is pointer aligned and is a small integer.
 class MemorySnapshotSanitized final : public MemorySnapshot {
  public:
-  //! \brief Redacted data is replaced with this value, casted to the
-  //!     appropriate size for a pointer in the target process.
-  static constexpr uint64_t kDefaced = 0x0defaced0defaced;
-
-  //! \brief Pointer-aligned data smaller than this value is not redacted.
-  static constexpr uint64_t kSmallWordMax = 4096;
-
   //! \brief Constructs this object.
   //!
   //! \param[in] snapshot The MemorySnapshot to sanitize.
   //! \param[in] ranges A set of whitelisted address ranges.
   //! \param[in] is_64_bit `true` if this memory is for a 64-bit process.
   MemorySnapshotSanitized(const MemorySnapshot* snapshot,
-                          RangeSet* ranges,
+                          PointerSanitizer* sanitizer,
                           bool is_64_bit);
 
   ~MemorySnapshotSanitized() override;
@@ -61,8 +56,8 @@ class MemorySnapshotSanitized final : public MemorySnapshot {
   }
 
  private:
+  PointerSanitizer* sanitizer_;
   const MemorySnapshot* snapshot_;
-  RangeSet* ranges_;
   bool is_64_bit_;
 
   DISALLOW_COPY_AND_ASSIGN(MemorySnapshotSanitized);

@@ -139,6 +139,8 @@ static_library("snapshot") {
       "sanitized/memory_snapshot_sanitized.h",
       "sanitized/module_snapshot_sanitized.cc",
       "sanitized/module_snapshot_sanitized.h",
+      "sanitized/pointer_sanitizer.cc",
+      "sanitized/pointer_sanitizer.h",
       "sanitized/process_snapshot_sanitized.cc",
       "sanitized/process_snapshot_sanitized.h",
       "sanitized/sanitization_information.cc",
