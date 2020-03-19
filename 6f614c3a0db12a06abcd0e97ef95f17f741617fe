@@ -1,0 +1,284 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "300e45be_cd36b256",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T20:54:17Z",
+      "side": 1,
+      "message": "Reminder (again) to remove before landing",
+      "revId": "6f614c3a0db12a06abcd0e97ef95f17f741617fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28667ed4_ec8cf72a",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T20:54:17Z",
+      "side": 1,
+      "message": "Since these related pieces of information are only ever fetched together, you’d probably be better off with a single thing to get all of the values, sticking the results into out-parameters.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 42
+      },
+      "revId": "6f614c3a0db12a06abcd0e97ef95f17f741617fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2623d867_bc6a0eb3",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T20:54:17Z",
+      "side": 1,
+      "message": "Use Chromium-style names, with underscores: host_size, page_size, etc.\n\nDon’t declare anything until you’re ready to use it, which usually means that you can initialize right at the declaration.",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 30
+      },
+      "revId": "6f614c3a0db12a06abcd0e97ef95f17f741617fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84cc633a_61632966",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T20:54:17Z",
+      "side": 1,
+      "message": "What’s this about?",
+      "range": {
+        "startLine": 109,
+        "startChar": 20,
+        "endLine": 110,
+        "endChar": 3
+      },
+      "revId": "6f614c3a0db12a06abcd0e97ef95f17f741617fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e12909d5_f84b2699",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T20:54:17Z",
+      "side": 1,
+      "message": "Why l? Just 0 is good.",
+      "range": {
+        "startLine": 131,
+        "startChar": 10,
+        "endLine": 131,
+        "endChar": 11
+      },
+      "revId": "6f614c3a0db12a06abcd0e97ef95f17f741617fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6d399fd_9822ee30",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T20:54:17Z",
+      "side": 1,
+      "message": "Really? That’s a little surprising. You don’t have the hw.cpufrequency sysctlbyname?",
+      "range": {
+        "startLine": 147,
+        "startChar": 5,
+        "endLine": 147,
+        "endChar": 35
+      },
+      "revId": "6f614c3a0db12a06abcd0e97ef95f17f741617fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa9254df_11625216",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T20:54:17Z",
+      "side": 1,
+      "message": "This comment (and most places that it’s repeated) isn’t entirely accurate. It’s not that iOS/ARM64 doesn’t expose it, it’s that these interfaces are x86-specific and so don’t make any sense on ARM at all.",
+      "revId": "6f614c3a0db12a06abcd0e97ef95f17f741617fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95205cd3_b9456019",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T20:54:17Z",
+      "side": 1,
+      "message": "This comment is not correct.",
+      "revId": "6f614c3a0db12a06abcd0e97ef95f17f741617fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d45a937c_156dcf10",
+        "filename": "snapshot/ios/system_snapshot_ios.h",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T20:54:17Z",
+      "side": 1,
+      "message": "What, now?",
+      "range": {
+        "startLine": 31,
+        "startChar": 72,
+        "endLine": 31,
+        "endChar": 77
+      },
+      "revId": "6f614c3a0db12a06abcd0e97ef95f17f741617fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35374a11_917f6320",
+        "filename": "snapshot/ios/system_snapshot_ios.h",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T20:54:17Z",
+      "side": 1,
+      "message": "Why is this initialized here and also in the constructor? Pick one.",
+      "revId": "6f614c3a0db12a06abcd0e97ef95f17f741617fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a6a5343_4f08fadd",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T20:54:17Z",
+      "side": 1,
+      "message": "For safety, all of these things that you’re reading that are NSIntegers should probably be checked_casted or saturated_casted when you copy them into ints.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 0
+      },
+      "revId": "6f614c3a0db12a06abcd0e97ef95f17f741617fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2fd8db0_77e5b6ce",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T20:54:17Z",
+      "side": 1,
+      "message": "Don’t you need to #include something to [reliably] get this macro?",
+      "revId": "6f614c3a0db12a06abcd0e97ef95f17f741617fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db984110_0b9c7739",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T20:54:17Z",
+      "side": 1,
+      "message": "We currently just leave this out on ARM on other platforms.\n\n“ARM” isn’t really the vendor, and it’s better to be silent than to lie.",
+      "revId": "6f614c3a0db12a06abcd0e97ef95f17f741617fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d613a47e_92c2bf19",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T20:54:17Z",
+      "side": 1,
+      "message": "This should be controlled by ARCH_CPU_X86_FAMILY, not TARGET_IPHONE_SIMULATOR.",
+      "revId": "6f614c3a0db12a06abcd0e97ef95f17f741617fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
