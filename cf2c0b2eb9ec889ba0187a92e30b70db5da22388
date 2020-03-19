@@ -283,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "c057d2f9_c1d8b726",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T21:04:51Z",
+      "side": 1,
+      "message": "\u003e Er, not sure what you are asking here?\n\nGerrit highlights too much sometimes. I was asking what this comment was for.",
+      "parentUuid": "ae1d30ab_b9aae5af",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 0
+      },
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d18a97f7_fd31f702",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 2
@@ -353,6 +377,24 @@
     },
     {
       "key": {
+        "uuid": "f71d0cde_c80fadde",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T21:04:51Z",
+      "side": 1,
+      "message": "\u003e Is this something that breakpad does now?\n\nNo, don’t think it does.",
+      "parentUuid": "cc00a543_95e6db19",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2753edce_efd70184",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 2
@@ -417,6 +459,24 @@
       "side": 1,
       "message": "I wasn\u0027t sure which one was correct.  I think it\u0027s identifier_info.thread_id; and not MachThreadSelf(), or are they the same?",
       "parentUuid": "43291f69_5b49da5f",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b17ead7_fc2417f4",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T21:04:51Z",
+      "side": 1,
+      "message": "\u003e I wasn\u0027t sure which one was correct.  I think it\u0027s identifier_info.thread_id; and not MachThreadSelf(), or are they the same?\n\nThey’re the same. But one calls just into the kernel, and the other does some user-space stuff to get the same value already cached in user space. The question is, “is the user-space version provably safe?” Is it on Rohit’s list?",
+      "parentUuid": "50c1d94b_a1c75d5f",
       "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -610,6 +670,24 @@
     },
     {
       "key": {
+        "uuid": "156f15b7_3cffc248",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T21:04:51Z",
+      "side": 1,
+      "message": "\u003e So is ExceptionInfo just code[0]? Changed it up, but not sure what\u0027s correct.\n\nIt could be more. See snapshot/linux/exception_snapshot_linux.cc ExceptionSnapshotLinux::ReadSiginfo. That’s how codes_ is supposed to be used with a signal handler.",
+      "parentUuid": "914d08fe_ca1a2223",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8778b55_2518c036",
         "filename": "snapshot/ios/exception_snapshot_ios.h",
         "patchSetId": 2
@@ -657,6 +735,30 @@
     },
     {
       "key": {
+        "uuid": "01ffcff7_6692fed0",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T21:04:51Z",
+      "side": 1,
+      "message": "\u003e uint64_t        thread_id;      /* system-wide unique 64-bit thread id */\n\nThat’s fine.\n\n\u003e void    *si_addr;               /* faulting instruction */\n\u003e which I think is a user64_addr_t, which is a __uint64_t, right?\n\nNo, that’s a pointer, which you can express as a void* (since you’re in-process), or if you want a non-pointer integer, use uintptr_t (integer the size of a pointer).",
+      "parentUuid": "413eaa6f_7fb0c23e",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 30
+      },
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "849ea579_f163e53d",
         "filename": "snapshot/ios/exception_snapshot_ios.h",
         "patchSetId": 2
@@ -692,6 +794,24 @@
     },
     {
       "key": {
+        "uuid": "f2f00739_eef6106d",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T21:04:51Z",
+      "side": 1,
+      "message": "\u003e Changed to \u0027int32_t\u0027 (not sure when to use int32_t vs int...)\n\nint.",
+      "parentUuid": "00178f3b_4b7c8788",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "324809f6_5755e767",
         "filename": "snapshot/ios/exception_snapshot_ios.h",
         "patchSetId": 2
@@ -721,6 +841,24 @@
       "side": 1,
       "message": "Changed to \u0027int32_t\u0027 (not sure when to use int32_t vs int...)",
       "parentUuid": "324809f6_5755e767",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b22e9327_349849bf",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-19T21:04:51Z",
+      "side": 1,
+      "message": "\u003e Changed to \u0027int32_t\u0027 (not sure when to use int32_t vs int...)\n\nsiginfo_t::si_code is an int.\n\nI almost never have a use for int32_t.\n\nSomething’s an $type when another interface you’re using says it is. Keep types correct and consistent, until you have a need to change to another type (at an interface boundary, for example). And when that happens, be careful about the conversion. If the original value might not fit cleanly into the new type, do your own range check (we have helpers for this) or use an appropriate cast, like checked_cast or saturated_cast.",
+      "parentUuid": "11477840_d9a7eb50",
       "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
