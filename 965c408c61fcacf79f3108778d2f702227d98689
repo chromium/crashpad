@@ -22,6 +22,30 @@
       "revId": "965c408c61fcacf79f3108778d2f702227d98689",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a21a1263_0a076f32",
+        "filename": "snapshot/sanitized/pointer_sanitizer.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-19T19:29:37Z",
+      "side": 1,
+      "message": "I think we aren\u0027t relying on data having the same alignment as base_address.\n\ndata is the buffer in the Crashpad handler process containing the stack data read from the target process (e.g. WebView).\n\nbase_address is the address in the target process\u0027 address space from which |data| was read. The alignment of base_address tells us the alignment of |data|\u0027s contents in WebView\u0027s address space, but the alignment of |data| in Crashpad\u0027s address space shouldn\u0027t be relevant.\n\nI do not expect that base_address is always word aligned since it is derived from (and probably often will be equal to) the stack pointer.",
+      "parentUuid": "317f3654_b6d5e0fd",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 16
+      },
+      "revId": "965c408c61fcacf79f3108778d2f702227d98689",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
