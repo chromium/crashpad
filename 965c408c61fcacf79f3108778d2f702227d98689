@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "317f3654_b6d5e0fd",
+        "filename": "snapshot/sanitized/pointer_sanitizer.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1133706
+      },
+      "writtenOn": "2020-03-19T18:39:18Z",
+      "side": 1,
+      "message": "I\u0027m a little bit concerned that this could end up involving unaligned accesses. In practice I think that base_address is always word aligned, but if not, I don\u0027t think there\u0027s any guarantee that data % word_size \u003d\u003d base_address % word_size.",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 16
+      },
+      "revId": "965c408c61fcacf79f3108778d2f702227d98689",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
