@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4467d9f6_69c76326",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85fae344_23b4f8e9",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "716b7176_01d8e3c0",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e25d133_112e4d79",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "Please ignore all this stuff...",
+      "parentUuid": "716b7176_01d8e3c0",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "3f03dd05_0df26192",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95198494_a9e2c85c",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "926b8fc4_f5b2cb09",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 2
@@ -73,6 +133,24 @@
       "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47dd0896_9ab1d689",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "removed, per thread CL.",
+      "parentUuid": "926b8fc4_f5b2cb09",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "862b6dd1_f817a669",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "removed, from thread CL.",
+      "parentUuid": "e57b4271_ac3cf590",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 6
+      },
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdc5bd26_06a0dd98",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 2
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "d1da0807_2665d7d3",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "removed, per thread CL.",
+      "parentUuid": "fdc5bd26_06a0dd98",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9fca735_0abda5d6",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 2
@@ -127,6 +247,30 @@
       "writtenOn": "2020-03-16T20:23:33Z",
       "side": 1,
       "message": "What am I?",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 0
+      },
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae1d30ab_b9aae5af",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "Er, not sure what you are asking here?",
+      "parentUuid": "f9fca735_0abda5d6",
       "range": {
         "startLine": 99,
         "startChar": 0,
@@ -156,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "f6927553_c0883906",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "All these casts were removed, from the thread CL.",
+      "parentUuid": "d18a97f7_fd31f702",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55822e3f_ca9ff5c9",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 2
@@ -167,6 +329,24 @@
       "writtenOn": "2020-03-16T20:23:33Z",
       "side": 1,
       "message": "Nothing right now? Later, maybe define a way to shove it into the exception codes, but this is something that we should do for other operating systems and architectures in a consistent way if at all possible.",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc00a543_95e6db19",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "Is this something that breakpad does now?  Can I peak at what they do? I didn\u0027t see anything obvious",
+      "parentUuid": "55822e3f_ca9ff5c9",
       "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -190,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "833ccc1b_07c35e64",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2753edce_efd70184",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43291f69_5b49da5f",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 2
@@ -201,6 +399,24 @@
       "writtenOn": "2020-03-16T20:23:33Z",
       "side": 1,
       "message": "We already have a utility function that does exactly this: MachThreadSelf().\n\nWhy is this commented? What’s the question here? You’re concerned about making these pthreads library calls at exception time?",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50c1d94b_a1c75d5f",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure which one was correct.  I think it\u0027s identifier_info.thread_id; and not MachThreadSelf(), or are they the same?",
+      "parentUuid": "43291f69_5b49da5f",
       "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -224,6 +440,24 @@
     },
     {
       "key": {
+        "uuid": "add0d517_ce385d86",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "Asked on chat, not sure how to confirm...",
+      "parentUuid": "440fe8c2_6afffdc4",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b1d51c67_cdc151d8",
         "filename": "snapshot/ios/exception_snapshot_ios.h",
         "patchSetId": 2
@@ -238,6 +472,24 @@
       "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "894e90af_0fc5479c",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "gone, it\u0027s based on some questions i had in the thread Cl that are gone.",
+      "parentUuid": "b1d51c67_cdc151d8",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -264,6 +516,30 @@
     },
     {
       "key": {
+        "uuid": "bcd913c9_3c531ad0",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be99a69b_5ece2b69",
+      "range": {
+        "startLine": 46,
+        "startChar": 44,
+        "endLine": 46,
+        "endChar": 63
+      },
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1458e570_16892b2d",
         "filename": "snapshot/ios/exception_snapshot_ios.h",
         "patchSetId": 2
@@ -281,6 +557,24 @@
     },
     {
       "key": {
+        "uuid": "9270e058_10b3bf8b",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "changed to be the same as current thread CL.",
+      "parentUuid": "1458e570_16892b2d",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e2af516_36e5d774",
         "filename": "snapshot/ios/exception_snapshot_ios.h",
         "patchSetId": 2
@@ -292,6 +586,24 @@
       "writtenOn": "2020-03-16T20:23:33Z",
       "side": 1,
       "message": "What’s this doing? Is it just holding siginfo_t::si_code? Is signal_code_ doing the same thing? We don’t need both.",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "914d08fe_ca1a2223",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "So is ExceptionInfo just code[0]? Changed it up, but not sure what\u0027s correct.",
+      "parentUuid": "4e2af516_36e5d774",
       "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -321,6 +633,30 @@
     },
     {
       "key": {
+        "uuid": "413eaa6f_7fb0c23e",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "uint64_t        thread_id;      /* system-wide unique 64-bit thread id */\nand\nvoid    *si_addr;               /* faulting instruction */\nwhich I think is a user64_addr_t, which is a __uint64_t, right?\n\nisn\u0027t this correct?",
+      "parentUuid": "e8778b55_2518c036",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 30
+      },
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "849ea579_f163e53d",
         "filename": "snapshot/ios/exception_snapshot_ios.h",
         "patchSetId": 2
@@ -332,6 +668,24 @@
       "writtenOn": "2020-03-16T20:23:33Z",
       "side": 1,
       "message": "If this is the signal number as passed to the signal handler, it’s not an exception_type_t (which is a Mach thing), it’s an int.",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00178f3b_4b7c8788",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "Changed to \u0027int32_t\u0027 (not sure when to use int32_t vs int...)",
+      "parentUuid": "849ea579_f163e53d",
       "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -355,6 +709,24 @@
     },
     {
       "key": {
+        "uuid": "11477840_d9a7eb50",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "Changed to \u0027int32_t\u0027 (not sure when to use int32_t vs int...)",
+      "parentUuid": "324809f6_5755e767",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8003142c_b662268d",
         "filename": "snapshot/ios/process_snapshot_ios.h",
         "patchSetId": 2
@@ -372,6 +744,24 @@
     },
     {
       "key": {
+        "uuid": "5e6a4c65_476c6d94",
+        "filename": "snapshot/ios/process_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8003142c_b662268d",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "875f0106_11d5b64c",
         "filename": "snapshot/ios/process_snapshot_ios.h",
         "patchSetId": 2
@@ -386,6 +776,24 @@
       "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41003705_98640c2c",
+        "filename": "snapshot/ios/process_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T20:05:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "875f0106_11d5b64c",
+      "revId": "cf2c0b2eb9ec889ba0187a92e30b70db5da22388",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
