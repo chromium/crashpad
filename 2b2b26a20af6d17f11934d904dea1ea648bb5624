@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b2c0f5f0_812f5bf2",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cbe865c_499612a8",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 29
+      },
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "934644b2_7fa18b0f",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2020-03-16T17:11:11Z",
       "side": 1,
       "message": "Reminder to remove, then.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 68
+      },
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42e6951c_22fafce2",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "I will remove this before landing.  Please ignore lines 51 - 82 for the time being!.",
+      "parentUuid": "934644b2_7fa18b0f",
       "range": {
         "startLine": 50,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "622fc3dc_c54b7628",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f4d8e84_ff586bf3",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 23
+      },
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9df41b56_54916562",
         "filename": "snapshot/ios/process_snapshot_ios.cc",
         "patchSetId": 8
@@ -85,6 +157,24 @@
       "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "191ab092_51ec3b26",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9df41b56_54916562",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "df32211e_6d544e0c",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75f4f704_d383753f",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "619e891b_fdd1c6a4",
         "filename": "snapshot/ios/process_snapshot_ios.cc",
         "patchSetId": 8
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "6300f084_0b4539b4",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "619e891b_fdd1c6a4",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7266d35_bb722080",
         "filename": "snapshot/ios/process_snapshot_ios.h",
         "patchSetId": 8
@@ -136,6 +262,24 @@
       "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1384d44c_fa754db5",
+        "filename": "snapshot/ios/process_snapshot_ios.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7266d35_bb722080",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -162,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "04578cbc_d28555a3",
+        "filename": "snapshot/ios/process_snapshot_ios.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d068969c_f2e5bc07",
+      "range": {
+        "startLine": 43,
+        "startChar": 18,
+        "endLine": 43,
+        "endChar": 47
+      },
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fb0d763_4a40d8ab",
         "filename": "snapshot/ios/system_snapshot_ios.cc",
         "patchSetId": 8
@@ -185,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "675ddfd9_6225fe84",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fb0d763_4a40d8ab",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 0
+      },
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6275d919_9bbbfe7a",
         "filename": "snapshot/ios/system_snapshot_ios.cc",
         "patchSetId": 8
@@ -199,6 +391,24 @@
       "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fe97bf7_a56ca9be",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "I\u0027m sure we can for x86... but we really don\u0027t care about iOS x86 do we?\n\nAre you sure we can figure these out for ARM?  I couldn\u0027t get any (updated everything with comments.  I did add vendor (which is just always ARM).",
+      "parentUuid": "6275d919_9bbbfe7a",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -219,6 +429,24 @@
     },
     {
       "key": {
+        "uuid": "bb727aeb_388b2a5b",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f95d71f_d9827ae2",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9db8baa4_b9eee446",
         "filename": "snapshot/system_snapshot.h",
         "patchSetId": 8
@@ -233,6 +461,24 @@
       "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e902a6ce_78f68590",
+        "filename": "snapshot/system_snapshot.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9db8baa4_b9eee446",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -253,6 +499,24 @@
     },
     {
       "key": {
+        "uuid": "8f00f9e4_5d1dc48e",
+        "filename": "snapshot/system_snapshot.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c346d7c3_f8f5e756",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3826df42_6b57dccb",
         "filename": "util/ios/ios_system_data_collector.h",
         "patchSetId": 8
@@ -267,6 +531,24 @@
       "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2316f633_0a3557b8",
+        "filename": "util/ios/ios_system_data_collector.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3826df42_6b57dccb",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -293,6 +575,30 @@
     },
     {
       "key": {
+        "uuid": "a95f2d31_54950629",
+        "filename": "util/ios/ios_system_data_collector.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1acc29a0_16abb2d0",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 13
+      },
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5052f295_1ce7db71",
         "filename": "util/ios/ios_system_data_collector.h",
         "patchSetId": 8
@@ -316,6 +622,30 @@
     },
     {
       "key": {
+        "uuid": "a2d5dd6a_34f966ed",
+        "filename": "util/ios/ios_system_data_collector.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5052f295_1ce7db71",
+      "range": {
+        "startLine": 36,
+        "startChar": 43,
+        "endLine": 36,
+        "endChar": 46
+      },
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0cfb726d_ed4e66cb",
         "filename": "util/ios/ios_system_data_collector.h",
         "patchSetId": 8
@@ -330,6 +660,24 @@
       "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "067f5f1b_19b7ab44",
+        "filename": "util/ios/ios_system_data_collector.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "removed.",
+      "parentUuid": "0cfb726d_ed4e66cb",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -350,6 +698,24 @@
     },
     {
       "key": {
+        "uuid": "61571131_7e4e62ac",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65c22e0d_c43db1aa",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0657f539_ddae05dd",
         "filename": "util/ios/ios_system_data_collector.mm",
         "patchSetId": 8
@@ -364,6 +730,24 @@
       "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c251afd5_bab6322b",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0657f539_ddae05dd",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -384,6 +768,24 @@
     },
     {
       "key": {
+        "uuid": "1bb26535_f643c0cc",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa20ad49_6bdd9dae",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "076da21d_8d822dc4",
         "filename": "util/ios/ios_system_data_collector.mm",
         "patchSetId": 8
@@ -398,6 +800,24 @@
       "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e55dc457_ec2a85ac",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "076da21d_8d822dc4",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -418,6 +838,24 @@
     },
     {
       "key": {
+        "uuid": "781e0ef3_3658815e",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f889749_0cc8c832",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cfb3e15_41486437",
         "filename": "util/ios/ios_system_data_collector.mm",
         "patchSetId": 8
@@ -432,6 +870,24 @@
       "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2d637c6_b2db8e41",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cfb3e15_41486437",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -452,6 +908,24 @@
     },
     {
       "key": {
+        "uuid": "31f7ae5b_8d32dcda",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "removed.",
+      "parentUuid": "43825704_e1f5cf3a",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1a6f920_d63f413a",
         "filename": "util/ios/ios_system_data_collector.mm",
         "patchSetId": 8
@@ -466,6 +940,24 @@
       "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b19ffca3_8ee434ac",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1a6f920_d63f413a",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -486,6 +978,24 @@
     },
     {
       "key": {
+        "uuid": "28f5bf53_83c930b5",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3cabe18_9037a095",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55fb555a_68f5a1a5",
         "filename": "util/ios/ios_system_data_collector.mm",
         "patchSetId": 8
@@ -500,6 +1010,24 @@
       "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bfd0fd1_196ac4e1",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 8
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-19T03:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55fb555a_68f5a1a5",
+      "revId": "2b2b26a20af6d17f11934d904dea1ea648bb5624",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
