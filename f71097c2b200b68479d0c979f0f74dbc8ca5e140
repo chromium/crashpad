@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a69ede2a_fc526c88",
+        "filename": "test/gtest_main.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-20T22:13:02Z",
+      "side": 1,
+      "message": "You can try this, but refer to the change that added it in the first place. When running tests in Chromium, the bots weren\u0027t recognizing our test output, as I recall. Did you do a try run with this in Chromium yet?",
+      "revId": "f71097c2b200b68479d0c979f0f74dbc8ca5e140",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6451616e_e3cf5ad5",
+        "filename": "test/test_paths.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-20T22:13:02Z",
+      "side": 1,
+      "message": "Stop here and continue with IsTestDataRoot below?",
+      "revId": "f71097c2b200b68479d0c979f0f74dbc8ca5e140",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
