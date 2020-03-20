@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edf0d7a4_9651c81e",
+        "filename": "snapshot/ios/process_snapshot_ios.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-20T00:49:26Z",
+      "side": 1,
+      "message": "Blank line before this.\n\nComments that are sandwiched between lines of code like this tend to get lost. (Or maybe it’s just to my eyes?) Sometimes, it’s unclear whether they apply to the thing above or below. (Maybe it’s just to my brain?)",
+      "revId": "7b5e18bf7161f653054d057fda714d64df30ce3c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4726f1f0_5c3b8dab",
+        "filename": "snapshot/ios/thread_snapshot_ios.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-20T00:49:26Z",
+      "side": 1,
+      "message": "Hint for the future:\n\nIf we wind up suspending threads (or some threads, ’cuz we won’t want to suspend mach_thread_self()), we’ll need to fix this up to reflect the value minus whatever suspension we hold.\n\nWe’ve got this on Windows too, where we manage our own suspensions. ProcessReaderWin::DecrementThreadSuspendCounts.",
+      "revId": "7b5e18bf7161f653054d057fda714d64df30ce3c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
