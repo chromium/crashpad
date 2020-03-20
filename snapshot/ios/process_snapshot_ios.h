@@ -18,7 +18,9 @@
 #include <vector>
 
 #include "snapshot/ios/module_snapshot_ios.h"
+#include "snapshot/ios/thread_snapshot_ios.h"
 #include "snapshot/process_snapshot.h"
+#include "snapshot/thread_snapshot.h"
 #include "snapshot/unloaded_module_snapshot.h"
 
 namespace crashpad {
@@ -60,6 +62,10 @@ class ProcessSnapshotIOS final : public ProcessSnapshot {
   // Initializes modules_ on behalf of Initialize().
   void InitializeModules();
 
+  // Initializes threads_ on behalf of Initialize().
+  void InitializeThreads();
+
+  std::vector<std::unique_ptr<internal::ThreadSnapshotIOS>> threads_;
   std::vector<std::unique_ptr<internal::ModuleSnapshotIOS>> modules_;
   UUID report_id_;
   UUID client_id_;

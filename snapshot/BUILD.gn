@@ -110,10 +110,16 @@ static_library("snapshot") {
 
   if (crashpad_is_ios) {
     sources += [
+      "ios/memory_snapshot_ios.cc",
+      "ios/memory_snapshot_ios.h",
       "ios/module_snapshot_ios.cc",
       "ios/module_snapshot_ios.h",
       "ios/process_snapshot_ios.cc",
       "ios/process_snapshot_ios.h",
+      "ios/thread_snapshot_ios.cc",
+      "ios/thread_snapshot_ios.h",
+      "mac/cpu_context_mac.cc",
+      "mac/cpu_context_mac.h",
     ]
   }
 
