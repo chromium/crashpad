@@ -46,7 +46,7 @@ static_library("client") {
   if (crashpad_is_ios) {
     sources += [
       "crash_report_database_mac.mm",
-      "crashpad_client_ios.cc",
+      "crashpad_client_ios.mm",
     ]
   }
 
