@@ -48,7 +48,11 @@ if(WIN32)
     )
 endif()
 
-add_executable(crashpad_handler ${HANDLER_SOURCES})
+if(WIN32)
+    add_executable(crashpad_handler WIN32 ${HANDLER_SOURCES})
+else()
+    add_executable(crashpad_handler ${HANDLER_SOURCES})
+endif()
 target_link_libraries(crashpad_handler
     crashpad_client
     crashpad_minidump
