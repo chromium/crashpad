@@ -14,6 +14,7 @@
 
 #include "client/crashpad_client.h"
 
+#import <Foundation/Foundation.h>
 #include <unistd.h>
 
 #include "base/logging.h"
@@ -24,6 +25,8 @@
 #include "util/posix/signals.h"
 
 namespace crashpad {
+
+static NSUncaughtExceptionHandler* g_previous_uncaught_exception_handler;
 
 namespace {
 
@@ -36,6 +39,12 @@ class SignalHandler {
     return instance;
   }
 
+  // The signal handler installed at OS-level for NSException.
+  static void UncaughtExceptionHandler(NSException* exception) {
+    NSSetUncaughtExceptionHandler(g_previous_uncaught_exception_handler);
+    Get()->HandleUncaughtException(exception);
+  }
+
   bool Install(const std::set<int>* unhandled_signals) {
     return Signals::InstallCrashHandlers(
         HandleSignal, 0, &old_actions_, unhandled_signals);
@@ -45,6 +54,9 @@ class SignalHandler {
     // TODO(justincohen): This is incomplete.
     ProcessSnapshotIOS process_snapshot;
     process_snapshot.Initialize(system_data);
+    process_snapshot.SetException(siginfo,
+                                  reinterpret_cast<ucontext_t*>(context));
+    test_only_dump(process_snapshot);
   }
 
  private:
@@ -60,6 +72,46 @@ class SignalHandler {
     // Always call system handler.
     Signals::RestoreHandlerAndReraiseSignalOnReturn(
         siginfo, old_actions_.ActionForSignal(signo));
+  }
+
+  void HandleUncaughtException(NSException* exception) {
+    ProcessSnapshotIOS process_snapshot;
+    process_snapshot.Initialize(system_data);
+    process_snapshot.SetNSException(exception);
+    test_only_dump(process_snapshot);
+  }
+
+  // TODO(justincohen): For testing only!
+  // To be removed before landing CL, but super useful in testing.
+  void test_only_dump(ProcessSnapshotIOS& process_snapshot) {
+    char* tmpdir = getenv("TMPDIR");
+    std::string dir;
+    dir.assign(tmpdir);
+    dir.append("org.chromium.crashpad.test");
+    mkdtemp(&dir[0]);
+    std::unique_ptr<CrashReportDatabase> database(
+        CrashReportDatabase::Initialize(base::FilePath(dir)));
+    std::unique_ptr<CrashReportDatabase::NewReport> new_report;
+    CrashReportDatabase::OperationStatus database_status =
+        database->PrepareNewCrashReport(&new_report);
+    if (database_status != CrashReportDatabase::kNoError) {
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kPrepareNewCrashReportFailed);
+    }
+    process_snapshot.SetReportID(new_report->ReportID());
+    MinidumpFileWriter minidump;
+    minidump.InitializeFromSnapshot(&process_snapshot);
+    if (!minidump.WriteEverything(new_report->Writer())) {
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kMinidumpWriteFailed);
+    }
+    UUID uuid;
+    database_status =
+        database->FinishedWritingCrashReport(std::move(new_report), &uuid);
+    if (database_status != CrashReportDatabase::kNoError) {
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
+    }
   }
 
   // The signal handler installed at OS-level.
@@ -82,6 +134,8 @@ CrashpadClient::CrashpadClient() {}
 CrashpadClient::~CrashpadClient() {}
 
 bool CrashpadClient::StartCrashpadInProcessHandler() {
+  g_previous_uncaught_exception_handler = NSGetUncaughtExceptionHandler();
+  NSSetUncaughtExceptionHandler(&SignalHandler::UncaughtExceptionHandler);
   return SignalHandler::Get()->Install(nullptr);
 }
 
@@ -89,7 +143,8 @@ bool CrashpadClient::StartCrashpadInProcessHandler() {
 void CrashpadClient::DumpWithoutCrash() {
   DCHECK(SignalHandler::Get());
 
-  siginfo_t siginfo = {};
-  SignalHandler::Get()->HandleCrash(siginfo.si_signo, &siginfo, nullptr);
+  [NSException raise:@"CrashException" format:@"It dun crashed!"];
+  //    siginfo_t siginfo = {};
+  //    SignalHandler::Get()->HandleCrash(siginfo.si_signo, &siginfo, nullptr);
 }
 }  // namespace crashpad
