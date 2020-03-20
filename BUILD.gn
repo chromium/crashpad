@@ -52,6 +52,30 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       # TODO(fuchsia:46559): Fix the leaks and remove this.
       deps += [ "//build/config/sanitizers:suppress-lsan.DO-NOT-USE-THIS" ]
     }
+    if (crashpad_is_android) {
+      use_raw_android_executable = true
+
+      copy("crashpad_test_data") {
+        testonly = true
+        sources = [
+          "test/test_paths_test_data_root.txt",
+          "util/net/testdata/ascii_http_body.txt",
+          "util/net/testdata/binary_http_body.dat",
+        ]
+
+        outputs = [
+          "$root_out_dir/crashpad_test_data/{{source}}",
+        ]
+      }
+
+      deps += [ ":crashpad_test_data" ]
+
+      extra_dist_files = [
+        "$root_out_dir/crashpad_handler",
+        "$root_out_dir/crashpad_test_test_multiprocess_exec_test_child",
+        "$root_out_dir/crashpad_test_data",
+      ]
+    }
   }
 
   if (crashpad_is_in_fuchsia) {
