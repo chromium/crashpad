@@ -214,7 +214,10 @@ endif
 ; namespace crashpad {
 ; void CaptureContext(CONTEXT* context);
 ; }  // namespace crashpad
-ifdef _M_IX86
+
+ifdef __MINGW32__
+CAPTURECONTEXT_SYMBOL equ _ZN8crashpad14CaptureContextEP8_CONTEXT
+elseifdef _M_IX86
 CAPTURECONTEXT_SYMBOL equ ?CaptureContext@crashpad@@YAXPAU_CONTEXT@@@Z
 elseifdef _M_X64
 CAPTURECONTEXT_SYMBOL equ ?CaptureContext@crashpad@@YAXPEAU_CONTEXT@@@Z

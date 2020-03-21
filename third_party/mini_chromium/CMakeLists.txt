@@ -50,7 +50,6 @@ list(APPEND MINI_CHROMIUM_SOURCES
     strings/stringprintf.cc
     strings/stringprintf.h
     strings/sys_string_conversions.h
-    strings/utf_string_conversion_utils.cc
     strings/utf_string_conversion_utils.h
     strings/utf_string_conversions.cc
     strings/utf_string_conversions.h
@@ -65,6 +64,16 @@ list(APPEND MINI_CHROMIUM_SOURCES
     threading/thread_local_storage.cc
     threading/thread_local_storage.h
 )
+
+if(NOT MINGW)
+    list(APPEND MINI_CHROMIUM_SOURCES
+        strings/utf_string_conversion_utils.cc
+    )
+else()
+    list(APPEND MINI_CHROMIUM_SOURCES
+        ../../utf_string_conversion_utils.mingw.cc
+    )
+endif()
 
 if(APPLE)
     list(APPEND MINI_CHROMIUM_SOURCES
@@ -124,13 +133,21 @@ endif()
 
 if(WIN32)
     target_link_libraries(mini_chromium "advapi32" "kernel32")
-    target_compile_options(mini_chromium PUBLIC "/wd4201" "/wd4996")
-    target_compile_definitions(mini_chromium PUBLIC
-        NOMINMAX
-        UNICODE
-        WIN32_LEAN_AND_MEAN
-        _CRT_SECURE_NO_WARNINGS
-        _HAS_EXCEPTIONS=0
-        _UNICODE
-    )
+    if(MSVC)
+        target_compile_options(mini_chromium PUBLIC "/wd4201" "/wd4996")
+        target_compile_definitions(mini_chromium PUBLIC
+            NOMINMAX
+            UNICODE
+            WIN32_LEAN_AND_MEAN
+            _CRT_SECURE_NO_WARNINGS
+            _HAS_EXCEPTIONS=0
+            _UNICODE
+        )
+    elseif(MINGW)
+        target_compile_options(mini_chromium PRIVATE 
+            "-municode"
+            "-Wno-format"
+            "-Wno-unknown-pragmas"
+        )
+    endif()
 endif()

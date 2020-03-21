@@ -177,5 +177,17 @@ target_link_libraries(crashpad_snapshot
 
 if(WIN32)
     target_link_libraries(crashpad_snapshot "powrprof")
-    target_compile_options(crashpad_snapshot PUBLIC "/wd4201")
+    if(MSVC)
+        target_compile_options(crashpad_snapshot PUBLIC "/wd4201")
+    endif()
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        target_compile_options(crashpad_snapshot PRIVATE 
+            "-Wno-multichar"
+            "-Wno-attributes"
+        )
+    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    target_compile_options(crashpad_snapshot PRIVATE 
+        "-Wno-unknown-attributes"
+    )
+    endif()
 endif()

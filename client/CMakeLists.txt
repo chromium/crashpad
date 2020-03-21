@@ -54,5 +54,22 @@ target_link_libraries(crashpad_client
 
 if(WIN32)
     target_link_libraries(crashpad_client "rpcrt4")
-    target_compile_options(crashpad_client PUBLIC "/wd4201")
+    if(MSVC)
+        target_compile_options(crashpad_client PUBLIC "/wd4201")
+    elseif(MINGW)
+        target_compile_options(crashpad_client PRIVATE 
+            "-municode"
+        )
+    endif()
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        target_compile_options(crashpad_client PRIVATE 
+            "-Wno-multichar"
+            "-Wno-attributes"
+        )
+    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        target_compile_options(crashpad_client PRIVATE 
+            "-Wno-unknown-attributes"
+            "-Wno-unknown-pragmas"
+        )
+    endif()
 endif()

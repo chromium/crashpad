@@ -47,7 +47,7 @@ if(ANDROID)
     )
 endif()
 
-if(WIN32)
+if(MSVC)
     list(APPEND COMPAT_SOURCES
         win/getopt.h
         win/strings.cc
@@ -58,6 +58,11 @@ if(WIN32)
         win/winbase.h
         win/winnt.h
         win/winternl.h
+    )
+elseif(MINGW)
+    list(APPEND COMPAT_SOURCES
+        mingw/dbghelp.h
+        mingw/winnt.h
     )
 else()
     list(APPEND COMPAT_SOURCES
@@ -82,8 +87,9 @@ if(APPLE)
     target_sources(crashpad_compat INTERFACE ${COMPAT_SOURCES})
 else()
     add_library(crashpad_compat STATIC ${COMPAT_SOURCES})
+    set_target_properties(crashpad_compat PROPERTIES LINKER_LANGUAGE CXX)
 endif()
 
-if(WIN32)
+if(MSVC)
     target_link_libraries(crashpad_compat getopt)
 endif()

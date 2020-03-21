@@ -3,6 +3,15 @@ project(crashpad LANGUAGES C CXX)
 
 if(WIN32)
     enable_language(ASM_MASM)
+    IF(MINGW)
+        find_program(UASM uasm)
+        if(UASM)
+            SET(CMAKE_ASM_MASM_COMPILER "uasm")
+            SET(CMAKE_ASM_MASM_FLAGS "-win64 -10")
+        else()
+            message(FATAL_ERROR "UASM is required for MinGW builds ! Make sure you have it installed")
+        endif()
+    endif()
 else()
     enable_language(ASM)
 endif()
@@ -31,8 +40,10 @@ if(ANDROID)
     include_directories(SYSTEM "compat/android")
 endif()
 
-if(WIN32)
+if(MSVC)
     include_directories(SYSTEM "compat/win")
+elseif(MINGW)
+    include_directories(PUBLIC "compat/mingw")
 else()
     include_directories(PUBLIC "compat/non_win")
 endif()
@@ -41,7 +52,7 @@ if(NOT LINUX AND NOT ANDROID)
     include_directories(SYSTEM "compat/non_elf")
 endif()
 
-if(WIN32)
+if(MSVC)
     add_definitions(
         /DNOMINMAX
         /DUNICODE
@@ -61,6 +72,11 @@ if(WIN32)
         /wd4577 # 'noexcept' used with no exception handling mode specified.
         /wd4996 # 'X' was declared deprecated.
     )
+elseif(MINGW)
+    #redirect to wmain
+    add_link_options(
+        -municode
+    )
 endif()
 
 add_subdirectory(client)
@@ -72,7 +88,7 @@ add_subdirectory(tools)
 add_subdirectory(util)
 add_subdirectory(third_party/mini_chromium)
 
-if(WIN32)
+if(MSVC)
     add_subdirectory(third_party/getopt)
     add_subdirectory(third_party/zlib)
 endif()

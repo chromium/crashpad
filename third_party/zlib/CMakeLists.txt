@@ -42,7 +42,7 @@ target_compile_definitions(zlib PUBLIC HAVE_STDARG_H)
 
 include_directories(zlib)
 
-if(WIN32)
+if(MSVC)
     target_compile_options(zlib PUBLIC
         "/wd4131" # uses old-style declarator
         "/wd4244" # conversion from 't1' to 't2', possible loss of data

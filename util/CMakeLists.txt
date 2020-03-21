@@ -284,7 +284,6 @@ if(WIN32)
         win/session_end_watcher.h
         win/termination_codes.h
         win/xp_compat.h
-
         misc/capture_context_win.asm
         win/safe_terminate_process.asm
     )
@@ -340,7 +339,7 @@ target_link_libraries(crashpad_util PUBLIC
 
 target_compile_definitions(crashpad_util PUBLIC "-DZLIB_CONST")
 
-if(WIN32)
+if(MSVC)
     target_compile_definitions(crashpad_util PUBLIC "-DCRASHPAD_ZLIB_SOURCE_EMBEDDED")
     target_link_libraries(crashpad_util PUBLIC zlib)
 else()
@@ -357,5 +356,20 @@ endif()
 
 if(WIN32)
     target_link_libraries(crashpad_util PUBLIC "user32" "version" "winhttp")
-    target_compile_options(crashpad_util PUBLIC "/wd4201")
+    if(MSVC)
+        target_compile_options(crashpad_util PUBLIC "/wd4201")
+    elseif(MINGW)
+        target_compile_options(crashpad_util PRIVATE 
+            $<$<COMPILE_LANGUAGE:CXX>:-municode>
+        )
+        target_compile_definitions(crashpad_util PRIVATE 
+            "__STDC_VERSION__=199901L"
+            $<$<COMPILE_LANGUAGE:ASM_MASM>:__MINGW32__>
+        )
+    endif()
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        target_compile_options(crashpad_util PRIVATE 
+            $<$<COMPILE_LANGUAGE:CXX>:-Wno-multichar>
+        )
+    endif()
 endif()
