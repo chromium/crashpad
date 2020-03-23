@@ -75,6 +75,17 @@ if (crashpad_is_mac) {
       rebase_path("../compat/mac", root_build_dir),
     ]
   }
+
+  source_set("mig_output") {
+    deps = [ ":mig" ]
+    sources = get_target_outputs(":mig")
+    if (crashpad_is_in_chromium) {
+      # mig output contains unreachable code, which irks -Wunreachable-code.
+      configs -= [ "//build/config/compiler:chromium_code" ]
+      configs += [ "//build/config/compiler:no_chromium_code" ]
+    }
+    public_configs = [ "..:crashpad_config" ]
+  }
 }
 
 static_library("util") {
@@ -281,7 +292,6 @@ static_library("util") {
       "process/process_memory_mac.h",
       "synchronization/semaphore_mac.cc",
     ]
-    sources += get_target_outputs(":mig")
   }
 
   deps = []
@@ -483,7 +493,7 @@ static_library("util") {
       "IOKit.framework",
     ]
     deps += [
-      ":mig",
+      ":mig_output",
       "../third_party/apple_cf:apple_cf",
     ]
     include_dirs += [ "$root_build_dir/gen" ]
