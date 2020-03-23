@@ -5,6 +5,7 @@
 - Add `throws` declaration to `memfd_create` for compatibility with different
   libc versions.
 - Build System Changes Listed Below
+- MinGW build support.
 
 # Build System Changes
 
@@ -46,6 +47,13 @@ included files):
 
 The important thing here is to keep the list of source files in sync when
 updating.
+
+## MinGW Changes
+
+MinGW support adds the following files which need to be kept in sync.
+
+- `compat/mingw/`
+- `third_party/mini_chromium/utf_string_conversion_utils.mingw.cc`
 
 # How To Update
 
