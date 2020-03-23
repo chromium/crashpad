@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3d5b92b3_07a772f7",
+        "filename": "test/gtest_main.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-23T20:27:22Z",
+      "side": 1,
+      "message": "Yeah, using the chromium test launcher fails because on Android, it expects to be running in a normal Android process and ends up CHECK failing when it doesn\u0027t find any initialized JVM while attempting some JNI call.\n\nUsing a regular gtest appears to report results just fine.",
+      "parentUuid": "a69ede2a_fc526c88",
+      "revId": "f71097c2b200b68479d0c979f0f74dbc8ca5e140",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6451616e_e3cf5ad5",
         "filename": "test/test_paths.cc",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "f71097c2b200b68479d0c979f0f74dbc8ca5e140",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13ba8d13_1c48dd9c",
+        "filename": "test/test_paths.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-23T20:27:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6451616e_e3cf5ad5",
+      "revId": "f71097c2b200b68479d0c979f0f74dbc8ca5e140",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
