@@ -14,6 +14,7 @@
 
 #include "util/posix/process_info.h"
 
+#include <sys/utsname.h>
 #include <time.h>
 
 #include <algorithm>
@@ -21,6 +22,7 @@
 #include <string>
 #include <vector>
 
+#include "base/strings/string_number_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
@@ -29,6 +31,7 @@
 #include "test/multiprocess.h"
 #include "util/file/file_io.h"
 #include "util/misc/implicit_cast.h"
+#include "util/string/split_string.h"
 
 #if defined(OS_LINUX) || defined(OS_ANDROID)
 #include "util/linux/direct_ptrace_connection.h"
@@ -93,10 +96,38 @@ void TestProcessSelfOrClone(const ProcessInfo& process_info) {
   time(&now);
   EXPECT_LE(start_time.tv_sec, now);
 
+  const std::vector<std::string>& expect_argv = GetMainArguments();
+
+#if defined(OS_ANDROID) || defined(OS_LINUX)
+  // Prior to Linux 4.2, the kernel only allowed reading a single page from
+  // /proc/<pid>/cmdline, causing any further arguments to be truncated. Disable
+  // testing arguments in this case.
+  // TODO(jperaza): The main arguments are stored on the main thread's stack
+  // (and so should be included in dumps automatically), and
+  // ProcessInfo::Arguments() might be updated to read the arguments directly,
+  // rather than via procfs on older kernels.
+  utsname uts;
+  ASSERT_EQ(uname(&uts), 0) << ErrnoMessage("uname");
+  std::vector<std::string> parts = SplitString(uts.release, '.');
+  ASSERT_GE(parts.size(), 2u);
+
+  int major, minor;
+  ASSERT_TRUE(base::StringToInt(parts[0], &major));
+  ASSERT_TRUE(base::StringToInt(parts[1], &minor));
+
+  size_t argv_size = 0;
+  for (const auto& arg : expect_argv) {
+    argv_size += arg.size() + 1;
+  }
+
+  if ((major < 4 || (major == 4 && minor < 2)) &&
+      argv_size > static_cast<size_t>(getpagesize())) {
+    return;
+  }
+#endif  // OS_ANDROID || OS_LINUX
+
   std::vector<std::string> argv;
   ASSERT_TRUE(process_info.Arguments(&argv));
-
-  const std::vector<std::string>& expect_argv = GetMainArguments();
 
   // expect_argv always contains the initial view of the arguments at the time
   // the program was invoked. argv may contain this view, or it may contain the
