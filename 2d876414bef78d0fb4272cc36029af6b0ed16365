@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9cef9531_76e34597",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-24T20:55:44Z",
+      "side": 1,
+      "message": "How about \n  # Prevent Chromium source assignment filters from being inherited.\nin a chromium block at the top of the file?",
+      "parentUuid": "1aff70db_368bd83c",
+      "revId": "2d876414bef78d0fb4272cc36029af6b0ed16365",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "341d6714_64d44cf0",
         "filename": "snapshot/BUILD.gn",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "2d876414bef78d0fb4272cc36029af6b0ed16365",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a699cbb_fa5ecae9",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-24T20:55:44Z",
+      "side": 1,
+      "message": "good idea.",
+      "parentUuid": "341d6714_64d44cf0",
+      "revId": "2d876414bef78d0fb4272cc36029af6b0ed16365",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
