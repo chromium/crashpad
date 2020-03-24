@@ -17,6 +17,9 @@ import("../build/crashpad_fuzzer_test.gni")
 
 if (crashpad_is_in_chromium) {
   import("//build/config/compiler/compiler.gni")
+
+  # Prevent Chromium source assignment filters from being inherited.
+  set_sources_assignment_filter([])
 }
 
 static_library("snapshot") {
@@ -124,7 +127,6 @@ static_library("snapshot") {
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
-    set_sources_assignment_filter([])
     sources += [
       "linux/cpu_context_linux.cc",
       "linux/cpu_context_linux.h",
