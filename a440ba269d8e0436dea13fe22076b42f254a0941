@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "71aef14f_8adc2229",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-24T20:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d08e4a2b_281f5194",
+      "revId": "a440ba269d8e0436dea13fe22076b42f254a0941",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d99ea6a_85503698",
         "filename": "util/posix/process_info_test.cc",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "63ae3987_6f828d68",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-24T20:30:16Z",
+      "side": 1,
+      "message": "/proc/\u003cpid\u003e/cmdline is not the original set of arguments. The kernel only stores the addresses of the arguments. /proc/\u003cpid\u003e/cmdline actually just copies the memory expected to contain arguments from the target process.",
+      "parentUuid": "6d99ea6a_85503698",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 45
+      },
+      "revId": "a440ba269d8e0436dea13fe22076b42f254a0941",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "69f082bc_da7fedeb",
         "filename": "util/posix/process_info_test.cc",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2020-03-24T20:02:58Z",
       "side": 1,
       "message": "Should this be \u003e?",
+      "range": {
+        "startLine": 124,
+        "startChar": 16,
+        "endLine": 124,
+        "endChar": 18
+      },
+      "revId": "a440ba269d8e0436dea13fe22076b42f254a0941",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddff9a58_6691e6c7",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-24T20:30:16Z",
+      "side": 1,
+      "message": "Done.\n\nI think that case should work. From the implementation\u0027s point of view, it\u0027ll be ambiguous whether or not the command line was truncated, but I guess that\u0027s fine since the test knows how long the arguments really are.",
+      "parentUuid": "69f082bc_da7fedeb",
       "range": {
         "startLine": 124,
         "startChar": 16,
