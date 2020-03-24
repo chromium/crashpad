@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d08e4a2b_281f5194",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-24T20:02:58Z",
+      "side": 1,
+      "message": "This goes with the C headers (above), not the C++ headers (below).",
+      "revId": "a440ba269d8e0436dea13fe22076b42f254a0941",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d99ea6a_85503698",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-24T20:02:58Z",
+      "side": 1,
+      "message": "But if cmdline is the _original_ set of arguments that the program was invoked with, then it may differ from what shows up at the base of the stack.",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 45
+      },
+      "revId": "a440ba269d8e0436dea13fe22076b42f254a0941",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69f082bc_da7fedeb",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-24T20:02:58Z",
+      "side": 1,
+      "message": "Should this be \u003e?",
+      "range": {
+        "startLine": 124,
+        "startChar": 16,
+        "endLine": 124,
+        "endChar": 18
+      },
+      "revId": "a440ba269d8e0436dea13fe22076b42f254a0941",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
