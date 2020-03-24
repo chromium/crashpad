@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "547bb152_4d64bc18",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-24T20:59:21Z",
+      "side": 1,
+      "message": "The comment is good now.\n\nI’m not positive it’ll work in this location or if it’s only going to work strictly in this enclosing (crashpad_is_in_chromium) scope, where it has no effect because there are no “sources”. Did you test?",
+      "revId": "5eb1f5ca6fa92114a5a66c7195e9de98f49138e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
