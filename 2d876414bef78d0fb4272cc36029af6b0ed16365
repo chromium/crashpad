@@ -16,6 +16,23 @@
       "revId": "2d876414bef78d0fb4272cc36029af6b0ed16365",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "341d6714_64d44cf0",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-03-24T19:59:30Z",
+      "side": 1,
+      "message": "I bet you can just set this at the top of the file.  If crashpad isn\u0027t using a sources_assignment_filter, then this file is already structured to not need one for any platform.",
+      "revId": "2d876414bef78d0fb4272cc36029af6b0ed16365",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
