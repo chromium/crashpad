@@ -109,6 +109,9 @@ static_library("snapshot") {
   }
 
   if (crashpad_is_ios) {
+    # Needed for cpu_context_mac.
+    set_sources_assignment_filter([])
+
     sources += [
       "ios/memory_snapshot_ios.cc",
       "ios/memory_snapshot_ios.h",
