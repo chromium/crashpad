@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aff70db_368bd83c",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-24T19:58:47Z",
+      "side": 1,
+      "message": "Without any context, this comment provides no information.\n\nCrashpad doesn’t use this filter. This is here for Chromium’s benefit.\n\nIt’ll take a sentence or two to explain this.",
+      "revId": "2d876414bef78d0fb4272cc36029af6b0ed16365",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
