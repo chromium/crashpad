@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e564ad70_e96eb556",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-24T21:57:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ccf6a5a_40cc39c4",
+      "range": {
+        "startLine": 89,
+        "startChar": 38,
+        "endLine": 89,
+        "endChar": 59
+      },
+      "revId": "fd9b68bf99c2b793da9c2f5540246a2482643225",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4dac3b4_e0f64691",
         "filename": "snapshot/ios/system_snapshot_ios.cc",
         "patchSetId": 16
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "542072fe_4c66611e",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-24T21:57:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4dac3b4_e0f64691",
+      "revId": "fd9b68bf99c2b793da9c2f5540246a2482643225",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9884f1b8_de1ffb93",
         "filename": "snapshot/ios/system_snapshot_ios.cc",
         "patchSetId": 16
@@ -56,6 +98,24 @@
       "revId": "fd9b68bf99c2b793da9c2f5540246a2482643225",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91684388_890e3432",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-24T21:57:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9884f1b8_de1ffb93",
+      "revId": "fd9b68bf99c2b793da9c2f5540246a2482643225",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "4b72a0e8_277d3fb5",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-24T21:57:26Z",
+      "side": 1,
+      "message": "I can\u0027t find authoritative info here, but it seems NX is always enabled for 3rd party iOS apps.  \n\nWhat macOS version do I need to gate on?",
+      "parentUuid": "00602405_3ccae2e7",
+      "range": {
+        "startLine": 203,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 36
+      },
+      "revId": "fd9b68bf99c2b793da9c2f5540246a2482643225",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cee166_ecbf0348",
         "filename": "snapshot/system_snapshot.h",
         "patchSetId": 16
@@ -102,6 +186,30 @@
       "revId": "fd9b68bf99c2b793da9c2f5540246a2482643225",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b21a57cb_f17e8c5d",
+        "filename": "snapshot/system_snapshot.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-24T21:57:26Z",
+      "side": 1,
+      "message": "Er, I originally had cap I, but I thought you requested \u0027i\u0027 in a previous review?",
+      "parentUuid": "02cee166_ecbf0348",
+      "range": {
+        "startLine": 55,
+        "startChar": 20,
+        "endLine": 55,
+        "endChar": 21
+      },
+      "revId": "fd9b68bf99c2b793da9c2f5540246a2482643225",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "b1f70054_2e8265a4",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 16
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-24T21:57:26Z",
+      "side": 1,
+      "message": "It can only ever be x86_64?  systemsnapshotios already knows that at compile-time.\n\nI could expose interfaceidiom, but it\u0027s pretty analogous to what arm returns for uts.machine, so I figured I would mirror this here.",
+      "parentUuid": "cb940403_9109e2f8",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 0
+      },
+      "revId": "fd9b68bf99c2b793da9c2f5540246a2482643225",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1762b941_54c5c2f4",
         "filename": "util/ios/ios_system_data_collector.mm",
         "patchSetId": 16
@@ -139,6 +271,24 @@
       "writtenOn": "2020-03-23T14:17:47Z",
       "side": 1,
       "message": "Or, to put it another way: what’s uts.machine on various iDevices here?",
+      "revId": "fd9b68bf99c2b793da9c2f5540246a2482643225",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87fe4844_7daa8603",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 16
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-24T21:57:26Z",
+      "side": 1,
+      "message": "On iPhone it\u0027s super useful, it\u0027s the identifying code, e.g. iPhone8,4, iPhone9,1, iPhone10,3, etc.",
+      "parentUuid": "1762b941_54c5c2f4",
       "revId": "fd9b68bf99c2b793da9c2f5540246a2482643225",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
