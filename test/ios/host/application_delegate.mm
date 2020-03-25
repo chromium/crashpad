@@ -44,6 +44,8 @@
   [EDOHostService serviceWithPort:12345
                        rootObject:[[CPTestSharedObject alloc] init]
                             queue:dispatch_get_main_queue()];
+  
+      [NSException raise:@"CrashException" format:@"It dun crashed!"];
   return YES;
 }
 
