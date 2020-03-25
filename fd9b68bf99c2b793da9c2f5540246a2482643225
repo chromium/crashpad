@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "bcad03bb_a1cb593a",
+        "filename": "snapshot/ios/system_snapshot_ios.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-25T00:41:50Z",
+      "side": 1,
+      "message": "\u003e I can\u0027t find authoritative info here, but it seems NX is always enabled for 3rd party iOS apps.  \n\u003e \n\u003e What macOS version do I need to gate on?\n\n10.15.0 xnu-6153.11.26/bsd/kern/kern_sysctl.c puts sysctl_nx in “#if DEVELOPMENT || DEBUG”.\n\nIn the previous kernel version we currently have source for, 10.14.3 xnu-4903.241.1/bsd/kern/kern_sysctl.c, sysctl_nx is always available.\n\nIn 10.15.0 again, we can see that it’s always on by looking at osfmk/x86_64/pmap.c, which has “int nx_enabled \u003d 1”. When !DEVELOPMENT \u0026\u0026 !DEBUG, it’s const, even.\n\nSo the control to disable NX disappeared from desktop macOS in 10.15.0, and along with it went the ability to read this sysctl, but it can now be treated as always on. (We should also make this change in SystemSnapshotMac.) On the basis of kernel equivalence, it looks like kern.nx was also present until iOS 13.\n\nWould I expect kern.nx to work on ARM (and iOS) at all? Yes, I would. osfmk/arm/pmap.c has “int nx_enabled \u003d 1” the same as x86_64 (as a const, too, when !DEVELOPMENT \u0026\u0026 !DEBUG).\n\nFor your purposes here, just rework the comment, as a TODO, to say that it’s conditional on OS version, and that we should use kern.nx when available (pre-iOS 13, pre-OS X 10.15 for simulator builds).",
+      "parentUuid": "4b72a0e8_277d3fb5",
+      "range": {
+        "startLine": 203,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 36
+      },
+      "revId": "fd9b68bf99c2b793da9c2f5540246a2482643225",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "02cee166_ecbf0348",
         "filename": "snapshot/system_snapshot.h",
         "patchSetId": 16
@@ -248,6 +272,30 @@
       "side": 1,
       "message": "It can only ever be x86_64?  systemsnapshotios already knows that at compile-time.\n\nI could expose interfaceidiom, but it\u0027s pretty analogous to what arm returns for uts.machine, so I figured I would mirror this here.",
       "parentUuid": "cb940403_9109e2f8",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 0
+      },
+      "revId": "fd9b68bf99c2b793da9c2f5540246a2482643225",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "323975f6_19ed2b33",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 16
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-25T00:41:50Z",
+      "side": 1,
+      "message": "\u003e It can only ever be x86_64?  systemsnapshotios already knows that at compile-time.\n\u003e \n\u003e I could expose interfaceidiom, but it\u0027s pretty analogous to what arm returns for uts.machine, so I figured I would mirror this here.\n\nOK, so this is just for SystemSnapshot::MachineDescription?\n\nWe do collect the same model string on macOS, for use in SystemSnapshot::MachineDescription. The meat of that is in MacModelAndBoard. We actually also collect the board information there, too. (Does MacModelAndBoard work on iOS? Recycle it!)\n\nIf utsname::machine does in fact do what you say on iOS, then you can use it. It’s just much less obvious, because utsname::machine on all other systems is the CPU name (on desktop macOS, it’s “x86_64”). That’s why I asked the question here: these strings you’re using for the simulator are not CPU names. It wasn’t obvious to me as a long-time user of uname that iOS would give back “iPhone10,3” here.\n\nBut I’d also say that the MacModelAndBoard are still relevant even in simulator cases, so I’d suggest merging the UI_USER_INTERFACE_IDIOM with the Mac model in simulator builds.",
+      "parentUuid": "b1f70054_2e8265a4",
       "range": {
         "startLine": 79,
         "startChar": 0,
