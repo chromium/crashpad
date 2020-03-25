@@ -22,6 +22,30 @@
       "revId": "b2f4defa108b93c3b19be6f2b9a84d0e0b16d814",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36495067_04b0ca70",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 22
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-25T20:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9d0f234_7c6adfa7",
+      "range": {
+        "startLine": 103,
+        "startChar": 19,
+        "endLine": 103,
+        "endChar": 25
+      },
+      "revId": "b2f4defa108b93c3b19be6f2b9a84d0e0b16d814",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
