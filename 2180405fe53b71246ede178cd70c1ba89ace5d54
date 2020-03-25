@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "1fd49791_38e1e365",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-25T20:05:16Z",
+      "side": 1,
+      "message": "\u003e Reverted to #if TARGET_OS_SIMULATOR -- but that\u0027s what I had in an earlier review, so I\u0027m not certain it\u0027s correct.  WDYT?\n\nI might have been responding to the machdep.cpu.vendor thing needing to be CPU-specific, not target-specific.\n\n(Also, unfortunately, even when you have my attention, it’s a little more split than normal, so I may have given you the runaround just because of my own limited ability to focus or construct complete thoughts. If that’s the case, I’m very sorry. I don’t mean to do that.)",
+      "parentUuid": "f91ee0db_32a6438b",
+      "revId": "2180405fe53b71246ede178cd70c1ba89ace5d54",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dee99a08_72ab7ad7",
         "filename": "util/ios/ios_system_data_collector.mm",
         "patchSetId": 18
