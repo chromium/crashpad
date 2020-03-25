@@ -126,6 +126,12 @@ TEST_F(SystemSnapshotMacTest, MachineDescription) {
   EXPECT_FALSE(system_snapshot().MachineDescription().empty());
 }
 
+TEST_F(SystemSnapshotMacTest, NXEnabled) {
+  // Assume NX will always be enabled, as it was always enabled by default on
+  // all supported versions of macOS.
+  EXPECT_TRUE(system_snapshot().NXEnabled());
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
