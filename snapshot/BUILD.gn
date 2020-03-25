@@ -119,6 +119,8 @@ static_library("snapshot") {
       "ios/module_snapshot_ios.h",
       "ios/process_snapshot_ios.cc",
       "ios/process_snapshot_ios.h",
+      "ios/system_snapshot_ios.cc",
+      "ios/system_snapshot_ios.h",
       "ios/thread_snapshot_ios.cc",
       "ios/thread_snapshot_ios.h",
       "mac/cpu_context_mac.cc",
