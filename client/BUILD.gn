@@ -138,7 +138,7 @@ source_set("client_test") {
   }
 
   if (crashpad_is_ios) {
-    sources += [ "crashpad_client_ios_test.cc" ]
+    sources += [ "crashpad_client_ios_test.mm" ]
     sources -= [
       "annotation_list_test.cc",
       "annotation_test.cc",
