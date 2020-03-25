@@ -42,6 +42,7 @@ ProcessSnapshotIOS::ProcessSnapshotIOS()
       system_(),
       threads_(),
       modules_(),
+      exception_(),
       report_id_(),
       client_id_(),
       annotations_simple_map_(),
@@ -99,6 +100,15 @@ bool ProcessSnapshotIOS::Initialize(const IOSSystemDataCollector& system_data) {
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
+}
+
+void ProcessSnapshotIOS::SetException(const siginfo_t* siginfo,
+                                      const ucontext_t* context) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  exception_.reset(new internal::ExceptionSnapshotIOS());
+  if (!exception_->Initialize(siginfo, context)) {
+    exception_.reset();
+  }
 }
 
 pid_t ProcessSnapshotIOS::ProcessID() const {
@@ -189,7 +199,7 @@ std::vector<UnloadedModuleSnapshot> ProcessSnapshotIOS::UnloadedModules()
 
 const ExceptionSnapshot* ProcessSnapshotIOS::Exception() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return nullptr;
+  return exception_.get();
 }
 
 std::vector<const MemoryMapRegionSnapshot*> ProcessSnapshotIOS::MemoryMap()
