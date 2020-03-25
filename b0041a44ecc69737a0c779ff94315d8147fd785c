@@ -16,6 +16,24 @@
       "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "930881b0_d92fa805",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-25T21:48:02Z",
+      "side": 1,
+      "message": "I wonder why presubmit didn\u0027t catch them in chromium?\n\nhttps://osscs.corp.google.com/chromium/chromium/src/+/master:PRESUBMIT.py;l\u003d201\nunder _BANNED_OBJC_FUNCTIONS\n\nhttps://codereview.chromium.org/2450033004\n\nhttps://bugs.chromium.org/p/chromium/issues/detail?id\u003d659649",
+      "parentUuid": "9dda0545_c118087d",
+      "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
