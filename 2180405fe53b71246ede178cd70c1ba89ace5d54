@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f91ee0db_32a6438b",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-25T19:27:32Z",
+      "side": 1,
+      "message": "Reverted to #if TARGET_OS_SIMULATOR -- but that\u0027s what I had in an earlier review, so I\u0027m not certain it\u0027s correct.  WDYT?",
+      "parentUuid": "6a500c51_0064e0a1",
+      "revId": "2180405fe53b71246ede178cd70c1ba89ace5d54",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dee99a08_72ab7ad7",
         "filename": "util/ios/ios_system_data_collector.mm",
         "patchSetId": 18
@@ -51,6 +69,24 @@
       "revId": "2180405fe53b71246ede178cd70c1ba89ace5d54",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca25b2f1_42351681",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-25T19:27:32Z",
+      "side": 1,
+      "message": "Extracted to a ARCH_CPU_X86_64 block.",
+      "parentUuid": "dee99a08_72ab7ad7",
+      "revId": "2180405fe53b71246ede178cd70c1ba89ace5d54",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
