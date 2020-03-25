@@ -17,15 +17,29 @@
 #include <mach-o/loader.h>
 #include <mach/mach.h>
 
-#include <utility>
-
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
+#include "base/stl_util.h"
+
+namespace {
+
+void MachTimeValueToTimeval(const time_value& mach, timeval* tv) {
+  tv->tv_sec = mach.seconds;
+  tv->tv_usec = mach.microseconds;
+}
+
+}  // namespace
 
 namespace crashpad {
 
 ProcessSnapshotIOS::ProcessSnapshotIOS()
     : ProcessSnapshot(),
+      kern_proc_info_(),
+      basic_info_user_time_(),
+      basic_info_system_time_(),
+      thread_times_user_time_(),
+      thread_times_system_time_(),
+      system_(),
       threads_(),
       modules_(),
       report_id_(),
@@ -36,14 +50,50 @@ ProcessSnapshotIOS::ProcessSnapshotIOS()
 
 ProcessSnapshotIOS::~ProcessSnapshotIOS() {}
 
-bool ProcessSnapshotIOS::Initialize() {
+bool ProcessSnapshotIOS::Initialize(const IOSSystemDataCollector& system_data) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+  // Used by pid, parent pid and snapshot time.
+  int mib[] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()};
+  size_t len = sizeof(kern_proc_info_);
+  if (sysctl(mib, base::size(mib), &kern_proc_info_, &len, nullptr, 0)) {
+    PLOG(ERROR) << "sysctl";
+    return false;
+  }
+
+  // Used by user time and system time.
+  task_basic_info_64 task_basic_info;
+  mach_msg_type_number_t task_basic_info_count = TASK_BASIC_INFO_64_COUNT;
+  kern_return_t kr = task_info(mach_task_self(),
+                               TASK_BASIC_INFO_64,
+                               reinterpret_cast<task_info_t>(&task_basic_info),
+                               &task_basic_info_count);
+  if (kr != KERN_SUCCESS) {
+    MACH_LOG(WARNING, kr) << "task_info TASK_BASIC_INFO_64";
+    return false;
+  }
+
+  task_thread_times_info_data_t task_thread_times;
+  mach_msg_type_number_t task_thread_times_count = TASK_THREAD_TIMES_INFO_COUNT;
+  kr = task_info(mach_task_self(),
+                 TASK_THREAD_TIMES_INFO,
+                 reinterpret_cast<task_info_t>(&task_thread_times),
+                 &task_thread_times_count);
+  if (kr != KERN_SUCCESS) {
+    MACH_LOG(WARNING, kr) << "task_info TASK_THREAD_TIMES";
+  }
+
+  basic_info_user_time_ = task_basic_info.user_time;
+  basic_info_system_time_ = task_basic_info.system_time;
+  thread_times_user_time_ = task_thread_times.user_time;
+  thread_times_system_time_ = task_thread_times.system_time;
 
   if (gettimeofday(&snapshot_time_, nullptr) != 0) {
     PLOG(ERROR) << "gettimeofday";
     return false;
   }
 
+  system_.Initialize(system_data);
   InitializeThreads();
   InitializeModules();
 
@@ -53,12 +103,12 @@ bool ProcessSnapshotIOS::Initialize() {
 
 pid_t ProcessSnapshotIOS::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return getpid();
+  return kern_proc_info_.kp_proc.p_pid;
 }
 
 pid_t ProcessSnapshotIOS::ParentProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return 0;
+  return kern_proc_info_.kp_eproc.e_ppid;
 }
 
 void ProcessSnapshotIOS::SnapshotTime(timeval* snapshot_time) const {
@@ -68,11 +118,28 @@ void ProcessSnapshotIOS::SnapshotTime(timeval* snapshot_time) const {
 
 void ProcessSnapshotIOS::ProcessStartTime(timeval* start_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  *start_time = kern_proc_info_.kp_proc.p_starttime;
 }
 
 void ProcessSnapshotIOS::ProcessCPUTimes(timeval* user_time,
                                          timeval* system_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  // Calculate user and system time the same way the kernel does for
+  // getrusage(). See 10.15.0 xnu-6153.11.26/bsd/kern/kern_resource.c calcru().
+  timerclear(user_time);
+  timerclear(system_time);
+
+  MachTimeValueToTimeval(basic_info_user_time_, user_time);
+  MachTimeValueToTimeval(basic_info_system_time_, system_time);
+
+  timeval thread_user_time;
+  MachTimeValueToTimeval(thread_times_user_time_, &thread_user_time);
+  timeval thread_system_time;
+  MachTimeValueToTimeval(thread_times_system_time_, &thread_system_time);
+
+  timeradd(user_time, &thread_user_time, user_time);
+  timeradd(system_time, &thread_system_time, system_time);
 }
 
 void ProcessSnapshotIOS::ReportID(UUID* report_id) const {
@@ -93,7 +160,7 @@ ProcessSnapshotIOS::AnnotationsSimpleMap() const {
 
 const SystemSnapshot* ProcessSnapshotIOS::System() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return nullptr;
+  return &system_;
 }
 
 std::vector<const ThreadSnapshot*> ProcessSnapshotIOS::Threads() const {
