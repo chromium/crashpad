@@ -22,6 +22,30 @@
       "revId": "7fc61f7822841b4c9814092d07b78f8f3175a68d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f58cef6b_781dec2d",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-25T19:44:46Z",
+      "side": 1,
+      "message": "moved to another CL.",
+      "parentUuid": "26bc65e2_57b8fc08",
+      "range": {
+        "startLine": 129,
+        "startChar": 2,
+        "endLine": 129,
+        "endChar": 12
+      },
+      "revId": "7fc61f7822841b4c9814092d07b78f8f3175a68d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
