@@ -176,6 +176,9 @@ void MinidumpSystemInfoWriter::InitializeFromSnapshot(
     case SystemSnapshot::kOperatingSystemFuchsia:
       operating_system = kMinidumpOSFuchsia;
       break;
+    case SystemSnapshot::kOperatingSystemIOS:
+      operating_system = kMinidumpOSIOS;
+      break;
     default:
       NOTREACHED();
       operating_system = kMinidumpOSUnknown;

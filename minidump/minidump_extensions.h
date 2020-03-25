@@ -242,7 +242,7 @@ enum MinidumpOS : uint32_t {
   kMinidumpOSMacOSX = 0x8101,
 
   //! \brief iOS, Darwin for mobile devices.
-  kMinidumpOSiOS = 0x8102,
+  kMinidumpOSIOS = 0x8102,
 
   //! \brief Linux, not including Android.
   kMinidumpOSLinux = 0x8201,
@@ -263,7 +263,6 @@ enum MinidumpOS : uint32_t {
   //! \brief Unknown operating system.
   kMinidumpOSUnknown = 0xffffffff,
 };
-
 
 //! \brief A list of ::RVA pointers.
 struct ALIGNAS(4) PACKED MinidumpRVAList {

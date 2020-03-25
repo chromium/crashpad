@@ -17,6 +17,9 @@ import("net/tls.gni")
 
 if (crashpad_is_in_chromium) {
   import("//build/config/sanitizers/sanitizers.gni")
+
+  # Prevent Chromium source assignment filters from being inherited.
+  set_sources_assignment_filter([])
 }
 
 if (crashpad_is_mac) {
@@ -241,6 +244,15 @@ static_library("util") {
     }
   }
 
+  if (crashpad_is_ios) {
+    sources += [
+      "ios/ios_system_data_collector.h",
+      "ios/ios_system_data_collector.mm",
+      "mac/xattr.cc",
+      "mac/xattr.h",
+    ]
+  }
+
   if (crashpad_is_mac) {
     sources += [
       "mac/checked_mach_address_range.h",
@@ -313,7 +325,6 @@ static_library("util") {
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
-    set_sources_assignment_filter([])
     sources += [
       "linux/address_types.h",
       "linux/auxiliary_vector.cc",
@@ -661,7 +672,6 @@ source_set("util_test") {
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
-    set_sources_assignment_filter([])
     sources += [
       "linux/auxiliary_vector_test.cc",
       "linux/memory_map_test.cc",
