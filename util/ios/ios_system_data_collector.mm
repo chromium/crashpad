@@ -23,6 +23,7 @@
 
 #include "base/mac/mach_logging.h"
 #include "base/numerics/safe_conversions.h"
+#include "base/strings/sys_string_conversions.h"
 #include "build/build_config.h"
 
 namespace {
@@ -160,7 +161,7 @@ void IOSSystemDataCollector::SystemTimeZoneDidChangeNotification() {
       [time_zone nextDaylightSavingTimeTransitionAfterDate:[NSDate date]];
   if (transition == nil) {
     has_next_daylight_saving_time_ = false;
-    daylight_name_ = [[time_zone abbreviation] UTF8String];
+    daylight_name_ = base::SysNSStringToUTF8([time_zone abbreviation]);
     standard_name_ = daylight_name_;
   } else if (time_zone.isDaylightSavingTime) {
     has_next_daylight_saving_time_ = true;
@@ -169,13 +170,15 @@ void IOSSystemDataCollector::SystemTimeZoneDidChangeNotification() {
         base::saturated_cast<int>([time_zone secondsFromGMT]);
     standard_offset_seconds_ =
         base::saturated_cast<int>([time_zone secondsFromGMTForDate:transition]);
-    daylight_name_ = [[time_zone abbreviation] UTF8String];
-    standard_name_ = [[time_zone abbreviationForDate:transition] UTF8String];
+    daylight_name_ = base::SysNSStringToUTF8([time_zone abbreviation]);
+    standard_name_ =
+        base::SysNSStringToUTF8([time_zone abbreviationForDate:transition]);
   } else {
     has_next_daylight_saving_time_ = true;
     is_daylight_saving_time_ = false;
-    standard_name_ = [[time_zone abbreviation] UTF8String];
-    daylight_name_ = [[time_zone abbreviationForDate:transition] UTF8String];
+    standard_name_ = base::SysNSStringToUTF8([time_zone abbreviation]);
+    daylight_name_ =
+        base::SysNSStringToUTF8([time_zone abbreviationForDate:transition]);
     standard_offset_seconds_ =
         base::saturated_cast<int>([time_zone secondsFromGMT]);
     daylight_offset_seconds_ =
