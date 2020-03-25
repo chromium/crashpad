@@ -356,6 +356,30 @@
     },
     {
       "key": {
+        "uuid": "2677a74e_bd546a2f",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 16
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-25T18:41:11Z",
+      "side": 1,
+      "message": "\u003e Neither iphonesimulator nor iphoneos SDK can use MacModelAndBoard, since there\u0027s no IOKitLib.h in either SDK.\n\nIt may be possible to use this for simulator builds anyway (which won’t go to the App Store). Leave this as a TODO and we’ll (I’ll?) investigate in the future.",
+      "parentUuid": "2aa10303_ae5f35bc",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 0
+      },
+      "revId": "fd9b68bf99c2b793da9c2f5540246a2482643225",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1762b941_54c5c2f4",
         "filename": "util/ios/ios_system_data_collector.mm",
         "patchSetId": 16

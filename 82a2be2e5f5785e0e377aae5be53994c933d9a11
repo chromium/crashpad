@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63d7007b_38bfc38a",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 20
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-25T18:41:11Z",
+      "side": 1,
+      "message": "(carried forward from previous patch set: correct use of “targeting the simulator” vs. “targeting a CPU or CPU family” macro.)",
+      "revId": "82a2be2e5f5785e0e377aae5be53994c933d9a11",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
