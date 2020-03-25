@@ -45,6 +45,8 @@ class SignalHandler {
     // TODO(justincohen): This is incomplete.
     ProcessSnapshotIOS process_snapshot;
     process_snapshot.Initialize(system_data);
+    process_snapshot.SetException(siginfo,
+                                  reinterpret_cast<ucontext_t*>(context));
   }
 
  private:
@@ -88,7 +90,6 @@ bool CrashpadClient::StartCrashpadInProcessHandler() {
 // static
 void CrashpadClient::DumpWithoutCrash() {
   DCHECK(SignalHandler::Get());
-
   siginfo_t siginfo = {};
   SignalHandler::Get()->HandleCrash(siginfo.si_signo, &siginfo, nullptr);
 }
