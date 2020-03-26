@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "d4cbc01a_975b867a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-26T04:01:59Z",
+      "side": 1,
+      "message": "\u003e So... land this or not?\n\nYes.\n\nAlthough at least the pasteboard thing (crbug 656108) was dealing with untrustworthy user input that may not have even been Unicode at all. Less certain about crbug 653379, but it may have also been user input.\n\nHere, we’re just getting names from the system, which should be valid Unicode strings when it says they are.\n\nBut I can see the theoretical problem, so OK.\n\n(My preference would be to log something when encountering bad strings, otherwise there’s no hope of fixing the strings, or the code that shouldn’t be relying on a particular encoding. The crashes when using the nullptr -UTF8String in a std::string actually do achieve that goal. But it’s not important enough in this case.)",
+      "parentUuid": "1927ca77_82300080",
+      "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ad8d00b_c0c8a4a0",
         "filename": "util/ios/ios_system_data_collector.mm",
         "patchSetId": 1
@@ -135,6 +153,30 @@
       "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3773bc0d_66ce9655",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-26T04:01:59Z",
+      "side": 1,
+      "message": "\u003e That\u0027s a good question.   is_daylight_saving_time_ doesn\u0027t really have any meaning when has_next_daylight_saving_time_ is false, but setting it to false seems reasonble.\n\u003e \n\u003e But I have no idea daylight_offset_seconds is supposed to be when has_next is false.?  Maybe just the same as standard_offset?\n\nYup, that’s good.",
+      "parentUuid": "7100bbac_a79f49be",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 36
+      },
+      "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
