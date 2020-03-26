@@ -23,6 +23,7 @@
 
 #include "base/mac/mach_logging.h"
 #include "base/numerics/safe_conversions.h"
+#include "base/strings/sys_string_conversions.h"
 #include "build/build_config.h"
 
 namespace {
@@ -160,26 +161,32 @@ void IOSSystemDataCollector::SystemTimeZoneDidChangeNotification() {
       [time_zone nextDaylightSavingTimeTransitionAfterDate:[NSDate date]];
   if (transition == nil) {
     has_next_daylight_saving_time_ = false;
-    daylight_name_ = [[time_zone abbreviation] UTF8String];
-    standard_name_ = daylight_name_;
-  } else if (time_zone.isDaylightSavingTime) {
-    has_next_daylight_saving_time_ = true;
-    is_daylight_saving_time_ = true;
-    daylight_offset_seconds_ =
-        base::saturated_cast<int>([time_zone secondsFromGMT]);
+    is_daylight_saving_time_ = false;
     standard_offset_seconds_ =
         base::saturated_cast<int>([time_zone secondsFromGMTForDate:transition]);
-    daylight_name_ = [[time_zone abbreviation] UTF8String];
-    standard_name_ = [[time_zone abbreviationForDate:transition] UTF8String];
+    standard_name_ = base::SysNSStringToUTF8([time_zone abbreviation]);
+    daylight_offset_seconds_ = standard_offset_seconds_;
+    daylight_name_ = standard_name_;
   } else {
     has_next_daylight_saving_time_ = true;
-    is_daylight_saving_time_ = false;
-    standard_name_ = [[time_zone abbreviation] UTF8String];
-    daylight_name_ = [[time_zone abbreviationForDate:transition] UTF8String];
-    standard_offset_seconds_ =
-        base::saturated_cast<int>([time_zone secondsFromGMT]);
-    daylight_offset_seconds_ =
-        base::saturated_cast<int>([time_zone secondsFromGMTForDate:transition]);
+    is_daylight_saving_time_ = time_zone.isDaylightSavingTime;
+    if (time_zone.isDaylightSavingTime) {
+      standard_offset_seconds_ = base::saturated_cast<int>(
+          [time_zone secondsFromGMTForDate:transition]);
+      standard_name_ =
+          base::SysNSStringToUTF8([time_zone abbreviationForDate:transition]);
+      daylight_offset_seconds_ =
+          base::saturated_cast<int>([time_zone secondsFromGMT]);
+      daylight_name_ = base::SysNSStringToUTF8([time_zone abbreviation]);
+    } else {
+      standard_offset_seconds_ =
+          base::saturated_cast<int>([time_zone secondsFromGMT]);
+      standard_name_ = base::SysNSStringToUTF8([time_zone abbreviation]);
+      daylight_offset_seconds_ = base::saturated_cast<int>(
+          [time_zone secondsFromGMTForDate:transition]);
+      daylight_name_ =
+          base::SysNSStringToUTF8([time_zone abbreviationForDate:transition]);
+    }
   }
 }
 
