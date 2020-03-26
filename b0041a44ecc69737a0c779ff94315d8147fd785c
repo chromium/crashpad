@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "6f0ba5e2_9e6b961b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-26T04:19:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d4cbc01a_975b867a",
+      "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ad8d00b_c0c8a4a0",
         "filename": "util/ios/ios_system_data_collector.mm",
         "patchSetId": 1
@@ -168,6 +186,30 @@
       "side": 1,
       "message": "\u003e That\u0027s a good question.   is_daylight_saving_time_ doesn\u0027t really have any meaning when has_next_daylight_saving_time_ is false, but setting it to false seems reasonble.\n\u003e \n\u003e But I have no idea daylight_offset_seconds is supposed to be when has_next is false.?  Maybe just the same as standard_offset?\n\nYup, that’s good.",
       "parentUuid": "7100bbac_a79f49be",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 36
+      },
+      "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5bb7395_0809c769",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-26T04:19:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3773bc0d_66ce9655",
       "range": {
         "startLine": 162,
         "startChar": 0,
