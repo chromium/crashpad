@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "1927ca77_82300080",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-26T03:04:19Z",
+      "side": 1,
+      "message": "So... land this or not?",
+      "parentUuid": "961a3dd4_26e86cb1",
+      "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4ad8d00b_c0c8a4a0",
         "filename": "util/ios/ios_system_data_collector.mm",
         "patchSetId": 1
@@ -84,6 +102,30 @@
       "writtenOn": "2020-03-26T01:20:36Z",
       "side": 1,
       "message": "Should you be setting is_daylight_saving_time_, standard_offset_seconds_, and daylight_offset_seconds_ here too?",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 36
+      },
+      "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7100bbac_a79f49be",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-26T03:04:19Z",
+      "side": 1,
+      "message": "That\u0027s a good question.   is_daylight_saving_time_ doesn\u0027t really have any meaning when has_next_daylight_saving_time_ is false, but setting it to false seems reasonble.\n\nBut I have no idea daylight_offset_seconds is supposed to be when has_next is false.?  Maybe just the same as standard_offset?",
+      "parentUuid": "4ad8d00b_c0c8a4a0",
       "range": {
         "startLine": 162,
         "startChar": 0,
@@ -119,6 +161,30 @@
     },
     {
       "key": {
+        "uuid": "90772f78_86530e3c",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-26T03:04:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f410fe2_6ef8a5b4",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 42
+      },
+      "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fb72fbb_8528852a",
         "filename": "util/ios/ios_system_data_collector.mm",
         "patchSetId": 1
@@ -139,6 +205,30 @@
       "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "586af48f_921a329f",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-03-26T03:04:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fb72fbb_8528852a",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 80
+      },
+      "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
