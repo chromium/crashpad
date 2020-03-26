@@ -97,6 +97,7 @@ bool HaveCapSysPtrace() {
   struct __user_cap_data_struct cap_data = {};
 
   cap_header.pid = getpid();
+  cap_header.version= _LINUX_CAPABILITY_VERSION_3;
 
   if (syscall(SYS_capget, &cap_header, &cap_data) != 0) {
     PLOG(ERROR) << "capget";
