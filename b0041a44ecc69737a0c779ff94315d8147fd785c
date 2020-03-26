@@ -52,6 +52,93 @@
       "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "961a3dd4_26e86cb1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-26T01:20:36Z",
+      "side": 1,
+      "message": "“Dangerous,” I don’t know about that. I did find a way to get -[NSString UTF8String] to return nullptr for a “valid” NSString. Hint: the NSString isn’t really valid, but it’s not nil, either.\n\n  unichar c \u003d 0xd800;  // Anything in range [0xd800, 0xc000)\n  NSString* s \u003d [NSString stringWithCharacters:\u0026c length:1];\n  // Result:\n  // s !\u003d nil\n  // [s UTF8String] \u003d\u003d nullptr\n\nu+d800…u+dfff are UTF-16 surrogates, and by placing just a single surrogate, the UTF-16 sequence is invalid. But you still get a live NSString from it, and one for which -UTF8String fails.\n\nI couldn’t get this to happen when initializing from invalid UTF-8 input. Here’s a UTF-8 continuation byte not preceded by a lead byte, and a lead byte not followed by a continuation byte:\n\n  NSString* s1 \u003d [NSString stringWithUTF8String:\"\\x80\"];\n  NSString* s2 \u003d [NSString stringWithUTF8String:\"\\xc0\\x01\"];\n  // Result:\n  // s1 \u003d\u003d s2 \u003d\u003d nil\n\nMeanwhile, SysNSStringToUTF8 does paper over the problem by returning an empty std::string for bad Unicode input.\n\nWe have a couple uses of -UTF8String elsewhere in Crashpad (a couple, even, in non-test code). We should evaluate whether they’re safe.",
+      "parentUuid": "6753e8a3_49c92ede",
+      "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ad8d00b_c0c8a4a0",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-26T01:20:36Z",
+      "side": 1,
+      "message": "Should you be setting is_daylight_saving_time_, standard_offset_seconds_, and daylight_offset_seconds_ here too?",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 36
+      },
+      "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f410fe2_6ef8a5b4",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-26T01:20:36Z",
+      "side": 1,
+      "message": "This might read slightly better (without having to add any comments) as:\n\n  } else {\n    has_next_daylight_saving_time_ \u003d true;\n    is_daylight_saving_time_ \u003d time_zone.isDaylightSavingTime;\n    if (time_zone.isDaylightSavingTime) {\n      // stuff\n    } else {\n      // more stuff\n    }\n  }\n\nbecause now it’s clear that everything except for that top arm of the condition has DST information available.",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 42
+      },
+      "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fb72fbb_8528852a",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-26T01:20:36Z",
+      "side": 1,
+      "message": "It’s easier to read when you do things in the same order. In the two arms of this conditional above, you did (daylight, standard). Here, it’s reversed.\n\nFor what it’s worth, I prefer (standard, daylight).\n\nAlso, in the arm immediately above (is-DST), you did (offsets, names), but here, it’s (names, offsets). This is driving me mad!",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 80
+      },
+      "revId": "b0041a44ecc69737a0c779ff94315d8147fd785c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
