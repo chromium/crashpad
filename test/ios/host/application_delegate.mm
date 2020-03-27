@@ -27,6 +27,21 @@
 @implementation ApplicationDelegate
 @synthesize window = _window;
 
+- (void)hasTryCatch {
+  @try {
+    NSArray* array = @[ @"Hello, World!" ];
+
+    [array objectAtIndex:40];
+  } @catch (NSException* exception) {
+  } @finally {
+  }
+  [NSException raise:@"CrashException" format:@"It dun crashed!"];
+}
+
+- (void)hasNoTryCatch {
+  [NSException raise:@"CrashException" format:@"It dun crashed!"];
+}
+
 - (BOOL)application:(UIApplication*)application
     didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
   // Start up crashpad.
@@ -44,6 +59,9 @@
   [EDOHostService serviceWithPort:12345
                        rootObject:[[CPTestSharedObject alloc] init]
                             queue:dispatch_get_main_queue()];
+
+  [self hasTryCatch];
+  [self hasNoTryCatch];
   return YES;
 }
 
@@ -73,6 +91,24 @@
 
 - (void)crashAbort {
   abort();
+}
+
+- (void)crashException {
+  std::vector<int> empty_vector = {  };
+  empty_vector[42];
+}
+
+- (void)crashNSException {
+  NSArray* empty_array = @[];
+  [empty_array objectAtIndex:42];
+}
+
+- (void)recurse {
+  [self recurse];
+}
+
+- (void)crashRecursion {
+    [self recurse];
 }
 
 @end

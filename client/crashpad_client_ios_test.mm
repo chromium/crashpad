@@ -14,6 +14,8 @@
 
 #include "client/crashpad_client.h"
 
+#import <Foundation/Foundation.h>
+
 #include "gtest/gtest.h"
 
 namespace crashpad {
@@ -24,7 +26,9 @@ namespace {
 TEST(CrashpadIOSClient, DumpWithoutCrash) {
   crashpad::CrashpadClient client;
   client.StartCrashpadInProcessHandler();
-  client.DumpWithoutCrash();
+  //  client.DumpWithoutCrash();
+
+  [NSException raise:@"CrashException" format:@"It dun crashed!"];
 }
 
 }  // namespace
