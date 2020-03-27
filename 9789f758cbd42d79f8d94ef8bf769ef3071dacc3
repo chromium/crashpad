@@ -33,6 +33,24 @@
       "revId": "9789f758cbd42d79f8d94ef8bf769ef3071dacc3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a10fc4ed_f9f433ad",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-03-27T16:12:33Z",
+      "side": 1,
+      "message": "Partially. This is supposed to verify that the kernel is using version 3 because we don\u0027t plan on supporting older versions, but we also want to query the capabilities. It does look like we need to put a version here and the kernel only tells us if we got it wrong. The kernel only considers it a non-error to have a missing version if we also don\u0027t pass a cap_data pointer.\n\nIt looks like this function has more errors than this though. This whole function should be:\n\n{\n  struct __user_cap_header_struct cap_header \u003d {};\n  struct __user_cap_data_struct cap_data[_LINUX_CAPABILITY_U32S_3] \u003d {};\n\n  cap_header.pid \u003d getpid();\n  cap_header.version \u003d _LINUX_CAPABILITY_VERSION_3;\n\n  if (syscall(SYS_capget, \u0026cap_header, \u0026cap_data) !\u003d 0) {\n    PLOG(ERROR) \u003c\u003c \"capget\";\n    LOG_IF(ERROR, errno \u003d\u003d EINVAL) \u003c\u003c std::hex \u003c\u003c cap_header.version;\n    return false;\n  }\n\n  return (cap_data[CAP_TO_INDEX(CAP_SYS_PTRACE)].effective \u0026\n          CAP_TO_MASK(CAP_SYS_PTRACE)) !\u003d 0;\n}",
+      "parentUuid": "ae1cde2d_62402793",
+      "revId": "9789f758cbd42d79f8d94ef8bf769ef3071dacc3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
