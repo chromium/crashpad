@@ -51,6 +51,24 @@
       "revId": "9789f758cbd42d79f8d94ef8bf769ef3071dacc3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1851aebf_dce3896c",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-27T16:29:43Z",
+      "side": 1,
+      "message": "\u003e Partially. This is supposed to verify that the kernel is using version 3 because we don\u0027t plan on supporting older versions, but we also want to query the capabilities. It does look like we need to put a version here and the kernel only tells us if we got it wrong.\n\nYou’re supposed to probe by leaving the version missing. capget will fail with EINVAL, but the kernel will in fact set the version field to its preferred version.",
+      "parentUuid": "a10fc4ed_f9f433ad",
+      "revId": "9789f758cbd42d79f8d94ef8bf769ef3071dacc3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
