@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba437e8a_cacfe165",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-27T12:57:53Z",
+      "side": 1,
+      "message": "Nope. Your compiler has an undesirable warning enabled. Fix that instead. It shouldn’t require a code change.",
+      "revId": "9789f758cbd42d79f8d94ef8bf769ef3071dacc3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae1cde2d_62402793",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-27T12:57:53Z",
+      "side": 1,
+      "message": "This isn’t right either. But you didn’t explain why you changed this so it’s hard to say what you’re seeing and what you’re trying to achieve.\n\nJosh, this was just supposed to be a capget version probe, right?",
+      "revId": "9789f758cbd42d79f8d94ef8bf769ef3071dacc3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
