@@ -27,6 +27,17 @@
 @implementation ApplicationDelegate
 @synthesize window = _window;
 
+- (void)foo {
+  @try {
+    NSArray* array = @[ @"Hello, World!" ];
+
+    [array objectAtIndex:40];
+  } @catch (NSException* exception) {
+  } @finally {
+  }
+  [NSException raise:@"CrashException" format:@"It dun crashed!"];
+}
+
 - (BOOL)application:(UIApplication*)application
     didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
   // Start up crashpad.
@@ -44,6 +55,8 @@
   [EDOHostService serviceWithPort:12345
                        rootObject:[[CPTestSharedObject alloc] init]
                             queue:dispatch_get_main_queue()];
+
+  [self foo];
   return YES;
 }
 
