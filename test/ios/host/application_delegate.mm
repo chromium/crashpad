@@ -75,4 +75,31 @@
   abort();
 }
 
+- (void)crashException {
+  std::vector<int> empty_vector = {};
+  empty_vector[42];
+}
+
+- (void)crashNSException {
+  NSArray* empty_array = @[];
+  [empty_array objectAtIndex:42];
+}
+
+- (void)catchNSException {
+  @try {
+    NSArray* empty_array = @[];
+    [empty_array objectAtIndex:42];
+  } @catch (NSException* exception) {
+  } @finally {
+  }
+}
+
+- (void)recurse {
+  [self recurse];
+}
+
+- (void)crashRecursion {
+  [self recurse];
+}
+
 @end
