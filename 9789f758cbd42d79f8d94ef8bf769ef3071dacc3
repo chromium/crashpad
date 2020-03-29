@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b9d23057_59d5e71f",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-29T13:49:45Z",
+      "side": 1,
+      "message": "\u003e -Wunused-parameter -Werror we will get this function error since lockfile_ttl is not defined in the function.\n\nRight. Our code isn\u0027t expected to build with -Wunused-parameter. That warning is actively harmful to code readability. We won\u0027t remove the parameter name here because it has documentary value.",
+      "parentUuid": "a6e5dd68_6e5a4ba9",
+      "revId": "9789f758cbd42d79f8d94ef8bf769ef3071dacc3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ae1cde2d_62402793",
         "filename": "handler/linux/exception_handler_server.cc",
         "patchSetId": 1
