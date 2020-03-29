@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a6e5dd68_6e5a4ba9",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1407684
+      },
+      "writtenOn": "2020-03-29T05:43:45Z",
+      "side": 1,
+      "message": "-Wunused-parameter -Werror we will get this function error since lockfile_ttl is not defined in the function. To resolved this problem, we need this change.",
+      "parentUuid": "ba437e8a_cacfe165",
+      "revId": "9789f758cbd42d79f8d94ef8bf769ef3071dacc3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ae1cde2d_62402793",
         "filename": "handler/linux/exception_handler_server.cc",
         "patchSetId": 1
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "Right, I guess this isn\u0027t really a probe. e.g. if some new kernel supports LINUX_CAPABILITY_VERSION_4, we\u0027d still only know how to use (and only need to use) version 3, assuming the kernel remains backwards compatible.\n\nWe just want to make sure the kernel understands version 3 too.",
       "parentUuid": "1851aebf_dce3896c",
+      "revId": "9789f758cbd42d79f8d94ef8bf769ef3071dacc3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a982d6df_4ae9e4c8",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1407684
+      },
+      "writtenOn": "2020-03-29T05:43:45Z",
+      "side": 1,
+      "message": "In the bug i created i tried to explain. Here I was trying to resolve the EINVAL error of capget syscall. Since capget syscall checks for the version before it tries to fetch capabilities I have assigned it the version. But as josh was saying if another new version comes up, then the version check isn\u0027t actually necessary. Ideally the function josh suggested should do the trick.",
+      "parentUuid": "42dcac68_09ea6e18",
       "revId": "9789f758cbd42d79f8d94ef8bf769ef3071dacc3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
