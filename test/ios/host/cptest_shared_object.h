@@ -35,6 +35,21 @@
 
 // Trigger a crash with an abort().
 - (void)crashAbort;
+
+// Trigger a crash with an uncaught exception.
+- (void)crashException;
+
+// Trigger a crash with an uncaught NSException.
+- (void)crashNSException;
+
+// Trigger an unrecognized selector after delay.
+- (void)crashUnreocgnizedSelectorAfterDelay;
+
+// Trigger a caught NSxception.
+- (void)catchNSException;
+
+// Trigger a crash with an infinite recursion.
+- (void)crashRecursion;
 @end
 
 #endif  // CRASHPAD_TEST_IOS_HOST_SHARED_OBJECT_H_
