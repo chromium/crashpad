@@ -350,12 +350,12 @@ bool SystemSnapshotMac::NXEnabled() const {
   if (ReadIntSysctlByName_NoLog("kern.nx", &value) != 0) {
     {
       // Support for the kern.nx sysctlbyname is compiled out of production
-      // kernels on macOS 10.14.4 and later, although it’s available in
+      // kernels on macOS 10.14.5 and later, although it’s available in
       // development and debug kernels. Compare 10.14.3
       // xnu-4903.241.1/bsd/kern/kern_sysctl.c to 10.15.0
-      // xnu-6153.11.26/bsd/kern/kern_sysctl.c (10.14.4 xnu source is not yet
-      // available). In newer production kernels, NX is always enabled. See
-      // 10.15.0 xnu-6153.11.26/osfmk/x86_64/pmap.c nx_enabled.
+      // xnu-6153.11.26/bsd/kern/kern_sysctl.c (10.14.4 and 10.14.5 xnu source
+      // are not yet available). In newer production kernels, NX is always
+      // enabled. See 10.15.0 xnu-6153.11.26/osfmk/x86_64/pmap.c nx_enabled.
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_14
       const bool nx_always_enabled = true;
 #else  // DT >= 10.14
