@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "222c384b_c427e9fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T14:00:09Z",
+      "side": 1,
+      "message": "Just write\n\nBug: crashpad:232\n\nBut that’s the MIPS bug. How is this related to that?",
+      "revId": "f9b9d3b4469fdd7c58c34aa68c4821ca364b2734",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19536020_1f3f3c45",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T14:00:09Z",
+      "side": 1,
+      "message": "No need to zero-initialize this (because you populate all fields below).",
+      "range": {
+        "startLine": 96,
+        "startChar": 44,
+        "endLine": 96,
+        "endChar": 49
+      },
+      "revId": "f9b9d3b4469fdd7c58c34aa68c4821ca364b2734",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eff14a3d_b96ba1aa",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T14:00:09Z",
+      "side": 1,
+      "message": "“struct” not necessary in C++. Remove this and the one on the next line.",
+      "range": {
+        "startLine": 96,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 9
+      },
+      "revId": "f9b9d3b4469fdd7c58c34aa68c4821ca364b2734",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d5b1d0a_a633800a",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T14:00:09Z",
+      "side": 1,
+      "message": "No need to zero-initialize this (because it’s only used if the syscall succeeds, indicating that the kernel filled it in).",
+      "range": {
+        "startLine": 97,
+        "startChar": 66,
+        "endLine": 97,
+        "endChar": 71
+      },
+      "revId": "f9b9d3b4469fdd7c58c34aa68c4821ca364b2734",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f4329f7_b70433ea",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T14:00:09Z",
+      "side": 1,
+      "message": "Don’t declare this until it’s used. That means that you’d set the cap_header fields before declaring this. This declaration should be right before the syscall.",
+      "revId": "f9b9d3b4469fdd7c58c34aa68c4821ca364b2734",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ead4ec47_0a61a9f3",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T14:00:09Z",
+      "side": 1,
+      "message": "This just logs a number. It won’t be clear that the log message that precedes it is at all related. Give it some context:\n\n    LOG_IF(ERROR, errno \u003d\u003d EINVAL) \u003c\u003c \"cap_header.version \" \u003c\u003c std::hex\n                                   \u003c\u003c cap_header.version;\n\nor structure as:\n\n    if (errno \u003d\u003d EINVAL) {\n      PLOG(ERROR) \u003c\u003c \"capget, cap_header.version \" \u003c\u003c std::hex\n                  \u003c\u003c cap_header.version;\n    } else {\n      PLOG(ERROR) \u003c\u003c \"capget\";\n    }",
+      "revId": "f9b9d3b4469fdd7c58c34aa68c4821ca364b2734",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
