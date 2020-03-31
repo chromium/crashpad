@@ -1,0 +1,983 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0086cbff_16dbba5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Start with something saying that this happens immediately when code rasises an Objective-C exception.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 6
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4b0854a_9a8e3be0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Since the in-code terminology is “sinkhole”, use that word here to tie it all together.",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d6de85f_cb175747",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "This is an excellent and succinct description of what the code is doing. It shouldn’t be lost to a commit message. It should be carried over, in some form, to the code. The header file would be a good spot.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 40
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "789fe603_03fdc9b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Say why.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 30
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d8c1187_3f86fca1",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "(can’t not include a reminder.)",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "295348b8_eaf7f630",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "So how do you expect to run it? Say something about that, otherwise this will quickly become useless.",
+      "range": {
+        "startLine": 32,
+        "startChar": 3,
+        "endLine": 32,
+        "endChar": 48
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da81b442_faf616e0",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Confusing. How about: “leave the test here, disabled, for use during development.”",
+      "range": {
+        "startLine": 33,
+        "startChar": 46,
+        "endLine": 34,
+        "endChar": 15
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e26a962b_d850ffc8",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Same as lines 32 and 33–34.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 15
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a3906b0_8fec65e8",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "A lot of this local stuff should be in an anonymous namespace.\n\nSince none of it actually needs to access namespace crashpad, it should be in an unnamed namespace _outside_ of the crashpad namespace.",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83ebf31e_ee13d705",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Where did I come from?",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c2797fc_5879cf8a",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Don’t include the comments from the source. Those will drift relative to reality. We want to just include the reference to the original source, and have people refer to that.",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14158f8a_0038604e",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "It would be wise to #include \u003cobjc/objc.h\u003e, since you’re doing so much runtimey stuff in here.",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "141ad0fa_01f444c9",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Me too: where am I from?\n\nAlso, blank line between the structs.",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc2a5cac_8de70e44",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Don’t say struct here in C++.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 9
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b99b29b4_e27d3647",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "I like to specify where these things come from. Give the first OS version that objc4-779.1 appeared in. (Also, periods on sentences.) So, for this one.\n\n// From 10.15.0 objc4-779.1/runtime/objc-abi.h.\n\nMake these changes to all of your references to external code throughout.",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c1c69db_0c23aad9",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Replace OBJC_EXPORT with extern \"C\".",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 11
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b7712d3_0c978c28",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "_Nullable isn’t necessary or useful for our purposes, you can remove it.",
+      "range": {
+        "startLine": 45,
+        "startChar": 24,
+        "endLine": 45,
+        "endChar": 33
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f42513d_4335e184",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Because we’re referring to pointers out in some other module that we don’t own, let’s protect against inadvertent modifications by using const void* const. That doesn’t match the original declaration, but it’s ABI-compatible and safer.",
+      "range": {
+        "startLine": 45,
+        "startChar": 18,
+        "endLine": 45,
+        "endChar": 23
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd6bda30_b6db4294",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "1. URLs should come with a scheme, which should always be https (unless https doesn’t work).\n\n2. Because files move, and code moves between files, never leave a raw unversioned URL. Pin this down to the current revision.",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc808fb8_2eda6a4f",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "#include \u003cstdint.h\u003e.",
+      "range": {
+        "startLine": 48,
+        "startChar": 13,
+        "endLine": 48,
+        "endChar": 21
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be5ae913_e5f02fc4",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Blanks between things.",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24cf76a4_e916b2f1",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Get rid of irrelevant macros. __LP64__ can be our ARCH_CPU_64_BITS from \"build/build_config.h\". Our .mm file will never be seen on anything that defines _WIN64. Same on line 84.",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7192f75_13398d21",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Purge the comments (as on line 33).",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e62e98e0_f3248430",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "#include \u003csys/types.h\u003e",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fa1aeed_10893c08",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "#include \u003ctypeinfo\u003e",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fb5201e_eb3a8932",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "#include \u003cexception\u003e",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 42
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27e2e753_67a79a4c",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Don’t be “static”, just be in an unnamed namespace. Also on lines 95 and 105.",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 6
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f8891cd_a67ffd5b",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Don’t do this, it’s the default for objects with static storage duration.",
+      "range": {
+        "startLine": 93,
+        "startChar": 54,
+        "endLine": 93,
+        "endChar": 64
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65f9bc4f_aff121c2",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "“Symbol name” is more accurate than “procedure.”",
+      "range": {
+        "startLine": 95,
+        "startChar": 35,
+        "endLine": 95,
+        "endChar": 44
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1c384cf_fc5ff4bb",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Even better: constexpr const char*. Same on line 105.",
+      "range": {
+        "startLine": 95,
+        "startChar": 7,
+        "endLine": 95,
+        "endChar": 24
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22782809_df21ee45",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Some sort of sorting logic here would be nice, to keep related symbols together. Seems kind of like a random ordering now.",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8143d89c_12ec51ee",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Say something about redaction. Redaction applies to these symbols when running on device and not in a debugger?",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 74
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4089a44_0009497d",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "These aren’t symbol paths, they’re module paths or library paths.",
+      "range": {
+        "startLine": 105,
+        "startChar": 35,
+        "endLine": 105,
+        "endChar": 45
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54bee5cc_d8f191a6",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Don’t abbreviate.",
+      "range": {
+        "startLine": 106,
+        "startChar": 26,
+        "endLine": 106,
+        "endChar": 29
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c630a11_2ad3061e",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "When you intersperse comments and code, always use blank lines so that it’s clear which comment applies to which code. Vertical whitespace is free.",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b95d6a52_0ccfb9c5",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "This isn’t an Objective-C symbol, so the - is misplaced.",
+      "range": {
+        "startLine": 109,
+        "startChar": 40,
+        "endLine": 109,
+        "endChar": 61
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53c1a26b_2535d00a",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Don’t be static, be just be in an unnamed namespace. Also on line 126.",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 6
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4418e975_a8b58374",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "You don’t own this macro, don’t use it. You can use a raw attribute here if you need one.\n\nBut I don’t think you need to say noinline here. We’ll make it obvious from the exception codes. The crash server will pick that up and handle things appropriately.",
+      "range": {
+        "startLine": 114,
+        "startChar": 7,
+        "endLine": 114,
+        "endChar": 15
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75fc4fd1_cf53677d",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Pointers are nullptr, not 0.",
+      "range": {
+        "startLine": 141,
+        "startChar": 34,
+        "endLine": 141,
+        "endChar": 35
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b310904_91cc3d0f",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Better typing would call this a mach_header_64. Use \u003cdyld/loader.h\u003e. Do the same for other things you get from Dl_info::dli_fbase.",
+      "range": {
+        "startLine": 141,
+        "startChar": 8,
+        "endLine": 141,
+        "endChar": 13
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50626549_805fec07",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Good news!\n\nSince this is involved in the handling of Objective-C exceptions, and none of the C standard library is implemented in Objective-C, it’s entirely safe to use things like logging in here. You don’t need to exercise the same caution that you would in a signal handler.\n\nThat means that if this fails, you can:\n\n  LOG(ERROR) \u003c\u003c \"dladdr: \" \u003c\u003c dlerror();",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 30
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc9cbffc_dc84bb0a",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "I’m sure that there’s a better way to get this, but Apple has made the “better way” still be about as much typing as this. I’m trying to think of whether there’s a way that’s both better AND easier.\n\nOptionally factor this into a static variable so it only needs to be computed once.\n\n  static void* this_base_address \u003d [](){\n    Dl_info dl_info;\n    // …\n    return dl_info.dli_fbase;\n  }();",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 3
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8dfbcea_9193e8a1",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Only use C++ casts. Never use C casts. Lines 162 and 176 too. Maybe elsewhere.",
+      "range": {
+        "startLine": 150,
+        "startChar": 6,
+        "endLine": 150,
+        "endChar": 30
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d2587f9_7010fe45",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Don’t say struct at all on these three lines in C++.",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 41
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8e38285_f6ae93df",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "This doesn’t come into play for nameless symbols, it comes into play for any symbol that didn’t match a symbol name-based sinkhole above. Given that, there isn’t really even any point to listing any of the symbols from CoreFoundation or libdispatch by symbol name.\n\nMaybe that’s not what you intended. Maybe you only wanted to do this if the symbol name came up blank?\n\nBut in general, I don’t feel very warm and fuzzy about having anything rely on unredacted names in more development-type environments, and to have an entirely different thing happen in production.",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 21
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dda2fed0_58307632",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "These will need to come out before checking in. Line 241 too. (You can leave them for now while you’re still working on this, but mark them with a not-for-checkin TODO.)",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85f65558_6468dab0",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-03-31T16:28:20Z",
+      "side": 1,
+      "message": "Don’t use g_next_preprocessor to track whether you’ve installed a preprocessor or not, because if there was no previous preprocessor, objc_setExceptionPreprocessor will return nullptr.",
+      "range": {
+        "startLine": 253,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 11
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
