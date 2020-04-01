@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "aa54d110_07ebc0c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-01T13:47:20Z",
+      "side": 1,
+      "message": "Your commit will be squashed. This doesn’t belong here.",
+      "revId": "6c4a84d2203806e09cebd7abda0d5a01b3ad6ad1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5011a7e0_0c276601",
         "filename": "handler/linux/exception_handler_server.cc",
         "patchSetId": 3
