@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5011a7e0_0c276601",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-01T13:46:46Z",
+      "side": 1,
+      "message": "A blank line should go before this, since it’s unrelated to cap_header.",
+      "revId": "6c4a84d2203806e09cebd7abda0d5a01b3ad6ad1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15b8ffb7_1306c515",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-01T13:46:46Z",
+      "side": 1,
+      "message": "And then this blank line should be gone, since the line above declaring cap_data is more directly related to the syscall.",
+      "revId": "6c4a84d2203806e09cebd7abda0d5a01b3ad6ad1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90705cd6_6681905b",
+        "filename": "handler/linux/exception_handler_server.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-01T13:46:46Z",
+      "side": 1,
+      "message": "Check spelling.",
+      "range": {
+        "startLine": 103,
+        "startChar": 50,
+        "endLine": 103,
+        "endChar": 56
+      },
+      "revId": "6c4a84d2203806e09cebd7abda0d5a01b3ad6ad1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
