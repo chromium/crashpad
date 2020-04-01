@@ -64,6 +64,7 @@ target_link_libraries(crashpad_handler
 if(WIN32) 
     if(MSVC)
         target_compile_options(crashpad_handler PRIVATE "/wd4201")
+        target_link_options(crashpad_handler PRIVATE "/SUBSYSTEM:WINDOWS")
     endif()
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_compile_options(crashpad_handler PRIVATE 
