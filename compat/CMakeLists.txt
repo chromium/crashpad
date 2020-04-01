@@ -1,4 +1,4 @@
-list(APPEND COMPAT_SOURCES "")
+set(COMPAT_SOURCES)
 
 if(APPLE)
     list(APPEND COMPAT_SOURCES
@@ -83,13 +83,39 @@ endif()
 
 if(APPLE)
     add_library(crashpad_compat INTERFACE)
-    list(TRANSFORM COMPAT_SOURCES PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/")
-    target_sources(crashpad_compat INTERFACE ${COMPAT_SOURCES})
+    set(TI_TYPE "INTERFACE")
 else()
     add_library(crashpad_compat STATIC ${COMPAT_SOURCES})
     set_target_properties(crashpad_compat PROPERTIES LINKER_LANGUAGE CXX)
+    set(TI_TYPE "PUBLIC")
+    target_link_libraries(crashpad_compat PRIVATE
+        $<BUILD_INTERFACE:crashpad_interface>
+    )
 endif()
 
 if(MSVC)
-    target_link_libraries(crashpad_compat getopt)
+    target_include_directories(crashpad_compat ${TI_TYPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/win>")
+elseif(MINGW)
+    target_include_directories(crashpad_compat ${TI_TYPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/mingw>")
+else()
+    target_include_directories(crashpad_compat ${TI_TYPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/non_win>")
 endif()
+
+if(APPLE)
+    target_include_directories(crashpad_compat ${TI_TYPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/mac>")
+else()
+    target_include_directories(crashpad_compat ${TI_TYPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/non_mac>")
+endif()
+
+if(LINUX OR ANDROID)
+    target_include_directories(crashpad_compat ${TI_YPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/linux>")
+endif()
+
+if(ANDROID)
+    target_include_directories(crashpad_compat ${TI_YPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/android>")
+endif()
+
+set_property(TARGET crashpad_compat PROPERTY EXPORT_NAME compat)
+add_library(crashpad::compat ALIAS crashpad_compat)
+
+crashpad_install_target(crashpad_compat)

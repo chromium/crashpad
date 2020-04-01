@@ -1,4 +1,10 @@
-list(APPEND MINI_CHROMIUM_SOURCES
+add_library(mini_chromium STATIC)
+function(mc_append_sources)
+    list(TRANSFORM ARGN PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/mini_chromium/base/")
+    target_sources(mini_chromium PRIVATE ${ARGN})
+endfunction()
+
+mc_append_sources(
     ../build/build_config.h
     atomicops.h
     atomicops_internals_atomicword_compat.h
@@ -66,17 +72,17 @@ list(APPEND MINI_CHROMIUM_SOURCES
 )
 
 if(NOT MINGW)
-    list(APPEND MINI_CHROMIUM_SOURCES
+    mc_append_sources(
         strings/utf_string_conversion_utils.cc
     )
 else()
-    list(APPEND MINI_CHROMIUM_SOURCES
-        ../../utf_string_conversion_utils.mingw.cc
+    mc_append_sources(
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../utf_string_conversion_utils.mingw.cc
     )
 endif()
 
 if(APPLE)
-    list(APPEND MINI_CHROMIUM_SOURCES
+    mc_append_sources(
         mac/close_nocancel.cc
         mac/foundation_util.h
         mac/foundation_util.mm
@@ -98,7 +104,7 @@ if(APPLE)
 endif()
 
 if(WIN32)
-    list(APPEND MINI_CHROMIUM_SOURCES
+    mc_append_sources(
         process/process_metrics_win.cc
         strings/string_util_win.cc
         strings/string_util_win.h
@@ -106,7 +112,7 @@ if(WIN32)
         threading/thread_local_storage_win.cc
     )
 else()
-    list(APPEND MINI_CHROMIUM_SOURCES
+    mc_append_sources(
         files/file_util_posix.cc
         posix/eintr_wrapper.h
         posix/safe_strerror.cc
@@ -119,23 +125,29 @@ else()
     )
 endif()
 
-list(TRANSFORM MINI_CHROMIUM_SOURCES PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/mini_chromium/base/")
-
-add_library(mini_chromium STATIC ${MINI_CHROMIUM_SOURCES})
-
 if(APPLE)
-    target_link_libraries(mini_chromium PUBLIC "-framework ApplicationServices")
-    target_link_libraries(mini_chromium PUBLIC "-framework CoreFoundation")
-    target_link_libraries(mini_chromium PUBLIC "-framework Foundation")
-    target_link_libraries(mini_chromium PUBLIC "-framework IOKit")
-    target_link_libraries(mini_chromium PUBLIC "-framework Security")
+    target_link_libraries(mini_chromium PUBLIC
+        "-framework ApplicationServices"
+        "-framework CoreFoundation"
+        "-framework Foundation"
+        "-framework IOKit"
+        "-framework Security"
+    )
 endif()
+target_include_directories(mini_chromium PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/mini_chromium>"
+    $<INSTALL_INTERFACE:include/crashpad/mini_chromium>
+)
+target_link_libraries(mini_chromium
+    PRIVATE
+        $<BUILD_INTERFACE:crashpad_interface>
+)
 
 if(WIN32)
-    target_link_libraries(mini_chromium "advapi32" "kernel32")
+    target_link_libraries(mini_chromium PRIVATE advapi32 kernel32)
     if(MSVC)
-        target_compile_options(mini_chromium PUBLIC "/wd4201" "/wd4996")
-        target_compile_definitions(mini_chromium PUBLIC
+        target_compile_options(mini_chromium PRIVATE "/wd4201" "/wd4996")
+        target_compile_definitions(mini_chromium PRIVATE
             NOMINMAX
             UNICODE
             WIN32_LEAN_AND_MEAN
@@ -151,3 +163,11 @@ if(WIN32)
         )
     endif()
 endif()
+
+add_library(crashpad::mini_chromium ALIAS mini_chromium)
+
+crashpad_install_target(mini_chromium)
+crashpad_install_dev(DIRECTORY mini_chromium
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/crashpad"
+    FILES_MATCHING PATTERN "*.h"
+)

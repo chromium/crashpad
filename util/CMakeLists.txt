@@ -1,4 +1,4 @@
-list(APPEND UTIL_SOURCES
+add_library(crashpad_util STATIC
     file/delimited_file_reader.cc
     file/delimited_file_reader.h
     file/directory_reader.h
@@ -102,7 +102,7 @@ list(APPEND UTIL_SOURCES
 )
 
 if(NOT WIN32)
-    list(APPEND UTIL_SOURCES
+    target_sources(crashpad_util PRIVATE
         file/directory_reader_posix.cc
         file/file_io_posix.cc
         file/filesystem_posix.cc
@@ -130,7 +130,7 @@ if(NOT WIN32)
 endif()
 
 if(APPLE)
-    list(APPEND UTIL_SOURCES
+    target_sources(crashpad_util PRIVATE
         mac/checked_mach_address_range.h
         mac/launchd.h
         mac/launchd.mm
@@ -183,7 +183,7 @@ if(APPLE)
 endif()
 
 if(LINUX OR ANDROID)
-    list(APPEND UTIL_SOURCES
+    target_sources(crashpad_util PRIVATE
         net/http_transport_socket.cc
         linux/address_types.h
         linux/auxiliary_vector.cc
@@ -231,7 +231,7 @@ if(LINUX OR ANDROID)
 endif()
 
 if(WIN32)
-    list(APPEND UTIL_SOURCES
+    target_sources(crashpad_util PRIVATE
         file/directory_reader_win.cc
         file/file_io_win.cc
         file/filesystem_win.cc
@@ -291,73 +291,71 @@ endif()
 
 # Copied from: https://github.com/qedsoftware/crashpad/blob/3583c50a6575857abcf140f6ea3b8d11390205b3/util/CMakeLists.txt#L196-L233
 if(APPLE)
-  set(def_relative_files "exc.defs" "mach_exc.defs" "notify.defs")
-  set(input_files "")
-  foreach(x ${def_relative_files})
-    # CMAKE_OSX_SYSROOT may be empty (e.g. for Makefile generators),
-    # in this case files will be taken from root.
-    set(full_path "${CMAKE_OSX_SYSROOT}/usr/include/mach/${x}")
-    if(NOT EXISTS "${full_path}")
-      message(FATAL_ERROR "File not found: ${full_path}")
-    endif()
-    list(APPEND input_files "${full_path}")
-  endforeach()
-  list(APPEND input_files "${CMAKE_CURRENT_LIST_DIR}/mach/child_port.defs")
-
-  find_package(PythonInterp 2.7 REQUIRED)
-
-  set(output_dir "${CMAKE_CURRENT_BINARY_DIR}/util/mach")
-  file(MAKE_DIRECTORY "${output_dir}")
-
-  # Create generate rule for each input file. Add each generated output
-  # as a source to the target.
-  foreach(input ${input_files})
-    get_filename_component(name_we "${input}" NAME_WE)
-    set(output_files "")
-    foreach(suffix "User.c" "Server.c" ".h" "Server.h")
-      list(APPEND output_files "${output_dir}/${name_we}${suffix}")
+    set(def_relative_files "exc.defs" "mach_exc.defs" "notify.defs")
+    set(input_files "")
+    foreach(x ${def_relative_files})
+        # CMAKE_OSX_SYSROOT may be empty (e.g. for Makefile generators),
+        # in this case files will be taken from root.
+        set(full_path "${CMAKE_OSX_SYSROOT}/usr/include/mach/${x}")
+        if(NOT EXISTS "${full_path}")
+            message(FATAL_ERROR "File not found: ${full_path}")
+        endif()
+        list(APPEND input_files "${full_path}")
     endforeach()
-    add_custom_command(
-        OUTPUT
-        ${output_files}
-        COMMAND
-        "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/mach/mig.py" "${input}" ${output_files}
-        DEPENDS
-        "${CMAKE_CURRENT_SOURCE_DIR}/mach/mig.py" "${input}"
-    )
-    list(APPEND UTIL_SOURCES ${output_files})
-  endforeach()
+    list(APPEND input_files "${CMAKE_CURRENT_LIST_DIR}/mach/child_port.defs")
 
-  include_directories("${CMAKE_CURRENT_BINARY_DIR}")
+    find_package(PythonInterp 2.7 REQUIRED)
+
+    set(output_dir "${CMAKE_CURRENT_BINARY_DIR}/util/mach")
+    file(MAKE_DIRECTORY "${output_dir}")
+
+    # Create generate rule for each input file. Add each generated output
+    # as a source to the target.
+    foreach(input ${input_files})
+        get_filename_component(name_we "${input}" NAME_WE)
+        set(output_files "")
+        foreach(suffix "User.c" "Server.c" ".h" "Server.h")
+            list(APPEND output_files "${output_dir}/${name_we}${suffix}")
+        endforeach()
+        add_custom_command(
+            OUTPUT
+            ${output_files}
+            COMMAND
+            "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/mach/mig.py" "${input}" ${output_files}
+            DEPENDS
+            "${CMAKE_CURRENT_SOURCE_DIR}/mach/mig.py" "${input}"
+        )
+        target_sources(crashpad_util PRIVATE ${output_files})
+    endforeach()
+
+    include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 endif()
 
-add_library(crashpad_util STATIC ${UTIL_SOURCES})
-target_link_libraries(crashpad_util PUBLIC
-    crashpad_compat
-    mini_chromium
+target_include_directories(crashpad_util PRIVATE
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
+)
+target_link_libraries(crashpad_util
+    PRIVATE
+        $<BUILD_INTERFACE:crashpad_interface>
+    PUBLIC
+        crashpad_compat
+        crashpad_zlib
+        mini_chromium
 )
 
-target_compile_definitions(crashpad_util PUBLIC "-DZLIB_CONST")
-
-if(MSVC)
-    target_compile_definitions(crashpad_util PUBLIC "-DCRASHPAD_ZLIB_SOURCE_EMBEDDED")
-    target_link_libraries(crashpad_util PUBLIC zlib)
-else()
-    target_compile_definitions(crashpad_util PUBLIC "-DCRASHPAD_ZLIB_SOURCE_SYSTEM")
-    target_link_libraries(crashpad_util PUBLIC "z")
-endif()
-
 if(APPLE)
-    target_link_libraries(crashpad_util PUBLIC "bsm")
-    target_link_libraries(crashpad_util PUBLIC "-framework CoreFoundation")
-    target_link_libraries(crashpad_util PUBLIC "-framework Foundation")
-    target_link_libraries(crashpad_util PUBLIC "-framework IOKit")
+    target_link_libraries(crashpad_util PRIVATE
+        bsm
+        "-framework CoreFoundation"
+        "-framework Foundation"
+        "-framework IOKit"
+    )
 endif()
 
 if(WIN32)
-    target_link_libraries(crashpad_util PUBLIC "user32" "version" "winhttp")
+    target_link_libraries(crashpad_util PRIVATE user32 version winhttp)
     if(MSVC)
-        target_compile_options(crashpad_util PUBLIC "/wd4201")
+        target_compile_options(crashpad_util PRIVATE "/wd4201")
     elseif(MINGW)
         target_compile_options(crashpad_util PRIVATE 
             $<$<COMPILE_LANGUAGE:CXX>:-municode>
@@ -373,3 +371,8 @@ if(WIN32)
         )
     endif()
 endif()
+
+set_property(TARGET crashpad_util PROPERTY EXPORT_NAME util)
+add_library(crashpad::util ALIAS crashpad_util)
+
+crashpad_install_target(crashpad_util)

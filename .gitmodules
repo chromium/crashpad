@@ -4,3 +4,6 @@
 [submodule "third_party/zlib/zlib"]
 	path = third_party/zlib/zlib
 	url = https://chromium.googlesource.com/chromium/src/third_party/zlib
+[submodule "third_party/lss/lss"]
+	path = third_party/lss/lss
+	url = https://chromium.googlesource.com/linux-syscall-support

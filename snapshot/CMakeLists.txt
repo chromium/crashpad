@@ -1,4 +1,4 @@
-list(APPEND SNAPSHOT_SOURCES
+add_library(crashpad_snapshot STATIC
     annotation_snapshot.cc
     annotation_snapshot.h
     capture_memory.cc
@@ -48,7 +48,7 @@ list(APPEND SNAPSHOT_SOURCES
 
 
 if(APPLE)
-    list(APPEND SNAPSHOT_SOURCES
+    target_sources(crashpad_snapshot PRIVATE
         posix/timezone.cc
         posix/timezone.h
         mac/cpu_context_mac.cc
@@ -81,14 +81,14 @@ if(APPLE)
         mac/thread_snapshot_mac.h
     )
 else()
-    list(APPEND SNAPSHOT_SOURCES
+    target_sources(crashpad_snapshot PRIVATE
         crashpad_types/crashpad_info_reader.cc
         crashpad_types/crashpad_info_reader.h
     )
 endif()
 
 if(LINUX OR ANDROID)
-    list(APPEND SNAPSHOT_SOURCES
+    target_sources(crashpad_snapshot PRIVATE
         posix/timezone.cc
         posix/timezone.h
         linux/cpu_context_linux.cc
@@ -130,7 +130,7 @@ if(LINUX OR ANDROID)
 endif()
 
 if(WIN32)
-    list(APPEND SNAPSHOT_SOURCES
+    target_sources(crashpad_snapshot PRIVATE
         win/capture_memory_delegate_win.cc
         win/capture_memory_delegate_win.h
         win/cpu_context_win.cc
@@ -160,25 +160,30 @@ if(WIN32)
     )
 endif()
 
-# TODO: if(x86)
-    list(APPEND SNAPSHOT_SOURCES
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86_64)|(x86)|(i[3-7]86)")
+    target_sources(crashpad_snapshot PRIVATE
         x86/cpuid_reader.cc
         x86/cpuid_reader.h
     )
-#endif()
+endif()
 
-add_library(crashpad_snapshot STATIC ${SNAPSHOT_SOURCES})
+target_include_directories(crashpad_snapshot INTERFACE
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
+)
 target_link_libraries(crashpad_snapshot
-    crashpad_client
-    crashpad_compat
-    crashpad_util
-    mini_chromium
+    PRIVATE
+        $<BUILD_INTERFACE:crashpad_interface>
+    PUBLIC
+        crashpad_client
+        crashpad_compat
+        crashpad_util
+        mini_chromium
 )
 
 if(WIN32)
-    target_link_libraries(crashpad_snapshot "powrprof")
+    target_link_libraries(crashpad_snapshot PRIVATE powrprof)
     if(MSVC)
-        target_compile_options(crashpad_snapshot PUBLIC "/wd4201")
+        target_compile_options(crashpad_snapshot PRIVATE "/wd4201")
     endif()
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_compile_options(crashpad_snapshot PRIVATE 
@@ -191,3 +196,8 @@ if(WIN32)
     )
     endif()
 endif()
+
+set_property(TARGET crashpad_snapshot PROPERTY EXPORT_NAME snapshot)
+add_library(crashpad::snapshot ALIAS crashpad_snapshot)
+
+crashpad_install_target(crashpad_snapshot)

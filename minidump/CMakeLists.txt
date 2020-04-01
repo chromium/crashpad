@@ -1,4 +1,4 @@
-list(APPEND MINIDUMP_SOURCES
+add_library(crashpad_minidump STATIC
     minidump_annotation_writer.cc
     minidump_annotation_writer.h
     minidump_byte_array_writer.cc
@@ -52,16 +52,18 @@ list(APPEND MINIDUMP_SOURCES
     minidump_writer_util.h
 )
 
-add_library(crashpad_minidump STATIC ${MINIDUMP_SOURCES})
 target_link_libraries(crashpad_minidump
-    crashpad_compat
-    crashpad_snapshot
-    crashpad_util
-    mini_chromium
+    PRIVATE
+        $<BUILD_INTERFACE:crashpad_interface>
+    PUBLIC
+        crashpad_compat
+        crashpad_snapshot
+        crashpad_util
+        mini_chromium
 )
 
 if(MSVC)
-    target_compile_options(crashpad_minidump PUBLIC "/wd4201" "/wd4324")
+    target_compile_options(crashpad_minidump PRIVATE "/wd4201" "/wd4324")
 endif()
 
 if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -69,3 +71,8 @@ if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         "-Wno-multichar"
     )
 endif()
+
+set_property(TARGET crashpad_minidump PROPERTY EXPORT_NAME minidump)
+add_library(crashpad::minidump ALIAS crashpad_minidump)
+
+crashpad_install_target(crashpad_minidump)

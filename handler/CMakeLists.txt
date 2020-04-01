@@ -1,4 +1,4 @@
-list(APPEND HANDLER_SOURCES
+add_executable(crashpad_handler WIN32
     main.cc
     crash_report_upload_thread.cc
     crash_report_upload_thread.h
@@ -13,7 +13,7 @@ list(APPEND HANDLER_SOURCES
 )
 
 if(APPLE)
-    list(APPEND HANDLER_SOURCES
+    target_sources(crashpad_handler PRIVATE
         mac/crash_report_exception_handler.cc
         mac/crash_report_exception_handler.h
         mac/exception_handler_server.cc
@@ -24,7 +24,7 @@ if(APPLE)
 endif()
 
 if(LINUX OR ANDROID)
-    list(APPEND HANDLER_SOURCES
+    target_sources(crashpad_handler PRIVATE
         linux/capture_snapshot.cc
         linux/capture_snapshot.h
         linux/crash_report_exception_handler.cc
@@ -35,36 +35,35 @@ if(LINUX OR ANDROID)
 endif()
 
 if(LINUX)
-    list(APPEND HANDLER_SOURCES
+    target_sources(crashpad_handler PRIVATE
         linux/cros_crash_report_exception_handler.cc
         linux/cros_crash_report_exception_handler.h
     )
 endif()
 
 if(WIN32)
-    list(APPEND HANDLER_SOURCES
+    target_sources(crashpad_handler PRIVATE
         win/crash_report_exception_handler.cc
         win/crash_report_exception_handler.h
     )
 endif()
 
-if(WIN32)
-    add_executable(crashpad_handler WIN32 ${HANDLER_SOURCES})
-else()
-    add_executable(crashpad_handler ${HANDLER_SOURCES})
-endif()
 target_link_libraries(crashpad_handler
-    crashpad_client
-    crashpad_minidump
-    crashpad_snapshot
-    crashpad_tools
-    crashpad_util
-    mini_chromium
+    PRIVATE
+        $<BUILD_INTERFACE:crashpad_interface>
+    PUBLIC
+        crashpad_client
+        crashpad_getopt
+        crashpad_minidump
+        crashpad_snapshot
+        crashpad_tools
+        crashpad_util
+        mini_chromium
 )
 
 if(WIN32) 
     if(MSVC)
-        target_compile_options(crashpad_handler PUBLIC "/wd4201")
+        target_compile_options(crashpad_handler PRIVATE "/wd4201")
     endif()
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_compile_options(crashpad_handler PRIVATE 
@@ -73,3 +72,9 @@ if(WIN32)
     endif()
 endif()
 
+set_property(TARGET crashpad_handler PROPERTY EXPORT_NAME handler)
+add_executable(crashpad::handler ALIAS crashpad_handler)
+
+install(TARGETS crashpad_handler EXPORT crashpad_export
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+)

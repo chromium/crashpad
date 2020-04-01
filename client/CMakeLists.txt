@@ -1,4 +1,4 @@
-list(APPEND CLIENT_SOURCES
+add_library(crashpad_client STATIC
     annotation.cc
     annotation.h
     annotation_list.cc
@@ -18,7 +18,7 @@ list(APPEND CLIENT_SOURCES
 )
 
 if(APPLE)
-    list(APPEND CLIENT_SOURCES
+    target_sources(crashpad_client PRIVATE
         crash_report_database_mac.mm
         crashpad_client_mac.cc
         simulate_crash_mac.cc
@@ -27,37 +27,47 @@ if(APPLE)
 endif()
 
 if(LINUX OR ANDROID)
-    list(APPEND CLIENT_SOURCES
-      crashpad_client_linux.cc
-      simulate_crash_linux.h
-      client_argv_handling.cc
-      client_argv_handling.h
-      crashpad_info_note.S
-      crash_report_database_generic.cc
+    target_sources(crashpad_client PRIVATE
+        crashpad_client_linux.cc
+        simulate_crash_linux.h
+        client_argv_handling.cc
+        client_argv_handling.h
+        crashpad_info_note.S
+        crash_report_database_generic.cc
     )
 endif()
 
 if(WIN32)
-    list(APPEND CLIENT_SOURCES
-      crash_report_database_win.cc
-      crashpad_client_win.cc
-      simulate_crash_win.h
+    target_sources(crashpad_client PRIVATE
+        crash_report_database_win.cc
+        crashpad_client_win.cc
+        simulate_crash_win.h
     )
 endif()
 
-add_library(crashpad_client STATIC ${CLIENT_SOURCES})
-target_link_libraries(crashpad_client
-    crashpad_compat
-    crashpad_util
-    mini_chromium
+target_include_directories(crashpad_client INTERFACE
+    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>"
+    "$<INSTALL_INTERFACE:include/crashpad/client>"
 )
+target_link_libraries(crashpad_client
+    PRIVATE
+        $<BUILD_INTERFACE:crashpad_interface>
+    PUBLIC
+        crashpad_compat
+        crashpad_util
+        mini_chromium
+)
+target_compile_features(crashpad_client PUBLIC cxx_std_14)
+
+set_property(TARGET crashpad_client PROPERTY EXPORT_NAME client)
+add_library(crashpad::client ALIAS crashpad_client)
 
 if(WIN32)
-    target_link_libraries(crashpad_client "rpcrt4")
+    target_link_libraries(crashpad_client PRIVATE rpcrt4)
     if(MSVC)
-        target_compile_options(crashpad_client PUBLIC "/wd4201")
+        target_compile_options(crashpad_client PRIVATE "/wd4201")
     elseif(MINGW)
-        target_compile_options(crashpad_client PRIVATE 
+        target_compile_options(crashpad_client PUBLIC
             "-municode"
         )
     endif()
@@ -73,3 +83,9 @@ if(WIN32)
         )
     endif()
 endif()
+
+crashpad_install_target(crashpad_client)
+crashpad_install_dev(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/"
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/crashpad/client"
+    FILES_MATCHING PATTERN "*.h"
+)
