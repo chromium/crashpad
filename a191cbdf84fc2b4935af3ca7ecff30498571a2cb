@@ -529,6 +529,24 @@
     },
     {
       "key": {
+        "uuid": "ff9f7f1b_d2f1e0db",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T20:52:31Z",
+      "side": 1,
+      "message": "\u003e Same place as the struct above... Is it OK to just note it once?\n\nFor that, I like a little more whitespace, so the comment doesn’t look like it’s “attached” to just a single struct.\n\nFor example: https://chromium.googlesource.com/crashpad/crashpad/+/c4f6ca3c6ac50fe4724c126518337972e778f133/compat/mac/mach/mach.h#20",
+      "parentUuid": "a68dd9cd_ec3df9a4",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc2a5cac_8de70e44",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 5
@@ -605,6 +623,24 @@
       "side": 1,
       "message": "How do I know the first Os version is 10.15.0?  For now I\u0027ll put 10.15 everywhere...",
       "parentUuid": "b99b29b4_e27d3647",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c459a7f_49222e18",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T20:52:31Z",
+      "side": 1,
+      "message": "\u003e How do I know the first Os version is 10.15.0?  For now I\u0027ll put 10.15 everywhere...\n\nLook in the different OS directories on opensource.apple.com. objc4 was 756.2 in https://opensource.apple.com/release/macos-10146.html and then 779.1 in https://opensource.apple.com/release/macos-1015.html. You can also look to https://opensource.apple.com/source/objc4/ or https://opensource.apple.com/tarballs/objc4/ to figure out what the most recent source-released version is.",
+      "parentUuid": "c69f3491_a63db271",
       "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -752,6 +788,30 @@
     },
     {
       "key": {
+        "uuid": "f2d3ef19_3a94e712",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T20:52:31Z",
+      "side": 1,
+      "message": "\u003e I\u0027d need to cast away that constness to set it to `const void** vtable`?\n\nI said const void* const, though.\n\nDon’t cast away any constness, but do add const where appropriate.",
+      "parentUuid": "ba6def25_27a20ef8",
+      "range": {
+        "startLine": 45,
+        "startChar": 18,
+        "endLine": 45,
+        "endChar": 23
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd6bda30_b6db4294",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 5
@@ -781,6 +841,24 @@
       "side": 1,
       "message": "git cl format makes this very long.  Is that OK?\n\n// From\n// https://github.com/llvm/llvm-project/blob/e6a39f00e8d0cd3684df54fb03d288efe2969202/libcxxabi/src/cxa_exception.h",
       "parentUuid": "dd6bda30_b6db4294",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "055c59e4_9edd317f",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T20:52:31Z",
+      "side": 1,
+      "message": "\u003e git cl format makes this very long.  Is that OK?\n\u003e \n\u003e // From\n\u003e // https://github.com/llvm/llvm-project/blob/e6a39f00e8d0cd3684df54fb03d288efe2969202/libcxxabi/src/cxa_exception.h\n\nYes, it’s OK for a URL to go past 80 columns if that’s what the URL is.\n\nYou can also shorten the hash to 12 digits if you like.",
+      "parentUuid": "a46d8ed3_378e9879",
       "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -1150,6 +1228,30 @@
     },
     {
       "key": {
+        "uuid": "133e96f7_49c311f6",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T20:52:31Z",
+      "side": 1,
+      "message": "\u003e Don\u0027t do what?\n\nDon’t write “\u003d nullptr” because that’s just the default for fundamental types (like this pointer) with static storage duration (which this has).",
+      "parentUuid": "f73c2a0a_ff7e3035",
+      "range": {
+        "startLine": 93,
+        "startChar": 54,
+        "endLine": 93,
+        "endChar": 64
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "65f9bc4f_aff121c2",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 5
@@ -1273,6 +1375,24 @@
       "side": 1,
       "message": "CFRunLoop, CFNotification, dispatch and then NSFire?",
       "parentUuid": "22782809_df21ee45",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c304f8e_b8f26527",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T20:52:31Z",
+      "side": 1,
+      "message": "\u003e CFRunLoop, CFNotification, dispatch and then NSFire?\n\n(will defer judgment until I see how you restructured.)",
+      "parentUuid": "51ad40f9_9110fcb3",
       "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -1596,6 +1716,30 @@
     },
     {
       "key": {
+        "uuid": "5d422b0b_babc208c",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T20:52:31Z",
+      "side": 1,
+      "message": "\u003e OK -- but we do `__attribute__((noinline))` in chrome -- why there?\n\u003e \n\u003e Removing it here.\n\nIn Chrome, we need to force the frame to show up in the stack because that’s how we identify the uncaught NSException crashes.\n\nSince we’re moving this into Crashpad, we discussed assigning a distinct exception code. We don’t need an invented stack frame to do this. In fact, we can possibly just get the exception context we put into the dump to be the context at the point of raise. That gets all of the attribution for the crash lined up perfectly.\n\nChrome couldn’t force Crashpad to use a specific exception code (without some ridiculous plumbing), but we’re already right here in Crashpad where we decide what code we want to put into the dump, so we can do a much better job.",
+      "parentUuid": "8a4ce4e3_e089f606",
+      "range": {
+        "startLine": 114,
+        "startChar": 7,
+        "endLine": 114,
+        "endChar": 15
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75fc4fd1_cf53677d",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 5
@@ -1784,6 +1928,30 @@
     },
     {
       "key": {
+        "uuid": "006560be_b50f4d73",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T20:52:31Z",
+      "side": 1,
+      "message": "\u003e how about:\n\u003e \n\u003e   static const mach_header_64* this_base_address \u003d [](){\n\u003e     Dl_info dl_info;\n\u003e     dl_info.dli_fbase \u003d nullptr;\n\nDon’t rely on dli_fbase not being touched if dladdr fails. This is a good rule to follow in general. Functions normally only promise that “out” parameters like this are valid when they indicate a successful return. “Out” parameters are undefined otherwise. They may have been left untouched, but they may not have. They may be completely invalid and unusable.\n\n\u003e     if (!dladdr(reinterpret_cast\u003cconst void*\u003e(\u0026ObjcExceptionPreprocessor),\n\u003e                \u0026dl_info)) {\n\u003e       LOG(ERROR) \u003c\u003c \"dladdr: \" \u003c\u003c dlerror();\n\u003e     }\n\u003e     return reinterpret_cast\u003cconst mach_header_64*\u003e(dl_info.dli_fbase);\n\u003e   }();\n\nSo you’d want\n\n  Dl_info dl_info;\n  if (!dladdr(…)) {\n    LOG(ERROR) \u003c\u003c …;\n    return nullptr;\n  }\n  return reinterpret_cast…;",
+      "parentUuid": "e38e6709_b5e61df6",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 3
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f8dfbcea_9193e8a1",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 5
@@ -1925,6 +2093,30 @@
     },
     {
       "key": {
+        "uuid": "1711e015_bdedf972",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T20:52:31Z",
+      "side": 1,
+      "message": "\u003e It\u0027s device vs simulator, not dev vs production.  We do need testing on devices, I think.\n\nRight right right, I just meant that “simulator” is a development kind of environment.\n\n\u003e Either way, I removed the redacted symbols from kExceptionProcedureSinkholes (and added a different list for simulator vs device for paths.\n\nSounds like it still might be more divergence than necessary. I’ll take a look when I do the next pass of the code (or you can also think about this).",
+      "parentUuid": "9e5b1b88_b68e5f2e",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 21
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dda2fed0_58307632",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 5
@@ -1995,6 +2187,30 @@
       "side": 1,
       "message": "OK, but FYI, this is how chrome implemented.  Added a g_exception_preprocessor_set bool.",
       "parentUuid": "85f65558_6468dab0",
+      "range": {
+        "startLine": 253,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 11
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ba2d4ef_ecdfd367",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T20:52:31Z",
+      "side": 1,
+      "message": "\u003e OK, but FYI, this is how chrome implemented.\n\nI hold Crashpad to a higher standard than most Chrome code. ;)",
+      "parentUuid": "51e74ece_b48ee544",
       "range": {
         "startLine": 253,
         "startChar": 0,
