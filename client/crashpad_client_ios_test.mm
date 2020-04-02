@@ -14,6 +14,8 @@
 
 #include "client/crashpad_client.h"
 
+#import <Foundation/Foundation.h>
+
 #include "gtest/gtest.h"
 
 namespace crashpad {
@@ -25,6 +27,27 @@ TEST(CrashpadIOSClient, DumpWithoutCrash) {
   crashpad::CrashpadClient client;
   client.StartCrashpadInProcessHandler();
   client.DumpWithoutCrash();
+}
+
+// This test is covered by a similar XCUITest, but for development purposes
+// it's sometimes easier and faster to run as a gtest.  However, there's no
+// way to correctly run this as a gtest. Leave the test here, disabled, for use
+// during development only.
+TEST(CrashpadIOSClient, DISABLED_ThrowNSException) {
+  crashpad::CrashpadClient client;
+  client.StartCrashpadInProcessHandler();
+  [NSException raise:@"GtestNSException" format:@"ThrowException"];
+}
+
+// This test is covered by a similar XCUITest, but for development purposes
+// it's sometimes easier and faster to run as a gtest.  However, there's no
+// way to correctly run this as a gtest. Leave the test here, disabled, for use
+// during development only.
+TEST(CrashpadIOSClient, DISABLED_ThrowException) {
+  crashpad::CrashpadClient client;
+  client.StartCrashpadInProcessHandler();
+  std::vector<int> empty_vector = {};
+  empty_vector.at(42);
 }
 
 }  // namespace
