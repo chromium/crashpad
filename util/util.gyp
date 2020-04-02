@@ -67,6 +67,8 @@
         'linux/exception_handler_protocol.cc',
         'linux/exception_handler_protocol.h',
         'linux/exception_information.h',
+        'linux/initial_signal_dispositions.cc',
+        'linux/initial_signal_dispositions.h',
         'linux/memory_map.cc',
         'linux/memory_map.h',
         'linux/proc_stat_reader.cc',
