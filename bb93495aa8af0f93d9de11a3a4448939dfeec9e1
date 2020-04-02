@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c225c431_6b09e690",
+        "filename": "test/gtest_main.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T22:05:34Z",
+      "side": 1,
+      "message": "Blank line after, since it’s pretty unrelated.",
+      "revId": "bb93495aa8af0f93d9de11a3a4448939dfeec9e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "defec2d7_1d1d6026",
+        "filename": "util/linux/initial_signal_dispositions.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T22:05:34Z",
+      "side": 1,
+      "message": "Since you call this a few times:\n\n  \"signal \" \u003c\u003c signum;\n\n?",
+      "revId": "bb93495aa8af0f93d9de11a3a4448939dfeec9e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c0f4d55_923ce435",
+        "filename": "util/linux/initial_signal_dispositions.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T22:05:34Z",
+      "side": 1,
+      "message": "This is unrelated. And you haven’t said anything about it.\n\nIt’s not necessarily wrong, but is it Crashpad’s job?\n\nCertainly I can see why you might want to do this from our gtest_main, but wouldn’t it be Chrome’s own responsibility to decide how it wants to deal with this in Chrome?",
+      "revId": "bb93495aa8af0f93d9de11a3a4448939dfeec9e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13eb1d9b_6bd0fc74",
+        "filename": "util/linux/initial_signal_dispositions.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T22:05:34Z",
+      "side": 1,
+      "message": "Is there a concept of “I will never run on a device this old” that the preprocessor can test, so that if we know we’ll only run on API 24 or higher, we won’t even compile this stuff?",
+      "revId": "bb93495aa8af0f93d9de11a3a4448939dfeec9e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69113974_b26bfaa6",
+        "filename": "util/linux/initial_signal_dispositions.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T22:05:34Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 19
+      },
+      "revId": "bb93495aa8af0f93d9de11a3a4448939dfeec9e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0abc6092_7582bba2",
+        "filename": "util/linux/initial_signal_dispositions.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T22:05:34Z",
+      "side": 1,
+      "message": "A bit more, non-brief, explanation is called for. Otherwise, “why would I call this?” Or “when should I call this?”",
+      "revId": "bb93495aa8af0f93d9de11a3a4448939dfeec9e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
