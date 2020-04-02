@@ -1,0 +1,696 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e34b4efe_b3d2915e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "known to be a\n\n?",
+      "range": {
+        "startLine": 10,
+        "startChar": 64,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c59d7150_683d6359",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "and elsewhere",
+      "range": {
+        "startLine": 12,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f26b8cc4_f82a2142",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "exception stack",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8858fedb_60c175ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "twowords",
+      "range": {
+        "startLine": 16,
+        "startChar": 12,
+        "endLine": 16,
+        "endChar": 25
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35f26963_bb995b20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "stack memory contents and full exception context",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 27
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff2c7a42_0d3f74a5",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "Don’t say crashpad:: when you’re already in namespace crashpad.\n\nSame on lines 37 and 47.",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 12
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d4a8566_1ab5e02b",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "#include \u003cvector\u003e",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90c98ab7_3babc41a",
+        "filename": "test/ios/host/application_delegate.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "#include \u003cvector\u003e",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38e04c48_5b5ad9c1",
+        "filename": "test/ios/host/application_delegate.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "its, no apostrophe.",
+      "range": {
+        "startLine": 84,
+        "startChar": 13,
+        "endLine": 84,
+        "endChar": 17
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64bbf4c8_d4e7e8b8",
+        "filename": "util/ios/exception_processor.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "These should all be Doxygen-style //! comments starting with a proper \\brief. See all of the surrounding code for many examples.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52d10b05_72702618",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "I think Crashpad usually sorts d \u003c F \u003c l.",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83f255a9_919f8d93",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "C++ headers go in the C++ header section, below the C header section.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 19
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "828a3fd7_cffdc7f0",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "This isn’t quite canonical. It’s a recent-ish hash having nothing to do with cxa_exception.h. You should choose the hash of the most recent revision that modified the file you’re talking about. Helps the archaeologists out.\n\nIn this case, 09dc884eb2e4a433eb8c5ed20a17108091279295.\n\nThe same applies to the other two git hashes that show up in here.",
+      "range": {
+        "startLine": 52,
+        "startChar": 45,
+        "endLine": 52,
+        "endChar": 85
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4596c10_bbd595b3",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "Nit: lowercase alphabetics read better (and less Windowsy).",
+      "range": {
+        "startLine": 53,
+        "startChar": 43,
+        "endLine": 53,
+        "endChar": 61
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b41543f_79b35856",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "We always write #if defined for these, so that it’s uniform with ones that need more complex logic like \u0026\u0026 and ||. (Decisions of ancient Chrome history.)",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "860e223d_0d8627f1",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "These two are so closely related that they shouldn’t have a blank line between them.\n\nBoth nullptr and false are zero bit patterns, so remove the explicit initializations.",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 48
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87354ea7_803abc6a",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "This is only used in ObjcExceptionPreprocessor, so move it into that function.",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "233cf5a1_c60b633c",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "This too.",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9678f99d_46ea2c04",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "Nobody can be sure whether this is an arch-specific thing or an OS-specific thing, so how about:\n\n#if defined(ARCH_CPU_X86_64) \u0026\u0026 TARGET_OS_SIMULATOR\n  // one thing\n#elif defined(ARCH_CPU_ARM64) \u0026\u0026 !TARGET_OS_SIMULATOR\n  // other thing\n#else\n#error Port\n#endif\n\nNote that even if we didn’t need to add the TARGET_OS_SIMULATOR bit, the #error would be an excellent idea, because this won’t otherwise break the compilation when porting to a new architecture, although libdispatch will almost certainly need to be added to the list. You might have a test that catches this, but a compile-time error is even better.",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 6
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33df9f25_65569a1e",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "Did clang-format put this here? Yuck.",
+      "range": {
+        "startLine": 99,
+        "startChar": 72,
+        "endLine": 99,
+        "endChar": 73
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2d48fe8_ed45f7d5",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "In light of what I told you about exception codes, we don’t need this to have SUCH_LOUD_NAMING.\n\n(If we get down to a single call site, we don’t even need for it to be its own function.)",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9ccf25e_c6f33138",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "I’m not sold on LOG(FATAL) as the best way to exit in this situation. We should match the genuine uncaught exception behavior so that the way that this is reported after our own handling appears to other tools as close to what’s expected for an uncaught exception as possible. “Other tools” include a debugger, the system’s crash reporter, and even the exit status reported via waitpid.\n\nIn general, I think that favors an exit via std::terminate (and it’s worth a comment saying why).",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 47
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f05158c3_31d7aaf5",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "Not ::, just a space.\n\nWe’d use :: to talk about, say, a field in a struct.\n\nSame on lines 144 and 229.",
+      "range": {
+        "startLine": 137,
+        "startChar": 55,
+        "endLine": 137,
+        "endChar": 57
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6735e6a1_f16f2b14",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "Where we have a few different things with similar names and similar concepts (id exception, objc_exception* exc, _cxa_exception* exception_header), the names should go well together and should be unambiguous. (And, per style, we shouldn’t abbreviate.)\n\nThe natural name for exc would be objc_exception, but that’s the type name. So how about exception_objc?",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0467684e_6b3c478b",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "You’ve got a comment that doesn’t apply to the above and you’re moving on to something a little different, so put a blank line before this.",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18e51d56_619c5780",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "You or I should look at whether this buffer is sufficiently sized in the context of how unw_get_proc_name behaves if it’s too small.",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e670ddd2_25198c25",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "Here, you break with handler_found false, so you’ll reach line 230 and…crash? Even though the comment says “allow it to run”?",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 16
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "868abd6e_7c4d5d18",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "#include \u003cstring.h\u003e",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "698da2bc_d51bdd80",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "This comment was copied from line 186 but it’s not correct here.",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 211,
+        "endChar": 21
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6de14c5f_36c4d412",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "You’ve got a const char*  dl_info.dli_fname and a const char* sinkhole. Why bother setting up a std::string? You can just use strcmp as you did above.",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84251955_68800991",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "Oh, wait, is there a reason you’re doing a substring search here? I don’t think you want that. (strcmp wouldn’t be looking for a substring match.)",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d5fdaf8_658536ef",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "This confused me, because it written like it describes something that’s going to happen when this program reaches this point in execution. But that’s not what’s going on. You’re saying what __cxa_throw would do if it didn’t find a handler: it would call failed_throw, which would terminate.\n\nYou’re doing something else.",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0768696a_0158d2bc",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "Good. Now that we have this, I think we should make it a hard interface requirement that a caller only tries to install this one time. Instead of silently returning if already installed, let’s\n\n  DCHECK(!g_exception_preprocessor_installed);",
+      "range": {
+        "startLine": 246,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 11
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a70fcd7_10cc25aa",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-02T21:59:02Z",
+      "side": 1,
+      "message": "And here, you’d DCHECK(g_exception_preprocessor_installed).",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
