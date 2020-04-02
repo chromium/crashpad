@@ -21,6 +21,10 @@
 #include "gmock/gmock.h"
 #endif  // CRASHPAD_TEST_LAUNCHER_GMOCK
 
+#if defined(OS_ANDROID) || defined(OS_LINUX)
+#include "util/linux/initial_signal_dispositions.h"
+#endif  // OS_ANDROID || OS_LINUX
+
 #if defined(OS_IOS)
 #include "test/ios/google_test_setup.h"
 #endif
@@ -55,6 +59,9 @@ bool GetChildTestFunctionName(std::string* child_func_name) {
 }  // namespace
 
 int main(int argc, char* argv[]) {
+#if defined(OS_ANDROID) || defined(OS_LINUX)
+  crashpad::InitializeSignalDispositions();
+#endif  // OS_ANDROID || OS_LINUX
   crashpad::test::InitializeMainArguments(argc, argv);
 
 #if !defined(OS_IOS)
