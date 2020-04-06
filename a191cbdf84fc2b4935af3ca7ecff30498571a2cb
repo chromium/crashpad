@@ -665,6 +665,24 @@
     },
     {
       "key": {
+        "uuid": "e16c9088_92d2f7e8",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-06T19:52:06Z",
+      "side": 1,
+      "message": "\u003e Wait, do I want the latest, or the first OS version that it appeared in.  Confused here.\n\nWe take the latest version of the package that Apple’s published, but report the OS version as the first version that the specific version of the package appeared in.\n\n(Rationale: obj4-779.1 doesn’t mean anything to anyone really, but you need that to find the source. But 10.15.0 tells people when objc4-779.1 first came out, and people do recognize that.)",
+      "parentUuid": "d2d5b6e2_a1f7ff0b",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c1c69db_0c23aad9",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 5

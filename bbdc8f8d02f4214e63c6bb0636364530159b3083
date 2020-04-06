@@ -823,6 +823,30 @@
     },
     {
       "key": {
+        "uuid": "9f5b4fb6_596709ac",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-06T19:52:06Z",
+      "side": 1,
+      "message": "\u003e Looks like *introspection* appears when the debugger is attached.  How about I just always keep them both and remove the ifdefs\n\nAs long as there’s a comment explaining when you’d expect to see each.",
+      "parentUuid": "3429f511_7f0780e4",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 6
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33df9f25_65569a1e",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 9
@@ -1303,6 +1327,24 @@
     },
     {
       "key": {
+        "uuid": "4f9109ac_63ae5e83",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-06T19:52:06Z",
+      "side": 1,
+      "message": "\u003e I do, on Simulator library path will be something awful like:\n\u003e \n\u003e \"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot/usr/lib/system/introspection/libdispatch.dylib\"\n\nGot it. That’s the sort of detail that’s worth mentioning in a comment! Nobody’s going to know what sort of input this thing is going to have to deal with unless you write it down. People are going to assume that since what you have looks like a normal path, it’s really just a normal path…\n\nThese crazy paths are only relevant to the simulator, so I think we should do a straight equality comparison on devices, and do something else where you have crazy paths.\n\nAnd it seems like you don’t really want a substring search, you just want to see if the library path ends with the string you’re looking for.",
+      "parentUuid": "fc8c7c2b_b91b02e6",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2d5fdaf8_658536ef",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 9
@@ -1373,6 +1415,30 @@
       "side": 1,
       "message": "Done.  In Chromium I wouldn\u0027t be allowed to put the if check, like so:\n  DCHECK(!g_exception_preprocessor_installed);\n  if (g_exception_preprocessor_installed)\n    return;\n\nIs that OK here?",
       "parentUuid": "0768696a_0158d2bc",
+      "range": {
+        "startLine": 246,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 11
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c920074d_77399f01",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-06T19:52:06Z",
+      "side": 1,
+      "message": "\u003e Done.  In Chromium I wouldn\u0027t be allowed to put the if check, like so:\n\u003e   DCHECK(!g_exception_preprocessor_installed);\n\u003e   if (g_exception_preprocessor_installed)\n\u003e     return;\n\u003e \n\u003e Is that OK here?\n\nYou’re not allowed to do that here either. The DCHECK alone is what I’m after.",
+      "parentUuid": "6c3396c1_e62db4ad",
       "range": {
         "startLine": 246,
         "startChar": 0,
