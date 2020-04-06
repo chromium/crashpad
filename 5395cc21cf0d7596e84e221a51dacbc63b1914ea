@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b8e77fc_de110387",
+        "filename": "test/ios/host/application_delegate.mm",
+        "patchSetId": 14
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-06T21:00:22Z",
+      "side": 1,
+      "message": "#include \u003cdispatch/dispatch.h\u003e",
+      "revId": "5395cc21cf0d7596e84e221a51dacbc63b1914ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1b458f9_4e57e478",
+        "filename": "util/ios/exception_processor.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-06T21:00:22Z",
+      "side": 1,
+      "message": "known to be a catch-and-rethrow",
+      "range": {
+        "startLine": 24,
+        "startChar": 28,
+        "endLine": 24,
+        "endChar": 55
+      },
+      "revId": "5395cc21cf0d7596e84e221a51dacbc63b1914ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd14fb75_997cad5e",
+        "filename": "util/ios/exception_processor.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-06T21:00:22Z",
+      "side": 1,
+      "message": "original stack",
+      "range": {
+        "startLine": 29,
+        "startChar": 16,
+        "endLine": 29,
+        "endChar": 29
+      },
+      "revId": "5395cc21cf0d7596e84e221a51dacbc63b1914ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "668e21e9_12655331",
+        "filename": "util/ios/exception_processor.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-06T21:00:22Z",
+      "side": 1,
+      "message": "???",
+      "revId": "5395cc21cf0d7596e84e221a51dacbc63b1914ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4b9d60a_bb771611",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 14
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-06T21:00:22Z",
+      "side": 1,
+      "message": "It’s not clear that this comes from the same place that the comment above names. That’s why I suggested\n\n  // comment with reference for source material\n\n  static const uint64_t kOurExceptionClass \u003d …\n\n  struct __cxa_exception { …\n\nThe blank line between the comment and the constant says that it might have applicability beyond just the one constant that follows.",
+      "revId": "5395cc21cf0d7596e84e221a51dacbc63b1914ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d62a03b_a267bf74",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 14
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-06T21:00:22Z",
+      "side": 1,
+      "message": "Blank line before this.",
+      "revId": "5395cc21cf0d7596e84e221a51dacbc63b1914ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d715b9de_c6d798ef",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 14
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-06T21:00:22Z",
+      "side": 1,
+      "message": "Missing a period before your new sentence.",
+      "range": {
+        "startLine": 232,
+        "startChar": 5,
+        "endLine": 232,
+        "endChar": 24
+      },
+      "revId": "5395cc21cf0d7596e84e221a51dacbc63b1914ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0946132_e03f49a8",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 14
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-06T21:00:22Z",
+      "side": 1,
+      "message": "(moved here from patch set 9, https://chromium-review.googlesource.com/c/crashpad/crashpad/+/2125254/9/util/ios/exception_processor.mm#228)\n\n\u003e Added to the comment -- is it more clear now?\n\nNo, this still sounds like it’s something that’s going to happen during this execution. The addition doesn’t help, because this still says __cxa_throw *will* call, but __cxa_throw isn’t doing any more handling of this exception. You’re describing what __cxa_throw *would* do if it searched for and didn’t find a handler, so change “will” to “would”.",
+      "range": {
+        "startLine": 229,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 57
+      },
+      "revId": "5395cc21cf0d7596e84e221a51dacbc63b1914ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "939c42ea_fce49310",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 14
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-06T21:00:22Z",
+      "side": 1,
+      "message": "And add a TODO about considering making it appear to the outside world that there was an uncaught exception, such as by calling std::terminate.",
+      "revId": "5395cc21cf0d7596e84e221a51dacbc63b1914ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
