@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "e4a423b5_af114f6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e34b4efe_b3d2915e",
+      "range": {
+        "startLine": 10,
+        "startChar": 64,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7d2b3da_b95d94c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c59d7150_683d6359",
+      "range": {
+        "startLine": 12,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f26b8cc4_f82a2142",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -68,6 +116,30 @@
       "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81c526d1_c4589efe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f26b8cc4_f82a2142",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "172a81b1_5c5c3acc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8858fedb_60c175ca",
+      "range": {
+        "startLine": 16,
+        "startChar": 12,
+        "endLine": 16,
+        "endChar": 25
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35f26963_bb995b20",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -114,6 +210,30 @@
       "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d25f1ec_fd59788c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35f26963_bb995b20",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 27
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "b4674a54_2a3dc790",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff2c7a42_0d3f74a5",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 12
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d4a8566_1ab5e02b",
         "filename": "client/crashpad_client_ios_test.mm",
         "patchSetId": 9
@@ -157,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "47029e3b_5aa547f8",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d4a8566_1ab5e02b",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90c98ab7_3babc41a",
         "filename": "test/ios/host/application_delegate.mm",
         "patchSetId": 9
@@ -171,6 +333,24 @@
       "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27d7e411_c75460c3",
+        "filename": "test/ios/host/application_delegate.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90c98ab7_3babc41a",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -197,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "d3e350dd_8961dc2e",
+        "filename": "test/ios/host/application_delegate.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38e04c48_5b5ad9c1",
+      "range": {
+        "startLine": 84,
+        "startChar": 13,
+        "endLine": 84,
+        "endChar": 17
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64bbf4c8_d4e7e8b8",
         "filename": "util/ios/exception_processor.h",
         "patchSetId": 9
@@ -220,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "cbac1222_a08dbe46",
+        "filename": "util/ios/exception_processor.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64bbf4c8_d4e7e8b8",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52d10b05_72702618",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 9
@@ -234,6 +462,24 @@
       "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3207b40_c51a59ee",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52d10b05_72702618",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -260,6 +506,30 @@
     },
     {
       "key": {
+        "uuid": "877929aa_f368580c",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83f255a9_919f8d93",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 19
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "828a3fd7_cffdc7f0",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 9
@@ -280,6 +550,30 @@
       "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d47a03a0_ecefcadb",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done, here and below (also shortened to 12 chars)",
+      "parentUuid": "828a3fd7_cffdc7f0",
+      "range": {
+        "startLine": 52,
+        "startChar": 45,
+        "endLine": 52,
+        "endChar": 85
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -306,6 +600,30 @@
     },
     {
       "key": {
+        "uuid": "2bb5fd8e_3db759d9",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4596c10_bbd595b3",
+      "range": {
+        "startLine": 53,
+        "startChar": 43,
+        "endLine": 53,
+        "endChar": 61
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b41543f_79b35856",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 9
@@ -320,6 +638,24 @@
       "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3100b5c9_a089ecdb",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b41543f_79b35856",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -346,6 +682,30 @@
     },
     {
       "key": {
+        "uuid": "389e3860_b4758a8d",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "860e223d_0d8627f1",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 48
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87354ea7_803abc6a",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 9
@@ -363,6 +723,24 @@
     },
     {
       "key": {
+        "uuid": "46f61040_a2609b8f",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87354ea7_803abc6a",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "233cf5a1_c60b633c",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 9
@@ -377,6 +755,24 @@
       "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85169528_4a27e7b8",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "233cf5a1_c60b633c",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -403,6 +799,30 @@
     },
     {
       "key": {
+        "uuid": "3429f511_7f0780e4",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Looks like *introspection* appears when the debugger is attached.  How about I just always keep them both and remove the ifdefs",
+      "parentUuid": "9678f99d_46ea2c04",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 6
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33df9f25_65569a1e",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 9
@@ -426,6 +846,30 @@
     },
     {
       "key": {
+        "uuid": "c1ab0185_6d68eb1d",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33df9f25_65569a1e",
+      "range": {
+        "startLine": 99,
+        "startChar": 72,
+        "endLine": 99,
+        "endChar": 73
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a2d48fe8_ed45f7d5",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 9
@@ -440,6 +884,24 @@
       "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "190b03b3_edc9bfb1",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Now with less yelling.",
+      "parentUuid": "a2d48fe8_ed45f7d5",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -466,6 +928,30 @@
     },
     {
       "key": {
+        "uuid": "098a3736_9273636e",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Added a std::terminate, but leaving a LOG(INFO), since I still don\u0027t know how I\u0027m passing along exception reason and name.",
+      "parentUuid": "f9ccf25e_c6f33138",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 47
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f05158c3_31d7aaf5",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 9
@@ -489,6 +975,30 @@
     },
     {
       "key": {
+        "uuid": "b5e25978_449f902f",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f05158c3_31d7aaf5",
+      "range": {
+        "startLine": 137,
+        "startChar": 55,
+        "endLine": 137,
+        "endChar": 57
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6735e6a1_f16f2b14",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 9
@@ -503,6 +1013,24 @@
       "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e8fe823_f870c6b7",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6735e6a1_f16f2b14",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -523,6 +1051,24 @@
     },
     {
       "key": {
+        "uuid": "accb2541_86ef430b",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0467684e_6b3c478b",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18e51d56_619c5780",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 9
@@ -537,6 +1083,24 @@
       "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "495f97b2_2a31fc7f",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "libunwind-35.4/src/UnwindLevel1.c uses 512, although the libunwind test suite uses 64.  I\u0027ll bump to 512.",
+      "parentUuid": "18e51d56_619c5780",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -563,6 +1127,30 @@
     },
     {
       "key": {
+        "uuid": "ce4ae83a_339e9605",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Good catch!  I added a handler_found \u003d true here.",
+      "parentUuid": "e670ddd2_25198c25",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 16
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "868abd6e_7c4d5d18",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 9
@@ -577,6 +1165,24 @@
       "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99144dc9_c803bca3",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "868abd6e_7c4d5d18",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -603,6 +1209,30 @@
     },
     {
       "key": {
+        "uuid": "0a1f1fa8_49737987",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "698da2bc_d51bdd80",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 211,
+        "endChar": 21
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6de14c5f_36c4d412",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 9
@@ -614,6 +1244,24 @@
       "writtenOn": "2020-04-02T21:59:02Z",
       "side": 1,
       "message": "You’ve got a const char*  dl_info.dli_fname and a const char* sinkhole. Why bother setting up a std::string? You can just use strcmp as you did above.",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eac4929d_a76552d0",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "So below, to do a substring search...",
+      "parentUuid": "6de14c5f_36c4d412",
       "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -637,6 +1285,24 @@
     },
     {
       "key": {
+        "uuid": "fc8c7c2b_b91b02e6",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "I do, on Simulator library path will be something awful like:\n\n\"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot/usr/lib/system/introspection/libdispatch.dylib\"",
+      "parentUuid": "84251955_68800991",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2d5fdaf8_658536ef",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 9
@@ -651,6 +1317,24 @@
       "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fa9f3ec_6ff7db77",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Added to the comment -- is it more clear now?",
+      "parentUuid": "2d5fdaf8_658536ef",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -677,6 +1361,30 @@
     },
     {
       "key": {
+        "uuid": "6c3396c1_e62db4ad",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done.  In Chromium I wouldn\u0027t be allowed to put the if check, like so:\n  DCHECK(!g_exception_preprocessor_installed);\n  if (g_exception_preprocessor_installed)\n    return;\n\nIs that OK here?",
+      "parentUuid": "0768696a_0158d2bc",
+      "range": {
+        "startLine": 246,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 11
+      },
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a70fcd7_10cc25aa",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 9
@@ -691,6 +1399,24 @@
       "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0e08f35_d2523a3b",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a70fcd7_10cc25aa",
+      "revId": "bbdc8f8d02f4214e63c6bb0636364530159b3083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

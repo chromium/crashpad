@@ -647,6 +647,24 @@
     },
     {
       "key": {
+        "uuid": "d2d5b6e2_a1f7ff0b",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Wait, do I want the latest, or the first OS version that it appeared in.  Confused here.",
+      "parentUuid": "1c459a7f_49222e18",
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c1c69db_0c23aad9",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 5
@@ -809,6 +827,30 @@
       "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f014dcd_744e0560",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2d3ef19_3a94e712",
+      "range": {
+        "startLine": 45,
+        "startChar": 18,
+        "endLine": 45,
+        "endChar": 23
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -1249,6 +1291,30 @@
       "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3f807d5_f13fac1a",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "133e96f7_49c311f6",
+      "range": {
+        "startLine": 93,
+        "startChar": 54,
+        "endLine": 93,
+        "endChar": 64
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -1952,6 +2018,30 @@
     },
     {
       "key": {
+        "uuid": "1be005b8_db908f8a",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "Ack, changed lamda to:\nstatic const mach_header_64* this_base_address \u003d\n      []() -\u003e const mach_header_64* {",
+      "parentUuid": "006560be_b50f4d73",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 3
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8dfbcea_9193e8a1",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 5
@@ -2114,6 +2204,30 @@
       "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ce0ab70_0283a4d7",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-06T19:09:37Z",
+      "side": 1,
+      "message": "This comment was a bad cut and paste, removed.",
+      "parentUuid": "1711e015_bdedf972",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 21
+      },
+      "revId": "a191cbdf84fc2b4935af3ca7ecff30498571a2cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
