@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c412dc44_c8291684",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-07T20:22:42Z",
+      "side": 1,
+      "message": "\u003e Probably -- I think the biggest difference here is handling \u003credacted\u003e and actually calling the personality routine.  I don\u0027t know if Mac Chrome needs the former, and I\u0027m somewhat confused how Mac Chrome is even working without the latter (e.g functions with a unw_get_proc_info.handler set but do not have a catch landing pad will bypass the sinkhole check).  Maybe the se_frame stuff manages the rest?\n\nI think we can and should move Chrome on macOS to this code. There may be some subtle iOS vs. macOS differences that we can handle with some #ifs. For example, we don’t need to worry about redaction on macOS.",
+      "parentUuid": "4c151789_3c115eb9",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b3c5cf3f_3ad3ce26",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 18
@@ -203,6 +221,24 @@
       "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72972a01_a8224750",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-07T20:22:42Z",
+      "side": 1,
+      "message": "\u003e Wrapped, good catch!\n\nActually, I think it’s even cleaner if we make the function slightly higher-level. Instead of StringEndsWith, we could do something like ModulePathMatches, and move the #if to be internal to the function. Then the body of ObjcExceptionPreprocessor will read more cleanly, without being interrupted by an #if.",
+      "parentUuid": "a4acf458_148f3f35",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     },
     {
       "key": {
@@ -346,6 +382,30 @@
       "side": 1,
       "message": "The redacted case literally returns the string \"\u003credacted\u003e\"",
       "parentUuid": "5db17392_cb5fd5b9",
+      "range": {
+        "startLine": 192,
+        "startChar": 6,
+        "endLine": 193,
+        "endChar": 15
+      },
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c963e47d_efc02e65",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-07T20:22:42Z",
+      "side": 1,
+      "message": "\u003e The redacted case literally returns the string \"\u003credacted\u003e\"\n\nThat’s absolutely worth a comment.\n\nThat’s valuable any time you’re processing data where the values might not be obvious. If you’ve got some code that processes symbol names one at a time, like you do here, and if sometimes the things you see won’t be symbol names but will be something else, then that won’t be obvious to other engineers or even to future Justin unless that’s captured somewhere, like in a comment.",
+      "parentUuid": "e97c60dd_71dca961",
       "range": {
         "startLine": 192,
         "startChar": 6,
