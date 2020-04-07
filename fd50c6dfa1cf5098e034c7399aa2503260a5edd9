@@ -1,0 +1,186 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4349acb5_a908d329",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-04-07T15:11:29Z",
+      "side": 1,
+      "message": "I think this should credit the Chromium code, given that some comments and code snippets are copied verbatim.",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2c3ee7b_263b4270",
+        "filename": "util/ios/exception_processor.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-04-07T15:11:29Z",
+      "side": 1,
+      "message": "Add a note about threading and when to call? The globals in the impl are not protected.",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea32eeb1_02c5dde6",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-04-07T15:11:29Z",
+      "side": 1,
+      "message": "Is there any reason why Mac Chrome shouldn’t switch to using this in the future?",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3c5cf3f_3ad3ce26",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-04-07T15:11:29Z",
+      "side": 1,
+      "message": "Maybe store the data in an Annotation?",
+      "range": {
+        "startLine": 83,
+        "startChar": 47,
+        "endLine": 83,
+        "endChar": 76
+      },
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e22cd8e8_8922a27a",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-04-07T15:11:29Z",
+      "side": 1,
+      "message": "Mark asked for a comment saying why std::terminate() here instead of LOG(FATAL). I was about to suggest LOG(FATAL), so please add that comment :-)",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71609773_a13d428a",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-04-07T15:11:29Z",
+      "side": 1,
+      "message": "This is only called for when defined(TARGET_OS_SIMULATOR), so this might generate a -Wunused-function in Chromium.",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c3be6b2_bbb19dbe",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-04-07T15:11:29Z",
+      "side": 1,
+      "message": "This is only ever referenced as void* to compare to another dli_fbase, so I don’t know if this casting is necessary.",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d283435_4c55fb76",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-04-07T15:11:29Z",
+      "side": 1,
+      "message": "nit: the above single-line if uses {}, but this one doesn’t, so let’s be consistent (use {})",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df58d9f8_8658a178",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-04-07T15:11:29Z",
+      "side": 1,
+      "message": "This could use some more commentary. When is |handler| non-0 but not a catch landing pad?",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5db17392_cb5fd5b9",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-04-07T15:11:29Z",
+      "side": 1,
+      "message": "How does the library path matching work? It looks like if unw_get_proc_name() fails and the address is not in this image, it continues the loop. Is line 210+ ever reached in that case? Or in the redacted case does unw_get_proc_name() return success but the name is 0-length?",
+      "range": {
+        "startLine": 192,
+        "startChar": 6,
+        "endLine": 193,
+        "endChar": 15
+      },
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
