@@ -19,7 +19,10 @@
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "client/client_argv_handling.h"
+#include "client/crash_report_database.h"
+#include "minidump/minidump_file_writer.h"
 #include "snapshot/ios/process_snapshot_ios.h"
+#include "util/ios/exception_processor.h"
 #include "util/ios/ios_system_data_collector.h"
 #include "util/posix/signals.h"
 
@@ -47,6 +50,7 @@ class SignalHandler {
     process_snapshot.Initialize(system_data);
     process_snapshot.SetException(siginfo,
                                   reinterpret_cast<ucontext_t*>(context));
+    test_only_dump(process_snapshot);
   }
 
  private:
@@ -58,10 +62,43 @@ class SignalHandler {
                                    siginfo_t* siginfo,
                                    void* context) {
     HandleCrash(signo, siginfo, context);
-
     // Always call system handler.
     Signals::RestoreHandlerAndReraiseSignalOnReturn(
         siginfo, old_actions_.ActionForSignal(signo));
+  }
+
+  // TODO(justincohen): For testing only!
+  // To be removed before landing CL, but super useful in testing.
+  void test_only_dump(ProcessSnapshotIOS& process_snapshot) {
+    LOG(INFO) << "test_only_dump";
+    char* tmpdir = getenv("TMPDIR");
+    std::string dir;
+    dir.assign(tmpdir);
+    dir.append("org.chromium.crashpad.test");
+    mkdtemp(&dir[0]);
+    std::unique_ptr<CrashReportDatabase> database(
+        CrashReportDatabase::Initialize(base::FilePath(dir)));
+    std::unique_ptr<CrashReportDatabase::NewReport> new_report;
+    CrashReportDatabase::OperationStatus database_status =
+        database->PrepareNewCrashReport(&new_report);
+    if (database_status != CrashReportDatabase::kNoError) {
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kPrepareNewCrashReportFailed);
+    }
+    process_snapshot.SetReportID(new_report->ReportID());
+    MinidumpFileWriter minidump;
+    minidump.InitializeFromSnapshot(&process_snapshot);
+    if (!minidump.WriteEverything(new_report->Writer())) {
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kMinidumpWriteFailed);
+    }
+    UUID uuid;
+    database_status =
+        database->FinishedWritingCrashReport(std::move(new_report), &uuid);
+    if (database_status != CrashReportDatabase::kNoError) {
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
+    }
   }
 
   // The signal handler installed at OS-level.
@@ -84,6 +121,7 @@ CrashpadClient::CrashpadClient() {}
 CrashpadClient::~CrashpadClient() {}
 
 bool CrashpadClient::StartCrashpadInProcessHandler() {
+  InstallObjcExceptionPreprocessor();
   return SignalHandler::Get()->Install(nullptr);
 }
 
