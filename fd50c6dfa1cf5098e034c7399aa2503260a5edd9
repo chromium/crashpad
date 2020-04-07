@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "fabfe3f4_376f1735",
+        "filename": "util/ios/exception_processor.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-07T19:00:10Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t understand this.  Can you explain more?",
+      "parentUuid": "f2c3ee7b_263b4270",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ea32eeb1_02c5dde6",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 18
@@ -47,6 +65,24 @@
       "writtenOn": "2020-04-07T15:11:29Z",
       "side": 1,
       "message": "Is there any reason why Mac Chrome shouldn’t switch to using this in the future?",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c151789_3c115eb9",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-07T19:00:10Z",
+      "side": 1,
+      "message": "Probably -- I think the biggest difference here is handling \u003credacted\u003e and actually calling the personality routine.  I don\u0027t know if Mac Chrome needs the former, and I\u0027m somewhat confused how Mac Chrome is even working without the latter (e.g functions with a unw_get_proc_info.handler set but do not have a catch landing pad will bypass the sinkhole check).  Maybe the se_frame stuff manages the rest?",
+      "parentUuid": "ea32eeb1_02c5dde6",
       "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -76,6 +112,30 @@
     },
     {
       "key": {
+        "uuid": "2782f91b_7b02a8fe",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-07T19:00:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b3c5cf3f_3ad3ce26",
+      "range": {
+        "startLine": 83,
+        "startChar": 47,
+        "endLine": 83,
+        "endChar": 76
+      },
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e22cd8e8_8922a27a",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 18
@@ -87,6 +147,24 @@
       "writtenOn": "2020-04-07T15:11:29Z",
       "side": 1,
       "message": "Mark asked for a comment saying why std::terminate() here instead of LOG(FATAL). I was about to suggest LOG(FATAL), so please add that comment :-)",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a5f8bac_0e648768",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-07T19:00:10Z",
+      "side": 1,
+      "message": "The std::terminate is temporary, there\u0027s a followup CL coming.",
+      "parentUuid": "e22cd8e8_8922a27a",
       "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -110,6 +188,24 @@
     },
     {
       "key": {
+        "uuid": "a4acf458_148f3f35",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-07T19:00:10Z",
+      "side": 1,
+      "message": "Wrapped, good catch!",
+      "parentUuid": "71609773_a13d428a",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c3be6b2_bbb19dbe",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 18
@@ -121,6 +217,24 @@
       "writtenOn": "2020-04-07T15:11:29Z",
       "side": 1,
       "message": "This is only ever referenced as void* to compare to another dli_fbase, so I don’t know if this casting is necessary.",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae5f6383_dc785e86",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-07T19:00:10Z",
+      "side": 1,
+      "message": "Cannot initialize return object of type \u0027const mach_header_64 *\u0027 with an lvalue of type \u0027void *\u0027",
+      "parentUuid": "4c3be6b2_bbb19dbe",
       "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -144,6 +258,24 @@
     },
     {
       "key": {
+        "uuid": "a2d05b5a_54cbf7c6",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-07T19:00:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d283435_4c55fb76",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df58d9f8_8658a178",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 18
@@ -161,6 +293,24 @@
     },
     {
       "key": {
+        "uuid": "a68bb004_b9bb0570",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-07T19:00:10Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand the intricacies of libunwind to comment on that, but a handler is only a catch landing pad if the personality routine returns _URC_HANDLER_FOUND, I think.  What else can I add?",
+      "parentUuid": "df58d9f8_8658a178",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5db17392_cb5fd5b9",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 18
@@ -172,6 +322,30 @@
       "writtenOn": "2020-04-07T15:11:29Z",
       "side": 1,
       "message": "How does the library path matching work? It looks like if unw_get_proc_name() fails and the address is not in this image, it continues the loop. Is line 210+ ever reached in that case? Or in the redacted case does unw_get_proc_name() return success but the name is 0-length?",
+      "range": {
+        "startLine": 192,
+        "startChar": 6,
+        "endLine": 193,
+        "endChar": 15
+      },
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e97c60dd_71dca961",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-07T19:00:10Z",
+      "side": 1,
+      "message": "The redacted case literally returns the string \"\u003credacted\u003e\"",
+      "parentUuid": "5db17392_cb5fd5b9",
       "range": {
         "startLine": 192,
         "startChar": 6,
