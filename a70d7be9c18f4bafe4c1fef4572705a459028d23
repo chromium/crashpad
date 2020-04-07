@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9313437_7851b481",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 20
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-07T21:21:51Z",
+      "side": 1,
+      "message": "Lose the (outer parentheses).",
+      "range": {
+        "startLine": 105,
+        "startChar": 9,
+        "endLine": 105,
+        "endChar": 38
+      },
+      "revId": "a70d7be9c18f4bafe4c1fef4572705a459028d23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b79a1037_07a472fd",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 20
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-07T21:21:51Z",
+      "side": 1,
+      "message": "Can lose this !\u003d 0.\n\n(dladdr is weird among POSIX functions in that the meaning of its return value is inverted. The “!\u003d 0” makes it seem like traditional POSIX behavior is at play, and it makes it seem like the logic is inverted, when neither are true. The dladdr on line 234 was evaluated as a straight boolean, as I’m suggesting for this line.)",
+      "range": {
+        "startLine": 191,
+        "startChar": 26,
+        "endLine": 191,
+        "endChar": 31
+      },
+      "revId": "a70d7be9c18f4bafe4c1fef4572705a459028d23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66f32783_81ee1eda",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 20
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-07T21:21:51Z",
+      "side": 1,
+      "message": "Although these won’t be redacted, they are in CoreFoundation, and the library path sinkhole below would catch ’em too, right? (Just asking.)",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 31
+      },
+      "revId": "a70d7be9c18f4bafe4c1fef4572705a459028d23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
