@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d13c10c_d99a664e",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 15
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-07T02:26:45Z",
+      "side": 1,
+      "message": "#include \"build/build_config.h\"",
+      "revId": "90b792e731091d53a9d635701e443e912c721dd7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52f052aa_d022ea06",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 15
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-07T02:26:45Z",
+      "side": 1,
+      "message": "TODO: remove this comment",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 28
+      },
+      "revId": "90b792e731091d53a9d635701e443e912c721dd7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9aefb75_d1b247c8",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 15
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-07T02:26:45Z",
+      "side": 1,
+      "message": "This should never happen, get rid of this check.",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 17
+      },
+      "revId": "90b792e731091d53a9d635701e443e912c721dd7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a282f59e_2aa7ee58",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 15
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-07T02:26:45Z",
+      "side": 1,
+      "message": "nit: plural paths, not possessive path\u0027s.",
+      "range": {
+        "startLine": 233,
+        "startChar": 21,
+        "endLine": 233,
+        "endChar": 27
+      },
+      "revId": "90b792e731091d53a9d635701e443e912c721dd7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97f6ab26_93cb1b05",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 15
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-07T02:26:45Z",
+      "side": 1,
+      "message": "Argument order should match line 235.",
+      "revId": "90b792e731091d53a9d635701e443e912c721dd7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d4739d0_df98ae2e",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 15
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-07T02:26:45Z",
+      "side": 1,
+      "message": "Blank after the DCHECK (same as line 270).",
+      "revId": "90b792e731091d53a9d635701e443e912c721dd7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
