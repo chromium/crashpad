@@ -362,6 +362,24 @@
       "revId": "5395cc21cf0d7596e84e221a51dacbc63b1914ea",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a556fdbe_e360181a",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 14
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-07T02:21:14Z",
+      "side": 1,
+      "message": "\u003e But TerminatingFromUncaughtNSException does call std::terminate?\n\nOh, right…never mind.",
+      "parentUuid": "741cca08_c181d7a1",
+      "revId": "5395cc21cf0d7596e84e221a51dacbc63b1914ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
