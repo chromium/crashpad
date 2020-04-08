@@ -245,6 +245,9 @@ static_library("gmock_main") {
     "../third_party/mini_chromium:base",
     "../third_party/mini_chromium:base_test_support",
   ]
+  if (crashpad_is_android) {
+    deps += [ "../util" ]
+  }
   if (crashpad_is_ios) {
     deps += [ "ios:google_test_setup" ]
   }
@@ -261,6 +264,9 @@ static_library("gtest_main") {
     "../third_party/mini_chromium:base",
     "../third_party/mini_chromium:base_test_support",
   ]
+  if (crashpad_is_android) {
+    deps += [ "../util" ]
+  }
   if (crashpad_is_ios) {
     deps += [ "ios:google_test_setup" ]
   }
