@@ -33,6 +33,24 @@
       "revId": "e1b719ec3816657d3f6d2227531348be63d9e0b2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbcf20c3_7fb44376",
+        "filename": "util/linux/initial_signal_dispositions.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-04-08T16:52:20Z",
+      "side": 1,
+      "message": "Good question! I only added it for 23 because the hang didn\u0027t repro on 22... but it looks like the error does partially exist on earlier versions. Earlier versions of Bionic still incorrectly handle these signals, allowing the process to continue living after receiving one, but no locks are taken so the later signal doesn\u0027t cause a hang.",
+      "parentUuid": "8c239423_d0f92ea7",
+      "revId": "e1b719ec3816657d3f6d2227531348be63d9e0b2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
