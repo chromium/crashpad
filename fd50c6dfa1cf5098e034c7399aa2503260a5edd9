@@ -225,6 +225,24 @@
     },
     {
       "key": {
+        "uuid": "c182a6ee_6d440130",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-08T16:28:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2199037b_07e5ba24",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71609773_a13d428a",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 18
@@ -364,6 +382,24 @@
       "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "423e6656_488b3d41",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-08T16:28:45Z",
+      "side": 1,
+      "message": "OK, changed to static const void* this_base_address.  Mark earlier requested this be changed. to mach_header_64.  Mark: are you OK with const void*?",
+      "parentUuid": "3ed83f99_44e32161",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -553,6 +589,30 @@
       "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2869f892_7702c5ac",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-08T16:28:45Z",
+      "side": 1,
+      "message": "How about:\n    // On iOS, function names are often reported as \"\u003credacted\u003e\", although they\n    // do appear when attached to the debugger.  When this happens, use the path\n    // of the image to determine if the handler is an exception sinkhole.",
+      "parentUuid": "eecadf98_1ad24a98",
+      "range": {
+        "startLine": 192,
+        "startChar": 6,
+        "endLine": 193,
+        "endChar": 15
+      },
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
