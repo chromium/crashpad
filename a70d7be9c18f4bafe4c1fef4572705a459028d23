@@ -140,6 +140,30 @@
       "revId": "a70d7be9c18f4bafe4c1fef4572705a459028d23",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc3ab074_293ca8c5",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 20
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-08T12:54:13Z",
+      "side": 1,
+      "message": "\u003e Yep, but it still seems more accurate to get these out of the way first, since they currently show up as unredacted.\n\nI agree, but maybe worth an explanatory comment.",
+      "parentUuid": "687e384f_8fdc7832",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 31
+      },
+      "revId": "a70d7be9c18f4bafe4c1fef4572705a459028d23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }

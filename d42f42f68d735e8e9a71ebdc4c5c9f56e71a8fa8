@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d058f08_9c707f08",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-08T12:54:13Z",
+      "side": 1,
+      "message": "Missing blank line between this last function } and the } to close the namespace.",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 24
+      },
+      "revId": "d42f42f68d735e8e9a71ebdc4c5c9f56e71a8fa8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c103e0a5_7f4300c9",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 21
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-08T12:54:13Z",
+      "side": 1,
+      "message": "#include \u003cTargetConditionals.h\u003e",
+      "revId": "d42f42f68d735e8e9a71ebdc4c5c9f56e71a8fa8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
