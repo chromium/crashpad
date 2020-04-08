@@ -246,6 +246,8 @@ static_library("util") {
 
   if (crashpad_is_ios) {
     sources += [
+      "ios/exception_processor.h",
+      "ios/exception_processor.mm",
       "ios/ios_system_data_collector.h",
       "ios/ios_system_data_collector.mm",
       "mac/xattr.cc",

@@ -145,4 +145,82 @@
   XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
 }
 
+- (void)testException {
+  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+
+  // Crash the app.
+  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
+  [rootObject crashException];
+
+  // Confirm the app is not running.
+  XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
+  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
+
+  // TODO: Query the app for crash data
+  [_app launch];
+  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+}
+
+- (void)testNSException {
+  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+
+  // Crash the app.
+  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
+  [rootObject crashNSException];
+
+  // Confirm the app is not running.
+  XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
+  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
+
+  // TODO: Query the app for crash data
+  [_app launch];
+  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+}
+
+- (void)testCrashUnreocgnizedSelectorAfterDelay {
+  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+
+  // Crash the app.
+  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
+  [rootObject crashUnreocgnizedSelectorAfterDelay];
+
+  // Confirm the app is not running.
+  XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
+  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
+
+  // TODO: Query the app for crash data
+  [_app launch];
+  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+}
+
+- (void)testCatchNSException {
+  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+
+  // The app should not crash
+  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
+  [rootObject catchNSException];
+
+  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+}
+
+- (void)testRecursion {
+  // TODO(justincohen): Crashpad iOS does not currently support stack type
+  // crashes.
+  return;
+
+  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+
+  // Crash the app.
+  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
+  [rootObject crashRecursion];
+
+  // Confirm the app is not running.
+  XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
+  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
+
+  // TODO: Query the app for crash data
+  [_app launch];
+  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+}
+
 @end
