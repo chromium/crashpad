@@ -14,6 +14,10 @@
 
 #import "test/ios/host/application_delegate.h"
 
+#include <dispatch/dispatch.h>
+
+#include <vector>
+
 #import "Service/Sources/EDOHostNamingService.h"
 #import "Service/Sources/EDOHostService.h"
 #include "client/crashpad_client.h"
@@ -73,6 +77,40 @@
 
 - (void)crashAbort {
   abort();
+}
+
+- (void)crashException {
+  std::vector<int> empty_vector = {};
+  empty_vector.at(42);
+}
+
+- (void)crashNSException {
+  // EDO has its own sinkhole.
+  dispatch_async(dispatch_get_main_queue(), ^{
+    NSArray* empty_array = @[];
+    [empty_array objectAtIndex:42];
+  });
+}
+
+- (void)catchNSException {
+  @try {
+    NSArray* empty_array = @[];
+    [empty_array objectAtIndex:42];
+  } @catch (NSException* exception) {
+  } @finally {
+  }
+}
+
+- (void)crashUnreocgnizedSelectorAfterDelay {
+  [self performSelector:@selector(does_not_exist) withObject:nil afterDelay:1];
+}
+
+- (void)recurse {
+  [self recurse];
+}
+
+- (void)crashRecursion {
+  [self recurse];
 }
 
 @end
