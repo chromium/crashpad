@@ -403,6 +403,24 @@
     },
     {
       "key": {
+        "uuid": "c3269153_5975a740",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-08T18:38:40Z",
+      "side": 1,
+      "message": "\u003e OK, changed to static const void* this_base_address.  Mark earlier requested this be changed. to mach_header_64.  Mark: are you OK with const void*?\n\nAs discussed in chat:\n\nIf you can do this with zero casts, it\u0027s fine.\n\nIf you need casting anywhere, choose a better type than void* where available.\n\nMore important to me is that any pointer you store must be to const data.\n\nIt appears that you can do what you need with const void*, without casting.",
+      "parentUuid": "423e6656_488b3d41",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d283435_4c55fb76",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 18
