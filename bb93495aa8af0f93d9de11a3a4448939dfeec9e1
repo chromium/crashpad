@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "900e3ddd_f20760af",
+        "filename": "test/gtest_main.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-04-08T16:23:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c225c431_6b09e690",
+      "revId": "bb93495aa8af0f93d9de11a3a4448939dfeec9e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "defec2d7_1d1d6026",
         "filename": "util/linux/initial_signal_dispositions.cc",
         "patchSetId": 7
@@ -33,6 +51,24 @@
       "revId": "bb93495aa8af0f93d9de11a3a4448939dfeec9e1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84383737_f83b7734",
+        "filename": "util/linux/initial_signal_dispositions.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-04-08T16:23:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "defec2d7_1d1d6026",
+      "revId": "bb93495aa8af0f93d9de11a3a4448939dfeec9e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6977ea0f_52cae89a",
+        "filename": "util/linux/initial_signal_dispositions.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-04-08T16:23:56Z",
+      "side": 1,
+      "message": "Yeah, I was getting ahead of myself here.\n\nI moved this down to the Android M block and changed to SIG_DFL since it is one of the signals needing to be disabled there.",
+      "parentUuid": "4c0f4d55_923ce435",
+      "revId": "bb93495aa8af0f93d9de11a3a4448939dfeec9e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13eb1d9b_6bd0fc74",
         "filename": "util/linux/initial_signal_dispositions.cc",
         "patchSetId": 7
@@ -67,6 +121,24 @@
       "revId": "bb93495aa8af0f93d9de11a3a4448939dfeec9e1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fd90527_1e484de2",
+        "filename": "util/linux/initial_signal_dispositions.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-04-08T16:23:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13eb1d9b_6bd0fc74",
+      "revId": "bb93495aa8af0f93d9de11a3a4448939dfeec9e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "4bbe6826_9e8c9e41",
+        "filename": "util/linux/initial_signal_dispositions.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-04-08T16:23:56Z",
+      "side": 1,
+      "message": "I had done this to err on the safe side... but I suppose disabling the system\u0027s crash reporter in uncertain situations isn\u0027t necessarily a better option in this case.\n\nChanged to a warning that doesn\u0027t modify signal dispositions.",
+      "parentUuid": "69113974_b26bfaa6",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 19
+      },
+      "revId": "bb93495aa8af0f93d9de11a3a4448939dfeec9e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0abc6092_7582bba2",
         "filename": "util/linux/initial_signal_dispositions.h",
         "patchSetId": 7
@@ -107,6 +203,24 @@
       "revId": "bb93495aa8af0f93d9de11a3a4448939dfeec9e1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e024a2ef_ac5e6f49",
+        "filename": "util/linux/initial_signal_dispositions.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-04-08T16:23:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0abc6092_7582bba2",
+      "revId": "bb93495aa8af0f93d9de11a3a4448939dfeec9e1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
