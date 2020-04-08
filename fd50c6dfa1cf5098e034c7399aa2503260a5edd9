@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "db1f5f2c_1db01b6d",
+        "filename": "util/ios/exception_processor.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-04-08T15:11:31Z",
+      "side": 1,
+      "message": "Is this going to be called by the handler directly, or do clients of Crashpad need to call it? When is it safe to call? The implementation manipulates unlocked global variables. What happens if it is called more than once?",
+      "parentUuid": "fabfe3f4_376f1735",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ea32eeb1_02c5dde6",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 18
@@ -189,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "2199037b_07e5ba24",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-04-08T15:11:31Z",
+      "side": 1,
+      "message": "Leave a TODO for that at least.",
+      "parentUuid": "6a5f8bac_0e648768",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "71609773_a13d428a",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 18
@@ -307,6 +343,24 @@
       "side": 1,
       "message": "Cannot initialize return object of type \u0027const mach_header_64 *\u0027 with an lvalue of type \u0027void *\u0027",
       "parentUuid": "4c3be6b2_bbb19dbe",
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ed83f99_44e32161",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-04-08T15:11:31Z",
+      "side": 1,
+      "message": "Yes, you’d need to make the variable void* too.",
+      "parentUuid": "ae5f6383_dc785e86",
       "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -475,6 +529,30 @@
       "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eecadf98_1ad24a98",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 18
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-04-08T15:11:31Z",
+      "side": 1,
+      "message": "It’s probably worth noting that in a comment at line 210. Something like,\n\n“On iOS, function names are sometimes (when?) reported as \"\u003credacted\u003e\". When this happens, use the path of the image to determine if the handler is an exception sinkhole.”",
+      "parentUuid": "e97c60dd_71dca961",
+      "range": {
+        "startLine": 192,
+        "startChar": 6,
+        "endLine": 193,
+        "endChar": 15
+      },
+      "revId": "fd50c6dfa1cf5098e034c7399aa2503260a5edd9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
