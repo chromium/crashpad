@@ -156,6 +156,8 @@ if (crashpad_is_in_fuchsia) {
         "--name",
         fidl_source.library_name,
         "--files",
+        rebase_path("$sdk_fidl_sources_path/zx/zx_common.fidl", root_build_dir),
+        "--files",
         rebase_path(fidl_source.fidl, root_build_dir),
       ]
 
