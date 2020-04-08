@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "567f5761_4b4b0137",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 20
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-08T00:20:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9313437_7851b481",
+      "range": {
+        "startLine": 105,
+        "startChar": 9,
+        "endLine": 105,
+        "endChar": 38
+      },
+      "revId": "a70d7be9c18f4bafe4c1fef4572705a459028d23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b79a1037_07a472fd",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 20
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4aa0b5a9_5d7fd744",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 20
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-08T00:20:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b79a1037_07a472fd",
+      "range": {
+        "startLine": 191,
+        "startChar": 26,
+        "endLine": 191,
+        "endChar": 31
+      },
+      "revId": "a70d7be9c18f4bafe4c1fef4572705a459028d23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66f32783_81ee1eda",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 20
@@ -59,6 +107,30 @@
       "writtenOn": "2020-04-07T21:21:51Z",
       "side": 1,
       "message": "Although these won’t be redacted, they are in CoreFoundation, and the library path sinkhole below would catch ’em too, right? (Just asking.)",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 31
+      },
+      "revId": "a70d7be9c18f4bafe4c1fef4572705a459028d23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "687e384f_8fdc7832",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 20
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-08T00:20:08Z",
+      "side": 1,
+      "message": "Yep, but it still seems more accurate to get these out of the way first, since they currently show up as unredacted.",
+      "parentUuid": "66f32783_81ee1eda",
       "range": {
         "startLine": 207,
         "startChar": 0,
