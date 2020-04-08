@@ -324,6 +324,13 @@ static_library("util") {
     }
   }
 
+  if (crashpad_is_android) {
+    sources += [
+      "linux/initial_signal_dispositions.cc",
+      "linux/initial_signal_dispositions.h",
+    ]
+  }
+
   if (crashpad_is_linux || crashpad_is_android) {
     sources += [
       "linux/address_types.h",
