@@ -78,6 +78,8 @@ if(MSVC)
         _HAS_EXCEPTIONS=0
         _UNICODE
     )
+    string(REGEX REPLACE "/[Ww][0123]" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+    string(REGEX REPLACE "/[Ww][0123]" "" CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
     target_compile_options(crashpad_interface INTERFACE
         $<$<COMPILE_LANGUAGE:C,CXX>:/FS>
         $<$<COMPILE_LANGUAGE:C,CXX>:/W4>
