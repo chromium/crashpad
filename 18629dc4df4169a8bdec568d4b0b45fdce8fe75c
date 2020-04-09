@@ -52,6 +52,24 @@
       "revId": "18629dc4df4169a8bdec568d4b0b45fdce8fe75c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c36bca1_2c8836cd",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-09T19:46:58Z",
+      "side": 1,
+      "message": "chromium depends on testing/gtest, not thirdparty/googltest because:\n# The file/directory layout of Google Test is not yet considered stable. Until\n# it stabilizes, Chromium code MUST use this target instead of reaching directly\n# into //third_party/googletest.\n\nWhat do you recommend?",
+      "parentUuid": "886cf72d_f1380821",
+      "revId": "18629dc4df4169a8bdec568d4b0b45fdce8fe75c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
