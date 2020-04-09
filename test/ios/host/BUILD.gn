@@ -31,10 +31,10 @@ source_set("app_shared_sources") {
 static_library("app_host_sources") {
   testonly = true
   sources = [
-    "application_delegate.h",
-    "application_delegate.mm",
-    "crash_view_controller.h",
-    "crash_view_controller.mm",
+    "cptest_application_delegate.h",
+    "cptest_application_delegate.mm",
+    "cptest_crash_view_controller.h",
+    "cptest_crash_view_controller.mm",
     "main.mm",
   ]
   configs += [ "../../..:crashpad_config" ]
