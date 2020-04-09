@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8f4291d_7b9d3e53",
+        "filename": "test/ios/host/application_delegate.mm",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-09T15:11:44Z",
+      "side": 1,
+      "message": "Preprocessor directives should be back at the left margin, no indent.",
+      "revId": "27048da1946f68230efb2ed44f1e470de5c3eb3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
