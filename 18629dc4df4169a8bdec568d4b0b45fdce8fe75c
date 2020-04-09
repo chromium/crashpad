@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cdff20c_0230e576",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-09T19:04:22Z",
+      "side": 1,
+      "message": "In the BUILD.gn, file, you should declare a dependency on testing in order to do this, or I bet you’ll break Chromium’s DEPS checker.\n\nBut you can’t declare a dependency on testing directly, because we don’t really have testing available at the same path in Crashpad as it is in Chromium.\n\nSo what you’ll need to do is add a group(\"testing\") to third_party/mini_chromium/BUILD.gn, and redirect things to testing in the proper location depending on the configuration, just as we do for base. (Because we have the same problem for base).",
+      "revId": "18629dc4df4169a8bdec568d4b0b45fdce8fe75c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
