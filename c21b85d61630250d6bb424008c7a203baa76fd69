@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d91a0bf_bb2dbb00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-09T15:19:38Z",
+      "side": 1,
+      "message": "This is how you implemented your change, but it’s not really interesting or important. “Run the tests in crashpad_client_ios_test.mm in an autorelease pool” is important.",
+      "revId": "c21b85d61630250d6bb424008c7a203baa76fd69",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "289921d6_41ba8606",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-09T15:19:38Z",
+      "side": 1,
+      "message": "Blank line between C and C++ headers.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 17
+      },
+      "revId": "c21b85d61630250d6bb424008c7a203baa76fd69",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28625110_564d1c98",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-09T15:19:38Z",
+      "side": 1,
+      "message": "This isn’t a header?",
+      "range": {
+        "startLine": 35,
+        "startChar": 37,
+        "endLine": 35,
+        "endChar": 74
+      },
+      "revId": "c21b85d61630250d6bb424008c7a203baa76fd69",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46891e72_a1d8c787",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-09T15:19:38Z",
+      "side": 1,
+      "message": "This comment was lifted from somewhere else, so I don’t trust it. Will _this file_ be built with ARC?",
+      "range": {
+        "startLine": 36,
+        "startChar": 5,
+        "endLine": 36,
+        "endChar": 37
+      },
+      "revId": "c21b85d61630250d6bb424008c7a203baa76fd69",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30a33069_4ff2172c",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-09T15:19:38Z",
+      "side": 1,
+      "message": "DISALLOW_COPY_AND_ASSIGN",
+      "revId": "c21b85d61630250d6bb424008c7a203baa76fd69",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbc3ed47_304b7594",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-09T15:19:38Z",
+      "side": 1,
+      "message": "actually, this \u003d {} is unnecessary too.",
+      "range": {
+        "startLine": 65,
+        "startChar": 31,
+        "endLine": 65,
+        "endChar": 36
+      },
+      "revId": "c21b85d61630250d6bb424008c7a203baa76fd69",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
