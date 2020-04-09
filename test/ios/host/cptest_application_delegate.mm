@@ -12,19 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "test/ios/host/application_delegate.h"
+#import "test/ios/host/cptest_application_delegate.h"
+
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #import "Service/Sources/EDOHostNamingService.h"
 #import "Service/Sources/EDOHostService.h"
 #include "client/crashpad_client.h"
+#import "test/ios/host/cptest_crash_view_controller.h"
 #import "test/ios/host/cptest_shared_object.h"
-#import "test/ios/host/crash_view_controller.h"
 
 #if !defined(__has_feature) || !__has_feature(objc_arc)
 #error "This file requires ARC support."
 #endif
 
-@implementation ApplicationDelegate
+@implementation CPTestApplicationDelegate
 @synthesize window = _window;
 
 - (BOOL)application:(UIApplication*)application
@@ -37,7 +41,8 @@
   [self.window makeKeyAndVisible];
   self.window.backgroundColor = UIColor.greenColor;
 
-  CrashViewController* controller = [[CrashViewController alloc] init];
+  CPTestCrashViewController* controller =
+      [[CPTestCrashViewController alloc] init];
   self.window.rootViewController = controller;
 
   // Start up EDO.
