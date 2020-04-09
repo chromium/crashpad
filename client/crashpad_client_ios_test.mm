@@ -23,8 +23,23 @@ namespace crashpad {
 namespace test {
 namespace {
 
+// TODO(justincohen): Consider moving base/platform_test into mini_chromium.
+class CrashpadIOSClient : public testing::Test {
+ public:
+  ~CrashpadIOSClient() override { [pool_ release]; }
+
+ protected:
+  CrashpadIOSClient() : pool_([[NSAutoreleasePool alloc] init]) {}
+
+ private:
+  // |pool_| is a NSAutoreleasePool, but since this header may be imported from
+  // files built with Objective-C ARC that forbids explicit usage of
+  // NSAutoreleasePools, it is declared as id here.
+  id pool_;
+};
+
 // TODO(justincohen): This is a placeholder.
-TEST(CrashpadIOSClient, DumpWithoutCrash) {
+TEST_F(CrashpadIOSClient, DumpWithoutCrash) {
   CrashpadClient client;
   client.StartCrashpadInProcessHandler();
   client.DumpWithoutCrash();
@@ -34,7 +49,7 @@ TEST(CrashpadIOSClient, DumpWithoutCrash) {
 // it's sometimes easier and faster to run as a gtest.  However, there's no
 // way to correctly run this as a gtest. Leave the test here, disabled, for use
 // during development only.
-TEST(CrashpadIOSClient, DISABLED_ThrowNSException) {
+TEST_F(CrashpadIOSClient, DISABLED_ThrowNSException) {
   CrashpadClient client;
   client.StartCrashpadInProcessHandler();
   [NSException raise:@"GtestNSException" format:@"ThrowException"];
@@ -44,7 +59,7 @@ TEST(CrashpadIOSClient, DISABLED_ThrowNSException) {
 // it's sometimes easier and faster to run as a gtest.  However, there's no
 // way to correctly run this as a gtest. Leave the test here, disabled, for use
 // during development only.
-TEST(CrashpadIOSClient, DISABLED_ThrowException) {
+TEST_F(CrashpadIOSClient, DISABLED_ThrowException) {
   CrashpadClient client;
   client.StartCrashpadInProcessHandler();
   std::vector<int> empty_vector = {};
