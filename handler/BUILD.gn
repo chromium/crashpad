@@ -149,6 +149,7 @@ if (!crashpad_is_ios) {
       "../build:default_exe_manifest_win",
       "../compat",
       "../third_party/mini_chromium:base",
+      "../tools:tool_support",
     ]
 
     if (crashpad_is_win) {
@@ -223,6 +224,7 @@ if (crashpad_is_win) {
       "../build:default_exe_manifest_win",
       "../compat",
       "../third_party/mini_chromium:base",
+      "../tools:tool_support",
     ]
   }
 
