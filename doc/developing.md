@@ -328,7 +328,7 @@ file.
 
 ## Buildbot
 
-The [Crashpad Buildbot](https://build.chromium.org/p/client.crashpad/) performs
-automated builds and tests of Crashpad. Before checking out or updating the
-Crashpad source code, and after checking in a new change, it is prudent to check
-the Buildbot to ensure that “the tree is green.”
+The [Crashpad Buildbot](https://ci.chromium.org/p/crashpad/g/main/console)
+performs automated builds and tests of Crashpad. Before checking out or updating
+the Crashpad source code, and after checking in a new change, it is prudent to
+check the Buildbot to ensure that “the tree is green.”
