@@ -102,7 +102,10 @@
 }
 
 - (void)crashUnreocgnizedSelectorAfterDelay {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
   [self performSelector:@selector(does_not_exist) withObject:nil afterDelay:1];
+#pragma clang diagnostic pop
 }
 
 - (void)recurse {
