@@ -34,6 +34,24 @@
       "revId": "18629dc4df4169a8bdec568d4b0b45fdce8fe75c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "886cf72d_f1380821",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-09T19:34:51Z",
+      "side": 1,
+      "message": "\u003e This already depends on \"../third_party/gtest:gtest\", which in chromium has a public deps of \"//testing/gtest\", in chromium, which is where this file is pulled from (in chromium)\n\nNot at a computer now, so hard to check: Really? It\u0027s built into the gtest library in Chromium? That doesn\u0027t seem right.\n\n\u003e I could add it to the standalone section of third_party/gtest?\n\nThat equally doesn\u0027t seem right.\n\nMakes me think that maybe base/test is the tight solution after all.",
+      "parentUuid": "b6ca3ded_df57ac58",
+      "revId": "18629dc4df4169a8bdec568d4b0b45fdce8fe75c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
