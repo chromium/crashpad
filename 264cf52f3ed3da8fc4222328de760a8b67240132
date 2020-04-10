@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1724371_6717aaa6",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-04-10T13:36:36Z",
+      "side": 1,
+      "message": "This might be too broad. AppKit on macOS internally uses @try/@catch.",
+      "revId": "264cf52f3ed3da8fc4222328de760a8b67240132",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
