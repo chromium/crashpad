@@ -141,6 +141,24 @@
       "revId": "264cf52f3ed3da8fc4222328de760a8b67240132",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d512c42_54bb204d",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-10T20:06:23Z",
+      "side": 1,
+      "message": "\u003e \u003e Are they redacted via dalddr as well?\n\u003e \u003e \n\u003e \u003e This is probably a bad idea, but I’ll say it anyways: Because this runs in-process, the sinkhole function detector be based off address ranges instead. The start address is fairly easy to find given dladdr for C functions or class_getMethodImplementation for ObjC. Then you need to know where the function’s text ends to create a testable range, which is a bit of a harder problem. One option is nlist, but I don’t know if that works on iOS.\n\u003e \n\u003e I suspect the redaction is occurring in the symbol table that’s visible to us, so neither dladdr nor nlist would work, but class_getMethodImplementation probably would.\n\n(Expanding on that:)\n\nI don’t think nlist-the-function will work at all, because I don’t think that we have single Mach-O modules available to us on the filesystem, and that’s the crummy interface that nlist uses. (It’s actually a very bad function, a very very bad function, not a nice function at all.) Instead of single Mach-O modules, we’ve just got a big monolithic dyld_shared_cache, which nlist-the-function certainly can’t make any sense of.\n\nUsing nlist-the-struct to interpret the LC_SYMTAB on our own is an option (and, generally speaking, almost always better than nlist-the-function), but as I said, I think that the redaction has occurred in the symbol table visible to us, so this isn’t likely to get us any further.",
+      "parentUuid": "3b845e29_849d5bcc",
+      "revId": "264cf52f3ed3da8fc4222328de760a8b67240132",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
