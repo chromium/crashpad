@@ -77,7 +77,7 @@ if(NOT MINGW)
     )
 else()
     mc_append_sources(
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../utf_string_conversion_utils.mingw.cc
+        ../../utf_string_conversion_utils.mingw.cc
     )
 endif()
 
