@@ -227,13 +227,16 @@ id ObjcExceptionPreprocessor(id exception) {
         // _dispatch_client_callout.  Both are needed here depending on whether
         // the debugger is attached (introspection only appears when a simulator
         // is attached to a debugger.
-        // only).
         "/usr/lib/system/introspection/libdispatch.dylib",
         "/usr/lib/system/libdispatch.dylib",
 
         // __CFRunLoopDoTimers and __CFRunLoopRun are sinkholes. Consider also
         // checking that a few frames up is CFRunLoopRunSpecific().
-        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"};
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+
+        // _UIGestureEnvironmentUpdate
+        "/System/Library/PrivateFrameworks/UIKitCore.framework/UIKitCore"
+    };
 
     Dl_info dl_info;
     if (dladdr(reinterpret_cast<const void*>(frame_info.start_ip), &dl_info) !=
