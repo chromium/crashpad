@@ -20,15 +20,12 @@ static_library("minidump") {
     "minidump_annotation_writer.h",
     "minidump_byte_array_writer.cc",
     "minidump_byte_array_writer.h",
-    "minidump_context.h",
     "minidump_context_writer.cc",
     "minidump_context_writer.h",
     "minidump_crashpad_info_writer.cc",
     "minidump_crashpad_info_writer.h",
     "minidump_exception_writer.cc",
     "minidump_exception_writer.h",
-    "minidump_extensions.cc",
-    "minidump_extensions.h",
     "minidump_file_writer.cc",
     "minidump_file_writer.h",
     "minidump_handle_writer.cc",
@@ -71,7 +68,10 @@ static_library("minidump") {
 
   public_configs = [ "..:crashpad_config" ]
 
-  public_deps = [ "../compat" ]
+  public_deps = [
+    ":format",
+    "../compat",
+  ]
 
   deps = [
     "../snapshot",
@@ -85,6 +85,25 @@ static_library("minidump") {
       "/wd4324",  # 'struct' : structure was padded due to __declspec(align())
     ]
   }
+}
+
+# :format is the only part of minidump that snapshot may depend on.
+static_library("format") {
+  sources = [
+    "minidump_context.h",
+    "minidump_extensions.cc",
+    "minidump_extensions.h",
+  ]
+
+  public_configs = [ "..:crashpad_config" ]
+
+  public_deps = [ "../compat" ]
+
+  deps = [
+    "../snapshot:context",
+    "../third_party/mini_chromium:base",
+    "../util",
+  ]
 }
 
 static_library("test_support") {
@@ -114,8 +133,11 @@ static_library("test_support") {
   public_deps = [ ":minidump" ]
 
   deps = [
+    "../snapshot:test_support",
+    "../test",
     "../third_party/gtest:gtest",
     "../third_party/mini_chromium:base",
+    "../util",
   ]
 
   if (crashpad_is_win) {

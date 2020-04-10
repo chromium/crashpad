@@ -28,9 +28,6 @@ static_library("snapshot") {
     "annotation_snapshot.h",
     "capture_memory.cc",
     "capture_memory.h",
-    "cpu_architecture.h",
-    "cpu_context.cc",
-    "cpu_context.h",
     "crashpad_info_client_options.cc",
     "crashpad_info_client_options.h",
     "exception_snapshot.h",
@@ -244,9 +241,12 @@ static_library("snapshot") {
 
   public_configs = [ "..:crashpad_config" ]
 
+  public_deps = [ ":context" ]
+
   deps = [
     "../client",
     "../compat",
+    "../minidump:format",
     "../third_party/mini_chromium:base",
     "../util",
   ]
@@ -261,6 +261,26 @@ static_library("snapshot") {
   }
 
   configs += [ "..:disable_ubsan" ]
+}
+
+# :context is the only part of snapshot that minidump may depend on.
+static_library("context") {
+  sources = [
+    "cpu_architecture.h",
+    "cpu_context.cc",
+    "cpu_context.h",
+  ]
+
+  public_configs = [ "..:crashpad_config" ]
+
+  deps = [
+    "../third_party/mini_chromium:base",
+    "../util",
+  ]
+
+  if (crashpad_is_win) {
+    cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
+  }
 }
 
 if (crashpad_is_linux) {
@@ -406,6 +426,7 @@ source_set("snapshot_test") {
     ":test_support",
     "../client",
     "../compat",
+    "../minidump:format",
     "../test",
     "../third_party/gtest:gtest",
     "../third_party/mini_chromium:base",

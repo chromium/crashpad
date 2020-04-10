@@ -133,6 +133,8 @@ source_set("handler_test") {
   ]
 
   if (crashpad_is_win) {
+    deps += [ "../minidump:test_support" ]
+
     data_deps = [
       ":crashpad_handler_test_extended_handler",
       ":fake_handler_that_crashes_at_startup",
@@ -149,6 +151,7 @@ if (!crashpad_is_ios) {
       "../build:default_exe_manifest_win",
       "../compat",
       "../third_party/mini_chromium:base",
+      "../tools:tool_support",
     ]
 
     if (crashpad_is_win) {
@@ -223,6 +226,7 @@ if (crashpad_is_win) {
       "../build:default_exe_manifest_win",
       "../compat",
       "../third_party/mini_chromium:base",
+      "../tools:tool_support",
     ]
   }
 
