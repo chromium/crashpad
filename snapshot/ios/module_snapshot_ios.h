@@ -24,7 +24,6 @@
 #include <vector>
 
 #include "base/macros.h"
-#include "client/crashpad_info.h"
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/module_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
