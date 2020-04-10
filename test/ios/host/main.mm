@@ -14,7 +14,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "test/ios/host/application_delegate.h"
+#import "test/ios/host/cptest_application_delegate.h"
 
 #if !defined(__has_feature) || !__has_feature(objc_arc)
 #error "This file requires ARC support."
@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
   NSString* appDelegateClassName;
   @autoreleasepool {
     // Setup code that might create autoreleased objects goes here.
-    appDelegateClassName = NSStringFromClass([ApplicationDelegate class]);
+    appDelegateClassName = NSStringFromClass([CPTestApplicationDelegate class]);
   }
   return UIApplicationMain(argc, argv, nil, appDelegateClassName);
 }
