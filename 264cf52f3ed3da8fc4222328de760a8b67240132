@@ -105,6 +105,24 @@
       "revId": "264cf52f3ed3da8fc4222328de760a8b67240132",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af61a27e_48136cbb",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-04-10T19:54:37Z",
+      "side": 1,
+      "message": "Are they redacted via dalddr as well?\n\nThis is probably a bad idea, but I’ll say it anyways: Because this runs in-process, the sinkhole function detector be based off address ranges instead. The start address is fairly easy to find given dladdr for C functions or class_getMethodImplementation for ObjC. Then you need to know where the function’s text ends to create a testable range, which is a bit of a harder problem. One option is nlist, but I don’t know if that works on iOS. Another option would be to bisect (or linear scan) with dladdr() to figure out when a new function starts. This won’t be perfect though because an unexported function between two exported ones will attribute incorrectly.",
+      "parentUuid": "4845f62b_a0822e60",
+      "revId": "264cf52f3ed3da8fc4222328de760a8b67240132",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
