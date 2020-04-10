@@ -34,6 +34,24 @@
       "revId": "264cf52f3ed3da8fc4222328de760a8b67240132",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7986315_faefc6e5",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-10T14:51:50Z",
+      "side": 1,
+      "message": "_UIGestureEnvironmentUpdate\n-[UIGestureEnvironment _deliverEvent:toGestureRecognizers:usingBlock:]\n-[UIGestureEnvironment _updateGesturesForEvent:window:]\n-[UIWindow sendEvent:] \u003c-- Can be subclassed on the app side.\n-[UIApplication sendEvent:]  \u003c-- Can be subclassed on the app side.\n__dispatchPreprocessedEventFromEventQueue\n__handleEventQueueInternal\n__handleHIDEventFetcherDrain\n__CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__\n__CFRunLoopDoSource0\n__CFRunLoopDoSources0\n__CFRunLoopRun\nCFRunLoopRunSpecific \u003c-- Not redacted",
+      "parentUuid": "d0ad857e_232027b6",
+      "revId": "264cf52f3ed3da8fc4222328de760a8b67240132",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
