@@ -82,7 +82,6 @@ if (crashpad_is_in_fuchsia) {
       "$sdk_pkg_path/fidl_base/builder.cc",
       "$sdk_pkg_path/fidl_base/decoding.cc",
       "$sdk_pkg_path/fidl_base/encoding.cc",
-      "$sdk_pkg_path/fidl_base/envelope_frames.h",
       "$sdk_pkg_path/fidl_base/formatting.cc",
       "$sdk_pkg_path/fidl_base/linearizing.cc",
       "$sdk_pkg_path/fidl_base/message.cc",
@@ -91,9 +90,7 @@ if (crashpad_is_in_fuchsia) {
       "$sdk_pkg_path/fidl_base/transformer.cc",
       "$sdk_pkg_path/fidl_base/txn_header.c",
       "$sdk_pkg_path/fidl_base/validating.cc",
-      "$sdk_pkg_path/fidl_base/visitor.h",
       "$sdk_pkg_path/fidl_base/walker.cc",
-      "$sdk_pkg_path/fidl_base/walker.h",
     ]
 
     public_configs = [ ":fidl_config" ]

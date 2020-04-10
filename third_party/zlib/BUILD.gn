@@ -71,9 +71,9 @@ if (zlib_source == "external") {
       "zlib/uncompr.c",
       "zlib/zconf.h",
       "zlib/zlib.h",
-      "zlib/zlib_crashpad.h",
       "zlib/zutil.c",
       "zlib/zutil.h",
+      "zlib_crashpad.h",
     ]
 
     cflags = []
