@@ -70,6 +70,24 @@
       "revId": "7a317c61688c672d57a09b9c11623c824e2b3f84",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b83a047_8494da9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1163599
+      },
+      "writtenOn": "2020-04-11T22:14:11Z",
+      "side": 1,
+      "message": "I updated the commit message. Does this match your expectations?\n\n\nPreferences are a tricky thing 😊\n\nI agree that the commit hash is more valuable than the date. Personally, I\u0027d like the date *in addition* to the hash, to get a quick idea of the roll\u0027s time span. At the same time, I\u0027d prefer to skip the list altogether, and replace it with a URL to a UI that lets me browse the log.\n\n* gitiles example: https://chromium.googlesource.com/external/github.com/google/googletest/+log/eb78ee170..e3f0319d8\n* github example: https://github.com/google/googletest/compare/eb78ee170...e3f0319d8\n\nI only brought up my personal preferences to make the point that \npreferences are tricky 😊 I\u0027m happy to abdicate preferences in return for being able to use the same script to roll deps in all our repositories 😊\n\nI\u0027ll try to put together a CL for depot_tools. If it takes less than an hour to do that, I think it\u0027s the easiest way to kick off the conversation.",
+      "parentUuid": "4222f9d3_d48f4be5",
+      "revId": "7a317c61688c672d57a09b9c11623c824e2b3f84",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
