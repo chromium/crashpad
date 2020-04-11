@@ -52,6 +52,24 @@
       "revId": "7a317c61688c672d57a09b9c11623c824e2b3f84",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4222f9d3_d48f4be5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-11T21:52:27Z",
+      "side": 1,
+      "message": "\u003e Update: I think the roll-dep.py code that would need to change is here -- https://source.chromium.org/chromium/chromium/tools/depot_tools/+/master:roll_dep.py?q\u003dgenerate_commit_message\n\nYes. I hate it, but nobody else in Chromium seems to, so I haven\u0027t tried to change it. But I\u0027ve avoided it in Crashpad.\n\nIf you agree that the date and name are pointless and the hash is more valuable, we can pursue changing it for everyone. Until now, I\u0027ve been sticking with my preference in Crashpad without trying to change anything about Chromium.\n\n(The Crashpad update script in Chromium formats things in a way that I think is nicer.)",
+      "parentUuid": "113f374b_6381b048",
+      "revId": "7a317c61688c672d57a09b9c11623c824e2b3f84",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
