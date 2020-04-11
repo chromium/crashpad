@@ -16,6 +16,24 @@
       "revId": "7a317c61688c672d57a09b9c11623c824e2b3f84",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebac29f6_54ddbeff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1163599
+      },
+      "writtenOn": "2020-04-11T21:38:43Z",
+      "side": 1,
+      "message": "This CL message was produced by roll-dep.py, which I believe is in depot_tools.\n\nWould you like me to pursue changing that?",
+      "parentUuid": "b778ef40_76628ec6",
+      "revId": "7a317c61688c672d57a09b9c11623c824e2b3f84",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
