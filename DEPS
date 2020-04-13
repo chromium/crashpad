@@ -61,7 +61,7 @@ deps = {
     'condition': 'checkout_linux and pull_linux_clang',
     'dep_type': 'cipd'
   },
-  'crashpad/third_party/linux/clang/mac-amd64': {
+  'crashpad/third_party/fuchsia/clang/mac-amd64': {
     'packages': [
       {
         'package': 'fuchsia/clang/mac-amd64',
