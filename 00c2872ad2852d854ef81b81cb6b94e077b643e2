@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1228f0f0_a3775931",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-13T16:05:44Z",
+      "side": 1,
+      "message": "[UIGestureEnvironment class]?\n\n@selector(_deliverEvent:toGestureRecognizers:usingBlock:)?\n\nYou may need an @interface UIGestureEnvironment and a declaration of that selector to make this all work. No @implementation. And this still may all be too stringy to not smell fishy during submission.",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 258,
+        "endChar": 66
+      },
+      "revId": "00c2872ad2852d854ef81b81cb6b94e077b643e2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
