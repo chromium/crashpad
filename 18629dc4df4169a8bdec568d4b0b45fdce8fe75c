@@ -70,6 +70,24 @@
       "revId": "18629dc4df4169a8bdec568d4b0b45fdce8fe75c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1d2d7da_d7d6f33f",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-13T18:41:57Z",
+      "side": 1,
+      "message": "` gn gen out/Debug-iphonesimulator/ --check` passes after   https://chromium-review.googlesource.com/c/crashpad/crashpad/+/2144917",
+      "parentUuid": "1c36bca1_2c8836cd",
+      "revId": "18629dc4df4169a8bdec568d4b0b45fdce8fe75c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
