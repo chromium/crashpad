@@ -31,3 +31,24 @@ group("base_test_support") {
     public_deps = [ "//base/test:test_support" ]
   }
 }
+
+# The testing target exists to obtain testing/platform_test.h from
+# mini_chromium. In Chromium, this file is provided by the Chromium
+# testing:gtest target, which depends on and is used in preference to Chromium
+# third_party/googletest:gtest. Crashpad’s own gtest references are made via
+# Crashpad third_party/googletest:gtest, which when building in Chromium, is
+# provided by Chromium testing:gtest. When not building in Chromium, Crashpad
+# prefers to provide an unaltered gtest target, so Crashpad
+# third_party/googletest:gtest does not include any additional code. Where
+# testing/platform_test is required, this testing shim target should be used in
+# addition to Crashpad third_party/googletest:gtest.  It’s a no-op when building
+# in Chromium.
+group("testing") {
+  testonly = true
+
+  if (crashpad_is_standalone || crashpad_is_in_fuchsia) {
+    public_deps = [ "mini_chromium/testing" ]
+  } else if (crashpad_is_in_dart) {
+    public_deps = [ "//third_party/mini_chromium/mini_chromium/testing" ]
+  }
+}
