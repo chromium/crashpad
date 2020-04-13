@@ -16,6 +16,24 @@
       "revId": "6fe92f6cd4cd6d28f2bf82822943b9ebb21af3ea",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b06587c_f5c666f0",
+        "filename": "snapshot/minidump/minidump_extensions.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-04-13T20:52:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a73850b_188c557c",
+      "revId": "6fe92f6cd4cd6d28f2bf82822943b9ebb21af3ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
