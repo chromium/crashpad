@@ -20,6 +20,7 @@
 #include <dlfcn.h>
 #include <libunwind.h>
 #include <mach-o/loader.h>
+#include <objc/message.h>
 #include <objc/objc-exception.h>
 #include <objc/objc.h>
 #include <objc/runtime.h>
@@ -226,14 +227,14 @@ id ObjcExceptionPreprocessor(id exception) {
         // Everything in this library is a sinkhole, specifically
         // _dispatch_client_callout.  Both are needed here depending on whether
         // the debugger is attached (introspection only appears when a simulator
-        // is attached to a debugger.
-        // only).
+        // is attached to a debugger).
         "/usr/lib/system/introspection/libdispatch.dylib",
         "/usr/lib/system/libdispatch.dylib",
 
         // __CFRunLoopDoTimers and __CFRunLoopRun are sinkholes. Consider also
         // checking that a few frames up is CFRunLoopRunSpecific().
-        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"};
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+    };
 
     Dl_info dl_info;
     if (dladdr(reinterpret_cast<const void*>(frame_info.start_ip), &dl_info) !=
@@ -242,6 +243,29 @@ id ObjcExceptionPreprocessor(id exception) {
         if (ModulePathMatchesSinkhole(dl_info.dli_fname, sinkhole)) {
           TerminatingFromUncaughtNSException(exception, sinkhole);
         }
+      }
+    }
+
+    // Some <redacted> sinkholes are harder to find. _UIGestureEnvironmentUpdate
+    // in UIKitCore is an example.  But since it's always called from
+    // -[UIGestureEnvironment _deliverEvent:toGestureRecognizers:usingBlock:],
+    // inspect the next frame info for a match.
+    unw_proc_info_t next_frame_info;
+    if (unw_step(&cursor) > 0 &&
+        unw_get_proc_info(&cursor, &next_frame_info) == UNW_ESUCCESS) {
+      IMP sinkhole_parent = class_getMethodImplementation(
+          NSClassFromString(@"UIGestureEnvironment"),
+          NSSelectorFromString(
+              @"_deliverEvent:toGestureRecognizers:usingBlock:"));
+      // From 10.15.0 objc4-779.1/runtime/objc-class.mm
+      // class_getMethodImplementation defaults to _objc_msgForward.
+      if (sinkhole_parent == _objc_msgForward) {
+        LOG(ERROR) << "Unable to find -[UIGestureEnvironment "
+                      "_deliverEvent:toGestureRecognizers:usingBlock:]:";
+      }
+      if (sinkhole_parent == reinterpret_cast<IMP>(next_frame_info.start_ip)) {
+        TerminatingFromUncaughtNSException(exception,
+                                           "_UIGestureEnvironmentUpdate");
       }
     }
 
