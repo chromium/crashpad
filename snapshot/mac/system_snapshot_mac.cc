@@ -23,7 +23,7 @@
 #include <algorithm>
 
 #include "base/logging.h"
-#include "base/scoped_clear_errno.h"
+#include "base/scoped_clear_last_error.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
@@ -359,7 +359,7 @@ bool SystemSnapshotMac::NXEnabled() const {
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_14
       const bool nx_always_enabled = true;
 #else  // DT >= 10.14
-      base::ScopedClearErrno reset_errno;
+      base::ScopedClearLastError reset_errno;
       const bool nx_always_enabled = MacOSXMinorVersion() >= 14;
 #endif  // DT >= 10.14
       if (nx_always_enabled) {
