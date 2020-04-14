@@ -113,8 +113,12 @@ class CrashReportDatabase {
     NewReport();
     ~NewReport();
 
-    //! An open FileWriter with which to write the report.
+    //! \brief An open FileWriter with which to write the report.
     FileWriter* Writer() const { return writer_.get(); }
+
+    //! \brief Returns a FileReaderInterface to the report, or `nullptr` with a
+    //!     message logged.
+    FileReaderInterface* Reader();
 
     //! A unique identifier by which this report will always be known to the
     //! database.
@@ -140,6 +144,7 @@ class CrashReportDatabase {
                     const base::FilePath::StringType& extension);
 
     std::unique_ptr<FileWriter> writer_;
+    std::unique_ptr<FileReader> reader_;
     ScopedRemoveFile file_remover_;
     std::vector<std::unique_ptr<FileWriter>> attachment_writers_;
     std::vector<ScopedRemoveFile> attachment_removers_;

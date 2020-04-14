@@ -24,6 +24,7 @@ import posixpath
 import re
 import subprocess
 import sys
+import tempfile
 import uuid
 
 CRASHPAD_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -435,6 +436,68 @@ def _RunOnFuchsiaTarget(binary_dir, test, device_name, extra_command_line):
     netruncmd(['rm', '-rf', test_root])
 
 
+def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False):
+  """Runs the given iOS |test| app on iPhone 8 with the default OS version."""
+
+  def xctest(binary_dir, test):
+    """Returns a dict containing the xctestrun data needed to run an
+       XCTest-based test app."""
+    test_path = os.path.join(CRASHPAD_DIR, binary_dir)
+    module_data = {
+      'TestBundlePath': os.path.join(test_path, test + '_module.xctest'),
+      'TestHostPath': os.path.join(test_path, test + '.app'),
+      'TestingEnvironmentVariables': {
+        'DYLD_FRAMEWORK_PATH': '__TESTROOT__/Debug-iphonesimulator:',
+        'DYLD_INSERT_LIBRARIES': (
+            '__PLATFORMS__/iPhoneSimulator.platform/Developer/'
+            'usr/lib/libXCTestBundleInject.dylib'),
+        'DYLD_LIBRARY_PATH': '__TESTROOT__/Debug-iphonesimulator',
+        'IDEiPhoneInternalTestBundleName': test + '.app',
+        'XCInjectBundleInto': '__TESTHOST__/' + test,
+      }
+    }
+    return { test: module_data }
+
+  def xcuitest(binary_dir, test):
+    """Returns a dict containing the xctestrun data needed to run an
+       XCUITest-based test app."""
+
+    test_path = os.path.join(CRASHPAD_DIR, binary_dir)
+    runner_path = os.path.join(test_path, test + '_module-Runner.app')
+    bundle_path = os.path.join(runner_path, 'PlugIns', test + '_module.xctest')
+    target_app_path = os.path.join(test_path, test + '.app')
+    module_data = {
+      'IsUITestBundle': True,
+      'IsXCTRunnerHostedTestBundle': True,
+      'TestBundlePath': bundle_path,
+      'TestHostPath': runner_path,
+      'UITargetAppPath': target_app_path,
+      'DependentProductPaths': [ bundle_path, runner_path, target_app_path ],
+      'TestingEnvironmentVariables': {
+        'DYLD_FRAMEWORK_PATH': '__TESTROOT__/Debug-iphonesimulator:',
+        'DYLD_INSERT_LIBRARIES': (
+            '__PLATFORMS__/iPhoneSimulator.platform/Developer/'
+            'usr/lib/libXCTestBundleInject.dylib'),
+        'DYLD_LIBRARY_PATH': '__TESTROOT__/Debug-iphonesimulator',
+        'XCInjectBundleInto': '__TESTHOST__/' + test + '_module-Runner',
+      },
+    }
+    return { test: module_data }
+
+  with tempfile.NamedTemporaryFile() as f:
+    import plistlib
+
+    xctestrun_path = f.name
+    print(xctestrun_path)
+    if is_xcuitest:
+      plistlib.writePlist(xcuitest(binary_dir, test), xctestrun_path)
+    else:
+      plistlib.writePlist(xctest(binary_dir, test), xctestrun_path)
+
+    subprocess.check_call(['xcodebuild', 'test-without-building',
+                           '-xctestrun', xctestrun_path, '-destination',
+                           'platform=iOS Simulator,name=iPhone 8'])
+
 # This script is primarily used from the waterfall so that the list of tests
 # that are run is maintained in-tree, rather than in a separate infrastructure
 # location in the recipe.
@@ -461,6 +524,7 @@ def main(args):
   target_os = _BinaryDirTargetOS(args.binary_dir)
   is_android = target_os == 'android'
   is_fuchsia = target_os == 'fuchsia'
+  is_ios = target_os == 'ios'
 
   tests = [
       'crashpad_client_test',
@@ -504,6 +568,8 @@ def main(args):
       print('Using autodetected Fuchsia device:', zircon_nodename)
     _GenerateFuchsiaRuntimeDepsFiles(
         args.binary_dir, [t for t in tests if not t.endswith('.py')])
+  elif is_ios:
+    tests.append('ios_crash_xcuitests')
   elif IS_WINDOWS_HOST:
     tests.append('snapshot/win/end_to_end_test.py')
 
@@ -531,6 +597,9 @@ def main(args):
       elif is_fuchsia:
         _RunOnFuchsiaTarget(args.binary_dir, test, zircon_nodename,
                             extra_command_line)
+      elif is_ios:
+        _RunOnIOSTarget(args.binary_dir, test,
+                        is_xcuitest=test.startswith('ios'))
       else:
         subprocess.check_call([os.path.join(args.binary_dir, test)] +
                               extra_command_line)

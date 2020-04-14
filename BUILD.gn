@@ -20,17 +20,62 @@ config("crashpad_config") {
   include_dirs = [ "." ]
 }
 
+# TODO(fuchsia:46805): Remove this once instances of UB have been cleaned up.
+config("disable_ubsan") {
+  if (crashpad_is_in_fuchsia) {
+    cflags = [ "-fno-sanitize=undefined" ]
+  }
+  visibility = [
+    "snapshot:snapshot",
+    "minidump:minidump_test",
+    "third_party/gtest:gtest",
+    "util:util",
+  ]
+}
+
 if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
   test("crashpad_tests") {
     deps = [
       "client:client_test",
-      "handler:handler_test",
-      "minidump:minidump_test",
-      "snapshot:snapshot_test",
       "test:gmock_main",
       "test:test_test",
-      "util:util_test",
     ]
+    if (!crashpad_is_ios) {
+      deps += [
+        "handler:handler_test",
+        "minidump:minidump_test",
+        "snapshot:snapshot_test",
+        "util:util_test",
+      ]
+    }
+    if (crashpad_is_in_fuchsia) {
+      # TODO(fuchsia:46559): Fix the leaks and remove this.
+      deps += [ "//build/config/sanitizers:suppress-lsan.DO-NOT-USE-THIS" ]
+    }
+    if (crashpad_is_android) {
+      use_raw_android_executable = true
+
+      copy("crashpad_test_data") {
+        testonly = true
+        sources = [
+          "test/test_paths_test_data_root.txt",
+          "util/net/testdata/ascii_http_body.txt",
+          "util/net/testdata/binary_http_body.dat",
+        ]
+
+        outputs = [
+          "$root_out_dir/crashpad_test_data/{{source}}",
+        ]
+      }
+
+      deps += [ ":crashpad_test_data" ]
+
+      extra_dist_files = [
+        "$root_out_dir/crashpad_handler",
+        "$root_out_dir/crashpad_test_test_multiprocess_exec_test_child",
+        "$root_out_dir/crashpad_test_data",
+      ]
+    }
   }
 
   if (crashpad_is_in_fuchsia) {
@@ -103,24 +148,21 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       ]
 
       if (crashpad_use_boringssl_for_http_transport_socket) {
-        deps += [ "util:generate_test_server_key" ]
         resources += [
           {
-            path = "$root_out_dir/crashpad_util_test_cert.pem"
-            dest = "crashpad_util_test_cert.pem"
+            path = "util/net/testdata/crashpad_util_test_cert.pem"
+            dest = "util/net/testdata/crashpad_util_test_cert.pem"
           },
           {
-            path = "$root_out_dir/crashpad_util_test_key.pem"
-            dest = "crashpad_util_test_key.pem"
+            path = "util/net/testdata/crashpad_util_test_key.pem"
+            dest = "util/net/testdata/crashpad_util_test_key.pem"
           },
         ]
       }
     }
 
     package("crashpad_database_util") {
-      deps = [
-        "tools:crashpad_database_util",
-      ]
+      deps = [ "tools:crashpad_database_util" ]
 
       binaries = [
         {
@@ -143,6 +185,9 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       "handler:handler_test",
       "test:gtest_main",
     ]
+    if (crashpad_is_ios) {
+      deps -= [ "handler:handler_test" ]
+    }
   }
 
   test("crashpad_minidump_test") {
@@ -150,6 +195,9 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       "minidump:minidump_test",
       "test:gtest_main",
     ]
+    if (crashpad_is_ios) {
+      deps -= [ "minidump:minidump_test" ]
+    }
   }
 
   test("crashpad_snapshot_test") {
@@ -157,6 +205,9 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       "snapshot:snapshot_test",
       "test:gtest_main",
     ]
+    if (crashpad_is_ios) {
+      deps -= [ "snapshot:snapshot_test" ]
+    }
   }
 
   test("crashpad_test_test") {
@@ -171,5 +222,15 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       "test:gmock_main",
       "util:util_test",
     ]
+    if (crashpad_is_ios) {
+      deps -= [ "util:util_test" ]
+    }
+  }
+}
+
+if (crashpad_is_ios) {
+  group("ios_xcuitests") {
+    testonly = true
+    deps = [ "test/ios:all_tests" ]
   }
 }

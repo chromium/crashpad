@@ -133,7 +133,8 @@ CrosCrashReportExceptionHandler::CrosCrashReportExceptionHandler(
     const UserStreamDataSources* user_stream_data_sources)
     : database_(database),
       process_annotations_(process_annotations),
-      user_stream_data_sources_(user_stream_data_sources) {}
+      user_stream_data_sources_(user_stream_data_sources),
+      always_allow_feedback_(false) {}
 
 CrosCrashReportExceptionHandler::~CrosCrashReportExceptionHandler() = default;
 
@@ -224,7 +225,7 @@ bool CrosCrashReportExceptionHandler::HandleExceptionWithConnection(
   AddUserExtensionStreams(user_stream_data_sources_, snapshot, &minidump);
 
   FileWriter file_writer;
-  if (!file_writer.OpenMemfd(base::FilePath("/tmp/minidump"))) {
+  if (!file_writer.OpenMemfd(base::FilePath("minidump"))) {
     Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kOpenMemfdFailed);
     return false;
   }
@@ -257,6 +258,9 @@ bool CrosCrashReportExceptionHandler::HandleExceptionWithConnection(
   }
   if (!dump_dir_.empty()) {
     argv.push_back("--chrome_dump_dir=" + dump_dir_.value());
+  }
+  if (always_allow_feedback_) {
+    argv.push_back("--always_allow_feedback");
   }
 
   if (!DoubleForkAndExec(argv,

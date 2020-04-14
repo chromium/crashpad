@@ -77,6 +77,7 @@ class CrosCrashReportExceptionHandler
       UUID* local_report_id = nullptr) override;
 
   void SetDumpDir(const base::FilePath& dump_dir) { dump_dir_ = dump_dir; }
+  void SetAlwaysAllowFeedback() { always_allow_feedback_ = true; }
  private:
   bool HandleExceptionWithConnection(
       PtraceConnection* connection,
@@ -90,6 +91,7 @@ class CrosCrashReportExceptionHandler
   const std::map<std::string, std::string>* process_annotations_;  // weak
   const UserStreamDataSources* user_stream_data_sources_;  // weak
   base::FilePath dump_dir_;
+  bool always_allow_feedback_;
 
   DISALLOW_COPY_AND_ASSIGN(CrosCrashReportExceptionHandler);
 };

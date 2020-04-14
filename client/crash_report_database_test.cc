@@ -53,6 +53,12 @@ class CrashReportDatabaseTest : public testing::Test {
     static constexpr char kTest[] = "test";
     ASSERT_TRUE(new_report->Writer()->Write(kTest, sizeof(kTest)));
 
+    char contents[sizeof(kTest)];
+    FileReaderInterface* reader = new_report->Reader();
+    ASSERT_TRUE(reader->ReadExactly(contents, sizeof(contents)));
+    EXPECT_EQ(memcmp(contents, kTest, sizeof(contents)), 0);
+    EXPECT_EQ(reader->ReadExactly(contents, 1), 0);
+
     UUID uuid;
     EXPECT_EQ(db_->FinishedWritingCrashReport(std::move(new_report), &uuid),
               CrashReportDatabase::kNoError);
@@ -747,8 +753,10 @@ TEST_F(CrashReportDatabaseTest, OrphanedAttachments) {
 
   base::FilePath report_attachments_dir(
       path().Append(FILE_PATH_LITERAL("attachments")).Append(uuid_str));
-  base::FilePath file_path1(report_attachments_dir.Append(FILE_PATH_LITERAL("file1")));
-  base::FilePath file_path2(report_attachments_dir.Append(FILE_PATH_LITERAL("file2")));
+  base::FilePath file_path1(
+      report_attachments_dir.Append(FILE_PATH_LITERAL("file1")));
+  base::FilePath file_path2(
+      report_attachments_dir.Append(FILE_PATH_LITERAL("file2")));
   EXPECT_TRUE(FileExists(file_path1));
   EXPECT_TRUE(FileExists(file_path1));
 

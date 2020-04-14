@@ -44,7 +44,7 @@ mc_append_sources(
     process/process_metrics.h
     rand_util.cc
     rand_util.h
-    scoped_clear_errno.h
+    scoped_clear_last_error.h
     scoped_generic.h
     stl_util.h
     strings/string16.cc
@@ -106,6 +106,7 @@ endif()
 if(WIN32)
     mc_append_sources(
         process/process_metrics_win.cc
+        scoped_clear_last_error_win.cc
         strings/string_util_win.cc
         strings/string_util_win.h
         synchronization/lock_impl_win.cc

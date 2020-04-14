@@ -34,6 +34,7 @@ if (crashpad_is_in_chromium) {
     public_deps = [
       "//third_party/googletest:gtest",
     ]
+    public_configs = [ "../..:disable_ubsan" ]
   }
   group("gmock") {
     testonly = true
@@ -72,7 +73,6 @@ if (crashpad_is_in_chromium) {
       "gtest/googletest/include/gtest/internal/gtest-death-test-internal.h",
       "gtest/googletest/include/gtest/internal/gtest-filepath.h",
       "gtest/googletest/include/gtest/internal/gtest-internal.h",
-      "gtest/googletest/include/gtest/internal/gtest-param-util-generated.h",
       "gtest/googletest/include/gtest/internal/gtest-param-util.h",
       "gtest/googletest/include/gtest/internal/gtest-port-arch.h",
       "gtest/googletest/include/gtest/internal/gtest-port.h",
@@ -291,8 +291,6 @@ if (crashpad_is_in_chromium) {
       "gtest/googlemock/include/gmock/gmock-cardinalities.h",
       "gtest/googlemock/include/gmock/gmock-function-mocker.h",
       "gtest/googlemock/include/gmock/gmock-generated-actions.h",
-      "gtest/googlemock/include/gmock/gmock-generated-function-mockers.h",
-      "gtest/googlemock/include/gmock/gmock-generated-matchers.h",
       "gtest/googlemock/include/gmock/gmock-matchers.h",
       "gtest/googlemock/include/gmock/gmock-more-actions.h",
       "gtest/googlemock/include/gmock/gmock-more-matchers.h",
@@ -302,7 +300,6 @@ if (crashpad_is_in_chromium) {
       "gtest/googlemock/include/gmock/internal/custom/gmock-generated-actions.h",
       "gtest/googlemock/include/gmock/internal/custom/gmock-matchers.h",
       "gtest/googlemock/include/gmock/internal/custom/gmock-port.h",
-      "gtest/googlemock/include/gmock/internal/gmock-generated-internal-utils.h",
       "gtest/googlemock/include/gmock/internal/gmock-internal-utils.h",
       "gtest/googlemock/include/gmock/internal/gmock-port.h",
       "gtest/googlemock/include/gmock/internal/gmock-pp.h",
@@ -343,7 +340,6 @@ if (crashpad_is_in_chromium) {
       "gtest/googlemock/test/gmock-cardinalities_test.cc",
       "gtest/googlemock/test/gmock-function-mocker_test.cc",
       "gtest/googlemock/test/gmock-generated-actions_test.cc",
-      "gtest/googlemock/test/gmock-generated-function-mockers_test.cc",
       "gtest/googlemock/test/gmock-generated-matchers_test.cc",
       "gtest/googlemock/test/gmock-internal-utils_test.cc",
       "gtest/googlemock/test/gmock-matchers_test.cc",

@@ -23,25 +23,58 @@
 #include "minidump/minidump_file_writer.h"
 #include "snapshot/linux/process_snapshot_linux.h"
 #include "snapshot/sanitized/process_snapshot_sanitized.h"
+#include "util/file/file_reader.h"
+#include "util/file/output_stream_file_writer.h"
 #include "util/linux/direct_ptrace_connection.h"
 #include "util/linux/ptrace_client.h"
 #include "util/misc/implicit_cast.h"
 #include "util/misc/metrics.h"
 #include "util/misc/uuid.h"
+#include "util/stream/base94_output_stream.h"
+#include "util/stream/log_output_stream.h"
+#include "util/stream/zlib_output_stream.h"
 
 namespace crashpad {
+
+namespace {
+
+bool WriteMinidumpLogFromFile(FileReaderInterface* file_reader) {
+  ZlibOutputStream stream(ZlibOutputStream::Mode::kCompress,
+                          std::make_unique<Base94OutputStream>(
+                              Base94OutputStream::Mode::kEncode,
+                              std::make_unique<LogOutputStream>()));
+  FileOperationResult read_result;
+  do {
+    uint8_t buffer[4096];
+    read_result = file_reader->Read(buffer, sizeof(buffer));
+    if (read_result < 0)
+      return false;
+
+    if (read_result > 0 && (!stream.Write(buffer, read_result)))
+      return false;
+  } while (read_result > 0);
+  return stream.Flush();
+}
+
+}  // namespace
 
 CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
     CrashReportUploadThread* upload_thread,
     const std::map<std::string, std::string>* process_annotations,
     const std::map<std::string, base::FilePath>* process_attachments,
+    bool write_minidump_to_database,
+    bool write_minidump_to_log,
     const UserStreamDataSources* user_stream_data_sources)
     : database_(database),
       upload_thread_(upload_thread),
       process_annotations_(process_annotations),
       process_attachments_(process_attachments),
-      user_stream_data_sources_(user_stream_data_sources) {}
+      write_minidump_to_database_(write_minidump_to_database),
+      write_minidump_to_log_(write_minidump_to_log),
+      user_stream_data_sources_(user_stream_data_sources) {
+  DCHECK(write_minidump_to_database_ | write_minidump_to_log_);
+}
 
 CrashReportExceptionHandler::~CrashReportExceptionHandler() = default;
 
@@ -118,6 +151,20 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
   }
   process_snapshot->SetClientID(client_id);
 
+  return write_minidump_to_database_
+             ? WriteMinidumpToDatabase(process_snapshot.get(),
+                                       sanitized_snapshot.get(),
+                                       write_minidump_to_log_,
+                                       local_report_id)
+             : WriteMinidumpToLog(process_snapshot.get(),
+                                  sanitized_snapshot.get());
+}
+
+bool CrashReportExceptionHandler::WriteMinidumpToDatabase(
+    ProcessSnapshotLinux* process_snapshot,
+    ProcessSnapshotSanitized* sanitized_snapshot,
+    bool write_minidump_to_log,
+    UUID* local_report_id) {
   std::unique_ptr<CrashReportDatabase::NewReport> new_report;
   CrashReportDatabase::OperationStatus database_status =
       database_->PrepareNewCrashReport(&new_report);
@@ -131,9 +178,8 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
   process_snapshot->SetReportID(new_report->ReportID());
 
   ProcessSnapshot* snapshot =
-      sanitized_snapshot
-          ? implicit_cast<ProcessSnapshot*>(sanitized_snapshot.get())
-          : implicit_cast<ProcessSnapshot*>(process_snapshot.get());
+      sanitized_snapshot ? implicit_cast<ProcessSnapshot*>(sanitized_snapshot)
+                         : implicit_cast<ProcessSnapshot*>(process_snapshot);
 
   MinidumpFileWriter minidump;
   minidump.InitializeFromSnapshot(snapshot);
@@ -163,6 +209,15 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
       }
     }
   }
+  bool write_minidump_to_log_succeed = false;
+  if (write_minidump_to_log) {
+    if (auto* file_reader = new_report->Reader()) {
+      if (WriteMinidumpLogFromFile(file_reader))
+        write_minidump_to_log_succeed = true;
+      else
+        LOG(ERROR) << "WriteMinidumpLogFromFile failed";
+    }
+  }
 
   UUID uuid;
   database_status =
@@ -183,7 +238,30 @@ bool CrashReportExceptionHandler::HandleExceptionWithConnection(
   }
 
   Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSuccess);
-  return true;
+
+  return write_minidump_to_log ? write_minidump_to_log_succeed : true;
+}
+
+bool CrashReportExceptionHandler::WriteMinidumpToLog(
+    ProcessSnapshotLinux* process_snapshot,
+    ProcessSnapshotSanitized* sanitized_snapshot) {
+  ProcessSnapshot* snapshot =
+      sanitized_snapshot ? implicit_cast<ProcessSnapshot*>(sanitized_snapshot)
+                         : implicit_cast<ProcessSnapshot*>(process_snapshot);
+  MinidumpFileWriter minidump;
+  minidump.InitializeFromSnapshot(snapshot);
+  AddUserExtensionStreams(user_stream_data_sources_, snapshot, &minidump);
+
+  OutputStreamFileWriter writer(std::make_unique<ZlibOutputStream>(
+      ZlibOutputStream::Mode::kCompress,
+      std::make_unique<Base94OutputStream>(
+          Base94OutputStream::Mode::kEncode,
+          std::make_unique<LogOutputStream>())));
+  if (!minidump.WriteMinidump(&writer, false /* allow_seek */)) {
+    LOG(ERROR) << "WriteMinidump failed";
+    return false;
+  }
+  return writer.Flush();
 }
 
 }  // namespace crashpad

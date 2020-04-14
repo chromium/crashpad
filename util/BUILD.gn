@@ -17,6 +17,9 @@ import("net/tls.gni")
 
 if (crashpad_is_in_chromium) {
   import("//build/config/sanitizers/sanitizers.gni")
+
+  # Prevent Chromium source assignment filters from being inherited.
+  set_sources_assignment_filter([])
 }
 
 if (crashpad_is_mac) {
@@ -75,6 +78,17 @@ if (crashpad_is_mac) {
       rebase_path("../compat/mac", root_build_dir),
     ]
   }
+
+  source_set("mig_output") {
+    deps = [ ":mig" ]
+    sources = get_target_outputs(":mig")
+    if (crashpad_is_in_chromium) {
+      # mig output contains unreachable code, which irks -Wunreachable-code.
+      configs -= [ "//build/config/compiler:chromium_code" ]
+      configs += [ "//build/config/compiler:no_chromium_code" ]
+    }
+    public_configs = [ "..:crashpad_config" ]
+  }
 }
 
 static_library("util") {
@@ -91,6 +105,8 @@ static_library("util") {
     "file/file_writer.cc",
     "file/file_writer.h",
     "file/filesystem.h",
+    "file/output_stream_file_writer.cc",
+    "file/output_stream_file_writer.h",
     "file/scoped_remove_file.cc",
     "file/scoped_remove_file.h",
     "file/string_file.cc",
@@ -166,6 +182,14 @@ static_library("util") {
     "stdlib/strnlen.cc",
     "stdlib/strnlen.h",
     "stdlib/thread_safe_vector.h",
+    "stream/base94_output_stream.cc",
+    "stream/base94_output_stream.h",
+    "stream/file_encoder.cc",
+    "stream/file_encoder.h",
+    "stream/file_output_stream.cc",
+    "stream/file_output_stream.h",
+    "stream/log_output_stream.cc",
+    "stream/log_output_stream.h",
     "stream/output_stream_interface.h",
     "stream/zlib_output_stream.cc",
     "stream/zlib_output_stream.h",
@@ -220,6 +244,17 @@ static_library("util") {
     }
   }
 
+  if (crashpad_is_ios) {
+    sources += [
+      "ios/exception_processor.h",
+      "ios/exception_processor.mm",
+      "ios/ios_system_data_collector.h",
+      "ios/ios_system_data_collector.mm",
+      "mac/xattr.cc",
+      "mac/xattr.h",
+    ]
+  }
+
   if (crashpad_is_mac) {
     sources += [
       "mac/checked_mach_address_range.h",
@@ -271,7 +306,6 @@ static_library("util") {
       "process/process_memory_mac.h",
       "synchronization/semaphore_mac.cc",
     ]
-    sources += get_target_outputs(":mig")
   }
 
   deps = []
@@ -281,7 +315,7 @@ static_library("util") {
     if (crashpad_use_boringssl_for_http_transport_socket) {
       defines += [ "CRASHPAD_USE_BORINGSSL" ]
 
-      if (crashpad_is_in_fuchsia) {
+      if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
         deps += [ "//third_party/boringssl" ]
       } else {
         libs = [
@@ -292,8 +326,14 @@ static_library("util") {
     }
   }
 
+  if (crashpad_is_android) {
+    sources += [
+      "linux/initial_signal_dispositions.cc",
+      "linux/initial_signal_dispositions.h",
+    ]
+  }
+
   if (crashpad_is_linux || crashpad_is_android) {
-    set_sources_assignment_filter([])
     sources += [
       "linux/address_types.h",
       "linux/auxiliary_vector.cc",
@@ -332,6 +372,7 @@ static_library("util") {
       "linux/traits.h",
       "misc/capture_context_linux.S",
       "misc/paths_linux.cc",
+      "misc/time_linux.cc",
       "posix/process_info_linux.cc",
       "process/process_memory_linux.cc",
       "process/process_memory_linux.h",
@@ -370,6 +411,8 @@ static_library("util") {
       "win/handle.h",
       "win/initial_client_data.cc",
       "win/initial_client_data.h",
+      "win/loader_lock.cc",
+      "win/loader_lock.h",
       "win/module_version.cc",
       "win/module_version.h",
       "win/nt_internals.cc",
@@ -457,12 +500,10 @@ static_library("util") {
 
   public_deps = [
     "../compat",
-  ]
-
-  deps += [
-    "../third_party/mini_chromium:base",
     "../third_party/zlib",
   ]
+
+  deps += [ "../third_party/mini_chromium:base" ]
 
   if (crashpad_is_mac) {
     libs = [
@@ -472,7 +513,7 @@ static_library("util") {
       "IOKit.framework",
     ]
     deps += [
-      ":mig",
+      ":mig_output",
       "../third_party/apple_cf:apple_cf",
     ]
     include_dirs += [ "$root_build_dir/gen" ]
@@ -503,25 +544,14 @@ static_library("util") {
   if (crashpad_is_android || crashpad_is_linux) {
     deps += [ "../third_party/lss" ]
   }
-}
 
-if (crashpad_use_boringssl_for_http_transport_socket) {
-  action("generate_test_server_key") {
-    script = "net/generate_test_server_key.py"
-    outputs = [
-      "$root_out_dir/crashpad_util_test_cert.pem",
-      "$root_out_dir/crashpad_util_test_key.pem",
-    ]
-    data = outputs
-  }
+  configs += [ "..:disable_ubsan" ]
 }
 
 if (!crashpad_is_android) {
   crashpad_executable("http_transport_test_server") {
     testonly = true
-    sources = [
-      "net/http_transport_test_server.cc",
-    ]
+    sources = [ "net/http_transport_test_server.cc" ]
 
     deps = [
       ":util",
@@ -540,12 +570,9 @@ if (!crashpad_is_android) {
     }
 
     if (crashpad_use_boringssl_for_http_transport_socket) {
-      data_deps = [
-        ":generate_test_server_key",
-      ]
       defines = [ "CRASHPAD_USE_BORINGSSL" ]
 
-      if (crashpad_is_in_fuchsia) {
+      if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
         deps += [ "//third_party/boringssl" ]
       } else {
         libs = [
@@ -599,6 +626,9 @@ source_set("util_test") {
     "stdlib/strlcpy_test.cc",
     "stdlib/strnlen_test.cc",
     "stdlib/thread_safe_vector_test.cc",
+    "stream/base94_output_stream_test.cc",
+    "stream/file_encoder_test.cc",
+    "stream/log_output_stream_test.cc",
     "stream/test_output_stream.cc",
     "stream/test_output_stream.h",
     "stream/zlib_output_stream_test.cc",
@@ -651,7 +681,6 @@ source_set("util_test") {
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
-    set_sources_assignment_filter([])
     sources += [
       "linux/auxiliary_vector_test.cc",
       "linux/memory_map_test.cc",
@@ -679,6 +708,7 @@ source_set("util_test") {
       "win/get_function_test.cc",
       "win/handle_test.cc",
       "win/initial_client_data_test.cc",
+      "win/loader_lock_test.cc",
       "win/process_info_test.cc",
       "win/registration_protocol_win_test.cc",
       "win/safe_terminate_process_test.cc",
@@ -692,9 +722,7 @@ source_set("util_test") {
     }
   }
 
-  data = [
-    "net/testdata/",
-  ]
+  data = [ "net/testdata/" ]
 
   deps = [
     ":util",
@@ -712,9 +740,7 @@ source_set("util_test") {
   }
 
   if (!crashpad_is_android) {
-    data_deps = [
-      ":http_transport_test_server",
-    ]
+    data_deps = [ ":http_transport_test_server" ]
 
     if (crashpad_use_boringssl_for_http_transport_socket) {
       defines = [ "CRASHPAD_USE_BORINGSSL" ]
@@ -731,6 +757,7 @@ source_set("util_test") {
       "dbghelp.lib",
     ]
     data_deps += [
+      ":crashpad_util_test_loader_lock_test",
       ":crashpad_util_test_process_info_test_child",
       ":crashpad_util_test_safe_terminate_process_test_child",
     ]
@@ -740,15 +767,17 @@ source_set("util_test") {
 if (crashpad_is_win) {
   crashpad_executable("crashpad_util_test_process_info_test_child") {
     testonly = true
-    sources = [
-      "win/process_info_test_child.cc",
-    ]
+    sources = [ "win/process_info_test_child.cc" ]
   }
 
   crashpad_executable("crashpad_util_test_safe_terminate_process_test_child") {
     testonly = true
-    sources = [
-      "win/safe_terminate_process_test_child.cc",
-    ]
+    sources = [ "win/safe_terminate_process_test_child.cc" ]
+  }
+
+  crashpad_loadable_module("crashpad_util_test_loader_lock_test") {
+    testonly = true
+    sources = [ "win/loader_lock_test_dll.cc" ]
+    deps = [ ":util" ]
   }
 }

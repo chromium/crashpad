@@ -75,6 +75,10 @@ class Settings {
   //!
   //! The default value is `false`.
   //!
+  //! \note
+  //! This setting is ignored if --use-cros-crash-reporter is present
+  //! (which it will be if invoked by Chrome on ChromeOS).
+  //!
   //! \param[out] enabled Whether crash reports should be uploaded.
   //!
   //! \return On success, returns `true`, otherwise returns `false` with an

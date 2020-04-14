@@ -28,6 +28,7 @@
         '../minidump/minidump.gyp:crashpad_minidump',
         '../snapshot/snapshot.gyp:crashpad_snapshot',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
+        '../third_party/zlib/zlib.gyp:zlib',
         '../tools/tools.gyp:crashpad_tool_support',
         '../util/util.gyp:crashpad_util',
       ],

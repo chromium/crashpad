@@ -143,6 +143,10 @@ void Usage(const base::FilePath& me) {
 "      --no-periodic-tasks     don't scan for new reports or prune the database\n"
 "      --no-rate-limit         don't rate limit crash uploads\n"
 "      --no-upload-gzip        don't use gzip compression when uploading\n"
+#if defined(OS_ANDROID)
+"      --no-write-minidump-to-database\n"
+"                              don't write minidump to database\n"
+#endif  // OS_ANDROID
 #if defined(OS_WIN)
 "      --pipe-name=PIPE        communicate with the client over PIPE\n"
 #endif  // OS_WIN
@@ -171,7 +175,14 @@ void Usage(const base::FilePath& me) {
 "      --minidump-dir-for-tests=TEST_MINIDUMP_DIR\n"
 "                              causes /sbin/crash_reporter to leave dumps in\n"
 "                              this directory instead of the normal location\n"
+"      --always-allow-feedback\n"
+"                              pass the --always_allow_feedback flag to\n"
+"                              crash_reporter, thus skipping metrics consent\n"
+"                              checks\n"
 #endif  // OS_CHROMEOS
+#if defined(OS_ANDROID)
+"      --write-minidump-to-log write minidump to log\n"
+#endif  // OS_ANDROID
 "      --help                  display this help and exit\n"
 "      --version               output version information and exit\n",
           me.value().c_str());
@@ -195,6 +206,10 @@ struct Options {
   VMAddress sanitization_information_address;
   int initial_client_fd;
   bool shared_client_connection;
+#if defined(OS_ANDROID)
+  bool write_minidump_to_log;
+  bool write_minidump_to_database;
+#endif  // OS_ANDROID
 #elif defined(OS_WIN)
   std::string pipe_name;
   InitialClientData initial_client_data;
@@ -205,8 +220,9 @@ struct Options {
   bool rate_limit;
   bool upload_gzip;
 #if defined(OS_CHROMEOS)
-  bool use_cros_crash_reporter;
+  bool use_cros_crash_reporter = false;
   base::FilePath minidump_dir_for_tests;
+  bool always_allow_feedback = false;
 #endif  // OS_CHROMEOS
 };
 
@@ -574,6 +590,9 @@ int HandlerMain(int argc,
     kOptionNoPeriodicTasks,
     kOptionNoRateLimit,
     kOptionNoUploadGzip,
+#if defined(OS_ANDROID)
+    kOptionNoWriteMinidumpToDatabase,
+#endif  // OS_ANDROID
 #if defined(OS_WIN)
     kOptionPipeName,
 #endif  // OS_WIN
@@ -592,7 +611,11 @@ int HandlerMain(int argc,
 #if defined(OS_CHROMEOS)
     kOptionUseCrosCrashReporter,
     kOptionMinidumpDirForTests,
+    kOptionAlwaysAllowFeedback,
 #endif  // OS_CHROMEOS
+#if defined(OS_ANDROID)
+    kOptionWriteMinidumpToLog,
+#endif  // OS_ANDROID
 
     // Standard options.
     kOptionHelp = -2,
@@ -634,6 +657,12 @@ int HandlerMain(int argc,
     {"no-periodic-tasks", no_argument, nullptr, kOptionNoPeriodicTasks},
     {"no-rate-limit", no_argument, nullptr, kOptionNoRateLimit},
     {"no-upload-gzip", no_argument, nullptr, kOptionNoUploadGzip},
+#if defined(OS_ANDROID)
+    {"no-write-minidump-to-database",
+     no_argument,
+     nullptr,
+     kOptionNoWriteMinidumpToDatabase},
+#endif  // OS_ANDROID
 #if defined(OS_WIN)
     {"pipe-name", required_argument, nullptr, kOptionPipeName},
 #endif  // OS_WIN
@@ -666,11 +695,18 @@ int HandlerMain(int argc,
       no_argument,
       nullptr,
       kOptionUseCrosCrashReporter},
-    {"minidump_dir_for_tests",
+    {"minidump-dir-for-tests",
       required_argument,
       nullptr,
       kOptionMinidumpDirForTests},
+    {"always-allow-feedback",
+      no_argument,
+      nullptr,
+      kOptionAlwaysAllowFeedback},
 #endif  // OS_CHROMEOS
+#if defined(OS_ANDROID)
+    {"write-minidump-to-log", no_argument, nullptr, kOptionWriteMinidumpToLog},
+#endif  // OS_ANDROID
     {"help", no_argument, nullptr, kOptionHelp},
     {"version", no_argument, nullptr, kOptionVersion},
     {nullptr, 0, nullptr, 0},
@@ -687,6 +723,9 @@ int HandlerMain(int argc,
   options.periodic_tasks = true;
   options.rate_limit = true;
   options.upload_gzip = true;
+#if defined(OS_ANDROID)
+  options.write_minidump_to_database = true;
+#endif
 
   int opt;
   while ((opt = getopt_long(argc, argv, "", long_options, nullptr)) != -1) {
@@ -773,6 +812,12 @@ int HandlerMain(int argc,
         options.upload_gzip = false;
         break;
       }
+#if defined(OS_ANDROID)
+      case kOptionNoWriteMinidumpToDatabase: {
+        options.write_minidump_to_database = false;
+        break;
+      }
+#endif  // OS_ANDROID
 #if defined(OS_WIN)
       case kOptionPipeName: {
         options.pipe_name = optarg;
@@ -830,7 +875,17 @@ int HandlerMain(int argc,
             ToolSupport::CommandLineArgumentToFilePathStringType(optarg));
         break;
       }
+      case kOptionAlwaysAllowFeedback: {
+        options.always_allow_feedback = true;
+        break;
+      }
 #endif  // OS_CHROMEOS
+#if defined(OS_ANDROID)
+      case kOptionWriteMinidumpToLog: {
+        options.write_minidump_to_log = true;
+        break;
+      }
+#endif  // OS_ANDROID
       case kOptionHelp: {
         Usage(me);
         MetricsRecordExit(Metrics::LifetimeMilestone::kExitedEarly);
@@ -891,6 +946,14 @@ int HandlerMain(int argc,
         me, "--shared-client-connection requires --initial-client-fd");
     return ExitFailure();
   }
+#if defined(OS_ANDROID)
+  if (!options.write_minidump_to_log && !options.write_minidump_to_database) {
+    ToolSupport::UsageHint(me,
+                           "--no_write_minidump_to_database is required to use "
+                           "with --write_minidump_to_log.");
+    ExitFailure();
+  }
+#endif  // OS_ANDROID
 #endif  // OS_MACOSX
 
   if (options.database.empty()) {
@@ -973,12 +1036,18 @@ int HandlerMain(int argc,
       cros_handler->SetDumpDir(options.minidump_dir_for_tests);
     }
 
+    if (options.always_allow_feedback) {
+      cros_handler->SetAlwaysAllowFeedback();
+    }
+
     exception_handler = std::move(cros_handler);
   } else {
     exception_handler = std::make_unique<CrashReportExceptionHandler>(
         database.get(),
         static_cast<CrashReportUploadThread*>(upload_thread.Get()),
         &options.annotations,
+        true,
+        false,
         user_stream_sources);
   }
 #else
@@ -992,6 +1061,14 @@ int HandlerMain(int argc,
 #else
       &options.attachments,
 #endif
+#if defined(OS_ANDROID)
+      options.write_minidump_to_database,
+      options.write_minidump_to_log,
+#endif  // OS_ANDROID
+#if defined(OS_LINUX)
+      true,
+      false,
+#endif  // OS_LINUX
       user_stream_sources);
 #endif  // OS_CHROMEOS
 

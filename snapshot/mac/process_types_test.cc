@@ -130,7 +130,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
   test_expected_size_for_version_matches_sdk_sizeof =
       mac_os_x_minor_version == 12;
 #elif MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_13 && \
-    MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_14
+    MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_15
   test_expected_size_for_version_matches_sdk_sizeof =
       mac_os_x_minor_version >= 13 && mac_os_x_minor_version <= 14;
 #else

@@ -31,6 +31,9 @@
 
 namespace crashpad {
 
+class ProcessSnapshotLinux;
+class ProcessSnapshotSanitized;
+
 //! \brief An exception handler that writes crash reports for exceptions
 //!     to a CrashReportDatabase.
 class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
@@ -55,6 +58,10 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
   //!     included in the report. Each time a report is written, the file paths
   //!     will be read in their entirety and included in the report using the
   //!     file name key as the name in the http upload.
+  //! \param[in] write_minidump_to_database Whether the minidump shall be
+  //!     written to database.
+  //! \param[in] write_minidump_to_log Whether the minidump shall be written to
+  //!     log.
   //! \param[in] user_stream_data_sources Data sources to be used to extend
   //!     crash reports. For each crash report that is written, the data sources
   //!     are called in turn. These data sources may contribute additional
@@ -64,6 +71,8 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
       CrashReportUploadThread* upload_thread,
       const std::map<std::string, std::string>* process_annotations,
       const std::map<std::string, base::FilePath>* process_attachments,
+      bool write_minidump_to_database,
+      bool write_minidump_to_log,
       const UserStreamDataSources* user_stream_data_sources);
 
   ~CrashReportExceptionHandler() override;
@@ -93,10 +102,19 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
       pid_t* requesting_thread_id,
       UUID* local_report_id = nullptr);
 
+  bool WriteMinidumpToDatabase(ProcessSnapshotLinux* process_snapshot,
+                               ProcessSnapshotSanitized* sanitized_snapshot,
+                               bool write_minidump_to_log,
+                               UUID* local_report_id);
+  bool WriteMinidumpToLog(ProcessSnapshotLinux* process_snapshot,
+                          ProcessSnapshotSanitized* sanitized_snapshot);
+
   CrashReportDatabase* database_;  // weak
   CrashReportUploadThread* upload_thread_;  // weak
   const std::map<std::string, std::string>* process_annotations_;  // weak
   const std::map<std::string, base::FilePath>* process_attachments_;  // weak
+  bool write_minidump_to_database_;
+  bool write_minidump_to_log_;
   const UserStreamDataSources* user_stream_data_sources_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
