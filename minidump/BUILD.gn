@@ -20,15 +20,12 @@ static_library("minidump") {
     "minidump_annotation_writer.h",
     "minidump_byte_array_writer.cc",
     "minidump_byte_array_writer.h",
-    "minidump_context.h",
     "minidump_context_writer.cc",
     "minidump_context_writer.h",
     "minidump_crashpad_info_writer.cc",
     "minidump_crashpad_info_writer.h",
     "minidump_exception_writer.cc",
     "minidump_exception_writer.h",
-    "minidump_extensions.cc",
-    "minidump_extensions.h",
     "minidump_file_writer.cc",
     "minidump_file_writer.h",
     "minidump_handle_writer.cc",
@@ -72,6 +69,7 @@ static_library("minidump") {
   public_configs = [ "..:crashpad_config" ]
 
   public_deps = [
+    ":format",
     "../compat",
   ]
 
@@ -87,6 +85,25 @@ static_library("minidump") {
       "/wd4324",  # 'struct' : structure was padded due to __declspec(align())
     ]
   }
+}
+
+# :format is the only part of minidump that snapshot may depend on.
+static_library("format") {
+  sources = [
+    "minidump_context.h",
+    "minidump_extensions.cc",
+    "minidump_extensions.h",
+  ]
+
+  public_configs = [ "..:crashpad_config" ]
+
+  public_deps = [ "../compat" ]
+
+  deps = [
+    "../snapshot:context",
+    "../third_party/mini_chromium:base",
+    "../util",
+  ]
 }
 
 static_library("test_support") {
@@ -113,13 +130,14 @@ static_library("test_support") {
 
   public_configs = [ "..:crashpad_config" ]
 
-  public_deps = [
-    ":minidump",
-  ]
+  public_deps = [ ":minidump" ]
 
   deps = [
+    "../snapshot:test_support",
+    "../test",
     "../third_party/gtest:gtest",
     "../third_party/mini_chromium:base",
+    "../util",
   ]
 
   if (crashpad_is_win) {
@@ -154,9 +172,7 @@ source_set("minidump_test") {
     "minidump_writable_test.cc",
   ]
 
-  configs += [
-    "../build:crashpad_is_in_fuchsia",
-  ]
+  configs += [ "../build:crashpad_is_in_fuchsia" ]
 
   deps = [
     ":test_support",
@@ -170,4 +186,6 @@ source_set("minidump_test") {
   if (crashpad_is_win) {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
   }
+
+  configs += [ "..:disable_ubsan" ]
 }

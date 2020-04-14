@@ -36,9 +36,7 @@ config("zlib_config") {
 if (zlib_source == "external") {
   group("zlib") {
     public_configs = [ ":zlib_config" ]
-    public_deps = [
-      "//third_party/zlib",
-    ]
+    public_deps = [ "//third_party/zlib" ]
   }
 } else if (zlib_source == "system") {
   source_set("zlib") {
@@ -73,9 +71,9 @@ if (zlib_source == "external") {
       "zlib/uncompr.c",
       "zlib/zconf.h",
       "zlib/zlib.h",
-      "zlib/zlib_crashpad.h",
       "zlib/zutil.c",
       "zlib/zutil.h",
+      "zlib_crashpad.h",
     ]
 
     cflags = []

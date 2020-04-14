@@ -26,6 +26,7 @@
         '../third_party/zlib/zlib.gyp:zlib',
         '../third_party/lss/lss.gyp:lss',
       ],
+      'defines': [ 'ZLIB_CONST' ],
       'include_dirs': [
         '..',
         '<(INTERMEDIATE_DIR)',
@@ -49,6 +50,8 @@
         'file/filesystem_win.cc',
         'file/file_writer.cc',
         'file/file_writer.h',
+        'file/output_stream_file_writer.cc',
+        'file/output_stream_file_writer.h',
         'file/scoped_remove_file.cc',
         'file/scoped_remove_file.h',
         'file/string_file.cc',
@@ -64,6 +67,8 @@
         'linux/exception_handler_protocol.cc',
         'linux/exception_handler_protocol.h',
         'linux/exception_information.h',
+        'linux/initial_signal_dispositions.cc',
+        'linux/initial_signal_dispositions.h',
         'linux/memory_map.cc',
         'linux/memory_map.h',
         'linux/proc_stat_reader.cc',
@@ -168,6 +173,7 @@
         'misc/symbolic_constants_common.h',
         'misc/time.cc',
         'misc/time.h',
+        'misc/time_linux.cc',
         'misc/time_win.cc',
         'misc/tri_state.h',
         'misc/uuid.cc',
@@ -234,6 +240,17 @@
         'stdlib/strnlen.cc',
         'stdlib/strnlen.h',
         'stdlib/thread_safe_vector.h',
+        'stream/base94_output_stream.cc',
+        'stream/base94_output_stream.h',
+        'stream/file_encoder.cc',
+        'stream/file_encoder.h',
+        'stream/file_output_stream.cc',
+        'stream/file_output_stream.h',
+        'stream/log_output_stream.cc',
+        'stream/log_output_stream.h',
+        'stream/output_stream_interface.h',
+        'stream/zlib_output_stream.cc',
+        'stream/zlib_output_stream.h',
         'string/split_string.cc',
         'string/split_string.h',
         'synchronization/semaphore_mac.cc',
@@ -392,6 +409,13 @@
             'win/safe_terminate_process.asm',
           ],
         }],
+        ['OS=="android"', {
+          'link_settings': {
+            'libraries': [
+              '-llog',
+            ],
+          },
+        }],
         ['OS=="linux" or OS=="android"', {
           'sources': [
             'net/http_transport_socket.cc',
@@ -415,10 +439,16 @@
             ['include', '^linux/'],
             ['include', '^misc/capture_context_linux\\.S$'],
             ['include', '^misc/paths_linux\\.cc$'],
+            ['include', '^misc/time_linux\\.cc$'],
             ['include', '^posix/process_info_linux\\.cc$'],
             ['include', '^process/process_memory_linux\\.cc$'],
             ['include', '^process/process_memory_linux\\.h$'],
           ],
+        }, { # else: OS!="android"
+          'sources!': [
+            'stream/log_output_stream.cc',
+            'stream/log_output_stream.h',
+          ]
         }],
       ],
     },

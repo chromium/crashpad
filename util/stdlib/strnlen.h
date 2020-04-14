@@ -20,7 +20,7 @@
 
 #include "build/build_config.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_MACOSX) && !defined(OS_IOS)
 #include <AvailabilityMacros.h>
 #endif
 
@@ -38,7 +38,7 @@ namespace crashpad {
 //!     and not all systems’ standard libraries provide an implementation.
 size_t strnlen(const char* string, size_t max_length);
 
-#if !defined(OS_MACOSX) || \
+#if !defined(OS_MACOSX) || defined(OS_IOS) || \
     MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_7
 inline size_t strnlen(const char* string, size_t max_length) {
   return ::strnlen(string, max_length);

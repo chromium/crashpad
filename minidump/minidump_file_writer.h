@@ -134,6 +134,21 @@ class MinidumpFileWriter final : public internal::MinidumpWritable {
   //! mistaken for valid ones.
   bool WriteEverything(FileWriterInterface* file_writer) override;
 
+  //! \brief Writes this object to a minidump file.
+  //!
+  //! Same as \a WriteEverything, but give the option to disable the seek. It
+  //! is typically used to write to stream backed \a FileWriterInterface which
+  //! doesn't support seek.
+  //!
+  //! \param[in] file_writer The file writer to receive the minidump file’s
+  //!     content.
+  //!
+  //! \param[in] allow_seek Whether seek is allowed.
+  //!
+  //! \return `true` on success. `false` on failure, with an appropriate message
+  //!     logged.
+  bool WriteMinidump(FileWriterInterface* file_writer, bool allow_seek);
+
  protected:
   // MinidumpWritable:
   bool Freeze() override;

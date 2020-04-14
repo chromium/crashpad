@@ -108,6 +108,17 @@ void InitializeCPUContextX86_64(CPUContextX86_64* context,
                                 const x86_float_state64_t* x86_float_state64,
                                 const x86_debug_state64_t* x86_debug_state64);
 
+#elif defined(ARCH_CPU_ARM_FAMILY) || DOXYGEN
+//! \brief Initializes a CPUContextARM64 structure from native context
+//! structures.
+//!
+//! \param[out] context The CPUContextARM64 structure to initialize.
+//! \param[in] arm_thread_state64 The state of the thread’s integer registers.
+//! \param[in] arm_neon_state64 The state of the thread’s floating-point
+//!     registers.
+void InitializeCPUContextARM64(CPUContextARM64* context,
+                               const arm_thread_state64_t* arm_thread_state64,
+                               const arm_neon_state64_t* arm_neon_state64);
 #endif
 
 }  // namespace internal

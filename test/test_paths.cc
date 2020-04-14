@@ -69,10 +69,15 @@ base::FilePath TestDataRootInternal() {
   // out/{Debug,Release} relative to the Crashpad root.
   base::FilePath executable_path;
   if (Paths::Executable(&executable_path)) {
+#if defined(OS_ANDROID)
+    base::FilePath candidate = executable_path.DirName()
+                               .Append("crashpad_test_data");
+#else
     base::FilePath candidate =
         base::FilePath(executable_path.DirName()
                            .Append(base::FilePath::kParentDirectory)
                            .Append(base::FilePath::kParentDirectory));
+#endif
     if (IsTestDataRoot(candidate)) {
       return candidate;
     }

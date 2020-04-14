@@ -15,25 +15,34 @@
 vars = {
   'chromium_git': 'https://chromium.googlesource.com',
   'pull_linux_clang': False,
-  'pull_win_toolchain': False
+  'pull_win_toolchain': False,
+  # Controls whether crashpad/build/ios/setup-ios-gn.py is run as part of
+  # gclient hooks. It is enabled by default for developer's convenience. It can
+  # be disabled with custom_vars (done automatically on the bots).
+  'run_setup_ios_gn': True,
 }
 
 deps = {
   'buildtools':
       Var('chromium_git') + '/chromium/src/buildtools.git@' +
-      '3e50219fc4503f461b2176a9976891b28d80f9ab',
+      '4164a305626786b1912d467003acf4c4995bec7d',
+  'crashpad/third_party/edo/edo': {
+      'url': Var('chromium_git') + '/external/github.com/google/eDistantObject.git@' +
+      '243fc89ae95b24717d41f3786f6a9abeeef87c92',
+      'condition': 'checkout_ios',
+  },
   'crashpad/third_party/gtest/gtest':
       Var('chromium_git') + '/external/github.com/google/googletest@' +
-      'eb78ee170ac9eb21487f4d127720c060351fa8a2',
+      'e3f0319d89f4cbf32993de595d984183b1a9fc57',
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
       '8bee09f4a57807136593ddc906b0b213c21f9014',
   'crashpad/third_party/lss/lss':
       Var('chromium_git') + '/linux-syscall-support.git@' +
-      '8048ece6c16c91acfe0d36d1d3cc0890ab6e945c',
+      '7bde79cc274d06451bf65ae82c012a5d3e476b5a',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      '660b43a779892e7fdb74d490b54cf37ffe8a978d',
+      'bbf1307928bb7a9d1eda6be576283c8093b2775b',
   'crashpad/third_party/libfuzzer/src':
       Var('chromium_git') + '/chromium/llvm-project/compiler-rt/lib/fuzzer.git@' +
       'fda403cf93ecb8792cb1d061564d89a6553ca020',
@@ -169,45 +178,6 @@ hooks = [
     ],
   },
   {
-    'name': 'gn_mac',
-    'pattern': '.',
-    'condition': 'host_os == "mac"',
-    'action': [
-      'download_from_google_storage',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-gn',
-      '--sha1_file',
-      'buildtools/mac/gn.sha1',
-    ],
-  },
-  {
-    'name': 'gn_linux',
-    'pattern': '.',
-    'condition': 'host_os == "linux"',
-    'action': [
-      'download_from_google_storage',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-gn',
-      '--sha1_file',
-      'buildtools/linux64/gn.sha1',
-    ],
-  },
-  {
-    'name': 'gn_win',
-    'pattern': '.',
-    'condition': 'host_os == "win"',
-    'action': [
-      'download_from_google_storage',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-gn',
-      '--sha1_file',
-      'buildtools/win/gn.exe.sha1',
-    ],
-  },
-  {
     # If using a local clang ("pull_linux_clang" above), also pull down a
     # sysroot.
     'name': 'sysroot_linux',
@@ -215,6 +185,15 @@ hooks = [
     'condition': 'checkout_linux and pull_linux_clang',
     'action': [
       'crashpad/build/install_linux_sysroot.py',
+    ],
+  },
+  {
+    'name': 'setup_gn_ios',
+    'pattern': '.',
+    'condition': 'run_setup_ios_gn and checkout_ios',
+    'action': [
+        'python',
+        'crashpad/build/ios/setup-ios-gn.py'
     ],
   },
 ]

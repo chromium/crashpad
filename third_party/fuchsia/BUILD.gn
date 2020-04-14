@@ -17,10 +17,10 @@ import("../../build/crashpad_buildconfig.gni")
 if (crashpad_is_in_fuchsia) {
   group("fuchsia") {
     public_deps = [
-      "//zircon/system/fidl/fuchsia-mem",
-      "//zircon/system/fidl/fuchsia-sysinfo:fuchsia-sysinfo_c",
       "//zircon/public/lib/fdio",
       "//zircon/public/lib/zx",
+      "//zircon/system/fidl/fuchsia-mem",
+      "//zircon/system/fidl/fuchsia-sysinfo:fuchsia-sysinfo_c",
     ]
   }
 } else if (crashpad_is_in_chromium) {
@@ -82,16 +82,15 @@ if (crashpad_is_in_fuchsia) {
       "$sdk_pkg_path/fidl_base/builder.cc",
       "$sdk_pkg_path/fidl_base/decoding.cc",
       "$sdk_pkg_path/fidl_base/encoding.cc",
-      "$sdk_pkg_path/fidl_base/envelope_frames.h",
       "$sdk_pkg_path/fidl_base/formatting.cc",
       "$sdk_pkg_path/fidl_base/linearizing.cc",
       "$sdk_pkg_path/fidl_base/message.cc",
       "$sdk_pkg_path/fidl_base/message_buffer.cc",
       "$sdk_pkg_path/fidl_base/message_builder.cc",
+      "$sdk_pkg_path/fidl_base/transformer.cc",
+      "$sdk_pkg_path/fidl_base/txn_header.c",
       "$sdk_pkg_path/fidl_base/validating.cc",
-      "$sdk_pkg_path/fidl_base/visitor.h",
       "$sdk_pkg_path/fidl_base/walker.cc",
-      "$sdk_pkg_path/fidl_base/walker.h",
     ]
 
     public_configs = [ ":fidl_config" ]
@@ -132,7 +131,7 @@ if (crashpad_is_in_fuchsia) {
     cpp_stem = "$fidl_root_gen_dir/${fidl_source.header_stem}/cpp/fidl"
     cpp_header = "$cpp_stem.h"
     cpp_source = "$cpp_stem.cc"
-    coding_tables = "$fidl_stem/tables.cc"
+    coding_tables = "$fidl_stem/tables.c"
 
     # Compiles the .fidl file, outputs the intermediary JSON representation
     # and generates the C bindings.
@@ -198,19 +197,13 @@ if (crashpad_is_in_fuchsia) {
         cpp_source,
       ]
 
-      deps = [
-        ":fidlc_${fidl_source.library_name}",
-      ]
+      deps = [ ":fidlc_${fidl_source.library_name}" ]
     }
 
     source_set("${fidl_source.library_name}_tables") {
-      sources = [
-        coding_tables,
-      ]
+      sources = [ coding_tables ]
 
-      deps = [
-        ":fidlc_${fidl_source.library_name}",
-      ]
+      deps = [ ":fidlc_${fidl_source.library_name}" ]
 
       public_configs = [ ":fidl_config" ]
     }
