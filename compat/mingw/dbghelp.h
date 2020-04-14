@@ -15,31 +15,16 @@
 #ifndef CRASHPAD_COMPAT_MINGW_DBGHELP_H_
 #define CRASHPAD_COMPAT_MINGW_DBGHELP_H_
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu-include-next"
+
 #include_next <dbghelp.h>
-
 #include <stdint.h>
-
-#include "base/strings/string16.h"
 #include <timezoneapi.h>
-#include <winver.h>
 #include <winnt.h>
+#include <winver.h>
 
 //! \file
-
-//! \brief Contains the state of an individual system handle at the time the
-//!     snapshot was taken. This structure is Windows-specific.
-//!
-//! \sa MINIDUMP_HANDLE_DESCRIPTOR
-struct __attribute__((packed, aligned(4))) MINIDUMP_HANDLE_DESCRIPTOR_2
-    : public MINIDUMP_HANDLE_DESCRIPTOR {
-  //! \brief An RVA to a MINIDUMP_HANDLE_OBJECT_INFORMATION structure that
-  //!     specifies object-specific information. This member can be zero if
-  //!     there is no extra information.
-  RVA ObjectInfoRva;
-
-  //! \brief Must be zero.
-  uint32_t Reserved0;
-};
 
 //! \brief Information about XSAVE-managed state stored within CPU-specific
 //!     context structures.
@@ -126,6 +111,23 @@ struct __attribute__((packed, aligned(4))) XSTATE_CONFIG_FEATURE_MSC_INFO {
 
 //! \}
 
+#ifdef __cplusplus
+
+//! \brief Contains the state of an individual system handle at the time the
+//!     snapshot was taken. This structure is Windows-specific.
+//!
+//! \sa MINIDUMP_HANDLE_DESCRIPTOR
+struct __attribute__((packed, aligned(4))) MINIDUMP_HANDLE_DESCRIPTOR_2
+    : public MINIDUMP_HANDLE_DESCRIPTOR {
+  //! \brief An RVA to a MINIDUMP_HANDLE_OBJECT_INFORMATION structure that
+  //!     specifies object-specific information. This member can be zero if
+  //!     there is no extra information.
+  RVA ObjectInfoRva;
+
+  //! \brief Must be zero.
+  uint32_t Reserved0;
+};
+
 //! \brief Information about the process that the minidump file contains a
 //!     snapshot of, as well as the system that hosted that process.
 //!
@@ -208,7 +210,7 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MISC_INFO_4
   //!
   //! On Windows 8.1 (NT 6.3), this is “6.3.9600.17031
   //! (winblue_gdr.140221-1952)”.
-  base::char16 BuildString[260];
+  wchar_t BuildString[260];
 
   //! \brief The minidump producer’s “build string”, a string identifying the
   //!     module that produced a minidump file.
@@ -217,7 +219,7 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MISC_INFO_4
   //!
   //! On Windows 8.1 (NT 6.3), this may be “dbghelp.i386,6.3.9600.16520” or
   //! “dbghelp.amd64,6.3.9600.16520” depending on CPU architecture.
-  base::char16 DbgBldStr[40];
+  wchar_t DbgBldStr[40];
 };
 
 //! \brief Information about the process that the minidump file contains a
@@ -245,5 +247,88 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MISC_INFO_5
 
 //! \brief The latest known version of the MINIDUMP_MISC_INFO structure.
 typedef MINIDUMP_MISC_INFO_5 MINIDUMP_MISC_INFO_N;
+
+#else
+
+struct MINIDUMP_HANDLE_DESCRIPTOR_2 {
+  ULONG64 Handle;
+  RVA TypeNameRva;
+  RVA ObjectNameRva;
+  ULONG32 Attributes;
+  ULONG32 GrantedAccess;
+  ULONG32 HandleCount;
+  ULONG32 PointerCount;
+  RVA ObjectInfoRva;
+  uint32_t Reserved0;
+};
+
+struct MINIDUMP_MISC_INFO_3 {
+  ULONG32 SizeOfInfo;
+  ULONG32 Flags1;
+  ULONG32 ProcessId;
+  ULONG32 ProcessCreateTime;
+  ULONG32 ProcessUserTime;
+  ULONG32 ProcessKernelTime;
+  ULONG32 ProcessorMaxMhz;
+  ULONG32 ProcessorCurrentMhz;
+  ULONG32 ProcessorMhzLimit;
+  ULONG32 ProcessorMaxIdleState;
+  ULONG32 ProcessorCurrentIdleState;
+  uint32_t ProcessIntegrityLevel;
+  uint32_t ProcessExecuteFlags;
+  uint32_t ProtectedProcess;
+  uint32_t TimeZoneId;
+  TIME_ZONE_INFORMATION TimeZone;
+};
+
+struct MINIDUMP_MISC_INFO_4 {
+  ULONG32 SizeOfInfo;
+  ULONG32 Flags1;
+  ULONG32 ProcessId;
+  ULONG32 ProcessCreateTime;
+  ULONG32 ProcessUserTime;
+  ULONG32 ProcessKernelTime;
+  ULONG32 ProcessorMaxMhz;
+  ULONG32 ProcessorCurrentMhz;
+  ULONG32 ProcessorMhzLimit;
+  ULONG32 ProcessorMaxIdleState;
+  ULONG32 ProcessorCurrentIdleState;
+  uint32_t ProcessIntegrityLevel;
+  uint32_t ProcessExecuteFlags;
+  uint32_t ProtectedProcess;
+  uint32_t TimeZoneId;
+  TIME_ZONE_INFORMATION TimeZone;
+  wchar_t BuildString[260];
+  wchar_t DbgBldStr[40];
+};
+
+struct MINIDUMP_MISC_INFO_5 {
+  ULONG32 SizeOfInfo;
+  ULONG32 Flags1;
+  ULONG32 ProcessId;
+  ULONG32 ProcessCreateTime;
+  ULONG32 ProcessUserTime;
+  ULONG32 ProcessKernelTime;
+  ULONG32 ProcessorMaxMhz;
+  ULONG32 ProcessorCurrentMhz;
+  ULONG32 ProcessorMhzLimit;
+  ULONG32 ProcessorMaxIdleState;
+  ULONG32 ProcessorCurrentIdleState;
+  uint32_t ProcessIntegrityLevel;
+  uint32_t ProcessExecuteFlags;
+  uint32_t ProtectedProcess;
+  uint32_t TimeZoneId;
+  TIME_ZONE_INFORMATION TimeZone;
+  wchar_t BuildString[260];
+  wchar_t DbgBldStr[40];
+  struct XSTATE_CONFIG_FEATURE_MSC_INFO XStateData;
+  uint32_t ProcessCookie;
+};
+
+typedef struct MINIDUMP_MISC_INFO_5 MINIDUMP_MISC_INFO_N;
+
+#endif
+
+#pragma clang diagnostic pop
 
 #endif  // CRASHPAD_COMPAT_MINGW_DBGHELP_H_
