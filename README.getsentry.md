@@ -41,7 +41,7 @@ included files):
 - `./snapshot/CMakeLists.txt`
 - `./third_party/getopt/CMakeLists.txt`
 - `./third_party/mini_chromium/CMakeLists.txt`
-- `./third_party/lib/CMakeLists.txt`
+- `./third_party/zlib/CMakeLists.txt`
 - `./tools/CMakeLists.txt`
 - `./util/CMakeLists.txt`
 

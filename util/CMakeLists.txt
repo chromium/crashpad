@@ -11,6 +11,8 @@ add_library(crashpad_util STATIC
     file/file_writer.cc
     file/file_writer.h
     file/filesystem.h
+    file/output_stream_file_writer.cc
+    file/output_stream_file_writer.h
     file/scoped_remove_file.cc
     file/scoped_remove_file.h
     file/string_file.cc
@@ -86,6 +88,14 @@ add_library(crashpad_util STATIC
     stdlib/strnlen.cc
     stdlib/strnlen.h
     stdlib/thread_safe_vector.h
+    stream/base94_output_stream.cc
+    stream/base94_output_stream.h
+    stream/file_encoder.cc
+    stream/file_encoder.h
+    stream/file_output_stream.cc
+    stream/file_output_stream.h
+    stream/log_output_stream.cc
+    stream/log_output_stream.h
     stream/output_stream_interface.h
     stream/zlib_output_stream.cc
     stream/zlib_output_stream.h
@@ -182,6 +192,13 @@ if(APPLE)
     )
 endif()
 
+if(ANDROID)
+    target_sources(crashpad_util PRIVATE
+        linux/initial_signal_dispositions.cc
+        linux/initial_signal_dispositions.h
+    )
+endif()
+
 if(LINUX OR ANDROID)
     target_sources(crashpad_util PRIVATE
         net/http_transport_socket.cc
@@ -260,6 +277,8 @@ if(WIN32)
         win/handle.h
         win/initial_client_data.cc
         win/initial_client_data.h
+        win/loader_lock.cc
+        win/loader_lock.h
         win/module_version.cc
         win/module_version.h
         win/nt_internals.cc
