@@ -483,6 +483,30 @@
     },
     {
       "key": {
+        "uuid": "b653bfbd_24e8765f",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T19:52:38Z",
+      "side": 1,
+      "message": "\u003e (1) done, but (2) how?\n\nmake the static\u0027s initializer a call to a Landshark.",
+      "parentUuid": "5be5de57_d048d074",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 73
+      },
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9fbda481_e0298524",
         "filename": "util/ios/exception_processor_test.mm",
         "patchSetId": 9
@@ -515,6 +539,24 @@
       "revId": "a81326d0673e831731a862fb143e244e41269d4b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2eb5315e_99298d6f",
+        "filename": "util/ios/exception_processor_test.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T19:52:38Z",
+      "side": 1,
+      "message": "\u003e Needed for _objc_msgForward.\n\nThen add \u003cobjc/runtime.h\u003e also: IncludeWhatYouUse for class_getMethodImplementation.",
+      "parentUuid": "45a3f21f_ba84cfcf",
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     },
     {
       "key": {
