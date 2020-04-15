@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d42caa1_a8d63699",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T20:04:54Z",
+      "side": 1,
+      "message": "Bug: ?",
+      "revId": "e1b121b36e3b548c867326072b4f44483a3c76de",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e254796c_96a5cfd8",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 10
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T20:04:54Z",
+      "side": 1,
+      "message": "This should also say why we can’t just sinkhole all of the UIKitCore module, as we did with the three modules above.",
+      "range": {
+        "startLine": 249,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 49
+      },
+      "revId": "e1b121b36e3b548c867326072b4f44483a3c76de",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2f650f0_60880ba5",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 10
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T20:04:54Z",
+      "side": 1,
+      "message": "This is good. I meant that the unw_step on line 156 should also have the same treatment.\n\nYou could do this with\n\n  int LoggingUnwStep(unw_cursor_t* cursor) {\n    int rv \u003d unw_step(cursor);\n    if (rv \u003c 0) {\n      LOG(ERROR) \u003c\u003c \"unw_step: \" \u003c\u003c rv;\n    }\n\n    return rv;\n  }",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 260,
+        "endChar": 0
+      },
+      "revId": "e1b121b36e3b548c867326072b4f44483a3c76de",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4d25dc4_b439b819",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 10
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T20:04:54Z",
+      "side": 1,
+      "message": "returns",
+      "range": {
+        "startLine": 270,
+        "startChar": 41,
+        "endLine": 270,
+        "endChar": 52
+      },
+      "revId": "e1b121b36e3b548c867326072b4f44483a3c76de",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5423e312_22ea692b",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 10
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T20:04:54Z",
+      "side": 1,
+      "message": "It’s more nuanced than this. Just “on failure”.\n\nThe two changes to this comment should be duplicated in the test file.",
+      "range": {
+        "startLine": 270,
+        "startChar": 77,
+        "endLine": 271,
+        "endChar": 20
+      },
+      "revId": "e1b121b36e3b548c867326072b4f44483a3c76de",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "282b7b27_c20f27d4",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 10
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T20:04:54Z",
+      "side": 1,
+      "message": "Lose the final :, there’s nothing that follows it.",
+      "range": {
+        "startLine": 275,
+        "startChar": 74,
+        "endLine": 275,
+        "endChar": 75
+      },
+      "revId": "e1b121b36e3b548c867326072b4f44483a3c76de",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d894b46_512d77d5",
+        "filename": "util/ios/exception_processor_test.mm",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T20:04:54Z",
+      "side": 1,
+      "message": "ASSERT_NE is even better (but you may need a cast.)",
+      "revId": "e1b121b36e3b548c867326072b4f44483a3c76de",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
