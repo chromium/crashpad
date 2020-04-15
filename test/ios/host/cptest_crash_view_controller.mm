@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "test/ios/host/crash_view_controller.h"
+#import "test/ios/host/cptest_crash_view_controller.h"
 
 #if !defined(__has_feature) || !__has_feature(objc_arc)
 #error "This file requires ARC support."
 #endif
 
-@implementation CrashViewController
+@implementation CPTestCrashViewController
 
 - (void)loadView {
   self.view = [[UIView alloc] init];

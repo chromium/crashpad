@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_TEST_IOS_HOST_CRASH_VIEW_CONTROLLER_H_
-#define CRASHPAD_TEST_IOS_HOST_CRASH_VIEW_CONTROLLER_H_
+#ifndef CRASHPAD_TEST_IOS_HOST_CPTEST_APPLICATION_DELEGATE_H_
+#define CRASHPAD_TEST_IOS_HOST_CPTEST_APPLICATION_DELEGATE_H_
 
 #import <UIKit/UIKit.h>
 
-@interface CrashViewController : UIViewController
+@interface CPTestApplicationDelegate : UIResponder <UIApplicationDelegate>
 @end
 
-#endif  // CRASHPAD_TEST_IOS_HOST_CRASH_VIEW_CONTROLLER_H_
+#endif  // CRASHPAD_TEST_IOS_HOST_CPTEST_APPLICATION_DELEGATE_H_

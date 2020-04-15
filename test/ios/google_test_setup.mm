@@ -53,12 +53,13 @@ void RegisterTestEndListener() {
 
 }  // namespace
 
-@interface CrashpadUnitTestDelegate : NSObject <CPTestGoogleTestRunnerDelegate>
+@interface CPTestUnitTestApplicationDelegate
+    : NSObject <CPTestGoogleTestRunnerDelegate>
 @property(nonatomic, readwrite, strong) UIWindow* window;
 - (void)runTests;
 @end
 
-@implementation CrashpadUnitTestDelegate
+@implementation CPTestUnitTestApplicationDelegate
 
 - (BOOL)application:(UIApplication*)application
     didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
@@ -123,8 +124,8 @@ namespace test {
 
 void IOSLaunchApplicationAndRunTests(int argc, char* argv[]) {
   @autoreleasepool {
-    int exit_status =
-        UIApplicationMain(argc, argv, nil, @"CrashpadUnitTestDelegate");
+    int exit_status = UIApplicationMain(
+        argc, argv, nil, @"CPTestUnitTestApplicationDelegate");
     exit(exit_status);
   }
 }
