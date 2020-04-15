@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ad7ef21_3df9f35b",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 13
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T20:40:09Z",
+      "side": 1,
+      "message": "it uses Objective-C exceptions internally and also has",
+      "range": {
+        "startLine": 259,
+        "startChar": 46,
+        "endLine": 259,
+        "endChar": 53
+      },
+      "revId": "0cfdfe4ded0cbe25b5367cf834b784a51cc3f5f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c91b984a_9be954e0",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 13
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T20:40:09Z",
+      "side": 1,
+      "message": "spelling",
+      "range": {
+        "startLine": 259,
+        "startChar": 38,
+        "endLine": 259,
+        "endChar": 45
+      },
+      "revId": "0cfdfe4ded0cbe25b5367cf834b784a51cc3f5f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5f9c66f_c4b73aca",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 13
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T20:40:09Z",
+      "side": 1,
+      "message": "This isn’t a “however” after the introduction of the new sentence that precedes it, but it reads just as well as it used to when this is just “since” now.",
+      "range": {
+        "startLine": 260,
+        "startChar": 7,
+        "endLine": 260,
+        "endChar": 21
+      },
+      "revId": "0cfdfe4ded0cbe25b5367cf834b784a51cc3f5f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6889031_65927a62",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 13
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T20:40:09Z",
+      "side": 1,
+      "message": "Fix this.",
+      "range": {
+        "startLine": 262,
+        "startChar": 50,
+        "endLine": 262,
+        "endChar": 60
+      },
+      "revId": "0cfdfe4ded0cbe25b5367cf834b784a51cc3f5f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ce77e1e_c3e93a57",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 13
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T20:40:09Z",
+      "side": 1,
+      "message": "Return reinterpret_cast\u003cIMP\u003e(nullptr) here, so that you don’t stash _objc_msgForward in the static, since you don’t really intend for anything to match that.",
+      "revId": "0cfdfe4ded0cbe25b5367cf834b784a51cc3f5f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23c5ce7f_688f4dd5",
+        "filename": "util/ios/exception_processor_test.mm",
+        "patchSetId": 13
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T20:40:09Z",
+      "side": 1,
+      "message": "https://chromium-review.googlesource.com/c/crashpad/crashpad/+/2145017/10/util/ios/exception_processor_test.mm#35",
+      "revId": "0cfdfe4ded0cbe25b5367cf834b784a51cc3f5f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
