@@ -1,0 +1,376 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76b78bcf_456e494d",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "Isn’t this different from how we handled other targets? Didn’t we leave the sources list alone and sources-\u003d the stuff we needed to exclude on iOS?\n\nI’d rather not see so much movement here because of what it does for version history.\n\nI was looking at importing an updated version of Crashpad into…another codebase…yesterday, and the process is mostly straightforward, except all of these BUILD.gn files need to be translated to…another format. And that’s so much easier when the diffs are clean.",
+      "range": {
+        "startLine": 590,
+        "startChar": 0,
+        "endLine": 592,
+        "endChar": 43
+      },
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e788aab8_841d1c0e",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "This is a lot of movement for nothing, too, because so many of these tests will work on iOS without any trouble.",
+      "range": {
+        "startLine": 625,
+        "startChar": 0,
+        "endLine": 628,
+        "endChar": 31
+      },
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fddd36df_f40cc9f6",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "Why?",
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a29632e_231fb6ec",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "What follows will happen any time the unwind finds a handler that’s not determined to be a sinkhole above. But you can scope it even more narrowly.\n\nWhy not make the new check conditional on dl_info.dli_fname from frame_info being in the UIKitCore module? You already have dl_info.dli_fname available from the library path sinkhole check, so this is inexpensive.",
+      "range": {
+        "startLine": 250,
+        "startChar": 7,
+        "endLine": 250,
+        "endChar": 19
+      },
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03817b54_8c34fcc7",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "“next” is confusing in the context of a backtrace, because it could either mean the caller or the callee depending on your perspective. I prefer to be more precise: caller_frame_info.",
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ebbe2e6_6c866a4e",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "This is essentially the same as line 156, but I guess I didn’t think about it too carefully last time.\n\nunw_step can fail and return a negative number, and I think that we should LOG something in that case for two reasons: (1) as a debugging aid when something goes wrong, and (2) for assurance that we’re getting as complete an unwind as we expect, without any errors derailing the process.",
+      "range": {
+        "startLine": 254,
+        "startChar": 8,
+        "endLine": 254,
+        "endChar": 29
+      },
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbefc0ac_05f3c5f9",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "This isn’t the sinkhole’s parent, it’s the IMP of -[UIGestureEnvironment _deliverEvent:toGestureRecognizers:usingBlock:]. You’re testing whether that’s the sinkhole’s parent, but the variable name is confusing.",
+      "range": {
+        "startLine": 256,
+        "startChar": 10,
+        "endLine": 256,
+        "endChar": 25
+      },
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2d8aec2_9157c3f9",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "This will (probably?) never change during execution, so it can be static.",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 66
+      },
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c46aa691_51d88104",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "Blank line before this, to separate it from the thing that comes before it, because the comment only applies to the thing that follows.",
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5ee2846_40d39005",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "Your comment is correct, but this isn’t the only way that class_getMethodImplementation can fail. If either of its arguments are nil, it’ll also return nil. That can happen if, for example, UIGestureEnvironment ceases to exist as a class. Apple’s free to remove (rename, refactor) it at any time because it’s private to them, so this is a possibility.\n\nYour test should check (!sinkhole_parent || sinkhole_parent \u003d\u003d _objc_msgForward).",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 48
+      },
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45cbf9ba_8c19745a",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "1. More of a WARNING than an ERROR.\n\n2. This will be logged each time you unwind to a handler that’s not otherwise found to be a sinkhole (if class_getMethodImplementation fails).\n\nIf you make the IMP on line 256 static, you can also put this LOG into the initializer for that variable, so that it’ll only appear once.",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 73
+      },
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fbda481_e0298524",
+        "filename": "util/ios/exception_processor_test.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "I think you wanted \u003cobjc/runtime.h\u003e.",
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a03193db_a64efaff",
+        "filename": "util/ios/exception_processor_test.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "Everything in this codebase is Crashpad, and you’re in namespace crashpad.\n\nThis is just ExceptionProcessor or maybe IOSExceptionProcessor.",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 14
+      },
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b30c4177_2ba72074",
+        "filename": "util/ios/exception_processor_test.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "This is a test file and you’re already in namespace crashpad::test, so Test is redundant.",
+      "range": {
+        "startLine": 26,
+        "startChar": 38,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5da5aeb7_bfe939d4",
+        "filename": "util/ios/exception_processor_test.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "Include what you use: #include \"gtest/gtest.h\".",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc4f34c1_061bea2f",
+        "filename": "util/ios/exception_processor_test.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "sinkhole_parent is no good here either.",
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90d13562_9cecdb98",
+        "filename": "util/ios/exception_processor_test.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "blank before this comment.",
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c580cc3_adae09ee",
+        "filename": "util/ios/exception_processor_test.mm",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-15T14:23:43Z",
+      "side": 1,
+      "message": "ASSERT_TRUE(whatever_you_call_it) first, and if you make any changes to the comment in exception_processor.mm to explain that, duplicate them here.",
+      "revId": "a81326d0673e831731a862fb143e244e41269d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
