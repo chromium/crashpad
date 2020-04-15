@@ -45,7 +45,6 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
         "handler:handler_test",
         "minidump:minidump_test",
         "snapshot:snapshot_test",
-        "util:util_test",
       ]
     }
     if (crashpad_is_in_fuchsia) {
@@ -63,9 +62,7 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
           "util/net/testdata/binary_http_body.dat",
         ]
 
-        outputs = [
-          "$root_out_dir/crashpad_test_data/{{source}}",
-        ]
+        outputs = [ "$root_out_dir/crashpad_test_data/{{source}}" ]
       }
 
       deps += [ ":crashpad_test_data" ]
@@ -222,9 +219,6 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       "test:gmock_main",
       "util:util_test",
     ]
-    if (crashpad_is_ios) {
-      deps -= [ "util:util_test" ]
-    }
   }
 }
 

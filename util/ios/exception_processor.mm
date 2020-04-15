@@ -20,6 +20,7 @@
 #include <dlfcn.h>
 #include <libunwind.h>
 #include <mach-o/loader.h>
+#include <objc/message.h>
 #include <objc/objc-exception.h>
 #include <objc/objc.h>
 #include <objc/runtime.h>
@@ -109,6 +110,14 @@ bool ModulePathMatchesSinkhole(const char* path, const char* sinkhole) {
 #endif
 }
 
+int LoggingUnwStep(unw_cursor_t* cursor) {
+  int rv = unw_step(cursor);
+  if (rv < 0) {
+    LOG(ERROR) << "unw_step: " << rv;
+  }
+  return rv;
+}
+
 id ObjcExceptionPreprocessor(id exception) {
   // Unwind the stack looking for any exception handlers. If an exception
   // handler is encountered, test to see if it is a function known to catch-
@@ -152,7 +161,7 @@ id ObjcExceptionPreprocessor(id exception) {
   exception_header->unwindHeader.exception_class = kOurExceptionClass;
 
   bool handler_found = false;
-  while (unw_step(&cursor) > 0) {
+  while (LoggingUnwStep(&cursor) > 0) {
     unw_proc_info_t frame_info;
     if (unw_get_proc_info(&cursor, &frame_info) != UNW_ESUCCESS) {
       continue;
@@ -226,14 +235,14 @@ id ObjcExceptionPreprocessor(id exception) {
         // Everything in this library is a sinkhole, specifically
         // _dispatch_client_callout.  Both are needed here depending on whether
         // the debugger is attached (introspection only appears when a simulator
-        // is attached to a debugger.
-        // only).
+        // is attached to a debugger).
         "/usr/lib/system/introspection/libdispatch.dylib",
         "/usr/lib/system/libdispatch.dylib",
 
         // __CFRunLoopDoTimers and __CFRunLoopRun are sinkholes. Consider also
         // checking that a few frames up is CFRunLoopRunSpecific().
-        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"};
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+    };
 
     Dl_info dl_info;
     if (dladdr(reinterpret_cast<const void*>(frame_info.start_ip), &dl_info) !=
@@ -241,6 +250,44 @@ id ObjcExceptionPreprocessor(id exception) {
       for (const char* sinkhole : kExceptionLibraryPathSinkholes) {
         if (ModulePathMatchesSinkhole(dl_info.dli_fname, sinkhole)) {
           TerminatingFromUncaughtNSException(exception, sinkhole);
+        }
+      }
+    }
+
+    // Some <redacted> sinkholes are harder to find. _UIGestureEnvironmentUpdate
+    // in UIKitCore is an example. UIKitCore can't be added to
+    // kExceptionLibraryPathSinkholes because it uses Objective-C exceptions
+    // internally and also has has non-sinkhole handlers. Since
+    // _UIGestureEnvironmentUpdate is always called from
+    // -[UIGestureEnvironment _deliverEvent:toGestureRecognizers:usingBlock:],
+    // inspect the caller frame info to match the sinkhole.
+    constexpr const char* kUIKitCorePath =
+        "/System/Library/PrivateFrameworks/UIKitCore.framework/UIKitCore";
+    if (ModulePathMatchesSinkhole(dl_info.dli_fname, kUIKitCorePath)) {
+      unw_proc_info_t caller_frame_info;
+      if (LoggingUnwStep(&cursor) > 0 &&
+          unw_get_proc_info(&cursor, &caller_frame_info) == UNW_ESUCCESS) {
+        static IMP uigesture_deliver_event_imp = [] {
+          IMP imp = class_getMethodImplementation(
+              NSClassFromString(@"UIGestureEnvironment"),
+              NSSelectorFromString(
+                  @"_deliverEvent:toGestureRecognizers:usingBlock:"));
+
+          // From 10.15.0 objc4-779.1/runtime/objc-class.mm
+          // class_getMethodImplementation returns nil or _objc_msgForward on
+          // failure.
+          if (!imp || imp == _objc_msgForward) {
+            LOG(WARNING) << "Unable to find -[UIGestureEnvironment "
+                            "_deliverEvent:toGestureRecognizers:usingBlock:]";
+            return reinterpret_cast<IMP>(NULL);
+          }
+          return imp;
+        }();
+
+        if (uigesture_deliver_event_imp ==
+            reinterpret_cast<IMP>(caller_frame_info.start_ip)) {
+          TerminatingFromUncaughtNSException(exception,
+                                             "_UIGestureEnvironmentUpdate");
         }
       }
     }

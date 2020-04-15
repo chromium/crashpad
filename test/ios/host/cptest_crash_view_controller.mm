@@ -22,6 +22,40 @@
 
 - (void)loadView {
   self.view = [[UIView alloc] init];
+
+  UIStackView* buttonStack = [[UIStackView alloc] init];
+  buttonStack.axis = UILayoutConstraintAxisVertical;
+  buttonStack.spacing = 6;
+
+  UIButton* button = [UIButton new];
+  [button setTitle:@"UIGestureEnvironmentException"
+          forState:UIControlStateNormal];
+  UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]
+      initWithTarget:self
+              action:@selector(throwUIGestureEnvironmentException)];
+  [button addGestureRecognizer:tapGesture];
+  [button setTranslatesAutoresizingMaskIntoConstraints:NO];
+  [button.widthAnchor constraintEqualToConstant:16.0].active = YES;
+  [button.heightAnchor constraintEqualToConstant:16.0].active = YES;
+
+  [buttonStack addArrangedSubview:button];
+
+  [self.view addSubview:buttonStack];
+
+  [buttonStack setTranslatesAutoresizingMaskIntoConstraints:NO];
+
+  [NSLayoutConstraint activateConstraints:@[
+    [buttonStack.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
+    [buttonStack.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+    [buttonStack.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+    [buttonStack.trailingAnchor
+        constraintEqualToAnchor:self.view.trailingAnchor],
+  ]];
+}
+
+- (void)throwUIGestureEnvironmentException {
+  NSArray* empty_array = @[];
+  [empty_array objectAtIndex:42];
 }
 
 - (void)viewDidLoad {
