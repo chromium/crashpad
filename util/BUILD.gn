@@ -548,7 +548,7 @@ static_library("util") {
   configs += [ "..:disable_ubsan" ]
 }
 
-if (!crashpad_is_android) {
+if (!crashpad_is_android && !crashpad_is_ios) {
   crashpad_executable("http_transport_test_server") {
     testonly = true
     sources = [ "net/http_transport_test_server.cc" ]
@@ -639,13 +639,13 @@ source_set("util_test") {
     "thread/worker_thread_test.cc",
   ]
 
-  if (!crashpad_is_android) {
+  if (!crashpad_is_android && !crashpad_is_ios) {
     # Android requires an HTTPTransport implementation.
     sources += [ "net/http_transport_test.cc" ]
   }
 
   if (crashpad_is_posix || crashpad_is_fuchsia) {
-    if (!crashpad_is_fuchsia) {
+    if (!crashpad_is_fuchsia && !crashpad_is_ios) {
       sources += [
         "posix/process_info_test.cc",
         "posix/signals_test.cc",
@@ -677,6 +677,27 @@ source_set("util_test") {
       "mach/symbolic_constants_mach_test.cc",
       "misc/capture_context_test_util_mac.cc",
       "process/process_memory_mac_test.cc",
+    ]
+  }
+
+  if (crashpad_is_ios) {
+    sources += [ "ios/exception_processor_test.mm" ]
+
+    sources -= [
+      "file/directory_reader_test.cc",
+      "file/file_io_test.cc",
+      "file/filesystem_test.cc",
+      "misc/capture_context_test.cc",
+      "misc/clock_test.cc",
+      "misc/paths_test.cc",
+      "net/http_body_test.cc",
+      "net/http_multipart_builder_test.cc",
+      "process/process_memory_range_test.cc",
+      "process/process_memory_test.cc",
+      "stream/file_encoder_test.cc",
+      "synchronization/semaphore_test.cc",
+      "thread/thread_test.cc",
+      "thread/worker_thread_test.cc",
     ]
   }
 
@@ -739,7 +760,7 @@ source_set("util_test") {
     deps += [ "../third_party/lss" ]
   }
 
-  if (!crashpad_is_android) {
+  if (!crashpad_is_android && !crashpad_is_ios) {
     data_deps = [ ":http_transport_test_server" ]
 
     if (crashpad_use_boringssl_for_http_transport_socket) {
