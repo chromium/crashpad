@@ -16,10 +16,14 @@
 
 #include <AvailabilityMacros.h>
 #include <pthread.h>
-#include <servers/bootstrap.h>
 
 #include "base/mac/mach_logging.h"
+#include "build/build_config.h"
 #include "util/mac/mac_util.h"
+
+#if !defined(OS_IOS)
+
+#include <servers/bootstrap.h>
 
 namespace {
 
@@ -74,6 +78,8 @@ typename Traits::Type BootstrapCheckInOrLookUp(
 
 }  // namespace
 
+#endif  // !OS_IOS
+
 namespace crashpad {
 
 thread_t MachThreadSelf() {
@@ -97,7 +103,7 @@ exception_mask_t ExcMaskAll() {
   // 10.9.4 xnu-2422.110.17/osfmk/mach/ipc_host.c and
   // xnu-2422.110.17/osfmk/mach/ipc_tt.c.
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_9
+#if !defined(OS_IOS) && MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_9
   const int mac_os_x_minor_version = MacOSXMinorVersion();
 #endif
 
@@ -114,7 +120,7 @@ exception_mask_t ExcMaskAll() {
       EXC_MASK_MACH_SYSCALL |
       EXC_MASK_RPC_ALERT |
       EXC_MASK_MACHINE;
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_8
+#if !defined(OS_IOS) && MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_8
   if (mac_os_x_minor_version < 8) {
     return kExcMaskAll_10_6;
   }
@@ -124,7 +130,7 @@ exception_mask_t ExcMaskAll() {
   // xnu-2050.48.11/osfmk/mach/exception_types.h.
   constexpr exception_mask_t kExcMaskAll_10_8 =
       kExcMaskAll_10_6 | EXC_MASK_RESOURCE;
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_9
+#if !defined(OS_IOS) && MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_9
   if (mac_os_x_minor_version < 9) {
     return kExcMaskAll_10_8;
   }
@@ -139,7 +145,7 @@ exception_mask_t ExcMaskAll() {
 
 exception_mask_t ExcMaskValid() {
   const exception_mask_t kExcMaskValid_10_6 = ExcMaskAll() | EXC_MASK_CRASH;
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_11
+#if !defined(OS_IOS) && MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_11
   if (MacOSXMinorVersion() < 11) {
     return kExcMaskValid_10_6;
   }
@@ -150,6 +156,8 @@ exception_mask_t ExcMaskValid() {
       kExcMaskValid_10_6 | EXC_MASK_CORPSE_NOTIFY;
   return kExcMaskValid_10_11;
 }
+
+#if !defined(OS_IOS)
 
 base::mac::ScopedMachReceiveRight BootstrapCheckIn(
     const std::string& service_name) {
@@ -183,5 +191,7 @@ base::mac::ScopedMachSendRight BootstrapLookUp(
 base::mac::ScopedMachSendRight SystemCrashReporterHandler() {
   return BootstrapLookUp("com.apple.ReportCrash");
 }
+
+#endif  // !OS_IOS
 
 }  // namespace crashpad

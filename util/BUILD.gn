@@ -244,14 +244,18 @@ static_library("util") {
     }
   }
 
-  if (crashpad_is_ios) {
+  if (crashpad_is_mac || crashpad_is_ios) {
     sources += [
-      "ios/exception_processor.h",
-      "ios/exception_processor.mm",
-      "ios/ios_system_data_collector.h",
-      "ios/ios_system_data_collector.mm",
       "mac/xattr.cc",
       "mac/xattr.h",
+      "mach/exception_behaviors.cc",
+      "mach/exception_behaviors.h",
+      "mach/exception_ports.cc",
+      "mach/exception_ports.h",
+      "mach/mach_extensions.cc",
+      "mach/mach_extensions.h",
+      "mach/symbolic_constants_mach.cc",
+      "mach/symbolic_constants_mach.h",
     ]
   }
 
@@ -264,8 +268,6 @@ static_library("util") {
       "mac/mac_util.h",
       "mac/service_management.cc",
       "mac/service_management.h",
-      "mac/xattr.cc",
-      "mac/xattr.h",
       "mach/child_port_handshake.cc",
       "mach/child_port_handshake.h",
       "mach/child_port_server.cc",
@@ -277,14 +279,8 @@ static_library("util") {
       "mach/exc_client_variants.h",
       "mach/exc_server_variants.cc",
       "mach/exc_server_variants.h",
-      "mach/exception_behaviors.cc",
-      "mach/exception_behaviors.h",
-      "mach/exception_ports.cc",
-      "mach/exception_ports.h",
       "mach/exception_types.cc",
       "mach/exception_types.h",
-      "mach/mach_extensions.cc",
-      "mach/mach_extensions.h",
       "mach/mach_message.cc",
       "mach/mach_message.h",
       "mach/mach_message_server.cc",
@@ -293,8 +289,6 @@ static_library("util") {
       "mach/notify_server.h",
       "mach/scoped_task_suspend.cc",
       "mach/scoped_task_suspend.h",
-      "mach/symbolic_constants_mach.cc",
-      "mach/symbolic_constants_mach.h",
       "mach/task_for_pid.cc",
       "mach/task_for_pid.h",
       "misc/capture_context_mac.S",
@@ -305,6 +299,15 @@ static_library("util") {
       "process/process_memory_mac.cc",
       "process/process_memory_mac.h",
       "synchronization/semaphore_mac.cc",
+    ]
+  }
+
+  if (crashpad_is_ios) {
+    sources += [
+      "ios/exception_processor.h",
+      "ios/exception_processor.mm",
+      "ios/ios_system_data_collector.h",
+      "ios/ios_system_data_collector.mm",
     ]
   }
 
@@ -655,26 +658,31 @@ source_set("util_test") {
     sources += [ "posix/scoped_mmap_test.cc" ]
   }
 
+  if (crashpad_is_mac || crashpad_is_ios) {
+    sources += [
+      "mac/xattr_test.cc",
+      "mach/exception_behaviors_test.cc",
+      "mach/mach_extensions_test.cc",
+      "mach/symbolic_constants_mach_test.cc",
+    ]
+  }
+
   if (crashpad_is_mac) {
     sources += [
       "mac/launchd_test.mm",
       "mac/mac_util_test.mm",
       "mac/service_management_test.mm",
-      "mac/xattr_test.cc",
       "mach/child_port_handshake_test.cc",
       "mach/child_port_server_test.cc",
       "mach/composite_mach_message_server_test.cc",
       "mach/exc_client_variants_test.cc",
       "mach/exc_server_variants_test.cc",
-      "mach/exception_behaviors_test.cc",
       "mach/exception_ports_test.cc",
       "mach/exception_types_test.cc",
-      "mach/mach_extensions_test.cc",
       "mach/mach_message_server_test.cc",
       "mach/mach_message_test.cc",
       "mach/notify_server_test.cc",
       "mach/scoped_task_suspend_test.cc",
-      "mach/symbolic_constants_mach_test.cc",
       "misc/capture_context_test_util_mac.cc",
       "process/process_memory_mac_test.cc",
     ]
@@ -684,9 +692,7 @@ source_set("util_test") {
     sources += [ "ios/exception_processor_test.mm" ]
 
     sources -= [
-      "file/directory_reader_test.cc",
       "file/file_io_test.cc",
-      "file/filesystem_test.cc",
       "misc/capture_context_test.cc",
       "misc/clock_test.cc",
       "misc/paths_test.cc",

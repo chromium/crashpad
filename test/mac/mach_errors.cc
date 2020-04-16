@@ -14,9 +14,11 @@
 
 #include "test/mac/mach_errors.h"
 
-#include <servers/bootstrap.h>
-
 #include "base/strings/stringprintf.h"
+
+#if !defined(OS_IOS)
+#include <servers/bootstrap.h>
+#endif  // !OS_IOS
 
 namespace {
 
@@ -50,6 +52,8 @@ std::string MachErrorMessage(mach_error_t mach_err, const std::string& base) {
                             FormatMachErrorNumber(mach_err).c_str());
 }
 
+#if !defined(OS_IOS)
+
 std::string BootstrapErrorMessage(kern_return_t bootstrap_err,
                                   const std::string& base) {
   switch (bootstrap_err) {
@@ -72,6 +76,8 @@ std::string BootstrapErrorMessage(kern_return_t bootstrap_err,
       return MachErrorMessage(bootstrap_err, base);
   }
 }
+
+#endif  // !OS_IOS
 
 }  // namespace test
 }  // namespace crashpad

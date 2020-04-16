@@ -80,7 +80,12 @@ TEST(MachExtensions, ExcMaskAll) {
   EXPECT_FALSE(exc_mask_all & EXC_MASK_CRASH);
   EXPECT_FALSE(exc_mask_all & EXC_MASK_CORPSE_NOTIFY);
 
+#if !defined(OS_IOS)
   const int mac_os_x_minor_version = MacOSXMinorVersion();
+#else
+  const int mac_os_x_minor_version = 15;
+#endif
+
   if (mac_os_x_minor_version >= 8) {
     EXPECT_TRUE(exc_mask_all & EXC_MASK_RESOURCE);
   } else {
@@ -106,7 +111,12 @@ TEST(MachExtensions, ExcMaskValid) {
 
   EXPECT_TRUE(exc_mask_valid & EXC_MASK_CRASH);
 
+#if !defined(OS_IOS)
   const int mac_os_x_minor_version = MacOSXMinorVersion();
+#else
+  const int mac_os_x_minor_version = 15;
+#endif
+
   if (mac_os_x_minor_version >= 8) {
     EXPECT_TRUE(exc_mask_valid & EXC_MASK_RESOURCE);
   } else {
@@ -131,6 +141,8 @@ TEST(MachExtensions, ExcMaskValid) {
   // There must be bits set in ExcMaskValid() that are not set in ExcMaskAll().
   EXPECT_TRUE(ExcMaskValid() & ~ExcMaskAll());
 }
+
+#if !defined(OS_IOS)
 
 TEST(MachExtensions, BootstrapCheckInAndLookUp) {
   // This should always exist.
@@ -173,6 +185,8 @@ TEST(MachExtensions, SystemCrashReporterHandler) {
       system_crash_reporter_handler(SystemCrashReporterHandler());
   EXPECT_TRUE(system_crash_reporter_handler.is_valid());
 }
+
+#endif  // !OS_IOS
 
 }  // namespace
 }  // namespace test

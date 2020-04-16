@@ -19,6 +19,8 @@
 
 #include <string>
 
+#include "build/build_config.h"
+
 namespace crashpad {
 namespace test {
 
@@ -47,6 +49,8 @@ namespace test {
 std::string MachErrorMessage(mach_error_t mach_err,
                              const std::string& base = std::string());
 
+#if !defined(OS_IOS)
+
 //! \brief Formats a bootstrap error message.
 //!
 //! The returned string will combine the \a base string, if supplied, with a
@@ -63,6 +67,8 @@ std::string MachErrorMessage(mach_error_t mach_err,
 //!     code in the manner of MachErrorMessage().
 std::string BootstrapErrorMessage(kern_return_t bootstrap_err,
                                   const std::string& base = std::string());
+
+#endif  // !OS_IOS
 
 }  // namespace test
 }  // namespace crashpad

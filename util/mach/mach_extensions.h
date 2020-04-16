@@ -20,6 +20,7 @@
 #include <string>
 
 #include "base/mac/scoped_mach_port.h"
+#include "build/build_config.h"
 
 namespace crashpad {
 
@@ -119,6 +120,8 @@ exception_mask_t ExcMaskAll();
 //! support is present.
 exception_mask_t ExcMaskValid();
 
+#if !defined(OS_IOS)
+
 //! \brief Makes a `boostrap_check_in()` call to the process’ bootstrap server.
 //!
 //! This function is provided to make it easier to call `bootstrap_check_in()`
@@ -155,6 +158,8 @@ base::mac::ScopedMachSendRight BootstrapLookUp(const std::string& service_name);
 //!     to the system’s default crash reporter. On failure, `MACH_PORT_NULL`,
 //!     with a message logged.
 base::mac::ScopedMachSendRight SystemCrashReporterHandler();
+
+#endif  // !OS_IOS
 
 }  // namespace crashpad
 
