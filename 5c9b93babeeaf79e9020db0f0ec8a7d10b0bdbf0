@@ -16,6 +16,24 @@
       "revId": "5c9b93babeeaf79e9020db0f0ec8a7d10b0bdbf0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60c771e4_0d7d813b",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-17T20:44:59Z",
+      "side": 1,
+      "message": "\u003e Does something need to depend on mig_output?\n\nYou\u0027re right. I didn\u0027t have anything that depended on this yet, so I didn\u0027t see any problems. I just built \"all\" and was satisfied when I saw mig produce 4 outputs, and that the 2 .c files compiled successfully. Nice catch.",
+      "parentUuid": "d6bea530_be900276",
+      "revId": "5c9b93babeeaf79e9020db0f0ec8a7d10b0bdbf0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
