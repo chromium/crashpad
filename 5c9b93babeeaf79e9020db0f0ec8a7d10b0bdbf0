@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6bea530_be900276",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-17T19:06:43Z",
+      "side": 1,
+      "message": "Does something need to depend on mig_output?",
+      "revId": "5c9b93babeeaf79e9020db0f0ec8a7d10b0bdbf0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
