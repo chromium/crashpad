@@ -43,29 +43,6 @@ static_library("test") {
     "test_paths.h",
   ]
 
-  if (crashpad_is_ios) {
-    sources -= [
-      "errors.cc",
-      "errors.h",
-      "file.cc",
-      "file.h",
-      "filesystem.cc",
-      "filesystem.h",
-      "multiprocess.h",
-      "multiprocess_exec.cc",
-      "multiprocess_exec.h",
-      "process_type.cc",
-      "process_type.h",
-      "scoped_guarded_page.h",
-      "scoped_module_handle.cc",
-      "scoped_module_handle.h",
-      "scoped_temp_dir.cc",
-      "scoped_temp_dir.h",
-      "test_paths.cc",
-      "test_paths.h",
-    ]
-  }
-
   if (crashpad_is_posix || crashpad_is_fuchsia) {
     sources += [
       "scoped_guarded_page_posix.cc",
@@ -90,6 +67,14 @@ static_library("test") {
       "mac/mach_errors.h",
       "mac/mach_multiprocess.cc",
       "mac/mach_multiprocess.h",
+    ]
+  }
+
+  if (crashpad_is_ios) {
+    sources -= [
+      "multiprocess.h",
+      "multiprocess_exec.cc",
+      "multiprocess_exec.h",
     ]
   }
 
@@ -139,19 +124,16 @@ static_library("test") {
     "../util",
   ]
 
-  if (crashpad_is_ios) {
-    deps -= [
-      "../compat",
-      "../util",
-    ]
-  }
-
   if (crashpad_is_mac) {
     libs = [ "bsm" ]
     deps += [
       "../handler",
       "../snapshot",
     ]
+  }
+
+  if (crashpad_is_ios) {
+    deps += [ ":test_bundle_data" ]
   }
 
   if (crashpad_is_win) {
@@ -163,6 +145,17 @@ static_library("test") {
     if (crashpad_is_in_fuchsia) {
       deps += [ "//zircon/public/lib/fdio" ]
     }
+  }
+}
+
+if (crashpad_is_ios) {
+  bundle_data("test_bundle_data") {
+    testonly = true
+
+    sources = [ "test_paths_test_data_root.txt" ]
+
+    outputs = [ "{{bundle_resources_dir}}/crashpad_test_data/" +
+                "{{source_root_relative_dir}}/{{source_file_part}}" ]
   }
 }
 
@@ -178,15 +171,6 @@ source_set("test_test") {
     "test_paths_test.cc",
   ]
 
-  if (crashpad_is_ios) {
-    sources -= [
-      "multiprocess_exec_test.cc",
-      "scoped_guarded_page_test.cc",
-      "scoped_temp_dir_test.cc",
-      "test_paths_test.cc",
-    ]
-  }
-
   # TODO(crbug.com/812974): Remove !crashpad_is_fuchsia when Fuchsia is no
   # longer treated as a posix platform.
   if (crashpad_is_posix && !crashpad_is_fuchsia && !crashpad_is_ios) {
@@ -195,6 +179,13 @@ source_set("test_test") {
 
   if (crashpad_is_mac) {
     sources += [ "mac/mach_multiprocess_test.cc" ]
+  }
+
+  if (crashpad_is_ios) {
+    sources -= [
+      "multiprocess_exec_test.cc",
+      "scoped_guarded_page_test.cc",
+    ]
   }
 
   if (crashpad_is_win) {
@@ -216,11 +207,6 @@ source_set("test_test") {
   data_deps = [ ":crashpad_test_test_multiprocess_exec_test_child" ]
 
   if (crashpad_is_ios) {
-    deps -= [
-      "../compat",
-      "../util",
-    ]
-
     data_deps -= [ ":crashpad_test_test_multiprocess_exec_test_child" ]
   }
 }
