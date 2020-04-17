@@ -244,14 +244,13 @@ static_library("util") {
     }
   }
 
-  if (crashpad_is_ios) {
+  if (crashpad_is_mac || crashpad_is_ios) {
     sources += [
-      "ios/exception_processor.h",
-      "ios/exception_processor.mm",
-      "ios/ios_system_data_collector.h",
-      "ios/ios_system_data_collector.mm",
       "mac/xattr.cc",
       "mac/xattr.h",
+      "misc/clock_mac.cc",
+      "misc/paths_mac.cc",
+      "synchronization/semaphore_mac.cc",
     ]
   }
 
@@ -264,8 +263,6 @@ static_library("util") {
       "mac/mac_util.h",
       "mac/service_management.cc",
       "mac/service_management.h",
-      "mac/xattr.cc",
-      "mac/xattr.h",
       "mach/child_port_handshake.cc",
       "mach/child_port_handshake.h",
       "mach/child_port_server.cc",
@@ -298,13 +295,19 @@ static_library("util") {
       "mach/task_for_pid.cc",
       "mach/task_for_pid.h",
       "misc/capture_context_mac.S",
-      "misc/clock_mac.cc",
-      "misc/paths_mac.cc",
       "net/http_transport_mac.mm",
       "posix/process_info_mac.cc",
       "process/process_memory_mac.cc",
       "process/process_memory_mac.h",
-      "synchronization/semaphore_mac.cc",
+    ]
+  }
+
+  if (crashpad_is_ios) {
+    sources += [
+      "ios/exception_processor.h",
+      "ios/exception_processor.mm",
+      "ios/ios_system_data_collector.h",
+      "ios/ios_system_data_collector.mm",
     ]
   }
 
@@ -655,12 +658,15 @@ source_set("util_test") {
     sources += [ "posix/scoped_mmap_test.cc" ]
   }
 
+  if (crashpad_is_mac || crashpad_is_ios) {
+    sources += [ "mac/xattr_test.cc" ]
+  }
+
   if (crashpad_is_mac) {
     sources += [
       "mac/launchd_test.mm",
       "mac/mac_util_test.mm",
       "mac/service_management_test.mm",
-      "mac/xattr_test.cc",
       "mach/child_port_handshake_test.cc",
       "mach/child_port_server_test.cc",
       "mach/composite_mach_message_server_test.cc",
@@ -684,20 +690,9 @@ source_set("util_test") {
     sources += [ "ios/exception_processor_test.mm" ]
 
     sources -= [
-      "file/directory_reader_test.cc",
-      "file/file_io_test.cc",
-      "file/filesystem_test.cc",
       "misc/capture_context_test.cc",
-      "misc/clock_test.cc",
-      "misc/paths_test.cc",
-      "net/http_body_test.cc",
-      "net/http_multipart_builder_test.cc",
       "process/process_memory_range_test.cc",
       "process/process_memory_test.cc",
-      "stream/file_encoder_test.cc",
-      "synchronization/semaphore_test.cc",
-      "thread/thread_test.cc",
-      "thread/worker_thread_test.cc",
     ]
   }
 
@@ -743,7 +738,12 @@ source_set("util_test") {
     }
   }
 
-  data = [ "net/testdata/" ]
+  data = [
+    "net/testdata/ascii_http_body.txt",
+    "net/testdata/binary_http_body.dat",
+    "net/testdata/crashpad_util_test_cert.pem",
+    "net/testdata/crashpad_util_test_key.pem",
+  ]
 
   deps = [
     ":util",
@@ -755,10 +755,6 @@ source_set("util_test") {
     "../third_party/mini_chromium:base",
     "../third_party/zlib",
   ]
-
-  if (crashpad_is_android || crashpad_is_linux) {
-    deps += [ "../third_party/lss" ]
-  }
 
   if (!crashpad_is_android && !crashpad_is_ios) {
     data_deps = [ ":http_transport_test_server" ]
@@ -772,6 +768,14 @@ source_set("util_test") {
     libs = [ "Foundation.framework" ]
   }
 
+  if (crashpad_is_ios) {
+    deps += [ ":util_test_bundle_data" ]
+  }
+
+  if (crashpad_is_android || crashpad_is_linux) {
+    deps += [ "../third_party/lss" ]
+  }
+
   if (crashpad_is_win) {
     libs = [
       "rpcrt4.lib",
@@ -782,6 +786,20 @@ source_set("util_test") {
       ":crashpad_util_test_process_info_test_child",
       ":crashpad_util_test_safe_terminate_process_test_child",
     ]
+  }
+}
+
+if (crashpad_is_ios) {
+  bundle_data("util_test_bundle_data") {
+    testonly = true
+
+    sources = [
+      "net/testdata/ascii_http_body.txt",
+      "net/testdata/binary_http_body.dat",
+    ]
+
+    outputs = [ "{{bundle_resources_dir}}/crashpad_test_data/" +
+                "{{source_root_relative_dir}}/{{source_file_part}}" ]
   }
 }
 
