@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04271bef_ce0c4133",
+        "filename": "test/test_paths.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-17T18:16:28Z",
+      "side": 1,
+      "message": "How come?",
+      "revId": "d2ff052e6daa6aeda7fe7bdd24c876e304e1f6f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
