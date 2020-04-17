@@ -46,7 +46,7 @@ base::FilePath TestDataRootInternal() {
 #if defined(OS_FUCHSIA)
   base::FilePath asset_path("/pkg/data");
   if (!IsTestDataRoot(asset_path)) {
-    LOG(WARNING) << "Test data root seems invalid, continuing anyway";
+    LOG(WARNING) << "test data root seems invalid, continuing anyway";
   }
   return asset_path;
 #else  // defined(OS_FUCHSIA)
@@ -69,15 +69,15 @@ base::FilePath TestDataRootInternal() {
   // out/{Debug,Release} relative to the Crashpad root.
   base::FilePath executable_path;
   if (Paths::Executable(&executable_path)) {
-#if defined(OS_ANDROID)
+#if defined(OS_IOS) || defined(OS_ANDROID)
     base::FilePath candidate = executable_path.DirName()
                                .Append("crashpad_test_data");
-#else
+#else  // OS_IOS || OS_ANDRID
     base::FilePath candidate =
         base::FilePath(executable_path.DirName()
                            .Append(base::FilePath::kParentDirectory)
                            .Append(base::FilePath::kParentDirectory));
-#endif
+#endif  // OS_IOS || OS_ANDROID
     if (IsTestDataRoot(candidate)) {
       return candidate;
     }
