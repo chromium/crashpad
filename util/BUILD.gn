@@ -254,8 +254,16 @@ static_library("util") {
     sources += [
       "mac/xattr.cc",
       "mac/xattr.h",
+      "mach/exception_behaviors.cc",
+      "mach/exception_behaviors.h",
+      "mach/exception_ports.cc",
+      "mach/exception_ports.h",
       "mach/mach_extensions.cc",
       "mach/mach_extensions.h",
+      "mach/mach_message.cc",
+      "mach/mach_message.h",
+      "mach/mach_message_server.cc",
+      "mach/mach_message_server.h",
       "misc/clock_mac.cc",
       "misc/paths_mac.cc",
       "synchronization/semaphore_mac.cc",
@@ -284,16 +292,8 @@ static_library("util") {
       "mach/exc_client_variants.h",
       "mach/exc_server_variants.cc",
       "mach/exc_server_variants.h",
-      "mach/exception_behaviors.cc",
-      "mach/exception_behaviors.h",
-      "mach/exception_ports.cc",
-      "mach/exception_ports.h",
       "mach/exception_types.cc",
       "mach/exception_types.h",
-      "mach/mach_message.cc",
-      "mach/mach_message.h",
-      "mach/mach_message_server.cc",
-      "mach/mach_message_server.h",
       "mach/notify_server.cc",
       "mach/notify_server.h",
       "mach/scoped_task_suspend.cc",
@@ -518,9 +518,7 @@ static_library("util") {
 
   if (crashpad_is_mac || crashpad_is_ios) {
     include_dirs += [ "$root_build_dir/gen" ]
-    deps += [
-      ":mig_output",
-    ]
+    deps += [ ":mig_output" ]
   }
 
   if (crashpad_is_mac) {
@@ -530,9 +528,7 @@ static_library("util") {
       "Foundation.framework",
       "IOKit.framework",
     ]
-    deps += [
-      "../third_party/apple_cf:apple_cf",
-    ]
+    deps += [ "../third_party/apple_cf:apple_cf" ]
   }
 
   if (crashpad_is_win) {
@@ -674,7 +670,9 @@ source_set("util_test") {
   if (crashpad_is_mac || crashpad_is_ios) {
     sources += [
       "mac/xattr_test.cc",
+      "mach/exception_behaviors_test.cc",
       "mach/mach_extensions_test.cc",
+      "mach/mach_message_test.cc",
     ]
   }
 
@@ -689,11 +687,9 @@ source_set("util_test") {
       "mach/composite_mach_message_server_test.cc",
       "mach/exc_client_variants_test.cc",
       "mach/exc_server_variants_test.cc",
-      "mach/exception_behaviors_test.cc",
       "mach/exception_ports_test.cc",
       "mach/exception_types_test.cc",
       "mach/mach_message_server_test.cc",
-      "mach/mach_message_test.cc",
       "mach/notify_server_test.cc",
       "mach/scoped_task_suspend_test.cc",
       "mach/symbolic_constants_mach_test.cc",
