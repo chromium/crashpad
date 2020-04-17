@@ -22,22 +22,28 @@ if (crashpad_is_in_chromium) {
   set_sources_assignment_filter([])
 }
 
-if (crashpad_is_mac) {
-  if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
-    import("//build/config/sysroot.gni")
-  } else {
-    import("//third_party/mini_chromium/mini_chromium/build/sysroot.gni")
+if (crashpad_is_mac || crashpad_is_ios) {
+  if (crashpad_is_mac) {
+    if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
+      import("//build/config/sysroot.gni")
+    } else {
+      import("//third_party/mini_chromium/mini_chromium/build/sysroot.gni")
+    }
   }
 
   action_foreach("mig") {
     script = "mach/mig.py"
 
-    sources = [
-      "$sysroot/usr/include/mach/exc.defs",
-      "$sysroot/usr/include/mach/mach_exc.defs",
-      "$sysroot/usr/include/mach/notify.defs",
-      "mach/child_port.defs",
-    ]
+    if (crashpad_is_mac) {
+      sources = [
+        "$sysroot/usr/include/mach/exc.defs",
+        "$sysroot/usr/include/mach/mach_exc.defs",
+        "$sysroot/usr/include/mach/notify.defs",
+        "mach/child_port.defs",
+      ]
+    } else if (crashpad_is_ios) {
+      sources = [ "../third_party/xnu/osfmk/mach/exc.defs" ]
+    }
 
     outputs = [
       "$target_gen_dir/mach/{{source_name_part}}User.c",
@@ -67,7 +73,7 @@ if (crashpad_is_mac) {
         ]
       }
     }
-    if (sysroot != "") {
+    if (!crashpad_is_ios && sysroot != "") {
       args += [
         "--sdk",
         sysroot,
@@ -510,6 +516,13 @@ static_library("util") {
 
   deps += [ "../third_party/mini_chromium:base" ]
 
+  if (crashpad_is_mac || crashpad_is_ios) {
+    include_dirs += [ "$root_build_dir/gen" ]
+    deps += [
+      ":mig_output",
+    ]
+  }
+
   if (crashpad_is_mac) {
     libs = [
       "bsm",
@@ -518,10 +531,8 @@ static_library("util") {
       "IOKit.framework",
     ]
     deps += [
-      ":mig_output",
       "../third_party/apple_cf:apple_cf",
     ]
-    include_dirs += [ "$root_build_dir/gen" ]
   }
 
   if (crashpad_is_win) {
