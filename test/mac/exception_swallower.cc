@@ -24,6 +24,7 @@
 #include "base/mac/scoped_mach_port.h"
 #include "base/strings/stringprintf.h"
 #include "handler/mac/exception_handler_server.h"
+#include "util/mach/bootstrap.h"
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/exception_ports.h"
 #include "util/mach/mach_extensions.h"

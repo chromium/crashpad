@@ -74,8 +74,8 @@
 #include "handler/mac/crash_report_exception_handler.h"
 #include "handler/mac/exception_handler_server.h"
 #include "handler/mac/file_limit_annotation.h"
+#include "util/mach/bootstrap.h"
 #include "util/mach/child_port_handshake.h"
-#include "util/mach/mach_extensions.h"
 #include "util/posix/close_stdio.h"
 #include "util/posix/signals.h"
 #elif defined(OS_WIN)

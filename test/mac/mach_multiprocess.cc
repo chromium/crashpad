@@ -27,6 +27,7 @@
 #include "test/errors.h"
 #include "test/mac/mach_errors.h"
 #include "util/file/file_io.h"
+#include "util/mach/bootstrap.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/misc/implicit_cast.h"
