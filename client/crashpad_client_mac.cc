@@ -26,6 +26,7 @@
 #include "base/mac/mach_logging.h"
 #include "base/strings/stringprintf.h"
 #include "util/mac/mac_util.h"
+#include "util/mach/bootstrap.h"
 #include "util/mach/child_port_handshake.h"
 #include "util/mach/exception_ports.h"
 #include "util/mach/mach_extensions.h"

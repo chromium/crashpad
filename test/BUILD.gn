@@ -57,14 +57,19 @@ static_library("test") {
     }
   }
 
+  if (crashpad_is_mac || crashpad_is_ios) {
+    sources += [
+      "mac/mach_errors.cc",
+      "mac/mach_errors.h",
+    ]
+  }
+
   if (crashpad_is_mac) {
     sources += [
       "mac/dyld.cc",
       "mac/dyld.h",
       "mac/exception_swallower.cc",
       "mac/exception_swallower.h",
-      "mac/mach_errors.cc",
-      "mac/mach_errors.h",
       "mac/mach_multiprocess.cc",
       "mac/mach_multiprocess.h",
     ]

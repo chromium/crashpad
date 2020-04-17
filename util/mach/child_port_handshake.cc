@@ -34,6 +34,7 @@
 #include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "util/file/file_io.h"
+#include "util/mach/bootstrap.h"
 #include "util/mach/child_port.h"
 #include "util/mach/child_port_server.h"
 #include "util/mach/mach_extensions.h"
