@@ -16,6 +16,24 @@
       "revId": "d2ff052e6daa6aeda7fe7bdd24c876e304e1f6f3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "206cc533_e2e39aa7",
+        "filename": "test/test_paths.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-17T18:29:57Z",
+      "side": 1,
+      "message": "\u003e How come?\n\nInitially, I did this with iOS handled up here, and the string changed to something different. Then I changed my mind and did iOS below with Android, and put this back to how I thought it was before.\n\nUsually in log messages, we don\u0027t write sentences. Normally it\u0027s just a function name, just enough to give someone context. When nothing like that would fit what\u0027s needed, it\u0027s just a short text blurb, so no initial capital and no period at the end. And that\u0027s why I thought I had put it back how it was.",
+      "parentUuid": "04271bef_ce0c4133",
+      "revId": "d2ff052e6daa6aeda7fe7bdd24c876e304e1f6f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
