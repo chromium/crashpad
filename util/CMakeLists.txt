@@ -383,6 +383,13 @@ if(WIN32)
             "__STDC_VERSION__=199901L"
             $<$<COMPILE_LANGUAGE:ASM_MASM>:__MINGW32__>
         )
+        #exception_handler_server.cc missing <memory> header ?
+        set_source_files_properties(
+            win/exception_handler_server.cc
+            PROPERTIES
+            COMPILE_FLAGS
+            "-include memory"
+        )
     endif()
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_compile_options(crashpad_util PRIVATE 
