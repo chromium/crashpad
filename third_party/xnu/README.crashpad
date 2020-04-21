@@ -17,6 +17,6 @@ Local Modifications:
    <mach/vm_prot.h> have been retained but these headers have not been provided.
    External headers must be made available to provide the cpu_type_t,
    cpu_subtype_t, and vm_prot_t types.
- - osfmk/mach/exc.defs is present, to fill in for <mach/exc.defs> on iOS, where
-   it is missing.
+ - osfmk/mach/exc.defs and osfmk/mach/mach_exc.defs are present, to fill in
+   for <mach/exc.defs> and <mach/mach_exc.defs> on iOS, where they are missing.
  - Anything not listed above is omitted.
