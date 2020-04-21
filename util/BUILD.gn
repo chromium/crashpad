@@ -23,16 +23,18 @@ if (crashpad_is_in_chromium) {
 }
 
 if (crashpad_is_mac || crashpad_is_ios) {
-  if (crashpad_is_mac) {
-    if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
-      import("//build/config/sysroot.gni")
-    } else {
-      import("//third_party/mini_chromium/mini_chromium/build/sysroot.gni")
-    }
+  if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
+    import("//build/config/sysroot.gni")
+  } else {
+    import("//third_party/mini_chromium/mini_chromium/build/sysroot.gni")
   }
 
   action_foreach("mig") {
     script = "mach/mig.py"
+    inputs = [
+      "mach/mig_fix.py",
+      "mach/mig_gen.py",
+    ]
 
     if (crashpad_is_mac) {
       sources = [
@@ -43,6 +45,7 @@ if (crashpad_is_mac || crashpad_is_ios) {
       ]
     } else if (crashpad_is_ios) {
       sources = [
+        # The iOS SDK doesn’t have any .defs files. Get them directly from xnu.
         "../third_party/xnu/osfmk/mach/exc.defs",
         "../third_party/xnu/osfmk/mach/mach_exc.defs",
       ]
@@ -76,7 +79,7 @@ if (crashpad_is_mac || crashpad_is_ios) {
         ]
       }
     }
-    if (!crashpad_is_ios && sysroot != "") {
+    if (sysroot != "") {
       args += [
         "--sdk",
         sysroot,
@@ -86,6 +89,34 @@ if (crashpad_is_mac || crashpad_is_ios) {
       "--include",
       rebase_path("../compat/mac", root_build_dir),
     ]
+    if (crashpad_is_ios) {
+      args += [
+        # The iOS SDK doesn’t have any .defs files. Get them directly from xnu.
+        "--include",
+        rebase_path("../third_party/xnu/osfmk", root_build_dir),
+      ]
+    }
+    if (current_cpu == "x86") {
+      args += [
+        "--arch",
+        "i386",
+      ]
+    } else if (current_cpu == "x64") {
+      args += [
+        "--arch",
+        "x86_64",
+      ]
+    } else if (current_cpu == "arm") {
+      args += [
+        "--arch",
+        "armv7",
+      ]
+    } else if (current_cpu == "arm64") {
+      args += [
+        "--arch",
+        "arm64",
+      ]
+    }
   }
 
   source_set("mig_output") {

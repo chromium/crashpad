@@ -19,4 +19,7 @@ Local Modifications:
    cpu_subtype_t, and vm_prot_t types.
  - osfmk/mach/exc.defs and osfmk/mach/mach_exc.defs are present, to fill in
    for <mach/exc.defs> and <mach/mach_exc.defs> on iOS, where they are missing.
+   The .defs files they depend on, <mach/mach_types.defs>,
+   <mach/machine/machine_types.defs>, and <mach/std_types.defs> are also
+   included.
  - Anything not listed above is omitted.
