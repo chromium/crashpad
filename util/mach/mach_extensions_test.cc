@@ -81,7 +81,7 @@ TEST(MachExtensions, ExcMaskAll) {
   EXPECT_FALSE(exc_mask_all & EXC_MASK_CORPSE_NOTIFY);
 
 #if defined(OS_IOS)
-  // Assume at least iOS 7 (≅ macOS 10.9).
+  // Assume at least iOS 7 (≅ OS X 10.9).
   EXPECT_TRUE(exc_mask_all & EXC_MASK_RESOURCE);
   EXPECT_TRUE(exc_mask_all & EXC_MASK_GUARD);
 #else  // OS_IOS
@@ -113,7 +113,7 @@ TEST(MachExtensions, ExcMaskValid) {
   EXPECT_TRUE(exc_mask_valid & EXC_MASK_CRASH);
 
 #if defined(OS_IOS)
-  // Assume at least iOS 9 (≅ macOS 10.11).
+  // Assume at least iOS 9 (≅ OS X 10.11).
   EXPECT_TRUE(exc_mask_valid & EXC_MASK_RESOURCE);
   EXPECT_TRUE(exc_mask_valid & EXC_MASK_GUARD);
   EXPECT_TRUE(exc_mask_valid & EXC_MASK_CORPSE_NOTIFY);

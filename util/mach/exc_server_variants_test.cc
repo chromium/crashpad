@@ -25,12 +25,15 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 #include "test/mac/mach_errors.h"
-#include "test/mac/mach_multiprocess.h"
 #include "util/mac/mac_util.h"
 #include "util/mach/exception_behaviors.h"
 #include "util/mach/exception_types.h"
 #include "util/mach/mach_message.h"
 #include "util/misc/implicit_cast.h"
+
+#if !defined(OS_IOS)
+#include "test/mac/mach_multiprocess.h"
+#endif  // !OS_IOS
 
 namespace crashpad {
 namespace test {
@@ -958,6 +961,8 @@ TEST(ExcServerVariants, MachMessageServerRequestIDs) {
             expect_request_ids);
 }
 
+#if !defined(OS_IOS)
+
 class TestExcServerVariants : public MachMultiprocess,
                               public UniversalMachExcServer::Interface {
  public:
@@ -1193,9 +1198,16 @@ TEST(ExcServerVariants, ThreadStates) {
   }
 }
 
+#endif  // !OS_IOS
+
 TEST(ExcServerVariants, ExcServerSuccessfulReturnValue) {
+#if defined(OS_IOS)
+  // iOS 9 ≅ OS X 10.11.
+  const kern_return_t prefer_not_set_thread_state = KERN_SUCCESS;
+#else
   const kern_return_t prefer_not_set_thread_state =
       MacOSXMinorVersion() < 11 ? MACH_RCV_PORT_DIED : KERN_SUCCESS;
+#endif
 
   const struct {
     exception_type_t exception;
