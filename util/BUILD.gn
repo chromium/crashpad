@@ -42,7 +42,10 @@ if (crashpad_is_mac || crashpad_is_ios) {
         "mach/child_port.defs",
       ]
     } else if (crashpad_is_ios) {
-      sources = [ "../third_party/xnu/osfmk/mach/exc.defs" ]
+      sources = [
+        "../third_party/xnu/osfmk/mach/exc.defs",
+        "../third_party/xnu/osfmk/mach/mach_exc.defs",
+      ]
     }
 
     outputs = [
