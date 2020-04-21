@@ -46,7 +46,7 @@ exception_mask_t ExcMaskAll() {
   // xnu-2422.110.17/osfmk/mach/ipc_tt.c.
 
 #if defined(OS_IOS) && __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
-// iOS 7 ≅ macOS 10.9.
+// iOS 7 ≅ OS X 10.9.
 #error This code was not ported to iOS versions older than 7
 #endif
 
@@ -93,7 +93,7 @@ exception_mask_t ExcMaskAll() {
 exception_mask_t ExcMaskValid() {
   const exception_mask_t kExcMaskValid_10_6 = ExcMaskAll() | EXC_MASK_CRASH;
 #if defined(OS_IOS) && __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0
-// iOS 9 ≅ macOS 10.11.
+// iOS 9 ≅ OS X 10.11.
 #error This code was not ported to iOS versions older than 9
 #endif
 
