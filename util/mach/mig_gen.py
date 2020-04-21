@@ -25,7 +25,7 @@ MigInterface = collections.namedtuple('MigInterface', ['user_c', 'server_c',
                                                        'user_h', 'server_h'])
 
 def generate_interface(defs, interface, includes=[], sdk=None, clang_path=None,
-                       mig_path=None, migcom_path=None):
+                       mig_path=None, migcom_path=None, arch=None):
     if mig_path is None:
       mig_path = 'mig'
     command = [mig_path,
@@ -39,6 +39,8 @@ def generate_interface(defs, interface, includes=[], sdk=None, clang_path=None,
         os.environ['MIGCC'] = clang_path
     if migcom_path is not None:
         os.environ['MIGCOM'] = migcom_path
+    if arch is not None:
+        command.extend(['-arch', arch])
     if sdk is not None:
         command.extend(['-isysroot', sdk])
     for include in includes:
@@ -51,6 +53,7 @@ def parse_args(args):
     parser.add_argument('--clang-path', help='Path to Clang')
     parser.add_argument('--mig-path', help='Path to mig')
     parser.add_argument('--migcom-path', help='Path to migcom')
+    parser.add_argument('--arch', help='Target architecture')
     parser.add_argument('--sdk', help='Path to SDK')
     parser.add_argument('--include',
                         default=[],
@@ -69,7 +72,7 @@ def main(args):
                              parsed.user_h, parsed.server_h)
     generate_interface(parsed.defs, interface, parsed.include,
                        parsed.sdk, parsed.clang_path, parsed.mig_path,
-                       parsed.migcom_path)
+                       parsed.migcom_path, parsed.arch)
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))
