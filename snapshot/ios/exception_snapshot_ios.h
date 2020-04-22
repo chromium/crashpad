@@ -38,12 +38,25 @@ class ExceptionSnapshotIOS final : public ExceptionSnapshot {
   ExceptionSnapshotIOS();
   ~ExceptionSnapshotIOS() override;
 
-  //! \brief Initializes the object.
+  //! \brief Initializes the object from a signal.
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  bool Initialize(const siginfo_t* siginfo, const ucontext_t* context);
+  bool InitializeFromSignal(const siginfo_t* siginfo,
+                            const ucontext_t* context);
 
+  //! \brief Initialize the object from a Mach exception.
+  //!
+  //! \return `true` if the snapshot could be created, `false` otherwise with
+  //!     an appropriate message logged.
+  bool InitializeFromMachException(exception_behavior_t behavior,
+                                   thread_t exception_thread,
+                                   exception_type_t exception,
+                                   const mach_exception_data_type_t* code,
+                                   mach_msg_type_number_t code_count,
+                                   thread_state_flavor_t flavor,
+                                   ConstThreadState state,
+                                   mach_msg_type_number_t state_count);
   // ExceptionSnapshot:
 
   const CPUContext* Context() const override;
@@ -63,6 +76,7 @@ class ExceptionSnapshotIOS final : public ExceptionSnapshot {
 #error Port.
 #endif  // ARCH_CPU_X86_64
   CPUContext context_;
+  const CPUContext* exception_thread_context_;
   std::vector<uint64_t> codes_;
   uint64_t thread_id_;
   uintptr_t exception_address_;
