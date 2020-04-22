@@ -111,6 +111,28 @@ void ProcessSnapshotIOS::SetException(const siginfo_t* siginfo,
   }
 }
 
+void ProcessSnapshotIOS::SetException(exception_behavior_t behavior,
+                                      thread_t exception_thread,
+                                      exception_type_t exception,
+                                      const mach_exception_data_type_t* code,
+                                      mach_msg_type_number_t code_count,
+                                      thread_state_flavor_t flavor,
+                                      ConstThreadState old_state,
+                                      mach_msg_type_number_t old_state_count) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  exception_.reset(new internal::ExceptionSnapshotIOS());
+  if (!exception_->Initialize(behavior,
+                              exception_thread,
+                              exception,
+                              code,
+                              code_count,
+                              flavor,
+                              old_state,
+                              old_state_count)) {
+    exception_.reset();
+  }
+}
+
 pid_t ProcessSnapshotIOS::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return kern_proc_info_.kp_proc.p_pid;
