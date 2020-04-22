@@ -1,0 +1,626 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51468c9a_6e0327eb",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "You took the Mach stuff out.\n\nBut since you renamed it from SignalHandler to CrashHandler, it would be fine to put the Mach stuff into the same class, and leave it named CrashHandler, even.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ef8c859_5027d3c6",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "Why do you set up the signal handler here, but the Mach exception handler in the constructor?",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79907958_f04c1b8f",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "All of the other function bodies are in-line, this one’s in some far-off land?",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3e5ca68_b510e0d6",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "Add an initializer list showing that you’re initializing your bases and your member variables:\n\n    : Thread(),\n      UniversalMachExcServer::Interface(),\n      running_(false) {",
+      "range": {
+        "startLine": 107,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 23
+      },
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "643ea215_564c9172",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "Pretty weird to Start() from inside the constructor.",
+      "range": {
+        "startLine": 107,
+        "startChar": 26,
+        "endLine": 107,
+        "endChar": 34
+      },
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1525368b_685f52bc",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "When you’re implementing something that comes from some interface:\n\n1. We usually have a comment saying what interface it comes from.\n2. Say “override,” which gives you a little compiler checking, plus another hint that this is an interface method.\n\nSo:\n\n private:\n  // Thread:\n  void ThreadMain() override {\n\nSame for CatchMachException on line 143.\n\nBoth of these are things that we’d do at the class declaration, so if you split things between a .h and .cc, I’d expect to see these in the .h. (I don’t mean that you need a split here. I’m just giving helpful advice. I hope.)",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c40ebd8_71f1a4b5",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "If you couldn’t insert the right, task_set_exception_ports will also fail.\n\nSince there’s no good reason for this to fail on a healthy system, this can be a MACH_CHECK, the same way that you used CHECK above.",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60c4c480_0f9f9c67",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "This also has a return value that you should check.",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca53514e_d0f29975",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "You’re also missing EXC_SYSCALL, which can appear. EXC_MACH_SYSCALL is unused but I think we’d want to include it too as it’s part of the family.\n\nYou should make sure to sort in the order of \u003cmach/exception_types.h\u003e.\n\nIt may be more reasonable to do ExcMaskAll() and mask OUT the bits that you don’t want, like\n\nExcMaskAll() \u0026 ~(EXC_MASK_BREAKPOINT | EXC_MASK_RPC_ALERT | EXC_MASK_GUARD)\n\n(not saying which of these you’ll definitely want or not want.)\n\nPost-scripts are informative, preemptively answering questions:\n\nP.S. you don’t want EXC_RPC_ALERT, it was unused and recycled for Shark/Instruments performance monitoring stuff, and we don’t want it. See 10.15.0 xnu-6153.11.26/osfmk/kern/exception.c sys_perf_notify and xnu-6153.11.26/osfmk/kern/ux_handler.c ux_handler_setup.\n\nP.P.S. to trigger EXC_SYSCALL, set up a call to a Mach trap, but use a trap number that doesn’t exist. That works on x86, at least. xnu-6153.11.26/osfmk/i386/bsd_i386.c mach_call_munger[64], xnu-6153.11.26/osfmk/x86_64/idt64.s hndl_syscall, hndl_diag_scall64. I don’t see a way to get EXC_SYSCALL on ARM. Doesn’t mean we shouldn’t register for it.\n\nP.P.P.S. I’ve left out EXC_SOFTWARE. It used to be possible to trigger EXC_SOFTWARE by asking the CPU to execute a BOUND instruction that failed the bounds check, but that instruction was removed from x86_64. That could have been something that an application would want for its own purposes, we might not want to treat it as a crash (although I’d have to go back in time to double-check, if it was important). I don’t know if it’s possible to generate an EXC_SOFTWARE like that on ARM at all, but the kernel doesn’t seem to have anything. There are EXC_SOFTWARE exceptions that are supposed to tell debuggers about exceptions (xnu-2782.40.9/bsd/kern/kern_sig.c issignal_locked) but we don’t need that, we can get real Mach exceptions and signals directly. There are EXC_SOFTWARE exceptions that can be generated for security reasons (xnu-2782.40.9/security/mac_base.c mac_do_machexc), but I don’t think we can catch those, they’re also more for debuggers. Also, we can’t see the callers without reverse-engineering MACFramework.kext. So I think we shouldn’t camp out on this one.\n\nP.P.P.P.S. EXC_EMULATION is meant for something like “this CPU doesn’t implement that instruction, fake it in software.” It would have been used in olden days to do things like software fallback for floating-point instructions when there wasn’t any hardware floating-point unit, back when this might have been running on a system that didn’t have one. Most dinosaurs didn’t have much use for anything but integer arithmetic. Don’t think we need this one, because if it ever becomes relevant again, it wouldn’t be “crashy” unless there was no software fallback in place.",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b23db767_deb6d595",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "I don’t think we can receive this one in-process. We stand a better chance of receiving EXC_MASK_RESOURCE. But we should definitely double-check by getting the kernel to raise an EXC_GUARD and seeing if we can handle it. I can give you sample code to trigger a guard violation.",
+      "range": {
+        "startLine": 123,
+        "startChar": 12,
+        "endLine": 123,
+        "endChar": 26
+      },
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddd58912_8937f8d0",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "None of this stuff should (111–126) be done from the exception handler thread.",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 30
+      },
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17737ea2_b65770dd",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "DCHECK(!running_) first, to guard against accidental reentrancy.",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1aa59b32_3d0f0627",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "Seems like a “do…while” situation.",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 22
+      },
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "640dba75_14feaaf4",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "We can’t really do look inside the audit trailer on iOS. The SDK doesn’t have the necessary functions.\n\n…ok, I’ll come clean. By now, you probably realize that I’m not going to let “it’s not in the SDK” stand in my way. The real truth is that there isn’t anything we really could do or would want to do with the audit token here. So we might as well omit it. Use MACH_MSG_OPTION_NONE instead.",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bd1e997_e1d7337f",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "You let the thread die here, but the task’s exception ports are still set to your custom thing, which becomes dead. What did you mean to have happen here?\n\nMy suggestion: I don’t think you ever want this loop to end. In fact, you can use kPersistent mode (instead of kOneShot), which will run the loop for you, and get rid of the “while” and running_ altogether.",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a17911b4_dc0f3ab0",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "You’ll want to set *destroy_complex_requeset \u003d true. Take a look at the documentation for this parameter, and if you have any questions, I’ll explain. I usually do this first in the handler function (look around for example uses.)",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab53402c_b213da13",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "What was the point of the loop on line 130, then?",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a8a8bc8_1b432437",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "I think it would be cleaner to not refer to global state here. Where you create the MachExceptionServer from CrashHandler, the CrashHandler can pass in its “this” pointer.",
+      "range": {
+        "startLine": 158,
+        "startChar": 4,
+        "endLine": 158,
+        "endChar": 23
+      },
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c11fc3d_b0708401",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "This will need to be classier (but hey, it’s supposed to be rough now, right?)",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e6d820a_ceeade27",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "I don’t know if this TODO means “unsteal” or something else, but you don’t want this function at all. It deals with recovering the first-chance exception and its original codes when you’re not seeing the first-chance exception but the last-chance EXC_CRASH. You don’t have any EXC_CRASHes here, you only have first-chance exceptions, so their original codes are already intact.",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4c307ff_83f64d63",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "Plus, you’d want this in an anonymous namespace, not crashpad::internal.",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "327d550a_9c806007",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "Moot on iOS.",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 3
+      },
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df923774_64cdb977",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "Seems weird and wrong that the stuff that follows would be dependent on this.",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50be454f_1de0b927",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "I made a big deal in the x86 code about code_1_is_exception_address. That’s relevant here, at least for simulator. So we do need the same checks, within #if defined(ARCH_CPU_X86_FAMILY).\n\nDid you review xnu source to make sure that ARM is cleaner in this regard?",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 5
+      },
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09ab54ff_c99b3351",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "Seems like a hack. The signal handler works with context_. Why do you need a whole different structure for the Mach exception handler?",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 19
+      },
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0800bd7_59cd43b3",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "Code will read more cleanly and developers will be more likely to work with this if you don’t overload like this. Give descriptive names, like InitializeFromSignal and InitializeFromMachException.",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "577a0fb7_79e0b2ff",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "Capital M.",
+      "range": {
+        "startLine": 50,
+        "startChar": 42,
+        "endLine": 50,
+        "endChar": 43
+      },
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "052287ac_8ba65301",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "If you don’t have anything to say, don’t say anything at all.\n\nBut you should have something nice to say.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 28
+      },
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35c0f169_20d965e1",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "Now you’ll also want to do something to prevent someone from accidentally calling both the signal initialization and Mach exception initialization functions. Just a DCHECK(!exception_.get()) in each is probably enough.",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75ebef87_45f030f0",
+        "filename": "snapshot/ios/process_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "This isn’t helpful at all.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 28
+      },
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fe88b59_d5b853e4",
+        "filename": "snapshot/ios/process_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "Don’t overload names like this. SetExceptionFromSignal, SetExceptionFromMachException?",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f508d3c7_ec80490c",
+        "filename": "snapshot/ios/process_snapshot_ios.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-22T16:08:37Z",
+      "side": 1,
+      "message": "Blank line between things.",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
