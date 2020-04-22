@@ -18,11 +18,39 @@
 #include "base/mac/mach_logging.h"
 #include "base/strings/stringprintf.h"
 #include "snapshot/cpu_context.h"
+#include "snapshot/ios/thread_snapshot_ios.h"
 #include "snapshot/mac/cpu_context_mac.h"
 #include "util/misc/from_pointer_cast.h"
 
 namespace crashpad {
 namespace internal {
+
+// TODO: Stolen from exception types.
+exception_type_t ExcCrashRecoverOriginalException(int code_0,
+                                                  int* original_code_0,
+                                                  int* signal) {
+  // 10.9.4 xnu-2422.110.17/bsd/kern/kern_exit.c proc_prepareexit() sets code[0]
+  // based on the signal value, original exception type, and low 20 bits of the
+  // original code[0] before calling xnu-2422.110.17/osfmk/kern/exception.c
+  // task_exception_notify() to raise an EXC_CRASH.
+  //
+  // The list of core-generating signals (as used in proc_prepareexit()’s call
+  // to hassigprop()) is in 10.9.4 xnu-2422.110.17/bsd/sys/signalvar.h sigprop:
+  // entires with SA_CORE are in the set. These signals are SIGQUIT, SIGILL,
+  // SIGTRAP, SIGABRT, SIGEMT, SIGFPE, SIGBUS, SIGSEGV, and SIGSYS. Processes
+  // killed for code-signing reasons will be killed by SIGKILL and are also
+  // eligible for EXC_CRASH handling, but processes killed by SIGKILL for other
+  // reasons are not.
+  if (signal) {
+    *signal = (code_0 >> 24) & 0xff;
+  }
+
+  if (original_code_0) {
+    *original_code_0 = code_0 & 0xfffff;
+  }
+
+  return (code_0 >> 20) & 0xf;
+}
 
 ExceptionSnapshotIOS::ExceptionSnapshotIOS()
     : ExceptionSnapshot(),
@@ -83,8 +111,53 @@ bool ExceptionSnapshotIOS::Initialize(const siginfo_t* siginfo,
   return true;
 }
 
+bool ExceptionSnapshotIOS::Initialize(exception_behavior_t behavior,
+                                      thread_t exception_thread,
+                                      exception_type_t exception,
+                                      const mach_exception_data_type_t* code,
+                                      mach_msg_type_number_t code_count,
+                                      thread_state_flavor_t flavor,
+                                      ConstThreadState state,
+                                      mach_msg_type_number_t state_count) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+  codes_.push_back(exception);
+  for (mach_msg_type_number_t code_index = 0; code_index < code_count;
+       ++code_index) {
+    codes_.push_back(code[code_index]);
+  }
+  signal_number_ = exception;
+  signal_code_ = code[0];
+
+  if (exception == EXC_CRASH) {
+    signal_number_ =
+        ExcCrashRecoverOriginalException(signal_code_, &signal_code_, nullptr);
+  }
+
+  // TODO(justincohen): When doing serialization this would simply record the
+  // thread_id_ the same way ThreadSnapshotIOS captures it.  The context can be
+  // recovered from the same list of thread.
+  auto thread_snapshot = std::make_unique<internal::ThreadSnapshotIOS>();
+  if (thread_snapshot->Initialize(exception_thread)) {
+    thread_id_ = thread_snapshot->ThreadID();
+    exception_thread_context_ = thread_snapshot->Context();
+
+    if (exception == EXC_BAD_ACCESS) {
+      exception_address_ = code[1];
+    } else {
+      exception_address_ = thread_snapshot->Context()->InstructionPointer();
+    }
+  }
+
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
+
 const CPUContext* ExceptionSnapshotIOS::Context() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  if (exception_thread_context_) {
+    return exception_thread_context_;
+  }
   return &context_;
 }
 
