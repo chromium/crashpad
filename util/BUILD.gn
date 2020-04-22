@@ -87,13 +87,14 @@ if (crashpad_is_mac || crashpad_is_ios) {
     }
     args += [
       "--include",
+      rebase_path("..", root_build_dir),
+      "--include",
       rebase_path("../compat/mac", root_build_dir),
     ]
     if (crashpad_is_ios) {
       args += [
-        # The iOS SDK doesn’t have any .defs files. Get them directly from xnu.
         "--include",
-        rebase_path("../third_party/xnu/osfmk", root_build_dir),
+        rebase_path("../compat/ios", root_build_dir),
       ]
     }
     if (current_cpu == "x86") {
@@ -119,7 +120,7 @@ if (crashpad_is_mac || crashpad_is_ios) {
     }
   }
 
-  source_set("mig_output") {
+  static_library("mig_output") {
     deps = [ ":mig" ]
     sources = get_target_outputs(":mig")
     if (crashpad_is_in_chromium) {
