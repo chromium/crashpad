@@ -18,6 +18,7 @@
 #include "base/mac/mach_logging.h"
 #include "base/strings/stringprintf.h"
 #include "snapshot/cpu_context.h"
+#include "snapshot/ios/thread_snapshot_ios.h"
 #include "snapshot/mac/cpu_context_mac.h"
 #include "util/misc/from_pointer_cast.h"
 
@@ -36,8 +37,8 @@ ExceptionSnapshotIOS::ExceptionSnapshotIOS()
 
 ExceptionSnapshotIOS::~ExceptionSnapshotIOS() {}
 
-bool ExceptionSnapshotIOS::Initialize(const siginfo_t* siginfo,
-                                      const ucontext_t* context) {
+bool ExceptionSnapshotIOS::InitializeFromSignal(const siginfo_t* siginfo,
+                                                const ucontext_t* context) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   if (!context)
@@ -83,8 +84,70 @@ bool ExceptionSnapshotIOS::Initialize(const siginfo_t* siginfo,
   return true;
 }
 
+bool ExceptionSnapshotIOS::InitializeFromMachException(
+    exception_behavior_t behavior,
+    thread_t exception_thread,
+    exception_type_t exception,
+    const mach_exception_data_type_t* code,
+    mach_msg_type_number_t code_count,
+    thread_state_flavor_t flavor,
+    ConstThreadState state,
+    mach_msg_type_number_t state_count) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+  codes_.push_back(exception);
+  for (mach_msg_type_number_t code_index = 0; code_index < code_count;
+       ++code_index) {
+    codes_.push_back(code[code_index]);
+  }
+  signal_number_ = exception;
+  signal_code_ = code[0];
+
+  // TODO(justincohen): When doing serialization this would simply record the
+  // thread_id_ the same way ThreadSnapshotIOS captures it.  The context can be
+  // recovered from the same list of thread.
+  auto thread_snapshot = std::make_unique<internal::ThreadSnapshotIOS>();
+  if (thread_snapshot->Initialize(exception_thread)) {
+    thread_id_ = thread_snapshot->ThreadID();
+    exception_thread_context_ = thread_snapshot->Context();
+
+    // Normally, the exception address is present in code[1] for EXC_BAD_ACCESS
+    // exceptions, but not for other types of exceptions.
+    bool code_1_is_exception_address = signal_number_ == EXC_BAD_ACCESS;
+
+#if defined(ARCH_CPU_X86_64)
+    // For x86 and x86_64 EXC_BAD_ACCESS exceptions, some code[0] values
+    // indicate that code[1] does not (or may not) carry the exception address:
+    // EXC_I386_GPFLT (10.9.5 xnu-2422.115.4/osfmk/i386/trap.c user_trap() for
+    // T_GENERAL_PROTECTION) and the oddball (VM_PROT_READ | VM_PROT_EXECUTE)
+    // which collides with EXC_I386_BOUNDFLT (10.9.5
+    // xnu-2422.115.4/osfmk/i386/fpu.c fpextovrflt()). Other EXC_BAD_ACCESS
+    // exceptions come through 10.9.5 xnu-2422.115.4/osfmk/i386/trap.c
+    // user_page_fault_continue() and do contain the exception address in
+    // code[1].
+    if (signal_number_ == EXC_BAD_ACCESS &&
+        (signal_code_ == EXC_I386_GPFLT ||
+         signal_code_ == (VM_PROT_READ | VM_PROT_EXECUTE))) {
+      code_1_is_exception_address = false;
+    }
+#endif
+
+    if (code_1_is_exception_address) {
+      exception_address_ = code[1];
+    } else {
+      exception_address_ = thread_snapshot->Context()->InstructionPointer();
+    }
+  }
+
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
+
 const CPUContext* ExceptionSnapshotIOS::Context() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  if (exception_thread_context_) {
+    return exception_thread_context_;
+  }
   return &context_;
 }
 
