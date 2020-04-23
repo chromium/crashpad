@@ -1,0 +1,786 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac7ad651_80aa8cf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Capital M, also on line 9.",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e286653_b6ccdfa2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "will definitely ;)",
+      "range": {
+        "startLine": 15,
+        "startChar": 54,
+        "endLine": 15,
+        "endChar": 57
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e856e0c_2d3cfd07",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Unused so far (unless you take one of my suggestions below with the StringPrintf option).",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e6b3edb_87ab6e12",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Unused.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3178b54_9e986061",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Not anymore.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cad32ffa_bfe8b234",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Proper name, capital M.",
+      "range": {
+        "startLine": 39,
+        "startChar": 39,
+        "endLine": 39,
+        "endChar": 43
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15e61ba1_ee3cf241",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Don’t you want to ensure that Install was successful before anyone comes in here? Seems like you might want an InitializationStateDcheck now that you’ve got this DumpWithoutCrash public method.\n\nOnce you have an InitializationStateDcheck, you might be tempted to check it in HandleSignal and CatchMachException. The tricky part about that is that it won’t be set to valid until you’re done with Install, but if a signal occurs while you’re busy doing SetUpMachPort, or is raised essentially asynchronously by another thread (or by some prank pulled by something else on the system), it’ll trip the DCHECK when you hit HandleSignal. In fact, due to the fact that the Mach exception handler runs on another thread, it’s even possible for CatchMachException to run even before Install returns, so it could theoretically trip the DCHECK too. So I think that checking the InitializationStateDcheck in those codepaths is hazardous, and I wouldn’t recommend it (and, strictly speaking, it’s not necessary because they’re private and you’re not really trying to guard against your own logic errors with an InitializationStateDcheck as much as you’re trying to guard against other code not using your class correctly or forgetting to check return values.) But once you have the InitializationStateDcheck, it looks weird not to use it in places like HandleSignal and CatchMachException, so I’d say it’d be worth a comment at the tops of those functions explaining why you’re not doing it.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b371b92_60dde7b1",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "…leaving the signal handler suspiciously still installed?",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6c6197c_56dec484",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Why isn’t this done in InstallMachExceptionHandler? (That’s what I propose renaming something, see below.)",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67a92f1c_b7182927",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "This leaves old_action_ uninitialized.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "252593d1_1a1bca63",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "#include \"util/mach/mach_message_server.h\"",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 30
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15cd6412_8e9c74f8",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "In persistent mode, this should never happen (so if it did happen, we’d want to know about it, meaning that you shouldn’t allow it in this condition).",
+      "range": {
+        "startLine": 77,
+        "startChar": 15,
+        "endLine": 77,
+        "endChar": 37
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95be8b8e_14961532",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Oh, hmm. This case means that MachMessageServer::Run may actually return. So it seems that we do need to wrap this in “while (true)” after all, even with MachMessageServer::kPersistent.",
+      "range": {
+        "startLine": 77,
+        "startChar": 41,
+        "endLine": 77,
+        "endChar": 69
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f3aa6c0_9acfe8e6",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Blank line after this, because this is setup and you’re about to do something very different.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51208a70_cab81cb5",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Hmm…\n\nWhy? I can think of a reason for this check, but it’s a little obscure and would be worth a comment. Without tainting your opinion of why this is necessary, I’d like to hear your answer, because there may be multiple reasons.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bea7c8ba_e999bb9a",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Ideally you’d say something about which task it is, to help trace it.\n\n    LOG(ERROR) \u003c\u003c \"task 0x\" \u003c\u003c std::hex \u003c\u003c task \u003c\u003c \" !\u003d 0x\" \u003c\u003c mach_task_self();\n\nor the base::StringPrintf-ed equivalent.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0600c34_988dc344",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Nope. Once we’re installed, we don’t want to uninstall.\n\nAll we want to do with original_handlers_ is forward an exception to a handler that used to be set, if there is one. We’d use UniversalExceptionRaise for this. But the flavor and behavior handling is a little tricky, so I’d suggest leaving this out for the time being (it was missing from your previous draft and I think that’s OK) so that we can focus on other things.\n\nA preview of correct UniversalExceptionRaise usage is in handler/mac/crash_report_exception_handler.cc, although you may get more value out of the comment that’s there than the actual implementation. The problem here is that I don’t think we have very strong assurance of the particular flavor and behavior that the previous handler wants, since the previous handler in this case is a debugger and may change. What we’ll wind up needing to do will look a lot like 10.15.0 xnu-6153.11.26/osfmk/kern/exception.c exception_deliver. That degenerates into a 6-headed monster, The UniversalExceptionRaise interface will make things a little easier.",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 5
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ef400cf_dce2e1b8",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "1. Not on iOS (devices, at least), because it appears that there’s only a host-level ReportCrash handler, not a task-level one. On desktop macOS, there’s both a host-level ReportCrash handler and a task-level one. The task-level one is the “user” ReportCrash, and that’s the normal place exceptions are handled for user apps so that UI can be shown and so that reports go to ~/Library/Logs/DiagnosticReports (as opposed to the same directory in the root /Library). If I remember the results of last week’s https://chromium-review.googlesource.com/c/2152965 experiment correctly, there was no task-level EXC_CRASH or EXC_CORPSE_NOTIFY handler on iOS (on-device) at all. You can’t see the host-level handlers unless you’re root, so I didn’t check this, but if they’re not task-level, they’d either have to be thread-level or host-level, and they wouldn’t be thread-level.\n\n2. Not in our iOS implementation, because com.apple.ReportCrash fills the EXC_CRASH or EXC_CORPSE_NOTIFY handler role, for the last-chance exception. For reasons we’ve discussed, we’re not becoming a last-chance exception handler (we can’t), we’re doing the first-chance thing. If we do the right thing here and report the first-chance exception as unhandled, it’ll continue along to the system’s host-level first-chance handler, it’ll turn into a signal, the signal will cause process death, and a last-chance exception will be raised which will go to the registered last-chance exception handler (incidentally, on the host port).",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5042c828_0cf69973",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "A comment is absolutely required, because it doesn’t seem like we’ve failed. Borrow what we talked about in our chat earlier if you’d like.\n\nAlso: this is way different than the thing above it, so put a blank line before it!",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12c07d63_12756d65",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "1. This doesn’t do something with a Mach port so much. That’s a small and generic part of what it does. It does, however, set up a Mach exception handler.\n\n2. The public interface to this class is a method named Install, and Install does two things: Signals::InstallHandler and this. So it seems that Install terminology fits, and works. Let’s be consistent.\n\nHow about InstallMachExceptionHandler?",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99ed8229_6069ea85",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "1. #include \"util/mach/mach_extensions.h\"\n\n2. No reason to bother fetching handlers for things we won’t be replacing. Use the same mask here that you use with ExceptionPorts::SetExceptionPort below.",
+      "range": {
+        "startLine": 124,
+        "startChar": 43,
+        "endLine": 124,
+        "endChar": 57
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21f781d6_3319dba3",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "GetExceptionPorts will log its own error, so you don’t have to.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d9e5a3e_e386590e",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Is this really failure-worthy?\n\nThis seems kind of wishy-washy. If it is failure-worthy, it should be more like some of its other friends in the function, which have a very assertive CHECK on failure. And if you get to that point, and maybe also decide that SetExceptionPort should be a CHECK, this whole function can be “void”, which actually solves the problem I mentioned in Install about leaving a signal handler set up when Mach exception handler installation failed.\n\nAnd if you reach that point, wouldn’t you make Signals::InstallHandler a CHECK too?",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "187f930f_b751b5ca",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "I think we said we wanted to leave out EXC_SOFTWARE and EXC_EMULATION too. https://chromium-review.googlesource.com/c/2160122/2/client/crashpad_client_ios.cc#122\n\nDid you test to see whether EXC_GUARD and EXC_RESOURCE can be caught in-process? We’d want them if they are.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c37145d_8062efd7",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "A little wordier than necessary. Just HandleAndReraiseSignal?",
+      "range": {
+        "startLine": 176,
+        "startChar": 7,
+        "endLine": 176,
+        "endChar": 35
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fb236a9_340a63b5",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "This should come into here as the proper type, ucontext_t*.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aaedc03_fc94bc04",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "That thing I keep saying about blank lines and how much they cost.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8e8c24c_aa21c03c",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "I see why you split HandleSignal out, but it’s just to service DumpWithoutCrash (which doesn’t want reraise since there was no signal to begin with) separately. Ultimately, I don’t think we’ll be recycling the signal handler for this at all, I think we’ll just fire off a ProcessSnapshot right from there, without inventing a fake signal. So maybe we should just do that now, and re-merge this all into a single HandleSignal.\n\nOr, really, in the future we’ll wind up doing whatever we do when this turns into something that serializes instead of something that builds a forbidden snapshot. But I think that for this part of things, the structure will be the same. We won’t want to build a fake signal or a fake Mach exception at this level, we should just write the code to treat all three sources as equal peers: signals, Mach exceptions, and direct requests from the program (DumpWithoutCrash).",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 75
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "541a8e5d_4c0c6c13",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "The cast to ucontext_t* should be here. When you receive something as a bad type, you should cast it to the right type as soon as you can, so that the object spends as little time as possible in your program masquerading as something it isn’t.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d312fcb_5c67d024",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Blank line before this.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "827bcd41_3a8789fb",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "CrashHandler::Get won’t run if DCHECKs aren’t enabled, which is kind of OK because you call it again on the next line anyway, but that seems like it’s somewhere on the wasteful↔︎abusive continuum.\n\nHow about:\n\n  (blank line)  // because it’s very different than the thing before it\n  CrashHandler* crash_handler \u003d CrashHandler::Get();\n  DCHECK(crash_handler);\n  return crash_handler-\u003eInstall();\n\nSame on lines 210–211, without the need for a blank line.",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 205,
+        "endChar": 40
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf665118_cd610bbb",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "If the answer to the next question is “never”, this function can be void. There’s no interfacey reason to be bool.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 4
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccc3eab7_fa660429",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "When would this happen?\n\n(Also, the documentation promised to log a message if this returns false.)",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 17
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "858e60a8_5fb2bd50",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Looks like this can be void too.",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 4
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70cd7753_50e6e28e",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "This naming isn’t right now that you have both signals and Mach exceptions.  Switch to exception_ and exception_info_ so that it’s clear everywhere which ExceptionSnapshot interfaces these are working with…",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 25
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5945d826_bc70c83b",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Also, upon thinking about this some more, I think that the abuse of ThreadSnapshot is even hackier than I thought it was when I was just looking at what happened in Context().\n\nBut I’ll give you a concrete problem: this is buggy because you’re storing a pointer to thread_snapshot-\u003eContext() as a member variable (line 112), but then that becomes invalid when this function ends and your ThreadSnapshotIOS goes out of scope.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37316aec_26fbdcf0",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "I haven’t checked your work against xnu yet, but I thought you said that code[1] was the exception address on ARM always, which I took as an implication that this was the case even for non-EXC_BAD_ACCESS exceptions.",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 57
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f116aa9d_b62d4045",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "…otherwise, things like this read really badly.",
+      "range": {
+        "startLine": 116,
+        "startChar": 39,
+        "endLine": 116,
+        "endChar": 71
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11c5aee4_b2500bc9",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Also, as it stands now, exception_thread_context_ was never initialized in the constructor, so this is likely to be garbage at some point, which will send you down the wrong (and painful) path.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68319052_033164ad",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T01:17:24Z",
+      "side": 1,
+      "message": "Blank before me. Function’s gotten more complex, you can separate the preamble DCHECKs from the real work.\n\nSame at line 126.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
