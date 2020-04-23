@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0323b670_7e7ab6e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac7ad651_80aa8cf1",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e286653_b6ccdfa2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "26dcbfd0_56d4374c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e286653_b6ccdfa2",
+      "range": {
+        "startLine": 15,
+        "startChar": 54,
+        "endLine": 15,
+        "endChar": 57
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e856e0c_2d3cfd07",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -62,6 +110,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e3ef031_38638186",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e856e0c_2d3cfd07",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "93a42758_9d4a2db4",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e6b3edb_87ab6e12",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3178b54_9e986061",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -96,6 +180,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d82f61f_711e1a63",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3178b54_9e986061",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "f801b640_bcbf6cae",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cad32ffa_bfe8b234",
+      "range": {
+        "startLine": 39,
+        "startChar": 39,
+        "endLine": 39,
+        "endChar": 43
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15e61ba1_ee3cf241",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -133,6 +259,24 @@
       "writtenOn": "2020-04-23T01:17:24Z",
       "side": 1,
       "message": "Don’t you want to ensure that Install was successful before anyone comes in here? Seems like you might want an InitializationStateDcheck now that you’ve got this DumpWithoutCrash public method.\n\nOnce you have an InitializationStateDcheck, you might be tempted to check it in HandleSignal and CatchMachException. The tricky part about that is that it won’t be set to valid until you’re done with Install, but if a signal occurs while you’re busy doing SetUpMachPort, or is raised essentially asynchronously by another thread (or by some prank pulled by something else on the system), it’ll trip the DCHECK when you hit HandleSignal. In fact, due to the fact that the Mach exception handler runs on another thread, it’s even possible for CatchMachException to run even before Install returns, so it could theoretically trip the DCHECK too. So I think that checking the InitializationStateDcheck in those codepaths is hazardous, and I wouldn’t recommend it (and, strictly speaking, it’s not necessary because they’re private and you’re not really trying to guard against your own logic errors with an InitializationStateDcheck as much as you’re trying to guard against other code not using your class correctly or forgetting to check return values.) But once you have the InitializationStateDcheck, it looks weird not to use it in places like HandleSignal and CatchMachException, so I’d say it’d be worth a comment at the tops of those functions explaining why you’re not doing it.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbe8a84d_ec62349b",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "I\u0027m confused, do you want InitializationStateDcheck elsewhere?  Or nowhere?",
+      "parentUuid": "15e61ba1_ee3cf241",
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -156,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "1670033e_2e1c16f8",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "added       if (!sigaction(SIGABRT, \u0026old_action_, nullptr))\n        LOG(ERROR) \u003c\u003c \"Could not uninstall handler\";",
+      "parentUuid": "2b371b92_60dde7b1",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6c6197c_56dec484",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -173,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "b8e63211_ee78122a",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6c6197c_56dec484",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67a92f1c_b7182927",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -187,6 +367,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79ba3134_b75aed40",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "CrashHandler() : old_action_() {}",
+      "parentUuid": "67a92f1c_b7182927",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -210,6 +408,30 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9a7a3b8_290253ec",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "252593d1_1a1bca63",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 30
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -259,6 +481,54 @@
     },
     {
       "key": {
+        "uuid": "a6ae7262_a4693fda",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95be8b8e_14961532",
+      "range": {
+        "startLine": 77,
+        "startChar": 41,
+        "endLine": 77,
+        "endChar": 69
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "810ef507_94443e73",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "removed success.",
+      "parentUuid": "15cd6412_8e9c74f8",
+      "range": {
+        "startLine": 77,
+        "startChar": 15,
+        "endLine": 77,
+        "endChar": 37
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f3aa6c0_9acfe8e6",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -273,6 +543,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db67da94_4604d055",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f3aa6c0_9acfe8e6",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -293,6 +581,24 @@
     },
     {
       "key": {
+        "uuid": "1aef3765_ff53e65f",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "No idea, but I\u0027m curious what happens when I start playing with iOS extensions.  What\u0027s your answer?",
+      "parentUuid": "51208a70_cab81cb5",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bea7c8ba_e999bb9a",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -307,6 +613,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "941b2877_7494c40c",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bea7c8ba_e999bb9a",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -333,6 +657,30 @@
     },
     {
       "key": {
+        "uuid": "29296865_2fe4e06a",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Put in `// TODO: Call UniversalExceptionRaise on original_handlers_`",
+      "parentUuid": "c0600c34_988dc344",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 5
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ef400cf_dce2e1b8",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -347,6 +695,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebeb3dde_b03b344d",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4ef400cf_dce2e1b8",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -367,6 +733,24 @@
     },
     {
       "key": {
+        "uuid": "5c05eca7_4e1c0d75",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5042c828_0cf69973",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12c07d63_12756d65",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -381,6 +765,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce3c74f9_3a9ae213",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12c07d63_12756d65",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -407,6 +809,30 @@
     },
     {
       "key": {
+        "uuid": "8854ef4b_0ecfa85a",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99ed8229_6069ea85",
+      "range": {
+        "startLine": 124,
+        "startChar": 43,
+        "endLine": 124,
+        "endChar": 57
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21f781d6_3319dba3",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -421,6 +847,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4132b5f1_9e0bc1ff",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21f781d6_3319dba3",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -441,6 +885,24 @@
     },
     {
       "key": {
+        "uuid": "cc082ae0_f1a15401",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Made it not failure worthy.  I don\u0027t think we should CHECK...",
+      "parentUuid": "3d9e5a3e_e386590e",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "187f930f_b751b5ca",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -452,6 +914,24 @@
       "writtenOn": "2020-04-23T01:17:24Z",
       "side": 1,
       "message": "I think we said we wanted to leave out EXC_SOFTWARE and EXC_EMULATION too. https://chromium-review.googlesource.com/c/2160122/2/client/crashpad_client_ios.cc#122\n\nDid you test to see whether EXC_GUARD and EXC_RESOURCE can be caught in-process? We’d want them if they are.",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc4e4e1d_44c95e98",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "What would be a good test for that?  EXC_RESOURCE OOMs I know we can\u0027t catch...",
+      "parentUuid": "187f930f_b751b5ca",
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -481,6 +961,30 @@
     },
     {
       "key": {
+        "uuid": "a00a6f4f_7dd33e49",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c37145d_8062efd7",
+      "range": {
+        "startLine": 176,
+        "startChar": 7,
+        "endLine": 176,
+        "endChar": 35
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1fb236a9_340a63b5",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -498,6 +1002,24 @@
     },
     {
       "key": {
+        "uuid": "18aeb64f_543d13d9",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fb236a9_340a63b5",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aaedc03_fc94bc04",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -512,6 +1034,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38a5613f_f54d7286",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aaedc03_fc94bc04",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -538,6 +1078,30 @@
     },
     {
       "key": {
+        "uuid": "e9f1a719_a095a396",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8e8c24c_aa21c03c",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 75
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "541a8e5d_4c0c6c13",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -555,6 +1119,24 @@
     },
     {
       "key": {
+        "uuid": "4921db1b_1bb6a661",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "541a8e5d_4c0c6c13",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d312fcb_5c67d024",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -569,6 +1151,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d295c4bc_d9634425",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d312fcb_5c67d024",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -595,6 +1195,30 @@
     },
     {
       "key": {
+        "uuid": "7c8e4c5e_23cf9e10",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "827bcd41_3a8789fb",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 205,
+        "endChar": 40
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf665118_cd610bbb",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 3
@@ -618,6 +1242,30 @@
     },
     {
       "key": {
+        "uuid": "b286a59c_87dfc3f6",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf665118_cd610bbb",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 4
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ccc3eab7_fa660429",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 3
@@ -629,6 +1277,30 @@
       "writtenOn": "2020-04-23T01:17:24Z",
       "side": 1,
       "message": "When would this happen?\n\n(Also, the documentation promised to log a message if this returns false.)",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 17
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62fff4c1_154e5ca7",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Well, it used to happen in DumpWithoutCrash, but I changed it to using Exceptions with the current thread, so now it\u0027s never.  until the next time we change it.\n\nChanged to DCHECK(context);",
+      "parentUuid": "ccc3eab7_fa660429",
       "range": {
         "startLine": 44,
         "startChar": 0,
@@ -664,6 +1336,30 @@
     },
     {
       "key": {
+        "uuid": "f20d760b_51a0f626",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "858e60a8_5fb2bd50",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 4
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70cd7753_50e6e28e",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 3
@@ -687,6 +1383,30 @@
     },
     {
       "key": {
+        "uuid": "ded60520_c39793a0",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70cd7753_50e6e28e",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 25
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5945d826_bc70c83b",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 3
@@ -704,6 +1424,24 @@
     },
     {
       "key": {
+        "uuid": "10f44a44_ed8de072",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "The alternative is duplicate a bunch of logic that lives in thread snapshot, that won\u0027t be needed in seralized land (we just serialize the thread id!)\n\nFor now, is the hack so bad?  I can even name the variable hack!",
+      "parentUuid": "5945d826_bc70c83b",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37316aec_26fbdcf0",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 3
@@ -715,6 +1453,30 @@
       "writtenOn": "2020-04-23T01:17:24Z",
       "side": 1,
       "message": "I haven’t checked your work against xnu yet, but I thought you said that code[1] was the exception address on ARM always, which I took as an implication that this was the case even for non-EXC_BAD_ACCESS exceptions.",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 57
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5928c395_cfef07ad",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Don\u0027t I still need this for x86?",
+      "parentUuid": "37316aec_26fbdcf0",
       "range": {
         "startLine": 114,
         "startChar": 0,
@@ -750,6 +1512,30 @@
     },
     {
       "key": {
+        "uuid": "9196d176_0b9c4d33",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f116aa9d_b62d4045",
+      "range": {
+        "startLine": 116,
+        "startChar": 39,
+        "endLine": 116,
+        "endChar": 71
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11c5aee4_b2500bc9",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 3
@@ -767,6 +1553,24 @@
     },
     {
       "key": {
+        "uuid": "694761d8_6d4ce7d3",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "init-ed.",
+      "parentUuid": "11c5aee4_b2500bc9",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68319052_033164ad",
         "filename": "snapshot/ios/process_snapshot_ios.cc",
         "patchSetId": 3
@@ -781,6 +1585,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17cc2365_b7ed8cfa",
+        "filename": "snapshot/ios/process_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68319052_033164ad",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

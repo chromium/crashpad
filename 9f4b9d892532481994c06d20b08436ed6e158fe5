@@ -769,6 +769,24 @@
     },
     {
       "key": {
+        "uuid": "ed421f06_febd0cca",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Er, what?",
+      "parentUuid": "a011876a_ff85a3ec",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e6d820a_ceeade27",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 2
@@ -939,6 +957,24 @@
     },
     {
       "key": {
+        "uuid": "6af0b444_2d14e337",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Is it possible `task_threads(mach_task_self(), \u0026threads, count);` may not contain |exception_thread|\n\nIf it does, any logic we use here to get thread info will be duplicated.",
+      "parentUuid": "145ee85c_cda7d93a",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "50be454f_1de0b927",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 2
@@ -1007,6 +1043,30 @@
       "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4468e505_dd6210e0",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-23T20:33:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ab2bacce_934384c6",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 5
+      },
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
