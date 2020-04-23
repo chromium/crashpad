@@ -16,6 +16,7 @@ vars = {
   'chromium_git': 'https://chromium.googlesource.com',
   'pull_linux_clang': False,
   'pull_win_toolchain': False,
+
   # Controls whether crashpad/build/ios/setup-ios-gn.py is run as part of
   # gclient hooks. It is enabled by default for developer's convenience. It can
   # be disabled with custom_vars (done automatically on the bots).
@@ -25,7 +26,11 @@ vars = {
 deps = {
   'buildtools':
       Var('chromium_git') + '/chromium/src/buildtools.git@' +
-      '4164a305626786b1912d467003acf4c4995bec7d',
+      '2c41dfb19abe40908834803b6fed797b0f341fe1',
+  'crashpad/third_party/clang/chromium': {
+      'url': Var('chromium_git') + '/chromium/src/tools/clang.git@' +
+      'd31d6db99fb8f0b999549efd921a328b2ce90a41',
+  },
   'crashpad/third_party/edo/edo': {
       'url': Var('chromium_git') + '/external/github.com/google/eDistantObject.git@' +
       '243fc89ae95b24717d41f3786f6a9abeeef87c92',
@@ -138,6 +143,39 @@ deps = {
 }
 
 hooks = [
+  {
+    'name': 'clang_mac',
+    'pattern': '.',
+    'condition': 'host_os == "mac"',
+    'action': [
+      'python',
+      'crashpad/third_party/clang/chromium/scripts/update.py',
+      '--output-dir=crashpad/third_party/clang/clang/mac',
+      '--host-os=mac',
+    ],
+  },
+  {
+    'name': 'clang_linux',
+    'pattern': '.',
+    'condition': 'host_os == "linux"',
+    'action': [
+      'python',
+      'crashpad/third_party/clang/chromium/scripts/update.py',
+      '--output-dir=crashpad/third_party/clang/clang/linux',
+      '--host-os=linux',
+    ],
+  },
+  {
+    'name': 'clang_win',
+    'pattern': '.',
+    'condition': 'host_os == "win"',
+    'action': [
+      'python',
+      'crashpad/third_party/clang/chromium/scripts/update.py',
+      '--output-dir=crashpad/third_party/clang/clang/win',
+      '--host-os=win',
+    ],
+  },
   {
     'name': 'clang_format_mac',
     'pattern': '.',
