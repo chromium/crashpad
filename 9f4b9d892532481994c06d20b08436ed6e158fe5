@@ -787,6 +787,24 @@
     },
     {
       "key": {
+        "uuid": "d9d75dd1_f80c2998",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T21:41:21Z",
+      "side": 1,
+      "message": "\u003e Er, what?\n\nWhat?\n\nI mean that we ultimately won’t be passing this fake zeroed-out signal around, we’ll have an ARM CaptureContext to fill out a context structure for us, and we’ll work with that.",
+      "parentUuid": "ed421f06_febd0cca",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3e6d820a_ceeade27",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 2
@@ -969,6 +987,24 @@
       "side": 1,
       "message": "Is it possible `task_threads(mach_task_self(), \u0026threads, count);` may not contain |exception_thread|\n\nIf it does, any logic we use here to get thread info will be duplicated.",
       "parentUuid": "145ee85c_cda7d93a",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b2358a8_53e6a2d8",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T21:41:21Z",
+      "side": 1,
+      "message": "\u003e Is it possible `task_threads(mach_task_self(), \u0026threads, count);` may not contain |exception_thread|\n\nShouldn’t happen on a well-behaved system. Something highly privileged would have to be trying to troll you for that to happen.",
+      "parentUuid": "6af0b444_2d14e337",
       "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true

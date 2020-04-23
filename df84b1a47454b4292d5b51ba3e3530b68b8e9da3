@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "cb0a384b_d2f1594c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T21:41:21Z",
+      "side": 1,
+      "message": "\u003e Done\n\nBut not on line 9.",
+      "parentUuid": "0323b670_7e7ab6e5",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9e286653_b6ccdfa2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -283,6 +307,24 @@
     },
     {
       "key": {
+        "uuid": "ba080731_da53cff9",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T21:41:21Z",
+      "side": 1,
+      "message": "\u003e I\u0027m confused, do you want InitializationStateDcheck elsewhere?  Or nowhere?\n\nI want it to protect the public entry point(s): DumpWithoutCrash.\n\nYou can’t put it in the private entry points because they may be called essentially asynchronously with respect to Install returning.\n\nAlthough, if nothing Install does can fail, you can set the state to valid before installing the signal handler or Mach exception handler, and then you can check the InitializationStateDcheck in both of those handlers. But this isn’t really so important.",
+      "parentUuid": "dbe8a84d_ec62349b",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b371b92_60dde7b1",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -315,6 +357,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb856e72_8262fd42",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T21:41:21Z",
+      "side": 1,
+      "message": "\u003e added       if (!sigaction(SIGABRT, \u0026old_action_, nullptr))\n\nThat doesn’t check for success correctly.\n\n\u003e         LOG(ERROR) \u003c\u003c \"Could not uninstall handler\";\n\nPLOG(ERROR) \u003c\u003c \"sigaction\";\n\nbut:\n\nWe couldn’t just make errors in Signals::InstallHandler and InstallMachExceptionHandler CHECK, so that they could return void?",
+      "parentUuid": "1670033e_2e1c16f8",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     },
     {
       "key": {
@@ -385,6 +445,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd2d5aea_726e5a67",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T21:41:21Z",
+      "side": 1,
+      "message": "\u003e CrashHandler() : old_action_() {}\n\nbut the way we do this: if you’re initializing something explicitly in a constructor initializer list, please do everything.\n\nIf I understand your preferences correctly, what I think you’ll find most attractive is\n\n  struct sigaction old_action_ \u003d {};",
+      "parentUuid": "79ba3134_b75aed40",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     },
     {
       "key": {
@@ -593,6 +671,24 @@
       "side": 1,
       "message": "No idea, but I\u0027m curious what happens when I start playing with iOS extensions.  What\u0027s your answer?",
       "parentUuid": "51208a70_cab81cb5",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d3b702b_2b102702",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T21:41:21Z",
+      "side": 1,
+      "message": "\u003e No idea, but I\u0027m curious what happens when I start playing with iOS extensions.  What\u0027s your answer?\n\nI know the system doesn’t want you to make your own child processes, but I don’t know if anything on the system will make child processes for you. If it does, those children would inherit your task exception ports. Since you’re not really expecting to handle them, you’d reject them here.\n\nIs that why you put this here? I was just wondering if you had more inspiration for doing this, or if you actually saw a need.",
+      "parentUuid": "1aef3765_ff53e65f",
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -932,6 +1028,24 @@
       "side": 1,
       "message": "What would be a good test for that?  EXC_RESOURCE OOMs I know we can\u0027t catch...",
       "parentUuid": "187f930f_b751b5ca",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a297d716_0776a559",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T21:41:21Z",
+      "side": 1,
+      "message": "\u003e What would be a good test for that?  EXC_RESOURCE OOMs I know we can\u0027t catch...\n\nFor what it’s worth, the EXC_RESOURCE tests here appear to be broken on desktop macOS now. Or, they work, but the system’s handling of EXC_RESOURCE is broken.\n\n(base64 --decode \u003c\u003c __EOF__\nH4sICA8Eol4CA2V4Y19yZXNvdXJjZV9hbmRfZXhjX2d1YXJkLnRhcgDtWHeT2jgU529/inep\nkOHAhZKecMTJ7GylXb/TKLbMetaWPZK8JeW7n2RjOmyZbXPhbUF+Ve29nx/k1EGM8ChhDkGY\nukgxhglmbrVwXaRLatbr6lPR3Gc2NqxGXa/pRrNmFnTDMpvNAtQLt0AJF5gBFH5QWnP+4xHy\n/IAgl3CH+bGIWMVxLn3+jVpt1fmbDbNRMMy6If9qltUs6KahG1YB9M353zg99KkTJC6B14Qx\nGlUO32oTludQEcyyuHD9aIEV+J/necynw1leQn2pqnhatQqGXnlRqcMpTX42a6ZZMYx6pVb9\nzN0qP+PV9N4RqaxpD13i+ZTAp0Gr+wH1/ziw0ccPoJ+ac5L2zn7PhqKRwOvXoJfmpB8GB7nM\nmJf19tvbdh9tHbRzFXNe5ePWjn2w3+3nClZJ08ipIIzCg/YD+Kpp4iwm0gQSn4pGDQlIl+C7\nSLzSNMkD5xDTIUGemwoQjYuK67llDZaSE1E+5QWeqeFK7YRyf0iJCz4dGXkBHvILO6cX907P\nd6/UnnmZTlySG/AdQJ75ZMeyLQmxT9NdwGzolNUOsWdqfPzXPyW5p5ByIMbi8K9/4A08qIow\nro5Kklv5PaUHr6RetpNSJTzigoRxUdmUUokHRSlRN0J5lOTFTKp7RS5cwlgZHjzmL3O7l/CY\n/00flLNJ6P+UgQsmtSJWTNOjpHxKYkQkjIL9+1YffWxt7Qy6thJ810YRExr49CibxbmxM+Xr\nCD1/qmqkdkU/dXTPIyTfkMWrKK8h7A12dsqgl+FJyi5PZc636RzLNOW6pg5//Qrn413bPjtB\nxImc/PmbnGpeQ9il3qVmG6U7BHLjgUYCIsdJGEQMTjBPGR4WOJgOrmItj/Rdu2f4H2LnEMUR\nExPkv0b8N2qmleO/VbfU+1+zoeu3i/8b/FeHXFX/Lg74F6zi4+uDolj4EeVIwGgEb+Drd5kI\n+XNFQYbi7h7so/b+Xt/+vY9avSy5Xs34ciIqJKCsKHMTPQHqQ/GOCKMoyzjJPWLwJs32Oadc\nsMQRxZQnMD9CnAResSTL4miO5SygZCiTMcpIfz+9gW27u4d6g3bb7vXWI85izLw8zYBqXqoy\ng7RYoeztSka8SMFS65yK5hJpHZ0tWd+1rCb3f/1ruf3iu+n/JiInTlDC8ZBkEHCt/Z9h1fL6\nXzd0S/Z/umXeXf3f9H/X0OypJi6/PIsS1SzxWbbwQ7KiX5xrtdZ3j6rIqxbSwUHAKyHm0jKF\nqZhFDmKBH/oZdrAoKMbpa7L8X85aiAAfR6wMx5HvphBWerUmmtyHUZzqCcNxTBhXPBUn/0Q+\nVRPHsomezIETodIpjCiKMcMhn5+G9OQQKvCQZM+pk2McXLmRykr6iuBDImRkBQBGGfTz36SX\nu1lb76/wmq3a6FgwJGBceZCM5otIwVn7YLC7v4d2W9u2tOy3dnLYWnLIkwVqsJK6O1u7chbS\nLxr0Wp9sJN1v9fe762wYSQ8mZmovMBev02vztrgw4dLFNnVu3tfRrJwc+gGBomAJycKvR9Gu\n3dsfdNv2BkjnaIP/J/iIJDFX6H/t/V+9OcF/s6Yr/Net+v8H/zf4f/+B/urQuiTcKFvCiEI2\n4jkU5P3uPL9yEiKGBZFyY4U474x/k6CnwM/ea/2yY8O3lHEFNMwxT5kPDnpjxIMnc8EXvum7\nfRxTd4bHxAEeEBIj9Zjv5BSrIo4R5cTJN3Ee/SRRTKPUoPhkYjf6QvPVBh83tKEN/Uj0H7UC\nzEkAIgAA\n__EOF__\n) | tar -zxf -",
+      "parentUuid": "cc4e4e1d_44c95e98",
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -1442,6 +1556,24 @@
     },
     {
       "key": {
+        "uuid": "ce60ba3e_321da87c",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T21:41:21Z",
+      "side": 1,
+      "message": "\u003e The alternative is duplicate a bunch of logic that lives in thread snapshot, that won\u0027t be needed in seralized land (we just serialize the thread id!)\n\u003e \n\u003e For now, is the hack so bad?  I can even name the variable hack!\n\nIt’s bad because excpetion_thread_context_ points to something that’ll no longer be valid by the time it’s accessed on line 149. That one’s serious.\n\nAnd from a purity perspective, it’ll be easier to transform hack-free code into the final state we need (the serializer) than it would be with confusing and distracting quirks. Especially if there’s time in between now and when we do the serializer.",
+      "parentUuid": "10f44a44_ed8de072",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37316aec_26fbdcf0",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 3
@@ -1477,6 +1609,30 @@
       "side": 1,
       "message": "Don\u0027t I still need this for x86?",
       "parentUuid": "37316aec_26fbdcf0",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 57
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3377f62b_b077bb9b",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-23T21:41:21Z",
+      "side": 1,
+      "message": "\u003e Don\u0027t I still need this for x86?\n\nYou need it for x86 for sure. On x86\n\n  bool code_1_is_exception_address \u003d signal_number_ \u003d\u003d EXC_BAD_ACCESS;\n\nis correct. But what you told me previously implied that\n\n  bool code_1_is_exception_address \u003d true;\n\nwas correct for ARM. Is that true? Because right now, you’ve got this correct-for-x86-but-maybe-not-for-ARM-I-dunno-I’m-trying-to-get-you-to-clarify line running on all CPUs.",
+      "parentUuid": "5928c395_cfef07ad",
       "range": {
         "startLine": 114,
         "startChar": 0,
