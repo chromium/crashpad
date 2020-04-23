@@ -24,6 +24,7 @@
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/exception_snapshot.h"
+#include "snapshot/ios/thread_snapshot_ios.h"
 #include "util/mach/mach_extensions.h"
 #include "util/misc/initialization_state_dcheck.h"
 
@@ -38,12 +39,25 @@ class ExceptionSnapshotIOS final : public ExceptionSnapshot {
   ExceptionSnapshotIOS();
   ~ExceptionSnapshotIOS() override;
 
-  //! \brief Initializes the object.
+  //! \brief Initializes the object from a signal.
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  bool Initialize(const siginfo_t* siginfo, const ucontext_t* context);
+  void InitializeFromSignal(const siginfo_t* siginfo,
+                            const ucontext_t* context);
 
+  //! \brief Initialize the object from a Mach exception.
+  //!
+  //! \return `true` if the snapshot could be created, `false` otherwise with
+  //!     an appropriate message logged.
+  void InitializeFromMachException(exception_behavior_t behavior,
+                                   thread_t exception_thread,
+                                   exception_type_t exception,
+                                   const mach_exception_data_type_t* code,
+                                   mach_msg_type_number_t code_count,
+                                   thread_state_flavor_t flavor,
+                                   ConstThreadState state,
+                                   mach_msg_type_number_t state_count);
   // ExceptionSnapshot:
 
   const CPUContext* Context() const override;
@@ -63,11 +77,15 @@ class ExceptionSnapshotIOS final : public ExceptionSnapshot {
 #error Port.
 #endif  // ARCH_CPU_X86_64
   CPUContext context_;
+
+  // Remove the clean up the following variable once the serialize/deserialize
+  // cleanup happens.
+  std::unique_ptr<ThreadSnapshotIOS> hack_thread_snapshot_;
   std::vector<uint64_t> codes_;
   uint64_t thread_id_;
   uintptr_t exception_address_;
-  int signal_number_;
-  int signal_code_;
+  int exception_;
+  int exception_info_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ExceptionSnapshotIOS);
