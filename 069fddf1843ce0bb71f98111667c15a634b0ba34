@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4a6cf8e_8b4d4322",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 1109,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T22:25:02Z",
+      "side": 0,
+      "message": "This was out of date anyway, right?",
+      "revId": "069fddf1843ce0bb71f98111667c15a634b0ba34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

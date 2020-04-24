@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74545c8f_70a7fa42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T22:25:02Z",
+      "side": 1,
+      "message": "Add that the handler is untested and not currently used anywhere, and that Chromium relies on Crashpad being the system handler rather than embedding its own copy.",
+      "revId": "e35617b568a205a72af9d884edbf2f930d9ddd51",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
