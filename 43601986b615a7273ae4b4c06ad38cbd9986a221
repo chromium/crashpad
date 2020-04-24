@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "be91bd66_7f9e67d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T20:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfadcfa7_7cc6d613",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 8
+      },
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "521b7f6b_3891c85b",
         "filename": "build/fuchsia_sdk.version",
         "patchSetId": 5
@@ -39,6 +63,24 @@
       "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a139861_f0887ad4",
+        "filename": "build/fuchsia_sdk.version",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T20:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "521b7f6b_3891c85b",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "5ee775bf_fa30fe48",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T20:20:15Z",
+      "side": 1,
+      "message": "There\u0027s only this tarball that\u0027s documented, but I have inquired as to whether there\u0027s a cipd source or if we could get one.",
+      "parentUuid": "78aedc15_fb3070af",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e70ca186_13bbfe3b",
         "filename": "build/update_fuchsia_sdk.py",
         "patchSetId": 5
@@ -73,6 +133,24 @@
       "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb90a873_c1ed67fe",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T20:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e70ca186_13bbfe3b",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "3c6dfbc0_4980f1cc",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T20:20:15Z",
+      "side": 1,
+      "message": "Done\n\nHrm, yapf keeps deleting this blank line.",
+      "parentUuid": "00b0ac2a_7588b008",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fa7816c_2c25c06d",
         "filename": "build/update_fuchsia_sdk.py",
         "patchSetId": 5
@@ -107,6 +203,24 @@
       "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d52c63f2_1d0789fc",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T20:20:15Z",
+      "side": 1,
+      "message": "This is how Chromium pulls it, so as far as I know it is, yeah.",
+      "parentUuid": "8fa7816c_2c25c06d",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "2b6c229d_515f8c86",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T20:20:15Z",
+      "side": 1,
+      "message": "Huh! I was even using `yapf --in-place --style\u003dchromium` but I guess the gLinux-yapf is too old (?).\n\n...\n\ndepot_tools/yapf --style\u003dchromium is still 2 space too. Hmm, maybe Chromium just doesn\u0027t use style\u003dchromium any more then. :)\n\nReformatted with depot_tools/yapf (no style).",
+      "parentUuid": "4fa29fb6_5336fab2",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a84fabb2_e6f2ad85",
         "filename": "build/update_fuchsia_sdk.py",
         "patchSetId": 5
@@ -141,6 +273,24 @@
       "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28bcf399_8875c6c0",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T20:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a84fabb2_e6f2ad85",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -161,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "fc249259_e8a10938",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T20:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bd3c3a0_d18826fc",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1f518de_4a1d8a59",
         "filename": "build/update_fuchsia_sdk.py",
         "patchSetId": 5
@@ -178,6 +346,24 @@
     },
     {
       "key": {
+        "uuid": "5232e30e_8ed5a3f3",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T20:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1f518de_4a1d8a59",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b328a6ef_5f344458",
         "filename": "build/update_fuchsia_sdk.py",
         "patchSetId": 5
@@ -192,6 +378,24 @@
       "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a8ff188_1ac19701",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T20:20:15Z",
+      "side": 1,
+      "message": "I have no idea. I guess to force a build if you sync to an older SDK or something. I can remove it if it just seems like noise.",
+      "parentUuid": "b328a6ef_5f344458",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
