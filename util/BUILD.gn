@@ -350,6 +350,7 @@ static_library("util") {
       "ios/exception_processor.mm",
       "ios/ios_system_data_collector.h",
       "ios/ios_system_data_collector.mm",
+      "misc/capture_context_mac.S",
     ]
   }
 
