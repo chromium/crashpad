@@ -259,6 +259,24 @@
     },
     {
       "key": {
+        "uuid": "9453ce09_2d16dfba",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T20:43:19Z",
+      "side": 1,
+      "message": "\u003e Huh! I was even using `yapf --in-place --style\u003dchromium` but I guess the gLinux-yapf is too old (?).\n\u003e \n\u003e ...\n\u003e \n\u003e depot_tools/yapf --style\u003dchromium is still 2 space too. Hmm, maybe Chromium just doesn\u0027t use style\u003dchromium any more then. :)\n\u003e \n\u003e Reformatted with depot_tools/yapf (no style).\n\nWe still want --style\u003dchromium, which is a little different than the default --style\u003dpep8.\n\nyapf --style\u003dchromium hasn’t learned about our new preference, so here’s what we have to do all over the place, wherever we want this:\n\nhttps://chromium.googlesource.com/chromium/src/+/e3e4057e71d39a6ccd2d6f45795966fc1b9d96b9/chrome/installer/mac/.style.yapf\n\nWe should just put one of those in Crashpad.",
+      "parentUuid": "2b6c229d_515f8c86",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a84fabb2_e6f2ad85",
         "filename": "build/update_fuchsia_sdk.py",
         "patchSetId": 5

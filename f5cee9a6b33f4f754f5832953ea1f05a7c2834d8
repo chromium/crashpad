@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d228fce4_24285cdb",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T20:43:19Z",
+      "side": 1,
+      "message": "Use the Crashpad boilerplate in Crashpad.",
+      "revId": "f5cee9a6b33f4f754f5832953ea1f05a7c2834d8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
