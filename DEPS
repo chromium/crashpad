@@ -42,7 +42,7 @@ deps = {
       '7bde79cc274d06451bf65ae82c012a5d3e476b5a',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      '641fcf9bbc1277e8153ac7e86d5b8f9340b1bfdd',
+      '8ca5ea356cdb97913d62d379d503567a80d90726',
   'crashpad/third_party/libfuzzer/src':
       Var('chromium_git') + '/chromium/llvm-project/compiler-rt/lib/fuzzer.git@' +
       'fda403cf93ecb8792cb1d061564d89a6553ca020',
@@ -104,7 +104,7 @@ deps = {
   'crashpad/third_party/fuchsia/sdk/mac-amd64': {
     'packages': [
       {
-        'package': 'fuchsia/sdk/core/mac-amd64',
+        'package': 'fuchsia/sdk/gn/mac-amd64',
         'version': 'latest'
       },
     ],
@@ -114,7 +114,7 @@ deps = {
   'crashpad/third_party/fuchsia/sdk/linux-amd64': {
     'packages': [
       {
-        'package': 'fuchsia/sdk/core/linux-amd64',
+        'package': 'fuchsia/sdk/gn/linux-amd64',
         'version': 'latest'
       },
     ],
