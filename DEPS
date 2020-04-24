@@ -42,7 +42,7 @@ deps = {
       '7bde79cc274d06451bf65ae82c012a5d3e476b5a',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      '641fcf9bbc1277e8153ac7e86d5b8f9340b1bfdd',
+      'f7bd2217f9cf54f0e97e8eefc9f1b8f81ca9367b'
   'crashpad/third_party/libfuzzer/src':
       Var('chromium_git') + '/chromium/llvm-project/compiler-rt/lib/fuzzer.git@' +
       'fda403cf93ecb8792cb1d061564d89a6553ca020',
@@ -95,26 +95,6 @@ deps = {
     'packages': [
       {
         'package': 'fuchsia/qemu/linux-amd64',
-        'version': 'latest'
-      },
-    ],
-    'condition': 'checkout_fuchsia and host_os == "linux"',
-    'dep_type': 'cipd'
-  },
-  'crashpad/third_party/fuchsia/sdk/mac-amd64': {
-    'packages': [
-      {
-        'package': 'fuchsia/sdk/core/mac-amd64',
-        'version': 'latest'
-      },
-    ],
-    'condition': 'checkout_fuchsia and host_os == "mac"',
-    'dep_type': 'cipd'
-  },
-  'crashpad/third_party/fuchsia/sdk/linux-amd64': {
-    'packages': [
-      {
-        'package': 'fuchsia/sdk/core/linux-amd64',
         'version': 'latest'
       },
     ],
@@ -194,6 +174,15 @@ hooks = [
     'action': [
         'python',
         'crashpad/build/ios/setup-ios-gn.py'
+    ],
+  },
+  {
+    'name': 'fuchsia_sdk',
+    'pattern': '.',
+    'condition': 'checkout_fuchsia',
+    'action': [
+      'python',
+      'crashpad/build/update_fuchsia_sdk.py',
     ],
   },
 ]
