@@ -45,6 +45,30 @@
       "revId": "5567dae0aea8ca16ea5163ecaee9ed5d7f8e0309",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e4e19d9_118da259",
+        "filename": "doc/status.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T12:32:15Z",
+      "side": 1,
+      "message": "\u003e Use our own bug URLs: crashpad.chromium.org/bug/.\n\nUgh, that was wrong, this won’t work. This should be https://crbug.com/942279.\n\n\u003e Line 37 too.\n\nLine 37 should use https://crashpad.chromium.org/bug/31.",
+      "parentUuid": "15011cc0_bba33323",
+      "range": {
+        "startLine": 34,
+        "startChar": 15,
+        "endLine": 34,
+        "endChar": 61
+      },
+      "revId": "5567dae0aea8ca16ea5163ecaee9ed5d7f8e0309",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
