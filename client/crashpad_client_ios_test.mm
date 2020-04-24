@@ -31,7 +31,13 @@ using CrashpadIOSClient = PlatformTest;
 TEST_F(CrashpadIOSClient, DumpWithoutCrash) {
   CrashpadClient client;
   client.StartCrashpadInProcessHandler();
-  client.DumpWithoutCrash();
+
+  NativeCPUContext context;
+  // TODO(justincohen): Implement CaptureContext for ARM64.
+#if defined(ARCH_CPU_X86_64)
+  CaptureContext(&context);
+#endif
+  client.DumpWithoutCrash(&context);
 }
 
 // This test is covered by a similar XCUITest, but for development purposes
