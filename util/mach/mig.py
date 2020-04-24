@@ -20,6 +20,7 @@ import sys
 import mig_fix
 import mig_gen
 
+
 def main(args):
     parsed = mig_gen.parse_args(args)
 
@@ -29,6 +30,7 @@ def main(args):
                                parsed.sdk, parsed.clang_path, parsed.mig_path,
                                parsed.migcom_path, parsed.arch)
     mig_fix.fix_interface(interface)
+
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))
