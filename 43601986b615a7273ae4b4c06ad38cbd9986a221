@@ -295,6 +295,24 @@
     },
     {
       "key": {
+        "uuid": "d680b3de_639286c9",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T20:56:25Z",
+      "side": 1,
+      "message": "\u003e Gotcha. Done.\n\nThanks. I’ll come through with a comprehensive fixing of everything.\n\nActually, I just found this:\n\nhttps://github.com/google/yapf/commit/22ef70f3c497436adf59934b2ffa84ce6f962b88\n\nbut, hey, it was yesterday.",
+      "parentUuid": "25f9e787_179a0cdd",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a84fabb2_e6f2ad85",
         "filename": "build/update_fuchsia_sdk.py",
         "patchSetId": 5
