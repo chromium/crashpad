@@ -173,6 +173,29 @@
     },
     {
       "key": {
+        "uuid": "58c3c766_0a524606",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T16:48:00Z",
+      "side": 1,
+      "message": "This is why you’re seeing double exceptions, sometimes, but probably only with a debugger attached.\n\nAlso: keep this list sorted in the order that the constants appear in the header. Emulation, software, breakpoint, RPC alert, guard.",
+      "range": {
+        "startLine": 133,
+        "startChar": 42,
+        "endLine": 133,
+        "endChar": 70
+      },
+      "revId": "362968ada558c3419190362d4fef9cad0e27b939",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2a2baa3d_d497d63e",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 10
