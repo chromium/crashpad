@@ -30,18 +30,16 @@ ExceptionSnapshotIOS::ExceptionSnapshotIOS()
       codes_(),
       thread_id_(0),
       exception_address_(0),
-      signal_number_(0),
-      signal_code_(0),
+      exception_(0),
+      exception_info_(0),
       initialized_() {}
 
 ExceptionSnapshotIOS::~ExceptionSnapshotIOS() {}
 
-bool ExceptionSnapshotIOS::Initialize(const siginfo_t* siginfo,
-                                      const ucontext_t* context) {
+void ExceptionSnapshotIOS::InitializeFromSignal(const siginfo_t* siginfo,
+                                                const ucontext_t* context) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
-
-  if (!context)
-    return false;
+  DCHECK(context);
 
   mcontext_t mcontext = context->uc_mcontext;
 #if defined(ARCH_CPU_X86_64)
@@ -75,12 +73,90 @@ bool ExceptionSnapshotIOS::Initialize(const siginfo_t* siginfo,
     thread_id_ = identifier_info.thread_id;
   }
 
-  signal_number_ = siginfo->si_signo;
-  signal_code_ = siginfo->si_code;
+  exception_ = siginfo->si_signo;
+  exception_info_ = siginfo->si_code;
   exception_address_ = FromPointerCast<uintptr_t>(siginfo->si_addr);
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
-  return true;
+}
+
+void ExceptionSnapshotIOS::InitializeFromMachException(
+    exception_behavior_t behavior,
+    thread_t exception_thread,
+    exception_type_t exception,
+    const mach_exception_data_type_t* code,
+    mach_msg_type_number_t code_count,
+    thread_state_flavor_t flavor,
+    ConstThreadState state,
+    mach_msg_type_number_t state_count) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+  codes_.push_back(exception);
+  for (mach_msg_type_number_t code_index = 0; code_index < code_count;
+       ++code_index) {
+    codes_.push_back(code[code_index]);
+  }
+  exception_ = exception;
+  exception_info_ = code[0];
+
+#if defined(ARCH_CPU_X86_64)
+  context_.architecture = kCPUArchitectureX86_64;
+  context_.x86_64 = &context_x86_64_;
+  InitializeCPUContextX86_64(&context_x86_64_,
+                             THREAD_STATE_NONE,
+                             nullptr,
+                             0,
+                             &state,
+                             nullptr,
+                             nullptr);
+#elif defined(ARCH_CPU_ARM64)
+  context_.architecture = kCPUArchitectureARM64;
+  context_.arm64 = &context_arm64_;
+  InitializeCPUContextARM64(&context_arm64_, nullptr, nullptr);
+#endif
+
+  // Thread ID.
+  thread_identifier_info identifier_info;
+  mach_msg_type_number_t count = THREAD_IDENTIFIER_INFO_COUNT;
+  kern_return_t kr =
+      thread_info(mach_thread_self(),
+                  THREAD_IDENTIFIER_INFO,
+                  reinterpret_cast<thread_info_t>(&identifier_info),
+                  &count);
+  if (kr != KERN_SUCCESS) {
+    MACH_LOG(ERROR, kr) << "thread_identifier_info";
+  } else {
+    thread_id_ = identifier_info.thread_id;
+  }
+
+  // Normally, the exception address is present in code[1] for EXC_BAD_ACCESS
+  // exceptions, but not for other types of exceptions.
+  bool code_1_is_exception_address = exception_ == EXC_BAD_ACCESS;
+
+#if defined(ARCH_CPU_X86_64)
+  // For x86 and x86_64 EXC_BAD_ACCESS exceptions, some code[0] values
+  // indicate that code[1] does not (or may not) carry the exception address:
+  // EXC_I386_GPFLT (10.9.5 xnu-2422.115.4/osfmk/i386/trap.c user_trap() for
+  // T_GENERAL_PROTECTION) and the oddball (VM_PROT_READ | VM_PROT_EXECUTE)
+  // which collides with EXC_I386_BOUNDFLT (10.9.5
+  // xnu-2422.115.4/osfmk/i386/fpu.c fpextovrflt()). Other EXC_BAD_ACCESS
+  // exceptions come through 10.9.5 xnu-2422.115.4/osfmk/i386/trap.c
+  // user_page_fault_continue() and do contain the exception address in
+  // code[1].
+  if (exception_ == EXC_BAD_ACCESS &&
+      (exception_info_ == EXC_I386_GPFLT ||
+       exception_info_ == (VM_PROT_READ | VM_PROT_EXECUTE))) {
+    code_1_is_exception_address = false;
+  }
+#endif
+
+  if (code_1_is_exception_address) {
+    exception_address_ = code[1];
+  } else {
+    exception_address_ = context_.InstructionPointer();
+  }
+
+  INITIALIZATION_STATE_SET_VALID(initialized_);
 }
 
 const CPUContext* ExceptionSnapshotIOS::Context() const {
@@ -95,12 +171,12 @@ uint64_t ExceptionSnapshotIOS::ThreadID() const {
 
 uint32_t ExceptionSnapshotIOS::Exception() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return signal_number_;
+  return exception_;
 }
 
 uint32_t ExceptionSnapshotIOS::ExceptionInfo() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return signal_code_;
+  return exception_info_;
 }
 
 uint64_t ExceptionSnapshotIOS::ExceptionAddress() const {
