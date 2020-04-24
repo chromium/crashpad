@@ -431,11 +431,9 @@ class CrashpadClient {
   //!
   //! This method is only defined on iOS.
   //!
-  //! \return `true` on success, `false` on failure with a message logged.
-  //!
   //! TODO(justincohen): This method will need to take database, metrics_dir,
   //! url and annotations eventually.
-  bool StartCrashpadInProcessHandler();
+  void StartCrashpadInProcessHandler();
 
   // TODO(justincohen): This method is purely for bringing up iOS interfaces.
   //! \brief Requests that the handler capture a dump even though there hasn't
