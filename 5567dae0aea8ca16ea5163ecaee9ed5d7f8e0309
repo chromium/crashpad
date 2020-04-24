@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7567dc0_0e6b00d4",
+        "filename": "doc/status.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T12:21:08Z",
+      "side": 1,
+      "message": "But Android and Chromium OS use Linux!\n\nMaybe “Linux (including Android and Chromium OS)”.\n\nWe should also mention Fuchsia.",
+      "range": {
+        "startLine": 22,
+        "startChar": 9,
+        "endLine": 22,
+        "endChar": 40
+      },
+      "revId": "5567dae0aea8ca16ea5163ecaee9ed5d7f8e0309",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15011cc0_bba33323",
+        "filename": "doc/status.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T12:21:08Z",
+      "side": 1,
+      "message": "Use our own bug URLs: crashpad.chromium.org/bug/.\n\nLine 37 too.",
+      "range": {
+        "startLine": 34,
+        "startChar": 15,
+        "endLine": 34,
+        "endChar": 61
+      },
+      "revId": "5567dae0aea8ca16ea5163ecaee9ed5d7f8e0309",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
