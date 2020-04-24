@@ -16,6 +16,24 @@
       "revId": "069fddf1843ce0bb71f98111667c15a634b0ba34",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca7ef000_83469824",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 1109,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2020-04-24T22:56:10Z",
+      "side": 0,
+      "message": "I would assume we would have needed fuchsia.boot.RootJob::Get() instead?",
+      "parentUuid": "d4a6cf8e_8b4d4322",
+      "revId": "069fddf1843ce0bb71f98111667c15a634b0ba34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
