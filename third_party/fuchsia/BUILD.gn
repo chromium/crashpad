@@ -19,13 +19,11 @@ if (crashpad_is_in_fuchsia) {
     public_deps = [
       "//zircon/public/lib/fdio",
       "//zircon/public/lib/zx",
-      "//zircon/system/fidl/fuchsia-mem",
     ]
   }
 } else if (crashpad_is_in_chromium) {
   group("fuchsia") {
     public_deps = [
-      "//third_party/fuchsia-sdk/sdk/fidl/fuchsia.mem",
       "//third_party/fuchsia-sdk/sdk/pkg/fdio",
       "//third_party/fuchsia-sdk/sdk/pkg/zx",
     ]
@@ -33,7 +31,6 @@ if (crashpad_is_in_fuchsia) {
 } else {
   group("fuchsia") {
     public_deps = [
-      "//third_party/fuchsia/sdk/$host_os-amd64/fidl/fuchsia.mem",
       "//third_party/fuchsia/sdk/$host_os-amd64/pkg/fdio",
       "//third_party/fuchsia/sdk/$host_os-amd64/pkg/zx",
     ]
