@@ -22,6 +22,30 @@
       "revId": "0915c78679e1463b3b0e0803df855150a93626e0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed5fcedb_716dbcaf",
+        "filename": "DEPS",
+        "patchSetId": 18
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T21:55:53Z",
+      "side": 1,
+      "message": "That\u0027s just what the sdk team decided to call this version of the package.\n\nThere\u0027s the \"core\" sdk which is what we were using before, this one is basically the same but tidied up and with GN build files added (hence being able to delete all the goop in third_party/fuchsia/BUILD.gn). Primarily they added magic templates to do all the code generation necessary to turn .fidl files into something that C++ can consume.\n\nSo they called this one the \"GN\" sdk, which is why it\u0027s at that cipd location.\n\nI\u0027m not sure if it\u0027s world-browseable, but it\u0027s here: https://chrome-infra-packages.appspot.com/p/fuchsia/sdk/gn\n\nClear as mud?",
+      "parentUuid": "5f6e0c8a_2a2e88bd",
+      "range": {
+        "startLine": 107,
+        "startChar": 20,
+        "endLine": 107,
+        "endChar": 34
+      },
+      "revId": "0915c78679e1463b3b0e0803df855150a93626e0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
