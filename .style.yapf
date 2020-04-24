@@ -1,4 +1,4 @@
-# Copyright 2018 The Crashpad Authors. All rights reserved.
+# Copyright 2020 The Crashpad Authors. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,12 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-def CheckChangeOnUpload(input_api, output_api):
-    return input_api.canned_checks.CheckChangedLUCIConfigs(
-        input_api, output_api)
-
-
-def CheckChangeOnCommit(input_api, output_api):
-    return input_api.canned_checks.CheckChangedLUCIConfigs(
-        input_api, output_api)
+[style]
+based_on_style = chromium
+indent_width = 4
