@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "86f41e23_99e5b912",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T21:32:57Z",
+      "side": 1,
+      "message": "The SDK is packaged into CIPD, but the boot images are not.\n\n... but I haven\u0027t figured out how to use those to run the tests again yet.\n\nSo I guess I could shelve this script, lose the images, and pull the SDK with CIPD, and revisit this with a CL to get the tests running.\n\nSorry for the churn.",
+      "parentUuid": "5ee775bf_fa30fe48",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e70ca186_13bbfe3b",
         "filename": "build/update_fuchsia_sdk.py",
         "patchSetId": 5
