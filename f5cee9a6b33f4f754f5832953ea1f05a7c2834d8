@@ -16,6 +16,24 @@
       "revId": "f5cee9a6b33f4f754f5832953ea1f05a7c2834d8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13763f61_89803d5e",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T20:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d228fce4_24285cdb",
+      "revId": "f5cee9a6b33f4f754f5832953ea1f05a7c2834d8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
