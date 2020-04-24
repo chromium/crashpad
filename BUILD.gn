@@ -42,10 +42,10 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       "test:test_test",
     ]
     if (!crashpad_is_ios) {
-      deps += [
-        "handler:handler_test",
-        "snapshot:snapshot_test",
-      ]
+      deps += [ "snapshot:snapshot_test" ]
+    }
+    if (!crashpad_is_ios && !crashpad_is_fuchsia) {
+      deps += [ "handler:handler_test" ]
     }
     if (crashpad_is_in_fuchsia) {
       # TODO(fuchsia:46559): Fix the leaks and remove this.
@@ -182,7 +182,7 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       "handler:handler_test",
       "test:gtest_main",
     ]
-    if (crashpad_is_ios) {
+    if (crashpad_is_ios || crashpad_is_fuchsia) {
       deps -= [ "handler:handler_test" ]
     }
   }
