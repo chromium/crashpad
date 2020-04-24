@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "7f8cece7_5782e8d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-24T03:37:26Z",
+      "side": 1,
+      "message": "Now with more Mach",
+      "parentUuid": "cb0a384b_d2f1594c",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e286653_b6ccdfa2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -325,6 +349,24 @@
     },
     {
       "key": {
+        "uuid": "d195ba01_7173bb7f",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-24T03:37:26Z",
+      "side": 1,
+      "message": "It\u0027s somewhat dizzying, why bother with the comment if InitializationStateDcheck isn\u0027t needed o private methods.\n\nI\u0027ve added INITIALIZATION_STATE_SET_INITIALIZING/INITIALIZATION_STATE_SET_VALID to Install (should we rename it initialize?) and check it in DWC, but nowhere else.",
+      "parentUuid": "ba080731_da53cff9",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b371b92_60dde7b1",
         "filename": "client/crashpad_client_ios.cc",
         "patchSetId": 3
@@ -375,6 +417,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7cd9558_962373b2",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-24T03:37:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb856e72_8262fd42",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -463,6 +523,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5662910e_71314852",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-24T03:37:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd2d5aea_726e5a67",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -692,6 +770,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2e2bd1b_d34e12be",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-24T03:37:26Z",
+      "side": 1,
+      "message": "Just incase.  Added a comment.",
+      "parentUuid": "8d3b702b_2b102702",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -1049,6 +1145,24 @@
       "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a1c0df7_2403696f",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-24T03:37:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a297d716_0776a559",
+      "revId": "df84b1a47454b4292d5b51ba3e3530b68b8e9da3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {

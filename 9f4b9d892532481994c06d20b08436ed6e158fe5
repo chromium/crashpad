@@ -805,6 +805,24 @@
     },
     {
       "key": {
+        "uuid": "f8c92284_ae58dfad",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-24T03:37:26Z",
+      "side": 1,
+      "message": "How about:\n  void DumpWithoutCrash() {\n    // TODO(justincohen): This should take a CPUContext once CaptureContext is\n    // implemented for ARM64.  For now use HandleException with\n    // mach_thread_self.\n    mach_exception_data_type_t code[2] \u003d {};\n    HandleException(\n        0, mach_thread_self(), Signals::kSimulatedSigno, code, 0, 0, 0, 0);\n  }",
+      "parentUuid": "d9d75dd1_f80c2998",
+      "revId": "9f4b9d892532481994c06d20b08436ed6e158fe5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e6d820a_ceeade27",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 2

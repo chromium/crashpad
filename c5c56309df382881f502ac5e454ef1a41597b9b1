@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "feb6cc76_8c542c4b",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-24T03:37:26Z",
+      "side": 1,
+      "message": "I\u0027m seeing my exception handled twice now...",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 18
+      },
+      "revId": "c5c56309df382881f502ac5e454ef1a41597b9b1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
