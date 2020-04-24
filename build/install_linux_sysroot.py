@@ -23,7 +23,6 @@ import subprocess
 import sys
 import urllib2
 
-
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Sysroot revision from:
@@ -33,42 +32,43 @@ PATH = 'chrome-linux-sysroot/toolchain'
 REVISION = '3c248ba4290a5ad07085b7af07e6785bf1ae5b66'
 FILENAME = 'debian_stretch_amd64_sysroot.tar.xz'
 
+
 def main():
-  url = '%s/%s/%s/%s' % (SERVER, PATH, REVISION, FILENAME)
+    url = '%s/%s/%s/%s' % (SERVER, PATH, REVISION, FILENAME)
 
-  sysroot = os.path.join(SCRIPT_DIR, os.pardir,
-                         'third_party', 'linux', 'sysroot')
+    sysroot = os.path.join(SCRIPT_DIR, os.pardir, 'third_party', 'linux',
+                           'sysroot')
 
-  stamp = os.path.join(sysroot, '.stamp')
-  if os.path.exists(stamp):
-    with open(stamp) as s:
-      if s.read() == url:
-        return
+    stamp = os.path.join(sysroot, '.stamp')
+    if os.path.exists(stamp):
+        with open(stamp) as s:
+            if s.read() == url:
+                return
 
-  print 'Installing Debian root image from %s' % url
+    print 'Installing Debian root image from %s' % url
 
-  if os.path.isdir(sysroot):
-    shutil.rmtree(sysroot)
-  os.mkdir(sysroot)
-  tarball = os.path.join(sysroot, FILENAME)
-  print 'Downloading %s' % url
+    if os.path.isdir(sysroot):
+        shutil.rmtree(sysroot)
+    os.mkdir(sysroot)
+    tarball = os.path.join(sysroot, FILENAME)
+    print 'Downloading %s' % url
 
-  for _ in range(3):
-    response = urllib2.urlopen(url)
-    with open(tarball, 'wb') as f:
-      f.write(response.read())
-    break
-  else:
-    raise Exception('Failed to download %s' % url)
+    for _ in range(3):
+        response = urllib2.urlopen(url)
+        with open(tarball, 'wb') as f:
+            f.write(response.read())
+        break
+    else:
+        raise Exception('Failed to download %s' % url)
 
-  subprocess.check_call(['tar', 'xf', tarball, '-C', sysroot])
+    subprocess.check_call(['tar', 'xf', tarball, '-C', sysroot])
 
-  os.remove(tarball)
+    os.remove(tarball)
 
-  with open(stamp, 'w') as s:
-    s.write(url)
+    with open(stamp, 'w') as s:
+        s.write(url)
 
 
 if __name__ == '__main__':
-  main()
-  sys.exit(0)
+    main()
+    sys.exit(0)
