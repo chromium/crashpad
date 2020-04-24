@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f6e0c8a_2a2e88bd",
+        "filename": "DEPS",
+        "patchSetId": 18
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T21:50:51Z",
+      "side": 1,
+      "message": "I don’t see where this path would be used.",
+      "range": {
+        "startLine": 107,
+        "startChar": 20,
+        "endLine": 107,
+        "endChar": 34
+      },
+      "revId": "0915c78679e1463b3b0e0803df855150a93626e0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
