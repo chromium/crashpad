@@ -94,6 +94,30 @@
       "revId": "0915c78679e1463b3b0e0803df855150a93626e0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1af69ef7_3a7e9148",
+        "filename": "DEPS",
+        "patchSetId": 18
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T22:23:41Z",
+      "side": 1,
+      "message": "\u003e The \u0027package\u0027 path? That\u0027s only referenced by cipd running during gclient sync on DEPS. The only thing that build files reference is the key of the dict i.e. third_party/fuchsia/sdk/mac-amd64.\n\u003e \n\u003e (Sorry if I\u0027m misunderstanding your question.)\n\nOh, I was misreading this because the paths are similar. This is the remote path. I don\u0027t really care about that. Our local path is staying the same, so whatever references it now will continue to reference it after this change.",
+      "parentUuid": "426cb7a8_8bae2036",
+      "range": {
+        "startLine": 107,
+        "startChar": 20,
+        "endLine": 107,
+        "endChar": 34
+      },
+      "revId": "0915c78679e1463b3b0e0803df855150a93626e0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
