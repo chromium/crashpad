@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "372d7588_a096b2ab",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T22:01:49Z",
+      "side": 1,
+      "message": "This is kind of worse, but meh. Hopefully I can replace it with something that actually works shortly anyway.",
+      "revId": "a80bb259256377c3abc8ba2060b09eb7ee8e51c5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f82b916_71c6192f",
+        "filename": "snapshot/win/end_to_end_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T22:01:49Z",
+      "side": 1,
+      "message": "We\u0027ll just have to cross our fingers on this file.",
+      "revId": "a80bb259256377c3abc8ba2060b09eb7ee8e51c5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d234c244_52bb43de",
+        "filename": "util/net/generate_test_server_key.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T22:01:49Z",
+      "side": 1,
+      "message": "I wonder why it did this.",
+      "range": {
+        "startLine": 26,
+        "startChar": 14,
+        "endLine": 26,
+        "endChar": 15
+      },
+      "revId": "a80bb259256377c3abc8ba2060b09eb7ee8e51c5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
