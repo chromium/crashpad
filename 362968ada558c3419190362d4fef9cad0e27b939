@@ -598,6 +598,24 @@
     },
     {
       "key": {
+        "uuid": "c08c4fe9_2fadc4a4",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T19:02:01Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t understand this comment wants?  I don\u0027t need a ARCH_CPU_ARM64 block here?\n\nI meant !defined but !/1 is one of my flakykeys rightnow.",
+      "parentUuid": "4cd01f31_0d7f79fc",
+      "revId": "362968ada558c3419190362d4fef9cad0e27b939",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "195534fe_fb329488",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 10
@@ -709,6 +727,24 @@
       "side": 1,
       "message": "I thought we decided codes wasn\u0027t used?\n\nI\u0027ll leave a TODO for disambiguating exception types.",
       "parentUuid": "c1d22209_6d86dfad",
+      "revId": "362968ada558c3419190362d4fef9cad0e27b939",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbb5c069_1462b237",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T19:02:01Z",
+      "side": 1,
+      "message": "\u003e I thought we decided codes wasn\u0027t used?\n\nWe decided that siginfo-\u003esi_code was the only thing that we could get out of siginfo on xnu, but I don’t think we decided anything beyond that.\n\nWe will want to look at macOS’ treatment of all of these fields and try to make iOS behave the same way. I haven’t seen the TODO yet, but that’s ultimately what we’ll want.",
+      "parentUuid": "55dc7463_94606c07",
       "revId": "362968ada558c3419190362d4fef9cad0e27b939",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -1209,6 +1245,30 @@
       "revId": "362968ada558c3419190362d4fef9cad0e27b939",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a689aeb3_c3b42b2d",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 10
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T19:02:01Z",
+      "side": 1,
+      "message": "\u003e Why does this file need changes?  the _mac.S is for x86 only, which is better tha nnothing.\n\u003e \n\u003e Doing arm is a followup..\n\nOK, I thought you had made changes to the .S that I wasn’t seeing, and that’s what I’d like to hold for a subsequent change. But you’re holding it anyway. Good.",
+      "parentUuid": "94e9e434_6ee674ca",
+      "range": {
+        "startLine": 353,
+        "startChar": 12,
+        "endLine": 353,
+        "endChar": 33
+      },
+      "revId": "362968ada558c3419190362d4fef9cad0e27b939",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
