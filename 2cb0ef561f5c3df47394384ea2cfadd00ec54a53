@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a1cf0ea_8ed7d559",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T19:33:22Z",
+      "side": 1,
+      "message": "This is a lightly adapted copy of https://source.chromium.org/chromium/chromium/src/+/master:build/fuchsia/update_sdk.py.",
+      "revId": "2cb0ef561f5c3df47394384ea2cfadd00ec54a53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
