@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b34fc75b_e6d62c42",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T22:35:32Z",
+      "side": 1,
+      "message": "\u003e This is kind of worse, but meh. Hopefully I can replace it with something that actually works shortly anyway.\n\nI agree, I\u0027ll put this back manually.",
+      "parentUuid": "372d7588_a096b2ab",
+      "revId": "a80bb259256377c3abc8ba2060b09eb7ee8e51c5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f82b916_71c6192f",
         "filename": "snapshot/win/end_to_end_test.py",
         "patchSetId": 6
@@ -47,6 +65,30 @@
       "writtenOn": "2020-04-24T22:01:49Z",
       "side": 1,
       "message": "I wonder why it did this.",
+      "range": {
+        "startLine": 26,
+        "startChar": 14,
+        "endLine": 26,
+        "endChar": 15
+      },
+      "revId": "a80bb259256377c3abc8ba2060b09eb7ee8e51c5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83e50293_b865f8a8",
+        "filename": "util/net/generate_test_server_key.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T22:35:32Z",
+      "side": 1,
+      "message": "\u003e I wonder why it did this.\n\nI did it manually so that it would wrap this line at all. (Inter-patch set diffs show what I did.)\n\nyapf refuses to insert a backslash to stay within 80 characters, adhering to the Google style decision that lines ending with backslashes are the absolute worst thing (worse, even, than writing \"we\" in a code comment).\n\nhttps://github.com/google/yapf/blob/master/README.rst#algorithm-design\n\n(look for \"backslash\")",
+      "parentUuid": "d234c244_52bb43de",
       "range": {
         "startLine": 26,
         "startChar": 14,
