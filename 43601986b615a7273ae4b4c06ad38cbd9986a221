@@ -1,0 +1,197 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfadcfa7_7cc6d613",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T19:45:06Z",
+      "side": 1,
+      "message": "You’ll get rid of this and replace with a DEPS roll in this change, right?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 8
+      },
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "521b7f6b_3891c85b",
+        "filename": "build/fuchsia_sdk.version",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T19:45:06Z",
+      "side": 1,
+      "message": "Seems kind of dumb, but we should put our license boilerplate in all of our files. Since this is only consumed by your new script, you can make your new script reject blank lines and commented lines.",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78aedc15_fb3070af",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T19:45:06Z",
+      "side": 1,
+      "message": "Is this not something that we can let cipd drive?",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e70ca186_13bbfe3b",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T19:45:06Z",
+      "side": 1,
+      "message": "blank line before this",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00b0ac2a_7588b008",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T19:45:06Z",
+      "side": 1,
+      "message": "blank line before this",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fa7816c_2c25c06d",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T19:45:06Z",
+      "side": 1,
+      "message": "Is this public?",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fa29fb6_5336fab2",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T19:45:06Z",
+      "side": 1,
+      "message": "Chromium’s new standard for Python is much closer to PEP-8, and new scripts are encouraged to adopt it. We use a 4-space indent. You can use yapf to reformat this to the desired style.",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a84fabb2_e6f2ad85",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T19:45:06Z",
+      "side": 1,
+      "message": "There’s no “starts with darwin”.\n\nLet’s just do\n\n    return {\u0027darwin\u0027: \u0027mac\u0027, \u0027linux\u0027: \u0027linux\u0027, \u0027linux2\u0027: \u0027linux\u0027}[sys.platform]\n\ncan be formatted more nicely than that, can stick the dict into a _HOST_OS_MAP or something.",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bd3c3a0_d18826fc",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T19:45:06Z",
+      "side": 1,
+      "message": "Pass sys.argv[1:] as an “args” argument to this function, and then here, do\n\n    parsed \u003d parser.parse_args(args)\n\n…makes it easier to reuse this as a module.",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1f518de_4a1d8a59",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T19:45:06Z",
+      "side": 1,
+      "message": "Why quiet? Is that supposed to paper over there not being Windows support? Why not just not invoke this on Windows at all?",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b328a6ef_5f344458",
+        "filename": "build/update_fuchsia_sdk.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T19:45:06Z",
+      "side": 1,
+      "message": "Why?",
+      "revId": "43601986b615a7273ae4b4c06ad38cbd9986a221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
