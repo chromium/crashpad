@@ -101,26 +101,6 @@ deps = {
     'condition': 'checkout_fuchsia and host_os == "linux"',
     'dep_type': 'cipd'
   },
-  'crashpad/third_party/fuchsia/sdk/mac-amd64': {
-    'packages': [
-      {
-        'package': 'fuchsia/sdk/core/mac-amd64',
-        'version': 'latest'
-      },
-    ],
-    'condition': 'checkout_fuchsia and host_os == "mac"',
-    'dep_type': 'cipd'
-  },
-  'crashpad/third_party/fuchsia/sdk/linux-amd64': {
-    'packages': [
-      {
-        'package': 'fuchsia/sdk/core/linux-amd64',
-        'version': 'latest'
-      },
-    ],
-    'condition': 'checkout_fuchsia and host_os == "linux"',
-    'dep_type': 'cipd'
-  },
   'crashpad/third_party/win/toolchain': {
     # This package is only updated when the solution in .gclient includes an
     # entry like:
@@ -194,6 +174,15 @@ hooks = [
     'action': [
         'python',
         'crashpad/build/ios/setup-ios-gn.py'
+    ],
+  },
+  {
+    'name': 'fuchsia_sdk',
+    'pattern': '.',
+    'condition': 'checkout_fuchsia',
+    'action': [
+      'python',
+      'crashpad/build/update_fuchsia_sdk.py',
     ],
   },
 ]
