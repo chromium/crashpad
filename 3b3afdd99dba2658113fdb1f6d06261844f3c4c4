@@ -16,6 +16,24 @@
       "revId": "3b3afdd99dba2658113fdb1f6d06261844f3c4c4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa789c1e_2bbe0ab5",
+        "filename": "build/fuchsia_sdk.version",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T20:23:52Z",
+      "side": 1,
+      "message": "It\u0027s now a much more Serious File.",
+      "parentUuid": "2bf095b3_f545d8aa",
+      "revId": "3b3afdd99dba2658113fdb1f6d06261844f3c4c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
