@@ -54,6 +54,23 @@
     },
     {
       "key": {
+        "uuid": "eadd710f_24282d57",
+        "filename": "util/mach/mig_gen.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T23:00:26Z",
+      "side": 1,
+      "message": "I\u0027m partial to just living with autoformatter output, but if you\u0027re going to put the fuchsia one back, I guess this one could be de-wrapped too.",
+      "revId": "a80bb259256377c3abc8ba2060b09eb7ee8e51c5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d234c244_52bb43de",
         "filename": "util/net/generate_test_server_key.py",
         "patchSetId": 6
