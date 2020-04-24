@@ -240,7 +240,24 @@ of command line arguments in this mode.
 
 #### Linux/Android
 
-TODO(mmentovai): describe this. See this preliminary doc.
+On Linux, a registration is a connected socket pair between a client process and
+the Crashpad handler. This socket pair may be private or shared among many
+client processes.
+
+##### Private Connections
+
+Private connections are the default registration mode when starting the handler
+process in response to a crash or on behalf of another client. This mode is
+required to use a ptrace broker, which is in turn required to trace Android
+isolated processes.
+
+##### Shared Connections
+
+Shared connections are the default mode when using a long-lived handler. The
+same connected socket pair may be shared among any number of clients. The socket
+pair is created by the first process to start the handler at which point the
+client socket end may be shared with other clients by any convenient means (e.g.
+inheritance).
 
 ### Capturing Exceptions
 
@@ -290,8 +307,16 @@ here.](https://crashpad.chromium.org/bug/133)
 
 #### Linux/Android
 
-TODO(mmentovai): describe this. See [this preliminary
-doc.](https://goto.google.com/crashpad-android-dd)
+On Linux, exceptions are dispatched as signals to the crashing thread. Crashpad
+signal handlers will send a message over the socket to the Crashpad handler
+notifying it of the crash and the location of exception information to be read
+from the crashing process. When using a shared socket connection, communication
+is entirely one-way. The client sends its dump request to the handler and then
+waits until the handler responds with a SIGCONT or a timeout occurs. When using
+a private socket connection, the handler may respond over the socket to
+communicate with a ptrace broker process. The broker is forked from the crashing
+process, executes ptrace requests against the crashing process, and sends the
+information over the socket to the handler.
 
 ### The CrashpadInfo structure
 
