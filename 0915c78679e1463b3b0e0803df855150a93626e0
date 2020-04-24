@@ -70,6 +70,30 @@
       "revId": "0915c78679e1463b3b0e0803df855150a93626e0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "426cb7a8_8bae2036",
+        "filename": "DEPS",
+        "patchSetId": 18
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-04-24T22:04:06Z",
+      "side": 1,
+      "message": "The \u0027package\u0027 path? That\u0027s only referenced by cipd running during gclient sync on DEPS. The only thing that build files reference is the key of the dict i.e. third_party/fuchsia/sdk/mac-amd64.\n\n(Sorry if I\u0027m misunderstanding your question.)",
+      "parentUuid": "343b237e_b9e327b6",
+      "range": {
+        "startLine": 107,
+        "startChar": 20,
+        "endLine": 107,
+        "endChar": 34
+      },
+      "revId": "0915c78679e1463b3b0e0803df855150a93626e0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
