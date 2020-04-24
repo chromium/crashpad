@@ -46,6 +46,30 @@
       "revId": "0915c78679e1463b3b0e0803df855150a93626e0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "343b237e_b9e327b6",
+        "filename": "DEPS",
+        "patchSetId": 18
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-24T21:57:48Z",
+      "side": 1,
+      "message": "\u003e That\u0027s just what the sdk team decided to call this version of the package.\n\u003e \n\u003e There\u0027s the \"core\" sdk which is what we were using before, this one is basically the same but tidied up and with GN build files added (hence being able to delete all the goop in third_party/fuchsia/BUILD.gn). Primarily they added magic templates to do all the code generation necessary to turn .fidl files into something that C++ can consume.\n\u003e \n\u003e So they called this one the \"GN\" sdk, which is why it\u0027s at that cipd location.\n\u003e \n\u003e I\u0027m not sure if it\u0027s world-browseable, but it\u0027s here: https://chrome-infra-packages.appspot.com/p/fuchsia/sdk/gn\n\u003e \n\u003e Clear as mud?\n\nI guess.\n\nBut what, here in Crashpad or mini_chromium, references anything at this path? Did I miss it?",
+      "parentUuid": "ed5fcedb_716dbcaf",
+      "range": {
+        "startLine": 107,
+        "startChar": 20,
+        "endLine": 107,
+        "endChar": 34
+      },
+      "revId": "0915c78679e1463b3b0e0803df855150a93626e0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
