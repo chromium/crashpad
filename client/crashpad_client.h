@@ -431,18 +431,19 @@ class CrashpadClient {
   //!
   //! This method is only defined on iOS.
   //!
-  //! \return `true` on success, `false` on failure with a message logged.
-  //!
   //! TODO(justincohen): This method will need to take database, metrics_dir,
   //! url and annotations eventually.
-  bool StartCrashpadInProcessHandler();
+  void StartCrashpadInProcessHandler();
 
   // TODO(justincohen): This method is purely for bringing up iOS interfaces.
   //! \brief Requests that the handler capture a dump even though there hasn't
   //!     been a crash.
   //!
   //! A handler must have already been installed before calling this method.
-  static void DumpWithoutCrash();
+  //!
+  //! \param[in] context A NativeCPUContext, generally captured by
+  //!     CaptureContext() or similar.
+  static void DumpWithoutCrash(NativeCPUContext* context);
 #endif
 
 #if defined(OS_MACOSX) || DOXYGEN

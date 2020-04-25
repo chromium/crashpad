@@ -219,10 +219,6 @@
 }
 
 - (void)testRecursion {
-  // TODO(justincohen): Crashpad iOS does not currently support stack type
-  // crashes.
-  return;
-
   XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
 
   // Crash the app.
