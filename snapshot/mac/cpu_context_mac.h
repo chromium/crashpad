@@ -113,10 +113,24 @@ void InitializeCPUContextX86_64(CPUContextX86_64* context,
 //! structures.
 //!
 //! \param[out] context The CPUContextARM64 structure to initialize.
+//! \param[in] flavor The native thread state flavor of \a state. This may be
+//!     `ARM_THREAD_STATE64` or  `ARM_THREAD_STATE`. It may also
+//!     be `THREAD_STATE_NONE` if \a state is not supplied (and is `nullptr`).
+//! \param[in] state The native thread state, which may be a casted pointer to
+//!     `arm_thread_state64_t` or `arm_unified_thread_state`. This
+//!     parameter may be `nullptr` to not supply this data, in which case \a
+//!     flavor must be `THREAD_STATE_NONE`. If a “universal” structure is used,
+//!     it must carry 64-bit state data of the correct type.
+//! \param[in] state_count The number of `int`-sized uÔnits in \a state. This
+//! may
+//!     be 0 if \a state is `nullptr`.
 //! \param[in] arm_thread_state64 The state of the thread’s integer registers.
 //! \param[in] arm_neon_state64 The state of the thread’s floating-point
 //!     registers.
 void InitializeCPUContextARM64(CPUContextARM64* context,
+                               thread_state_flavor_t flavor,
+                               ConstThreadState state,
+                               mach_msg_type_number_t state_count,
                                const arm_thread_state64_t* arm_thread_state64,
                                const arm_neon_state64_t* arm_neon_state64);
 #endif
