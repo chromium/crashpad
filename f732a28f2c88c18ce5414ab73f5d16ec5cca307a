@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "192470c0_4f088621",
+        "filename": "snapshot/ios/exception_snapshot_ios.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-25T04:04:37Z",
+      "side": 1,
+      "message": "Is this used in this header anymore? I don’t think so, you can remove it.",
+      "revId": "f732a28f2c88c18ce5414ab73f5d16ec5cca307a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4af6a9cf_a1797b67",
+        "filename": "snapshot/mac/cpu_context_mac.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-25T04:04:37Z",
+      "side": 1,
+      "message": "Backticks: `ARM_NEON_STATE64`",
+      "range": {
+        "startLine": 129,
+        "startChar": 52,
+        "endLine": 129,
+        "endChar": 68
+      },
+      "revId": "f732a28f2c88c18ce5414ab73f5d16ec5cca307a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "164f5d0d_1ed772a7",
+        "filename": "snapshot/mac/cpu_context_mac.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-25T04:04:37Z",
+      "side": 1,
+      "message": "or `arm_neon_state64_t`",
+      "range": {
+        "startLine": 133,
+        "startChar": 60,
+        "endLine": 133,
+        "endChar": 61
+      },
+      "revId": "f732a28f2c88c18ce5414ab73f5d16ec5cca307a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
