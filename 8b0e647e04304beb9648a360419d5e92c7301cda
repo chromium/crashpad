@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79a68c10_9fbefc0f",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-25T02:30:39Z",
+      "side": 1,
+      "message": "Move this above DumpWithoutCrash, because it’s gotta happen first, and it’s a stand-in for the constructor and people would definitely look for it higher up.",
+      "revId": "8b0e647e04304beb9648a360419d5e92c7301cda",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feb1ec02_7e131146",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-25T02:30:39Z",
+      "side": 1,
+      "message": "in case",
+      "range": {
+        "startLine": 136,
+        "startChar": 56,
+        "endLine": 136,
+        "endChar": 63
+      },
+      "revId": "8b0e647e04304beb9648a360419d5e92c7301cda",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85feb0e7_fd3d7ed1",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-25T02:30:39Z",
+      "side": 1,
+      "message": "Not needed. This class comes with a default constructor, which we’d just trust when we’re doing initialization this way.\n\nIt’s not like the previous line, where old_action_ is “POD” and won’t initialize at all unless we tell it to.",
+      "range": {
+        "startLine": 201,
+        "startChar": 37,
+        "endLine": 201,
+        "endChar": 42
+      },
+      "revId": "8b0e647e04304beb9648a360419d5e92c7301cda",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a86dfbc3_9d8cb36e",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-25T02:30:39Z",
+      "side": 1,
+      "message": "Just noticed: this needs \u003d {} otherwise it’ll be garbage.",
+      "revId": "8b0e647e04304beb9648a360419d5e92c7301cda",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9079efbb_dc13b45f",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-25T02:30:39Z",
+      "side": 1,
+      "message": "// TODO: rationalize with the macOS implementation.",
+      "revId": "8b0e647e04304beb9648a360419d5e92c7301cda",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5431fbfd_8231cb30",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-25T02:30:39Z",
+      "side": 1,
+      "message": "I have the results of your audit: this is correct for ARM!\n\nThe comment is a little misleading. I wrote it sixish years ago, and it even misled me slightly before I remembered what I meant. Let me make it easier for you and everyone else.\n\nAlmost always, we want the exception address to be the faulting instruction address. But for EXC_BAD_ACCESS, we want the exception address to be the address of the bad data access if relevant, which may not be the instruction that was executing. (It also may be). We get that in code[1], except for the buggy x86-only case noted below. ARM doesn’t seem to have any buggy cases like that (and this is what the audit was looking for).\n\nFor many other exception types, code[1] will also contain the faulting instruction address, but not always. But we have access to that via %rip on x86 and %pc on ARM, so we’ll just use that, because it’s easier than trying to work out whether code[1] is the address or not, and whenever it is the address, it’ll be the instruction address, same as %rip or %pc anyway.\n\nSo I’d revise this comment to clarify, here and in the “mac” file:\n\n  // Normally, for EXC_BAD_ACCESS exceptions, the exception address is present\n  // in code[1]. It may or may not be the instruction pointer address (usually\n  // it’s not). code[1] may carry the exception address for other exception\n  // types too, but it’s not guaranteed. But for all other exception types, the\n  // instruction pointer will be the exception address, and in fact will be\n  // equal to codes[1] when it’s carrying the exception address. In those cases,\n  // just use the instruction pointer directly.\n\nFYI: I conducted the audit by looking at everything that could enter exception_deliver on ARM. Mostly these were calls into exception_triage. All EXC_BAD_ACCESS exceptions bring a valid exception address in code[1].",
+      "revId": "8b0e647e04304beb9648a360419d5e92c7301cda",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
