@@ -35,8 +35,6 @@
               action:@selector(throwUIGestureEnvironmentException)];
   [button addGestureRecognizer:tapGesture];
   [button setTranslatesAutoresizingMaskIntoConstraints:NO];
-  [button.widthAnchor constraintEqualToConstant:16.0].active = YES;
-  [button.heightAnchor constraintEqualToConstant:16.0].active = YES;
 
   [buttonStack addArrangedSubview:button];
 

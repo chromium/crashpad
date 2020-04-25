@@ -427,7 +427,12 @@ bool ThreadSnapshotIOS::Initialize(thread_t thread) {
 #elif defined(ARCH_CPU_ARM64)
   context_.architecture = kCPUArchitectureARM64;
   context_.arm64 = &context_arm64_;
-  InitializeCPUContextARM64(&context_arm64_, &thread_state, &float_state);
+  InitializeCPUContextARM64(&context_arm64_,
+                            THREAD_STATE_NONE,
+                            nullptr,
+                            0,
+                            &thread_state,
+                            &float_state);
 #endif
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
