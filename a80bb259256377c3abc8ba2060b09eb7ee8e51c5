@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "07c181b9_9288ddf3",
+        "filename": "build/run_fuchsia_qemu.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-25T00:03:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b34fc75b_e6d62c42",
+      "revId": "a80bb259256377c3abc8ba2060b09eb7ee8e51c5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f82b916_71c6192f",
         "filename": "snapshot/win/end_to_end_test.py",
         "patchSetId": 6
@@ -68,6 +86,24 @@
       "revId": "a80bb259256377c3abc8ba2060b09eb7ee8e51c5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5573ef4_927cc97b",
+        "filename": "util/mach/mig_gen.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-25T00:03:06Z",
+      "side": 1,
+      "message": "\u003e I\u0027m partial to just living with autoformatter output, but if you\u0027re going to put the fuchsia one back, I guess this one could be de-wrapped too.\n\nI don’t like when the robots harm visibility. I’ll fix. Thanks for pointing these two out.",
+      "parentUuid": "eadd710f_24282d57",
+      "revId": "a80bb259256377c3abc8ba2060b09eb7ee8e51c5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -115,6 +151,30 @@
       "revId": "a80bb259256377c3abc8ba2060b09eb7ee8e51c5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78792ffe_2d6e21c3",
+        "filename": "util/net/generate_test_server_key.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-25T00:03:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83e50293_b865f8a8",
+      "range": {
+        "startLine": 26,
+        "startChar": 14,
+        "endLine": 26,
+        "endChar": 15
+      },
+      "revId": "a80bb259256377c3abc8ba2060b09eb7ee8e51c5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
