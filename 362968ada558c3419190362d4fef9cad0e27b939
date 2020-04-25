@@ -616,6 +616,24 @@
     },
     {
       "key": {
+        "uuid": "5f028b33_c2945915",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-25T01:49:52Z",
+      "side": 1,
+      "message": "Hmm, I do things a little differently now, so PTAL.  I have a proper if/else",
+      "parentUuid": "c08c4fe9_2fadc4a4",
+      "revId": "362968ada558c3419190362d4fef9cad0e27b939",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "195534fe_fb329488",
         "filename": "snapshot/ios/exception_snapshot_ios.cc",
         "patchSetId": 10
@@ -745,6 +763,24 @@
       "side": 1,
       "message": "\u003e I thought we decided codes wasn\u0027t used?\n\nWe decided that siginfo-\u003esi_code was the only thing that we could get out of siginfo on xnu, but I don’t think we decided anything beyond that.\n\nWe will want to look at macOS’ treatment of all of these fields and try to make iOS behave the same way. I haven’t seen the TODO yet, but that’s ultimately what we’ll want.",
       "parentUuid": "55dc7463_94606c07",
+      "revId": "362968ada558c3419190362d4fef9cad0e27b939",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89556bdd_afec5e39",
+        "filename": "snapshot/ios/exception_snapshot_ios.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-25T01:49:52Z",
+      "side": 1,
+      "message": "// TODO(justincohen): Investigate recording more codes_.",
+      "parentUuid": "cbb5c069_1462b237",
       "revId": "362968ada558c3419190362d4fef9cad0e27b939",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -1260,6 +1296,30 @@
       "side": 1,
       "message": "\u003e Why does this file need changes?  the _mac.S is for x86 only, which is better tha nnothing.\n\u003e \n\u003e Doing arm is a followup..\n\nOK, I thought you had made changes to the .S that I wasn’t seeing, and that’s what I’d like to hold for a subsequent change. But you’re holding it anyway. Good.",
       "parentUuid": "94e9e434_6ee674ca",
+      "range": {
+        "startLine": 353,
+        "startChar": 12,
+        "endLine": 353,
+        "endChar": 33
+      },
+      "revId": "362968ada558c3419190362d4fef9cad0e27b939",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1a52cf9_6fceac5b",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 10
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-25T01:49:52Z",
+      "side": 1,
+      "message": "Holding, but I have a thread_get_state in the test so we can test the rest of the flow.",
+      "parentUuid": "a689aeb3_c3b42b2d",
       "range": {
         "startLine": 353,
         "startChar": 12,
