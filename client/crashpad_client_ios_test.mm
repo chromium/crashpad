@@ -20,6 +20,7 @@
 
 #include "gtest/gtest.h"
 #include "testing/platform_test.h"
+#include "build/build_config.h"
 
 namespace crashpad {
 namespace test {

@@ -22,6 +22,7 @@
 #include "test/mac/mach_errors.h"
 #include "util/mach/mach_extensions.h"
 #include "util/misc/implicit_cast.h"
+#include "build/build_config.h"
 
 namespace crashpad {
 namespace test {
