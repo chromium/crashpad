@@ -64,7 +64,7 @@ base::FilePath ScopedTempDir::CreateTemporaryDirectory() {
     // the one we generate exists, keep trying another path name until we reach
     // some limit.
     base::FilePath path_to_create = GenerateCandidateName();
-    if (CreateDirectory(path_to_create.value().c_str(), NULL))
+    if (CreateDirectory(path_to_create.value().c_str(), nullptr))
       return path_to_create;
   }
 

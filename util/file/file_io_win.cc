@@ -28,7 +28,7 @@ bool IsSocketHandle(HANDLE file) {
     // FILE_TYPE_PIPE means that it's a socket, a named pipe, or an anonymous
     // pipe. If we are unable to retrieve the pipe information, we know it's a
     // socket.
-    return !GetNamedPipeInfo(file, NULL, NULL, NULL, NULL);
+    return !GetNamedPipeInfo(file, nullptr, nullptr, nullptr, nullptr);
   }
   return false;
 }
