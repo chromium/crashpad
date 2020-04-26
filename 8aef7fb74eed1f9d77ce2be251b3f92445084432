@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1c444b33_8b9bf4ee",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-26T01:44:26Z",
+      "side": 1,
+      "message": "This is Chromium’s #include checker pulling some BS. The lead header is \"client/crashpad_client.h\" and that #includes \"build/build_config.h\" so this is OK. (I know, because I checked during review.)",
+      "revId": "8aef7fb74eed1f9d77ce2be251b3f92445084432",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d39144a5_d38473ab",
         "filename": "util/ios/exception_processor.mm",
         "patchSetId": 2
@@ -22,6 +39,47 @@
       "revId": "8aef7fb74eed1f9d77ce2be251b3f92445084432",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dcb3822_a6dc0b74",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-26T01:44:26Z",
+      "side": 1,
+      "message": "\u003e On second thought, this doesn\u0027t compile.  But in chromium:\n\u003e \n\u003e ** Presubmit Warnings **\n\u003e Banned functions were used.\n\u003e     third_party/crashpad/crashpad/util/ios/exception_processor.mm:282:\n\u003e       New code should not use NULL. Use nullptr instead.\n\nI count 4 files that use NULL in all of Crashpad (excluding third_party), and the other three are all Windows code. We should fix those too.\n\nLemme guess, this doesn’t compile because nullptr isn’t compatible with function pointer types?\n\nNULL is just a macro that expands to 0 (or, really, for a 64-bit architecture, 0l), so that’s exactly equivalent to the existing working code, but Chromium’s presubmit won’t have any reason to hate it.\n\nC++ really seems to want you to use a literal 0 here, although I admit that it makes it look like you’re a n00b. To retain the nullptr, a bit_cast would work in reinterpret_cast’s place.",
+      "parentUuid": "d39144a5_d38473ab",
+      "range": {
+        "startLine": 282,
+        "startChar": 41,
+        "endLine": 282,
+        "endChar": 48
+      },
+      "revId": "8aef7fb74eed1f9d77ce2be251b3f92445084432",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7687974d_813937af",
+        "filename": "util/mach/mach_message_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-26T01:44:26Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "8aef7fb74eed1f9d77ce2be251b3f92445084432",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
