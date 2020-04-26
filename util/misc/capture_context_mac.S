@@ -12,12 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if defined(__i386__) || defined(__x86_64__)
+#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
 
 // namespace crashpad {
 // void CaptureContext(x86_thread_state_t* x86_thread_state);
 // }  // namespace crashpad
-#define CAPTURECONTEXT_SYMBOL __ZN8crashpad14CaptureContextEP16x86_thread_state
+#if defined(__i386__) || defined(__x86_64__)
+#define CAPTURECONTEXT_SYMBOL __ZN8crashpad14CaptureContextEP16x86_unified_thread_state
+#elif defined(__aarch64__)
+#define CAPTURECONTEXT_SYMBOL __ZN8crashpad14CaptureContextEP24arm_unified_thread_state
+#endif
 
   .section __TEXT,__text,regular,pure_instructions
   .private_extern CAPTURECONTEXT_SYMBOL
@@ -211,6 +215,57 @@ CAPTURECONTEXT_SYMBOL:
 
   .cfi_endproc
 
+#elif defined(__aarch64__)
+
+// Save general purpose registers in arm_unified_thread_state->uts.ts_64.__x[0].
+// The original x0 can't be recovered.
+stp x0, x1, [x0, #0x8]
+stp x2, x3, [x0, #0x18]
+stp x4, x5, [x0, #0x28]
+stp x6, x7, [x0, #0x38]
+stp x8, x9, [x0, #0x48]
+stp x10, x11, [x0, #0x58]
+stp x12, x13, [x0, #0x68]
+stp x14, x15, [x0, #0x78]
+stp x16, x17, [x0, #0x88]
+stp x18, x19, [x0, #0x98]
+stp x20, x21, [x0, #0xA8]
+stp x22, x23, [x0, #0xB8]
+stp x24, x25, [x0, #0xC8]
+stp x26, x27, [x0, #0xD8]
+
+// Save the last general register (x28), the frame pointer (x29), link register
+// (x30) and stack pointer (x31).
+stp x28, x29, [x0, #0xE8] // __x[28] and __fp
+str x30, [x0, #0xF8] // __lr and __sp
+
+// Use x2 as a scratch register.
+mov x2, SP
+str x2, [x0, #0x100] // __sp
+
+// The link register holds the return address for this function.
+str x30, [x0, #0x108] // Program counter.
+
+// __cpsr should hold current program status registger, but NZCV are the only
+// bits we know about.
+//mrs x2, NZCV
+//str x2, [x0, #0x110]
+
+// Initialize the header identifying the x86_thread_state_t structure as
+// carrying an x86_thread_state64_t (flavor ARM_THREAD_STATE64) of size
+// ARM_THREAD_STATE64_COUNT 32-bit values.
+mov  x2, #6
+str  x2, [x0, #0x0]   // arm_thread_state->ash.flavor
+
+mov  x2, #68
+str  x2, [x0, #0x4]  // arm_thread_state->ash.count
+
+// Restore x2 from the saved context.
+ldr x2, [x0, #0x18]
+
+// TODO(https://crashpad.chromium.org/bug/300): save floating-point registers.
+
+ret
 #endif
 
 .subsections_via_symbols
