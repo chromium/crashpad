@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f819a5a8_8de88faa",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 4
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-26T03:26:28Z",
+      "side": 1,
+      "message": "return bit_cast\u003cIMP\u003e(nullptr);  // IMP is a function pointer type.",
+      "revId": "25b48511f7cac26177544bc2eedf6d4bb1cbd847",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
