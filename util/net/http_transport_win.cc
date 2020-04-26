@@ -97,7 +97,7 @@ std::string WinHttpMessage(const char* extra) {
                              0,
                              msgbuf,
                              static_cast<DWORD>(base::size(msgbuf)),
-                             NULL);
+                             nullptr);
   if (!len) {
     return base::StringPrintf("%s: error 0x%lx while retrieving error 0x%lx",
                               extra,
