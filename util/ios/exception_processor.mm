@@ -33,6 +33,7 @@
 #include <type_traits>
 #include <typeinfo>
 
+#include "base/bit_cast.h"
 #include "base/logging.h"
 #include "base/strings/sys_string_conversions.h"
 #include "build/build_config.h"
@@ -279,7 +280,7 @@ id ObjcExceptionPreprocessor(id exception) {
           if (!imp || imp == _objc_msgForward) {
             LOG(WARNING) << "Unable to find -[UIGestureEnvironment "
                             "_deliverEvent:toGestureRecognizers:usingBlock:]";
-            return reinterpret_cast<IMP>(NULL);
+            return bit_cast<IMP>(nullptr);  // IMP is a function pointer type.
           }
           return imp;
         }();
