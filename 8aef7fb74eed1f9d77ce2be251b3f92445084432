@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d39144a5_d38473ab",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-04-26T00:18:35Z",
+      "side": 1,
+      "message": "On second thought, this doesn\u0027t compile.  But in chromium:\n\n** Presubmit Warnings **\nBanned functions were used.\n    third_party/crashpad/crashpad/util/ios/exception_processor.mm:282:\n      New code should not use NULL. Use nullptr instead.",
+      "range": {
+        "startLine": 282,
+        "startChar": 41,
+        "endLine": 282,
+        "endChar": 48
+      },
+      "revId": "8aef7fb74eed1f9d77ce2be251b3f92445084432",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
