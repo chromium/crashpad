@@ -279,7 +279,7 @@ id ObjcExceptionPreprocessor(id exception) {
           if (!imp || imp == _objc_msgForward) {
             LOG(WARNING) << "Unable to find -[UIGestureEnvironment "
                             "_deliverEvent:toGestureRecognizers:usingBlock:]";
-            return reinterpret_cast<IMP>(NULL);
+            return reinterpret_cast<IMP>(nullptr);
           }
           return imp;
         }();

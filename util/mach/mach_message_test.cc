@@ -18,6 +18,7 @@
 
 #include "base/mac/scoped_mach_port.h"
 #include "base/macros.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/mac/mach_errors.h"
 #include "util/mach/mach_extensions.h"

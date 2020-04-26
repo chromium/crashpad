@@ -18,6 +18,7 @@
 
 #include <vector>
 
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "testing/platform_test.h"
 
