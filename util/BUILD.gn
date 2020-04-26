@@ -305,6 +305,8 @@ static_library("util") {
       "mach/mach_message.h",
       "mach/mach_message_server.cc",
       "mach/mach_message_server.h",
+      "mach/symbolic_constants_mach.cc",
+      "mach/symbolic_constants_mach.h",
       "misc/capture_context_mac.S",
       "misc/clock_mac.cc",
       "misc/paths_mac.cc",
@@ -334,8 +336,6 @@ static_library("util") {
       "mach/notify_server.h",
       "mach/scoped_task_suspend.cc",
       "mach/scoped_task_suspend.h",
-      "mach/symbolic_constants_mach.cc",
-      "mach/symbolic_constants_mach.h",
       "mach/task_for_pid.cc",
       "mach/task_for_pid.h",
       "net/http_transport_mac.mm",
@@ -710,6 +710,7 @@ source_set("util_test") {
       "mach/exception_behaviors_test.cc",
       "mach/mach_extensions_test.cc",
       "mach/mach_message_test.cc",
+      "mach/symbolic_constants_mach_test.cc",
     ]
   }
 
@@ -727,7 +728,6 @@ source_set("util_test") {
       "mach/mach_message_server_test.cc",
       "mach/notify_server_test.cc",
       "mach/scoped_task_suspend_test.cc",
-      "mach/symbolic_constants_mach_test.cc",
       "misc/capture_context_test_util_mac.cc",
       "process/process_memory_mac_test.cc",
     ]
