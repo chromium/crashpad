@@ -50,6 +50,8 @@ class ProcessSnapshotSanitized final : public ProcessSnapshot {
   //! \param[in] annotations_whitelist A list of annotations names to allow to
   //!     be returned by AnnotationsSimpleMap() or from this object's module
   //!     snapshots. If `nullptr`, all annotations will be returned.
+  //! \param[in] memory_range_whitelist A list of memory ranges to allow to be
+  //!     accessible via Memory(), or `nullptr` to allow all ranges.
   //! \param[in] target_module_address An address in the target process'
   //!     address space within the bounds of a module to target. If the
   //!     crashing thread's context and stack do not contain any pointers into
