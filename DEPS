@@ -193,7 +193,7 @@ hooks = [
     'condition': 'run_setup_ios_gn and checkout_ios',
     'action': [
         'python',
-        'crashpad/build/ios/setup-ios-gn.py'
+        'crashpad/build/ios/setup_ios_gn.py'
     ],
   },
 ]
