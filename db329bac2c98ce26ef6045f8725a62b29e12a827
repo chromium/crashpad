@@ -1,0 +1,358 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eee38201_46392def",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "No initialization. CaptureContext should fill out the entire structure. If it doesn’t, we certainly don’t want this crutch here making it seem like everything’s hunky dory.",
+      "range": {
+        "startLine": 34,
+        "startChar": 26,
+        "endLine": 34,
+        "endChar": 31
+      },
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db027575_2caa01fa",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "Don’t leave this stuff here. ARM uses a different type for the parameter altogether.\n\nTake a look at capture_context_linux.S for how to best organize this file (but note that ucontext_t is an architecture-independent type there, and we’re using machine-specific types here, so comments like this one should be inside the proper machine-specific #ifdefs alongside their related #defines).",
+      "range": {
+        "startLine": 15,
+        "startChar": 45,
+        "endLine": 19,
+        "endChar": 27
+      },
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7fec92a_df9afdbc",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "Don’t change this, I’ve never heard of x86_unified_thread_state.",
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "900ce1d5_9fe33948",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "CFI assembler directives should be included as the x86 and x86_64 versions do. Fortunately for ARM without a stack frame allocated, this will just be .cfi_startproc and .cfi_endproc. This will tell an unwinder that there is no stack frame and that only thing to do to unwind this frame is to get the return address out of %lr.",
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24297dfa_bb0994b4",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "The SDK says\n\n  #define ts_64 uts.ts_64\n\nwhich makes this not work. You need to say -\u003ets_64. instead, and pretend that uts isn’t there.",
+      "range": {
+        "startLine": 220,
+        "startChar": 63,
+        "endLine": 220,
+        "endChar": 72
+      },
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76616bd0_b088f8d1",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "This should all be indented +2.",
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26de34e0_a109ddce",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "lowercase for hex like the x86 version does",
+      "range": {
+        "startLine": 232,
+        "startChar": 22,
+        "endLine": 232,
+        "endChar": 23
+      },
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41642c76_ced26a06",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "Two spaces before the //, throughout this code.",
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38d6795c_2a1b0829",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "I see x30 (%lr) but nothing about %sp here.",
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57e47bed_118bdf56",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "Seems like an arbitrary choice when you haven’t touched x1 yet.",
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "995d85aa_bafe2059",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "Can this be written in lowercase? (same on line 251, nzcv.) Maybe not.",
+      "range": {
+        "startLine": 243,
+        "startChar": 8,
+        "endLine": 243,
+        "endChar": 10
+      },
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03a660e0_0f6735b1",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "Seems like you could have merged two of these stores into a single stp.",
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5be115c_a21b2b82",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "I think the comment is correct. Why is the code commented out?",
+      "range": {
+        "startLine": 249,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 22
+      },
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ff14606_e5c223b4",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "Another two str instructions that could be an stp.",
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d4dd289_92104a59",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "arm_thread_state64_t has a __opaque_flags or __pad field that you should zero out instead of leaving garbage-filled. (Although, if it’s __opaque_flags, we should arrange to get the correct value in there.) If you haven’t seen pointer authentication yet, have a look at https://chromium-review.googlesource.com/c/1986868. Not necessary for this change, where we can just get the basics of context capture worked out.",
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ade3229d_49abfd9f",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "Just one space",
+      "range": {
+        "startLine": 257,
+        "startChar": 3,
+        "endLine": 257,
+        "endChar": 5
+      },
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbb44020_21dda5de",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "This can be a mov, a movk with lsl, and a single str instead of two.",
+      "range": {
+        "startLine": 257,
+        "startChar": 0,
+        "endLine": 261,
+        "endChar": 51
+      },
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b8ad930_a8b57844",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T15:59:17Z",
+      "side": 1,
+      "message": "Only if we arrange to do the same thing for x86 above.\n\nThis comment matches the comment in the Linux version, but they’re working with an mcontext_t that has space for the floating-point context, and we’re working with an arm_unified_thread_state that does not. So we’d need a second parameter, which is fine except it’d clobber an additional register. That’s why I didn’t do it for x86. I figured that if we wanted it, we’d do it in a second function call after all of the general-purpose state was captured.",
+      "revId": "db329bac2c98ce26ef6045f8725a62b29e12a827",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
