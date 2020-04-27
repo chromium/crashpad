@@ -25,6 +25,7 @@
 #include "snapshot/ios/process_snapshot_ios.h"
 #include "util/ios/exception_processor.h"
 #include "util/ios/ios_system_data_collector.h"
+#include "util/mach/exc_client_variants.h"
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/exception_ports.h"
 #include "util/mach/mach_extensions.h"
@@ -80,13 +81,20 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
                                               MACH_MSG_TYPE_MAKE_SEND);
     MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_port_insert_right";
 
-    // TODO: Use SwapExceptionPort instead and put back EXC_MASK_BREAKPOINT.
-    const exception_mask_t mask =
-        ExcMaskAll() &
-        ~(EXC_MASK_EMULATION | EXC_MASK_SOFTWARE | EXC_MASK_BREAKPOINT |
-          EXC_MASK_RPC_ALERT | EXC_MASK_GUARD);
+    exception_mask_t mask =
+        ExcMaskAll() & ~(EXC_MASK_EMULATION | EXC_MASK_SOFTWARE |
+                         EXC_MASK_RPC_ALERT | EXC_MASK_GUARD);
     ExceptionPorts exception_ports(ExceptionPorts::kTargetTypeTask, TASK_NULL);
     exception_ports.GetExceptionPorts(mask, &original_handlers_);
+
+    // TODO: alternatively, sysctl KERN_PROC_PID and procInfo.kp_proc.p_flag &
+    // P_TRACED
+    for (auto handler : original_handlers_) {
+      if (handler.mask & EXC_BREAKPOINT) {
+        mask &= ~EXC_MASK_BREAKPOINT;
+      }
+    }
+
     exception_ports.SetExceptionPort(
         mask,
         exception_port_.get(),
@@ -130,8 +138,24 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
                                    bool* destroy_complex_request) override {
     *destroy_complex_request = true;
 
-    // TODO(justincohen): Forward exceptions to original_handlers_ with
-    // UniversalExceptionRaise.
+    for (auto handler : original_handlers_) {
+      if (handler.mask & exception) {
+        kern_return_t kr = UniversalExceptionRaise(behavior,
+                                                   handler.port,
+                                                   thread,
+                                                   task,
+                                                   exception,
+                                                   code,
+                                                   code_count,
+                                                   flavor,
+                                                   old_state,
+                                                   old_state_count,
+                                                   new_state,
+                                                   new_state_count);
+        MACH_LOG_IF(WARNING, kr != KERN_SUCCESS, kr)
+            << "UniversalExceptionRaise";
+      }
+    }
 
     // iOS shouldn't have any child processes, but just in case, those will
     // inherit the task exception ports, and this process isn’t prepared to
