@@ -52,6 +52,7 @@
 }
 
 - (void)throwUIGestureEnvironmentException {
+  strcpy(nullptr, "bla");
   NSArray* empty_array = @[];
   [empty_array objectAtIndex:42];
 }

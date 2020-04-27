@@ -305,6 +305,8 @@ static_library("util") {
       "mach/mach_message.h",
       "mach/mach_message_server.cc",
       "mach/mach_message_server.h",
+      "mach/symbolic_constants_mach.cc",
+      "mach/symbolic_constants_mach.h",
       "misc/capture_context_mac.S",
       "misc/clock_mac.cc",
       "misc/paths_mac.cc",

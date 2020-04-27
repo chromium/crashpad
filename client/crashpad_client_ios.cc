@@ -25,6 +25,7 @@
 #include "snapshot/ios/process_snapshot_ios.h"
 #include "util/ios/exception_processor.h"
 #include "util/ios/ios_system_data_collector.h"
+#include "util/mach/exc_client_variants.h"
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/exception_ports.h"
 #include "util/mach/mach_extensions.h"
@@ -82,18 +83,54 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
 
     // TODO: Use SwapExceptionPort instead and put back EXC_MASK_BREAKPOINT.
     const exception_mask_t mask =
-        ExcMaskAll() &
-        ~(EXC_MASK_EMULATION | EXC_MASK_SOFTWARE | EXC_MASK_BREAKPOINT |
-          EXC_MASK_RPC_ALERT | EXC_MASK_GUARD);
+        ExcMaskAll() & ~(EXC_MASK_EMULATION | EXC_MASK_SOFTWARE |
+                         EXC_MASK_RPC_ALERT | EXC_MASK_GUARD);
+
+    //    const exception_mask_t mask = EXC_MASK_BAD_ACCESS |
+    //    EXC_MASK_BAD_INSTRUCTION | EXC_MASK_ARITHMETIC |
+    //           EXC_MASK_BREAKPOINT | EXC_MASK_GUARD;
+
     ExceptionPorts exception_ports(ExceptionPorts::kTargetTypeTask, TASK_NULL);
     exception_ports.GetExceptionPorts(mask, &original_handlers_);
-    exception_ports.SetExceptionPort(
+    DLOG(WARNING) << "before";
+    //    exception_ports.SetExceptionPort(
+    //        mask,
+    //        exception_port_.get(),
+    //        EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES,
+    //        MACHINE_THREAD_STATE);
+
+    mach_msg_type_number_t count;
+    exception_mask_t masks[EXC_TYPES_COUNT];
+    exception_handler_t ports[EXC_TYPES_COUNT];
+    exception_behavior_t behaviors[EXC_TYPES_COUNT];
+    thread_state_flavor_t flavors[EXC_TYPES_COUNT];
+
+    kr = task_swap_exception_ports(
+        mach_task_self(),
         mask,
         exception_port_.get(),
-        EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES,
-        MACHINE_THREAD_STATE);
+        EXCEPTION_DEFAULT | MACH_EXCEPTION_CODES,
+        THREAD_STATE_NONE,
+        //                                   EXCEPTION_STATE_IDENTITY |
+        //                                   MACH_EXCEPTION_CODES,
+        //                                   MACHINE_THREAD_STATE,
+        masks,
+        &count,
+        ports,
+        behaviors,
+        flavors);
 
+    for (auto handler : original_handlers_) {
+      DLOG(WARNING) << "found an handler";
+      if (handler.mask & EXC_BREAKPOINT) {
+        DLOG(WARNING) << "handler wants exception ";
+      } else {
+        DLOG(WARNING) << "handler doesn't want exception ";
+      }
+    }
+    DLOG(WARNING) << "after";
     Start();
+    DLOG(WARNING) << "started";
   }
 
   // Thread:
@@ -101,6 +138,7 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
   void ThreadMain() override {
     UniversalMachExcServer universal_mach_exc_server(this);
     while (true) {
+      DLOG(WARNING) << "about to start server.";
       mach_msg_return_t mr =
           MachMessageServer::Run(&universal_mach_exc_server,
                                  exception_port_.get(),
@@ -132,6 +170,33 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
 
     // TODO(justincohen): Forward exceptions to original_handlers_ with
     // UniversalExceptionRaise.
+    DLOG(WARNING) << "CatchMachException";
+    for (auto handler : original_handlers_) {
+      DLOG(WARNING) << "found an handler";
+      if (handler.mask & exception) {
+        DLOG(WARNING) << "handler wants exception ";
+        kern_return_t kr = UniversalExceptionRaise(behavior,
+                                                   handler.port,
+                                                   thread,
+                                                   task,
+                                                   exception,
+                                                   code,
+                                                   code_count,
+                                                   flavor,
+                                                   old_state,
+                                                   old_state_count,
+                                                   new_state,
+                                                   new_state_count);
+        //      MACH_CHECK(kr == KERN_SUCCESS, kr) << "UniversalExceptionRaise";
+        if (kr != KERN_SUCCESS) {
+          DLOG(WARNING) << "UniversalExceptionRaise failed";
+        } else {
+          DLOG(WARNING) << "UniversalExceptionRaise succeeded";
+        }
+      } else {
+        DLOG(WARNING) << "handler doesn't want exception ";
+      }
+    }
 
     // iOS shouldn't have any child processes, but just in case, those will
     // inherit the task exception ports, and this process isn’t prepared to
