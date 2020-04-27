@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b43ce481_6cb36548",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-04-27T12:33:05Z",
+      "side": 1,
+      "message": "ucontext_t* is the correct type.",
+      "revId": "f2cc0fb595f59aef1810cd0db3c680edc57e8436",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
