@@ -145,7 +145,7 @@ class SignalHandler {
 
     if (first_chance_handler_ &&
         first_chance_handler_(
-            signo, siginfo, static_cast<ucontext_t*>(context))) {
+            signo, siginfo, context)) {
       return true;
     }
 
