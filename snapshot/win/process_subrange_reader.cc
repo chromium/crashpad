@@ -15,6 +15,7 @@
 #include "snapshot/win/process_subrange_reader.h"
 
 #include "base/logging.h"
+#include "base/numerics/safe_conversions.h"
 #include "snapshot/win/process_reader_win.h"
 
 namespace crashpad {
@@ -82,7 +83,8 @@ bool ProcessSubrangeReader::ReadMemory(WinVMAddress address,
     return false;
   }
 
-  return process_reader_->ReadMemory(address, size, into);
+  return process_reader_->Memory()->Read(
+      address, base::checked_cast<size_t>(size), into);
 }
 
 bool ProcessSubrangeReader::InitializeInternal(ProcessReaderWin* process_reader,

@@ -25,6 +25,7 @@
 
 #include "base/macros.h"
 #include "snapshot/crashpad_info_client_options.h"
+#include "snapshot/crashpad_types/crashpad_info_reader.h"
 #include "snapshot/module_snapshot.h"
 #include "snapshot/win/process_reader_win.h"
 #include "util/misc/initialization_state.h"
@@ -83,6 +84,7 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
   ModuleType GetModuleType() const override;
   void UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const override;
   std::string DebugFileName() const override;
+  std::vector<uint8_t> BuildID() const override;
   std::vector<std::string> AnnotationsVector() const override;
   std::map<std::string, std::string> AnnotationsSimpleMap() const override;
   std::vector<AnnotationSnapshot> AnnotationObjects() const override;
@@ -109,18 +111,19 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
   std::wstring name_;
   std::string pdb_name_;
   UUID uuid_;
-  std::unique_ptr<PEImageReader> pe_image_reader_;
-  ProcessReaderWin* process_reader_;  // weak
-  time_t timestamp_;
-  uint32_t age_;
+  ProcessMemoryRange memory_range_;
   // Too const-y: https://crashpad.chromium.org/bug/9.
   mutable std::vector<std::unique_ptr<const UserMinidumpStream>> streams_;
-  InitializationStateDcheck initialized_;
-
   // VSFixedFileInfo() is logically const, but updates these members on the
   // call. See https://crashpad.chromium.org/bug/9.
   mutable VS_FIXEDFILEINFO vs_fixed_file_info_;
   mutable InitializationState initialized_vs_fixed_file_info_;
+  ProcessReaderWin* process_reader_;  // weak
+  std::unique_ptr<PEImageReader> pe_image_reader_;
+  std::unique_ptr<CrashpadInfoReader> crashpad_info_;
+  time_t timestamp_;
+  uint32_t age_;
+  InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ModuleSnapshotWin);
 };

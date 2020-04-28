@@ -141,15 +141,15 @@ struct CrashpadInfo {
   //!
   //! When handling an exception, the Crashpad handler will scan all modules in
   //! a process. The first one that has a CrashpadInfo structure populated with
-  //! a value other than #kUnset for this field will dictate whether the handler
-  //! is functional or not. If all modules with a CrashpadInfo structure specify
-  //! #kUnset, the handler will be enabled. If disabled, the Crashpad handler
-  //! will still run and receive exceptions, but will not take any action on an
-  //! exception on its own behalf, except for the action necessary to determine
-  //! that it has been disabled.
+  //! a value other than TriState::kUnset for this field will dictate whether
+  //! the handler is functional or not. If all modules with a CrashpadInfo
+  //! structure specify TriState::kUnset, the handler will be enabled. If
+  //! disabled, the Crashpad handler will still run and receive exceptions, but
+  //! will not take any action on an exception on its own behalf, except for the
+  //! action necessary to determine that it has been disabled.
   //!
-  //! The Crashpad handler should not normally be disabled. More commonly, it
-  //! is appropriate to disable crash report upload by calling
+  //! The Crashpad handler should not normally be disabled. More commonly, it is
+  //! appropriate to disable crash report upload by calling
   //! Settings::SetUploadsEnabled().
   void set_crashpad_handler_behavior(TriState crashpad_handler_behavior) {
     crashpad_handler_behavior_ = crashpad_handler_behavior;
@@ -160,15 +160,15 @@ struct CrashpadInfo {
   //!
   //! When handling an exception, the Crashpad handler will scan all modules in
   //! a process. The first one that has a CrashpadInfo structure populated with
-  //! a value other than #kUnset for this field will dictate whether the
-  //! exception is forwarded to the system’s crash reporter. If all modules with
-  //! a CrashpadInfo structure specify #kUnset, forwarding will be enabled.
-  //! Unless disabled, forwarding may still occur if the Crashpad handler is
-  //! disabled by SetCrashpadHandlerState(). Even when forwarding is enabled,
-  //! the Crashpad handler may choose not to forward all exceptions to the
-  //! system’s crash reporter in cases where it has reason to believe that the
-  //! system’s crash reporter would not normally have handled the exception in
-  //! Crashpad’s absence.
+  //! a value other than TriState::kUnset for this field will dictate whether
+  //! the exception is forwarded to the system’s crash reporter. If all modules
+  //! with a CrashpadInfo structure specify TriState::kUnset, forwarding will be
+  //! enabled. Unless disabled, forwarding may still occur if the Crashpad
+  //! handler is disabled by SetCrashpadHandlerState(). Even when forwarding is
+  //! enabled, the Crashpad handler may choose not to forward all exceptions to
+  //! the system’s crash reporter in cases where it has reason to believe that
+  //! the system’s crash reporter would not normally have handled the exception
+  //! in Crashpad’s absence.
   void set_system_crash_reporter_forwarding(
       TriState system_crash_reporter_forwarding) {
     system_crash_reporter_forwarding_ = system_crash_reporter_forwarding;
@@ -179,8 +179,8 @@ struct CrashpadInfo {
   //!
   //! When handling an exception, the Crashpad handler will scan all modules in
   //! a process. The first one that has a CrashpadInfo structure populated with
-  //! a value other than #kUnset for this field will dictate whether the extra
-  //! memory is captured.
+  //! a value other than TriState::kUnset for this field will dictate whether
+  //! the extra memory is captured.
   //!
   //! This causes Crashpad to include pages of data referenced by locals or
   //! other stack memory. Turning this on can increase the size of the minidump
@@ -208,7 +208,7 @@ struct CrashpadInfo {
   //! Note that streams will appear in the minidump in the reverse order to
   //! which they are added.
   //!
-  //! TODO(scottmg) This is currently only supported on Windows.
+  //! TODO(scottmg) This is currently not supported on Mac.
   //!
   //! \param[in] stream_type The stream type identifier to use. This should be
   //!     normally be larger than `MINIDUMP_STREAM_TYPE::LastReservedStream`

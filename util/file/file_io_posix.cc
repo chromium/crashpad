@@ -14,8 +14,10 @@
 
 #include "util/file/file_io.h"
 
+#include <errno.h>
 #include <fcntl.h>
 #include <sys/file.h>
+#include <sys/mman.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -25,7 +27,9 @@
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
+#include "base/strings/stringprintf.h"
 #include "build/build_config.h"
+#include "util/misc/random_string.h"
 
 namespace crashpad {
 
@@ -97,7 +101,6 @@ FileHandle OpenFileForOutput(int rdwr_or_wronly,
            flags,
            permissions == FilePermissions::kWorldReadable ? 0644 : 0600));
 }
-
 }  // namespace
 
 namespace internal {
@@ -148,6 +151,53 @@ FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
   PLOG_IF(ERROR, fd < 0) << "open " << path.value();
   return fd;
 }
+
+#if defined(OS_LINUX)
+FileHandle LoggingOpenMemoryFileForReadAndWrite(const base::FilePath& name) {
+  DCHECK(name.value().find('/') == std::string::npos);
+
+  int result = HANDLE_EINTR(memfd_create(name.value().c_str(), 0));
+  if (result >= 0 || errno != ENOSYS) {
+    PLOG_IF(ERROR, result < 0) << "memfd_create";
+    return result;
+  }
+
+  const char* tmp = getenv("TMPDIR");
+  tmp = tmp ? tmp : "/tmp";
+
+  result = HANDLE_EINTR(open(tmp, O_RDWR | O_EXCL | O_TMPFILE, 0600));
+  if (result >= 0 ||
+      // These are the expected possible error codes indicating that O_TMPFILE
+      // doesn't have kernel or filesystem support. O_TMPFILE was added in Linux
+      // 3.11. Experimentation confirms that at least Linux 2.6.29 and Linux
+      // 3.10 set errno to EISDIR. EOPNOTSUPP is returned when the filesystem
+      // doesn't support O_TMPFILE. The man pages also mention ENOENT as an
+      // error code to check, but the language implies it would only occur when
+      // |tmp| is also an invalid directory. EINVAL is mentioned as a possible
+      // error code for any invalid values in flags, but O_TMPFILE isn't
+      // mentioned explicitly in this context and hasn't been observed in
+      // practice.
+      (errno != EISDIR && errno != EOPNOTSUPP)) {
+    PLOG_IF(ERROR, result < 0) << "open";
+    return result;
+  }
+
+  std::string path = base::StringPrintf("%s/%s.%d.%s",
+                                        tmp,
+                                        name.value().c_str(),
+                                        getpid(),
+                                        RandomString().c_str());
+  result = HANDLE_EINTR(open(path.c_str(), O_RDWR | O_CREAT | O_EXCL, 0600));
+  if (result < 0) {
+    PLOG(ERROR) << "open";
+    return result;
+  }
+  if (unlink(path.c_str()) != 0) {
+    PLOG(WARNING) << "unlink";
+  }
+  return result;
+}
+#endif
 
 FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
                                           FileWriteMode mode,

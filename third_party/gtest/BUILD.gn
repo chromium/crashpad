@@ -28,12 +28,13 @@ if (crashpad_is_in_chromium) {
       "//testing/gmock",
     ]
   }
-} else if (crashpad_is_in_fuchsia) {
+} else if (crashpad_is_in_dart || crashpad_is_in_fuchsia) {
   group("gtest") {
     testonly = true
     public_deps = [
       "//third_party/googletest:gtest",
     ]
+    public_configs = [ "../..:disable_ubsan" ]
   }
   group("gmock") {
     testonly = true
@@ -56,6 +57,7 @@ if (crashpad_is_in_chromium) {
     testonly = true
     sources = [
       "gtest/googletest/include/gtest/gtest-death-test.h",
+      "gtest/googletest/include/gtest/gtest-matchers.h",
       "gtest/googletest/include/gtest/gtest-message.h",
       "gtest/googletest/include/gtest/gtest-param-test.h",
       "gtest/googletest/include/gtest/gtest-printers.h",
@@ -71,18 +73,16 @@ if (crashpad_is_in_chromium) {
       "gtest/googletest/include/gtest/internal/gtest-death-test-internal.h",
       "gtest/googletest/include/gtest/internal/gtest-filepath.h",
       "gtest/googletest/include/gtest/internal/gtest-internal.h",
-      "gtest/googletest/include/gtest/internal/gtest-linked_ptr.h",
-      "gtest/googletest/include/gtest/internal/gtest-param-util-generated.h",
       "gtest/googletest/include/gtest/internal/gtest-param-util.h",
       "gtest/googletest/include/gtest/internal/gtest-port-arch.h",
       "gtest/googletest/include/gtest/internal/gtest-port.h",
       "gtest/googletest/include/gtest/internal/gtest-string.h",
-      "gtest/googletest/include/gtest/internal/gtest-tuple.h",
       "gtest/googletest/include/gtest/internal/gtest-type-util.h",
       "gtest/googletest/src/gtest-all.cc",
       "gtest/googletest/src/gtest-death-test.cc",
       "gtest/googletest/src/gtest-filepath.cc",
       "gtest/googletest/src/gtest-internal-inl.h",
+      "gtest/googletest/src/gtest-matchers.cc",
       "gtest/googletest/src/gtest-port.cc",
       "gtest/googletest/src/gtest-printers.cc",
       "gtest/googletest/src/gtest-test-part.cc",
@@ -95,6 +95,11 @@ if (crashpad_is_in_chromium) {
       "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
     ]
     configs += [ ":gtest_private_config" ]
+    if (crashpad_is_fuchsia) {
+      deps = [
+        "../fuchsia",
+      ]
+    }
   }
 
   static_library("gtest_main") {
@@ -112,20 +117,20 @@ if (crashpad_is_in_chromium) {
 
   test("gtest_all_test") {
     sources = [
-      "gtest/googletest/test/gtest-death-test_test.cc",
-      "gtest/googletest/test/gtest-filepath_test.cc",
-      "gtest/googletest/test/gtest-linked_ptr_test.cc",
-      "gtest/googletest/test/gtest-message_test.cc",
-      "gtest/googletest/test/gtest-options_test.cc",
-      "gtest/googletest/test/gtest-port_test.cc",
-      "gtest/googletest/test/gtest-printers_test.cc",
-      "gtest/googletest/test/gtest-test-part_test.cc",
+      "gtest/googletest/test/googletest-death-test-test.cc",
+      "gtest/googletest/test/googletest-filepath-test.cc",
+      "gtest/googletest/test/googletest-message-test.cc",
+      "gtest/googletest/test/googletest-options-test.cc",
+      "gtest/googletest/test/googletest-port-test.cc",
+      "gtest/googletest/test/googletest-printers-test.cc",
+      "gtest/googletest/test/googletest-test-part-test.cc",
       "gtest/googletest/test/gtest-typed-test2_test.cc",
       "gtest/googletest/test/gtest-typed-test_test.cc",
       "gtest/googletest/test/gtest-typed-test_test.h",
       "gtest/googletest/test/gtest_main_unittest.cc",
       "gtest/googletest/test/gtest_pred_impl_unittest.cc",
       "gtest/googletest/test/gtest_prod_test.cc",
+      "gtest/googletest/test/gtest_skip_test.cc",
       "gtest/googletest/test/gtest_unittest.cc",
       "gtest/googletest/test/production.cc",
       "gtest/googletest/test/production.h",
@@ -156,7 +161,7 @@ if (crashpad_is_in_chromium) {
 
   test("gtest_listener_test") {
     sources = [
-      "gtest/googletest/test/gtest-listener_test.cc",
+      "gtest/googletest/test/googletest-listener-test.cc",
     ]
     deps = [
       ":gtest",
@@ -174,9 +179,9 @@ if (crashpad_is_in_chromium) {
 
   test("gtest_param_test") {
     sources = [
-      "gtest/googletest/test/gtest-param-test2_test.cc",
-      "gtest/googletest/test/gtest-param-test_test.cc",
-      "gtest/googletest/test/gtest-param-test_test.h",
+      "gtest/googletest/test/googletest-param-test-test.cc",
+      "gtest/googletest/test/googletest-param-test-test.h",
+      "gtest/googletest/test/googletest-param-test2-test.cc",
     ]
     configs -= [
       "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
@@ -284,21 +289,20 @@ if (crashpad_is_in_chromium) {
     sources = [
       "gtest/googlemock/include/gmock/gmock-actions.h",
       "gtest/googlemock/include/gmock/gmock-cardinalities.h",
+      "gtest/googlemock/include/gmock/gmock-function-mocker.h",
       "gtest/googlemock/include/gmock/gmock-generated-actions.h",
-      "gtest/googlemock/include/gmock/gmock-generated-function-mockers.h",
-      "gtest/googlemock/include/gmock/gmock-generated-matchers.h",
-      "gtest/googlemock/include/gmock/gmock-generated-nice-strict.h",
       "gtest/googlemock/include/gmock/gmock-matchers.h",
       "gtest/googlemock/include/gmock/gmock-more-actions.h",
       "gtest/googlemock/include/gmock/gmock-more-matchers.h",
+      "gtest/googlemock/include/gmock/gmock-nice-strict.h",
       "gtest/googlemock/include/gmock/gmock-spec-builders.h",
       "gtest/googlemock/include/gmock/gmock.h",
       "gtest/googlemock/include/gmock/internal/custom/gmock-generated-actions.h",
       "gtest/googlemock/include/gmock/internal/custom/gmock-matchers.h",
       "gtest/googlemock/include/gmock/internal/custom/gmock-port.h",
-      "gtest/googlemock/include/gmock/internal/gmock-generated-internal-utils.h",
       "gtest/googlemock/include/gmock/internal/gmock-internal-utils.h",
       "gtest/googlemock/include/gmock/internal/gmock-port.h",
+      "gtest/googlemock/include/gmock/internal/gmock-pp.h",
       "gtest/googlemock/src/gmock-all.cc",
       "gtest/googlemock/src/gmock-cardinalities.cc",
       "gtest/googlemock/src/gmock-internal-utils.cc",
@@ -334,15 +338,16 @@ if (crashpad_is_in_chromium) {
     sources = [
       "gtest/googlemock/test/gmock-actions_test.cc",
       "gtest/googlemock/test/gmock-cardinalities_test.cc",
+      "gtest/googlemock/test/gmock-function-mocker_test.cc",
       "gtest/googlemock/test/gmock-generated-actions_test.cc",
-      "gtest/googlemock/test/gmock-generated-function-mockers_test.cc",
-      "gtest/googlemock/test/gmock-generated-internal-utils_test.cc",
       "gtest/googlemock/test/gmock-generated-matchers_test.cc",
       "gtest/googlemock/test/gmock-internal-utils_test.cc",
       "gtest/googlemock/test/gmock-matchers_test.cc",
       "gtest/googlemock/test/gmock-more-actions_test.cc",
       "gtest/googlemock/test/gmock-nice-strict_test.cc",
       "gtest/googlemock/test/gmock-port_test.cc",
+      "gtest/googlemock/test/gmock-pp-string_test.cc",
+      "gtest/googlemock/test/gmock-pp_test.cc",
       "gtest/googlemock/test/gmock-spec-builders_test.cc",
       "gtest/googlemock/test/gmock_test.cc",
     ]

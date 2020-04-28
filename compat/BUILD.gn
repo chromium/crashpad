@@ -17,8 +17,14 @@ import("../build/crashpad_buildconfig.gni")
 config("compat_config") {
   include_dirs = []
 
-  if (crashpad_is_mac) {
+  if (crashpad_is_mac || crashpad_is_ios) {
     include_dirs += [ "mac" ]
+  } else {
+    include_dirs += [ "non_mac" ]
+  }
+
+  if (crashpad_is_ios) {
+    include_dirs += [ "ios" ]
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
@@ -34,10 +40,14 @@ config("compat_config") {
   } else {
     include_dirs += [ "non_win" ]
   }
+
+  if (!crashpad_is_linux && !crashpad_is_android && !crashpad_is_fuchsia) {
+    include_dirs += [ "non_elf" ]
+  }
 }
 
 template("compat_target") {
-  if (crashpad_is_mac) {
+  if (crashpad_is_mac || crashpad_is_ios) {
     # There are no sources to compile, which doesn’t mix will with a
     # static_library.
     group(target_name) {
@@ -53,21 +63,39 @@ template("compat_target") {
 compat_target("compat") {
   sources = []
 
-  if (crashpad_is_mac) {
+  if (crashpad_is_mac || crashpad_is_ios) {
     sources += [
       "mac/AvailabilityMacros.h",
       "mac/kern/exc_resource.h",
       "mac/mach-o/loader.h",
+      "mac/mach/i386/thread_state.h",
       "mac/mach/mach.h",
       "mac/sys/resource.h",
     ]
   } else {
-    sources += [ "non_mac/mach/mach.h" ]
+    sources += [
+      "non_mac/mach-o/loader.h",
+      "non_mac/mach/mach.h",
+      "non_mac/mach/machine.h",
+      "non_mac/mach/vm_prot.h",
+    ]
+  }
+
+  if (crashpad_is_ios) {
+    sources += [
+      "ios/mach/exc.defs",
+      "ios/mach/mach_exc.defs",
+      "ios/mach/mach_types.defs",
+      "ios/mach/machine/machine_types.defs",
+      "ios/mach/std_types.defs",
+    ]
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
     sources += [
       "linux/signal.h",
+      "linux/sys/mman.cc",
+      "linux/sys/mman.h",
       "linux/sys/ptrace.h",
       "linux/sys/user.h",
     ]
@@ -75,6 +103,8 @@ compat_target("compat") {
 
   if (crashpad_is_android) {
     sources += [
+      "android/android/api-level.cc",
+      "android/android/api-level.h",
       "android/dlfcn_internal.cc",
       "android/dlfcn_internal.h",
       "android/elf.h",
@@ -114,6 +144,10 @@ compat_target("compat") {
     ]
   }
 
+  if (!crashpad_is_linux && !crashpad_is_android && !crashpad_is_fuchsia) {
+    sources += [ "non_elf/elf.h" ]
+  }
+
   public_configs = [
     ":compat_config",
     "..:crashpad_config",
@@ -121,7 +155,15 @@ compat_target("compat") {
 
   deps = []
 
+  if (!crashpad_is_mac) {
+    deps += [ "../third_party/xnu" ]
+  }
+
   if (crashpad_is_win) {
     deps += [ "../third_party/getopt" ]
+  }
+
+  if (!crashpad_is_linux && !crashpad_is_android && !crashpad_is_fuchsia) {
+    deps += [ "../third_party/glibc" ]
   }
 }

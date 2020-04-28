@@ -15,6 +15,7 @@
 #include "client/crashpad_client.h"
 
 #include <windows.h>
+
 #include <signal.h>
 #include <stdint.h>
 #include <string.h>
@@ -35,10 +36,12 @@
 #include "util/misc/random_string.h"
 #include "util/win/address_types.h"
 #include "util/win/command_line.h"
+#include "util/win/context_wrappers.h"
 #include "util/win/critical_section_with_debug_info.h"
 #include "util/win/get_function.h"
 #include "util/win/handle.h"
 #include "util/win/initial_client_data.h"
+#include "util/win/loader_lock.h"
 #include "util/win/nt_internals.h"
 #include "util/win/ntstatus_logging.h"
 #include "util/win/process_info.h"
@@ -73,10 +76,10 @@ base::Lock* g_non_crash_dump_lock;
 ExceptionInformation g_non_crash_exception_information;
 
 enum class StartupState : int {
-  kNotReady = 0,   // This must be value 0 because it is the initial value of a
-                   // global AtomicWord.
+  kNotReady = 0,  // This must be value 0 because it is the initial value of a
+                  // global AtomicWord.
   kSucceeded = 1,  // The CreateProcess() for the handler succeeded.
-  kFailed = 2,     // The handler failed to start.
+  kFailed = 2,  // The handler failed to start.
 };
 
 // This is a tri-state of type StartupState. It starts at 0 == kNotReady, and
@@ -93,9 +96,8 @@ base::subtle::AtomicWord g_handler_startup_state;
 CRITICAL_SECTION g_critical_section_with_debug_info;
 
 void SetHandlerStartupState(StartupState state) {
-  DCHECK(state == StartupState::kSucceeded ||
-         state == StartupState::kFailed);
-  base::subtle::Acquire_Store(&g_handler_startup_state,
+  DCHECK(state == StartupState::kSucceeded || state == StartupState::kFailed);
+  base::subtle::Release_Store(&g_handler_startup_state,
                               static_cast<base::subtle::AtomicWord>(state));
 }
 
@@ -103,7 +105,7 @@ StartupState BlockUntilHandlerStartedOrFailed() {
   // Wait until we know the handler has either succeeded or failed to start.
   base::subtle::AtomicWord startup_state;
   while (
-      (startup_state = base::subtle::Release_Load(&g_handler_startup_state)) ==
+      (startup_state = base::subtle::Acquire_Load(&g_handler_startup_state)) ==
       static_cast<int>(StartupState::kNotReady)) {
     Sleep(1);
   }
@@ -187,11 +189,7 @@ void HandleAbortSignal(int signum) {
   EXCEPTION_RECORD record = {};
   record.ExceptionCode = STATUS_FATAL_APP_EXIT;
   record.ExceptionFlags = EXCEPTION_NONCONTINUABLE;
-#if defined(ARCH_CPU_64_BITS)
-  record.ExceptionAddress = reinterpret_cast<void*>(context.Rip);
-#else
-  record.ExceptionAddress = reinterpret_cast<void*>(context.Eip);
-#endif  // ARCH_CPU_64_BITS
+  record.ExceptionAddress = ProgramCounterFromCONTEXT(&context);
 
   EXCEPTION_POINTERS exception_pointers;
   exception_pointers.ContextRecord = &context;
@@ -349,6 +347,8 @@ class ScopedCallSetHandlerStartupState {
 
 bool StartHandlerProcess(
     std::unique_ptr<BackgroundHandlerStartThreadData> data) {
+  CHECK(!IsThreadInLoaderLock());
+
   ScopedCallSetHandlerStartupState scoped_startup_state_caller;
 
   std::wstring command_line;
@@ -476,17 +476,34 @@ bool StartHandlerProcess(
     }
   }
 
+  // If the embedded crashpad handler is being started via an entry point in a
+  // DLL (the handler executable is rundll32.exe), then don't pass
+  // the application name to CreateProcess as this appears to generate an
+  // invalid command line where the first argument needed by rundll32 is not in
+  // the correct format as required in:
+  // https://support.microsoft.com/en-ca/help/164787/info-windows-rundll-and-rundll32-interface
+  const base::StringPiece16 kRunDll32Exe(L"rundll32.exe");
+  bool is_embedded_in_dll = false;
+  if (data->handler.value().size() >= kRunDll32Exe.size() &&
+      _wcsicmp(data->handler.value()
+                   .substr(data->handler.value().size() - kRunDll32Exe.size())
+                   .c_str(),
+               kRunDll32Exe.data()) == 0) {
+    is_embedded_in_dll = true;
+  }
+
   PROCESS_INFORMATION process_info;
-  rv = CreateProcess(data->handler.value().c_str(),
-                     &command_line[0],
-                     nullptr,
-                     nullptr,
-                     true,
-                     creation_flags,
-                     nullptr,
-                     nullptr,
-                     &startup_info.StartupInfo,
-                     &process_info);
+  rv = CreateProcess(
+      is_embedded_in_dll ? nullptr : data->handler.value().c_str(),
+      &command_line[0],
+      nullptr,
+      nullptr,
+      true,
+      creation_flags,
+      nullptr,
+      nullptr,
+      &startup_info.StartupInfo,
+      &process_info);
   if (!rv) {
     PLOG(ERROR) << "CreateProcess";
     return false;
@@ -756,11 +773,7 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
   constexpr uint32_t kSimulatedExceptionCode = 0x517a7ed;
   EXCEPTION_RECORD record = {};
   record.ExceptionCode = kSimulatedExceptionCode;
-#if defined(ARCH_CPU_64_BITS)
-  record.ExceptionAddress = reinterpret_cast<void*>(context.Rip);
-#else
-  record.ExceptionAddress = reinterpret_cast<void*>(context.Eip);
-#endif  // ARCH_CPU_64_BITS
+  record.ExceptionAddress = ProgramCounterFromCONTEXT(&context);
 
   exception_pointers.ExceptionRecord = &record;
 

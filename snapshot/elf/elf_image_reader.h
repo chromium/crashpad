@@ -70,15 +70,20 @@ class ElfImageReader {
     //! \param[out] name The name of the note owner, if not `nullptr`.
     //! \param[out] type A type for the note, if not `nullptr`.
     //! \param[out] desc The note descriptor.
-    //! \return a #Result value. \a name, \a type, and \a desc are only valid if
-    //!     this method returns Result::kSuccess.
-    Result NextNote(std::string* name, NoteType* type, std::string* desc);
+    //! \param[out] desc_addr The address in the remote process' address space
+    //!     \a desc was read from.
+    //! \return a #Result value. \a name, \a type, \a desc, and \a desc_addr are
+    //!     only valid if this method returns Result::kSuccess.
+    Result NextNote(std::string* name,
+                    NoteType* type,
+                    std::string* desc,
+                    VMAddress* desc_addr);
 
     // private
     NoteReader(const ElfImageReader* elf_reader_,
                const ProcessMemoryRange* range,
                const ProgramHeaderTable* phdr_table,
-               ssize_t max_note_size,
+               size_t max_note_size,
                const std::string& name_filter = std::string(),
                NoteType type_filter = 0,
                bool use_filter = false);
@@ -88,7 +93,10 @@ class ElfImageReader {
     // and returns kError if use_filter_ is true and the note's name and type do
     // not match name_filter_ and type_filter_.
     template <typename T>
-    Result ReadNote(std::string* name, NoteType* type, std::string* desc);
+    Result ReadNote(std::string* name,
+                    NoteType* type,
+                    std::string* desc,
+                    VMAddress* desc_addr);
 
     VMAddress current_address_;
     VMAddress segment_end_address_;
@@ -97,7 +105,7 @@ class ElfImageReader {
     const ProgramHeaderTable* phdr_table_;  // weak
     std::unique_ptr<ProcessMemoryRange> segment_range_;
     size_t phdr_index_;
-    ssize_t max_note_size_;
+    size_t max_note_size_;
     std::string name_filter_;
     NoteType type_filter_;
     bool use_filter_;
@@ -149,6 +157,13 @@ class ElfImageReader {
   //! The load bias is the actual load address minus the preferred load address.
   VMOffset GetLoadBias() const { return load_bias_; }
 
+  //! \brief Determines the name of this object using `DT_SONAME`, if present.
+  //!
+  //! \param[out] name The name of this object, only valid if this method
+  //!     returns `true`.
+  //! \return `true` if a name was found for this object.
+  bool SoName(std::string* name);
+
   //! \brief Reads information from the dynamic symbol table about the symbol
   //!     identified by \a name.
   //!
@@ -196,10 +211,9 @@ class ElfImageReader {
   //!
   //! \param[in] max_note_size The maximum note size to read. Notes whose
   //!     combined name, descriptor, and padding size are greater than
-  //!     \a max_note_size will be silently skipped. A \a max_note_size of -1
-  //!     indicates infinite maximum note size.
+  //!     \a max_note_size will be silently skipped.
   //! \return A NoteReader object capable of reading notes in this image.
-  std::unique_ptr<NoteReader> Notes(ssize_t max_note_size);
+  std::unique_ptr<NoteReader> Notes(size_t max_note_size);
 
   //! \brief Return a NoteReader for this image, which scans all PT_NOTE
   //!     segments in the image, filtering by name and type.
@@ -211,12 +225,11 @@ class ElfImageReader {
   //! \param[in] type The note type to match.
   //! \param[in] max_note_size The maximum note size to read. Notes whose
   //!     combined name, descriptor, and padding size are greater than
-  //!     \a max_note_size will be silently skipped. A \a max_note_size of -1
-  //!     indicates infinite maximum note size.
+  //!     \a max_note_size will be silently skipped.
   //! \return A NoteReader object capable of reading notes in this image.
   std::unique_ptr<NoteReader> NotesWithNameAndType(const std::string& name,
                                                    NoteReader::NoteType type,
-                                                   ssize_t max_note_size);
+                                                   size_t max_note_size);
 
   //! \brief Return a ProcessMemoryRange restricted to the range of this image.
   //!

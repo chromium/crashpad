@@ -61,6 +61,7 @@ class PtraceClient : public PtraceConnection {
   bool ReadFileContents(const base::FilePath& path,
                         std::string* contents) override;
   ProcessMemory* Memory() override;
+  bool Threads(std::vector<pid_t>* threads) override;
 
  private:
   class BrokeredMemory : public ProcessMemory {

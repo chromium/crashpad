@@ -20,7 +20,7 @@
 
 #include "base/format_macros.h"
 #include "base/logging.h"
-#include "base/macros.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 
@@ -83,7 +83,7 @@ TEST(Clock, SleepNanoseconds) {
       static_cast<uint64_t>(5E7),  // 50 milliseconds
   };
 
-  for (size_t index = 0; index < arraysize(kTestData); ++index) {
+  for (size_t index = 0; index < base::size(kTestData); ++index) {
     const uint64_t nanoseconds = kTestData[index];
     SCOPED_TRACE(base::StringPrintf(
         "index %zu, nanoseconds %" PRIu64, index, nanoseconds));

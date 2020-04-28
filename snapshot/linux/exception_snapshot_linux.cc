@@ -126,7 +126,7 @@ bool ExceptionSnapshotLinux::ReadContext<ContextTraits32>(
   context_.arm = &context_union_.arm;
 
   CPUContextARM* dest_context = context_.arm;
-  ProcessMemory* memory = reader->Memory();
+  const ProcessMemory* memory = reader->Memory();
 
   LinuxVMAddress gprs_address =
       context_address + offsetof(UContext<ContextTraits32>, mcontext32) +
@@ -203,7 +203,7 @@ bool ExceptionSnapshotLinux::ReadContext<ContextTraits64>(
   context_.arm64 = &context_union_.arm64;
 
   CPUContextARM64* dest_context = context_.arm64;
-  ProcessMemory* memory = reader->Memory();
+  const ProcessMemory* memory = reader->Memory();
 
   LinuxVMAddress gprs_address =
       context_address + offsetof(UContext<ContextTraits64>, mcontext64) +
@@ -274,7 +274,7 @@ template <typename Traits>
 static bool ReadContext(ProcessReaderLinux* reader,
                         LinuxVMAddress context_address,
                         typename Traits::CPUContext* dest_context) {
-  ProcessMemory* memory = reader->Memory();
+  const ProcessMemory* memory = reader->Memory();
 
   LinuxVMAddress gregs_address = context_address +
                                  offsetof(UContext<Traits>, mcontext) +

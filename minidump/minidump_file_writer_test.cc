@@ -20,7 +20,8 @@
 #include <string>
 #include <utility>
 
-#include "base/compiler_specific.h"
+#include "base/stl_util.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_user_extension_stream_data_source.h"
@@ -35,7 +36,9 @@
 #include "snapshot/test/test_system_snapshot.h"
 #include "snapshot/test/test_thread_snapshot.h"
 #include "test/gtest_death.h"
+#include "util/file/output_stream_file_writer.h"
 #include "util/file/string_file.h"
+#include "util/stream/output_stream_interface.h"
 
 namespace crashpad {
 namespace test {
@@ -87,6 +90,22 @@ class TestStream final : public internal::MinidumpStreamWriter {
   DISALLOW_COPY_AND_ASSIGN(TestStream);
 };
 
+class StringFileOutputStream : public OutputStreamInterface {
+ public:
+  StringFileOutputStream() = default;
+  ~StringFileOutputStream() override = default;
+  bool Write(const uint8_t* data, size_t size) override {
+    return string_file_.Write(data, size);
+  }
+  bool Flush() override { return true; }
+  const StringFile& string_file() const { return string_file_; }
+
+ private:
+  StringFile string_file_;
+
+  DISALLOW_COPY_AND_ASSIGN(StringFileOutputStream);
+};
+
 TEST(MinidumpFileWriter, OneStream) {
   MinidumpFileWriter minidump_file;
   constexpr time_t kTimestamp = 0x155d2fb8;
@@ -134,7 +153,7 @@ TEST(MinidumpFileWriter, AddUserExtensionStream) {
   minidump_file.SetTimestamp(kTimestamp);
 
   static constexpr uint8_t kStreamData[] = "Hello World!";
-  constexpr size_t kStreamSize = arraysize(kStreamData);
+  constexpr size_t kStreamSize = base::size(kStreamData);
   constexpr MinidumpStreamType kStreamType =
       static_cast<MinidumpStreamType>(0x4d);
 
@@ -392,21 +411,16 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_Basic) {
 }
 
 TEST(MinidumpFileWriter, InitializeFromSnapshot_Exception) {
-  // In a 32-bit environment, this will give a “timestamp out of range” warning,
+  // In a 32-bit environment, this will give a “timestamp out of range” warning,
   // but the test should complete without failure.
   constexpr uint32_t kSnapshotTime = 0xfd469ab8;
-#if defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wconstant-conversion"
-#define DISABLED_WCONSTANT_CONVERSION
-#endif  // __clang__
-  MSVC_SUPPRESS_WARNING(4309);  // Truncation of constant value.
-  MSVC_SUPPRESS_WARNING(4838);  // Narrowing conversion.
-  constexpr timeval kSnapshotTimeval = {static_cast<time_t>(kSnapshotTime), 0};
-#if defined(DISABLED_WCONSTANT_CONVERSION)
-#pragma clang diagnostic pop
-#undef DISABLED_WCONSTANT_CONVERSION
-#endif  // DISABLED_WCONSTANT_CONVERSION
+  constexpr timeval kSnapshotTimeval = {
+#ifdef OS_WIN
+      static_cast<long>(kSnapshotTime),
+#else
+      static_cast<time_t>(kSnapshotTime),
+#endif
+      0};
 
   TestProcessSnapshot process_snapshot;
   process_snapshot.SetSnapshotTime(kSnapshotTimeval);
@@ -580,6 +594,51 @@ TEST(MinidumpFileWriter, SameStreamType) {
 
   std::string expected_stream(kStream0Size, kStream0Value);
   EXPECT_EQ(memcmp(stream_data, expected_stream.c_str(), kStream0Size), 0);
+}
+
+TEST(MinidumpFileWriter, WriteMinidumpDisallowSeek) {
+  MinidumpFileWriter minidump_file;
+  constexpr time_t kTimestamp = 0x155d2fb8;
+  minidump_file.SetTimestamp(kTimestamp);
+
+  constexpr size_t kStreamSize = 5;
+  constexpr MinidumpStreamType kStreamType =
+      static_cast<MinidumpStreamType>(0x4d);
+  constexpr uint8_t kStreamValue = 0x5a;
+  auto stream =
+      std::make_unique<TestStream>(kStreamType, kStreamSize, kStreamValue);
+  ASSERT_TRUE(minidump_file.AddStream(std::move(stream)));
+
+  std::unique_ptr<StringFileOutputStream> string_file_output_stream =
+      std::make_unique<StringFileOutputStream>();
+  const StringFile& string_file = string_file_output_stream->string_file();
+  OutputStreamFileWriter output_stream(std::move(string_file_output_stream));
+  ASSERT_TRUE(minidump_file.WriteMinidump(&output_stream, false));
+  ASSERT_TRUE(output_stream.Flush());
+
+  constexpr size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  constexpr size_t kStreamOffset =
+      kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
+  constexpr size_t kFileSize = kStreamOffset + kStreamSize;
+
+  ASSERT_EQ(string_file.string().size(), kFileSize);
+
+  const MINIDUMP_DIRECTORY* directory;
+  const MINIDUMP_HEADER* header =
+      MinidumpHeaderAtStart(string_file.string(), &directory);
+  ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, kTimestamp));
+  ASSERT_TRUE(directory);
+
+  EXPECT_EQ(directory[0].StreamType, kStreamType);
+  EXPECT_EQ(directory[0].Location.DataSize, kStreamSize);
+  EXPECT_EQ(directory[0].Location.Rva, kStreamOffset);
+
+  const uint8_t* stream_data = MinidumpWritableAtLocationDescriptor<uint8_t>(
+      string_file.string(), directory[0].Location);
+  ASSERT_TRUE(stream_data);
+
+  std::string expected_stream(kStreamSize, kStreamValue);
+  EXPECT_EQ(memcmp(stream_data, expected_stream.c_str(), kStreamSize), 0);
 }
 
 }  // namespace

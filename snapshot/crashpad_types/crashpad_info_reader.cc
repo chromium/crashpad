@@ -66,9 +66,8 @@ class CrashpadInfoReader::InfoContainerSpecific : public InfoContainer {
       return false;
     }
 
-    if (!memory->Read(address,
-                      std::min(VMSize{info.size}, VMSize{sizeof(info)}),
-                      &info)) {
+    if (!memory->Read(
+            address, std::min<VMSize>(info.size, sizeof(info)), &info)) {
       return false;
     }
 
@@ -116,7 +115,7 @@ class CrashpadInfoReader::InfoContainerSpecific : public InfoContainer {
 #define NATIVE_TRAITS Traits32
 #endif
   static_assert(!std::is_same<Traits, NATIVE_TRAITS>::value ||
-                    sizeof(info) == sizeof(CrashpadInfo),
+                    sizeof(decltype(info)) == sizeof(CrashpadInfo),
                 "CrashpadInfo size mismtach");
 #undef NATIVE_TRAITS
 };
@@ -161,29 +160,29 @@ bool CrashpadInfoReader::Initialize(const ProcessMemoryRange* memory,
     return GET_MEMBER(member);                       \
   }
 
-DEFINE_GETTER(TriState, CrashpadHandlerBehavior, crashpad_handler_behavior);
+DEFINE_GETTER(TriState, CrashpadHandlerBehavior, crashpad_handler_behavior)
 
 DEFINE_GETTER(TriState,
               SystemCrashReporterForwarding,
-              system_crash_reporter_forwarding);
+              system_crash_reporter_forwarding)
 
 DEFINE_GETTER(TriState,
               GatherIndirectlyReferencedMemory,
-              gather_indirectly_referenced_memory);
+              gather_indirectly_referenced_memory)
 
 DEFINE_GETTER(uint32_t,
               IndirectlyReferencedMemoryCap,
-              indirectly_referenced_memory_cap);
+              indirectly_referenced_memory_cap)
 
-DEFINE_GETTER(VMAddress, ExtraMemoryRanges, extra_memory_ranges);
+DEFINE_GETTER(VMAddress, ExtraMemoryRanges, extra_memory_ranges)
 
-DEFINE_GETTER(VMAddress, SimpleAnnotations, simple_annotations);
+DEFINE_GETTER(VMAddress, SimpleAnnotations, simple_annotations)
 
-DEFINE_GETTER(VMAddress, AnnotationsList, annotations_list);
+DEFINE_GETTER(VMAddress, AnnotationsList, annotations_list)
 
 DEFINE_GETTER(VMAddress,
               UserDataMinidumpStreamHead,
-              user_data_minidump_stream_head);
+              user_data_minidump_stream_head)
 
 #undef DEFINE_GETTER
 #undef GET_MEMBER

@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_SNAPSHOT_FUCHSIA_MEMORY_MAP_FUCHSIA_H_
 #define CRASHPAD_SNAPSHOT_FUCHSIA_MEMORY_MAP_FUCHSIA_H_
 
+#include <lib/zx/process.h>
 #include <zircon/syscalls/object.h>
 
 #include <vector>
@@ -33,7 +34,7 @@ class MemoryMapFuchsia {
   //!     regions in the given process.
   //!
   //! \return `true` on success, or `false`, with an error logged.
-  bool Initialize(zx_handle_t process);
+  bool Initialize(const zx::process& process);
 
   //! \brief Searches through the previously retrieved memory map for the given
   //!     address. If found, returns the deepest `zx_info_maps_t` mapping that
@@ -44,6 +45,10 @@ class MemoryMapFuchsia {
   //! \return `true` if a mapping for \a address was found, in which case \a map
   //!     will be filled out, otherwise `false` and \a map will be unchanged.
   bool FindMappingForAddress(zx_vaddr_t address, zx_info_maps_t* map) const;
+
+  //! \brief Get a vector of `zx_info_maps_t` representing the memory map for
+  //!     this process.
+  const std::vector<zx_info_maps_t>& Entries() const { return map_entries_; }
 
  private:
   std::vector<zx_info_maps_t> map_entries_;

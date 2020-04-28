@@ -36,6 +36,9 @@ namespace crashpad {
 //!
 //! \param[in] argv The argument vector to start the grandchild process with.
 //!     `argv[0]` is used as the path to the executable.
+//! \param[in] envp A vector of environment variables of the form `var=value` to
+//!     be passed to `execve()`. If this value is `nullptr`, the current
+//!     environment is used.
 //! \param[in] preserve_fd A file descriptor to be inherited by the grandchild
 //!     process. This file descriptor is inherited in addition to the three file
 //!     descriptors associated with the standard input/output streams. Use `-1`
@@ -49,6 +52,9 @@ namespace crashpad {
 //!     that this function will run in the context of a forked process, and must
 //!     be safe for that purpose.
 //!
+//! Setting both \a envp to a value other than `nullptr` and \a use_path to
+//! `true` is not currently supported.
+//!
 //! \return `true` on success, and `false` on failure with a message logged.
 //!     Only failures that occur in the parent process that indicate a definite
 //!     failure to start the the grandchild are reported in the return value.
@@ -58,6 +64,7 @@ namespace crashpad {
 //!     failures, for example, by observing a failure to perform a successful
 //!     handshake with the grandchild process.
 bool DoubleForkAndExec(const std::vector<std::string>& argv,
+                       const std::vector<std::string>* envp,
                        int preserve_fd,
                        bool use_path,
                        void (*child_function)());

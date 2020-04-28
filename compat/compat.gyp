@@ -20,6 +20,8 @@
     {
       'target_name': 'crashpad_compat',
       'sources': [
+        'android/android/api-level.cc',
+        'android/android/api-level.h',
         'android/dlfcn_internal.cc',
         'android/dlfcn_internal.h',
         'android/elf.h',

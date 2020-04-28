@@ -19,6 +19,7 @@
 #include <algorithm>
 
 #include "base/logging.h"
+#include "base/numerics/safe_conversions.h"
 #include "base/numerics/safe_math.h"
 
 namespace {
@@ -32,6 +33,11 @@ bool Munmap(uintptr_t addr, size_t len) {
   return true;
 }
 
+size_t RoundPage(size_t size) {
+  const size_t kPageMask = base::checked_cast<size_t>(getpagesize()) - 1;
+  return (size + kPageMask) & ~kPageMask;
+}
+
 }  // namespace
 
 namespace crashpad {
@@ -40,7 +46,7 @@ ScopedMmap::ScopedMmap() {}
 
 ScopedMmap::~ScopedMmap() {
   if (is_valid()) {
-    Munmap(reinterpret_cast<uintptr_t>(addr_), len_);
+    Munmap(reinterpret_cast<uintptr_t>(addr_), RoundPage(len_));
   }
 }
 
@@ -50,26 +56,28 @@ bool ScopedMmap::Reset() {
 
 bool ScopedMmap::ResetAddrLen(void* addr, size_t len) {
   const uintptr_t new_addr = reinterpret_cast<uintptr_t>(addr);
+  const size_t new_len_round = RoundPage(len);
 
   if (addr == MAP_FAILED) {
     DCHECK_EQ(len, 0u);
   } else {
     DCHECK_NE(len, 0u);
     DCHECK_EQ(new_addr % getpagesize(), 0u);
-    DCHECK_EQ(len % getpagesize(), 0u);
-    DCHECK((base::CheckedNumeric<uintptr_t>(new_addr) + (len - 1)).IsValid());
+    DCHECK((base::CheckedNumeric<uintptr_t>(new_addr) + (new_len_round - 1))
+               .IsValid());
   }
 
   bool result = true;
 
   if (is_valid()) {
     const uintptr_t old_addr = reinterpret_cast<uintptr_t>(addr_);
+    const size_t old_len_round = RoundPage(len_);
     if (old_addr < new_addr) {
-      result &= Munmap(old_addr, std::min(len_, new_addr - old_addr));
+      result &= Munmap(old_addr, std::min(old_len_round, new_addr - old_addr));
     }
-    if (old_addr + len_ > new_addr + len) {
-      uintptr_t unmap_start = std::max(old_addr, new_addr + len);
-      result &= Munmap(unmap_start, old_addr + len_ - unmap_start);
+    if (old_addr + old_len_round > new_addr + new_len_round) {
+      uintptr_t unmap_start = std::max(old_addr, new_addr + new_len_round);
+      result &= Munmap(unmap_start, old_addr + old_len_round - unmap_start);
     }
   }
 
@@ -104,7 +112,7 @@ bool ScopedMmap::ResetMmap(void* addr,
 }
 
 bool ScopedMmap::Mprotect(int prot) {
-  if (mprotect(addr_, len_, prot) < 0) {
+  if (mprotect(addr_, RoundPage(len_), prot) < 0) {
     PLOG(ERROR) << "mprotect";
     return false;
   }

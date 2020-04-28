@@ -17,6 +17,7 @@
 #include "base/logging.h"
 #include "client/annotation.h"
 #include "snapshot/module_snapshot.h"
+#include "snapshot/process_snapshot.h"
 #include "util/stdlib/map_insert.h"
 
 namespace crashpad {
@@ -49,7 +50,7 @@ std::map<std::string, std::string> BreakpadHTTPFormParametersFromMinidump(
       }
     }
 
-    for (std::string annotation : module->AnnotationsVector()) {
+    for (const std::string& annotation : module->AnnotationsVector()) {
       list_annotations.append(annotation);
       list_annotations.append("\n");
     }

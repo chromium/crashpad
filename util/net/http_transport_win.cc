@@ -25,14 +25,15 @@
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/scoped_generic.h"
+#include "base/stl_util.h"
 #include "base/strings/string_number_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "package.h"
 #include "util/file/file_io.h"
-#include "util/numeric/safe_assignment.h"
 #include "util/net/http_body.h"
+#include "util/numeric/safe_assignment.h"
 #include "util/win/module_version.h"
 
 namespace crashpad {
@@ -65,6 +66,8 @@ std::string UserAgent() {
     user_agent.append("x86");
 #elif defined(ARCH_CPU_X86_64)
     user_agent.append("x64");
+#elif defined(ARCH_CPU_ARM64)
+    user_agent.append("arm64");
 #else
 #error Port
 #endif
@@ -93,8 +96,8 @@ std::string WinHttpMessage(const char* extra) {
                              error_code,
                              0,
                              msgbuf,
-                             arraysize(msgbuf),
-                             NULL);
+                             static_cast<DWORD>(base::size(msgbuf)),
+                             nullptr);
   if (!len) {
     return base::StringPrintf("%s: error 0x%lx while retrieving error 0x%lx",
                               extra,
@@ -375,7 +378,7 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
     return false;
   }
 
-  if (status_code != 200) {
+  if (status_code < 200 || status_code > 203) {
     LOG(ERROR) << base::StringPrintf("HTTP status %lu", status_code);
     return false;
   }

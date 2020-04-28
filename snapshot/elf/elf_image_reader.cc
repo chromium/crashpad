@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "base/logging.h"
+#include "base/numerics/safe_math.h"
 #include "build/build_config.h"
 #include "util/numeric/checked_vm_address_range.h"
 
@@ -191,7 +192,8 @@ ElfImageReader::NoteReader::~NoteReader() = default;
 ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::NextNote(
     std::string* name,
     NoteType* type,
-    std::string* desc) {
+    std::string* desc,
+    VMAddress* desc_address) {
   if (!is_valid_) {
     LOG(ERROR) << "invalid note reader";
     return Result::kError;
@@ -215,8 +217,9 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::NextNote(
     }
 
     retry_ = false;
-    result = range_->Is64Bit() ? ReadNote<Elf64_Nhdr>(name, type, desc)
-                               : ReadNote<Elf32_Nhdr>(name, type, desc);
+    result = range_->Is64Bit()
+                 ? ReadNote<Elf64_Nhdr>(name, type, desc, desc_address)
+                 : ReadNote<Elf32_Nhdr>(name, type, desc, desc_address);
   } while (retry_);
 
   if (result == Result::kSuccess) {
@@ -226,10 +229,19 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::NextNote(
   return Result::kError;
 }
 
+namespace {
+
+// The maximum size the user can specify for maximum note size. Clamping this
+// ensures that buffer allocations cannot be wildly large. It is not expected
+// that a note would be larger than ~1k in normal usage.
+constexpr size_t kMaxMaxNoteSize = 16384;
+
+}  // namespace
+
 ElfImageReader::NoteReader::NoteReader(const ElfImageReader* elf_reader,
                                        const ProcessMemoryRange* range,
                                        const ProgramHeaderTable* phdr_table,
-                                       ssize_t max_note_size,
+                                       size_t max_note_size,
                                        const std::string& name_filter,
                                        NoteType type_filter,
                                        bool use_filter)
@@ -240,18 +252,21 @@ ElfImageReader::NoteReader::NoteReader(const ElfImageReader* elf_reader,
       phdr_table_(phdr_table),
       segment_range_(),
       phdr_index_(0),
-      max_note_size_(max_note_size),
+      max_note_size_(std::min(kMaxMaxNoteSize, max_note_size)),
       name_filter_(name_filter),
       type_filter_(type_filter),
       use_filter_(use_filter),
       is_valid_(true),
-      retry_(false) {}
+      retry_(false) {
+  DCHECK_LT(max_note_size, kMaxMaxNoteSize);
+}
 
 template <typename NhdrType>
 ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::ReadNote(
     std::string* name,
     NoteType* type,
-    std::string* desc) {
+    std::string* desc,
+    VMAddress* desc_address) {
   static_assert(sizeof(*type) >= sizeof(NhdrType::n_namesz),
                 "Note field size mismatch");
   DCHECK_LT(current_address_, segment_end_address_);
@@ -263,10 +278,24 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::ReadNote(
   current_address_ += sizeof(note_info);
 
   constexpr size_t align = sizeof(note_info.n_namesz);
-#define PAD(x) (((x) + align - 1) & ~(align - 1))
-  size_t padded_namesz = PAD(note_info.n_namesz);
-  size_t padded_descsz = PAD(note_info.n_descsz);
-  size_t note_size = padded_namesz + padded_descsz;
+
+#define CHECKED_PAD(x, into)                                 \
+  base::CheckAnd(base::CheckAdd(x, align - 1), ~(align - 1)) \
+      .AssignIfValid(&into)
+
+  size_t padded_namesz;
+  if (!CHECKED_PAD(note_info.n_namesz, padded_namesz)) {
+    return Result::kError;
+  }
+  size_t padded_descsz;
+  if (!CHECKED_PAD(note_info.n_descsz, padded_descsz)) {
+    return Result::kError;
+  }
+
+  size_t note_size;
+  if (!base::CheckAdd(padded_namesz, padded_descsz).AssignIfValid(&note_size)) {
+    return Result::kError;
+  }
 
   // Notes typically have 4-byte alignment. However, .note.android.ident may
   // inadvertently use 2-byte alignment.
@@ -275,11 +304,21 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::ReadNote(
   // but there may be 4-byte aligned notes following it. If this note was
   // aligned at less than 4-bytes, expect that the next note will be aligned at
   // 4-bytes and add extra padding, if necessary.
-  VMAddress end_of_note =
-      std::min(PAD(current_address_ + note_size), segment_end_address_);
-#undef PAD
 
-  if (max_note_size_ >= 0 && note_size > static_cast<size_t>(max_note_size_)) {
+  VMAddress end_of_note_candidate;
+  if (!base::CheckAdd(current_address_, note_size)
+           .AssignIfValid(&end_of_note_candidate)) {
+    return Result::kError;
+  }
+  VMAddress end_of_note;
+  if (!CHECKED_PAD(end_of_note_candidate, end_of_note)) {
+    return Result::kError;
+  }
+  end_of_note = std::min(end_of_note, segment_end_address_);
+
+#undef CHECKED_PAD
+
+  if (note_size > max_note_size_) {
     current_address_ = end_of_note;
     retry_ = true;
     return Result::kError;
@@ -317,6 +356,7 @@ ElfImageReader::NoteReader::Result ElfImageReader::NoteReader::ReadNote(
           current_address_, note_info.n_descsz, &local_desc[0])) {
     return Result::kError;
   }
+  *desc_address = current_address_;
 
   current_address_ = end_of_note;
 
@@ -465,6 +505,20 @@ bool ElfImageReader::Initialize(const ProcessMemoryRange& memory,
 uint16_t ElfImageReader::FileType() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return memory_.Is64Bit() ? header_64_.e_type : header_32_.e_type;
+}
+
+bool ElfImageReader::SoName(std::string* name) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  if (!InitializeDynamicArray()) {
+    return false;
+  }
+
+  VMSize offset;
+  if (!dynamic_array_->GetValue(DT_SONAME, true, &offset)) {
+    return false;
+  }
+
+  return ReadDynamicStringTableAtOffset(offset, name);
 }
 
 bool ElfImageReader::GetDynamicSymbol(const std::string& name,
@@ -772,7 +826,7 @@ bool ElfImageReader::GetNumberOfSymbolEntriesFromDtGnuHash(
 }
 
 std::unique_ptr<ElfImageReader::NoteReader> ElfImageReader::Notes(
-    ssize_t max_note_size) {
+    size_t max_note_size) {
   return std::make_unique<NoteReader>(
       this, &memory_, program_headers_.get(), max_note_size);
 }
@@ -780,7 +834,7 @@ std::unique_ptr<ElfImageReader::NoteReader> ElfImageReader::Notes(
 std::unique_ptr<ElfImageReader::NoteReader>
 ElfImageReader::NotesWithNameAndType(const std::string& name,
                                      NoteReader::NoteType type,
-                                     ssize_t max_note_size) {
+                                     size_t max_note_size) {
   return std::make_unique<NoteReader>(
       this, &memory_, program_headers_.get(), max_note_size, name, type, true);
 }

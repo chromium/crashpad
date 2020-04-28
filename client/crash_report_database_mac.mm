@@ -29,6 +29,7 @@
 #include "base/mac/scoped_nsautorelease_pool.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/scoped_generic.h"
+#include "base/stl_util.h"
 #include "base/strings/string_piece.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/sys_string_conversions.h"
@@ -279,7 +280,7 @@ bool CrashReportDatabaseMac::Initialize(bool may_create) {
   }
 
   // Create the three processing directories for the database.
-  for (size_t i = 0; i < arraysize(kReportDirectories); ++i) {
+  for (size_t i = 0; i < base::size(kReportDirectories); ++i) {
     if (!CreateOrEnsureDirectoryExists(base_dir_.Append(kReportDirectories[i])))
       return false;
   }
@@ -680,6 +681,14 @@ bool CrashReportDatabaseMac::ReadReportMetadataLocked(
       XattrStatus::kOtherError) {
     return false;
   }
+
+  // There are no attachments on Mac so the total size is the main report size.
+  struct stat statbuf;
+  if (stat(path.value().c_str(), &statbuf) != 0) {
+    PLOG(ERROR) << "stat " << path.value();
+    return false;
+  }
+  report->total_size = statbuf.st_size;
 
   return true;
 }

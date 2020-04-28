@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_CLIENT_CRASH_REPORT_DATABASE_H_
 #define CRASHPAD_CLIENT_CRASH_REPORT_DATABASE_H_
 
+#include <stdint.h>
 #include <time.h>
 
 #include <map>
@@ -98,6 +99,10 @@ class CrashReportDatabase {
     //! Whether this crash report was explicitly requested by user to be
     //! uploaded. This can be true only if report is in the 'pending' state.
     bool upload_explicitly_requested;
+
+    //! The total size in bytes taken by the report, including any potential
+    //! attachments.
+    uint64_t total_size;
   };
 
   //! \brief A crash report that is in the process of being written.
@@ -108,8 +113,12 @@ class CrashReportDatabase {
     NewReport();
     ~NewReport();
 
-    //! An open FileWriter with which to write the report.
+    //! \brief An open FileWriter with which to write the report.
     FileWriter* Writer() const { return writer_.get(); }
+
+    //! \brief Returns a FileReaderInterface to the report, or `nullptr` with a
+    //!     message logged.
+    FileReaderInterface* Reader();
 
     //! A unique identifier by which this report will always be known to the
     //! database.
@@ -137,6 +146,7 @@ class CrashReportDatabase {
                     const base::FilePath::StringType& extension);
 
     std::unique_ptr<FileWriter> writer_;
+    std::unique_ptr<FileReader> reader_;
     ScopedRemoveFile file_remover_;
     std::vector<std::unique_ptr<FileWriter>> attachment_writers_;
     std::vector<ScopedRemoveFile> attachment_removers_;
@@ -163,7 +173,7 @@ class CrashReportDatabase {
     //! This is not implemented on macOS or Windows.
     std::map<std::string, FileReader*> GetAttachments() const {
       return attachment_map_;
-    };
+    }
 
    private:
     friend class CrashReportDatabase;

@@ -17,10 +17,11 @@
 #include <string.h>
 
 #include "base/logging.h"
+#include "base/stl_util.h"
 #include "minidump/minidump_string_writer.h"
 #include "snapshot/system_snapshot.h"
 #include "util/file/file_writer.h"
-#include "util/misc/arraysize_unsafe.h"
+#include "util/misc/arraysize.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
@@ -150,7 +151,7 @@ void MinidumpSystemInfoWriter::InitializeFromSnapshot(
     SetCPUX86VersionAndFeatures(system_snapshot->CPUX86Signature(),
                                 system_snapshot->CPUX86Features() & 0xffffffff);
 
-    if (cpu_vendor == "AuthenticAMD") {
+    if (cpu_vendor == "AuthenticAMD" || cpu_vendor == "HygonGenuine") {
       SetCPUX86AMDExtendedFeatures(
           system_snapshot->CPUX86ExtendedFeatures() & 0xffffffff);
     }
@@ -174,6 +175,9 @@ void MinidumpSystemInfoWriter::InitializeFromSnapshot(
       break;
     case SystemSnapshot::kOperatingSystemFuchsia:
       operating_system = kMinidumpOSFuchsia;
+      break;
+    case SystemSnapshot::kOperatingSystemIOS:
+      operating_system = kMinidumpOSIOS;
       break;
     default:
       NOTREACHED();
@@ -212,7 +216,7 @@ void MinidumpSystemInfoWriter::SetCPUX86Vendor(uint32_t ebx,
          system_info_.ProcessorArchitecture ==
              kMinidumpCPUArchitectureX86Win64);
 
-  static_assert(ARRAYSIZE_UNSAFE(system_info_.Cpu.X86CpuInfo.VendorId) == 3,
+  static_assert(ArraySize(system_info_.Cpu.X86CpuInfo.VendorId) == 3,
                 "VendorId must have 3 elements");
 
   system_info_.Cpu.X86CpuInfo.VendorId[0] = ebx;
@@ -230,7 +234,7 @@ void MinidumpSystemInfoWriter::SetCPUX86VendorString(
       sizeof(registers) == sizeof(system_info_.Cpu.X86CpuInfo.VendorId),
       "VendorId sizes must be equal");
 
-  for (size_t index = 0; index < arraysize(registers); ++index) {
+  for (size_t index = 0; index < base::size(registers); ++index) {
     memcpy(&registers[index],
            &vendor[index * sizeof(*registers)],
            sizeof(*registers));
@@ -270,9 +274,8 @@ void MinidumpSystemInfoWriter::SetCPUOtherFeatures(uint64_t features_0,
          system_info_.ProcessorArchitecture !=
              kMinidumpCPUArchitectureX86Win64);
 
-  static_assert(
-      ARRAYSIZE_UNSAFE(system_info_.Cpu.OtherCpuInfo.ProcessorFeatures) == 2,
-      "ProcessorFeatures must have 2 elements");
+  static_assert(ArraySize(system_info_.Cpu.OtherCpuInfo.ProcessorFeatures) == 2,
+                "ProcessorFeatures must have 2 elements");
 
   system_info_.Cpu.OtherCpuInfo.ProcessorFeatures[0] = features_0;
   system_info_.Cpu.OtherCpuInfo.ProcessorFeatures[1] = features_1;

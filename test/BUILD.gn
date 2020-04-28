@@ -25,8 +25,6 @@ static_library("test") {
     "filesystem.cc",
     "filesystem.h",
     "gtest_death.h",
-    "gtest_disabled.cc",
-    "gtest_disabled.h",
     "hex_string.cc",
     "hex_string.h",
     "main_arguments.cc",
@@ -36,6 +34,7 @@ static_library("test") {
     "multiprocess_exec.h",
     "process_type.cc",
     "process_type.h",
+    "scoped_guarded_page.h",
     "scoped_module_handle.cc",
     "scoped_module_handle.h",
     "scoped_temp_dir.cc",
@@ -45,14 +44,24 @@ static_library("test") {
   ]
 
   if (crashpad_is_posix || crashpad_is_fuchsia) {
-    sources += [ "scoped_temp_dir_posix.cc" ]
+    sources += [
+      "scoped_guarded_page_posix.cc",
+      "scoped_temp_dir_posix.cc",
+    ]
 
-    if (!crashpad_is_fuchsia) {
+    if (!crashpad_is_fuchsia && !crashpad_is_ios) {
       sources += [
         "multiprocess_exec_posix.cc",
         "multiprocess_posix.cc",
       ]
     }
+  }
+
+  if (crashpad_is_mac || crashpad_is_ios) {
+    sources += [
+      "mac/mach_errors.cc",
+      "mac/mach_errors.h",
+    ]
   }
 
   if (crashpad_is_mac) {
@@ -61,10 +70,16 @@ static_library("test") {
       "mac/dyld.h",
       "mac/exception_swallower.cc",
       "mac/exception_swallower.h",
-      "mac/mach_errors.cc",
-      "mac/mach_errors.h",
       "mac/mach_multiprocess.cc",
       "mac/mach_multiprocess.h",
+    ]
+  }
+
+  if (crashpad_is_ios) {
+    sources -= [
+      "multiprocess.h",
+      "multiprocess_exec.cc",
+      "multiprocess_exec.h",
     ]
   }
 
@@ -81,6 +96,7 @@ static_library("test") {
   if (crashpad_is_win) {
     sources += [
       "multiprocess_exec_win.cc",
+      "scoped_guarded_page_win.cc",
       "scoped_temp_dir_win.cc",
       "win/child_launcher.cc",
       "win/child_launcher.h",
@@ -101,12 +117,10 @@ static_library("test") {
 
   configs += [
     "../build:crashpad_is_in_chromium",
-    "../build:crashpad_is_in_fuchsia"
+    "../build:crashpad_is_in_fuchsia",
   ]
 
-  data = [
-    "test_paths_test_data_root.txt",
-  ]
+  data = [ "test_paths_test_data_root.txt" ]
 
   deps = [
     "../compat",
@@ -123,14 +137,30 @@ static_library("test") {
     ]
   }
 
+  if (crashpad_is_ios) {
+    deps += [ ":test_bundle_data" ]
+  }
+
   if (crashpad_is_win) {
     libs = [ "shell32.lib" ]
   }
 
-  if (crashpad_is_fuchsia && crashpad_is_in_fuchsia) {
-    deps += [
-      "//zircon/public/lib/fdio",
-    ]
+  if (crashpad_is_fuchsia) {
+    public_deps = [ "../third_party/fuchsia" ]
+    if (crashpad_is_in_fuchsia) {
+      deps += [ "//zircon/public/lib/fdio" ]
+    }
+  }
+}
+
+if (crashpad_is_ios) {
+  bundle_data("test_bundle_data") {
+    testonly = true
+
+    sources = [ "test_paths_test_data_root.txt" ]
+
+    outputs = [ "{{bundle_resources_dir}}/crashpad_test_data/" +
+                "{{source_root_relative_dir}}/{{source_file_part}}" ]
   }
 }
 
@@ -141,18 +171,26 @@ source_set("test_test") {
     "hex_string_test.cc",
     "main_arguments_test.cc",
     "multiprocess_exec_test.cc",
+    "scoped_guarded_page_test.cc",
     "scoped_temp_dir_test.cc",
     "test_paths_test.cc",
   ]
 
   # TODO(crbug.com/812974): Remove !crashpad_is_fuchsia when Fuchsia is no
   # longer treated as a posix platform.
-  if (crashpad_is_posix && !crashpad_is_fuchsia) {
+  if (crashpad_is_posix && !crashpad_is_fuchsia && !crashpad_is_ios) {
     sources += [ "multiprocess_posix_test.cc" ]
   }
 
   if (crashpad_is_mac) {
     sources += [ "mac/mach_multiprocess_test.cc" ]
+  }
+
+  if (crashpad_is_ios) {
+    sources -= [
+      "multiprocess_exec_test.cc",
+      "scoped_guarded_page_test.cc",
+    ]
   }
 
   if (crashpad_is_win) {
@@ -171,26 +209,24 @@ source_set("test_test") {
     "../util",
   ]
 
-  data_deps = [
-    ":crashpad_test_test_multiprocess_exec_test_child",
-  ]
+  data_deps = [ ":crashpad_test_test_multiprocess_exec_test_child" ]
+
+  if (crashpad_is_ios) {
+    data_deps -= [ ":crashpad_test_test_multiprocess_exec_test_child" ]
+  }
 }
 
-crashpad_executable("crashpad_test_test_multiprocess_exec_test_child") {
-  sources = [
-    "multiprocess_exec_test_child.cc",
-  ]
+if (!crashpad_is_ios) {
+  crashpad_executable("crashpad_test_test_multiprocess_exec_test_child") {
+    sources = [ "multiprocess_exec_test_child.cc" ]
 
-  deps = [
-    "../third_party/mini_chromium:base",
-  ]
+    deps = [ "../third_party/mini_chromium:base" ]
+  }
 }
 
 static_library("gmock_main") {
   testonly = true
-  sources = [
-    "gtest_main.cc",
-  ]
+  sources = [ "gtest_main.cc" ]
   configs += [ "../build:crashpad_is_in_chromium" ]
   defines = [ "CRASHPAD_TEST_LAUNCHER_GMOCK" ]
   deps = [
@@ -200,13 +236,17 @@ static_library("gmock_main") {
     "../third_party/mini_chromium:base",
     "../third_party/mini_chromium:base_test_support",
   ]
+  if (crashpad_is_android) {
+    deps += [ "../util" ]
+  }
+  if (crashpad_is_ios) {
+    deps += [ "ios:google_test_setup" ]
+  }
 }
 
 static_library("gtest_main") {
   testonly = true
-  sources = [
-    "gtest_main.cc",
-  ]
+  sources = [ "gtest_main.cc" ]
   configs += [ "../build:crashpad_is_in_chromium" ]
   defines = [ "CRASHPAD_TEST_LAUNCHER_GTEST" ]
   deps = [
@@ -215,4 +255,10 @@ static_library("gtest_main") {
     "../third_party/mini_chromium:base",
     "../third_party/mini_chromium:base_test_support",
   ]
+  if (crashpad_is_android) {
+    deps += [ "../util" ]
+  }
+  if (crashpad_is_ios) {
+    deps += [ "ios:google_test_setup" ]
+  }
 }

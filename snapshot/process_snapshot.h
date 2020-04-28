@@ -24,6 +24,7 @@
 
 #include "snapshot/handle_snapshot.h"
 #include "util/misc/uuid.h"
+#include "util/process/process_id.h"
 
 namespace crashpad {
 
@@ -31,6 +32,7 @@ class ExceptionSnapshot;
 class MemoryMapRegionSnapshot;
 class MemorySnapshot;
 class ModuleSnapshot;
+class ProcessMemory;
 class SystemSnapshot;
 class ThreadSnapshot;
 class UnloadedModuleSnapshot;
@@ -49,10 +51,10 @@ class ProcessSnapshot {
   virtual ~ProcessSnapshot() {}
 
   //! \brief Returns the snapshot process’ process ID.
-  virtual pid_t ProcessID() const = 0;
+  virtual crashpad::ProcessID ProcessID() const = 0;
 
   //! \brief Returns the snapshot process’ parent process’ process ID.
-  virtual pid_t ParentProcessID() const = 0;
+  virtual crashpad::ProcessID ParentProcessID() const = 0;
 
   //! \brief Returns the time that the snapshot was taken in \a snapshot_time.
   //!
@@ -193,6 +195,14 @@ class ProcessSnapshot {
   //!     are scoped to the lifetime of the ProcessSnapshot object that they
   //!     were obtained from.
   virtual std::vector<const MemorySnapshot*> ExtraMemory() const = 0;
+
+  //! \brief Returns a ProcessMemory object that allows accessing the process'
+  //!     memory directly.
+  //!
+  //! \return A ProcessMemory object. The caller does not take ownership of this
+  //!     object, it is scoped to the lifetime of the ProcessSnapshot object
+  //!     that it was obtained from.
+  virtual const ProcessMemory* Memory() const = 0;
 };
 
 }  // namespace crashpad

@@ -22,6 +22,7 @@
 
 #include "base/logging.h"
 #include "base/macros.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
@@ -154,7 +155,7 @@ TEST(TimeZone, Basic) {
       {"UTC", false, 0, 0, "UTC", "UTC"},
   };
 
-  for (size_t index = 0; index < arraysize(kTestTimeZones); ++index) {
+  for (size_t index = 0; index < base::size(kTestTimeZones); ++index) {
     const auto& test_time_zone = kTestTimeZones[index];
     const char* tz = test_time_zone.tz;
     SCOPED_TRACE(base::StringPrintf("index %zu, tz %s", index, tz));

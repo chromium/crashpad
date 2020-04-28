@@ -398,6 +398,30 @@ FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
                                    FileWriteMode mode,
                                    FilePermissions permissions);
 
+#if defined(OS_LINUX)
+//! \brief Opens an in-memory file for input and output.
+//!
+//! This function first attempts to open the file with `memfd_create()`. If
+//! `memfd_create()` isn't supported by the kernel, this function next attempts
+//! to open a file using `O_TMPFILE`. If `O_TMPFILE` isn't supported, this
+//! function finally falls back to creating a file with a randomized name in
+//! `/tmp` and immediately `unlink()`ing it.
+//!
+//! Unlike other file open operations, this function doesn't set `O_CLOEXEC`.
+//!
+//! \param name A name associated with the file. This name does not indicate any
+//!     exact path and may not be used at all, depending on the strategy used to
+//!     create the file. The name should not contain any '/' characters.
+//! \return The newly opened FileHandle, or an invalid FileHandle on failure,
+//!     with a message logged.
+//!
+//! \sa ScopedFileHandle
+//! \sa LoggingOpenFileForRead
+//! \sa LoggingOpenFileForWrite
+//! \sa LoggingOpenFileForReadAndWrite
+FileHandle LoggingOpenMemoryFileForReadAndWrite(const base::FilePath& name);
+#endif  // OS_LINUX
+
 //! \brief Wraps OpenFileForReadAndWrite(), logging an error if the operation
 //!     fails.
 //!

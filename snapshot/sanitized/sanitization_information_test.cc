@@ -14,6 +14,7 @@
 
 #include "snapshot/sanitized/sanitization_information.h"
 
+#include "base/stl_util.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "util/misc/from_pointer_cast.h"
@@ -59,8 +60,8 @@ const char* const kNonEmptyWhitelist[] = {"string1",
 
 TEST_F(WhitelistTest, NonEmptyWhitelist) {
   ASSERT_TRUE(ReadWhitelist(kNonEmptyWhitelist));
-  ASSERT_EQ(whitelist_.size(), arraysize(kNonEmptyWhitelist) - 1);
-  for (size_t index = 0; index < arraysize(kNonEmptyWhitelist) - 1; ++index) {
+  ASSERT_EQ(whitelist_.size(), base::size(kNonEmptyWhitelist) - 1);
+  for (size_t index = 0; index < base::size(kNonEmptyWhitelist) - 1; ++index) {
     EXPECT_EQ(whitelist_[index], kNonEmptyWhitelist[index]);
   }
 }

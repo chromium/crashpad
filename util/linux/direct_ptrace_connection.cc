@@ -17,6 +17,7 @@
 #include <utility>
 
 #include "util/file/file_io.h"
+#include "util/linux/proc_task_reader.h"
 
 namespace crashpad {
 
@@ -79,6 +80,11 @@ bool DirectPtraceConnection::ReadFileContents(const base::FilePath& path,
 ProcessMemory* DirectPtraceConnection::Memory() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return &memory_;
+}
+
+bool DirectPtraceConnection::Threads(std::vector<pid_t>* threads) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return ReadThreadIDs(pid_, threads);
 }
 
 }  // namespace crashpad

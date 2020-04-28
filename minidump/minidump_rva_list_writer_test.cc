@@ -17,6 +17,7 @@
 #include <utility>
 
 #include "base/format_macros.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "minidump/test/minidump_rva_list_test_util.h"
@@ -86,10 +87,10 @@ TEST(MinidumpRVAListWriter, ThreeChildren) {
   ASSERT_TRUE(list_writer.WriteEverything(&string_file));
 
   const MinidumpRVAList* list =
-      MinidumpRVAListAtStart(string_file.string(), arraysize(kValues));
+      MinidumpRVAListAtStart(string_file.string(), base::size(kValues));
   ASSERT_TRUE(list);
 
-  for (size_t index = 0; index < arraysize(kValues); ++index) {
+  for (size_t index = 0; index < base::size(kValues); ++index) {
     SCOPED_TRACE(base::StringPrintf("index %" PRIuS, index));
 
     const uint32_t* child = MinidumpWritableAtRVA<uint32_t>(

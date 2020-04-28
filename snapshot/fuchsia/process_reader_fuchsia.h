@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_H_
 #define CRASHPAD_SNAPSHOT_FUCHSIA_PROCESS_READER_H_
 
+#include <lib/zx/process.h>
 #include <zircon/syscalls/debug.h>
 
 #include <memory>
@@ -76,6 +77,10 @@ class ProcessReaderFuchsia {
     //!     returned by `zx_thread_read_state()`.
     zx_thread_state_general_regs_t general_registers = {};
 
+    //! \brief The raw architecture-specific `zx_thread_state_vector_regs_t` as
+    //!     returned by `zx_thread_read_state()`.
+    zx_thread_state_vector_regs_t vector_registers = {};
+
     //! \brief The regions representing the stack. The first entry in the vector
     //!     represents the callstack, and further entries optionally identify
     //!     other stack data when the thread uses a split stack representation.
@@ -94,7 +99,7 @@ class ProcessReaderFuchsia {
   //! \return `true` on success, indicating that this object will respond
   //!     validly to further method calls. `false` on failure. On failure, no
   //!     further method calls should be made.
-  bool Initialize(zx_handle_t process);
+  bool Initialize(const zx::process& process);
 
   //! \return The modules loaded in the process. The first element (at index
   //!     `0`) corresponds to the main executable.
@@ -104,7 +109,10 @@ class ProcessReaderFuchsia {
   const std::vector<Thread>& Threads();
 
   //! \brief Return a memory reader for the target process.
-  ProcessMemory* Memory() { return process_memory_.get(); }
+  const ProcessMemory* Memory() const { return process_memory_.get(); }
+
+  //! \brief Return a memory map for the target process.
+  const MemoryMapFuchsia* MemoryMap();
 
  private:
   //! Performs lazy initialization of the \a modules_ vector on behalf of
@@ -115,15 +123,20 @@ class ProcessReaderFuchsia {
   //! Threads().
   void InitializeThreads();
 
+  //! Performs lazy initialization of the \a memory_map_ on behalf of
+  //! MemoryMap().
+  void InitializeMemoryMap();
+
   std::vector<Module> modules_;
   std::vector<Thread> threads_;
   std::vector<std::unique_ptr<ElfImageReader>> module_readers_;
   std::vector<std::unique_ptr<ProcessMemoryRange>> process_memory_ranges_;
   std::unique_ptr<ProcessMemoryFuchsia> process_memory_;
-  MemoryMapFuchsia memory_map_;
-  zx_handle_t process_;
+  std::unique_ptr<MemoryMapFuchsia> memory_map_;
+  zx::unowned_process process_;
   bool initialized_modules_ = false;
   bool initialized_threads_ = false;
+  bool initialized_memory_map_ = false;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessReaderFuchsia);

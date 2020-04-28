@@ -26,7 +26,9 @@
 #include "base/numerics/safe_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
+#include "build/build_config.h"
 #include "util/win/module_version.h"
+#include "util/win/scoped_registry_key.h"
 
 namespace crashpad {
 
@@ -75,11 +77,9 @@ SystemSnapshotWin::SystemSnapshotWin()
       os_version_minor_(0),
       os_version_bugfix_(0),
       os_server_(false),
-      initialized_() {
-}
+      initialized_() {}
 
-SystemSnapshotWin::~SystemSnapshotWin() {
-}
+SystemSnapshotWin::~SystemSnapshotWin() {}
 
 void SystemSnapshotWin::Initialize(ProcessReaderWin* process_reader) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
@@ -125,13 +125,20 @@ void SystemSnapshotWin::Initialize(ProcessReaderWin* process_reader) {
 CPUArchitecture SystemSnapshotWin::GetCPUArchitecture() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
+#if defined(ARCH_CPU_X86_FAMILY)
   return process_reader_->Is64Bit() ? kCPUArchitectureX86_64
                                     : kCPUArchitectureX86;
+#elif defined(ARCH_CPU_ARM64)
+  return kCPUArchitectureARM64;
+#else
+#error Unsupported Windows Arch
+#endif
 }
 
 uint32_t SystemSnapshotWin::CPURevision() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
+#if defined(ARCH_CPU_X86_FAMILY)
   uint32_t raw = CPUX86Signature();
   uint8_t stepping = raw & 0xf;
   uint8_t model = (raw & 0xf0) >> 4;
@@ -149,6 +156,14 @@ uint32_t SystemSnapshotWin::CPURevision() const {
   uint16_t adjusted_family = family + extended_family;
   uint8_t adjusted_model = model + (extended_model << 4);
   return (adjusted_family << 16) | (adjusted_model << 8) | stepping;
+#elif defined(ARCH_CPU_ARM64)
+  SYSTEM_INFO system_info;
+  GetSystemInfo(&system_info);
+
+  return system_info.wProcessorRevision;
+#else
+#error Unsupported Windows Arch
+#endif
 }
 
 uint8_t SystemSnapshotWin::CPUCount() const {
@@ -166,6 +181,7 @@ uint8_t SystemSnapshotWin::CPUCount() const {
 std::string SystemSnapshotWin::CPUVendor() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
+#if defined(ARCH_CPU_X86_FAMILY)
   int cpu_info[4];
   __cpuid(cpu_info, 0);
   char vendor[12];
@@ -173,6 +189,42 @@ std::string SystemSnapshotWin::CPUVendor() const {
   *reinterpret_cast<int*>(vendor + 4) = cpu_info[3];
   *reinterpret_cast<int*>(vendor + 8) = cpu_info[2];
   return std::string(vendor, sizeof(vendor));
+#elif defined(ARCH_CPU_ARM64)
+  HKEY key;
+
+  if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+                   L"HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
+                   0,
+                   KEY_QUERY_VALUE,
+                   &key) != ERROR_SUCCESS) {
+    return std::string();
+  }
+
+  crashpad::ScopedRegistryKey scoped_key(key);
+  DWORD type;
+  wchar_t vendor_identifier[1024];
+  DWORD vendor_identifier_size = sizeof(vendor_identifier);
+
+  if (RegQueryValueEx(key,
+                      L"VendorIdentifier",
+                      nullptr,
+                      &type,
+                      reinterpret_cast<BYTE*>(vendor_identifier),
+                      &vendor_identifier_size) != ERROR_SUCCESS ||
+      type != REG_SZ) {
+    return std::string();
+  }
+
+  std::string return_value;
+  DCHECK_EQ(vendor_identifier_size % sizeof(wchar_t), 0u);
+  base::UTF16ToUTF8(vendor_identifier,
+                    vendor_identifier_size / sizeof(wchar_t),
+                    &return_value);
+
+  return return_value.c_str();
+#else
+#error Unsupported Windows Arch
+#endif
 }
 
 void SystemSnapshotWin::CPUFrequency(uint64_t* current_hz,
@@ -212,36 +264,52 @@ void SystemSnapshotWin::CPUFrequency(uint64_t* current_hz,
 uint32_t SystemSnapshotWin::CPUX86Signature() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
+#if defined(ARCH_CPU_X86_FAMILY)
   int cpu_info[4];
   // We will never run on any processors that don't support at least function 1.
   __cpuid(cpu_info, 1);
   return cpu_info[0];
+#else
+  NOTREACHED();
+  return 0;
+#endif
 }
 
 uint64_t SystemSnapshotWin::CPUX86Features() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
+#if defined(ARCH_CPU_X86_FAMILY)
   int cpu_info[4];
   // We will never run on any processors that don't support at least function 1.
   __cpuid(cpu_info, 1);
   return (static_cast<uint64_t>(cpu_info[2]) << 32) |
          static_cast<uint64_t>(cpu_info[3]);
+#else
+  NOTREACHED();
+  return 0;
+#endif
 }
 
 uint64_t SystemSnapshotWin::CPUX86ExtendedFeatures() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
+#if defined(ARCH_CPU_X86_FAMILY)
   int cpu_info[4];
   // We will never run on any processors that don't support at least extended
   // function 1.
   __cpuid(cpu_info, 0x80000001);
   return (static_cast<uint64_t>(cpu_info[2]) << 32) |
          static_cast<uint64_t>(cpu_info[3]);
+#else
+  NOTREACHED();
+  return 0;
+#endif
 }
 
 uint32_t SystemSnapshotWin::CPUX86Leaf7Features() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
+#if defined(ARCH_CPU_X86_FAMILY)
   int cpu_info[4];
 
   // Make sure leaf 7 can be called.
@@ -251,11 +319,16 @@ uint32_t SystemSnapshotWin::CPUX86Leaf7Features() const {
 
   __cpuidex(cpu_info, 7, 0);
   return cpu_info[1];
+#else
+  NOTREACHED();
+  return 0;
+#endif
 }
 
 bool SystemSnapshotWin::CPUX86SupportsDAZ() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
+#if defined(ARCH_CPU_X86_FAMILY)
   // The correct way to check for denormals-as-zeros (DAZ) support is to examine
   // mxcsr mask, which can be done with fxsave. See Intel Software Developer's
   // Manual, Volume 1: Basic Architecture (253665-051), 11.6.3 "Checking for the
@@ -277,6 +350,10 @@ bool SystemSnapshotWin::CPUX86SupportsDAZ() const {
 
   // Test the DAZ bit.
   return (mxcsr_mask & (1 << 6)) != 0;
+#else
+  NOTREACHED();
+  return 0;
+#endif
 }
 
 SystemSnapshot::OperatingSystem SystemSnapshotWin::GetOperatingSystem() const {

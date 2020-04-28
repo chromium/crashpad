@@ -31,6 +31,7 @@ namespace test {
 namespace {
 
 using testing::AllOf;
+using testing::DoAll;
 using testing::Eq;
 using testing::Invoke;
 using testing::Pointee;

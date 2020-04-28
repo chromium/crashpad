@@ -17,6 +17,7 @@
 #include <string>
 #include <utility>
 
+#include "base/stl_util.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_context.h"
 #include "minidump/minidump_context_writer.h"
@@ -80,7 +81,7 @@ void ExpectExceptionStream(const MINIDUMP_EXCEPTION_STREAM* expected,
             expected->ExceptionRecord.NumberParameters);
   EXPECT_EQ(observed->ExceptionRecord.__unusedAlignment, 0u);
   for (size_t index = 0;
-       index < arraysize(observed->ExceptionRecord.ExceptionInformation);
+       index < base::size(observed->ExceptionRecord.ExceptionInformation);
        ++index) {
     EXPECT_EQ(observed->ExceptionRecord.ExceptionInformation[index],
               expected->ExceptionRecord.ExceptionInformation[index]);

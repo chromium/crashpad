@@ -43,6 +43,13 @@ static_library("client") {
     ]
   }
 
+  if (crashpad_is_ios) {
+    sources += [
+      "crash_report_database_mac.mm",
+      "crashpad_client_ios.cc",
+    ]
+  }
+
   if (crashpad_is_linux || crashpad_is_android) {
     set_sources_assignment_filter([])
     sources += [
@@ -77,21 +84,35 @@ static_library("client") {
 
   public_configs = [ "..:crashpad_config" ]
 
-  deps = [
-    "../compat",
+  public_deps = [
     "../third_party/mini_chromium:base",
     "../util",
   ]
+
+  deps = []
 
   if (crashpad_is_win) {
     libs = [ "rpcrt4.lib" ]
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
   }
 
-  if (crashpad_is_fuchsia && crashpad_is_in_fuchsia) {
+  # TODO(justincohen): Temporary dependency to bring up the iOS client.
+  if (crashpad_is_ios) {
     deps += [
-      "//zircon/public/lib/fdio",
+      "../minidump",
+      "../snapshot",
     ]
+  }
+
+  if (crashpad_is_linux || crashpad_is_android) {
+    deps += [ "../third_party/lss" ]
+  }
+
+  if (crashpad_is_fuchsia) {
+    deps += [ "../third_party/fuchsia" ]
+    if (crashpad_is_in_fuchsia) {
+      deps += [ "//zircon/public/lib/fdio" ]
+    }
   }
 }
 
@@ -116,6 +137,17 @@ source_set("client_test") {
     sources += [ "crashpad_client_win_test.cc" ]
   }
 
+  if (crashpad_is_ios) {
+    sources += [ "crashpad_client_ios_test.mm" ]
+    sources -= [
+      "annotation_list_test.cc",
+      "annotation_test.cc",
+      "crash_report_database_test.cc",
+      "prune_crash_reports_test.cc",
+      "settings_test.cc",
+    ]
+  }
+
   if (crashpad_is_linux || crashpad_is_android) {
     sources += [ "crashpad_client_linux_test.cc" ]
   }
@@ -131,9 +163,9 @@ source_set("client_test") {
     "../util",
   ]
 
-  data_deps = [
-    "../handler:crashpad_handler",
-  ]
+  if (!crashpad_is_ios && !crashpad_is_fuchsia) {
+    data_deps = [ "../handler:crashpad_handler" ]
+  }
 
   if (crashpad_is_win) {
     data_deps += [ "../handler:crashpad_handler_console" ]

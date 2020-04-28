@@ -14,38 +14,75 @@
 
 #include "handler/linux/crash_report_exception_handler.h"
 
-#include <vector>
+#include <memory>
+#include <utility>
 
 #include "base/logging.h"
 #include "client/settings.h"
+#include "handler/linux/capture_snapshot.h"
 #include "minidump/minidump_file_writer.h"
-#include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/linux/process_snapshot_linux.h"
 #include "snapshot/sanitized/process_snapshot_sanitized.h"
-#include "snapshot/sanitized/sanitization_information.h"
+#include "util/file/file_reader.h"
+#include "util/file/output_stream_file_writer.h"
 #include "util/linux/direct_ptrace_connection.h"
 #include "util/linux/ptrace_client.h"
+#include "util/misc/implicit_cast.h"
 #include "util/misc/metrics.h"
-#include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
+#include "util/stream/base94_output_stream.h"
+#include "util/stream/log_output_stream.h"
+#include "util/stream/zlib_output_stream.h"
 
 namespace crashpad {
+
+namespace {
+
+bool WriteMinidumpLogFromFile(FileReaderInterface* file_reader) {
+  ZlibOutputStream stream(ZlibOutputStream::Mode::kCompress,
+                          std::make_unique<Base94OutputStream>(
+                              Base94OutputStream::Mode::kEncode,
+                              std::make_unique<LogOutputStream>()));
+  FileOperationResult read_result;
+  do {
+    uint8_t buffer[4096];
+    read_result = file_reader->Read(buffer, sizeof(buffer));
+    if (read_result < 0)
+      return false;
+
+    if (read_result > 0 && (!stream.Write(buffer, read_result)))
+      return false;
+  } while (read_result > 0);
+  return stream.Flush();
+}
+
+}  // namespace
 
 CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
     CrashReportUploadThread* upload_thread,
     const std::map<std::string, std::string>* process_annotations,
+    bool write_minidump_to_database,
+    bool write_minidump_to_log,
     const UserStreamDataSources* user_stream_data_sources)
     : database_(database),
       upload_thread_(upload_thread),
       process_annotations_(process_annotations),
-      user_stream_data_sources_(user_stream_data_sources) {}
+      write_minidump_to_database_(write_minidump_to_database),
+      write_minidump_to_log_(write_minidump_to_log),
+      user_stream_data_sources_(user_stream_data_sources) {
+  DCHECK(write_minidump_to_database_ | write_minidump_to_log_);
+}
 
 CrashReportExceptionHandler::~CrashReportExceptionHandler() = default;
 
 bool CrashReportExceptionHandler::HandleException(
     pid_t client_process_id,
-    const ClientInformation& info) {
+    uid_t client_uid,
+    const ExceptionHandlerProtocol::ClientInformation& info,
+    VMAddress requesting_thread_stack_address,
+    pid_t* requesting_thread_id,
+    UUID* local_report_id) {
   Metrics::ExceptionEncountered();
 
   DirectPtraceConnection connection;
@@ -55,13 +92,20 @@ bool CrashReportExceptionHandler::HandleException(
     return false;
   }
 
-  return HandleExceptionWithConnection(&connection, info);
+  return HandleExceptionWithConnection(&connection,
+                                       info,
+                                       client_uid,
+                                       requesting_thread_stack_address,
+                                       requesting_thread_id,
+                                       local_report_id);
 }
 
 bool CrashReportExceptionHandler::HandleExceptionWithBroker(
     pid_t client_process_id,
-    const ClientInformation& info,
-    int broker_sock) {
+    uid_t client_uid,
+    const ExceptionHandlerProtocol::ClientInformation& info,
+    int broker_sock,
+    UUID* local_report_id) {
   Metrics::ExceptionEncountered();
 
   PtraceClient client;
@@ -71,123 +115,134 @@ bool CrashReportExceptionHandler::HandleExceptionWithBroker(
     return false;
   }
 
-  return HandleExceptionWithConnection(&client, info);
+  return HandleExceptionWithConnection(
+      &client, info, client_uid, 0, nullptr, local_report_id);
 }
 
 bool CrashReportExceptionHandler::HandleExceptionWithConnection(
     PtraceConnection* connection,
-    const ClientInformation& info) {
-  ProcessSnapshotLinux process_snapshot;
-  if (!process_snapshot.Initialize(connection)) {
-    Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSnapshotFailed);
+    const ExceptionHandlerProtocol::ClientInformation& info,
+    uid_t client_uid,
+    VMAddress requesting_thread_stack_address,
+    pid_t* requesting_thread_id,
+    UUID* local_report_id) {
+  std::unique_ptr<ProcessSnapshotLinux> process_snapshot;
+  std::unique_ptr<ProcessSnapshotSanitized> sanitized_snapshot;
+  if (!CaptureSnapshot(connection,
+                       info,
+                       *process_annotations_,
+                       client_uid,
+                       requesting_thread_stack_address,
+                       requesting_thread_id,
+                       &process_snapshot,
+                       &sanitized_snapshot)) {
     return false;
   }
 
-  if (!process_snapshot.InitializeException(
-          info.exception_information_address)) {
+  UUID client_id;
+  Settings* const settings = database_->GetSettings();
+  if (settings) {
+    // If GetSettings() or GetClientID() fails, something else will log a
+    // message and client_id will be left at its default value, all zeroes,
+    // which is appropriate.
+    settings->GetClientID(&client_id);
+  }
+  process_snapshot->SetClientID(client_id);
+
+  return write_minidump_to_database_
+             ? WriteMinidumpToDatabase(process_snapshot.get(),
+                                       sanitized_snapshot.get(),
+                                       write_minidump_to_log_,
+                                       local_report_id)
+             : WriteMinidumpToLog(process_snapshot.get(),
+                                  sanitized_snapshot.get());
+}
+
+bool CrashReportExceptionHandler::WriteMinidumpToDatabase(
+    ProcessSnapshotLinux* process_snapshot,
+    ProcessSnapshotSanitized* sanitized_snapshot,
+    bool write_minidump_to_log,
+    UUID* local_report_id) {
+  std::unique_ptr<CrashReportDatabase::NewReport> new_report;
+  CrashReportDatabase::OperationStatus database_status =
+      database_->PrepareNewCrashReport(&new_report);
+  if (database_status != CrashReportDatabase::kNoError) {
+    LOG(ERROR) << "PrepareNewCrashReport failed";
     Metrics::ExceptionCaptureResult(
-        Metrics::CaptureResult::kExceptionInitializationFailed);
+        Metrics::CaptureResult::kPrepareNewCrashReportFailed);
     return false;
   }
 
-  Metrics::ExceptionCode(process_snapshot.Exception()->Exception());
+  process_snapshot->SetReportID(new_report->ReportID());
 
-  CrashpadInfoClientOptions client_options;
-  process_snapshot.GetCrashpadOptions(&client_options);
-  if (client_options.crashpad_handler_behavior != TriState::kDisabled) {
-    UUID client_id;
-    Settings* const settings = database_->GetSettings();
-    if (settings) {
-      // If GetSettings() or GetClientID() fails, something else will log a
-      // message and client_id will be left at its default value, all zeroes,
-      // which is appropriate.
-      settings->GetClientID(&client_id);
+  ProcessSnapshot* snapshot =
+      sanitized_snapshot ? implicit_cast<ProcessSnapshot*>(sanitized_snapshot)
+                         : implicit_cast<ProcessSnapshot*>(process_snapshot);
+
+  MinidumpFileWriter minidump;
+  minidump.InitializeFromSnapshot(snapshot);
+  AddUserExtensionStreams(user_stream_data_sources_, snapshot, &minidump);
+
+  if (!minidump.WriteEverything(new_report->Writer())) {
+    LOG(ERROR) << "WriteEverything failed";
+    Metrics::ExceptionCaptureResult(
+        Metrics::CaptureResult::kMinidumpWriteFailed);
+    return false;
+  }
+
+  bool write_minidump_to_log_succeed = false;
+  if (write_minidump_to_log) {
+    if (auto* file_reader = new_report->Reader()) {
+      if (WriteMinidumpLogFromFile(file_reader))
+        write_minidump_to_log_succeed = true;
+      else
+        LOG(ERROR) << "WriteMinidumpLogFromFile failed";
     }
+  }
 
-    process_snapshot.SetClientID(client_id);
-    process_snapshot.SetAnnotationsSimpleMap(*process_annotations_);
+  UUID uuid;
+  database_status =
+      database_->FinishedWritingCrashReport(std::move(new_report), &uuid);
+  if (database_status != CrashReportDatabase::kNoError) {
+    LOG(ERROR) << "FinishedWritingCrashReport failed";
+    Metrics::ExceptionCaptureResult(
+        Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
+    return false;
+  }
 
-    std::unique_ptr<CrashReportDatabase::NewReport> new_report;
-    CrashReportDatabase::OperationStatus database_status =
-        database_->PrepareNewCrashReport(&new_report);
-    if (database_status != CrashReportDatabase::kNoError) {
-      LOG(ERROR) << "PrepareNewCrashReport failed";
-      Metrics::ExceptionCaptureResult(
-          Metrics::CaptureResult::kPrepareNewCrashReportFailed);
-      return false;
-    }
+  if (upload_thread_) {
+    upload_thread_->ReportPending(uuid);
+  }
 
-    process_snapshot.SetReportID(new_report->ReportID());
-
-    ProcessSnapshot* snapshot = nullptr;
-    ProcessSnapshotSanitized sanitized;
-    std::vector<std::string> whitelist;
-    if (info.sanitization_information_address) {
-      SanitizationInformation sanitization_info;
-      ProcessMemoryRange range;
-      if (!range.Initialize(connection->Memory(), connection->Is64Bit()) ||
-          !range.Read(info.sanitization_information_address,
-                      sizeof(sanitization_info),
-                      &sanitization_info)) {
-        Metrics::ExceptionCaptureResult(
-            Metrics::CaptureResult::kSanitizationInitializationFailed);
-        return false;
-      }
-
-      if (sanitization_info.annotations_whitelist_address &&
-          !ReadAnnotationsWhitelist(
-              range,
-              sanitization_info.annotations_whitelist_address,
-              &whitelist)) {
-        Metrics::ExceptionCaptureResult(
-            Metrics::CaptureResult::kSanitizationInitializationFailed);
-        return false;
-      }
-
-      if (!sanitized.Initialize(&process_snapshot,
-                                sanitization_info.annotations_whitelist_address
-                                    ? &whitelist
-                                    : nullptr,
-                                sanitization_info.target_module_address,
-                                sanitization_info.sanitize_stacks)) {
-        Metrics::ExceptionCaptureResult(
-            Metrics::CaptureResult::kSkippedDueToSanitization);
-        return true;
-      }
-
-      snapshot = &sanitized;
-    } else {
-      snapshot = &process_snapshot;
-    }
-
-    MinidumpFileWriter minidump;
-    minidump.InitializeFromSnapshot(snapshot);
-    AddUserExtensionStreams(user_stream_data_sources_, snapshot, &minidump);
-
-    if (!minidump.WriteEverything(new_report->Writer())) {
-      LOG(ERROR) << "WriteEverything failed";
-      Metrics::ExceptionCaptureResult(
-          Metrics::CaptureResult::kMinidumpWriteFailed);
-      return false;
-    }
-
-    UUID uuid;
-    database_status =
-        database_->FinishedWritingCrashReport(std::move(new_report), &uuid);
-    if (database_status != CrashReportDatabase::kNoError) {
-      LOG(ERROR) << "FinishedWritingCrashReport failed";
-      Metrics::ExceptionCaptureResult(
-          Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
-      return false;
-    }
-
-    if (upload_thread_) {
-      upload_thread_->ReportPending(uuid);
-    }
+  if (local_report_id != nullptr) {
+    *local_report_id = uuid;
   }
 
   Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSuccess);
-  return true;
+
+  return write_minidump_to_log ? write_minidump_to_log_succeed : true;
+}
+
+bool CrashReportExceptionHandler::WriteMinidumpToLog(
+    ProcessSnapshotLinux* process_snapshot,
+    ProcessSnapshotSanitized* sanitized_snapshot) {
+  ProcessSnapshot* snapshot =
+      sanitized_snapshot ? implicit_cast<ProcessSnapshot*>(sanitized_snapshot)
+                         : implicit_cast<ProcessSnapshot*>(process_snapshot);
+  MinidumpFileWriter minidump;
+  minidump.InitializeFromSnapshot(snapshot);
+  AddUserExtensionStreams(user_stream_data_sources_, snapshot, &minidump);
+
+  OutputStreamFileWriter writer(std::make_unique<ZlibOutputStream>(
+      ZlibOutputStream::Mode::kCompress,
+      std::make_unique<Base94OutputStream>(
+          Base94OutputStream::Mode::kEncode,
+          std::make_unique<LogOutputStream>())));
+  if (!minidump.WriteMinidump(&writer, false /* allow_seek */)) {
+    LOG(ERROR) << "WriteMinidump failed";
+    return false;
+  }
+  return writer.Flush();
 }
 
 }  // namespace crashpad

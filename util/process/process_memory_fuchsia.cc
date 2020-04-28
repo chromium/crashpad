@@ -14,8 +14,6 @@
 
 #include "util/process/process_memory_fuchsia.h"
 
-#include <zircon/syscalls.h>
-
 #include <limits>
 
 #include "base/logging.h"
@@ -28,9 +26,13 @@ ProcessMemoryFuchsia::ProcessMemoryFuchsia()
 
 ProcessMemoryFuchsia::~ProcessMemoryFuchsia() {}
 
-bool ProcessMemoryFuchsia::Initialize(zx_handle_t process) {
+bool ProcessMemoryFuchsia::Initialize(const zx::unowned_process& process) {
+  return Initialize(*process);
+}
+
+bool ProcessMemoryFuchsia::Initialize(const zx::process& process) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
-  process_ = process;
+  process_ = zx::unowned_process(process);
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
 }
@@ -42,8 +44,7 @@ ssize_t ProcessMemoryFuchsia::ReadUpTo(VMAddress address,
   DCHECK_LE(size, size_t{std::numeric_limits<ssize_t>::max()});
 
   size_t actual;
-  zx_status_t status =
-      zx_process_read_memory(process_, address, buffer, size, &actual);
+  zx_status_t status = process_->read_memory(address, buffer, size, &actual);
 
   if (status != ZX_OK) {
     ZX_LOG(ERROR, status) << "zx_process_read_memory";

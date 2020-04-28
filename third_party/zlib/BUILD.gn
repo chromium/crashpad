@@ -14,7 +14,7 @@
 
 import("../../build/crashpad_buildconfig.gni")
 
-if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
+if (crashpad_is_in_chromium || crashpad_is_in_fuchsia || crashpad_is_in_dart) {
   zlib_source = "external"
 } else if (!crashpad_is_win && !crashpad_is_fuchsia) {
   zlib_source = "system"
@@ -36,9 +36,7 @@ config("zlib_config") {
 if (zlib_source == "external") {
   group("zlib") {
     public_configs = [ ":zlib_config" ]
-    public_deps = [
-      "//third_party/zlib",
-    ]
+    public_deps = [ "//third_party/zlib" ]
   }
 } else if (zlib_source == "system") {
   source_set("zlib") {
@@ -73,9 +71,9 @@ if (zlib_source == "external") {
       "zlib/uncompr.c",
       "zlib/zconf.h",
       "zlib/zlib.h",
-      "zlib/zlib_crashpad.h",
       "zlib/zutil.c",
       "zlib/zutil.h",
+      "zlib_crashpad.h",
     ]
 
     cflags = []
@@ -91,12 +89,22 @@ if (zlib_source == "external") {
         "/wd4324",  # structure was padded due to alignment specifier
         "/wd4702",  # unreachable code
       ]
+      if (current_cpu == "arm64" && !crashpad_is_clang) {
+        # Select code path for clang in zlib to avoid using MSVC x86/x64
+        # intrinsics for Windows ARM64.
+        # TODO: https://crashpad.chromium.org/bug/267
+        defines += [ "__clang__" ]
+      }
     } else {
       defines += [
         "HAVE_HIDDEN",
         "HAVE_UNISTD_H",
       ]
     }
+
+    configs -= [
+      "//third_party/mini_chromium/mini_chromium/build:Wimplicit_fallthrough",
+    ]
 
     if (current_cpu == "x86" || current_cpu == "x64") {
       sources += [

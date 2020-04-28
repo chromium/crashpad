@@ -16,6 +16,7 @@
 
 #include <string>
 
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 
 namespace {
@@ -29,7 +30,7 @@ std::string FormatNtstatus(DWORD ntstatus) {
       ntstatus,
       0,
       msgbuf,
-      arraysize(msgbuf),
+      static_cast<DWORD>(base::size(msgbuf)),
       nullptr);
   if (len) {
     // Most system messages end in a period and a space. Remove the space if

@@ -22,6 +22,7 @@
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/macros.h"
+#include "base/stl_util.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
@@ -91,6 +92,8 @@ class ScopedExecutablePatch {
   DISALLOW_COPY_AND_ASSIGN(ScopedExecutablePatch);
 };
 
+// SafeTerminateProcess is calling convention specific only for x86.
+#if defined(ARCH_CPU_X86_FAMILY)
 TEST(SafeTerminateProcess, PatchBadly) {
   // This is a test of SafeTerminateProcess(), but it doesn’t actually terminate
   // anything. Instead, it works with a process handle for the current process
@@ -146,7 +149,7 @@ TEST(SafeTerminateProcess, PatchBadly) {
     };
 
     void* target = reinterpret_cast<void*>(TerminateProcess);
-    ScopedExecutablePatch executable_patch(target, patch, arraysize(patch));
+    ScopedExecutablePatch executable_patch(target, patch, base::size(patch));
 
     // Make sure that SafeTerminateProcess() can be called. Since it’s been
     // patched with a no-op stub, GetLastError() shouldn’t be modified.
@@ -161,6 +164,7 @@ TEST(SafeTerminateProcess, PatchBadly) {
   EXPECT_FALSE(SafeTerminateProcess(process, 0));
   EXPECT_EQ(GetLastError(), static_cast<DWORD>(ERROR_ACCESS_DENIED));
 }
+#endif  // ARCH_CPU_X86_FAMILY
 
 TEST(SafeTerminateProcess, TerminateChild) {
   base::FilePath child_executable =

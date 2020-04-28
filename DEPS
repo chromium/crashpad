@@ -15,22 +15,34 @@
 vars = {
   'chromium_git': 'https://chromium.googlesource.com',
   'pull_linux_clang': False,
-  'pull_win_toolchain': False
+  'pull_win_toolchain': False,
+  # Controls whether crashpad/build/ios/setup-ios-gn.py is run as part of
+  # gclient hooks. It is enabled by default for developer's convenience. It can
+  # be disabled with custom_vars (done automatically on the bots).
+  'run_setup_ios_gn': True,
 }
 
 deps = {
   'buildtools':
-      Var('chromium_git') + '/chromium/buildtools.git@' +
-      '6fe4a3251488f7af86d64fc25cf442e817cf6133',
+      Var('chromium_git') + '/chromium/src/buildtools.git@' +
+      '4164a305626786b1912d467003acf4c4995bec7d',
+  'crashpad/third_party/edo/edo': {
+      'url': Var('chromium_git') + '/external/github.com/google/eDistantObject.git@' +
+      '243fc89ae95b24717d41f3786f6a9abeeef87c92',
+      'condition': 'checkout_ios',
+  },
   'crashpad/third_party/gtest/gtest':
       Var('chromium_git') + '/external/github.com/google/googletest@' +
-      'c091b0469ab4c04ee9411ef770f32360945f4c53',
+      'e3f0319d89f4cbf32993de595d984183b1a9fc57',
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
-      '5e2b3ddde7cda5eb6bc09a5546a76b00e49d888f',
+      '8bee09f4a57807136593ddc906b0b213c21f9014',
+  'crashpad/third_party/lss/lss':
+      Var('chromium_git') + '/linux-syscall-support.git@' +
+      '7bde79cc274d06451bf65ae82c012a5d3e476b5a',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      '793e94e2c652831af2d25bb5288b04e59048c62d',
+      '8ca5ea356cdb97913d62d379d503567a80d90726',
   'crashpad/third_party/libfuzzer/src':
       Var('chromium_git') + '/chromium/llvm-project/compiler-rt/lib/fuzzer.git@' +
       'fda403cf93ecb8792cb1d061564d89a6553ca020',
@@ -49,7 +61,7 @@ deps = {
     'condition': 'checkout_linux and pull_linux_clang',
     'dep_type': 'cipd'
   },
-  'crashpad/third_party/linux/clang/mac-amd64': {
+  'crashpad/third_party/fuchsia/clang/mac-amd64': {
     'packages': [
       {
         'package': 'fuchsia/clang/mac-amd64',
@@ -89,22 +101,24 @@ deps = {
     'condition': 'checkout_fuchsia and host_os == "linux"',
     'dep_type': 'cipd'
   },
-  'crashpad/third_party/fuchsia/sdk/linux-amd64': {
-    # The SDK is keyed to the host system because it contains build tools.
-    # Currently, linux-amd64 is the only SDK published (see
-    # https://chrome-infra-packages.appspot.com/#/?path=fuchsia/sdk).
-    # As long as this is the case, use that SDK package
-    # even on other build hosts.
-    # The sysroot (containing headers and libraries) and other components are
-    # related to the target and should be functional with an appropriate
-    # toolchain that runs on the build host (fuchsia_clang, above).
+  'crashpad/third_party/fuchsia/sdk/mac-amd64': {
     'packages': [
       {
-        'package': 'fuchsia/sdk/linux-amd64',
+        'package': 'fuchsia/sdk/gn/mac-amd64',
         'version': 'latest'
       },
     ],
-    'condition': 'checkout_fuchsia',
+    'condition': 'checkout_fuchsia and host_os == "mac"',
+    'dep_type': 'cipd'
+  },
+  'crashpad/third_party/fuchsia/sdk/linux-amd64': {
+    'packages': [
+      {
+        'package': 'fuchsia/sdk/gn/linux-amd64',
+        'version': 'latest'
+      },
+    ],
+    'condition': 'checkout_fuchsia and host_os == "linux"',
     'dep_type': 'cipd'
   },
   'crashpad/third_party/win/toolchain': {
@@ -164,45 +178,6 @@ hooks = [
     ],
   },
   {
-    'name': 'gn_mac',
-    'pattern': '.',
-    'condition': 'host_os == "mac"',
-    'action': [
-      'download_from_google_storage',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-gn',
-      '--sha1_file',
-      'buildtools/mac/gn.sha1',
-    ],
-  },
-  {
-    'name': 'gn_linux',
-    'pattern': '.',
-    'condition': 'host_os == "linux"',
-    'action': [
-      'download_from_google_storage',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-gn',
-      '--sha1_file',
-      'buildtools/linux64/gn.sha1',
-    ],
-  },
-  {
-    'name': 'gn_win',
-    'pattern': '.',
-    'condition': 'host_os == "win"',
-    'action': [
-      'download_from_google_storage',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-gn',
-      '--sha1_file',
-      'buildtools/win/gn.exe.sha1',
-    ],
-  },
-  {
     # If using a local clang ("pull_linux_clang" above), also pull down a
     # sysroot.
     'name': 'sysroot_linux',
@@ -213,9 +188,13 @@ hooks = [
     ],
   },
   {
-    'name': 'gyp',
-    'pattern': '\.gypi?$',
-    'action': ['python', 'crashpad/build/gyp_crashpad.py'],
+    'name': 'setup_gn_ios',
+    'pattern': '.',
+    'condition': 'run_setup_ios_gn and checkout_ios',
+    'action': [
+        'python',
+        'crashpad/build/ios/setup_ios_gn.py'
+    ],
   },
 ]
 

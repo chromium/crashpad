@@ -33,6 +33,7 @@
 
 #include "base/format_macros.h"
 #include "base/memory/free_deleter.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
@@ -48,10 +49,17 @@
 #include "util/linux/direct_ptrace_connection.h"
 #include "util/misc/address_sanitizer.h"
 #include "util/misc/from_pointer_cast.h"
+#include "util/misc/memory_sanitizer.h"
 #include "util/synchronization/semaphore.h"
 
 #if defined(OS_ANDROID)
 #include <android/api-level.h>
+#include <android/set_abort_message.h>
+#include "dlfcn_internal.h"
+
+// Normally this comes from set_abort_message.h, but only at API level 21.
+extern "C" void android_set_abort_message(const char* msg)
+    __attribute__((weak));
 #endif
 
 namespace crashpad {
@@ -79,12 +87,14 @@ TEST(ProcessReaderLinux, SelfBasic) {
   EXPECT_EQ(process_reader.ParentProcessID(), getppid());
 
   static constexpr char kTestMemory[] = "Some test memory";
-  char buffer[arraysize(kTestMemory)];
+  char buffer[base::size(kTestMemory)];
   ASSERT_TRUE(process_reader.Memory()->Read(
       reinterpret_cast<LinuxVMAddress>(kTestMemory),
       sizeof(kTestMemory),
       &buffer));
   EXPECT_STREQ(kTestMemory, buffer);
+
+  EXPECT_EQ("", process_reader.AbortMessage());
 }
 
 constexpr char kTestMemory[] = "Read me from another process";
@@ -327,6 +337,11 @@ class ChildThreadTest : public Multiprocess {
     thread_pool.StartThreads(kThreadCount, stack_size_);
 
     TestThreadPool::ThreadExpectation expectation;
+#if defined(MEMORY_SANITIZER)
+    // memset() + re-initialization is required to zero padding bytes for MSan.
+    memset(&expectation, 0, sizeof(expectation));
+#endif  // defined(MEMORY_SANITIZER)
+    expectation = {};
     expectation.tls = GetTLS();
     expectation.stack_address = reinterpret_cast<LinuxVMAddress>(&thread_pool);
 
@@ -412,7 +427,7 @@ class ChildWithSplitStackTest : public Multiprocess {
   }
 
   void MultiprocessChild() override {
-    const LinuxVMSize stack_size = page_size_ * 3;
+    const LinuxVMSize stack_size = page_size_ * 4;
     GrowStack(stack_size, reinterpret_cast<LinuxVMAddress>(&stack_size));
   }
 
@@ -425,7 +440,7 @@ class ChildWithSplitStackTest : public Multiprocess {
     } else {
       // Write-protect a page on our stack to split up the mapping
       LinuxVMAddress page_addr =
-          stack_address - (stack_address % page_size_) + page_size_;
+          stack_address - (stack_address % page_size_) + 2 * page_size_;
       ASSERT_EQ(
           mprotect(reinterpret_cast<void*>(page_addr), page_size_, PROT_READ),
           0)
@@ -453,7 +468,14 @@ class ChildWithSplitStackTest : public Multiprocess {
   DISALLOW_COPY_AND_ASSIGN(ChildWithSplitStackTest);
 };
 
-TEST(ProcessReaderLinux, ChildWithSplitStack) {
+// AddressSanitizer with use-after-return detection causes stack variables to
+// be allocated on the heap.
+#if defined(ADDRESS_SANITIZER)
+#define MAYBE_ChildWithSplitStack DISABLED_ChildWithSplitStack
+#else
+#define MAYBE_ChildWithSplitStack ChildWithSplitStack
+#endif
+TEST(ProcessReaderLinux, MAYBE_ChildWithSplitStack) {
   ChildWithSplitStackTest test;
   test.Run();
 }
@@ -715,7 +737,7 @@ void ExpectTestModule(ProcessReaderLinux* reader,
       auto dynamic_mapping = reader->GetMemoryMap()->FindMapping(dynamic_addr);
       auto mappings =
           reader->GetMemoryMap()->FindFilePossibleMmapStarts(*dynamic_mapping);
-      EXPECT_EQ(mappings.size(), 2u);
+      EXPECT_EQ(mappings->Count(), 2u);
       return;
     }
   }
@@ -761,7 +783,7 @@ class ChildModuleTest : public Multiprocess {
     ScopedModuleHandle empty_test_module(LoadTestModule(module_name_));
     ASSERT_TRUE(empty_test_module.valid());
 
-    char c;
+    char c = 0;
     ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(), &c, sizeof(c)));
 
     CheckedReadFileAtEOF(ReadPipeHandle());
@@ -776,6 +798,30 @@ TEST(ProcessReaderLinux, ChildModules) {
   ChildModuleTest test;
   test.Run();
 }
+
+#if defined(OS_ANDROID)
+const char kTestAbortMessage[] = "test abort message";
+
+TEST(ProcessReaderLinux, AbortMessage) {
+  // This test requires Q. The API level on Q devices will be 28 until the API
+  // is finalized, so we can't check API level yet. For now, test for the
+  // presence of a libc symbol which was introduced in Q.
+  if (!crashpad::internal::Dlsym(RTLD_DEFAULT,
+                                 "android_fdsan_close_with_tag")) {
+    GTEST_SKIP();
+  }
+
+  android_set_abort_message(kTestAbortMessage);
+
+  FakePtraceConnection connection;
+  connection.Initialize(getpid());
+
+  ProcessReaderLinux process_reader;
+  ASSERT_TRUE(process_reader.Initialize(&connection));
+
+  EXPECT_EQ(kTestAbortMessage, process_reader.AbortMessage());
+}
+#endif
 
 }  // namespace
 }  // namespace test

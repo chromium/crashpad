@@ -18,23 +18,27 @@
 #include "build/build_config.h"
 
 #if defined(OS_FUCHSIA)
-#include <zircon/types.h>
-#elif defined(OS_POSIX)
+#include <lib/zx/process.h>
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
 #include <sys/types.h>
 #elif defined(OS_WIN)
 #include <windows.h>
+#elif defined(OS_MACOSX)
+#include <mach/mach.h>
 #endif
 
 namespace crashpad {
 namespace test {
 
 #if defined(OS_FUCHSIA)
-using ProcessType = zx_handle_t;
-#elif defined(OS_POSIX) || DOXYGEN
+using ProcessType = zx::unowned_process;
+#elif defined(OS_LINUX) || defined(OS_ANDROID) || DOXYGEN
 //! \brief Alias for platform-specific type to represent a process.
 using ProcessType = pid_t;
 #elif defined(OS_WIN)
 using ProcessType = HANDLE;
+#elif defined(OS_MACOSX)
+using ProcessType = task_t;
 #else
 #error Port.
 #endif

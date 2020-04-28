@@ -20,9 +20,9 @@
 
 #include <memory>
 
-#include "base/macros.h"
+#include "base/stl_util.h"
 #include "snapshot/mac/process_types/internal.h"
-#include "util/mach/task_memory.h"
+#include "util/process/process_memory_mac.h"
 
 namespace crashpad {
 namespace {
@@ -74,7 +74,7 @@ using UInt64Array4 = uint64_t[4];
 template <>
 inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
                                                const UInt32Array4& source) {
-  for (size_t index = 0; index < arraysize(source); ++index) {
+  for (size_t index = 0; index < base::size(source); ++index) {
     (*destination)[index] = source[index];
   }
 }

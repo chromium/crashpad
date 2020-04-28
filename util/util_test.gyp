@@ -28,6 +28,7 @@
         '../test/test.gyp:crashpad_test',
         '../third_party/gtest/gmock.gyp:gmock',
         '../third_party/gtest/gtest.gyp:gtest',
+        '../third_party/lss/lss.gyp:lss',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
         '../third_party/zlib/zlib.gyp:zlib',
       ],
@@ -44,9 +45,11 @@
         'linux/auxiliary_vector_test.cc',
         'linux/memory_map_test.cc',
         'linux/proc_stat_reader_test.cc',
+        'linux/proc_task_reader_test.cc',
         'linux/ptrace_broker_test.cc',
         'linux/ptracer_test.cc',
         'linux/scoped_ptrace_attach_test.cc',
+        'linux/socket_test.cc',
         'mac/launchd_test.mm',
         'mac/mac_util_test.mm',
         'mac/service_management_test.mm',
@@ -65,8 +68,7 @@
         'mach/notify_server_test.cc',
         'mach/scoped_task_suspend_test.cc',
         'mach/symbolic_constants_mach_test.cc',
-        'mach/task_memory_test.cc',
-        'misc/arraysize_unsafe_test.cc',
+        'misc/arraysize_test.cc',
         'misc/capture_context_test.cc',
         'misc/capture_context_test_util.h',
         'misc/capture_context_test_util_linux.cc',
@@ -98,6 +100,7 @@
         'posix/scoped_mmap_test.cc',
         'posix/signals_test.cc',
         'posix/symbolic_constants_posix_test.cc',
+        'process/process_memory_mac_test.cc',
         'process/process_memory_range_test.cc',
         'process/process_memory_test.cc',
         'stdlib/aligned_allocator_test.cc',
@@ -151,6 +154,11 @@
             ['exclude', '^net/http_transport_test\\.cc$'],
           ]
         }],
+        ['OS=="linux" or OS=="android"', {
+          'sources': [
+            'process/process_memory_sanitized_test.cc',
+          ],
+        }],
         ['OS!="linux" and OS!="android"', {
           'sources/': [
             ['exclude', '^process/'],
@@ -192,6 +200,15 @@
           },
           'cflags!': [
             '-Wexit-time-destructors',
+          ],
+          'conditions': [
+            ['OS=="win"', {
+              'link_settings': {
+                'libraries': [
+                  '-lws2_32.lib',
+                ],
+              },
+            }],
           ],
         },
       ],

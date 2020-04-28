@@ -32,6 +32,8 @@ namespace crashpad {
 #if defined(OS_MACOSX)
 #if defined(ARCH_CPU_X86_FAMILY)
 using NativeCPUContext = x86_thread_state;
+#elif defined(ARCH_CPU_ARM64)
+using NativeCPUContext = arm_unified_thread_state;
 #endif
 #elif defined(OS_WIN)
 using NativeCPUContext = CONTEXT;

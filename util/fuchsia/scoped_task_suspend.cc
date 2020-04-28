@@ -14,68 +14,55 @@
 
 #include "util/fuchsia/scoped_task_suspend.h"
 
-#include <zircon/process.h>
-#include <zircon/syscalls.h>
-#include <zircon/syscalls/debug.h>
+#include <lib/zx/time.h>
+#include <zircon/errors.h>
+#include <zircon/status.h>
+#include <zircon/syscalls/object.h>
 
 #include <vector>
 
 #include "base/fuchsia/fuchsia_logging.h"
-#include "base/fuchsia/scoped_zx_handle.h"
 #include "base/logging.h"
 #include "util/fuchsia/koid_utilities.h"
 
 namespace crashpad {
 
-namespace {
+ScopedTaskSuspend::ScopedTaskSuspend(const zx::process& process) {
+  DCHECK_NE(process.get(), zx::process::self()->get());
 
-zx_obj_type_t GetHandleType(zx_handle_t handle) {
-  zx_info_handle_basic_t basic;
-  zx_status_t status = zx_object_get_info(
-      handle, ZX_INFO_HANDLE_BASIC, &basic, sizeof(basic), nullptr, nullptr);
-  if (status != ZX_OK) {
-    ZX_LOG(ERROR, status) << "zx_object_get_info";
-    return ZX_OBJ_TYPE_NONE;
-  }
-  return basic.type;
-}
-
-// Returns the suspend token of the suspended thread. This function attempts
-// to wait a short time for the thread to actually suspend before returning
-// but this is not guaranteed.
-base::ScopedZxHandle SuspendThread(zx_handle_t thread) {
-  zx_handle_t token = ZX_HANDLE_INVALID;
-  zx_status_t status = zx_task_suspend_token(thread, &token);
-  if (status != ZX_OK) {
-    ZX_LOG(ERROR, status) << "zx_task_suspend";
-    base::ScopedZxHandle();
+  const zx_status_t suspend_status = process.suspend(&suspend_token_);
+  if (suspend_status != ZX_OK) {
+    ZX_LOG(ERROR, suspend_status) << "zx_task_suspend";
+    return;
   }
 
-  zx_signals_t observed = 0u;
-  if (zx_object_wait_one(thread, ZX_THREAD_SUSPENDED,
-                         zx_deadline_after(ZX_MSEC(50)), &observed) != ZX_OK) {
-    LOG(ERROR) << "thread failed to suspend";
-  }
-  return base::ScopedZxHandle(token);
-}
+  // suspend() is asynchronous so we now check that each thread is indeed
+  // suspended, up to some deadline.
+  for (const auto& thread : GetThreadHandles(process)) {
+    // We omit the crashed thread (blocked in an exception) as it is technically
+    // not suspended, cf. ZX-3772.
+    zx_info_thread_t info;
+    if (thread.get_info(
+            ZX_INFO_THREAD, &info, sizeof(info), nullptr, nullptr) == ZX_OK) {
+      if (info.state == ZX_THREAD_STATE_BLOCKED_EXCEPTION) {
+        continue;
+      }
+    }
 
-}  // namespace
-
-ScopedTaskSuspend::ScopedTaskSuspend(zx_handle_t task) {
-  DCHECK_NE(task, zx_process_self());
-  DCHECK_NE(task, zx_thread_self());
-
-  zx_obj_type_t type = GetHandleType(task);
-  if (type == ZX_OBJ_TYPE_THREAD) {
-    suspend_tokens_.push_back(SuspendThread(task));
-  } else if (type == ZX_OBJ_TYPE_PROCESS) {
-    for (const auto& thread : GetChildHandles(task, ZX_INFO_PROCESS_THREADS))
-      suspend_tokens_.push_back(SuspendThread(thread.get()));
-  } else {
-    LOG(ERROR) << "unexpected handle type";
+    zx_signals_t observed = 0u;
+    const zx_status_t wait_status = thread.wait_one(
+        ZX_THREAD_SUSPENDED, zx::deadline_after(zx::msec(50)), &observed);
+    if (wait_status != ZX_OK) {
+      zx_info_thread_t info = {};
+      zx_status_t info_status = thread.get_info(
+          ZX_INFO_THREAD, &info, sizeof(info), nullptr, nullptr);
+      ZX_LOG(ERROR, wait_status) << "thread failed to suspend";
+      LOG(ERROR) << "Thread info status " << info_status;
+      if (info_status == ZX_OK) {
+        LOG(ERROR) << "Thread state " << info.state;
+      }
+    }
   }
 }
-
-ScopedTaskSuspend::~ScopedTaskSuspend() = default;
 
 }  // namespace crashpad

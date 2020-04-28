@@ -24,7 +24,7 @@
 #include <string>
 
 #include "base/format_macros.h"
-#include "base/macros.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "client/crashpad_info.h"
 #include "client/simple_string_dictionary.h"
@@ -108,7 +108,7 @@ void RecordFileLimitAnnotation() {
   int mib[] = {CTL_KERN, KERN_MAXFILES};
   size = sizeof(value);
   std::string max_files = FormatFromSysctl(
-      sysctl(mib, arraysize(mib), &value, &size, nullptr, 0), &value, &size);
+      sysctl(mib, base::size(mib), &value, &size, nullptr, 0), &value, &size);
 
   std::string open_files = CountOpenFileDescriptors();
 

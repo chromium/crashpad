@@ -22,6 +22,7 @@
 #include <string>
 
 #include "base/macros.h"
+#include "util/linux/ptrace_connection.h"
 #include "util/misc/initialization_state_dcheck.h"
 
 namespace crashpad {
@@ -36,8 +37,10 @@ class ProcStatReader {
   //!
   //! This method must be successfully called before calling any other.
   //!
+  //! \param[in] connection A connection to the process to which the target
+  //!     thread belongs.
   //! \param[in] tid The thread ID to read the stat file for.
-  bool Initialize(pid_t tid);
+  bool Initialize(PtraceConnection* connection, pid_t tid);
 
   //! \brief Determines the time the thread has spent executing in user mode.
   //!
@@ -57,14 +60,14 @@ class ProcStatReader {
 
   //! \brief Determines the target thread’s start time.
   //!
+  //! \param[in] boot_time The kernel boot time.
   //! \param[out] start_time The time that the thread started.
   //!
   //! \return `true` on success, with \a start_time set. Otherwise, `false` with
   //!     a message logged.
-  bool StartTime(timeval* start_time) const;
+  bool StartTime(const timeval& boot_time, timeval* start_time) const;
 
  private:
-  bool ReadFile(pid_t tid);
   bool FindColumn(int index, const char** column) const;
   bool ReadTimeAtIndex(int index, timeval* time_val) const;
 

@@ -23,7 +23,7 @@
 
 #include "base/strings/stringprintf.h"
 #include "util/mac/checked_mach_address_range.h"
-#include "util/mach/task_memory.h"
+#include "util/process/process_memory_mac.h"
 
 namespace crashpad {
 
@@ -108,7 +108,7 @@ class MachOImageSymbolTableReaderInitializer {
       return false;
     }
 
-    std::unique_ptr<TaskMemory::MappedMemory> string_table;
+    std::unique_ptr<ProcessMemoryMac::MappedMemory> string_table;
     for (size_t symbol_index = 0; symbol_index < symbol_count; ++symbol_index) {
       const process_types::nlist& symbol = symbols[symbol_index];
       std::string symbol_info = base::StringPrintf(", symbol index %zu%s",

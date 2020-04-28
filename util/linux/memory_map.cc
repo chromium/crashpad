@@ -18,6 +18,7 @@
 #include <string.h>
 #include <sys/sysmacros.h>
 
+#include "base/bit_cast.h"
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "build/build_config.h"
@@ -30,31 +31,9 @@ namespace crashpad {
 
 namespace {
 
-// This function is used in this file specfically for signed or unsigned longs.
-// longs are typically either int or int64 sized, but pointers to longs are not
-// automatically coerced to pointers to ints when they are the same size.
-// Simply adding a StringToNumber for longs doesn't work since sometimes long
-// and int64_t are actually the same type, resulting in a redefinition error.
-template <typename Type>
-bool LocalStringToNumber(const std::string& string, Type* number) {
-  static_assert(sizeof(Type) == sizeof(int) || sizeof(Type) == sizeof(int64_t),
-                "Unexpected Type size");
-
-  if (sizeof(Type) == sizeof(int)) {
-    return std::numeric_limits<Type>::is_signed
-               ? StringToNumber(string, reinterpret_cast<int*>(number))
-               : StringToNumber(string,
-                                reinterpret_cast<unsigned int*>(number));
-  } else {
-    return std::numeric_limits<Type>::is_signed
-               ? StringToNumber(string, reinterpret_cast<int64_t*>(number))
-               : StringToNumber(string, reinterpret_cast<uint64_t*>(number));
-  }
-}
-
 template <typename Type>
 bool HexStringToNumber(const std::string& string, Type* number) {
-  return LocalStringToNumber("0x" + string, number);
+  return StringToNumber("0x" + string, number);
 }
 
 // The result from parsing a line from the maps file.
@@ -179,7 +158,7 @@ ParseResult ParseMapsLine(DelimitedFileReader* maps_file_reader,
 
   if (maps_file_reader->GetDelim(' ', &field) !=
           DelimitedFileReader::Result::kSuccess ||
-      (field.pop_back(), !LocalStringToNumber(field, &mapping.inode))) {
+      (field.pop_back(), !StringToNumber(field, &mapping.inode))) {
     LOG(ERROR) << "format error";
     return ParseResult::kError;
   }
@@ -203,6 +182,48 @@ ParseResult ParseMapsLine(DelimitedFileReader* maps_file_reader,
   }
   return ParseResult::kSuccess;
 }
+
+class SparseReverseIterator : public MemoryMap::Iterator {
+ public:
+  SparseReverseIterator(const std::vector<const MemoryMap::Mapping*>& mappings)
+      : mappings_(mappings), riter_(mappings_.rbegin()) {}
+
+  SparseReverseIterator() : mappings_(), riter_(mappings_.rend()) {}
+
+  // Iterator:
+  const MemoryMap::Mapping* Next() override {
+    return riter_ == mappings_.rend() ? nullptr : *(riter_++);
+  }
+
+  unsigned int Count() override { return mappings_.rend() - riter_; }
+
+ private:
+  std::vector<const MemoryMap::Mapping*> mappings_;
+  std::vector<const MemoryMap::Mapping*>::reverse_iterator riter_;
+
+  DISALLOW_COPY_AND_ASSIGN(SparseReverseIterator);
+};
+
+class FullReverseIterator : public MemoryMap::Iterator {
+ public:
+  FullReverseIterator(
+      std::vector<MemoryMap::Mapping>::const_reverse_iterator rbegin,
+      std::vector<MemoryMap::Mapping>::const_reverse_iterator rend)
+      : riter_(rbegin), rend_(rend) {}
+
+  // Iterator:
+  const MemoryMap::Mapping* Next() override {
+    return riter_ == rend_ ? nullptr : &*riter_++;
+  }
+
+  unsigned int Count() override { return rend_ - riter_; }
+
+ private:
+  std::vector<MemoryMap::Mapping>::const_reverse_iterator riter_;
+  std::vector<MemoryMap::Mapping>::const_reverse_iterator rend_;
+
+  DISALLOW_COPY_AND_ASSIGN(FullReverseIterator);
+};
 
 }  // namespace
 
@@ -296,7 +317,7 @@ const MemoryMap::Mapping* MemoryMap::FindMappingWithName(
   return nullptr;
 }
 
-std::vector<const MemoryMap::Mapping*> MemoryMap::FindFilePossibleMmapStarts(
+std::unique_ptr<MemoryMap::Iterator> MemoryMap::FindFilePossibleMmapStarts(
     const Mapping& mapping) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
@@ -308,27 +329,74 @@ std::vector<const MemoryMap::Mapping*> MemoryMap::FindFilePossibleMmapStarts(
     for (const auto& candidate : mappings_) {
       if (mapping.Equals(candidate)) {
         possible_starts.push_back(&candidate);
-        return possible_starts;
+        return std::make_unique<SparseReverseIterator>(possible_starts);
       }
     }
 
     LOG(ERROR) << "mapping not found";
-    return std::vector<const Mapping*>();
+    return std::make_unique<SparseReverseIterator>();
   }
+
+#if defined(OS_ANDROID)
+  // The Android Chromium linker uses ashmem to share RELRO segments between
+  // processes. The original RELRO segment has been unmapped and replaced with a
+  // mapping named "/dev/ashmem/RELRO:<libname>" where <libname> is the base
+  // library name (e.g. libchrome.so) sans any preceding path that may be
+  // present in other mappings for the library.
+  // https://crashpad.chromium.org/bug/253
+  static constexpr char kRelro[] = "/dev/ashmem/RELRO:";
+  if (mapping.name.compare(0, strlen(kRelro), kRelro, 0, strlen(kRelro)) == 0) {
+    // The kernel appends "(deleted)" to ashmem mappings because there isn't
+    // any corresponding file on the filesystem.
+    static constexpr char kDeleted[] = " (deleted)";
+    size_t libname_end = mapping.name.rfind(kDeleted);
+    DCHECK_NE(libname_end, std::string::npos);
+    if (libname_end == std::string::npos) {
+      libname_end = mapping.name.size();
+    }
+
+    std::string libname =
+        mapping.name.substr(strlen(kRelro), libname_end - strlen(kRelro));
+    for (const auto& candidate : mappings_) {
+      if (candidate.name.rfind(libname) != std::string::npos) {
+        possible_starts.push_back(&candidate);
+      }
+      if (mapping.Equals(candidate)) {
+        return std::make_unique<SparseReverseIterator>(possible_starts);
+      }
+    }
+  }
+#endif  // OS_ANDROID
 
   for (const auto& candidate : mappings_) {
     if (candidate.device == mapping.device &&
-        candidate.inode == mapping.inode &&
-        candidate.offset == 0) {
+        candidate.inode == mapping.inode
+#if !defined(OS_ANDROID)
+        // Libraries on Android may be mapped from zipfiles (APKs), in which
+        // case the offset is not 0.
+        && candidate.offset == 0
+#endif  // !defined(OS_ANDROID)
+        ) {
       possible_starts.push_back(&candidate);
     }
     if (mapping.Equals(candidate)) {
-      return possible_starts;
+      return std::make_unique<SparseReverseIterator>(possible_starts);
     }
   }
 
   LOG(ERROR) << "mapping not found";
-  return std::vector<const Mapping*>();
+  return std::make_unique<SparseReverseIterator>();
+}
+
+std::unique_ptr<MemoryMap::Iterator> MemoryMap::ReverseIteratorFrom(
+    const Mapping& target) const {
+  for (auto riter = mappings_.crbegin(); riter != mappings_.rend(); ++riter) {
+    if (riter->Equals(target)) {
+      return std::make_unique<FullReverseIterator>(riter, mappings_.rend());
+    }
+  }
+  return std::make_unique<FullReverseIterator>(mappings_.rend(),
+                                               mappings_.rend());
 }
 
 }  // namespace crashpad

@@ -66,6 +66,10 @@ class ProcessReaderLinux {
     int static_priority;
     int nice_value;
 
+    //! \brief `true` if `sched_policy`, `static_priority`, and `nice_value` are
+    //!     all valid.
+    bool have_priorities;
+
    private:
     friend class ProcessReaderLinux;
 
@@ -116,7 +120,7 @@ class ProcessReaderLinux {
   pid_t ParentProcessID() const { return process_info_.ParentProcessID(); }
 
   //! \brief Return a memory reader for the target process.
-  ProcessMemory* Memory() { return connection_->Memory(); }
+  const ProcessMemory* Memory() const { return connection_->Memory(); }
 
   //! \brief Return a memory map of the target process.
   MemoryMap* GetMemoryMap() { return &memory_map_; }
@@ -149,15 +153,23 @@ class ProcessReaderLinux {
   //!     `0`) corresponds to the main executable.
   const std::vector<Module>& Modules();
 
+  //! \return On Android, the abort message that was passed to
+  //!     android_set_abort_message(). This is only available on Q or later.
+  const std::string& AbortMessage();
+
  private:
   void InitializeThreads();
   void InitializeModules();
+  void InitializeAbortMessage();
+  template <bool Is64Bit>
+  void ReadAbortMessage(const MemoryMap::Mapping* mapping);
 
   PtraceConnection* connection_;  // weak
   ProcessInfo process_info_;
   MemoryMap memory_map_;
   std::vector<Thread> threads_;
   std::vector<Module> modules_;
+  std::string abort_message_;
   std::vector<std::unique_ptr<ElfImageReader>> elf_readers_;
   bool is_64_bit_;
   bool initialized_threads_;

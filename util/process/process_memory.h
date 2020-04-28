@@ -19,7 +19,13 @@
 
 #include <string>
 
+#include "build/build_config.h"
 #include "util/misc/address_types.h"
+
+#if defined(OS_WIN)
+#include <basetsd.h>
+typedef SSIZE_T ssize_t;
+#endif  // defined(OS_WIN)
 
 namespace crashpad {
 
@@ -40,7 +46,7 @@ class ProcessMemory {
   //!
   //! \return `true` on success, with \a buffer filled appropriately. `false` on
   //!     failure, with a message logged.
-  bool Read(VMAddress address, size_t size, void* buffer) const;
+  bool Read(VMAddress address, VMSize size, void* buffer) const;
 
   //! \brief Reads a `NUL`-terminated C string from the target process into a
   //!     string in the current process.
@@ -73,7 +79,7 @@ class ProcessMemory {
   //!     a `NUL` terminator is not found within \a size bytes, or when
   //!     encountering unmapped or unreadable pages.
   bool ReadCStringSizeLimited(VMAddress address,
-                              size_t size,
+                              VMSize size,
                               std::string* string) const {
     return ReadCStringInternal(address, true, size, string);
   }
@@ -118,8 +124,11 @@ class ProcessMemory {
   //!     encountering unmapped or unreadable pages.
   virtual bool ReadCStringInternal(VMAddress address,
                                    bool has_size,
-                                   size_t size,
+                                   VMSize size,
                                    std::string* string) const;
+
+  // Allow ProcessMemorySanitized to call ReadUpTo.
+  friend class ProcessMemorySanitized;
 };
 
 }  // namespace crashpad

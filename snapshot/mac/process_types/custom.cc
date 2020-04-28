@@ -19,13 +19,16 @@
 #include <sys/types.h>
 
 #include <algorithm>
+#include <limits>
 #include <type_traits>
 
 #include "base/logging.h"
 #include "base/numerics/safe_math.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "snapshot/mac/process_types/internal.h"
-#include "util/mach/task_memory.h"
+#include "util/mac/mac_util.h"
+#include "util/process/process_memory_mac.h"
 
 #if !DOXYGEN
 
@@ -36,13 +39,13 @@ namespace internal {
 namespace {
 
 template <typename T>
-bool ReadIntoAndZero(TaskMemory* task_memory,
+bool ReadIntoAndZero(const ProcessMemoryMac* process_memory,
                      mach_vm_address_t address,
                      mach_vm_size_t size,
                      T* specific) {
   DCHECK_LE(size, sizeof(*specific));
 
-  if (!task_memory->Read(address, size, specific)) {
+  if (!process_memory->Read(address, size, specific)) {
     return false;
   }
 
@@ -84,14 +87,14 @@ bool ReadIntoVersioned(ProcessReaderMac* process_reader,
     return false;
   }
 
-  TaskMemory* task_memory = process_reader->Memory();
+  const ProcessMemoryMac* process_memory = process_reader->Memory();
   decltype(specific->version) version;
-  if (!task_memory->Read(field_address, sizeof(version), &version)) {
+  if (!process_memory->Read(field_address, sizeof(version), &version)) {
     return false;
   }
 
   const size_t size = T::ExpectedSizeForVersion(version);
-  return ReadIntoAndZero(task_memory, address, size, specific);
+  return ReadIntoAndZero(process_memory, address, size, specific);
 }
 
 template <typename T>
@@ -103,9 +106,9 @@ bool ReadIntoSized(ProcessReaderMac* process_reader,
     return false;
   }
 
-  TaskMemory* task_memory = process_reader->Memory();
+  const ProcessMemoryMac* process_memory = process_reader->Memory();
   decltype(specific->size) size;
-  if (!task_memory->Read(address + offsetof(T, size), sizeof(size), &size)) {
+  if (!process_memory->Read(address + offsetof(T, size), sizeof(size), &size)) {
     return false;
   }
 
@@ -115,7 +118,7 @@ bool ReadIntoSized(ProcessReaderMac* process_reader,
   }
 
   size = std::min(static_cast<size_t>(size), sizeof(*specific));
-  return ReadIntoAndZero(task_memory, address, size, specific);
+  return ReadIntoAndZero(process_memory, address, size, specific);
 }
 
 }  // namespace
@@ -139,18 +142,38 @@ size_t dyld_all_image_infos<Traits>::ExpectedSizeForVersion(
       offsetof(dyld_all_image_infos<Traits>, sharedCacheSlide),  // 11
       offsetof(dyld_all_image_infos<Traits>, sharedCacheUUID),  // 12
       offsetof(dyld_all_image_infos<Traits>, infoArrayChangeTimestamp),  // 13
-      offsetof(dyld_all_image_infos<Traits>, end_14_15),  // 14
-      offsetof(dyld_all_image_infos<Traits>, end_14_15),  // 15
+      offsetof(dyld_all_image_infos<Traits>, end_14),  // 14
+      std::numeric_limits<size_t>::max(),  // 15, see below
       sizeof(dyld_all_image_infos<Traits>),  // 16
   };
 
-  if (version >= arraysize(kSizeForVersion)) {
-    return kSizeForVersion[arraysize(kSizeForVersion) - 1];
+  if (version >= base::size(kSizeForVersion)) {
+    return kSizeForVersion[base::size(kSizeForVersion) - 1];
   }
 
   static_assert(std::is_unsigned<decltype(version)>::value,
                 "version must be unsigned");
-  return kSizeForVersion[version];
+
+  if (version == 15) {
+    // Disambiguate between the two different layouts for version 15. The
+    // original one introduced in macOS 10.12 had the same size as version 14.
+    // The revised one in macOS 10.13 grew. It’s safe to assume that the
+    // dyld_all_image_infos structure came from the same system that’s now
+    // interpreting it, so use an OS version check.
+    int mac_os_x_minor_version = MacOSXMinorVersion();
+    if (mac_os_x_minor_version == 12) {
+      return offsetof(dyld_all_image_infos<Traits>, end_14);
+    }
+
+    DCHECK_GE(mac_os_x_minor_version, 13);
+    DCHECK_LE(mac_os_x_minor_version, 14);
+    return offsetof(dyld_all_image_infos<Traits>, platform);
+  }
+
+  size_t size = kSizeForVersion[version];
+  DCHECK_NE(size, std::numeric_limits<size_t>::max());
+
+  return size;
 }
 
 // static

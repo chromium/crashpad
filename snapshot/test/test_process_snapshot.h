@@ -35,6 +35,8 @@
 #include "snapshot/thread_snapshot.h"
 #include "snapshot/unloaded_module_snapshot.h"
 #include "util/misc/uuid.h"
+#include "util/process/process_id.h"
+#include "util/process/process_memory.h"
 
 namespace crashpad {
 namespace test {
@@ -46,8 +48,10 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   TestProcessSnapshot();
   ~TestProcessSnapshot() override;
 
-  void SetProcessID(pid_t process_id) { process_id_ = process_id; }
-  void SetParentProcessID(pid_t parent_process_id) {
+  void SetProcessID(crashpad::ProcessID process_id) {
+    process_id_ = process_id;
+  }
+  void SetParentProcessID(crashpad::ProcessID parent_process_id) {
     parent_process_id_ = parent_process_id;
   }
   void SetSnapshotTime(const timeval& snapshot_time) {
@@ -134,10 +138,19 @@ class TestProcessSnapshot final : public ProcessSnapshot {
     extra_memory_.push_back(std::move(extra_memory));
   }
 
+  //! \brief Add a process memory object to be returned by Memory().
+  //!
+  //! \param[in] process_memory The memory object that will be returned by
+  //!     Memory(). The TestProcessSnapshot object takes ownership of \a
+  //!     extra_memory.
+  void SetProcessMemory(std::unique_ptr<ProcessMemory> process_memory) {
+    process_memory_ = std::move(process_memory);
+  }
+
   // ProcessSnapshot:
 
-  pid_t ProcessID() const override;
-  pid_t ParentProcessID() const override;
+  crashpad::ProcessID ProcessID() const override;
+  crashpad::ProcessID ParentProcessID() const override;
   void SnapshotTime(timeval* snapshot_time) const override;
   void ProcessStartTime(timeval* start_time) const override;
   void ProcessCPUTimes(timeval* user_time, timeval* system_time) const override;
@@ -153,10 +166,11 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   std::vector<const MemoryMapRegionSnapshot*> MemoryMap() const override;
   std::vector<HandleSnapshot> Handles() const override;
   std::vector<const MemorySnapshot*> ExtraMemory() const override;
+  const ProcessMemory* Memory() const override;
 
  private:
-  pid_t process_id_;
-  pid_t parent_process_id_;
+  crashpad::ProcessID process_id_;
+  crashpad::ProcessID parent_process_id_;
   timeval snapshot_time_;
   timeval process_start_time_;
   timeval process_cpu_user_time_;
@@ -172,6 +186,7 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   std::vector<std::unique_ptr<MemoryMapRegionSnapshot>> memory_map_;
   std::vector<HandleSnapshot> handles_;
   std::vector<std::unique_ptr<MemorySnapshot>> extra_memory_;
+  std::unique_ptr<ProcessMemory> process_memory_;
 
   DISALLOW_COPY_AND_ASSIGN(TestProcessSnapshot);
 };

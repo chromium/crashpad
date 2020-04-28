@@ -29,7 +29,9 @@
 #include "test/linux/fake_ptrace_connection.h"
 #include "test/multiprocess.h"
 #include "test/scoped_temp_dir.h"
+#include "third_party/lss/lss.h"
 #include "util/file/file_io.h"
+#include "util/file/scoped_remove_file.h"
 #include "util/linux/direct_ptrace_connection.h"
 #include "util/misc/clock.h"
 #include "util/misc/from_pointer_cast.h"
@@ -38,6 +40,38 @@
 namespace crashpad {
 namespace test {
 namespace {
+
+TEST(MemoryMap, SelfLargeFiles) {
+  // This test is meant to test the handler's ability to understand files
+  // mapped from large offsets, even if the handler wasn't built with
+  // _FILE_OFFSET_BITS=64. ScopedTempDir needs to stat files to determine
+  // whether to recurse into directories, which may will fail without large file
+  // support. ScopedRemoveFile doesn't have that restriction.
+  ScopedTempDir dir;
+  ScopedRemoveFile large_file_path(dir.path().Append("crashpad_test_file"));
+  ScopedFileHandle handle(
+      LoggingOpenFileForReadAndWrite(large_file_path.get(),
+                                     FileWriteMode::kCreateOrFail,
+                                     FilePermissions::kWorldReadable));
+  ASSERT_TRUE(handle.is_valid());
+
+  // sys_fallocate supports large files as long as the kernel supports them,
+  // regardless of _FILE_OFFSET_BITS.
+  off64_t off = 1llu + UINT32_MAX;
+  ASSERT_EQ(sys_fallocate(handle.get(), 0, off, getpagesize()), 0)
+      << ErrnoMessage("fallocate");
+
+  ScopedMmap mapping;
+  void* addr = sys_mmap(
+      nullptr, getpagesize(), PROT_READ, MAP_SHARED, handle.get(), off);
+  ASSERT_TRUE(addr);
+  ASSERT_TRUE(mapping.ResetAddrLen(addr, getpagesize()));
+
+  FakePtraceConnection connection;
+  ASSERT_TRUE(connection.Initialize(getpid()));
+  MemoryMap map;
+  ASSERT_TRUE(map.Initialize(&connection));
+}
 
 TEST(MemoryMap, SelfBasic) {
   ScopedMmap mmapping;
@@ -67,7 +101,10 @@ TEST(MemoryMap, SelfBasic) {
   ASSERT_TRUE(mapping);
   EXPECT_GE(code_address, mapping->range.Base());
   EXPECT_LT(code_address, mapping->range.End());
+#if !defined(OS_ANDROID)
+  // Android Q+ supports execute only memory.
   EXPECT_TRUE(mapping->readable);
+#endif
   EXPECT_FALSE(mapping->writable);
   EXPECT_TRUE(mapping->executable);
 
@@ -133,7 +170,10 @@ class MapChildTest : public Multiprocess {
     ASSERT_TRUE(mapping);
     EXPECT_GE(code_address, mapping->range.Base());
     EXPECT_LT(code_address, mapping->range.End());
+#if !defined(OS_ANDROID)
+    // Android Q+ supports execute only memory.
     EXPECT_TRUE(mapping->readable);
+#endif
     EXPECT_TRUE(mapping->executable);
     EXPECT_FALSE(mapping->writable);
 
@@ -373,19 +413,21 @@ void ExpectFindFilePossibleMmapStarts(LinuxVMAddress mapping_start,
   ASSERT_NE(mapping1, mapping2);
   ASSERT_NE(mapping2, mapping3);
 
-  std::vector<const MemoryMap::Mapping*> mappings;
-
-  mappings = map.FindFilePossibleMmapStarts(*mapping1);
-  ASSERT_EQ(mappings.size(), 1u);
-  EXPECT_EQ(mappings[0], mapping1);
+  auto mappings = map.FindFilePossibleMmapStarts(*mapping1);
+  ASSERT_EQ(mappings->Count(), 1u);
+  EXPECT_EQ(mappings->Next(), mapping1);
 
   mappings = map.FindFilePossibleMmapStarts(*mapping2);
-  ASSERT_EQ(mappings.size(), 1u);
-  EXPECT_EQ(mappings[0], mapping2);
+  ASSERT_EQ(mappings->Count(), 1u);
+  EXPECT_EQ(mappings->Next(), mapping2);
 
   mappings = map.FindFilePossibleMmapStarts(*mapping3);
-  ASSERT_EQ(mappings.size(), 1u);
-  EXPECT_EQ(mappings[0], mapping1);
+#if defined(OS_ANDROID)
+  EXPECT_EQ(mappings->Count(), 2u);
+#else
+  ASSERT_EQ(mappings->Count(), 1u);
+  EXPECT_EQ(mappings->Next(), mapping1);
+#endif
 }
 
 TEST(MemoryMap, FindFilePossibleMmapStarts) {
@@ -428,19 +470,31 @@ TEST(MemoryMap, FindFilePossibleMmapStarts) {
     ASSERT_NE(mapping1, mapping2);
     ASSERT_NE(mapping2, mapping3);
 
-    std::vector<const MemoryMap::Mapping*> mappings;
-
-    mappings = map.FindFilePossibleMmapStarts(*mapping1);
-    ASSERT_EQ(mappings.size(), 1u);
-    EXPECT_EQ(mappings[0], mapping1);
+#if defined(OS_ANDROID)
+    auto mappings = map.FindFilePossibleMmapStarts(*mapping1);
+    EXPECT_EQ(mappings->Count(), 1u);
+    EXPECT_EQ(mappings->Next(), mapping1);
+    EXPECT_EQ(mappings->Next(), nullptr);
 
     mappings = map.FindFilePossibleMmapStarts(*mapping2);
-    ASSERT_EQ(mappings.size(), 1u);
-    EXPECT_EQ(mappings[0], mapping1);
+    EXPECT_EQ(mappings->Count(), 2u);
 
     mappings = map.FindFilePossibleMmapStarts(*mapping3);
-    ASSERT_EQ(mappings.size(), 1u);
-    EXPECT_EQ(mappings[0], mapping1);
+    EXPECT_EQ(mappings->Count(), 3u);
+#else
+    auto mappings = map.FindFilePossibleMmapStarts(*mapping1);
+    ASSERT_EQ(mappings->Count(), 1u);
+    EXPECT_EQ(mappings->Next(), mapping1);
+    EXPECT_EQ(mappings->Next(), nullptr);
+
+    mappings = map.FindFilePossibleMmapStarts(*mapping2);
+    ASSERT_EQ(mappings->Count(), 1u);
+    EXPECT_EQ(mappings->Next(), mapping1);
+
+    mappings = map.FindFilePossibleMmapStarts(*mapping3);
+    ASSERT_EQ(mappings->Count(), 1u);
+    EXPECT_EQ(mappings->Next(), mapping1);
+#endif
 
 #if defined(ARCH_CPU_64_BITS)
     constexpr bool is_64_bit = true;
@@ -449,7 +503,9 @@ TEST(MemoryMap, FindFilePossibleMmapStarts) {
 #endif
     MemoryMap::Mapping bad_mapping;
     bad_mapping.range.SetRange(is_64_bit, 0, 1);
-    EXPECT_EQ(map.FindFilePossibleMmapStarts(bad_mapping).size(), 0u);
+    mappings = map.FindFilePossibleMmapStarts(bad_mapping);
+    EXPECT_EQ(mappings->Count(), 0u);
+    EXPECT_EQ(mappings->Next(), nullptr);
   }
 
   // Make the second page an anonymous mapping
@@ -562,27 +618,47 @@ TEST(MemoryMap, FindFilePossibleMmapStarts_MultipleStarts) {
   auto mapping = map.FindMapping(file_mapping0.addr_as<VMAddress>());
   ASSERT_TRUE(mapping);
   auto possible_starts = map.FindFilePossibleMmapStarts(*mapping);
-  EXPECT_EQ(possible_starts.size(), 0u);
+#if defined(OS_ANDROID)
+  EXPECT_EQ(possible_starts->Count(), 1u);
+#else
+  EXPECT_EQ(possible_starts->Count(), 0u);
+#endif
 
   mapping = map.FindMapping(file_mapping1.addr_as<VMAddress>());
   ASSERT_TRUE(mapping);
   possible_starts = map.FindFilePossibleMmapStarts(*mapping);
-  EXPECT_EQ(possible_starts.size(), 1u);
+#if defined(OS_ANDROID)
+  EXPECT_EQ(possible_starts->Count(), 2u);
+#else
+  EXPECT_EQ(possible_starts->Count(), 1u);
+#endif
 
   mapping = map.FindMapping(file_mapping2.addr_as<VMAddress>());
   ASSERT_TRUE(mapping);
   possible_starts = map.FindFilePossibleMmapStarts(*mapping);
-  EXPECT_EQ(possible_starts.size(), 2u);
+#if defined(OS_ANDROID)
+  EXPECT_EQ(possible_starts->Count(), 3u);
+#else
+  EXPECT_EQ(possible_starts->Count(), 2u);
+#endif
 
   mapping = map.FindMapping(file_mapping3.addr_as<VMAddress>());
   ASSERT_TRUE(mapping);
   possible_starts = map.FindFilePossibleMmapStarts(*mapping);
-  EXPECT_EQ(possible_starts.size(), 3u);
+#if defined(OS_ANDROID)
+  EXPECT_EQ(possible_starts->Count(), 4u);
+#else
+  EXPECT_EQ(possible_starts->Count(), 3u);
+#endif
 
   mapping = map.FindMapping(file_mapping4.addr_as<VMAddress>());
   ASSERT_TRUE(mapping);
   possible_starts = map.FindFilePossibleMmapStarts(*mapping);
-  EXPECT_EQ(possible_starts.size(), 4u);
+#if defined(OS_ANDROID)
+  EXPECT_EQ(possible_starts->Count(), 5u);
+#else
+  EXPECT_EQ(possible_starts->Count(), 4u);
+#endif
 }
 
 }  // namespace

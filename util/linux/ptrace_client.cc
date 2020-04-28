@@ -20,6 +20,8 @@
 #include <string>
 
 #include "base/logging.h"
+#include "base/stl_util.h"
+#include "base/strings/string_number_conversions.h"
 #include "util/file/file_io.h"
 #include "util/linux/ptrace_broker.h"
 #include "util/process/process_memory_linux.h"
@@ -29,7 +31,7 @@ namespace crashpad {
 namespace {
 
 bool ReceiveAndLogError(int sock, const std::string& operation) {
-  Errno error;
+  ExceptionHandlerProtocol::Errno error;
   if (!LoggingReadFileExactly(sock, &error, sizeof(error))) {
     return false;
   }
@@ -60,24 +62,66 @@ bool ReceiveAndLogReadError(int sock, const std::string& operation) {
 }
 
 bool AttachImpl(int sock, pid_t tid) {
-  PtraceBroker::Request request;
+  PtraceBroker::Request request = {};
   request.type = PtraceBroker::Request::kTypeAttach;
   request.tid = tid;
   if (!LoggingWriteFile(sock, &request, sizeof(request))) {
     return false;
   }
 
-  Bool success;
+  ExceptionHandlerProtocol::Bool success;
   if (!LoggingReadFileExactly(sock, &success, sizeof(success))) {
     return false;
   }
 
-  if (success != kBoolTrue) {
+  if (success != ExceptionHandlerProtocol::kBoolTrue) {
     ReceiveAndLogError(sock, "PtraceBroker Attach");
     return false;
   }
 
   return true;
+}
+
+struct Dirent64 {
+  ino64_t d_ino;
+  off64_t d_off;
+  unsigned short d_reclen;
+  unsigned char d_type;
+  char d_name[];
+};
+
+void ReadDentsAsThreadIDs(char* buffer,
+                          size_t size,
+                          std::vector<pid_t>* threads) {
+  while (size > offsetof(Dirent64, d_name)) {
+    auto dirent = reinterpret_cast<Dirent64*>(buffer);
+    if (size < dirent->d_reclen) {
+      LOG(ERROR) << "short dirent";
+      break;
+    }
+    buffer += dirent->d_reclen;
+    size -= dirent->d_reclen;
+
+    const size_t max_name_length =
+        dirent->d_reclen - offsetof(Dirent64, d_name);
+    size_t name_len = strnlen(dirent->d_name, max_name_length);
+    if (name_len >= max_name_length) {
+      LOG(ERROR) << "format error";
+      break;
+    }
+
+    if (strcmp(dirent->d_name, ".") == 0 || strcmp(dirent->d_name, "..") == 0) {
+      continue;
+    }
+
+    pid_t tid;
+    if (!base::StringToInt(dirent->d_name, &tid)) {
+      LOG(ERROR) << "format error";
+      continue;
+    }
+    threads->push_back(tid);
+  }
+  DCHECK_EQ(size, 0u);
 }
 
 }  // namespace
@@ -92,7 +136,7 @@ PtraceClient::PtraceClient()
 
 PtraceClient::~PtraceClient() {
   if (sock_ != kInvalidFileHandle) {
-    PtraceBroker::Request request;
+    PtraceBroker::Request request = {};
     request.type = PtraceBroker::Request::kTypeExit;
     LoggingWriteFile(sock_, &request, sizeof(request));
   }
@@ -107,7 +151,7 @@ bool PtraceClient::Initialize(int sock, pid_t pid, bool try_direct_memory) {
     return false;
   }
 
-  PtraceBroker::Request request;
+  PtraceBroker::Request request = {};
   request.type = PtraceBroker::Request::kTypeIs64Bit;
   request.tid = pid_;
 
@@ -115,11 +159,11 @@ bool PtraceClient::Initialize(int sock, pid_t pid, bool try_direct_memory) {
     return false;
   }
 
-  Bool is_64_bit;
+  ExceptionHandlerProtocol::Bool is_64_bit;
   if (!LoggingReadFileExactly(sock_, &is_64_bit, sizeof(is_64_bit))) {
     return false;
   }
-  is_64_bit_ = is_64_bit == kBoolTrue;
+  is_64_bit_ = is_64_bit == ExceptionHandlerProtocol::kBoolTrue;
 
   if (try_direct_memory) {
     auto direct_mem = std::make_unique<ProcessMemoryLinux>();
@@ -153,7 +197,7 @@ bool PtraceClient::Is64Bit() {
 bool PtraceClient::GetThreadInfo(pid_t tid, ThreadInfo* info) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  PtraceBroker::Request request;
+  PtraceBroker::Request request = {};
   request.type = PtraceBroker::Request::kTypeGetThreadInfo;
   request.tid = tid;
   if (!LoggingWriteFile(sock_, &request, sizeof(request))) {
@@ -165,7 +209,7 @@ bool PtraceClient::GetThreadInfo(pid_t tid, ThreadInfo* info) {
     return false;
   }
 
-  if (response.success == kBoolTrue) {
+  if (response.success == ExceptionHandlerProtocol::kBoolTrue) {
     *info = response.info;
     return true;
   }
@@ -178,7 +222,7 @@ bool PtraceClient::ReadFileContents(const base::FilePath& path,
                                     std::string* contents) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  PtraceBroker::Request request;
+  PtraceBroker::Request request = {};
   request.type = PtraceBroker::Request::kTypeReadFile;
   request.path.path_length = path.value().size();
 
@@ -218,6 +262,51 @@ ProcessMemory* PtraceClient::Memory() {
   return memory_.get();
 }
 
+bool PtraceClient::Threads(std::vector<pid_t>* threads) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  DCHECK(threads->empty());
+
+  // If the broker is unable to read thread IDs, fall-back to just the main
+  // thread's ID.
+  threads->push_back(pid_);
+
+  char path[32];
+  snprintf(path, base::size(path), "/proc/%d/task", pid_);
+
+  PtraceBroker::Request request = {};
+  request.type = PtraceBroker::Request::kTypeListDirectory;
+  request.path.path_length = strlen(path);
+
+  if (!LoggingWriteFile(sock_, &request, sizeof(request)) ||
+      !SendFilePath(path, request.path.path_length)) {
+    return false;
+  }
+
+  std::vector<pid_t> local_threads;
+  int32_t read_result;
+  do {
+    if (!LoggingReadFileExactly(sock_, &read_result, sizeof(read_result))) {
+      return false;
+    }
+
+    if (read_result < 0) {
+      return ReceiveAndLogReadError(sock_, "Threads");
+    }
+
+    if (read_result > 0) {
+      auto buffer = std::make_unique<char[]>(read_result);
+      if (!LoggingReadFileExactly(sock_, buffer.get(), read_result)) {
+        return false;
+      }
+
+      ReadDentsAsThreadIDs(buffer.get(), read_result, &local_threads);
+    }
+  } while (read_result > 0);
+
+  threads->swap(local_threads);
+  return true;
+}
+
 PtraceClient::BrokeredMemory::BrokeredMemory(PtraceClient* client)
     : ProcessMemory(), client_(client) {}
 
@@ -235,7 +324,7 @@ ssize_t PtraceClient::ReadUpTo(VMAddress address,
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   char* buffer_c = reinterpret_cast<char*>(buffer);
 
-  PtraceBroker::Request request;
+  PtraceBroker::Request request = {};
   request.type = PtraceBroker::Request::kTypeReadMemory;
   request.tid = pid_;
   request.iov.base = address;

@@ -75,6 +75,16 @@ class PtraceBroker {
       //!     errors, followed by an Errno. On success, the bytes read follow.
       kTypeReadFile,
 
+      //! \brief Reads the contents of a directory. The data is returned in a
+      //!     series of messages. The first message is an OpenResult, indicating
+      //!     the validity of the received file path. If the OpenResult is
+      //!     kOpenResultSuccess, the subsequent messages return the contents of
+      //!     the directory as a dirent stream, as read by `getdents64()`. Each
+      //!     subsequent message begins with an int32_t indicating the number of
+      //!     bytes read, 0 for end-of-file, or -1 for errors, followed by an
+      //!     Errno. On success, the bytes read follow.
+      kTypeListDirectory,
+
       //! \brief Causes the broker to return from Run(), detaching all attached
       //!     threads. Does not respond.
       kTypeExit
@@ -136,7 +146,7 @@ class PtraceBroker {
     ThreadInfo info;
 
     //! \brief Specifies the success or failure of this call.
-    Bool success;
+    ExceptionHandlerProtocol::Bool success;
   };
 #pragma pack(pop)
 
@@ -186,13 +196,16 @@ class PtraceBroker {
   bool AllocateAttachments();
   void ReleaseAttachments();
   int RunImpl();
-  int SendError(Errno err);
+  int SendError(ExceptionHandlerProtocol::Errno err);
   int SendReadError(ReadError err);
   int SendOpenResult(OpenResult result);
   int SendFileContents(FileHandle handle);
+  int SendDirectory(FileHandle handle);
   void TryOpeningMemFile();
   int SendMemory(pid_t pid, VMAddress address, VMSize size);
-  int ReceiveAndOpenFilePath(VMSize path_length, ScopedFileHandle* handle);
+  int ReceiveAndOpenFilePath(VMSize path_length,
+                             bool is_directory,
+                             ScopedFileHandle* handle);
 
   char file_root_buffer_[32];
   Ptracer ptracer_;

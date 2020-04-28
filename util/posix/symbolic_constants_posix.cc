@@ -18,7 +18,7 @@
 #include <string.h>
 #include <sys/types.h>
 
-#include "base/macros.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "util/misc/implicit_cast.h"
@@ -137,9 +137,9 @@ constexpr const char* kSignalNames[] = {
 };
 #if defined(OS_LINUX) || defined(OS_ANDROID)
 // NSIG is 64 to account for real-time signals.
-static_assert(arraysize(kSignalNames) == 32, "kSignalNames length");
+static_assert(base::size(kSignalNames) == 32, "kSignalNames length");
 #else
-static_assert(arraysize(kSignalNames) == NSIG, "kSignalNames length");
+static_assert(base::size(kSignalNames) == NSIG, "kSignalNames length");
 #endif
 
 constexpr char kSigPrefix[] = "SIG";
@@ -151,7 +151,7 @@ namespace crashpad {
 std::string SignalToString(int signal,
                            SymbolicConstantToStringOptions options) {
   const char* signal_name =
-      implicit_cast<size_t>(signal) < arraysize(kSignalNames)
+      implicit_cast<size_t>(signal) < base::size(kSignalNames)
           ? kSignalNames[signal]
           : nullptr;
   if (!signal_name) {
@@ -176,8 +176,7 @@ bool StringToSignal(const base::StringPiece& string,
         string.substr(0, strlen(kSigPrefix)).compare(kSigPrefix) == 0;
     base::StringPiece short_string =
         can_match_full ? string.substr(strlen(kSigPrefix)) : string;
-    for (int index = 0;
-         index < implicit_cast<int>(arraysize(kSignalNames));
+    for (int index = 0; index < implicit_cast<int>(base::size(kSignalNames));
          ++index) {
       const char* signal_name = kSignalNames[index];
       if (!signal_name) {

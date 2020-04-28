@@ -29,8 +29,8 @@ namespace test {
 //!   uint8_t expected[10];
 //!   uint8_t observed[10];
 //!   // …
-//!   EXPECT_EQ(BytesToHexString(observed, arraysize(observed)),
-//!             BytesToHexString(expected, arraysize(expected)));
+//!   EXPECT_EQ(BytesToHexString(observed, base::size(observed)),
+//!             BytesToHexString(expected, base::size(expected)));
 //! \endcode
 std::string BytesToHexString(const void* bytes, size_t length);
 

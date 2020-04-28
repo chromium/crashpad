@@ -19,7 +19,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "client/crashpad_info.h"
 #include "client/simple_address_range_bag.h"
-#include "snapshot/win/memory_snapshot_win.h"
+#include "snapshot/memory_snapshot_generic.h"
 #include "snapshot/win/pe_image_annotations_reader.h"
 #include "snapshot/win/pe_image_reader.h"
 #include "util/misc/tri_state.h"
@@ -33,17 +33,18 @@ ModuleSnapshotWin::ModuleSnapshotWin()
       name_(),
       pdb_name_(),
       uuid_(),
-      pe_image_reader_(),
+      memory_range_(),
+      streams_(),
+      vs_fixed_file_info_(),
+      initialized_vs_fixed_file_info_(),
       process_reader_(nullptr),
+      pe_image_reader_(),
+      crashpad_info_(),
       timestamp_(0),
       age_(0),
-      initialized_(),
-      vs_fixed_file_info_(),
-      initialized_vs_fixed_file_info_() {
-}
+      initialized_() {}
 
-ModuleSnapshotWin::~ModuleSnapshotWin() {
-}
+ModuleSnapshotWin::~ModuleSnapshotWin() {}
 
 bool ModuleSnapshotWin::Initialize(
     ProcessReaderWin* process_reader,
@@ -73,6 +74,26 @@ bool ModuleSnapshotWin::Initialize(
     // using .PDB that we actually have symbols for, we simply set a plausible
     // name here, but this will never correspond to symbols that we have.
     pdb_name_ = base::UTF16ToUTF8(name_);
+  }
+
+  if (!memory_range_.Initialize(process_reader_->Memory(),
+                                process_reader_->Is64Bit())) {
+    return false;
+  }
+
+  WinVMAddress crashpad_info_address;
+  WinVMSize crashpad_info_size;
+  if (pe_image_reader_->GetCrashpadInfoSection(&crashpad_info_address,
+                                               &crashpad_info_size)) {
+    ProcessMemoryRange info_range;
+    info_range.Initialize(memory_range_);
+    info_range.RestrictRange(crashpad_info_address,
+                             crashpad_info_address + crashpad_info_size);
+
+    auto info = std::make_unique<CrashpadInfoReader>();
+    if (info->Initialize(&info_range, crashpad_info_address)) {
+      crashpad_info_ = std::move(info);
+    }
   }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
@@ -173,6 +194,11 @@ std::string ModuleSnapshotWin::DebugFileName() const {
   return pdb_name_;
 }
 
+std::vector<uint8_t> ModuleSnapshotWin::BuildID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return std::vector<uint8_t>();
+}
+
 std::vector<std::string> ModuleSnapshotWin::AnnotationsVector() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   // These correspond to system-logged things on Mac. We don't currently track
@@ -228,8 +254,7 @@ ModuleSnapshotWin::CustomMinidumpStreams() const {
 template <class Traits>
 void ModuleSnapshotWin::GetCrashpadOptionsInternal(
     CrashpadInfoClientOptions* options) {
-  process_types::CrashpadInfo<Traits> crashpad_info;
-  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info)) {
+  if (!crashpad_info_) {
     options->crashpad_handler_behavior = TriState::kUnset;
     options->system_crash_reporter_forwarding = TriState::kUnset;
     options->gather_indirectly_referenced_memory = TriState::kUnset;
@@ -238,19 +263,13 @@ void ModuleSnapshotWin::GetCrashpadOptionsInternal(
   }
 
   options->crashpad_handler_behavior =
-      CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
-          crashpad_info.crashpad_handler_behavior);
-
+      crashpad_info_->CrashpadHandlerBehavior();
   options->system_crash_reporter_forwarding =
-      CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
-          crashpad_info.system_crash_reporter_forwarding);
-
+      crashpad_info_->SystemCrashReporterForwarding();
   options->gather_indirectly_referenced_memory =
-      CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
-          crashpad_info.gather_indirectly_referenced_memory);
-
+      crashpad_info_->GatherIndirectlyReferencedMemory();
   options->indirectly_referenced_memory_cap =
-      crashpad_info.indirectly_referenced_memory_cap;
+      crashpad_info_->IndirectlyReferencedMemoryCap();
 }
 
 const VS_FIXEDFILEINFO* ModuleSnapshotWin::VSFixedFileInfo() const {
@@ -270,16 +289,13 @@ const VS_FIXEDFILEINFO* ModuleSnapshotWin::VSFixedFileInfo() const {
 template <class Traits>
 void ModuleSnapshotWin::GetCrashpadExtraMemoryRanges(
     std::set<CheckedRange<uint64_t>>* ranges) const {
-  process_types::CrashpadInfo<Traits> crashpad_info;
-  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info) ||
-      !crashpad_info.extra_address_ranges) {
+  if (!crashpad_info_ || !crashpad_info_->ExtraMemoryRanges())
     return;
-  }
 
   std::vector<SimpleAddressRangeBag::Entry> simple_ranges(
       SimpleAddressRangeBag::num_entries);
-  if (!process_reader_->ReadMemory(
-          crashpad_info.extra_address_ranges,
+  if (!process_reader_->Memory()->Read(
+          crashpad_info_->ExtraMemoryRanges(),
           simple_ranges.size() * sizeof(simple_ranges[0]),
           &simple_ranges[0])) {
     LOG(WARNING) << "could not read simple address_ranges from "
@@ -298,24 +314,23 @@ void ModuleSnapshotWin::GetCrashpadExtraMemoryRanges(
 template <class Traits>
 void ModuleSnapshotWin::GetCrashpadUserMinidumpStreams(
     std::vector<std::unique_ptr<const UserMinidumpStream>>* streams) const {
-  process_types::CrashpadInfo<Traits> crashpad_info;
-  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info))
+  if (!crashpad_info_)
     return;
 
-  for (uint64_t cur = crashpad_info.user_data_minidump_stream_head; cur;) {
+  for (uint64_t cur = crashpad_info_->UserDataMinidumpStreamHead(); cur;) {
     internal::UserDataMinidumpStreamListEntry list_entry;
-    if (!process_reader_->ReadMemory(
-          cur, sizeof(list_entry), &list_entry)) {
+    if (!process_reader_->Memory()->Read(
+            cur, sizeof(list_entry), &list_entry)) {
       LOG(WARNING) << "could not read user data stream entry from "
                    << base::UTF16ToUTF8(name_);
       return;
     }
 
     if (list_entry.size != 0) {
-      std::unique_ptr<internal::MemorySnapshotWin> memory(
-          new internal::MemorySnapshotWin());
+      std::unique_ptr<internal::MemorySnapshotGeneric> memory(
+          new internal::MemorySnapshotGeneric());
       memory->Initialize(
-          process_reader_, list_entry.base_address, list_entry.size);
+          process_reader_->Memory(), list_entry.base_address, list_entry.size);
       streams->push_back(std::make_unique<UserMinidumpStream>(
           list_entry.stream_type, memory.release()));
     }

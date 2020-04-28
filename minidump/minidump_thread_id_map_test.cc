@@ -19,6 +19,7 @@
 #include <vector>
 
 #include "base/macros.h"
+#include "base/stl_util.h"
 #include "gtest/gtest.h"
 #include "snapshot/test/test_thread_snapshot.h"
 
@@ -38,7 +39,8 @@ class MinidumpThreadIDMapTest : public testing::Test {
 
   // testing::Test:
   void SetUp() override {
-    for (size_t index = 0; index < arraysize(test_thread_snapshots_); ++index) {
+    for (size_t index = 0; index < base::size(test_thread_snapshots_);
+         ++index) {
       thread_snapshots_.push_back(&test_thread_snapshots_[index]);
     }
   }
@@ -59,7 +61,7 @@ class MinidumpThreadIDMapTest : public testing::Test {
   }
 
   void SetThreadID(size_t index, uint64_t thread_id) {
-    ASSERT_LT(index, arraysize(test_thread_snapshots_));
+    ASSERT_LT(index, base::size(test_thread_snapshots_));
     test_thread_snapshots_[index].SetThreadID(thread_id);
   }
 

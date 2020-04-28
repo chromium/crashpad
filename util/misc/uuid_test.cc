@@ -20,8 +20,8 @@
 #include <string>
 
 #include "base/format_macros.h"
-#include "base/macros.h"
 #include "base/scoped_generic.h"
+#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 
@@ -95,12 +95,12 @@ TEST(UUID, UUID) {
   ++uuid.data_3;
   EXPECT_NE(uuid, uuid_2);
   --uuid.data_3;
-  for (size_t index = 0; index < arraysize(uuid.data_4); ++index) {
+  for (size_t index = 0; index < base::size(uuid.data_4); ++index) {
     ++uuid.data_4[index];
     EXPECT_NE(uuid, uuid_2);
     --uuid.data_4[index];
   }
-  for (size_t index = 0; index < arraysize(uuid.data_5); ++index) {
+  for (size_t index = 0; index < base::size(uuid.data_5); ++index) {
     ++uuid.data_5[index];
     EXPECT_NE(uuid, uuid_2);
     --uuid.data_5[index];
@@ -190,7 +190,7 @@ TEST(UUID, FromString) {
   uuid_zero.InitializeToZero();
   const std::string empty_uuid = uuid_zero.ToString();
 
-  for (size_t index = 0; index < arraysize(kCases); ++index) {
+  for (size_t index = 0; index < base::size(kCases); ++index) {
     const TestCase& test_case = kCases[index];
     SCOPED_TRACE(base::StringPrintf(
         "index %" PRIuS ": %s", index, test_case.uuid_string));
@@ -226,7 +226,7 @@ TEST(UUID, FromString) {
   };
   // clang-format on
   EXPECT_TRUE(uuid.InitializeFromString(
-      base::StringPiece16(kChar16UUID, arraysize(kChar16UUID))));
+      base::StringPiece16(kChar16UUID, base::size(kChar16UUID))));
   EXPECT_EQ(uuid.ToString(), "f32e5bdc-2681-4c73-a4e6-333ffd33b333");
 
 #if defined(OS_WIN)

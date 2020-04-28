@@ -67,7 +67,7 @@ bool ProcessMemoryRange::RestrictRange(VMAddress base, VMSize size) {
 }
 
 bool ProcessMemoryRange::Read(VMAddress address,
-                              size_t size,
+                              VMSize size,
                               void* buffer) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   CheckedVMAddressRange read_range(range_.Is64Bit(), address, size);
@@ -79,14 +79,14 @@ bool ProcessMemoryRange::Read(VMAddress address,
 }
 
 bool ProcessMemoryRange::ReadCStringSizeLimited(VMAddress address,
-                                                size_t size,
+                                                VMSize size,
                                                 std::string* string) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   if (!range_.ContainsValue(address)) {
     LOG(ERROR) << "read out of range";
     return false;
   }
-  size = std::min(static_cast<VMSize>(size), range_.End() - address);
+  size = std::min(size, range_.End() - address);
   return memory_->ReadCStringSizeLimited(address, size, string);
 }
 

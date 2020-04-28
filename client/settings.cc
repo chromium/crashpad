@@ -63,7 +63,8 @@ void Settings::ScopedLockedFileHandle::Destroy() {
     CheckedCloseFile(handle_);
   }
   if (!lockfile_path_.empty()) {
-    DCHECK(LoggingRemoveFile(lockfile_path_));
+    const bool success = LoggingRemoveFile(lockfile_path_);
+    DCHECK(success);
   }
 }
 
@@ -84,8 +85,8 @@ void ScopedLockedFileHandleTraits::Free(FileHandle handle) {
 #endif  // OS_FUCHSIA
 
 struct Settings::Data {
-  static const uint32_t kSettingsMagic = 'CPds';
-  static const uint32_t kSettingsVersion = 1;
+  static constexpr uint32_t kSettingsMagic = 'CPds';
+  static constexpr uint32_t kSettingsVersion = 1;
 
   enum Options : uint32_t {
     kUploadsEnabled = 1 << 0,
@@ -225,10 +226,10 @@ Settings::ScopedLockedFileHandle Settings::OpenForReadingAndWriting(
   FileHandle handle;
   if (log_open_error) {
     handle = LoggingOpenFileForReadAndWrite(
-        file_path(), mode, FilePermissions::kWorldReadable);
+        file_path(), mode, FilePermissions::kOwnerOnly);
   } else {
     handle = OpenFileForReadAndWrite(
-        file_path(), mode, FilePermissions::kWorldReadable);
+        file_path(), mode, FilePermissions::kOwnerOnly);
   }
 
   return MakeScopedLockedFileHandle(

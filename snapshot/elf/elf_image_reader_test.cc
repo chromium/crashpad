@@ -32,8 +32,7 @@
 #include "util/process/process_memory_native.h"
 
 #if defined(OS_FUCHSIA)
-
-#include <zircon/syscalls.h>
+#include <lib/zx/process.h>
 
 #include "base/fuchsia/fuchsia_logging.h"
 
@@ -50,8 +49,8 @@
 #endif  // OS_FUCHSIA
 
 extern "C" {
-__attribute__((visibility("default"))) void
-ElfImageReaderTestExportedSymbol(){};
+__attribute__((visibility("default"))) void ElfImageReaderTestExportedSymbol() {
+}
 }  // extern "C"
 
 namespace crashpad {
@@ -61,14 +60,12 @@ namespace {
 
 #if defined(OS_FUCHSIA)
 
-void LocateExecutable(ProcessType process,
+void LocateExecutable(const ProcessType& process,
                       ProcessMemory* memory,
                       VMAddress* elf_address) {
   uintptr_t debug_address;
-  zx_status_t status = zx_object_get_property(process,
-                                              ZX_PROP_PROCESS_DEBUG_ADDR,
-                                              &debug_address,
-                                              sizeof(debug_address));
+  zx_status_t status = process->get_property(
+      ZX_PROP_PROCESS_DEBUG_ADDR, &debug_address, sizeof(debug_address));
   ASSERT_EQ(status, ZX_OK)
       << "zx_object_get_property: ZX_PROP_PROCESS_DEBUG_ADDR";
   // Can be 0 if requested before the loader has loaded anything.
@@ -103,10 +100,9 @@ void LocateExecutable(PtraceConnection* connection,
   ASSERT_TRUE(memory_map.Initialize(connection));
   const MemoryMap::Mapping* phdr_mapping = memory_map.FindMapping(phdrs);
   ASSERT_TRUE(phdr_mapping);
-  std::vector<const MemoryMap::Mapping*> possible_mappings =
-      memory_map.FindFilePossibleMmapStarts(*phdr_mapping);
-  ASSERT_EQ(possible_mappings.size(), 1u);
-  *elf_address = possible_mappings[0]->range.Base();
+  auto possible_mappings = memory_map.FindFilePossibleMmapStarts(*phdr_mapping);
+  ASSERT_EQ(possible_mappings->Count(), 1u);
+  *elf_address = possible_mappings->Next()->range.Base();
 }
 
 #endif  // OS_FUCHSIA
@@ -157,22 +153,24 @@ void ReadThisExecutableInTarget(ProcessType process,
   std::string note_name;
   std::string note_desc;
   ElfImageReader::NoteReader::NoteType note_type;
+  VMAddress desc_addr;
 
-  std::unique_ptr<ElfImageReader::NoteReader> notes = reader.Notes(-1);
-  while ((result = notes->NextNote(&note_name, &note_type, &note_desc)) ==
+  std::unique_ptr<ElfImageReader::NoteReader> notes = reader.Notes(10000);
+  while ((result = notes->NextNote(
+              &note_name, &note_type, &note_desc, &desc_addr)) ==
          ElfImageReader::NoteReader::Result::kSuccess) {
   }
   EXPECT_EQ(result, ElfImageReader::NoteReader::Result::kNoMoreNotes);
 
   notes = reader.Notes(0);
-  EXPECT_EQ(notes->NextNote(&note_name, &note_type, &note_desc),
+  EXPECT_EQ(notes->NextNote(&note_name, &note_type, &note_desc, &desc_addr),
             ElfImageReader::NoteReader::Result::kNoMoreNotes);
 
   // Find the note defined in elf_image_reader_test_note.S.
   constexpr uint32_t kCrashpadNoteDesc = 42;
   notes = reader.NotesWithNameAndType(
-      CRASHPAD_ELF_NOTE_NAME, CRASHPAD_ELF_NOTE_TYPE_SNAPSHOT_TEST, -1);
-  ASSERT_EQ(notes->NextNote(&note_name, &note_type, &note_desc),
+      CRASHPAD_ELF_NOTE_NAME, CRASHPAD_ELF_NOTE_TYPE_SNAPSHOT_TEST, 10000);
+  ASSERT_EQ(notes->NextNote(&note_name, &note_type, &note_desc, &desc_addr),
             ElfImageReader::NoteReader::Result::kSuccess);
   EXPECT_EQ(note_name, CRASHPAD_ELF_NOTE_NAME);
   EXPECT_EQ(note_type,
@@ -181,7 +179,7 @@ void ReadThisExecutableInTarget(ProcessType process,
   EXPECT_EQ(*reinterpret_cast<decltype(kCrashpadNoteDesc)*>(&note_desc[0]),
             kCrashpadNoteDesc);
 
-  EXPECT_EQ(notes->NextNote(&note_name, &note_type, &note_desc),
+  EXPECT_EQ(notes->NextNote(&note_name, &note_type, &note_desc, &desc_addr),
             ElfImageReader::NoteReader::Result::kNoMoreNotes);
 }
 

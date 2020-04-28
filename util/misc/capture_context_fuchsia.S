@@ -116,7 +116,7 @@ CAPTURECONTEXT_SYMBOL:
   movq 0x90(%rdi), %rax
   movq 0x28(%rdi), %r8
 
-  // TODO(scottmg): save floating-point registers.
+  // TODO(https://crashpad.chromium.org/bug/300): save floating-point registers.
 
   popfq
 
@@ -159,14 +159,14 @@ CAPTURECONTEXT_SYMBOL:
   // The link register holds the return address for this function.
   str LR, [x0, #0x1b8]  // context->uc_mcontext.pc
 
-  // NZCV, pstate, and CPSR are synonyms.
+  // pstate should hold SPSR but NZCV are the only bits we know about.
   mrs x1, NZCV
   str x1, [x0, #0x1c0]  // context->uc_mcontext.pstate
 
   // Restore x1 from the saved context.
   ldr x1, [x0, #0xc0]
 
-  // TODO(scottmg): save floating-point registers.
+  // TODO(https://crashpad.chromium.org/bug/300): save floating-point registers.
 
   ret
 

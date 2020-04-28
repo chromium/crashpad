@@ -38,10 +38,7 @@ void SystemSnapshotFuchsia::Initialize(const timeval* snapshot_time) {
   // garnet/bin/uname/uname.c, however, this information isn't provided by
   // uname(). Additionally, uname() seems to hang if the network is in a bad
   // state when attempting to retrieve the nodename, so avoid it for now.
-  char kernel_version[256] = {};
-  zx_status_t status =
-      zx_system_get_version(kernel_version, sizeof(kernel_version));
-  ZX_LOG_IF(ERROR, status != ZX_OK, status) << "zx_system_get_version";
+  std::string kernel_version = zx_system_get_version_string();
 
 #if defined(ARCH_CPU_X86_64)
   static constexpr const char kArch[] = "x86_64";
@@ -50,8 +47,8 @@ void SystemSnapshotFuchsia::Initialize(const timeval* snapshot_time) {
 #else
   static constexpr const char kArch[] = "unknown";
 #endif
-  os_version_full_ =
-      base::StringPrintf("Zircon prerelease %s %s", kernel_version, kArch);
+  os_version_full_ = base::StringPrintf(
+      "Zircon prerelease %s %s", kernel_version.c_str(), kArch);
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
 }
@@ -73,7 +70,7 @@ uint32_t SystemSnapshotFuchsia::CPURevision() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.Revision();
 #else
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  // TODO(fuchsia/DX-712): Read actual revision.
   return 0;
 #endif
 }
@@ -88,7 +85,7 @@ std::string SystemSnapshotFuchsia::CPUVendor() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.Vendor();
 #else
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  // TODO(fuchsia/DX-712): Read actual vendor.
   return std::string();
 #endif
 }
@@ -106,7 +103,7 @@ uint32_t SystemSnapshotFuchsia::CPUX86Signature() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.Signature();
 #else
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  NOTREACHED();
   return 0;
 #endif
 }
@@ -116,7 +113,7 @@ uint64_t SystemSnapshotFuchsia::CPUX86Features() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.Features();
 #else
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  NOTREACHED();
   return 0;
 #endif
 }
@@ -126,7 +123,7 @@ uint64_t SystemSnapshotFuchsia::CPUX86ExtendedFeatures() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.ExtendedFeatures();
 #else
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  NOTREACHED();
   return 0;
 #endif
 }
@@ -135,7 +132,7 @@ uint32_t SystemSnapshotFuchsia::CPUX86Leaf7Features() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.Leaf7Features();
 #else
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  NOTREACHED();
   return 0;
 #endif
 }
@@ -145,7 +142,7 @@ bool SystemSnapshotFuchsia::CPUX86SupportsDAZ() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.SupportsDAZ();
 #else
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  NOTREACHED();
   return false;
 #endif
 }
@@ -191,7 +188,7 @@ bool SystemSnapshotFuchsia::NXEnabled() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.NXEnabled();
 #else
-  NOTREACHED();  // TODO(scottmg): https://crashpad.chromium.org/bug/196.
+  // TODO(fuchsia/DX-712): Read actual NX bit value.
   return false;
 #endif
 }

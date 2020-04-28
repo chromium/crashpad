@@ -28,8 +28,8 @@
 
 #include "base/files/file_path.h"
 #include "base/logging.h"
-#include "base/macros.h"
 #include "base/numerics/safe_conversions.h"
+#include "base/stl_util.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "client/crash_report_database.h"
@@ -109,14 +109,14 @@ bool StringToBool(const char* string, bool* boolean) {
       "set",
   };
 
-  for (size_t index = 0; index < arraysize(kFalseWords); ++index) {
+  for (size_t index = 0; index < base::size(kFalseWords); ++index) {
     if (strcasecmp(string, kFalseWords[index]) == 0) {
       *boolean = false;
       return true;
     }
   }
 
-  for (size_t index = 0; index < arraysize(kTrueWords); ++index) {
+  for (size_t index = 0; index < base::size(kTrueWords); ++index) {
     if (strcasecmp(string, kTrueWords[index]) == 0) {
       *boolean = true;
       return true;
@@ -159,7 +159,7 @@ bool StringToTime(const char* string, time_t* out_time, bool utc) {
       "%+",
   };
 
-  for (size_t index = 0; index < arraysize(kFormats); ++index) {
+  for (size_t index = 0; index < base::size(kFormats); ++index) {
     tm time_tm;
     const char* strptime_result = strptime(string, kFormats[index], &time_tm);
     if (strptime_result == end) {
@@ -214,7 +214,7 @@ std::string TimeToString(time_t out_time, bool utc) {
 
   char string[64];
   CHECK_NE(
-      strftime(string, arraysize(string), "%Y-%m-%d %H:%M:%S %Z", &time_tm),
+      strftime(string, base::size(string), "%Y-%m-%d %H:%M:%S %Z", &time_tm),
       0u);
 
   return std::string(string);
@@ -561,7 +561,7 @@ int DatabaseUtilMain(int argc, char* argv[]) {
   }
 
   bool used_stdin = false;
-  for (const base::FilePath new_report_path : options.new_report_paths) {
+  for (const base::FilePath& new_report_path : options.new_report_paths) {
     std::unique_ptr<FileReaderInterface> file_reader;
 
     if (new_report_path.value() == FILE_PATH_LITERAL("-")) {

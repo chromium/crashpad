@@ -17,6 +17,8 @@
 #include <stddef.h>
 #include <string.h>
 
+#include <limits>
+
 #include "base/logging.h"
 
 namespace crashpad {
@@ -62,7 +64,6 @@ void InitializeCPUContextX86(const ThreadContext::t32_t& thread_context,
   context->dr5 = 0;
   context->dr6 = 0;
   context->dr7 = 0;
-
 }
 
 void InitializeCPUContextX86(const SignalThreadContext32& thread_context,
@@ -241,7 +242,14 @@ void InitializeCPUContextARM64_NoFloatingPoint(
   memcpy(context->regs, thread_context.regs, sizeof(context->regs));
   context->sp = thread_context.sp;
   context->pc = thread_context.pc;
-  context->pstate = thread_context.pstate;
+  // Linux seems to only be putting the SPSR register in its "pstate" field.
+  // https://elixir.bootlin.com/linux/latest/source/arch/arm64/include/uapi/asm/ptrace.h
+  if (thread_context.pstate >
+      std::numeric_limits<decltype(context->spsr)>::max()) {
+    LOG(WARNING) << "pstate truncation: we only expect the SPSR bits to be set "
+                    "in the pstate";
+  }
+  context->spsr = static_cast<decltype(context->spsr)>(thread_context.pstate);
 
   memset(&context->fpsimd, 0, sizeof(context->fpsimd));
   context->fpsr = 0;
