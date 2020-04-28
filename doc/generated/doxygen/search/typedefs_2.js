@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['errno',['Errno',['../namespacecrashpad.html#a159fac6118616e57f5bf93780c922167',1,'crashpad']]]
+  ['errno_3511',['Errno',['../classcrashpad_1_1ExceptionHandlerProtocol.html#a5421c05888f9dee78e20daf6e3a4effb',1,'crashpad::ExceptionHandlerProtocol']]]
 ];
