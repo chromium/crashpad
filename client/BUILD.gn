@@ -14,6 +14,20 @@
 
 import("../build/crashpad_buildconfig.gni")
 
+if (crashpad_is_ios) {
+  executable("auxiliary") {
+    testonly = true
+    sources = [ "crashpad_client_ios_test_auxiliary.mm" ]
+  }
+
+  bundle_data("client_test_bundle_data") {
+    testonly = true
+    deps = [ ":auxiliary" ]
+    sources = [ "$root_out_dir/auxiliary" ]
+    outputs = [ "{{bundle_resources_dir}}/{{source_file_part}}" ]
+  }
+}
+
 static_library("client") {
   sources = [
     "annotation.cc",
@@ -163,7 +177,9 @@ source_set("client_test") {
     "../util",
   ]
 
-  if (!crashpad_is_ios && !crashpad_is_fuchsia) {
+  if (crashpad_is_ios) {
+    deps += [ ":auxiliary" ]
+  } else if (!crashpad_is_fuchsia) {
     data_deps = [ "../handler:crashpad_handler" ]
   }
 

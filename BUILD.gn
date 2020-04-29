@@ -175,6 +175,12 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       "client:client_test",
       "test:gmock_main",
     ]
+    if (crashpad_is_ios) {
+      deps += [
+        "client:auxiliary",
+        "client:client_test_bundle_data",
+      ]
+    }
   }
 
   test("crashpad_handler_test") {

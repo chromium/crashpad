@@ -15,11 +15,20 @@
 #include "client/crashpad_client.h"
 
 #import <Foundation/Foundation.h>
+#include <errno.h>
+#include <spawn.h>
+#include <stdio.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 #include <vector>
 
+#include "base/logging.h"
 #include "gtest/gtest.h"
+#include "test/test_paths.h"
 #include "testing/platform_test.h"
+
+extern "C" char** environ;
 
 namespace crashpad {
 namespace test {
@@ -27,7 +36,55 @@ namespace {
 
 using CrashpadIOSClient = PlatformTest;
 
-TEST_F(CrashpadIOSClient, DumpWithoutCrash) {
+TEST_F(CrashpadIOSClient, POSIXSpawn) {
+  LOG(INFO) << "initial pid " << getpid();
+
+#if 0
+  pid_t pid = fork();
+  if (pid < 0) {
+    PLOG(ERROR) << "fork";
+    FAIL();
+  }
+  if (pid == 0) {
+    LOG(INFO) << "child pid " << getpid();
+    _exit(0);
+  } else {
+    LOG(INFO) << "parent, child pid " << pid;
+  }
+#else
+  base::FilePath executable = TestPaths::Executable();
+  LOG(INFO) << "executable " << executable.value();
+  base::FilePath auxiliary = executable.DirName().Append("auxiliary");
+  LOG(INFO) << "auxiliary " << auxiliary.value();
+  pid_t pid;
+  std::string argv0 = auxiliary.BaseName().value();
+  const char* const argv[] = {argv0.c_str(), nullptr};
+  errno = posix_spawn(&pid,
+                      auxiliary.value().c_str(),
+                      nullptr,
+                      nullptr,
+                      const_cast<char**>(argv),
+                      environ);
+  if (errno != 0) {
+    PLOG(ERROR) << "posix_spawn";
+    FAIL();
+  }
+  LOG(INFO) << "posix_spawn: pid " << pid;
+#endif
+
+  int status;
+  if (waitpid(pid, &status, 0) < 0) {
+    PLOG(ERROR) << "waitpid";
+    FAIL();
+  }
+  LOG_IF(INFO, WIFEXITED(status))
+      << "child exited, status " << WEXITSTATUS(status);
+  LOG_IF(INFO, WIFSIGNALED(status))
+      << "child terminated, signal " << WTERMSIG(status)
+      << (WCOREDUMP(status) ? ", core dumped" : "");
+}
+
+TEST_F(CrashpadIOSClient, DISABLED_DumpWithoutCrash) {
   CrashpadClient client;
   client.StartCrashpadInProcessHandler();
 
