@@ -95,7 +95,7 @@ class TestSimulateCrashMac final : public MachMultiprocess,
                                    mach_msg_type_number_t old_state_count,
                                    thread_state_t new_state,
                                    mach_msg_type_number_t* new_state_count,
-                                   const mach_msg_trailer_t* trailer,
+                                   const MachMessageServer::Messages& messages,
                                    bool* destroy_complex_request) override {
     *destroy_complex_request = true;
 

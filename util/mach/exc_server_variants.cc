@@ -155,7 +155,8 @@ class ExcServer : public MachMessageServer::Interface {
     //! with `exc_server()`, or a `catch_mach_exception_raise()` function used
     //! with `mach_exc_server()`.
     //!
-    //! \param[in] trailer The trailer received with the request message.
+    //! \param[in] messages The received requst and allocated reply Mach
+    //!     messages.
     //! \param[out] destroy_request `true` if the request message is to be
     //!     destroyed even when this method returns success. See
     //!     MachMessageServer::Interface.
@@ -166,7 +167,7 @@ class ExcServer : public MachMessageServer::Interface {
         exception_type_t exception,
         const typename Traits::ExceptionCode* code,
         mach_msg_type_number_t code_count,
-        const mach_msg_trailer_t* trailer,
+        const MachMessageServer::Messages& messages,
         bool* destroy_request) = 0;
 
     //! \brief Handles exceptions raised by `exception_raise_state()` or
@@ -181,7 +182,8 @@ class ExcServer : public MachMessageServer::Interface {
     //! request message is not complex (it does not carry the \a thread or \a
     //! task port rights) and thus there is nothing to destroy.
     //!
-    //! \param[in] trailer The trailer received with the request message.
+    //! \param[in] messages The received requst and allocated reply Mach
+    //!     messages.
     virtual kern_return_t CatchExceptionRaiseState(
         exception_handler_t exception_port,
         exception_type_t exception,
@@ -192,7 +194,7 @@ class ExcServer : public MachMessageServer::Interface {
         mach_msg_type_number_t old_state_count,
         thread_state_t new_state,
         mach_msg_type_number_t* new_state_count,
-        const mach_msg_trailer_t* trailer) = 0;
+        const MachMessageServer::Messages& messages) = 0;
 
     //! \brief Handles exceptions raised by `exception_raise_state_identity()`
     //!     or `mach_exception_raise_state_identity()`.
@@ -202,7 +204,8 @@ class ExcServer : public MachMessageServer::Interface {
     //! `catch_mach_exception_raise_state_identity()` function used with
     //! `mach_exc_server()`.
     //!
-    //! \param[in] trailer The trailer received with the request message.
+    //! \param[in] messages The received requst and allocated reply Mach
+    //!     messages.
     //! \param[out] destroy_request `true` if the request message is to be
     //!     destroyed even when this method returns success. See
     //!     MachMessageServer::Interface.
@@ -218,7 +221,7 @@ class ExcServer : public MachMessageServer::Interface {
         mach_msg_type_number_t old_state_count,
         thread_state_t new_state,
         mach_msg_type_number_t* new_state_count,
-        const mach_msg_trailer_t* trailer,
+        const MachMessageServer::Messages& messages,
         bool* destroy_request) = 0;
 
    protected:
@@ -233,8 +236,7 @@ class ExcServer : public MachMessageServer::Interface {
 
   // MachMessageServer::Interface:
 
-  bool MachMessageServerFunction(const mach_msg_header_t* in_header,
-                                 mach_msg_header_t* out_header,
+  bool MachMessageServerFunction(const MachMessageServer::Messages& messages,
                                  bool* destroy_complex_request) override;
 
   std::set<mach_msg_id_t> MachMessageServerRequestIDs() override {
@@ -263,42 +265,39 @@ class ExcServer : public MachMessageServer::Interface {
 
 template <typename Traits>
 bool ExcServer<Traits>::MachMessageServerFunction(
-    const mach_msg_header_t* in_header,
-    mach_msg_header_t* out_header,
+    const MachMessageServer::Messages& messages,
     bool* destroy_complex_request) {
-  PrepareMIGReplyFromRequest(in_header, out_header);
+  PrepareMIGReplyFromRequest(messages);
 
-  const mach_msg_trailer_t* in_trailer =
-      MachMessageTrailerFromHeader(in_header);
-
-  switch (in_header->msgh_id) {
+  switch (messages.request_header->msgh_id) {
     case Traits::kMachMessageIDExceptionRaise: {
       // exception_raise(), catch_exception_raise(), mach_exception_raise(),
       // catch_mach_exception_raise().
       using Request = typename Traits::ExceptionRaiseRequest;
-      const Request* in_request = reinterpret_cast<const Request*>(in_header);
+      const Request* in_request =
+          reinterpret_cast<const Request*>(messages.request_header);
       kern_return_t kr = Traits::MIGCheckRequestExceptionRaise(in_request);
       if (kr != MACH_MSG_SUCCESS) {
-        SetMIGReplyError(out_header, kr);
+        SetMIGReplyError(messages.reply_header, kr);
         return true;
       }
 
       using Reply = typename Traits::ExceptionRaiseReply;
-      Reply* out_reply = reinterpret_cast<Reply*>(out_header);
-      out_reply->RetCode =
-          interface_->CatchExceptionRaise(in_header->msgh_local_port,
-                                          in_request->thread.name,
-                                          in_request->task.name,
-                                          in_request->exception,
-                                          in_request->code,
-                                          in_request->codeCnt,
-                                          in_trailer,
-                                          destroy_complex_request);
+      Reply* out_reply = reinterpret_cast<Reply*>(messages.reply_header);
+      out_reply->RetCode = interface_->CatchExceptionRaise(
+          messages.request_header->msgh_local_port,
+          in_request->thread.name,
+          in_request->task.name,
+          in_request->exception,
+          in_request->code,
+          in_request->codeCnt,
+          messages,
+          destroy_complex_request);
       if (out_reply->RetCode != KERN_SUCCESS) {
         return true;
       }
 
-      out_header->msgh_size = sizeof(*out_reply);
+      messages.reply_header->msgh_size = sizeof(*out_reply);
       return true;
     }
 
@@ -306,7 +305,8 @@ bool ExcServer<Traits>::MachMessageServerFunction(
       // exception_raise_state(), catch_exception_raise_state(),
       // mach_exception_raise_state(), catch_mach_exception_raise_state().
       using Request = typename Traits::ExceptionRaiseStateRequest;
-      const Request* in_request = reinterpret_cast<const Request*>(in_header);
+      const Request* in_request =
+          reinterpret_cast<const Request*>(messages.request_header);
 
       // in_request_1 is used for the portion of the request after the codes,
       // which in theory can be variable-length. The check function will set it.
@@ -314,30 +314,30 @@ bool ExcServer<Traits>::MachMessageServerFunction(
       kern_return_t kr =
           Traits::MIGCheckRequestExceptionRaiseState(in_request, &in_request_1);
       if (kr != MACH_MSG_SUCCESS) {
-        SetMIGReplyError(out_header, kr);
+        SetMIGReplyError(messages.reply_header, kr);
         return true;
       }
 
       using Reply = typename Traits::ExceptionRaiseStateReply;
-      Reply* out_reply = reinterpret_cast<Reply*>(out_header);
+      Reply* out_reply = reinterpret_cast<Reply*>(messages.reply_header);
       out_reply->flavor = in_request_1->flavor;
       out_reply->new_stateCnt = base::size(out_reply->new_state);
-      out_reply->RetCode =
-          interface_->CatchExceptionRaiseState(in_header->msgh_local_port,
-                                               in_request->exception,
-                                               in_request->code,
-                                               in_request->codeCnt,
-                                               &out_reply->flavor,
-                                               in_request_1->old_state,
-                                               in_request_1->old_stateCnt,
-                                               out_reply->new_state,
-                                               &out_reply->new_stateCnt,
-                                               in_trailer);
+      out_reply->RetCode = interface_->CatchExceptionRaiseState(
+          messages.request_header->msgh_local_port,
+          in_request->exception,
+          in_request->code,
+          in_request->codeCnt,
+          &out_reply->flavor,
+          in_request_1->old_state,
+          in_request_1->old_stateCnt,
+          out_reply->new_state,
+          &out_reply->new_stateCnt,
+          messages);
       if (out_reply->RetCode != KERN_SUCCESS) {
         return true;
       }
 
-      out_header->msgh_size =
+      messages.reply_header->msgh_size =
           sizeof(*out_reply) - sizeof(out_reply->new_state) +
           sizeof(out_reply->new_state[0]) * out_reply->new_stateCnt;
       return true;
@@ -349,7 +349,8 @@ bool ExcServer<Traits>::MachMessageServerFunction(
       // mach_exception_raise_state_identity(),
       // catch_mach_exception_raise_state_identity().
       using Request = typename Traits::ExceptionRaiseStateIdentityRequest;
-      const Request* in_request = reinterpret_cast<const Request*>(in_header);
+      const Request* in_request =
+          reinterpret_cast<const Request*>(messages.request_header);
 
       // in_request_1 is used for the portion of the request after the codes,
       // which in theory can be variable-length. The check function will set it.
@@ -357,16 +358,16 @@ bool ExcServer<Traits>::MachMessageServerFunction(
       kern_return_t kr = Traits::MIGCheckRequestExceptionRaiseStateIdentity(
           in_request, &in_request_1);
       if (kr != MACH_MSG_SUCCESS) {
-        SetMIGReplyError(out_header, kr);
+        SetMIGReplyError(messages.reply_header, kr);
         return true;
       }
 
       using Reply = typename Traits::ExceptionRaiseStateIdentityReply;
-      Reply* out_reply = reinterpret_cast<Reply*>(out_header);
+      Reply* out_reply = reinterpret_cast<Reply*>(messages.reply_header);
       out_reply->flavor = in_request_1->flavor;
       out_reply->new_stateCnt = base::size(out_reply->new_state);
       out_reply->RetCode = interface_->CatchExceptionRaiseStateIdentity(
-          in_header->msgh_local_port,
+          messages.request_header->msgh_local_port,
           in_request->thread.name,
           in_request->task.name,
           in_request->exception,
@@ -377,20 +378,20 @@ bool ExcServer<Traits>::MachMessageServerFunction(
           in_request_1->old_stateCnt,
           out_reply->new_state,
           &out_reply->new_stateCnt,
-          in_trailer,
+          messages,
           destroy_complex_request);
       if (out_reply->RetCode != KERN_SUCCESS) {
         return true;
       }
 
-      out_header->msgh_size =
+      messages.reply_header->msgh_size =
           sizeof(*out_reply) - sizeof(out_reply->new_state) +
           sizeof(out_reply->new_state[0]) * out_reply->new_stateCnt;
       return true;
     }
 
     default: {
-      SetMIGReplyError(out_header, MIG_BAD_ID);
+      SetMIGReplyError(messages.reply_header, MIG_BAD_ID);
       return false;
     }
   }
@@ -439,7 +440,7 @@ class SimplifiedExcServer final : public ExcServer<Traits>,
         mach_msg_type_number_t old_state_count,
         thread_state_t new_state,
         mach_msg_type_number_t* new_state_count,
-        const mach_msg_trailer_t* trailer,
+        const MachMessageServer::Messages& messages,
         bool* destroy_complex_request) = 0;
 
    protected:
@@ -462,7 +463,7 @@ class SimplifiedExcServer final : public ExcServer<Traits>,
                                     exception_type_t exception,
                                     const typename Traits::ExceptionCode* code,
                                     mach_msg_type_number_t code_count,
-                                    const mach_msg_trailer_t* trailer,
+                                    const MachMessageServer::Messages& messages,
                                     bool* destroy_request) override {
     thread_state_flavor_t flavor = THREAD_STATE_NONE;
     mach_msg_type_number_t new_state_count = 0;
@@ -479,7 +480,7 @@ class SimplifiedExcServer final : public ExcServer<Traits>,
         0,
         nullptr,
         &new_state_count,
-        trailer,
+        messages,
         destroy_request);
   }
 
@@ -493,7 +494,7 @@ class SimplifiedExcServer final : public ExcServer<Traits>,
       mach_msg_type_number_t old_state_count,
       thread_state_t new_state,
       mach_msg_type_number_t* new_state_count,
-      const mach_msg_trailer_t* trailer) override {
+      const MachMessageServer::Messages& messages) override {
     bool destroy_complex_request = false;
     return interface_->CatchException(
         Traits::kExceptionBehavior | EXCEPTION_STATE,
@@ -508,7 +509,7 @@ class SimplifiedExcServer final : public ExcServer<Traits>,
         old_state_count,
         new_state_count ? new_state : nullptr,
         new_state_count,
-        trailer,
+        messages,
         &destroy_complex_request);
   }
 
@@ -524,7 +525,7 @@ class SimplifiedExcServer final : public ExcServer<Traits>,
       mach_msg_type_number_t old_state_count,
       thread_state_t new_state,
       mach_msg_type_number_t* new_state_count,
-      const mach_msg_trailer_t* trailer,
+      const MachMessageServer::Messages& messages,
       bool* destroy_request) override {
     return interface_->CatchException(
         Traits::kExceptionBehavior | EXCEPTION_STATE_IDENTITY,
@@ -539,7 +540,7 @@ class SimplifiedExcServer final : public ExcServer<Traits>,
         old_state_count,
         new_state_count ? new_state : nullptr,
         new_state_count,
-        trailer,
+        messages,
         destroy_request);
   }
 
@@ -585,7 +586,7 @@ class UniversalMachExcServerImpl final
                                mach_msg_type_number_t old_state_count,
                                thread_state_t new_state,
                                mach_msg_type_number_t* new_state_count,
-                               const mach_msg_trailer_t* trailer,
+                               const MachMessageServer::Messages& messages,
                                bool* destroy_complex_request) {
     std::vector<mach_exception_data_type_t> mach_codes;
     mach_codes.reserve(code_count);
@@ -605,7 +606,7 @@ class UniversalMachExcServerImpl final
                                           old_state_count,
                                           new_state_count ? new_state : nullptr,
                                           new_state_count,
-                                          trailer,
+                                          messages,
                                           destroy_complex_request);
   }
 
@@ -622,7 +623,7 @@ class UniversalMachExcServerImpl final
                                mach_msg_type_number_t old_state_count,
                                thread_state_t new_state,
                                mach_msg_type_number_t* new_state_count,
-                               const mach_msg_trailer_t* trailer,
+                               const MachMessageServer::Messages& messages,
                                bool* destroy_complex_request) {
     return interface_->CatchMachException(behavior,
                                           exception_port,
@@ -636,7 +637,7 @@ class UniversalMachExcServerImpl final
                                           old_state_count,
                                           new_state_count ? new_state : nullptr,
                                           new_state_count,
-                                          trailer,
+                                          messages,
                                           destroy_complex_request);
   }
 
@@ -660,11 +661,9 @@ UniversalMachExcServer::~UniversalMachExcServer() {
 }
 
 bool UniversalMachExcServer::MachMessageServerFunction(
-    const mach_msg_header_t* in_header,
-    mach_msg_header_t* out_header,
+    const MachMessageServer::Messages& messages,
     bool* destroy_complex_request) {
-  return impl_->MachMessageServerFunction(
-      in_header, out_header, destroy_complex_request);
+  return impl_->MachMessageServerFunction(messages, destroy_complex_request);
 }
 
 std::set<mach_msg_id_t> UniversalMachExcServer::MachMessageServerRequestIDs() {

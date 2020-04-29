@@ -29,6 +29,22 @@ namespace crashpad {
 //! The principal entry point to this interface is the static Run() method.
 class MachMessageServer {
  public:
+  //! \brief The received request and allocated reply Mach messages.
+  struct Messages {
+    //! \brief The request message, received as a Mach message.
+    //!
+    //! Note that this interface uses a `const` variable for this purpose,
+    //! whereas MIG-generated “demux” functions do not.
+    const mach_msg_header_t* request_header;
+
+    //! \brief The reply message.
+    //!
+    //! The caller allocates storage, and the callee is expected to populate the
+    //! reply message appropriately. After returning, the caller will send this
+    //! reply as a Mach message via the message’s reply port.
+    mach_msg_header_t* reply_header;
+  };
+
   //! \brief A Mach RPC callback interface, called by Run().
   class Interface {
    public:
@@ -39,13 +55,8 @@ class MachMessageServer {
     //! may call such a function directly. This method is expected to behave
     //! exactly as these functions behave.
     //!
-    //! \param[in] in The request message, received as a Mach message. Note that
-    //!     this interface uses a `const` parameter for this purpose, whereas
-    //!     MIG-generated “demux” functions do not.
-    //! \param[out] out The reply message. The caller allocates storage, and the
-    //!     callee is expected to populate the reply message appropriately.
-    //!     After returning, the caller will send this reply as a Mach message
-    //!     via the message’s reply port.
+    //! \param[in] messages The received request and allocated reply Mach
+    //!     messages.
     //! \param[out] destroy_complex_request `true` if a complex request message
     //!     is to be destroyed even when handled successfully, `false`
     //!     otherwise. The traditional behavior is `false`. In this case, the
@@ -66,8 +77,7 @@ class MachMessageServer {
     //!     the reply message should be set as `mig_reply_error_t::RetCode`. The
     //!     non-`void` return value is used for increased compatibility with
     //!     MIG-generated functions.
-    virtual bool MachMessageServerFunction(const mach_msg_header_t* in,
-                                           mach_msg_header_t* out,
+    virtual bool MachMessageServerFunction(const Messages& messages,
                                            bool* destroy_complex_request) = 0;
 
     //! \return The set of request message Mach message IDs that

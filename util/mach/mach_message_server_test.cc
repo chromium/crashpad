@@ -195,8 +195,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
   // MachMessageServerInterface:
 
   virtual bool MachMessageServerFunction(
-      const mach_msg_header_t* in,
-      mach_msg_header_t* out,
+      const MachMessageServer::Messages& messages,
       bool* destroy_complex_request) override {
     *destroy_complex_request = options_.server_destroy_complex;
 
@@ -214,7 +213,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     };
 
     const ReceiveRequestMessage* request =
-        reinterpret_cast<const ReceiveRequestMessage*>(in);
+        reinterpret_cast<const ReceiveRequestMessage*>(messages.request_header);
     const mach_msg_bits_t expect_msgh_bits =
         MACH_MSGH_BITS(MACH_MSG_TYPE_MOVE_SEND, MACH_MSG_TYPE_MOVE_SEND) |
         (options_.client_send_complex ? MACH_MSGH_BITS_COMPLEX : 0);
@@ -266,7 +265,8 @@ class TestMachMessageServer : public MachMessageServer::Interface,
 
     ++requests_;
 
-    ReplyMessage* reply = reinterpret_cast<ReplyMessage*>(out);
+    ReplyMessage* reply =
+        reinterpret_cast<ReplyMessage*>(messages.reply_header);
     reply->Head.msgh_bits = MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0);
     reply->Head.msgh_size = sizeof(*reply);
     reply->Head.msgh_remote_port = request->header.msgh_remote_port;

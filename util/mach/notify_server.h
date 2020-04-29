@@ -56,11 +56,12 @@ class NotifyServer : public MachMessageServer::Interface {
     //! \param[in] name The name that formerly referenced the deleted port. When
     //!     this method is called, \a name no longer corresponds to the port
     //!     that has been deleted, and may be reused for another purpose.
-    //! \param[in] trailer The trailer received with the notification message.
+    //! \param[in] messages The received requst and allocated reply Mach
+    //!     messages.
     virtual kern_return_t DoMachNotifyPortDeleted(
         notify_port_t notify,
         mach_port_name_t name,
-        const mach_msg_trailer_t* trailer) = 0;
+        const MachMessageServer::Messages& messages) = 0;
 
     //! \brief Handles port-destroyed notifications sent by
     //!     `mach_notify_port_destroyed()`.
@@ -78,14 +79,15 @@ class NotifyServer : public MachMessageServer::Interface {
     //!     destroyed. The callee takes ownership of this port, however, if the
     //!     callee does not wish to take ownership, it may set \a
     //!     destroy_request to `true`.
-    //! \param[in] trailer The trailer received with the notification message.
+    //! \param[in] messages The received requst and allocated reply Mach
+    //!     messages.
     //! \param[out] destroy_request `true` if the request message is to be
     //!     destroyed even when this method returns success. See
     //!     MachMessageServer::Interface.
     virtual kern_return_t DoMachNotifyPortDestroyed(
         notify_port_t notify,
         mach_port_t rights,
-        const mach_msg_trailer_t* trailer,
+        const MachMessageServer::Messages& messages,
         bool* destroy_request) = 0;
 
     //! \brief Handles no-senders notifications sent by
@@ -100,11 +102,12 @@ class NotifyServer : public MachMessageServer::Interface {
     //! \param[in] notify The Mach port that the notification was sent to.
     //! \param[in] mscount The value of the sender-less port’s make-send count
     //!     at the time the notification was generated.
-    //! \param[in] trailer The trailer received with the notification message.
+    //! \param[in] messages The received requst and allocated reply Mach
+    //!     messages.
     virtual kern_return_t DoMachNotifyNoSenders(
         notify_port_t notify,
         mach_port_mscount_t mscount,
-        const mach_msg_trailer_t* trailer) = 0;
+        const MachMessageServer::Messages& messages) = 0;
 
     //! \brief Handles send-once notifications sent by
     //!     `mach_notify_send_once()`.
@@ -116,7 +119,8 @@ class NotifyServer : public MachMessageServer::Interface {
     //! used with `notify_server()`.
     //!
     //! \param[in] notify The Mach port that the notification was sent to.
-    //! \param[in] trailer The trailer received with the notification message.
+    //! \param[in] messages The received requst and allocated reply Mach
+    //!     messages.
     //!
     //! \note Unlike the other notifications in the `notify` subsystem,
     //!     send-once notifications are not generated as a result of a
@@ -132,7 +136,7 @@ class NotifyServer : public MachMessageServer::Interface {
     //!     `notify` subsystem.
     virtual kern_return_t DoMachNotifySendOnce(
         notify_port_t notify,
-        const mach_msg_trailer_t* trailer) = 0;
+        const MachMessageServer::Messages& messages) = 0;
 
     //! \brief Handles dead-name notifications sent by
     //!     `mach_notify_dead_name()`.
@@ -148,7 +152,8 @@ class NotifyServer : public MachMessageServer::Interface {
     //!     `mach_port_name_t` and not a `mach_port_t`, the callee assumes an
     //!     additional reference to this port when this method is called. See
     //!     the note below.
-    //! \param[in] trailer The trailer received with the notification message.
+    //! \param[in] messages The received requst and allocated reply Mach
+    //!     messages.
     //!
     //! \note When a dead-name notification is generated, the user reference
     //!     count of the dead name is incremented. A send right with one
@@ -163,7 +168,7 @@ class NotifyServer : public MachMessageServer::Interface {
     virtual kern_return_t DoMachNotifyDeadName(
         notify_port_t notify,
         mach_port_name_t name,
-        const mach_msg_trailer_t* trailer) = 0;
+        const MachMessageServer::Messages& messages) = 0;
 
    protected:
     ~Interface() {}
@@ -185,27 +190,27 @@ class NotifyServer : public MachMessageServer::Interface {
     kern_return_t DoMachNotifyPortDeleted(
         notify_port_t notify,
         mach_port_name_t name,
-        const mach_msg_trailer_t* trailer) override;
+        const MachMessageServer::Messages& messages) override;
 
     kern_return_t DoMachNotifyPortDestroyed(
         notify_port_t notify,
         mach_port_t rights,
-        const mach_msg_trailer_t* trailer,
+        const MachMessageServer::Messages& messages,
         bool* destroy_request) override;
 
     kern_return_t DoMachNotifyNoSenders(
         notify_port_t notify,
         mach_port_mscount_t mscount,
-        const mach_msg_trailer_t* trailer) override;
+        const MachMessageServer::Messages& messages) override;
 
     kern_return_t DoMachNotifySendOnce(
         notify_port_t notify,
-        const mach_msg_trailer_t* trailer) override;
+        const MachMessageServer::Messages& messages) override;
 
     kern_return_t DoMachNotifyDeadName(
         notify_port_t notify,
         mach_port_name_t name,
-        const mach_msg_trailer_t* trailer) override;
+        const MachMessageServer::Messages& messages) override;
 
    protected:
     DefaultInterface() : Interface() {}
@@ -222,8 +227,7 @@ class NotifyServer : public MachMessageServer::Interface {
 
   // MachMessageServer::Interface:
 
-  bool MachMessageServerFunction(const mach_msg_header_t* in_header,
-                                 mach_msg_header_t* out_header,
+  bool MachMessageServerFunction(const MachMessageServer::Messages& messages,
                                  bool* destroy_complex_request) override;
 
   std::set<mach_msg_id_t> MachMessageServerRequestIDs() override;

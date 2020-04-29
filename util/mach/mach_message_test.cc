@@ -62,7 +62,10 @@ TEST(MachMessage, PrepareMIGReplyFromRequest_SetMIGReplyError) {
   // PrepareMIGReplyFromRequest() doesn’t touch this field.
   reply.RetCode = MIG_TYPE_ERROR;
 
-  PrepareMIGReplyFromRequest(&request, &reply.Head);
+  MachMessageServer::Messages messages;
+  messages.request_header = &request;
+  messages.reply_header = &reply.Head;
+  PrepareMIGReplyFromRequest(messages);
 
   EXPECT_EQ(reply.Head.msgh_bits,
             implicit_cast<mach_msg_bits_t>(
