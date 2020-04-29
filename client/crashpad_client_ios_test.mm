@@ -15,11 +15,19 @@
 #include "client/crashpad_client.h"
 
 #import <Foundation/Foundation.h>
+#include <errno.h>
+#include <spawn.h>
+#include <stdio.h>
+#include <unistd.h>
 
 #include <vector>
 
+#include "base/logging.h"
 #include "gtest/gtest.h"
+#include "test/test_paths.h"
 #include "testing/platform_test.h"
+
+extern "C" char** environ;
 
 namespace crashpad {
 namespace test {
@@ -28,6 +36,39 @@ namespace {
 using CrashpadIOSClient = PlatformTest;
 
 TEST_F(CrashpadIOSClient, DumpWithoutCrash) {
+#if 0
+  fprintf(stderr, "initial %d\n", getpid());
+  pid_t pid = fork();
+  if (pid == 0) {
+    fprintf(stderr, "child %d\n", getpid());
+  } else if (pid > 0) {
+    fprintf(stderr, "parent, child %d\n", pid);
+    _exit(0);
+  } else {
+    PLOG(ERROR) << "fork";
+  }
+  fflush(stderr);
+#else
+  base::FilePath executable = TestPaths::Executable();
+  LOG(INFO) << "executable " << executable.value();
+  base::FilePath auxiliary = executable.DirName().Append("auxiliary");
+  LOG(INFO) << "auxiliary " << auxiliary.value();
+  pid_t pid;
+  std::string argv0 = auxiliary.BaseName().value();
+  const char* const argv[] = {argv0.c_str(), nullptr};
+  errno = posix_spawn(&pid,
+                      auxiliary.value().c_str(),
+                      nullptr,
+                      nullptr,
+                      const_cast<char**>(argv),
+                      environ);
+  if (errno != 0) {
+    PLOG(ERROR) << "posix_spawn";
+  } else {
+    LOG(INFO) << "posix_spawn: pid=" << pid;
+  }
+#endif
+
   CrashpadClient client;
   client.StartCrashpadInProcessHandler();
 
