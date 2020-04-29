@@ -14,15 +14,29 @@
 
 #include "util/thread/thread.h"
 
+#include <sys/mman.h>
+
 #include "base/logging.h"
+#include "base/process/process_metrics.h"
 
 namespace crashpad {
 
-Thread::Thread() : platform_thread_(0) {
-}
+Thread::Thread() : platform_thread_(0), guarded_stack_page_size_(0) {}
+
+#if defined(OS_POSIX)
+Thread::Thread(size_t guarded_stack_page_size)
+    : platform_thread_(0), guarded_stack_page_size_(guarded_stack_page_size) {}
+#endif
 
 Thread::~Thread() {
   DCHECK(!platform_thread_);
+
+#if defined(OS_POSIX)
+  PCHECK(munmap(guarded_stack_,
+                base::GetPageSize() * guarded_stack_page_size_) >= 0)
+      << "munmap";
+
+#endif
 }
 
 }  // namespace crashpad

@@ -68,7 +68,7 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
   }
 
  private:
-  CrashHandler() = default;
+  CrashHandler() : Thread(10) {}
 
   void InstallMachExceptionHandler() {
     exception_port_.reset(NewMachPort(MACH_PORT_RIGHT_RECEIVE));

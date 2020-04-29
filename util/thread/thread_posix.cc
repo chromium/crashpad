@@ -15,14 +15,55 @@
 #include "util/thread/thread.h"
 
 #include <errno.h>
+#include <sys/mman.h>
 
 #include "base/logging.h"
+#include "base/process/process_metrics.h"
 
 namespace crashpad {
 
 void Thread::Start() {
   DCHECK(!platform_thread_);
-  errno = pthread_create(&platform_thread_, nullptr, ThreadEntryThunk, this);
+
+  if (guarded_stack_page_size_ > 0) {
+    pthread_attr_t attr;
+    errno = pthread_attr_init(&attr);
+    PLOG_IF(WARNING, errno != 0) << "pthread_attr_init";
+
+    errno = pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
+    PLOG_IF(WARNING, errno != 0) << "pthread_attr_setdetachstate";
+
+    int guarded_size = guarded_stack_page_size_ + 2;
+    guarded_stack_ = mmap(nullptr,
+                          base::GetPageSize() * guarded_size,
+                          PROT_READ | PROT_WRITE,
+                          MAP_PRIVATE | MAP_ANONYMOUS,
+                          -1,
+                          0);
+    PCHECK(guarded_stack_ != MAP_FAILED) << "mmap";
+
+    // mprotect the first and last page.
+    errno = mprotect(guarded_stack_, base::GetPageSize(), PROT_NONE);
+    PLOG_IF(WARNING, errno != 0) << "mprotect";
+
+    errno = mprotect(
+        reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(guarded_stack_) +
+                                base::GetPageSize() * (guarded_size - 1)),
+        base::GetPageSize(),
+        PROT_NONE);
+    PLOG_IF(WARNING, errno != 0) << "mprotect";
+
+    errno = pthread_attr_setstack(
+        &attr,
+        reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(guarded_stack_) +
+                                base::GetPageSize()),
+        base::GetPageSize() * guarded_stack_page_size_);
+    PLOG_IF(WARNING, errno != 0) << "pthread_attr_setstack";
+
+    errno = pthread_create(&platform_thread_, &attr, ThreadEntryThunk, this);
+  } else {
+    errno = pthread_create(&platform_thread_, 0, ThreadEntryThunk, this);
+  }
   PCHECK(errno == 0) << "pthread_create";
 }
 

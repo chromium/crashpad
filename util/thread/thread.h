@@ -31,6 +31,9 @@ namespace crashpad {
 class Thread {
  public:
   Thread();
+#if defined(OS_POSIX)
+  Thread(size_t guarded_stack_page_size_);
+#endif
   virtual ~Thread();
 
   //! \brief Create a platform thread, and run ThreadMain() on that thread. Must
@@ -55,6 +58,8 @@ class Thread {
 
 #if defined(OS_POSIX)
   pthread_t platform_thread_;
+  size_t guarded_stack_page_size_;
+  void* guarded_stack_;
 #elif defined(OS_WIN)
   HANDLE platform_thread_;
 #endif
