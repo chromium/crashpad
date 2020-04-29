@@ -232,7 +232,7 @@ static_library("snapshot") {
     ]
   }
 
-  if (target_cpu == "x86" || target_cpu == "x64") {
+  if (current_cpu == "x86" || current_cpu == "x64") {
     sources += [
       "x86/cpuid_reader.cc",
       "x86/cpuid_reader.h",
