@@ -80,9 +80,18 @@ if (crashpad_is_mac || crashpad_is_ios) {
       }
     }
     if (sysroot != "") {
+      use_sysroot = sysroot
+      if (crashpad_is_in_chromium && crashpad_is_ios) {
+        import("//build/config/ios/config.gni")
+        if (ios_enable_relative_sdk_path) {
+          # TODO(mark): Write a comment about what a nightmare this arrangement
+          # is.
+          use_sysroot = rebase_path(sysroot, root_build_dir)
+        }
+      }
       args += [
         "--sdk",
-        sysroot,
+        use_sysroot,
       ]
     }
     args += [
