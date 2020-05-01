@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b6f0597_d19a9415",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001629
+      },
+      "writtenOn": "2020-05-01T23:22:05Z",
+      "side": 1,
+      "message": "Important technical concern here: I always use … in proportional fonts, but in fixed width fonts it looks a bit funny…",
+      "range": {
+        "startLine": 91,
+        "startChar": 10,
+        "endLine": 91,
+        "endChar": 11
+      },
+      "revId": "20e56aa83b97bf9fee228fbec2815b227ef9ddc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
