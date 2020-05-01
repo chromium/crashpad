@@ -80,10 +80,22 @@ if (crashpad_is_mac || crashpad_is_ios) {
       }
     }
     if (sysroot != "") {
-      args += [
-        "--sdk",
-        sysroot,
-      ]
+      if (crashpad_is_in_chromium) {
+        # Chromium often brings along its own SDK and wants to keep paths
+        # relative…
+        args += [
+          "--sdk",
+          rebase_path(sysroot, root_build_dir)
+        ]
+      } else {
+        # …but that’s not an option in the standalone Crashpad build, where the
+        # SDK is installed on the system and is absolute. (But use rebase_path
+        # just to be sure.)
+        args += [
+          "--sdk",
+          rebase_path(sysroot, ""),
+        ]
+      }
     }
     args += [
       "--include",
