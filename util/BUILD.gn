@@ -82,7 +82,7 @@ if (crashpad_is_mac || crashpad_is_ios) {
     if (sysroot != "") {
       args += [
         "--sdk",
-        sysroot,
+        rebase_path(sysroot, ""),
       ]
     }
     args += [
