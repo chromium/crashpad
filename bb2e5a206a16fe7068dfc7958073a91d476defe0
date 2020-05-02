@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6b9eba1_e97b62f0",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-02T20:13:52Z",
+      "side": 1,
+      "message": "OK, you did get the indentation right, so it’s just the 0x90 fill byte for x86.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 12
+      },
+      "revId": "bb2e5a206a16fe7068dfc7958073a91d476defe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

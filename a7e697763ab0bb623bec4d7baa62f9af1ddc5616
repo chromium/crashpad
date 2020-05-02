@@ -166,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "eb9cc763_4fc98860",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-02T20:13:52Z",
+      "side": 1,
+      "message": "\u003e #if defined(__i386__) || defined(__x86_64__)\n\u003e   .p2align 4\n\nNegative. You’ve still got to keep the 0x90, which is an x86 nop. The default is 0x00, which isn’t right as padding in an x86 text segment.\n\n\u003e #elif defined(__aarch64__)\n\u003e .p2align 2\n\nDon’t lose the indent!\n\n\u003e #endif",
+      "parentUuid": "a4b3455f_2d6444c8",
+      "revId": "a7e697763ab0bb623bec4d7baa62f9af1ddc5616",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "17abacab_96ff3a3e",
         "filename": "util/misc/capture_context_mac.S",
         "patchSetId": 4
@@ -289,6 +307,24 @@
       "side": 1,
       "message": "I\u0027m not sure how to say that exactly.  Maybe:\n\nNote that nzcv\n  // is 64 bit, while __cpsr and __pad are each 32 bits, so this effectively\n  // will zero __pad.",
       "parentUuid": "56e2ef8b_fed7dab4",
+      "revId": "a7e697763ab0bb623bec4d7baa62f9af1ddc5616",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31a538d9_2540a179",
+        "filename": "util/misc/capture_context_mac.S",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-02T20:13:52Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure how to say that exactly.  Maybe:\n\u003e \n\u003e Note that nzcv\n\u003e   // is 64 bit, while __cpsr and __pad are each 32 bits, so this effectively\n\u003e   // will zero __pad.\n\nYeah, or something like “the 64-bit x1 covers both the 32-bit __cpsr (which receives the nzcv bits) and __pad (which will be zeroed).”",
+      "parentUuid": "79c7ffab_38ae7708",
       "revId": "a7e697763ab0bb623bec4d7baa62f9af1ddc5616",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
