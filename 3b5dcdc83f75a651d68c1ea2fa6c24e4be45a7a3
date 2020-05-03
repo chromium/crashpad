@@ -16,6 +16,24 @@
       "revId": "3b5dcdc83f75a651d68c1ea2fa6c24e4be45a7a3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2fd19a3_fffbf89d",
+        "filename": "util/misc/capture_context_test_util_mac.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-03T04:22:21Z",
+      "side": 1,
+      "message": "\u003e Nothing jumped out to me here for things to sanity check for ARM.  Maybe check that pad is 0u?  Maybe confirm everything but nzcv 0 (since we don\u0027t get them), or that z and c seem to be 1 (although I don\u0027t know if that\u0027s always true here), or ...?\n\nIt’ll be dependent on the states of those bits at the call site. You could force them to particular values right before calling CaptureContext, but we don’t do that on x86 either.\n\nI like your idea: make sure that the bits other than nzcv in __cpsr read 0, which is essentially the same thing that we do with __eflags and __rflags for x86[_64].\n\nI also like your other idea: assure that __pad is entirely zeroed out.\n\nOne more: because of how RISCy this is (link registers are RISCy), and because ARM ret doesn’t change %lr, and because of how you’ve defined CaptureContext as capturing the state at CaptureContext’s return to its caller, you can check for equivalence of __lr and __pc too.",
+      "parentUuid": "8ae46b26_bbe427fb",
+      "revId": "3b5dcdc83f75a651d68c1ea2fa6c24e4be45a7a3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
