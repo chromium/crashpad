@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02a67b42_5461944a",
+        "filename": "util/misc/capture_context_test_util_mac.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-03T15:59:36Z",
+      "side": 1,
+      "message": "You don’t need a constant-literal macro here at all. Your hexadecimal literal is already an unsigned int, which is exactly what you need. Just 0x0fffffff is fine.\n\nThe 32-bit x86 equivalent on line 62 is the example to follow. I bet you were just misled by the x86_64 one on line 67, where more attention was needed because __rflags is 64 bits wide.",
+      "range": {
+        "startLine": 72,
+        "startChar": 35,
+        "endLine": 72,
+        "endChar": 55
+      },
+      "revId": "45f3dffef85e43f82e9d6228cc73b444348def18",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
