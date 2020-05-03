@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3a64607_fcdfea82",
+        "filename": "util/misc/capture_context_test_util_mac.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-03T15:10:21Z",
+      "side": 1,
+      "message": "#elif",
+      "revId": "edca6f58bc33b7002f51dfb9d1388a2eefbeb10e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5df13da2_9602c1da",
+        "filename": "util/misc/capture_context_test_util_mac.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-03T15:10:21Z",
+      "side": 1,
+      "message": "1. Put a leading 0 on the hex, because 7 effs look almost like eight effs, and it doesn\u0027t look like there\u0027s anything that\u0027s allowed to be 1.\n\n2. I\u0027m not looking at the SDK because I\u0027m on my phone, but I thought that __cpsr was 32 bits, which makes me wonder why UINT64_C.",
+      "revId": "edca6f58bc33b7002f51dfb9d1388a2eefbeb10e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
