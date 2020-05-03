@@ -34,6 +34,24 @@
       "revId": "3b5dcdc83f75a651d68c1ea2fa6c24e4be45a7a3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce6a84c9_60ffd4e5",
+        "filename": "util/misc/capture_context_test_util_mac.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-05-03T14:58:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2fd19a3_fffbf89d",
+      "revId": "3b5dcdc83f75a651d68c1ea2fa6c24e4be45a7a3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
