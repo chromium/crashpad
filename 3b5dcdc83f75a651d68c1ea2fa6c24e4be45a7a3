@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ae46b26_bbe427fb",
+        "filename": "util/misc/capture_context_test_util_mac.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-05-03T03:28:50Z",
+      "side": 1,
+      "message": "Nothing jumped out to me here for things to sanity check for ARM.  Maybe check that pad is 0u?  Maybe confirm everything but nzcv 0 (since we don\u0027t get them), or that z and c seem to be 1 (although I don\u0027t know if that\u0027s always true here), or ...?",
+      "revId": "3b5dcdc83f75a651d68c1ea2fa6c24e4be45a7a3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
