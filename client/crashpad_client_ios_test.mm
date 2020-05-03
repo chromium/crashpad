@@ -32,18 +32,7 @@ TEST_F(CrashpadIOSClient, DumpWithoutCrash) {
   client.StartCrashpadInProcessHandler();
 
   NativeCPUContext context;
-#if defined(ARCH_CPU_X86_64)
   CaptureContext(&context);
-#elif defined(ARCH_CPU_ARM64)
-  // TODO(justincohen): Implement CaptureContext for ARM64.
-  mach_msg_type_number_t thread_state_count = MACHINE_THREAD_STATE_COUNT;
-  kern_return_t kr =
-      thread_get_state(mach_thread_self(),
-                       MACHINE_THREAD_STATE,
-                       reinterpret_cast<thread_state_t>(&context),
-                       &thread_state_count);
-  ASSERT_EQ(kr, KERN_SUCCESS);
-#endif
   client.DumpWithoutCrash(&context);
 }
 
