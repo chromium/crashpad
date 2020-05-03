@@ -31,6 +31,11 @@ void SanityCheckContext(const NativeCPUContext& context) {
             implicit_cast<thread_state_flavor_t>(x86_THREAD_STATE64));
   ASSERT_EQ(implicit_cast<uint32_t>(context.tsh.count),
             implicit_cast<uint32_t>(x86_THREAD_STATE64_COUNT));
+#elif defined(ARCH_CPU_ARM64)
+  ASSERT_EQ(implicit_cast<thread_state_flavor_t>(context.ash.flavor),
+            implicit_cast<thread_state_flavor_t>(ARM_THREAD_STATE64));
+  ASSERT_EQ(implicit_cast<uint32_t>(context.ash.count),
+            implicit_cast<uint32_t>(ARM_THREAD_STATE64_COUNT));
 #endif
 
 #if defined(ARCH_CPU_X86_FAMILY)
@@ -69,6 +74,8 @@ uintptr_t ProgramCounterFromContext(const NativeCPUContext& context) {
   return context.uts.ts32.__eip;
 #elif defined(ARCH_CPU_X86_64)
   return context.uts.ts64.__rip;
+#elif defined(ARCH_CPU_ARM64)
+  return context.ts_64.__pc;
 #endif
 }
 
@@ -77,6 +84,8 @@ uintptr_t StackPointerFromContext(const NativeCPUContext& context) {
   return context.uts.ts32.__esp;
 #elif defined(ARCH_CPU_X86_64)
   return context.uts.ts64.__rsp;
+#elif defined(ARCH_CPU_ARM64)
+  return context.ts_64.__sp;
 #endif
 }
 
