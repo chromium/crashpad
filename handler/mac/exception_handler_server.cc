@@ -130,7 +130,7 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
                                    mach_msg_type_number_t old_state_count,
                                    thread_state_t new_state,
                                    mach_msg_type_number_t* new_state_count,
-                                   const mach_msg_trailer_t* trailer,
+                                   const MachMessageServer::Messages& messages,
                                    bool* destroy_complex_request) override {
     if (exception_port != exception_port_) {
       LOG(WARNING) << "exception port mismatch";
@@ -149,7 +149,7 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
                                                     old_state_count,
                                                     new_state,
                                                     new_state_count,
-                                                    trailer,
+                                                    messages,
                                                     destroy_complex_request);
   }
 
@@ -158,7 +158,7 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
   kern_return_t DoMachNotifyNoSenders(
       notify_port_t notify,
       mach_port_mscount_t mscount,
-      const mach_msg_trailer_t* trailer) override {
+      const MachMessageServer::Messages& messages) override {
     if (notify != notify_port_) {
       // The message was received as part of a port set. This check ensures that
       // only the authorized sender of the no-senders notification is able to

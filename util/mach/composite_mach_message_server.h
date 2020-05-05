@@ -63,8 +63,7 @@ class CompositeMachMessageServer : public MachMessageServer::Interface {
   //! no appropriate handler exists, the \a out reply message is treated as a
   //! `mig_reply_error_t`, its return code is set to `MIG_BAD_ID`, and `false`
   //! is returned.
-  bool MachMessageServerFunction(const mach_msg_header_t* in,
-                                 mach_msg_header_t* out,
+  bool MachMessageServerFunction(const MachMessageServer::Messages& messages,
                                  bool* destroy_complex_request) override;
 
   //! \copydoc MachMessageServer::Interface::MachMessageServerRequestIDs()

@@ -49,39 +49,36 @@ ChildPortServer::ChildPortServer(ChildPortServer::Interface* interface)
 }
 
 bool ChildPortServer::MachMessageServerFunction(
-    const mach_msg_header_t* in_header,
-    mach_msg_header_t* out_header,
+    const MachMessageServer::Messages& messages,
     bool* destroy_complex_request) {
-  PrepareMIGReplyFromRequest(in_header, out_header);
+  PrepareMIGReplyFromRequest(messages);
 
-  const mach_msg_trailer_t* in_trailer =
-      MachMessageTrailerFromHeader(in_header);
-
-  switch (in_header->msgh_id) {
+  switch (messages.request_header->msgh_id) {
     case kMachMessageIDChildPortCheckIn: {
       // child_port_check_in(), handle_child_port_check_in().
       using Request = __Request__child_port_check_in_t;
-      const Request* in_request = reinterpret_cast<const Request*>(in_header);
+      const Request* in_request =
+          reinterpret_cast<const Request*>(messages.request_header);
       kern_return_t kr = MIGCheckRequestChildPortCheckIn(in_request);
       if (kr != MACH_MSG_SUCCESS) {
-        SetMIGReplyError(out_header, kr);
+        SetMIGReplyError(messages.reply_header, kr);
         return true;
       }
 
       using Reply = __Reply__child_port_check_in_t;
-      Reply* out_reply = reinterpret_cast<Reply*>(out_header);
-      out_reply->RetCode =
-          interface_->HandleChildPortCheckIn(in_header->msgh_local_port,
-                                             in_request->token,
-                                             in_request->port.name,
-                                             in_request->port.disposition,
-                                             in_trailer,
-                                             destroy_complex_request);
+      Reply* out_reply = reinterpret_cast<Reply*>(messages.reply_header);
+      out_reply->RetCode = interface_->HandleChildPortCheckIn(
+          messages.request_header->msgh_local_port,
+          in_request->token,
+          in_request->port.name,
+          in_request->port.disposition,
+          messages,
+          destroy_complex_request);
       return true;
     }
 
     default: {
-      SetMIGReplyError(out_header, MIG_BAD_ID);
+      SetMIGReplyError(messages.reply_header, MIG_BAD_ID);
       return false;
     }
   }

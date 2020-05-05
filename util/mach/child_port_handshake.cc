@@ -56,12 +56,13 @@ class ChildPortHandshakeServer final : public ChildPortServer::Interface {
 
  private:
   // ChildPortServer::Interface:
-  kern_return_t HandleChildPortCheckIn(child_port_server_t server,
-                                       child_port_token_t token,
-                                       mach_port_t port,
-                                       mach_msg_type_name_t right_type,
-                                       const mach_msg_trailer_t* trailer,
-                                       bool* destroy_request) override;
+  kern_return_t HandleChildPortCheckIn(
+      child_port_server_t server,
+      child_port_token_t token,
+      mach_port_t port,
+      mach_msg_type_name_t right_type,
+      const MachMessageServer::Messages& messages,
+      bool* destroy_request) override;
 
   child_port_token_t token_;
   mach_port_t port_;
@@ -294,7 +295,7 @@ kern_return_t ChildPortHandshakeServer::HandleChildPortCheckIn(
     const child_port_token_t token,
     mach_port_t port,
     mach_msg_type_name_t right_type,
-    const mach_msg_trailer_t* trailer,
+    const MachMessageServer::Messages& messages,
     bool* destroy_request) {
   DCHECK_EQ(port_, kMachPortNull);
   DCHECK(!checked_in_);

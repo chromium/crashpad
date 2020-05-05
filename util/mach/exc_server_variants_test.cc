@@ -490,23 +490,24 @@ class MockUniversalMachExcServer : public UniversalMachExcServer::Interface {
       mach_msg_type_number_t old_state_count,
       thread_state_t new_state,
       mach_msg_type_number_t* new_state_count,
-      const mach_msg_trailer_t* trailer,
+      const MachMessageServer::Messages& messages,
       bool* destroy_complex_request) override {
     *destroy_complex_request = true;
     const ConstExceptionCodes exception_codes = {code, code_count};
     const ConstThreadStateAndCount old_thread_state = {old_state,
                                                        &old_state_count};
     ThreadStateAndCount new_thread_state = {new_state, new_state_count};
-    return MockCatchMachException(behavior,
-                                  exception_port,
-                                  thread,
-                                  task,
-                                  exception,
-                                  &exception_codes,
-                                  flavor,
-                                  &old_thread_state,
-                                  &new_thread_state,
-                                  trailer);
+    return MockCatchMachException(
+        behavior,
+        exception_port,
+        thread,
+        task,
+        exception,
+        &exception_codes,
+        flavor,
+        &old_thread_state,
+        &new_thread_state,
+        MachMessageTrailerFromHeader(messages.request_header));
   }
 
   MOCK_METHOD10(MockCatchMachException,
@@ -622,11 +623,12 @@ TEST(ExcServerVariants, MockExceptionRaise) {
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
 
+  MachMessageServer::Messages messages;
+  messages.request_header = reinterpret_cast<mach_msg_header_t*>(&request);
+  messages.reply_header = reinterpret_cast<mach_msg_header_t*>(&reply);
   bool destroy_complex_request = false;
   EXPECT_TRUE(universal_mach_exc_server.MachMessageServerFunction(
-      reinterpret_cast<mach_msg_header_t*>(&request),
-      reinterpret_cast<mach_msg_header_t*>(&reply),
-      &destroy_complex_request));
+      messages, &destroy_complex_request));
   EXPECT_TRUE(destroy_complex_request);
 
   reply.Verify(kExceptionBehavior);
@@ -668,11 +670,12 @@ TEST(ExcServerVariants, MockExceptionRaiseState) {
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
 
+  MachMessageServer::Messages messages;
+  messages.request_header = reinterpret_cast<mach_msg_header_t*>(&request);
+  messages.reply_header = reinterpret_cast<mach_msg_header_t*>(&reply);
   bool destroy_complex_request = false;
   EXPECT_TRUE(universal_mach_exc_server.MachMessageServerFunction(
-      reinterpret_cast<mach_msg_header_t*>(&request),
-      reinterpret_cast<mach_msg_header_t*>(&reply),
-      &destroy_complex_request));
+      messages, &destroy_complex_request));
 
   // The request wasn’t complex, so nothing got a chance to change the value of
   // this variable.
@@ -717,11 +720,12 @@ TEST(ExcServerVariants, MockExceptionRaiseStateIdentity) {
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
 
+  MachMessageServer::Messages messages;
+  messages.request_header = reinterpret_cast<mach_msg_header_t*>(&request);
+  messages.reply_header = reinterpret_cast<mach_msg_header_t*>(&reply);
   bool destroy_complex_request = false;
   EXPECT_TRUE(universal_mach_exc_server.MachMessageServerFunction(
-      reinterpret_cast<mach_msg_header_t*>(&request),
-      reinterpret_cast<mach_msg_header_t*>(&reply),
-      &destroy_complex_request));
+      messages, &destroy_complex_request));
   EXPECT_TRUE(destroy_complex_request);
 
   reply.Verify(kExceptionBehavior);
@@ -764,11 +768,12 @@ TEST(ExcServerVariants, MockMachExceptionRaise) {
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
 
+  MachMessageServer::Messages messages;
+  messages.request_header = reinterpret_cast<mach_msg_header_t*>(&request);
+  messages.reply_header = reinterpret_cast<mach_msg_header_t*>(&reply);
   bool destroy_complex_request = false;
   EXPECT_TRUE(universal_mach_exc_server.MachMessageServerFunction(
-      reinterpret_cast<mach_msg_header_t*>(&request),
-      reinterpret_cast<mach_msg_header_t*>(&reply),
-      &destroy_complex_request));
+      messages, &destroy_complex_request));
   EXPECT_TRUE(destroy_complex_request);
 
   reply.Verify(kExceptionBehavior);
@@ -811,11 +816,12 @@ TEST(ExcServerVariants, MockMachExceptionRaiseState) {
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
 
+  MachMessageServer::Messages messages;
+  messages.request_header = reinterpret_cast<mach_msg_header_t*>(&request);
+  messages.reply_header = reinterpret_cast<mach_msg_header_t*>(&reply);
   bool destroy_complex_request = false;
   EXPECT_TRUE(universal_mach_exc_server.MachMessageServerFunction(
-      reinterpret_cast<mach_msg_header_t*>(&request),
-      reinterpret_cast<mach_msg_header_t*>(&reply),
-      &destroy_complex_request));
+      messages, &destroy_complex_request));
 
   // The request wasn’t complex, so nothing got a chance to change the value of
   // this variable.
@@ -861,11 +867,12 @@ TEST(ExcServerVariants, MockMachExceptionRaiseStateIdentity) {
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
 
+  MachMessageServer::Messages messages;
+  messages.request_header = reinterpret_cast<mach_msg_header_t*>(&request);
+  messages.reply_header = reinterpret_cast<mach_msg_header_t*>(&reply);
   bool destroy_complex_request = false;
   EXPECT_TRUE(universal_mach_exc_server.MachMessageServerFunction(
-      reinterpret_cast<mach_msg_header_t*>(&request),
-      reinterpret_cast<mach_msg_header_t*>(&reply),
-      &destroy_complex_request));
+      messages, &destroy_complex_request));
   EXPECT_TRUE(destroy_complex_request);
 
   reply.Verify(kExceptionBehavior);
@@ -927,11 +934,12 @@ TEST(ExcServerVariants, MockUnknownID) {
     EXPECT_LE(sizeof(reply),
               universal_mach_exc_server.MachMessageServerReplySize());
 
+    MachMessageServer::Messages messages;
+    messages.request_header = reinterpret_cast<mach_msg_header_t*>(&request);
+    messages.reply_header = reinterpret_cast<mach_msg_header_t*>(&reply);
     bool destroy_complex_request = false;
     EXPECT_FALSE(universal_mach_exc_server.MachMessageServerFunction(
-        reinterpret_cast<mach_msg_header_t*>(&request),
-        reinterpret_cast<mach_msg_header_t*>(&reply),
-        &destroy_complex_request));
+        messages, &destroy_complex_request));
 
     // The request wasn’t handled, nothing got a chance to change the value of
     // this variable. MachMessageServer would destroy the request if it was
@@ -994,7 +1002,7 @@ class TestExcServerVariants : public MachMultiprocess,
       mach_msg_type_number_t old_state_count,
       thread_state_t new_state,
       mach_msg_type_number_t* new_state_count,
-      const mach_msg_trailer_t* trailer,
+      const MachMessageServer::Messages& messages,
       bool* destroy_complex_request) override {
     *destroy_complex_request = true;
 
@@ -1040,6 +1048,8 @@ class TestExcServerVariants : public MachMultiprocess,
       EXPECT_EQ(new_state, nullptr);
     }
 
+    const mach_msg_trailer_t* trailer =
+        MachMessageTrailerFromHeader(messages.request_header);
     EXPECT_EQ(
         trailer->msgh_trailer_type,
         implicit_cast<mach_msg_trailer_type_t>(MACH_MSG_TRAILER_FORMAT_0));

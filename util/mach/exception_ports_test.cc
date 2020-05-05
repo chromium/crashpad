@@ -169,7 +169,7 @@ class TestExceptionPorts : public MachMultiprocess,
       mach_msg_type_number_t old_state_count,
       thread_state_t new_state,
       mach_msg_type_number_t* new_state_count,
-      const mach_msg_trailer_t* trailer,
+      const MachMessageServer::Messages& messages,
       bool* destroy_complex_request) override {
     *destroy_complex_request = true;
 
@@ -208,7 +208,9 @@ class TestExceptionPorts : public MachMultiprocess,
       EXPECT_EQ(signal, SIGILL);
     }
 
-    EXPECT_EQ(AuditPIDFromMachMessageTrailer(trailer), 0);
+    EXPECT_EQ(AuditPIDFromMachMessageTrailer(
+                  MachMessageTrailerFromHeader(messages.request_header)),
+              0);
 
     ExcServerCopyState(
         behavior, old_state, old_state_count, new_state, new_state_count);

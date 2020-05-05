@@ -82,7 +82,8 @@ class UniversalMachExcServer final : public MachMessageServer::Interface {
     //! \param[in] old_state_count
     //! \param[out] new_state
     //! \param[out] new_state_count
-    //! \param[in] trailer The trailer received with the request message.
+    //! \param[in] messages The received requst and allocated reply Mach
+    //!     messages.
     //! \param[out] destroy_complex_request `true` if the request message is to
     //!     be destroyed even when this method returns success. See
     //!     MachMessageServer::Interface.
@@ -103,7 +104,7 @@ class UniversalMachExcServer final : public MachMessageServer::Interface {
         mach_msg_type_number_t old_state_count,
         thread_state_t new_state,
         mach_msg_type_number_t* new_state_count,
-        const mach_msg_trailer_t* trailer,
+        const MachMessageServer::Messages& messages,
         bool* destroy_complex_request) = 0;
 
    protected:
@@ -118,8 +119,7 @@ class UniversalMachExcServer final : public MachMessageServer::Interface {
   ~UniversalMachExcServer();
 
   // MachMessageServer::Interface:
-  bool MachMessageServerFunction(const mach_msg_header_t* in_header,
-                                 mach_msg_header_t* out_header,
+  bool MachMessageServerFunction(const MachMessageServer::Messages& messages,
                                  bool* destroy_complex_request) override;
   std::set<mach_msg_id_t> MachMessageServerRequestIDs() override;
   mach_msg_size_t MachMessageServerRequestSize() override;

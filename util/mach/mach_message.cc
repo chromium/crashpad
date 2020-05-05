@@ -197,16 +197,16 @@ mach_msg_return_t MachMessageWithDeadline(mach_msg_header_t* message,
   return mr;
 }
 
-void PrepareMIGReplyFromRequest(const mach_msg_header_t* in_header,
-                                mach_msg_header_t* out_header) {
-  out_header->msgh_bits =
-      MACH_MSGH_BITS(MACH_MSGH_BITS_REMOTE(in_header->msgh_bits), 0);
-  out_header->msgh_size = sizeof(mig_reply_error_t);
-  out_header->msgh_remote_port = in_header->msgh_remote_port;
-  out_header->msgh_local_port = MACH_PORT_NULL;
-  out_header->msgh_reserved = 0;
-  out_header->msgh_id = in_header->msgh_id + 100;
-  reinterpret_cast<mig_reply_error_t*>(out_header)->NDR = NDR_record;
+void PrepareMIGReplyFromRequest(const MachMessageServer::Messages& messages) {
+  messages.reply_header->msgh_bits = MACH_MSGH_BITS(
+      MACH_MSGH_BITS_REMOTE(messages.request_header->msgh_bits), 0);
+  messages.reply_header->msgh_size = sizeof(mig_reply_error_t);
+  messages.reply_header->msgh_remote_port =
+      messages.request_header->msgh_remote_port;
+  messages.reply_header->msgh_local_port = MACH_PORT_NULL;
+  messages.reply_header->msgh_reserved = 0;
+  messages.reply_header->msgh_id = messages.request_header->msgh_id + 100;
+  reinterpret_cast<mig_reply_error_t*>(messages.reply_header)->NDR = NDR_record;
 }
 
 void SetMIGReplyError(mach_msg_header_t* out_header, kern_return_t error) {

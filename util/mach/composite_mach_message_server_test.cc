@@ -37,9 +37,12 @@ TEST(CompositeMachMessageServer, Empty) {
   mig_reply_error_t reply = {};
   EXPECT_EQ(server.MachMessageServerReplySize(), sizeof(reply));
 
+  MachMessageServer::Messages messages;
+  messages.request_header = &request.header;
+  messages.reply_header = &reply.Head;
   bool destroy_complex_request = false;
-  EXPECT_FALSE(server.MachMessageServerFunction(
-      &request.header, &reply.Head, &destroy_complex_request));
+  EXPECT_FALSE(
+      server.MachMessageServerFunction(messages, &destroy_complex_request));
   EXPECT_EQ(reply.RetCode, MIG_BAD_ID);
 }
 
@@ -80,14 +83,14 @@ class TestMachMessageHandler : public MachMessageServer::Interface {
 
   // MachMessageServer::Interface:
 
-  bool MachMessageServerFunction(const mach_msg_header_t* in,
-                                 mach_msg_header_t* out,
+  bool MachMessageServerFunction(const MachMessageServer::Messages& messages,
                                  bool* destroy_complex_request) override {
-    EXPECT_NE(request_ids_.find(in->msgh_id), request_ids_.end());
+    EXPECT_NE(request_ids_.find(messages.request_header->msgh_id),
+              request_ids_.end());
 
     *destroy_complex_request = destroy_complex_request_;
-    PrepareMIGReplyFromRequest(in, out);
-    SetMIGReplyError(out, return_code_);
+    PrepareMIGReplyFromRequest(messages);
+    SetMIGReplyError(messages.reply_header, return_code_);
     return return_value_;
   }
 
@@ -128,9 +131,12 @@ TEST(CompositeMachMessageServer, HandlerDoesNotHandle) {
   mig_reply_error_t reply = {};
   EXPECT_EQ(server.MachMessageServerReplySize(), sizeof(reply));
 
+  MachMessageServer::Messages messages;
+  messages.request_header = &request.header;
+  messages.reply_header = &reply.Head;
   bool destroy_complex_request = false;
-  EXPECT_FALSE(server.MachMessageServerFunction(
-      &request.header, &reply.Head, &destroy_complex_request));
+  EXPECT_FALSE(
+      server.MachMessageServerFunction(messages, &destroy_complex_request));
   EXPECT_EQ(reply.RetCode, MIG_BAD_ID);
   EXPECT_FALSE(destroy_complex_request);
 }
@@ -166,18 +172,22 @@ TEST(CompositeMachMessageServer, OneHandler) {
   mach_msg_empty_rcv_t request = {};
   mig_reply_error_t reply = {};
 
+  MachMessageServer::Messages messages;
+  messages.request_header = &request.header;
+  messages.reply_header = &reply.Head;
+
   // Send a message with an unknown request ID.
   request.header.msgh_id = 0;
   bool destroy_complex_request = false;
-  EXPECT_FALSE(server.MachMessageServerFunction(
-      &request.header, &reply.Head, &destroy_complex_request));
+  EXPECT_FALSE(
+      server.MachMessageServerFunction(messages, &destroy_complex_request));
   EXPECT_EQ(reply.RetCode, MIG_BAD_ID);
   EXPECT_FALSE(destroy_complex_request);
 
   // Send a message with a known request ID.
   request.header.msgh_id = kRequestID;
-  EXPECT_TRUE(server.MachMessageServerFunction(
-      &request.header, &reply.Head, &destroy_complex_request));
+  EXPECT_TRUE(
+      server.MachMessageServerFunction(messages, &destroy_complex_request));
   EXPECT_EQ(reply.RetCode, kReturnCode);
   EXPECT_TRUE(destroy_complex_request);
 }
@@ -243,11 +253,15 @@ TEST(CompositeMachMessageServer, ThreeHandlers) {
   mach_msg_empty_rcv_t request = {};
   mig_reply_error_t reply = {};
 
+  MachMessageServer::Messages messages;
+  messages.request_header = &request.header;
+  messages.reply_header = &reply.Head;
+
   // Send a message with an unknown request ID.
   request.header.msgh_id = 100;
   bool destroy_complex_request = false;
-  EXPECT_FALSE(server.MachMessageServerFunction(
-      &request.header, &reply.Head, &destroy_complex_request));
+  EXPECT_FALSE(
+      server.MachMessageServerFunction(messages, &destroy_complex_request));
   EXPECT_EQ(reply.RetCode, MIG_BAD_ID);
   EXPECT_FALSE(destroy_complex_request);
 
@@ -258,8 +272,8 @@ TEST(CompositeMachMessageServer, ThreeHandlers) {
     SCOPED_TRACE(base::StringPrintf(
         "handler 0, index %zu, id %d", index, request.header.msgh_id));
 
-    EXPECT_TRUE(server.MachMessageServerFunction(
-        &request.header, &reply.Head, &destroy_complex_request));
+    EXPECT_TRUE(
+        server.MachMessageServerFunction(messages, &destroy_complex_request));
     EXPECT_EQ(reply.RetCode, kReturnCode0);
     EXPECT_FALSE(destroy_complex_request);
   }
@@ -269,8 +283,8 @@ TEST(CompositeMachMessageServer, ThreeHandlers) {
     SCOPED_TRACE(base::StringPrintf(
         "handler 1, index %zu, id %d", index, request.header.msgh_id));
 
-    EXPECT_FALSE(server.MachMessageServerFunction(
-        &request.header, &reply.Head, &destroy_complex_request));
+    EXPECT_FALSE(
+        server.MachMessageServerFunction(messages, &destroy_complex_request));
     EXPECT_EQ(reply.RetCode, kReturnCode1);
     EXPECT_TRUE(destroy_complex_request);
   }
@@ -280,8 +294,8 @@ TEST(CompositeMachMessageServer, ThreeHandlers) {
     SCOPED_TRACE(base::StringPrintf(
         "handler 2, index %zu, id %d", index, request.header.msgh_id));
 
-    EXPECT_TRUE(server.MachMessageServerFunction(
-        &request.header, &reply.Head, &destroy_complex_request));
+    EXPECT_TRUE(
+        server.MachMessageServerFunction(messages, &destroy_complex_request));
     EXPECT_EQ(reply.RetCode, kReturnCode2);
     EXPECT_TRUE(destroy_complex_request);
   }
