@@ -69,14 +69,14 @@ namespace crashpad {
 kern_return_t NotifyServer::DefaultInterface::DoMachNotifyPortDeleted(
     notify_port_t notify,
     mach_port_name_t name,
-    const mach_msg_trailer_t* trailer) {
+    const MachMessageServer::Messages& messages) {
   return MIG_BAD_ID;
 }
 
 kern_return_t NotifyServer::DefaultInterface::DoMachNotifyPortDestroyed(
     notify_port_t notify,
     mach_port_t rights,
-    const mach_msg_trailer_t* trailer,
+    const MachMessageServer::Messages& messages,
     bool* destroy_request) {
   *destroy_request = true;
   return MIG_BAD_ID;
@@ -85,20 +85,20 @@ kern_return_t NotifyServer::DefaultInterface::DoMachNotifyPortDestroyed(
 kern_return_t NotifyServer::DefaultInterface::DoMachNotifyNoSenders(
     notify_port_t notify,
     mach_port_mscount_t mscount,
-    const mach_msg_trailer_t* trailer) {
+    const MachMessageServer::Messages& messages) {
   return MIG_BAD_ID;
 }
 
 kern_return_t NotifyServer::DefaultInterface::DoMachNotifySendOnce(
     notify_port_t notify,
-    const mach_msg_trailer_t* trailer) {
+    const MachMessageServer::Messages& messages) {
   return MIG_BAD_ID;
 }
 
 kern_return_t NotifyServer::DefaultInterface::DoMachNotifyDeadName(
     notify_port_t notify,
     mach_port_name_t name,
-    const mach_msg_trailer_t* trailer) {
+    const MachMessageServer::Messages& messages) {
   return MIG_BAD_ID;
 }
 
@@ -108,112 +108,108 @@ NotifyServer::NotifyServer(NotifyServer::Interface* interface)
 }
 
 bool NotifyServer::MachMessageServerFunction(
-    const mach_msg_header_t* in_header,
-    mach_msg_header_t* out_header,
+    const MachMessageServer::Messages& messages,
     bool* destroy_complex_request) {
-  PrepareMIGReplyFromRequest(in_header, out_header);
+  PrepareMIGReplyFromRequest(messages);
 
-  const mach_msg_trailer_t* in_trailer =
-      MachMessageTrailerFromHeader(in_header);
-
-  switch (in_header->msgh_id) {
+  switch (messages.request_header->msgh_id) {
     case MACH_NOTIFY_PORT_DELETED: {
       // mach_notify_port_deleted(), do_mach_notify_port_deleted().
       using Request = __Request__mach_notify_port_deleted_t;
-      const Request* in_request = reinterpret_cast<const Request*>(in_header);
+      const Request* in_request =
+          reinterpret_cast<const Request*>(messages.request_header);
       kern_return_t kr = MIGCheckRequestMachNotifyPortDeleted(in_request);
       if (kr != MACH_MSG_SUCCESS) {
-        SetMIGReplyError(out_header, kr);
+        SetMIGReplyError(messages.reply_header, kr);
         return true;
       }
 
       using Reply = __Reply__mach_notify_port_deleted_t;
-      Reply* out_reply = reinterpret_cast<Reply*>(out_header);
-      out_reply->RetCode =
-          interface_->DoMachNotifyPortDeleted(in_header->msgh_local_port,
-                                              in_request->name,
-                                              in_trailer);
+      Reply* out_reply = reinterpret_cast<Reply*>(messages.reply_header);
+      out_reply->RetCode = interface_->DoMachNotifyPortDeleted(
+          messages.request_header->msgh_local_port, in_request->name, messages);
       return true;
     }
 
     case MACH_NOTIFY_PORT_DESTROYED: {
       // mach_notify_port_destroyed(), do_mach_notify_port_destroyed().
       using Request = __Request__mach_notify_port_destroyed_t;
-      const Request* in_request = reinterpret_cast<const Request*>(in_header);
+      const Request* in_request =
+          reinterpret_cast<const Request*>(messages.request_header);
       kern_return_t kr = MIGCheckRequestMachNotifyPortDestroyed(in_request);
       if (kr != MACH_MSG_SUCCESS) {
-        SetMIGReplyError(out_header, kr);
+        SetMIGReplyError(messages.reply_header, kr);
         return true;
       }
 
       using Reply = __Reply__mach_notify_port_destroyed_t;
-      Reply* out_reply = reinterpret_cast<Reply*>(out_header);
-      out_reply->RetCode =
-          interface_->DoMachNotifyPortDestroyed(in_header->msgh_local_port,
-                                                in_request->rights.name,
-                                                in_trailer,
-                                                destroy_complex_request);
+      Reply* out_reply = reinterpret_cast<Reply*>(messages.reply_header);
+      out_reply->RetCode = interface_->DoMachNotifyPortDestroyed(
+          messages.request_header->msgh_local_port,
+          in_request->rights.name,
+          messages,
+          destroy_complex_request);
       return true;
     }
 
     case MACH_NOTIFY_NO_SENDERS: {
       // mach_notify_no_senders(), do_mach_notify_no_senders().
       using Request = __Request__mach_notify_no_senders_t;
-      const Request* in_request = reinterpret_cast<const Request*>(in_header);
+      const Request* in_request =
+          reinterpret_cast<const Request*>(messages.request_header);
       kern_return_t kr = MIGCheckRequestMachNotifyNoSenders(in_request);
       if (kr != MACH_MSG_SUCCESS) {
-        SetMIGReplyError(out_header, kr);
+        SetMIGReplyError(messages.reply_header, kr);
         return true;
       }
 
       using Reply = __Reply__mach_notify_no_senders_t;
-      Reply* out_reply = reinterpret_cast<Reply*>(out_header);
-      out_reply->RetCode =
-          interface_->DoMachNotifyNoSenders(in_header->msgh_local_port,
-                                            in_request->mscount,
-                                            in_trailer);
+      Reply* out_reply = reinterpret_cast<Reply*>(messages.reply_header);
+      out_reply->RetCode = interface_->DoMachNotifyNoSenders(
+          messages.request_header->msgh_local_port,
+          in_request->mscount,
+          messages);
       return true;
     }
 
     case MACH_NOTIFY_SEND_ONCE: {
       // mach_notify_send_once(), do_mach_notify_send_once().
       using Request = __Request__mach_notify_send_once_t;
-      const Request* in_request = reinterpret_cast<const Request*>(in_header);
+      const Request* in_request =
+          reinterpret_cast<const Request*>(messages.request_header);
       kern_return_t kr = MIGCheckRequestMachNotifySendOnce(in_request);
       if (kr != MACH_MSG_SUCCESS) {
-        SetMIGReplyError(out_header, kr);
+        SetMIGReplyError(messages.reply_header, kr);
         return true;
       }
 
       using Reply = __Reply__mach_notify_send_once_t;
-      Reply* out_reply = reinterpret_cast<Reply*>(out_header);
-      out_reply->RetCode =
-          interface_->DoMachNotifySendOnce(in_header->msgh_local_port,
-                                           in_trailer);
+      Reply* out_reply = reinterpret_cast<Reply*>(messages.reply_header);
+      out_reply->RetCode = interface_->DoMachNotifySendOnce(
+          messages.request_header->msgh_local_port, messages);
       return true;
     }
 
     case MACH_NOTIFY_DEAD_NAME: {
       // mach_notify_dead_name(), do_mach_notify_dead_name().
       using Request = __Request__mach_notify_dead_name_t;
-      const Request* in_request = reinterpret_cast<const Request*>(in_header);
+      const Request* in_request =
+          reinterpret_cast<const Request*>(messages.request_header);
       kern_return_t kr = MIGCheckRequestMachNotifyDeadName(in_request);
       if (kr != MACH_MSG_SUCCESS) {
-        SetMIGReplyError(out_header, kr);
+        SetMIGReplyError(messages.reply_header, kr);
         return true;
       }
 
       using Reply = __Reply__mach_notify_dead_name_t;
-      Reply* out_reply = reinterpret_cast<Reply*>(out_header);
-      out_reply->RetCode =
-          interface_->DoMachNotifyDeadName(in_header->msgh_local_port,
-                                           in_request->name,
-                                           in_trailer);
+      Reply* out_reply = reinterpret_cast<Reply*>(messages.reply_header);
+      out_reply->RetCode = interface_->DoMachNotifyDeadName(
+          messages.request_header->msgh_local_port, in_request->name, messages);
       return true;
     }
 
     default: {
-      SetMIGReplyError(out_header, MIG_BAD_ID);
+      SetMIGReplyError(messages.reply_header, MIG_BAD_ID);
       return false;
     }
   }

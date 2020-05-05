@@ -183,10 +183,11 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
 
   // NotifyServer::DefaultInterface:
 
-  kern_return_t DoMachNotifyPortDestroyed(notify_port_t notify,
-                                          mach_port_t rights,
-                                          const mach_msg_trailer_t* trailer,
-                                          bool* destroy_request) override {
+  kern_return_t DoMachNotifyPortDestroyed(
+      notify_port_t notify,
+      mach_port_t rights,
+      const MachMessageServer::Messages& messages,
+      bool* destroy_request) override {
     // The receive right corresponding to this process’ crash exception port is
     // now owned by this process. Any crashes that occur before the receive
     // right is moved to a new handler process will cause the process to hang in

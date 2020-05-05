@@ -27,7 +27,14 @@ namespace {
 
 using CrashpadIOSClient = PlatformTest;
 
-TEST_F(CrashpadIOSClient, DumpWithoutCrash) {
+TEST_F(CrashpadIOSClient, Crash) {
+  CrashpadClient client;
+  client.StartCrashpadInProcessHandler();
+
+  *static_cast<volatile int*>(nullptr) = 0;
+}
+
+TEST_F(CrashpadIOSClient, DISABLED_DumpWithoutCrash) {
   CrashpadClient client;
   client.StartCrashpadInProcessHandler();
 

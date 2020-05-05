@@ -19,6 +19,7 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 #include "util/mach/mach_extensions.h"
+#include "util/mach/mach_message.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
@@ -27,6 +28,7 @@ namespace {
 
 using testing::Eq;
 using testing::Pointee;
+using testing::ResultOf;
 using testing::Return;
 
 // Fake Mach ports. These aren’t used as ports in these tests, they’re just used
@@ -38,6 +40,12 @@ constexpr mach_port_t kCheckInPort = 0x06060606;
 // Other fake values.
 constexpr mach_msg_type_name_t kCheckInPortRightType = MACH_MSG_TYPE_PORT_SEND;
 constexpr child_port_token_t kCheckInToken = 0xfedcba9876543210;
+
+// This wrapper function is provided for convenience when used with gMock.
+const mach_msg_trailer_t* RequestTrailerFromMessages(
+    const MachMessageServer::Messages& messages) {
+  return MachMessageTrailerFromHeader(messages.request_header);
+}
 
 // The definition of the request structure from child_port.h isn’t available
 // here. It needs custom initialization code, so duplicate the expected
@@ -94,7 +102,7 @@ class MockChildPortServerInterface : public ChildPortServer::Interface {
                              const child_port_token_t token,
                              mach_port_t port,
                              mach_msg_type_name_t right_type,
-                             const mach_msg_trailer_t* trailer,
+                             const MachMessageServer::Messages& messages,
                              bool* destroy_request));
 };
 
@@ -113,20 +121,21 @@ TEST(ChildPortServer, MockChildPortCheckIn) {
   EXPECT_EQ(server.MachMessageServerReplySize(), sizeof(reply));
 
   EXPECT_CALL(server_interface,
-              HandleChildPortCheckIn(kServerLocalPort,
-                                     kCheckInToken,
-                                     kCheckInPort,
-                                     kCheckInPortRightType,
-                                     Eq(&request.trailer),
-                                     Pointee(Eq(false))))
+              HandleChildPortCheckIn(
+                  kServerLocalPort,
+                  kCheckInToken,
+                  kCheckInPort,
+                  kCheckInPortRightType,
+                  ResultOf(RequestTrailerFromMessages, Eq(&request.trailer)),
+                  Pointee(Eq(false))))
       .WillOnce(Return(MIG_NO_REPLY))
       .RetiresOnSaturation();
 
+  MachMessageServer::Messages messages;
+  messages.request_header = reinterpret_cast<mach_msg_header_t*>(&request);
+  messages.reply_header = reinterpret_cast<mach_msg_header_t*>(&reply);
   bool destroy_request = false;
-  EXPECT_TRUE(server.MachMessageServerFunction(
-      reinterpret_cast<mach_msg_header_t*>(&request),
-      reinterpret_cast<mach_msg_header_t*>(&reply),
-      &destroy_request));
+  EXPECT_TRUE(server.MachMessageServerFunction(messages, &destroy_request));
   EXPECT_FALSE(destroy_request);
 
   reply.Verify();

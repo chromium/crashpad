@@ -160,6 +160,15 @@ mach_port_urefs_t DeadNameRightRefCount(mach_port_t port) {
   return RightRefCount(port, MACH_PORT_RIGHT_DEAD_NAME);
 }
 
+//! \brief Returns the audit PID from a request message.
+//!
+//! \note This is a wrapper function provided for convenience when used with
+//! gMock.
+pid_t AuditPIDFromRequestMessage(const MachMessageServer::Messages& messages) {
+  return AuditPIDFromMachMessageTrailer(
+      MachMessageTrailerFromHeader(messages.request_header));
+}
+
 class NotifyServerTestBase : public testing::Test,
                              public NotifyServer::Interface {
  public:
@@ -168,27 +177,27 @@ class NotifyServerTestBase : public testing::Test,
   MOCK_METHOD3(DoMachNotifyPortDeleted,
                kern_return_t(notify_port_t notify,
                              mach_port_name_t name,
-                             const mach_msg_trailer_t* trailer));
+                             const MachMessageServer::Messages& messages));
 
   MOCK_METHOD4(DoMachNotifyPortDestroyed,
                kern_return_t(notify_port_t notify,
                              mach_port_t rights,
-                             const mach_msg_trailer_t* trailer,
+                             const MachMessageServer::Messages& messages,
                              bool* destroy_request));
 
   MOCK_METHOD3(DoMachNotifyNoSenders,
                kern_return_t(notify_port_t notify,
                              mach_port_mscount_t mscount,
-                             const mach_msg_trailer_t* trailer));
+                             const MachMessageServer::Messages& messages));
 
   MOCK_METHOD2(DoMachNotifySendOnce,
                kern_return_t(notify_port_t notify,
-                             const mach_msg_trailer_t* trailer));
+                             const MachMessageServer::Messages& messages));
 
   MOCK_METHOD3(DoMachNotifyDeadName,
                kern_return_t(notify_port_t notify,
                              mach_port_name_t name,
-                             const mach_msg_trailer_t* trailer));
+                             const MachMessageServer::Messages& messages));
 
  protected:
   NotifyServerTestBase() : testing::Test(), NotifyServer::Interface() {}
@@ -321,11 +330,10 @@ TEST_F(NotifyServerTest, MachNotifyPortDeleted) {
   ASSERT_TRUE(RequestMachPortNotification(
       send_once_right.get(), MACH_NOTIFY_DEAD_NAME, 0));
 
-  EXPECT_CALL(
-      *this,
-      DoMachNotifyPortDeleted(ServerPort(),
-                              send_once_right.get(),
-                              ResultOf(AuditPIDFromMachMessageTrailer, 0)))
+  EXPECT_CALL(*this,
+              DoMachNotifyPortDeleted(ServerPort(),
+                                      send_once_right.get(),
+                                      ResultOf(AuditPIDFromRequestMessage, 0)))
       .WillOnce(Return(MIG_NO_REPLY))
       .RetiresOnSaturation();
 
@@ -344,12 +352,11 @@ TEST_F(NotifyServerTest, MachNotifyPortDestroyed) {
   ASSERT_TRUE(RequestMachPortNotification(
       receive_right.get(), MACH_NOTIFY_PORT_DESTROYED, 0));
 
-  EXPECT_CALL(
-      *this,
-      DoMachNotifyPortDestroyed(ServerPort(),
-                                ResultOf(IsReceiveRight, true),
-                                ResultOf(AuditPIDFromMachMessageTrailer, 0),
-                                Pointee(Eq(false))))
+  EXPECT_CALL(*this,
+              DoMachNotifyPortDestroyed(ServerPort(),
+                                        ResultOf(IsReceiveRight, true),
+                                        ResultOf(AuditPIDFromRequestMessage, 0),
+                                        Pointee(Eq(false))))
       .WillOnce(DoAll(SetArgPointee<3>(true), Return(MIG_NO_REPLY)))
       .RetiresOnSaturation();
 
@@ -383,7 +390,7 @@ TEST_F(NotifyServerTest, MachNotifyNoSenders_NoSendRight) {
 
   EXPECT_CALL(*this,
               DoMachNotifyNoSenders(
-                  ServerPort(), 0, ResultOf(AuditPIDFromMachMessageTrailer, 0)))
+                  ServerPort(), 0, ResultOf(AuditPIDFromRequestMessage, 0)))
       .WillOnce(Return(MIG_NO_REPLY))
       .RetiresOnSaturation();
 
@@ -407,7 +414,7 @@ TEST_F(NotifyServerTest, MachNotifyNoSenders_SendRightDeallocated) {
 
   EXPECT_CALL(*this,
               DoMachNotifyNoSenders(
-                  ServerPort(), 1, ResultOf(AuditPIDFromMachMessageTrailer, 0)))
+                  ServerPort(), 1, ResultOf(AuditPIDFromRequestMessage, 0)))
       .WillOnce(Return(MIG_NO_REPLY))
       .RetiresOnSaturation();
 
@@ -451,7 +458,7 @@ TEST_F(NotifyServerTest, MachNotifySendOnce_ExplicitDeallocation) {
 
   EXPECT_CALL(*this,
               DoMachNotifySendOnce(ServerPort(),
-                                   ResultOf(AuditPIDFromMachMessageTrailer, 0)))
+                                   ResultOf(AuditPIDFromRequestMessage, 0)))
       .WillOnce(Return(MIG_NO_REPLY))
       .RetiresOnSaturation();
 
@@ -485,7 +492,7 @@ TEST_F(NotifyServerTest, MachNotifySendOnce_ImplicitDeallocation) {
 
   EXPECT_CALL(*this,
               DoMachNotifySendOnce(ServerPort(),
-                                   ResultOf(AuditPIDFromMachMessageTrailer, 0)))
+                                   ResultOf(AuditPIDFromRequestMessage, 0)))
       .WillOnce(Return(MIG_NO_REPLY))
       .RetiresOnSaturation();
 
@@ -517,9 +524,9 @@ TEST_F(NotifyServerTest, MachNotifyDeadName) {
               DoMachNotifyDeadName(ServerPort(),
                                    AllOf(send_once_right.get(),
                                          ResultOf(DeadNameRightRefCount, 2)),
-                                   ResultOf(AuditPIDFromMachMessageTrailer, 0)))
+                                   ResultOf(AuditPIDFromRequestMessage, 0)))
       .WillOnce(
-           DoAll(WithArg<1>(Invoke(MachPortDeallocate)), Return(MIG_NO_REPLY)))
+          DoAll(WithArg<1>(Invoke(MachPortDeallocate)), Return(MIG_NO_REPLY)))
       .RetiresOnSaturation();
 
   receive_right.reset();

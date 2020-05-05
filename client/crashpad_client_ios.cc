@@ -80,18 +80,21 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
                                               MACH_MSG_TYPE_MAKE_SEND);
     MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_port_insert_right";
 
-    // TODO: Use SwapExceptionPort instead and put back EXC_MASK_BREAKPOINT.
+    // TODO: Put back EXC_MASK_BREAKPOINT.
+    // TODO: Start with EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES. If
+    // something in original_handlers_ had a different behavior (as long as the
+    // behavior carries the exception thread port), change this handler’s
+    // behavior to match so that forwarding works correctly.
     const exception_mask_t mask =
         ExcMaskAll() &
         ~(EXC_MASK_EMULATION | EXC_MASK_SOFTWARE | EXC_MASK_BREAKPOINT |
           EXC_MASK_RPC_ALERT | EXC_MASK_GUARD);
     ExceptionPorts exception_ports(ExceptionPorts::kTargetTypeTask, TASK_NULL);
-    exception_ports.GetExceptionPorts(mask, &original_handlers_);
-    exception_ports.SetExceptionPort(
-        mask,
-        exception_port_.get(),
-        EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES,
-        MACHINE_THREAD_STATE);
+    exception_ports.SwapExceptionPorts(mask,
+                                       exception_port_.get(),
+                                       EXCEPTION_DEFAULT | MACH_EXCEPTION_CODES,
+                                       THREAD_STATE_NONE,
+                                       &original_handlers_);
 
     Start();
   }
@@ -126,12 +129,9 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
                                    mach_msg_type_number_t old_state_count,
                                    thread_state_t new_state,
                                    mach_msg_type_number_t* new_state_count,
-                                   const mach_msg_trailer_t* trailer,
+                                   const MachMessageServer::Messages& messages,
                                    bool* destroy_complex_request) override {
     *destroy_complex_request = true;
-
-    // TODO(justincohen): Forward exceptions to original_handlers_ with
-    // UniversalExceptionRaise.
 
     // iOS shouldn't have any child processes, but just in case, those will
     // inherit the task exception ports, and this process isn’t prepared to
@@ -150,6 +150,35 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
                         *flavor,
                         old_state,
                         old_state_count);
+
+    for (const ExceptionPorts::ExceptionHandler& original_handler :
+         original_handlers_) {
+      if (original_handler.mask & (1 << exception)) {
+        // TODO: Verify behavior compatibility. For incompatible behaviors, fall
+        // back to UniversalExceptionRaise? For state-carrying behaviors, ensure
+        // that the original handler being forwarded to receives the state type
+        // it requested.
+        messages.request_header->msgh_bits =
+            MACH_MSGH_BITS_COMPLEX |
+            MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND,
+                           MACH_MSG_TYPE_MOVE_SEND_ONCE);
+        messages.request_header->msgh_local_port =
+            messages.request_header->msgh_remote_port;
+        messages.request_header->msgh_remote_port = original_handler.port;
+        mach_msg_return_t mr = mach_msg(messages.request_header,
+                                        MACH_SEND_MSG,
+                                        messages.request_header->msgh_size,
+                                        0,
+                                        MACH_PORT_NULL,
+                                        MACH_MSG_TIMEOUT_NONE,
+                                        MACH_PORT_NULL);
+        if (mr == MACH_MSG_SUCCESS) {
+          return MIG_NO_REPLY;
+        }
+
+        MACH_LOG(ERROR, mr) << "mach_msg";
+      }
+    }
 
     // Respond with KERN_FAILURE so the system will continue to handle this
     // exception as a crash.

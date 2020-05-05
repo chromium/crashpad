@@ -68,7 +68,7 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     mach_msg_type_number_t old_state_count,
     thread_state_t new_state,
     mach_msg_type_number_t* new_state_count,
-    const mach_msg_trailer_t* trailer,
+    const MachMessageServer::Messages& messages,
     bool* destroy_complex_request) {
   RecordFileLimitAnnotation();
   Metrics::ExceptionEncountered();
@@ -116,7 +116,8 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
   // kernel to be suspicious, and exceptions other than kMachExceptionSimulated
   // from the process itself to be suspicious.
   const pid_t pid = process_snapshot.ProcessID();
-  pid_t audit_pid = AuditPIDFromMachMessageTrailer(trailer);
+  pid_t audit_pid = AuditPIDFromMachMessageTrailer(
+      MachMessageTrailerFromHeader(messages.request_header));
   if (audit_pid != -1 && audit_pid != 0) {
     if (audit_pid != pid) {
       LOG(WARNING) << "exception for pid " << pid << " sent by pid "
