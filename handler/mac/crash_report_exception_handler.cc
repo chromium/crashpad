@@ -16,6 +16,10 @@
 
 #include <utility>
 #include <vector>
+#include <iostream>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <dirent.h>
 
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
@@ -38,6 +42,65 @@
 #include "util/misc/metrics.h"
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
+
+
+namespace
+{
+   void copyMinidump(const std::string& originPath, 
+                     const std::string& destPath,
+                     const std::string& filename)
+   {
+      DIR* dir = opendir(destPath.c_str());
+      // Check if destination folder exists
+      if (dir) {
+         closedir(dir);
+      } else {
+         return;
+      }
+      std::ifstream srce( (originPath + "/" + filename), std::ios::binary ) ;
+      std::ofstream dest( (destPath + "/" + filename), std::ios::binary ) ;
+      dest << srce.rdbuf() ;
+      dest.close();
+      if (dest.fail()) {
+         LOG(ERROR) << "Error writing dump to dest";
+      }
+   }
+
+   void checkDumpsFolder(const std::map<std::string, std::string>* annotations,
+                         const std::string& uuid)
+   {
+      std::vector<std::string> vs;
+      auto dumpsPath = annotations->at("DumpsPath");
+      DIR* dirp = opendir(dumpsPath.c_str());
+      if (!dirp) {
+         LOG(ERROR) << "Unable to open dump path!" << std::endl;
+         return;
+      }
+      struct dirent * dp;    
+      while ( (dp = readdir(dirp)) != nullptr ) {
+         size_t filenameLength = strlen(dp->d_name);    
+         if (strncmp(dp->d_name, ".", filenameLength) !=0 && 
+             strncmp(dp->d_name, "..", filenameLength) !=0)
+         vs.push_back(dp->d_name);
+      }
+      closedir(dirp);
+      for(auto &e : vs) {
+         std::string tmpFilename = e;
+         size_t lastindex = e.find_last_of(".");
+         if (lastindex != std::string::npos)
+            e = e.substr(0, lastindex);
+         if (e == uuid){
+            copyMinidump(dumpsPath, annotations->at("LogsPath"), tmpFilename);
+            break;
+         }
+      } 
+   }
+
+   void createFlagForRestartingMainApp(const std::string& path)
+   {
+      std::ofstream output(path);      
+   }
+}
 
 namespace crashpad {
 
@@ -73,7 +136,6 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
   Metrics::ExceptionEncountered();
   Metrics::ExceptionCode(ExceptionCodeForMetrics(exception, code[0]));
   *destroy_complex_request = true;
-
   // The expected behavior is EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES,
   // but it’s possible to deal with any exception behavior as long as it
   // carries identity information (valid thread and task ports).
@@ -100,7 +162,6 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
   }
 
   ScopedTaskSuspend suspend(task);
-
   ProcessSnapshotMac process_snapshot;
   if (!process_snapshot.Initialize(task)) {
     Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSnapshotFailed);
@@ -122,7 +183,6 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
                    << audit_pid;
     }
   }
-
   CrashpadInfoClientOptions client_options;
   process_snapshot.GetCrashpadOptions(&client_options);
 
@@ -130,7 +190,6 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
       !IsExceptionNonfatalResource(exception, code[0], pid)) {
     // Non-fatal resource exceptions are never user-visible and are not
     // currently of interest to Crashpad.
-
     if (!process_snapshot.InitializeException(behavior,
                                               thread,
                                               exception,
@@ -166,7 +225,6 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     }
 
     process_snapshot.SetReportID(new_report->ReportID());
-
     MinidumpFileWriter minidump;
     minidump.InitializeFromSnapshot(&process_snapshot);
     AddUserExtensionStreams(
@@ -177,7 +235,6 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
           Metrics::CaptureResult::kMinidumpWriteFailed);
       return KERN_FAILURE;
     }
-
     UUID uuid;
     database_status =
         database_->FinishedWritingCrashReport(std::move(new_report), &uuid);
@@ -186,6 +243,16 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
           Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
       return KERN_FAILURE;
     }
+    ///////////////////
+    // mystaff code
+    //////////////////
+    // Check if annotations map contains our flag
+    auto it=process_annotations_->find("TimeDoctor");
+    if (it != process_annotations_->end() && it->second == "true" ) {
+       checkDumpsFolder(process_annotations_, uuid.ToString());
+       createFlagForRestartingMainApp(process_annotations_->at("TmpFilePath"));
+    } 
+    /////////////////
 
     if (upload_thread_) {
       upload_thread_->ReportPending(uuid);

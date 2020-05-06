@@ -18,7 +18,9 @@
 #include <getopt.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 #include <sys/types.h>
+#include <iostream>
 
 #include <algorithm>
 #include <map>
@@ -103,6 +105,18 @@
 namespace crashpad {
 
 namespace {
+
+bool checkIfFlagFileExist(const std::string& path)
+{
+   struct stat st;
+   if( stat(path.c_str(), &st) == -1 && errno == ENOENT) {
+      return false;
+   }
+   // stat returning not zero and ENOENT means file does not exist
+   // otherwise we try to remove it 
+   remove(path.c_str());
+   return true;
+}
 
 void Usage(const base::FilePath& me) {
   fprintf(stderr,
@@ -1152,7 +1166,31 @@ int HandlerMain(int argc,
 #endif  // OS_WIN
 
   exception_handler_server.Run(exception_handler.get());
-
+  
+  ///////////////////
+  // mystaff code
+  //////////////////
+  // Check if annotations map contains our flag
+  auto it=options.annotations.find("TimeDoctor");
+  if (it != options.annotations.end() && it->second == "true" ) {
+      if (checkIfFlagFileExist(options.annotations.at("TmpFilePath"))) {
+          // Restart main app
+          auto appPath = options.annotations.find("RelaunchApp");
+          auto afterCrashArg = options.annotations.find("AfterCrashArg");
+          auto pidCrashedArg = options.annotations.find("PidCrashedArg"); 
+          auto pidCrashed = options.annotations.find("PidCrashed");
+          if (appPath != options.annotations.end() && afterCrashArg != options.annotations.end() &&
+              pidCrashedArg != options.annotations.end() && pidCrashed != options.annotations.end()) {
+              int returnC = 0;
+              returnC = execl( appPath->second.c_str(), appPath->second.c_str(), 
+                               afterCrashArg->second.c_str(), pidCrashedArg->second.c_str(),
+                               pidCrashed->second.c_str(), (char *) NULL );
+              if ( returnC == -1 ) {
+                 std::cout << "execl return code: " << returnC << " error " << errno << std::endl;
+              }
+          }        
+      }
+  }
   return EXIT_SUCCESS;
 }
 
