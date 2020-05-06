@@ -30,8 +30,8 @@
 
 namespace {
 
-// The iOS watchdog timer will kill an app that doesn't spin the main event
-// loop often enough. This uses a Gtest TestEventListener to spin the current
+// The iOS watchdog timer will kill an app that doesn't spin the main event loop
+// often enough. This uses a Google Test TestEventListener to spin the current
 // loop after each test finishes. However, if any individual test takes too
 // long, it is still possible that the app will get killed.
 class IOSRunLoopListener : public testing::EmptyTestEventListener {

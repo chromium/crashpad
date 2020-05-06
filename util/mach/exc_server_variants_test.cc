@@ -475,8 +475,8 @@ class MockUniversalMachExcServer : public UniversalMachExcServer::Interface {
   // UniversalMachExcServer::Interface:
 
   // CatchMachException is the method to mock, but it has 13 parameters, and
-  // gmock can only mock methods with up to 10 parameters. Coalesce some related
-  // parameters together into structs, and call a mocked method.
+  // Google Mock can only mock methods with up to 10 parameters. Coalesce some
+  // related parameters together into structs, and call a mocked method.
   virtual kern_return_t CatchMachException(
       exception_behavior_t behavior,
       exception_handler_t exception_port,
