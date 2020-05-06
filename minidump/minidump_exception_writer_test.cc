@@ -61,7 +61,7 @@ void GetExceptionStream(const std::string& file_contents,
 }
 
 // The MINIDUMP_EXCEPTION_STREAMs |expected| and |observed| are compared against
-// each other using gtest assertions. The context will be recovered from
+// each other using Google Test assertions. The context will be recovered from
 // |file_contents| and stored in |context|.
 void ExpectExceptionStream(const MINIDUMP_EXCEPTION_STREAM* expected,
                            const MINIDUMP_EXCEPTION_STREAM* observed,

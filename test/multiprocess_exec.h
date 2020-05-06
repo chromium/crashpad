@@ -111,8 +111,8 @@ class MultiprocessExec : public Multiprocess {
   //!
   //! This uses the same launch mechanism as SetChildCommand(), but coordinates
   //! with test/gtest_main.cc to allow for simple registration of a child
-  //! processes' entry point via the helper macro, rather than needing to
-  //! create a separate build target.
+  //! processes' entry point via the helper macro, rather than needing to create
+  //! a separate build target.
   //!
   //! \param[in] function_name The name of the function as passed to
   //!     CRASHPAD_CHILD_TEST_MAIN().

@@ -17,12 +17,12 @@
 
 @protocol CPTestGoogleTestRunnerDelegate
 
-// Returns YES if this delegate supports running GoogleTests via a call to
+// Returns YES if this delegate supports running Google Test tests via a call to
 // |runGoogleTests|.
 @property(nonatomic, readonly, assign)
     BOOL supportsRunningGoogleTestsWithXCTest;
 
-// Runs GoogleTests and returns the final exit code.
+// Runs Google Test tests and returns the final exit code.
 - (int)runGoogleTests;
 
 @end

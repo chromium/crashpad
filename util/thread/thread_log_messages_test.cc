@@ -37,8 +37,8 @@ TEST(ThreadLogMessages, Empty) {
 }
 
 // For a message formatted like "[preamble] message\n", returns just "message".
-// If the message is not formatted as expected, a gtest expectation failure will
-// be recorded and this function will return an empty string.
+// If the message is not formatted as expected, a Google Test expectation
+// failure will be recorded and this function will return an empty string.
 std::string MessageString(const std::string& log_message) {
   if (log_message.size() < 1) {
     EXPECT_GE(log_message.size(), 1u);

@@ -117,9 +117,9 @@ ExceptionSwallower::ExceptionSwallower() : exception_swallower_thread_() {
 
   if (CheckedGetenv(kServiceEnvironmentVariable)) {
     // The environment variable is already set, so just proceed with the
-    // existing service. This normally happens when the gtest “threadsafe” death
-    // test style is chosen, because the test child process will re-execute code
-    // already run in the test parent process. See
+    // existing service. This normally happens when the Google Test “threadsafe”
+    // death test style is chosen, because the test child process will
+    // re-execute code already run in the test parent process. See
     // https://github.com/google/googletest/blob/master/googletest/docs/AdvancedGuide.md#death-test-styles.
     return;
   }

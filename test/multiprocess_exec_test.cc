@@ -35,7 +35,8 @@ class TestMultiprocessExec final : public MultiprocessExec {
  private:
   void MultiprocessParent() override {
     // Use Logging*File() instead of Checked*File() so that the test can fail
-    // gracefully with a gtest assertion if the child does not execute properly.
+    // gracefully with a Google Test assertion if the child does not execute
+    // properly.
 
     char c = 'z';
     ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(), &c, 1));
