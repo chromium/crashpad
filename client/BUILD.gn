@@ -157,8 +157,8 @@ source_set("client_test") {
     "../compat",
     "../snapshot",
     "../test",
-    "../third_party/gtest:gmock",
-    "../third_party/gtest:gtest",
+    "../third_party/googletest:googlemock",
+    "../third_party/googletest:googletest",
     "../third_party/mini_chromium:base",
     "../util",
   ]

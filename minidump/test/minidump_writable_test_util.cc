@@ -35,7 +35,7 @@ namespace {
 //! \param[in] rva The offset within the minidump file of the desired object.
 //!
 //! \return If \a rva is within the range of \a file_contents, returns a pointer
-//!     into \a file_contents at offset \a rva. Otherwise, raises a gtest
+//!     into \a file_contents at offset \a rva. Otherwise, raises a Google Test
 //!     assertion failure and returns `nullptr`.
 //!
 //! Do not call this function. Use the typed version, MinidumpWritableAtRVA<>(),

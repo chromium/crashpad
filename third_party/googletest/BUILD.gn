@@ -1,0 +1,371 @@
+# Copyright 2017 The Crashpad Authors. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("../../build/crashpad_buildconfig.gni")
+import("../../build/test.gni")
+
+if (crashpad_is_in_chromium) {
+  group("googletest") {
+    testonly = true
+    public_deps = [ "//testing/googletest" ]
+  }
+  group("googlemock") {
+    testonly = true
+    public_deps = [ "//testing/googlemock" ]
+  }
+} else if (crashpad_is_in_dart || crashpad_is_in_fuchsia) {
+  group("googletest") {
+    testonly = true
+    public_deps = [ "//third_party/googletest:googletest" ]
+    public_configs = [ "../..:disable_ubsan" ]
+  }
+  group("googlemock") {
+    testonly = true
+    public_deps = [ "//third_party/googletest:googlemock" ]
+  }
+} else if (crashpad_is_standalone) {
+  config("googletest_private_config") {
+    visibility = [ ":*" ]
+    include_dirs = [ "googletest/googletest" ]
+    defines = [ "GUNIT_NO_GOOGLE3=1" ]
+  }
+
+  config("googletest_public_config") {
+    include_dirs = [ "googletest/googletest/include" ]
+  }
+
+  static_library("googletest") {
+    testonly = true
+    sources = [
+      "googletest/googletest/include/googletest/googletest-param-test.h",
+      "googletest/googletest/include/googletest/gtest-death-test.h",
+      "googletest/googletest/include/googletest/gtest-matchers.h",
+      "googletest/googletest/include/googletest/gtest-message.h",
+      "googletest/googletest/include/googletest/gtest-printers.h",
+      "googletest/googletest/include/googletest/gtest-spi.h",
+      "googletest/googletest/include/googletest/gtest-test-part.h",
+      "googletest/googletest/include/googletest/gtest-typed-test.h",
+      "googletest/googletest/include/googletest/gtest.h",
+      "googletest/googletest/include/googletest/gtest_pred_impl.h",
+      "googletest/googletest/include/googletest/gtest_prod.h",
+      "googletest/googletest/include/googletest/internal/custom/gtest-port.h",
+      "googletest/googletest/include/googletest/internal/custom/gtest-printers.h",
+      "googletest/googletest/include/googletest/internal/custom/gtest.h",
+      "googletest/googletest/include/googletest/internal/gtest-death-test-internal.h",
+      "googletest/googletest/include/googletest/internal/gtest-filepath.h",
+      "googletest/googletest/include/googletest/internal/gtest-internal.h",
+      "googletest/googletest/include/googletest/internal/gtest-param-util.h",
+      "googletest/googletest/include/googletest/internal/gtest-port-arch.h",
+      "googletest/googletest/include/googletest/internal/gtest-port.h",
+      "googletest/googletest/include/googletest/internal/gtest-string.h",
+      "googletest/googletest/include/googletest/internal/gtest-type-util.h",
+      "googletest/googletest/src/gtest-all.cc",
+      "googletest/googletest/src/gtest-death-test.cc",
+      "googletest/googletest/src/gtest-filepath.cc",
+      "googletest/googletest/src/gtest-internal-inl.h",
+      "googletest/googletest/src/gtest-matchers.cc",
+      "googletest/googletest/src/gtest-port.cc",
+      "googletest/googletest/src/gtest-printers.cc",
+      "googletest/googletest/src/gtest-test-part.cc",
+      "googletest/googletest/src/gtest-typed-test.cc",
+      "googletest/googletest/src/gtest.cc",
+    ]
+    sources -= [ "googletest/googletest/src/gtest-all.cc" ]
+    public_configs = [ ":googletest_public_config" ]
+    configs -= [
+      "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
+    ]
+    configs += [ ":googletest_private_config" ]
+    if (crashpad_is_fuchsia) {
+      deps = [ "../fuchsia" ]
+    }
+  }
+
+  static_library("googletest_main") {
+    # Tests outside of this file should use ../../test:googletest_main instead.
+    visibility = [ ":*" ]
+
+    testonly = true
+    sources = [ "googletest/googletest/src/gtest_main.cc" ]
+    deps = [ ":googletest" ]
+  }
+
+  test("googletest_all_test") {
+    sources = [
+      "googletest/googletest/test/googletest-death-test-test.cc",
+      "googletest/googletest/test/googletest-filepath-test.cc",
+      "googletest/googletest/test/googletest-message-test.cc",
+      "googletest/googletest/test/googletest-options-test.cc",
+      "googletest/googletest/test/googletest-port-test.cc",
+      "googletest/googletest/test/googletest-printers-test.cc",
+      "googletest/googletest/test/googletest-test-part-test.cc",
+      "googletest/googletest/test/gtest-typed-test2_test.cc",
+      "googletest/googletest/test/gtest-typed-test_test.cc",
+      "googletest/googletest/test/gtest-typed-test_test.h",
+      "googletest/googletest/test/gtest_main_unittest.cc",
+      "googletest/googletest/test/gtest_pred_impl_unittest.cc",
+      "googletest/googletest/test/gtest_prod_test.cc",
+      "googletest/googletest/test/gtest_skip_test.cc",
+      "googletest/googletest/test/gtest_unittest.cc",
+      "googletest/googletest/test/production.cc",
+      "googletest/googletest/test/production.h",
+    ]
+    configs -= [
+      "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
+    ]
+    configs += [ ":googletest_private_config" ]
+    deps = [
+      ":googletest",
+      ":googletest_main",
+    ]
+
+    if (crashpad_is_win) {
+      cflags = [ "/wd4702" ]  # unreachable code
+    }
+  }
+
+  test("googletest_environment_test") {
+    sources = [ "googletest/googletest/test/gtest_environment_test.cc" ]
+    configs += [ ":googletest_private_config" ]
+    deps = [ ":googletest" ]
+  }
+
+  test("googletest_listener_test") {
+    sources = [ "googletest/googletest/test/googletest-listener-test.cc" ]
+    deps = [ ":googletest" ]
+  }
+
+  test("googletest_macro_stack_footprint_test") {
+    sources = [
+      "googletest/googletest/test/gtest_test_macro_stack_footprint_test.cc",
+    ]
+    deps = [ ":googletest" ]
+  }
+
+  test("googletest_no_test") {
+    sources = [ "googletest/googletest/test/gtest_no_test_unittest.cc" ]
+    deps = [ ":googletest" ]
+  }
+
+  test("googletest_param_test") {
+    sources = [
+      "googletest/googletest/test/googletest-param-test-test.cc",
+      "googletest/googletest/test/googletest-param-test-test.h",
+      "googletest/googletest/test/googletest-param-test2-test.cc",
+    ]
+    configs -= [
+      "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
+    ]
+    configs += [ ":googletest_private_config" ]
+    deps = [ ":googletest" ]
+
+    if (crashpad_is_clang) {
+      cflags_cc = [
+        # For googletest/googlemock/test/gmock-matchers_test.cc’s
+        # Unstreamable::value_.
+        "-Wno-unused-private-field",
+      ]
+    }
+  }
+
+  test("googletest_premature_exit_test") {
+    sources = [ "googletest/googletest/test/gtest_premature_exit_test.cc" ]
+    deps = [ ":googletest" ]
+  }
+
+  test("googletest_repeat_test") {
+    sources = [ "googletest/googletest/test/gtest_repeat_test.cc" ]
+    configs += [ ":googletest_private_config" ]
+    deps = [ ":googletest" ]
+  }
+
+  test("googletest_skip_in_environment_setup_test") {
+    sources = [
+      "googletest/googletest/test/gtest_skip_in_environment_setup_test.cc",
+    ]
+    deps = [ ":googletest" ]
+  }
+
+  test("googletest_sole_header_test") {
+    sources = [ "googletest/googletest/test/gtest_sole_header_test.cc" ]
+    deps = [
+      ":googletest",
+      ":googletest_main",
+    ]
+  }
+
+  test("googletest_stress_test") {
+    sources = [ "googletest/googletest/test/gtest_stress_test.cc" ]
+    configs += [ ":googletest_private_config" ]
+    deps = [ ":googletest" ]
+  }
+
+  test("googletest_unittest_api_test") {
+    sources = [ "googletest/googletest/test/gtest-unittest-api_test.cc" ]
+    deps = [ ":googletest" ]
+  }
+
+  group("googletest_all_tests") {
+    testonly = true
+    deps = [
+      ":googletest_all_test",
+      ":googletest_environment_test",
+      ":googletest_listener_test",
+      ":googletest_no_test",
+      ":googletest_param_test",
+      ":googletest_premature_exit_test",
+      ":googletest_repeat_test",
+      ":googletest_sole_header_test",
+      ":googletest_stress_test",
+      ":googletest_unittest_api_test",
+    ]
+  }
+
+  config("googlemock_private_config") {
+    visibility = [ ":*" ]
+    include_dirs = [ "googletest/googlemock" ]
+  }
+
+  config("googlemock_public_config") {
+    include_dirs = [ "googletest/googlemock/include" ]
+
+    if (crashpad_is_clang) {
+      cflags_cc = [
+        # The MOCK_METHODn() macros do not specify “override”, which triggers
+        # this warning in users: “error: 'Method' overrides a member function
+        # but is not marked 'override'
+        # [-Werror,-Winconsistent-missing-override]”. Suppress these warnings
+        # until https://github.com/google/googletest/issues/533 is fixed.
+        "-Wno-inconsistent-missing-override",
+      ]
+    }
+  }
+
+  static_library("googlemock") {
+    testonly = true
+    sources = [
+      "googletest/googlemock/include/googlemock/gmock-actions.h",
+      "googletest/googlemock/include/googlemock/gmock-cardinalities.h",
+      "googletest/googlemock/include/googlemock/gmock-function-mocker.h",
+      "googletest/googlemock/include/googlemock/gmock-generated-actions.h",
+      "googletest/googlemock/include/googlemock/gmock-matchers.h",
+      "googletest/googlemock/include/googlemock/gmock-more-actions.h",
+      "googletest/googlemock/include/googlemock/gmock-more-matchers.h",
+      "googletest/googlemock/include/googlemock/gmock-nice-strict.h",
+      "googletest/googlemock/include/googlemock/gmock-spec-builders.h",
+      "googletest/googlemock/include/googlemock/gmock.h",
+      "googletest/googlemock/include/googlemock/internal/custom/gmock-generated-actions.h",
+      "googletest/googlemock/include/googlemock/internal/custom/gmock-matchers.h",
+      "googletest/googlemock/include/googlemock/internal/custom/gmock-port.h",
+      "googletest/googlemock/include/googlemock/internal/gmock-internal-utils.h",
+      "googletest/googlemock/include/googlemock/internal/gmock-port.h",
+      "googletest/googlemock/include/googlemock/internal/gmock-pp.h",
+      "googletest/googlemock/src/gmock-all.cc",
+      "googletest/googlemock/src/gmock-cardinalities.cc",
+      "googletest/googlemock/src/gmock-internal-utils.cc",
+      "googletest/googlemock/src/gmock-matchers.cc",
+      "googletest/googlemock/src/gmock-spec-builders.cc",
+      "googletest/googlemock/src/gmock.cc",
+    ]
+    sources -= [ "googletest/googlemock/src/gmock-all.cc" ]
+    public_configs = [ ":googlemock_public_config" ]
+    configs -= [
+      "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
+    ]
+    configs += [ ":googlemock_private_config" ]
+    deps = [ ":googletest" ]
+  }
+
+  static_library("googlemock_main") {
+    # Tests outside of this file should use ../../test:googlemock_main instead.
+    visibility = [ ":*" ]
+    testonly = true
+    sources = [ "googletest/googlemock/src/gmock_main.cc" ]
+    deps = [
+      ":googlemock",
+      ":googletest",
+    ]
+  }
+
+  test("googlemock_all_test") {
+    sources = [
+      "googletest/googlemock/test/gmock-actions_test.cc",
+      "googletest/googlemock/test/gmock-cardinalities_test.cc",
+      "googletest/googlemock/test/gmock-function-mocker_test.cc",
+      "googletest/googlemock/test/gmock-generated-actions_test.cc",
+      "googletest/googlemock/test/gmock-generated-matchers_test.cc",
+      "googletest/googlemock/test/gmock-internal-utils_test.cc",
+      "googletest/googlemock/test/gmock-matchers_test.cc",
+      "googletest/googlemock/test/gmock-more-actions_test.cc",
+      "googletest/googlemock/test/gmock-nice-strict_test.cc",
+      "googletest/googlemock/test/gmock-port_test.cc",
+      "googletest/googlemock/test/gmock-pp-string_test.cc",
+      "googletest/googlemock/test/gmock-pp_test.cc",
+      "googletest/googlemock/test/gmock-spec-builders_test.cc",
+      "googletest/googlemock/test/gmock_test.cc",
+    ]
+    configs += [
+      ":googlemock_private_config",
+      ":googletest_private_config",
+    ]
+    deps = [
+      ":googlemock",
+      ":googlemock_main",
+      ":googletest",
+    ]
+
+    if (crashpad_is_clang) {
+      cflags_cc = [
+        # For googletest/googlemock/test/gmock-matchers_test.cc’s
+        # testing::googlemock_matchers_test::Unprintable::c_.
+        "-Wno-unused-private-field",
+      ]
+    }
+  }
+
+  test("googlemock_link_test") {
+    sources = [
+      "googletest/googlemock/test/gmock_link2_test.cc",
+      "googletest/googlemock/test/gmock_link_test.cc",
+      "googletest/googlemock/test/gmock_link_test.h",
+    ]
+    configs += [ ":googlemock_private_config" ]
+    deps = [
+      ":googlemock",
+      ":googlemock_main",
+      ":googletest",
+    ]
+  }
+
+  test("googlemock_stress_test") {
+    sources = [ "googletest/googlemock/test/gmock_stress_test.cc" ]
+    configs -= [
+      "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors",
+    ]
+    configs += [ ":googlemock_private_config" ]
+    deps = [
+      ":googlemock",
+      ":googletest",
+    ]
+  }
+
+  group("googlemock_all_tests") {
+    testonly = true
+    deps = [
+      ":googlemock_all_test",
+      ":googlemock_link_test",
+      ":googlemock_stress_test",
+    ]
+  }
+}

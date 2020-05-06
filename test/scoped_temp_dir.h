@@ -47,7 +47,7 @@ class ScopedTempDir {
   //! \brief Removes all files and subdirectories at the given \a path,
   //!     including the \a path itself.
   //!
-  //! Failures are recorded by gtest expectations.
+  //! Failures are recorded by Google Test expectations.
   //!
   //! \param[in] path The path to delete, along with its contents. This must
   //!     reference a directory.

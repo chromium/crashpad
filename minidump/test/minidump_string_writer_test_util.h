@@ -39,7 +39,7 @@ namespace test {
 //!     MINIDUMP_STRING.
 //!
 //! \return On success, a pointer to the MINIDUMP_STRING in \a file_contents. On
-//!     failure, raises a gtest assertion and returns `nullptr`.
+//!     failure, raises a Google Test assertion and returns `nullptr`.
 //!
 //! \sa MinidumpStringAtRVAAsString()
 //! \sa MinidumpUTF8StringAtRVA()
@@ -58,7 +58,7 @@ const MINIDUMP_STRING* MinidumpStringAtRVA(const std::string& file_contents,
 //!     MinidumpUTF8String.
 //!
 //! \return On success, a pointer to the MinidumpUTF8String in \a file_contents.
-//!     On failure, raises a gtest assertion and returns `nullptr`.
+//!     On failure, raises a Google Test assertion and returns `nullptr`.
 //!
 //! \sa MinidumpUTF8StringAtRVAAsString()
 //! \sa MinidumpStringAtRVA()
@@ -76,7 +76,7 @@ const MinidumpUTF8String* MinidumpUTF8StringAtRVA(
 //!     MINIDUMP_STRING.
 //!
 //! \return On success, the string read from \a file_writer at offset \a rva. On
-//!     failure, raises a gtest assertion and returns an empty string.
+//!     failure, raises a Google Test assertion and returns an empty string.
 //!
 //! \sa MinidumpUTF8StringAtRVAAsString()
 base::string16 MinidumpStringAtRVAAsString(const std::string& file_contents,
@@ -92,7 +92,7 @@ base::string16 MinidumpStringAtRVAAsString(const std::string& file_contents,
 //!     MinidumpUTF8String.
 //!
 //! \return On success, the string read from \a file_writer at offset \a rva. On
-//!     failure, raises a gtest assertion and returns an empty string.
+//!     failure, raises a Google Test assertion and returns an empty string.
 //!
 //! \sa MinidumpStringAtRVAAsString()
 std::string MinidumpUTF8StringAtRVAAsString(const std::string& file_contents,
