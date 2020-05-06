@@ -29,6 +29,7 @@
 #include "base/mac/mach_logging.h"
 #include "tools/tool_support.h"
 #include "util/mach/bootstrap.h"
+#include "util/mach/exc_client_variants.h"
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/exception_behaviors.h"
 #include "util/mach/exception_types.h"
@@ -45,6 +46,7 @@ namespace {
 struct Options {
   std::string file_path;
   std::string mach_service;
+  base::mac::ScopedMachSendRight forward_to;
   FILE* file;
   int timeout_secs;
   bool has_timeout;
@@ -75,7 +77,7 @@ class ExceptionServer : public UniversalMachExcServer::Interface {
       mach_msg_type_number_t old_state_count,
       thread_state_t new_state,
       mach_msg_type_number_t* new_state_count,
-      const mach_msg_trailer_t* trailer,
+      const MachMessageServer::Messages& messages,
       bool* destroy_complex_request) override {
     *destroy_complex_request = true;
     ++*exceptions_handled_;
@@ -160,6 +162,32 @@ class ExceptionServer : public UniversalMachExcServer::Interface {
               old_state_count);
     }
 
+    if (options_.forward_to != kMachPortNull) {
+      // TODO: Add a forwarding option that moves the reply port to the service
+      // forwarded to.
+      fprintf(options_.file, ", forwarding to 0x%x", options_.forward_to.get());
+      fflush(options_.file);
+
+      kr = UniversalExceptionRaise(behavior,
+                                   options_.forward_to.get(),
+                                   thread,
+                                   task,
+                                   exception,
+                                   code,
+                                   code_count,
+                                   flavor,
+                                   old_state,
+                                   old_state_count,
+                                   new_state,
+                                   new_state_count);
+
+      fprintf(options_.file,
+              ", forwarding result 0x%x (%s)\n",
+              kr,
+              mach_error_string(kr));
+      return kr;
+    }
+
     fprintf(options_.file, "\n");
     fflush(options_.file);
 
@@ -186,6 +214,7 @@ void Usage(const std::string& me) {
 "Catch Mach exceptions and display information about them.\n"
 "\n"
 "  -f, --file=FILE             append information to FILE instead of stdout\n"
+"      --forward-to=SERVICE    forward excptions to SERVICE\n"
 "  -m, --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
 "  -p, --persistent            continue processing exceptions after the first\n"
 "  -t, --timeout=TIMEOUT       run for a maximum of TIMEOUT seconds\n"
@@ -207,6 +236,7 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
 
     // Long options without short equivalents.
     kOptionLastChar = 255,
+    kOptionForwardTo,
 
     // Standard options.
     kOptionHelp = -2,
@@ -217,6 +247,7 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
 
   static constexpr option long_options[] = {
       {"file", required_argument, nullptr, kOptionFile},
+      {"forward-to", required_argument, nullptr, kOptionForwardTo},
       {"mach-service", required_argument, nullptr, kOptionMachService},
       {"persistent", no_argument, nullptr, kOptionPersistent},
       {"timeout", required_argument, nullptr, kOptionTimeout},
@@ -231,6 +262,12 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
     switch (opt) {
       case kOptionFile:
         options.file_path = optarg;
+        break;
+      case kOptionForwardTo:
+        options.forward_to = BootstrapLookUp(optarg);
+        if (options.forward_to == kMachPortNull) {
+          return EXIT_FAILURE;
+        }
         break;
       case kOptionMachService:
         options.mach_service = optarg;

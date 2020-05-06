@@ -111,6 +111,16 @@ if (crashpad_is_mac || crashpad_is_fuchsia) {
 }
 
 if (crashpad_is_mac) {
+  crashpad_executable("bad_program") {
+    sources = [ "mac/bad_program.cc" ]
+
+    deps = [
+      "../compat",
+      "../third_party/mini_chromium:base",
+      "../util",
+    ]
+  }
+
   crashpad_executable("catch_exception_tool") {
     sources = [ "mac/catch_exception_tool.cc" ]
 

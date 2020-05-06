@@ -44,6 +44,17 @@ base::mac::ScopedMachReceiveRight BootstrapCheckIn(
 //!     `MACH_PORT_NULL` with a message logged.
 base::mac::ScopedMachSendRight BootstrapLookUp(const std::string& service_name);
 
+//! \brief Makes a `boostrap_register()` call to the process’ bootstrap server.
+//!
+//! This function is provided to make it easier to call `bootstrap_register()`.
+//!
+//! \param[in] service_name The service name to register.
+//! \param[in] service_port A send right to the service port to publish.
+//!
+//! \return True on success, false on failure with a message logged.
+bool BootstrapRegister(const std::string& service_name,
+                       mach_port_t service_port);
+
 //! \brief Obtains the system’s default Mach exception handler for crash-type
 //!     exceptions.
 //!

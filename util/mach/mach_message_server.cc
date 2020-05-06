@@ -215,12 +215,13 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
     }
 
     mach_msg_header_t* request_header = request.Header();
-    mach_msg_header_t* reply_header = reply.Header();
+    Messages messages;
+    messages.request_header = request_header;
+    messages.reply_header = reply.Header();
     bool destroy_complex_request = false;
-    interface->MachMessageServerFunction(
-        request_header, reply_header, &destroy_complex_request);
+    interface->MachMessageServerFunction(messages, &destroy_complex_request);
 
-    if (!(reply_header->msgh_bits & MACH_MSGH_BITS_COMPLEX)) {
+    if (!(messages.reply_header->msgh_bits & MACH_MSGH_BITS_COMPLEX)) {
       // This only works if the reply message is not complex, because otherwise,
       // the location of the RetCode field is not known. It should be possible
       // to locate the RetCode field by looking beyond the descriptors in a
@@ -228,9 +229,9 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
       // has not proven itself necessary in practice, and it’s not done by
       // mach_msg_server() or mach_msg_server_once() either.
       mig_reply_error_t* reply_mig =
-          reinterpret_cast<mig_reply_error_t*>(reply_header);
+          reinterpret_cast<mig_reply_error_t*>(messages.reply_header);
       if (reply_mig->RetCode == MIG_NO_REPLY) {
-        reply_header->msgh_remote_port = MACH_PORT_NULL;
+        messages.reply_header->msgh_remote_port = MACH_PORT_NULL;
       } else if (reply_mig->RetCode != KERN_SUCCESS &&
                  request_header->msgh_bits & MACH_MSGH_BITS_COMPLEX) {
         destroy_complex_request = true;
@@ -243,7 +244,7 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
       mach_msg_destroy(request_header);
     }
 
-    if (reply_header->msgh_remote_port != MACH_PORT_NULL) {
+    if (messages.reply_header->msgh_remote_port != MACH_PORT_NULL) {
       // Avoid blocking indefinitely. This duplicates the logic in 10.9.5
       // xnu-2422.115.4/libsyscall/mach/mach_msg.c mach_msg_server_once(),
       // although the special provision for sending to a send-once right is not
@@ -255,7 +256,7 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
               ? kMachMessageDeadlineNonblocking
               : deadline;
 
-      kr = MachMessageWithDeadline(reply_header,
+      kr = MachMessageWithDeadline(messages.reply_header,
                                    options | MACH_SEND_MSG,
                                    0,
                                    MACH_PORT_NULL,
@@ -267,7 +268,7 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
         if (kr == MACH_SEND_INVALID_DEST ||
             kr == MACH_SEND_TIMED_OUT ||
             kr == MACH_SEND_INTERRUPTED) {
-          mach_msg_destroy(reply_header);
+          mach_msg_destroy(messages.reply_header);
         }
         return kr;
       }

@@ -41,7 +41,8 @@ class ChildPortServer : public MachMessageServer::Interface {
     //! \param[in] token
     //! \param[in] port
     //! \param[in] right_type
-    //! \param[in] trailer The trailer received with the request message.
+    //! \param[in] messages The received requst and allocated reply Mach
+    //!     messages.
     //! \param[out] destroy_request `true` if the request message is to be
     //!     destroyed even when this method returns success. See
     //!     MachMessageServer::Interface.
@@ -50,7 +51,7 @@ class ChildPortServer : public MachMessageServer::Interface {
         const child_port_token_t token,
         mach_port_t port,
         mach_msg_type_name_t right_type,
-        const mach_msg_trailer_t* trailer,
+        const MachMessageServer::Messages& messages,
         bool* destroy_request) = 0;
 
    protected:
@@ -63,8 +64,7 @@ class ChildPortServer : public MachMessageServer::Interface {
   explicit ChildPortServer(Interface* interface);
 
   // MachMessageServer::Interface:
-  bool MachMessageServerFunction(const mach_msg_header_t* in_header,
-                                 mach_msg_header_t* out_header,
+  bool MachMessageServerFunction(const MachMessageServer::Messages& messages,
                                  bool* destroy_complex_request) override;
   std::set<mach_msg_id_t> MachMessageServerRequestIDs() override;
   mach_msg_size_t MachMessageServerRequestSize() override;

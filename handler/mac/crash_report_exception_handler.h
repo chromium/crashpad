@@ -65,21 +65,20 @@ class CrashReportExceptionHandler final
 
   //! \brief Processes an exception message by writing a crash report to this
   //!     object’s CrashReportDatabase.
-  kern_return_t CatchMachException(
-      exception_behavior_t behavior,
-      exception_handler_t exception_port,
-      thread_t thread,
-      task_t task,
-      exception_type_t exception,
-      const mach_exception_data_type_t* code,
-      mach_msg_type_number_t code_count,
-      thread_state_flavor_t* flavor,
-      ConstThreadState old_state,
-      mach_msg_type_number_t old_state_count,
-      thread_state_t new_state,
-      mach_msg_type_number_t* new_state_count,
-      const mach_msg_trailer_t* trailer,
-      bool* destroy_complex_request) override;
+  kern_return_t CatchMachException(exception_behavior_t behavior,
+                                   exception_handler_t exception_port,
+                                   thread_t thread,
+                                   task_t task,
+                                   exception_type_t exception,
+                                   const mach_exception_data_type_t* code,
+                                   mach_msg_type_number_t code_count,
+                                   thread_state_flavor_t* flavor,
+                                   ConstThreadState old_state,
+                                   mach_msg_type_number_t old_state_count,
+                                   thread_state_t new_state,
+                                   mach_msg_type_number_t* new_state_count,
+                                   const MachMessageServer::Messages& messages,
+                                   bool* destroy_complex_request) override;
 
  private:
   CrashReportDatabase* database_;  // weak

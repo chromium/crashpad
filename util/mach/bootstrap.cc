@@ -102,6 +102,21 @@ base::mac::ScopedMachSendRight BootstrapLookUp(
   return send;
 }
 
+bool BootstrapRegister(const std::string& service_name,
+                       mach_port_t service_port) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+  kern_return_t kr = bootstrap_register(
+      bootstrap_port, const_cast<char*>(service_name.c_str()), service_port);
+#pragma clang diagnostic pop
+  if (kr != BOOTSTRAP_SUCCESS) {
+    BOOTSTRAP_LOG(ERROR, kr) << "bootstrap_register " << service_name;
+    return false;
+  }
+
+  return true;
+}
+
 base::mac::ScopedMachSendRight SystemCrashReporterHandler() {
   return BootstrapLookUp("com.apple.ReportCrash");
 }

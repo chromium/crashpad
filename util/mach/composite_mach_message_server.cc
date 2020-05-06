@@ -50,20 +50,20 @@ void CompositeMachMessageServer::AddHandler(
 }
 
 bool CompositeMachMessageServer::MachMessageServerFunction(
-    const mach_msg_header_t* in,
-    mach_msg_header_t* out,
+    const MachMessageServer::Messages& messages,
     bool* destroy_complex_request) {
-  HandlerMap::const_iterator iterator = handler_map_.find(in->msgh_id);
+  HandlerMap::const_iterator iterator =
+      handler_map_.find(messages.request_header->msgh_id);
   if (iterator == handler_map_.end()) {
     // Do what MIG-generated server routines do when they can’t dispatch a
     // message.
-    PrepareMIGReplyFromRequest(in, out);
-    SetMIGReplyError(out, MIG_BAD_ID);
+    PrepareMIGReplyFromRequest(messages);
+    SetMIGReplyError(messages.reply_header, MIG_BAD_ID);
     return false;
   }
 
   MachMessageServer::Interface* handler = iterator->second;
-  return handler->MachMessageServerFunction(in, out, destroy_complex_request);
+  return handler->MachMessageServerFunction(messages, destroy_complex_request);
 }
 
 std::set<mach_msg_id_t>

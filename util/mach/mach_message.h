@@ -20,6 +20,7 @@
 #include <sys/types.h>
 
 #include "build/build_config.h"
+#include "util/mach/mach_message_server.h"
 
 namespace crashpad {
 
@@ -132,15 +133,11 @@ mach_msg_return_t MachMessageWithDeadline(mach_msg_header_t* message,
 //! some of the fields set by this function, such as `msgh_size` and any fields
 //! defined in a routine’s reply structure type.
 //!
-//! \param[in] in_header The request message to base the reply on.
-//! \param[out] out_header The reply message to initialize. \a out_header will
-//!     be treated as a `mig_reply_error_t*` and all of its fields will be set
-//!     except for `RetCode`, which must be set by SetMIGReplyError(). This
-//!     argument is accepted as a `mach_msg_header_t*` instead of a
-//!     `mig_reply_error_t*` because that is the type that callers are expected
-//!     to possess in the C API.
-void PrepareMIGReplyFromRequest(const mach_msg_header_t* in_header,
-                                mach_msg_header_t* out_header);
+//! \param[in] messages The request message to base the reply on, and the reply
+//!     reply message to initialize. \a messages.out_header will be treated as a
+//!     `mig_reply_error_t*` and all of its fields will be set except for
+//!     `RetCode`, which must be set by SetMIGReplyError().
+void PrepareMIGReplyFromRequest(const MachMessageServer::Messages& messages);
 
 //! \brief Sets the error code in a reply message for a MIG server routine.
 //!
