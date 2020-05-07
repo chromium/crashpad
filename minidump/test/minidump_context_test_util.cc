@@ -274,7 +274,7 @@ void InitializeMinidumpContextMIPS64(MinidumpContextMIPS64* context,
 
 namespace {
 
-// Using gtest assertions, compares |expected| to |observed|. This is
+// Using Google Test assertions, compares |expected| to |observed|. This is
 // templatized because the CPUContextX86::Fxsave and CPUContextX86_64::Fxsave
 // are nearly identical but have different sizes for the members |xmm|,
 // |reserved_4|, and |available|.

@@ -289,11 +289,11 @@ def _RunOnAndroidTarget(binary_dir, test, android_device, extra_command_line):
         # environment.
         #
         # Because the test will not run with its standard output attached to a
-        # pseudo-terminal device, gtest will not normally enable colored output,
-        # so mimic gtest’s own logic for deciding whether to enable color by
-        # checking this script’s own standard output connection. The whitelist
-        # of TERM values comes from gtest googletest/src/gtest.cc
-        # testing::internal::ShouldUseColor().
+        # pseudo-terminal device, Google Test will not normally enable colored
+        # output, so mimic Google Test’s own logic for deciding whether to
+        # enable color by checking this script’s own standard output connection.
+        # The whitelist of TERM values comes from Google Test’s
+        # googletest/src/gtest.cc testing::internal::ShouldUseColor().
         env = {'CRASHPAD_TEST_DATA_ROOT': device_temp_dir}
         gtest_color = os.environ.get('GTEST_COLOR')
         if gtest_color in ('auto', None):
@@ -525,8 +525,9 @@ def main(args):
     parser = argparse.ArgumentParser(description='Run Crashpad unittests.')
     parser.add_argument('binary_dir', help='Root of build dir')
     parser.add_argument('test', nargs='*', help='Specific test(s) to run.')
-    parser.add_argument('--gtest_filter',
-                        help='GTest filter applied to GTest binary runs.')
+    parser.add_argument(
+        '--gtest_filter',
+        help='Google Test filter applied to Google Test binary runs.')
     args = parser.parse_args()
 
     # Tell 64-bit Windows tests where to find 32-bit test executables, for
