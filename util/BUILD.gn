@@ -85,7 +85,7 @@ if (crashpad_is_mac || crashpad_is_ios) {
         # relative…
         args += [
           "--sdk",
-          rebase_path(sysroot, root_build_dir)
+          rebase_path(sysroot, root_build_dir),
         ]
       } else {
         # …but that’s not an option in the standalone Crashpad build, where the
@@ -808,8 +808,8 @@ source_set("util_test") {
     "../client",
     "../compat",
     "../test",
-    "../third_party/gtest:gmock",
-    "../third_party/gtest:gtest",
+    "../third_party/googletest:googlemock",
+    "../third_party/googletest:googletest",
     "../third_party/mini_chromium:base",
     "../third_party/zlib",
   ]

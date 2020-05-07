@@ -22,7 +22,7 @@
       'type': 'static_library',
       'dependencies': [
         '../compat/compat.gyp:crashpad_compat',
-        '../third_party/gtest/gtest.gyp:gtest',
+        '../third_party/googletest/googletest.gyp:googletest',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
         '../util/util.gyp:crashpad_util',
       ],
@@ -114,37 +114,37 @@
       ],
     },
     {
-      'target_name': 'crashpad_gmock_main',
+      'target_name': 'crashpad_googlemock_main',
       'type': 'static_library',
       'dependencies': [
         'crashpad_test',
-        '../third_party/gtest/gmock.gyp:gmock',
-        '../third_party/gtest/gtest.gyp:gtest',
+        '../third_party/googletest/googlemock.gyp:googlemock',
+        '../third_party/googletest/googletest.gyp:googletest',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
       ],
       'include_dirs': [
         '..',
       ],
       'defines': [
-        'CRASHPAD_TEST_LAUNCHER_GMOCK=1',
+        'CRASHPAD_TEST_LAUNCHER_GOOGLEMOCK=1',
       ],
       'sources': [
         'gtest_main.cc',
       ],
     },
     {
-      'target_name': 'crashpad_gtest_main',
+      'target_name': 'crashpad_googletest_main',
       'type': 'static_library',
       'dependencies': [
         'crashpad_test',
-        '../third_party/gtest/gtest.gyp:gtest',
+        '../third_party/googletest/googletest.gyp:googletest',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
       ],
       'include_dirs': [
         '..',
       ],
       'defines': [
-        'CRASHPAD_TEST_LAUNCHER_GTEST=1',
+        'CRASHPAD_TEST_LAUNCHER_GOOGLETEST=1',
       ],
       'sources': [
         'gtest_main.cc',

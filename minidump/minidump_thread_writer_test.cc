@@ -97,7 +97,7 @@ TEST(MinidumpThreadWriter, EmptyThreadList) {
 }
 
 // The MINIDUMP_THREADs |expected| and |observed| are compared against each
-// other using gtest assertions. If |stack| is not nullptr, |observed| is
+// other using Google Test assertions. If |stack| is not nullptr, |observed| is
 // expected to contain a populated MINIDUMP_MEMORY_DESCRIPTOR in its Stack
 // field, otherwise, its Stack field is expected to be zeroed out. The memory
 // descriptor will be placed in |stack|. |observed| must contain a populated

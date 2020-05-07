@@ -92,8 +92,8 @@ void Multiprocess::Run() {
     RunParent();
 
     // Waiting for the child happens here instead of in RunParent() because even
-    // if RunParent() returns early due to a gtest fatal assertion failure, the
-    // child should still be reaped.
+    // if RunParent() returns early due to a Google Test fatal assertion
+    // failure, the child should still be reaped.
 
     // This will make the parent hang up on the child as much as would be
     // visible from the child’s perspective. The child’s side of the pipe will

@@ -22,7 +22,7 @@
       'type': 'static_library',
       'dependencies': [
         'minidump.gyp:crashpad_minidump',
-        '../third_party/gtest/gtest.gyp:gtest',
+        '../third_party/googletest/googletest.gyp:googletest',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
       ],
       'include_dirs': [
@@ -54,9 +54,9 @@
         'crashpad_minidump_test_lib',
         'minidump.gyp:crashpad_minidump',
         '../snapshot/snapshot_test.gyp:crashpad_snapshot_test_lib',
-        '../test/test.gyp:crashpad_gtest_main',
+        '../test/test.gyp:crashpad_googletest_main',
         '../test/test.gyp:crashpad_test',
-        '../third_party/gtest/gtest.gyp:gtest',
+        '../third_party/googletest/googletest.gyp:googletest',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
         '../util/util.gyp:crashpad_util',
       ],

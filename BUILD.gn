@@ -28,7 +28,7 @@ config("disable_ubsan") {
   visibility = [
     "snapshot:snapshot",
     "minidump:minidump_test",
-    "third_party/gtest:gtest",
+    "third_party/googletest:googletest",
     "util:util",
   ]
 }
@@ -38,7 +38,7 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
     deps = [
       "client:client_test",
       "minidump:minidump_test",
-      "test:gmock_main",
+      "test:googlemock_main",
       "test:test_test",
     ]
     if (!crashpad_is_ios) {
@@ -173,14 +173,14 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
   test("crashpad_client_test") {
     deps = [
       "client:client_test",
-      "test:gmock_main",
+      "test:googlemock_main",
     ]
   }
 
   test("crashpad_handler_test") {
     deps = [
       "handler:handler_test",
-      "test:gtest_main",
+      "test:googletest_main",
     ]
     if (crashpad_is_ios || crashpad_is_fuchsia) {
       deps -= [ "handler:handler_test" ]
@@ -190,14 +190,14 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
   test("crashpad_minidump_test") {
     deps = [
       "minidump:minidump_test",
-      "test:gtest_main",
+      "test:googletest_main",
     ]
   }
 
   test("crashpad_snapshot_test") {
     deps = [
       "snapshot:snapshot_test",
-      "test:gtest_main",
+      "test:googletest_main",
     ]
     if (crashpad_is_ios) {
       deps -= [ "snapshot:snapshot_test" ]
@@ -206,14 +206,14 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
 
   test("crashpad_test_test") {
     deps = [
-      "test:gmock_main",
+      "test:googlemock_main",
       "test:test_test",
     ]
   }
 
   test("crashpad_util_test") {
     deps = [
-      "test:gmock_main",
+      "test:googlemock_main",
       "util:util_test",
     ]
   }

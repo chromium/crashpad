@@ -53,7 +53,7 @@ namespace {
 // mask, EXC_MASK_ALL | EXC_MASK_CRASH. The EXC_MASK_CRASH handler’s existence
 // and properties from this second lookup are validated in the same way.
 //
-// This function uses gtest EXPECT_* and ASSERT_* macros to perform its
+// This function uses Google Test EXPECT_* and ASSERT_* macros to perform its
 // validation.
 void TestGetExceptionPorts(const ExceptionPorts& exception_ports,
                            mach_port_t expect_port,

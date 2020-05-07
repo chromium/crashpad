@@ -53,7 +53,7 @@ class MockDatabase : public CrashReportDatabase {
   MOCK_METHOD1(DeleteReport, OperationStatus(const UUID&));
   MOCK_METHOD1(RequestUpload, OperationStatus(const UUID&));
 
-  // gmock doesn't support mocking methods with non-copyable types such as
+  // Google Mock doesn't support mocking methods with non-copyable types such as
   // unique_ptr.
   OperationStatus FinishedWritingCrashReport(std::unique_ptr<NewReport> report,
                                              UUID* uuid) override {

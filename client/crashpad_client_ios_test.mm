@@ -36,19 +36,19 @@ TEST_F(CrashpadIOSClient, DumpWithoutCrash) {
   client.DumpWithoutCrash(&context);
 }
 
-// This test is covered by a similar XCUITest, but for development purposes
-// it's sometimes easier and faster to run as a gtest.  However, there's no
-// way to correctly run this as a gtest. Leave the test here, disabled, for use
+// This test is covered by a similar XCUITest, but for development purposes it's
+// sometimes easier and faster to run in Google Test.  However, there's no way
+// to correctly run this in Google Test. Leave the test here, disabled, for use
 // during development only.
 TEST_F(CrashpadIOSClient, DISABLED_ThrowNSException) {
   CrashpadClient client;
   client.StartCrashpadInProcessHandler();
-  [NSException raise:@"GtestNSException" format:@"ThrowException"];
+  [NSException raise:@"GoogleTestNSException" format:@"ThrowException"];
 }
 
-// This test is covered by a similar XCUITest, but for development purposes
-// it's sometimes easier and faster to run as a gtest.  However, there's no
-// way to correctly run this as a gtest. Leave the test here, disabled, for use
+// This test is covered by a similar XCUITest, but for development purposes it's
+// sometimes easier and faster to run in Google Test.  However, there's no way
+// to correctly run this in Google Test. Leave the test here, disabled, for use
 // during development only.
 TEST_F(CrashpadIOSClient, DISABLED_ThrowException) {
   CrashpadClient client;

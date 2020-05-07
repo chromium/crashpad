@@ -21,17 +21,17 @@
       'variables': {
         'conditions': [
           ['crashpad_dependencies=="standalone"', {
-            'gmock_dir': 'gtest/googlemock',
+            'googlemock_dir': 'googletest/googlemock',
           }],
           ['crashpad_dependencies=="external"', {
-            'gmock_dir': '../../../../gmock',
+            'googlemock_dir': '../../../../googlemock',
           }],
         ],
       },
     }],
   ],
   'target_defaults': {
-    # gmock relies heavily on objects with static storage duration.
+    # Google Mock relies heavily on objects with static storage duration.
     'xcode_settings': {
       'WARNING_CFLAGS!': [
         '-Wexit-time-destructors',
@@ -44,47 +44,47 @@
 
   'targets': [
     {
-      'target_name': 'gmock',
+      'target_name': 'googlemock',
       'type': 'static_library',
       'dependencies': [
-        'gtest.gyp:gtest',
+        'googletest.gyp:googletest',
       ],
       'include_dirs': [
-        '<(gmock_dir)',
-        '<(gmock_dir)/include',
+        '<(googlemock_dir)',
+        '<(googlemock_dir)/include',
       ],
       'sources': [
-        '<(gmock_dir)/include/gmock/gmock-actions.h',
-        '<(gmock_dir)/include/gmock/gmock-cardinalities.h',
-        '<(gmock_dir)/include/gmock/gmock-function-mocker.h',
-        '<(gmock_dir)/include/gmock/gmock-generated-actions.h',
-        '<(gmock_dir)/include/gmock/gmock-matchers.h',
-        '<(gmock_dir)/include/gmock/gmock-more-actions.h',
-        '<(gmock_dir)/include/gmock/gmock-more-matchers.h',
-        '<(gmock_dir)/include/gmock/gmock-nice-strict.h',
-        '<(gmock_dir)/include/gmock/gmock-spec-builders.h',
-        '<(gmock_dir)/include/gmock/gmock.h',
-        '<(gmock_dir)/include/gmock/internal/custom/gmock-generated-actions.h',
-        '<(gmock_dir)/include/gmock/internal/custom/gmock-matchers.h',
-        '<(gmock_dir)/include/gmock/internal/custom/gmock-port.h',
-        '<(gmock_dir)/include/gmock/internal/custom/gmock-pp.h',
-        '<(gmock_dir)/include/gmock/internal/gmock-generated-internal-utils.h',
-        '<(gmock_dir)/include/gmock/internal/gmock-internal-utils.h',
-        '<(gmock_dir)/include/gmock/internal/gmock-port.h',
-        '<(gmock_dir)/src/gmock-all.cc',
-        '<(gmock_dir)/src/gmock-cardinalities.cc',
-        '<(gmock_dir)/src/gmock-internal-utils.cc',
-        '<(gmock_dir)/src/gmock-matchers.cc',
-        '<(gmock_dir)/src/gmock-spec-builders.cc',
-        '<(gmock_dir)/src/gmock.cc',
+        '<(googlemock_dir)/include/gmock/gmock-actions.h',
+        '<(googlemock_dir)/include/gmock/gmock-cardinalities.h',
+        '<(googlemock_dir)/include/gmock/gmock-function-mocker.h',
+        '<(googlemock_dir)/include/gmock/gmock-generated-actions.h',
+        '<(googlemock_dir)/include/gmock/gmock-matchers.h',
+        '<(googlemock_dir)/include/gmock/gmock-more-actions.h',
+        '<(googlemock_dir)/include/gmock/gmock-more-matchers.h',
+        '<(googlemock_dir)/include/gmock/gmock-nice-strict.h',
+        '<(googlemock_dir)/include/gmock/gmock-spec-builders.h',
+        '<(googlemock_dir)/include/gmock/gmock.h',
+        '<(googlemock_dir)/include/gmock/internal/custom/gmock-generated-actions.h',
+        '<(googlemock_dir)/include/gmock/internal/custom/gmock-matchers.h',
+        '<(googlemock_dir)/include/gmock/internal/custom/gmock-port.h',
+        '<(googlemock_dir)/include/gmock/internal/custom/gmock-pp.h',
+        '<(googlemock_dir)/include/gmock/internal/gmock-generated-internal-utils.h',
+        '<(googlemock_dir)/include/gmock/internal/gmock-internal-utils.h',
+        '<(googlemock_dir)/include/gmock/internal/gmock-port.h',
+        '<(googlemock_dir)/src/gmock-all.cc',
+        '<(googlemock_dir)/src/gmock-cardinalities.cc',
+        '<(googlemock_dir)/src/gmock-internal-utils.cc',
+        '<(googlemock_dir)/src/gmock-matchers.cc',
+        '<(googlemock_dir)/src/gmock-spec-builders.cc',
+        '<(googlemock_dir)/src/gmock.cc',
       ],
       'sources!': [
-        '<(gmock_dir)/src/gmock-all.cc',
+        '<(googlemock_dir)/src/gmock-all.cc',
       ],
 
       'direct_dependent_settings': {
         'include_dirs': [
-          '<(gmock_dir)/include',
+          '<(googlemock_dir)/include',
         ],
         'conditions': [
           ['clang!=0', {
@@ -112,66 +112,66 @@
         ],
       },
       'export_dependent_settings': [
-        'gtest.gyp:gtest',
+        'googletest.gyp:googletest',
       ],
     },
     {
-      'target_name': 'gmock_main',
+      'target_name': 'googlemock_main',
       'type': 'static_library',
       'dependencies': [
-        'gmock',
-        'gtest.gyp:gtest',
+        'googlemock',
+        'googletest.gyp:googletest',
       ],
       'sources': [
-        '<(gmock_dir)/src/gmock_main.cc',
+        '<(googlemock_dir)/src/gmock_main.cc',
       ],
     },
     {
-      'target_name': 'gmock_test_executable',
+      'target_name': 'googlemock_test_executable',
       'type': 'none',
       'dependencies': [
-        'gmock',
-        'gtest.gyp:gtest',
+        'googlemock',
+        'googletest.gyp:googletest',
       ],
       'direct_dependent_settings': {
         'type': 'executable',
         'include_dirs': [
-          '<(gmock_dir)',
+          '<(googlemock_dir)',
         ],
       },
       'export_dependent_settings': [
-        'gmock',
-        'gtest.gyp:gtest',
+        'googlemock',
+        'googletest.gyp:googletest',
       ],
     },
     {
       'target_name': 'gmock_all_test',
       'dependencies': [
-        'gmock_test_executable',
-        'gmock_main',
+        'googlemock_test_executable',
+        'googlemock_main',
       ],
       'include_dirs': [
-        'gtest/googletest',
+        'googletest/googletest',
       ],
       'sources': [
-        '<(gmock_dir)/test/gmock-actions_test.cc',
-        '<(gmock_dir)/test/gmock-cardinalities_test.cc',
-        '<(gmock_dir)/test/gmock-function-mocker_test.cc',
-        '<(gmock_dir)/test/gmock-generated-actions_test.cc',
-        '<(gmock_dir)/test/gmock-generated-matchers_test.cc',
-        '<(gmock_dir)/test/gmock-internal-utils_test.cc',
-        '<(gmock_dir)/test/gmock-matchers_test.cc',
-        '<(gmock_dir)/test/gmock-more-actions_test.cc',
-        '<(gmock_dir)/test/gmock-nice-strict_test.cc',
-        '<(gmock_dir)/test/gmock-port_test.cc',
-        '<(gmock_dir)/test/gmock-pp-string_test.cc',
-        '<(gmock_dir)/test/gmock-pp_test.cc',
-        '<(gmock_dir)/test/gmock-spec-builders_test.cc',
-        '<(gmock_dir)/test/gmock_test.cc',
+        '<(googlemock_dir)/test/gmock-actions_test.cc',
+        '<(googlemock_dir)/test/gmock-cardinalities_test.cc',
+        '<(googlemock_dir)/test/gmock-function-mocker_test.cc',
+        '<(googlemock_dir)/test/gmock-generated-actions_test.cc',
+        '<(googlemock_dir)/test/gmock-generated-matchers_test.cc',
+        '<(googlemock_dir)/test/gmock-internal-utils_test.cc',
+        '<(googlemock_dir)/test/gmock-matchers_test.cc',
+        '<(googlemock_dir)/test/gmock-more-actions_test.cc',
+        '<(googlemock_dir)/test/gmock-nice-strict_test.cc',
+        '<(googlemock_dir)/test/gmock-port_test.cc',
+        '<(googlemock_dir)/test/gmock-pp-string_test.cc',
+        '<(googlemock_dir)/test/gmock-pp_test.cc',
+        '<(googlemock_dir)/test/gmock-spec-builders_test.cc',
+        '<(googlemock_dir)/test/gmock_test.cc',
       ],
       'conditions': [
          ['clang!=0', {
-          # For gtest/googlemock/test/gmock-matchers_test.cc’s
+          # For googletest/googlemock/test/gmock-matchers_test.cc’s
           # Unstreamable::value_.
           'conditions': [
             ['OS=="mac"', {
@@ -193,26 +193,26 @@
     {
       'target_name': 'gmock_link_test',
       'dependencies': [
-        'gmock_test_executable',
-        'gmock_main',
+        'googlemock_test_executable',
+        'googlemock_main',
       ],
       'sources': [
-        '<(gmock_dir)/test/gmock_link_test.cc',
-        '<(gmock_dir)/test/gmock_link_test.h',
-        '<(gmock_dir)/test/gmock_link2_test.cc',
+        '<(googlemock_dir)/test/gmock_link_test.cc',
+        '<(googlemock_dir)/test/gmock_link_test.h',
+        '<(googlemock_dir)/test/gmock_link2_test.cc',
       ],
     },
     {
       'target_name': 'gmock_stress_test',
       'dependencies': [
-        'gmock_test_executable',
+        'googlemock_test_executable',
       ],
       'sources': [
-        '<(gmock_dir)/test/gmock_stress_test.cc',
+        '<(googlemock_dir)/test/gmock_stress_test.cc',
       ],
     },
     {
-      'target_name': 'gmock_all_tests',
+      'target_name': 'googlemock_all_tests',
       'type': 'none',
       'dependencies': [
         'gmock_all_test',

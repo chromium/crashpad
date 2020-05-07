@@ -62,7 +62,7 @@ class ScopedExecutablePatch {
    public:
     // If either the constructor or destructor fails, PCHECK() to terminate
     // immediately, because the process will be in a weird and untrustworthy
-    // state, and gtest error handling isn’t worthwhile at that point.
+    // state, and Google Test error handling isn’t worthwhile at that point.
 
     ScopedVirtualProtectRWX(void* address, size_t size)
         : address_(address), size_(size) {
