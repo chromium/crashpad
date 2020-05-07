@@ -32,8 +32,19 @@ def main(args):
     parser.add_argument('--ndk', required=True, help='Standalone NDK toolchain')
     (parsed, extra_command_line_args) = parser.parse_known_args(args)
 
+    SYS_PLATFORM_TO_NDK_HOST_ARCH = {
+        'cygwin': 'windows-x86_64',
+        'darwin': 'darwin-x86_64',
+        'linux': 'linux-x86_64',
+        'linux2': 'linux-x86_64',
+        'darwin': 'darwin-x86_64',
+        'win32': 'windows-x86_64',
+    }
+
+    ndk_host_arch = SYS_PLATFORM_TO_NDK_HOST_ARCH[sys.platform]
+
     ndk_bin_dir = os.path.join(parsed.ndk, 'toolchains', 'llvm', 'prebuilt',
-                               'linux-x86_64', 'bin')
+                               ndk_host_arch, 'bin')
     if not os.path.exists(ndk_bin_dir):
         parser.error("missing toolchain")
 
