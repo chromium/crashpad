@@ -22,6 +22,30 @@
       "revId": "b43c162b45159bef4a90083605764aa04052194f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1897e664_7b44446c",
+        "filename": "handler/linux/cros_crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-05-08T16:34:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "755c7bca_641846da",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 59
+      },
+      "revId": "b43c162b45159bef4a90083605764aa04052194f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
