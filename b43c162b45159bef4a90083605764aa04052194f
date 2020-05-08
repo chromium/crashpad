@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "755c7bca_641846da",
+        "filename": "handler/linux/cros_crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-08T16:30:28Z",
+      "side": 1,
+      "message": "Save the pid in a local pid_t variable, so that there’s only one call into ProcessID?",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 59
+      },
+      "revId": "b43c162b45159bef4a90083605764aa04052194f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
