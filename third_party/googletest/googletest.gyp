@@ -24,7 +24,7 @@
             'googletest_dir': 'googletest/googletest',
           }],
           ['crashpad_dependencies=="external"', {
-            'googletest_dir': '../../../../googletest',
+            'googletest_dir': '../../../../gtest',
           }],
         ],
       },
