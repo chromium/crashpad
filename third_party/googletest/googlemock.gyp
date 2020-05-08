@@ -24,7 +24,7 @@
             'googlemock_dir': 'googletest/googlemock',
           }],
           ['crashpad_dependencies=="external"', {
-            'googlemock_dir': '../../../../googlemock',
+            'googlemock_dir': '../../../../gmock',
           }],
         ],
       },

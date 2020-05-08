@@ -18,21 +18,21 @@ import("../../build/test.gni")
 if (crashpad_is_in_chromium) {
   group("googletest") {
     testonly = true
-    public_deps = [ "//testing/googletest" ]
+    public_deps = [ "//testing/gtest" ]
   }
   group("googlemock") {
     testonly = true
-    public_deps = [ "//testing/googlemock" ]
+    public_deps = [ "//testing/gmock" ]
   }
 } else if (crashpad_is_in_dart || crashpad_is_in_fuchsia) {
   group("googletest") {
     testonly = true
-    public_deps = [ "//third_party/googletest:googletest" ]
+    public_deps = [ "//third_party/googletest:gtest" ]
     public_configs = [ "../..:disable_ubsan" ]
   }
   group("googlemock") {
     testonly = true
-    public_deps = [ "//third_party/googletest:googlemock" ]
+    public_deps = [ "//third_party/googletest:gmock" ]
   }
 } else if (crashpad_is_standalone) {
   config("googletest_private_config") {
