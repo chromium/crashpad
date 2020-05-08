@@ -247,7 +247,7 @@ bool CrosCrashReportExceptionHandler::HandleExceptionWithConnection(
   std::vector<std::string> argv({"/sbin/crash_reporter"});
 
   argv.push_back("--chrome_memfd=" + std::to_string(file_writer.fd()));
-  argv.push_back("--pid=" + std::to_string(*requesting_thread_id));
+  argv.push_back("--pid=" + std::to_string(process_snapshot->ProcessID()));
   argv.push_back("--uid=" + std::to_string(client_uid));
   std::string process_name = GetProcessNameFromPid(*requesting_thread_id);
   argv.push_back("--exe=" + (process_name.empty() ? "chrome" : process_name));
