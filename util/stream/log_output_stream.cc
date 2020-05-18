@@ -14,6 +14,8 @@
 
 #include "util/stream/log_output_stream.h"
 
+#include <string.h>
+
 #include <algorithm>
 
 #include "base/logging.h"
