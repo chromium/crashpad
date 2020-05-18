@@ -14,6 +14,7 @@
 
 #include "util/net/http_multipart_builder.h"
 
+#include <string.h>
 #include <sys/types.h>
 
 #include <utility>

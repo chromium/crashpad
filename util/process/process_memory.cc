@@ -14,6 +14,8 @@
 
 #include "util/process/process_memory.h"
 
+#include <string.h>
+
 #include <algorithm>
 
 #include "base/logging.h"

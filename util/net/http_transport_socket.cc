@@ -17,6 +17,7 @@
 #include <fcntl.h>
 #include <netdb.h>
 #include <poll.h>
+#include <string.h>
 #include <sys/socket.h>
 
 #include "base/logging.h"
