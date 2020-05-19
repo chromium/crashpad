@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20ad48a7_4c2450d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-19T12:52:16Z",
+      "side": 1,
+      "message": "Note that this is for Windows with something like a leading “win:”.",
+      "revId": "49b45ffb1d7f4ffbfc93d0d92b8fa4f50492f4fa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a478f7f9_dc0ad703",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-19T12:52:16Z",
+      "side": 1,
+      "message": "Commit messages wrap at 72 characters.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 153
+      },
+      "revId": "49b45ffb1d7f4ffbfc93d0d92b8fa4f50492f4fa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49cfdea6_d1e30cfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-19T12:52:16Z",
+      "side": 1,
+      "message": "You don’t need a URL that redirects through Google.\n\nhttps://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createnamedpipea#remarks",
+      "revId": "49b45ffb1d7f4ffbfc93d0d92b8fa4f50492f4fa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98e3e63e_c9366441",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-19T12:52:16Z",
+      "side": 1,
+      "message": "This URL isn’t canonical either. Use\n\nhttps://groups.google.com/a/chromium.org/d/msg/crashpad-dev/NQ-v9GNRUf4/QTuL_1yTAAAJ",
+      "revId": "49b45ffb1d7f4ffbfc93d0d92b8fa4f50492f4fa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "998a3813_772f2825",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-19T12:52:16Z",
+      "side": 1,
+      "message": "I think this one patch is a little too trivial to meet the bar for inclusion in this file. The four people listed here are major contributors of large swaths of code.",
+      "revId": "49b45ffb1d7f4ffbfc93d0d92b8fa4f50492f4fa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5910fa55_93cd4fc0",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-19T12:52:16Z",
+      "side": 1,
+      "message": "We would usually write\n\n#if defined(WINDOWS_UWP)",
+      "revId": "49b45ffb1d7f4ffbfc93d0d92b8fa4f50492f4fa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
