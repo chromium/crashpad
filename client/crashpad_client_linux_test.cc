@@ -15,6 +15,7 @@
 #include "client/crashpad_client.h"
 
 #include <dlfcn.h>
+#include <signal.h>
 #include <stdlib.h>
 #include <sys/syscall.h>
 #include <sys/types.h>
@@ -59,10 +60,11 @@ struct StartHandlerForSelfTestOptions {
   bool start_handler_at_crash;
   bool simulate_crash;
   bool set_first_chance_handler;
+  bool smash_stack;
 };
 
 class StartHandlerForSelfTest
-    : public testing::TestWithParam<std::tuple<bool, bool, bool>> {
+    : public testing::TestWithParam<std::tuple<bool, bool, bool, bool>> {
  public:
   StartHandlerForSelfTest() = default;
   ~StartHandlerForSelfTest() = default;
@@ -70,7 +72,8 @@ class StartHandlerForSelfTest
   void SetUp() override {
     std::tie(options_.start_handler_at_crash,
              options_.simulate_crash,
-             options_.set_first_chance_handler) = GetParam();
+             options_.set_first_chance_handler,
+             options_.smash_stack) = GetParam();
   }
 
   const StartHandlerForSelfTestOptions& Options() const { return options_; }
@@ -148,6 +151,20 @@ void ValidateDump(const CrashReportDatabase::UploadReport* report) {
   ADD_FAILURE();
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-variable"
+#pragma clang diagnostic ignored "-Winfinite-recursion"
+void SmashStack() {
+  char buf[1 << 20];
+  SmashStack();
+}
+#pragma clang diagnostic pop
+
+void HelloHandler(int signo, siginfo_t* siginfo, ucontext_t* context) {
+  LOG(INFO) << "Hello " << std::hex << &signo;
+  Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, nullptr);
+}
+
 CRASHPAD_CHILD_TEST_MAIN(StartHandlerForSelfTestChild) {
   FileHandle in = StdioFileHandle(StdioStream::kStandardInput);
 
@@ -167,6 +184,28 @@ CRASHPAD_CHILD_TEST_MAIN(StartHandlerForSelfTestChild) {
 
   static StringAnnotation<32> test_annotation(kTestAnnotationName);
   test_annotation.Set(kTestAnnotationValue);
+
+  // REMOVE
+#define SS_AUTODISARM (1u << 31)
+  stack_t stack = {};
+  stack.ss_sp = new char[SIGSTKSZ * 3];
+  stack.ss_size = SIGSTKSZ;
+  stack.ss_flags = SS_AUTODISARM;
+  if (sigaltstack(&stack, nullptr) != 0) {
+    PLOG(ERROR) << "sigaltstack";
+    _exit(1);
+  }
+
+  LOG(INFO) << "setup stack flags " << std::hex << stack.ss_flags;
+  LOG(INFO) << "sp " << std::hex << stack.ss_sp;
+
+  if (!Signals::InstallCrashHandlers(
+          reinterpret_cast<Signals::Handler>(HelloHandler),
+          SA_ONSTACK,
+          nullptr)) {
+    _exit(1);
+  }
+  // REMOVE
 
   crashpad::CrashpadClient client;
   if (!InstallHandler(&client,
@@ -190,7 +229,11 @@ CRASHPAD_CHILD_TEST_MAIN(StartHandlerForSelfTestChild) {
     return EXIT_SUCCESS;
   }
 
-  __builtin_trap();
+  if (options.smash_stack) {
+    SmashStack();
+  } else {
+    __builtin_trap();
+  }
 
   NOTREACHED();
   return EXIT_SUCCESS;
@@ -201,7 +244,12 @@ class StartHandlerForSelfInChildTest : public MultiprocessExec {
   StartHandlerForSelfInChildTest(const StartHandlerForSelfTestOptions& options)
       : MultiprocessExec(), options_(options) {
     SetChildTestMainFunction("StartHandlerForSelfTestChild");
-    if (!options.simulate_crash) {
+    if (options.smash_stack) {
+      SetExpectedChildTermination(TerminationReason::kTerminationSignal,
+                                  SIGSEGV);
+    } else if (options.simulate_crash) {
+      // kTerminationNormal, EXIT_SUCCESS
+    } else {
       SetExpectedChildTerminationBuiltinTrap();
     }
   }
@@ -253,6 +301,10 @@ TEST_P(StartHandlerForSelfTest, StartHandlerInChild) {
     // TODO(jperaza): test first chance handlers with real crashes.
     return;
   }
+  if (Options().smash_stack && Options().simulate_crash) {
+    // These options are incompatible.
+    return;
+  }
   StartHandlerForSelfInChildTest test(Options());
   test.Run();
 }
@@ -260,6 +312,7 @@ TEST_P(StartHandlerForSelfTest, StartHandlerInChild) {
 INSTANTIATE_TEST_SUITE_P(StartHandlerForSelfTestSuite,
                          StartHandlerForSelfTest,
                          testing::Combine(testing::Bool(),
+                                          testing::Bool(),
                                           testing::Bool(),
                                           testing::Bool()));
 
