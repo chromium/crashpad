@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8dda52fe_eccd5276",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-21T16:14:32Z",
+      "side": 1,
+      "message": "No initialization necessary.",
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e96555fe_2b25d83f",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-21T16:14:32Z",
+      "side": 1,
+      "message": "kMinStackSize sounds like MINSIGSTKSZ, but you’re actually using SIGSTKSZ.",
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68024707_b8e2465e",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-21T16:14:32Z",
+      "side": 1,
+      "message": "Optional: might want to include a PROT_NONE guard page at the lowest address, and not tell sigaltstack about it.\n\n(I actually like guard pages at both ends.)\n\nWhen you’re messing with pages and protections, it may be more handy to just use mmap and mprotect.",
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e68dcd82_744b6765",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-21T16:14:32Z",
+      "side": 1,
+      "message": "I see why you did this: you can’t rely on errno. But ENOMEM gives the error, and we usually want not just the error, but some indication of the thing that we were doing when the error came up. Like \"new char[]\".",
+      "range": {
+        "startLine": 181,
+        "startChar": 23,
+        "endLine": 181,
+        "endChar": 29
+      },
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "735430a7_e318ccd9",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-21T16:14:32Z",
+      "side": 1,
+      "message": "Why do you have both old_stack and new_stack? You can get away with a single “stack” or “signal_stack”.",
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cb3a512_023a62b3",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-21T16:14:32Z",
+      "side": 1,
+      "message": "The alternate stack is a property of a thread, not the entire process. This is only effective for the calling thread.\n\nIn order for this to be effective globally, you’d need a way to run this new passage of code on each thread. That could either be through the provision of an interface that you document as something that threads need to call early in their start_routine, or by finding a way to hook pthread_create.",
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3da7766b_6f8cfeb6",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-21T16:14:32Z",
+      "side": 1,
+      "message": "Since the stack is thread-specific, you could stash the allocation in a pthread_key, and free it in the destructor.",
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "940ab4ad_5f2f1ce2",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-05-21T16:14:32Z",
+      "side": 1,
+      "message": "“Smash” sounds like you’re scribbling all over it, but this is just infinite recursion.\n\nSame for the enumerator name.",
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
