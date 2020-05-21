@@ -15,6 +15,7 @@
 #include "client/crashpad_client.h"
 
 #include <dlfcn.h>
+#include <signal.h>
 #include <stdlib.h>
 #include <sys/syscall.h>
 #include <sys/types.h>
@@ -55,22 +56,28 @@ namespace crashpad {
 namespace test {
 namespace {
 
+enum class CrashType : uint32_t {
+  kSimulated,
+  kBuiltinTrap,
+  kSmashedStack,
+};
+
 struct StartHandlerForSelfTestOptions {
   bool start_handler_at_crash;
-  bool simulate_crash;
   bool set_first_chance_handler;
+  CrashType crash_type;
 };
 
 class StartHandlerForSelfTest
-    : public testing::TestWithParam<std::tuple<bool, bool, bool>> {
+    : public testing::TestWithParam<std::tuple<bool, bool, CrashType>> {
  public:
   StartHandlerForSelfTest() = default;
   ~StartHandlerForSelfTest() = default;
 
   void SetUp() override {
     std::tie(options_.start_handler_at_crash,
-             options_.simulate_crash,
-             options_.set_first_chance_handler) = GetParam();
+             options_.set_first_chance_handler,
+             options_.crash_type) = GetParam();
   }
 
   const StartHandlerForSelfTestOptions& Options() const { return options_; }
@@ -148,6 +155,14 @@ void ValidateDump(const CrashReportDatabase::UploadReport* report) {
   ADD_FAILURE();
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winfinite-recursion"
+int SmashStack(int* ptr) {
+  int buf[1 << 20];
+  return *ptr + SmashStack(buf);
+}
+#pragma clang diagnostic pop
+
 CRASHPAD_CHILD_TEST_MAIN(StartHandlerForSelfTestChild) {
   FileHandle in = StdioFileHandle(StdioStream::kStandardInput);
 
@@ -182,15 +197,23 @@ CRASHPAD_CHILD_TEST_MAIN(StartHandlerForSelfTestChild) {
   }
 #endif
 
-  if (options.simulate_crash) {
-    if (options.set_first_chance_handler) {
-      client.SetFirstChanceExceptionHandler(HandleCrashSuccessfully);
-    }
-    CRASHPAD_SIMULATE_CRASH();
-    return EXIT_SUCCESS;
-  }
+  switch (options.crash_type) {
+    case CrashType::kSimulated:
+      if (options.set_first_chance_handler) {
+        client.SetFirstChanceExceptionHandler(HandleCrashSuccessfully);
+      }
+      CRASHPAD_SIMULATE_CRASH();
+      return EXIT_SUCCESS;
 
-  __builtin_trap();
+    case CrashType::kBuiltinTrap:
+      __builtin_trap();
+      break;
+
+    case CrashType::kSmashedStack:
+      int val = 42;
+      return SmashStack(&val);
+      break;
+  }
 
   NOTREACHED();
   return EXIT_SUCCESS;
@@ -201,8 +224,17 @@ class StartHandlerForSelfInChildTest : public MultiprocessExec {
   StartHandlerForSelfInChildTest(const StartHandlerForSelfTestOptions& options)
       : MultiprocessExec(), options_(options) {
     SetChildTestMainFunction("StartHandlerForSelfTestChild");
-    if (!options.simulate_crash) {
-      SetExpectedChildTerminationBuiltinTrap();
+    switch (options.crash_type) {
+      case CrashType::kSimulated:
+        // kTerminationNormal, EXIT_SUCCESS
+        break;
+      case CrashType::kBuiltinTrap:
+        SetExpectedChildTerminationBuiltinTrap();
+        break;
+      case CrashType::kSmashedStack:
+        SetExpectedChildTermination(TerminationReason::kTerminationSignal,
+                                    SIGSEGV);
+        break;
     }
   }
 
@@ -249,7 +281,8 @@ class StartHandlerForSelfInChildTest : public MultiprocessExec {
 };
 
 TEST_P(StartHandlerForSelfTest, StartHandlerInChild) {
-  if (Options().set_first_chance_handler && !Options().simulate_crash) {
+  if (Options().set_first_chance_handler &&
+      Options().crash_type != CrashType::kSimulated) {
     // TODO(jperaza): test first chance handlers with real crashes.
     return;
   }
@@ -257,11 +290,14 @@ TEST_P(StartHandlerForSelfTest, StartHandlerInChild) {
   test.Run();
 }
 
-INSTANTIATE_TEST_SUITE_P(StartHandlerForSelfTestSuite,
-                         StartHandlerForSelfTest,
-                         testing::Combine(testing::Bool(),
-                                          testing::Bool(),
-                                          testing::Bool()));
+INSTANTIATE_TEST_SUITE_P(
+    StartHandlerForSelfTestSuite,
+    StartHandlerForSelfTest,
+    testing::Combine(testing::Bool(),
+                     testing::Bool(),
+                     testing::Values(CrashType::kSimulated,
+                                     CrashType::kBuiltinTrap,
+                                     CrashType::kSmashedStack)));
 
 // Test state for starting the handler for another process.
 class StartHandlerForClientTest {

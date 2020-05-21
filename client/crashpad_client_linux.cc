@@ -23,6 +23,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include <memory>
+
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "client/client_argv_handling.h"
@@ -166,10 +168,35 @@ class SignalHandler {
   SignalHandler() = default;
 
   bool Install(const std::set<int>* unhandled_signals) {
+    stack_t old_stack = {};
+    if (sigaltstack(nullptr, &old_stack) != 0) {
+      PLOG(ERROR) << "sigaltstack";
+      return false;
+    }
+
+    constexpr size_t kMinStackSize = SIGSTKSZ;
+    if (old_stack.ss_flags & SS_DISABLE || old_stack.ss_size < kMinStackSize) {
+      auto stack_mem = std::make_unique<char[]>(kMinStackSize);
+      if (!stack_mem) {
+        LOG(ERROR) << "ENOMEM";
+        return false;
+      }
+
+      stack_t new_stack = {};
+      new_stack.ss_sp = stack_mem.get();
+      new_stack.ss_size = kMinStackSize;
+      if (sigaltstack(&new_stack, nullptr) != 0) {
+        PLOG(ERROR) << "sigaltstack";
+        return false;
+      }
+
+      stack_mem.release();
+    }
+
     DCHECK(!handler_);
     handler_ = this;
     return Signals::InstallCrashHandlers(
-        HandleOrReraiseSignal, 0, &old_actions_, unhandled_signals);
+        HandleOrReraiseSignal, SA_ONSTACK, &old_actions_, unhandled_signals);
   }
 
   const ExceptionInformation& GetExceptionInfo() {
