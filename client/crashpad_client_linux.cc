@@ -15,6 +15,7 @@
 #include "client/crashpad_client.h"
 
 #include <fcntl.h>
+#include <pthread.h>
 #include <stdlib.h>
 #include <sys/prctl.h>
 #include <sys/socket.h>
@@ -22,6 +23,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
+#include <memory>
 
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
@@ -36,6 +39,7 @@
 #include "util/linux/socket.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/posix/double_fork_and_exec.h"
+#include "util/posix/scoped_mmap.h"
 #include "util/posix/signals.h"
 
 namespace crashpad {
@@ -166,10 +170,13 @@ class SignalHandler {
   SignalHandler() = default;
 
   bool Install(const std::set<int>* unhandled_signals) {
+    bool result = CrashpadClient::InitializeSignalStack();
+    DCHECK(result);
+
     DCHECK(!handler_);
     handler_ = this;
     return Signals::InstallCrashHandlers(
-        HandleOrReraiseSignal, 0, &old_actions_, unhandled_signals);
+        HandleOrReraiseSignal, SA_ONSTACK, &old_actions_, unhandled_signals);
   }
 
   const ExceptionInformation& GetExceptionInfo() {
@@ -410,6 +417,69 @@ bool CrashpadClient::GetHandlerSocket(int* sock, pid_t* pid) {
 bool CrashpadClient::SetHandlerSocket(ScopedFileHandle sock, pid_t pid) {
   auto signal_handler = RequestCrashDumpHandler::Get();
   return signal_handler->Initialize(std::move(sock), pid, &unhandled_signals_);
+}
+
+// static
+bool CrashpadClient::InitializeSignalStack() {
+  stack_t stack;
+  if (sigaltstack(nullptr, &stack) != 0) {
+    PLOG(ERROR) << "sigaltstack";
+    return false;
+  }
+
+  constexpr size_t kStackSize = SIGSTKSZ;
+  static const size_t kGuardPageSize = getpagesize();
+  static const size_t kStackAllocSize = kStackSize + 2 * kGuardPageSize;
+  if (stack.ss_flags & SS_DISABLE || stack.ss_size < kStackSize) {
+    ScopedMmap stack_mem;
+    if (!stack_mem.ResetMmap(nullptr,
+                             kStackAllocSize,
+                             PROT_READ | PROT_WRITE,
+                             MAP_PRIVATE | MAP_ANONYMOUS,
+                             -1,
+                             0)) {
+      return false;
+    }
+
+     if (mprotect(stack_mem.addr(), kGuardPageSize, PROT_NONE) != 0 ||
+        mprotect(stack_mem.addr_as<char*>() + kGuardPageSize + kStackSize,
+                 kGuardPageSize,
+                 PROT_NONE) != 0) {
+      PLOG(ERROR) << "mprotect";
+      return false;
+    }
+
+    stack.ss_sp = stack_mem.addr_as<char*>() + kGuardPageSize;
+    stack.ss_size = kStackSize;
+    stack.ss_flags = 0;
+    if (sigaltstack(&stack, nullptr) != 0) {
+      PLOG(ERROR) << "sigaltstack";
+      return false;
+    }
+    stack_mem.release();
+
+    static void (*stack_destructor)(void*) = [](void* stack_mem) {
+      if (munmap(stack_mem, kStackAllocSize) != 0) {
+        PLOG(ERROR) << "munmap";
+      }
+    };
+
+     static pthread_key_t stack_key;
+     static int key_error = pthread_key_create(&stack_key, stack_destructor);
+     if (key_error != 0) {
+      errno = key_error;
+      PLOG(ERROR) << "pthread_key_create";
+      return false;
+    }
+
+     int err = pthread_setspecific(stack_key, stack_mem.release());
+     if (err != 0) {
+      errno = err;
+      PLOG(ERROR) << "pthread_setspecific";
+      return false;
+    }
+  }
+  return true;
 }
 #endif  // OS_ANDROID || OS_LINUX
 

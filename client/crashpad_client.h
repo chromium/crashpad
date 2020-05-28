@@ -140,6 +140,8 @@ class CrashpadClient {
   //!     handler as this process' ptracer. -1 indicates that the handler's
   //!     process ID should be determined by communicating over the socket.
   bool SetHandlerSocket(ScopedFileHandle sock, pid_t pid);
+
+  static bool InitializeSignalStack();
 #endif  // OS_ANDROID || OS_LINUX || DOXYGEN
 
 #if defined(OS_ANDROID) || DOXYGEN
