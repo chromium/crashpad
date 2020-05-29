@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3c700ad4_b248d086",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-05-29T05:15:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8dda52fe_eccd5276",
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e96555fe_2b25d83f",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c7c3ea0f_eab13db7",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-05-29T05:15:51Z",
+      "side": 1,
+      "message": "Changed to kStackSize.",
+      "parentUuid": "e96555fe_2b25d83f",
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68024707_b8e2465e",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd575ad3_09bb8c10",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-05-29T05:15:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68024707_b8e2465e",
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "af2d5355_9e095ee0",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-05-29T05:15:51Z",
+      "side": 1,
+      "message": "Now handled by ScopedMmap.",
+      "parentUuid": "e68dcd82_744b6765",
+      "range": {
+        "startLine": 181,
+        "startChar": 23,
+        "endLine": 181,
+        "endChar": 29
+      },
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "735430a7_e318ccd9",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 3
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "cf5d357c_cd0622bb",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-05-29T05:15:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "735430a7_e318ccd9",
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cb3a512_023a62b3",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 3
@@ -104,6 +200,24 @@
       "writtenOn": "2020-05-21T16:14:32Z",
       "side": 1,
       "message": "The alternate stack is a property of a thread, not the entire process. This is only effective for the calling thread.\n\nIn order for this to be effective globally, you’d need a way to run this new passage of code on each thread. That could either be through the provision of an interface that you document as something that threads need to call early in their start_routine, or by finding a way to hook pthread_create.",
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b654af7f_7c164850",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-05-29T05:15:51Z",
+      "side": 1,
+      "message": "Important information to include in the man page! Thanks!\n\nI went with both options for how to run this code since I didn\u0027t find any standard way of hooking pthread_create() and interposing it seems like more of a module-owner level thing to do.\n\nI found that Bionic has been installing alternate signal stacks since at least L, so I don\u0027t think we\u0027ve been missing anything.",
+      "parentUuid": "5cb3a512_023a62b3",
       "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "854a5b6b_23a4f913",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-05-29T05:15:51Z",
+      "side": 1,
+      "message": "Good idea!",
+      "parentUuid": "3da7766b_6f8cfeb6",
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "940ab4ad_5f2f1ce2",
         "filename": "client/crashpad_client_linux_test.cc",
         "patchSetId": 3
@@ -141,6 +273,24 @@
       "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7f9fed1_785c8ece",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-05-29T05:15:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "940ab4ad_5f2f1ce2",
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
