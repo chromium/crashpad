@@ -163,11 +163,25 @@ source_set("client_test") {
     "../util",
   ]
 
+  if (crashpad_is_linux || crashpad_is_android) {
+    deps += [ ":pthread_create" ]
+  }
+
   if (!crashpad_is_ios && !crashpad_is_fuchsia) {
     data_deps = [ "../handler:crashpad_handler" ]
   }
 
   if (crashpad_is_win) {
     data_deps += [ "../handler:crashpad_handler_console" ]
+  }
+}
+
+if (crashpad_is_linux || crashpad_is_android) {
+  source_set("pthread_create") {
+    sources = [
+      "pthread_create.cc",
+    ]
+
+    deps = [ ":client" ]
   }
 }
