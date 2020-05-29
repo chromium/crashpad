@@ -15,6 +15,7 @@
 #include "client/crashpad_client.h"
 
 #include <dlfcn.h>
+#include <signal.h>
 #include <stdlib.h>
 #include <sys/syscall.h>
 #include <sys/types.h>
@@ -41,6 +42,7 @@
 #include "util/misc/address_types.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/posix/signals.h"
+#include "util/thread/thread.h"
 
 #if defined(OS_ANDROID)
 #include <android/set_abort_message.h>
@@ -55,22 +57,30 @@ namespace crashpad {
 namespace test {
 namespace {
 
+enum class CrashType : uint32_t {
+  kSimulated,
+  kBuiltinTrap,
+  kInfiniteRecursion,
+};
+
 struct StartHandlerForSelfTestOptions {
   bool start_handler_at_crash;
-  bool simulate_crash;
   bool set_first_chance_handler;
+  bool crash_non_main_thread;
+  CrashType crash_type;
 };
 
 class StartHandlerForSelfTest
-    : public testing::TestWithParam<std::tuple<bool, bool, bool>> {
+    : public testing::TestWithParam<std::tuple<bool, bool, bool, CrashType>> {
  public:
   StartHandlerForSelfTest() = default;
   ~StartHandlerForSelfTest() = default;
 
   void SetUp() override {
     std::tie(options_.start_handler_at_crash,
-             options_.simulate_crash,
-             options_.set_first_chance_handler) = GetParam();
+             options_.set_first_chance_handler,
+             options_.crash_non_main_thread,
+             options_.crash_type) = GetParam();
   }
 
   const StartHandlerForSelfTestOptions& Options() const { return options_; }
@@ -148,6 +158,52 @@ void ValidateDump(const CrashReportDatabase::UploadReport* report) {
   ADD_FAILURE();
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winfinite-recursion"
+int RecurseInfinitely(int* ptr) {
+  int buf[1 << 20];
+  return *ptr + RecurseInfinitely(buf);
+}
+#pragma clang diagnostic pop
+
+void DoCrash(const StartHandlerForSelfTestOptions& options,
+             CrashpadClient* client) {
+  switch (options.crash_type) {
+    case CrashType::kSimulated:
+      if (options.set_first_chance_handler) {
+        client->SetFirstChanceExceptionHandler(HandleCrashSuccessfully);
+      }
+      CRASHPAD_SIMULATE_CRASH();
+      break;
+
+    case CrashType::kBuiltinTrap:
+      __builtin_trap();
+      break;
+
+    case CrashType::kInfiniteRecursion:
+      int val = 42;
+      exit(RecurseInfinitely(&val));
+      break;
+  }
+
+  exit(EXIT_SUCCESS);
+}
+
+class CrashThread : public Thread {
+ public:
+  CrashThread(const StartHandlerForSelfTestOptions& options,
+              CrashpadClient* client)
+      : options_(options), client_(client) {}
+
+ private:
+  void ThreadMain() override { DoCrash(options_, client_); }
+
+  const StartHandlerForSelfTestOptions& options_;
+  CrashpadClient* client_;
+
+  DISALLOW_COPY_AND_ASSIGN(CrashThread);
+};
+
 CRASHPAD_CHILD_TEST_MAIN(StartHandlerForSelfTestChild) {
   FileHandle in = StdioFileHandle(StdioStream::kStandardInput);
 
@@ -182,15 +238,13 @@ CRASHPAD_CHILD_TEST_MAIN(StartHandlerForSelfTestChild) {
   }
 #endif
 
-  if (options.simulate_crash) {
-    if (options.set_first_chance_handler) {
-      client.SetFirstChanceExceptionHandler(HandleCrashSuccessfully);
-    }
-    CRASHPAD_SIMULATE_CRASH();
-    return EXIT_SUCCESS;
+  if (options.crash_non_main_thread) {
+    CrashThread thread(options, &client);
+    thread.Start();
+    thread.Join();
+  } else {
+    DoCrash(options, &client);
   }
-
-  __builtin_trap();
 
   NOTREACHED();
   return EXIT_SUCCESS;
@@ -201,8 +255,17 @@ class StartHandlerForSelfInChildTest : public MultiprocessExec {
   StartHandlerForSelfInChildTest(const StartHandlerForSelfTestOptions& options)
       : MultiprocessExec(), options_(options) {
     SetChildTestMainFunction("StartHandlerForSelfTestChild");
-    if (!options.simulate_crash) {
-      SetExpectedChildTerminationBuiltinTrap();
+    switch (options.crash_type) {
+      case CrashType::kSimulated:
+        // kTerminationNormal, EXIT_SUCCESS
+        break;
+      case CrashType::kBuiltinTrap:
+        SetExpectedChildTerminationBuiltinTrap();
+        break;
+      case CrashType::kInfiniteRecursion:
+        SetExpectedChildTermination(TerminationReason::kTerminationSignal,
+                                    SIGSEGV);
+        break;
     }
   }
 
@@ -249,7 +312,8 @@ class StartHandlerForSelfInChildTest : public MultiprocessExec {
 };
 
 TEST_P(StartHandlerForSelfTest, StartHandlerInChild) {
-  if (Options().set_first_chance_handler && !Options().simulate_crash) {
+  if (Options().set_first_chance_handler &&
+      Options().crash_type != CrashType::kSimulated) {
     // TODO(jperaza): test first chance handlers with real crashes.
     return;
   }
@@ -257,11 +321,15 @@ TEST_P(StartHandlerForSelfTest, StartHandlerInChild) {
   test.Run();
 }
 
-INSTANTIATE_TEST_SUITE_P(StartHandlerForSelfTestSuite,
-                         StartHandlerForSelfTest,
-                         testing::Combine(testing::Bool(),
-                                          testing::Bool(),
-                                          testing::Bool()));
+INSTANTIATE_TEST_SUITE_P(
+    StartHandlerForSelfTestSuite,
+    StartHandlerForSelfTest,
+    testing::Combine(testing::Bool(),
+                     testing::Bool(),
+                     testing::Bool(),
+                     testing::Values(CrashType::kSimulated,
+                                     CrashType::kBuiltinTrap,
+                                     CrashType::kInfiniteRecursion)));
 
 // Test state for starting the handler for another process.
 class StartHandlerForClientTest {

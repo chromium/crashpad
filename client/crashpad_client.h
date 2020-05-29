@@ -140,6 +140,20 @@ class CrashpadClient {
   //!     handler as this process' ptracer. -1 indicates that the handler's
   //!     process ID should be determined by communicating over the socket.
   bool SetHandlerSocket(ScopedFileHandle sock, pid_t pid);
+
+  //! \brief Uses `sigaltstack()` to allocate a signal stack for the calling
+  //!     thread.
+  //!
+  //! This method allocates an alternate stack to handle signals delivered to
+  //! the calling thread and should be called early in the lifetime for each
+  //! thread. Installing an alternate stack allows signals to be delivered in
+  //! the event that the call stack's stack pointer points to invalid memory,
+  //! as in the case of stack overflow.
+  //!
+  //! 
+  //!
+  //! \return `true` on success. Otherwise `false` with a message logged.
+  static bool InitializeSignalStack();
 #endif  // OS_ANDROID || OS_LINUX || DOXYGEN
 
 #if defined(OS_ANDROID) || DOXYGEN

@@ -151,6 +151,10 @@ static_library("test") {
       deps += [ "//zircon/public/lib/fdio" ]
     }
   }
+
+  if (crashpad_is_linux || crashpad_is_android) {
+    deps += [ "../client" ]
+  }
 }
 
 if (crashpad_is_ios) {
