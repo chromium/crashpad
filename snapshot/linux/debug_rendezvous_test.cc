@@ -74,6 +74,13 @@ void TestAgainstTarget(PtraceConnection* connection) {
   LinuxVMAddress debug_address;
   ASSERT_TRUE(exe_reader.GetDebugAddress(&debug_address));
 
+  VMAddress exe_dynamic_address = 0;
+  if (exe_reader.GetDynamicArrayAddress(&exe_dynamic_address)) {
+    CheckedLinuxAddressRange exe_range(
+        connection->Is64Bit(), exe_reader.Address(), exe_reader.Size());
+    EXPECT_TRUE(exe_range.ContainsValue(exe_dynamic_address));
+  }
+
   // start the actual tests
   DebugRendezvous debug;
   ASSERT_TRUE(debug.Initialize(range, debug_address));
@@ -85,8 +92,13 @@ void TestAgainstTarget(PtraceConnection* connection) {
   EXPECT_NE(debug.Executable()->name.find("crashpad_snapshot_test"),
             std::string::npos);
 
-  // Android's loader never sets the dynamic array for the executable.
-  EXPECT_EQ(debug.Executable()->dynamic_array, 0u);
+  // Android's loader doesn't set the dynamic array for the executable in the
+  // link map until Android 9.0 (API 28).
+  if (android_runtime_api >= 28) {
+    EXPECT_EQ(debug.Executable()->dynamic_array, exe_dynamic_address);
+  } else {
+    EXPECT_EQ(debug.Executable()->dynamic_array, 0u);
+  }
 #else
   // glibc's loader implements most of the tested features that Android's was
   // missing but has since gained.
@@ -94,9 +106,7 @@ void TestAgainstTarget(PtraceConnection* connection) {
 
   // glibc's loader does not set the name for the executable.
   EXPECT_TRUE(debug.Executable()->name.empty());
-  CheckedLinuxAddressRange exe_range(
-      connection->Is64Bit(), exe_reader.Address(), exe_reader.Size());
-  EXPECT_TRUE(exe_range.ContainsValue(debug.Executable()->dynamic_array));
+  EXPECT_EQ(debug.Executable()->dynamic_array, exe_dynamic_address);
 #endif  // OS_ANDROID
 
   // Android's loader doesn't set the load bias until Android 4.3 (API 18).
