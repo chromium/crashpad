@@ -576,12 +576,15 @@ bool WriteTestModule(const base::FilePath& module_path) {
     struct {
     } string_table;
     struct {
+    } section_header_string_table;
+    struct {
       Sym und_symbol;
     } symbol_table;
     struct {
       Shdr null;
       Shdr dynamic;
       Shdr string_table;
+      Shdr section_header_string_table;
     } shdr_table;
   } module = {};
 
@@ -624,7 +627,9 @@ bool WriteTestModule(const base::FilePath& module_path) {
   module.ehdr.e_shoff = offsetof(decltype(module), shdr_table);
   module.ehdr.e_shentsize = sizeof(Shdr);
   module.ehdr.e_shnum = sizeof(module.shdr_table) / sizeof(Shdr);
-  module.ehdr.e_shstrndx = SHN_UNDEF;
+  module.ehdr.e_shstrndx =
+      offsetof(decltype(module.shdr_table), section_header_string_table) /
+      sizeof(Shdr);
 
   constexpr size_t load2_vaddr = 0x200000;
 
@@ -689,6 +694,11 @@ bool WriteTestModule(const base::FilePath& module_path) {
   module.shdr_table.string_table.sh_type = SHT_STRTAB;
   module.shdr_table.string_table.sh_offset =
       offsetof(decltype(module), string_table);
+
+  module.shdr_table.section_header_string_table.sh_name = 0;
+  module.shdr_table.section_header_string_table.sh_type = SHT_STRTAB;
+  module.shdr_table.section_header_string_table.sh_offset =
+      offsetof(decltype(module), section_header_string_table);
 
   FileWriter writer;
   if (!writer.Open(module_path,
