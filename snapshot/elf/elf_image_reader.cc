@@ -589,6 +589,14 @@ bool ElfImageReader::ReadDynamicStringTableAtOffset(VMSize offset,
     return false;
   }
 
+  // GNU ld.so doesn't adjust the vdso's dynamic array entries by the load bias.
+  // If the address is too small to point into the loaded module range and is
+  // small enough to be an offset from the base of the module, adjust it now.
+  if (string_table_address < memory_.Base() &&
+      string_table_address < memory_.Size()) {
+    string_table_address += GetLoadBias();
+  }
+
   if (!memory_.ReadCStringSizeLimited(
           string_table_address + offset, string_table_size - offset, string)) {
     LOG(ERROR) << "missing nul-terminator";
