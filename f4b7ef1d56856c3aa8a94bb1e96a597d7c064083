@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a30d13c_4c4a904c",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-03T18:17:30Z",
+      "side": 1,
+      "message": "sounds like something glibc ld.so would be expected to do at runtime, not GNU od at link time?",
+      "revId": "f4b7ef1d56856c3aa8a94bb1e96a597d7c064083",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
