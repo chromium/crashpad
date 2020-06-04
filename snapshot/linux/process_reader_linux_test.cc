@@ -535,7 +535,8 @@ void ExpectModulesFromSelf(
 #endif  // !OS_ANDROID || !ARCH_CPU_ARMEL || __ANDROID_API__ >= 21
 }
 
-bool WriteTestModule(const base::FilePath& module_path) {
+bool WriteTestModule(const base::FilePath& module_path,
+                     const std::string& soname) {
 #if defined(ARCH_CPU_64_BITS)
   using Ehdr = Elf64_Ehdr;
   using Phdr = Elf64_Phdr;
@@ -565,6 +566,7 @@ bool WriteTestModule(const base::FilePath& module_path) {
       Dyn symtab;
       Dyn strsz;
       Dyn syment;
+      Dyn soname;
       Dyn null;
     } dynamic_array;
     struct {
@@ -573,8 +575,7 @@ bool WriteTestModule(const base::FilePath& module_path) {
       Elf32_Word bucket;
       Elf32_Word chain;
     } hash_table;
-    struct {
-    } string_table;
+    char string_table[32];
     struct {
     } section_header_string_table;
     struct {
@@ -671,6 +672,9 @@ bool WriteTestModule(const base::FilePath& module_path) {
   module.dynamic_array.strsz.d_un.d_val = sizeof(module.string_table);
   module.dynamic_array.syment.d_tag = DT_SYMENT;
   module.dynamic_array.syment.d_un.d_val = sizeof(Sym);
+  constexpr size_t kSonameOffset = 1;
+  module.dynamic_array.soname.d_tag = DT_SONAME;
+  module.dynamic_array.soname.d_un.d_val = kSonameOffset;
 
   module.dynamic_array.null.d_tag = DT_NULL;
 
@@ -678,6 +682,10 @@ bool WriteTestModule(const base::FilePath& module_path) {
   module.hash_table.nchain = 1;
   module.hash_table.bucket = 0;
   module.hash_table.chain = 0;
+
+  CHECK_GE(sizeof(module.string_table), soname.size() + 2);
+  module.string_table[0] = '\0';
+  memcpy(&module.string_table[kSonameOffset], soname.c_str(), soname.size());
 
   module.shdr_table.null.sh_type = SHT_NULL;
 
@@ -716,11 +724,12 @@ bool WriteTestModule(const base::FilePath& module_path) {
   return true;
 }
 
-ScopedModuleHandle LoadTestModule(const std::string& module_name) {
+ScopedModuleHandle LoadTestModule(const std::string& module_name,
+                                  const std::string& module_soname) {
   base::FilePath module_path(
       TestPaths::Executable().DirName().Append(module_name));
 
-  if (!WriteTestModule(module_path)) {
+  if (!WriteTestModule(module_path, module_soname)) {
     return ScopedModuleHandle(nullptr);
   }
   EXPECT_TRUE(IsRegularFile(module_path));
@@ -756,7 +765,9 @@ void ExpectTestModule(ProcessReaderLinux* reader,
 
 TEST(ProcessReaderLinux, SelfModules) {
   const std::string module_name = "test_module.so";
-  ScopedModuleHandle empty_test_module(LoadTestModule(module_name));
+  const std::string module_soname = "test_module_soname";
+  ScopedModuleHandle empty_test_module(
+      LoadTestModule(module_name, module_soname));
   ASSERT_TRUE(empty_test_module.valid());
 
   FakePtraceConnection connection;
@@ -766,12 +777,12 @@ TEST(ProcessReaderLinux, SelfModules) {
   ASSERT_TRUE(process_reader.Initialize(&connection));
 
   ExpectModulesFromSelf(process_reader.Modules());
-  ExpectTestModule(&process_reader, module_name);
+  ExpectTestModule(&process_reader, module_soname);
 }
 
 class ChildModuleTest : public Multiprocess {
  public:
-  ChildModuleTest() : Multiprocess(), module_name_("test_module.so") {}
+  ChildModuleTest() : Multiprocess(), module_soname_("test_module_soname") {}
   ~ChildModuleTest() = default;
 
  private:
@@ -786,11 +797,12 @@ class ChildModuleTest : public Multiprocess {
     ASSERT_TRUE(process_reader.Initialize(&connection));
 
     ExpectModulesFromSelf(process_reader.Modules());
-    ExpectTestModule(&process_reader, module_name_);
+    ExpectTestModule(&process_reader, module_soname_);
   }
 
   void MultiprocessChild() override {
-    ScopedModuleHandle empty_test_module(LoadTestModule(module_name_));
+    ScopedModuleHandle empty_test_module(
+        LoadTestModule("test_module.so", module_soname_));
     ASSERT_TRUE(empty_test_module.valid());
 
     char c = 0;
@@ -799,7 +811,7 @@ class ChildModuleTest : public Multiprocess {
     CheckedReadFileAtEOF(ReadPipeHandle());
   }
 
-  const std::string module_name_;
+  const std::string module_soname_;
 
   DISALLOW_COPY_AND_ASSIGN(ChildModuleTest);
 };
