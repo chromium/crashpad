@@ -518,7 +518,9 @@ bool ElfImageReader::SoName(std::string* name) {
     return false;
   }
 
-  return ReadDynamicStringTableAtOffset(offset, name);
+  bool found = ReadDynamicStringTableAtOffset(offset, name);
+  DCHECK(found);
+  return found;
 }
 
 bool ElfImageReader::GetDynamicSymbol(const std::string& name,
@@ -588,6 +590,17 @@ bool ElfImageReader::ReadDynamicStringTableAtOffset(VMSize offset,
     LOG(ERROR) << "bad offset";
     return false;
   }
+
+  // GNU ld.so doesn't adjust the vdso's dynamic array entries by the load bias.
+  // If the address is too small to point into the loaded module range and is
+  // small enough to be an offset from the base of the module, adjust it now.
+  if (string_table_address < memory_.Base() &&
+      string_table_address < memory_.Size()) {
+    string_table_address += GetLoadBias();
+  }
+  DCHECK(
+      CheckedVMAddressRange(memory_.Is64Bit(), memory_.Base(), memory_.Size())
+          .ContainsValue(string_table_address));
 
   if (!memory_.ReadCStringSizeLimited(
           string_table_address + offset, string_table_size - offset, string)) {
