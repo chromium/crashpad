@@ -530,6 +530,7 @@ void ProcessReaderLinux::InitializeModules() {
     } else {
       module.name = !entry.name.empty() ? entry.name : module_mapping->name;
     }
+
     module.elf_reader = elf_reader.get();
     module.type = loader_base && elf_reader->Address() == loader_base
                       ? ModuleSnapshot::kModuleTypeDynamicLoader
