@@ -52,6 +52,24 @@
       "revId": "b27cce2649216e36a39860787a45e5b079aaf000",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5a1c478_77bbb985",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-04T22:18:11Z",
+      "side": 1,
+      "message": "SGTM, DCHECKs removed. I did vaguely wonder whether I might just end up removing the DCHECKs later when we find some malformed module we don\u0027t control.  No extra logs necessary since we already log a more specific error message.",
+      "parentUuid": "940c6e02_f708aa14",
+      "revId": "b27cce2649216e36a39860787a45e5b079aaf000",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
