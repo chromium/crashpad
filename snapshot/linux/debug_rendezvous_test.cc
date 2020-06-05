@@ -93,8 +93,8 @@ void TestAgainstTarget(PtraceConnection* connection) {
             std::string::npos);
 
   // Android's loader doesn't set the dynamic array for the executable in the
-  // link map until Android 9.0 (API 28).
-  if (android_runtime_api >= 28) {
+  // link map until Android 10.0 (API 29).
+  if (android_runtime_api >= 29) {
     EXPECT_EQ(debug.Executable()->dynamic_array, exe_dynamic_address);
   } else {
     EXPECT_EQ(debug.Executable()->dynamic_array, 0u);
@@ -147,7 +147,8 @@ void TestAgainstTarget(PtraceConnection* connection) {
     while ((mapping = possible_mappings->Next())) {
       auto parsed_module = std::make_unique<ElfImageReader>();
       VMAddress dynamic_address;
-      if (parsed_module->Initialize(range, mapping->range.Base()) &&
+      if (parsed_module->Initialize(
+              range, mapping->range.Base(), possible_mappings->Count() == 0) &&
           parsed_module->GetDynamicArrayAddress(&dynamic_address) &&
           dynamic_address == module.dynamic_array) {
         module_reader = std::move(parsed_module);
