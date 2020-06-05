@@ -491,23 +491,29 @@ int ExpectFindModule(dl_phdr_info* info, size_t size, void* data) {
   auto modules =
       reinterpret_cast<const std::vector<ProcessReaderLinux::Module>*>(data);
 
-  auto phdr_addr = FromPointerCast<LinuxVMAddress>(info->dlpi_phdr);
 
 #if defined(OS_ANDROID)
-  // Bionic includes a null entry.
-  if (!phdr_addr) {
-    EXPECT_EQ(info->dlpi_name, nullptr);
+  // Prior to API 27, Bionic includes a null entry for /system/bin/linker.
+  if (!info->dlpi_name) {
     EXPECT_EQ(info->dlpi_addr, 0u);
     EXPECT_EQ(info->dlpi_phnum, 0u);
+    EXPECT_EQ(info->dlpi_phdr, nullptr);
     return 0;
   }
 #endif
 
+  // Bionic doesn't always set both of these addresses for the vdso and
+  // /system/bin/linker, but it does always set one of them.
+  VMAddress module_addr = info->dlpi_phdr
+                              ? FromPointerCast<LinuxVMAddress>(info->dlpi_phdr)
+                              : info->dlpi_addr;
+
   // TODO(jperaza): This can use a range map when one is available.
   bool found = false;
   for (const auto& module : *modules) {
-    if (module.elf_reader && phdr_addr >= module.elf_reader->Address() &&
-        phdr_addr < module.elf_reader->Address() + module.elf_reader->Size()) {
+    if (module.elf_reader && module_addr >= module.elf_reader->Address() &&
+        module_addr <
+            module.elf_reader->Address() + module.elf_reader->Size()) {
       found = true;
       break;
     }
@@ -702,11 +708,14 @@ bool WriteTestModule(const base::FilePath& module_path,
   module.shdr_table.string_table.sh_type = SHT_STRTAB;
   module.shdr_table.string_table.sh_offset =
       offsetof(decltype(module), string_table);
+  module.shdr_table.string_table.sh_size = sizeof(module.string_table);
 
   module.shdr_table.section_header_string_table.sh_name = 0;
   module.shdr_table.section_header_string_table.sh_type = SHT_STRTAB;
   module.shdr_table.section_header_string_table.sh_offset =
       offsetof(decltype(module), section_header_string_table);
+  module.shdr_table.section_header_string_table.sh_size =
+      sizeof(module.section_header_string_table);
 
   FileWriter writer;
   if (!writer.Open(module_path,
