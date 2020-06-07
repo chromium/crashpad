@@ -224,6 +224,24 @@
     },
     {
       "key": {
+        "uuid": "f9ad3583_395aaf70",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-07T23:53:48Z",
+      "side": 1,
+      "message": "I think we could do this with a thread local static initializer, but they\u0027re banned...",
+      "parentUuid": "b654af7f_7c164850",
+      "revId": "9ab1d6179d0fb0292d44552bdb40a8457b83190c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3da7766b_6f8cfeb6",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 3
