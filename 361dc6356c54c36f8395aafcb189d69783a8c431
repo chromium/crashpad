@@ -1,0 +1,317 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4352e685_f0f9a3c7",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "of",
+      "range": {
+        "startLine": 148,
+        "startChar": 68,
+        "endLine": 148,
+        "endChar": 71
+      },
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13eaa428_d733eef1",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "The naming should make clear that this is thread-specific. InitializeSignalStackForThread?",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5f1bf4a_2b9a477b",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "Fewer system calls if you map the whole thing as PROT_NONE and then set the middle usable region to PROT_READ | PROT_WRITE after.",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d893cea_e600ab0d",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "1. You should really call sigaltstack to clear the alternate stack (or restore the previous one) before calling munmap, because the thread’s still running at this point and the configured sigaltstack becomes garbage after calling munmap.\n\n2. The destructor will still run even on threads that never called InitializeSignalStack. stack_mem will be nullptr in that case, and this will attempt to munmap kStackAllocSize bytes starting at address 0. You must null-check stack_mem in the destructor function.",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e58ac7b8_796096fb",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "I’d prefer to only have to log this once, by wrapping the PLOG(ERROR) up into the initializer along with pthread_key_create.",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b54ce706_b0eee6a6",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "This fires the ScopedMmap destructor, destroying the allocated region, but leaves the sigaltstack configured.\n\nMight be better to do pthread_key_create before sigaltstack. Maybe even before mmap.",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5351a0cf_c7305f65",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "Here, you can just assign into errno.",
+      "range": {
+        "startLine": 474,
+        "startChar": 4,
+        "endLine": 474,
+        "endChar": 13
+      },
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a8bf933_2a61409b",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "This would leak the memory when the thread exits, but pthread_setspecific doesn’t really have any good reason to fail here.\n\nSince it doesn’t have any reason to fail, but failure would result in a hidden leak (well, OK, not entirely hidden, because there’s this LOG message, but the message doesn’t really convey the full severity of the problem), consider upgrading this to a PCHECK.",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6150a6e3_78b1f5ee",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "You should make sure to test both with a subsidiary thread that has called sigaltstack, and one that has not.",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a6d8687_fc5f5d8f",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "Put these two in the same section, and sort them.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 18
+      },
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cff7a910_093f4c7d",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "InitializeSignalStackAndStart\n\n(this may show up in every backtrace under low optimization levels, so let’s make sure it has a name that nicely describes its function.)",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9631053c_8124b423",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "I guess you liked this with a copy so that you can encourage the tail call optimization?",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ac689ce_fa1d3711",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "1. extern \"C\" to clarify? (Even though the system header should already be providing that.)\n\n2. Do you want __attribute__((visibility(\"default\")))? (I think that it’s so weird that ELF symbols bind solely by name and not by library, making it possible to do runtime interposition in this way, so it’s not necessarily what I would have had in mind. Ought to be fine to have users request this behavior by linking this library explicitly. But you may have had the forced interposition thing in mind, so I’m asking.)",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30cfe8a5_cbe8f839",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "This is just decltype(pthread_create)*, why not use that?\n\nThat’s so simple, and you only use it one time, so you don’t even need an extra local type for it. You can just put it into the reinterpret_cast on the next line.\n\nMore reading: https://groups.google.com/a/chromium.org/d/topic/cxx/arOSzjDW7DY",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4db6dcdc_edbf7e25",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "CHECK(next_pthread_create) \u003c\u003c \"dlsym: \" \u003c\u003c dlerror();",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3aab58ae_0cee5aa6",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "Leave the () off. You don’t need zero-initialization, because you’re going to set all fields regardless.",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56d383e4_7f20ceaf",
+        "filename": "util/posix/scoped_mmap.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-08T16:10:50Z",
+      "side": 1,
+      "message": "Should be easy to add a simple test for this.",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
