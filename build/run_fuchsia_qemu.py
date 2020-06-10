@@ -97,7 +97,7 @@ def _Start(pid_file):
         '-serial', 'stdio',
         '-monitor', 'none',
         '-machine', 'q35',
-        '-cpu', 'host,migratable=no',
+        '-cpu', 'host,migratable=no,+invtsc',
         '-enable-kvm',
         '-netdev', 'type=tap,ifname=qemu,script=no,downscript=no,id=net0',
         '-device', 'e1000,netdev=net0,mac=52:54:00:' + mac_tail,
