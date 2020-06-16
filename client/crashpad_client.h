@@ -117,6 +117,24 @@ class CrashpadClient {
                     const std::vector<std::string>& arguments,
                     bool restartable,
                     bool asynchronous_start);
+#if defined(OS_WIN) || defined(OS_LINUX)
+  //! \brief The same function as above one but with one additional argument
+  //!     (attachments)
+  //!
+  //! \param[in] attachments Vector that stores file paths that should be
+  //!     uploaded on the crash server with the report.
+  //!
+  //! \return `true` on success, `false` on failure with a message logged.
+  bool StartHandler(const base::FilePath& handler,
+                    const base::FilePath& database,
+                    const base::FilePath& metrics_dir,
+                    const std::string& url,
+                    const std::map<std::string, std::string>& annotations,
+                    const std::vector<std::string>& arguments,
+                    const std::vector<base::FilePath>& attachments,
+                    bool restartable,
+                    bool asynchronous_start);
+#endif // OS_WIN || OS_LINUX
 
 #if defined(OS_ANDROID) || defined(OS_LINUX) || DOXYGEN
   //! \brief Retrieve the socket and process ID for the handler.

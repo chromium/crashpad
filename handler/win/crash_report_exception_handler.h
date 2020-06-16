@@ -60,6 +60,17 @@ class CrashReportExceptionHandler final
       const std::map<std::string, std::string>* process_annotations,
       const UserStreamDataSources* user_stream_data_sources);
 
+  //! \brief The same as above but with one additional argument (attachments).
+  //!
+  //! \param[in] attachments A vector of file paths to attach to the crash
+  //!     report on the server.
+  CrashReportExceptionHandler(
+      CrashReportDatabase* database,
+      CrashReportUploadThread* upload_thread,
+      const std::map<std::string, std::string>* process_annotations,
+      const std::vector<base::FilePath>* attachments,
+      const UserStreamDataSources* user_stream_data_sources);
+
   ~CrashReportExceptionHandler();
 
   // ExceptionHandlerServer::Delegate:
@@ -76,6 +87,7 @@ class CrashReportExceptionHandler final
   CrashReportDatabase* database_;  // weak
   CrashReportUploadThread* upload_thread_;  // weak
   const std::map<std::string, std::string>* process_annotations_;  // weak
+  const std::vector<base::FilePath>* attachments_;  // weak
   const UserStreamDataSources* user_stream_data_sources_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
