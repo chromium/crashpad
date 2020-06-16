@@ -29,6 +29,8 @@
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "client/settings.h"
+#include "util/file/directory_reader.h"
+#include "util/file/filesystem.h"
 #include "util/misc/implicit_cast.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/metrics.h"
@@ -46,6 +48,8 @@ constexpr wchar_t kCrashReportFileExtension[] = L"dmp";
 
 constexpr uint32_t kMetadataFileHeaderMagic = 'CPAD';
 constexpr uint32_t kMetadataFileVersion = 1;
+
+constexpr base::FilePath::CharType kAttachmentsDirectory[] = L"attachments";
 
 using OperationStatus = CrashReportDatabase::OperationStatus;
 
@@ -612,6 +616,9 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
   OperationStatus DeleteReport(const UUID& uuid) override;
   OperationStatus RequestUpload(const UUID& uuid) override;
 
+  // Build a filepath for the directory for the report to hold attachments.
+  base::FilePath AttachmentsPath(const UUID& uuid);
+
  private:
   // CrashReportDatabase:
   OperationStatus RecordUploadAttempt(UploadReport* report,
@@ -627,14 +634,59 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
   DISALLOW_COPY_AND_ASSIGN(CrashReportDatabaseWin);
 };
 
+base::FilePath CrashReportDatabaseWin::AttachmentsPath(const UUID& uuid) {
+  const std::wstring uuid_string = uuid.ToString16();
+  return base_dir_.Append(kAttachmentsDirectory).Append(uuid_string);
+}
+
 FileWriter* CrashReportDatabase::NewReport::AddAttachment(
     const std::string& name) {
-  // Attachments aren't implemented in the Windows database yet.
-  return nullptr;
+  base::FilePath attachments_dir =
+      static_cast<CrashReportDatabaseWin*>(database_)->AttachmentsPath(uuid_);
+  if (!LoggingCreateDirectory(
+          attachments_dir, FilePermissions::kOwnerOnly, true)) {
+    return nullptr;
+  }
+
+  base::FilePath path = attachments_dir.Append(base::UTF8ToUTF16(name));
+
+  auto writer = std::make_unique<FileWriter>();
+  if (!writer->Open(
+          path, FileWriteMode::kCreateOrFail, FilePermissions::kOwnerOnly)) {
+    LOG(ERROR) << "could not open " << path.value().c_str();
+    return nullptr;
+  }
+  attachment_writers_.emplace_back(std::move(writer));
+  attachment_removers_.emplace_back(ScopedRemoveFile(path));
+  return attachment_writers_.back().get();
 }
 
 void CrashReportDatabase::UploadReport::InitializeAttachments() {
-  // Attachments aren't implemented in the Windows database yet.
+  base::FilePath attachments_dir =
+      static_cast<CrashReportDatabaseWin*>(database_)->AttachmentsPath(uuid);
+  if (!IsDirectory(attachments_dir, /*allow_symlinks=*/false)) {
+    return;
+  }
+  DirectoryReader dir_reader;
+  if (!dir_reader.Open(attachments_dir)) {
+    return;
+  }
+
+  base::FilePath filename;
+  DirectoryReader::Result dir_result;
+  while ((dir_result = dir_reader.NextFile(&filename)) ==
+         DirectoryReader::Result::kSuccess) {
+    const base::FilePath filepath(attachments_dir.Append(filename));
+    std::unique_ptr<FileReader> file_reader(std::make_unique<FileReader>());
+    if (!file_reader->Open(filepath)) {
+      LOG(ERROR) << "attachment " << filepath.value().c_str()
+                 << " couldn't be opened, skipping";
+      continue;
+    }
+    attachment_readers_.emplace_back(std::move(file_reader));
+    attachment_map_[base::UTF16ToUTF8(filename.value())] =
+        attachment_readers_.back().get();
+  }
 }
 
 CrashReportDatabaseWin::CrashReportDatabaseWin(const base::FilePath& path)
@@ -699,6 +751,14 @@ OperationStatus CrashReportDatabaseWin::FinishedWritingCrashReport(
                                     ReportState::kPending));
 
   ignore_result(report->file_remover_.release());
+
+  // Close all the attachments and disarm their removers too.
+  for (auto& writer : report->attachment_writers_) {
+    writer->Close();
+  }
+  for (auto& remover : report->attachment_removers_) {
+    ignore_result(remover.release());
+  }
 
   *uuid = report->ReportID();
 

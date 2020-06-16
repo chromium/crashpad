@@ -17,6 +17,7 @@
 #include <type_traits>
 #include <utility>
 
+#include "base/strings/utf_string_conversions.h"
 #include "client/crash_report_database.h"
 #include "client/settings.h"
 #include "handler/crash_report_upload_thread.h"
@@ -35,17 +36,29 @@ CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
     CrashReportUploadThread* upload_thread,
     const std::map<std::string, std::string>* process_annotations,
+    const UserStreamDataSources* user_stream_data_sources) {
+  CrashReportExceptionHandler(database,
+                              upload_thread,
+                              process_annotations,
+                              /*attachments=*/{},
+                              user_stream_data_sources);
+}
+
+CrashReportExceptionHandler::CrashReportExceptionHandler(
+    CrashReportDatabase* database,
+    CrashReportUploadThread* upload_thread,
+    const std::map<std::string, std::string>* process_annotations,
+    const std::vector<base::FilePath>* attachments,
     const UserStreamDataSources* user_stream_data_sources)
     : database_(database),
       upload_thread_(upload_thread),
       process_annotations_(process_annotations),
+      attachments_(attachments),
       user_stream_data_sources_(user_stream_data_sources) {}
 
-CrashReportExceptionHandler::~CrashReportExceptionHandler() {
-}
+CrashReportExceptionHandler::~CrashReportExceptionHandler() {}
 
-void CrashReportExceptionHandler::ExceptionHandlerServerStarted() {
-}
+void CrashReportExceptionHandler::ExceptionHandlerServerStarted() {}
 
 unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     HANDLE process,
@@ -112,6 +125,35 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
       Metrics::ExceptionCaptureResult(
           Metrics::CaptureResult::kMinidumpWriteFailed);
       return termination_code;
+    }
+
+    char buf[4096];
+    for (auto attachment = attachments_->begin();
+         attachment != attachments_->end();
+         ++attachment) {
+      base::FilePath filename = attachment->BaseName();
+      FileWriter* file_writer =
+          new_report->AddAttachment(base::UTF16ToUTF8(filename.value()));
+
+      std::unique_ptr<FileReader> file_reader(std::make_unique<FileReader>());
+      if (!file_reader->Open(*attachment)) {
+        LOG(ERROR) << "attachment " << attachment->value().c_str()
+                   << " couldn't be opened, skipping";
+        continue;
+      }
+
+      FileOperationResult read_result;
+      do {
+        read_result = file_reader->Read(buf, sizeof(buf));
+        if (read_result < 0) {
+          break;
+        }
+        if (read_result > 0 && !file_writer->Write(buf, read_result)) {
+          break;
+        }
+      } while (read_result > 0);
+
+      file_reader->Close();
     }
 
     UUID uuid;
