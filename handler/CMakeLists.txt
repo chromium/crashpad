@@ -1,5 +1,4 @@
-add_executable(crashpad_handler WIN32
-    main.cc
+add_library(crashpad_handler_lib STATIC
     crash_report_upload_thread.cc
     crash_report_upload_thread.h
     handler_main.cc
@@ -13,7 +12,7 @@ add_executable(crashpad_handler WIN32
 )
 
 if(APPLE)
-    target_sources(crashpad_handler PRIVATE
+    target_sources(crashpad_handler_lib PRIVATE
         mac/crash_report_exception_handler.cc
         mac/crash_report_exception_handler.h
         mac/exception_handler_server.cc
@@ -24,7 +23,7 @@ if(APPLE)
 endif()
 
 if(LINUX OR ANDROID)
-    target_sources(crashpad_handler PRIVATE
+    target_sources(crashpad_handler_lib PRIVATE
         linux/capture_snapshot.cc
         linux/capture_snapshot.h
         linux/crash_report_exception_handler.cc
@@ -35,18 +34,49 @@ if(LINUX OR ANDROID)
 endif()
 
 if(LINUX)
-    target_sources(crashpad_handler PRIVATE
+    target_sources(crashpad_handler_lib PRIVATE
         linux/cros_crash_report_exception_handler.cc
         linux/cros_crash_report_exception_handler.h
     )
 endif()
 
 if(WIN32)
-    target_sources(crashpad_handler PRIVATE
+    target_sources(crashpad_handler_lib PRIVATE
         win/crash_report_exception_handler.cc
         win/crash_report_exception_handler.h
     )
 endif()
+
+target_link_libraries(crashpad_handler_lib
+    PRIVATE
+        $<BUILD_INTERFACE:crashpad_interface>
+    PUBLIC
+        crashpad_compat
+        crashpad_minidump
+        crashpad_snapshot
+        crashpad_util
+        mini_chromium
+)
+
+if(WIN32)
+    if(MSVC)
+        target_compile_options(crashpad_handler_lib PRIVATE "/wd4201")
+    endif()
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        target_compile_options(crashpad_handler_lib PRIVATE
+            "-Wno-multichar"
+        )
+    endif()
+endif()
+
+set_property(TARGET crashpad_handler_lib PROPERTY EXPORT_NAME handler)
+add_library(crashpad::handler_lib ALIAS crashpad_handler_lib)
+
+crashpad_install_target(crashpad_handler_lib)
+
+add_executable(crashpad_handler WIN32
+    main.cc
+)
 
 target_link_libraries(crashpad_handler
     PRIVATE
@@ -54,6 +84,7 @@ target_link_libraries(crashpad_handler
     PUBLIC
         crashpad_client
         crashpad_getopt
+        crashpad_handler_lib
         crashpad_minidump
         crashpad_snapshot
         crashpad_tools
@@ -61,15 +92,9 @@ target_link_libraries(crashpad_handler
         mini_chromium
 )
 
-if(WIN32) 
+if(WIN32)
     if(MSVC)
-        target_compile_options(crashpad_handler PRIVATE "/wd4201")
         target_link_options(crashpad_handler PRIVATE "/SUBSYSTEM:WINDOWS")
-    endif()
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        target_compile_options(crashpad_handler PRIVATE 
-            "-Wno-multichar"
-        )
     endif()
 endif()
 
