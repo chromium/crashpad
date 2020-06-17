@@ -1,0 +1,349 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12398550_36817879",
+        "filename": "client/client_argv_handling.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-17T22:57:33Z",
+      "side": 1,
+      "message": "I\u0027d prefer a default argument to a new declaration for the same reasons as for StartHandler() below.",
+      "range": {
+        "startLine": 40,
+        "startChar": 25,
+        "endLine": 40,
+        "endChar": 48
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93c818f9_5a981f68",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-17T22:57:33Z",
+      "side": 1,
+      "message": "I think you\u0027ll need to have created the parent directory first.",
+      "range": {
+        "startLine": 646,
+        "startChar": 7,
+        "endLine": 647,
+        "endChar": 25
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a25b6785_0496df03",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 872,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-17T22:57:33Z",
+      "side": 1,
+      "message": "This method should also delete any attachments for the report.\n\nIt\u0027s possible for the database or it\u0027s metadata to become corrupt and leak reports or attachments https://bugs.chromium.org/p/crashpad/issues/detail?id\u003d66. You could implement CleanDatabase() to clean up reports and attachments that don\u0027t have valid metadata.\n\nAs an optional alternative to implementing these features in the Windows database, you could have your application use the generic database implementation instead by adding a gn arg \"crashpad_use_generic_database\" that causes crash_report_database_generic.cc to be built instead of crash_report_database_win.cc. I don\u0027t think we\u0027d want to do that automatically for all Crashpad users because each application would need to think about how to transition from the old database format to the new one, but it might be okay for your application to e.g. just delete your old database and start a new one.",
+      "range": {
+        "startLine": 872,
+        "startChar": 40,
+        "endLine": 872,
+        "endChar": 52
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "779ffe39_d6af337b",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-17T22:57:33Z",
+      "side": 1,
+      "message": "I think it\u0027d be preferable to use a default argument in the StartHandler() declaration above, rather than this overload in this case because:\n1. This method isn\u0027t virtual.\n2. The declarations and behavior are identical except for the extra parameter. Fewer declarations are easier to read and reason about.\n\nSince the macOS database doesn\u0027t have attachment support yet, you can add a comment stating that it\u0027s not yet implemented on macOS and DCHECK that the actual argument is the default, empty vector.",
+      "range": {
+        "startLine": 121,
+        "startChar": 13,
+        "endLine": 121,
+        "endChar": 30
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a691b2d_55d69dca",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-17T22:57:33Z",
+      "side": 1,
+      "message": "These options are meant to be alphabetically sorted.",
+      "range": {
+        "startLine": 109,
+        "startChar": 9,
+        "endLine": 109,
+        "endChar": 10
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f1e5aa6_555deda1",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-17T22:57:33Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 530,
+        "startChar": 4,
+        "endLine": 530,
+        "endChar": 21
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c03c76e1_711bc7db",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-17T22:57:33Z",
+      "side": 1,
+      "message": "here",
+      "range": {
+        "startLine": 585,
+        "startChar": 6,
+        "endLine": 585,
+        "endChar": 16
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dccf91eb_10e8545a",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-17T22:57:33Z",
+      "side": 1,
+      "message": "and here",
+      "range": {
+        "startLine": 713,
+        "startChar": 11,
+        "endLine": 713,
+        "endChar": 28
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98e37a04_74968854",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-17T22:57:33Z",
+      "side": 1,
+      "message": "const auto\u0026 attachment : attachments_",
+      "range": {
+        "startLine": 222,
+        "startChar": 7,
+        "endLine": 224,
+        "endChar": 19
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7f67803_2aa93709",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-17T22:57:33Z",
+      "side": 1,
+      "message": "No need for dynamic allocation since file_reader remains scoped to this loop.",
+      "range": {
+        "startLine": 229,
+        "startChar": 4,
+        "endLine": 229,
+        "endChar": 20
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "666c1fb3_a62b7028",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-17T22:57:33Z",
+      "side": 1,
+      "message": "Do this before calling AddAttachment() so we don\u0027t add an empty attachment if the file couldn\u0027t be opened.",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 5
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa574894_7c8eecb4",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-17T22:57:33Z",
+      "side": 1,
+      "message": "Can you factor this loop out into a helper: CopyFileContents(FileReaderInterface*, FileWriterInterface*) in util/file/file_io.{c,h}?",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 30
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96fab3f6_af8d5fee",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-17T22:57:33Z",
+      "side": 1,
+      "message": "Not necessary. The file will be automatically closed by FileReader\u0027s destructor.",
+      "range": {
+        "startLine": 247,
+        "startChar": 4,
+        "endLine": 247,
+        "endChar": 25
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2207d09_ed441271",
+        "filename": "handler/linux/crash_report_exception_handler.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-17T22:57:33Z",
+      "side": 1,
+      "message": "This constructor is only called from a couple places. I think it\u0027d be preferable to have just the one constructor with |attachments| a required argument.",
+      "range": {
+        "startLine": 72,
+        "startChar": 13,
+        "endLine": 72,
+        "endChar": 34
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3e55026_7da1674e",
+        "filename": "handler/win/crash_report_exception_handler.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-17T22:57:33Z",
+      "side": 1,
+      "message": "Same comments as the linux version.",
+      "range": {
+        "startLine": 63,
+        "startChar": 13,
+        "endLine": 63,
+        "endChar": 31
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
