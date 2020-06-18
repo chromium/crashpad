@@ -14,6 +14,7 @@
 
 #include "util/file/file_io.h"
 
+#include "base/check_op.h"
 #include "base/logging.h"
 #include "base/macros.h"
 #include "base/numerics/safe_conversions.h"

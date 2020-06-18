@@ -16,6 +16,7 @@
 
 #include <cmath>
 #include <limits>
+#include <ostream>
 
 #include "base/logging.h"
 

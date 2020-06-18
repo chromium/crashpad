@@ -19,6 +19,7 @@
 
 #include <vector>
 
+#include "base/macros.h"
 #include "snapshot/cpu_context.h"
 #include "util/numeric/checked_range.h"
 

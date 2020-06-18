@@ -22,6 +22,7 @@
 #include <kern/exc_resource.h>
 #include <strings.h>
 
+#include "base/check_op.h"
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
 #include "util/mac/mac_util.h"

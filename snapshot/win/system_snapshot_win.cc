@@ -23,6 +23,7 @@
 #include <utility>
 #include <vector>
 
+#include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"

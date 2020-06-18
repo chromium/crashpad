@@ -16,6 +16,7 @@
 
 #include <limits>
 
+#include "base/logging.h"
 #include "client/annotation.h"
 
 namespace crashpad {

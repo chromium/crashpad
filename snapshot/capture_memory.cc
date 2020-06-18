@@ -19,6 +19,7 @@
 #include <limits>
 #include <memory>
 
+#include "base/logging.h"
 #include "base/stl_util.h"
 #include "snapshot/memory_snapshot.h"
 
