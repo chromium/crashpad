@@ -21,6 +21,7 @@
 #include <memory>
 #include <utility>
 
+#include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "util/mac/checked_mach_address_range.h"
 #include "util/process/process_memory_mac.h"

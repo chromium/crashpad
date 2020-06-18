@@ -16,7 +16,9 @@
 
 #include <time.h>
 
-#include "base/logging.h"
+#include <ostream>
+
+#include "base/check.h"
 #include "base/posix/eintr_wrapper.h"
 #include "build/build_config.h"
 
