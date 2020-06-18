@@ -239,6 +239,7 @@ if(LINUX OR ANDROID)
         linux/traits.h
         misc/capture_context_linux.S
         misc/paths_linux.cc
+        misc/time_linux.cc
         posix/process_info_linux.cc
         process/process_memory_linux.cc
         process/process_memory_linux.h
@@ -369,6 +370,10 @@ if(APPLE)
         "-framework Foundation"
         "-framework IOKit"
     )
+endif()
+
+if(LINUX)
+    target_link_libraries(crashpad_util PRIVATE pthread)
 endif()
 
 if(WIN32)

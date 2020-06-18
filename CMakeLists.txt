@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.12)
 project(crashpad LANGUAGES C CXX)
 
 set(CRASHPAD_MAIN_PROJECT OFF)

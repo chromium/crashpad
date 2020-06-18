@@ -93,6 +93,10 @@ else()
     )
 endif()
 
+if(LINUX)
+    target_link_libraries(crashpad_compat PRIVATE dl)
+endif()
+
 if(MSVC)
     target_include_directories(crashpad_compat ${TI_TYPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/win>")
 elseif(MINGW)
@@ -108,11 +112,11 @@ else()
 endif()
 
 if(LINUX OR ANDROID)
-    target_include_directories(crashpad_compat ${TI_YPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/linux>")
+    target_include_directories(crashpad_compat ${TI_TYPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/linux>")
 endif()
 
 if(ANDROID)
-    target_include_directories(crashpad_compat ${TI_YPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/android>")
+    target_include_directories(crashpad_compat ${TI_TYPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/android>")
 endif()
 
 set_property(TARGET crashpad_compat PROPERTY EXPORT_NAME compat)

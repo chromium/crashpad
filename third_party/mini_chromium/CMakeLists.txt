@@ -135,6 +135,11 @@ if(APPLE)
         "-framework Security"
     )
 endif()
+
+if(LINUX)
+    target_link_libraries(mini_chromium PRIVATE pthread)
+endif()
+
 target_include_directories(mini_chromium PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/mini_chromium>"
     $<INSTALL_INTERFACE:include/crashpad/mini_chromium>
