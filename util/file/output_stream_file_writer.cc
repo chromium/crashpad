@@ -15,6 +15,7 @@
 #include "util/file/output_stream_file_writer.h"
 
 #include "base/logging.h"
+#include "base/notreached.h"
 #include "util/stream/output_stream_interface.h"
 
 namespace crashpad {

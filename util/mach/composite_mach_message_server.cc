@@ -15,6 +15,7 @@
 #include "util/mach/composite_mach_message_server.h"
 
 #include <algorithm>
+#include <ostream>
 #include <utility>
 
 #include "base/logging.h"

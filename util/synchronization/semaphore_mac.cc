@@ -15,6 +15,7 @@
 #include "util/synchronization/semaphore.h"
 
 #include <cmath>
+#include <ostream>
 
 #include "base/logging.h"
 
