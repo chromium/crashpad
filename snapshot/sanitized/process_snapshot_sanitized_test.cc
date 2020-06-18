@@ -15,6 +15,7 @@
 #include "snapshot/sanitized/process_snapshot_sanitized.h"
 
 #include "base/macros.h"
+#include "base/notreached.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/multiprocess_exec.h"

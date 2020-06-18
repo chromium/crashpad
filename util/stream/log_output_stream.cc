@@ -18,6 +18,7 @@
 
 #include <algorithm>
 
+#include "base/check.h"
 #include "base/logging.h"
 
 #if defined(OS_ANDROID)

@@ -16,6 +16,7 @@
 
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
+#include "base/notreached.h"
 
 namespace crashpad {
 

@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "base/logging.h"
+#include "base/notreached.h"
 #include "base/strings/string16.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"

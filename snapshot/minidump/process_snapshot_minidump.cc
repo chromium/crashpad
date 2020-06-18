@@ -16,6 +16,8 @@
 
 #include <utility>
 
+#include "base/logging.h"
+#include "base/notreached.h"
 #include "base/strings/utf_string_conversions.h"
 #include "minidump/minidump_extensions.h"
 #include "snapshot/memory_map_region_snapshot.h"
