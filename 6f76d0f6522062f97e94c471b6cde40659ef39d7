@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ea22c9e3_104936a3",
+        "filename": "client/client_argv_handling.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-19T20:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12398550_36817879",
+      "range": {
+        "startLine": 40,
+        "startChar": 25,
+        "endLine": 40,
+        "endChar": 48
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93c818f9_5a981f68",
         "filename": "client/crash_report_database_win.cc",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d1e31b4_6626b1bf",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-19T20:01:40Z",
+      "side": 1,
+      "message": "Right, fixed it.",
+      "parentUuid": "93c818f9_5a981f68",
+      "range": {
+        "startLine": 646,
+        "startChar": 7,
+        "endLine": 647,
+        "endChar": 25
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "7ef98df4_a7e12578",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 872,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-19T20:01:40Z",
+      "side": 1,
+      "message": "I added function Metadata::CleanDatabase() and CrashReportDatabaseWin::CleanDatabase() to sync reports and metadata. Also added deletion of attachments in this method.",
+      "parentUuid": "a25b6785_0496df03",
+      "range": {
+        "startLine": 872,
+        "startChar": 40,
+        "endLine": 872,
+        "endChar": 52
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "779ffe39_d6af337b",
         "filename": "client/crashpad_client.h",
         "patchSetId": 3
@@ -91,6 +163,30 @@
       "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f304aa53_217e9977",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-19T20:01:40Z",
+      "side": 1,
+      "message": "Fixed it, and added DCHECK on MacOS and on Fuchsia (as I didn\u0027t change logic for Fuchsia).",
+      "parentUuid": "779ffe39_d6af337b",
+      "range": {
+        "startLine": 121,
+        "startChar": 13,
+        "endLine": 121,
+        "endChar": 30
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "b78db298_98edaaf1",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-19T20:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a691b2d_55d69dca",
+      "range": {
+        "startLine": 109,
+        "startChar": 9,
+        "endLine": 109,
+        "endChar": 10
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f1e5aa6_555deda1",
         "filename": "handler/handler_main.cc",
         "patchSetId": 3
@@ -137,6 +257,30 @@
       "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4ab7829_8f1408e0",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-19T20:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f1e5aa6_555deda1",
+      "range": {
+        "startLine": 530,
+        "startChar": 4,
+        "endLine": 530,
+        "endChar": 21
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "2ca4cb58_6d648487",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-19T20:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c03c76e1_711bc7db",
+      "range": {
+        "startLine": 585,
+        "startChar": 6,
+        "endLine": 585,
+        "endChar": 16
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dccf91eb_10e8545a",
         "filename": "handler/handler_main.cc",
         "patchSetId": 3
@@ -183,6 +351,30 @@
       "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "843858ad_39ad58b6",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-19T20:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dccf91eb_10e8545a",
+      "range": {
+        "startLine": 713,
+        "startChar": 11,
+        "endLine": 713,
+        "endChar": 28
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "7bb9388b_9012e2c1",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-19T20:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98e37a04_74968854",
+      "range": {
+        "startLine": 222,
+        "startChar": 7,
+        "endLine": 224,
+        "endChar": 19
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7f67803_2aa93709",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 3
@@ -229,6 +445,30 @@
       "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "407efa77_345d36aa",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-19T20:01:40Z",
+      "side": 1,
+      "message": "Removed dynamic allocation here",
+      "parentUuid": "e7f67803_2aa93709",
+      "range": {
+        "startLine": 229,
+        "startChar": 4,
+        "endLine": 229,
+        "endChar": 20
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "a40bb75d_c5563548",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-19T20:01:40Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "666c1fb3_a62b7028",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 5
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa574894_7c8eecb4",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 3
@@ -266,6 +530,30 @@
       "writtenOn": "2020-06-17T22:57:33Z",
       "side": 1,
       "message": "Can you factor this loop out into a helper: CopyFileContents(FileReaderInterface*, FileWriterInterface*) in util/file/file_io.{c,h}?",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 30
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fffa283_1c60239e",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-19T20:01:40Z",
+      "side": 1,
+      "message": "I moved it to the util/file, but can\u0027t add it in file_io: I have to include file_writer.h and file_reader.h in header, but file_reader.h and file_writer.h includes file_io. So I created a new file util/file/file_helper.{h,cc}, but if there is some other place where I should add it instead of creating a new file I would be glad to fix that.",
+      "parentUuid": "aa574894_7c8eecb4",
       "range": {
         "startLine": 236,
         "startChar": 0,
@@ -301,6 +589,30 @@
     },
     {
       "key": {
+        "uuid": "ca745602_b76e6dda",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-19T20:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96fab3f6_af8d5fee",
+      "range": {
+        "startLine": 247,
+        "startChar": 4,
+        "endLine": 247,
+        "endChar": 25
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2207d09_ed441271",
         "filename": "handler/linux/crash_report_exception_handler.h",
         "patchSetId": 3
@@ -324,6 +636,30 @@
     },
     {
       "key": {
+        "uuid": "e0001ed7_ebbb5afe",
+        "filename": "handler/linux/crash_report_exception_handler.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-19T20:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2207d09_ed441271",
+      "range": {
+        "startLine": 72,
+        "startChar": 13,
+        "endLine": 72,
+        "endChar": 34
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3e55026_7da1674e",
         "filename": "handler/win/crash_report_exception_handler.h",
         "patchSetId": 3
@@ -344,6 +680,30 @@
       "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93cbc2cb_246586a3",
+        "filename": "handler/win/crash_report_exception_handler.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-19T20:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3e55026_7da1674e",
+      "range": {
+        "startLine": 63,
+        "startChar": 13,
+        "endLine": 63,
+        "endChar": 31
+      },
+      "revId": "6f76d0f6522062f97e94c471b6cde40659ef39d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
