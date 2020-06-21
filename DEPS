@@ -28,7 +28,7 @@ deps = {
       '4164a305626786b1912d467003acf4c4995bec7d',
   'crashpad/third_party/edo/edo': {
       'url': Var('chromium_git') + '/external/github.com/google/eDistantObject.git@' +
-      '243fc89ae95b24717d41f3786f6a9abeeef87c92',
+      '97121c64019fa0e8bfbc8254e3ccb5572c500746',
       'condition': 'checkout_ios',
   },
   'crashpad/third_party/googletest/googletest':
