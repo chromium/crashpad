@@ -49,9 +49,9 @@
 
   // Override EDO default error handler.  Without this, the default EDO error
   // handler will throw an error and fail the test.
-  [EDOClientService setErrorHandler:^(NSError* error){
+  EDOSetClientErrorHandler(^(NSError* error) {
       // Do nothing.
-  }];
+  });
 }
 
 - (void)setUp {
