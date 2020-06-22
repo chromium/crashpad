@@ -20,7 +20,7 @@
 
 #include <string>
 
-#include "base/logging.h"
+#include "base/check_op.h"
 #include "base/mac/scoped_mach_port.h"
 #include "base/strings/stringprintf.h"
 #include "handler/mac/exception_handler_server.h"

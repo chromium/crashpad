@@ -16,7 +16,6 @@
 
 #include <memory>
 
-#include "base/logging.h"
 #include "base/macros.h"
 #include "util/file/file_io.h"
 #include "util/file/file_reader.h"

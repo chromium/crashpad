@@ -22,7 +22,7 @@
 
 #include <algorithm>
 
-#include "base/logging.h"
+#include "base/check_op.h"
 #include "base/posix/eintr_wrapper.h"
 #include "util/misc/memory_sanitizer.h"
 

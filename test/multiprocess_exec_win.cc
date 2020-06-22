@@ -16,7 +16,7 @@
 
 #include <sys/types.h>
 
-#include "base/logging.h"
+#include "base/check.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
 #include "util/win/command_line.h"

@@ -18,7 +18,6 @@
 #include <shellapi.h>
 #include <sys/types.h>
 
-#include "base/logging.h"
 #include "base/scoped_generic.h"
 #include "base/stl_util.h"
 #include "gtest/gtest.h"

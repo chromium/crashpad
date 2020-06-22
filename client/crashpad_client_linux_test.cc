@@ -20,7 +20,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include "base/logging.h"
+#include "base/check_op.h"
+#include "base/notreached.h"
 #include "client/annotation.h"
 #include "client/annotation_list.h"
 #include "client/crash_report_database.h"

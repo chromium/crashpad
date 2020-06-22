@@ -16,6 +16,7 @@
 
 #include <sys/types.h>
 
+#include "base/check_op.h"
 #include "base/logging.h"
 #include "base/threading/thread_local_storage.h"
 

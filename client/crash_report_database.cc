@@ -14,7 +14,6 @@
 
 #include "client/crash_report_database.h"
 
-#include "base/logging.h"
 #include "build/build_config.h"
 
 namespace crashpad {

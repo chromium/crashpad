@@ -17,8 +17,8 @@
 
 //! \file
 
+#include "base/check_op.h"
 #include "base/compiler_specific.h"
-#include "base/logging.h"
 #include "base/macros.h"
 #include "build/build_config.h"
 #include "util/misc/initialization_state.h"

@@ -23,8 +23,8 @@
 #include <string>
 
 #include "base/auto_reset.h"
+#include "base/check_op.h"
 #include "base/files/scoped_file.h"
-#include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"

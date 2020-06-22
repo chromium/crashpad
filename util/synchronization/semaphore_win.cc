@@ -18,7 +18,7 @@
 #include <limits>
 #include <ostream>
 
-#include "base/logging.h"
+#include "base/check_op.h"
 
 namespace crashpad {
 
