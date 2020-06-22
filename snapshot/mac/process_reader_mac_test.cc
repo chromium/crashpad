@@ -26,7 +26,7 @@
 #include <map>
 #include <utility>
 
-#include "base/logging.h"
+#include "base/check_op.h"
 #include "base/mac/mach_logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/stl_util.h"

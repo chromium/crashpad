@@ -14,7 +14,6 @@
 
 #include "util/mach/notify_server.h"
 
-#include "base/logging.h"
 #include "base/stl_util.h"
 #include "util/mach/mach_message.h"
 #include "util/mach/notifyServer.h"

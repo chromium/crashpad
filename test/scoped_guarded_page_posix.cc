@@ -16,7 +16,7 @@
 
 #include <sys/mman.h>
 
-#include "base/logging.h"
+#include "base/check.h"
 #include "base/process/process_metrics.h"
 
 namespace crashpad {

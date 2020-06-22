@@ -16,8 +16,9 @@
 
 #include <zircon/syscalls.h>
 
+#include "base/check_op.h"
 #include "base/fuchsia/fuchsia_logging.h"
-#include "base/logging.h"
+#include "base/notreached.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "snapshot/posix/timezone.h"

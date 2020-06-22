@@ -16,7 +16,7 @@
 
 #import <UIKit/UIKit.h>
 
-#include "base/logging.h"
+#include "base/check.h"
 #include "gtest/gtest.h"
 #include "test/ios/cptest_google_test_runner_delegate.h"
 

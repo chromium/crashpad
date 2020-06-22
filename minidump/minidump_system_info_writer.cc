@@ -16,7 +16,8 @@
 
 #include <string.h>
 
-#include "base/logging.h"
+#include "base/check_op.h"
+#include "base/notreached.h"
 #include "base/stl_util.h"
 #include "minidump/minidump_string_writer.h"
 #include "snapshot/system_snapshot.h"

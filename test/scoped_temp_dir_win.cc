@@ -16,12 +16,12 @@
 
 #include <windows.h>
 
-#include "base/logging.h"
+#include "base/check.h"
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
-#include "util/misc/random_string.h"
 #include "gtest/gtest.h"
+#include "util/misc/random_string.h"
 
 namespace crashpad {
 namespace test {

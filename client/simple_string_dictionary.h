@@ -21,7 +21,7 @@
 #include <algorithm>
 #include <type_traits>
 
-#include "base/logging.h"
+#include "base/check_op.h"
 #include "base/macros.h"
 #include "base/strings/string_piece.h"
 #include "util/misc/implicit_cast.h"

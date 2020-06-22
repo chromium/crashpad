@@ -14,7 +14,7 @@
 
 #include "util/stdlib/strlcpy.h"
 
-#include "base/logging.h"
+#include "base/check.h"
 #include "build/build_config.h"
 
 #if defined(OS_WIN) && defined(WCHAR_T_IS_UTF16)

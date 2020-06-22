@@ -21,7 +21,6 @@
 #include <string>
 
 #include "base/auto_reset.h"
-#include "base/logging.h"
 #include "base/mac/scoped_mach_port.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"

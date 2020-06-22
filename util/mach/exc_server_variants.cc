@@ -20,7 +20,6 @@
 #include <algorithm>
 #include <vector>
 
-#include "base/logging.h"
 #include "base/stl_util.h"
 #include "build/build_config.h"
 #include "util/mac/mac_util.h"

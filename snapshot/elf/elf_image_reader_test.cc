@@ -18,7 +18,6 @@
 #include <link.h>
 #include <unistd.h>
 
-#include "base/logging.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/multiprocess_exec.h"

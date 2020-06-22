@@ -20,7 +20,6 @@
 
 #include <algorithm>
 
-#include "base/logging.h"
 #include "build/build_config.h"
 #include "client/annotation.h"
 #include "client/annotation_list.h"

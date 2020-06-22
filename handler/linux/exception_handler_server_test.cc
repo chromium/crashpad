@@ -17,7 +17,6 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include "base/logging.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "snapshot/linux/process_snapshot_linux.h"
