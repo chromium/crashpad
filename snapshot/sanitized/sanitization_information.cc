@@ -88,8 +88,10 @@ bool ReadMemoryRangeWhitelist(
     return false;
   }
 
-  SanitizationMemoryRangeWhitelist::Range ranges[list.size];
-  if (!memory.Read(list.entries, sizeof(ranges), &ranges)) {
+  std::vector<SanitizationMemoryRangeWhitelist::Range> ranges(list.size);
+  if (!memory.Read(list.entries,
+                   sizeof(SanitizationMemoryRangeWhitelist::Range) * list.size,
+                   ranges.data())) {
     LOG(ERROR) << "Failed to read memory range whitelist entries.";
     return false;
   }
