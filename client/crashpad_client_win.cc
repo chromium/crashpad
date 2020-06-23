@@ -310,6 +310,7 @@ struct BackgroundHandlerStartThreadData {
       const std::string& url,
       const std::map<std::string, std::string>& annotations,
       const std::vector<std::string>& arguments,
+      const std::vector<base::FilePath>& attachments,
       const std::wstring& ipc_pipe,
       ScopedFileHANDLE ipc_pipe_handle)
       : handler(handler),
@@ -318,6 +319,7 @@ struct BackgroundHandlerStartThreadData {
         url(url),
         annotations(annotations),
         arguments(arguments),
+        attachments(attachments),
         ipc_pipe(ipc_pipe),
         ipc_pipe_handle(std::move(ipc_pipe_handle)) {}
 
@@ -327,6 +329,7 @@ struct BackgroundHandlerStartThreadData {
   std::string url;
   std::map<std::string, std::string> annotations;
   std::vector<std::string> arguments;
+  std::vector<base::FilePath> attachments;
   std::wstring ipc_pipe;
   ScopedFileHANDLE ipc_pipe_handle;
 };
@@ -380,6 +383,11 @@ bool StartHandlerProcess(
     AppendCommandLineArgument(
         FormatArgumentString("annotation",
                              base::UTF8ToUTF16(kv.first + '=' + kv.second)),
+        &command_line);
+  }
+  for (const base::FilePath& attachment : data->attachments) {
+    AppendCommandLineArgument(
+        FormatArgumentString("attachment", attachment.value()),
         &command_line);
   }
 
@@ -599,7 +607,8 @@ bool CrashpadClient::StartHandler(
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments,
     bool restartable,
-    bool asynchronous_start) {
+    bool asynchronous_start,
+    const std::vector<base::FilePath>& attachments) {
   DCHECK(ipc_pipe_.empty());
 
   // Both the pipe and the signalling events have to be created on the main
@@ -629,6 +638,7 @@ bool CrashpadClient::StartHandler(
                                                    url,
                                                    annotations,
                                                    arguments,
+                                                   attachments,
                                                    ipc_pipe_,
                                                    std::move(ipc_pipe_handle));
 

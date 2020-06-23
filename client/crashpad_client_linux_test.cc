@@ -89,7 +89,8 @@ bool HandleCrashSuccessfully(int, siginfo_t*, ucontext_t*) {
 bool InstallHandler(CrashpadClient* client,
                     bool start_at_crash,
                     const base::FilePath& handler_path,
-                    const base::FilePath& database_path) {
+                    const base::FilePath& database_path,
+                    const std::vector<base::FilePath>& attachments) {
   return start_at_crash
              ? client->StartHandlerAtCrash(handler_path,
                                            database_path,
@@ -104,17 +105,30 @@ bool InstallHandler(CrashpadClient* client,
                                     std::map<std::string, std::string>(),
                                     std::vector<std::string>(),
                                     false,
-                                    false);
+                                    false,
+                                    attachments);
 }
 
 constexpr char kTestAnnotationName[] = "name_of_annotation";
 constexpr char kTestAnnotationValue[] = "value_of_annotation";
+constexpr char kTestAttachmentName[] = "test_attachment";
+constexpr char kTestAttachmentContent[] = "attachment_content";
 
 #if defined(OS_ANDROID)
 constexpr char kTestAbortMessage[] = "test abort message";
 #endif
 
-void ValidateDump(const CrashReportDatabase::UploadReport* report) {
+void ValidateAttachment(const CrashReportDatabase::UploadReport* report) {
+  auto attachments = report->GetAttachments();
+  ASSERT_EQ(attachments.size(), 1u);
+  char buf[sizeof(kTestAttachmentContent)];
+  attachments.at(kTestAttachmentName)->Read(buf, sizeof(buf));
+  ASSERT_EQ(memcmp(kTestAttachmentContent, buf, sizeof(kTestAttachmentContent)),
+            0);
+}
+
+void ValidateDump(const CrashReportDatabase::UploadReport* report,
+                  bool start_at_crash) {
   ProcessSnapshotMinidump minidump_snapshot;
   ASSERT_TRUE(minidump_snapshot.Initialize(report->Reader()));
 
@@ -129,6 +143,11 @@ void ValidateDump(const CrashReportDatabase::UploadReport* report) {
     EXPECT_EQ(kTestAbortMessage, abort_message->second);
   }
 #endif
+#if defined(OS_LINUX)
+  if (!start_at_crash) {
+    ValidateAttachment(report);
+  }
+#endif  // OS_LINUX
 
   for (const ModuleSnapshot* module : minidump_snapshot.Modules()) {
     for (const AnnotationSnapshot& annotation : module->AnnotationObjects()) {
@@ -169,11 +188,27 @@ CRASHPAD_CHILD_TEST_MAIN(StartHandlerForSelfTestChild) {
   static StringAnnotation<32> test_annotation(kTestAnnotationName);
   test_annotation.Set(kTestAnnotationValue);
 
+#if defined(OS_LINUX)
+  FileWriter writer;
+  base::FilePath test_attachment_path = base::FilePath(kTestAttachmentName);
+  if (!writer.Open(test_attachment_path,
+                   FileWriteMode::kTruncateOrCreate,
+                   FilePermissions::kOwnerOnly)) {
+    return EXIT_FAILURE;
+  }
+  writer.Write(kTestAttachmentContent, sizeof(kTestAttachmentContent));
+  writer.Close();
+  const std::vector<base::FilePath> attachments = {test_attachment_path};
+#else
+  const std::vector<base::FilePath> attachments = {};
+#endif  // OS_LINUX
+
   crashpad::CrashpadClient client;
   if (!InstallHandler(&client,
                       options.start_handler_at_crash,
                       handler_path,
-                      base::FilePath(temp_dir))) {
+                      base::FilePath(temp_dir),
+                      attachments)) {
     return EXIT_FAILURE;
   }
 
@@ -241,7 +276,7 @@ class StartHandlerForSelfInChildTest : public MultiprocessExec {
     std::unique_ptr<const CrashReportDatabase::UploadReport> report;
     ASSERT_EQ(database->GetReportForUploading(reports[0].uuid, &report),
               CrashReportDatabase::kNoError);
-    ValidateDump(report.get());
+    ValidateDump(report.get(), options_.start_handler_at_crash);
   }
 
   StartHandlerForSelfTestOptions options_;
