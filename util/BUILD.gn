@@ -491,11 +491,13 @@ static_library("util") {
       "win/scoped_local_alloc.h",
       "win/scoped_process_suspend.cc",
       "win/scoped_process_suspend.h",
+      "win/scoped_registry_key.h",
       "win/scoped_set_event.cc",
       "win/scoped_set_event.h",
       "win/session_end_watcher.cc",
       "win/session_end_watcher.h",
       "win/termination_codes.h",
+      "win/traits.h",
       "win/xp_compat.h",
     ]
 
