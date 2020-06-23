@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81451d16_0501603a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T21:54:03Z",
+      "side": 1,
+      "message": "nits: try to shorten to one line, and use present tense so the log messages read consistently. It\u0027d be good to mention linux too. It\u0027s typical to start the message with platforms affected which can make it easier to spot likely culprits when a batch of CLs cause a failure, e.g.\n\"win, linux: implement attachment support\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 11
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70ba56e1_9b4b177c",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T21:54:03Z",
+      "side": 1,
+      "message": "Comment needs updating.",
+      "range": {
+        "startLine": 173,
+        "startChar": 40,
+        "endLine": 173,
+        "endChar": 51
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e1cb139_b2117f96",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T21:54:03Z",
+      "side": 1,
+      "message": "This one too.",
+      "range": {
+        "startLine": 399,
+        "startChar": 48,
+        "endLine": 399,
+        "endChar": 55
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95a65453_a4c0e1ca",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T21:54:03Z",
+      "side": 1,
+      "message": "This doesn\u0027t read clearly to me.\n\nsuggest: \"number of metadata entries removed.\"",
+      "range": {
+        "startLine": 278,
+        "startChar": 14,
+        "endLine": 278,
+        "endChar": 66
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1032032e_4a86740f",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T21:54:03Z",
+      "side": 1,
+      "message": "Everything you\u0027ve done should be fine to use on Android too so this guard isn\u0027t necessary.",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 21
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abc85f24_4dd49eb0",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T21:54:03Z",
+      "side": 1,
+      "message": "optional: I think it should be straightforward to pass in attachments through StartHandlerAtCrash(), but this is fine too.",
+      "range": {
+        "startLine": 147,
+        "startChar": 2,
+        "endLine": 147,
+        "endChar": 24
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dcc799c_5538d00a",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T21:54:03Z",
+      "side": 1,
+      "message": "Guard not needed.",
+      "range": {
+        "startLine": 191,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 21
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0c583f6_89d6ef07",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T21:54:03Z",
+      "side": 1,
+      "message": "I guess you needed this because this child process is going to crash and can\u0027t clean the file up. If you move this block of code down to MultiProcessParent() at line 246, the parent can be responsible for creating the file and cleaning it up after the test.",
+      "range": {
+        "startLine": 195,
+        "startChar": 19,
+        "endLine": 195,
+        "endChar": 51
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6407a2e0_7939b7e5",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T21:54:03Z",
+      "side": 1,
+      "message": "Check for nullptr before using this. Also for the Windows version.",
+      "range": {
+        "startLine": 215,
+        "startChar": 16,
+        "endLine": 215,
+        "endChar": 27
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
