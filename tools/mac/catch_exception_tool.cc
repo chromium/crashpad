@@ -51,7 +51,7 @@ struct Options {
   MachMessageServer::Persistent persistent;
 };
 
-class ExceptionServer : public UniversalMachExcServer::Interface {
+class ExceptionServer final : public UniversalMachExcServer::Interface {
  public:
   ExceptionServer(const Options& options,
                   const std::string& me,
