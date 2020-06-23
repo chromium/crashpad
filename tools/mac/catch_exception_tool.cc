@@ -60,6 +60,7 @@ class ExceptionServer : public UniversalMachExcServer::Interface {
         options_(options),
         me_(me),
         exceptions_handled_(exceptions_handled) {}
+  virtual ~ExceptionServer() = default;
 
   // UniversalMachExcServer::Interface:
   virtual kern_return_t CatchMachException(
