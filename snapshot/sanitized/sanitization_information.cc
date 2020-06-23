@@ -88,7 +88,7 @@ bool ReadMemoryRangeWhitelist(
     return false;
   }
 
-  SanitizationMemoryRangeWhitelist::Range ranges[list.size];
+  SanitizationMemoryRangeWhitelist::Range ranges[kMaxListSize];
   if (!memory.Read(list.entries, sizeof(ranges), &ranges)) {
     LOG(ERROR) << "Failed to read memory range whitelist entries.";
     return false;
