@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a677ef7_8b1653fb",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T05:06:35Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 420,
+        "startChar": 36,
+        "endLine": 420,
+        "endChar": 40
+      },
+      "revId": "bd662a205bf073275b025a15794a1d0e0ac09461",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fbb26e5_444a7458",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T05:06:35Z",
+      "side": 1,
+      "message": "unnecessary\n\nand optional: I prefer auto for casts where the type appears later on the line.",
+      "range": {
+        "startLine": 686,
+        "startChar": 2,
+        "endLine": 686,
+        "endChar": 12
+      },
+      "revId": "bd662a205bf073275b025a15794a1d0e0ac09461",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfc34d7b_76bd4c3f",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T05:06:35Z",
+      "side": 1,
+      "message": "If a strange file appears in the reports directory, UUIDFromReportPath() will return an uninitialized uuid. It would be better to ignore files we don\u0027t recognize.",
+      "range": {
+        "startLine": 1055,
+        "startChar": 0,
+        "endLine": 1063,
+        "endChar": 15
+      },
+      "revId": "bd662a205bf073275b025a15794a1d0e0ac09461",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae632fbe_7fa3fe61",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T05:06:35Z",
+      "side": 1,
+      "message": "We referred to it as the \"upload server\" in the docs for |url| above and we should be consistent. However, it may just be better to say the attachments are captured with each report. This option doesn\u0027t necessarily imply upload and some Crashpad clients do use Crashpad for report capture, but not upload.",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 38
+      },
+      "revId": "bd662a205bf073275b025a15794a1d0e0ac09461",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b203add_62427fde",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T05:06:35Z",
+      "side": 1,
+      "message": "each\n\nIt\u0027s important to be clear that this will be done for every report this handler instance captures. Also, clarify that the file contents are captured at the time of the crash.",
+      "range": {
+        "startLine": 111,
+        "startChar": 44,
+        "endLine": 111,
+        "endChar": 47
+      },
+      "revId": "bd662a205bf073275b025a15794a1d0e0ac09461",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58f09fd1_4528814e",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T05:06:35Z",
+      "side": 1,
+      "message": "each",
+      "range": {
+        "startLine": 105,
+        "startChar": 57,
+        "endLine": 105,
+        "endChar": 60
+      },
+      "revId": "bd662a205bf073275b025a15794a1d0e0ac09461",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "175bb32b_6654152f",
+        "filename": "handler/linux/crash_report_exception_handler.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T05:06:35Z",
+      "side": 1,
+      "message": "each",
+      "range": {
+        "startLine": 56,
+        "startChar": 65,
+        "endLine": 56,
+        "endChar": 68
+      },
+      "revId": "bd662a205bf073275b025a15794a1d0e0ac09461",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89a9a00d_b0cb83e3",
+        "filename": "util/file/file_helper.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T05:06:35Z",
+      "side": 1,
+      "message": "Here too",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "bd662a205bf073275b025a15794a1d0e0ac09461",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c1c1044_cb85d735",
+        "filename": "util/file/file_helper.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-23T05:06:35Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "bd662a205bf073275b025a15794a1d0e0ac09461",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
