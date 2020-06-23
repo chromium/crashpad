@@ -40,7 +40,7 @@ class UnixCredentialSocket {
 
   //! \brief The maximum number of file descriptors that may be sent/received
   //!     with `SendMsg()` or `RecvMsg()`.
-  static const size_t kMaxSendRecvMsgFDs;
+  static constexpr size_t kMaxSendRecvMsgFDs = 4;
 
   //! \brief Wraps `sendmsg()` to send a message with file descriptors.
   //!
