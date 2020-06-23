@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5931df7e_2b3dc8c3",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-23T21:39:41Z",
+      "side": 1,
+      "message": "Thank you for not making this one virtual. protected non-virtual is correct.",
+      "revId": "ebce57e17c690ae7b3385472afdf854fff9ae4cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0afebf66_50e776f1",
+        "filename": "tools/mac/catch_exception_tool.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-23T21:39:41Z",
+      "side": 1,
+      "message": "If you mark the class “final” instead, can this one not be virtual?",
+      "revId": "ebce57e17c690ae7b3385472afdf854fff9ae4cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
