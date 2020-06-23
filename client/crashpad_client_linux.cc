@@ -164,6 +164,7 @@ class SignalHandler {
 
  protected:
   SignalHandler() = default;
+  ~SignalHandler() = default;
 
   bool Install(const std::set<int>* unhandled_signals) {
     DCHECK(!handler_);
