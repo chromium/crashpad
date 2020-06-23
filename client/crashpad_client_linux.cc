@@ -372,7 +372,8 @@ bool CrashpadClient::StartHandler(
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments,
     bool restartable,
-    bool asynchronous_start) {
+    bool asynchronous_start,
+    const std::vector<base::FilePath>& attachments) {
   DCHECK(!asynchronous_start);
 
   ScopedFileHandle client_sock, handler_sock;
@@ -382,7 +383,7 @@ bool CrashpadClient::StartHandler(
   }
 
   std::vector<std::string> argv = BuildHandlerArgvStrings(
-      handler, database, metrics_dir, url, annotations, arguments);
+      handler, database, metrics_dir, url, annotations, arguments, attachments);
 
   argv.push_back(FormatArgumentInt("initial-client-fd", handler_sock.get()));
   argv.push_back("--shared-client-connection");
