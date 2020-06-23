@@ -49,8 +49,6 @@ bool UnixCredentialSocket::CreateCredentialSocketpair(ScopedFileHandle* sock1,
   return true;
 }
 
-constexpr size_t UnixCredentialSocket::kMaxSendRecvMsgFDs = 4;
-
 // static
 int UnixCredentialSocket::SendMsg(int fd,
                                   const void* buf,
