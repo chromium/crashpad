@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75caddf7_68836571",
+        "filename": "snapshot/sanitized/sanitization_information.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-23T21:41:19Z",
+      "side": 1,
+      "message": "I’d prefer a properly-sized vector to the variable-length array (which was definitely wrong) and this fixed-size buffer.",
+      "revId": "63a08d00d9dd58793885fb9e78ad84a39ea8fafd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
