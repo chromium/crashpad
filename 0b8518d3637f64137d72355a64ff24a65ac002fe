@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1b121240_c2f19c96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-24T02:10:47Z",
+      "side": 1,
+      "message": "I was unclear. I meant the first line should fit on one line, without wrapping. Then a blank line. You should absolutely feel free to include more information you think is helpful to preface the patch after the blank line!\n\nYou can also add lines to associate this patch with bugs e.g.:\nBug: crashpad:66\nwill update https://bugs.chromium.org/p/crashpad/issues/detail?id\u003d66 about this patch when it lands.",
+      "parentUuid": "cf7ab04a_cf4d7c62",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 11
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70ba56e1_9b4b177c",
         "filename": "client/crash_report_database.h",
         "patchSetId": 6

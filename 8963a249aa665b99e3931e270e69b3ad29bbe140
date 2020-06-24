@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd6430d3_0d5885d9",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-24T02:10:47Z",
+      "side": 1,
+      "message": "optional: you could just put this entire call in the ASSERT_TRUE() since you don\u0027t need is_created anywhere.",
+      "range": {
+        "startLine": 233,
+        "startChar": 4,
+        "endLine": 233,
+        "endChar": 22
+      },
+      "revId": "8963a249aa665b99e3931e270e69b3ad29bbe140",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaa372af_eba7a8c7",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-06-24T02:10:47Z",
+      "side": 1,
+      "message": "Put test_attachment_path in a ScopedRemoveFile and it will get cleaned up automatically.",
+      "range": {
+        "startLine": 266,
+        "startChar": 6,
+        "endLine": 266,
+        "endChar": 59
+      },
+      "revId": "8963a249aa665b99e3931e270e69b3ad29bbe140",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
