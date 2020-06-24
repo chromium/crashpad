@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cf7ab04a_cf4d7c62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-24T01:18:41Z",
+      "side": 1,
+      "message": "Update the commit message, will use the one-line messages from now.",
+      "parentUuid": "81451d16_0501603a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 11
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70ba56e1_9b4b177c",
         "filename": "client/crash_report_database.h",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e764b717_2843a64f",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-24T01:18:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70ba56e1_9b4b177c",
+      "range": {
+        "startLine": 173,
+        "startChar": 40,
+        "endLine": 173,
+        "endChar": 51
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5b3873da_c89e15ff",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-24T01:18:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e1cb139_b2117f96",
+      "range": {
+        "startLine": 399,
+        "startChar": 48,
+        "endLine": 399,
+        "endChar": 55
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95a65453_a4c0e1ca",
         "filename": "client/crash_report_database_win.cc",
         "patchSetId": 6
@@ -91,6 +163,30 @@
       "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e18ff5b6_66f03686",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-24T01:18:41Z",
+      "side": 1,
+      "message": "Yes, thank you, it much better",
+      "parentUuid": "95a65453_a4c0e1ca",
+      "range": {
+        "startLine": 278,
+        "startChar": 14,
+        "endLine": 278,
+        "endChar": 66
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "caf5a3ab_9e5416d5",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-24T01:18:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1032032e_4a86740f",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 21
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abc85f24_4dd49eb0",
         "filename": "client/crashpad_client_linux_test.cc",
         "patchSetId": 6
@@ -137,6 +257,30 @@
       "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b5b2e1b_28856494",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-24T01:18:41Z",
+      "side": 1,
+      "message": "Added attachments to StartHandlerAtCrash()",
+      "parentUuid": "abc85f24_4dd49eb0",
+      "range": {
+        "startLine": 147,
+        "startChar": 2,
+        "endLine": 147,
+        "endChar": 24
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "039ca111_da3e23ee",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-24T01:18:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dcc799c_5538d00a",
+      "range": {
+        "startLine": 191,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 21
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0c583f6_89d6ef07",
         "filename": "client/crashpad_client_linux_test.cc",
         "patchSetId": 6
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "3d497e09_93e45a2b",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-24T01:18:41Z",
+      "side": 1,
+      "message": "Yes, that was the reason. Moved attachment file creation and writing to it to MultiProcessParent().",
+      "parentUuid": "a0c583f6_89d6ef07",
+      "range": {
+        "startLine": 195,
+        "startChar": 19,
+        "endLine": 195,
+        "endChar": 51
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6407a2e0_7939b7e5",
         "filename": "handler/linux/crash_report_exception_handler.cc",
         "patchSetId": 6
@@ -206,6 +398,30 @@
       "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ee58460_4af27dce",
+        "filename": "handler/linux/crash_report_exception_handler.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1429565
+      },
+      "writtenOn": "2020-06-24T01:18:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6407a2e0_7939b7e5",
+      "range": {
+        "startLine": 215,
+        "startChar": 16,
+        "endLine": 215,
+        "endChar": 27
+      },
+      "revId": "0b8518d3637f64137d72355a64ff24a65ac002fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
