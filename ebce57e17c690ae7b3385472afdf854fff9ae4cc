@@ -33,6 +33,24 @@
       "revId": "ebce57e17c690ae7b3385472afdf854fff9ae4cc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd833d18_6b62d432",
+        "filename": "tools/mac/catch_exception_tool.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2020-06-24T15:41:37Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "0afebf66_50e776f1",
+      "revId": "ebce57e17c690ae7b3385472afdf854fff9ae4cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
