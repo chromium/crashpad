@@ -101,6 +101,10 @@ void Usage(const base::FilePath& me) {
 "Crashpad's exception handler server.\n"
 "\n"
 "      --annotation=KEY=VALUE  set a process annotation in each crash report\n"
+#if defined(OS_WIN) || defined(OS_LINUX)
+"      --attachment=FILE_PATH  attach specified file to each crash report\n"
+"                              at the time of the crash\n"
+#endif  // OS_WIN || OS_LINUX
 "      --database=PATH         store the crash report database at PATH\n"
 #if defined(OS_MACOSX)
 "      --handshake-fd=FD       establish communication with the client over FD\n"
@@ -211,6 +215,9 @@ struct Options {
   base::FilePath minidump_dir_for_tests;
   bool always_allow_feedback = false;
 #endif  // OS_CHROMEOS
+#if defined(OS_WIN) || defined (OS_LINUX)
+  std::vector<base::FilePath> attachments;
+#endif // OS_WIN || OS_LINUX
 };
 
 // Splits |key_value| on '=' and inserts the resulting key and value into |map|.
@@ -516,6 +523,9 @@ int HandlerMain(int argc,
     // Long options without short equivalents.
     kOptionLastChar = 255,
     kOptionAnnotation,
+#if defined(OS_WIN) || defined(OS_LINUX)
+    kOptionAttachment,
+#endif  // OS_WIN || OS_LINUX
     kOptionDatabase,
 #if defined(OS_MACOSX)
     kOptionHandshakeFD,
@@ -568,6 +578,9 @@ int HandlerMain(int argc,
 
   static constexpr option long_options[] = {
     {"annotation", required_argument, nullptr, kOptionAnnotation},
+#if defined(OS_WIN) || defined(OS_LINUX)
+    {"attachment", required_argument, nullptr, kOptionAttachment},
+#endif  // OS_WIN || OS_LINUX
     {"database", required_argument, nullptr, kOptionDatabase},
 #if defined(OS_MACOSX)
     {"handshake-fd", required_argument, nullptr, kOptionHandshakeFD},
@@ -677,6 +690,13 @@ int HandlerMain(int argc,
         }
         break;
       }
+#if defined(OS_WIN) || defined(OS_LINUX)
+      case kOptionAttachment: {
+        options.attachments.push_back(base::FilePath(
+            ToolSupport::CommandLineArgumentToFilePathStringType(optarg)));
+        break;
+      }
+#endif  // OS_WIN || OS_LINUX
       case kOptionDatabase: {
         options.database = base::FilePath(
             ToolSupport::CommandLineArgumentToFilePathStringType(optarg));
@@ -988,6 +1008,9 @@ int HandlerMain(int argc,
       database.get(),
       static_cast<CrashReportUploadThread*>(upload_thread.Get()),
       &options.annotations,
+#if defined(OS_WIN) || defined(OS_LINUX)
+      &options.attachments,
+#endif // OS_WIN || OS_LINUX
 #if defined(OS_ANDROID)
       options.write_minidump_to_database,
       options.write_minidump_to_log,
