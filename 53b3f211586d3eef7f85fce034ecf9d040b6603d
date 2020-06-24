@@ -16,6 +16,24 @@
       "revId": "53b3f211586d3eef7f85fce034ecf9d040b6603d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0d3894b_0f01f513",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2020-06-24T17:26:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a542d9a_629cfda5",
+      "revId": "53b3f211586d3eef7f85fce034ecf9d040b6603d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
