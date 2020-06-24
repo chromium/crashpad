@@ -16,6 +16,24 @@
       "revId": "63a08d00d9dd58793885fb9e78ad84a39ea8fafd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62a37cdc_5a9e8df7",
+        "filename": "snapshot/sanitized/sanitization_information.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2020-06-24T15:42:05Z",
+      "side": 1,
+      "message": "Done, though it makes the sizeof() bit a bit uglier.",
+      "parentUuid": "75caddf7_68836571",
+      "revId": "63a08d00d9dd58793885fb9e78ad84a39ea8fafd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
