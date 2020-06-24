@@ -18,6 +18,7 @@
 #include <intrin.h>
 #include <powrprof.h>
 #include <winnt.h>
+#include <VersionHelpers.h>
 
 #include <algorithm>
 #include <utility>
@@ -87,17 +88,7 @@ void SystemSnapshotWin::Initialize(ProcessReaderWin* process_reader) {
 
   process_reader_ = process_reader;
 
-  // We use both GetVersionEx() and GetModuleVersionAndType() (which uses
-  // VerQueryValue() internally). GetVersionEx() is not trustworthy after
-  // Windows 8 (depending on the application manifest) so its data is used only
-  // to fill the os_server_ field, and the rest comes from the version
-  // information stamped on kernel32.dll.
-  OSVERSIONINFOEX version_info = {sizeof(version_info)};
-  if (!GetVersionEx(reinterpret_cast<OSVERSIONINFO*>(&version_info))) {
-    PLOG(WARNING) << "GetVersionEx";
-  } else {
-    os_server_ = version_info.wProductType != VER_NT_WORKSTATION;
-  }
+  os_server_ = IsWindowsServer();
 
   static constexpr wchar_t kSystemDll[] = L"kernel32.dll";
   VS_FIXEDFILEINFO ffi;

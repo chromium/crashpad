@@ -19,6 +19,7 @@
 #include <signal.h>
 #include <stdint.h>
 #include <string.h>
+#include <VersionHelpers.h>
 
 #include <memory>
 
@@ -813,9 +814,7 @@ bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
                                                HANDLE blame_thread,
                                                DWORD exception_code) {
   // Confirm we're on Vista or later.
-  const DWORD version = GetVersion();
-  const DWORD major_version = LOBYTE(LOWORD(version));
-  if (major_version < 6) {
+  if (!IsWindowsVistaOrGreater()) {
     LOG(ERROR) << "unavailable before Vista";
     return false;
   }
