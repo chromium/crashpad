@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a542d9a_629cfda5",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-06-24T16:15:09Z",
+      "side": 1,
+      "message": "Avoid subjecting other platforms to the same problem: #elif defined(OS_LINUX) || defined(OS_ANDROID)",
+      "revId": "53b3f211586d3eef7f85fce034ecf9d040b6603d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
