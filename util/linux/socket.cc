@@ -23,6 +23,8 @@
 
 namespace crashpad {
 
+constexpr size_t UnixCredentialSocket::kMaxSendRecvMsgFDs;
+
 // static
 bool UnixCredentialSocket::CreateCredentialSocketpair(ScopedFileHandle* sock1,
                                                       ScopedFileHandle* sock2) {
@@ -48,8 +50,6 @@ bool UnixCredentialSocket::CreateCredentialSocketpair(ScopedFileHandle* sock1,
   sock2->swap(local_sock2);
   return true;
 }
-
-constexpr size_t UnixCredentialSocket::kMaxSendRecvMsgFDs = 4;
 
 // static
 int UnixCredentialSocket::SendMsg(int fd,
