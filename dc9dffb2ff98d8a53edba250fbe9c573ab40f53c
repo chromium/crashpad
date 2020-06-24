@@ -16,6 +16,24 @@
       "revId": "dc9dffb2ff98d8a53edba250fbe9c573ab40f53c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52209593_da7694c1",
+        "filename": "snapshot/crashpad_types/crashpad_info_reader.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2020-06-24T15:42:39Z",
+      "side": 1,
+      "message": "Whoops - forgot about that! Fixed.",
+      "parentUuid": "5d595e51_538849d5",
+      "revId": "dc9dffb2ff98d8a53edba250fbe9c573ab40f53c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
