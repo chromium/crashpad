@@ -2,6 +2,8 @@ add_library(crashpad_util STATIC
     file/delimited_file_reader.cc
     file/delimited_file_reader.h
     file/directory_reader.h
+    file/file_helper.cc
+    file/file_helper.h
     file/file_io.cc
     file/file_io.h
     file/file_reader.cc
@@ -141,20 +143,8 @@ endif()
 
 if(APPLE)
     target_sources(crashpad_util PRIVATE
-        mac/checked_mach_address_range.h
-        mac/launchd.h
-        mac/launchd.mm
-        mac/mac_util.cc
-        mac/mac_util.h
-        mac/service_management.cc
-        mac/service_management.h
         mac/xattr.cc
         mac/xattr.h
-        mach/child_port_handshake.cc
-        mach/child_port_handshake.h
-        mach/child_port_server.cc
-        mach/child_port_server.h
-        mach/child_port_types.h
         mach/composite_mach_message_server.cc
         mach/composite_mach_message_server.h
         mach/exc_client_variants.cc
@@ -165,31 +155,56 @@ if(APPLE)
         mach/exception_behaviors.h
         mach/exception_ports.cc
         mach/exception_ports.h
-        mach/exception_types.cc
-        mach/exception_types.h
         mach/mach_extensions.cc
         mach/mach_extensions.h
         mach/mach_message.cc
         mach/mach_message.h
         mach/mach_message_server.cc
         mach/mach_message_server.h
-        mach/notify_server.cc
-        mach/notify_server.h
-        mach/scoped_task_suspend.cc
-        mach/scoped_task_suspend.h
         mach/symbolic_constants_mach.cc
         mach/symbolic_constants_mach.h
-        mach/task_for_pid.cc
-        mach/task_for_pid.h
         misc/capture_context_mac.S
         misc/clock_mac.cc
         misc/paths_mac.cc
-        net/http_transport_mac.mm
-        posix/process_info_mac.cc
-        process/process_memory_mac.cc
-        process/process_memory_mac.h
         synchronization/semaphore_mac.cc
     )
+    if(NOT IOS)
+        target_sources(crashpad_util PRIVATE
+            mac/checked_mach_address_range.h
+            mac/launchd.h
+            mac/launchd.mm
+            mac/mac_util.cc
+            mac/mac_util.h
+            mac/service_management.cc
+            mac/service_management.h
+            mach/bootstrap.cc
+            mach/bootstrap.h
+            mach/child_port_handshake.cc
+            mach/child_port_handshake.h
+            mach/child_port_server.cc
+            mach/child_port_server.h
+            mach/child_port_types.h
+            mach/exception_types.cc
+            mach/exception_types.h
+            mach/notify_server.cc
+            mach/notify_server.h
+            mach/scoped_task_suspend.cc
+            mach/scoped_task_suspend.h
+            mach/task_for_pid.cc
+            mach/task_for_pid.h
+            net/http_transport_mac.mm
+            posix/process_info_mac.cc
+            process/process_memory_mac.cc
+            process/process_memory_mac.h
+        )
+    elseif()
+        target_sources(crashpad_util PRIVATE
+            ios/exception_processor.h
+            ios/exception_processor.mm
+            ios/ios_system_data_collector.h
+            ios/ios_system_data_collector.mm
+    )
+    endif()
 endif()
 
 if(ANDROID)
@@ -298,11 +313,13 @@ if(WIN32)
         win/scoped_local_alloc.h
         win/scoped_process_suspend.cc
         win/scoped_process_suspend.h
+        win/scoped_registry_key.h
         win/scoped_set_event.cc
         win/scoped_set_event.h
         win/session_end_watcher.cc
         win/session_end_watcher.h
         win/termination_codes.h
+        win/traits.h
         win/xp_compat.h
         misc/capture_context_win.asm
         win/safe_terminate_process.asm
@@ -311,8 +328,16 @@ endif()
 
 # Copied from: https://github.com/qedsoftware/crashpad/blob/3583c50a6575857abcf140f6ea3b8d11390205b3/util/CMakeLists.txt#L196-L233
 if(APPLE)
-    set(def_relative_files "exc.defs" "mach_exc.defs" "notify.defs")
-    set(input_files "")
+    if(NOT IOS)
+        set(def_relative_files "exc.defs" "mach_exc.defs" "notify.defs")
+        set(input_files "${CMAKE_CURRENT_LIST_DIR}/mach/child_port.defs")
+    elseif()
+        set(def_relative_files "")
+        set(input_files
+            "${CMAKE_CURRENT_LIST_DIR}/../third_party/xnu/osfmk/mach/exc.defs"
+            "${CMAKE_CURRENT_LIST_DIR}/../third_party/xnu/osfmk/mach/mach_exc.defs"
+        )
+    endif()
     foreach(x ${def_relative_files})
         # CMAKE_OSX_SYSROOT may be empty (e.g. for Makefile generators),
         # in this case files will be taken from root.
@@ -322,7 +347,6 @@ if(APPLE)
         endif()
         list(APPEND input_files "${full_path}")
     endforeach()
-    list(APPEND input_files "${CMAKE_CURRENT_LIST_DIR}/mach/child_port.defs")
 
     find_package(PythonInterp 2.7 REQUIRED)
 

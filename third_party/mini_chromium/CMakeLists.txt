@@ -11,6 +11,8 @@ mc_append_sources(
     atomicops_internals_portable.h
     auto_reset.h
     bit_cast.h
+    check.h
+    check_op.h
     compiler_specific.h
     debug/alias.cc
     debug/alias.h
@@ -81,7 +83,7 @@ else()
     )
 endif()
 
-if(APPLE)
+if(APPLE AND NOT IOS)
     mc_append_sources(
         mac/close_nocancel.cc
         mac/foundation_util.h
@@ -91,6 +93,23 @@ if(APPLE)
         mac/scoped_cftyperef.h
         mac/scoped_ioobject.h
         mac/scoped_launch_data.h
+        mac/scoped_mach_port.cc
+        mac/scoped_mach_port.h
+        mac/scoped_mach_vm.cc
+        mac/scoped_mach_vm.h
+        mac/scoped_nsautorelease_pool.h
+        mac/scoped_nsautorelease_pool.mm
+        mac/scoped_nsobject.h
+        mac/scoped_typeref.h
+        strings/sys_string_conversions_mac.mm
+    )
+elseif(IOS)
+    mc_append_sources(
+        mac/foundation_util.h
+        mac/foundation_util.mm
+        mac/mach_logging.cc
+        mac/mach_logging.h
+        mac/scoped_cftyperef.h
         mac/scoped_mach_port.cc
         mac/scoped_mach_port.h
         mac/scoped_mach_vm.cc
@@ -126,12 +145,20 @@ else()
     )
 endif()
 
-if(APPLE)
+if(APPLE AND NOT IOS)
     target_link_libraries(mini_chromium PUBLIC
         "-framework ApplicationServices"
         "-framework CoreFoundation"
         "-framework Foundation"
         "-framework IOKit"
+        "-framework Security"
+    )
+elseif(IOS)
+    target_link_libraries(mini_chromium PUBLIC
+        "-framework CoreFoundation"
+        "-framework CoreGraphics"
+        "-framework CoreText"
+        "-framework Foundation"
         "-framework Security"
     )
 endif()

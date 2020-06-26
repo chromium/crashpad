@@ -4,7 +4,7 @@
   https://github.com/Youw/crashpad/, distributed with Apache 2.0 License.
 - Add `throws` declaration to `memfd_create` for compatibility with different
   libc versions.
-- Build System Changes Listed Below
+- Build System Changes Listed Below.
 - MinGW build support.
 
 # Build System Changes
@@ -54,6 +54,15 @@ MinGW support adds the following files which need to be kept in sync.
 
 - `compat/mingw/`
 - `third_party/mini_chromium/utf_string_conversion_utils.mingw.cc`
+
+## Building for iOS
+
+Build support for iOS, or Xcode in general is still a work in progress.
+Once complete, creating a iOS compatible Xcode project should be as easy as:
+
+    cmake -B cmakebuild -GXcode -DCMAKE_SYSTEM_NAME=iOS
+
+See the [upstream CMake Docs on iOS](https://cmake.org/cmake/help/v3.17/manual/cmake-toolchains.7.html#cross-compiling-for-ios-tvos-or-watchos) for further info.
 
 # How To Update
 
