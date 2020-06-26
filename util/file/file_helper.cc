@@ -12,12 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_TEST_IOS_HOST_CRASH_VIEW_CONTROLLER_H_
-#define CRASHPAD_TEST_IOS_HOST_CRASH_VIEW_CONTROLLER_H_
+#include "util/file/file_helper.h"
 
-#import <UIKit/UIKit.h>
+namespace crashpad {
 
-@interface CrashViewController : UIViewController
-@end
+void CopyFileContent(FileReaderInterface* file_reader,
+                     FileWriterInterface* file_writer) {
+  char buf[4096];
+  FileOperationResult read_result;
+  do {
+    read_result = file_reader->Read(buf, sizeof(buf));
+    if (read_result < 0) {
+      break;
+    }
+    if (read_result > 0 && !file_writer->Write(buf, read_result)) {
+      break;
+    }
+  } while (read_result > 0);
+}
 
-#endif  // CRASHPAD_TEST_IOS_HOST_CRASH_VIEW_CONTROLLER_H_
+}  // namespace crashpad

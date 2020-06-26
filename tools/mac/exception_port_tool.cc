@@ -30,6 +30,7 @@
 #include "base/macros.h"
 #include "base/strings/stringprintf.h"
 #include "tools/tool_support.h"
+#include "util/mach/bootstrap.h"
 #include "util/mach/exception_ports.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/symbolic_constants_mach.h"

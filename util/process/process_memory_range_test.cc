@@ -16,7 +16,6 @@
 
 #include <limits>
 
-#include "base/logging.h"
 #include "base/stl_util.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"

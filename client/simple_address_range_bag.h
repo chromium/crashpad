@@ -16,9 +16,11 @@
 #define CRASHPAD_CLIENT_SIMPLE_ADDRESS_RANGE_BAG_H_
 
 #include <stdint.h>
+#include <string.h>
 
 #include <type_traits>
 
+#include "base/check_op.h"
 #include "base/logging.h"
 #include "base/macros.h"
 #include "base/numerics/safe_conversions.h"

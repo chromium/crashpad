@@ -23,6 +23,7 @@
 #include <vector>
 
 #include "base/logging.h"
+#include "base/notreached.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"

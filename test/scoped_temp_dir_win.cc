@@ -16,12 +16,12 @@
 
 #include <windows.h>
 
-#include "base/logging.h"
+#include "base/check.h"
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
-#include "util/misc/random_string.h"
 #include "gtest/gtest.h"
+#include "util/misc/random_string.h"
 
 namespace crashpad {
 namespace test {
@@ -64,7 +64,7 @@ base::FilePath ScopedTempDir::CreateTemporaryDirectory() {
     // the one we generate exists, keep trying another path name until we reach
     // some limit.
     base::FilePath path_to_create = GenerateCandidateName();
-    if (CreateDirectory(path_to_create.value().c_str(), NULL))
+    if (CreateDirectory(path_to_create.value().c_str(), nullptr))
       return path_to_create;
   }
 

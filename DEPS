@@ -28,12 +28,12 @@ deps = {
       '4164a305626786b1912d467003acf4c4995bec7d',
   'crashpad/third_party/edo/edo': {
       'url': Var('chromium_git') + '/external/github.com/google/eDistantObject.git@' +
-      '243fc89ae95b24717d41f3786f6a9abeeef87c92',
+      '97121c64019fa0e8bfbc8254e3ccb5572c500746',
       'condition': 'checkout_ios',
   },
-  'crashpad/third_party/gtest/gtest':
+  'crashpad/third_party/googletest/googletest':
       Var('chromium_git') + '/external/github.com/google/googletest@' +
-      'e3f0319d89f4cbf32993de595d984183b1a9fc57',
+      'e589a337170554c48bc658cc857cf15080c9eacc',
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
       '8bee09f4a57807136593ddc906b0b213c21f9014',
@@ -42,7 +42,7 @@ deps = {
       '7bde79cc274d06451bf65ae82c012a5d3e476b5a',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      'bbf1307928bb7a9d1eda6be576283c8093b2775b',
+      'ae14a14ab4cea36db9c446741581d427a7fc7f89',
   'crashpad/third_party/libfuzzer/src':
       Var('chromium_git') + '/chromium/llvm-project/compiler-rt/lib/fuzzer.git@' +
       'fda403cf93ecb8792cb1d061564d89a6553ca020',
@@ -61,7 +61,7 @@ deps = {
     'condition': 'checkout_linux and pull_linux_clang',
     'dep_type': 'cipd'
   },
-  'crashpad/third_party/linux/clang/mac-amd64': {
+  'crashpad/third_party/fuchsia/clang/mac-amd64': {
     'packages': [
       {
         'package': 'fuchsia/clang/mac-amd64',
@@ -104,7 +104,7 @@ deps = {
   'crashpad/third_party/fuchsia/sdk/mac-amd64': {
     'packages': [
       {
-        'package': 'fuchsia/sdk/core/mac-amd64',
+        'package': 'fuchsia/sdk/gn/mac-amd64',
         'version': 'latest'
       },
     ],
@@ -114,7 +114,7 @@ deps = {
   'crashpad/third_party/fuchsia/sdk/linux-amd64': {
     'packages': [
       {
-        'package': 'fuchsia/sdk/core/linux-amd64',
+        'package': 'fuchsia/sdk/gn/linux-amd64',
         'version': 'latest'
       },
     ],
@@ -193,7 +193,7 @@ hooks = [
     'condition': 'run_setup_ios_gn and checkout_ios',
     'action': [
         'python',
-        'crashpad/build/ios/setup-ios-gn.py'
+        'crashpad/build/ios/setup_ios_gn.py'
     ],
   },
 ]

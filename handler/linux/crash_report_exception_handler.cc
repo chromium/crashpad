@@ -23,6 +23,7 @@
 #include "minidump/minidump_file_writer.h"
 #include "snapshot/linux/process_snapshot_linux.h"
 #include "snapshot/sanitized/process_snapshot_sanitized.h"
+#include "util/file/file_helper.h"
 #include "util/file/file_reader.h"
 #include "util/file/output_stream_file_writer.h"
 #include "util/linux/direct_ptrace_connection.h"
@@ -62,14 +63,14 @@ CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
     CrashReportUploadThread* upload_thread,
     const std::map<std::string, std::string>* process_annotations,
-    const std::map<std::string, base::FilePath>* process_attachments,
+    const std::vector<base::FilePath>* attachments,
     bool write_minidump_to_database,
     bool write_minidump_to_log,
     const UserStreamDataSources* user_stream_data_sources)
     : database_(database),
       upload_thread_(upload_thread),
       process_annotations_(process_annotations),
-      process_attachments_(process_attachments),
+      attachments_(attachments),
       write_minidump_to_database_(write_minidump_to_database),
       write_minidump_to_log_(write_minidump_to_log),
       user_stream_data_sources_(user_stream_data_sources) {
@@ -217,6 +218,25 @@ bool CrashReportExceptionHandler::WriteMinidumpToDatabase(
       else
         LOG(ERROR) << "WriteMinidumpLogFromFile failed";
     }
+  }
+
+  for (const auto& attachment : (*attachments_)) {
+    FileReader file_reader;
+    if (!file_reader.Open(attachment)) {
+      LOG(ERROR) << "attachment " << attachment.value().c_str()
+                 << " couldn't be opened, skipping";
+      continue;
+    }
+
+    base::FilePath filename = attachment.BaseName();
+    FileWriter* file_writer = new_report->AddAttachment(filename.value());
+    if (file_writer == nullptr) {
+      LOG(ERROR) << "attachment " << filename.value().c_str()
+                 << " couldn't be created, skipping";
+      continue;
+    }
+
+    CopyFileContent(&file_reader, file_writer);
   }
 
   UUID uuid;

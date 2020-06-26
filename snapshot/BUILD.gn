@@ -232,7 +232,7 @@ static_library("snapshot") {
     ]
   }
 
-  if (target_cpu == "x86" || target_cpu == "x64") {
+  if (current_cpu == "x86" || current_cpu == "x64") {
     sources += [
       "x86/cpuid_reader.cc",
       "x86/cpuid_reader.h",
@@ -428,7 +428,7 @@ source_set("snapshot_test") {
     "../compat",
     "../minidump:format",
     "../test",
-    "../third_party/gtest:gtest",
+    "../third_party/googletest:googletest",
     "../third_party/mini_chromium:base",
     "../util",
   ]

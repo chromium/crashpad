@@ -14,7 +14,9 @@
 
 #include <unistd.h>
 
-#include "base/logging.h"
+#include <ostream>
+
+#include "base/check_op.h"
 #include "build/build_config.h"
 
 namespace crashpad {

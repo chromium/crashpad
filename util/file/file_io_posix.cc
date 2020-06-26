@@ -26,6 +26,7 @@
 
 #include "base/files/file_path.h"
 #include "base/logging.h"
+#include "base/notreached.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"

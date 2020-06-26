@@ -14,6 +14,9 @@
 
 #include "snapshot/minidump/minidump_context_converter.h"
 
+#include <string.h>
+
+#include "base/logging.h"
 #include "base/stl_util.h"
 #include "minidump/minidump_context.h"
 

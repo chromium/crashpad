@@ -65,15 +65,6 @@ static_library("handler") {
     ]
   }
 
-  if (crashpad_is_fuchsia) {
-    sources += [
-      "fuchsia/crash_report_exception_handler.cc",
-      "fuchsia/crash_report_exception_handler.h",
-      "fuchsia/exception_handler_server.cc",
-      "fuchsia/exception_handler_server.h",
-    ]
-  }
-
   public_configs = [ "..:crashpad_config" ]
 
   public_deps = [
@@ -90,10 +81,6 @@ static_library("handler") {
 
   if (crashpad_is_win) {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
-  }
-
-  if (crashpad_is_fuchsia) {
-    deps += [ "../third_party/fuchsia" ]
   }
 }
 
@@ -127,7 +114,7 @@ source_set("handler_test") {
     "../snapshot",
     "../snapshot:test_support",
     "../test",
-    "../third_party/gtest:gtest",
+    "../third_party/googletest:googletest",
     "../third_party/mini_chromium:base",
     "../util",
   ]
@@ -244,7 +231,7 @@ if (crashpad_is_win) {
     deps = [
       "../client",
       "../test",
-      "../third_party/gtest:gtest",
+      "../third_party/googletest:googletest",
       "../third_party/mini_chromium:base",
     ]
   }

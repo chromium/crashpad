@@ -63,7 +63,8 @@ class WinChildProcess {
 
   //! \brief Launches a child process and returns the Handles for that process.
   //!     The process is guaranteed to be executing by the time this method
-  //!     returns. Returns null and logs a GTest failure in case of failure.
+  //!     returns. Returns `nullptr` and logs a Google Test failure in case of
+  //!     failure.
   static std::unique_ptr<Handles> Launch();
 
  protected:

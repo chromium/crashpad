@@ -49,9 +49,9 @@
 
   // Override EDO default error handler.  Without this, the default EDO error
   // handler will throw an error and fail the test.
-  [EDOClientService setErrorHandler:^(NSError* error){
+  EDOSetClientErrorHandler(^(NSError* error) {
       // Do nothing.
-  }];
+  });
 }
 
 - (void)setUp {
@@ -183,6 +183,21 @@
   // Crash the app.
   CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
   [rootObject crashUnreocgnizedSelectorAfterDelay];
+
+  // Confirm the app is not running.
+  XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
+  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
+
+  // TODO: Query the app for crash data
+  [_app launch];
+  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+}
+
+- (void)testCatchUIGestureEnvironmentNSException {
+  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+
+  // Tap the button with the string UIGestureEnvironmentException.
+  [_app.buttons[@"UIGestureEnvironmentException"] tap];
 
   // Confirm the app is not running.
   XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);

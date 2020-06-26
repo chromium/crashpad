@@ -19,10 +19,11 @@
 #include <signal.h>
 #include <unistd.h>
 
-#include "base/logging.h"
+#include "base/check.h"
 #include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_port.h"
 #include "base/macros.h"
+#include "base/notreached.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "test/mac/mach_errors.h"
@@ -53,7 +54,7 @@ namespace {
 // mask, EXC_MASK_ALL | EXC_MASK_CRASH. The EXC_MASK_CRASH handler’s existence
 // and properties from this second lookup are validated in the same way.
 //
-// This function uses gtest EXPECT_* and ASSERT_* macros to perform its
+// This function uses Google Test EXPECT_* and ASSERT_* macros to perform its
 // validation.
 void TestGetExceptionPorts(const ExceptionPorts& exception_ports,
                            mach_port_t expect_port,
@@ -104,6 +105,12 @@ void TestGetExceptionPorts(const ExceptionPorts& exception_ports,
 class TestExceptionPorts : public MachMultiprocess,
                            public UniversalMachExcServer::Interface {
  public:
+  // Whether to call SetExceptionPort or SwapExceptionPorts.
+  enum SetOrSwap {
+    kSetExceptionPort = 0,
+    kSwapExceptionPorts,
+  };
+
   // Which entities to set exception ports for.
   enum SetOn {
     kSetOnTaskOnly = 0,
@@ -126,9 +133,13 @@ class TestExceptionPorts : public MachMultiprocess,
     kOtherThreadCrashes,
   };
 
-  TestExceptionPorts(SetOn set_on, SetType set_type, WhoCrashes who_crashes)
+  TestExceptionPorts(SetOrSwap set_or_swap,
+                     SetOn set_on,
+                     SetType set_type,
+                     WhoCrashes who_crashes)
       : MachMultiprocess(),
         UniversalMachExcServer::Interface(),
+        set_or_swap_(set_or_swap),
         set_on_(set_on),
         set_type_(set_type),
         who_crashes_(who_crashes),
@@ -139,6 +150,7 @@ class TestExceptionPorts : public MachMultiprocess,
     }
   }
 
+  SetOrSwap set_or_swap() const { return set_or_swap_; }
   SetOn set_on() const { return set_on_; }
   SetType set_type() const { return set_type_; }
   WhoCrashes who_crashes() const { return who_crashes_; }
@@ -225,14 +237,47 @@ class TestExceptionPorts : public MachMultiprocess,
 
       // Set the task’s and this thread’s exception ports, if appropriate.
       if (test_exception_ports_->set_type() == kSetInProcess) {
-        ASSERT_TRUE(self_task_ports.SetExceptionPort(
-            EXC_MASK_CRASH, remote_port, EXCEPTION_DEFAULT, THREAD_STATE_NONE));
-
-        if (test_exception_ports_->set_on() == kSetOnTaskAndThreads) {
-          ASSERT_TRUE(self_thread_ports.SetExceptionPort(EXC_MASK_CRASH,
+        switch (test_exception_ports_->set_or_swap()) {
+          case kSetExceptionPort: {
+            ASSERT_TRUE(self_task_ports.SetExceptionPort(EXC_MASK_CRASH,
                                                          remote_port,
-                                                         EXCEPTION_STATE,
-                                                         MACHINE_THREAD_STATE));
+                                                         EXCEPTION_DEFAULT,
+                                                         THREAD_STATE_NONE));
+
+            if (test_exception_ports_->set_on() == kSetOnTaskAndThreads) {
+              ASSERT_TRUE(
+                  self_thread_ports.SetExceptionPort(EXC_MASK_CRASH,
+                                                     remote_port,
+                                                     EXCEPTION_STATE,
+                                                     MACHINE_THREAD_STATE));
+            }
+
+            break;
+          }
+
+          case kSwapExceptionPorts: {
+            ExceptionPorts::ExceptionHandlerVector old_handlers;
+            ASSERT_TRUE(self_task_ports.SwapExceptionPorts(EXC_MASK_CRASH,
+                                                           remote_port,
+                                                           EXCEPTION_DEFAULT,
+                                                           THREAD_STATE_NONE,
+                                                           &old_handlers));
+
+            if (test_exception_ports_->set_on() == kSetOnTaskAndThreads) {
+              ASSERT_TRUE(
+                  self_thread_ports.SwapExceptionPorts(EXC_MASK_CRASH,
+                                                       remote_port,
+                                                       EXCEPTION_STATE,
+                                                       MACHINE_THREAD_STATE,
+                                                       &old_handlers));
+            }
+
+            break;
+          }
+
+          default: {
+            NOTREACHED();
+          }
         }
       }
 
@@ -296,10 +341,27 @@ class TestExceptionPorts : public MachMultiprocess,
       // Set this thread’s exception handler, if appropriate.
       if (test_exception_ports_->set_type() == kSetInProcess &&
           test_exception_ports_->set_on() == kSetOnTaskAndThreads) {
-        CHECK(self_thread_ports.SetExceptionPort(EXC_MASK_CRASH,
-                                                 remote_port,
-                                                 EXCEPTION_STATE_IDENTITY,
-                                                 MACHINE_THREAD_STATE));
+        switch (test_exception_ports_->set_or_swap()) {
+          case kSetExceptionPort: {
+            CHECK(self_thread_ports.SetExceptionPort(EXC_MASK_CRASH,
+                                                     remote_port,
+                                                     EXCEPTION_STATE_IDENTITY,
+                                                     MACHINE_THREAD_STATE));
+            break;
+          }
+          case kSwapExceptionPorts: {
+            ExceptionPorts::ExceptionHandlerVector old_handlers;
+            CHECK(self_thread_ports.SwapExceptionPorts(EXC_MASK_CRASH,
+                                                       remote_port,
+                                                       EXCEPTION_STATE_IDENTITY,
+                                                       MACHINE_THREAD_STATE,
+                                                       &old_handlers));
+            break;
+          }
+          default: {
+            NOTREACHED();
+          }
+        }
       }
 
       // Let the main thread know that this thread is ready.
@@ -386,7 +448,7 @@ class TestExceptionPorts : public MachMultiprocess,
     EXPECT_STREQ("thread", other_thread_ports.TargetTypeName());
 
     if (set_type_ == kSetOutOfProcess) {
-      // Test ExceptionPorts::SetExceptionPorts() being called from
+      // Test ExceptionPorts::SetExceptionPort() being called from
       // out-of-process.
       //
       // local_port is only a receive right, but a send right is needed for
@@ -399,18 +461,59 @@ class TestExceptionPorts : public MachMultiprocess,
           << MachErrorMessage(kr, "mach_port_insert_right");
       base::mac::ScopedMachSendRight send_owner(local_port);
 
-      ASSERT_TRUE(task_ports.SetExceptionPort(
-          EXC_MASK_CRASH, local_port, EXCEPTION_DEFAULT, THREAD_STATE_NONE));
+      switch (set_or_swap_) {
+        case kSetExceptionPort: {
+          ASSERT_TRUE(task_ports.SetExceptionPort(EXC_MASK_CRASH,
+                                                  local_port,
+                                                  EXCEPTION_DEFAULT,
+                                                  THREAD_STATE_NONE));
 
-      if (set_on_ == kSetOnTaskAndThreads) {
-        ASSERT_TRUE(main_thread_ports.SetExceptionPort(
-            EXC_MASK_CRASH, local_port, EXCEPTION_STATE, MACHINE_THREAD_STATE));
+          if (set_on_ == kSetOnTaskAndThreads) {
+            ASSERT_TRUE(
+                main_thread_ports.SetExceptionPort(EXC_MASK_CRASH,
+                                                   local_port,
+                                                   EXCEPTION_STATE,
+                                                   MACHINE_THREAD_STATE));
 
-        ASSERT_TRUE(
-            other_thread_ports.SetExceptionPort(EXC_MASK_CRASH,
-                                                local_port,
-                                                EXCEPTION_STATE_IDENTITY,
-                                                MACHINE_THREAD_STATE));
+            ASSERT_TRUE(
+                other_thread_ports.SetExceptionPort(EXC_MASK_CRASH,
+                                                    local_port,
+                                                    EXCEPTION_STATE_IDENTITY,
+                                                    MACHINE_THREAD_STATE));
+          }
+          break;
+        }
+
+        case kSwapExceptionPorts: {
+          ExceptionPorts::ExceptionHandlerVector old_handlers;
+
+          ASSERT_TRUE(task_ports.SwapExceptionPorts(EXC_MASK_CRASH,
+                                                    local_port,
+                                                    EXCEPTION_DEFAULT,
+                                                    THREAD_STATE_NONE,
+                                                    &old_handlers));
+
+          if (set_on_ == kSetOnTaskAndThreads) {
+            ASSERT_TRUE(
+                main_thread_ports.SwapExceptionPorts(EXC_MASK_CRASH,
+                                                     local_port,
+                                                     EXCEPTION_STATE,
+                                                     MACHINE_THREAD_STATE,
+                                                     &old_handlers));
+
+            ASSERT_TRUE(
+                other_thread_ports.SwapExceptionPorts(EXC_MASK_CRASH,
+                                                      local_port,
+                                                      EXCEPTION_STATE_IDENTITY,
+                                                      MACHINE_THREAD_STATE,
+                                                      &old_handlers));
+          }
+          break;
+        }
+
+        default: {
+          NOTREACHED();
+        }
       }
     }
 
@@ -468,6 +571,7 @@ class TestExceptionPorts : public MachMultiprocess,
     child.Run();
   }
 
+  SetOrSwap set_or_swap_;
   SetOn set_on_;
   SetType set_type_;
   WhoCrashes who_crashes_;
@@ -479,15 +583,16 @@ class TestExceptionPorts : public MachMultiprocess,
 };
 
 TEST(ExceptionPorts, TaskExceptionPorts_SetInProcess_NoCrash) {
-  TestExceptionPorts test_exception_ports(
-      TestExceptionPorts::kSetOnTaskOnly,
-      TestExceptionPorts::kSetInProcess,
-      TestExceptionPorts::kNobodyCrashes);
+  TestExceptionPorts test_exception_ports(TestExceptionPorts::kSetExceptionPort,
+                                          TestExceptionPorts::kSetOnTaskOnly,
+                                          TestExceptionPorts::kSetInProcess,
+                                          TestExceptionPorts::kNobodyCrashes);
   test_exception_ports.Run();
 }
 
 TEST(ExceptionPorts, TaskExceptionPorts_SetInProcess_MainThreadCrash) {
   TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSetExceptionPort,
       TestExceptionPorts::kSetOnTaskOnly,
       TestExceptionPorts::kSetInProcess,
       TestExceptionPorts::kMainThreadCrashes);
@@ -496,6 +601,7 @@ TEST(ExceptionPorts, TaskExceptionPorts_SetInProcess_MainThreadCrash) {
 
 TEST(ExceptionPorts, TaskExceptionPorts_SetInProcess_OtherThreadCrash) {
   TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSetExceptionPort,
       TestExceptionPorts::kSetOnTaskOnly,
       TestExceptionPorts::kSetInProcess,
       TestExceptionPorts::kOtherThreadCrashes);
@@ -504,6 +610,7 @@ TEST(ExceptionPorts, TaskExceptionPorts_SetInProcess_OtherThreadCrash) {
 
 TEST(ExceptionPorts, TaskAndThreadExceptionPorts_SetInProcess_NoCrash) {
   TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSetExceptionPort,
       TestExceptionPorts::kSetOnTaskAndThreads,
       TestExceptionPorts::kSetInProcess,
       TestExceptionPorts::kNobodyCrashes);
@@ -512,6 +619,7 @@ TEST(ExceptionPorts, TaskAndThreadExceptionPorts_SetInProcess_NoCrash) {
 
 TEST(ExceptionPorts, TaskAndThreadExceptionPorts_SetInProcess_MainThreadCrash) {
   TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSetExceptionPort,
       TestExceptionPorts::kSetOnTaskAndThreads,
       TestExceptionPorts::kSetInProcess,
       TestExceptionPorts::kMainThreadCrashes);
@@ -521,6 +629,7 @@ TEST(ExceptionPorts, TaskAndThreadExceptionPorts_SetInProcess_MainThreadCrash) {
 TEST(ExceptionPorts,
      TaskAndThreadExceptionPorts_SetInProcess_OtherThreadCrash) {
   TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSetExceptionPort,
       TestExceptionPorts::kSetOnTaskAndThreads,
       TestExceptionPorts::kSetInProcess,
       TestExceptionPorts::kOtherThreadCrashes);
@@ -528,15 +637,16 @@ TEST(ExceptionPorts,
 }
 
 TEST(ExceptionPorts, TaskExceptionPorts_SetOutOfProcess_NoCrash) {
-  TestExceptionPorts test_exception_ports(
-      TestExceptionPorts::kSetOnTaskOnly,
-      TestExceptionPorts::kSetOutOfProcess,
-      TestExceptionPorts::kNobodyCrashes);
+  TestExceptionPorts test_exception_ports(TestExceptionPorts::kSetExceptionPort,
+                                          TestExceptionPorts::kSetOnTaskOnly,
+                                          TestExceptionPorts::kSetOutOfProcess,
+                                          TestExceptionPorts::kNobodyCrashes);
   test_exception_ports.Run();
 }
 
 TEST(ExceptionPorts, TaskExceptionPorts_SetOutOfProcess_MainThreadCrash) {
   TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSetExceptionPort,
       TestExceptionPorts::kSetOnTaskOnly,
       TestExceptionPorts::kSetOutOfProcess,
       TestExceptionPorts::kMainThreadCrashes);
@@ -545,6 +655,7 @@ TEST(ExceptionPorts, TaskExceptionPorts_SetOutOfProcess_MainThreadCrash) {
 
 TEST(ExceptionPorts, TaskExceptionPorts_SetOutOfProcess_OtherThreadCrash) {
   TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSetExceptionPort,
       TestExceptionPorts::kSetOnTaskOnly,
       TestExceptionPorts::kSetOutOfProcess,
       TestExceptionPorts::kOtherThreadCrashes);
@@ -553,6 +664,7 @@ TEST(ExceptionPorts, TaskExceptionPorts_SetOutOfProcess_OtherThreadCrash) {
 
 TEST(ExceptionPorts, TaskAndThreadExceptionPorts_SetOutOfProcess_NoCrash) {
   TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSetExceptionPort,
       TestExceptionPorts::kSetOnTaskAndThreads,
       TestExceptionPorts::kSetOutOfProcess,
       TestExceptionPorts::kNobodyCrashes);
@@ -562,6 +674,7 @@ TEST(ExceptionPorts, TaskAndThreadExceptionPorts_SetOutOfProcess_NoCrash) {
 TEST(ExceptionPorts,
      TaskAndThreadExceptionPorts_SetOutOfProcess_MainThreadCrash) {
   TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSetExceptionPort,
       TestExceptionPorts::kSetOnTaskAndThreads,
       TestExceptionPorts::kSetOutOfProcess,
       TestExceptionPorts::kMainThreadCrashes);
@@ -571,6 +684,119 @@ TEST(ExceptionPorts,
 TEST(ExceptionPorts,
      TaskAndThreadExceptionPorts_SetOutOfProcess_OtherThreadCrash) {
   TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSetExceptionPort,
+      TestExceptionPorts::kSetOnTaskAndThreads,
+      TestExceptionPorts::kSetOutOfProcess,
+      TestExceptionPorts::kOtherThreadCrashes);
+  test_exception_ports.Run();
+}
+
+TEST(ExceptionPorts, TaskExceptionPorts_SwapInProcess_NoCrash) {
+  TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSwapExceptionPorts,
+      TestExceptionPorts::kSetOnTaskOnly,
+      TestExceptionPorts::kSetInProcess,
+      TestExceptionPorts::kNobodyCrashes);
+  test_exception_ports.Run();
+}
+
+TEST(ExceptionPorts, TaskExceptionPorts_SwapInProcess_MainThreadCrash) {
+  TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSwapExceptionPorts,
+      TestExceptionPorts::kSetOnTaskOnly,
+      TestExceptionPorts::kSetInProcess,
+      TestExceptionPorts::kMainThreadCrashes);
+  test_exception_ports.Run();
+}
+
+TEST(ExceptionPorts, TaskExceptionPorts_SwapInProcess_OtherThreadCrash) {
+  TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSwapExceptionPorts,
+      TestExceptionPorts::kSetOnTaskOnly,
+      TestExceptionPorts::kSetInProcess,
+      TestExceptionPorts::kOtherThreadCrashes);
+  test_exception_ports.Run();
+}
+
+TEST(ExceptionPorts, TaskAndThreadExceptionPorts_SwapInProcess_NoCrash) {
+  TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSwapExceptionPorts,
+      TestExceptionPorts::kSetOnTaskAndThreads,
+      TestExceptionPorts::kSetInProcess,
+      TestExceptionPorts::kNobodyCrashes);
+  test_exception_ports.Run();
+}
+
+TEST(ExceptionPorts,
+     TaskAndThreadExceptionPorts_SwapInProcess_MainThreadCrash) {
+  TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSwapExceptionPorts,
+      TestExceptionPorts::kSetOnTaskAndThreads,
+      TestExceptionPorts::kSetInProcess,
+      TestExceptionPorts::kMainThreadCrashes);
+  test_exception_ports.Run();
+}
+
+TEST(ExceptionPorts,
+     TaskAndThreadExceptionPorts_SwapInProcess_OtherThreadCrash) {
+  TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSwapExceptionPorts,
+      TestExceptionPorts::kSetOnTaskAndThreads,
+      TestExceptionPorts::kSetInProcess,
+      TestExceptionPorts::kOtherThreadCrashes);
+  test_exception_ports.Run();
+}
+
+TEST(ExceptionPorts, TaskExceptionPorts_SwapOutOfProcess_NoCrash) {
+  TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSwapExceptionPorts,
+      TestExceptionPorts::kSetOnTaskOnly,
+      TestExceptionPorts::kSetOutOfProcess,
+      TestExceptionPorts::kNobodyCrashes);
+  test_exception_ports.Run();
+}
+
+TEST(ExceptionPorts, TaskExceptionPorts_SwapOutOfProcess_MainThreadCrash) {
+  TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSwapExceptionPorts,
+      TestExceptionPorts::kSetOnTaskOnly,
+      TestExceptionPorts::kSetOutOfProcess,
+      TestExceptionPorts::kMainThreadCrashes);
+  test_exception_ports.Run();
+}
+
+TEST(ExceptionPorts, TaskExceptionPorts_SwapOutOfProcess_OtherThreadCrash) {
+  TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSwapExceptionPorts,
+      TestExceptionPorts::kSetOnTaskOnly,
+      TestExceptionPorts::kSetOutOfProcess,
+      TestExceptionPorts::kOtherThreadCrashes);
+  test_exception_ports.Run();
+}
+
+TEST(ExceptionPorts, TaskAndThreadExceptionPorts_SwapOutOfProcess_NoCrash) {
+  TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSwapExceptionPorts,
+      TestExceptionPorts::kSetOnTaskAndThreads,
+      TestExceptionPorts::kSetOutOfProcess,
+      TestExceptionPorts::kNobodyCrashes);
+  test_exception_ports.Run();
+}
+
+TEST(ExceptionPorts,
+     TaskAndThreadExceptionPorts_SwapOutOfProcess_MainThreadCrash) {
+  TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSwapExceptionPorts,
+      TestExceptionPorts::kSetOnTaskAndThreads,
+      TestExceptionPorts::kSetOutOfProcess,
+      TestExceptionPorts::kMainThreadCrashes);
+  test_exception_ports.Run();
+}
+
+TEST(ExceptionPorts,
+     TaskAndThreadExceptionPorts_SwapOutOfProcess_OtherThreadCrash) {
+  TestExceptionPorts test_exception_ports(
+      TestExceptionPorts::kSwapExceptionPorts,
       TestExceptionPorts::kSetOnTaskAndThreads,
       TestExceptionPorts::kSetOutOfProcess,
       TestExceptionPorts::kOtherThreadCrashes);
