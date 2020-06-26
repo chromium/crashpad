@@ -44,6 +44,14 @@ UUID UUIDFromReportPath(const base::FilePath& path) {
   return uuid;
 }
 
+bool AttachmentNameIsOK(const std::string& name) {
+  for (const char c : name) {
+    if (c != '_' && c != '-' && c != '.' && !isalnum(c))
+      return false;
+  }
+  return true;
+}
+
 using OperationStatus = CrashReportDatabase::OperationStatus;
 
 constexpr base::FilePath::CharType kSettings[] =

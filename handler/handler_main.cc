@@ -101,7 +101,7 @@ void Usage(const base::FilePath& me) {
 "Crashpad's exception handler server.\n"
 "\n"
 "      --annotation=KEY=VALUE  set a process annotation in each crash report\n"
-#if defined(OS_WIN) || defined(OS_LINUX)
+#if !defined(OS_FUCHSIA)
 "      --attachment=FILE_PATH  attach specified file to each crash report\n"
 "                              at the time of the crash\n"
 #endif  // OS_WIN || OS_LINUX
@@ -160,9 +160,6 @@ void Usage(const base::FilePath& me) {
 #endif  // OS_LINUX || OS_ANDROID
 "      --url=URL               send crash reports to this Breakpad server URL,\n"
 "                              only if uploads are enabled for the database\n"
-#if !defined(OS_FUCHSIA)
-"      --attachment=NAME=PATH  attach a copy of a file, along with a crash dump\n"
-#endif
 #if defined(OS_CHROMEOS)
 "      --use-cros-crash-reporter\n"
 "                              pass crash reports to /sbin/crash_reporter\n"
@@ -187,7 +184,6 @@ void Usage(const base::FilePath& me) {
 struct Options {
   std::map<std::string, std::string> annotations;
   std::map<std::string, std::string> monitor_self_annotations;
-  std::map<std::string, base::FilePath> attachments;
   std::string url;
   base::FilePath database;
   base::FilePath metrics_dir;
@@ -219,9 +215,9 @@ struct Options {
   base::FilePath minidump_dir_for_tests;
   bool always_allow_feedback = false;
 #endif  // OS_CHROMEOS
-#if defined(OS_WIN) || defined (OS_LINUX)
+#if !defined(OS_FUCHSIA)
   std::vector<base::FilePath> attachments;
-#endif // OS_WIN || OS_LINUX
+#endif // !OS_FUCHSIA
 };
 
 // Splits |key_value| on '=' and inserts the resulting key and value into |map|.
@@ -243,30 +239,6 @@ bool AddKeyValueToMap(std::map<std::string, std::string>* map,
   if (!MapInsertOrReplace(map, key, value, &old_value)) {
     LOG(WARNING) << argument << " has duplicate key " << key
                  << ", discarding value " << old_value;
-  }
-  return true;
-}
-// Overloaded version, to accept base::FilePath as a VALUE.
-bool AddKeyValueToMap(std::map<std::string, base::FilePath>* map,
-                      const std::string& key_value,
-                      const char* argument) {
-  std::string key;
-  std::string raw_value;
-  if (!SplitStringFirst(key_value, '=', &key, &raw_value)) {
-    LOG(ERROR) << argument << " requires NAME=PATH";
-    return false;
-  }
-
-#ifdef OS_WIN
-  base::FilePath value(base::UTF8ToUTF16(raw_value));
-#else
-  base::FilePath value(raw_value);
-#endif
-
-  base::FilePath old_value;
-  if (!MapInsertOrReplace(map, key, value, &old_value)) {
-    LOG(WARNING) << argument << " has duplicate name " << key
-                 << ", discarding value " << old_value.value().c_str();
   }
   return true;
 }
@@ -551,9 +523,9 @@ int HandlerMain(int argc,
     // Long options without short equivalents.
     kOptionLastChar = 255,
     kOptionAnnotation,
-#if defined(OS_WIN) || defined(OS_LINUX)
+#if !defined(OS_FUCHSIA)
     kOptionAttachment,
-#endif  // OS_WIN || OS_LINUX
+#endif  // !OS_FUCHSIA
     kOptionDatabase,
 #if defined(OS_MACOSX)
     kOptionHandshakeFD,
@@ -590,9 +562,6 @@ int HandlerMain(int argc,
     kOptionTraceParentWithException,
 #endif
     kOptionURL,
-#if !defined(OS_FUCHSIA)
-    kOptionAttachment,
-#endif
 #if defined(OS_CHROMEOS)
     kOptionUseCrosCrashReporter,
     kOptionMinidumpDirForTests,
@@ -609,9 +578,9 @@ int HandlerMain(int argc,
 
   static constexpr option long_options[] = {
     {"annotation", required_argument, nullptr, kOptionAnnotation},
-#if defined(OS_WIN) || defined(OS_LINUX)
+#if !defined(OS_FUCHSIA)
     {"attachment", required_argument, nullptr, kOptionAttachment},
-#endif  // OS_WIN || OS_LINUX
+#endif  // !OS_FUCHSIA
     {"database", required_argument, nullptr, kOptionDatabase},
 #if defined(OS_MACOSX)
     {"handshake-fd", required_argument, nullptr, kOptionHandshakeFD},
@@ -675,22 +644,16 @@ int HandlerMain(int argc,
      kOptionTraceParentWithException},
 #endif  // OS_LINUX || OS_ANDROID
     {"url", required_argument, nullptr, kOptionURL},
-#if !defined(OS_FUCHSIA)
-    {"attachment", required_argument, nullptr, kOptionAttachment},
-#endif
 #if defined(OS_CHROMEOS)
     {"use-cros-crash-reporter",
-      no_argument,
-      nullptr,
-      kOptionUseCrosCrashReporter},
+     no_argument,
+     nullptr,
+     kOptionUseCrosCrashReporter},
     {"minidump-dir-for-tests",
-      required_argument,
-      nullptr,
-      kOptionMinidumpDirForTests},
-    {"always-allow-feedback",
-      no_argument,
-      nullptr,
-      kOptionAlwaysAllowFeedback},
+     required_argument,
+     nullptr,
+     kOptionMinidumpDirForTests},
+    {"always-allow-feedback", no_argument, nullptr, kOptionAlwaysAllowFeedback},
 #endif  // OS_CHROMEOS
 #if defined(OS_ANDROID)
     {"write-minidump-to-log", no_argument, nullptr, kOptionWriteMinidumpToLog},
@@ -724,13 +687,13 @@ int HandlerMain(int argc,
         }
         break;
       }
-#if defined(OS_WIN) || defined(OS_LINUX)
+#if !defined(OS_FUCHSIA)
       case kOptionAttachment: {
         options.attachments.push_back(base::FilePath(
             ToolSupport::CommandLineArgumentToFilePathStringType(optarg)));
         break;
       }
-#endif  // OS_WIN || OS_LINUX
+#endif  // !OS_FUCHSIA
       case kOptionDatabase: {
         options.database = base::FilePath(
             ToolSupport::CommandLineArgumentToFilePathStringType(optarg));
@@ -852,14 +815,6 @@ int HandlerMain(int argc,
         options.url = optarg;
         break;
       }
-#if !defined(OS_FUCHSIA)
-      case kOptionAttachment: {
-        if (!AddKeyValueToMap(&options.attachments, optarg, "--attachment")) {
-          return ExitFailure();
-        }
-        break;
-      }
-#endif
 #if defined(OS_CHROMEOS)
       case kOptionUseCrosCrashReporter: {
         options.use_cros_crash_reporter = true;
@@ -1050,9 +1005,9 @@ int HandlerMain(int argc,
       database.get(),
       static_cast<CrashReportUploadThread*>(upload_thread.Get()),
       &options.annotations,
-#if defined(OS_WIN) || defined(OS_LINUX) || defined(OS_MACOSX)
+#if !defined(OS_FUCHSIA)
       &options.attachments,
-#endif // OS_WIN || OS_LINUX || OS_MACOSX
+#endif // !OS_FUCHSIA
 #if defined(OS_ANDROID)
       options.write_minidump_to_database,
       options.write_minidump_to_log,

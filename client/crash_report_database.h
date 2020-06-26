@@ -181,7 +181,7 @@ class CrashReportDatabase {
     friend class CrashReportDatabaseMac;
     friend class CrashReportDatabaseWin;
 
-    bool Initialize(const base::FilePath& path, CrashReportDatabase* database);
+    bool Initialize(const base::FilePath path, CrashReportDatabase* database);
     void InitializeAttachments();
 
     std::unique_ptr<FileReader> reader_;
@@ -405,8 +405,6 @@ class CrashReportDatabase {
 
  protected:
   CrashReportDatabase() {}
-
-  static bool AttachmentNameIsOK(const std::string& name);
 
  private:
   //! \brief Adjusts a crash report record’s metadata to account for an upload

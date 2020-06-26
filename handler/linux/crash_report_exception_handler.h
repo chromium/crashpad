@@ -18,7 +18,6 @@
 #include <map>
 #include <string>
 
-#include "base/files/file_path.h"
 #include "base/macros.h"
 #include "client/crash_report_database.h"
 #include "handler/crash_report_upload_thread.h"

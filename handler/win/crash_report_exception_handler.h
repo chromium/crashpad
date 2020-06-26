@@ -20,7 +20,6 @@
 #include <map>
 #include <string>
 
-#include "base/files/file_path.h"
 #include "base/macros.h"
 #include "handler/user_stream_data_source.h"
 #include "util/win/exception_handler_server.h"
