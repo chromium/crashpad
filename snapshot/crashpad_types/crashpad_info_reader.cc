@@ -20,7 +20,7 @@
 #include "client/crashpad_info.h"
 #include "util/misc/as_underlying_type.h"
 
-#if defined(OS_WINDOWS)
+#if defined(OS_WIN)
 #include "util/win/traits.h"
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
 #include "util/linux/traits.h"
