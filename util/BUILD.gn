@@ -544,6 +544,7 @@ static_library("util") {
       "fuchsia/koid_utilities.h",
       "fuchsia/scoped_task_suspend.cc",
       "fuchsia/scoped_task_suspend.h",
+      "fuchsia/traits.h",
       "misc/capture_context_fuchsia.S",
       "misc/paths_fuchsia.cc",
       "process/process_memory_fuchsia.cc",
