@@ -43,7 +43,7 @@ source_set("google_test_runner") {
     "../../test/ios:google_test_runner_shared_headers",
     "../../third_party/mini_chromium:base",
   ]
-  libs = [ "UIKit.framework" ]
+  frameworks = [ "UIKit.framework" ]
 }
 
 source_set("google_test_setup") {
@@ -59,7 +59,7 @@ source_set("google_test_setup") {
     "../../third_party/googletest:googletest",
     "../../third_party/mini_chromium:base",
   ]
-  libs = [ "UIKit.framework" ]
+  frameworks = [ "UIKit.framework" ]
 }
 
 source_set("xcuitests") {

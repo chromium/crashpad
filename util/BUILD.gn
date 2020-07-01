@@ -574,8 +574,8 @@ static_library("util") {
   }
 
   if (crashpad_is_mac) {
-    libs = [
-      "bsm",
+    libs = [ "bsm" ]
+    frameworks = [
       "CoreFoundation.framework",
       "Foundation.framework",
       "IOKit.framework",
@@ -828,7 +828,7 @@ source_set("util_test") {
   }
 
   if (crashpad_is_mac) {
-    libs = [ "Foundation.framework" ]
+    frameworks = [ "Foundation.framework" ]
   }
 
   if (crashpad_is_ios) {
