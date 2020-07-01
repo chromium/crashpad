@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.12)
 project(crashpad LANGUAGES C CXX)
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set(LINUX TRUE)
+endif()
+
 set(CRASHPAD_MAIN_PROJECT OFF)
 if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
     set(CRASHPAD_MAIN_PROJECT ON)
@@ -20,6 +24,13 @@ if(CRASHPAD_ZLIB_SYSTEM)
     find_package(ZLIB REQUIRED)
 endif()
 
+if(LINUX OR ANDROID)
+    find_package(OpenSSL)
+    if(OPENSSL_FOUND)
+        set(CRASHPAD_USE_BORINGSSL ON)
+    endif()
+endif()
+
 include(GNUInstallDirs)
 set(CMAKE_INSTALL_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/crashpad")
 
@@ -37,10 +48,6 @@ function(crashpad_install_dev)
         install(${ARGN})
     endif()
 endfunction()
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    set(LINUX TRUE)
-endif()
 
 if(WIN32)
     enable_language(ASM_MASM)

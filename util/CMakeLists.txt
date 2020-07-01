@@ -400,15 +400,20 @@ if(LINUX)
     target_link_libraries(crashpad_util PRIVATE pthread)
 endif()
 
+if(CRASHPAD_USE_BORINGSSL)
+    target_compile_definitions(crashpad_util PRIVATE CRASHPAD_USE_BORINGSSL)
+    target_link_libraries(crashpad_util PRIVATE OpenSSL::SSL OpenSSL::Crypto)
+endif()
+
 if(WIN32)
     target_link_libraries(crashpad_util PRIVATE user32 version winhttp)
     if(MSVC)
         target_compile_options(crashpad_util PRIVATE "/wd4201")
     elseif(MINGW)
-        target_compile_options(crashpad_util PRIVATE 
+        target_compile_options(crashpad_util PRIVATE
             $<$<COMPILE_LANGUAGE:CXX>:-municode>
         )
-        target_compile_definitions(crashpad_util PRIVATE 
+        target_compile_definitions(crashpad_util PRIVATE
             "__STDC_VERSION__=199901L"
             $<$<COMPILE_LANGUAGE:ASM_MASM>:__MINGW32__>
         )
@@ -420,12 +425,14 @@ if(WIN32)
             "-include memory"
         )
     endif()
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        target_compile_options(crashpad_util PRIVATE 
-            $<$<COMPILE_LANGUAGE:CXX>:-Wno-multichar>
-        )
-    endif()
 endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(crashpad_util PRIVATE
+        $<$<COMPILE_LANGUAGE:CXX>:-Wno-multichar>
+    )
+endif()
+
 
 set_property(TARGET crashpad_util PROPERTY EXPORT_NAME util)
 add_library(crashpad::util ALIAS crashpad_util)
