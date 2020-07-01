@@ -14,7 +14,7 @@
 
 #include "snapshot/mac/thread_snapshot_mac.h"
 
-#include "base/logging.h"
+#include "base/check_op.h"
 #include "snapshot/mac/cpu_context_mac.h"
 #include "snapshot/mac/process_reader_mac.h"
 

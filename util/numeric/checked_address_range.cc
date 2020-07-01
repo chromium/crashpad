@@ -14,6 +14,7 @@
 
 #include "util/numeric/checked_address_range.h"
 
+#include "base/check_op.h"
 #include "base/format_macros.h"
 #include "base/strings/stringprintf.h"
 

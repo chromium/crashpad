@@ -40,8 +40,8 @@ namespace {
 
 // Runs /usr/bin/sw_vers with a single argument, |argument|, and places the
 // command’s standard output into |output| after stripping the trailing newline.
-// Fatal gtest assertions report tool failures, which the caller should check
-// for with ASSERT_NO_FATAL_FAILURE() or testing::Test::HasFatalFailure().
+// Fatal Google Test assertions report tool failures, which the caller should
+// check for with ASSERT_NO_FATAL_FAILURE() or testing::Test::HasFatalFailure().
 void SwVers(NSString* argument, std::string* output) {
   @autoreleasepool {
     base::scoped_nsobject<NSPipe> pipe([[NSPipe alloc] init]);

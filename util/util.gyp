@@ -37,6 +37,8 @@
         'file/directory_reader.h',
         'file/directory_reader_posix.cc',
         'file/directory_reader_win.cc',
+        'file/file_helper.cc',
+        'file/file_helper.h',
         'file/file_io.cc',
         'file/file_io.h',
         'file/file_io_posix.cc',

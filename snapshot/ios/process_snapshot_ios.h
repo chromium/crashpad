@@ -44,7 +44,20 @@ class ProcessSnapshotIOS final : public ProcessSnapshot {
   //!     an appropriate message logged.
   bool Initialize(const IOSSystemDataCollector& system_data);
 
-  void SetException(const siginfo_t* siginfo, const ucontext_t* context);
+  //! \brief Initialize exception information from a signal.
+  void SetExceptionFromSignal(const siginfo_t* siginfo,
+                              const ucontext_t* context);
+
+  //! \brief Initialize exception information from a Mach exception.
+  void SetExceptionFromMachException(exception_behavior_t behavior,
+                                     thread_t exception_thread,
+                                     exception_type_t exception,
+                                     const mach_exception_data_type_t* code,
+                                     mach_msg_type_number_t code_count,
+                                     thread_state_flavor_t flavor,
+                                     ConstThreadState old_state,
+                                     mach_msg_type_number_t old_state_count);
+
   //! \brief Sets the value to be returned by ClientID().
   //!
   //! On iOS, the client ID is under the control of the snapshot producer,

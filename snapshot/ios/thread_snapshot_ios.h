@@ -33,7 +33,7 @@ class ThreadSnapshotIOS final : public ThreadSnapshot {
 
   //! \brief Initializes the object.
   //!
-  //! \brief thread The mach thread used to initialize this object.
+  //! \brief thread The Mach thread used to initialize this object.
   bool Initialize(thread_t thread);
 
   //! \brief Returns an array of thread_t threads.

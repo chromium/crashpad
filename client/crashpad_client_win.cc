@@ -274,8 +274,13 @@ void AddUint64(std::vector<unsigned char>* data_vector, uint64_t data) {
 //! \param[out] pipe_handle The first pipe instance corresponding for the pipe.
 void CreatePipe(std::wstring* pipe_name, ScopedFileHANDLE* pipe_instance) {
   int tries = 5;
-  std::string pipe_name_base =
-      base::StringPrintf("\\\\.\\pipe\\crashpad_%lu_", GetCurrentProcessId());
+  std::string pipe_name_base = base::StringPrintf(
+#if defined(WINDOWS_UWP)
+      "\\\\.\\pipe\\LOCAL\\crashpad_%lu_",
+#else
+      "\\\\.\\pipe\\crashpad_%lu_",
+#endif
+      GetCurrentProcessId());
   do {
     *pipe_name = base::UTF8ToUTF16(pipe_name_base + RandomString());
 
@@ -305,6 +310,7 @@ struct BackgroundHandlerStartThreadData {
       const std::string& url,
       const std::map<std::string, std::string>& annotations,
       const std::vector<std::string>& arguments,
+      const std::vector<base::FilePath>& attachments,
       const std::wstring& ipc_pipe,
       ScopedFileHANDLE ipc_pipe_handle)
       : handler(handler),
@@ -313,6 +319,7 @@ struct BackgroundHandlerStartThreadData {
         url(url),
         annotations(annotations),
         arguments(arguments),
+        attachments(attachments),
         ipc_pipe(ipc_pipe),
         ipc_pipe_handle(std::move(ipc_pipe_handle)) {}
 
@@ -322,6 +329,7 @@ struct BackgroundHandlerStartThreadData {
   std::string url;
   std::map<std::string, std::string> annotations;
   std::vector<std::string> arguments;
+  std::vector<base::FilePath> attachments;
   std::wstring ipc_pipe;
   ScopedFileHANDLE ipc_pipe_handle;
 };
@@ -375,6 +383,11 @@ bool StartHandlerProcess(
     AppendCommandLineArgument(
         FormatArgumentString("annotation",
                              base::UTF8ToUTF16(kv.first + '=' + kv.second)),
+        &command_line);
+  }
+  for (const base::FilePath& attachment : data->attachments) {
+    AppendCommandLineArgument(
+        FormatArgumentString("attachment", attachment.value()),
         &command_line);
   }
 
@@ -594,7 +607,8 @@ bool CrashpadClient::StartHandler(
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments,
     bool restartable,
-    bool asynchronous_start) {
+    bool asynchronous_start,
+    const std::vector<base::FilePath>& attachments) {
   DCHECK(ipc_pipe_.empty());
 
   // Both the pipe and the signalling events have to be created on the main
@@ -624,6 +638,7 @@ bool CrashpadClient::StartHandler(
                                                    url,
                                                    annotations,
                                                    arguments,
+                                                   attachments,
                                                    ipc_pipe_,
                                                    std::move(ipc_pipe_handle));
 
@@ -652,33 +667,6 @@ bool CrashpadClient::StartHandler(
     return StartHandlerProcess(
         std::unique_ptr<BackgroundHandlerStartThreadData>(data));
   }
-}
-
-bool CrashpadClient::StartHandlerWithAttachments(
-    const base::FilePath& handler,
-    const base::FilePath& database,
-    const base::FilePath& metrics_dir,
-    const std::string& url,
-    const std::map<std::string, std::string>& annotations,
-    const std::map<std::string, base::FilePath>& fileAttachments,
-    const std::vector<std::string>& arguments,
-    bool restartable,
-    bool asynchronous_start) {
-  std::vector<std::string> updated_arguments = arguments;
-  for (const auto& kv : fileAttachments) {
-    std::string attachmentArg =
-        "--attachment=" + kv.first + "=" + base::UTF16ToUTF8(kv.second.value());
-    updated_arguments.push_back(attachmentArg);
-  }
-
-  return StartHandler(handler,
-                      database,
-                      metrics_dir,
-                      url,
-                      annotations,
-                      updated_arguments,
-                      restartable,
-                      asynchronous_start);
 }
 
 bool CrashpadClient::SetHandlerIPCPipe(const std::wstring& ipc_pipe) {

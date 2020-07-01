@@ -16,6 +16,7 @@
 
 #include <utility>
 
+#include "base/notreached.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "util/file/file_io.h"

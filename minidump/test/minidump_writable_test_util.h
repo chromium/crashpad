@@ -49,7 +49,7 @@ namespace test {
 //!
 //! \return If the size of \a location is agrees with \a expected_size, and if
 //!     \a location is within the range of \a file_contents, returns a pointer
-//!     into \a file_contents at offset \a rva. Otherwise, raises a gtest
+//!     into \a file_contents at offset \a rva. Otherwise, raises a Google Test
 //!     assertion failure and returns `nullptr`.
 //!
 //! Do not call this function. Use the typed version,
@@ -159,7 +159,7 @@ const T* TMinidumpWritableAtLocationDescriptor(
 //! \return If the size of \a location is at least as big as the size of the
 //!     requested object, and if \a location is within the range of \a
 //!     file_contents, returns a pointer into \a file_contents at offset \a rva.
-//!     Otherwise, raises a gtest assertion failure and returns `nullptr`.
+//!     Otherwise, raises a Google Test assertion failure and returns `nullptr`.
 //!
 //! \sa MinidumpWritableAtRVA()
 template <typename T>
@@ -259,8 +259,8 @@ MinidumpWritableAtLocationDescriptor<MinidumpAnnotationList>(
 //!
 //! \return If \a rva plus the size of an object of type \a T is within the
 //!     range of \a file_contents, returns a pointer into \a file_contents at
-//!     offset \a rva. Otherwise, raises a gtest assertion failure and returns
-//!     `nullptr`.
+//!     offset \a rva. Otherwise, raises a Google Test assertion failure and
+//!     returns `nullptr`.
 //!
 //! \sa MinidumpWritableAtLocationDescriptor<>()
 template <typename T>

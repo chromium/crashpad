@@ -5,6 +5,7 @@ if(APPLE)
         mac/AvailabilityMacros.h
         mac/kern/exc_resource.h
         mac/mach-o/loader.h
+        mac/mach/i386/thread_state.h
         mac/mach/mach.h
         mac/sys/resource.h
     )
@@ -14,6 +15,16 @@ else()
         non_mac/mach/mach.h
         non_mac/mach/machine.h
         non_mac/mach/vm_prot.h
+    )
+endif()
+
+if(IOS)
+    list(APPEND COMPAT_SOURCES
+        ios/mach/exc.defs
+        ios/mach/mach_exc.defs
+        ios/mach/mach_types.defs
+        ios/mach/machine/machine_types.defs
+        ios/mach/std_types.defs
     )
 endif()
 
@@ -111,8 +122,14 @@ else()
     target_include_directories(crashpad_compat ${TI_TYPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/non_mac>")
 endif()
 
+if(IOS)
+    target_include_directories(crashpad_compat ${TI_TYPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/ios>")
+endif()
+
 if(LINUX OR ANDROID)
     target_include_directories(crashpad_compat ${TI_TYPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/linux>")
+else()
+    target_include_directories(crashpad_compat ${TI_TYPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/non_elf>")
 endif()
 
 if(ANDROID)

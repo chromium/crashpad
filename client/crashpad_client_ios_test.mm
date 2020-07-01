@@ -15,39 +15,45 @@
 #include "client/crashpad_client.h"
 
 #import <Foundation/Foundation.h>
+
 #include <vector>
 
 #include "gtest/gtest.h"
+#include "testing/platform_test.h"
 
 namespace crashpad {
 namespace test {
 namespace {
 
-// TODO(justincohen): This is a placeholder.
-TEST(CrashpadIOSClient, DumpWithoutCrash) {
+using CrashpadIOSClient = PlatformTest;
+
+TEST_F(CrashpadIOSClient, DumpWithoutCrash) {
   CrashpadClient client;
   client.StartCrashpadInProcessHandler();
-  client.DumpWithoutCrash();
+
+  NativeCPUContext context;
+  CaptureContext(&context);
+  client.DumpWithoutCrash(&context);
 }
 
-// This test is covered by a similar XCUITest, but for development purposes
-// it's sometimes easier and faster to run as a gtest.  However, there's no
-// way to correctly run this as a gtest. Leave the test here, disabled, for use
+// This test is covered by a similar XCUITest, but for development purposes it's
+// sometimes easier and faster to run in Google Test.  However, there's no way
+// to correctly run this in Google Test. Leave the test here, disabled, for use
 // during development only.
-TEST(CrashpadIOSClient, DISABLED_ThrowNSException) {
+TEST_F(CrashpadIOSClient, DISABLED_ThrowNSException) {
   CrashpadClient client;
   client.StartCrashpadInProcessHandler();
-  [NSException raise:@"GtestNSException" format:@"ThrowException"];
+  [NSException raise:@"GoogleTestNSException" format:@"ThrowException"];
 }
 
-// This test is covered by a similar XCUITest, but for development purposes
-// it's sometimes easier and faster to run as a gtest.  However, there's no
-// way to correctly run this as a gtest. Leave the test here, disabled, for use
+// This test is covered by a similar XCUITest, but for development purposes it's
+// sometimes easier and faster to run in Google Test.  However, there's no way
+// to correctly run this in Google Test. Leave the test here, disabled, for use
 // during development only.
-TEST(CrashpadIOSClient, DISABLED_ThrowException) {
+TEST_F(CrashpadIOSClient, DISABLED_ThrowException) {
   CrashpadClient client;
   client.StartCrashpadInProcessHandler();
-  std::vector<int> empty_vector = {};
+  std::vector<int> empty_vector;
   empty_vector.at(42);
 }
 

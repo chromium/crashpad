@@ -17,11 +17,12 @@
   # by the crashpad_standalone GYP variable. It may have these values:
   #   standalone
   #     A “standalone” Crashpad build, where the dependencies are in the
-  #     Crashpad tree. third_party/mini_chromium and third_party/gtest provide
-  #     the base and gtest libraries.
+  #     Crashpad tree. third_party/mini_chromium and third_party/googletest
+  #     provide the base and Google Test libraries.
   #   external
   #     A build with external dependencies. mini_chromium provides the base
-  #     library, but it’s located outside of the Crashpad tree, as is gtest.
+  #     library, but it’s located outside of the Crashpad tree, as is Google
+  #     Test.
   #
   # In order for Crashpad’s .gyp files to reference the correct versions
   # depending on how dependencies are being provided, include this .gypi file
@@ -29,7 +30,7 @@
   #
   # Note that Crashpad’s in-Chromium build uses GN instead of GYP, and
   # Chromium’s GN build configures Crashpad to use Chromium’s own base library
-  # and its copy of the gtest library.
+  # and its copy of the Google Test library.
 
   'variables': {
     # When with external dependencies, build/gyp_crashpad.py sets

@@ -15,10 +15,10 @@
 #include "util/mach/mach_extensions.h"
 
 #include "base/mac/scoped_mach_port.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/mac/mach_errors.h"
 #include "util/mac/mac_util.h"
-#include "util/misc/random_string.h"
 
 namespace crashpad {
 namespace test {
@@ -80,6 +80,11 @@ TEST(MachExtensions, ExcMaskAll) {
   EXPECT_FALSE(exc_mask_all & EXC_MASK_CRASH);
   EXPECT_FALSE(exc_mask_all & EXC_MASK_CORPSE_NOTIFY);
 
+#if defined(OS_IOS)
+  // Assume at least iOS 7 (≅ OS X 10.9).
+  EXPECT_TRUE(exc_mask_all & EXC_MASK_RESOURCE);
+  EXPECT_TRUE(exc_mask_all & EXC_MASK_GUARD);
+#else  // OS_IOS
   const int mac_os_x_minor_version = MacOSXMinorVersion();
   if (mac_os_x_minor_version >= 8) {
     EXPECT_TRUE(exc_mask_all & EXC_MASK_RESOURCE);
@@ -92,6 +97,7 @@ TEST(MachExtensions, ExcMaskAll) {
   } else {
     EXPECT_FALSE(exc_mask_all & EXC_MASK_GUARD);
   }
+#endif  // OS_IOS
 
   // Bit 0 should not be set.
   EXPECT_FALSE(ExcMaskAll() & 1);
@@ -106,6 +112,12 @@ TEST(MachExtensions, ExcMaskValid) {
 
   EXPECT_TRUE(exc_mask_valid & EXC_MASK_CRASH);
 
+#if defined(OS_IOS)
+  // Assume at least iOS 9 (≅ OS X 10.11).
+  EXPECT_TRUE(exc_mask_valid & EXC_MASK_RESOURCE);
+  EXPECT_TRUE(exc_mask_valid & EXC_MASK_GUARD);
+  EXPECT_TRUE(exc_mask_valid & EXC_MASK_CORPSE_NOTIFY);
+#else  // OS_IOS
   const int mac_os_x_minor_version = MacOSXMinorVersion();
   if (mac_os_x_minor_version >= 8) {
     EXPECT_TRUE(exc_mask_valid & EXC_MASK_RESOURCE);
@@ -124,54 +136,13 @@ TEST(MachExtensions, ExcMaskValid) {
   } else {
     EXPECT_FALSE(exc_mask_valid & EXC_MASK_CORPSE_NOTIFY);
   }
+#endif  // OS_IOS
 
   // Bit 0 should not be set.
   EXPECT_FALSE(ExcMaskValid() & 1);
 
   // There must be bits set in ExcMaskValid() that are not set in ExcMaskAll().
   EXPECT_TRUE(ExcMaskValid() & ~ExcMaskAll());
-}
-
-TEST(MachExtensions, BootstrapCheckInAndLookUp) {
-  // This should always exist.
-  base::mac::ScopedMachSendRight
-      report_crash(BootstrapLookUp("com.apple.ReportCrash"));
-  EXPECT_NE(report_crash, kMachPortNull);
-
-  std::string service_name = "org.chromium.crashpad.test.bootstrap_check_in.";
-  service_name.append(RandomString());
-
-  {
-    // The new service hasn’t checked in yet, so this should fail.
-    base::mac::ScopedMachSendRight send(BootstrapLookUp(service_name));
-    EXPECT_EQ(send, kMachPortNull);
-
-    // Check it in.
-    base::mac::ScopedMachReceiveRight receive(BootstrapCheckIn(service_name));
-    EXPECT_NE(receive, kMachPortNull);
-
-    // Now it should be possible to look up the new service.
-    send = BootstrapLookUp(service_name);
-    EXPECT_NE(send, kMachPortNull);
-
-    // It shouldn’t be possible to check the service in while it’s active.
-    base::mac::ScopedMachReceiveRight receive_2(BootstrapCheckIn(service_name));
-    EXPECT_EQ(receive_2, kMachPortNull);
-  }
-
-  // The new service should be gone now.
-  base::mac::ScopedMachSendRight send(BootstrapLookUp(service_name));
-  EXPECT_EQ(send, kMachPortNull);
-
-  // It should be possible to check it in again.
-  base::mac::ScopedMachReceiveRight receive(BootstrapCheckIn(service_name));
-  EXPECT_NE(receive, kMachPortNull);
-}
-
-TEST(MachExtensions, SystemCrashReporterHandler) {
-  base::mac::ScopedMachSendRight
-      system_crash_reporter_handler(SystemCrashReporterHandler());
-  EXPECT_TRUE(system_crash_reporter_handler.is_valid());
 }
 
 }  // namespace

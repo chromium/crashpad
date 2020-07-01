@@ -439,7 +439,7 @@ void ProcessReaderLinux::InitializeModules() {
       if (parsed_exe->Initialize(
               range,
               mapping->range.Base(),
-              /* verbose= */ possible_mappings->Count() == 1) &&
+              /* verbose= */ possible_mappings->Count() == 0) &&
           parsed_exe->GetProgramHeaderTableAddress() == phdrs) {
         exe_mapping = mapping;
         exe_reader = std::move(parsed_exe);
@@ -508,7 +508,7 @@ void ProcessReaderLinux::InitializeModules() {
         if (parsed_module->Initialize(
                 range,
                 mapping->range.Base(),
-                /* verbose= */ possible_mappings->Count() == 1) &&
+                /* verbose= */ possible_mappings->Count() == 0) &&
             parsed_module->GetDynamicArrayAddress(&dynamic_address) &&
             dynamic_address == entry.dynamic_array) {
           module_mapping = mapping;

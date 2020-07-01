@@ -71,6 +71,14 @@ constexpr char kXattrIsUploadExplicitlyRequested[] =
 
 constexpr char kXattrDatabaseInitialized[] = "initialized";
 
+bool AttachmentNameIsOK(const std::string& name) {
+  for (const char c : name) {
+    if (c != '_' && c != '-' && c != '.' && !isalnum(c))
+      return false;
+  }
+  return true;
+}
+
 // Ensures that the node at |path| is a directory. If the |path| refers to a
 // file, rather than a directory, returns false. Otherwise, returns true,
 // indicating that |path| already was a directory.

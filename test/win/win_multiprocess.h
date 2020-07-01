@@ -160,8 +160,8 @@ class WinMultiprocess {
 
   //! \brief The subclass-provided parent routine.
   //!
-  //! Test failures should be reported via gtest: `EXPECT_*()`, `ASSERT_*()`,
-  //! `FAIL()`, etc.
+  //! Test failures should be reported via Google Test: `EXPECT_*()`,
+  //! `ASSERT_*()`, `FAIL()`, etc.
   //!
   //! This method need not use `WaitForSingleObject()`-family call to wait for
   //! the child process to exit, as this is handled by this class.
@@ -185,8 +185,8 @@ class WinMultiprocess {
 
   //! \brief The subclass-provided child routine.
   //!
-  //! Test failures should be reported via gtest: `EXPECT_*()`, `ASSERT_*()`,
-  //! `FAIL()`, etc.
+  //! Test failures should be reported via Google Test: `EXPECT_*()`,
+  //! `ASSERT_*()`, `FAIL()`, etc.
   //!
   //! Subclasses must implement this method to define how the child operates.
   //! Subclasses may exit with a failure status by using `LOG(FATAL)`,

@@ -20,7 +20,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include "base/logging.h"
+#include "base/check_op.h"
+#include "base/notreached.h"
 #include "client/annotation.h"
 #include "client/annotation_list.h"
 #include "client/crash_report_database.h"
@@ -88,14 +89,16 @@ bool HandleCrashSuccessfully(int, siginfo_t*, ucontext_t*) {
 bool InstallHandler(CrashpadClient* client,
                     bool start_at_crash,
                     const base::FilePath& handler_path,
-                    const base::FilePath& database_path) {
+                    const base::FilePath& database_path,
+                    const std::vector<base::FilePath>& attachments) {
   return start_at_crash
              ? client->StartHandlerAtCrash(handler_path,
                                            database_path,
                                            base::FilePath(),
                                            "",
                                            std::map<std::string, std::string>(),
-                                           std::vector<std::string>())
+                                           std::vector<std::string>(),
+                                           attachments)
              : client->StartHandler(handler_path,
                                     database_path,
                                     base::FilePath(),
@@ -103,15 +106,27 @@ bool InstallHandler(CrashpadClient* client,
                                     std::map<std::string, std::string>(),
                                     std::vector<std::string>(),
                                     false,
-                                    false);
+                                    false,
+                                    attachments);
 }
 
 constexpr char kTestAnnotationName[] = "name_of_annotation";
 constexpr char kTestAnnotationValue[] = "value_of_annotation";
+constexpr char kTestAttachmentName[] = "test_attachment";
+constexpr char kTestAttachmentContent[] = "attachment_content";
 
 #if defined(OS_ANDROID)
 constexpr char kTestAbortMessage[] = "test abort message";
 #endif
+
+void ValidateAttachment(const CrashReportDatabase::UploadReport* report) {
+  auto attachments = report->GetAttachments();
+  ASSERT_EQ(attachments.size(), 1u);
+  char buf[sizeof(kTestAttachmentContent)];
+  attachments.at(kTestAttachmentName)->Read(buf, sizeof(buf));
+  ASSERT_EQ(memcmp(kTestAttachmentContent, buf, sizeof(kTestAttachmentContent)),
+            0);
+}
 
 void ValidateDump(const CrashReportDatabase::UploadReport* report) {
   ProcessSnapshotMinidump minidump_snapshot;
@@ -128,6 +143,7 @@ void ValidateDump(const CrashReportDatabase::UploadReport* report) {
     EXPECT_EQ(kTestAbortMessage, abort_message->second);
   }
 #endif
+  ValidateAttachment(report);
 
   for (const ModuleSnapshot* module : minidump_snapshot.Modules()) {
     for (const AnnotationSnapshot& annotation : module->AnnotationObjects()) {
@@ -168,11 +184,15 @@ CRASHPAD_CHILD_TEST_MAIN(StartHandlerForSelfTestChild) {
   static StringAnnotation<32> test_annotation(kTestAnnotationName);
   test_annotation.Set(kTestAnnotationValue);
 
+  const std::vector<base::FilePath> attachments = {
+      base::FilePath(kTestAttachmentName)};
+
   crashpad::CrashpadClient client;
   if (!InstallHandler(&client,
                       options.start_handler_at_crash,
                       handler_path,
-                      base::FilePath(temp_dir))) {
+                      base::FilePath(temp_dir),
+                      attachments)) {
     return EXIT_FAILURE;
   }
 
@@ -208,6 +228,16 @@ class StartHandlerForSelfInChildTest : public MultiprocessExec {
 
  private:
   void MultiprocessParent() override {
+    FileWriter writer;
+    base::FilePath test_attachment_path = base::FilePath(kTestAttachmentName);
+    bool is_created = writer.Open(test_attachment_path,
+                                  FileWriteMode::kCreateOrFail,
+                                  FilePermissions::kOwnerOnly);
+    ASSERT_TRUE(is_created);
+    ScopedRemoveFile attachment_remover(test_attachment_path);
+    writer.Write(kTestAttachmentContent, sizeof(kTestAttachmentContent));
+    writer.Close();
+
     ScopedTempDir temp_dir;
     VMSize temp_dir_length = temp_dir.path().value().size();
     ASSERT_TRUE(LoggingWriteFile(

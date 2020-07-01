@@ -19,7 +19,7 @@
 #include <algorithm>
 #include <limits>
 
-#include "base/logging.h"
+#include "base/check_op.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/stl_util.h"
 

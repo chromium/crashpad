@@ -14,7 +14,7 @@
 
 #include "util/win/get_function.h"
 
-#include "base/logging.h"
+#include "base/check.h"
 #include "base/strings/utf_string_conversions.h"
 
 namespace crashpad {

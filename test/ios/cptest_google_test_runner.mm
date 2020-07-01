@@ -15,7 +15,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-#include "base/logging.h"
+#include "base/check.h"
 #import "test/ios/cptest_google_test_runner_delegate.h"
 
 #if !defined(__has_feature) || !__has_feature(objc_arc)

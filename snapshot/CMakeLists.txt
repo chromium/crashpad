@@ -47,7 +47,7 @@ add_library(crashpad_snapshot STATIC
 )
 
 
-if(APPLE)
+if(APPLE AND NOT IOS)
     target_sources(crashpad_snapshot PRIVATE
         posix/timezone.cc
         posix/timezone.h
@@ -79,6 +79,25 @@ if(APPLE)
         mac/system_snapshot_mac.h
         mac/thread_snapshot_mac.cc
         mac/thread_snapshot_mac.h
+    )
+elseif(IOS)
+    target_sources(crashpad_snapshot PRIVATE
+        posix/timezone.cc
+        posix/timezone.h
+        ios/exception_snapshot_ios.cc
+        ios/exception_snapshot_ios.h
+        ios/memory_snapshot_ios.cc
+        ios/memory_snapshot_ios.h
+        ios/module_snapshot_ios.cc
+        ios/module_snapshot_ios.h
+        ios/process_snapshot_ios.cc
+        ios/process_snapshot_ios.h
+        ios/system_snapshot_ios.cc
+        ios/system_snapshot_ios.h
+        ios/thread_snapshot_ios.cc
+        ios/thread_snapshot_ios.h
+        mac/cpu_context_mac.cc
+        mac/cpu_context_mac.h
     )
 else()
     target_sources(crashpad_snapshot PRIVATE

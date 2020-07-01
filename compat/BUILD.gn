@@ -17,10 +17,14 @@ import("../build/crashpad_buildconfig.gni")
 config("compat_config") {
   include_dirs = []
 
-  if (crashpad_is_mac) {
+  if (crashpad_is_mac || crashpad_is_ios) {
     include_dirs += [ "mac" ]
-  } else if (!crashpad_is_ios) {
+  } else {
     include_dirs += [ "non_mac" ]
+  }
+
+  if (crashpad_is_ios) {
+    include_dirs += [ "ios" ]
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
@@ -59,20 +63,31 @@ template("compat_target") {
 compat_target("compat") {
   sources = []
 
-  if (crashpad_is_mac) {
+  if (crashpad_is_mac || crashpad_is_ios) {
     sources += [
       "mac/AvailabilityMacros.h",
       "mac/kern/exc_resource.h",
       "mac/mach-o/loader.h",
+      "mac/mach/i386/thread_state.h",
       "mac/mach/mach.h",
       "mac/sys/resource.h",
     ]
-  } else if (!crashpad_is_ios) {
+  } else {
     sources += [
       "non_mac/mach-o/loader.h",
       "non_mac/mach/mach.h",
       "non_mac/mach/machine.h",
       "non_mac/mach/vm_prot.h",
+    ]
+  }
+
+  if (crashpad_is_ios) {
+    sources += [
+      "ios/mach/exc.defs",
+      "ios/mach/mach_exc.defs",
+      "ios/mach/mach_types.defs",
+      "ios/mach/machine/machine_types.defs",
+      "ios/mach/std_types.defs",
     ]
   }
 

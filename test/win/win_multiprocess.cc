@@ -16,7 +16,7 @@
 
 #include <shellapi.h>
 
-#include "base/logging.h"
+#include "base/check.h"
 #include "base/scoped_generic.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"

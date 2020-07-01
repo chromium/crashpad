@@ -39,7 +39,9 @@ bool CrashpadClient::StartHandler(
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments,
     bool restartable,
-    bool asynchronous_start) {
+    bool asynchronous_start,
+    const std::vector<base::FilePath>& attachments) {
+  DCHECK(attachments.empty()); // Attachments are not implemented on Fuchsia yet.
   DCHECK_EQ(restartable, false);  // Not used on Fuchsia.
   DCHECK_EQ(asynchronous_start, false);  // Not used on Fuchsia.
 

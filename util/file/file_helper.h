@@ -12,22 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "test/ios/host/crash_view_controller.h"
+#ifndef CRASHPAD_UTIL_FILE_FILE_HELPER_H_
+#define CRASHPAD_UTIL_FILE_FILE_HELPER_H_
 
-#if !defined(__has_feature) || !__has_feature(objc_arc)
-#error "This file requires ARC support."
-#endif
+#include "util/file/file_reader.h"
+#include "util/file/file_writer.h"
 
-@implementation CrashViewController
+namespace crashpad {
 
-- (void)loadView {
-  self.view = [[UIView alloc] init];
-}
+//! \brief Copy the file content from file_reader to file_writer
+void CopyFileContent(FileReaderInterface* file_reader,
+                     FileWriterInterface* file_writer);
 
-- (void)viewDidLoad {
-  [super viewDidLoad];
+}  // namespace crashpad
 
-  self.view.backgroundColor = UIColor.redColor;
-}
-
-@end
+#endif  // CRASHPAD_UTIL_FILE_FILE_HELPER_H_

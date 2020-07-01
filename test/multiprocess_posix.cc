@@ -23,8 +23,8 @@
 #include <string>
 
 #include "base/auto_reset.h"
+#include "base/check_op.h"
 #include "base/files/scoped_file.h"
-#include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
@@ -92,8 +92,8 @@ void Multiprocess::Run() {
     RunParent();
 
     // Waiting for the child happens here instead of in RunParent() because even
-    // if RunParent() returns early due to a gtest fatal assertion failure, the
-    // child should still be reaped.
+    // if RunParent() returns early due to a Google Test fatal assertion
+    // failure, the child should still be reaped.
 
     // This will make the parent hang up on the child as much as would be
     // visible from the child’s perspective. The child’s side of the pipe will

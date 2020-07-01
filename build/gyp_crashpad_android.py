@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# coding: utf-8
 
 # Copyright 2017 The Crashpad Authors. All rights reserved.
 #
@@ -25,52 +24,57 @@ import sys
 
 
 def main(args):
-  parser = argparse.ArgumentParser(
-      description='Set up an Android cross build',
-      epilog='Additional arguments will be passed to gyp_crashpad.py.')
-  parser.add_argument('--arch', required=True, help='Target architecture')
-  parser.add_argument('--api-level', required=True, help='Target API level')
-  parser.add_argument('--ndk', required=True, help='Standalone NDK toolchain')
-  (parsed, extra_command_line_args) = parser.parse_known_args(args)
+    parser = argparse.ArgumentParser(
+        description='Set up an Android cross build',
+        epilog='Additional arguments will be passed to gyp_crashpad.py.')
+    parser.add_argument('--arch', required=True, help='Target architecture')
+    parser.add_argument('--api-level', required=True, help='Target API level')
+    parser.add_argument('--ndk', required=True, help='Standalone NDK toolchain')
+    (parsed, extra_command_line_args) = parser.parse_known_args(args)
 
-  ndk_bin_dir = os.path.join(parsed.ndk,
-                             'toolchains',
-                             'llvm',
-                             'prebuilt',
-                             'linux-x86_64',
-                             'bin')
-  if not os.path.exists(ndk_bin_dir):
-    parser.error("missing toolchain")
+    SYS_PLATFORM_TO_NDK_HOST_ARCH = {
+        'cygwin': 'windows-x86_64',
+        'darwin': 'darwin-x86_64',
+        'linux': 'linux-x86_64',
+        'linux2': 'linux-x86_64',
+        'darwin': 'darwin-x86_64',
+        'win32': 'windows-x86_64',
+    }
 
-  ARCH_TO_ARCH_TRIPLET = {
-    'arm': 'armv7a-linux-androideabi',
-    'arm64': 'aarch64-linux-android',
-    'ia32': 'i686-linux-android',
-    'x64': 'x86_64-linux-android',
-  }
+    ndk_host_arch = SYS_PLATFORM_TO_NDK_HOST_ARCH[sys.platform]
 
-  clang_prefix = ARCH_TO_ARCH_TRIPLET[parsed.arch] + parsed.api_level
-  os.environ['CC_target'] = os.path.join(ndk_bin_dir, clang_prefix + '-clang')
-  os.environ['CXX_target'] = os.path.join(ndk_bin_dir, clang_prefix + '-clang++')
+    ndk_bin_dir = os.path.join(parsed.ndk, 'toolchains', 'llvm', 'prebuilt',
+                               ndk_host_arch, 'bin')
+    if not os.path.exists(ndk_bin_dir):
+        parser.error("missing toolchain")
 
-  extra_args = ['-D', 'android_api_level=' + parsed.api_level]
+    ARCH_TO_ARCH_TRIPLET = {
+        'arm': 'armv7a-linux-androideabi',
+        'arm64': 'aarch64-linux-android',
+        'ia32': 'i686-linux-android',
+        'x64': 'x86_64-linux-android',
+    }
 
-  # ARM only includes 'v7a' in the tool prefix for clang
-  tool_prefix = ('arm-linux-androideabi' if parsed.arch == 'arm'
-                 else ARCH_TO_ARCH_TRIPLET[parsed.arch])
+    clang_prefix = ARCH_TO_ARCH_TRIPLET[parsed.arch] + parsed.api_level
+    os.environ['CC_target'] = os.path.join(ndk_bin_dir, clang_prefix + '-clang')
+    os.environ['CXX_target'] = os.path.join(ndk_bin_dir,
+                                            clang_prefix + '-clang++')
 
-  for tool in ('ar', 'nm', 'readelf'):
-    os.environ['%s_target' % tool.upper()] = (
-        os.path.join(ndk_bin_dir, '%s-%s' % (tool_prefix, tool)))
+    extra_args = ['-D', 'android_api_level=' + parsed.api_level]
 
-  return gyp_crashpad.main(
-      ['-D', 'OS=android',
-       '-D', 'target_arch=%s' % parsed.arch,
-       '-D', 'clang=1',
-       '-f', 'ninja-android'] +
-      extra_args +
-      extra_command_line_args)
+    # ARM only includes 'v7a' in the tool prefix for clang
+    tool_prefix = ('arm-linux-androideabi' if parsed.arch == 'arm' else
+                   ARCH_TO_ARCH_TRIPLET[parsed.arch])
+
+    for tool in ('ar', 'nm', 'readelf'):
+        os.environ['%s_target' % tool.upper()] = (os.path.join(
+            ndk_bin_dir, '%s-%s' % (tool_prefix, tool)))
+
+    return gyp_crashpad.main([
+        '-D', 'OS=android', '-D',
+        'target_arch=%s' % parsed.arch, '-D', 'clang=1', '-f', 'ninja-android'
+    ] + extra_args + extra_command_line_args)
 
 
 if __name__ == '__main__':
-  sys.exit(main(sys.argv[1:]))
+    sys.exit(main(sys.argv[1:]))

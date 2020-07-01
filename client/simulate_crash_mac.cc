@@ -17,6 +17,7 @@
 #include <string.h>
 #include <sys/types.h>
 
+#include "base/check_op.h"
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_port.h"

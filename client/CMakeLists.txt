@@ -17,12 +17,19 @@ add_library(crashpad_client STATIC
     simulate_crash.h
 )
 
-if(APPLE)
+if(APPLE AND NOT IOS)
     target_sources(crashpad_client PRIVATE
         crash_report_database_mac.mm
         crashpad_client_mac.cc
         simulate_crash_mac.cc
         simulate_crash_mac.h
+    )
+endif()
+
+if(IOS)
+    target_sources(crashpad_client PRIVATE
+        crash_report_database_mac.mm
+        crashpad_client_ios.cc
     )
 endif()
 
@@ -82,6 +89,14 @@ if(WIN32)
             "-Wno-unknown-pragmas"
         )
     endif()
+endif()
+
+if(IOS)
+    target_link_libraries(crashpad_client
+        PUBLIC
+            crashpad_minidump
+            crashpad_snapshot
+    )
 endif()
 
 crashpad_install_target(crashpad_client)

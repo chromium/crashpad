@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# coding: utf-8
 
 # Copyright 2019 The Crashpad Authors. All rights reserved.
 #
@@ -20,6 +19,7 @@ import sys
 import mig_fix
 import mig_gen
 
+
 def main(args):
     parsed = mig_gen.parse_args(args)
 
@@ -27,8 +27,9 @@ def main(args):
                                      parsed.user_h, parsed.server_h)
     mig_gen.generate_interface(parsed.defs, interface, parsed.include,
                                parsed.sdk, parsed.clang_path, parsed.mig_path,
-                               parsed.migcom_path)
+                               parsed.migcom_path, parsed.arch)
     mig_fix.fix_interface(interface)
+
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))

@@ -164,6 +164,7 @@ class SignalHandler {
 
  protected:
   SignalHandler() = default;
+  ~SignalHandler() = default;
 
   bool Install(const std::set<int>* unhandled_signals) {
     DCHECK(!handler_);
@@ -372,7 +373,8 @@ bool CrashpadClient::StartHandler(
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments,
     bool restartable,
-    bool asynchronous_start) {
+    bool asynchronous_start,
+    const std::vector<base::FilePath>& attachments) {
   DCHECK(!asynchronous_start);
 
   ScopedFileHandle client_sock, handler_sock;
@@ -382,7 +384,7 @@ bool CrashpadClient::StartHandler(
   }
 
   std::vector<std::string> argv = BuildHandlerArgvStrings(
-      handler, database, metrics_dir, url, annotations, arguments);
+      handler, database, metrics_dir, url, annotations, arguments, attachments);
 
   argv.push_back(FormatArgumentInt("initial-client-fd", handler_sock.get()));
   argv.push_back("--shared-client-connection");
@@ -398,31 +400,6 @@ bool CrashpadClient::StartHandler(
   auto signal_handler = RequestCrashDumpHandler::Get();
   return signal_handler->Initialize(
       std::move(client_sock), handler_pid, &unhandled_signals_);
-}
-
-bool CrashpadClient::StartHandlerWithAttachments(
-    const base::FilePath& handler,
-    const base::FilePath& database,
-    const base::FilePath& metrics_dir,
-    const std::string& url,
-    const std::map<std::string, std::string>& annotations,
-    const std::map<std::string, base::FilePath>& fileAttachments,
-    const std::vector<std::string>& arguments,
-    bool restartable,
-    bool asynchronous_start) {
-  std::vector<std::string> updated_arguments = arguments;
-  for (const auto& kv: fileAttachments) {
-    std::string attachmentArg = "--attachment=" + kv.first + "=" + kv.second.value();
-    updated_arguments.push_back(attachmentArg);
-  }
-
-  // FIXME this is not the same as calling StartHandler on e.g. Mac
-  return CrashpadClient::StartHandlerAtCrash(handler,
-                                             database,
-                                             metrics_dir,
-                                             url,
-                                             annotations,
-                                             updated_arguments);
 }
 
 #if defined(OS_ANDROID) || defined(OS_LINUX)
@@ -532,9 +509,10 @@ bool CrashpadClient::StartHandlerAtCrash(
     const base::FilePath& metrics_dir,
     const std::string& url,
     const std::map<std::string, std::string>& annotations,
-    const std::vector<std::string>& arguments) {
+    const std::vector<std::string>& arguments,
+    const std::vector<base::FilePath>& attachments) {
   std::vector<std::string> argv = BuildHandlerArgvStrings(
-      handler, database, metrics_dir, url, annotations, arguments);
+      handler, database, metrics_dir, url, annotations, arguments, attachments);
 
   auto signal_handler = LaunchAtCrashHandler::Get();
   return signal_handler->Initialize(&argv, nullptr, &unhandled_signals_);

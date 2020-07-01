@@ -21,12 +21,12 @@
 #include <string>
 
 #include "base/auto_reset.h"
-#include "base/logging.h"
 #include "base/mac/scoped_mach_port.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/mac/mach_errors.h"
 #include "util/file/file_io.h"
+#include "util/mach/bootstrap.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/misc/implicit_cast.h"

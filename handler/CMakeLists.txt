@@ -74,33 +74,35 @@ add_library(crashpad::handler_lib ALIAS crashpad_handler_lib)
 
 crashpad_install_target(crashpad_handler_lib)
 
-add_executable(crashpad_handler WIN32
-    main.cc
-)
+if(NOT IOS)
+    add_executable(crashpad_handler WIN32
+        main.cc
+    )
 
-target_link_libraries(crashpad_handler
-    PRIVATE
-        $<BUILD_INTERFACE:crashpad_interface>
-    PUBLIC
-        crashpad_client
-        crashpad_getopt
-        crashpad_handler_lib
-        crashpad_minidump
-        crashpad_snapshot
-        crashpad_tools
-        crashpad_util
-        mini_chromium
-)
+    target_link_libraries(crashpad_handler
+        PRIVATE
+            $<BUILD_INTERFACE:crashpad_interface>
+        PUBLIC
+            crashpad_client
+            crashpad_getopt
+            crashpad_handler_lib
+            crashpad_minidump
+            crashpad_snapshot
+            crashpad_tools
+            crashpad_util
+            mini_chromium
+    )
 
-if(WIN32)
-    if(MSVC)
-        target_link_options(crashpad_handler PRIVATE "/SUBSYSTEM:WINDOWS")
+    if(WIN32)
+        if(MSVC)
+            target_link_options(crashpad_handler PRIVATE "/SUBSYSTEM:WINDOWS")
+        endif()
     endif()
+
+    set_property(TARGET crashpad_handler PROPERTY EXPORT_NAME handler)
+    add_executable(crashpad::handler ALIAS crashpad_handler)
+
+    install(TARGETS crashpad_handler EXPORT crashpad_export
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+    )
 endif()
-
-set_property(TARGET crashpad_handler PROPERTY EXPORT_NAME handler)
-add_executable(crashpad::handler ALIAS crashpad_handler)
-
-install(TARGETS crashpad_handler EXPORT crashpad_export
-    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-)

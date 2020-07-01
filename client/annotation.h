@@ -22,7 +22,7 @@
 #include <string.h>
 #include <sys/types.h>
 
-#include "base/logging.h"
+#include "base/check.h"
 #include "base/macros.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/strings/string_piece.h"

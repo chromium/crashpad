@@ -16,7 +16,7 @@
 
 #import <UIKit/UIKit.h>
 
-#include "base/logging.h"
+#include "base/check.h"
 #include "gtest/gtest.h"
 #include "test/ios/cptest_google_test_runner_delegate.h"
 
@@ -30,8 +30,8 @@
 
 namespace {
 
-// The iOS watchdog timer will kill an app that doesn't spin the main event
-// loop often enough. This uses a Gtest TestEventListener to spin the current
+// The iOS watchdog timer will kill an app that doesn't spin the main event loop
+// often enough. This uses a Google Test TestEventListener to spin the current
 // loop after each test finishes. However, if any individual test takes too
 // long, it is still possible that the app will get killed.
 class IOSRunLoopListener : public testing::EmptyTestEventListener {
@@ -53,12 +53,13 @@ void RegisterTestEndListener() {
 
 }  // namespace
 
-@interface CrashpadUnitTestDelegate : NSObject <CPTestGoogleTestRunnerDelegate>
+@interface CPTestUnitTestApplicationDelegate
+    : NSObject <CPTestGoogleTestRunnerDelegate>
 @property(nonatomic, readwrite, strong) UIWindow* window;
 - (void)runTests;
 @end
 
-@implementation CrashpadUnitTestDelegate
+@implementation CPTestUnitTestApplicationDelegate
 
 - (BOOL)application:(UIApplication*)application
     didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
@@ -123,8 +124,8 @@ namespace test {
 
 void IOSLaunchApplicationAndRunTests(int argc, char* argv[]) {
   @autoreleasepool {
-    int exit_status =
-        UIApplicationMain(argc, argv, nil, @"CrashpadUnitTestDelegate");
+    int exit_status = UIApplicationMain(
+        argc, argv, nil, @"CPTestUnitTestApplicationDelegate");
     exit(exit_status);
   }
 }

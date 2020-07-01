@@ -18,6 +18,7 @@
 #include <stdint.h>
 #include <sys/types.h>
 
+#include "base/logging.h"
 #include "base/macros.h"
 #include "base/numerics/safe_math.h"
 #include "snapshot/memory_snapshot.h"
