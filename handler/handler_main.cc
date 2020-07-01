@@ -215,7 +215,8 @@ struct Options {
   base::FilePath minidump_dir_for_tests;
   bool always_allow_feedback = false;
 #endif  // OS_CHROMEOS
-#if defined(OS_WIN) || defined (OS_LINUX)
+#if defined(OS_WIN) || defined(OS_LINUX) || defined(OS_CHROMEOS) || \
+    defined(OS_ANDROID)
   std::vector<base::FilePath> attachments;
 #endif // OS_WIN || OS_LINUX
 };
@@ -523,7 +524,8 @@ int HandlerMain(int argc,
     // Long options without short equivalents.
     kOptionLastChar = 255,
     kOptionAnnotation,
-#if defined(OS_WIN) || defined(OS_LINUX)
+#if defined(OS_WIN) || defined(OS_LINUX) || defined(OS_CHROMEOS) || \
+    defined(OS_ANDROID)
     kOptionAttachment,
 #endif  // OS_WIN || OS_LINUX
     kOptionDatabase,
@@ -690,7 +692,8 @@ int HandlerMain(int argc,
         }
         break;
       }
-#if defined(OS_WIN) || defined(OS_LINUX)
+#if defined(OS_WIN) || defined(OS_LINUX) || defined(OS_CHROMEOS) || \
+    defined(OS_ANDROID)
       case kOptionAttachment: {
         options.attachments.push_back(base::FilePath(
             ToolSupport::CommandLineArgumentToFilePathStringType(optarg)));
@@ -999,6 +1002,7 @@ int HandlerMain(int argc,
         database.get(),
         static_cast<CrashReportUploadThread*>(upload_thread.Get()),
         &options.annotations,
+        &options.attachments,
         true,
         false,
         user_stream_sources);
@@ -1008,7 +1012,7 @@ int HandlerMain(int argc,
       database.get(),
       static_cast<CrashReportUploadThread*>(upload_thread.Get()),
       &options.annotations,
-#if defined(OS_WIN) || defined(OS_LINUX)
+#if defined(OS_WIN) || defined(OS_LINUX) || defined(OS_ANDROID)
       &options.attachments,
 #endif // OS_WIN || OS_LINUX
 #if defined(OS_ANDROID)
