@@ -25,7 +25,7 @@ source_set("app_shared_sources") {
   sources = [ "cptest_shared_object.h" ]
   configs += [ "../../..:crashpad_config" ]
   deps = [ "../../../build:ios_enable_arc" ]
-  libs = [ "UIKit.framework" ]
+  frameworks = [ "UIKit.framework" ]
 }
 
 static_library("app_host_sources") {
@@ -44,7 +44,7 @@ static_library("app_host_sources") {
     "../../../client",
     "../../../third_party/edo",
   ]
-  libs = [
+  frameworks = [
     "Foundation.framework",
     "UIKit.framework",
   ]
