@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18395094_315f0a14",
+        "filename": "snapshot/win/system_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002927
+      },
+      "writtenOn": "2020-07-02T14:25:46Z",
+      "side": 1,
+      "message": "It should be base/check_op.h (no d)",
+      "revId": "18d89f99584a907aadaef183ef52150e3832edbd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
