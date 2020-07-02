@@ -23,7 +23,9 @@
 #include <utility>
 #include <vector>
 
+#include "base/check_op.h"
 #include "base/logging.h"
+#include "base/notreached.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
