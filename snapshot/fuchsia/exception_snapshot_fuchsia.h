@@ -63,10 +63,10 @@ class ExceptionSnapshotFuchsia final : public ExceptionSnapshot {
 #elif defined(ARCH_CPU_ARM64)
   CPUContextARM64 context_arch_;
 #endif
-  CPUContext context_;
+  CPUContext context_ = {};
   std::vector<uint64_t> codes_;
   zx_koid_t thread_id_;
-  zx_vaddr_t exception_address_;
+  zx_vaddr_t exception_address_ = 0;
   uint32_t exception_;
   uint32_t exception_info_;
   InitializationStateDcheck initialized_;
