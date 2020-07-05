@@ -54,23 +54,28 @@ void ExceptionSnapshotFuchsia::Initialize(
   codes_.push_back(exception_report.context.arch.u.arm_64.far);
 #endif
 
-  for (const auto& t : process_reader->Threads()) {
-    if (t.id == thread_id) {
+  const auto threads = process_reader->Threads();
+  const auto& t =
+      std::find_if(threads.begin(),
+                   threads.end(),
+                   [thread_id](const ProcessReaderFuchsia::Thread& thread) {
+                     return thread.id == thread_id;
+                   });
+  if (t != threads.end()) {
 #if defined(ARCH_CPU_X86_64)
-      context_.architecture = kCPUArchitectureX86_64;
-      context_.x86_64 = &context_arch_;
-      // TODO(fuchsia/DX-642): Add float context once saved in |t|.
-      InitializeCPUContextX86_64_NoFloatingPoint(t.general_registers,
-                                                 context_.x86_64);
+    context_.architecture = kCPUArchitectureX86_64;
+    context_.x86_64 = &context_arch_;
+    // TODO(fxbug.dev/5496): Add float context once saved in |t|.
+    InitializeCPUContextX86_64_NoFloatingPoint(t->general_registers,
+                                               context_.x86_64);
 #elif defined(ARCH_CPU_ARM64)
-      context_.architecture = kCPUArchitectureARM64;
-      context_.arm64 = &context_arch_;
-      InitializeCPUContextARM64(
-          t.general_registers, t.vector_registers, context_.arm64);
+    context_.architecture = kCPUArchitectureARM64;
+    context_.arm64 = &context_arch_;
+    InitializeCPUContextARM64(
+        t->general_registers, t->vector_registers, context_.arm64);
 #else
 #error Port.
 #endif
-    }
   }
 
   if (context_.InstructionPointer() != 0 &&
@@ -83,6 +88,8 @@ void ExceptionSnapshotFuchsia::Initialize(
     exception_address_ = exception_report.context.arch.u.x86_64.cr2;
 #elif defined(ARCH_CPU_ARM64)
     exception_address_ = exception_report.context.arch.u.arm_64.far;
+#else
+#error Port.
 #endif
   }
 
