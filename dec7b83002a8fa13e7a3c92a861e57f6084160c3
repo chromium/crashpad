@@ -69,6 +69,24 @@
       "revId": "dec7b83002a8fa13e7a3c92a861e57f6084160c3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2c6ae2e_f3e639a9",
+        "filename": "snapshot/fuchsia/exception_snapshot_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1310583
+      },
+      "writtenOn": "2020-07-06T21:44:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9e472a3_1ade4ff4",
+      "revId": "dec7b83002a8fa13e7a3c92a861e57f6084160c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
