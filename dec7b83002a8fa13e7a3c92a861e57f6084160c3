@@ -33,6 +33,24 @@
       "revId": "dec7b83002a8fa13e7a3c92a861e57f6084160c3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4328294_77ff6cac",
+        "filename": "snapshot/fuchsia/exception_snapshot_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-07-06T20:56:15Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t understand. Initialize() is setting initialized_ for InitializationStateDcheck, but in some runtime conditions the object wasn\u0027t actually being fully initialized (the POD members).",
+      "parentUuid": "e82aba1a_e9eb0cdf",
+      "revId": "dec7b83002a8fa13e7a3c92a861e57f6084160c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
