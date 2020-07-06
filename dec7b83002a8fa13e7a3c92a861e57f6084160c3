@@ -51,6 +51,24 @@
       "revId": "dec7b83002a8fa13e7a3c92a861e57f6084160c3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9e472a3_1ade4ff4",
+        "filename": "snapshot/fuchsia/exception_snapshot_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-06T21:35:06Z",
+      "side": 1,
+      "message": "\u003e Sorry, I don\u0027t understand. Initialize() is setting initialized_ for InitializationStateDcheck, but in some runtime conditions the object wasn\u0027t actually being fully initialized (the POD members).\n\nI see that context_ may not be set by Initialize, so it was possible for the InitializationStateDcheck to be valid while context_ was invalid, but exception_address_ is definitely initialized.\n\nI misread this, I thought that context_ was always being set by Initialize.\n\nSince the InitializationStateDcheck is properly protecting exception_address_, though, we don’t strictly need an in-class initializer for it. I would still suggest an “#else #error port” in the #if cascade on lines 87–91.\n\nYou can leave the new in-class initializers in place. They’re fine. My “hold up” was because it looked like you were fixing the initialization of memory without addressing the fact that someone was using an object that never saw a successful call to Initialize. I wanted to make sure that whatever was using objects of this class was calling Initialize properly before using it. But I can see now that the bug was probably just about context_ not always being set by this method.",
+      "parentUuid": "c4328294_77ff6cac",
+      "revId": "dec7b83002a8fa13e7a3c92a861e57f6084160c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
