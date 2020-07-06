@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78c3cf41_73c9706c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-07-06T18:35:00Z",
+      "side": 1,
+      "message": "Thanks for investigating and following up on this Tamir.",
+      "revId": "032c01233135204735fc60f9bf7c7fe686ec6096",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "072ec41a_d7246244",
+        "filename": "snapshot/fuchsia/exception_snapshot_fuchsia.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-07-06T18:35:00Z",
+      "side": 1,
+      "message": "I think for the same reason that we might not be getting into the old loop, we should be defensive about not finding a matching thread in Threads().\n\nSo, instead of changing this loop, I think we should initialize context_ \u003d {} in the .h file.",
+      "revId": "032c01233135204735fc60f9bf7c7fe686ec6096",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b83d791_901e9353",
+        "filename": "snapshot/fuchsia/exception_snapshot_fuchsia.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-07-06T18:35:00Z",
+      "side": 1,
+      "message": "i.e. `\u003d {}` here.",
+      "range": {
+        "startLine": 66,
+        "startChar": 21,
+        "endLine": 66,
+        "endChar": 22
+      },
+      "revId": "032c01233135204735fc60f9bf7c7fe686ec6096",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "612b1573_0fb4a66d",
+        "filename": "snapshot/fuchsia/exception_snapshot_fuchsia.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-07-06T18:35:00Z",
+      "side": 1,
+      "message": "It looks like this is potentially uninitialized based on runtime conditions, so could I get you to add `\u003d 0` here as well?",
+      "range": {
+        "startLine": 69,
+        "startChar": 31,
+        "endLine": 69,
+        "endChar": 32
+      },
+      "revId": "032c01233135204735fc60f9bf7c7fe686ec6096",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
