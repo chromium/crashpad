@@ -16,6 +16,23 @@
       "revId": "dec7b83002a8fa13e7a3c92a861e57f6084160c3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e82aba1a_e9eb0cdf",
+        "filename": "snapshot/fuchsia/exception_snapshot_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-06T20:53:00Z",
+      "side": 1,
+      "message": "Hold up.\n\nIf your initialization-in-constructor change is having any effect, it would mean that someone’s tripping this InitializationStateDcheck. And, since it’s a DCHECK, it’ll still trip.\n\nPlease fix that instead,",
+      "revId": "dec7b83002a8fa13e7a3c92a861e57f6084160c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
