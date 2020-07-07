@@ -34,6 +34,24 @@
       "revId": "e46f30cc5497c16ccbf8489a6ef880283703603c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "485d1204_548d2859",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1283828
+      },
+      "writtenOn": "2020-07-07T13:29:14Z",
+      "side": 1,
+      "message": "yes, sorry, that\u0027s what I mean. Thanks for your quick answer. I will do it.",
+      "parentUuid": "4b8dda8d_11368fe5",
+      "revId": "e46f30cc5497c16ccbf8489a6ef880283703603c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
