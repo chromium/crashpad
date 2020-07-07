@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f62aab84_d8d566ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000119
+      },
+      "writtenOn": "2020-07-07T01:21:31Z",
+      "side": 1,
+      "message": "I fought with \"git cl format\" a bit. It made some weird indentation choices in the first patchset but doesn\u0027t try to undo them when I manually fix things up.",
+      "revId": "9c0360d307d439e303c82c7929fb3cabfe7df5f7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
