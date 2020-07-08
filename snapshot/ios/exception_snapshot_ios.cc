@@ -56,12 +56,16 @@ void ExceptionSnapshotIOS::InitializeFromSignal(const siginfo_t* siginfo,
 #elif defined(ARCH_CPU_ARM64)
   context_.architecture = kCPUArchitectureARM64;
   context_.arm64 = &context_arm64_;
+  arm_debug_state64_t empty_debug_state = {};
   InitializeCPUContextARM64(&context_arm64_,
                             THREAD_STATE_NONE,
                             nullptr,
                             0,
                             &mcontext->__ss,
-                            &mcontext->__ns);
+                            &mcontext->__ns,
+                            &empty_debug_state);
+#else
+#error Port to your CPU architecture
 #endif
 
   // Thread ID.
@@ -127,10 +131,13 @@ void ExceptionSnapshotIOS::InitializeFromMachException(
 #elif defined(ARCH_CPU_ARM64)
   arm_thread_state64_t thread_state;
   arm_neon_state64_t float_state;
+  arm_debug_state64_t debug_state;
   mach_msg_type_number_t float_state_count = ARM_NEON_STATE64_COUNT;
   mach_msg_type_number_t thread_state_count = ARM_THREAD_STATE64_COUNT;
+  mach_msg_type_number_t debug_state_count = ARM_DEBUG_STATE64_COUNT;
   const thread_state_flavor_t kThreadStateFlavor = ARM_THREAD_STATE64;
   const thread_state_flavor_t kFloatStateFlavor = ARM_NEON_STATE64;
+  const thread_state_flavor_t kDebugStateFlavor = ARM_DEBUG_STATE64;
 #endif
 
   kern_return_t kr =
@@ -150,7 +157,6 @@ void ExceptionSnapshotIOS::InitializeFromMachException(
     MACH_LOG(ERROR, kr) << "thread_get_state(" << kFloatStateFlavor << ")";
   }
 
-#if defined(ARCH_CPU_X86_64)
   kr = thread_get_state(exception_thread,
                         kDebugStateFlavor,
                         reinterpret_cast<thread_state_t>(&debug_state),
@@ -158,7 +164,6 @@ void ExceptionSnapshotIOS::InitializeFromMachException(
   if (kr != KERN_SUCCESS) {
     MACH_LOG(ERROR, kr) << "thread_get_state(" << kDebugStateFlavor << ")";
   }
-#endif
 
 #if defined(ARCH_CPU_X86_64)
   context_.architecture = kCPUArchitectureX86_64;
@@ -173,8 +178,15 @@ void ExceptionSnapshotIOS::InitializeFromMachException(
 #elif defined(ARCH_CPU_ARM64)
   context_.architecture = kCPUArchitectureARM64;
   context_.arm64 = &context_arm64_;
-  InitializeCPUContextARM64(
-      &context_arm64_, flavor, state, state_count, &thread_state, &float_state);
+  InitializeCPUContextARM64(&context_arm64_,
+                            flavor,
+                            state,
+                            state_count,
+                            &thread_state,
+                            &float_state,
+                            &debug_state);
+#else
+#error Port to your CPU architecture
 #endif
 
   // Thread ID.

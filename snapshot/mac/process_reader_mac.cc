@@ -280,6 +280,15 @@ void ProcessReaderMac::InitializeThreads() {
         Is64Bit() ? x86_DEBUG_STATE64 : x86_DEBUG_STATE32;
     mach_msg_type_number_t debug_state_count =
         Is64Bit() ? x86_DEBUG_STATE64_COUNT : x86_DEBUG_STATE32_COUNT;
+#elif defined(ARCH_CPU_ARM64)
+    const thread_state_flavor_t kThreadStateFlavor = ARM_THREAD_STATE64;
+    mach_msg_type_number_t thread_state_count = ARM_THREAD_STATE64_COUNT;
+
+    const thread_state_flavor_t kFloatStateFlavor = ARM_NEON_STATE64;
+    mach_msg_type_number_t float_state_count = ARM_NEON_STATE64_COUNT;
+
+    const thread_state_flavor_t kDebugStateFlavor = ARM_DEBUG_STATE64;
+    mach_msg_type_number_t debug_state_count = ARM_DEBUG_STATE64_COUNT;
 #endif
 
     kr = thread_get_state(
@@ -366,6 +375,9 @@ void ProcessReaderMac::InitializeThreads() {
     mach_vm_address_t stack_pointer = Is64Bit()
                                           ? thread.thread_context.t64.__rsp
                                           : thread.thread_context.t32.__esp;
+#elif defined(ARCH_CPU_ARM64)
+    mach_vm_address_t stack_pointer =
+        arm_thread_state64_get_sp(thread.thread_context);
 #endif
 
     thread.stack_region_address =
