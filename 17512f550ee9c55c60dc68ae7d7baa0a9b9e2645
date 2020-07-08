@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a835f284_142b8264",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-07-08T14:26:17Z",
+      "side": 1,
+      "message": "Pretty easy - LGTM!\n\nI was wondering if/how much would be shared between the iOS snapshot code and the Mac code.",
+      "revId": "17512f550ee9c55c60dc68ae7d7baa0a9b9e2645",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
