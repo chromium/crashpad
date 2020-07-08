@@ -14,6 +14,11 @@
 
 import("../build/crashpad_buildconfig.gni")
 
+if (crashpad_is_in_chromium) {
+  # Prevent Chromium source assignment filters from being inherited.
+  set_sources_assignment_filter([])
+}
+
 static_library("handler") {
   sources = [
     "crash_report_upload_thread.cc",
@@ -40,7 +45,6 @@ static_library("handler") {
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
-    set_sources_assignment_filter([])
     sources += [
       "linux/capture_snapshot.cc",
       "linux/capture_snapshot.h",
@@ -169,7 +173,6 @@ if (crashpad_is_android) {
   }
 
   crashpad_executable("crashpad_handler_trampoline") {
-    set_sources_assignment_filter([])
     output_name = "libcrashpad_handler_trampoline.so"
 
     sources = [ "linux/handler_trampoline.cc" ]
