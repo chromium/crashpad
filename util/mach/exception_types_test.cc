@@ -22,6 +22,7 @@
 
 #include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "util/mac/mac_util.h"
 #include "util/mach/mach_extensions.h"
