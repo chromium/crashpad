@@ -339,7 +339,7 @@ void ProcessReaderMac::InitializeThreads() {
                      THREAD_IDENTIFIER_INFO,
                      reinterpret_cast<thread_info_t>(&identifier_info),
                      &count);
-    if (kr != KERN_SUCCESS){
+    if (kr != KERN_SUCCESS) {
       MACH_LOG(WARNING, kr) << "thread_info(THREAD_IDENTIFIER_INFO)";
     } else {
       thread.id = identifier_info.thread_id;

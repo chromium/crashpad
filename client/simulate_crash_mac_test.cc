@@ -200,6 +200,28 @@ class TestSimulateCrashMac final : public MachMultiprocess,
         case x86_DEBUG_STATE64:
           EXPECT_EQ(old_state_count, x86_DEBUG_STATE64_COUNT);
           break;
+#elif defined(ARCH_CPU_ARM64)
+        case ARM_UNIFIED_THREAD_STATE: {
+          EXPECT_EQ(old_state_count, ARM_UNIFIED_THREAD_STATE_COUNT);
+          const arm_unified_thread_state* state =
+              reinterpret_cast<const arm_unified_thread_state*>(old_state);
+          EXPECT_EQ(state->ash.flavor,
+                    implicit_cast<uint32_t>(ARM_THREAD_STATE64));
+          if (state->ash.flavor == ARM_THREAD_STATE64) {
+            EXPECT_EQ(state->ash.count,
+                      implicit_cast<uint32_t>(ARM_THREAD_STATE64_COUNT));
+          }
+          break;
+        }
+        case ARM_THREAD_STATE64:
+          EXPECT_EQ(old_state_count, ARM_THREAD_STATE64_COUNT);
+          break;
+        case ARM_NEON_STATE64:
+          EXPECT_EQ(old_state_count, ARM_NEON_STATE64_COUNT);
+          break;
+        case ARM_DEBUG_STATE64:
+          EXPECT_EQ(old_state_count, ARM_DEBUG_STATE64_COUNT);
+          break;
 #else
 #error Port to your CPU architecture
 #endif
@@ -326,18 +348,23 @@ TEST(SimulateCrash, SimulateCrash) {
 
   static constexpr thread_state_flavor_t kFlavors[] = {
 #if defined(ARCH_CPU_X86_FAMILY)
-      x86_THREAD_STATE,
-      x86_FLOAT_STATE,
-      x86_DEBUG_STATE,
+    x86_THREAD_STATE,
+    x86_FLOAT_STATE,
+    x86_DEBUG_STATE,
 #if defined(ARCH_CPU_X86)
-      x86_THREAD_STATE32,
-      x86_FLOAT_STATE32,
-      x86_DEBUG_STATE32,
+    x86_THREAD_STATE32,
+    x86_FLOAT_STATE32,
+    x86_DEBUG_STATE32,
 #elif defined(ARCH_CPU_X86_64)
-      x86_THREAD_STATE64,
-      x86_FLOAT_STATE64,
-      x86_DEBUG_STATE64,
+    x86_THREAD_STATE64,
+    x86_FLOAT_STATE64,
+    x86_DEBUG_STATE64,
 #endif
+#elif defined(ARCH_CPU_ARM64)
+    ARM_UNIFIED_THREAD_STATE,
+    ARM_THREAD_STATE64,
+    ARM_NEON_STATE64,
+    ARM_DEBUG_STATE64,
 #else
 #error Port to your CPU architecture
 #endif
