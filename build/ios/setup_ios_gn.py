@@ -98,25 +98,7 @@ class GnGenerator(object):
         """
         args = []
 
-        # build/config/ios/ios_sdk.gni asserts that goma is not enabled when
-        # building Official, so ignore the value of goma.enabled when creating
-        # args.gn for Official.
-        if self._config != 'Official':
-            if self._settings.getboolean('goma', 'enabled'):
-                args.append(('use_goma', True))
-                goma_dir = self._settings.getstring('goma', 'install')
-                if goma_dir:
-                    args.append(
-                        ('goma_dir', '"%s"' % os.path.expanduser(goma_dir)))
-
         args.append(('is_debug', self._config in ('Debug', 'Coverage')))
-        args.append(('enable_dsyms', self._config in ('Profile', 'Official')))
-        args.append(('enable_stripping', 'enable_dsyms'))
-        args.append(('is_official_build', self._config == 'Official'))
-        args.append(('is_chrome_branded', 'is_official_build'))
-        args.append(('use_xcode_clang', 'false'))
-        args.append(('use_clang_coverage', self._config == 'Coverage'))
-        args.append(('is_component_build', False))
 
         if os.environ.get('FORCE_MAC_TOOLCHAIN', '0') == '1':
             args.append(('use_system_xcode', False))
