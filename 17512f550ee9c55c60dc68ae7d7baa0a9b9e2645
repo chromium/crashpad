@@ -16,6 +16,24 @@
       "revId": "17512f550ee9c55c60dc68ae7d7baa0a9b9e2645",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95761006_0331e5b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-08T14:43:02Z",
+      "side": 1,
+      "message": "There’s more to come still, but we were in good shape for this, partially thanks to the work we’ve already done for iOS.\n\nIn fact, we’d have even more sharing, but we’re limited by needing to keep the iOS code separate so that it’s safe for in-process use. (It’s not entirely safe yet, things will be refactored, but it’s on its way.)",
+      "parentUuid": "a835f284_142b8264",
+      "revId": "17512f550ee9c55c60dc68ae7d7baa0a9b9e2645",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
