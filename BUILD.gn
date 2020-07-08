@@ -40,6 +40,7 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       "minidump:minidump_test",
       "test:googlemock_main",
       "test:test_test",
+      "util:util_test",
     ]
     if (!crashpad_is_ios) {
       deps += [ "snapshot:snapshot_test" ]
