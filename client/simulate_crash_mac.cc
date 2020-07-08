@@ -95,6 +95,15 @@ bool DeliverException(thread_t thread,
       state_count = cpu_context.tsh.count;
       break;
 #endif
+#elif defined(ARCH_CPU_ARM64)
+    case ARM_UNIFIED_THREAD_STATE:
+      state = reinterpret_cast<ConstThreadState>(&cpu_context);
+      state_count = ARM_UNIFIED_THREAD_STATE_COUNT;
+      break;
+    case ARM_THREAD_STATE64:
+      state = reinterpret_cast<ConstThreadState>(&cpu_context.ts_64);
+      state_count = cpu_context.ash.count;
+      break;
 #else
 #error Port to your CPU architecture
 #endif
@@ -187,6 +196,13 @@ void SimulateCrash(const NativeCPUContext& cpu_context) {
             implicit_cast<thread_state_flavor_t>(x86_THREAD_STATE64));
   DCHECK_EQ(implicit_cast<mach_msg_type_number_t>(cpu_context.tsh.count),
             x86_THREAD_STATE64_COUNT);
+#elif defined(ARCH_CPU_ARM64)
+  DCHECK_EQ(implicit_cast<thread_state_flavor_t>(cpu_context.ash.flavor),
+            implicit_cast<thread_state_flavor_t>(ARM_THREAD_STATE64));
+  DCHECK_EQ(implicit_cast<mach_msg_type_number_t>(cpu_context.ash.count),
+            ARM_THREAD_STATE64_COUNT);
+#else
+#error Port to your CPU architecture
 #endif
 
   base::mac::ScopedMachSendRight thread(mach_thread_self());
