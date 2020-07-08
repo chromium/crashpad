@@ -79,12 +79,16 @@ class ExceptionSnapshotMac final : public ExceptionSnapshot {
   virtual std::vector<const MemorySnapshot*> ExtraMemory() const override;
 
  private:
-#if defined(ARCH_CPU_X86_FAMILY)
   union {
+#if defined(ARCH_CPU_X86_FAMILY)
     CPUContextX86 x86;
     CPUContextX86_64 x86_64;
-  } context_union_;
+#elif defined(ARCH_CPU_ARM64)
+    CPUContextARM64 arm64;
+#else
+#error Port to your CPU architecture
 #endif
+  } context_union_;
   CPUContext context_;
   std::vector<uint64_t> codes_;
   uint64_t thread_id_;
