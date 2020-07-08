@@ -51,8 +51,8 @@ if (crashpad_is_in_chromium) {
     import("../../../mini_chromium/mini_chromium/build/compiler.gni")
     import("../../../mini_chromium/mini_chromium/build/platform.gni")
   } else {
-    # Both standalone and in Fuchsia tree use mini_chromium, and it's mapped into
-    # the same location in both cases.
+    # Both standalone and in Fuchsia tree use mini_chromium, and it's mapped
+    # into the same location in both cases.
     import("../third_party/mini_chromium/mini_chromium/build/compiler.gni")
     import("../third_party/mini_chromium/mini_chromium/build/platform.gni")
   }
