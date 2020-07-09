@@ -178,10 +178,8 @@ uint32_t SystemSnapshotMac::CPURevision() const {
 
   return (family << 16) | (model << 8) | stepping;
 #elif defined(ARCH_CPU_ARM64)
-  // TODO(macos_arm64): Verify that this is correct, and pack more information
-  // if feasible. The Apple A12Z returns hw.cputype = 0x100000c and
-  // hw.cpusubtype = 2.
-  return CastIntSysctlByName<uint32_t>("hw.cputype", 0);
+  // TODO(macos_arm64): Verify and test.
+  return CastIntSysctlByName<uint32_t>("hw.cpufamily", 0);
 #else
 #error port to your architecture
 #endif
