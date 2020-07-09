@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58eb1520_d06c1ccf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-09T01:33:36Z",
+      "side": 1,
+      "message": "This follows https://chromium-review.googlesource.com/c/2288635/1/third_party/crashpad/crashpad/snapshot/mac/system_snapshot_mac.cc#182.",
+      "revId": "cc1495931d75e18ea4a63d35f62e25b5d4e09809",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
