@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55f8718c_bb35edc4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-07-10T18:28:37Z",
+      "side": 1,
+      "message": "(Still need Bug: before the Bug here, edited).",
+      "revId": "59107dcd18cdf2046f2cea11dde2dfcb779ac98e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
