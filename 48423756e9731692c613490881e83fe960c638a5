@@ -16,6 +16,23 @@
       "revId": "48423756e9731692c613490881e83fe960c638a5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5afe0044_4bf26ef3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-10T21:32:33Z",
+      "side": 1,
+      "message": "Eric is the Crashpad committer with the best context on this, although Eric, if you’re not as comfortable with the GN build, I can find someone else to review.",
+      "revId": "48423756e9731692c613490881e83fe960c638a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
