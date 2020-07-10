@@ -19,6 +19,8 @@ group("base") {
     public_deps = [ "//base" ]
   } else if (crashpad_is_standalone || crashpad_is_in_fuchsia) {
     public_deps = [ "mini_chromium/base" ]
+  } else if (crashpad_is_external) {
+    public_deps = [ "../../../../mini_chromium/mini_chromium/base" ]
   } else if (crashpad_is_in_dart) {
     public_deps = [ "//third_party/mini_chromium/mini_chromium/base" ]
   }
