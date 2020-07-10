@@ -16,4 +16,5 @@ source_set("cpp-httplib") {
   testonly = true
   include_dirs = [ "cpp-httplib" ]
   sources = [ "cpp-httplib/httplib.h" ]
+  deps = [ "../zlib" ]
 }
