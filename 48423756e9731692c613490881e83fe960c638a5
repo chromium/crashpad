@@ -33,6 +33,24 @@
       "revId": "48423756e9731692c613490881e83fe960c638a5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c06b2fe_f942f737",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2020-07-11T03:26:44Z",
+      "side": 1,
+      "message": "I\u0027m comfortable enough with GN (if mostly from translating it to Bazel) for this. LGTM in context!",
+      "parentUuid": "5afe0044_4bf26ef3",
+      "revId": "48423756e9731692c613490881e83fe960c638a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
