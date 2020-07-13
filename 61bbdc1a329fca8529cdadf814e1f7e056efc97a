@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efaeba9b_9121bd25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-13T19:22:58Z",
+      "side": 1,
+      "message": "LG otherwise",
+      "revId": "61bbdc1a329fca8529cdadf814e1f7e056efc97a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4bcf22f_dc533250",
+        "filename": "snapshot/fuchsia/process_snapshot_fuchsia.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-13T19:22:58Z",
+      "side": 1,
+      "message": "I prefer to do these with a local variable, and to then .swap it into place on success, rather than .reset on failure.",
+      "revId": "61bbdc1a329fca8529cdadf814e1f7e056efc97a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
