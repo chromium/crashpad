@@ -24,7 +24,7 @@ namespace internal {
 ExceptionSnapshotFuchsia::ExceptionSnapshotFuchsia() = default;
 ExceptionSnapshotFuchsia::~ExceptionSnapshotFuchsia() = default;
 
-void ExceptionSnapshotFuchsia::Initialize(
+bool ExceptionSnapshotFuchsia::Initialize(
     ProcessReaderFuchsia* process_reader,
     zx_koid_t thread_id,
     const zx_exception_report_t& exception_report) {
@@ -78,6 +78,12 @@ void ExceptionSnapshotFuchsia::Initialize(
 #endif
   }
 
+  if (context_.architecture == kCPUArchitectureUnknown) {
+    // If context_ wasn't filled, the InstructionPointer() can't be retrieved
+    // and the exception snapshot can't be considered initialized_.
+    return false;
+  }
+
   if (context_.InstructionPointer() != 0 &&
       (exception_ == ZX_EXCP_UNDEFINED_INSTRUCTION ||
        exception_ == ZX_EXCP_SW_BREAKPOINT ||
@@ -94,6 +100,7 @@ void ExceptionSnapshotFuchsia::Initialize(
   }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
 }
 
 const CPUContext* ExceptionSnapshotFuchsia::Context() const {

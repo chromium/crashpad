@@ -60,7 +60,10 @@ bool ProcessSnapshotFuchsia::InitializeException(
     const zx_exception_report_t& report) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   exception_.reset(new internal::ExceptionSnapshotFuchsia());
-  exception_->Initialize(&process_reader_, thread_id, report);
+  if (!exception_->Initialize(&process_reader_, thread_id, report)) {
+    exception_.reset();
+    return false;
+  }
   return true;
 }
 
