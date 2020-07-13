@@ -44,7 +44,10 @@ class ExceptionSnapshotFuchsia final : public ExceptionSnapshot {
   //! \param[in] thread_id The koid of the thread that sustained the exception.
   //! \param[in] exception_report The `zx_exception_report_t` retrieved from the
   //!     thread in the exception state, corresponding to \a thread_id.
-  void Initialize(ProcessReaderFuchsia* process_reader,
+  //!
+  //! \return `true` if the exception data was initialized, `false` otherwise
+  //!     with an error logged.
+  bool Initialize(ProcessReaderFuchsia* process_reader,
                   zx_koid_t thread_id,
                   const zx_exception_report_t& exception_report);
 
@@ -63,7 +66,7 @@ class ExceptionSnapshotFuchsia final : public ExceptionSnapshot {
 #elif defined(ARCH_CPU_ARM64)
   CPUContextARM64 context_arch_;
 #endif
-  CPUContext context_ = {};
+  CPUContext context_;
   std::vector<uint64_t> codes_;
   zx_koid_t thread_id_;
   zx_vaddr_t exception_address_;

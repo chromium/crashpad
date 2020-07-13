@@ -24,7 +24,7 @@ namespace internal {
 ExceptionSnapshotFuchsia::ExceptionSnapshotFuchsia() = default;
 ExceptionSnapshotFuchsia::~ExceptionSnapshotFuchsia() = default;
 
-void ExceptionSnapshotFuchsia::Initialize(
+bool ExceptionSnapshotFuchsia::Initialize(
     ProcessReaderFuchsia* process_reader,
     zx_koid_t thread_id,
     const zx_exception_report_t& exception_report) {
@@ -61,22 +61,26 @@ void ExceptionSnapshotFuchsia::Initialize(
                    [thread_id](const ProcessReaderFuchsia::Thread& thread) {
                      return thread.id == thread_id;
                    });
-  if (t != threads.end()) {
+  if (t == threads.end()) {
+    // If no threads have been read, then context_ can't be initalized, and the
+    // exception snapshot can't be considered initialized_.
+    return false;
+  }
+
 #if defined(ARCH_CPU_X86_64)
-    context_.architecture = kCPUArchitectureX86_64;
-    context_.x86_64 = &context_arch_;
-    // TODO(fxbug.dev/5496): Add float context once saved in |t|.
-    InitializeCPUContextX86_64_NoFloatingPoint(t->general_registers,
-                                               context_.x86_64);
+  context_.architecture = kCPUArchitectureX86_64;
+  context_.x86_64 = &context_arch_;
+  // TODO(fxbug.dev/5496): Add float context once saved in |t|.
+  InitializeCPUContextX86_64_NoFloatingPoint(t->general_registers,
+                                             context_.x86_64);
 #elif defined(ARCH_CPU_ARM64)
-    context_.architecture = kCPUArchitectureARM64;
-    context_.arm64 = &context_arch_;
-    InitializeCPUContextARM64(
-        t->general_registers, t->vector_registers, context_.arm64);
+  context_.architecture = kCPUArchitectureARM64;
+  context_.arm64 = &context_arch_;
+  InitializeCPUContextARM64(
+      t->general_registers, t->vector_registers, context_.arm64);
 #else
 #error Port.
 #endif
-  }
 
   if (context_.InstructionPointer() != 0 &&
       (exception_ == ZX_EXCP_UNDEFINED_INSTRUCTION ||
@@ -94,6 +98,7 @@ void ExceptionSnapshotFuchsia::Initialize(
   }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
 }
 
 const CPUContext* ExceptionSnapshotFuchsia::Context() const {
