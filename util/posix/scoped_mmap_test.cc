@@ -403,6 +403,19 @@ TEST(ScopedMmapDeathTest, Mprotect) {
   *addr = 2;
 }
 
+TEST(ScopedMmapTest, Release) {
+  ScopedMmap mapping;
+
+  const size_t kPageSize = base::checked_cast<size_t>(getpagesize());
+  ASSERT_TRUE(ScopedMmapResetMmap(&mapping, kPageSize));
+  ASSERT_TRUE(mapping.is_valid());
+
+  ScopedMmap mapping2;
+  ASSERT_TRUE(mapping2.ResetAddrLen(mapping.release(), kPageSize));
+  EXPECT_TRUE(mapping2.is_valid());
+  EXPECT_FALSE(mapping.is_valid());
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad

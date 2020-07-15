@@ -77,6 +77,10 @@ class ScopedMmap {
   //! \return `true` on success. `false` on failure, with a message logged.
   bool Mprotect(int prot);
 
+  //! \brief Returns the base address of the memory-mapped region and releases
+  //!     ownership.
+  void* release();
+
   //! \return Whether this object is managing a valid memory-mapped region.
   bool is_valid() const { return addr_ != MAP_FAILED; }
 
