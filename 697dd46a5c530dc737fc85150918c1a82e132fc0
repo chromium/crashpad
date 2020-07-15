@@ -16,6 +16,97 @@
       "revId": "697dd46a5c530dc737fc85150918c1a82e132fc0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54df2540_1a2370e8",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-15T16:30:36Z",
+      "side": 1,
+      "message": "Because of the mprotects, you need to ensure that this is rounded up to page size.\n\n(I wouldn’t expect SIGSTKSZ to not be a round number of pages, but the round_page can be done entirely constexpr, and it makes the code more definitely correct.)",
+      "revId": "697dd46a5c530dc737fc85150918c1a82e132fc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d2c9be3_0b456d43",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-15T16:30:36Z",
+      "side": 1,
+      "message": "It’s wasteful for these two to be static. getpagesize() should be a very inexpensive call.",
+      "range": {
+        "startLine": 437,
+        "startChar": 0,
+        "endLine": 438,
+        "endChar": 74
+      },
+      "revId": "697dd46a5c530dc737fc85150918c1a82e132fc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "883b9550_b3b7310d",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-15T16:30:36Z",
+      "side": 1,
+      "message": "Since we’re only using this on Linux-ish platforms, pthread_create_linux.cc?",
+      "revId": "697dd46a5c530dc737fc85150918c1a82e132fc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dac645e8_4ccf8b29",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-15T16:30:36Z",
+      "side": 1,
+      "message": "Unnecessary to CHECK each time through this function. You can CHECK following the dlsym call, but you don’t always call dlsym. I like to initialize the static variable with the result of a lambda call to achieve this kind of thing.",
+      "revId": "697dd46a5c530dc737fc85150918c1a82e132fc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21db65e1_a136c46a",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-15T16:30:36Z",
+      "side": 1,
+      "message": "Don’t leak: if next_pthread_create is nonzero, delete params before returning.",
+      "revId": "697dd46a5c530dc737fc85150918c1a82e132fc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
