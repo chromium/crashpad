@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "bc70b72b_14963706",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T18:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54df2540_1a2370e8",
+      "revId": "697dd46a5c530dc737fc85150918c1a82e132fc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d2c9be3_0b456d43",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 10
@@ -59,6 +77,30 @@
     },
     {
       "key": {
+        "uuid": "27d55c79_1a1b8236",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T18:26:42Z",
+      "side": 1,
+      "message": "Done.\n\nI was curious whether the additional code bytes needed to calculate these here and in the stack_destructor would be more than what I expected to be 8-16 bytes of RW data, but it turned out that making these not static uses less RW data AND fewer code bytes.",
+      "parentUuid": "8d2c9be3_0b456d43",
+      "range": {
+        "startLine": 437,
+        "startChar": 0,
+        "endLine": 438,
+        "endChar": 74
+      },
+      "revId": "697dd46a5c530dc737fc85150918c1a82e132fc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "883b9550_b3b7310d",
         "filename": "client/pthread_create.cc",
         "patchSetId": 10
@@ -73,6 +115,24 @@
       "revId": "697dd46a5c530dc737fc85150918c1a82e132fc0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33a161a3_313d17a2",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T18:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "883b9550_b3b7310d",
+      "revId": "697dd46a5c530dc737fc85150918c1a82e132fc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +153,24 @@
     },
     {
       "key": {
+        "uuid": "7c7649f8_fa78ab1b",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T18:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dac645e8_4ccf8b29",
+      "revId": "697dd46a5c530dc737fc85150918c1a82e132fc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21db65e1_a136c46a",
         "filename": "client/pthread_create.cc",
         "patchSetId": 10
@@ -107,6 +185,24 @@
       "revId": "697dd46a5c530dc737fc85150918c1a82e132fc0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99cf6be6_03f0ab78",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T18:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21db65e1_a136c46a",
+      "revId": "697dd46a5c530dc737fc85150918c1a82e132fc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
