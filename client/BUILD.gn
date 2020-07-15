@@ -175,3 +175,11 @@ source_set("client_test") {
     data_deps += [ "../handler:crashpad_handler_console" ]
   }
 }
+
+if (crashpad_is_linux || crashpad_is_android) {
+  source_set("pthread_create") {
+    sources = [ "pthread_create_linux.cc" ]
+
+    deps = [ ":client" ]
+  }
+}
