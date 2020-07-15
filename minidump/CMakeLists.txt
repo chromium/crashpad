@@ -66,8 +66,8 @@ if(MSVC)
     target_compile_options(crashpad_minidump PRIVATE "/wd4201" "/wd4324")
 endif()
 
-if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    target_compile_options(crashpad_minidump PRIVATE 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(crashpad_minidump PRIVATE
         "-Wno-multichar"
     )
 endif()

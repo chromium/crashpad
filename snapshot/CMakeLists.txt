@@ -205,15 +205,20 @@ if(WIN32)
         target_compile_options(crashpad_snapshot PRIVATE "/wd4201")
     endif()
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        target_compile_options(crashpad_snapshot PRIVATE 
-            "-Wno-multichar"
+        target_compile_options(crashpad_snapshot PRIVATE
             "-Wno-attributes"
         )
     elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    target_compile_options(crashpad_snapshot PRIVATE 
-        "-Wno-unknown-attributes"
-    )
+        target_compile_options(crashpad_snapshot PRIVATE
+            "-Wno-unknown-attributes"
+        )
     endif()
+endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(crashpad_snapshot PRIVATE
+        "-Wno-multichar"
+    )
 endif()
 
 set_property(TARGET crashpad_snapshot PROPERTY EXPORT_NAME snapshot)

@@ -62,11 +62,12 @@ if(WIN32)
     if(MSVC)
         target_compile_options(crashpad_handler_lib PRIVATE "/wd4201")
     endif()
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        target_compile_options(crashpad_handler_lib PRIVATE
-            "-Wno-multichar"
-        )
-    endif()
+endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(crashpad_handler_lib PRIVATE
+        "-Wno-multichar"
+    )
 endif()
 
 set_property(TARGET crashpad_handler_lib PROPERTY EXPORT_NAME handler)

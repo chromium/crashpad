@@ -79,12 +79,11 @@ if(WIN32)
         )
     endif()
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        target_compile_options(crashpad_client PRIVATE 
-            "-Wno-multichar"
+        target_compile_options(crashpad_client PRIVATE
             "-Wno-attributes"
         )
     elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        target_compile_options(crashpad_client PRIVATE 
+        target_compile_options(crashpad_client PRIVATE
             "-Wno-unknown-attributes"
             "-Wno-unknown-pragmas"
         )
@@ -96,6 +95,12 @@ if(IOS)
         PUBLIC
             crashpad_minidump
             crashpad_snapshot
+    )
+endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(crashpad_client PRIVATE
+        "-Wno-multichar"
     )
 endif()
 
