@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1eaab5ca_17b16dda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "\u003e Patch Set 7:\n\u003e \n\u003e (17 comments)\n\u003e \n\u003e Cool. And sorry for the delay on the review.\n\u003e \n\u003e macOS has “pthread introspection” hooks that receive notifications of certain thread events on-thread, including thread start. Mostly this is used as an interface for debuggers. But I don’t think the Linux world generally has anything that works exactly like that. As I recall, the hook that debuggers use on Linux to be notified of new thread creation runs on the parent thread, not the new thread. Worthless for this purpose.\n\nPTRACE_EVENT_CLONE could potentially function, but I think not as well. It\u0027d be more complicated to implement the hook from out-of-process and it\u0027s not composable with other things that want to use ptrace.",
+      "revId": "697dd46a5c530dc737fc85150918c1a82e132fc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}

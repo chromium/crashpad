@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "226aaa7d_024f7a8f",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4352e685_f0f9a3c7",
+      "range": {
+        "startLine": 148,
+        "startChar": 68,
+        "endLine": 148,
+        "endChar": 71
+      },
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13eaa428_d733eef1",
         "filename": "client/crashpad_client.h",
         "patchSetId": 7
@@ -39,6 +63,24 @@
       "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d98006f_f774113c",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13eaa428_d733eef1",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "b8062374_32258623",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "Nice! Done!",
+      "parentUuid": "c5f1bf4a_2b9a477b",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d893cea_e600ab0d",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 7
@@ -70,6 +130,24 @@
       "writtenOn": "2020-06-08T16:10:50Z",
       "side": 1,
       "message": "1. You should really call sigaltstack to clear the alternate stack (or restore the previous one) before calling munmap, because the thread’s still running at this point and the configured sigaltstack becomes garbage after calling munmap.\n\n2. The destructor will still run even on threads that never called InitializeSignalStack. stack_mem will be nullptr in that case, and this will attempt to munmap kStackAllocSize bytes starting at address 0. You must null-check stack_mem in the destructor function.",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64563303_088625e5",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "1. I now clear the alt stack if it matches the stack memory we\u0027re currently destructing. I don\u0027t restore the previous stack because we don\u0027t own that memory and don\u0027t know whether it still points to a valid stack. Maybe it\u0027s just been unmapped by another key\u0027s destructor or has been re-mapped for another purpose!\n\n2. This documentation says the destructor only gets called for threads with non-null values, which is consistent with my observations in the tests: https://pubs.opengroup.org/onlinepubs/009695399/functions/pthread_key_create.html",
+      "parentUuid": "0d893cea_e600ab0d",
       "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "1f1f9003_3055280b",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e58ac7b8_796096fb",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b54ce706_b0eee6a6",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 7
@@ -107,6 +203,24 @@
       "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ea4ae08_05f1185c",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b54ce706_b0eee6a6",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -133,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "a5ef98bb_c7e46fd9",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5351a0cf_c7305f65",
+      "range": {
+        "startLine": 474,
+        "startChar": 4,
+        "endLine": 474,
+        "endChar": 13
+      },
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a8bf933_2a61409b",
         "filename": "client/crashpad_client_linux.cc",
         "patchSetId": 7
@@ -150,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "ee3fa41f_16005532",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a8bf933_2a61409b",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6150a6e3_78b1f5ee",
         "filename": "client/crashpad_client_linux_test.cc",
         "patchSetId": 7
@@ -164,6 +320,24 @@
       "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8e4879e_e93f32d8",
+        "filename": "client/crashpad_client_linux_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "Done with a client_uses_signals test option.",
+      "parentUuid": "6150a6e3_78b1f5ee",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -190,6 +364,30 @@
     },
     {
       "key": {
+        "uuid": "5aafb14a_bf929f64",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a6d8687_fc5f5d8f",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 18
+      },
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cff7a910_093f4c7d",
         "filename": "client/pthread_create.cc",
         "patchSetId": 7
@@ -207,6 +405,24 @@
     },
     {
       "key": {
+        "uuid": "1f9b6402_000c611f",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cff7a910_093f4c7d",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9631053c_8124b423",
         "filename": "client/pthread_create.cc",
         "patchSetId": 7
@@ -218,6 +434,30 @@
       "writtenOn": "2020-06-08T16:10:50Z",
       "side": 1,
       "message": "I guess you liked this with a copy so that you can encourage the tail call optimization?",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bc4a77_714c71d8",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "Yeah, free-ing up a few bytes is nice, but *not* having this function appear at the bottom of every stack seemed especially nice.",
+      "parentUuid": "9631053c_8124b423",
       "range": {
         "startLine": 33,
         "startChar": 0,
@@ -247,6 +487,24 @@
     },
     {
       "key": {
+        "uuid": "3b8ba530_14c7d760",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "1. Done.\n\n2. Also, done. This would be needed for the component build, at least, and should be okay generally.",
+      "parentUuid": "8ac689ce_fa1d3711",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30cfe8a5_cbe8f839",
         "filename": "client/pthread_create.cc",
         "patchSetId": 7
@@ -261,6 +519,24 @@
       "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a66ac9ab_e10b2744",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30cfe8a5_cbe8f839",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -281,6 +557,24 @@
     },
     {
       "key": {
+        "uuid": "423f7bc3_1590aabe",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4db6dcdc_edbf7e25",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aab58ae_0cee5aa6",
         "filename": "client/pthread_create.cc",
         "patchSetId": 7
@@ -298,6 +592,24 @@
     },
     {
       "key": {
+        "uuid": "6d759b72_7d65d1c5",
+        "filename": "client/pthread_create.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3aab58ae_0cee5aa6",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56d383e4_7f20ceaf",
         "filename": "util/posix/scoped_mmap.h",
         "patchSetId": 7
@@ -312,6 +624,24 @@
       "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2a978e4_1476d868",
+        "filename": "util/posix/scoped_mmap.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-15T03:10:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56d383e4_7f20ceaf",
+      "revId": "361dc6356c54c36f8395aafcb189d69783a8c431",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
