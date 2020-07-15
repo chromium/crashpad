@@ -16,6 +16,11 @@ import("build/crashpad_buildconfig.gni")
 import("build/test.gni")
 import("util/net/tls.gni")
 
+if (crashpad_is_in_chromium) {
+  # Prevent Chromium source assignment filters from being inherited.
+  set_sources_assignment_filter([])
+}
+
 config("crashpad_config") {
   include_dirs = [ "." ]
 }
@@ -40,6 +45,7 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       "minidump:minidump_test",
       "test:googlemock_main",
       "test:test_test",
+      "util:util_test",
     ]
     if (!crashpad_is_ios) {
       deps += [ "snapshot:snapshot_test" ]
@@ -169,7 +175,7 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       ]
     }
   }
-} else if (crashpad_is_standalone) {
+} else if (crashpad_is_standalone || crashpad_is_external) {
   test("crashpad_client_test") {
     deps = [
       "client:client_test",

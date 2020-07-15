@@ -29,8 +29,6 @@ import filecmp
 import json
 import hashlib
 import os
-import plistlib
-import random
 import shutil
 import subprocess
 import sys
@@ -47,7 +45,8 @@ class XcodeProject(object):
         while True:
             self.counter += 1
             str_id = "%s %s %d" % (parent_name, obj['isa'], self.counter)
-            new_id = hashlib.sha1(str_id).hexdigest()[:24].upper()
+            new_id = hashlib.sha1(
+                str_id.encode("utf-8")).hexdigest()[:24].upper()
 
             # Make sure ID is unique. It's possible there could be an id
             # conflict since this is run after GN runs.
@@ -56,46 +55,65 @@ class XcodeProject(object):
                 return new_id
 
 
+def check_output(command):
+    """Wrapper around subprocess.check_output that decode output as utf-8."""
+    return subprocess.check_output(command).decode('utf-8')
+
+
 def CopyFileIfChanged(source_path, target_path):
-    """Copy |source_path| to |target_path| is different."""
+    """Copy |source_path| to |target_path| if different."""
     target_dir = os.path.dirname(target_path)
     if not os.path.isdir(target_dir):
         os.makedirs(target_dir)
-    if (not os.path.exists(target_path) or
-            not filecmp.cmp(source_path, target_path)):
+    if not os.path.exists(target_path) or \
+        not filecmp.cmp(source_path, target_path):
         shutil.copyfile(source_path, target_path)
 
 
-def LoadXcodeProjectAsJSON(path):
+def CopyTreeIfChanged(source, target):
+    """Copy |source| to |target| recursively; files are copied iff changed."""
+    if os.path.isfile(source):
+        return CopyFileIfChanged(source, target)
+    if not os.path.isdir(target):
+        os.makedirs(target)
+    for name in os.listdir(source):
+        CopyTreeIfChanged(os.path.join(source, name),
+                          os.path.join(target, name))
+
+
+def LoadXcodeProjectAsJSON(project_dir):
     """Return Xcode project at |path| as a JSON string."""
-    return subprocess.check_output(
-        ['plutil', '-convert', 'json', '-o', '-', path])
+    return check_output([
+        'plutil', '-convert', 'json', '-o', '-',
+        os.path.join(project_dir, 'project.pbxproj')
+    ])
 
 
 def WriteXcodeProject(output_path, json_string):
     """Save Xcode project to |output_path| as XML."""
     with tempfile.NamedTemporaryFile() as temp_file:
-        temp_file.write(json_string)
+        temp_file.write(json_string.encode("utf-8"))
         temp_file.flush()
         subprocess.check_call(['plutil', '-convert', 'xml1', temp_file.name])
-        CopyFileIfChanged(temp_file.name, output_path)
+        CopyFileIfChanged(temp_file.name,
+                          os.path.join(output_path, 'project.pbxproj'))
 
 
-def UpdateProductsProject(file_input, file_output, configurations, root_dir):
-    """Update Xcode project to support multiple configurations.
+def UpdateXcodeProject(project_dir, configurations, root_dir):
+    """Update inplace Xcode project to support multiple configurations.
 
     Args:
-        file_input: path to the input Xcode project
-        file_output: path to the output file
-        configurations: list of string corresponding to the configurations that
+      project_dir: path to the input Xcode project
+      configurations: list of string corresponding to the configurations that
         need to be supported by the tweaked Xcode projects, must contains at
         least one value.
+      root_dir: path to the root directory used to find markdown files
     """
-    json_data = json.loads(LoadXcodeProjectAsJSON(file_input))
+    json_data = json.loads(LoadXcodeProjectAsJSON(project_dir))
     project = XcodeProject(json_data['objects'])
 
     objects_to_remove = []
-    for value in project.objects.values():
+    for value in list(project.objects.values()):
         isa = value['isa']
 
         # Teach build shell script to look for the configuration and platform.
@@ -111,10 +129,8 @@ def UpdateProductsProject(file_input, file_output, configurations, root_dir):
 
             build_config_template = project.objects[value['buildConfigurations']
                                                     [0]]
-            build_settings = build_config_template['buildSettings']
-            build_settings['CONFIGURATION_BUILD_DIR'] = (
-                '$(PROJECT_DIR)/../$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)')
-            build_settings['CODE_SIGN_IDENTITY'] = ''
+            build_config_template['buildSettings']['CONFIGURATION_BUILD_DIR'] =\
+                '$(PROJECT_DIR)/../$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)'
 
             value['buildConfigurations'] = []
             for configuration in configurations:
@@ -126,20 +142,96 @@ def UpdateProductsProject(file_input, file_output, configurations, root_dir):
     for object_id in objects_to_remove:
         del project.objects[object_id]
 
-    AddMarkdownToProject(project, root_dir, json_data['rootObject'])
+    source = GetOrCreateRootGroup(project, json_data['rootObject'], 'Source')
+    AddMarkdownToProject(project, root_dir, source)
+    SortFileReferencesByName(project, source)
 
-    objects = collections.OrderedDict(sorted(project.objects.iteritems()))
-    WriteXcodeProject(file_output, json.dumps(json_data))
+    objects = collections.OrderedDict(sorted(project.objects.items()))
+    WriteXcodeProject(project_dir, json.dumps(json_data))
 
 
-def AddMarkdownToProject(project, root_dir, root_object):
+def CreateGroup(project, parent_group, group_name, path=None):
+    group_object = {
+        'children': [],
+        'isa': 'PBXGroup',
+        'name': group_name,
+        'sourceTree': '<group>',
+    }
+    if path is not None:
+        group_object['path'] = path
+    parent_group_name = parent_group.get('name', '')
+    group_object_key = project.AddObject(parent_group_name, group_object)
+    parent_group['children'].append(group_object_key)
+    return group_object
+
+
+def GetOrCreateRootGroup(project, root_object, group_name):
+    main_group = project.objects[project.objects[root_object]['mainGroup']]
+    for child_key in main_group['children']:
+        child = project.objects[child_key]
+        if child['name'] == group_name:
+            return child
+    return CreateGroup(project, main_group, group_name, path='../..')
+
+
+class ObjectKey(object):
+    """Wrapper around PBXFileReference and PBXGroup for sorting.
+
+    A PBXGroup represents a "directory" containing a list of files in an
+    Xcode project; it can contain references to a list of directories or
+    files.
+
+    A PBXFileReference represents a "file".
+
+    The type is stored in the object "isa" property as a string. Since we
+    want to sort all directories before all files, the < and > operators
+    are defined so that if "isa" is different, they are sorted in the
+    reverse of alphabetic ordering, otherwise the name (or path) property
+    is checked and compared in alphabetic order.
+    """
+
+    def __init__(self, obj):
+        self.isa = obj['isa']
+        if 'name' in obj:
+            self.name = obj['name']
+        else:
+            self.name = obj['path']
+
+    def __lt__(self, other):
+        if self.isa != other.isa:
+            return self.isa > other.isa
+        return self.name < other.name
+
+    def __gt__(self, other):
+        if self.isa != other.isa:
+            return self.isa < other.isa
+        return self.name > other.name
+
+    def __eq__(self, other):
+        return self.isa == other.isa and self.name == other.name
+
+
+def SortFileReferencesByName(project, group_object):
+    SortFileReferencesByNameWithSortKey(
+        project, group_object, lambda ref: ObjectKey(project.objects[ref]))
+
+
+def SortFileReferencesByNameWithSortKey(project, group_object, sort_key):
+    group_object['children'].sort(key=sort_key)
+    for key in group_object['children']:
+        child = project.objects[key]
+        if child['isa'] == 'PBXGroup':
+            SortFileReferencesByNameWithSortKey(project, child, sort_key)
+
+
+def AddMarkdownToProject(project, root_dir, group_object):
     list_files_cmd = ['git', '-C', root_dir, 'ls-files', '*.md']
-    paths = subprocess.check_output(list_files_cmd).splitlines()
+    paths = check_output(list_files_cmd).splitlines()
     ios_internal_dir = os.path.join(root_dir, 'ios_internal')
     if os.path.exists(ios_internal_dir):
         list_files_cmd = ['git', '-C', ios_internal_dir, 'ls-files', '*.md']
-        ios_paths = subprocess.check_output(list_files_cmd).splitlines()
-        paths.extend(["ios_internal/" + path for path in ios_paths])
+        ios_paths = check_output(list_files_cmd).splitlines()
+        paths.extend([os.path.join("ios_internal", path) for path in ios_paths])
     for path in paths:
         new_markdown_entry = {
             "fileEncoding": "4",
@@ -150,96 +242,71 @@ def AddMarkdownToProject(project, root_dir, root_object):
             "sourceTree": "<group>"
         }
         new_markdown_entry_id = project.AddObject('sources', new_markdown_entry)
-        folder = GetFolderForPath(project, root_object, os.path.dirname(path))
+        folder = GetFolderForPath(project, group_object, os.path.dirname(path))
         folder['children'].append(new_markdown_entry_id)
 
 
-def GetFolderForPath(project, rootObject, path):
+def GetFolderForPath(project, group_object, path):
     objects = project.objects
-    # 'Sources' is always the first child of
-    # project->rootObject->mainGroup->children.
-    root = objects[objects[objects[rootObject]['mainGroup']]['children'][0]]
     if not path:
-        return root
+        return group_object
     for folder in path.split('/'):
-        children = root['children']
+        children = group_object['children']
         new_root = None
         for child in children:
-            if (objects[child]['isa'] == 'PBXGroup' and
-                    objects[child]['name'] == folder):
+            if objects[child]['isa'] == 'PBXGroup' and \
+               objects[child]['name'] == folder:
                 new_root = objects[child]
                 break
         if not new_root:
             # If the folder isn't found we could just cram it into the leaf
             # existing folder, but that leads to folders with tons of README.md
             # inside.
-            new_group = {
-                "children": [],
-                "isa": "PBXGroup",
-                "name": folder,
-                "sourceTree": "<group>"
-            }
-            new_group_id = project.AddObject('sources', new_group)
-            children.append(new_group_id)
-            new_root = objects[new_group_id]
-        root = new_root
-    return root
-
-
-def DisableNewBuildSystem(output_dir):
-    """Disables the new build system due to crbug.com/852522 """
-    xcwspacesharedsettings = os.path.join(output_dir, 'all.xcworkspace',
-                                          'xcshareddata',
-                                          'WorkspaceSettings.xcsettings')
-    if os.path.isfile(xcwspacesharedsettings):
-        json_data = json.loads(LoadXcodeProjectAsJSON(xcwspacesharedsettings))
-    else:
-        json_data = {}
-    json_data['BuildSystemType'] = 'Original'
-    WriteXcodeProject(xcwspacesharedsettings, json.dumps(json_data))
+            new_root = CreateGroup(project, group_object, folder)
+        group_object = new_root
+    return group_object
 
 
 def ConvertGnXcodeProject(root_dir, input_dir, output_dir, configurations):
     '''Tweak the Xcode project generated by gn to support multiple
     configurations.
 
-    The Xcode projects generated by "gn gen --ide" only supports a single
-    platform and configuration (as the platform and configuration are set per
-    output directory). This method takes as input such projects and add support
-    for multiple configurations and platforms (to allow devs to select them in
-    Xcode).
+  The Xcode projects generated by "gn gen --ide" only supports a single
+  platform and configuration (as the platform and configuration are set
+  per output directory). This method takes as input such projects and
+  add support for multiple configurations and platforms (to allow devs
+  to select them in Xcode).
 
-    Args:
-        input_dir: directory containing the XCode projects created by "gn gen
-            --ide"
-        output_dir: directory where the tweaked Xcode projects will be saved
-        configurations: list of string corresponding to the configurations that
-            need to be supported by the tweaked Xcode projects, must contains at
-            least one value.
-    '''
-    # Update products project.
-    products = os.path.join('products.xcodeproj', 'project.pbxproj')
-    product_input = os.path.join(input_dir, products)
-    product_output = os.path.join(output_dir, products)
-    UpdateProductsProject(product_input, product_output, configurations,
-                          root_dir)
+  Args:
+    input_dir: directory containing the XCode projects created by "gn gen --ide"
+    output_dir: directory where the tweaked Xcode projects will be saved
+    configurations: list of string corresponding to the configurations that
+      need to be supported by the tweaked Xcode projects, must contains at
+      least one value.
+  '''
 
-    # Copy all workspace.
-    xcwspace = os.path.join('all.xcworkspace', 'contents.xcworkspacedata')
-    CopyFileIfChanged(os.path.join(input_dir, xcwspace),
-                      os.path.join(output_dir, xcwspace))
+    # Update the project (supports legacy name "products.xcodeproj" or the new
+    # project name "all.xcodeproj").
+    for project_name in ('all.xcodeproj', 'products.xcodeproj'):
+        if os.path.exists(os.path.join(input_dir, project_name)):
+            UpdateXcodeProject(os.path.join(input_dir, project_name),
+                               configurations, root_dir)
 
-    # TODO(crbug.com/852522): Disable new BuildSystemType.
-    DisableNewBuildSystem(output_dir)
+            CopyTreeIfChanged(os.path.join(input_dir, project_name),
+                              os.path.join(output_dir, project_name))
 
-    # TODO(crbug.com/679110): gn has been modified to remove 'sources.xcodeproj'
-    # and keep 'all.xcworkspace' and 'products.xcodeproj'. The following code is
-    # here to support both old and new projects setup and will be removed once
-    # gn has rolled past it.
-    sources = os.path.join('sources.xcodeproj', 'project.pbxproj')
-    if os.path.isfile(os.path.join(input_dir, sources)):
-        CopyFileIfChanged(os.path.join(input_dir, sources),
-                          os.path.join(output_dir, sources))
+        else:
+            shutil.rmtree(os.path.join(output_dir, project_name),
+                          ignore_errors=True)
+
+    # Copy all.xcworkspace if it exists (will be removed in a future gn version).
+    workspace_name = 'all.xcworkspace'
+    if os.path.exists(os.path.join(input_dir, workspace_name)):
+        CopyTreeIfChanged(os.path.join(input_dir, workspace_name),
+                          os.path.join(output_dir, workspace_name))
+    else:
+        shutil.rmtree(os.path.join(output_dir, workspace_name),
+                      ignore_errors=True)
 
 
 def Main(args):
@@ -264,8 +331,18 @@ def Main(args):
         sys.stderr.write('Input directory does not exists.\n')
         return 1
 
-    required = set(['products.xcodeproj', 'all.xcworkspace'])
-    if not required.issubset(os.listdir(args.input)):
+    # Depending on the version of "gn", there should be either one project file
+    # named "all.xcodeproj" or a project file named "products.xcodeproj" and a
+    # workspace named "all.xcworkspace".
+    required_files_sets = [
+        set(("all.xcodeproj",)),
+        set(("products.xcodeproj", "all.xcworkspace")),
+    ]
+
+    for required_files in required_files_sets:
+        if required_files.issubset(os.listdir(args.input)):
+            break
+    else:
         sys.stderr.write(
             'Input directory does not contain all necessary Xcode projects.\n')
         return 1

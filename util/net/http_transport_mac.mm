@@ -91,6 +91,8 @@ NSString* UserAgentString() {
     NSString* arch = @"i386";
 #elif defined(ARCH_CPU_X86_64)
     NSString* arch = @"x86_64";
+#elif defined(ARCH_CPU_ARM64)
+    NSString* arch = @"arm64";
 #else
 #error Port
 #endif

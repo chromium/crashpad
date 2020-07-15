@@ -14,6 +14,11 @@
 
 import("../build/crashpad_buildconfig.gni")
 
+if (crashpad_is_in_chromium) {
+  # Prevent Chromium source assignment filters from being inherited.
+  set_sources_assignment_filter([])
+}
+
 config("compat_config") {
   include_dirs = []
 
@@ -94,8 +99,8 @@ compat_target("compat") {
   if (crashpad_is_linux || crashpad_is_android) {
     sources += [
       "linux/signal.h",
-      "linux/sys/mman.cc",
       "linux/sys/mman.h",
+      "linux/sys/mman_memfd_create.cc",
       "linux/sys/ptrace.h",
       "linux/sys/user.h",
     ]
@@ -114,8 +119,8 @@ compat_target("compat") {
       "android/sched.h",
       "android/sys/epoll.cc",
       "android/sys/epoll.h",
-      "android/sys/mman.cc",
       "android/sys/mman.h",
+      "android/sys/mman_mmap.cc",
       "android/sys/syscall.h",
       "android/sys/user.h",
     ]

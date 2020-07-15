@@ -24,6 +24,8 @@
 #include "util/win/traits.h"
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
 #include "util/linux/traits.h"
+#elif defined(OS_FUCHSIA)
+#include "util/fuchsia/traits.h"
 #endif
 
 namespace crashpad {
