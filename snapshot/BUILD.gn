@@ -440,7 +440,7 @@ source_set("snapshot_test") {
   ]
 
   if (crashpad_is_mac) {
-    libs = [ "OpenCL.framework" ]
+    frameworks = [ "OpenCL.framework" ]
 
     data_deps += [
       ":crashpad_snapshot_test_module_crashy_initializer",

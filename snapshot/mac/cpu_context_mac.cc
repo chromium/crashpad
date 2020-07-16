@@ -437,20 +437,22 @@ void InitializeCPUContextX86_64(CPUContextX86_64* context,
 
 }  // namespace internal
 
-#elif defined(ARCH_CPU_ARM_FAMILY)
+#elif defined(ARCH_CPU_ARM64)
 
 namespace {
 
 void InitializeCPUContextARM64Thread(
     CPUContextARM64* context,
     const arm_thread_state64_t* arm_thread_state64) {
-  // The structures of context->regs and arm_thread_state64->__x are laid out
-  // identically for this copy, even though the members are organized
-  // differently.  Because of this difference, there can't be a static assert
-  // similar to the one below for fpsimd.
-  memcpy(context->regs, arm_thread_state64->__x, sizeof(context->regs));
-  context->sp = arm_thread_state64->__sp;
-  context->pc = arm_thread_state64->__pc;
+  // The first 29 fields of context->regs is laid out identically to
+  // arm_thread_state64->__x.
+  memcpy(
+      context->regs, arm_thread_state64->__x, sizeof(arm_thread_state64->__x));
+
+  context->regs[29] = arm_thread_state64_get_fp(*arm_thread_state64);
+  context->regs[30] = arm_thread_state64_get_lr(*arm_thread_state64);
+  context->sp = arm_thread_state64_get_sp(*arm_thread_state64);
+  context->pc = arm_thread_state64_get_pc(*arm_thread_state64);
   context->spsr =
       static_cast<decltype(context->spsr)>(arm_thread_state64->__cpsr);
 }
@@ -464,6 +466,12 @@ void InitializeCPUContextARM64Neon(CPUContextARM64* context,
   context->fpcr = arm_neon_state64->__fpcr;
 }
 
+void InitializeCPUContextARM64Debug(
+    CPUContextARM64* context,
+    const arm_debug_state64_t* arm_debug_state64) {
+  // TODO(macos_arm64): Create a spot in CPUContextARM64 to keep this.
+}
+
 thread_state_flavor_t InitializeCPUContextARM64Flavor(
     CPUContextARM64* context,
     thread_state_flavor_t flavor,
@@ -471,14 +479,17 @@ thread_state_flavor_t InitializeCPUContextARM64Flavor(
     mach_msg_type_number_t state_count) {
   mach_msg_type_number_t expected_state_count;
   switch (flavor) {
-    case ARM_THREAD_STATE:
-      expected_state_count = ARM_THREAD_STATE_COUNT;
+    case ARM_UNIFIED_THREAD_STATE:
+      expected_state_count = ARM_UNIFIED_THREAD_STATE_COUNT;
       break;
     case ARM_THREAD_STATE64:
       expected_state_count = ARM_THREAD_STATE64_COUNT;
       break;
     case ARM_NEON_STATE64:
       expected_state_count = ARM_NEON_STATE64_COUNT;
+      break;
+    case ARM_DEBUG_STATE64:
+      expected_state_count = ARM_DEBUG_STATE64_COUNT;
       break;
     case THREAD_STATE_NONE: {
       // This may happen without error when called without exception-style
@@ -498,7 +509,7 @@ thread_state_flavor_t InitializeCPUContextARM64Flavor(
   }
 
   switch (flavor) {
-    case ARM_THREAD_STATE: {
+    case ARM_UNIFIED_THREAD_STATE: {
       const arm_unified_thread_state_t* arm_thread_state =
           reinterpret_cast<const arm_unified_thread_state_t*>(state);
       if (arm_thread_state->ash.flavor != ARM_THREAD_STATE64) {
@@ -527,6 +538,13 @@ thread_state_flavor_t InitializeCPUContextARM64Flavor(
       return ARM_NEON_STATE64;
     }
 
+    case ARM_DEBUG_STATE64: {
+      const arm_debug_state64_t* arm_debug_state =
+          reinterpret_cast<const arm_debug_state64_t*>(state);
+      InitializeCPUContextARM64Debug(context, arm_debug_state);
+      return ARM_DEBUG_STATE64;
+    }
+
     case THREAD_STATE_NONE: {
       // This may happen without error when called without exception-style
       // flavor data, or even from an exception handler when the exception
@@ -550,7 +568,8 @@ void InitializeCPUContextARM64(CPUContextARM64* context,
                                ConstThreadState state,
                                mach_msg_type_number_t state_count,
                                const arm_thread_state64_t* arm_thread_state64,
-                               const arm_neon_state64_t* arm_neon_state64) {
+                               const arm_neon_state64_t* arm_neon_state64,
+                               const arm_debug_state64_t* arm_debug_state64) {
   thread_state_flavor_t set_flavor = THREAD_STATE_NONE;
   if (flavor != THREAD_STATE_NONE) {
     set_flavor =
@@ -562,6 +581,9 @@ void InitializeCPUContextARM64(CPUContextARM64* context,
   }
   if (set_flavor != ARM_NEON_STATE64) {
     InitializeCPUContextARM64Neon(context, arm_neon_state64);
+  }
+  if (set_flavor != ARM_DEBUG_STATE64) {
+    InitializeCPUContextARM64Debug(context, arm_debug_state64);
   }
 }
 

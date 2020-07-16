@@ -23,6 +23,7 @@
 #include <algorithm>
 
 #include "base/logging.h"
+#include "base/notreached.h"
 #include "base/scoped_clear_last_error.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
@@ -157,6 +158,8 @@ CPUArchitecture SystemSnapshotMac::GetCPUArchitecture() const {
 #if defined(ARCH_CPU_X86_FAMILY)
   return process_reader_->Is64Bit() ? kCPUArchitectureX86_64
                                     : kCPUArchitectureX86;
+#elif defined(ARCH_CPU_ARM64)
+  return kCPUArchitectureARM64;
 #else
 #error port to your architecture
 #endif
@@ -174,6 +177,9 @@ uint32_t SystemSnapshotMac::CPURevision() const {
   uint8_t stepping = CastIntSysctlByName<uint8_t>("machdep.cpu.stepping", 0);
 
   return (family << 16) | (model << 8) | stepping;
+#elif defined(ARCH_CPU_ARM64)
+  // TODO(macos_arm64): Verify and test.
+  return CastIntSysctlByName<uint32_t>("hw.cpufamily", 0);
 #else
 #error port to your architecture
 #endif
@@ -189,6 +195,8 @@ std::string SystemSnapshotMac::CPUVendor() const {
 
 #if defined(ARCH_CPU_X86_FAMILY)
   return ReadStringSysctlByName("machdep.cpu.vendor");
+#elif defined(ARCH_CPU_ARM64)
+  return ReadStringSysctlByName("machdep.cpu.brand_string");
 #else
 #error port to your architecture
 #endif

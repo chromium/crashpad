@@ -16,6 +16,9 @@ import("../../../build/crashpad_buildconfig.gni")
 
 if (crashpad_is_in_chromium) {
   import("//build/config/ios/rules.gni")
+
+  # Prevent Chromium source assignment filters from being inherited.
+  set_sources_assignment_filter([])
 } else if (crashpad_is_standalone) {
   import("//third_party/mini_chromium/mini_chromium/build/ios/rules.gni")
 }
@@ -25,7 +28,7 @@ source_set("app_shared_sources") {
   sources = [ "cptest_shared_object.h" ]
   configs += [ "../../..:crashpad_config" ]
   deps = [ "../../../build:ios_enable_arc" ]
-  libs = [ "UIKit.framework" ]
+  frameworks = [ "UIKit.framework" ]
 }
 
 static_library("app_host_sources") {
@@ -44,7 +47,7 @@ static_library("app_host_sources") {
     "../../../client",
     "../../../third_party/edo",
   ]
-  libs = [
+  frameworks = [
     "Foundation.framework",
     "UIKit.framework",
   ]

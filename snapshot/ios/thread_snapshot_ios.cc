@@ -26,6 +26,7 @@ const thread_state_flavor_t kDebugStateFlavor = x86_DEBUG_STATE64;
 #elif defined(ARCH_CPU_ARM64)
 const thread_state_flavor_t kThreadStateFlavor = ARM_THREAD_STATE64;
 const thread_state_flavor_t kFloatStateFlavor = ARM_NEON_STATE64;
+const thread_state_flavor_t kDebugStateFlavor = ARM_DEBUG_STATE64;
 #endif
 
 kern_return_t MachVMRegionRecurseDeepest(task_t task,
@@ -324,8 +325,10 @@ bool ThreadSnapshotIOS::Initialize(thread_t thread) {
 #elif defined(ARCH_CPU_ARM64)
   arm_thread_state64_t thread_state;
   arm_neon_state64_t float_state;
+  arm_debug_state64_t debug_state;
   mach_msg_type_number_t thread_state_count = ARM_THREAD_STATE64_COUNT;
   mach_msg_type_number_t float_state_count = ARM_NEON_STATE64_COUNT;
+  mach_msg_type_number_t debug_state_count = ARM_DEBUG_STATE64_COUNT;
 #endif
 
   kern_return_t kr =
@@ -345,7 +348,6 @@ bool ThreadSnapshotIOS::Initialize(thread_t thread) {
     MACH_LOG(ERROR, kr) << "thread_get_state(" << kFloatStateFlavor << ")";
   }
 
-#if defined(ARCH_CPU_X86_64)
   kr = thread_get_state(thread,
                         kDebugStateFlavor,
                         reinterpret_cast<thread_state_t>(&debug_state),
@@ -353,7 +355,6 @@ bool ThreadSnapshotIOS::Initialize(thread_t thread) {
   if (kr != KERN_SUCCESS) {
     MACH_LOG(ERROR, kr) << "thread_get_state(" << kDebugStateFlavor << ")";
   }
-#endif
 
   mach_msg_type_number_t count = THREAD_BASIC_INFO_COUNT;
   kr = thread_info(thread,
@@ -388,7 +389,7 @@ bool ThreadSnapshotIOS::Initialize(thread_t thread) {
 #if defined(ARCH_CPU_X86_64)
   vm_address_t stack_pointer = thread_state.__rsp;
 #elif defined(ARCH_CPU_ARM64)
-  vm_address_t stack_pointer = thread_state.__sp;
+  vm_address_t stack_pointer = arm_thread_state64_get_sp(thread_state);
 #endif
   stack_region_address =
       CalculateStackRegion(stack_pointer, &stack_region_size);
@@ -432,7 +433,10 @@ bool ThreadSnapshotIOS::Initialize(thread_t thread) {
                             nullptr,
                             0,
                             &thread_state,
-                            &float_state);
+                            &float_state,
+                            &debug_state);
+#else
+#error Port to your CPU architecture
 #endif
 
   INITIALIZATION_STATE_SET_VALID(initialized_);

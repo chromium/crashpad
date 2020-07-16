@@ -14,6 +14,11 @@
 
 import("../build/crashpad_buildconfig.gni")
 
+if (crashpad_is_in_chromium) {
+  # Prevent Chromium source assignment filters from being inherited.
+  set_sources_assignment_filter([])
+}
+
 static_library("client") {
   sources = [
     "annotation.cc",
@@ -51,7 +56,6 @@ static_library("client") {
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
-    set_sources_assignment_filter([])
     sources += [
       "crashpad_client_linux.cc",
       "simulate_crash_linux.h",
@@ -111,7 +115,7 @@ static_library("client") {
   if (crashpad_is_fuchsia) {
     deps += [ "../third_party/fuchsia" ]
     if (crashpad_is_in_fuchsia) {
-      deps += [ "//zircon/public/lib/fdio" ]
+      deps += [ "//sdk/lib/fdio" ]
     }
   }
 }

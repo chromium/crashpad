@@ -23,25 +23,29 @@ import shutil
 import subprocess
 import sys
 import tempfile
-import ConfigParser
 
 try:
-    import cStringIO as StringIO
+    import configparser
 except ImportError:
-    import StringIO
+    import ConfigParser as configparser
+
+try:
+    import StringIO as io
+except ImportError:
+    import io
 
 SUPPORTED_TARGETS = ('iphoneos', 'iphonesimulator')
 SUPPORTED_CONFIGS = ('Debug', 'Release', 'Profile', 'Official', 'Coverage')
 
 
-class ConfigParserWithStringInterpolation(ConfigParser.SafeConfigParser):
+class ConfigParserWithStringInterpolation(configparser.SafeConfigParser):
     '''A .ini file parser that supports strings and environment variables.'''
 
     ENV_VAR_PATTERN = re.compile(r'\$([A-Za-z0-9_]+)')
 
     def values(self, section):
-        return map(lambda (k, v): self._UnquoteString(self._ExpandEnvVar(v)),
-                   ConfigParser.SafeConfigParser.items(self, section))
+        return map(lambda kv: self._UnquoteString(self._ExpandEnvVar(kv[1])),
+                   configparser.ConfigParser.items(self, section))
 
     def getstring(self, section, option):
         return self._UnquoteString(self._ExpandEnvVar(self.get(section,
@@ -116,7 +120,7 @@ class GnGenerator(object):
         return args
 
     def Generate(self, gn_path, root_path, out_path):
-        buf = StringIO.StringIO()
+        buf = io.StringIO()
         self.WriteArgsGn(buf)
         WriteToFileIfChanged(os.path.join(out_path, 'args.gn'),
                              buf.getvalue(),
@@ -126,20 +130,20 @@ class GnGenerator(object):
             self.GetGnCommand(gn_path, root_path, out_path, True))
 
     def CreateGnRules(self, gn_path, root_path, out_path):
-        buf = StringIO.StringIO()
+        buf = io.StringIO()
         self.WriteArgsGn(buf)
         WriteToFileIfChanged(os.path.join(out_path, 'args.gn'),
                              buf.getvalue(),
                              overwrite=True)
 
-        buf = StringIO.StringIO()
+        buf = io.StringIO()
         gn_command = self.GetGnCommand(gn_path, root_path, out_path, False)
         self.WriteBuildNinja(buf, gn_command)
         WriteToFileIfChanged(os.path.join(out_path, 'build.ninja'),
                              buf.getvalue(),
                              overwrite=False)
 
-        buf = StringIO.StringIO()
+        buf = io.StringIO()
         self.WriteBuildNinjaDeps(buf)
         WriteToFileIfChanged(os.path.join(out_path, 'build.ninja.d'),
                              buf.getvalue(),
@@ -196,16 +200,13 @@ class GnGenerator(object):
         if generate_xcode_project:
             gn_command.append('--ide=xcode')
             gn_command.append('--root-target=gn_all')
-            if self._settings.getboolean('goma', 'enabled'):
-                ninja_jobs = self._settings.getint('xcode', 'jobs') or 200
-                gn_command.append('--ninja-extra-args=-j%s' % ninja_jobs)
+            gn_command.append('--ninja-executable=autoninja')
             if self._settings.has_section('filters'):
                 target_filters = self._settings.values('filters')
                 if target_filters:
                     gn_command.append('--filters=%s' % ';'.join(target_filters))
-        # TODO(justincohen): --check is currently failing in crashpad.
-        # else:
-        # gn_command.append('--check')
+        else:
+            gn_command.append('--check')
         gn_command.append('gen')
         gn_command.append('//%s' % os.path.relpath(os.path.abspath(out_path),
                                                    os.path.abspath(src_path)))
@@ -296,6 +297,13 @@ def Main(args):
                         dest='import_rules',
                         default=[],
                         help='path to file defining default gn variables')
+    parser.add_argument('--gn-path',
+                        default=None,
+                        help='path to gn binary (default: look up in $PATH)')
+    parser.add_argument(
+        '--build-dir',
+        default='out',
+        help='path where the build should be created (default: %(default)s)')
     args = parser.parse_args(args)
 
     # Load configuration (first global and then any user overrides).
@@ -320,25 +328,16 @@ def Main(args):
                          settings.getstring('build', 'arch'))
         sys.exit(1)
 
-    if settings.getboolean('goma', 'enabled'):
-        if settings.getint('xcode', 'jobs') < 0:
-            sys.stderr.write('ERROR: invalid value for xcode.jobs: %s\n' %
-                             settings.get('xcode', 'jobs'))
+    # Find path to gn binary either from command-line or in PATH.
+    if args.gn_path:
+        gn_path = args.gn_path
+    else:
+        gn_path = FindGn()
+        if gn_path is None:
+            sys.stderr.write('ERROR: cannot find gn in PATH\n')
             sys.exit(1)
-        goma_install = os.path.expanduser(settings.getstring('goma', 'install'))
-        if not os.path.isdir(goma_install):
-            sys.stderr.write('WARNING: goma.install directory not found: %s\n' %
-                             settings.get('goma', 'install'))
-            sys.stderr.write('WARNING: disabling goma\n')
-            settings.set('goma', 'enabled', 'false')
 
-    # Find gn binary in PATH.
-    gn_path = FindGn()
-    if gn_path is None:
-        sys.stderr.write('ERROR: cannot find gn in PATH\n')
-        sys.exit(1)
-
-    out_dir = os.path.join(args.root, 'out')
+    out_dir = os.path.join(args.root, args.build_dir)
     if not os.path.isdir(out_dir):
         os.makedirs(out_dir)
 

@@ -55,6 +55,10 @@ class ProcessReaderMac {
       x86_debug_state64_t d64;
       x86_debug_state32_t d32;
     };
+#elif defined(ARCH_CPU_ARM64)
+    using ThreadContext = arm_thread_state64_t;
+    using FloatContext = arm_neon_state64_t;
+    using DebugContext = arm_debug_state64_t;
 #endif
 
     Thread();

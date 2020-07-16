@@ -31,8 +31,8 @@ endif()
 if(LINUX OR ANDROID)
     list(APPEND COMPAT_SOURCES
         linux/signal.h
-        linux/sys/mman.cc
         linux/sys/mman.h
+        linux/sys/mman_memfd_create.cc
         linux/sys/ptrace.h
         linux/sys/user.h
     )
@@ -51,8 +51,8 @@ if(ANDROID)
         android/sched.h
         android/sys/epoll.cc
         android/sys/epoll.h
-        android/sys/mman.cc
         android/sys/mman.h
+        android/sys/mman_mmap.cc
         android/sys/syscall.h
         android/sys/user.h
     )

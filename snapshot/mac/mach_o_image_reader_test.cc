@@ -68,6 +68,8 @@ using Nlist = struct nlist;
 constexpr int kCPUType = CPU_TYPE_X86_64;
 #elif defined(ARCH_CPU_X86)
 constexpr int kCPUType = CPU_TYPE_X86;
+#elif defined(ARCH_CPU_ARM64)
+constexpr int kCPUType = CPU_TYPE_ARM64;
 #endif
 
 // Verifies that |expect_section| and |actual_section| agree.

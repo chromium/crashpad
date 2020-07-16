@@ -14,6 +14,11 @@
 
 import("../build/crashpad_buildconfig.gni")
 
+if (crashpad_is_in_chromium) {
+  # Prevent Chromium source assignment filters from being inherited.
+  set_sources_assignment_filter([])
+}
+
 source_set("tool_support") {
   sources = [
     "tool_support.cc",
@@ -146,7 +151,7 @@ if (crashpad_is_mac) {
   crashpad_executable("on_demand_service_tool") {
     sources = [ "mac/on_demand_service_tool.mm" ]
 
-    libs = [
+    frameworks = [
       "CoreFoundation.framework",
       "Foundation.framework",
     ]

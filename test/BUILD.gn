@@ -14,6 +14,11 @@
 
 import("../build/crashpad_buildconfig.gni")
 
+if (crashpad_is_in_chromium) {
+  # Prevent Chromium source assignment filters from being inherited.
+  set_sources_assignment_filter([])
+}
+
 static_library("test") {
   testonly = true
 
@@ -84,7 +89,6 @@ static_library("test") {
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
-    set_sources_assignment_filter([])
     sources += [
       "linux/fake_ptrace_connection.cc",
       "linux/fake_ptrace_connection.h",
@@ -148,7 +152,7 @@ static_library("test") {
   if (crashpad_is_fuchsia) {
     public_deps = [ "../third_party/fuchsia" ]
     if (crashpad_is_in_fuchsia) {
-      deps += [ "//zircon/public/lib/fdio" ]
+      deps += [ "//sdk/lib/fdio" ]
     }
   }
 }

@@ -25,6 +25,8 @@ if (crashpad_is_in_chromium) {
 if (crashpad_is_mac || crashpad_is_ios) {
   if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
     import("//build/config/sysroot.gni")
+  } else if (crashpad_is_external) {
+    import("../../../mini_chromium/mini_chromium/build/sysroot.gni")
   } else {
     import("//third_party/mini_chromium/mini_chromium/build/sysroot.gni")
   }
@@ -544,6 +546,7 @@ static_library("util") {
       "fuchsia/koid_utilities.h",
       "fuchsia/scoped_task_suspend.cc",
       "fuchsia/scoped_task_suspend.h",
+      "fuchsia/traits.h",
       "misc/capture_context_fuchsia.S",
       "misc/paths_fuchsia.cc",
       "process/process_memory_fuchsia.cc",
@@ -573,8 +576,8 @@ static_library("util") {
   }
 
   if (crashpad_is_mac) {
-    libs = [
-      "bsm",
+    libs = [ "bsm" ]
+    frameworks = [
       "CoreFoundation.framework",
       "Foundation.framework",
       "IOKit.framework",
@@ -626,6 +629,9 @@ if (!crashpad_is_android && !crashpad_is_ios) {
 
     if (crashpad_is_standalone) {
       remove_configs = [ "//third_party/mini_chromium/mini_chromium/build:Wexit_time_destructors" ]
+    } else if (crashpad_is_external) {
+      remove_configs =
+          [ "//../../mini_chromium/mini_chromium/build:Wexit_time_destructors" ]
     }
 
     if (crashpad_is_win) {
@@ -827,7 +833,7 @@ source_set("util_test") {
   }
 
   if (crashpad_is_mac) {
-    libs = [ "Foundation.framework" ]
+    frameworks = [ "Foundation.framework" ]
   }
 
   if (crashpad_is_ios) {
