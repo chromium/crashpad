@@ -313,7 +313,7 @@ CRASHPAD_CHILD_TEST_MAIN(StartHandlerForSelfTestChild) {
   test_annotation.Set(kTestAnnotationValue);
 
   const std::vector<base::FilePath> attachments = {
-      base::FilePath(kTestAttachmentName)};
+      base::FilePath(temp_dir).Append(kTestAttachmentName)};
 
   crashpad::CrashpadClient client;
   if (!InstallHandler(&client,
@@ -362,16 +362,6 @@ class StartHandlerForSelfInChildTest : public MultiprocessExec {
 
  private:
   void MultiprocessParent() override {
-    FileWriter writer;
-    base::FilePath test_attachment_path = base::FilePath(kTestAttachmentName);
-    bool is_created = writer.Open(test_attachment_path,
-                                  FileWriteMode::kCreateOrFail,
-                                  FilePermissions::kOwnerOnly);
-    ASSERT_TRUE(is_created);
-    ScopedRemoveFile attachment_remover(test_attachment_path);
-    writer.Write(kTestAttachmentContent, sizeof(kTestAttachmentContent));
-    writer.Close();
-
     ScopedTempDir temp_dir;
     VMSize temp_dir_length = temp_dir.path().value().size();
     ASSERT_TRUE(LoggingWriteFile(
@@ -380,6 +370,16 @@ class StartHandlerForSelfInChildTest : public MultiprocessExec {
         WritePipeHandle(), temp_dir.path().value().data(), temp_dir_length));
     ASSERT_TRUE(
         LoggingWriteFile(WritePipeHandle(), &options_, sizeof(options_)));
+
+    FileWriter writer;
+    base::FilePath test_attachment_path =
+        temp_dir.path().Append(kTestAttachmentName);
+    bool is_created = writer.Open(test_attachment_path,
+                                  FileWriteMode::kCreateOrFail,
+                                  FilePermissions::kOwnerOnly);
+    ASSERT_TRUE(is_created);
+    writer.Write(kTestAttachmentContent, sizeof(kTestAttachmentContent));
+    writer.Close();
 
     if (options_.client_uses_signals && !options_.set_first_chance_handler &&
         options_.crash_type != CrashType::kSimulated) {
