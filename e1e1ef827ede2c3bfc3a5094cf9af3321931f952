@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ba6419e_39819f0f",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-07-18T02:30:43Z",
+      "side": 1,
+      "message": "The data is quit big, is there a way to read it from file in crashpad?",
+      "revId": "e1e1ef827ede2c3bfc3a5094cf9af3321931f952",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
