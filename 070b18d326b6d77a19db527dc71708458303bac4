@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14a6066e_21eacd62",
+        "filename": "client/crashpad_client_linux.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-20T21:19:52Z",
+      "side": 1,
+      "message": "If you wanted to not duplicate, a global in an anonymous namespace would have been good.",
+      "revId": "070b18d326b6d77a19db527dc71708458303bac4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
