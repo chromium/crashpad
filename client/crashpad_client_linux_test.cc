@@ -41,6 +41,7 @@
 #include "util/linux/exception_handler_client.h"
 #include "util/linux/exception_information.h"
 #include "util/linux/socket.h"
+#include "util/misc/address_sanitizer.h"
 #include "util/misc/address_types.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/posix/scoped_mmap.h"
@@ -425,6 +426,11 @@ TEST_P(StartHandlerForSelfTest, StartHandlerInChild) {
     // TODO(jperaza): test first chance handlers with real crashes.
     return;
   }
+#if defined(ADDRESS_SANITIZER)
+  if (Options().crash_type == CrashType::kInfiniteRecursion) {
+    GTEST_SKIP();
+  }
+#endif  // defined(ADDRESS_SANITIZER)
   StartHandlerForSelfInChildTest test(Options());
   test.Run();
 }
