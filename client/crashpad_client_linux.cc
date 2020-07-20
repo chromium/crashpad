@@ -37,6 +37,7 @@
 #include "util/linux/scoped_pr_set_dumpable.h"
 #include "util/linux/scoped_pr_set_ptracer.h"
 #include "util/linux/socket.h"
+#include "util/misc/address_sanitizer.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/posix/double_fork_and_exec.h"
 #include "util/posix/scoped_mmap.h"
@@ -433,16 +434,19 @@ bool CrashpadClient::InitializeSignalStackForThread() {
   DCHECK_EQ(stack.ss_flags & SS_ONSTACK, 0);
 
   const size_t page_size = getpagesize();
-  const size_t kStackSize = (SIGSTKSZ + page_size - 1) & ~(page_size - 1);
-  if (stack.ss_flags & SS_DISABLE || stack.ss_size < kStackSize) {
+#if defined(ADDRESS_SANITIZER)
+#define STACK_SIZE (2 * ((SIGSTKSZ + page_size - 1) & ~(page_size - 1)))
+#else
+#define STACK_SIZE ((SIGSTKSZ + page_size - 1) & ~(page_size - 1))
+#endif  // ADDRESS_SANITIZER
+  if (stack.ss_flags & SS_DISABLE || stack.ss_size < STACK_SIZE) {
     const size_t kGuardPageSize = page_size;
-    const size_t kStackAllocSize = kStackSize + 2 * kGuardPageSize;
+    const size_t kStackAllocSize = STACK_SIZE + 2 * kGuardPageSize;
 
     static void (*stack_destructor)(void*) = [](void* stack_mem) {
       const size_t page_size = getpagesize();
       const size_t kGuardPageSize = page_size;
-      const size_t kStackSize = (SIGSTKSZ + page_size - 1) & ~(page_size - 1);
-      const size_t kStackAllocSize = kStackSize + 2 * kGuardPageSize;
+      const size_t kStackAllocSize = STACK_SIZE + 2 * kGuardPageSize;
 
       stack_t stack;
       stack.ss_flags = SS_DISABLE;
@@ -483,7 +487,7 @@ bool CrashpadClient::InitializeSignalStackForThread() {
       }
 
       if (mprotect(stack_mem.addr_as<char*>() + kGuardPageSize,
-                   kStackSize,
+                   STACK_SIZE,
                    PROT_READ | PROT_WRITE) != 0) {
         PLOG(ERROR) << "mprotect";
         return false;
@@ -495,7 +499,7 @@ bool CrashpadClient::InitializeSignalStackForThread() {
       PCHECK(errno == 0) << "pthread_setspecific";
     }
 
-    stack.ss_size = kStackSize;
+    stack.ss_size = STACK_SIZE;
     stack.ss_flags =
         (stack.ss_flags & SS_DISABLE) ? 0 : stack.ss_flags & SS_AUTODISARM;
     if (sigaltstack(&stack, nullptr) != 0) {
@@ -504,6 +508,7 @@ bool CrashpadClient::InitializeSignalStackForThread() {
     }
   }
   return true;
+#undef STACK_SIZE
 }
 #endif  // OS_ANDROID || OS_LINUX
 
