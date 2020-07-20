@@ -37,6 +37,7 @@
 #include "util/linux/scoped_pr_set_dumpable.h"
 #include "util/linux/scoped_pr_set_ptracer.h"
 #include "util/linux/socket.h"
+#include "util/misc/address_sanitizer.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/posix/double_fork_and_exec.h"
 #include "util/posix/scoped_mmap.h"
@@ -433,7 +434,11 @@ bool CrashpadClient::InitializeSignalStackForThread() {
   DCHECK_EQ(stack.ss_flags & SS_ONSTACK, 0);
 
   const size_t page_size = getpagesize();
+#if defined(ADDRESS_SANITIZER)
+  const size_t kStackSize = 2 * ((SIGSTKSZ + page_size - 1) & ~(page_size - 1));
+#else
   const size_t kStackSize = (SIGSTKSZ + page_size - 1) & ~(page_size - 1);
+#endif  // ADDRESS_SANITIZER
   if (stack.ss_flags & SS_DISABLE || stack.ss_size < kStackSize) {
     const size_t kGuardPageSize = page_size;
     const size_t kStackAllocSize = kStackSize + 2 * kGuardPageSize;
@@ -441,7 +446,12 @@ bool CrashpadClient::InitializeSignalStackForThread() {
     static void (*stack_destructor)(void*) = [](void* stack_mem) {
       const size_t page_size = getpagesize();
       const size_t kGuardPageSize = page_size;
+#if defined(ADDRESS_SANITIZER)
+      const size_t kStackSize =
+          2 * ((SIGSTKSZ + page_size - 1) & ~(page_size - 1));
+#else
       const size_t kStackSize = (SIGSTKSZ + page_size - 1) & ~(page_size - 1);
+#endif  // ADDRESS_SANITIZER
       const size_t kStackAllocSize = kStackSize + 2 * kGuardPageSize;
 
       stack_t stack;
