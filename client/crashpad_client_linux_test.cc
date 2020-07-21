@@ -44,6 +44,7 @@
 #include "util/misc/address_sanitizer.h"
 #include "util/misc/address_types.h"
 #include "util/misc/from_pointer_cast.h"
+#include "util/misc/memory_sanitizer.h"
 #include "util/posix/scoped_mmap.h"
 #include "util/posix/signals.h"
 #include "util/thread/thread.h"
@@ -294,7 +295,7 @@ CRASHPAD_CHILD_TEST_MAIN(StartHandlerForSelfTestChild) {
     static Signals::Handler client_handler =
         [](int signo, siginfo_t* siginfo, void*) {
           FileHandle out = StdioFileHandle(StdioStream::kStandardOutput);
-          char c;
+          char c = 0;
           WriteFile(out, &c, sizeof(c));
 
           Signals::RestoreHandlerAndReraiseSignalOnReturn(
@@ -426,7 +427,7 @@ TEST_P(StartHandlerForSelfTest, StartHandlerInChild) {
     // TODO(jperaza): test first chance handlers with real crashes.
     return;
   }
-#if defined(ADDRESS_SANITIZER)
+#if defined(ADDRESS_SANITIZER) || defined(MEMORY_SANITIZER)
   if (Options().crash_type == CrashType::kInfiniteRecursion) {
     GTEST_SKIP();
   }
