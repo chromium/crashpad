@@ -68,6 +68,8 @@ ExceptionInformation g_crash_exception_information;
 HANDLE g_signal_non_crash_dump = INVALID_HANDLE_VALUE;
 HANDLE g_non_crash_dump_done = INVALID_HANDLE_VALUE;
 
+CrashpadClient::FirstChanceHandlerWin first_chance_handler_ = nullptr;
+
 // Guards multiple simultaneous calls to DumpWithoutCrash(). This is leaked.
 base::Lock* g_non_crash_dump_lock;
 
@@ -131,6 +133,10 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
     // and then sleeping unnecessarily.
     LOG(ERROR) << "crash server failed to launch, self-terminating";
     SafeTerminateProcess(GetCurrentProcess(), kTerminationCodeCrashNoDump);
+    return EXCEPTION_CONTINUE_SEARCH;
+  }
+
+  if (first_chance_handler_ && first_chance_handler_(exception_pointers)) {
     return EXCEPTION_CONTINUE_SEARCH;
   }
 
@@ -1068,6 +1074,12 @@ bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
   }
 
   return result;
+}
+
+// static
+void CrashpadClient::SetFirstChanceExceptionHandler(
+    FirstChanceHandlerWin handler) {
+  first_chance_handler_ = handler;
 }
 
 }  // namespace crashpad

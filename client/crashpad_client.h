@@ -398,7 +398,7 @@ class CrashpadClient {
   static void CrashWithoutDump(const std::string& message);
 
   //! \brief The type for custom handlers installed by clients.
-  using FirstChanceHandler = bool (*)(int, siginfo_t*, ucontext_t*);
+  using FirstChanceHandlerLinux = bool (*)(int, siginfo_t*, ucontext_t*);
 
   //! \brief Installs a custom crash signal handler which runs before the
   //!     currently installed Crashpad handler.
@@ -416,7 +416,7 @@ class CrashpadClient {
   //! signal handler is run.
   //!
   //! \param[in] handler The custom crash signal handler to install.
-  static void SetFirstChanceExceptionHandler(FirstChanceHandler handler);
+  static void SetFirstChanceExceptionHandler(FirstChanceHandlerLinux handler);
 
   //! \brief Configures a set of signals that shouldn't have Crashpad signal
   //!     handlers installed.
@@ -501,6 +501,27 @@ class CrashpadClient {
 #endif
 
 #if defined(OS_WIN) || DOXYGEN
+  //! \brief The type for custom handlers installed by clients.
+  using FirstChanceHandlerWin = bool (*)(EXCEPTION_POINTERS*);
+
+  //! \brief Installs a custom unhandled exception filter which runs before the
+  //!     currently installed Crashpad handler.
+  //!
+  //! Handling exceptions appropriately can be tricky and use of this method
+  //! should be avoided, if possible.
+  //!
+  //! A handler must have already been installed before calling this method.
+  //!
+  //! The custom handler runs in an unhandled exception filter context and must
+  //! be safe for that purpose.
+  //!
+  //! If the custom handler returns `true`, the exception is considered handled
+  //! and the handler returns. Otherwise, the currently installed Crashpad
+  //! unhandled exception handler is run.
+  //!
+  //! \param[in] handler The custom unhandled exception handler to install.
+  static void SetFirstChanceExceptionHandler(FirstChanceHandlerWin handler);
+
   //! \brief Sets the IPC pipe of a presumably-running Crashpad handler process
   //!     which was started with StartHandler() or by other compatible means
   //!     and does an IPC message exchange to register this process with the

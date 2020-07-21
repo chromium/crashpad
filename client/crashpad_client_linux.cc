@@ -132,7 +132,7 @@ class SignalHandler {
   // handler will be restored and the signal reraised.
   static void DisableForThread() { disabled_for_thread_ = true; }
 
-  void SetFirstChanceHandler(CrashpadClient::FirstChanceHandler handler) {
+  void SetFirstChanceHandler(CrashpadClient::FirstChanceHandlerLinux handler) {
     first_chance_handler_ = handler;
   }
 
@@ -193,7 +193,7 @@ class SignalHandler {
 
   Signals::OldActions old_actions_ = {};
   ExceptionInformation exception_information_ = {};
-  CrashpadClient::FirstChanceHandler first_chance_handler_ = nullptr;
+  CrashpadClient::FirstChanceHandlerLinux first_chance_handler_ = nullptr;
 
   static SignalHandler* handler_;
 
@@ -566,7 +566,7 @@ void CrashpadClient::CrashWithoutDump(const std::string& message) {
 
 // static
 void CrashpadClient::SetFirstChanceExceptionHandler(
-    FirstChanceHandler handler) {
+    FirstChanceHandlerLinux handler) {
   DCHECK(SignalHandler::Get());
   SignalHandler::Get()->SetFirstChanceHandler(handler);
 }
