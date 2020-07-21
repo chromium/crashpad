@@ -74,6 +74,24 @@
       "revId": "e1e1ef827ede2c3bfc3a5094cf9af3321931f952",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05adbca1_59171fe6",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-21T21:14:27Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think there\u0027s anything particularly special about this input.\n\u003e \n\u003e The tests haven\u0027t caught this before because we are generating random uncompressed inputs so they all turn out valid (are there invalid uncompressed inputs we can test?)\n\u003e \n\u003e I think you can craft smaller bad inputs without too much trouble. You can generate cases that trigger this and other errors by attempting to decompress randomly filled buffers which could also be a starting point for deterministically bad cases.\n\nIf you have a large input like this, you can stick it in a file and read it in.\n\nIf you have any input in a test .cc file like this:\n\n1. constexpr, not const.\n\n2. as always, keep the declaration as close to the point of use as possible. That means that this kind of thing would be a static constexpr uint8_t[] inside of TEST_F(ZlibOutputStreamTest, CorruptedDataNotHangFlush), rather than out here at file scope.\n\nI echo Joshua’s comment that it should be possible to construct a smaller input that shows the problem.",
+      "parentUuid": "52b35ed7_60391354",
+      "revId": "e1e1ef827ede2c3bfc3a5094cf9af3321931f952",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
