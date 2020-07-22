@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe92b9be_395f1925",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-07-22T23:10:34Z",
+      "side": 1,
+      "message": "fuchsia: Move to injected-services for crashpad_tests",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 4
+      },
+      "revId": "62fe1ab9bbc4f0955ba095cad915b6705a9642c1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30f4496b_346454c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-07-22T23:10:34Z",
+      "side": 1,
+      "message": "Is there a\n\n   Bug: fuchsia:NNNN\n\nfor here?",
+      "revId": "62fe1ab9bbc4f0955ba095cad915b6705a9642c1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
