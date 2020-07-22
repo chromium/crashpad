@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "294d41bc_3777480f",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-22T23:11:32Z",
+      "side": 1,
+      "message": "Right, but if it made no progress despite the output buffer being empty, we\u0027d keep calling deflate() forever.",
+      "parentUuid": "5c35d3b6_f357c827",
+      "range": {
+        "startLine": 116,
+        "startChar": 7,
+        "endLine": 118,
+        "endChar": 34
+      },
+      "revId": "e1e1ef827ede2c3bfc3a5094cf9af3321931f952",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ba6419e_39819f0f",
         "filename": "util/stream/zlib_output_stream_test.cc",
         "patchSetId": 1
