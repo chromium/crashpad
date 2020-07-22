@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86560d31_511a0719",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-07-22T23:27:32Z",
+      "side": 1,
+      "message": "This is side one before updating src/developer/forensics/crash_reports/tests/BUILD.gn:428: is that right?",
+      "revId": "ff1fa4e938f6068408cad39a0cb1403967ff7f4a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
