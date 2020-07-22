@@ -33,6 +33,24 @@
       "revId": "dff1400d86e06686a5ed28c7352fe9fba21c4e90",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc4e976a_b0de5fb5",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-07-22T16:57:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bd5d302_be0058c6",
+      "revId": "dff1400d86e06686a5ed28c7352fe9fba21c4e90",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
