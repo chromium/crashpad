@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b29fa513_ce0df065",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-22T02:23:07Z",
+      "side": 1,
+      "message": "Let\u0027s do https://chromium-review.googlesource.com/c/2311421 instead, because it\u0027s more complete. It updates GN in Crashpad to a version that won\u0027t tolerate frameworks in libs, to ensure we don\u0027t regress this.",
+      "revId": "6f0c1c890cd1f3e6358e2713b2564eb664d31814",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
