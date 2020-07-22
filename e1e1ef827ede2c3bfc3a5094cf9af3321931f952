@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0062b3eb_3c504f5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-07-22T16:51:30Z",
+      "side": 1,
+      "message": "Thanks, let\u0027s fix the issue once it happen, don\u0027t want to dig into too much.",
+      "parentUuid": "c3cf2266_8f01485e",
+      "revId": "e1e1ef827ede2c3bfc3a5094cf9af3321931f952",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4cf7618_1655e63f",
         "filename": "util/stream/zlib_output_stream.cc",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2020-07-21T20:43:46Z",
       "side": 1,
       "message": "I think you need to handle this case for deflate() above too.",
+      "range": {
+        "startLine": 116,
+        "startChar": 7,
+        "endLine": 118,
+        "endChar": 34
+      },
+      "revId": "e1e1ef827ede2c3bfc3a5094cf9af3321931f952",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c35d3b6_f357c827",
+        "filename": "util/stream/zlib_output_stream.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-07-22T16:51:30Z",
+      "side": 1,
+      "message": "Do you mean handle the Z_BUF_ERROR, from the document https://source.chromium.org/chromium/chromium/src/+/master:third_party/zlib/zlib.h;drc\u003d6d9a6251dfe87183075dc16cfa134e41dc4cee0d;l\u003d326 , we already keep calling deflate().",
+      "parentUuid": "b4cf7618_1655e63f",
       "range": {
         "startLine": 116,
         "startChar": 7,
@@ -89,6 +131,42 @@
       "side": 1,
       "message": "\u003e I don\u0027t think there\u0027s anything particularly special about this input.\n\u003e \n\u003e The tests haven\u0027t caught this before because we are generating random uncompressed inputs so they all turn out valid (are there invalid uncompressed inputs we can test?)\n\u003e \n\u003e I think you can craft smaller bad inputs without too much trouble. You can generate cases that trigger this and other errors by attempting to decompress randomly filled buffers which could also be a starting point for deterministically bad cases.\n\nIf you have a large input like this, you can stick it in a file and read it in.\n\nIf you have any input in a test .cc file like this:\n\n1. constexpr, not const.\n\n2. as always, keep the declaration as close to the point of use as possible. That means that this kind of thing would be a static constexpr uint8_t[] inside of TEST_F(ZlibOutputStreamTest, CorruptedDataNotHangFlush), rather than out here at file scope.\n\nI echo Joshua’s comment that it should be possible to construct a smaller input that shows the problem.",
       "parentUuid": "52b35ed7_60391354",
+      "revId": "e1e1ef827ede2c3bfc3a5094cf9af3321931f952",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83ceb19f_f7b7d8d0",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-07-22T16:51:30Z",
+      "side": 1,
+      "message": "I was luck enough, figured out the short data with few tries.",
+      "parentUuid": "05adbca1_59171fe6",
+      "revId": "e1e1ef827ede2c3bfc3a5094cf9af3321931f952",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b634c2c6_e557931e",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-07-22T16:51:30Z",
+      "side": 1,
+      "message": "I was luck enough, figured out the short data with few tries.",
+      "parentUuid": "05adbca1_59171fe6",
       "revId": "e1e1ef827ede2c3bfc3a5094cf9af3321931f952",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
