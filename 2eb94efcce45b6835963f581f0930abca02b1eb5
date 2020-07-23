@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c488e27_15074f66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1310583
+      },
+      "writtenOn": "2020-07-23T14:27:45Z",
+      "side": 1,
+      "message": "The requisite fuchsia change has rolled (https://fuchsia-review.googlesource.com/c/fuchsia/+/409777).\n\nI don\u0027t think I can CQ+2; can someone do it for me?",
+      "revId": "2eb94efcce45b6835963f581f0930abca02b1eb5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
