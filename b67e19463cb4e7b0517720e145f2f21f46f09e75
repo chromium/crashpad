@@ -16,6 +16,52 @@
       "revId": "b67e19463cb4e7b0517720e145f2f21f46f09e75",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b991f31_fe60d142",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-27T20:40:53Z",
+      "side": 1,
+      "message": "Mostly curiosity: why\u0027d you go with brace initialization?",
+      "range": {
+        "startLine": 187,
+        "startChar": 41,
+        "endLine": 187,
+        "endChar": 42
+      },
+      "revId": "b67e19463cb4e7b0517720e145f2f21f46f09e75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bddb6d0_3e9d58ad",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-27T20:40:53Z",
+      "side": 1,
+      "message": "This is kinda weird. When does Flush() need to be called? I don\u0027t see any documentation about this in output_stream_interface.h. If it needs to be called in this situation, shouldn\u0027t zlib_decompress_stream do that? If it doesn\u0027t need to be called, we should remove the DCHECK or only have it enabled in the cases where Flush() was required to be called.",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 18
+      },
+      "revId": "b67e19463cb4e7b0517720e145f2f21f46f09e75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
