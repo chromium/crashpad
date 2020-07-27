@@ -417,7 +417,7 @@ TEST(ExceptionSnapshotLinux, Raise) {
 
 class TimerTest {
  public:
-  TimerTest() : event_(), timer_(-1), test_complete_(0) { test_ = this; }
+  TimerTest() : event_(), timer_(-1), test_complete_(false) { test_ = this; }
   ~TimerTest() { test_ = nullptr; }
 
   void Run() {
@@ -437,7 +437,13 @@ class TimerTest {
     ASSERT_EQ(syscall(SYS_timer_settime, timer_, TIMER_ABSTIME, &spec, nullptr),
               0);
 
-    ASSERT_TRUE(test_complete_.TimedWait(5));
+    for (size_t attempt = 0; attempt < 3; ++attempt) {
+      SleepNanoseconds(1);
+      if (test_complete_) {
+        return;
+      }
+    }
+    ADD_FAILURE() << "signal not received";
   }
 
  private:
@@ -464,12 +470,12 @@ class TimerTest {
     EXPECT_EQ(exception.Codes()[2],
               static_cast<uint64_t>(test_->event_.sigev_value.sival_int));
 
-    test_->test_complete_.Signal();
+    test_->test_complete_ = true;
   }
 
   sigevent event_;
   __kernel_timer_t timer_;
-  Semaphore test_complete_;
+  volatile bool test_complete_;
 
   static constexpr uint32_t kSigno = SIGALRM;
   static TimerTest* test_;
