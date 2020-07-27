@@ -16,6 +16,24 @@
       "revId": "a0219c00e290dd3d91a919e7c0462ce1c7ebca61",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a921516_ce6b0aff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-27T18:31:52Z",
+      "side": 1,
+      "message": "Flaky how? I think a synchronization primitive is not necessary because this test is single threaded. The test can fail if the kernel waits too long to send the signal, but that is also true when using a synchronization primitive. I think the facts that the timer is set to 1 ns and SleepNanoseconds() requires a system call prevent time-related flake (I expect that the kernel is just checking the timer on every kernel-usermode transition and I assume its timer increases by \u003e1ns at each transition).\n\nI think any mutex based synchronization is doomed because the signal handler breaks lock ownership.",
+      "parentUuid": "9e856a6a_20d3a7ff",
+      "revId": "a0219c00e290dd3d91a919e7c0462ce1c7ebca61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
