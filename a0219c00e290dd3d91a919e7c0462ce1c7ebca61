@@ -70,6 +70,24 @@
       "revId": "a0219c00e290dd3d91a919e7c0462ce1c7ebca61",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d40a793b_e4eb5a32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-27T20:38:09Z",
+      "side": 1,
+      "message": "I see. I was reviewing from my phone and only looked at the diffs and not the surrounding context. Without that context, the changes you were making, semaphores and “volatile,” had telltale signs of threading and races.\n\nYes, as you found, a semaphore is what’s supposed to work here. It’s a pity that it doesn’t work on Android.",
+      "parentUuid": "f87f3971_720f2cae",
+      "revId": "a0219c00e290dd3d91a919e7c0462ce1c7ebca61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
