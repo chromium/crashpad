@@ -52,6 +52,24 @@
       "revId": "a0219c00e290dd3d91a919e7c0462ce1c7ebca61",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f87f3971_720f2cae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-27T19:22:42Z",
+      "side": 1,
+      "message": "I see sem_post() is noted as required to be signal-safe (I suppose that\u0027s why I haven\u0027t seen this flake on Linux), but Bionic\u0027s sem_timedwait() is a little bit broken: https://chromium-review.googlesource.com/c/crashpad/crashpad/+/894106/",
+      "parentUuid": "09e8a1ff_4ef46d6d",
+      "revId": "a0219c00e290dd3d91a919e7c0462ce1c7ebca61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
