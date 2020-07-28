@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31caf02d_1d5d3a18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-28T02:17:12Z",
+      "side": 1,
+      "message": "Looks like, after patch set 2, “git grep OS_MACOSX” will show nothing at all. Good! (Double-check if you didn’t.)",
+      "revId": "3addec6bd4177fff797f13a4b5c241a42b921c34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd5c07f3_647b4921",
+        "filename": "test/gtest_death.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-28T02:17:12Z",
+      "side": 1,
+      "message": "OS_MAC, also on line 83.",
+      "revId": "3addec6bd4177fff797f13a4b5c241a42b921c34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
