@@ -23,7 +23,7 @@
 #include <sys/types.h>
 #elif defined(OS_WIN)
 #include <windows.h>
-#elif defined(OS_MACOSX)
+#elif defined(OS_APPLE)
 #include <mach/mach.h>
 #endif
 
@@ -37,7 +37,7 @@ using ProcessType = zx::unowned_process;
 using ProcessType = pid_t;
 #elif defined(OS_WIN)
 using ProcessType = HANDLE;
-#elif defined(OS_MACOSX)
+#elif defined(OS_APPLE)
 using ProcessType = task_t;
 #else
 #error Port.

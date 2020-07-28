@@ -30,9 +30,9 @@
 #include "util/misc/from_pointer_cast.h"
 #include "util/process/process_memory_native.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 #include "test/mac/mach_multiprocess.h"
-#endif  // defined(OS_MACOSX)
+#endif  // defined(OS_APPLE)
 
 namespace crashpad {
 namespace test {
@@ -42,7 +42,7 @@ namespace {
 // port which requires root or a code signing entitlement. To account for this
 // we implement an adaptor class that wraps MachMultiprocess on macOS, because
 // it shares the child's task port, and makes it behave like MultiprocessExec.
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 class MultiprocessAdaptor : public MachMultiprocess {
  public:
   void SetChildTestMainFunction(const std::string& function_name) {
@@ -97,7 +97,7 @@ class MultiprocessAdaptor : public MultiprocessExec {
 
   void MultiprocessParent() override { Parent(); }
 };
-#endif  // defined(OS_MACOSX)
+#endif  // defined(OS_APPLE)
 
 void DoChildReadTestSetup(size_t* region_size,
                           std::unique_ptr<char[]>* region) {
