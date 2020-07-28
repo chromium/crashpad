@@ -21,7 +21,7 @@
 
 #include "build/build_config.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 #include <mach/mach_types.h>
 #elif defined(OS_WIN)
 #include "util/win/address_types.h"
@@ -45,7 +45,7 @@ using VMAddress = uint64_t;
 //!     VMAddress), potentially across bitness.
 using VMSize = uint64_t;
 
-#elif defined(OS_MACOSX)
+#elif defined(OS_APPLE)
 
 using VMAddress = mach_vm_address_t;
 using VMSize = mach_vm_size_t;

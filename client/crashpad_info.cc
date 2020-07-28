@@ -19,7 +19,7 @@
 #include "util/misc/address_sanitizer.h"
 #include "util/misc/from_pointer_cast.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 #include <mach-o/loader.h>
 #endif
 
@@ -55,7 +55,7 @@ static_assert(std::is_standard_layout<CrashpadInfo>::value,
 #if defined(OS_POSIX)
 __attribute__((
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
     // Put the structure in a well-known section name where it can be easily
     // found without having to consult the symbol table.
     section(SEG_DATA ",crashpad_info"),

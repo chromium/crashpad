@@ -63,7 +63,7 @@ void Semaphore::Signal() {
   cv_.notify_one();
 }
 
-#elif !defined(OS_MACOSX)
+#elif !defined(OS_APPLE)
 
 Semaphore::Semaphore(int value) {
   PCHECK(sem_init(&semaphore_, 0, value) == 0) << "sem_init";

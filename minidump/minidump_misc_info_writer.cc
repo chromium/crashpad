@@ -30,7 +30,7 @@
 #include "util/numeric/in_range_cast.h"
 #include "util/numeric/safe_assignment.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 #include <AvailabilityMacros.h>
 #elif defined(OS_ANDROID)
 #include <android/api-level.h>
@@ -66,7 +66,7 @@ std::string BuildString(const SystemSnapshot* system_snapshot) {
   return machine_description;
 }
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 // Converts the value of the MAC_OS_VERSION_MIN_REQUIRED or
 // MAC_OS_X_VERSION_MAX_ALLOWED macro from <AvailabilityMacros.h> to a number
 // identifying the minor macOS version that it represents. For example, with an
@@ -100,7 +100,7 @@ std::string MinidumpMiscInfoDebugBuildString() {
   // Caution: the minidump file format only has room for 39 UTF-16 code units
   // plus a UTF-16 NUL terminator. Don’t let strings get longer than this, or
   // they will be truncated and a message will be logged.
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
   static constexpr char kOS[] = "mac";
 #elif defined(OS_ANDROID)
   static constexpr char kOS[] = "android";
@@ -136,7 +136,7 @@ std::string MinidumpMiscInfoDebugBuildString() {
                                                       PACKAGE_VERSION,
                                                       kOS);
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
   debug_build_string += base::StringPrintf(
       ",%d,%d",
       AvailabilityVersionToMacOSXMinorVersion(MAC_OS_X_VERSION_MIN_REQUIRED),

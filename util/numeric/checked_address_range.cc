@@ -18,7 +18,7 @@
 #include "base/format_macros.h"
 #include "base/strings/stringprintf.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 #include <mach/mach.h>
 #elif defined(OS_WIN)
 #include "util/win/address_types.h"
@@ -26,7 +26,7 @@
 #include "util/linux/address_types.h"
 #elif defined(OS_FUCHSIA)
 #include <zircon/types.h>
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 
 namespace crashpad {
 namespace internal {
@@ -126,7 +126,7 @@ std::string CheckedAddressRangeGeneric<ValueType, SizeType>::AsString() const {
 }
 
 // Explicit instantiations for the cases we use.
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 template class CheckedAddressRangeGeneric<mach_vm_address_t, mach_vm_size_t>;
 #elif defined(OS_WIN)
 template class CheckedAddressRangeGeneric<WinVMAddress, WinVMSize>;
@@ -134,7 +134,7 @@ template class CheckedAddressRangeGeneric<WinVMAddress, WinVMSize>;
 template class CheckedAddressRangeGeneric<LinuxVMAddress, LinuxVMSize>;
 #elif defined(OS_FUCHSIA)
 template class CheckedAddressRangeGeneric<zx_vaddr_t, size_t>;
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 
 }  // namespace internal
 }  // namespace crashpad
