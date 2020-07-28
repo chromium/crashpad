@@ -33,6 +33,24 @@
       "revId": "3addec6bd4177fff797f13a4b5c241a42b921c34",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50964c03_5c3fb6f5",
+        "filename": "test/gtest_death.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2020-07-28T02:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd5c07f3_647b4921",
+      "revId": "3addec6bd4177fff797f13a4b5c241a42b921c34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
