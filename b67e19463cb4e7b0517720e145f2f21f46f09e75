@@ -134,6 +134,30 @@
       "revId": "b67e19463cb4e7b0517720e145f2f21f46f09e75",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c43e71d_b62cd596",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-07-28T19:22:44Z",
+      "side": 1,
+      "message": "We should do this in ideal case, but it is difficult for the next stream to handle in practical, for example, LogOutputStream::Flush() will write the ending guard\n\nhttps://source.chromium.org/chromium/chromium/src/+/master:third_party/crashpad/crashpad/util/stream/log_output_stream.cc;drc\u003db99802122a8186197a304417bad3db0392628338;l\u003d114?originalUrl\u003dhttps:%2F%2Fcs.chromium.org%2F\n\nIf the stream is broken, we will knew it since there is no ending guard exist, otherwise, it is hard to say if the log is broken at the very beginning or while it was transferred.\n\nThe crbug.com/1108957 is an example, I can easily rule out the case that stream was broken when it was written to the log, and focused on the following process in the pipeline.\n\nI think having additional Flush() in this specific test case is acceptable, we are here to test the false case, the whole pipeline was already failed.",
+      "parentUuid": "df42a4c7_a9ddabd8",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 18
+      },
+      "revId": "b67e19463cb4e7b0517720e145f2f21f46f09e75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
