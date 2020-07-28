@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "64fb8ec2_57a8d1ad",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-07-28T00:34:53Z",
+      "side": 1,
+      "message": "No specific reason, the brace has no chance to be parsed as function, and is more general than parentheses, I always try to use the brace, like this.",
+      "parentUuid": "3b991f31_fe60d142",
+      "range": {
+        "startLine": 187,
+        "startChar": 41,
+        "endLine": 187,
+        "endChar": 42
+      },
+      "revId": "b67e19463cb4e7b0517720e145f2f21f46f09e75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5bddb6d0_3e9d58ad",
         "filename": "util/stream/zlib_output_stream_test.cc",
         "patchSetId": 3
@@ -53,6 +77,30 @@
       "writtenOn": "2020-07-27T20:40:53Z",
       "side": 1,
       "message": "This is kinda weird. When does Flush() need to be called? I don\u0027t see any documentation about this in output_stream_interface.h. If it needs to be called in this situation, shouldn\u0027t zlib_decompress_stream do that? If it doesn\u0027t need to be called, we should remove the DCHECK or only have it enabled in the cases where Flush() was required to be called.",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 18
+      },
+      "revId": "b67e19463cb4e7b0517720e145f2f21f46f09e75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4c550ff_99ea7505",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-07-28T00:34:53Z",
+      "side": 1,
+      "message": "I clarified the document, the flush must be called once write() succeeded.\n\nI think it has the side effect for the current OutputStream to call the Flush(), the next stream might be failed in this case, for example closing the uncompress operation, and this failure might cover the actual failure, beside this, it is also hard for the next stream to handle the successful Flush() but the whole pipeline failed.\n\nBy fixing this issue, the beneficiary might only be the false test case like this, we don\u0027t need to fail gracefully in this case :).",
+      "parentUuid": "5bddb6d0_3e9d58ad",
       "range": {
         "startLine": 208,
         "startChar": 0,
