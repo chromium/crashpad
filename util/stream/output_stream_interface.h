@@ -52,7 +52,8 @@ class OutputStreamInterface {
   //! \return `true` on success.
   virtual bool Write(const uint8_t* data, size_t size) = 0;
 
-  //! \brief Flush the internal buffer after all data has been written.
+  //! \brief Flush the internal buffer after all data has been written. This
+  //! method must be called if the data was written to the stream successfully.
   //!
   //! Write() can't be called afterwards.
   //! \return `true` on success.

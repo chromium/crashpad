@@ -113,7 +113,10 @@ bool ZlibOutputStream::Flush() {
         }
       } else if (mode_ == Mode::kDecompress) {
         result = inflate(&zlib_stream_, Z_FINISH);
-        if (result != Z_STREAM_END && result != Z_BUF_ERROR && result != Z_OK) {
+        // Consider Z_BUF_ERROR as the error if the output buffer isn't used.
+        if (result != Z_STREAM_END && result != Z_OK &&
+            (result != Z_BUF_ERROR ||
+             zlib_stream_.avail_out == (base::size(buffer_)))) {
           LOG(ERROR) << "inflate: " << zlib_stream_.msg;
           return false;
         }
