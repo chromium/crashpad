@@ -33,6 +33,24 @@
       "revId": "94277a0e490ee795a2bab63c9e93839b7fcae223",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf582434_4b31f6b2",
+        "filename": "util/stream/output_stream_interface.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-28T17:52:30Z",
+      "side": 1,
+      "message": "If this means Flush() needs to be called if all calls to Write() succeeded, then ZlibOutputStream::Flush() needs to call output_stream_-\u003eFlush() even if it failed its own flush.",
+      "parentUuid": "bbc0e1e9_81bec63a",
+      "revId": "94277a0e490ee795a2bab63c9e93839b7fcae223",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }

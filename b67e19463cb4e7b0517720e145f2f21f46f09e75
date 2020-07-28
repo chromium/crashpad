@@ -110,6 +110,30 @@
       "revId": "b67e19463cb4e7b0517720e145f2f21f46f09e75",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df42a4c7_a9ddabd8",
+        "filename": "util/stream/zlib_output_stream_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-07-28T17:52:30Z",
+      "side": 1,
+      "message": "Test code should demonstrate the correct usage of your code\u0027s interfaces. If the test code is reaching into the pipeline to disarm DCHECKs, that implies the code is incorrect. It also means we aren\u0027t testing the code the same way it\u0027s run in production.",
+      "parentUuid": "f4c550ff_99ea7505",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 18
+      },
+      "revId": "b67e19463cb4e7b0517720e145f2f21f46f09e75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
