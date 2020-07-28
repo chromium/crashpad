@@ -30,7 +30,7 @@ ProcessType GetSelfProcess() {
   return getpid();
 #elif defined(OS_WIN)
   return GetCurrentProcess();
-#elif defined(OS_MACOSX)
+#elif defined(OS_APPLE)
   return mach_task_self();
 #endif
 }

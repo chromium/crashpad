@@ -172,7 +172,7 @@ TEST(ProcessInfo, Self) {
   TestSelfProcess(process_info);
 }
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 TEST(ProcessInfo, SelfTask) {
   ProcessInfo process_info;
   ASSERT_TRUE(process_info.InitializeWithTask(mach_task_self()));

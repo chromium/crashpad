@@ -28,7 +28,7 @@
 #include "util/misc/initialization_state.h"
 #include "util/misc/initialization_state_dcheck.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 #include <mach/mach.h>
 #include <sys/sysctl.h>
 #endif
@@ -61,7 +61,7 @@ class ProcessInfo {
   bool InitializeWithPtrace(PtraceConnection* connection);
 #endif  // OS_LINUX || OS_ANDROID || DOXYGEN
 
-#if defined(OS_MACOSX) || DOXYGEN
+#if defined(OS_APPLE) || DOXYGEN
   //! \brief Initializes this object with information about the process whose ID
   //!     is \a pid.
   //!
@@ -166,7 +166,7 @@ class ProcessInfo {
   bool Arguments(std::vector<std::string>* argv) const;
 
  private:
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
   kinfo_proc kern_proc_info_;
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
   // Some members are marked mutable so that they can be lazily initialized by

@@ -28,7 +28,7 @@
 #include "util/file/file_io.h"
 #include "util/misc/capture_context.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 #include "base/mac/scoped_mach_port.h"
 #elif defined(OS_WIN)
 #include <windows.h>
@@ -473,7 +473,7 @@ class CrashpadClient {
   static void DumpWithoutCrash(NativeCPUContext* context);
 #endif
 
-#if defined(OS_MACOSX) || DOXYGEN
+#if defined(OS_APPLE) || DOXYGEN
   //! \brief Sets the process’ crash handler to a Mach service registered with
   //!     the bootstrap server.
   //!
@@ -623,7 +623,7 @@ class CrashpadClient {
   };
 #endif
 
-#if defined(OS_MACOSX) || DOXYGEN
+#if defined(OS_APPLE) || DOXYGEN
   //! \brief Configures the process to direct its crashes to the default handler
   //!     for the operating system.
   //!
@@ -657,7 +657,7 @@ class CrashpadClient {
 #endif
 
  private:
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
   base::mac::ScopedMachSendRight exception_port_;
 #elif defined(OS_WIN)
   std::wstring ipc_pipe_;

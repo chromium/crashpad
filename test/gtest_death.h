@@ -19,13 +19,13 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 #include "test/mac/exception_swallower.h"
 #endif
 
 //! \file
 
-#if (defined(OS_MACOSX) && !defined(OS_IOS)) || DOXYGEN
+#if defined(OS_MAC) || DOXYGEN
 
 //! \brief Wraps the Google Test `ASSERT_DEATH_IF_SUPPORTED()` macro to make
 //!     assertions about death caused by crashes.

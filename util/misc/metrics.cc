@@ -19,7 +19,7 @@
 #include "base/numerics/safe_conversions.h"
 #include "build/build_config.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 #define METRICS_OS_NAME "Mac"
 #elif defined(OS_WIN)
 #define METRICS_OS_NAME "Win"

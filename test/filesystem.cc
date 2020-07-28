@@ -121,7 +121,7 @@ bool PathExists(const base::FilePath& path) {
 
 bool SetFileModificationTime(const base::FilePath& path,
                              const timespec& mtime) {
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
   // utimensat() isn't available on macOS until 10.13, so lutimes() is used
   // instead.
   struct stat st;
@@ -173,7 +173,7 @@ bool SetFileModificationTime(const base::FilePath& path,
     return false;
   }
   return true;
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 }
 
 #if !defined(OS_FUCHSIA)

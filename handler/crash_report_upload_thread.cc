@@ -40,7 +40,7 @@
 #include "util/net/url.h"
 #include "util/stdlib/map_insert.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 #include "handler/mac/file_limit_annotation.h"
 #endif  // OS_MACOSX
 
@@ -136,7 +136,7 @@ void CrashReportUploadThread::ProcessPendingReports() {
 
 void CrashReportUploadThread::ProcessPendingReport(
     const CrashReportDatabase::Report& report) {
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
   RecordFileLimitAnnotation();
 #endif  // OS_MACOSX
 
