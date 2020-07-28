@@ -25,7 +25,7 @@
 #include "test/scoped_module_handle.h"
 #include "test/test_paths.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 #include <dlfcn.h>
 #include "snapshot/mac/process_snapshot_mac.h"
 #elif defined(OS_WIN)
@@ -77,7 +77,7 @@ class ScopedUnsetCrashpadInfoOptions {
 };
 
 CrashpadInfoClientOptions SelfProcessSnapshotAndGetCrashpadOptions() {
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
   ProcessSnapshotMac process_snapshot;
   EXPECT_TRUE(process_snapshot.Initialize(mach_task_self()));
 #elif defined(OS_WIN)
@@ -89,7 +89,7 @@ CrashpadInfoClientOptions SelfProcessSnapshotAndGetCrashpadOptions() {
   EXPECT_TRUE(process_snapshot.Initialize(*zx::process::self()));
 #else
 #error Port.
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 
   CrashpadInfoClientOptions options;
   process_snapshot.GetCrashpadOptions(&options);
@@ -164,7 +164,7 @@ TEST(CrashpadInfoClientOptions, TwoModules) {
                               << ErrorMessage();
 #else
 #error Port.
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 
   // Get the function pointer from the module. This wraps GetCrashpadInfo(), but
   // because it runs in the module, it returns the remote module’s CrashpadInfo
@@ -262,7 +262,7 @@ TEST_P(CrashpadInfoSizes_ClientOptions, DifferentlySizedStruct) {
       << ErrorMessage();
 #else
 #error Port.
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 
   // Get the function pointer from the module.
   CrashpadInfo* (*TestModule_GetCrashpadInfo)() =

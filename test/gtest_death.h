@@ -19,13 +19,13 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 #include "test/mac/exception_swallower.h"
 #endif
 
 //! \file
 
-#if (defined(OS_MACOSX) && !defined(OS_IOS)) || DOXYGEN
+#if defined(OS_MAC) || DOXYGEN
 
 //! \brief Wraps the Google Test `ASSERT_DEATH_IF_SUPPORTED()` macro to make
 //!     assertions about death caused by crashes.
@@ -73,14 +73,14 @@
                  regex);                                                  \
   } while (false)
 
-#else  // OS_MACOSX && !OS_IOS
+#else  // OS_MAC
 
 #define ASSERT_DEATH_CRASH(statement, regex) \
   ASSERT_DEATH_IF_SUPPORTED(statement, regex)
 #define EXPECT_DEATH_CRASH(statement, regex) \
   EXPECT_DEATH_IF_SUPPORTED(statement, regex)
 
-#endif  // OS_MACOSX && !OS_IOS
+#endif  // OS_MAC
 
 #if !(!defined(MINI_CHROMIUM_BASE_LOGGING_H_) && \
       defined(OFFICIAL_BUILD) &&                 \

@@ -29,7 +29,7 @@ namespace {
 constexpr const char* kSignalNames[] = {
     nullptr,
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
     // sed -Ene 's/^#define[[:space:]]SIG([[:alnum:]]+)[[:space:]]+[[:digit:]]{1,2}([[:space:]]|$).*/    "\1",/p'
     //     /usr/include/sys/signal.h
     // and fix up by removing the entry for SIGPOLL.

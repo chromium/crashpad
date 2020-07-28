@@ -28,7 +28,7 @@ namespace test {
 namespace {
 
 bool CurrentTime(timespec* now) {
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
   timeval now_tv;
   int res = gettimeofday(&now_tv, nullptr);
   if (res != 0) {
