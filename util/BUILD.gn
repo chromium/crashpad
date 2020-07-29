@@ -378,7 +378,7 @@ static_library("util") {
       defines += [ "CRASHPAD_USE_BORINGSSL" ]
 
       if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
-        deps += [ "//third_party/boringssl" ]
+        deps += [ "//zircon/third_party/boringssl" ]
       } else {
         libs = [
           "crypto",
@@ -642,7 +642,7 @@ if (!crashpad_is_android && !crashpad_is_ios) {
       defines = [ "CRASHPAD_USE_BORINGSSL" ]
 
       if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
-        deps += [ "//third_party/boringssl" ]
+        deps += [ "//zircon/third_party/boringssl" ]
       } else {
         libs = [
           "crypto",
