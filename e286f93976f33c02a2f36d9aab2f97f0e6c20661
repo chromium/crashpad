@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ec00b1c_c7dc8709",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-07-30T22:24:41Z",
+      "side": 1,
+      "message": "I’m currently serving this as a “dirty” version for https://crashpad.chromium.org/, since the old Go 1.9 version wasn’t running at all, and I needed to test the deployment process (which has changed…AGAIN…as usual.) Not impressed with the stability of this process at all!\n\nOnce checked in, I’ll redeploy a clean version.",
+      "revId": "e286f93976f33c02a2f36d9aab2f97f0e6c20661",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
