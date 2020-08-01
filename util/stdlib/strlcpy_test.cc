@@ -22,6 +22,7 @@
 #include "base/format_macros.h"
 #include "base/stl_util.h"
 #include "base/strings/string16.h"
+#include "base/strings/string_util.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 
@@ -40,11 +41,11 @@ int C16Memcmp(const base::char16* s1, const base::char16* s2, size_t n) {
 }
 #elif defined(WCHAR_T_IS_UTF16)
 size_t C16Len(const base::char16* s) {
-  return wcslen(s);
+  return wcslen(base::as_wcstr(s));
 }
 
 int C16Memcmp(const base::char16* s1, const base::char16* s2, size_t n) {
-  return wmemcmp(s1, s2, n);
+  return wmemcmp(base::as_wcstr(s1), base::as_wcstr(s2), n);
 }
 #endif
 

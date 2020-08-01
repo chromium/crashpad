@@ -19,6 +19,7 @@
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/stl_util.h"
+#include "base/strings/string_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
@@ -85,6 +86,16 @@ int AvailabilityVersionToMacOSXMinorVersion(int availability) {
   }
 
   return 0;
+}
+#endif
+
+#if defined(OS_WIN)
+base::char16* as_u16cstr(wchar_t* str) {
+  return base::as_writable_u16cstr(str);
+}
+#else
+base::char16* as_u16cstr(base::char16* str) {
+  return str;
 }
 #endif
 
@@ -301,7 +312,7 @@ void MinidumpMiscInfoWriter::SetTimeZone(uint32_t time_zone_id,
   misc_info_.TimeZone.Bias = bias;
 
   internal::MinidumpWriterUtil::AssignUTF8ToUTF16(
-      misc_info_.TimeZone.StandardName,
+      as_u16cstr(misc_info_.TimeZone.StandardName),
       base::size(misc_info_.TimeZone.StandardName),
       standard_name);
 
@@ -309,7 +320,7 @@ void MinidumpMiscInfoWriter::SetTimeZone(uint32_t time_zone_id,
   misc_info_.TimeZone.StandardBias = standard_bias;
 
   internal::MinidumpWriterUtil::AssignUTF8ToUTF16(
-      misc_info_.TimeZone.DaylightName,
+      as_u16cstr(misc_info_.TimeZone.DaylightName),
       base::size(misc_info_.TimeZone.DaylightName),
       daylight_name);
 
@@ -327,9 +338,11 @@ void MinidumpMiscInfoWriter::SetBuildString(
   misc_info_.Flags1 |= MINIDUMP_MISC4_BUILDSTRING;
 
   internal::MinidumpWriterUtil::AssignUTF8ToUTF16(
-      misc_info_.BuildString, base::size(misc_info_.BuildString), build_string);
+      as_u16cstr(misc_info_.BuildString),
+      base::size(misc_info_.BuildString),
+      build_string);
   internal::MinidumpWriterUtil::AssignUTF8ToUTF16(
-      misc_info_.DbgBldStr,
+      as_u16cstr(misc_info_.DbgBldStr),
       base::size(misc_info_.DbgBldStr),
       debug_build_string);
 }

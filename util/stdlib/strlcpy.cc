@@ -19,6 +19,8 @@
 
 #if defined(OS_WIN) && defined(WCHAR_T_IS_UTF16)
 #include <strsafe.h>
+
+#include "base/strings/string_util.h"
 #endif
 
 namespace crashpad {
@@ -28,9 +30,10 @@ namespace crashpad {
 size_t c16lcpy(base::char16* destination,
                const base::char16* source,
                size_t length) {
-  HRESULT result = StringCchCopyW(destination, length, source);
+  HRESULT result = StringCchCopyW(
+      base::as_writable_wcstr(destination), length, base::as_wcstr(source));
   CHECK(result == S_OK || result == STRSAFE_E_INSUFFICIENT_BUFFER);
-  return wcslen(source);
+  return wcslen(base::as_wcstr(source));
 }
 
 #elif defined(WCHAR_T_IS_UTF32)
