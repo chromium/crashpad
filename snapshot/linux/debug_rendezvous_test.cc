@@ -28,6 +28,7 @@
 #include "gtest/gtest.h"
 #include "snapshot/elf/elf_image_reader.h"
 #include "test/linux/fake_ptrace_connection.h"
+#include "test/main_arguments.h"
 #include "test/multiprocess.h"
 #include "util/linux/address_types.h"
 #include "util/linux/auxiliary_vector.h"
@@ -89,8 +90,8 @@ void TestAgainstTarget(PtraceConnection* connection) {
   const int android_runtime_api = android_get_device_api_level();
   ASSERT_GE(android_runtime_api, 1);
 
-  EXPECT_NE(debug.Executable()->name.find("crashpad_snapshot_test"),
-            std::string::npos);
+  base::FilePath exe_name(base::FilePath(GetMainArguments()[0]).BaseName());
+  EXPECT_NE(debug.Executable()->name.find(exe_name.value()), std::string::npos);
 
   // Android's loader doesn't set the dynamic array for the executable in the
   // link map until Android 10.0 (API 29).

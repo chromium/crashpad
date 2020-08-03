@@ -80,6 +80,12 @@ if(NOT IOS)
         main.cc
     )
 
+    if(LINUX)
+        target_sources(crashpad_handler PRIVATE
+            ../client/pthread_create_linux.cc
+        )
+    endif()
+
     target_link_libraries(crashpad_handler
         PRIVATE
             $<BUILD_INTERFACE:crashpad_interface>

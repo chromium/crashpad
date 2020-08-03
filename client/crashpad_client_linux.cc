@@ -14,8 +14,11 @@
 
 #include "client/crashpad_client.h"
 
+#include <errno.h>
 #include <fcntl.h>
+#include <pthread.h>
 #include <stdlib.h>
+#include <sys/mman.h>
 #include <sys/prctl.h>
 #include <sys/socket.h>
 #include <sys/syscall.h>
@@ -34,8 +37,10 @@
 #include "util/linux/scoped_pr_set_dumpable.h"
 #include "util/linux/scoped_pr_set_ptracer.h"
 #include "util/linux/socket.h"
+#include "util/misc/address_sanitizer.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/posix/double_fork_and_exec.h"
+#include "util/posix/scoped_mmap.h"
 #include "util/posix/signals.h"
 
 namespace crashpad {
@@ -167,10 +172,14 @@ class SignalHandler {
   ~SignalHandler() = default;
 
   bool Install(const std::set<int>* unhandled_signals) {
+    bool signal_stack_initialized =
+        CrashpadClient::InitializeSignalStackForThread();
+    DCHECK(signal_stack_initialized);
+
     DCHECK(!handler_);
     handler_ = this;
     return Signals::InstallCrashHandlers(
-        HandleOrReraiseSignal, 0, &old_actions_, unhandled_signals);
+        HandleOrReraiseSignal, SA_ONSTACK, &old_actions_, unhandled_signals);
   }
 
   const ExceptionInformation& GetExceptionInfo() {
@@ -412,6 +421,99 @@ bool CrashpadClient::GetHandlerSocket(int* sock, pid_t* pid) {
 bool CrashpadClient::SetHandlerSocket(ScopedFileHandle sock, pid_t pid) {
   auto signal_handler = RequestCrashDumpHandler::Get();
   return signal_handler->Initialize(std::move(sock), pid, &unhandled_signals_);
+}
+
+// static
+bool CrashpadClient::InitializeSignalStackForThread() {
+  stack_t stack;
+  if (sigaltstack(nullptr, &stack) != 0) {
+    PLOG(ERROR) << "sigaltstack";
+    return false;
+  }
+
+  DCHECK_EQ(stack.ss_flags & SS_ONSTACK, 0);
+
+  const size_t page_size = getpagesize();
+#if defined(ADDRESS_SANITIZER)
+  const size_t kStackSize = 2 * ((SIGSTKSZ + page_size - 1) & ~(page_size - 1));
+#else
+  const size_t kStackSize = (SIGSTKSZ + page_size - 1) & ~(page_size - 1);
+#endif  // ADDRESS_SANITIZER
+  if (stack.ss_flags & SS_DISABLE || stack.ss_size < kStackSize) {
+    const size_t kGuardPageSize = page_size;
+    const size_t kStackAllocSize = kStackSize + 2 * kGuardPageSize;
+
+    static void (*stack_destructor)(void*) = [](void* stack_mem) {
+      const size_t page_size = getpagesize();
+      const size_t kGuardPageSize = page_size;
+#if defined(ADDRESS_SANITIZER)
+      const size_t kStackSize =
+          2 * ((SIGSTKSZ + page_size - 1) & ~(page_size - 1));
+#else
+      const size_t kStackSize = (SIGSTKSZ + page_size - 1) & ~(page_size - 1);
+#endif  // ADDRESS_SANITIZER
+      const size_t kStackAllocSize = kStackSize + 2 * kGuardPageSize;
+
+      stack_t stack;
+      stack.ss_flags = SS_DISABLE;
+      if (sigaltstack(&stack, &stack) != 0) {
+        PLOG(ERROR) << "sigaltstack";
+      } else if (stack.ss_sp !=
+                 static_cast<char*>(stack_mem) + kGuardPageSize) {
+        PLOG_IF(ERROR, sigaltstack(&stack, nullptr) != 0) << "sigaltstack";
+      }
+
+      if (munmap(stack_mem, kStackAllocSize) != 0) {
+        PLOG(ERROR) << "munmap";
+      }
+    };
+
+    static pthread_key_t stack_key;
+    static int key_error = []() {
+      errno = pthread_key_create(&stack_key, stack_destructor);
+      PLOG_IF(ERROR, errno) << "pthread_key_create";
+      return errno;
+    }();
+    if (key_error) {
+      return false;
+    }
+
+    auto old_stack = static_cast<char*>(pthread_getspecific(stack_key));
+    if (old_stack) {
+      stack.ss_sp = old_stack + kGuardPageSize;
+    } else {
+      ScopedMmap stack_mem;
+      if (!stack_mem.ResetMmap(nullptr,
+                               kStackAllocSize,
+                               PROT_NONE,
+                               MAP_PRIVATE | MAP_ANONYMOUS,
+                               -1,
+                               0)) {
+        return false;
+      }
+
+      if (mprotect(stack_mem.addr_as<char*>() + kGuardPageSize,
+                   kStackSize,
+                   PROT_READ | PROT_WRITE) != 0) {
+        PLOG(ERROR) << "mprotect";
+        return false;
+      }
+
+      stack.ss_sp = stack_mem.addr_as<char*>() + kGuardPageSize;
+
+      errno = pthread_setspecific(stack_key, stack_mem.release());
+      PCHECK(errno == 0) << "pthread_setspecific";
+    }
+
+    stack.ss_size = kStackSize;
+    stack.ss_flags =
+        (stack.ss_flags & SS_DISABLE) ? 0 : stack.ss_flags & SS_AUTODISARM;
+    if (sigaltstack(&stack, nullptr) != 0) {
+      PLOG(ERROR) << "sigaltstack";
+      return false;
+    }
+  }
+  return true;
 }
 #endif  // OS_ANDROID || OS_LINUX
 

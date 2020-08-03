@@ -14,8 +14,7 @@
 
 #include "util/stdlib/strnlen.h"
 
-#if defined(OS_MACOSX) && !defined(OS_IOS) && \
-    MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_7
+#if defined(OS_MAC) && MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_7
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
 // Redeclare a method only available on Mac OS X 10.7 and later to suppress a

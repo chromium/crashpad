@@ -156,6 +156,10 @@ if (!crashpad_is_ios) {
             [ "//third_party/mini_chromium/mini_chromium/build:win_windowed" ]
       }
     }
+
+    if (crashpad_is_linux) {
+      deps += [ "../client:pthread_create" ]
+    }
   }
 }
 
