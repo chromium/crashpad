@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92b074df_9bad74cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-03T20:29:22Z",
+      "side": 1,
+      "message": "LGTM\n\nA #define ATTACHMENTS_SUPPORTED in this file, guarded once by the set of OSes, would also work, and has the benefit of keeping all of the rest of these in sync.",
+      "revId": "eb2f85a4b3d70e091c9b3c9c2ef8a40de5940b23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
