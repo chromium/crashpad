@@ -83,7 +83,7 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
 
   if (crashpad_is_in_fuchsia) {
     import("//build/package.gni")
-    package("crashpad_test") {
+    package("crashpad-test") {
       testonly = true
 
       deps = [
@@ -164,7 +164,7 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       }
     }
 
-    package("crashpad_database_util") {
+    package("crashpad-database-util") {
       deps = [ "tools:crashpad_database_util" ]
 
       binaries = [
@@ -173,6 +173,12 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
           shell = true
         },
       ]
+    }
+
+    group("tests") {
+      testonly = true
+
+      deps = [ ":crashpad-test" ]
     }
   }
 } else if (crashpad_is_standalone || crashpad_is_external) {

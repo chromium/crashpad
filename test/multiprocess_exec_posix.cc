@@ -30,7 +30,7 @@
 #include <stdio_ext.h>
 #endif
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 #include "util/mach/task_for_pid.h"
 #endif
 
@@ -154,7 +154,7 @@ void MultiprocessExec::MultiprocessChild() {
 }
 
 ProcessType MultiprocessExec::ChildProcess() {
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
   return TaskForPID(ChildPID());
 #else
   return ChildPID();

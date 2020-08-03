@@ -66,7 +66,7 @@
 #include "handler/linux/crash_report_exception_handler.h"
 #include "handler/linux/exception_handler_server.h"
 #include "util/posix/signals.h"
-#elif defined(OS_MACOSX)
+#elif defined(OS_APPLE)
 #include <libgen.h>
 #include <signal.h>
 
@@ -89,7 +89,7 @@
 #elif defined(OS_LINUX)
 #include "handler/linux/crash_report_exception_handler.h"
 #include "handler/linux/exception_handler_server.h"
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 
 namespace crashpad {
 
@@ -106,9 +106,9 @@ void Usage(const base::FilePath& me) {
 "                              at the time of the crash\n"
 #endif  // OS_WIN || OS_LINUX
 "      --database=PATH         store the crash report database at PATH\n"
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 "      --handshake-fd=FD       establish communication with the client over FD\n"
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 #if defined(OS_WIN)
 "      --initial-client-data=HANDLE_request_crash_dump,\n"
 "                            HANDLE_request_non_crash_dump,\n"
@@ -123,9 +123,9 @@ void Usage(const base::FilePath& me) {
 #if defined(OS_ANDROID) || defined(OS_LINUX)
 "      --initial-client-fd=FD  a socket connected to a client.\n"
 #endif  // OS_ANDROID || OS_LINUX
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 "      --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 "      --metrics-dir=DIR       store metrics files in DIR (only in Chromium)\n"
 "      --monitor-self          run a second handler to catch crashes in the first\n"
 "      --monitor-self-annotation=KEY=VALUE\n"
@@ -145,10 +145,10 @@ void Usage(const base::FilePath& me) {
 #if defined(OS_WIN)
 "      --pipe-name=PIPE        communicate with the client over PIPE\n"
 #endif  // OS_WIN
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 "      --reset-own-crash-exception-port-to-system-default\n"
 "                              reset the server's exception handler to default\n"
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 #if defined(OS_LINUX) || defined(OS_ANDROID)
 "      --sanitization-information=SANITIZATION_INFORMATION_ADDRESS\n"
 "                              the address of a SanitizationInformation struct.\n"
@@ -188,7 +188,7 @@ struct Options {
   base::FilePath database;
   base::FilePath metrics_dir;
   std::vector<std::string> monitor_self_arguments;
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
   std::string mach_service;
   int handshake_fd;
   bool reset_own_crash_exception_port_to_system_default;
@@ -204,7 +204,7 @@ struct Options {
 #elif defined(OS_WIN)
   std::string pipe_name;
   InitialClientData initial_client_data;
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
   bool identify_client_via_url;
   bool monitor_self;
   bool periodic_tasks;
@@ -275,7 +275,7 @@ class CallMetricsRecordNormalExit {
   DISALLOW_COPY_AND_ASSIGN(CallMetricsRecordNormalExit);
 };
 
-#if defined(OS_MACOSX) || defined(OS_LINUX) || defined(OS_ANDROID)
+#if defined(OS_APPLE) || defined(OS_LINUX) || defined(OS_ANDROID)
 
 void HandleCrashSignal(int sig, siginfo_t* siginfo, void* context) {
   MetricsRecordExit(Metrics::LifetimeMilestone::kCrashed);
@@ -335,7 +335,7 @@ void InstallCrashHandler() {
   Signals::InstallTerminateHandlers(HandleTerminateSignal, 0, nullptr);
 }
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 
 struct ResetSIGTERMTraits {
   static struct sigaction* InvalidValue() {
@@ -361,7 +361,7 @@ void HandleSIGTERM(int sig, siginfo_t* siginfo, void* context) {
   g_exception_handler_server->Stop();
 }
 
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 
 #elif defined(OS_WIN)
 
@@ -418,7 +418,7 @@ void InstallCrashHandler() {
   ALLOW_UNUSED_LOCAL(terminate_handler);
 }
 
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 
 void MonitorSelf(const Options& options) {
   base::FilePath executable_path;
@@ -527,18 +527,18 @@ int HandlerMain(int argc,
     kOptionAttachment,
 #endif  // !OS_FUCHSIA
     kOptionDatabase,
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
     kOptionHandshakeFD,
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 #if defined(OS_WIN)
     kOptionInitialClientData,
 #endif  // OS_WIN
 #if defined(OS_ANDROID) || defined(OS_LINUX)
     kOptionInitialClientFD,
 #endif  // OS_ANDROID || OS_LINUX
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
     kOptionMachService,
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
     kOptionMetrics,
     kOptionMonitorSelf,
     kOptionMonitorSelfAnnotation,
@@ -553,9 +553,9 @@ int HandlerMain(int argc,
 #if defined(OS_WIN)
     kOptionPipeName,
 #endif  // OS_WIN
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
     kOptionResetOwnCrashExceptionPortToSystemDefault,
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 #if defined(OS_LINUX) || defined(OS_ANDROID)
     kOptionSanitizationInformation,
     kOptionSharedClientConnection,
@@ -582,21 +582,21 @@ int HandlerMain(int argc,
     {"attachment", required_argument, nullptr, kOptionAttachment},
 #endif  // !OS_FUCHSIA
     {"database", required_argument, nullptr, kOptionDatabase},
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
     {"handshake-fd", required_argument, nullptr, kOptionHandshakeFD},
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 #if defined(OS_WIN)
     {"initial-client-data",
      required_argument,
      nullptr,
      kOptionInitialClientData},
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 #if defined(OS_ANDROID) || defined(OS_LINUX)
     {"initial-client-fd", required_argument, nullptr, kOptionInitialClientFD},
 #endif  // OS_ANDROID || OS_LINUX
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
     {"mach-service", required_argument, nullptr, kOptionMachService},
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
     {"metrics-dir", required_argument, nullptr, kOptionMetrics},
     {"monitor-self", no_argument, nullptr, kOptionMonitorSelf},
     {"monitor-self-annotation",
@@ -623,12 +623,12 @@ int HandlerMain(int argc,
 #if defined(OS_WIN)
     {"pipe-name", required_argument, nullptr, kOptionPipeName},
 #endif  // OS_WIN
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
     {"reset-own-crash-exception-port-to-system-default",
      no_argument,
      nullptr,
      kOptionResetOwnCrashExceptionPortToSystemDefault},
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 #if defined(OS_LINUX) || defined(OS_ANDROID)
     {"sanitization-information",
      required_argument,
@@ -664,7 +664,7 @@ int HandlerMain(int argc,
   };
 
   Options options = {};
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
   options.handshake_fd = -1;
 #endif
   options.identify_client_via_url = true;
@@ -699,7 +699,7 @@ int HandlerMain(int argc,
             ToolSupport::CommandLineArgumentToFilePathStringType(optarg));
         break;
       }
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
       case kOptionHandshakeFD: {
         if (!StringToNumber(optarg, &options.handshake_fd) ||
             options.handshake_fd < 0) {
@@ -713,7 +713,7 @@ int HandlerMain(int argc,
         options.mach_service = optarg;
         break;
       }
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 #if defined(OS_WIN)
       case kOptionInitialClientData: {
         if (!options.initial_client_data.InitializeFromString(optarg)) {
@@ -782,12 +782,12 @@ int HandlerMain(int argc,
         break;
       }
 #endif  // OS_WIN
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
       case kOptionResetOwnCrashExceptionPortToSystemDefault: {
         options.reset_own_crash_exception_port_to_system_default = true;
         break;
       }
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 #if defined(OS_LINUX) || defined(OS_ANDROID)
       case kOptionSanitizationInformation: {
         if (!StringToNumber(optarg,
@@ -855,7 +855,7 @@ int HandlerMain(int argc,
   argc -= optind;
   argv += optind;
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
   if (options.handshake_fd < 0 && options.mach_service.empty()) {
     ToolSupport::UsageHint(me, "--handshake-fd or --mach-service is required");
     return ExitFailure();
@@ -904,7 +904,7 @@ int HandlerMain(int argc,
     ExitFailure();
   }
 #endif  // OS_ANDROID
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 
   if (options.database.empty()) {
     ToolSupport::UsageHint(me, "--database is required");
@@ -916,11 +916,11 @@ int HandlerMain(int argc,
     return ExitFailure();
   }
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
   if (options.reset_own_crash_exception_port_to_system_default) {
     CrashpadClient::UseSystemDefaultHandler();
   }
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 
   if (options.monitor_self) {
     MonitorSelf(options);
@@ -1039,7 +1039,7 @@ int HandlerMain(int argc,
     prune_thread.Get()->Start();
   }
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
   if (options.mach_service.empty()) {
     // Don’t do this when being run by launchd. See launchd.plist(5).
     CloseStdinAndStdout();
@@ -1094,7 +1094,7 @@ int HandlerMain(int argc,
   }
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
   ExceptionHandlerServer exception_handler_server;
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 
   base::GlobalHistogramAllocator* histogram_allocator = nullptr;
   if (!options.metrics_dir.empty()) {

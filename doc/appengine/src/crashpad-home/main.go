@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package crashpad mirrors crashpad documentation from Chromium’s git repo.
-package crashpad
+package main
 
 import (
 	"encoding/base64"
@@ -30,6 +29,10 @@ import (
 	"google.golang.org/appengine/memcache"
 	"google.golang.org/appengine/urlfetch"
 )
+
+func main() {
+	appengine.Main()
+}
 
 func init() {
 	http.HandleFunc("/", handler)

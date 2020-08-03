@@ -30,9 +30,9 @@
 #include "base/strings/utf_string_conversions.h"
 #include "base/sys_byteorder.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 #include <uuid/uuid.h>
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 
 namespace crashpad {
 
@@ -88,7 +88,7 @@ bool UUID::InitializeFromString(const base::StringPiece16& string) {
 }
 
 bool UUID::InitializeWithNew() {
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
   uuid_t uuid;
   uuid_generate(uuid);
   InitializeFromBytes(uuid);
@@ -109,7 +109,7 @@ bool UUID::InitializeWithNew() {
   return true;
 #else
 #error Port.
-#endif  // OS_MACOSX
+#endif  // OS_APPLE
 }
 
 #if defined(OS_WIN)

@@ -63,7 +63,7 @@ constexpr struct {
     {SIGVTALRM, "SIGVTALRM", "VTALRM"},
     {SIGWINCH, "SIGWINCH", "WINCH"},
     {SIGXCPU, "SIGXCPU", "XCPU"},
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
     {SIGEMT, "SIGEMT", "EMT"},
     {SIGINFO, "SIGINFO", "INFO"},
 #elif defined(OS_LINUX) || defined(OS_ANDROID)

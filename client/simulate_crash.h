@@ -17,7 +17,7 @@
 
 #include "build/build_config.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 #include "client/simulate_crash_mac.h"
 #elif defined(OS_WIN)
 #include "client/simulate_crash_win.h"
