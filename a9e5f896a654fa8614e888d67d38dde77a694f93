@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28debb8f_39f14c6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-05T20:36:15Z",
+      "side": 1,
+      "message": "In general, this is a good change, but the surface area is small enough that I think we can do a bit better than a strictly mechanical change.",
+      "revId": "a9e5f896a654fa8614e888d67d38dde77a694f93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6cc4f1a_a3f03a7b",
+        "filename": "build/run_tests.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-05T20:36:15Z",
+      "side": 1,
+      "message": "In some cases, it’s clear that something’s just a list of things that are treated in some special way (allow, deny, something else), and in that case, you can just say “list” without having to use a sorta-made-up word. This is one such case.",
+      "revId": "a9e5f896a654fa8614e888d67d38dde77a694f93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da5eebe8_8484fcc3",
+        "filename": "handler/linux/capture_snapshot.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-05T20:36:15Z",
+      "side": 1,
+      "message": "allowed_annotations, allowed_memory_ranges, ReadAllowedAnnotations, ReadAllowedMemoryRanges?",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 73
+      },
+      "revId": "a9e5f896a654fa8614e888d67d38dde77a694f93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e5c64c3_c4aa2250",
+        "filename": "snapshot/sanitized/memory_snapshot_sanitized.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-05T20:36:15Z",
+      "side": 1,
+      "message": "“allowlist” already feels awkward enough, “verbing” it feels like even more of a stretch. The listiness isn’t too important here, so just say “an allowed address range”?",
+      "range": {
+        "startLine": 30,
+        "startChar": 53,
+        "endLine": 30,
+        "endChar": 64
+      },
+      "revId": "a9e5f896a654fa8614e888d67d38dde77a694f93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a1ab005_dd5e0924",
+        "filename": "snapshot/sanitized/module_snapshot_sanitized.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-05T20:36:15Z",
+      "side": 1,
+      "message": "Maybe just allowed_annotations (and fix up the rest of this header and the .cc file to match)? And the same in the process snapshot?",
+      "revId": "a9e5f896a654fa8614e888d67d38dde77a694f93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "589f8402_230bfc2f",
+        "filename": "snapshot/sanitized/sanitization_information.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-05T20:36:15Z",
+      "side": 1,
+      "message": "You didn’t catch this one because it occurs with a space in it, but you should fix it too.",
+      "range": {
+        "startLine": 59,
+        "startChar": 31,
+        "endLine": 59,
+        "endChar": 43
+      },
+      "revId": "a9e5f896a654fa8614e888d67d38dde77a694f93",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
