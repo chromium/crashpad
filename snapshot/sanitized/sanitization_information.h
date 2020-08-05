@@ -35,9 +35,9 @@ namespace crashpad {
 struct SanitizationInformation {
   //! \brief The address in the client process' address space of a nullptr
   //!     terminated array of NUL-terminated strings. The string values are the
-  //!     names of whitelisted annotations. This value is 0 if there is no
-  //!     whitelist and all annotations are allowed.
-  VMAddress annotations_whitelist_address;
+  //!     names of allowlisted annotations. This value is 0 if there is no
+  //!     allowlist and all annotations are allowed.
+  VMAddress annotations_allowlist_address;
 
   //! \brief An address in the client process' address space within a module to
   //!     target. When a target module is used, crash dumps are discarded unless
@@ -47,10 +47,10 @@ struct SanitizationInformation {
   VMAddress target_module_address;
 
   //! \brief The address in the client process' address space of a
-  //!     a \a SanitizationMemoryRangeWhitelist, a list of whitelisted address
+  //!     a \a SanitizationMemoryRangeWhitelist, a list of allowlisted address
   //!     ranges allowed to be accessed by ProcessMemorySanitized. This value
   //!     is 0 if no memory is allowed to be read using ProcessMemorySanitized.
-  VMAddress memory_range_whitelist_address;
+  VMAddress memory_range_allowlist_address;
 
   //! \brief Non-zero if stacks should be sanitized for possible PII.
   uint8_t sanitize_stacks;
@@ -71,30 +71,30 @@ struct SanitizationMemoryRangeWhitelist {
 
 #pragma pack(pop)
 
-//! \brief Reads an annotations whitelist from another process.
+//! \brief Reads an annotations allowlist from another process.
 //!
 //! \param[in] memory A memory reader for the target process.
-//! \param[in] whitelist_address The address in the target process' address
+//! \param[in] allowlist_address The address in the target process' address
 //!     space of a nullptr terminated array of NUL-terminated strings.
-//! \param[out] whitelist The whitelist read, valid only if this function
+//! \param[out] allowlist The allowlist read, valid only if this function
 //!     returns `true`.
 //! \return `true` on success, `false` on failure with a message logged.
 bool ReadAnnotationsWhitelist(const ProcessMemoryRange& memory,
-                              VMAddress whitelist_address,
-                              std::vector<std::string>* whitelist);
+                              VMAddress allowlist_address,
+                              std::vector<std::string>* allowlist);
 
-//! \brief Reads a memory range whitelist from another process.
+//! \brief Reads a memory range allowlist from another process.
 //!
 //! \param[in] memory A memory reader for the target process.
-//! \param[in] whitelist_address The address in the target process' address
+//! \param[in] allowlist_address The address in the target process' address
 //!     space of a nullptr terminated array of NUL-terminated strings.
-//! \param[out] whitelist A list of whitelisted memory regions, valid only if
+//! \param[out] allowlist A list of allowlisted memory regions, valid only if
 //!     this function returns `true`.
 //! \return `true` on success, `false` on failure with a message logged.
 bool ReadMemoryRangeWhitelist(
     const ProcessMemoryRange& memory,
-    VMAddress whitelist_address,
-    std::vector<std::pair<VMAddress, VMAddress>>* whitelist);
+    VMAddress allowlist_address,
+    std::vector<std::pair<VMAddress, VMAddress>>* allowlist);
 
 }  // namespace crashpad
 

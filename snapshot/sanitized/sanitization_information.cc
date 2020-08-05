@@ -25,17 +25,17 @@ namespace {
 
 template <typename Pointer>
 bool ReadAnnotationsWhitelist(const ProcessMemoryRange& memory,
-                              VMAddress whitelist_address,
-                              std::vector<std::string>* whitelist) {
-  if (!whitelist_address) {
+                              VMAddress allowlist_address,
+                              std::vector<std::string>* allowlist) {
+  if (!allowlist_address) {
     return true;
   }
 
-  std::vector<std::string> local_whitelist;
+  std::vector<std::string> local_allowlist;
   Pointer name_address;
-  while (memory.Read(whitelist_address, sizeof(name_address), &name_address)) {
+  while (memory.Read(allowlist_address, sizeof(name_address), &name_address)) {
     if (!name_address) {
-      whitelist->swap(local_whitelist);
+      allowlist->swap(local_allowlist);
       return true;
     }
 
@@ -44,8 +44,8 @@ bool ReadAnnotationsWhitelist(const ProcessMemoryRange& memory,
             name_address, Annotation::kNameMaxLength, &name)) {
       return false;
     }
-    local_whitelist.push_back(name);
-    whitelist_address += sizeof(Pointer);
+    local_allowlist.push_back(name);
+    allowlist_address += sizeof(Pointer);
   }
 
   return false;
@@ -54,26 +54,26 @@ bool ReadAnnotationsWhitelist(const ProcessMemoryRange& memory,
 }  // namespace
 
 bool ReadAnnotationsWhitelist(const ProcessMemoryRange& memory,
-                              VMAddress whitelist_address,
-                              std::vector<std::string>* whitelist) {
+                              VMAddress allowlist_address,
+                              std::vector<std::string>* allowlist) {
   return memory.Is64Bit() ? ReadAnnotationsWhitelist<uint64_t>(
-                                memory, whitelist_address, whitelist)
+                                memory, allowlist_address, allowlist)
                           : ReadAnnotationsWhitelist<uint32_t>(
-                                memory, whitelist_address, whitelist);
+                                memory, allowlist_address, allowlist);
 }
 
 bool ReadMemoryRangeWhitelist(
     const ProcessMemoryRange& memory,
-    VMAddress whitelist_address,
-    std::vector<std::pair<VMAddress, VMAddress>>* whitelist) {
-  whitelist->clear();
-  if (!whitelist_address) {
+    VMAddress allowlist_address,
+    std::vector<std::pair<VMAddress, VMAddress>>* allowlist) {
+  allowlist->clear();
+  if (!allowlist_address) {
     return true;
   }
 
   SanitizationMemoryRangeWhitelist list;
-  if (!memory.Read(whitelist_address, sizeof(list), &list)) {
-    LOG(ERROR) << "Failed to read memory range whitelist.";
+  if (!memory.Read(allowlist_address, sizeof(list), &list)) {
+    LOG(ERROR) << "Failed to read memory range allowlist.";
     return false;
   }
 
@@ -91,25 +91,25 @@ bool ReadMemoryRangeWhitelist(
   std::vector<SanitizationMemoryRangeWhitelist::Range> ranges(list.size);
   if (!memory.Read(list.entries, sizeof(ranges[0]) * list.size,
                    ranges.data())) {
-    LOG(ERROR) << "Failed to read memory range whitelist entries.";
+    LOG(ERROR) << "Failed to read memory range allowlist entries.";
     return false;
   }
 
   const VMAddress vm_max = memory.Is64Bit()
                                ? std::numeric_limits<uint64_t>::max()
                                : std::numeric_limits<uint32_t>::max();
-  std::vector<std::pair<VMAddress, VMAddress>> local_whitelist;
+  std::vector<std::pair<VMAddress, VMAddress>> local_allowlist;
   for (size_t i = 0; i < list.size; i++) {
     if (ranges[i].base > vm_max || ranges[i].length > vm_max - ranges[i].base) {
-      LOG(ERROR) << "Invalid memory range whitelist entry base="
+      LOG(ERROR) << "Invalid memory range allowlist entry base="
                  << ranges[i].base << " length=" << ranges[i].length;
       return false;
     }
-    local_whitelist.emplace_back(ranges[i].base,
+    local_allowlist.emplace_back(ranges[i].base,
                                  ranges[i].base + ranges[i].length);
   }
 
-  whitelist->swap(local_whitelist);
+  allowlist->swap(local_allowlist);
   return true;
 }
 

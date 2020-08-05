@@ -20,8 +20,8 @@ namespace internal {
 namespace {
 
 bool KeyIsInWhitelist(const std::string& name,
-                      const std::vector<std::string>& whitelist) {
-  for (const auto& key : whitelist) {
+                      const std::vector<std::string>& allowlist) {
+  for (const auto& key : allowlist) {
     if (name == key) {
       return true;
     }
@@ -33,8 +33,8 @@ bool KeyIsInWhitelist(const std::string& name,
 
 ModuleSnapshotSanitized::ModuleSnapshotSanitized(
     const ModuleSnapshot* snapshot,
-    const std::vector<std::string>* annotations_whitelist)
-    : snapshot_(snapshot), annotations_whitelist_(annotations_whitelist) {}
+    const std::vector<std::string>* annotations_allowlist)
+    : snapshot_(snapshot), annotations_allowlist_(annotations_allowlist) {}
 
 ModuleSnapshotSanitized::~ModuleSnapshotSanitized() = default;
 
@@ -96,9 +96,9 @@ std::map<std::string, std::string>
 ModuleSnapshotSanitized::AnnotationsSimpleMap() const {
   std::map<std::string, std::string> annotations =
       snapshot_->AnnotationsSimpleMap();
-  if (annotations_whitelist_) {
+  if (annotations_allowlist_) {
     for (auto kv = annotations.begin(); kv != annotations.end(); ++kv) {
-      if (!KeyIsInWhitelist(kv->first, *annotations_whitelist_)) {
+      if (!KeyIsInWhitelist(kv->first, *annotations_allowlist_)) {
         annotations.erase(kv);
       }
     }
@@ -109,14 +109,14 @@ ModuleSnapshotSanitized::AnnotationsSimpleMap() const {
 std::vector<AnnotationSnapshot> ModuleSnapshotSanitized::AnnotationObjects()
     const {
   std::vector<AnnotationSnapshot> annotations = snapshot_->AnnotationObjects();
-  if (annotations_whitelist_) {
-    std::vector<AnnotationSnapshot> whitelisted;
+  if (annotations_allowlist_) {
+    std::vector<AnnotationSnapshot> allowlisted;
     for (const auto& anno : annotations) {
-      if (KeyIsInWhitelist(anno.name, *annotations_whitelist_)) {
-        whitelisted.push_back(anno);
+      if (KeyIsInWhitelist(anno.name, *annotations_allowlist_)) {
+        allowlisted.push_back(anno);
       }
     }
-    annotations.swap(whitelisted);
+    annotations.swap(allowlisted);
   }
   return annotations;
 }

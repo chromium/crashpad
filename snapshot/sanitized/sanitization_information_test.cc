@@ -38,19 +38,19 @@ class WhitelistTest : public testing::Test {
  protected:
   bool ReadWhitelist(const char* const* address) {
     return ReadAnnotationsWhitelist(
-        range_, FromPointerCast<VMAddress>(address), &whitelist_);
+        range_, FromPointerCast<VMAddress>(address), &allowlist_);
   }
 
   ProcessMemoryLinux memory_;
   ProcessMemoryRange range_;
-  std::vector<std::string> whitelist_;
+  std::vector<std::string> allowlist_;
 };
 
 const char* const kEmptyWhitelist[] = {nullptr};
 
 TEST_F(WhitelistTest, EmptyWhitelist) {
   ASSERT_TRUE(ReadWhitelist(kEmptyWhitelist));
-  EXPECT_EQ(whitelist_, std::vector<std::string>());
+  EXPECT_EQ(allowlist_, std::vector<std::string>());
 }
 
 const char* const kNonEmptyWhitelist[] = {"string1",
@@ -60,9 +60,9 @@ const char* const kNonEmptyWhitelist[] = {"string1",
 
 TEST_F(WhitelistTest, NonEmptyWhitelist) {
   ASSERT_TRUE(ReadWhitelist(kNonEmptyWhitelist));
-  ASSERT_EQ(whitelist_.size(), base::size(kNonEmptyWhitelist) - 1);
+  ASSERT_EQ(allowlist_.size(), base::size(kNonEmptyWhitelist) - 1);
   for (size_t index = 0; index < base::size(kNonEmptyWhitelist) - 1; ++index) {
-    EXPECT_EQ(whitelist_[index], kNonEmptyWhitelist[index]);
+    EXPECT_EQ(allowlist_[index], kNonEmptyWhitelist[index]);
   }
 }
 

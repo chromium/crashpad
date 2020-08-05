@@ -80,17 +80,17 @@ bool CaptureSnapshot(
       return false;
     }
 
-    auto annotations_whitelist = std::make_unique<std::vector<std::string>>();
-    auto memory_range_whitelist =
+    auto annotations_allowlist = std::make_unique<std::vector<std::string>>();
+    auto memory_range_allowlist =
         std::make_unique<std::vector<std::pair<VMAddress, VMAddress>>>();
     if (!ReadAnnotationsWhitelist(
             range,
-            sanitization_info.annotations_whitelist_address,
-            annotations_whitelist.get()) ||
+            sanitization_info.annotations_allowlist_address,
+            annotations_allowlist.get()) ||
         !ReadMemoryRangeWhitelist(
             range,
-            sanitization_info.memory_range_whitelist_address,
-            memory_range_whitelist.get())) {
+            sanitization_info.memory_range_allowlist_address,
+            memory_range_allowlist.get())) {
       Metrics::ExceptionCaptureResult(
           Metrics::CaptureResult::kSanitizationInitializationFailed);
       return false;
@@ -99,10 +99,10 @@ bool CaptureSnapshot(
     std::unique_ptr<ProcessSnapshotSanitized> sanitized(
         new ProcessSnapshotSanitized());
     if (!sanitized->Initialize(process_snapshot.get(),
-                               sanitization_info.annotations_whitelist_address
-                                   ? std::move(annotations_whitelist)
+                               sanitization_info.annotations_allowlist_address
+                                   ? std::move(annotations_allowlist)
                                    : nullptr,
-                               std::move(memory_range_whitelist),
+                               std::move(memory_range_allowlist),
                                sanitization_info.target_module_address,
                                sanitization_info.sanitize_stacks)) {
       Metrics::ExceptionCaptureResult(
