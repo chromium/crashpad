@@ -24,7 +24,7 @@ namespace crashpad {
 namespace test {
 namespace {
 
-class WhitelistTest : public testing::Test {
+class AllowlistTest : public testing::Test {
  public:
   void SetUp() override {
     ASSERT_TRUE(memory_.Initialize(getpid()));
@@ -36,33 +36,33 @@ class WhitelistTest : public testing::Test {
   }
 
  protected:
-  bool ReadWhitelist(const char* const* address) {
-    return ReadAnnotationsWhitelist(
-        range_, FromPointerCast<VMAddress>(address), &whitelist_);
+  bool ReadAllowlist(const char* const* address) {
+    return ReadAnnotationsAllowlist(
+        range_, FromPointerCast<VMAddress>(address), &allowlist_);
   }
 
   ProcessMemoryLinux memory_;
   ProcessMemoryRange range_;
-  std::vector<std::string> whitelist_;
+  std::vector<std::string> allowlist_;
 };
 
-const char* const kEmptyWhitelist[] = {nullptr};
+const char* const kEmptyAllowlist[] = {nullptr};
 
-TEST_F(WhitelistTest, EmptyWhitelist) {
-  ASSERT_TRUE(ReadWhitelist(kEmptyWhitelist));
-  EXPECT_EQ(whitelist_, std::vector<std::string>());
+TEST_F(AllowlistTest, EmptyAllowlist) {
+  ASSERT_TRUE(ReadAllowlist(kEmptyAllowlist));
+  EXPECT_EQ(allowlist_, std::vector<std::string>());
 }
 
-const char* const kNonEmptyWhitelist[] = {"string1",
+const char* const kNonEmptyAllowlist[] = {"string1",
                                           "another_string",
                                           "",
                                           nullptr};
 
-TEST_F(WhitelistTest, NonEmptyWhitelist) {
-  ASSERT_TRUE(ReadWhitelist(kNonEmptyWhitelist));
-  ASSERT_EQ(whitelist_.size(), base::size(kNonEmptyWhitelist) - 1);
-  for (size_t index = 0; index < base::size(kNonEmptyWhitelist) - 1; ++index) {
-    EXPECT_EQ(whitelist_[index], kNonEmptyWhitelist[index]);
+TEST_F(AllowlistTest, NonEmptyAllowlist) {
+  ASSERT_TRUE(ReadAllowlist(kNonEmptyAllowlist));
+  ASSERT_EQ(allowlist_.size(), base::size(kNonEmptyAllowlist) - 1);
+  for (size_t index = 0; index < base::size(kNonEmptyAllowlist) - 1; ++index) {
+    EXPECT_EQ(allowlist_[index], kNonEmptyAllowlist[index]);
   }
 }
 

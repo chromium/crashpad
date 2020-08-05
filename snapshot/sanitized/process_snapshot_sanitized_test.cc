@@ -74,10 +74,10 @@ class ExceptionGenerator {
   DISALLOW_COPY_AND_ASSIGN(ExceptionGenerator);
 };
 
-constexpr char kWhitelistedAnnotationName[] = "name_of_whitelisted_anno";
-constexpr char kWhitelistedAnnotationValue[] = "some_value";
-constexpr char kNonWhitelistedAnnotationName[] = "non_whitelisted_anno";
-constexpr char kNonWhitelistedAnnotationValue[] = "private_annotation";
+constexpr char kAllowlistedAnnotationName[] = "name_of_allowlisted_anno";
+constexpr char kAllowlistedAnnotationValue[] = "some_value";
+constexpr char kNonAllowlistedAnnotationName[] = "non_allowlisted_anno";
+constexpr char kNonAllowlistedAnnotationValue[] = "private_annotation";
 constexpr char kSensitiveStackData[] = "sensitive_stack_data";
 
 struct ChildTestAddresses {
@@ -92,13 +92,13 @@ void ChildTestFunction() {
   FileHandle in = StdioFileHandle(StdioStream::kStandardInput);
   FileHandle out = StdioFileHandle(StdioStream::kStandardOutput);
 
-  static StringAnnotation<32> whitelisted_annotation(
-      kWhitelistedAnnotationName);
-  whitelisted_annotation.Set(kWhitelistedAnnotationValue);
+  static StringAnnotation<32> allowlisted_annotation(
+      kAllowlistedAnnotationName);
+  allowlisted_annotation.Set(kAllowlistedAnnotationValue);
 
-  static StringAnnotation<32> non_whitelisted_annotation(
-      kNonWhitelistedAnnotationName);
-  non_whitelisted_annotation.Set(kNonWhitelistedAnnotationValue);
+  static StringAnnotation<32> non_allowlisted_annotation(
+      kNonAllowlistedAnnotationName);
+  non_allowlisted_annotation.Set(kNonAllowlistedAnnotationValue);
 
   char string_data[strlen(kSensitiveStackData) + 1];
   strcpy(string_data, kSensitiveStackData);
@@ -126,39 +126,39 @@ CRASHPAD_CHILD_TEST_MAIN(ChildToBeSanitized) {
 }
 
 void ExpectAnnotations(ProcessSnapshot* snapshot, bool sanitized) {
-  bool found_whitelisted = false;
-  bool found_non_whitelisted = false;
+  bool found_allowlisted = false;
+  bool found_non_allowlisted = false;
   for (auto module : snapshot->Modules()) {
     for (const auto& anno : module->AnnotationObjects()) {
-      if (anno.name == kWhitelistedAnnotationName) {
-        found_whitelisted = true;
-      } else if (anno.name == kNonWhitelistedAnnotationName) {
-        found_non_whitelisted = true;
+      if (anno.name == kAllowlistedAnnotationName) {
+        found_allowlisted = true;
+      } else if (anno.name == kNonAllowlistedAnnotationName) {
+        found_non_allowlisted = true;
       }
     }
   }
 
-  EXPECT_TRUE(found_whitelisted);
+  EXPECT_TRUE(found_allowlisted);
   if (sanitized) {
-    EXPECT_FALSE(found_non_whitelisted);
+    EXPECT_FALSE(found_non_allowlisted);
   } else {
-    EXPECT_TRUE(found_non_whitelisted);
+    EXPECT_TRUE(found_non_allowlisted);
   }
 }
 
 void ExpectProcessMemory(ProcessSnapshot* snapshot,
-                         VMAddress whitelisted_byte,
+                         VMAddress allowlisted_byte,
                          bool sanitized) {
   auto memory = snapshot->Memory();
 
   char out;
-  EXPECT_TRUE(memory->Read(whitelisted_byte, 1, &out));
+  EXPECT_TRUE(memory->Read(allowlisted_byte, 1, &out));
 
-  bool unwhitelisted_read = memory->Read(whitelisted_byte + 1, 1, &out);
+  bool unallowlisted_read = memory->Read(allowlisted_byte + 1, 1, &out);
   if (sanitized) {
-    EXPECT_FALSE(unwhitelisted_read);
+    EXPECT_FALSE(unallowlisted_read);
   } else {
-    EXPECT_TRUE(unwhitelisted_read);
+    EXPECT_TRUE(unallowlisted_read);
   }
 }
 
@@ -272,18 +272,18 @@ class SanitizeTest : public MultiprocessExec {
                         addrs.string_address,
                         /* sanitized= */ false);
 
-    auto annotations_whitelist = std::make_unique<std::vector<std::string>>();
-    annotations_whitelist->push_back(kWhitelistedAnnotationName);
+    auto annotations_allowlist = std::make_unique<std::vector<std::string>>();
+    annotations_allowlist->push_back(kAllowlistedAnnotationName);
 
-    auto memory_ranges_whitelist =
+    auto memory_ranges_allowlist =
         std::make_unique<std::vector<std::pair<VMAddress, VMAddress>>>();
-    memory_ranges_whitelist->push_back(
+    memory_ranges_allowlist->push_back(
         std::make_pair(addrs.string_address, addrs.string_address + 1));
 
     ProcessSnapshotSanitized sanitized;
     ASSERT_TRUE(sanitized.Initialize(&snapshot,
-                                     std::move(annotations_whitelist),
-                                     std::move(memory_ranges_whitelist),
+                                     std::move(annotations_allowlist),
+                                     std::move(memory_ranges_allowlist),
                                      addrs.module_address,
                                      true));
 
