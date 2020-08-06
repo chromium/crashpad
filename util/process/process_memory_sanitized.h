@@ -34,25 +34,25 @@ class ProcessMemorySanitized final : public ProcessMemory {
   ~ProcessMemorySanitized();
 
   //! \brief Initializes this object to read memory from the underlying
-  //!     \a memory object if the memory range is in the provided \a whitelist.
+  //!     \a memory object if the memory range is in \a allowed_ranges.
   //!
   //! This method must be called successfully prior to calling any other method
   //! in this class.
   //!
-  //! \param[in] memory The memory object to read whitelisted regions from.
-  //! \param[in] whitelist A whitelist of memory regions.
+  //! \param[in] memory The memory object to read memory from.
+  //! \param[in] allowed_ranges A list of allowed memory ranges.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
   bool Initialize(
       const ProcessMemory* memory,
-      const std::vector<std::pair<VMAddress, VMAddress>>* whitelist);
+      const std::vector<std::pair<VMAddress, VMAddress>>* allowed_ranges);
 
  private:
   ssize_t ReadUpTo(VMAddress address, size_t size, void* buffer) const override;
 
   const ProcessMemory* memory_;
   InitializationStateDcheck initialized_;
-  std::vector<std::pair<VMAddress, VMAddress>> whitelist_;
+  std::vector<std::pair<VMAddress, VMAddress>> allowed_ranges_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessMemorySanitized);
 };
