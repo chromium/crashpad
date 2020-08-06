@@ -292,7 +292,7 @@ def _RunOnAndroidTarget(binary_dir, test, android_device, extra_command_line):
         # pseudo-terminal device, Google Test will not normally enable colored
         # output, so mimic Google Test’s own logic for deciding whether to
         # enable color by checking this script’s own standard output connection.
-        # The whitelist of TERM values comes from Google Test’s
+        # The list of TERM values comes from Google Test’s
         # googletest/src/gtest.cc testing::internal::ShouldUseColor().
         env = {'CRASHPAD_TEST_DATA_ROOT': device_temp_dir}
         gtest_color = os.environ.get('GTEST_COLOR')
