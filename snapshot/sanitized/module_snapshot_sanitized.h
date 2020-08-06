@@ -31,12 +31,11 @@ class ModuleSnapshotSanitized final : public ModuleSnapshot {
   //! \brief Constructs this object.
   //!
   //! \param[in] snapshot The ModuleSnapshot to sanitize.
-  //! \param[in] annotations_whitelist A list of annotation names to allow to be
+  //! \param[in] allowed_annotations A list of annotation names to allow to be
   //!     returned by AnnotationsSimpleMap() or AnnotationObjects(). If
   //!     `nullptr`, all annotations will be returned.
-  ModuleSnapshotSanitized(
-      const ModuleSnapshot* snapshot,
-      const std::vector<std::string>* annotations_whitelist);
+  ModuleSnapshotSanitized(const ModuleSnapshot* snapshot,
+                          const std::vector<std::string>* allowed_annotations);
   ~ModuleSnapshotSanitized() override;
 
   // ModuleSnapshot:
@@ -65,7 +64,7 @@ class ModuleSnapshotSanitized final : public ModuleSnapshot {
 
  private:
   const ModuleSnapshot* snapshot_;
-  const std::vector<std::string>* annotations_whitelist_;
+  const std::vector<std::string>* allowed_annotations_;
 
   DISALLOW_COPY_AND_ASSIGN(ModuleSnapshotSanitized);
 };
