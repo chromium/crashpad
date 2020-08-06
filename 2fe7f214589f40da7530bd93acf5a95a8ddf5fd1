@@ -16,6 +16,57 @@
       "revId": "2fe7f214589f40da7530bd93acf5a95a8ddf5fd1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b9bd62f_b3b208cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-06T20:28:07Z",
+      "side": 1,
+      "message": "Great!\n\nAnd no occurrences of the contrasting “blacklist” or its variants, aside from the mention of a couple of files that we don’t control in third_party/edo/BUILD.gn.\n\nGoogle owns eDistantObject, so we could fix that and pull in a new copy via DEPS.\n\nThanks for this cleanup!",
+      "revId": "2fe7f214589f40da7530bd93acf5a95a8ddf5fd1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d2db90c_7d0bca66",
+        "filename": "snapshot/sanitized/process_snapshot_sanitized_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-06T20:28:07Z",
+      "side": 1,
+      "message": "disallowed_read",
+      "revId": "2fe7f214589f40da7530bd93acf5a95a8ddf5fd1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e368de93_390b524d",
+        "filename": "util/process/process_memory_sanitized.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-06T20:28:07Z",
+      "side": 1,
+      "message": "disallowed",
+      "revId": "2fe7f214589f40da7530bd93acf5a95a8ddf5fd1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
