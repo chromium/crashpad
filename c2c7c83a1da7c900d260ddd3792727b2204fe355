@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "279b9a24_b638beac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-07T21:28:04Z",
+      "side": 1,
+      "message": "So is this attribute saying “don’t check CFI for any calls that this function makes?” In that case, you’d want to apply it to things looked up dynamically via dlsym?\n\nIf yes, is there a way to tighten this up so that it applies only to the function call through a dlsym()ed function pointer, and not to all other calls out of a function? Can the attribute be applied just to a function pointer? If not, maybe what we need is to make these calls through a templatized functor that has the attribute on it, rather than having the attribute apply without limitation to entire functions just because they happen to make such a call.\n\nThe part of the description that’s giving me some trouble is this:\n\n\u003e However, the analyzer does not have enough information to check\n\u003e cross-dso calls.\n\nIt can’t be that broad, because we seem to be able to call from our module into, say, libc, without any trouble at all most of the time. The only trouble spots look like they’re dlsym()ed function pointers.",
+      "parentUuid": "9b360541_453b7d81",
+      "revId": "c2c7c83a1da7c900d260ddd3792727b2204fe355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cdfee27_ac49d4b4",
         "filename": "handler/linux/handler_trampoline.cc",
         "patchSetId": 1
