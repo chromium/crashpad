@@ -40,11 +40,11 @@ void* InitializeSignalStackAndStart(StartParams* params) {
 
 extern "C" {
 
-__attribute__((visibility("default"))) int pthread_create(
-    pthread_t* thread,
-    const pthread_attr_t* attr,
-    StartRoutineType start_routine,
-    void* arg) {
+__attribute__((visibility("default"), no_sanitize("cfi-icall"))) int
+pthread_create(pthread_t* thread,
+               const pthread_attr_t* attr,
+               StartRoutineType start_routine,
+               void* arg) {
   static const auto next_pthread_create = []() {
     const auto next_pthread_create =
         reinterpret_cast<decltype(pthread_create)*>(

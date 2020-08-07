@@ -82,7 +82,9 @@ namespace {
 // Wraps proc_get_wakemon_params(), calling it if the system provides it. It’s
 // present on OS X 10.9 and later. If it’s not available, sets errno to ENOSYS
 // and returns -1.
-int ProcGetWakemonParams(pid_t pid, int* rate_hz, int* flags) {
+__attribute__((no_sanitize("cfi-icall"))) int ProcGetWakemonParams(pid_t pid,
+                                                                   int* rate_hz,
+                                                                   int* flags) {
 #if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_9
   // proc_get_wakemon_params() isn’t in the SDK. Look it up dynamically.
   static ProcGetWakemonParamsType proc_get_wakemon_params =

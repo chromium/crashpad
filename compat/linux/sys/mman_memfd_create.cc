@@ -22,7 +22,8 @@
 
 extern "C" {
 
-int memfd_create(const char* name, unsigned int flags) {
+__attribute__((no_sanitize("cfi-icall"))) int memfd_create(const char* name,
+                                                           unsigned int flags) {
   using MemfdCreateType = int (*)(const char*, int);
   static const MemfdCreateType next_memfd_create =
       reinterpret_cast<MemfdCreateType>(dlsym(RTLD_NEXT, "memfd_create"));
