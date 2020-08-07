@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "fdc71cc0_ebb7fca6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-08-07T21:35:08Z",
+      "side": 1,
+      "message": "Yes, that\u0027s what this attribute does. I\u0027ll take a look at giving it a wrapper to apply to.\n\nI\u0027m not certain about why it\u0027s fine with calls not via dlsym()ed function pointers. Perhaps it\u0027s because those calls are actually going through PLT entries in this object and the toolchain is smart enough to deal with that?",
+      "parentUuid": "279b9a24_b638beac",
+      "revId": "c2c7c83a1da7c900d260ddd3792727b2204fe355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cdfee27_ac49d4b4",
         "filename": "handler/linux/handler_trampoline.cc",
         "patchSetId": 1
