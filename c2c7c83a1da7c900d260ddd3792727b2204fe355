@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "21b0814d_5c2b819f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-07T21:33:13Z",
+      "side": 1,
+      "message": "\u003e It can’t be that broad, because we seem to be able to call from our module into, say, libc, without any trouble at all most of the time. The only trouble spots look like they’re dlsym()ed function pointers.\n\nOr maybe it is that broad, but when they’re not function pointers, it’s obvious(?) to the compiler that it can’t check cfi-icall.\n\n(? Strictly speaking, it’s not obvious on non-Windows, because this isn’t known until link time. But I guess it can be obvious in this instance since CFI works tightly with LTO.)",
+      "parentUuid": "279b9a24_b638beac",
+      "revId": "c2c7c83a1da7c900d260ddd3792727b2204fe355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cdfee27_ac49d4b4",
         "filename": "handler/linux/handler_trampoline.cc",
         "patchSetId": 1
