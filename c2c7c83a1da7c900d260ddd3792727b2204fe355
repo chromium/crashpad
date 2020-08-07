@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "9b360541_453b7d81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-08-07T21:00:10Z",
+      "side": 1,
+      "message": "Done.\n\nThe only calls I\u0027ve directly observed failing are the pthread_create() and memfd_create() wrappers, but I don\u0027t see why the others couldn\u0027t also crash but maybe just aren\u0027t tested in the right builds. I think CFI only happens on official builds and not all platforms.",
+      "parentUuid": "2611069c_5d90c61b",
+      "revId": "c2c7c83a1da7c900d260ddd3792727b2204fe355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cdfee27_ac49d4b4",
         "filename": "handler/linux/handler_trampoline.cc",
         "patchSetId": 1
