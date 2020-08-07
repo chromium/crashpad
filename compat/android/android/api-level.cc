@@ -25,7 +25,7 @@
 
 extern "C" {
 
-int android_get_device_api_level() {
+__attribute__((no_sanitize("cfi-icall"))) int android_get_device_api_level() {
   using FuncType = int (*)();
   static const FuncType bionic_get_device_api_level =
       reinterpret_cast<FuncType>(

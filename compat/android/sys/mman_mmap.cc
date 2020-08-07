@@ -85,7 +85,12 @@ void* LocalMmap64(void* addr,
 
 extern "C" {
 
-void* mmap(void* addr, size_t size, int prot, int flags, int fd, off_t offset) {
+__attribute__((no_sanitize("cfi-icall"))) void* mmap(void* addr,
+                                                     size_t size,
+                                                     int prot,
+                                                     int flags,
+                                                     int fd,
+                                                     off_t offset) {
   // Use the system’s mmap64() wrapper if available. It will be available on
   // Android 5.0 (“Lollipop”) and later.
   using Mmap64Type = void* (*)(void*, size_t, int, int, int, off64_t);

@@ -19,7 +19,7 @@
 // The first argument passed to the trampoline is the name of the native library
 // exporting the symbol `CrashpadHandlerMain`. The remaining arguments are the
 // same as for `HandlerMain()`.
-int main(int argc, char* argv[]) {
+__attribute__((no_sanitize("cfi-icall"))) int main(int argc, char* argv[]) {
   static constexpr char kTag[] = "crashpad";
 
   if (argc < 2) {

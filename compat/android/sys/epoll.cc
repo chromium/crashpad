@@ -24,7 +24,7 @@
 
 extern "C" {
 
-int epoll_create1(int flags) {
+__attribute__((no_sanitize("cfi-icall"))) int epoll_create1(int flags) {
   static const auto epoll_create1_p = reinterpret_cast<int (*)(int)>(
       crashpad::internal::Dlsym(RTLD_DEFAULT, "epoll_create1"));
   return epoll_create1_p ? epoll_create1_p(flags)
