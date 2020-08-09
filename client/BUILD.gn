@@ -118,6 +118,7 @@ static_library("client") {
       deps += [ "//sdk/lib/fdio" ]
     }
   }
+  configs += [ "//build/config:Wno-conversion" ]
 }
 
 source_set("client_test") {
