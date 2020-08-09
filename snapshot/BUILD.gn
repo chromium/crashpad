@@ -261,6 +261,7 @@ static_library("snapshot") {
   }
 
   configs += [ "..:disable_ubsan" ]
+  configs += [ "//build/config:Wno-conversion" ]
 }
 
 # :context is the only part of snapshot that minidump may depend on.
@@ -281,6 +282,7 @@ static_library("context") {
   if (crashpad_is_win) {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
   }
+  configs += [ "//build/config:Wno-conversion" ]
 }
 
 if (crashpad_is_linux) {

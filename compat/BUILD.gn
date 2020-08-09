@@ -171,4 +171,5 @@ compat_target("compat") {
   if (!crashpad_is_linux && !crashpad_is_android && !crashpad_is_fuchsia) {
     deps += [ "../third_party/glibc" ]
   }
+  configs = [ "//build/config:Wno-conversion" ]
 }
