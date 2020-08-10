@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ae3547b0_1f94a41f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-08-10T17:36:33Z",
+      "side": 1,
+      "message": "fuchsia: on the title, and in the bug link.",
+      "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6ff7f98b_cd56bcd6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +59,23 @@
     },
     {
       "key": {
+        "uuid": "8951144e_c39e4217",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-08-10T17:36:33Z",
+      "side": 1,
+      "message": "I don\u0027 t",
+      "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d274392f_8589c18f",
         "filename": "client/BUILD.gn",
         "patchSetId": 1
@@ -59,6 +93,23 @@
         "endLine": 121,
         "endChar": 45
       },
+      "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dee893e0_63903e00",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-08-10T17:36:33Z",
+      "side": 1,
+      "message": "This won\u0027t build here. Crashpad is a separate project used in other products, and has to work with multiple different \"styles\" of GN build files, in particular, in Chromium, in Fuchsia, and a standalone build.\n\nWould it be possible to fix the errors rather than suppressing them in any case?",
       "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
