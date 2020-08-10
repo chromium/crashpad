@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ff7f98b_cd56bcd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1373593
+      },
+      "writtenOn": "2020-08-10T17:24:50Z",
+      "side": 1,
+      "message": "I could be wrong, but should this be something like `fuchsia:56258`? Otherwise the link goes to a chromium bug.",
+      "range": {
+        "startLine": 8,
+        "startChar": 5,
+        "endLine": 8,
+        "endChar": 10
+      },
+      "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02e6362b_59f862bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1373593
+      },
+      "writtenOn": "2020-08-10T17:24:50Z",
+      "side": 1,
+      "message": "+1 Although I don\u0027t have the ability to actually give it here, so you\u0027ll need to add someone else. I normally just add people who recently reviewed commits made to the files I touched.",
+      "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d274392f_8589c18f",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1373593
+      },
+      "writtenOn": "2020-08-10T17:24:50Z",
+      "side": 1,
+      "message": "This is done in another patch, but could we change the config name to make it stand out more so users know that this shouldn\u0027t absolutely be used freely: something like `Wno-conversion-DO-NOT-USE`?\n\nLSan has `suppress-lsan.DO-NOT-USE-THIS` and UBSan has `temporarily_disable_ubsan_do_not_use` for the same reason.",
+      "range": {
+        "startLine": 121,
+        "startChar": 31,
+        "endLine": 121,
+        "endChar": 45
+      },
+      "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
