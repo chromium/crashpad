@@ -215,6 +215,30 @@
       "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3db63411_277ce122",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-08-10T18:35:06Z",
+      "side": 1,
+      "message": "Yes, potentially, but it would be crashpad_is_in_fuchsia. crashpad_is_fuchsia means that it\u0027s targetting the Fuchsia platform (e.g. in Chromium, but on Fuchsia), crashpad_is_in_fuchsia means that it\u0027s building in the Fuchsia tree.",
+      "parentUuid": "fca55155_012cdd14",
+      "range": {
+        "startLine": 121,
+        "startChar": 31,
+        "endLine": 121,
+        "endChar": 45
+      },
+      "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
