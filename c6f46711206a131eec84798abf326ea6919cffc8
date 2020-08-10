@@ -263,6 +263,30 @@
       "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89f302b6_34d0a748",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-08-10T21:25:55Z",
+      "side": 1,
+      "message": "Compiling with -Wconversion complains about 543 different sites in the code. I\u0027ll go with the suppression and make it Fuchsia-specific.",
+      "parentUuid": "564df010_aca9a186",
+      "range": {
+        "startLine": 121,
+        "startChar": 31,
+        "endLine": 121,
+        "endChar": 45
+      },
+      "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
