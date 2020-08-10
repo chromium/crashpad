@@ -173,6 +173,48 @@
       "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fca55155_012cdd14",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1373593
+      },
+      "writtenOn": "2020-08-10T18:31:51Z",
+      "side": 1,
+      "message": "Could this still work if the config be moved under the if statement checking `crashpad_is_fuchsia`?",
+      "parentUuid": "c2a692d4_8cd6b3a5",
+      "range": {
+        "startLine": 121,
+        "startChar": 31,
+        "endLine": 121,
+        "endChar": 45
+      },
+      "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3ed234e_fcd515a3",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1373593
+      },
+      "writtenOn": "2020-08-10T18:31:51Z",
+      "side": 1,
+      "message": "I believe you should be able to reproduce each warning if you replace each instance you add this config with `cflags +\u003d [\"-Wconversion\"]` (or some internal config that adds this as a cflag). Then you can do a clean build and the errors should only show up for crashpad code.",
+      "parentUuid": "2f38df4f_e92a97d5",
+      "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
