@@ -239,6 +239,30 @@
       "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "564df010_aca9a186",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1373593
+      },
+      "writtenOn": "2020-08-10T18:39:09Z",
+      "side": 1,
+      "message": "Oh I didn\u0027t read close enough. Yeah, `crashpad_is_in_fuchsia` is what I meant initially.",
+      "parentUuid": "3db63411_277ce122",
+      "range": {
+        "startLine": 121,
+        "startChar": 31,
+        "endLine": 121,
+        "endChar": 45
+      },
+      "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
