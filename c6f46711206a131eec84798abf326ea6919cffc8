@@ -113,6 +113,24 @@
       "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f38df4f_e92a97d5",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-08-10T18:20:41Z",
+      "side": 1,
+      "message": "Scott is right. Leo, how can I repro your fixit setup? Or I could take another look and see how many actual issues there are and fix them manually.",
+      "parentUuid": "dee893e0_63903e00",
+      "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
