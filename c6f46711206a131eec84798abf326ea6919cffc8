@@ -76,6 +76,24 @@
     },
     {
       "key": {
+        "uuid": "dd8b74e5_732cd8cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-08-10T18:25:35Z",
+      "side": 1,
+      "message": "Neither do I",
+      "parentUuid": "8951144e_c39e4217",
+      "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d274392f_8589c18f",
         "filename": "client/BUILD.gn",
         "patchSetId": 1
@@ -128,6 +146,30 @@
       "side": 1,
       "message": "Scott is right. Leo, how can I repro your fixit setup? Or I could take another look and see how many actual issues there are and fix them manually.",
       "parentUuid": "dee893e0_63903e00",
+      "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2a692d4_8cd6b3a5",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-08-10T18:25:35Z",
+      "side": 1,
+      "message": "Discussed with Leo in chat.\nNeed to decide whether to name these configs consistently with the sanitizer suppression configs or with the other cflags -Wno-* configs, or to just realign all.\nAlso like Scott said this wouldn\u0027t matter in the context of this change.",
+      "parentUuid": "d274392f_8589c18f",
+      "range": {
+        "startLine": 121,
+        "startChar": 31,
+        "endLine": 121,
+        "endChar": 45
+      },
       "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
