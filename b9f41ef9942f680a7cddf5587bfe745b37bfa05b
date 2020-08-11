@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9d3e281_973cec22",
+        "filename": "client/pthread_create_linux.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-11T21:42:59Z",
+      "side": 1,
+      "message": "#includes should be full paths relative to the Crashpad root. Also, they should be in the same section as other local #includes (here, you’re making a new section?)",
+      "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cbaa8b9_10a4a2e8",
+        "filename": "client/pthread_create_linux.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-11T21:42:59Z",
+      "side": 1,
+      "message": "Static non-POD objects aren’t allowed because they result in exit-time destructors. These probably need another layer of pointiness and “new” to overcome that.",
+      "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28e8844b_e22abae2",
+        "filename": "compat/internal/unsanitized_call.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-11T21:42:59Z",
+      "side": 1,
+      "message": "I see that you put this in compat to make it possible for compat to depend on it, but it’s not really within the spirit of compat code. It forces others to directly #include compat code, which is way outside of the intended use case. It also makes it hard to test, because we’re not set up to test in compat, and we probably don’t really want to be since they’re really mostly just low-level wrappers for missing SDK bits, and our tests generally would work better a level up from there.\n\nCan we make a new source_set in util for this, like util:unsanitized_call, explicitly documented as something that’s broken out separately so that compat can depend on it, and also directly depended on as public_deps by util?\n\nThat would make this much easier to test in util_test. By the way, I think that’s something you should add, and a test for this would be pretty easy.",
+      "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5d5f7fb_f7af0fc7",
+        "filename": "compat/internal/unsanitized_call.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-11T21:42:59Z",
+      "side": 1,
+      "message": "nit: DSO",
+      "range": {
+        "startLine": 35,
+        "startChar": 34,
+        "endLine": 35,
+        "endChar": 37
+      },
+      "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d295d125_d24a55ac",
+        "filename": "compat/internal/unsanitized_call.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-11T21:42:59Z",
+      "side": 1,
+      "message": "This is specific to cfi-icall, so the name of the class and the name of the file should be more specific.",
+      "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "837f7918_fa946ad5",
+        "filename": "compat/internal/unsanitized_call.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-11T21:42:59Z",
+      "side": 1,
+      "message": "Blank line before this.\n\nActually, I think you want the docstring above attached to this, not the basic empty declaration above. Or you can leave it there and use \\copydoc on this.",
+      "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8976eee5_85901969",
+        "filename": "compat/internal/unsanitized_call.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-11T21:42:59Z",
+      "side": 1,
+      "message": "This works well with the type system but not well with dlsym, which returns void* (our exact problem!) Would you be willing to add an overload to centralize all of the reinterpret_casts? This utility seems a little cumbersome to use otherwise.",
+      "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
