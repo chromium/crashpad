@@ -22,6 +22,8 @@ if (crashpad_is_in_chromium) {
 config("compat_config") {
   include_dirs = []
 
+  include_dirs += [ "internal" ]
+
   if (crashpad_is_mac || crashpad_is_ios) {
     include_dirs += [ "mac" ]
   } else {
@@ -68,6 +70,8 @@ template("compat_target") {
 compat_target("compat") {
   sources = []
 
+  sources += [ "internal/unsanitized_call.h" ]
+
   if (crashpad_is_mac || crashpad_is_ios) {
     sources += [
       "mac/AvailabilityMacros.h",
@@ -108,8 +112,6 @@ compat_target("compat") {
 
   if (crashpad_is_android) {
     sources += [
-      "android/android/api-level.cc",
-      "android/android/api-level.h",
       "android/dlfcn_internal.cc",
       "android/dlfcn_internal.h",
       "android/elf.h",

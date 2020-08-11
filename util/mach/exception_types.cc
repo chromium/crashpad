@@ -22,6 +22,8 @@
 #include <kern/exc_resource.h>
 #include <strings.h>
 
+#include "unsanitized_call.h"
+
 #include "base/check_op.h"
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
@@ -85,8 +87,8 @@ namespace {
 int ProcGetWakemonParams(pid_t pid, int* rate_hz, int* flags) {
 #if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_9
   // proc_get_wakemon_params() isn’t in the SDK. Look it up dynamically.
-  static ProcGetWakemonParamsType proc_get_wakemon_params =
-      GetProcGetWakemonParams();
+  static crashpad::UnsanitizedCall<ProcGetWakemonParamsType>
+      proc_get_wakemon_params(GetProcGetWakemonParams());
 #endif
 
 #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_9

@@ -20,8 +20,6 @@
     {
       'target_name': 'crashpad_compat',
       'sources': [
-        'android/android/api-level.cc',
-        'android/android/api-level.h',
         'android/dlfcn_internal.cc',
         'android/dlfcn_internal.h',
         'android/elf.h',
@@ -35,6 +33,7 @@
         'android/sys/mman_mmap.cc',
         'android/sys/syscall.h',
         'android/sys/user.h',
+        'internal/unsanitized_call.h',
         'linux/signal.h',
         'linux/sys/ptrace.h',
         'linux/sys/user.h',
@@ -110,6 +109,7 @@
           'type': 'static_library',
           'include_dirs': [
             'android',
+            'internal',
             'linux',
           ],
           'direct_dependent_settings': {
