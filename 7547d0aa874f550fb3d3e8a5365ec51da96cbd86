@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92c891c0_1def5efa",
+        "filename": "DEPS",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-08-13T22:40:14Z",
+      "side": 0,
+      "message": "qemu is pulled from a version-tagged gs bucket by femu.sh, so we won\u0027t need this. (And in any case, it\u0027s not too useful right now.)",
+      "revId": "7547d0aa874f550fb3d3e8a5365ec51da96cbd86",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
