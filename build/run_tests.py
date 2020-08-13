@@ -318,50 +318,21 @@ def _GetFuchsiaSDKRoot():
     return os.path.join(CRASHPAD_DIR, 'third_party', 'fuchsia', 'sdk', arch)
 
 
-def _GenerateFuchsiaRuntimeDepsFiles(binary_dir, tests):
-    """Ensures a <binary_dir>/<test>.runtime_deps file exists for each test."""
-    targets_file = os.path.join(binary_dir, 'targets.txt')
-    with open(targets_file, 'wb') as f:
-        f.write('//:' + '\n//:'.join(tests) + '\n')
-    gn_path = _FindGNFromBinaryDir(binary_dir)
-    subprocess.check_call([
-        gn_path, '--root=' + CRASHPAD_DIR, 'gen', binary_dir,
-        '--runtime-deps-list-file=' + targets_file
-    ])
-
-    # Run again so that --runtime-deps-list-file isn't in the regen rule. See
-    # https://crbug.com/814816.
-    subprocess.check_call(
-        [gn_path, '--root=' + CRASHPAD_DIR, 'gen', binary_dir])
-
-
-def _HandleOutputFromFuchsiaLogListener(process, done_message):
-    """Pass through the output from |process| (which should be an instance of
-    Fuchsia's loglistener) until a special termination |done_message| is
-    encountered.
-
-    Also attempts to determine if any tests failed by inspecting the log output,
-    and returns False if there were failures.
-    """
-    success = True
-    while True:
-        line = process.stdout.readline().rstrip()
-        if 'FAILED TEST' in line:
-            success = False
-        elif done_message in line and 'echo ' not in line:
-            break
-        print(line)
-    return success
-
-
 def _RunOnFuchsiaTarget(binary_dir, test, device_name, extra_command_line):
     """Runs the given Fuchsia |test| executable on the given |device_name|. The
-    device must already be booted.
-
-    Copies the executable and its runtime dependencies as specified by GN to the
-    target in /tmp using `netcp`, runs the binary on the target, and logs output
-    back to stdout on this machine via `loglistener`.
+    device must already be booted via `femu.sh --headless -N`, and with a
+    package server running, via `fserve.sh`.
     """
+    if test:
+        print('Test filtering not supported.', file=sys.stderr)
+        return 1
+    if device_name:
+        print('Device selection not supported.', file=sys.stderr)
+        return 1
+    if extra_command_line:
+        print('Extra command line args not supported.', file=sys.stderr)
+        return 1
+
     sdk_root = _GetFuchsiaSDKRoot()
 
     # Run loglistener and filter the output to know when the test is done.
@@ -575,21 +546,6 @@ def main(args):
                 return 2
             android_device = devices[0]
             print('Using autodetected Android device:', android_device)
-    elif is_fuchsia:
-        zircon_nodename = os.environ.get('ZIRCON_NODENAME')
-        if not zircon_nodename:
-            netls = os.path.join(_GetFuchsiaSDKRoot(), 'tools', 'netls')
-            popen = subprocess.Popen([netls, '--nowait'],
-                                     stdout=subprocess.PIPE)
-            devices = popen.communicate()[0].splitlines()
-            if popen.returncode != 0 or len(devices) != 1:
-                print("Please set ZIRCON_NODENAME to your device's hostname",
-                      file=sys.stderr)
-                return 2
-            zircon_nodename = devices[0].strip().split()[1]
-            print('Using autodetected Fuchsia device:', zircon_nodename)
-        _GenerateFuchsiaRuntimeDepsFiles(
-            args.binary_dir, [t for t in tests if not t.endswith('.py')])
     elif is_ios:
         tests.append('ios_crash_xcuitests')
     elif IS_WINDOWS_HOST:
