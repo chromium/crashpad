@@ -81,26 +81,6 @@ deps = {
     'condition': 'checkout_fuchsia and host_os == "linux"',
     'dep_type': 'cipd'
   },
-  'crashpad/third_party/fuchsia/qemu/mac-amd64': {
-    'packages': [
-      {
-        'package': 'fuchsia/qemu/mac-amd64',
-        'version': 'latest'
-      },
-    ],
-    'condition': 'checkout_fuchsia and host_os == "mac"',
-    'dep_type': 'cipd'
-  },
-  'crashpad/third_party/fuchsia/qemu/linux-amd64': {
-    'packages': [
-      {
-        'package': 'fuchsia/qemu/linux-amd64',
-        'version': 'latest'
-      },
-    ],
-    'condition': 'checkout_fuchsia and host_os == "linux"',
-    'dep_type': 'cipd'
-  },
   'crashpad/third_party/fuchsia/sdk/mac-amd64': {
     'packages': [
       {
