@@ -34,6 +34,24 @@
       "revId": "7547d0aa874f550fb3d3e8a5365ec51da96cbd86",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839f8d2e_14d78952",
+        "filename": "DEPS",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-08-13T22:56:18Z",
+      "side": 0,
+      "message": "Yup, it\u0027s still ~2GiB to pull down if we ever get running working again, but that\u0027s a bit of a chore so might as well nuke it for now.",
+      "parentUuid": "0e15bf82_96c8d338",
+      "revId": "7547d0aa874f550fb3d3e8a5365ec51da96cbd86",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
