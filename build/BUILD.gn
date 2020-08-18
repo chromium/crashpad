@@ -46,6 +46,12 @@ config("crashpad_fuzzer_flags") {
   ldflags = [ "-fsanitize=address" ]
 }
 
+config("wvla") {
+  if (crashpad_is_clang) {
+    cflags = [ "-Wvla" ]
+  }
+}
+
 if (crashpad_is_ios) {
   group("ios_enable_arc") {
     if (crashpad_is_in_chromium) {

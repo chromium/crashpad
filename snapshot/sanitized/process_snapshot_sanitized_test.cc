@@ -16,6 +16,7 @@
 
 #include "base/macros.h"
 #include "base/notreached.h"
+#include "base/stl_util.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/multiprocess_exec.h"
@@ -98,7 +99,7 @@ void ChildTestFunction() {
   static StringAnnotation<32> non_allowed_annotation(kNonAllowedAnnotationName);
   non_allowed_annotation.Set(kNonAllowedAnnotationValue);
 
-  char string_data[strlen(kSensitiveStackData) + 1];
+  char string_data[base::size(kSensitiveStackData)];
   strcpy(string_data, kSensitiveStackData);
 
   void (*code_pointer)(void) = ChildTestFunction;
