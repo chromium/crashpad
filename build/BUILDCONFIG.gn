@@ -62,6 +62,7 @@ _default_configs = [
   "$_mini_chromium_dir/build:default",
   "$_mini_chromium_dir/build:Wexit_time_destructors",
   "$_mini_chromium_dir/build:Wimplicit_fallthrough",
+  "//build:wvla",
 ]
 
 if (crashpad_use_libfuzzer) {
