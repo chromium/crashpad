@@ -371,6 +371,30 @@
       "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a729727_567a0c55",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-24T14:41:02Z",
+      "side": 1,
+      "message": "I see that this was previously discussed here:\n\ncrashpad_is_fuchsia means that you’re targeting Fuchsia, which doesn’t necessarily mean that you’re getting any specific GN toolchain or any specific warning options like -Wconversion, or that the build configs to disable these things exist at any particular path or even exist at all.\n\ncrashpad_is_in_fuchsia means that you’re building in the Fuchsia tree, and it sounds like that means that -Wconversion is on by default. It’d also mean that you can turn this off by using the Fuchsia-specific -Wno-conversion config at its known path.\n\nThe distinction is easy to miss if you’re reading quickly, and indeed if you’re only testing the in-Fuchsia-tree build, you wouldn’t notice a difference between the two at all.",
+      "parentUuid": "edd79cbc_53642301",
+      "range": {
+        "startLine": 121,
+        "startChar": 31,
+        "endLine": 121,
+        "endChar": 45
+      },
+      "revId": "c6f46711206a131eec84798abf326ea6919cffc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
