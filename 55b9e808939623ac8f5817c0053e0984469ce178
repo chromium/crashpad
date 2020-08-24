@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db474f1b_ce442903",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-08-24T22:31:44Z",
+      "side": 1,
+      "message": "Thank you!\nTerribly sorry for the confusion around crashpad_is_{,in_}fuchsia.\nI think this is ok now. This builds and gen\u0027s successfully in Fuchsia, but I\u0027ll need a Chromium CQ pass to know how this plays with other configurations please.",
+      "revId": "55b9e808939623ac8f5817c0053e0984469ce178",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
