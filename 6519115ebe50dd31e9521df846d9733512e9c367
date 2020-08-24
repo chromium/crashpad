@@ -16,6 +16,74 @@
       "revId": "6519115ebe50dd31e9521df846d9733512e9c367",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87c1559a_c2abe874",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-24T14:36:08Z",
+      "side": 1,
+      "message": "(I don’t think this is going to work, but I’ll feed it to the CQ for you anyway.)",
+      "revId": "6519115ebe50dd31e9521df846d9733512e9c367",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbd3cc76_9f81cf27",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-24T14:36:08Z",
+      "side": 1,
+      "message": "This path doesn’t exist in the Crashpad standalone build. I guess this config only makes sense in the in-Fuchsia build? In that case, this should be in the crashpad_is_in_fuchsia block above, and presumably the -Wconversion thing wouldn’t be a problem at all in the standalone build where we’re in total control of the build config and nobody ever requests -Wconversion.\n\nThis applies throughout.",
+      "revId": "6519115ebe50dd31e9521df846d9733512e9c367",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "266f6e82_b07eb592",
+        "filename": "compat/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-24T14:36:08Z",
+      "side": 1,
+      "message": "Get rid of the spaces on this line.",
+      "revId": "6519115ebe50dd31e9521df846d9733512e9c367",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcf6c4d6_11871532",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-24T14:36:08Z",
+      "side": 1,
+      "message": "Here too.",
+      "revId": "6519115ebe50dd31e9521df846d9733512e9c367",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
