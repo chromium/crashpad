@@ -151,6 +151,30 @@
       "revId": "e80c524de573f6b2ac798293161267b196e5e9c4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e4da3ab_f1d6e8c0",
+        "filename": "compat/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-08-25T05:01:43Z",
+      "side": 1,
+      "message": "Yes, that explains why Scott saw the gen error, and why my change should fix it. If crashpad_is_mac || crashpad_is_ios then \"compat\" will have a config on it, but if \"compat\" is a group then that config goes unused and triggers the failure.\n\nHowever I ask how come we\u0027re not seeing the same issue for \"sources\". I thought that setting sources on a group also has no effect. At least that\u0027s according to the documentation. /shrug\n\nI\u0027m good with merging either patchset 1 ([\"configs\", \"sources\"]) or patchset 2 ([\"configs\"]).",
+      "parentUuid": "3fd2d26f_e0f1c2f0",
+      "range": {
+        "startLine": 60,
+        "startChar": 38,
+        "endLine": 60,
+        "endChar": 47
+      },
+      "revId": "e80c524de573f6b2ac798293161267b196e5e9c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
