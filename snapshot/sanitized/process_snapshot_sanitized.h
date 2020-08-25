@@ -47,10 +47,10 @@ class ProcessSnapshotSanitized final : public ProcessSnapshot {
   //! this object.
   //!
   //! \param[in] snapshot The ProcessSnapshot to sanitize.
-  //! \param[in] annotations_whitelist A list of annotations names to allow to
+  //! \param[in] allowed_annotations A list of annotations names to allow to
   //!     be returned by AnnotationsSimpleMap() or from this object's module
   //!     snapshots. If `nullptr`, all annotations will be returned.
-  //! \param[in] memory_range_whitelist A list of memory ranges to allow to be
+  //! \param[in] allowed_memory_ranges A list of memory ranges to allow to be
   //!     accessible via Memory(), or `nullptr` to allow all ranges.
   //! \param[in] target_module_address An address in the target process'
   //!     address space within the bounds of a module to target. If the
@@ -65,9 +65,9 @@ class ProcessSnapshotSanitized final : public ProcessSnapshot {
   //!     should be filtered entirely. Otherwise `true`.
   bool Initialize(
       const ProcessSnapshot* snapshot,
-      std::unique_ptr<const std::vector<std::string>> annotations_whitelist,
+      std::unique_ptr<const std::vector<std::string>> allowed_annotations,
       std::unique_ptr<const std::vector<std::pair<VMAddress, VMAddress>>>
-          memory_range_whitelist,
+          allowed_memory_ranges,
       VMAddress target_module_address,
       bool sanitize_stacks);
 
@@ -93,7 +93,7 @@ class ProcessSnapshotSanitized final : public ProcessSnapshot {
   const ProcessMemory* Memory() const override;
 
  private:
-  // Only used when annotations_whitelist_ != nullptr.
+  // Only used when allowed_annotations_ != nullptr.
   std::vector<std::unique_ptr<internal::ModuleSnapshotSanitized>> modules_;
 
   // Only used when sanitize_stacks_ == true.
@@ -102,7 +102,7 @@ class ProcessSnapshotSanitized final : public ProcessSnapshot {
   RangeSet address_ranges_;
   const ProcessSnapshot* snapshot_;
   ProcessMemorySanitized process_memory_;
-  std::unique_ptr<const std::vector<std::string>> annotations_whitelist_;
+  std::unique_ptr<const std::vector<std::string>> allowed_annotations_;
   bool sanitize_stacks_;
   InitializationStateDcheck initialized_;
 
