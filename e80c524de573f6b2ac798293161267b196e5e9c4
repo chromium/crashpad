@@ -127,6 +127,30 @@
       "revId": "e80c524de573f6b2ac798293161267b196e5e9c4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fd2d26f_e0f1c2f0",
+        "filename": "compat/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-25T04:27:10Z",
+      "side": 1,
+      "message": "\u003e You know, I\u0027m not sure how come setting configs on \"compat\" produces this error when crashpad_is_mac || crashpad_is_ios\n\nIsn’t it because compat isn’t a static_library but a group when crashpad_is_mac is true? https://chromium-review.googlesource.com/c/crashpad/crashpad/+/2345384/5#message-ccb010bc665982dfc65ab113652368e5e8da50a4",
+      "parentUuid": "58fb5021_1f995e47",
+      "range": {
+        "startLine": 60,
+        "startChar": 38,
+        "endLine": 60,
+        "endChar": 47
+      },
+      "revId": "e80c524de573f6b2ac798293161267b196e5e9c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
