@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "38dca10d_65fdee14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-08-25T04:18:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d0d15d6_5d984d16",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "e80c524de573f6b2ac798293161267b196e5e9c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8c6e89c_ac6915f0",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -70,6 +94,30 @@
       "writtenOn": "2020-08-25T04:11:29Z",
       "side": 1,
       "message": "Why sources? The error only mentioned configs.",
+      "range": {
+        "startLine": 60,
+        "startChar": 38,
+        "endLine": 60,
+        "endChar": 47
+      },
+      "revId": "e80c524de573f6b2ac798293161267b196e5e9c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58fb5021_1f995e47",
+        "filename": "compat/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-08-25T04:18:23Z",
+      "side": 1,
+      "message": "You know, I\u0027m not sure how come setting configs on \"compat\" produces this error when crashpad_is_mac || crashpad_is_ios, but settings sources on \"compat\" does not. Both configs and sources seem to have no effect on groups.\n\nDo you prefer if I only mark configs as not_needed?",
+      "parentUuid": "4899b6a4_64448d58",
       "range": {
         "startLine": 60,
         "startChar": 38,
