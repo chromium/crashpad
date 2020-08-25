@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "468ca32d_450df4c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-08-25T02:24:17Z",
+      "side": 1,
+      "message": "Shai, the internal builder at review 245515 is failing on Mac with:\n\n ERROR at //third_party/crashpad/compat/BUILD.gn:176:15: Assignment had no effect.\n     configs \u003d [ \"//build/config:Wno-conversion\" ]\n               ^---------------------------------\n You set the variable \"configs\" here and it was unused before it went\n out of scope.\n See //third_party/crashpad/compat/BUILD.gn:68:1: whence it was called.\n compat_target(\"compat\") {\n ^------------------------\n See //src/developer/debug/zxdb/client/BUILD.gn:158:5: which caused the file to be included.\n     \"//third_party/crashpad/compat\",\n     ^------------------------------\n\nI don\u0027t have a Mac handy at the moment, but I can check tomorrow if you\u0027re not sure what\u0027s wrong.\n",
+      "revId": "59e8120e7ada3608f68f42cbbab423bcc163a326",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
