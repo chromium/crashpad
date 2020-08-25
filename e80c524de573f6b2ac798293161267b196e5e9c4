@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8d0d15d6_5d984d16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-08-25T04:11:29Z",
+      "side": 1,
+      "message": "Can you use the Crashpad style here? i.e.\n\nfuchsia: Fix Wconversion on Mac/iOS builds",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "e80c524de573f6b2ac798293161267b196e5e9c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c8c6e89c_ac6915f0",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -16,6 +39,46 @@
       "revId": "e80c524de573f6b2ac798293161267b196e5e9c4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9c2c5e3_48471a80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-08-25T04:11:29Z",
+      "side": 1,
+      "message": "I don\u0027t know of a way to do Fuchsia integration dry-run, sorry. (There\u0027s maybe _some_ place you could use the uncommitted SHA1 of this commit, but I\u0027m not sure.)",
+      "revId": "e80c524de573f6b2ac798293161267b196e5e9c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4899b6a4_64448d58",
+        "filename": "compat/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-08-25T04:11:29Z",
+      "side": 1,
+      "message": "Why sources? The error only mentioned configs.",
+      "range": {
+        "startLine": 60,
+        "startChar": 38,
+        "endLine": 60,
+        "endChar": 47
+      },
+      "revId": "e80c524de573f6b2ac798293161267b196e5e9c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
