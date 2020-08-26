@@ -48,8 +48,8 @@ class XcodeProject(object):
             new_id = hashlib.sha1(
                 str_id.encode("utf-8")).hexdigest()[:24].upper()
 
-            # Make sure ID is unique. It's possible there could be an id
-            # conflict since this is run after GN runs.
+            # Make sure ID is unique. It's possible there could be an id conflict
+            # since this is run after GN runs.
             if new_id not in self.objects:
                 self.objects[new_id] = obj
                 return new_id
@@ -102,13 +102,13 @@ def WriteXcodeProject(output_path, json_string):
 def UpdateXcodeProject(project_dir, configurations, root_dir):
     """Update inplace Xcode project to support multiple configurations.
 
-    Args:
-      project_dir: path to the input Xcode project
-      configurations: list of string corresponding to the configurations that
-        need to be supported by the tweaked Xcode projects, must contains at
-        least one value.
-      root_dir: path to the root directory used to find markdown files
-    """
+  Args:
+    project_dir: path to the input Xcode project
+    configurations: list of string corresponding to the configurations that
+      need to be supported by the tweaked Xcode projects, must contains at
+      least one value.
+    root_dir: path to the root directory used to find markdown files
+  """
     json_data = json.loads(LoadXcodeProjectAsJSON(project_dir))
     project = XcodeProject(json_data['objects'])
 
@@ -118,9 +118,17 @@ def UpdateXcodeProject(project_dir, configurations, root_dir):
 
         # Teach build shell script to look for the configuration and platform.
         if isa == 'PBXShellScriptBuildPhase':
-            value['shellScript'] = value['shellScript'].replace(
-                'ninja -C .',
-                'ninja -C "../${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}"')
+            shell_path = value['shellPath']
+            if shell_path.endswith('sh'):
+                value['shellScript'] = value['shellScript'].replace(
+                    'ninja -C .',
+                    'ninja -C "../${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}"')
+            elif shell_path.endswith('python') or shell_path.endswith(
+                    'python3'):
+                value['shellScript'] = value['shellScript'].replace(
+                    'ninja_params = [ \'-C\', \'.\' ]',
+                    'ninja_params = [ \'-C\', \'../\' + os.environ[\'CONFIGURATION\']'
+                    ' + os.environ[\'EFFECTIVE_PLATFORM_NAME\'] ]')
 
         # Add new configuration, using the first one as default.
         if isa == 'XCConfigurationList':
@@ -129,7 +137,7 @@ def UpdateXcodeProject(project_dir, configurations, root_dir):
 
             build_config_template = project.objects[value['buildConfigurations']
                                                     [0]]
-            build_config_template['buildSettings']['CONFIGURATION_BUILD_DIR'] =\
+            build_config_template['buildSettings']['CONFIGURATION_BUILD_DIR'] = \
                 '$(PROJECT_DIR)/../$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)'
 
             value['buildConfigurations'] = []
@@ -175,20 +183,21 @@ def GetOrCreateRootGroup(project, root_object, group_name):
 
 
 class ObjectKey(object):
+
     """Wrapper around PBXFileReference and PBXGroup for sorting.
 
-    A PBXGroup represents a "directory" containing a list of files in an
-    Xcode project; it can contain references to a list of directories or
-    files.
+  A PBXGroup represents a "directory" containing a list of files in an
+  Xcode project; it can contain references to a list of directories or
+  files.
 
-    A PBXFileReference represents a "file".
+  A PBXFileReference represents a "file".
 
-    The type is stored in the object "isa" property as a string. Since we
-    want to sort all directories before all files, the < and > operators
-    are defined so that if "isa" is different, they are sorted in the
-    reverse of alphabetic ordering, otherwise the name (or path) property
-    is checked and compared in alphabetic order.
-    """
+  The type is stored in the object "isa" property as a string. Since we
+  want to sort all directories before all files, the < and > operators
+  are defined so that if "isa" is different, they are sorted in the
+  reverse of alphabetic ordering, otherwise the name (or path) property
+  is checked and compared in alphabetic order.
+  """
 
     def __init__(self, obj):
         self.isa = obj['isa']
@@ -259,17 +268,15 @@ def GetFolderForPath(project, group_object, path):
                 new_root = objects[child]
                 break
         if not new_root:
-            # If the folder isn't found we could just cram it into the leaf
-            # existing folder, but that leads to folders with tons of README.md
-            # inside.
+            # If the folder isn't found we could just cram it into the leaf existing
+            # folder, but that leads to folders with tons of README.md inside.
             new_root = CreateGroup(project, group_object, folder)
         group_object = new_root
     return group_object
 
 
 def ConvertGnXcodeProject(root_dir, input_dir, output_dir, configurations):
-    '''Tweak the Xcode project generated by gn to support multiple
-    configurations.
+    '''Tweak the Xcode project generated by gn to support multiple configurations.
 
   The Xcode projects generated by "gn gen --ide" only supports a single
   platform and configuration (as the platform and configuration are set
