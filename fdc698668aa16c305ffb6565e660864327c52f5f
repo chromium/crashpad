@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efa98e2a_10bb3db2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-08-26T20:43:52Z",
+      "side": 1,
+      "message": "Bring convert_gn_xcodeproj up to date.",
+      "revId": "fdc698668aa16c305ffb6565e660864327c52f5f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1970475_1e918b91",
+        "filename": "build/ios/convert_gn_xcodeproj.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-08-26T20:43:52Z",
+      "side": 1,
+      "message": "This is the important change, everything else here is just small tweak stuff.",
+      "range": {
+        "startLine": 126,
+        "startChar": 11,
+        "endLine": 131,
+        "endChar": 67
+      },
+      "revId": "fdc698668aa16c305ffb6565e660864327c52f5f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
