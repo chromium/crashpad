@@ -19,6 +19,57 @@
     },
     {
       "key": {
+        "uuid": "fdf2c332_f0707017",
+        "filename": "build/ios/convert_gn_xcodeproj.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-26T21:15:12Z",
+      "side": 1,
+      "message": "80 columns.\n\nLines 130, 140, and elsewhere, too.",
+      "revId": "fdc698668aa16c305ffb6565e660864327c52f5f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca87cae6_f878b6f5",
+        "filename": "build/ios/convert_gn_xcodeproj.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-26T21:15:12Z",
+      "side": 1,
+      "message": "Best to check endswith \u0027/sh\u0027. And if you’re doing that, why not do the same with \u0027/python\u0027?",
+      "revId": "fdc698668aa16c305ffb6565e660864327c52f5f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73db15bd_bd1b1681",
+        "filename": "build/ios/convert_gn_xcodeproj.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-26T21:15:12Z",
+      "side": 1,
+      "message": "Did you know that you could write this as a single endswith?\n\n  shell_path.endswith((\u0027/python\u0027, \u0027/python3\u0027))",
+      "revId": "fdc698668aa16c305ffb6565e660864327c52f5f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c1970475_1e918b91",
         "filename": "build/ios/convert_gn_xcodeproj.py",
         "patchSetId": 1
