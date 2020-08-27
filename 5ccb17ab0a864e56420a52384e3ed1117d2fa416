@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bea84c11_ecb39d78",
+        "filename": "build/ios/convert_gn_xcodeproj.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-27T13:54:18Z",
+      "side": 1,
+      "message": "Oh, this is usually #!/usr/bin/env python, so the slashes are harmful here. This is a more precise way to match what you want:\n\nre.search(\u0027[ /]python[23]?$\u0027, shell_path)\n\n(note that I’m allowing python2 here too now, may become important in the future.)",
+      "revId": "5ccb17ab0a864e56420a52384e3ed1117d2fa416",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
