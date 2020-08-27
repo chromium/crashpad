@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c1d070f_a1ceb0dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-08-27T17:58:05Z",
+      "side": 1,
+      "message": "Roll CL (247015) still isn\u0027t satisfied on Mac unfortunately :/\n\n ERROR at //third_party/crashpad/compat/BUILD.gn:177:15: Assignment had no effect.\n     configs \u003d [ \"//build/config:Wno-conversion\" ]\n               ^---------------------------------\n You set the variable \"configs\" here and it was unused before it went\n out of scope.\n See //third_party/crashpad/compat/BUILD.gn:69:1: whence it was called.\n compat_target(\"compat\") {\n ^------------------------\n See //src/developer/debug/zxdb/client/BUILD.gn:158:5: which caused the file to be included.\n     \"//third_party/crashpad/compat\",\n     ^------------------------------",
+      "revId": "dc9f3a58aabb69db03b6e778a316bd0cb57d0d49",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
