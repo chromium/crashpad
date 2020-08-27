@@ -109,8 +109,6 @@ compat_target("compat") {
 
   if (crashpad_is_android) {
     sources += [
-      "android/android/api-level.cc",
-      "android/android/api-level.h",
       "android/dlfcn_internal.cc",
       "android/dlfcn_internal.h",
       "android/elf.h",
@@ -159,7 +157,7 @@ compat_target("compat") {
     "..:crashpad_config",
   ]
 
-  deps = []
+  deps = [ "../util:no_cfi_icall" ]
 
   if (!crashpad_is_mac) {
     deps += [ "../third_party/xnu" ]
