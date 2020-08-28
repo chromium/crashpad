@@ -14,7 +14,7 @@
 
 #include "util/mach/mach_message.h"
 
-#include <AvailabilityMacros.h>
+#include <Availability.h>
 
 #include <limits>
 
@@ -269,7 +269,7 @@ pid_t AuditPIDFromMachMessageTrailer(const mach_msg_trailer_t* trailer) {
   const mach_msg_audit_trailer_t* audit_trailer =
       reinterpret_cast<const mach_msg_audit_trailer_t*>(trailer);
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_8
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
   pid_t audit_pid;
   audit_token_to_au32(audit_trailer->msgh_audit,
                       nullptr,
