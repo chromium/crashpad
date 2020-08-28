@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6f457e7_3c8925fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-08-28T18:18:10Z",
+      "side": 1,
+      "message": "Internal roll was at 247516.\n\nGood news, Mac passed!\nBad news, it flaked on some unrelated test. (But this change is off the hook at least. :)",
+      "revId": "364fdd65a01ecc0ffd0985b4e1dfb57161328573",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
