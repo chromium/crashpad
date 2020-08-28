@@ -57,7 +57,7 @@ template("compat_target") {
     # static_library.
     group(target_name) {
       forward_variables_from(invoker, "*")
-      not_needed(invoker, ["configs"])
+      not_needed(["configs"])
     }
   } else {
     static_library(target_name) {
