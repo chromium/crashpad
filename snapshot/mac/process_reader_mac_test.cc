@@ -14,9 +14,9 @@
 
 #include "snapshot/mac/process_reader_mac.h"
 
-#include <AvailabilityMacros.h>
-#include <errno.h>
+#include <Availability.h>
 #include <OpenCL/opencl.h>
+#include <errno.h>
 #include <mach-o/dyld.h>
 #include <mach-o/dyld_images.h>
 #include <mach/mach.h>
@@ -569,12 +569,12 @@ class ScopedOpenCLNoOpKernel {
     cl_int rv = clGetPlatformIDs(1, &platform_id, nullptr);
     ASSERT_EQ(rv, CL_SUCCESS) << "clGetPlatformIDs";
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_10 && \
-    MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_10
-// cl_device_id is really available in OpenCL.framework back to 10.5, but in
-// the 10.10 SDK and later, OpenCL.framework includes <OpenGL/CGLDevice.h>,
-// which has its own cl_device_id that was introduced in 10.10. That
-// triggers erroneous availability warnings.
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_10 && \
+    __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_10
+    // cl_device_id is really available in OpenCL.framework back to 10.5, but in
+    // the 10.10 SDK and later, OpenCL.framework includes <OpenGL/CGLDevice.h>,
+    // which has its own cl_device_id that was introduced in 10.10. That
+    // triggers erroneous availability warnings.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability"
 #define DISABLED_WUNGUARDED_AVAILABILITY
@@ -640,7 +640,7 @@ class ScopedOpenCLNoOpKernel {
 // OpenCL kernels that run on the CPU do not result in cl_kernels images
 // appearing on that OS version.
 bool ExpectCLKernels() {
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_7
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_7
   return true;
 #else
   return MacOSXMinorVersion() >= 7;
