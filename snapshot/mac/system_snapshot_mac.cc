@@ -14,7 +14,7 @@
 
 #include "snapshot/mac/system_snapshot_mac.h"
 
-#include <AvailabilityMacros.h>
+#include <Availability.h>
 #include <stddef.h>
 #include <sys/sysctl.h>
 #include <sys/types.h>
@@ -364,7 +364,7 @@ bool SystemSnapshotMac::NXEnabled() const {
       // xnu-6153.11.26/bsd/kern/kern_sysctl.c (10.14.4 and 10.14.5 xnu source
       // are not yet available). In newer production kernels, NX is always
       // enabled. See 10.15.0 xnu-6153.11.26/osfmk/x86_64/pmap.c nx_enabled.
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_14
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_14
       const bool nx_always_enabled = true;
 #else  // DT >= 10.14
       base::ScopedClearLastError reset_errno;

@@ -15,11 +15,10 @@
 #include "util/mach/exception_types.h"
 
 #include <Availability.h>
-#include <AvailabilityMacros.h>
 #include <dlfcn.h>
 #include <errno.h>
-#include <libproc.h>
 #include <kern/exc_resource.h>
+#include <libproc.h>
 #include <strings.h>
 
 #include "base/check_op.h"
@@ -29,7 +28,7 @@
 #include "util/mach/mach_extensions.h"
 #include "util/numeric/in_range_cast.h"
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_9
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_9
 
 extern "C" {
 
@@ -83,13 +82,13 @@ namespace {
 // present on OS X 10.9 and later. If it’s not available, sets errno to ENOSYS
 // and returns -1.
 int ProcGetWakemonParams(pid_t pid, int* rate_hz, int* flags) {
-#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_9
+#if __MAC_OS_X_VERSION_MAX_ALLOWED < __MAC_10_9
   // proc_get_wakemon_params() isn’t in the SDK. Look it up dynamically.
   static ProcGetWakemonParamsType proc_get_wakemon_params =
       GetProcGetWakemonParams();
 #endif
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_9
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_9
   // proc_get_wakemon_params() is definitely available if the deployment target
   // is 10.9 or newer.
   if (!proc_get_wakemon_params) {

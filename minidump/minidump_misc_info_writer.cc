@@ -31,7 +31,7 @@
 #include "util/numeric/safe_assignment.h"
 
 #if defined(OS_APPLE)
-#include <AvailabilityMacros.h>
+#include <Availability.h>
 #elif defined(OS_ANDROID)
 #include <android/api-level.h>
 #endif
@@ -66,20 +66,19 @@ std::string BuildString(const SystemSnapshot* system_snapshot) {
   return machine_description;
 }
 
-#if defined(OS_APPLE)
-// Converts the value of the MAC_OS_VERSION_MIN_REQUIRED or
-// MAC_OS_X_VERSION_MAX_ALLOWED macro from <AvailabilityMacros.h> to a number
+#if defined(OS_MAC)
+// Converts the value of the __MAC_OS_X_VERSION_MIN_REQUIRED or
+// __MAC_OS_X_VERSION_MAX_ALLOWED macro from <Availability.h> to a number
 // identifying the minor macOS version that it represents. For example, with an
-// argument of MAC_OS_X_VERSION_10_6, this function will return 6.
+// argument of __MAC_10_6, this function will return 6.
 int AvailabilityVersionToMacOSXMinorVersion(int availability) {
-  // Through MAC_OS_X_VERSION_10_9, the minor version is the tens digit.
+  // Through __MAC_10_9, the minor version is the tens digit.
   if (availability >= 1000 && availability <= 1099) {
     return (availability / 10) % 10;
   }
 
-  // After MAC_OS_X_VERSION_10_9, the older format was insufficient to represent
-  // versions. Since then, the minor version is the thousands and hundreds
-  // digits.
+  // After __MAC_10_9, the older format was insufficient to represent versions.
+  // Since then, the minor version is the thousands and hundreds digits.
   if (availability >= 100000 && availability <= 109999) {
     return (availability / 100) % 100;
   }
@@ -136,11 +135,11 @@ std::string MinidumpMiscInfoDebugBuildString() {
                                                       PACKAGE_VERSION,
                                                       kOS);
 
-#if defined(OS_APPLE)
+#if defined(OS_MAC)
   debug_build_string += base::StringPrintf(
       ",%d,%d",
-      AvailabilityVersionToMacOSXMinorVersion(MAC_OS_X_VERSION_MIN_REQUIRED),
-      AvailabilityVersionToMacOSXMinorVersion(MAC_OS_X_VERSION_MAX_ALLOWED));
+      AvailabilityVersionToMacOSXMinorVersion(__MAC_OS_X_VERSION_MIN_REQUIRED),
+      AvailabilityVersionToMacOSXMinorVersion(__MAC_OS_X_VERSION_MAX_ALLOWED));
 #elif defined(OS_ANDROID)
   debug_build_string += base::StringPrintf(",%d", __ANDROID_API__);
 #endif

@@ -14,7 +14,7 @@
 
 #include "snapshot/mac/process_types.h"
 
-#include <AvailabilityMacros.h>
+#include <Availability.h>
 #include <mach/mach.h>
 #include <string.h>
 
@@ -68,7 +68,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
   if (self_image_infos->version >= 2) {
     EXPECT_TRUE(self_image_infos->libSystemInitialized);
   }
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_7
   if (self_image_infos->version >= 9) {
     EXPECT_EQ(self_image_infos->dyldAllImageInfosAddress, self_image_infos);
   }
@@ -90,7 +90,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
 
   // This field is only present in the OS X 10.7 SDK (at build time) and kernel
   // (at run time).
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_7
   if (MacOSXMinorVersion() >= 7) {
 #if !defined(ARCH_CPU_64_BITS)
     EXPECT_EQ(dyld_info.all_image_info_format, TASK_DYLD_ALL_IMAGE_INFO_32);
@@ -103,15 +103,15 @@ TEST(ProcessTypes, DyldImagesSelf) {
   ProcessReaderMac process_reader;
   ASSERT_TRUE(process_reader.Initialize(mach_task_self()));
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_15
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_15
   constexpr uint32_t kDyldAllImageInfosVersionInSDK = 16;
-#elif MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_12
+#elif __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
   constexpr uint32_t kDyldAllImageInfosVersionInSDK = 15;
-#elif MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_9
+#elif __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_9
   constexpr uint32_t kDyldAllImageInfosVersionInSDK = 14;
-#elif MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
+#elif __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_7
   constexpr uint32_t kDyldAllImageInfosVersionInSDK = 12;
-#elif MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
+#elif __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_6
   constexpr uint32_t kDyldAllImageInfosVersionInSDK = 7;
 #else
   constexpr uint32_t kDyldAllImageInfosVersionInSDK = 1;
@@ -126,11 +126,11 @@ TEST(ProcessTypes, DyldImagesSelf) {
   // test can only be performed if the run-time OS natively uses the same format
   // structure as the SDK.
   bool test_expected_size_for_version_matches_sdk_sizeof;
-#if MAC_OS_X_VERSION_MAX_ALLOWED == MAC_OS_X_VERSION_10_12
+#if __MAC_OS_X_VERSION_MAX_ALLOWED == __MAC_10_12
   test_expected_size_for_version_matches_sdk_sizeof =
       mac_os_x_minor_version == 12;
-#elif MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_13 && \
-    MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_15
+#elif __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_13 && \
+    __MAC_OS_X_VERSION_MAX_ALLOWED < __MAC_10_15
   test_expected_size_for_version_matches_sdk_sizeof =
       mac_os_x_minor_version >= 13 && mac_os_x_minor_version <= 14;
 #else
@@ -257,7 +257,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
     EXPECT_EQ(proctype_image_infos.systemOrderFlag,
               implicit_cast<uint64_t>(self_image_infos->systemOrderFlag));
   }
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_7
   if (proctype_image_infos.version >= 8) {
     EXPECT_EQ(proctype_image_infos.uuidArrayCount,
               implicit_cast<uint64_t>(self_image_infos->uuidArrayCount));
@@ -299,7 +299,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
               implicit_cast<uint64_t>(self_image_infos->sharedCacheSlide));
   }
 #endif
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_9
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_9
   if (proctype_image_infos.version >= 13) {
     EXPECT_EQ(memcmp(self_image_infos->sharedCacheUUID,
                      proctype_image_infos.sharedCacheUUID,
@@ -307,7 +307,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
               0);
   }
 #endif
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_12
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
   if (proctype_image_infos.version >= 15) {
     EXPECT_EQ(proctype_image_infos.infoArrayChangeTimestamp,
               self_image_infos->infoArrayChangeTimestamp);
@@ -327,7 +327,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
   }
 #endif
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_12
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
   // As dyld_all_image_infos has evolved over time, new fields were added to the
   // reserved region. process_types::dyld_all_image_infos declares a recent
   // version of the structure, but an older SDK may declare an older version
@@ -352,7 +352,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
   }
 #endif
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_13
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_13
   if (proctype_image_infos.version >= 15 && mac_os_x_minor_version >= 13) {
     EXPECT_EQ(proctype_image_infos.compact_dyld_image_info_addr,
               self_image_infos->compact_dyld_image_info_addr);
@@ -361,7 +361,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
   }
 #endif
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_15
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_15
   if (proctype_image_infos.version >= 16) {
     EXPECT_EQ(proctype_image_infos.platform, self_image_infos->platform);
   }
@@ -399,7 +399,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
     }
   }
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_7
   if (proctype_image_infos.version >= 8) {
     std::vector<process_types::dyld_uuid_info> proctype_uuid_info_vector(
         proctype_image_infos.uuidArrayCount);
