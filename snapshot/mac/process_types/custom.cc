@@ -142,9 +142,10 @@ size_t dyld_all_image_infos<Traits>::ExpectedSizeForVersion(
       offsetof(dyld_all_image_infos<Traits>, sharedCacheSlide),  // 11
       offsetof(dyld_all_image_infos<Traits>, sharedCacheUUID),  // 12
       offsetof(dyld_all_image_infos<Traits>, infoArrayChangeTimestamp),  // 13
-      offsetof(dyld_all_image_infos<Traits>, end_14),  // 14
+      offsetof(dyld_all_image_infos<Traits>, end_v14),  // 14
       std::numeric_limits<size_t>::max(),  // 15, see below
-      sizeof(dyld_all_image_infos<Traits>),  // 16
+      offsetof(dyld_all_image_infos<Traits>, end_v16),  // 16
+      sizeof(dyld_all_image_infos<Traits>),  // 17
   };
 
   if (version >= base::size(kSizeForVersion)) {
@@ -162,7 +163,7 @@ size_t dyld_all_image_infos<Traits>::ExpectedSizeForVersion(
     // interpreting it, so use an OS version check.
     int mac_os_x_minor_version = MacOSXMinorVersion();
     if (mac_os_x_minor_version == 12) {
-      return offsetof(dyld_all_image_infos<Traits>, end_14);
+      return offsetof(dyld_all_image_infos<Traits>, end_v14);
     }
 
     DCHECK_GE(mac_os_x_minor_version, 13);
