@@ -95,16 +95,21 @@ namespace crashpad {
 
 namespace {
 
+#if defined(OS_WIN) || defined(OS_LINUX) || defined(OS_CHROMEOS) || \
+    defined(OS_ANDROID) || defined(OS_APPLE)
+#define ATTACHMENTS_SUPPORTED 1
+#endif  // OS_WIN || OS_LINUX || OS_CHROMEOS || OS_ANDROID || OS_APPLE
+
 void Usage(const base::FilePath& me) {
   fprintf(stderr,
 "Usage: %" PRFilePath " [OPTION]...\n"
 "Crashpad's exception handler server.\n"
 "\n"
 "      --annotation=KEY=VALUE  set a process annotation in each crash report\n"
-#if !defined(OS_FUCHSIA)
+#if defined(ATTACHMENTS_SUPPORTED)
 "      --attachment=FILE_PATH  attach specified file to each crash report\n"
 "                              at the time of the crash\n"
-#endif  // OS_WIN || OS_LINUX
+#endif  // ATTACHMENTS_SUPPORTED
 "      --database=PATH         store the crash report database at PATH\n"
 #if defined(OS_APPLE)
 "      --handshake-fd=FD       establish communication with the client over FD\n"
@@ -215,9 +220,9 @@ struct Options {
   base::FilePath minidump_dir_for_tests;
   bool always_allow_feedback = false;
 #endif  // OS_CHROMEOS
-#if !defined(OS_FUCHSIA)
+#if defined(ATTACHMENTS_SUPPORTED)
   std::vector<base::FilePath> attachments;
-#endif // !OS_FUCHSIA
+#endif  // ATTACHMENTS_SUPPORTED
 };
 
 // Splits |key_value| on '=' and inserts the resulting key and value into |map|.
@@ -523,9 +528,9 @@ int HandlerMain(int argc,
     // Long options without short equivalents.
     kOptionLastChar = 255,
     kOptionAnnotation,
-#if !defined(OS_FUCHSIA)
+#if defined(ATTACHMENTS_SUPPORTED)
     kOptionAttachment,
-#endif  // !OS_FUCHSIA
+#endif  // ATTACHMENTS_SUPPORTED
     kOptionDatabase,
 #if defined(OS_APPLE)
     kOptionHandshakeFD,
@@ -578,9 +583,9 @@ int HandlerMain(int argc,
 
   static constexpr option long_options[] = {
     {"annotation", required_argument, nullptr, kOptionAnnotation},
-#if !defined(OS_FUCHSIA)
+#if defined(ATTACHMENTS_SUPPORTED)
     {"attachment", required_argument, nullptr, kOptionAttachment},
-#endif  // !OS_FUCHSIA
+#endif  // ATTACHMENTS_SUPPORTED
     {"database", required_argument, nullptr, kOptionDatabase},
 #if defined(OS_APPLE)
     {"handshake-fd", required_argument, nullptr, kOptionHandshakeFD},
@@ -646,14 +651,17 @@ int HandlerMain(int argc,
     {"url", required_argument, nullptr, kOptionURL},
 #if defined(OS_CHROMEOS)
     {"use-cros-crash-reporter",
-     no_argument,
-     nullptr,
-     kOptionUseCrosCrashReporter},
+      no_argument,
+      nullptr,
+      kOptionUseCrosCrashReporter},
     {"minidump-dir-for-tests",
-     required_argument,
-     nullptr,
-     kOptionMinidumpDirForTests},
-    {"always-allow-feedback", no_argument, nullptr, kOptionAlwaysAllowFeedback},
+      required_argument,
+      nullptr,
+      kOptionMinidumpDirForTests},
+    {"always-allow-feedback",
+      no_argument,
+      nullptr,
+      kOptionAlwaysAllowFeedback},
 #endif  // OS_CHROMEOS
 #if defined(OS_ANDROID)
     {"write-minidump-to-log", no_argument, nullptr, kOptionWriteMinidumpToLog},
@@ -687,13 +695,13 @@ int HandlerMain(int argc,
         }
         break;
       }
-#if !defined(OS_FUCHSIA)
+#if defined(ATTACHMENTS_SUPPORTED)
       case kOptionAttachment: {
         options.attachments.push_back(base::FilePath(
             ToolSupport::CommandLineArgumentToFilePathStringType(optarg)));
         break;
       }
-#endif  // !OS_FUCHSIA
+#endif  // ATTACHMENTS_SUPPORTED
       case kOptionDatabase: {
         options.database = base::FilePath(
             ToolSupport::CommandLineArgumentToFilePathStringType(optarg));
@@ -1006,9 +1014,9 @@ int HandlerMain(int argc,
       database.get(),
       static_cast<CrashReportUploadThread*>(upload_thread.Get()),
       &options.annotations,
-#if !defined(OS_FUCHSIA)
+#if defined(ATTACHMENTS_SUPPORTED)
       &options.attachments,
-#endif // !OS_FUCHSIA
+#endif  // ATTACHMENTS_SUPPORTED
 #if defined(OS_ANDROID)
       options.write_minidump_to_database,
       options.write_minidump_to_log,
