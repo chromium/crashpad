@@ -142,8 +142,18 @@ PROCESS_TYPE_STRUCT_BEGIN(dyld_all_image_infos)
   PROCESS_TYPE_STRUCT_MEMBER(UIntPtr, compact_dyld_image_info_addr)
   PROCESS_TYPE_STRUCT_MEMBER(ULong, compact_dyld_image_info_size)  // size_t
 
-  // Version 16 (macOS 10.15)
+  // Version 16 (macOS 10.15). The native structure is followed by 4 bytes of
+  // padding, marked by the end_16 member later, not present in the native
+  // version of the structure.
   PROCESS_TYPE_STRUCT_MEMBER(uint32_t, platform)  // dyld_platform_t
+
+  // Version 17 (macOS 10.16/11.0)
+  PROCESS_TYPE_STRUCT_MEMBER(uint32_t, aotInfoCount)
+  PROCESS_TYPE_STRUCT_MEMBER(Nothing, end_16)
+  PROCESS_TYPE_STRUCT_MEMBER(Pointer, aotInfoArray)  // dyld_aot_image_info*
+  PROCESS_TYPE_STRUCT_MEMBER(uint64_t, aotInfoArrayChangeTimestamp)
+  PROCESS_TYPE_STRUCT_MEMBER(UIntPtr, aotSharedCacheBaseAddress)
+  PROCESS_TYPE_STRUCT_MEMBER(uint8_t, aotSharedCacheUUID, [16])
 PROCESS_TYPE_STRUCT_END(dyld_all_image_infos)
 
 #endif  // ! PROCESS_TYPE_STRUCT_IMPLEMENT_INTERNAL_READ_INTO &&
