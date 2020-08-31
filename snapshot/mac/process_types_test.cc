@@ -103,7 +103,9 @@ TEST(ProcessTypes, DyldImagesSelf) {
   ProcessReaderMac process_reader;
   ASSERT_TRUE(process_reader.Initialize(mach_task_self()));
 
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_15
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_16
+  constexpr uint32_t kDyldAllImageInfosVersionInSDK = 17;
+#elif __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_15
   constexpr uint32_t kDyldAllImageInfosVersionInSDK = 16;
 #elif __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
   constexpr uint32_t kDyldAllImageInfosVersionInSDK = 15;
@@ -144,8 +146,10 @@ TEST(ProcessTypes, DyldImagesSelf) {
   }
 
   // Make sure that the computed sizes of various versions of this structure are
-  // correct at different bitnessses.
+  // correct at different bitnessses. Version 16 and later are unsupported on
+  // 32-bit systems due to the OS deprecating 32-bit support in macOS 10.15.
   constexpr size_t kSpecialCase = std::numeric_limits<size_t>::max();
+  constexpr size_t kUnsupported = std::numeric_limits<size_t>::max() - 1;
   constexpr struct {
     uint32_t version;
     size_t size_32;
@@ -165,7 +169,8 @@ TEST(ProcessTypes, DyldImagesSelf) {
       {13, 104, 184},
       {14, 164, 304},
       {15, kSpecialCase, kSpecialCase},
-      {16, 184, 328},
+      {16, kUnsupported, 328},
+      {17, kUnsupported, 368},
   };
   for (size_t index = 0; index < base::size(kVersionsAndSizes); ++index) {
     uint32_t version = kVersionsAndSizes[index].version;
@@ -198,14 +203,18 @@ TEST(ProcessTypes, DyldImagesSelf) {
     ASSERT_NE(kVersionsAndSizes[index].size_32, kSpecialCase);
     ASSERT_NE(kVersionsAndSizes[index].size_64, kSpecialCase);
 
-    EXPECT_EQ(
-        process_types::internal::dyld_all_image_infos<
-            process_types::internal::Traits32>::ExpectedSizeForVersion(version),
-        kVersionsAndSizes[index].size_32);
-    EXPECT_EQ(
-        process_types::internal::dyld_all_image_infos<
-            process_types::internal::Traits64>::ExpectedSizeForVersion(version),
-        kVersionsAndSizes[index].size_64);
+    if (kVersionsAndSizes[index].size_32 != kUnsupported) {
+      EXPECT_EQ(process_types::internal::dyld_all_image_infos<
+                    process_types::internal::Traits32>::
+                    ExpectedSizeForVersion(version),
+                kVersionsAndSizes[index].size_32);
+    }
+    if (kVersionsAndSizes[index].size_64 != kUnsupported) {
+      EXPECT_EQ(process_types::internal::dyld_all_image_infos<
+                    process_types::internal::Traits64>::
+                    ExpectedSizeForVersion(version),
+                kVersionsAndSizes[index].size_64);
+    }
   }
 
   process_types::dyld_all_image_infos proctype_image_infos;
