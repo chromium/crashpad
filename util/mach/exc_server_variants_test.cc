@@ -31,9 +31,9 @@
 #include "util/mach/mach_message.h"
 #include "util/misc/implicit_cast.h"
 
-#if !defined(OS_IOS)
+#if defined(OS_MAC)
 #include "test/mac/mach_multiprocess.h"
-#endif  // !OS_IOS
+#endif  // OS_MAC
 
 namespace crashpad {
 namespace test {
@@ -961,7 +961,7 @@ TEST(ExcServerVariants, MachMessageServerRequestIDs) {
             expect_request_ids);
 }
 
-#if !defined(OS_IOS)
+#if defined(OS_MAC)
 
 class TestExcServerVariants : public MachMultiprocess,
                               public UniversalMachExcServer::Interface {
@@ -1202,7 +1202,7 @@ TEST(ExcServerVariants, ThreadStates) {
   }
 }
 
-#endif  // !OS_IOS
+#endif  // OS_MAC
 
 TEST(ExcServerVariants, ExcServerSuccessfulReturnValue) {
 #if defined(OS_IOS)

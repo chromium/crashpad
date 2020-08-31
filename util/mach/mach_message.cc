@@ -23,9 +23,9 @@
 #include "util/misc/clock.h"
 #include "util/misc/implicit_cast.h"
 
-#if !defined(OS_IOS)
+#if defined(OS_MAC)
 #include <bsm/libbsm.h>
-#endif  // !OS_IOS
+#endif  // OS_MAC
 
 namespace crashpad {
 
@@ -253,7 +253,7 @@ bool MachMessageDestroyReceivedPort(mach_port_t port,
   }
 }
 
-#if !defined(OS_IOS)
+#if defined(OS_MAC)
 
 pid_t AuditPIDFromMachMessageTrailer(const mach_msg_trailer_t* trailer) {
   if (trailer->msgh_trailer_type != MACH_MSG_TRAILER_FORMAT_0) {
@@ -287,6 +287,6 @@ pid_t AuditPIDFromMachMessageTrailer(const mach_msg_trailer_t* trailer) {
   return audit_pid;
 }
 
-#endif  // !OS_IOS
+#endif  // OS_MAC
 
 }  // namespace crashpad

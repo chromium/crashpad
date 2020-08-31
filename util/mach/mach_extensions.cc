@@ -49,7 +49,7 @@ exception_mask_t ExcMaskAll() {
 #error This code was not ported to iOS versions older than 7
 #endif
 
-#if !defined(OS_IOS) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_9
+#if defined(OS_MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_9
   const int mac_os_x_minor_version = MacOSXMinorVersion();
 #endif
 
@@ -66,7 +66,7 @@ exception_mask_t ExcMaskAll() {
       EXC_MASK_MACH_SYSCALL |
       EXC_MASK_RPC_ALERT |
       EXC_MASK_MACHINE;
-#if !defined(OS_IOS) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
+#if defined(OS_MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
   if (mac_os_x_minor_version < 8) {
     return kExcMaskAll_10_6;
   }
@@ -76,7 +76,7 @@ exception_mask_t ExcMaskAll() {
   // xnu-2050.48.11/osfmk/mach/exception_types.h.
   constexpr exception_mask_t kExcMaskAll_10_8 =
       kExcMaskAll_10_6 | EXC_MASK_RESOURCE;
-#if !defined(OS_IOS) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_9
+#if defined(OS_MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_9
   if (mac_os_x_minor_version < 9) {
     return kExcMaskAll_10_8;
   }
@@ -96,7 +96,7 @@ exception_mask_t ExcMaskValid() {
 #error This code was not ported to iOS versions older than 9
 #endif
 
-#if !defined(OS_IOS) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_11
+#if defined(OS_MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_11
   if (MacOSXMinorVersion() < 11) {
     return kExcMaskValid_10_6;
   }
