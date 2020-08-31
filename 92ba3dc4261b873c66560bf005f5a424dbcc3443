@@ -16,6 +16,46 @@
       "revId": "92ba3dc4261b873c66560bf005f5a424dbcc3443",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ae6c1f9_9809c490",
+        "filename": "snapshot/mac/process_reader_mac_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-08-31T15:25:56Z",
+      "side": 1,
+      "message": "You could template this and have the reinterpret_cast built into the return value.",
+      "revId": "92ba3dc4261b873c66560bf005f5a424dbcc3443",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59821e7c_936aabad",
+        "filename": "snapshot/mac/process_reader_mac_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-08-31T15:25:56Z",
+      "side": 1,
+      "message": "This one doesn’t start with _ ?",
+      "range": {
+        "startLine": 580,
+        "startChar": 30,
+        "endLine": 580,
+        "endChar": 58
+      },
+      "revId": "92ba3dc4261b873c66560bf005f5a424dbcc3443",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
