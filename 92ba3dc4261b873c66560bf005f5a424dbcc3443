@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "d525ffd2_3f0760c0",
+        "filename": "snapshot/mac/process_reader_mac_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-31T17:48:18Z",
+      "side": 1,
+      "message": "\u003e You could template this and have the reinterpret_cast built into the return value.\n\nDone. And “auto” too for an even more streamlined call site.",
+      "parentUuid": "6ae6c1f9_9809c490",
+      "revId": "92ba3dc4261b873c66560bf005f5a424dbcc3443",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59821e7c_936aabad",
         "filename": "snapshot/mac/process_reader_mac_test.cc",
         "patchSetId": 2
@@ -56,6 +74,30 @@
       "revId": "92ba3dc4261b873c66560bf005f5a424dbcc3443",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2d4f64b_c0f1c184",
+        "filename": "snapshot/mac/process_reader_mac_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-08-31T17:48:18Z",
+      "side": 1,
+      "message": "\u003e This one doesn’t start with _ ?\n\nNope. Older function, it’s been there since 10.11. Different time, maybe even a different engineer, different naming scheme.",
+      "parentUuid": "59821e7c_936aabad",
+      "range": {
+        "startLine": 580,
+        "startChar": 30,
+        "endLine": 580,
+        "endChar": 58
+      },
+      "revId": "92ba3dc4261b873c66560bf005f5a424dbcc3443",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
