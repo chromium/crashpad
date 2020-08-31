@@ -612,6 +612,7 @@ static_library("util") {
   }
 
   configs += [ "..:disable_ubsan" ]
+  configs += [ "//build/config:Wno-conversion" ]
 }
 
 if (!crashpad_is_android && !crashpad_is_ios) {
@@ -855,6 +856,7 @@ source_set("util_test") {
       ":crashpad_util_test_safe_terminate_process_test_child",
     ]
   }
+  configs += [ "//build/config:Wno-conversion" ]
 }
 
 if (crashpad_is_ios) {

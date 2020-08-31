@@ -118,6 +118,7 @@ static_library("client") {
       deps += [ "//sdk/lib/fdio" ]
     }
   }
+  configs += [ "//build/config:Wno-conversion" ]
 }
 
 source_set("client_test") {
@@ -174,6 +175,7 @@ source_set("client_test") {
   if (crashpad_is_win) {
     data_deps += [ "../handler:crashpad_handler_console" ]
   }
+  configs += [ "//build/config:Wno-conversion" ]
 }
 
 if (crashpad_is_linux || crashpad_is_android) {
