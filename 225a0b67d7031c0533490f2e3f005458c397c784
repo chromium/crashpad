@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13e4a2bb_90974170",
+        "filename": "util/posix/signals.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-09-01T17:28:17Z",
+      "side": 1,
+      "message": "nit: and",
+      "range": {
+        "startLine": 192,
+        "startChar": 67,
+        "endLine": 192,
+        "endChar": 70
+      },
+      "revId": "225a0b67d7031c0533490f2e3f005458c397c784",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "871bf239_4aeb51e4",
+        "filename": "util/posix/signals.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-09-01T17:28:17Z",
+      "side": 1,
+      "message": "nit: themselves",
+      "range": {
+        "startLine": 197,
+        "startChar": 53,
+        "endLine": 197,
+        "endChar": 59
+      },
+      "revId": "225a0b67d7031c0533490f2e3f005458c397c784",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a42573f5_65609aec",
+        "filename": "util/posix/signals.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-09-01T17:28:17Z",
+      "side": 1,
+      "message": "nit: they",
+      "range": {
+        "startLine": 198,
+        "startChar": 77,
+        "endLine": 198,
+        "endChar": 79
+      },
+      "revId": "225a0b67d7031c0533490f2e3f005458c397c784",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
