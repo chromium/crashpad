@@ -617,7 +617,10 @@ void VerifyImageExistenceAndTimestamp(const char* path, time_t timestamp) {
 class ScopedOpenCLNoOpKernel {
  public:
   ScopedOpenCLNoOpKernel()
-      : context_(nullptr), program_(nullptr), kernel_(nullptr) {}
+      : context_(nullptr),
+        program_(nullptr),
+        kernel_(nullptr),
+        success_(false) {}
 
   ~ScopedOpenCLNoOpKernel() {
     if (kernel_) {
@@ -661,6 +664,14 @@ class ScopedOpenCLNoOpKernel {
 #endif  // DISABLED_WUNGUARDED_AVAILABILITY
     rv =
         clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_CPU, 1, &device_id, nullptr);
+#if defined(ARCH_CPU_ARM64)
+    // CL_DEVICE_TYPE_CPU doesn’t seem to work at all on arm64, meaning that
+    // these weird OpenCL modules probably don’t show up there at all. Keep this
+    // test even on arm64 in case this ever does start working.
+    if (rv == CL_INVALID_VALUE) {
+      return;
+    }
+#endif  // ARCH_CPU_ARM64
     ASSERT_EQ(rv, CL_SUCCESS) << "clGetDeviceIDs";
 
     context_ = clCreateContext(nullptr, 1, &device_id, nullptr, nullptr, &rv);
@@ -698,12 +709,17 @@ class ScopedOpenCLNoOpKernel {
 
     kernel_ = clCreateKernel(program_, "NoOp", &rv);
     ASSERT_EQ(rv, CL_SUCCESS) << "clCreateKernel";
+
+    success_ = true;
   }
+
+  bool success() const { return success_; }
 
  private:
   cl_context context_;
   cl_program program_;
   cl_kernel kernel_;
+  bool success_;
 
   DISALLOW_COPY_AND_ASSIGN(ScopedOpenCLNoOpKernel);
 };
@@ -769,7 +785,7 @@ TEST(ProcessReaderMac, SelfModules) {
     }
   }
 
-  EXPECT_EQ(found_cl_kernels, ExpectCLKernels());
+  EXPECT_EQ(found_cl_kernels, ExpectCLKernels() && ensure_cl_kernels.success());
 
   size_t index = modules.size() - 1;
   EXPECT_EQ(modules[index].name, kDyldPath);
@@ -789,7 +805,9 @@ TEST(ProcessReaderMac, SelfModules) {
 
 class ProcessReaderModulesChild final : public MachMultiprocess {
  public:
-  ProcessReaderModulesChild() : MachMultiprocess() {}
+  explicit ProcessReaderModulesChild(bool ensure_cl_kernels_success)
+      : MachMultiprocess(),
+        ensure_cl_kernels_success_(ensure_cl_kernels_success) {}
 
   ~ProcessReaderModulesChild() {}
 
@@ -855,7 +873,8 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
       }
     }
 
-    EXPECT_EQ(found_cl_kernels, ExpectCLKernels());
+    EXPECT_EQ(found_cl_kernels,
+              ExpectCLKernels() && ensure_cl_kernels_success_);
   }
 
   void MachMultiprocessChild() override {
@@ -905,6 +924,8 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
     CheckedReadFileAtEOF(ReadPipeHandle());
   }
 
+  bool ensure_cl_kernels_success_;
+
   DISALLOW_COPY_AND_ASSIGN(ProcessReaderModulesChild);
 };
 
@@ -912,7 +933,8 @@ TEST(ProcessReaderMac, ChildModules) {
   ScopedOpenCLNoOpKernel ensure_cl_kernels;
   ASSERT_NO_FATAL_FAILURE(ensure_cl_kernels.SetUp());
 
-  ProcessReaderModulesChild process_reader_modules_child;
+  ProcessReaderModulesChild process_reader_modules_child(
+      ensure_cl_kernels.success());
   process_reader_modules_child.Run();
 }
 
