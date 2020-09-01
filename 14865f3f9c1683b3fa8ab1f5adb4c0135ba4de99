@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6ae2387_222fcd66",
+        "filename": "util/mac/mac_util.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-09-01T18:03:54Z",
+      "side": 1,
+      "message": "Bug for this?",
+      "revId": "14865f3f9c1683b3fa8ab1f5adb4c0135ba4de99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77d546b8_e9764f7e",
+        "filename": "util/mac/mac_util.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-09-01T18:03:54Z",
+      "side": 1,
+      "message": "Perhaps just clear() |model| and |board_id| upon function entry?",
+      "revId": "14865f3f9c1683b3fa8ab1f5adb4c0135ba4de99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
