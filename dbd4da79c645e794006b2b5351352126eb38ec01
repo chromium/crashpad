@@ -70,6 +70,23 @@
       "revId": "dbd4da79c645e794006b2b5351352126eb38ec01",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0c0e9b_bfba38f9",
+        "filename": "compat/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-01T16:34:01Z",
+      "side": 1,
+      "message": "I guess it needs an `if (defined(invoker.configs))` too which is getting pretty horrific. :(",
+      "revId": "dbd4da79c645e794006b2b5351352126eb38ec01",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
