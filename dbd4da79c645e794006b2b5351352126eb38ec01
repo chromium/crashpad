@@ -34,6 +34,24 @@
       "revId": "dbd4da79c645e794006b2b5351352126eb38ec01",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6145c94_3b4e18aa",
+        "filename": "compat/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-09-01T03:41:35Z",
+      "side": 1,
+      "message": "What PY said.\nIn Chromium (I\u0027m assuming) source_set doesn\u0027t have set_defaults with configs, so the base code and patchset 1 are behaviorally equivalent. In Fuchsia we have default configs for source_set, and when you forward_variables_from(invoker, \"*\") you clobber them. I\u0027d argue that\u0027s a design bug in either set_defaults or in forward_variables_from, but that\u0027s beside the point.",
+      "parentUuid": "58c9b96c_e5c060cb",
+      "revId": "dbd4da79c645e794006b2b5351352126eb38ec01",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
