@@ -975,8 +975,7 @@ class TestExcServerVariants : public MachMultiprocess,
         flavor_(flavor),
         state_count_(state_count),
         handled_(false) {
-    // This is how the __builtin_trap() in MachMultiprocessChild() appears.
-    SetExpectedChildTermination(kTerminationSignal, SIGILL);
+    SetExpectedChildTerminationBuiltinTrap();
   }
 
   // UniversalMachExcServer::Interface:
