@@ -14,6 +14,7 @@
 
 #include "snapshot/mac/mach_o_image_segment_reader.h"
 
+#include <Availability.h>
 #include <mach-o/loader.h>
 #include <string.h>
 
@@ -44,7 +45,13 @@ bool IsMalformedCLKernelsModule(uint32_t mach_o_file_type,
   }
 
   if (module_name == "cl_kernels") {
-    if (MacOSXMinorVersion() >= 10) {
+    if (
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_10
+        true
+#else  // DT >= 10.10
+        MacOSVersionNumber() >= 101000
+#endif  // DT >= 10.10
+       ) {
       if (has_timestamp) {
         *has_timestamp = false;
       }
@@ -56,8 +63,11 @@ bool IsMalformedCLKernelsModule(uint32_t mach_o_file_type,
   static const char kCvmsObjectPathPrefix[] =
       "/private/var/db/CVMS/cvmsCodeSignObj";
   if (module_name.compare(
-          0, strlen(kCvmsObjectPathPrefix), kCvmsObjectPathPrefix) == 0 &&
-      MacOSXMinorVersion() >= 14) {
+          0, strlen(kCvmsObjectPathPrefix), kCvmsObjectPathPrefix) == 0
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_14
+      && MacOSVersionNumber() >= 101400
+#endif  // DT < 10.14
+     ) {
     if (has_timestamp) {
       *has_timestamp = true;
     }

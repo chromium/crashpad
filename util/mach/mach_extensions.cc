@@ -50,7 +50,7 @@ exception_mask_t ExcMaskAll() {
 #endif
 
 #if defined(OS_MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_9
-  const int mac_os_x_minor_version = MacOSXMinorVersion();
+  const int macos_version_number = MacOSVersionNumber();
 #endif
 
   // See 10.6.8 xnu-1504.15.3/osfmk/mach/exception_types.h. 10.7 uses the same
@@ -67,7 +67,7 @@ exception_mask_t ExcMaskAll() {
       EXC_MASK_RPC_ALERT |
       EXC_MASK_MACHINE;
 #if defined(OS_MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
-  if (mac_os_x_minor_version < 8) {
+  if (macos_version_number < 100800) {
     return kExcMaskAll_10_6;
   }
 #endif
@@ -77,7 +77,7 @@ exception_mask_t ExcMaskAll() {
   constexpr exception_mask_t kExcMaskAll_10_8 =
       kExcMaskAll_10_6 | EXC_MASK_RESOURCE;
 #if defined(OS_MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_9
-  if (mac_os_x_minor_version < 9) {
+  if (macos_version_number < 100900) {
     return kExcMaskAll_10_8;
   }
 #endif
@@ -97,7 +97,7 @@ exception_mask_t ExcMaskValid() {
 #endif
 
 #if defined(OS_MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_11
-  if (MacOSXMinorVersion() < 11) {
+  if (MacOSVersionNumber() < 101100) {
     return kExcMaskValid_10_6;
   }
 #endif

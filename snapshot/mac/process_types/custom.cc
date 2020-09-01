@@ -161,13 +161,13 @@ size_t dyld_all_image_infos<Traits>::ExpectedSizeForVersion(
     // The revised one in macOS 10.13 grew. It’s safe to assume that the
     // dyld_all_image_infos structure came from the same system that’s now
     // interpreting it, so use an OS version check.
-    int mac_os_x_minor_version = MacOSXMinorVersion();
-    if (mac_os_x_minor_version == 12) {
+    const int macos_version_number = MacOSVersionNumber();
+    if (macos_version_number / 100 == 1012) {
       return offsetof(dyld_all_image_infos<Traits>, end_v14);
     }
 
-    DCHECK_GE(mac_os_x_minor_version, 13);
-    DCHECK_LE(mac_os_x_minor_version, 14);
+    DCHECK_GE(macos_version_number, 101300);
+    DCHECK_LT(macos_version_number, 101500);
     return offsetof(dyld_all_image_infos<Traits>, platform);
   }
 

@@ -715,7 +715,7 @@ bool ExpectCLKernels() {
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_7
   return true;
 #else
-  return MacOSXMinorVersion() >= 7;
+  return MacOSVersionNumber() >= 100700;
 #endif
 }
 
