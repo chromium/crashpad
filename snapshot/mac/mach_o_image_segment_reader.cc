@@ -22,6 +22,7 @@
 
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
+#include "build/build_config.h"
 #include "snapshot/mac/process_reader_mac.h"
 #include "util/mac/checked_mach_address_range.h"
 #include "util/mac/mac_util.h"
@@ -40,6 +41,7 @@ std::string SizeLimitedCString(const char* c_string, size_t max_length) {
 bool IsMalformedCLKernelsModule(uint32_t mach_o_file_type,
                                 const std::string& module_name,
                                 bool* has_timestamp) {
+#if defined(ARCH_CPU_X86_FAMILY)
   if (mach_o_file_type != MH_BUNDLE) {
     return false;
   }
@@ -66,6 +68,7 @@ bool IsMalformedCLKernelsModule(uint32_t mach_o_file_type,
     }
     return true;
   }
+#endif  // ARCH_CPU_X86_FAMILY
 
   return false;
 }
