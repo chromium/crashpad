@@ -28,6 +28,7 @@
 #include "base/strings/string_piece.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/sys_string_conversions.h"
+#include "build/build_config.h"
 
 extern "C" {
 // Private CoreFoundation internals. See 10.9.2 CF-855.14/CFPriv.h and
@@ -270,12 +271,24 @@ void MacModelAndBoard(std::string* model, std::string* board_id) {
   if (platform_expert) {
     model->assign(
         IORegistryEntryDataPropertyAsString(platform_expert, CFSTR("model")));
+#if defined(ARCH_CPU_X86_FAMILY)
     board_id->assign(IORegistryEntryDataPropertyAsString(platform_expert,
                                                          CFSTR("board-id")));
+#endif  // ARCH_CPU_X86_FAMILY
   } else {
     model->clear();
+#if defined(ARCH_CPU_X86_FAMILY)
     board_id->clear();
+#endif  // ARCH_CPU_X86_FAMILY
   }
+
+#if defined(ARCH_CPU_ARM64)
+  // TODO(mac_arm64): Verify that no board-id or similar property is provided on
+  // production hardware. The target-type property may be valuable.
+  board_id->clear();
+#elif !defined(ARCH_CPU_X86_FAMILY)
+#error Port
+#endif  // ARCH_CPU_ARM64
 }
 
 }  // namespace crashpad

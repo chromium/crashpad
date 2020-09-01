@@ -63,7 +63,7 @@ bool MacOSXVersion(int* major,
 //! \param[out] model The system’s model name. A mid-2012 15" MacBook Pro would
 //!     report “MacBookPro10,1”.
 //! \param[out] board_id The system’s board ID. A mid-2012 15" MacBook Pro would
-//!     report “Mac-C3EC7CD22292981F”.
+//!     report “Mac-C3EC7CD22292981F”. This property is not available on arm64.
 //!
 //! If a value cannot be determined, its string is cleared.
 void MacModelAndBoard(std::string* model, std::string* board_id);

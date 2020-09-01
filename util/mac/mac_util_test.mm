@@ -21,6 +21,7 @@
 
 #include "base/mac/scoped_nsobject.h"
 #include "base/strings/stringprintf.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 
 #ifdef __GLIBCXX__
@@ -135,7 +136,14 @@ TEST(MacUtil, MacModelAndBoard) {
   MacModelAndBoard(&model, &board);
 
   EXPECT_FALSE(model.empty());
+
+#if defined(ARCH_CPU_X86_FAMILY)
   EXPECT_FALSE(board.empty());
+#elif defined(ARCH_CPU_ARM64)
+  EXPECT_TRUE(board.empty());
+#else
+#error Port
+#endif  // ARCH_CPU_X86_FAMILY
 }
 
 }  // namespace
