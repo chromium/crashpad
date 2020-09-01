@@ -112,9 +112,7 @@ class TestMachOImageAnnotationsReader final
         break;
 
       case kCrashModuleInitialization:
-        // This crash is triggered by __builtin_trap(), which shows up as
-        // SIGILL.
-        SetExpectedChildTermination(kTerminationSignal, SIGILL);
+        SetExpectedChildTerminationBuiltinTrap();
         break;
 
       case kCrashDyld:
