@@ -39,6 +39,30 @@
       "revId": "f060b8cd879e9753aac24d4b09675bcf203e4377",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5b2e7ff_9039261d",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-01T21:33:23Z",
+      "side": 1,
+      "message": "\u003e This seems like the only difference from mig_gen.parse_args(). Maybe have that take a support_multiple_arches kwarg?\n\nThanks, good idea! I also included a couple of other refinements to mig.py to make it a little shorter again.",
+      "parentUuid": "b86925ce_250f1482",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 51
+      },
+      "revId": "f060b8cd879e9753aac24d4b09675bcf203e4377",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
