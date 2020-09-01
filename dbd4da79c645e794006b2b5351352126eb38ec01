@@ -87,6 +87,24 @@
       "revId": "dbd4da79c645e794006b2b5351352126eb38ec01",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "229f41a9_7d3e99c9",
+        "filename": "compat/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-09-01T16:53:20Z",
+      "side": 1,
+      "message": "If I had a dollar for every time...",
+      "parentUuid": "6d0c0e9b_bfba38f9",
+      "revId": "dbd4da79c645e794006b2b5351352126eb38ec01",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
