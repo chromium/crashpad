@@ -67,6 +67,18 @@ crashpad_executable("base94_encoder") {
   ]
 }
 
+crashpad_executable("metricskit_report_converter") {
+  sources = [ "metricskit_report_converter.mm" ]
+  deps = [
+    ":tool_support",
+    "../minidump",
+    "../snapshot",
+    "../snapshot/metricskit",
+    "../third_party/mini_chromium:base",
+    "../util",
+  ]
+}
+
 if (!crashpad_is_fuchsia && !crashpad_is_ios) {
   crashpad_executable("generate_dump") {
     sources = [ "generate_dump.cc" ]
