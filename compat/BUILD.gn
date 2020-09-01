@@ -61,7 +61,13 @@ template("compat_target") {
     }
   } else {
     static_library(target_name) {
-      forward_variables_from(invoker, "*")
+      forward_variables_from(invoker, "*", [ "configs" ])
+      if (!(defined(configs))) {
+        configs = []
+      }
+      if (defined(invoker.configs)) {
+        configs += invoker.configs
+      }
     }
   }
 }
