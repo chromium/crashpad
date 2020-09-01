@@ -683,7 +683,7 @@ kern_return_t ExcServerSuccessfulReturnValue(exception_type_t exception,
                                              bool set_thread_state) {
   if (exception == EXC_CRASH
 #if defined(OS_MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_11
-      && MacOSXMinorVersion() >= 11
+      && MacOSVersionNumber() >= 10'11'00
 #endif
      ) {
     return KERN_SUCCESS;

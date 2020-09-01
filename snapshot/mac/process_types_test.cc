@@ -48,17 +48,17 @@ namespace {
 TEST(ProcessTypes, DyldImagesSelf) {
   // Get the in-process view of dyld_all_image_infos, and check it for sanity.
   const dyld_all_image_infos* self_image_infos = DyldGetAllImageInfos();
-  const int mac_os_x_minor_version = MacOSXMinorVersion();
+  const int macos_version_number = MacOSVersionNumber();
 
-  if (mac_os_x_minor_version >= 15) {
+  if (macos_version_number >= 10'15'00) {
     EXPECT_GE(self_image_infos->version, 16u);
-  } else if (mac_os_x_minor_version >= 12) {
+  } else if (macos_version_number >= 10'12'00) {
     EXPECT_GE(self_image_infos->version, 15u);
-  } else if (mac_os_x_minor_version >= 9) {
+  } else if (macos_version_number >= 10'09'00) {
     EXPECT_GE(self_image_infos->version, 13u);
-  } else if (mac_os_x_minor_version >= 7) {
+  } else if (macos_version_number >= 10'07'00) {
     EXPECT_GE(self_image_infos->version, 8u);
-  } else if (mac_os_x_minor_version >= 6) {
+  } else if (macos_version_number >= 10'06'00) {
     EXPECT_GE(self_image_infos->version, 2u);
   } else {
     EXPECT_GE(self_image_infos->version, 1u);
@@ -91,7 +91,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
   // This field is only present in the OS X 10.7 SDK (at build time) and kernel
   // (at run time).
 #if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_7
-  if (MacOSXMinorVersion() >= 7) {
+  if (macos_version_number >= 10'07'00) {
 #if !defined(ARCH_CPU_64_BITS)
     EXPECT_EQ(dyld_info.all_image_info_format, TASK_DYLD_ALL_IMAGE_INFO_32);
 #else
@@ -130,11 +130,11 @@ TEST(ProcessTypes, DyldImagesSelf) {
   bool test_expected_size_for_version_matches_sdk_sizeof;
 #if __MAC_OS_X_VERSION_MAX_ALLOWED == __MAC_10_12
   test_expected_size_for_version_matches_sdk_sizeof =
-      mac_os_x_minor_version == 12;
+      macos_version_number / 1'00 == 10'12;
 #elif __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_13 && \
     __MAC_OS_X_VERSION_MAX_ALLOWED < __MAC_10_15
   test_expected_size_for_version_matches_sdk_sizeof =
-      mac_os_x_minor_version >= 13 && mac_os_x_minor_version <= 14;
+      macos_version_number >= 10'13'00 && macos_version_number < 10'15'00;
 #else
   test_expected_size_for_version_matches_sdk_sizeof = true;
 #endif
@@ -177,7 +177,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
     SCOPED_TRACE(base::StringPrintf("index %zu, version %u", index, version));
 
     if (version == 15) {
-      if (mac_os_x_minor_version == 12) {
+      if (macos_version_number / 1'00 == 10'12) {
         EXPECT_EQ(process_types::internal::dyld_all_image_infos<
                       process_types::internal::Traits32>::
                       ExpectedSizeForVersion(version),
@@ -186,7 +186,8 @@ TEST(ProcessTypes, DyldImagesSelf) {
                       process_types::internal::Traits64>::
                       ExpectedSizeForVersion(version),
                   304u);
-      } else if (mac_os_x_minor_version >= 13 && mac_os_x_minor_version <= 14) {
+      } else if (macos_version_number >= 10'13'00 &&
+                 macos_version_number < 10'15'00) {
         EXPECT_EQ(process_types::internal::dyld_all_image_infos<
                       process_types::internal::Traits32>::
                       ExpectedSizeForVersion(version),
@@ -362,7 +363,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
 #endif
 
 #if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_13
-  if (proctype_image_infos.version >= 15 && mac_os_x_minor_version >= 13) {
+  if (proctype_image_infos.version >= 15 && macos_version_number >= 10'13'00) {
     EXPECT_EQ(proctype_image_infos.compact_dyld_image_info_addr,
               self_image_infos->compact_dyld_image_info_addr);
     EXPECT_EQ(proctype_image_infos.compact_dyld_image_info_size,

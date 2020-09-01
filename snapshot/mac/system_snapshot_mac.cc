@@ -31,6 +31,7 @@
 #include "snapshot/mac/process_reader_mac.h"
 #include "snapshot/posix/timezone.h"
 #include "util/mac/mac_util.h"
+#include "util/mac/sysctl.h"
 #include "util/numeric/in_range_cast.h"
 
 namespace crashpad {
@@ -58,26 +59,6 @@ template <typename T>
 T CastIntSysctlByName(const char* name, T default_value) {
   int int_value = ReadIntSysctlByName<int>(name, default_value);
   return InRangeCast<T>(int_value, default_value);
-}
-
-std::string ReadStringSysctlByName(const char* name) {
-  size_t buf_len;
-  if (sysctlbyname(name, nullptr, &buf_len, nullptr, 0) != 0) {
-    PLOG(WARNING) << "sysctlbyname (size) " << name;
-    return std::string();
-  }
-
-  if (buf_len == 0) {
-    return std::string();
-  }
-
-  std::string value(buf_len - 1, '\0');
-  if (sysctlbyname(name, &value[0], &buf_len, nullptr, 0) != 0) {
-    PLOG(WARNING) << "sysctlbyname " << name;
-    return std::string();
-  }
-
-  return value;
 }
 
 #if defined(ARCH_CPU_X86_FAMILY)
@@ -119,15 +100,15 @@ void SystemSnapshotMac::Initialize(ProcessReaderMac* process_reader,
   process_reader_ = process_reader;
   snapshot_time_ = snapshot_time;
 
-  // MacOSXVersion() logs its own warnings if it can’t figure anything out. It’s
-  // not fatal if this happens. The default values are reasonable.
+  // MacOSVersionComponents() logs its own warnings if it can’t figure anything
+  // out. It’s not fatal if this happens. The default values are reasonable.
   std::string os_version_string;
-  MacOSXVersion(&os_version_major_,
-                &os_version_minor_,
-                &os_version_bugfix_,
-                &os_version_build_,
-                &os_server_,
-                &os_version_string);
+  MacOSVersionComponents(&os_version_major_,
+                         &os_version_minor_,
+                         &os_version_bugfix_,
+                         &os_version_build_,
+                         &os_server_,
+                         &os_version_string);
 
   std::string uname_string;
   utsname uts;
@@ -194,9 +175,9 @@ std::string SystemSnapshotMac::CPUVendor() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
 #if defined(ARCH_CPU_X86_FAMILY)
-  return ReadStringSysctlByName("machdep.cpu.vendor");
+  return ReadStringSysctlByName("machdep.cpu.vendor", true);
 #elif defined(ARCH_CPU_ARM64)
-  return ReadStringSysctlByName("machdep.cpu.brand_string");
+  return ReadStringSysctlByName("machdep.cpu.brand_string", true);
 #else
 #error port to your architecture
 #endif
@@ -368,7 +349,7 @@ bool SystemSnapshotMac::NXEnabled() const {
       const bool nx_always_enabled = true;
 #else  // DT >= 10.14
       base::ScopedClearLastError reset_errno;
-      const bool nx_always_enabled = MacOSXMinorVersion() >= 14;
+      const bool nx_always_enabled = MacOSVersionNumber() >= 10'14'00;
 #endif  // DT >= 10.14
       if (nx_always_enabled) {
         return true;

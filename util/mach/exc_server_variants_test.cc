@@ -1210,7 +1210,7 @@ TEST(ExcServerVariants, ExcServerSuccessfulReturnValue) {
   const kern_return_t prefer_not_set_thread_state = KERN_SUCCESS;
 #else
   const kern_return_t prefer_not_set_thread_state =
-      MacOSXMinorVersion() < 11 ? MACH_RCV_PORT_DIED : KERN_SUCCESS;
+      MacOSVersionNumber() < 10'11'00 ? MACH_RCV_PORT_DIED : KERN_SUCCESS;
 #endif
 
   const struct {

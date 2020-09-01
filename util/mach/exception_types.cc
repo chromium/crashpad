@@ -259,7 +259,8 @@ bool IsExceptionNonfatalResource(exception_type_t exception,
     // creation but can be made fatal by calling proc_rlimit_control() with
     // RLIMIT_CPU_USAGE_MONITOR as the second argument and CPUMON_MAKE_FATAL set
     // in the flags.
-    if (MacOSXMinorVersion() >= 10) {
+    if (__MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_10 ||
+        MacOSVersionNumber() >= 10'10'00) {
       // In OS X 10.10, the exception code indicates whether the exception is
       // fatal. See 10.10 xnu-2782.1.97/osfmk/kern/thread.c
       // THIS_THREAD_IS_CONSUMING_TOO_MUCH_CPU__SENDING_EXC_RESOURCE().

@@ -16,6 +16,7 @@
 
 #include <limits>
 
+#include "base/check_op.h"
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/stl_util.h"
@@ -30,7 +31,7 @@
 #include "util/numeric/in_range_cast.h"
 #include "util/numeric/safe_assignment.h"
 
-#if defined(OS_APPLE)
+#if defined(OS_MAC)
 #include <Availability.h>
 #elif defined(OS_ANDROID)
 #include <android/api-level.h>
@@ -69,23 +70,30 @@ std::string BuildString(const SystemSnapshot* system_snapshot) {
 #if defined(OS_MAC)
 // Converts the value of the __MAC_OS_X_VERSION_MIN_REQUIRED or
 // __MAC_OS_X_VERSION_MAX_ALLOWED macro from <Availability.h> to a number
-// identifying the minor macOS version that it represents. For example, with an
-// argument of __MAC_10_6, this function will return 6.
-int AvailabilityVersionToMacOSXMinorVersion(int availability) {
-  // Through __MAC_10_9, the minor version is the tens digit.
-  if (availability >= 1000 && availability <= 1099) {
-    return (availability / 10) % 10;
-  }
+// identifying the macOS version that it represents, in the same format used by
+// MacOSVersionNumber(). For example, with an argument of __MAC_10_15, this
+// function will return 10'15'00, which is incidentally the same as __MAC_10_15.
+// With an argument of __MAC_10_9, this function will return 10'09'00, different
+// from __MAC_10_9, which is 10'9'0.
+int AvailabilityVersionToMacOSVersionNumber(int availability) {
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_10
+  DCHECK_GE(availability, 10'0'0);
 
-  // After __MAC_10_9, the older format was insufficient to represent versions.
-  // Since then, the minor version is the thousands and hundreds digits.
-  if (availability >= 100000 && availability <= 109999) {
-    return (availability / 100) % 100;
+  // Until __MAC_10_10, the format is major * 1'0'0 + minor * 1'0 + bugfix.
+  if (availability >= 10'0'0 && availability <= 10'9'9) {
+    int minor = (availability / 1'0) % 1'0;
+    int bugfix = availability % 1'0;
+    return 10'00'00 + minor * 1'00 + bugfix;
   }
-
-  return 0;
-}
 #endif
+
+  // Since __MAC_10_10, the format is major * 1'00'00 + minor * 1'00 + bugfix.
+  DCHECK_GE(availability, 10'10'00);
+  DCHECK_LE(availability, 99'99'99);
+
+  return availability;
+}
+#endif  // OS_MAC
 
 }  // namespace
 
@@ -99,8 +107,10 @@ std::string MinidumpMiscInfoDebugBuildString() {
   // Caution: the minidump file format only has room for 39 UTF-16 code units
   // plus a UTF-16 NUL terminator. Don’t let strings get longer than this, or
   // they will be truncated and a message will be logged.
-#if defined(OS_APPLE)
+#if defined(OS_MAC)
   static constexpr char kOS[] = "mac";
+#elif defined(OS_IOS)
+  static constexpr char kOS[] = "ios";
 #elif defined(OS_ANDROID)
   static constexpr char kOS[] = "android";
 #elif defined(OS_LINUX) || defined(OS_CHROMEOS)
@@ -138,8 +148,8 @@ std::string MinidumpMiscInfoDebugBuildString() {
 #if defined(OS_MAC)
   debug_build_string += base::StringPrintf(
       ",%d,%d",
-      AvailabilityVersionToMacOSXMinorVersion(__MAC_OS_X_VERSION_MIN_REQUIRED),
-      AvailabilityVersionToMacOSXMinorVersion(__MAC_OS_X_VERSION_MAX_ALLOWED));
+      AvailabilityVersionToMacOSVersionNumber(__MAC_OS_X_VERSION_MIN_REQUIRED),
+      AvailabilityVersionToMacOSVersionNumber(__MAC_OS_X_VERSION_MAX_ALLOWED));
 #elif defined(OS_ANDROID)
   debug_build_string += base::StringPrintf(",%d", __ANDROID_API__);
 #endif
