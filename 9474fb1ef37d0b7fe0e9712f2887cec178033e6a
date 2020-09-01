@@ -16,6 +16,24 @@
       "revId": "9474fb1ef37d0b7fe0e9712f2887cec178033e6a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fcb11eb_8d82159f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-01T21:10:48Z",
+      "side": 1,
+      "message": "\u003e LGTM\n\u003e \n\u003e Meta-note, optional: It could improve readability to use the C++14 numeric literal separator to make values like 100700 be written as 10\u002707\u002700.\n\nOoh, I like that! Done.\n\nI also used an improved pattern in place of some of the new #if soup (see →example).",
+      "parentUuid": "31fd3d5c_36886233",
+      "revId": "9474fb1ef37d0b7fe0e9712f2887cec178033e6a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

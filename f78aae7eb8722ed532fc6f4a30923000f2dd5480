@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dae3c36_7235338c",
+        "filename": "snapshot/mac/process_reader_mac_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-01T21:10:48Z",
+      "side": 1,
+      "message": "→",
+      "revId": "f78aae7eb8722ed532fc6f4a30923000f2dd5480",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
