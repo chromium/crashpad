@@ -44,7 +44,7 @@ bool IsMalformedCLKernelsModule(uint32_t mach_o_file_type,
   }
 
   if (module_name == "cl_kernels") {
-    if (MacOSXMinorVersion() >= 10) {
+    if (MacOSVersionNumber() >= 101000) {
       if (has_timestamp) {
         *has_timestamp = false;
       }
@@ -57,7 +57,7 @@ bool IsMalformedCLKernelsModule(uint32_t mach_o_file_type,
       "/private/var/db/CVMS/cvmsCodeSignObj";
   if (module_name.compare(
           0, strlen(kCvmsObjectPathPrefix), kCvmsObjectPathPrefix) == 0 &&
-      MacOSXMinorVersion() >= 14) {
+      MacOSVersionNumber() >= 101400) {
     if (has_timestamp) {
       *has_timestamp = true;
     }

@@ -454,14 +454,14 @@ bool CrashpadClient::StartHandler(
   // The “restartable” behavior can only be selected on OS X 10.10 and later. In
   // previous OS versions, if the initial client were to crash while attempting
   // to restart the handler, it would become an unkillable process.
-  base::mac::ScopedMachSendRight exception_port(
-      HandlerStarter::InitialStart(handler,
-                                   database,
-                                   metrics_dir,
-                                   url,
-                                   annotations,
-                                   arguments,
-                                   restartable && MacOSXMinorVersion() >= 10));
+  base::mac::ScopedMachSendRight exception_port(HandlerStarter::InitialStart(
+      handler,
+      database,
+      metrics_dir,
+      url,
+      annotations,
+      arguments,
+      restartable && MacOSVersionNumber() >= 101000));
   if (!exception_port.is_valid()) {
     return false;
   }
