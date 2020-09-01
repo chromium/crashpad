@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce4b0293_d58fb9b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-01T13:18:22Z",
+      "side": 1,
+      "message": "This depends on https://chromium-review.googlesource.com/c/2386603/, and a DEPS roll will be included once that lands.",
+      "revId": "f060b8cd879e9753aac24d4b09675bcf203e4377",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
