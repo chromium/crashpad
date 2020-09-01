@@ -52,6 +52,24 @@
       "revId": "dbd4da79c645e794006b2b5351352126eb38ec01",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "122e959c_0e8a2f17",
+        "filename": "compat/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-01T16:29:02Z",
+      "side": 1,
+      "message": "Ah, that\u0027s tricky. Seems like it would be good to have a \"clobbering non-empty\" error like there is for normal assignments. https://bugs.chromium.org/p/gn/issues/detail?id\u003d197",
+      "parentUuid": "c6145c94_3b4e18aa",
+      "revId": "dbd4da79c645e794006b2b5351352126eb38ec01",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
