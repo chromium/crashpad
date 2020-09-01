@@ -14,21 +14,95 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import argparse
+import os
+import shutil
 import sys
+import tempfile
 
 import mig_fix
 import mig_gen
 
 
-def main(args):
-    parsed = mig_gen.parse_args(args)
-
-    interface = mig_gen.MigInterface(parsed.user_c, parsed.server_c,
-                                     parsed.user_h, parsed.server_h)
-    mig_gen.generate_interface(parsed.defs, interface, parsed.include,
-                               parsed.sdk, parsed.clang_path, parsed.mig_path,
-                               parsed.migcom_path, parsed.arch)
+def _generate_and_fix(user_c, server_c, user_h, server_h, defs, include, sdk,
+                      clang_path, mig_path, migcom_path, arch):
+    interface = mig_gen.MigInterface(user_c, server_c, user_h, server_h)
+    mig_gen.generate_interface(defs, interface, include, sdk, clang_path,
+                               mig_path, migcom_path, arch)
     mig_fix.fix_interface(interface)
+
+
+def _wrap_arch_guards(file, arch):
+    contents = '#if defined(__%s__)\n' % arch
+    contents += open(file, 'r').read()
+    contents += '\n#endif  /* __%s__ */\n' % arch
+    return contents
+
+
+def main(args):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--clang-path', help='Path to Clang')
+    parser.add_argument('--mig-path', help='Path to mig')
+    parser.add_argument('--migcom-path', help='Path to migcom')
+    parser.add_argument('--arch',
+                        default=[],
+                        action='append',
+                        help='Target architecture')
+    parser.add_argument('--sdk', help='Path to SDK')
+    parser.add_argument('--include',
+                        default=[],
+                        action='append',
+                        help='Additional include directory')
+    parser.add_argument('defs')
+    parser.add_argument('user_c')
+    parser.add_argument('server_c')
+    parser.add_argument('user_h')
+    parser.add_argument('server_h')
+    parsed = parser.parse_args(args)
+
+    if len(parsed.arch) <= 1:
+        _generate_and_fix(parsed.user_c, parsed.server_c, parsed.user_h,
+                          parsed.server_h, parsed.defs, parsed.include,
+                          parsed.sdk, parsed.clang_path, parsed.mig_path,
+                          parsed.migcom_path,
+                          parsed.arch[0] if len(parsed.arch) >= 1 else None)
+        return 0
+
+    # Run mig once per architecture, and smush everything together, wrapped in
+    # in architecture-specific #if guards.
+
+    user_c_data = ''
+    server_c_data = ''
+    user_h_data = ''
+    server_h_data = ''
+
+    for arch in parsed.arch:
+        # Python 3: use tempfile.TempDirectory instead
+        temp_dir = tempfile.mkdtemp(prefix=os.path.basename(sys.argv[0]) + '_')
+        try:
+            user_c = os.path.join(temp_dir, os.path.basename(parsed.user_c))
+            server_c = os.path.join(temp_dir, os.path.basename(parsed.server_c))
+            user_h = os.path.join(temp_dir, os.path.basename(parsed.user_h))
+            server_h = os.path.join(temp_dir, os.path.basename(parsed.server_h))
+            _generate_and_fix(user_c, server_c, user_h, server_h, parsed.defs,
+                              parsed.include, parsed.sdk, parsed.clang_path,
+                              parsed.mig_path, parsed.migcom_path, arch)
+
+            user_c_data += _wrap_arch_guards(user_c, arch)
+            server_c_data += _wrap_arch_guards(server_c, arch)
+            user_h_data += _wrap_arch_guards(user_h, arch)
+            server_h_data += _wrap_arch_guards(server_h, arch)
+        finally:
+            shutil.rmtree(temp_dir)
+
+    with open(parsed.user_c, 'w') as out:
+        out.write(user_c_data)
+    with open(parsed.server_c, 'w') as out:
+        out.write(server_c_data)
+    with open(parsed.user_h, 'w') as out:
+        out.write(user_h_data)
+    with open(parsed.server_h, 'w') as out:
+        out.write(server_h_data)
 
 
 if __name__ == '__main__':
