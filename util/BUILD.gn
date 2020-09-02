@@ -131,6 +131,15 @@ if (crashpad_is_mac || crashpad_is_ios) {
         "--arch",
         "arm64",
       ]
+    } else if (crashpad_is_mac && current_cpu == "mac_universal") {
+      args += [
+        "--arch",
+        "x86_64",
+        "--arch",
+        "arm64",
+      ]
+    } else {
+      assert(false, "Unsupported architecture")
     }
   }
 
