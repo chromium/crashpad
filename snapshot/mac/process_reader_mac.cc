@@ -95,9 +95,12 @@ ProcessReaderMac::ProcessReaderMac()
       process_memory_(),
       task_(TASK_NULL),
       initialized_(),
+#if defined(CRASHPAD_MAC_32_BIT_SUPPORT)
       is_64_bit_(false),
+#endif  // CRASHPAD_MAC_32_BIT_SUPPORT
       initialized_threads_(false),
-      initialized_modules_(false) {}
+      initialized_modules_(false) {
+}
 
 ProcessReaderMac::~ProcessReaderMac() {
   for (const Thread& thread : threads_) {
@@ -117,7 +120,12 @@ bool ProcessReaderMac::Initialize(task_t task) {
     return false;
   }
 
+#if defined(CRASHPAD_MAC_32_BIT_SUPPORT)
   is_64_bit_ = process_info_.Is64Bit();
+#else  // CRASHPAD_MAC_32_BIT_SUPPORT
+  DCHECK(process_info_.Is64Bit());
+#endif  // CRASHPAD_MAC_32_BIT_SUPPORT
+
   task_ = task;
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
