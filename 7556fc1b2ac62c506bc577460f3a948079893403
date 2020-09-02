@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c1effa31_f908b173",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-02T20:43:15Z",
+      "side": 1,
+      "message": "\u003e Maybe only swallow ENOENT and let other errors raise?\n\nI did this on purpose. You might not be able to remove a file that you can write to.\n\nYeah, so that won’t happen so much here. But for the other sorts of errors that might happen, I’d rather let the errors come from mig or whatever than from this thing.\n\nI did change this to only catch OSError, but that’s all that os.remove could possibly raise anyway.",
+      "parentUuid": "7ef00446_8c16714c",
+      "revId": "7556fc1b2ac62c506bc577460f3a948079893403",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12d72278_e135879f",
         "filename": "util/mach/mig.py",
         "patchSetId": 4
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "b0bebff0_c1c91821",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-02T20:43:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12d72278_e135879f",
+      "range": {
+        "startLine": 55,
+        "startChar": 11,
+        "endLine": 55,
+        "endChar": 19
+      },
+      "revId": "7556fc1b2ac62c506bc577460f3a948079893403",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01e28be9_6f1a4ef4",
         "filename": "util/mach/mig_gen.py",
         "patchSetId": 4
@@ -62,6 +104,30 @@
       "revId": "7556fc1b2ac62c506bc577460f3a948079893403",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b8943c5_bb74201c",
+        "filename": "util/mach/mig_gen.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-02T20:43:15Z",
+      "side": 1,
+      "message": "\u003e nit: architectures\n\nBut the way this works, you don’t give --arch multiple architectures. You give each --arch one architecture, and if you want more than one, you give multiple --arch arguments. I treated this the same way I treated --include below.\n\nI added \u0027 (may appear multiple times)\u0027 to the help strings for --arch and --include, which should be clearer.",
+      "parentUuid": "01e28be9_6f1a4ef4",
+      "range": {
+        "startLine": 73,
+        "startChar": 41,
+        "endLine": 73,
+        "endChar": 53
+      },
+      "revId": "7556fc1b2ac62c506bc577460f3a948079893403",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
