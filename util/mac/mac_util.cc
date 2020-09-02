@@ -28,6 +28,7 @@
 #include "base/strings/string_piece.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/sys_string_conversions.h"
+#include "build/build_config.h"
 
 extern "C" {
 // Private CoreFoundation internals. See 10.9.2 CF-855.14/CFPriv.h and
@@ -270,8 +271,17 @@ void MacModelAndBoard(std::string* model, std::string* board_id) {
   if (platform_expert) {
     model->assign(
         IORegistryEntryDataPropertyAsString(platform_expert, CFSTR("model")));
+#if defined(ARCH_CPU_X86_FAMILY)
+    CFStringRef kBoardProperty = CFSTR("board-id");
+#elif defined(ARCH_CPU_ARM64)
+    // TODO(https://crashpad.chromium.org/bug/352): When production arm64
+    // hardware is available, determine whether board-id works and switch to it
+    // if feasible, otherwise, determine whether target-type remains a viable
+    // alternative.
+    CFStringRef kBoardProperty = CFSTR("target-type");
+#endif
     board_id->assign(IORegistryEntryDataPropertyAsString(platform_expert,
-                                                         CFSTR("board-id")));
+                                                         kBoardProperty));
   } else {
     model->clear();
     board_id->clear();
