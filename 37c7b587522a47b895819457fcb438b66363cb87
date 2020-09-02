@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a16e7fca_af5ecaa2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-02T00:36:50Z",
+      "side": 1,
+      "message": "I decided to switch this from intentionally leaving the board value empty to using the target-type property after all, which simplifies this change.",
+      "revId": "37c7b587522a47b895819457fcb438b66363cb87",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
