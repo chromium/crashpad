@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ef00446_8c16714c",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-09-02T13:42:51Z",
+      "side": 1,
+      "message": "Maybe only swallow ENOENT and let other errors raise?",
+      "revId": "7556fc1b2ac62c506bc577460f3a948079893403",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12d72278_e135879f",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-09-02T13:42:51Z",
+      "side": 1,
+      "message": "Double-assignment",
+      "range": {
+        "startLine": 55,
+        "startChar": 11,
+        "endLine": 55,
+        "endChar": 19
+      },
+      "revId": "7556fc1b2ac62c506bc577460f3a948079893403",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01e28be9_6f1a4ef4",
+        "filename": "util/mach/mig_gen.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2020-09-02T13:42:51Z",
+      "side": 1,
+      "message": "nit: architectures",
+      "range": {
+        "startLine": 73,
+        "startChar": 41,
+        "endLine": 73,
+        "endChar": 53
+      },
+      "revId": "7556fc1b2ac62c506bc577460f3a948079893403",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
