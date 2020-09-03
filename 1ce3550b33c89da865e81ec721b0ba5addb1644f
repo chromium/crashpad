@@ -33,6 +33,148 @@
       "revId": "1ce3550b33c89da865e81ec721b0ba5addb1644f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eab45eb5_bf56c33e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-03T18:44:25Z",
+      "side": 1,
+      "message": "Generally looks good, except some lines are \u003e80 cols. git cl format can mostly take care of this for you, but it will mess up the usage doc formatting in handler/handler_main.cc so you might want to stash that file before hand and fix it up manually.",
+      "revId": "1ce3550b33c89da865e81ec721b0ba5addb1644f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da15ff67_dcb58694",
+        "filename": "client/crashpad_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-03T18:44:25Z",
+      "side": 1,
+      "message": "This line is too long",
+      "revId": "1ce3550b33c89da865e81ec721b0ba5addb1644f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a07ef9e7_71645d48",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-03T18:44:25Z",
+      "side": 1,
+      "message": "Can you remove these duplicative lines.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 51
+      },
+      "revId": "1ce3550b33c89da865e81ec721b0ba5addb1644f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98a86f5b_f2684f28",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-03T18:44:25Z",
+      "side": 1,
+      "message": "Line too long",
+      "revId": "1ce3550b33c89da865e81ec721b0ba5addb1644f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9d294df_3d4cf5ab",
+        "filename": "test/process_type.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-03T18:44:25Z",
+      "side": 1,
+      "message": "Line too long",
+      "revId": "1ce3550b33c89da865e81ec721b0ba5addb1644f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c86ad5a_a3d173a2",
+        "filename": "util/misc/capture_context.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-03T18:44:25Z",
+      "side": 1,
+      "message": "Line too long",
+      "revId": "1ce3550b33c89da865e81ec721b0ba5addb1644f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a6392da_da658f4d",
+        "filename": "util/misc/uuid.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-03T18:44:25Z",
+      "side": 1,
+      "message": "too long and formatting",
+      "revId": "1ce3550b33c89da865e81ec721b0ba5addb1644f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d078521b_743fbf98",
+        "filename": "util/posix/close_multiple.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-03T18:44:25Z",
+      "side": 1,
+      "message": "too long",
+      "revId": "1ce3550b33c89da865e81ec721b0ba5addb1644f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
