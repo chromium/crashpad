@@ -186,8 +186,18 @@ std::string SystemSnapshotMac::CPUVendor() const {
 void SystemSnapshotMac::CPUFrequency(
     uint64_t* current_hz, uint64_t* max_hz) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+#if defined(ARCH_CPU_X86_FAMILY)
   *current_hz = ReadIntSysctlByName<uint64_t>("hw.cpufrequency", 0);
   *max_hz = ReadIntSysctlByName<uint64_t>("hw.cpufrequency_max", 0);
+#elif defined(ARCH_CPU_ARM64)
+  // TODO(https://crashpad.chromium.org/bug/352): When production arm64
+  // hardware is available, determine whether CPU frequency is visible anywhere
+  // (likely via a sysctl or via IOKit) and use it if feasible.
+  *current_hz = 0;
+  *max_hz = 0;
+#else
+#error port to your architecture
+#endif
 }
 
 uint32_t SystemSnapshotMac::CPUX86Signature() const {
