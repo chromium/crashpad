@@ -103,7 +103,7 @@ std::string MinidumpMiscInfoDebugBuildString() {
   static constexpr char kOS[] = "mac";
 #elif defined(OS_ANDROID)
   static constexpr char kOS[] = "android";
-#elif defined(OS_LINUX)
+#elif defined(OS_LINUX) || defined(OS_CHROMEOS)
   static constexpr char kOS[] = "linux";
 #elif defined(OS_WIN)
   static constexpr char kOS[] = "win";
