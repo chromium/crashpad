@@ -26,7 +26,7 @@
 #include "util/misc/address_sanitizer.h"
 #include "util/numeric/safe_assignment.h"
 
-#if defined(OS_LINUX) || defined(OS_ANDROID)
+#if defined(OS_LINUX) || defined(OS_CHROMEOS) || defined(OS_ANDROID)
 #include <sys/syscall.h>
 
 #include "snapshot/linux/process_snapshot_linux.h"
