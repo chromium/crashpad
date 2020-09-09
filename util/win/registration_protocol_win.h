@@ -130,7 +130,7 @@ union ServerToClientMessage {
 //! CrashpadClient::SetHandler().
 //!
 //! \sa CrashpadClient::SetHandler()
-bool SendToCrashHandlerServer(const base::string16& pipe_name,
+bool SendToCrashHandlerServer(const std::wstring& pipe_name,
                               const ClientToServerMessage& message,
                               ServerToClientMessage* response);
 

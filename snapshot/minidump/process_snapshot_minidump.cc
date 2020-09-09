@@ -26,6 +26,20 @@
 
 namespace crashpad {
 
+namespace {
+
+#if defined(OS_WIN)
+const base::char16* as_u16cstr(const wchar_t* str) {
+  return reinterpret_cast<const base::char16*>(str);
+}
+#else
+const base::char16* as_u16cstr(const base::char16* str) {
+  return str;
+}
+#endif
+
+}  // namespace
+
 namespace internal {
 
 class MemoryMapRegionSnapshotMinidump : public MemoryMapRegionSnapshot {
@@ -312,7 +326,7 @@ bool ProcessSnapshotMinidump::InitializeMiscInfo() {
   switch (stream_it->second->DataSize) {
     case sizeof(MINIDUMP_MISC_INFO_5):
     case sizeof(MINIDUMP_MISC_INFO_4):
-      full_version_ = base::UTF16ToUTF8(info.BuildString);
+      full_version_ = base::UTF16ToUTF8(as_u16cstr(info.BuildString));
       full_version_ = full_version_.substr(0, full_version_.find(";"));
       FALLTHROUGH;
     case sizeof(MINIDUMP_MISC_INFO_3):
