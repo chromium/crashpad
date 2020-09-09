@@ -95,6 +95,16 @@ int AvailabilityVersionToMacOSVersionNumber(int availability) {
 }
 #endif  // OS_MAC
 
+#if defined(OS_WIN)
+base::char16* as_u16cstr(wchar_t* str) {
+  return reinterpret_cast<base::char16*>(str);
+}
+#else
+base::char16* as_u16cstr(base::char16* str) {
+  return str;
+}
+#endif
+
 }  // namespace
 
 namespace internal {
@@ -310,7 +320,7 @@ void MinidumpMiscInfoWriter::SetTimeZone(uint32_t time_zone_id,
   misc_info_.TimeZone.Bias = bias;
 
   internal::MinidumpWriterUtil::AssignUTF8ToUTF16(
-      misc_info_.TimeZone.StandardName,
+      as_u16cstr(misc_info_.TimeZone.StandardName),
       base::size(misc_info_.TimeZone.StandardName),
       standard_name);
 
@@ -318,7 +328,7 @@ void MinidumpMiscInfoWriter::SetTimeZone(uint32_t time_zone_id,
   misc_info_.TimeZone.StandardBias = standard_bias;
 
   internal::MinidumpWriterUtil::AssignUTF8ToUTF16(
-      misc_info_.TimeZone.DaylightName,
+      as_u16cstr(misc_info_.TimeZone.DaylightName),
       base::size(misc_info_.TimeZone.DaylightName),
       daylight_name);
 
@@ -336,9 +346,11 @@ void MinidumpMiscInfoWriter::SetBuildString(
   misc_info_.Flags1 |= MINIDUMP_MISC4_BUILDSTRING;
 
   internal::MinidumpWriterUtil::AssignUTF8ToUTF16(
-      misc_info_.BuildString, base::size(misc_info_.BuildString), build_string);
+      as_u16cstr(misc_info_.BuildString),
+      base::size(misc_info_.BuildString),
+      build_string);
   internal::MinidumpWriterUtil::AssignUTF8ToUTF16(
-      misc_info_.DbgBldStr,
+      as_u16cstr(misc_info_.DbgBldStr),
       base::size(misc_info_.DbgBldStr),
       debug_build_string);
 }
