@@ -159,9 +159,8 @@ TEST(CrashpadInfoClientOptions, TwoModules) {
                               << dlerror();
 #elif defined(OS_WIN)
   ScopedModuleHandle module(LoadLibrary(module_path.value().c_str()));
-  ASSERT_TRUE(module.valid()) << "LoadLibrary "
-                              << base::UTF16ToUTF8(module_path.value()) << ": "
-                              << ErrorMessage();
+  ASSERT_TRUE(module.valid())
+      << "LoadLibrary " << module_path << ": " << ErrorMessage();
 #else
 #error Port.
 #endif  // OS_APPLE
@@ -258,8 +257,7 @@ TEST_P(CrashpadInfoSizes_ClientOptions, DifferentlySizedStruct) {
 #elif defined(OS_WIN)
   ScopedModuleHandle module(LoadLibrary(module_path.value().c_str()));
   ASSERT_TRUE(module.valid())
-      << "LoadLibrary " << base::UTF16ToUTF8(module_path.value()) << ": "
-      << ErrorMessage();
+      << "LoadLibrary " << module_path << ": " << ErrorMessage();
 #else
 #error Port.
 #endif  // OS_APPLE
