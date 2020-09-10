@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "19d6cf6f_6a9b794b",
+        "filename": "client/pthread_create_linux.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-10T02:29:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9d3e281_973cec22",
+      "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cbaa8b9_10a4a2e8",
         "filename": "client/pthread_create_linux.cc",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2020-08-11T21:42:59Z",
       "side": 1,
       "message": "Static non-POD objects aren’t allowed because they result in exit-time destructors. These probably need another layer of pointiness and “new” to overcome that.",
+      "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20d27471_ee8cb369",
+        "filename": "client/pthread_create_linux.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-10T02:29:02Z",
+      "side": 1,
+      "message": "-Wexit-time-destructors is enabled and isn\u0027t triggered by this because the destructor is trivial.",
+      "parentUuid": "6cbaa8b9_10a4a2e8",
       "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -50,6 +86,24 @@
       "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c218e13_460ffe5d",
+        "filename": "compat/internal/unsanitized_call.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-10T02:29:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28e8844b_e22abae2",
+      "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "7cde29b3_abfd3ef6",
+        "filename": "compat/internal/unsanitized_call.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-10T02:29:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5d5f7fb_f7af0fc7",
+      "range": {
+        "startLine": 35,
+        "startChar": 34,
+        "endLine": 35,
+        "endChar": 37
+      },
+      "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d295d125_d24a55ac",
         "filename": "compat/internal/unsanitized_call.h",
         "patchSetId": 4
@@ -90,6 +168,24 @@
       "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c922e93e_ab11d25a",
+        "filename": "compat/internal/unsanitized_call.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-10T02:29:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d295d125_d24a55ac",
+      "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "679737d0_09195b73",
+        "filename": "compat/internal/unsanitized_call.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-10T02:29:02Z",
+      "side": 1,
+      "message": "I didn\u0027t end up needing the specialization here after all.",
+      "parentUuid": "837f7918_fa946ad5",
+      "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8976eee5_85901969",
         "filename": "compat/internal/unsanitized_call.h",
         "patchSetId": 4
@@ -124,6 +238,24 @@
       "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b088a4c3_6c6bad05",
+        "filename": "compat/internal/unsanitized_call.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-10T02:29:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8976eee5_85901969",
+      "revId": "b9f41ef9942f680a7cddf5587bfe745b37bfa05b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
