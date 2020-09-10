@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c716c51e_7744461b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T22:29:11Z",
+      "side": 1,
+      "message": "fuchsia: Suppress -Wconversion warnings\n\nOr come up with a more accurate description, because mostly this is just adding comments, with only a little bit of new -Wno-conversion thrown in.",
+      "revId": "47f79df680276a31eb721ffecc3f36d935f02803",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb4e8e9e_b5a70619",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T22:29:11Z",
+      "side": 1,
+      "message": "fxb/ is meaningless here, can you provide real URLs?",
+      "revId": "47f79df680276a31eb721ffecc3f36d935f02803",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fb9ba31_c26e8417",
+        "filename": "third_party/cpp-httplib/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T22:29:11Z",
+      "side": 1,
+      "message": "Is this even necessary? This is just a header.\n\nI don\u0027t want this here without is_in_fuchsia protection either, because even if it\u0027s not actually used, it implies things about all builds that are only concerns with Fuchsia\u0027s.",
+      "revId": "47f79df680276a31eb721ffecc3f36d935f02803",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
