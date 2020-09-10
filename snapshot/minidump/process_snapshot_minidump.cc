@@ -20,6 +20,7 @@
 #include "base/notreached.h"
 #include "base/strings/utf_string_conversions.h"
 #include "minidump/minidump_extensions.h"
+#include "minidump/minidump_misc_info_writer.h"
 #include "snapshot/memory_map_region_snapshot.h"
 #include "snapshot/minidump/minidump_simple_string_dictionary_reader.h"
 #include "util/file/file_io.h"
@@ -312,7 +313,7 @@ bool ProcessSnapshotMinidump::InitializeMiscInfo() {
   switch (stream_it->second->DataSize) {
     case sizeof(MINIDUMP_MISC_INFO_5):
     case sizeof(MINIDUMP_MISC_INFO_4):
-      full_version_ = base::UTF16ToUTF8(info.BuildString);
+      full_version_ = base::UTF16ToUTF8(AsU16CStr(info.BuildString));
       full_version_ = full_version_.substr(0, full_version_.find(";"));
       FALLTHROUGH;
     case sizeof(MINIDUMP_MISC_INFO_3):
