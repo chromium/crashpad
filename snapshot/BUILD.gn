@@ -264,6 +264,7 @@ static_library("snapshot") {
   configs += [ "..:disable_ubsan" ]
 
   if (crashpad_is_in_fuchsia) {
+    # TODO(fxb/58162): delete the below and fix compiler warnings
     configs += [ "//build/config:Wno-conversion" ]
   }
 }
@@ -288,6 +289,7 @@ static_library("context") {
   }
 
   if (crashpad_is_in_fuchsia) {
+    # TODO(fxb/58162): delete the below and fix compiler warnings
     configs += [ "//build/config:Wno-conversion" ]
   }
 }
@@ -477,6 +479,11 @@ source_set("snapshot_test") {
       ":crashpad_snapshot_test_image_reader",
       ":crashpad_snapshot_test_image_reader_module",
     ]
+  }
+
+  if (crashpad_is_in_fuchsia) {
+    # TODO(fxb/58162): delete the below and fix compiler warnings
+    configs += [ "//build/config:Wno-conversion" ]
   }
 }
 

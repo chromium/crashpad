@@ -17,4 +17,5 @@ source_set("cpp-httplib") {
   include_dirs = [ "cpp-httplib" ]
   sources = [ "cpp-httplib/httplib.h" ]
   deps = [ "../zlib" ]
+  cflags = [ "-Wno-conversion" ]
 }

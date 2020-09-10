@@ -175,6 +175,11 @@ source_set("client_test") {
   if (crashpad_is_win) {
     data_deps += [ "../handler:crashpad_handler_console" ]
   }
+
+  if (crashpad_is_in_fuchsia) {
+    # TODO(fxb/58162): delete the below and fix compiler warnings
+    configs += [ "//build/config:Wno-conversion" ]
+  }
 }
 
 if (crashpad_is_linux || crashpad_is_android) {
