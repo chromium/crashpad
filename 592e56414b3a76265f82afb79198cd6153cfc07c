@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7e237e7_3466d7b1",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T21:18:57Z",
+      "side": 1,
+      "message": "Remove this. It was already #included in crash_report_database.h, which counts as this file’s associated header.",
+      "revId": "592e56414b3a76265f82afb79198cd6153cfc07c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "653e4432_7e656c9f",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T21:18:57Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "592e56414b3a76265f82afb79198cd6153cfc07c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8af9bd2_994ed68c",
+        "filename": "minidump/minidump_misc_info_writer.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T21:18:57Z",
+      "side": 1,
+      "message": "1. Isn’t WCHAR_T_IS_UTF16 a better macro for this?\n\n2. Add DOXYGEN, otherwise Doxygen won’t see it.\n\nAs in:\n\n#if defined(WCHAR_T_IS_UTF16) || DOXYGEN",
+      "revId": "592e56414b3a76265f82afb79198cd6153cfc07c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9d4b2a3_a68ec8c0",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T21:18:57Z",
+      "side": 1,
+      "message": "WCHAR_T_IS_UTF16 better here too?",
+      "revId": "592e56414b3a76265f82afb79198cd6153cfc07c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "466e45cb_a7cf458c",
+        "filename": "test/scoped_temp_dir_win.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T21:18:57Z",
+      "side": 1,
+      "message": "test/scoped_temp_dir.h doesn’t #include this, so it’s good that you’re adding it here. Can you add it to test/scoped_temp_dir_posix.cc too, since it’s also used there?",
+      "revId": "592e56414b3a76265f82afb79198cd6153cfc07c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9b23dc1_179c5f61",
+        "filename": "util/win/registration_protocol_win_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T21:18:57Z",
+      "side": 1,
+      "message": "You’re adding this to registration_protocol_win.h, which is also this file’s lead header, so you don’t need it here.",
+      "revId": "592e56414b3a76265f82afb79198cd6153cfc07c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
