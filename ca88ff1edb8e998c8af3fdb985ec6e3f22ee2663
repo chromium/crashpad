@@ -16,6 +16,24 @@
       "revId": "ca88ff1edb8e998c8af3fdb985ec6e3f22ee2663",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ead8105_6fc6298b",
+        "filename": "util/misc/uuid_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1179305
+      },
+      "writtenOn": "2020-09-10T13:51:05Z",
+      "side": 0,
+      "message": "There is, just below the deleted lines here.",
+      "parentUuid": "9cb5e79c_ffb2a93f",
+      "revId": "ca88ff1edb8e998c8af3fdb985ec6e3f22ee2663",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

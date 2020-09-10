@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "f8f266f5_314098c7",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1179305
+      },
+      "writtenOn": "2020-09-10T13:51:05Z",
+      "side": 1,
+      "message": "Done. I added missing #include \u003cstring\u003e for std::wstring as well.",
+      "parentUuid": "8c75ccf2_cf350d82",
+      "revId": "4ebef67dd3f5deea02e67af7568e4e3bcee8b6c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c18413bd_d8c35a3d",
         "filename": "minidump/minidump_misc_info_writer.cc",
         "patchSetId": 12
@@ -99,6 +117,30 @@
     },
     {
       "key": {
+        "uuid": "b9493d51_0c127687",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1179305
+      },
+      "writtenOn": "2020-09-10T13:51:05Z",
+      "side": 1,
+      "message": "Done. In this file I used a work-around since it is now allowed to include minidump/minidump_misc_info_writer.h.",
+      "parentUuid": "eb1fc3a9_d95f5f5e",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 6
+      },
+      "revId": "4ebef67dd3f5deea02e67af7568e4e3bcee8b6c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37573aa0_06861c95",
         "filename": "util/misc/uuid.h",
         "patchSetId": 12
@@ -113,6 +155,24 @@
       "revId": "4ebef67dd3f5deea02e67af7568e4e3bcee8b6c2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ae2cef5_1fb6d200",
+        "filename": "util/misc/uuid.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1179305
+      },
+      "writtenOn": "2020-09-10T13:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37573aa0_06861c95",
+      "revId": "4ebef67dd3f5deea02e67af7568e4e3bcee8b6c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
