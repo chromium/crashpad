@@ -177,6 +177,8 @@ if(APPLE)
             mac/mac_util.h
             mac/service_management.cc
             mac/service_management.h
+            mac/sysctl.cc
+            mac/sysctl.h
             mach/bootstrap.cc
             mach/bootstrap.h
             mach/child_port_handshake.cc

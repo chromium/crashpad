@@ -2,7 +2,8 @@ set(COMPAT_SOURCES)
 
 if(APPLE)
     list(APPEND COMPAT_SOURCES
-        mac/AvailabilityMacros.h
+        mac/Availability.h
+        mac/AvailabilityVersions.h
         mac/kern/exc_resource.h
         mac/mach-o/loader.h
         mac/mach/i386/thread_state.h
