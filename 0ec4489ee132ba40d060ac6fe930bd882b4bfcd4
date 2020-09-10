@@ -16,6 +16,40 @@
       "revId": "0ec4489ee132ba40d060ac6fe930bd882b4bfcd4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46748cff_9915d945",
+        "filename": "handler/linux/handler_trampoline.cc",
+        "patchSetId": 25
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T02:47:42Z",
+      "side": 1,
+      "message": "? This looks weird.",
+      "revId": "0ec4489ee132ba40d060ac6fe930bd882b4bfcd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d38b876_4ec14be7",
+        "filename": "util/misc/no_cfi_icall_test.cc",
+        "patchSetId": 25
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T02:47:42Z",
+      "side": 1,
+      "message": "Is there a test that could run on Windows here?\n\nIf not, just #if out the entire TEST.",
+      "revId": "0ec4489ee132ba40d060ac6fe930bd882b4bfcd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
