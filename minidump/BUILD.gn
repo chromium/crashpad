@@ -90,6 +90,11 @@ static_library("minidump") {
       "/wd4324",  # 'struct' : structure was padded due to __declspec(align())
     ]
   }
+
+  if (crashpad_is_in_fuchsia) {
+    # TODO(fxb/58162): delete the below and fix compiler warnings
+    configs += [ "//build/config:Wno-conversion" ]
+  }
 }
 
 # :format is the only part of minidump that snapshot may depend on.
@@ -148,6 +153,11 @@ static_library("test_support") {
   if (crashpad_is_win) {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
   }
+
+  if (crashpad_is_in_fuchsia) {
+    # TODO(fxb/58162): delete the below and fix compiler warnings
+    configs += [ "//build/config:Wno-conversion" ]
+  }
 }
 
 source_set("minidump_test") {
@@ -193,4 +203,9 @@ source_set("minidump_test") {
   }
 
   configs += [ "..:disable_ubsan" ]
+
+  if (crashpad_is_in_fuchsia) {
+    # TODO(fxb/58162): delete the below and fix compiler warnings
+    configs += [ "//build/config:Wno-conversion" ]
+  }
 }

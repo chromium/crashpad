@@ -625,6 +625,7 @@ static_library("util") {
   configs += [ "..:disable_ubsan" ]
 
   if (crashpad_is_in_fuchsia) {
+    # TODO(fxb/58162): delete the below and fix compiler warnings
     configs += [ "//build/config:Wno-conversion" ]
   }
 }
@@ -870,6 +871,11 @@ source_set("util_test") {
       ":crashpad_util_test_process_info_test_child",
       ":crashpad_util_test_safe_terminate_process_test_child",
     ]
+  }
+
+  if (crashpad_is_in_fuchsia) {
+    # TODO(fxb/58162): delete the below and fix compiler warnings
+    configs += [ "//build/config:Wno-conversion" ]
   }
 }
 
