@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d710a3c_9ee48a2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T20:54:55Z",
+      "side": 1,
+      "message": "LGTM as-is without the funny Windows machinations. If you can do (1), go for it. If you want to do (2), come back for another review pass. If you want to do neither, that’s also fine.",
+      "revId": "9c0dea7d73f74d17753d59ff711679e089dc58b4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}

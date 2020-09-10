@@ -86,6 +86,24 @@
       "revId": "0ec4489ee132ba40d060ac6fe930bd882b4bfcd4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "659f4e6f_d15e3859",
+        "filename": "util/misc/no_cfi_icall_test.cc",
+        "patchSetId": 25
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T20:54:55Z",
+      "side": 1,
+      "message": "\u003e Maybe... Documentation seems to state that there should be an snprintf implementation in ucrtbase.dll, but GetProcAddress() isn\u0027t finding one, so I\u0027m trying to figure out where they really live.\n\nYou wouldn’t want to use the CRT, because there’s a long and dirty history of whether it’ll be available at a particular name, and because you’ve already got a CRT loaded into your process, and it may be a static one, and…\n\nThe two options here are:\n\n1. Find something variadic in the Windows SDK (but not the CRT).\n\n2. Make your own module that exports a variadic function you could call.",
+      "parentUuid": "86a32272_2afa1d21",
+      "revId": "0ec4489ee132ba40d060ac6fe930bd882b4bfcd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
