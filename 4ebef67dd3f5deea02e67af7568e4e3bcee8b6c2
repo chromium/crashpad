@@ -16,6 +16,103 @@
       "revId": "4ebef67dd3f5deea02e67af7568e4e3bcee8b6c2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c75ccf2_cf350d82",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T04:57:16Z",
+      "side": 1,
+      "message": "You should be able to go through and purge this from wherever you can.\n\n(And add \u003cwchar.h\u003e where needed, if and as needed.)",
+      "revId": "4ebef67dd3f5deea02e67af7568e4e3bcee8b6c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c18413bd_d8c35a3d",
+        "filename": "minidump/minidump_misc_info_writer.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T04:57:16Z",
+      "side": 1,
+      "message": "Name it like a function: AsU16CStr. Same on line 103 and at call sites in this file.\n\nAlternatively, just reinterpret_cast\u003cbase::char16*\u003e throughout the file, without any extra helpers. It’s a no-op to reinterpret_cast a type back to itself, and it’s safe on Windows where wchar_t and base::char16 can be accessed interchangeably.",
+      "revId": "4ebef67dd3f5deea02e67af7568e4e3bcee8b6c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "527cf824_f465660d",
+        "filename": "minidump/minidump_misc_info_writer_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T04:57:16Z",
+      "side": 1,
+      "message": "As in the other file.\n\nPoint-of-use casts may be even more preferable here because you don’t need to double up with the const overloads, just const-qualify at the point of cast as needed.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 6
+      },
+      "revId": "4ebef67dd3f5deea02e67af7568e4e3bcee8b6c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb1fc3a9_d95f5f5e",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T04:57:16Z",
+      "side": 1,
+      "message": "At this point, I’m starting to see the same utility helpers pop up all over the place, which argues for either the casts I suggested as an alternative to this, or otherwise centralization to a better common header.\n\n(If these are all related to MINIDUMP_MISC_INFO, minidump/minidump_misc_info_writer.h would be OK.)\n\nIf you are centralizing, you may prefer the conversion function(s) to peppering everything with reinterpret_casts.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 6
+      },
+      "revId": "4ebef67dd3f5deea02e67af7568e4e3bcee8b6c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37573aa0_06861c95",
+        "filename": "util/misc/uuid.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-10T04:57:16Z",
+      "side": 1,
+      "message": "#if defined(OS_WIN) || DOXYGEN\n\n(but you can leave line 68 alone.)",
+      "revId": "4ebef67dd3f5deea02e67af7568e4e3bcee8b6c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
