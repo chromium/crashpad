@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "818f3459_3d07870a",
+        "filename": "handler/linux/handler_trampoline.cc",
+        "patchSetId": 25
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-10T20:04:42Z",
+      "side": 1,
+      "message": "Done. Leftover from an iteration in which I tried templating NoCfiIcall on the function type, rather than its pointer.",
+      "parentUuid": "46748cff_9915d945",
+      "revId": "0ec4489ee132ba40d060ac6fe930bd882b4bfcd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5d38b876_4ec14be7",
         "filename": "util/misc/no_cfi_icall_test.cc",
         "patchSetId": 25
@@ -47,6 +65,24 @@
       "writtenOn": "2020-09-10T02:47:42Z",
       "side": 1,
       "message": "Is there a test that could run on Windows here?\n\nIf not, just #if out the entire TEST.",
+      "revId": "0ec4489ee132ba40d060ac6fe930bd882b4bfcd4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86a32272_2afa1d21",
+        "filename": "util/misc/no_cfi_icall_test.cc",
+        "patchSetId": 25
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-10T20:04:42Z",
+      "side": 1,
+      "message": "Maybe... Documentation seems to state that there should be an snprintf implementation in ucrtbase.dll, but GetProcAddress() isn\u0027t finding one, so I\u0027m trying to figure out where they really live.\n\nhttps://docs.microsoft.com/en-us/cpp/c-runtime-library/crt-library-features?view\u003dvs-2019\n\nhttps://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/snprintf-s-snprintf-s-l-snwprintf-s-snwprintf-s-l?view\u003dvs-2019",
+      "parentUuid": "5d38b876_4ec14be7",
       "revId": "0ec4489ee132ba40d060ac6fe930bd882b4bfcd4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
