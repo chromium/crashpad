@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f7d3cd6_8e7d90a8",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 5
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-11T00:21:14Z",
+      "side": 1,
+      "message": "URL",
+      "revId": "482dcc57eb36eab59b847c0d9472aa1b96eb0b9c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
