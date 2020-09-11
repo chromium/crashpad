@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e7d075b_cfed971a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-11T00:33:45Z",
+      "side": 1,
+      "message": "Do you want to hold this until the mini_chromium side lands, so that you can include it in a DEPS roll?",
+      "revId": "3607e17b808896e135679b9d7c11b00fa221064c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2915f82c_c2b0454b",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 6
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-11T00:33:45Z",
+      "side": 1,
+      "message": "Stay within 80 columns as you did elsewhere.",
+      "revId": "3607e17b808896e135679b9d7c11b00fa221064c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
