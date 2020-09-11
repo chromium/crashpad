@@ -16,6 +16,24 @@
       "revId": "482dcc57eb36eab59b847c0d9472aa1b96eb0b9c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce4d2bd0_13f90777",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 5
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-09-11T00:30:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f7d3cd6_8e7d90a8",
+      "revId": "482dcc57eb36eab59b847c0d9472aa1b96eb0b9c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

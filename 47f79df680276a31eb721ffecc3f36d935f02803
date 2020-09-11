@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5b0c853d_1bbafc4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-09-11T00:30:26Z",
+      "side": 1,
+      "message": "Thanks for reviewing. Sorry for repeating past mistakes, I\u0027ve been context switching hard.",
+      "parentUuid": "c716c51e_7744461b",
+      "revId": "47f79df680276a31eb721ffecc3f36d935f02803",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb4e8e9e_b5a70619",
         "filename": "client/BUILD.gn",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b6159b9c_fc97a011",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-09-11T00:30:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb4e8e9e_b5a70619",
+      "revId": "47f79df680276a31eb721ffecc3f36d935f02803",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fb9ba31_c26e8417",
         "filename": "third_party/cpp-httplib/BUILD.gn",
         "patchSetId": 2
@@ -50,6 +86,24 @@
       "revId": "47f79df680276a31eb721ffecc3f36d935f02803",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c15c98ce_a18c0fdf",
+        "filename": "third_party/cpp-httplib/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-09-11T00:30:26Z",
+      "side": 1,
+      "message": "You\u0027re right, moved this to a dependant.",
+      "parentUuid": "6fb9ba31_c26e8417",
+      "revId": "47f79df680276a31eb721ffecc3f36d935f02803",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
