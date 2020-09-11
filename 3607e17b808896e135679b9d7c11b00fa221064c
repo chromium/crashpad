@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b9661d76_1192c7eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-11T01:45:54Z",
+      "side": 1,
+      "message": "\u003e What\u0027s a DEPS roll?\n\nOnce the mini_chromium side lands, will you want to make sure that the mini_chromium updates are visible in Crashpad?\n\nIf so, edit https://chromium.googlesource.com/crashpad/crashpad/+/refs/heads/master/DEPS and update the git hash for mini_chromium to correspond to the hash of your commit (or something newer) in the mini_chromium repository from https://chromium.googlesource.com/chromium/mini_chromium. In Chromium terminology, we call this a DEPS roll.\n\nIf it’s not important that the mini_chromium changes appear in Crashpad’s repository (because these changes are only important for the in-Fuchsia build, not for the Crashpad standalone build), it’s also OK to just punt and not do the DEPS roll.",
+      "parentUuid": "57331a93_5ff1e51e",
+      "revId": "3607e17b808896e135679b9d7c11b00fa221064c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2915f82c_c2b0454b",
         "filename": "util/BUILD.gn",
         "patchSetId": 6
