@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "db738f64_109bdc64",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1179305
+      },
+      "writtenOn": "2020-09-11T11:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7e237e7_3466d7b1",
+      "revId": "592e56414b3a76265f82afb79198cd6153cfc07c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "653e4432_7e656c9f",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 14
@@ -33,6 +51,24 @@
       "revId": "592e56414b3a76265f82afb79198cd6153cfc07c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d948c016_485de108",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1179305
+      },
+      "writtenOn": "2020-09-11T11:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "653e4432_7e656c9f",
+      "revId": "592e56414b3a76265f82afb79198cd6153cfc07c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "cf453712_a5689fc8",
+        "filename": "minidump/minidump_misc_info_writer.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1179305
+      },
+      "writtenOn": "2020-09-11T11:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8af9bd2_994ed68c",
+      "revId": "592e56414b3a76265f82afb79198cd6153cfc07c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9d4b2a3_a68ec8c0",
         "filename": "snapshot/minidump/process_snapshot_minidump.cc",
         "patchSetId": 14
@@ -67,6 +121,24 @@
       "revId": "592e56414b3a76265f82afb79198cd6153cfc07c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3784d461_ca007009",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1179305
+      },
+      "writtenOn": "2020-09-11T11:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9d4b2a3_a68ec8c0",
+      "revId": "592e56414b3a76265f82afb79198cd6153cfc07c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "1fa4d1d5_826350c5",
+        "filename": "test/scoped_temp_dir_win.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1179305
+      },
+      "writtenOn": "2020-09-11T11:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "466e45cb_a7cf458c",
+      "revId": "592e56414b3a76265f82afb79198cd6153cfc07c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9b23dc1_179c5f61",
         "filename": "util/win/registration_protocol_win_test.cc",
         "patchSetId": 14
@@ -101,6 +191,24 @@
       "revId": "592e56414b3a76265f82afb79198cd6153cfc07c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "121a015f_01bf647e",
+        "filename": "util/win/registration_protocol_win_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1179305
+      },
+      "writtenOn": "2020-09-11T11:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9b23dc1_179c5f61",
+      "revId": "592e56414b3a76265f82afb79198cd6153cfc07c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
