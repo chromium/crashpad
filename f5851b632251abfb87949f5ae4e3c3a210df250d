@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62397755_50055c3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-11T21:19:13Z",
+      "side": 1,
+      "message": "Thanks, just updated the bugs in description to reference chromium: (because they\u0027d be crashpad: here otherwise).",
+      "revId": "f5851b632251abfb87949f5ae4e3c3a210df250d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
