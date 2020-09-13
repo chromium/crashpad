@@ -16,6 +16,24 @@
       "revId": "2a0304c71658d50daf352fdc422eb6997966bce2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed584ca8_79cf1eea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-09-13T22:10:30Z",
+      "side": 1,
+      "message": "I\u0027ll try to simulate dropping this change in Fuchsia and see if there are any other places where I need to do this.",
+      "parentUuid": "b5d8d163_a286fe2e",
+      "revId": "2a0304c71658d50daf352fdc422eb6997966bce2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
