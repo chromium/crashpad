@@ -34,6 +34,24 @@
       "revId": "2a0304c71658d50daf352fdc422eb6997966bce2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e70c6dda_fc783357",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-09-13T22:30:40Z",
+      "side": 1,
+      "message": "I am concerned though that future changes in Crashpad will introduce new -Wconversion issues, and then fail to roll into Fuchsia.\n\nI propose an alternative: I change the default config for Crashpad and mini_chromium to set -Wno-conversion for Fuchsia. Or another option would be to just set -Wno-conversion for all of Crashpad, seeing as it seems that there are no intentions of making Crashpad Wconversion-compliant. What do you think Mark?\n\nAgain sorry for coming to you with all of this -Wconversion stuff that you didn\u0027t sign up for. Thank you for your patience. If there is someone else that I should be discussing this with, please redirect me.",
+      "parentUuid": "ed584ca8_79cf1eea",
+      "revId": "2a0304c71658d50daf352fdc422eb6997966bce2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
