@@ -89,6 +89,10 @@ template("crashpad_executable") {
       if (configs + fdio_config - fdio_config == configs) {
         configs += fdio_config
       }
+      conversion_config = [ "//build/config:Wno-conversion" ]
+      if (configs + conversion_config - conversion_config == configs) {
+        configs += conversion_config
+      }
     }
   }
 }
@@ -111,6 +115,35 @@ template("crashpad_loadable_module") {
 
     if (crashpad_is_in_fuchsia) {
       configs += [ "//build/config/fuchsia:fdio_config" ]
+    }
+  }
+}
+
+template("crashpad_static_library") {
+  static_library(target_name) {
+    forward_variables_from(invoker,
+                           "*",
+                           [
+                             "configs",
+                             "remove_configs",
+                           ])
+    if (defined(invoker.remove_configs)) {
+      configs -= invoker.remove_configs
+    }
+
+    if (defined(invoker.configs)) {
+      configs += invoker.configs
+    }
+
+    if (crashpad_is_in_fuchsia) {
+      conversion_config = [ "//build/config:Wno-conversion" ]
+      if (configs + conversion_config - conversion_config == configs) {
+        configs += conversion_config
+      }
+
+      # TODO(fuchsia:46805): Remove this once instances of UB have been
+      # cleaned up.
+      cflags = [ "-fno-sanitize=undefined" ]
     }
   }
 }
