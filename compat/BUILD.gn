@@ -60,7 +60,7 @@ template("compat_target") {
       not_needed([ "configs" ])
     }
   } else {
-    static_library(target_name) {
+    crashpad_static_library(target_name) {
       forward_variables_from(invoker, "*", [ "configs" ])
       if (!defined(configs)) {
         configs = []
@@ -176,9 +176,5 @@ compat_target("compat") {
 
   if (!crashpad_is_linux && !crashpad_is_android && !crashpad_is_fuchsia) {
     deps += [ "../third_party/glibc" ]
-  }
-
-  if (crashpad_is_in_fuchsia) {
-    configs = [ "//build/config:Wno-conversion" ]
   }
 }
