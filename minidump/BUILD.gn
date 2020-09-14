@@ -19,7 +19,7 @@ if (crashpad_is_in_chromium) {
   set_sources_assignment_filter([])
 }
 
-static_library("minidump") {
+crashpad_static_library("minidump") {
   sources = [
     "minidump_annotation_writer.cc",
     "minidump_annotation_writer.h",
@@ -90,12 +90,6 @@ static_library("minidump") {
       "/wd4324",  # 'struct' : structure was padded due to __declspec(align())
     ]
   }
-
-  if (crashpad_is_in_fuchsia) {
-    # TODO(https://bugs.fuchsia.dev/p/fuchsia/issues/detail?id=58162):
-    # Delete the below and fix compiler warnings
-    configs += [ "//build/config:Wno-conversion" ]
-  }
 }
 
 # :format is the only part of minidump that snapshot may depend on.
@@ -154,12 +148,6 @@ static_library("test_support") {
   if (crashpad_is_win) {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
   }
-
-  if (crashpad_is_in_fuchsia) {
-    # TODO(https://bugs.fuchsia.dev/p/fuchsia/issues/detail?id=58162):
-    # Delete the below and fix compiler warnings
-    configs += [ "//build/config:Wno-conversion" ]
-  }
 }
 
 source_set("minidump_test") {
@@ -205,10 +193,4 @@ source_set("minidump_test") {
   }
 
   configs += [ "..:disable_ubsan" ]
-
-  if (crashpad_is_in_fuchsia) {
-    # TODO(https://bugs.fuchsia.dev/p/fuchsia/issues/detail?id=58162):
-    # Delete the below and fix compiler warnings
-    configs += [ "//build/config:Wno-conversion" ]
-  }
 }
