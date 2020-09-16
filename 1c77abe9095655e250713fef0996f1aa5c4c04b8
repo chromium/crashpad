@@ -16,6 +16,41 @@
       "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab203088_74e97603",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-16T23:59:00Z",
+      "side": 1,
+      "message": "Oh, it\u0027s actually https://chromium-review.googlesource.com/c/chromium/mini_chromium/+/2405651 (per Fuchsia internal CL 254230 roll attempt).\n\nI think it\u0027s because config(\"default\") only gets applied in BUILDCONFIG.gn which only applies to in-Crashpad builds, not in-Fuchsia builds (so that might not work in in-Chromium builds too?)",
+      "parentUuid": "2ad973b1_d9eac9cf",
+      "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21ad0d9d_b31576e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-16T23:59:00Z",
+      "side": 1,
+      "message": "Josh, what were you fixing with that mini_chromium CL? (i.e. if I try to fiddle more with include_dirs\u003d[\"..\"], what should I be testing?)",
+      "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
