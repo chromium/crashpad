@@ -122,6 +122,30 @@
       "revId": "db29b1fe965d922c7a1c8586e9fa1c3ef4a99f2e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec160008_e011e899",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 11
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-16T22:02:55Z",
+      "side": 1,
+      "message": "\u003e I can\u0027t think of a way to factor the goop out. It\u0027s looking at the configs that are already set in the current scope, so I don\u0027t think a subconfig it depends on can do the plussy minussy business to add and remove.\n\nYeah, I see what you mean.",
+      "parentUuid": "c8553fc8_1287eb6b",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 35
+      },
+      "revId": "db29b1fe965d922c7a1c8586e9fa1c3ef4a99f2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
