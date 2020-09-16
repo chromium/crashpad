@@ -146,6 +146,30 @@
       "revId": "db29b1fe965d922c7a1c8586e9fa1c3ef4a99f2e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "528d13a0_5957c104",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 11
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-16T22:03:14Z",
+      "side": 1,
+      "message": "So:\n\nIt seems it is only supposed to be applied on executable(), per https://fuchsia.googlesource.com/fuchsia/+/master/build/config/BUILDCONFIG.gn#306\n\nAllegedly I added that here: https://chromium-review.googlesource.com/c/crashpad/crashpad/+/1028840 However, from looking at it, it doesn\u0027t seem like it should be required (any more?) as that should be applied to all executable()s in-tree now, so I\u0027m going to try removing it and see what the roller says.",
+      "parentUuid": "c8553fc8_1287eb6b",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 35
+      },
+      "revId": "db29b1fe965d922c7a1c8586e9fa1c3ef4a99f2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
