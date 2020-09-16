@@ -98,6 +98,30 @@
       "revId": "db29b1fe965d922c7a1c8586e9fa1c3ef4a99f2e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8553fc8_1287eb6b",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 11
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-16T21:57:09Z",
+      "side": 1,
+      "message": "Oh wait, now that I look at what fdio_config is the Fuchsia tree, I\u0027m not sure we need it at all any more. ... I\u0027m going to try deleting it.",
+      "parentUuid": "2900007d_110d35ab",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 35
+      },
+      "revId": "db29b1fe965d922c7a1c8586e9fa1c3ef4a99f2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
