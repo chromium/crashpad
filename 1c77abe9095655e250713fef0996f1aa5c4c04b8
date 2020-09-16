@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ad973b1_d9eac9cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-16T22:35:47Z",
+      "side": 1,
+      "message": "Sigh, apparently this breaks roll somehow else (internal 254211). So, expect exciting followups! Some time!",
+      "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
