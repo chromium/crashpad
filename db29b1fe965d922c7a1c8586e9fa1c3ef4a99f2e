@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d68239e_02f5304a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-16T21:56:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a67ec8e4_9eb9215c",
+      "revId": "db29b1fe965d922c7a1c8586e9fa1c3ef4a99f2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a7fae53_ff42789d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 11
@@ -47,6 +65,30 @@
       "writtenOn": "2020-09-16T21:38:03Z",
       "side": 1,
       "message": "Can you deal with this with a current_os check?\n\nIt seems like there’s no reason that we wouldn’t wind up with host executables and host loadable modules, so if a current_os check works here, maybe it’s best to duplicate in the other two templates.\n\nRegarding the increased duplication and clutter, is it possible to load all of the common stuff up into a config that these three templates depend on?",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 35
+      },
+      "revId": "db29b1fe965d922c7a1c8586e9fa1c3ef4a99f2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2900007d_110d35ab",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 11
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-16T21:56:04Z",
+      "side": 1,
+      "message": "Added a check based on crashpad_is_fuchsia (which is set from current_os).\n\nI can\u0027t think of a way to factor the goop out. It\u0027s looking at the configs that are already set in the current scope, so I don\u0027t think a subconfig it depends on can do the plussy minussy business to add and remove.",
+      "parentUuid": "a2035b48_0521d601",
       "range": {
         "startLine": 148,
         "startChar": 0,
