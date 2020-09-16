@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "fef124ff_08147490",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-16T21:30:40Z",
+      "side": 1,
+      "message": "Hmm, I think so, yeah. I\u0027ll take a look.",
+      "parentUuid": "124ceb2b_2af09728",
+      "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "293c0bdf_284f8f8c",
         "filename": "build/crashpad_buildconfig.gni",
         "patchSetId": 9
@@ -50,6 +68,24 @@
       "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7abc65f1_886786ea",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-16T21:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "293c0bdf_284f8f8c",
+      "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "9a0550ab_a2848eca",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-16T21:30:40Z",
+      "side": 1,
+      "message": "Yeah, I added the full-meal-deal to all of them. I just didn\u0027t like all the clutter but it\u0027s probably safer to avoid future confusing errors.\n\n... oh, wait. OK, not in this one because zxdb pulls out e.g. minidump and builds against it on Linux host (where there\u0027s no fdio). Added a comment to that effect.\n\nSigh, this is all gross.",
+      "parentUuid": "96beacd2_d25908f1",
+      "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be27ecba_0afb6bc4",
         "filename": "build/crashpad_buildconfig.gni",
         "patchSetId": 9
@@ -84,6 +138,24 @@
       "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ff40c41_2d830230",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-16T21:30:40Z",
+      "side": 1,
+      "message": "Done (FWIW it\u0027s HSTS\u0027d so you can\u0027t accidentally get plain text here, but maybe you were more worried about general hygiene and clickability.)",
+      "parentUuid": "be27ecba_0afb6bc4",
+      "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "6b1cb3df_fa34a636",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-16T21:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6241680_4f9a834a",
+      "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d184883c_3249669d",
         "filename": "util/BUILD.gn",
         "patchSetId": 9
@@ -118,6 +208,24 @@
       "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f3b088c_10246d0f",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-16T21:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d184883c_3249669d",
+      "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

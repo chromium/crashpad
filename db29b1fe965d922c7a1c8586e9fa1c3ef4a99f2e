@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a7fae53_ff42789d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-16T21:30:40Z",
+      "side": 1,
+      "message": "Thanks, added DEPS for mini_chromium here too.",
+      "revId": "db29b1fe965d922c7a1c8586e9fa1c3ef4a99f2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
