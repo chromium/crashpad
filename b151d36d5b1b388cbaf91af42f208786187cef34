@@ -159,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "d28e991f_6511af11",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-16T21:38:03Z",
+      "side": 1,
+      "message": "Yeah, I just wanted it to be (1) unambiguously a URL (since .dev doesn’t necessarily immediately jump out that way) and (2) clickable everywhere that it could be.",
+      "parentUuid": "9ff40c41_2d830230",
+      "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6241680_4f9a834a",
         "filename": "snapshot/BUILD.gn",
         "patchSetId": 9

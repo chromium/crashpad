@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a67ec8e4_9eb9215c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-16T21:38:03Z",
+      "side": 1,
+      "message": "Seems like you’ve got an extra space in there.",
+      "revId": "db29b1fe965d922c7a1c8586e9fa1c3ef4a99f2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6a7fae53_ff42789d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 11
@@ -16,6 +33,29 @@
       "revId": "db29b1fe965d922c7a1c8586e9fa1c3ef4a99f2e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2035b48_0521d601",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 11
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-16T21:38:03Z",
+      "side": 1,
+      "message": "Can you deal with this with a current_os check?\n\nIt seems like there’s no reason that we wouldn’t wind up with host executables and host loadable modules, so if a current_os check works here, maybe it’s best to duplicate in the other two templates.\n\nRegarding the increased duplication and clutter, is it possible to load all of the common stuff up into a config that these three templates depend on?",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 35
+      },
+      "revId": "db29b1fe965d922c7a1c8586e9fa1c3ef4a99f2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
