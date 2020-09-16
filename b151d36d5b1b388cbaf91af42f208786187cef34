@@ -16,6 +16,108 @@
       "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "124ceb2b_2af09728",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-16T20:38:06Z",
+      "side": 1,
+      "message": "Thanks, Scott. Centralization is pretty elegant.\n\nCan we lift the requirement for everyone to depend on crashpad_config and just make that something covered by the templates? (If so, you still would probably want to save that for a follow-up. Small, bite sized, happy.)",
+      "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "293c0bdf_284f8f8c",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-16T20:38:06Z",
+      "side": 1,
+      "message": "Why wouldn’t we want the conversion_config business here too?",
+      "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96beacd2_d25908f1",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-16T20:38:06Z",
+      "side": 1,
+      "message": "Why wouldn’t we want the fdio_config business here too?",
+      "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be27ecba_0afb6bc4",
+        "filename": "build/crashpad_buildconfig.gni",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-16T20:38:06Z",
+      "side": 1,
+      "message": "https:// on URLs, please.",
+      "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6241680_4f9a834a",
+        "filename": "snapshot/BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-16T20:38:06Z",
+      "side": 1,
+      "message": "Don’t we usually put these closer to public_configs?",
+      "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d184883c_3249669d",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 9
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-16T20:38:06Z",
+      "side": 1,
+      "message": "Me too.",
+      "revId": "b151d36d5b1b388cbaf91af42f208786187cef34",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
