@@ -51,6 +51,24 @@
       "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b51078e7_4dae6adb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-21T16:45:28Z",
+      "side": 1,
+      "message": "I\u0027ve got a target that needs build/build_config.h, but can\u0027t depend on base: https://chromium-review.googlesource.com/c/crashpad/crashpad/+/2405650\n\nThe change causes gn check to fail because build/build_config.h is no longer in a dep of util:no_cfi_icall. There are also some errors because compat is including base/strings/string16.h without any dependency chain, though I\u0027m not sure why that\u0027s only failing now.\n\nI think we can create a separate target for build/build_config.h for everything to depend on, but I\u0027m wondering why Chromium doesn\u0027t apparently need to do that.",
+      "parentUuid": "21ad0d9d_b31576e2",
+      "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
