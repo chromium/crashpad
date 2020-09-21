@@ -39,6 +39,30 @@
       "revId": "ed6d7c0d25baea22df24458298e100f0548c9152",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cd4e589_e744b05a",
+        "filename": "compat/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-21T21:07:30Z",
+      "side": 1,
+      "message": "This is for the #include \"base/strings/string16.h\" in non_win/{dbghelp.h,timezoneapi.h}. I think it\u0027s needed in this CL because no_cfi_icall no longer provides a public_dep to base. I\u0027m not sure what provided that dependency chain before no_cfi_icall did.",
+      "parentUuid": "1b1e6f0d_c5fedb67",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 3
+      },
+      "revId": "ed6d7c0d25baea22df24458298e100f0548c9152",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
