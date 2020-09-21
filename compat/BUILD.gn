@@ -164,6 +164,10 @@ compat_target("compat") {
     "..:crashpad_config",
   ]
 
+  if (!crashpad_is_win) {
+    public_deps = [ "../third_party/mini_chromium:base" ]
+  }
+
   deps = [ "../util:no_cfi_icall" ]
 
   if (!crashpad_is_mac) {
