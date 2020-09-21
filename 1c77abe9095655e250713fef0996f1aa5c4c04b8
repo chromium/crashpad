@@ -69,6 +69,24 @@
       "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b20ad0c_1986734d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-21T17:40:21Z",
+      "side": 1,
+      "message": "Ah, I think Chromium doesn\u0027t have a problem with this because gn check doesn\u0027t check includes of files which aren\u0027t known to the build, which is the case for build/build_config.h. Removing build/build_config.h from mini_chromium\u0027s base target avoids that error (but still investigating the errors for base/strings/string16.h)",
+      "parentUuid": "b51078e7_4dae6adb",
+      "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
