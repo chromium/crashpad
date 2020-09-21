@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b353ab4_004428d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-21T20:57:11Z",
+      "side": 1,
+      "message": "There\u0027re updates to the BUILD files here in case you have any comments. Thanks!",
+      "revId": "ed6d7c0d25baea22df24458298e100f0548c9152",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
