@@ -16,6 +16,29 @@
       "revId": "ed6d7c0d25baea22df24458298e100f0548c9152",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1e6f0d_c5fedb67",
+        "filename": "compat/BUILD.gn",
+        "patchSetId": 7
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-21T21:01:48Z",
+      "side": 1,
+      "message": "Do we still need this? Is it enough that no_cfi_icall is in deps now? Should that be public_deps, or do we need to use the new build target here too?",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 3
+      },
+      "revId": "ed6d7c0d25baea22df24458298e100f0548c9152",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
