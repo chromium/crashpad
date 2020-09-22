@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01173845_692bef9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-22T22:05:54Z",
+      "side": 1,
+      "message": "Why? Can you say more about the ultimate strategy?\n\nstderr goes nowhere in a /subsystem:windows program like crashpad_handler.exe, which is why we don’t log anything to there on Windows.",
+      "range": {
+        "startLine": 12,
+        "startChar": 45,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "36e833875ba0c6722cd660fc5d86fd402a8f6a23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f4e645f_d4aff0c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-22T22:05:54Z",
+      "side": 1,
+      "message": "Doesn’t really fix this bug, either.",
+      "range": {
+        "startLine": 15,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 33
+      },
+      "revId": "36e833875ba0c6722cd660fc5d86fd402a8f6a23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
