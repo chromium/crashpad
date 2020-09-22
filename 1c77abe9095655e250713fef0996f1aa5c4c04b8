@@ -87,6 +87,24 @@
       "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9e3f39d_75db27c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-22T22:12:50Z",
+      "side": 1,
+      "message": "(Wow, this is too complicated.)\n\nUnfortunately we still can\u0027t roll into Fuchsia. (Sorry I can\u0027t link, but here\u0027s the error):\n\n ERROR at //third_party/crashpad/third_party/mini_chromium/mini_chromium/build/sysroot.gni:11:22: Duplicate build argument declaration.\n     target_sysroot \u003d \"\"\n                      ^-\n Here you\u0027re declaring an argument that was already declared elsewhere.\n You can only declare each argument once in the entire build so there is one\n canonical place for documentation and the default value. Either move this\n argument to the build config file (for visibility everywhere) or to a .gni file\n that you \"import\" from the files where you need it (preferred).\n See //build/config/sysroot.gni:7:20: Previous declaration.\n   target_sysroot \u003d \"\"\n                    ^-\n See also \"gn help buildargs\" for more on how build arguments work.\n See //third_party/crashpad/third_party/mini_chromium/mini_chromium/build/BUILD.gn:11:1: whence it was imported.\n import(\"sysroot.gni\")\n ^-------------------\n See //third_party/crashpad/third_party/mini_chromium/mini_chromium/base/BUILD.gn:162:19: which caused the file to be included.\n   public_deps \u003d [ \"../build\" ]\n                   ^---------\n\n\nSo we\u0027ve got a conflict between Fuchsia\u0027s BUILDCONFIG.gn which defines a \"target_sysroot\" and including mini_chromium/build/sysroot.gni, which also defines a \"target_sysroot\".\n\nI think the problem is that previously mini_chromium was being treated as two separated parts (non-obviously!): Part One was \"base\" which was just the code comprising base, and Part Two was the toolchain and build settings that were used to build that code (and also Crashpad).\n\nWhen used _in_fuchsia, only mini_chromium-the-code was being used before, but now we\u0027re depending on mini_chromium-the-settings too.\n\nI think it would work to have mini_chromium/base/BUILD.gn depend on the group in ../..:build (rather than ../build as it is now). It looks like you might have meant for that?\n\nAnd then in the forwarding group(\"build\") that\u0027s in the Crashpad repo, we can have it get ignored when _in_fuchsia, the same as Chromium is. Does that seem OK?",
+      "parentUuid": "9b20ad0c_1986734d",
+      "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
