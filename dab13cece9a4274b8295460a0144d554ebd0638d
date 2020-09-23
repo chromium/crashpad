@@ -16,6 +16,24 @@
       "revId": "dab13cece9a4274b8295460a0144d554ebd0638d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35dc3cc0_1e82b141",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-23T22:05:20Z",
+      "side": 1,
+      "message": "\u003e Seems OK now other than IOSExceptionProcessor.SelectorExists, so I\u0027m going to force submit.\n\nYeah, that’s totally unrelated. epastor had to do the same thing earlier today.\n\n\u003e [[[\n\u003e Yikes, crashpad_try_mac_dbg and crashpad_try_ios_device_rel had to do:\n\u003e \n\u003e  [P8767 14:44:51.945 reader.go:386 I] cipd: about to extract 27896.4 MB (495603 files)\n\u003e ]]]\n\nNew bot, hasn’t seen an Xcode yet?",
+      "parentUuid": "42f15bc0_98996561",
+      "revId": "dab13cece9a4274b8295460a0144d554ebd0638d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
