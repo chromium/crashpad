@@ -16,6 +16,23 @@
       "revId": "98112c9465a954e56599297caad719306447eebe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd0a42a6_20052977",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-23T16:06:18Z",
+      "side": 1,
+      "message": "Cc Scott, who wanted this written with a struct instead of fixed constant offsets and sizes. (Was a good idea!)\n\nRegardless, I don\u0027t think anyone will have a problem with this change. (But weren\u0027t macros going to be \"fun\" to implement?)",
+      "revId": "98112c9465a954e56599297caad719306447eebe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
