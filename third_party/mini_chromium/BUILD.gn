@@ -35,8 +35,8 @@ group("base_test_support") {
 }
 
 group("build") {
-  if (crashpad_is_in_chromium) {
-    # Chromium has no build target.
+  if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
+    # Chromium/Fuchsia have no build target.
   } else if (crashpad_is_standalone || crashpad_is_in_fuchsia) {
     public_deps = [ "mini_chromium/build" ]
   } else if (crashpad_is_external) {
