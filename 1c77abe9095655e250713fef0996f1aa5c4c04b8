@@ -159,6 +159,24 @@
       "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d589fbf_df23f924",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-23T22:42:43Z",
+      "side": 1,
+      "message": "Drat. We\u0027ve avoided the sysroot .gni problem now, but there seems to be an include_dirs problem still. \n\n ../../third_party/crashpad/third_party/mini_chromium/mini_chromium/base/fuchsia/fuchsia_logging.cc:5:10: fatal error: \u0027base/fuchsia/fuchsia_logging.h\u0027 file not found\n #include \"base/fuchsia/fuchsia_logging.h\"\n          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nI assume it\u0027s that config(\"default\") addition/change to include_dirs. I\u0027ll have to investigate how those do/don\u0027t get relativized.",
+      "parentUuid": "cea02ed3_44dedbb1",
+      "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
