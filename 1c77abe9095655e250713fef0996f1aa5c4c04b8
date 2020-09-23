@@ -141,6 +141,24 @@
       "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cea02ed3_44dedbb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-23T17:18:19Z",
+      "side": 1,
+      "message": "I think that general idea works... maybe as a smaller change I can move build_config.h\u0027s source set to a separate BUILD file, as in:\n\nhttps://chromium-review.googlesource.com/c/chromium/mini_chromium/+/2425308\nhttps://chromium-review.googlesource.com/c/crashpad/crashpad/+/2426863\n\n?\n\nThe other thing we might be able to do is rename all the gni variables to \"namespace\" them I guess. i.e. mini_chromium_target_sysroot, mini_chromium_mac_sdk_min, etc. which I guess is what compiler.gni and platform.gni are relying on. The drawbacks of that are that:\n1) it\u0027s a bit ugly to have to use \"mini_chromium_extra_cflags_objcc\" and similar in toolchain definitions\n2) it\u0027s part of the \"api\" surface of the build, so we\u0027d have to fix some bot invocations/scripts that set those\n3) it\u0027s not really ideal to be exposing those in the parent build (i.e. they\u0027d be settable in Fuchsia\u0027s args.gn, but wouldn\u0027t have any effect), so it\u0027s probably better to avoid sourcing those files entirely if we can.\n\nThe elephant in the room is that this is a PITA to test and there\u0027s no bot coverage, but I unfortunately can\u0027t offer a solution to that at the moment, as all the bots that do this integration are internal only. I believe the plan is to resolve this in the next 3-6m at least for this case (where it\u0027s an open-source into open-source integration anyway!)",
+      "parentUuid": "3b4f6b09_deccc796",
+      "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
