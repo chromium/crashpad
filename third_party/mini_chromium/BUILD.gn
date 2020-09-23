@@ -34,14 +34,16 @@ group("base_test_support") {
   }
 }
 
-group("build") {
+group("build_config") {
   if (crashpad_is_in_chromium) {
-    # Chromium has no build target.
+    # Chromium has no build_config target.
   } else if (crashpad_is_standalone || crashpad_is_in_fuchsia) {
-    public_deps = [ "mini_chromium/build" ]
+    public_deps = [ "mini_chromium/build/build_config" ]
   } else if (crashpad_is_external) {
-    public_deps = [ "../../../../mini_chromium/mini_chromium/build" ]
+    public_deps =
+        [ "../../../../mini_chromium/mini_chromium/build/build_config" ]
   } else if (crashpad_is_in_dart) {
-    public_deps = [ "//third_party/mini_chromium/mini_chromium/build" ]
+    public_deps =
+        [ "//third_party/mini_chromium/mini_chromium/build/build_config" ]
   }
 }
