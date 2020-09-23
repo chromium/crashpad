@@ -50,6 +50,24 @@
       "revId": "98112c9465a954e56599297caad719306447eebe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b59978bf_3d9361b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2020-09-23T16:17:04Z",
+      "side": 1,
+      "message": "Macros are fun to implement! But full support includes token-pasting, which may take a while. Let\u0027s not make crossbuilds wait for LLVM to support full MASM macros.\n\nRegardless: I\u0027m glad this is written with a struct, and structs are fully supported in the LLVM prototype already! But this offsetof macro is just renaming for an already-supported syntax.",
+      "parentUuid": "cd0a42a6_20052977",
+      "revId": "98112c9465a954e56599297caad719306447eebe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
