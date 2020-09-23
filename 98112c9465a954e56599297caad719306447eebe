@@ -102,6 +102,24 @@
       "revId": "98112c9465a954e56599297caad719306447eebe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f17800f9_81e7a8b9",
+        "filename": "util/misc/capture_context_win.asm",
+        "patchSetId": 2
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2020-09-23T19:25:14Z",
+      "side": 1,
+      "message": "It\u0027s the proper syntax for offsetof. The macro you were using actually expanded to this, in context.\n\nThe only reason for the \u0026 is to force expansion of a macro argument that otherwise wouldn\u0027t expand. (See: https://docs.microsoft.com/en-us/cpp/assembler/masm/operator-logical-and-masm?view\u003dvs-2019)",
+      "parentUuid": "e67fe0e5_5eff518f",
+      "revId": "98112c9465a954e56599297caad719306447eebe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
