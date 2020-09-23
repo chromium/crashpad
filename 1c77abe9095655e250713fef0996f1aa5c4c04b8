@@ -123,6 +123,24 @@
       "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b4f6b09_deccc796",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-23T02:01:48Z",
+      "side": 1,
+      "message": "Maybe if we move everything in build/BUILD.gn, except source_set(\"build\"), into build/toolchain.gni, which we only include from build/BUILD.gn if !_in_fuchsia?",
+      "parentUuid": "9d55d737_a0662154",
+      "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
