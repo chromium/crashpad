@@ -105,6 +105,24 @@
       "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d55d737_a0662154",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-23T00:09:15Z",
+      "side": 1,
+      "message": "\u003e I think it would work to have mini_chromium/base/BUILD.gn depend on the group in ../..:build (rather than ../build as it is now). It looks like you might have meant for that?\n\nOh, this doesn\u0027t make any sense, that\u0027d be out of the mini_chromium repo. Blah.",
+      "parentUuid": "f9e3f39d_75db27c5",
+      "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
