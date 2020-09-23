@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42f15bc0_98996561",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-23T21:55:06Z",
+      "side": 1,
+      "message": "Seems OK now other than IOSExceptionProcessor.SelectorExists, so I\u0027m going to force submit.\n\n[[[\nYikes, crashpad_try_mac_dbg and crashpad_try_ios_device_rel had to do:\n\n [P8767 14:44:51.945 reader.go:386 I] cipd: about to extract 27896.4 MB (495603 files)\n]]]",
+      "revId": "dab13cece9a4274b8295460a0144d554ebd0638d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
