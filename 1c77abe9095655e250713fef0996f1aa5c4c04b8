@@ -177,6 +177,24 @@
       "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1a7b404_9f9f0a4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-23T22:50:29Z",
+      "side": 1,
+      "message": "Oh wait, we\u0027re just back to the other CL now: https://chromium-review.googlesource.com/c/chromium/mini_chromium/+/2405651\n\nIn particular, config(\"default\") gets applied by Crashpad\u0027s BUILDCONFIG.gn, so it\u0027s not applied when building elsewhere. Can we put the include_dirs back into base? (And maybe add that to build/config\u0027s target too if it needs it for some reason? I don\u0027t think it includes anything so I can\u0027t immediately see why it would need that.)",
+      "parentUuid": "7d589fbf_df23f924",
+      "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
