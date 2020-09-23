@@ -105,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "988b2a8a_e9ccc1e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-23T20:12:44Z",
+      "side": 1,
+      "message": "\u003e Anyone know why the iOS simulator builds are failing? Doesn\u0027t appear related...\n\nPositively unrelated. One of the iOS people will take a look at that test later today. In the mean time, it’s OK to submit over the CQ’s objection. Use the “submit” option hiding behind the dots menu in Gerrit, if it’s available to you. (Should be available to full-fledged Crashpad committers like yourself.)",
+      "parentUuid": "86eff162_7600f996",
+      "revId": "98112c9465a954e56599297caad719306447eebe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e67fe0e5_5eff518f",
         "filename": "util/misc/capture_context_win.asm",
         "patchSetId": 2
