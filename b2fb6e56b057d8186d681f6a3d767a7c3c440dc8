@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32a58524_4688a769",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-23T19:33:24Z",
+      "side": 1,
+      "message": "LGTM with a DEPS roll. Be sure to run git cl format if you haven\u0027t already.",
+      "revId": "b2fb6e56b057d8186d681f6a3d767a7c3c440dc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
