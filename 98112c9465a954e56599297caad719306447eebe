@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d055c252_2b736142",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2020-09-23T15:57:29Z",
+      "side": 1,
+      "message": "Food for thought: do we want to consider removing this offsetof macro? It\u0027s unnecessary, and it might let us get Linux-\u003eWin crossbuilds working sooner. (See discussion in the linked bug.)",
+      "revId": "98112c9465a954e56599297caad719306447eebe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
