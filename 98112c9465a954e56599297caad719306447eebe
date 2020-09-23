@@ -68,6 +68,23 @@
       "revId": "98112c9465a954e56599297caad719306447eebe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e67fe0e5_5eff518f",
+        "filename": "util/misc/capture_context_win.asm",
+        "patchSetId": 2
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-09-23T17:36:20Z",
+      "side": 1,
+      "message": "Fine with me, assuming that \"CONTEXT.c_FltSave\" means the same thing as offsetof (and not what it looks like, as if it was subtracting the value of a field from sizeof(CONTEXT) in some wacky x86 addressing mode.)",
+      "revId": "98112c9465a954e56599297caad719306447eebe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
