@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f70bc94d_b400029e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-24T19:26:33Z",
+      "side": 1,
+      "message": "Done.\n\nHow about just to OutputDebugString() then?",
+      "parentUuid": "01173845_692bef9d",
+      "range": {
+        "startLine": 12,
+        "startChar": 45,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "36e833875ba0c6722cd660fc5d86fd402a8f6a23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f4e645f_d4aff0c9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2020-09-22T22:05:54Z",
       "side": 1,
       "message": "Doesn’t really fix this bug, either.",
+      "range": {
+        "startLine": 15,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 33
+      },
+      "revId": "36e833875ba0c6722cd660fc5d86fd402a8f6a23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6c510d2_833105bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-24T19:26:33Z",
+      "side": 1,
+      "message": "You\u0027re right! I was originally thinking to do these together, but then thought it\u0027d be fine to disable the log files before attaching them to/embedding them in minidumps since I don\u0027t think we\u0027re actively using those log files.",
+      "parentUuid": "0f4e645f_d4aff0c9",
       "range": {
         "startLine": 15,
         "startChar": 22,
