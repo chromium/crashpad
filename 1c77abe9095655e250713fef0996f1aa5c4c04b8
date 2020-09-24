@@ -195,6 +195,24 @@
       "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87d74bfb_34d639ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-24T04:28:30Z",
+      "side": 1,
+      "message": "\u003e Oh wait, we\u0027re just back to the other CL now: https://chromium-review.googlesource.com/c/chromium/mini_chromium/+/2405651\n\u003e \n\u003e In particular, config(\"default\") gets applied by Crashpad\u0027s BUILDCONFIG.gn, so it\u0027s not applied when building elsewhere. Can we put the include_dirs back into base?\n\nYeah, OK, we can.\n\n\u003e (And maybe add that to build/config\u0027s target too if it needs it for some reason? I don\u0027t think it includes anything so I can\u0027t immediately see why it would need that.)\n\nIt should be a public_config of the build target so that the one thing that depends on that target gets its include path set up correctly to #include \"build/build_config.h\".\n\nThe same way we have a root crashpad_config that really just exists to set up include_dirs correctly, we should probably have a mini_chromium_config to do the same in mini_chromium, and obviously it should be something that’s available even when mini_chromium’s own standalone toolchainy BUILD.gn isn’t in use (also mirroring the way that this works in Crashpad).",
+      "parentUuid": "e1a7b404_9f9f0a4a",
+      "revId": "1c77abe9095655e250713fef0996f1aa5c4c04b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
