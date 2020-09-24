@@ -16,6 +16,23 @@
       "revId": "bca0f58cccedcea7634da78cca08a0dffe764e3d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff5f9195_f1b2956d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-24T17:00:29Z",
+      "side": 1,
+      "message": "1. Don\u0027t do an @available check. Try the old way (because it\u0027s better and therefore preferable), and if it fails, fall back to the new thing.\n\n2. Hard-coding init and .cxx_destruct makes this flakier than it needs to be. Get all of the methods you can, and use min/max. Set an upper bound on what you\u0027re willing to accept for max-min.\n\n3. Seems like there\u0027s some stuff that can be factored out into a common helper thing. Maybe we don\u0027t need the same anonymous lambda three times.\n\n4. The test is basically just a reimplementation of the non-test\u0027s logic. The test should be checking the implementation, not reimplementing it.\n\n5. static constexpr char kJustin[].\n\n6. The comment should be more disparaging! Make clear that this is a hack and that we feel like we\u0027re out of other good options. Document ways that it might break and why we think we\u0027re OK anyway.\n\n7. Is there a way for the test to do a better job of validating that this doesn\u0027t overreach if symbols are loaded?",
+      "revId": "bca0f58cccedcea7634da78cca08a0dffe764e3d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
