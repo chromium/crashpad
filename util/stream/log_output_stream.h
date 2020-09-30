@@ -45,7 +45,10 @@ class LogOutputStream : public OutputStreamInterface {
  private:
   // Flush the |buffer_|, return false if kOutputCap meet.
   bool WriteBuffer();
-  bool WriteToLog(const char* buf);
+
+  // Returns the number of bytes written, which might be more than they bytes
+  // from |buf|, or a negative error code.
+  int WriteToLog(const char* buf);
 
   std::string buffer_;
   size_t output_count_;
