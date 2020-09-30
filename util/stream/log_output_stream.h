@@ -45,7 +45,7 @@ class LogOutputStream : public OutputStreamInterface {
  private:
   // Flush the |buffer_|, return false if kOutputCap meet.
   bool WriteBuffer();
-  bool WriteToLog(const char* buf);
+  int WriteToLog(const char* buf);
 
   std::string buffer_;
   size_t output_count_;
