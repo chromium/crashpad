@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "212bd396_47e7c719",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-30T21:19:01Z",
+      "side": 1,
+      "message": "🚗 drive-by!",
+      "revId": "e0a1889887975e4e0f0cc4f6ce29a24da6325c04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58b2eb4c_5cc56d59",
         "filename": "util/stream/log_output_stream.cc",
         "patchSetId": 4
@@ -78,6 +95,30 @@
       "side": 1,
       "message": "Maybe update these as comment?",
       "parentUuid": "fca747d6_a0ad1ee8",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 30
+      },
+      "revId": "e0a1889887975e4e0f0cc4f6ce29a24da6325c04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1090e8aa_2ab0046f",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-09-30T21:19:01Z",
+      "side": 1,
+      "message": "\u003e 3. I considered DCHECKing the return values here and in Flush(), but decided to leave it to the test code to validate the output stream since that\u0027s its reason for being here.\n\nI agree, since this only exists as a test mode, it’s fine to keep as much test-mode code out of the implementation and let it be the test’s responsibility.\n\nThat does bring up another point: test-mode-only code in the production implementation isn’t a good design. You wind up testing the test-only code, which isn’t a path that anyone will ever traverse in the real world. Best would be to come up with a way to eliminate this.\n\n\u003e Maybe update these as comment?\n\nI agree with that, if we’re keeping this design (even if only temporarily).",
+      "parentUuid": "f19d0199_7d8fd48a",
       "range": {
         "startLine": 110,
         "startChar": 4,
