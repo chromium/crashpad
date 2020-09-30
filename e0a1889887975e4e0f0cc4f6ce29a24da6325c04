@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fca747d6_a0ad1ee8",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-09-30T20:29:14Z",
+      "side": 1,
+      "message": "1. It\u0027s consistent with how we ignore the return value in Flush().\n\n2. The return value here shouldn\u0027t be relevant to WriteToLog()\u0027s return value,  because this is for the test stream and WriteToLog() returns the bytes written to the actual log.\n\n3. I considered DCHECKing the return values here and in Flush(), but decided to leave it to the test code to validate the output stream since that\u0027s its reason for being here.",
+      "parentUuid": "58b2eb4c_5cc56d59",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 30
+      },
+      "revId": "e0a1889887975e4e0f0cc4f6ce29a24da6325c04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a31c4e05_917682a6",
         "filename": "util/stream/log_output_stream_test.cc",
         "patchSetId": 4
