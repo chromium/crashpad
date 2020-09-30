@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa0a76f_08730af2",
+        "filename": "util/misc/no_cfi_icall_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2020-09-30T19:04:42Z",
+      "side": 1,
+      "message": "We also need a noexcept here, or the assignment fails when built with exceptions enabled.",
+      "range": {
+        "startLine": 42,
+        "startChar": 38,
+        "endLine": 42,
+        "endChar": 39
+      },
+      "revId": "e937f77b932f564f4eb874ce6903327317a6c3ae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
