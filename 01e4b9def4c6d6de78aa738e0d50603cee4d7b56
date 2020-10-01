@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36ffb9ac_0973f441",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-10-01T18:08:04Z",
+      "side": 1,
+      "message": "Fixed the commit message.\n\nI’m giving this to the CQ but it’s going to fail because the iOS bots are currently broken. Once everything else passes, I’ll submit manually.",
+      "revId": "01e4b9def4c6d6de78aa738e0d50603cee4d7b56",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
