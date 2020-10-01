@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd815c08_fe868d07",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-10-01T23:26:30Z",
+      "side": 1,
+      "message": "It looks like there\u0027s a bug in our bots\u0027 version of msvc such that it can\u0027t compile:\n\n  static int (*func)() noexcept \u003d []() noexcept { return 42; };\n\nbecause there\u0027s no built-in conversion from noexcept lambdas to noexcept function pointers.\n\nI\u0027m not certain when this was fixed, but it sounds like VS 15.5:\nhttps://docs.microsoft.com/en-us/cpp/overview/cpp-conformance-improvements?view\u003dvs-2017#noexcept-and-partial-specializations\n\nFor this CL, I just rewrote the test to not use a lambda. :(",
+      "revId": "b733b1116b8a5fa4af49d9edd8d1a3e756795bae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
