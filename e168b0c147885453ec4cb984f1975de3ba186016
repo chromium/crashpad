@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fe6f2a4_87ad1378",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-10-01T17:30:16Z",
+      "side": 1,
+      "message": "(removed myself from reviewers because I don\u0027t have permissions to vote on this project)",
+      "revId": "e168b0c147885453ec4cb984f1975de3ba186016",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
