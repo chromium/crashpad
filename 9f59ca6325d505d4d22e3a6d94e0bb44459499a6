@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6553fd82_ad793d61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001629
+      },
+      "writtenOn": "2020-10-02T17:30:24Z",
+      "side": 1,
+      "message": "Thanks! Should I hit \"Submit\" or should I wait for the cq to heal and then land through cq?",
+      "revId": "9f59ca6325d505d4d22e3a6d94e0bb44459499a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
