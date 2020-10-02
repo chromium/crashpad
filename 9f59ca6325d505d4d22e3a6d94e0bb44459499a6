@@ -16,6 +16,24 @@
       "revId": "9f59ca6325d505d4d22e3a6d94e0bb44459499a6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "644d1518_93c69956",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-10-02T17:43:32Z",
+      "side": 1,
+      "message": "\u003e Thanks! Should I hit \"Submit\" or should I wait for the cq to heal and then land through cq?\n\nThe CQ won’t self-heal, the tester was upgraded to iOS 14 and the thing it’s testing is broken on that OS. Justin was going to fix it or disable the test, but I guess he hasn’t yet. So please submit, since all other bots are green. Better yet…",
+      "parentUuid": "6553fd82_ad793d61",
+      "revId": "9f59ca6325d505d4d22e3a6d94e0bb44459499a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
