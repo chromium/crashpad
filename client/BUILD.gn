@@ -14,12 +14,7 @@
 
 import("../build/crashpad_buildconfig.gni")
 
-if (crashpad_is_in_chromium) {
-  # Prevent Chromium source assignment filters from being inherited.
-  set_sources_assignment_filter([])
-}
-
-static_library("client") {
+crashpad_static_library("client") {
   sources = [
     "annotation.cc",
     "annotation.h",
@@ -116,7 +111,6 @@ static_library("client") {
     deps += [ "../third_party/fuchsia" ]
     if (crashpad_is_in_fuchsia) {
       deps += [ "//sdk/lib/fdio" ]
-      configs += [ "//build/config:Wno-conversion" ]
     }
   }
 }
