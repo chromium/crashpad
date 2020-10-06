@@ -30,6 +30,7 @@ mc_append_sources(
     metrics/histogram_functions.h
     metrics/histogram_macros.h
     metrics/persistent_histogram_allocator.h
+    notreached.h
     numerics/checked_math.h
     numerics/checked_math_impl.h
     numerics/clamped_math.h
@@ -189,7 +190,7 @@ if(WIN32)
             _UNICODE
         )
     elseif(MINGW)
-        target_compile_options(mini_chromium PRIVATE 
+        target_compile_options(mini_chromium PRIVATE
             "-municode"
             "-Wno-format"
             "-Wno-unknown-pragmas"

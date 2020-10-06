@@ -36,6 +36,7 @@ add_library(crashpad_util STATIC
     misc/memory_sanitizer.h
     misc/metrics.cc
     misc/metrics.h
+    misc/no_cfi_icall.h
     misc/paths.h
     misc/pdb_structures.cc
     misc/pdb_structures.h
