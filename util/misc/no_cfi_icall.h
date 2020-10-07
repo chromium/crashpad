@@ -46,6 +46,12 @@ namespace {
 #define DISABLE_CFI_ICALL NO_SANITIZE("cfi-icall")
 #endif
 
+#if defined(__has_feature)
+#define HAS_FEATURE(FEATURE) __has_feature(FEATURE)
+#else
+#define HAS_FEATURE(FEATURE) 0
+#endif
+
 template <typename Functor>
 struct FunctorTraits;
 
@@ -75,6 +81,17 @@ struct FunctorTraits<R(__stdcall*)(Args...) noexcept> {
   }
 };
 #endif  // OS_WIN && ARCH_CPU_X86
+
+#if defined(_MSC_VER) && defined(_CPPUNWIND) || HAS_FEATURE(cxx_exceptions)
+template <typename R, typename... Args>
+struct FunctorTraits<R (*)(Args...)> {
+  template <typename Function, typename... RunArgs>
+  DISABLE_CFI_ICALL static R Invoke(Function&& function, RunArgs&&... args) {
+    return std::forward<Function>(function)(std::forward<RunArgs>(args)...);
+  }
+};
+#endif  // _MSC_VER && _CPP_UNWIND ||
+        // __has_feature && __has_feature(cxx_exceptions)
 
 }  // namespace
 
