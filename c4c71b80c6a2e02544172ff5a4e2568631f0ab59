@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48ed396e_9099839c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003006
+      },
+      "writtenOn": "2020-10-13T17:11:08Z",
+      "side": 1,
+      "message": "Thanks! I typed in the email manually, and it didn\u0027t complain. Go figure.",
+      "revId": "c4c71b80c6a2e02544172ff5a4e2568631f0ab59",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
