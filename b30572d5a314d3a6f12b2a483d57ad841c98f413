@@ -16,6 +16,23 @@
       "message": "(dunno how you chose a reviewer, but I managed to find this anyway.)",
       "revId": "b30572d5a314d3a6f12b2a483d57ad841c98f413",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ead0a5a_b0786398",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-10-13T13:48:33Z",
+      "side": 1,
+      "message": "Submitting manually over the objection of the very broken iOS bots.",
+      "revId": "b30572d5a314d3a6f12b2a483d57ad841c98f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
