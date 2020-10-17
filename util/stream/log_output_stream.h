@@ -33,25 +33,34 @@ namespace crashpad {
 //! that cap, the output is aborted.
 class LogOutputStream : public OutputStreamInterface {
  public:
-  LogOutputStream();
+  class Logger {
+   public:
+    Logger() = default;
+    virtual ~Logger() = default;
+
+    virtual int Log(const char*) = 0;
+  };
+
+  LogOutputStream(std::unique_ptr<Logger> logger);
   ~LogOutputStream() override;
 
   // OutputStreamInterface:
   bool Write(const uint8_t* data, size_t size) override;
   bool Flush() override;
 
-  void SetOutputStreamForTesting(std::unique_ptr<OutputStreamInterface> stream);
-
  private:
   // Flush the |buffer_|, return false if kOutputCap meet.
   bool WriteBuffer();
-  bool WriteToLog(const char* buf);
+
+  // Returns the number of bytes written, which might be more than they bytes
+  // from |buf|, or a negative error code.
+  int WriteToLog(const char* buf);
 
   std::string buffer_;
+  std::unique_ptr<Logger> logger_;
   size_t output_count_;
   bool flush_needed_;
   bool flushed_;
-  std::unique_ptr<OutputStreamInterface> output_stream_for_testing_;
 
   DISALLOW_COPY_AND_ASSIGN(LogOutputStream);
 };

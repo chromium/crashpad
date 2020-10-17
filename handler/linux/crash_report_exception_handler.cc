@@ -35,15 +35,38 @@
 #include "util/stream/log_output_stream.h"
 #include "util/stream/zlib_output_stream.h"
 
-namespace crashpad {
+#if defined(OS_ANDROID)
+#include <android/log.h>
+#endif
 
+namespace crashpad {
 namespace {
 
+class Logger : public LogOutputStream::Logger {
+ public:
+  Logger() = default;
+  ~Logger() = default;
+
+  int Log(const char* buf) override {
+#if defined(OS_ANDROID)
+    return __android_log_buf_write(
+        LOG_ID_CRASH, ANDROID_LOG_FATAL, "crashpad", buf);
+#else
+    // TODO(jperaza): Log to an appropriate location on Linux.
+    return -EAGAIN;
+#endif
+  }
+
+ private:
+  DISALLOW_COPY_AND_ASSIGN(Logger);
+};
+
 bool WriteMinidumpLogFromFile(FileReaderInterface* file_reader) {
-  ZlibOutputStream stream(ZlibOutputStream::Mode::kCompress,
-                          std::make_unique<Base94OutputStream>(
-                              Base94OutputStream::Mode::kEncode,
-                              std::make_unique<LogOutputStream>()));
+  ZlibOutputStream stream(
+      ZlibOutputStream::Mode::kCompress,
+      std::make_unique<Base94OutputStream>(
+          Base94OutputStream::Mode::kEncode,
+          std::make_unique<LogOutputStream>(std::make_unique<Logger>())));
   FileOperationResult read_result;
   do {
     uint8_t buffer[4096];
@@ -259,7 +282,7 @@ bool CrashReportExceptionHandler::WriteMinidumpToLog(
       ZlibOutputStream::Mode::kCompress,
       std::make_unique<Base94OutputStream>(
           Base94OutputStream::Mode::kEncode,
-          std::make_unique<LogOutputStream>())));
+          std::make_unique<LogOutputStream>(std::make_unique<Logger>()))));
   if (!minidump.WriteMinidump(&writer, false /* allow_seek */)) {
     LOG(ERROR) << "WriteMinidump failed";
     return false;
