@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "7e7d51b8_65e408ce",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "LGTM % nit",
       "revId": "e0a1889887975e4e0f0cc4f6ce29a24da6325c04",
-      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
-      "unresolved": false
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "212bd396_47e7c719",
         "filename": "/PATCHSET_LEVEL",
@@ -31,10 +32,10 @@
       "side": 1,
       "message": "🚗 drive-by!",
       "revId": "e0a1889887975e4e0f0cc4f6ce29a24da6325c04",
-      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
-      "unresolved": false
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "58b2eb4c_5cc56d59",
         "filename": "util/stream/log_output_stream.cc",
@@ -54,10 +55,10 @@
         "endChar": 30
       },
       "revId": "e0a1889887975e4e0f0cc4f6ce29a24da6325c04",
-      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
-      "unresolved": true
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "fca747d6_a0ad1ee8",
         "filename": "util/stream/log_output_stream.cc",
@@ -78,10 +79,10 @@
         "endChar": 30
       },
       "revId": "e0a1889887975e4e0f0cc4f6ce29a24da6325c04",
-      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
-      "unresolved": true
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f19d0199_7d8fd48a",
         "filename": "util/stream/log_output_stream.cc",
@@ -102,10 +103,10 @@
         "endChar": 30
       },
       "revId": "e0a1889887975e4e0f0cc4f6ce29a24da6325c04",
-      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
-      "unresolved": true
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1090e8aa_2ab0046f",
         "filename": "util/stream/log_output_stream.cc",
@@ -126,10 +127,34 @@
         "endChar": 30
       },
       "revId": "e0a1889887975e4e0f0cc4f6ce29a24da6325c04",
-      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
-      "unresolved": true
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "93f53cb9_3fbe2298",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-10-17T20:36:12Z",
+      "side": 1,
+      "message": "\u003e That does bring up another point: test-mode-only code in the production implementation isn’t a good design. You wind up testing the test-only code, which isn’t a path that anyone will ever traverse in the real world. Best would be to come up with a way to eliminate this.\n\nI\u0027ve updated LogOutputStream to defer to a logging Delegate, instead of logging to the logcat or TestOutputStream directly. In tests, the Delegate is a mock log and in production integrates with the logcat.\n\nSince the test is now using a fully-mocked log, I\u0027ve also restored the FlushAbort test.",
+      "parentUuid": "1090e8aa_2ab0046f",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 30
+      },
+      "revId": "e0a1889887975e4e0f0cc4f6ce29a24da6325c04",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "a31c4e05_917682a6",
         "filename": "util/stream/log_output_stream_test.cc",
@@ -149,8 +174,7 @@
         "endChar": 73
       },
       "revId": "e0a1889887975e4e0f0cc4f6ce29a24da6325c04",
-      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
-      "unresolved": true
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
