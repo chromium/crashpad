@@ -16,6 +16,47 @@
       "message": "Maybe this will help?",
       "revId": "8189b029c7453d6bbf6d3e16b7eed6a061606d98",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a39cfb9_558fee64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2020-10-19T15:12:14Z",
+      "side": 1,
+      "message": "I apologize for the delayed review! I would have sworn I tried this in our environment and still seen a build failure, but it seems to work after all. Thanks!",
+      "parentUuid": "f7074e32_2db2cfce",
+      "revId": "8189b029c7453d6bbf6d3e16b7eed6a061606d98",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c686bcfd_16036687",
+        "filename": "util/misc/no_cfi_icall.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2020-10-19T15:12:14Z",
+      "side": 1,
+      "message": "Nit: can we add some parentheses here? It\u0027s a bit hard to parse at a glance.",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 44
+      },
+      "revId": "8189b029c7453d6bbf6d3e16b7eed6a061606d98",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
