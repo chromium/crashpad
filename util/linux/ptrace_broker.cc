@@ -17,6 +17,7 @@
 #include <fcntl.h>
 #include <limits.h>
 #include <string.h>
+#include <sys/mman.h>
 #include <syscall.h>
 #include <unistd.h>
 
@@ -24,11 +25,14 @@
 
 #include "base/check_op.h"
 #include "base/posix/eintr_wrapper.h"
+#include "third_party/lss/lss.h"
 #include "util/misc/memory_sanitizer.h"
 
 namespace crashpad {
 
 namespace {
+
+constexpr size_t kAttachmentsAllocationSize = 4096;
 
 size_t FormatPID(char* buffer, pid_t pid) {
   DCHECK_GE(pid, 0);
@@ -94,25 +98,30 @@ int PtraceBroker::Run() {
 }
 
 bool PtraceBroker::AllocateAttachments() {
-  constexpr size_t page_size = 4096;
-  constexpr size_t alloc_size =
-      (sizeof(ScopedPtraceAttach) + page_size - 1) & ~(page_size - 1);
-  void* alloc = sbrk(alloc_size);
-  if (reinterpret_cast<intptr_t>(alloc) == -1) {
+  if (attachments_) {
     return false;
   }
 
-  if (attachments_ == nullptr) {
-    attachments_ = reinterpret_cast<ScopedPtraceAttach*>(alloc);
+  void* alloc = sys_mmap(nullptr,
+                         kAttachmentsAllocationSize,
+                         PROT_READ | PROT_WRITE,
+                         MAP_PRIVATE | MAP_ANONYMOUS,
+                         -1,
+                         0);
+  if (alloc == MAP_FAILED) {
+    return false;
   }
-
-  attach_capacity_ += alloc_size / sizeof(ScopedPtraceAttach);
+  attachments_ = reinterpret_cast<ScopedPtraceAttach*>(alloc);
+  attach_capacity_ = kAttachmentsAllocationSize / sizeof(ScopedPtraceAttach);
   return true;
 }
 
 void PtraceBroker::ReleaseAttachments() {
   for (size_t index = 0; index < attach_count_; ++index) {
     attachments_[index].Reset();
+  }
+  if (attachments_) {
+    sys_munmap(attachments_, kAttachmentsAllocationSize);
   }
 }
 
