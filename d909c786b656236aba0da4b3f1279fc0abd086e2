@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f60b744_c0c08eb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-10-21T01:02:44Z",
+      "side": 1,
+      "message": "LGTM % question",
+      "revId": "d909c786b656236aba0da4b3f1279fc0abd086e2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0eb890a3_a567f97a",
@@ -14,6 +31,29 @@
       "writtenOn": "2020-10-20T13:18:48Z",
       "side": 1,
       "message": "#include \"build/build_config.h\"",
+      "revId": "d909c786b656236aba0da4b3f1279fc0abd086e2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37ede6a0_9b1b9f14",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000825
+      },
+      "writtenOn": "2020-10-21T01:02:44Z",
+      "side": 1,
+      "message": "Do we prefer to define the string instead of having it inline in the case it is only used once?",
+      "range": {
+        "startLine": 41,
+        "startChar": 24,
+        "endLine": 41,
+        "endChar": 37
+      },
       "revId": "d909c786b656236aba0da4b3f1279fc0abd086e2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
