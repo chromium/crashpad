@@ -56,6 +56,30 @@
       },
       "revId": "d909c786b656236aba0da4b3f1279fc0abd086e2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a61693b_86cd881c",
+        "filename": "util/stream/log_output_stream.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-10-21T01:22:01Z",
+      "side": 1,
+      "message": "In isolation, I would usually prefer once-used strings to be inline. I defined kBeginMessage as a static variable here in order to be consistent with kAbortMesssage (and because there should be no performance/behavioral difference). If all our messages were only used once, I might\u0027ve used them all inline. I don\u0027t think there\u0027s a strict one-way-or-the-other rule. I would try/imagine both and use whichever approach I think reads most consistently and easily.",
+      "parentUuid": "37ede6a0_9b1b9f14",
+      "range": {
+        "startLine": 41,
+        "startChar": 24,
+        "endLine": 41,
+        "endChar": 37
+      },
+      "revId": "d909c786b656236aba0da4b3f1279fc0abd086e2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
