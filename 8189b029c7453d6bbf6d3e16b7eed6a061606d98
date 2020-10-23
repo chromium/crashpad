@@ -98,6 +98,30 @@
       },
       "revId": "8189b029c7453d6bbf6d3e16b7eed6a061606d98",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc93d8e4_5641f5fc",
+        "filename": "util/misc/no_cfi_icall.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-10-23T23:40:26Z",
+      "side": 1,
+      "message": "Sorry for the delay. The intent of the guard is to only define this template when functions without \"noexcept\" specifiers are implicitly potentially throwing.\n\nIf this template is always defined, it sometimes (i.e. in the Crashpad standalone build) results in a redefinition error of the template on line 59.\n\nI now think this comes down to whether we\u0027re building with c++17, and this fixes the Linux build, at least.\n\nThe mac build error is... something different!",
+      "parentUuid": "ed06c4d5_32c42f1d",
+      "range": {
+        "startLine": 85,
+        "startChar": 60,
+        "endLine": 85,
+        "endChar": 74
+      },
+      "revId": "8189b029c7453d6bbf6d3e16b7eed6a061606d98",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
