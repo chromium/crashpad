@@ -76,6 +76,16 @@ struct FunctorTraits<R(__stdcall*)(Args...) noexcept> {
 };
 #endif  // OS_WIN && ARCH_CPU_X86
 
+#if __cplusplus >= 201703L
+template <typename R, typename... Args>
+struct FunctorTraits<R (*)(Args...)> {
+  template <typename Function, typename... RunArgs>
+  DISABLE_CFI_ICALL static R Invoke(Function&& function, RunArgs&&... args) {
+    return std::forward<Function>(function)(std::forward<RunArgs>(args)...);
+  }
+};
+#endif
+
 }  // namespace
 
 //! \brief Disables cfi-icall for calls made through a function pointer.
