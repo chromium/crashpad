@@ -22,6 +22,30 @@
       },
       "revId": "d01d46ac702ff3d2b50e275307432699398dbf98",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70740e63_51d0ea14",
+        "filename": "util/misc/no_cfi_icall.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-10-26T17:40:25Z",
+      "side": 1,
+      "message": "You\u0027re right! It was the same error after all. Thanks! I added a comment to explain these specializations.",
+      "parentUuid": "f8720f07_68fd6d8a",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 2
+      },
+      "revId": "d01d46ac702ff3d2b50e275307432699398dbf98",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
