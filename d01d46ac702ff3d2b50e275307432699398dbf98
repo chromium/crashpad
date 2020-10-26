@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8720f07_68fd6d8a",
+        "filename": "util/misc/no_cfi_icall.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1317891
+      },
+      "writtenOn": "2020-10-26T14:00:00Z",
+      "side": 1,
+      "message": "I think I\u0027ve found the issue in our macOS build; maybe we need to replicate this in a non-noexcept version below as well? (It seemed to fix things when I tried it locally.)\n\n... not that I understand why this is actually necessary in the first place!",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 2
+      },
+      "revId": "d01d46ac702ff3d2b50e275307432699398dbf98",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
