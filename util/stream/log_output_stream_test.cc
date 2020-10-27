@@ -33,9 +33,9 @@ const char* kAbortGuard = "-----ABORT CRASHPAD MINIDUMP-----";
 
 class LogOutputStreamTestDelegate : public LogOutputStream::Delegate {
  public:
-  LogOutputStreamTestDelegate(std::string* logging_destination)
+  explicit LogOutputStreamTestDelegate(std::string* logging_destination)
       : logging_destination_(logging_destination) {}
-  ~LogOutputStreamTestDelegate() = default;
+  ~LogOutputStreamTestDelegate() final = default;
 
   int Log(const char* buf) override {
     size_t len = strnlen(buf, kLineBufferSize + 1);
@@ -53,7 +53,7 @@ class LogOutputStreamTestDelegate : public LogOutputStream::Delegate {
 
 class LogOutputStreamTest : public testing::Test {
  public:
-  LogOutputStreamTest() : test_log_output_() {}
+  LogOutputStreamTest() {}
 
  protected:
   void SetUp() override {
