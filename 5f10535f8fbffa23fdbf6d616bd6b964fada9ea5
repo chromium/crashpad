@@ -70,6 +70,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb823f63_70c40604",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2020-10-28T15:18:26Z",
+      "side": 1,
+      "message": "Yep, I\u0027ll abandon this and go with the mini chromium change.",
+      "parentUuid": "892ad768_00aa5f2d",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 39
+      },
+      "revId": "5f10535f8fbffa23fdbf6d616bd6b964fada9ea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "910bdf5a_6c7591ec",
