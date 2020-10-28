@@ -25,7 +25,7 @@ namespace {
 
 using IOSExceptionProcessor = PlatformTest;
 
-TEST_F(IOSExceptionProcessor, SelectorExists) {
+TEST_F(IOSExceptionProcessor, DISABLED_SelectorExists) {
   IMP uigesture_deliver_event_imp = class_getMethodImplementation(
       NSClassFromString(@"UIGestureEnvironment"),
       NSSelectorFromString(@"_deliverEvent:toGestureRecognizers:usingBlock:"));
