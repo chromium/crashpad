@@ -16,6 +16,40 @@
       "message": "ptal!",
       "revId": "487f0a6884906f943201daa470ea311bd95503d2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "985d7cc3_df2ea1f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-10-28T18:13:12Z",
+      "side": 1,
+      "message": "LGTM otherwise.",
+      "revId": "487f0a6884906f943201daa470ea311bd95503d2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98b74095_23e5b670",
+        "filename": "util/ios/exception_processor_test.mm",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-10-28T18:13:12Z",
+      "side": 1,
+      "message": "Tag with a TODO tied to the iOS bug to track re-enabling this.",
+      "revId": "487f0a6884906f943201daa470ea311bd95503d2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
