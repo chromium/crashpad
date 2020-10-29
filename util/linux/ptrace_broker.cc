@@ -17,6 +17,7 @@
 #include <fcntl.h>
 #include <limits.h>
 #include <string.h>
+#include <sys/mman.h>
 #include <syscall.h>
 #include <unistd.h>
 
@@ -24,7 +25,11 @@
 
 #include "base/check_op.h"
 #include "base/posix/eintr_wrapper.h"
+#include "base/process/process_metrics.h"
+#include "third_party/lss/lss.h"
+#include "util/linux/scoped_ptrace_attach.h"
 #include "util/misc/memory_sanitizer.h"
+#include "util/posix/scoped_mmap.h"
 
 namespace crashpad {
 
@@ -52,18 +57,50 @@ size_t FormatPID(char* buffer, pid_t pid) {
 
 }  // namespace
 
+class PtraceBroker::AttachmentsArray {
+ public:
+  AttachmentsArray() : allocation_(), attach_count_(0) {}
+
+  bool Initialize() {
+    return allocation_.ResetMmap(nullptr,
+                                 base::GetPageSize(),
+                                 PROT_READ | PROT_WRITE,
+                                 MAP_PRIVATE | MAP_ANONYMOUS,
+                                 -1,
+                                 0);
+  }
+
+  ScopedPtraceAttach* AllocateAttachment() {
+    if (attach_count_ >= (allocation_.len() / sizeof(ScopedPtraceAttach))) {
+      return nullptr;
+    }
+    return &Attachments()[attach_count_++];
+  }
+
+  ~AttachmentsArray() {
+    for (size_t index = 0; index < attach_count_; ++index) {
+      Attachments()[index].Reset();
+    }
+  }
+
+  ScopedPtraceAttach* Attachments() {
+    return allocation_.addr_as<ScopedPtraceAttach*>();
+  }
+
+ private:
+  ScopedMmap allocation_;
+  size_t attach_count_;
+
+  DISALLOW_COPY_AND_ASSIGN(AttachmentsArray);
+};
+
 PtraceBroker::PtraceBroker(int sock, pid_t pid, bool is_64_bit)
     : ptracer_(is_64_bit, /* can_log= */ false),
       file_root_(file_root_buffer_),
-      attachments_(nullptr),
-      attach_count_(0),
-      attach_capacity_(0),
       memory_file_(),
       sock_(sock),
       memory_pid_(pid),
       tried_opening_mem_file_(false) {
-  AllocateAttachments();
-
   static constexpr char kProc[] = "/proc/";
   size_t root_length = strlen(kProc);
   memcpy(file_root_buffer_, kProc, root_length);
@@ -88,35 +125,13 @@ void PtraceBroker::SetFileRoot(const char* new_root) {
 }
 
 int PtraceBroker::Run() {
-  int result = RunImpl();
-  ReleaseAttachments();
+  AttachmentsArray attachments;
+  attachments.Initialize();
+  int result = RunImpl(&attachments);
   return result;
 }
 
-bool PtraceBroker::AllocateAttachments() {
-  constexpr size_t page_size = 4096;
-  constexpr size_t alloc_size =
-      (sizeof(ScopedPtraceAttach) + page_size - 1) & ~(page_size - 1);
-  void* alloc = sbrk(alloc_size);
-  if (reinterpret_cast<intptr_t>(alloc) == -1) {
-    return false;
-  }
-
-  if (attachments_ == nullptr) {
-    attachments_ = reinterpret_cast<ScopedPtraceAttach*>(alloc);
-  }
-
-  attach_capacity_ += alloc_size / sizeof(ScopedPtraceAttach);
-  return true;
-}
-
-void PtraceBroker::ReleaseAttachments() {
-  for (size_t index = 0; index < attach_count_; ++index) {
-    attachments_[index].Reset();
-  }
-}
-
-int PtraceBroker::RunImpl() {
+int PtraceBroker::RunImpl(AttachmentsArray* attachments) {
   while (true) {
     Request request = {};
     if (!ReadFileExactly(sock_, &request, sizeof(request))) {
@@ -129,24 +144,20 @@ int PtraceBroker::RunImpl() {
 
     switch (request.type) {
       case Request::kTypeAttach: {
-        ScopedPtraceAttach* attach;
-        ScopedPtraceAttach stack_attach;
-        bool attach_on_stack = false;
+        AttachmentsArray more_attachments;
 
-        if (attach_capacity_ > attach_count_ || AllocateAttachments()) {
-          attach = new (&attachments_[attach_count_]) ScopedPtraceAttach;
-        } else {
-          attach = &stack_attach;
-          attach_on_stack = true;
+        bool recurse = false;
+        ScopedPtraceAttach* attach = attachments->AllocateAttachment();
+        if (!attach) {
+          more_attachments.Initialize();
+          attach = more_attachments.AllocateAttachment();
+          recurse = true;
         }
 
         ExceptionHandlerProtocol::Bool status =
             ExceptionHandlerProtocol::kBoolFalse;
         if (attach->ResetAttach(request.tid)) {
           status = ExceptionHandlerProtocol::kBoolTrue;
-          if (!attach_on_stack) {
-            ++attach_count_;
-          }
         }
 
         if (!WriteFile(sock_, &status, sizeof(status))) {
@@ -160,9 +171,10 @@ int PtraceBroker::RunImpl() {
           }
         }
 
-        if (attach_on_stack && status == ExceptionHandlerProtocol::kBoolTrue) {
-          return RunImpl();
+        if (recurse && status == ExceptionHandlerProtocol::kBoolTrue) {
+          return RunImpl(&more_attachments);
         }
+
         continue;
       }
 
