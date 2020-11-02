@@ -21,6 +21,13 @@
 
 namespace crashpad {
 
+//! \brief Attaches to the process with process ID \a pid and blocks until the
+//!     target process has stopped by calling `waitpid()`.
+//!
+//! \param pid The process ID of the process to attach to.
+//! \return `true` on success. `false` on failure. No message will be logged.
+bool UnscopedPtraceAttach(pid_t pid, bool can_log = true);
+
 //! \brief Maintains a `ptrace()` attachment to a process.
 //!
 //! On destruction, the process will be detached.
