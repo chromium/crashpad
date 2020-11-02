@@ -26,11 +26,13 @@ namespace crashpad {
 
 //! \brief Maintains a memory-mapped region created by `mmap()`.
 //!
+//! \param can_log `true` if methods of this class may log messages on failure.
+//!
 //! On destruction, any memory-mapped region managed by an object of this class
 //! will be released by calling `munmap()`.
 class ScopedMmap {
  public:
-  ScopedMmap();
+  explicit ScopedMmap(bool can_log = true);
   ~ScopedMmap();
 
   //! \brief Releases the memory-mapped region by calling `munmap()`.
@@ -105,6 +107,7 @@ class ScopedMmap {
  private:
   void* addr_ = MAP_FAILED;
   size_t len_ = 0;
+  bool can_log_ = true;
 
   DISALLOW_COPY_AND_ASSIGN(ScopedMmap);
 };
