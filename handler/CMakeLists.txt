@@ -11,7 +11,7 @@ add_library(crashpad_handler_lib STATIC
     user_stream_data_source.h
 )
 
-if(APPLE)
+if(APPLE AND NOT IOS)
     target_sources(crashpad_handler_lib PRIVATE
         mac/crash_report_exception_handler.cc
         mac/crash_report_exception_handler.h
