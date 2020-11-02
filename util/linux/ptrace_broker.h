@@ -24,7 +24,6 @@
 #include "util/linux/exception_handler_protocol.h"
 #include "util/linux/ptrace_connection.h"
 #include "util/linux/ptracer.h"
-#include "util/linux/scoped_ptrace_attach.h"
 #include "util/linux/thread_info.h"
 #include "util/misc/address_types.h"
 
@@ -186,16 +185,18 @@ class PtraceBroker {
   //! This method returns when a PtraceBrokerRequest with type kTypeExit is
   //! received or an error is encountered on the socket.
   //!
-  //! This method calls `sbrk`, which may break other memory management tools,
-  //! such as `malloc`.
+  //! This method may need to ptrace-attach processes without sufficient memory
+  //! to keep track of the attachments. In this case, the attachments will be
+  //! automatically freed and the attached processes detached by the kernel when
+  //! this process exits.
   //!
   //! \return 0 if Run() exited due to an exit request. Otherwise an error code.
   int Run();
 
  private:
-  bool AllocateAttachments();
-  void ReleaseAttachments();
-  int RunImpl();
+  class AttachmentsArray;
+
+  int RunImpl(AttachmentsArray*);
   int SendError(ExceptionHandlerProtocol::Errno err);
   int SendReadError(ReadError err);
   int SendOpenResult(OpenResult result);
@@ -210,9 +211,6 @@ class PtraceBroker {
   char file_root_buffer_[32];
   Ptracer ptracer_;
   const char* file_root_;
-  ScopedPtraceAttach* attachments_;
-  size_t attach_count_;
-  size_t attach_capacity_;
   ScopedFileHandle memory_file_;
   int sock_;
   pid_t memory_pid_;
