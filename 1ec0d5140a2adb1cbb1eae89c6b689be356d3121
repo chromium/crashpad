@@ -16,6 +16,80 @@
       "message": "Sorry this took so long.   I\u0027m circling back to crashpadios.\n\nPTAL, but I expect this will need more changes.",
       "revId": "1ec0d5140a2adb1cbb1eae89c6b689be356d3121",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe84788d_ab8bd467",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-11-03T02:47:06Z",
+      "side": 1,
+      "message": "Can you just do one pass to get both min and max?",
+      "revId": "1ec0d5140a2adb1cbb1eae89c6b689be356d3121",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d07c26e_52fb2ab8",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-11-03T02:47:06Z",
+      "side": 1,
+      "message": "We have a scoper for this.",
+      "revId": "1ec0d5140a2adb1cbb1eae89c6b689be356d3121",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e759ce1_173ef669",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-11-03T02:47:06Z",
+      "side": 1,
+      "message": "Shouldn’t these be ≥ and ≤?",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 51
+      },
+      "revId": "1ec0d5140a2adb1cbb1eae89c6b689be356d3121",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cabc83b0_c02ceba3",
+        "filename": "util/ios/exception_processor_test.mm",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-11-03T02:47:06Z",
+      "side": 1,
+      "message": "Is this necessary anymore?",
+      "revId": "1ec0d5140a2adb1cbb1eae89c6b689be356d3121",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
