@@ -73,6 +73,7 @@ else()
             "/wd4267" # conversion from 'size_t' to 't', possible loss of data
             "/wd4324" # structure was padded due to alignment specifier
             "/wd4702" # unreachable code
+            "/wd5105" # see https://github.com/getsentry/sentry-native/issues/415
         )
     endif()
 endif()
