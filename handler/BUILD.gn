@@ -34,10 +34,17 @@ static_library("handler") {
       "mac/crash_report_exception_handler.h",
       "mac/exception_handler_server.cc",
       "mac/exception_handler_server.h",
+    ]
+  }
+
+  if (crashpad_is_mac || crashpad_is_ios) {
+    sources += [
       "mac/file_limit_annotation.cc",
       "mac/file_limit_annotation.h",
     ]
   }
+
+
 
   if (crashpad_is_linux || crashpad_is_android) {
     sources += [
@@ -67,7 +74,7 @@ static_library("handler") {
   public_configs = [ "..:crashpad_config" ]
 
   public_deps = [
-    "../client",
+#    "../client",
     "../third_party/mini_chromium:base",
     "../util",
   ]

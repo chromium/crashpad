@@ -14,6 +14,7 @@
 
 #include "client/crashpad_client.h"
 
+#include <sys/stat.h>
 #include <unistd.h>
 
 #include <ios>
@@ -22,17 +23,27 @@
 #include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_port.h"
 #include "base/stl_util.h"
+#include "handler/mac/crash_report_exception_handler.h"
+#include "client/ios_handler/in_process_handler.h"
+#include "client/settings.h"
 #include "snapshot/ios/process_snapshot_ios.h"
+#include "minidump/minidump_file_writer.h"
+#include "util/file/filesystem.h"
 #include "util/ios/exception_processor.h"
 #include "util/ios/ios_system_data_collector.h"
+#include "util/ios/pack_ios_state.h"
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/exception_ports.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/posix/scoped_mmap.h"
 #include "util/posix/signals.h"
 #include "util/thread/thread.h"
+
+// hack
+#include <sys/sysctl.h>
 
 namespace crashpad {
 
@@ -46,10 +57,27 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
     return instance;
   }
 
-  void Initialize() {
+  void Initialize(const base::FilePath& database_dir) {
     INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
     InstallMachExceptionHandler();
     CHECK(Signals::InstallHandler(SIGABRT, CatchSignal, 0, &old_action_));
+    handler_.Initialize(database_dir);
+    database_ = CrashReportDatabase::Initialize(database_dir);
+    database_->GetSettings()->SetUploadsEnabled(true);
+
+    // TODO(scottmg): options.rate_limit should be removed when we have a
+    // configurable database setting to control upload limiting.
+    // See https://crashpad.chromium.org/bug/23.
+    CrashReportUploadThread::Options upload_thread_options;
+    upload_thread_options.rate_limit = true;
+    upload_thread_options.upload_gzip = true;
+    upload_thread_options.watch_pending_reports = true;
+    upload_thread_options.identify_client_via_url = true;
+
+    upload_thread_ = new CrashReportUploadThread(
+        database_.get(), "https://clients2.google.com/cr/staging_report", upload_thread_options);
+    upload_thread_->Start();
+
     INITIALIZATION_STATE_SET_VALID(initialized_);
   }
 
@@ -65,6 +93,85 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
                         MACHINE_THREAD_STATE,
                         reinterpret_cast<ConstThreadState>(context),
                         MACHINE_THREAD_STATE_COUNT);
+  }
+
+  // TODO(justincohen): For testing only!
+  // To be removed before landing CL, but super useful in testing.
+  void test_only_dump(ProcessSnapshotIOS& process_snapshot) {
+    std::unique_ptr<CrashReportDatabase::NewReport> new_report;
+    CrashReportDatabase::OperationStatus database_status =
+        database_->PrepareNewCrashReport(&new_report);
+    if (database_status != CrashReportDatabase::kNoError) {
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kPrepareNewCrashReportFailed);
+    }
+    process_snapshot.SetReportID(new_report->ReportID());
+    MinidumpFileWriter minidump;
+    minidump.InitializeFromSnapshot(&process_snapshot);
+    if (!minidump.WriteEverything(new_report->Writer())) {
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kMinidumpWriteFailed);
+    }
+    UUID uuid;
+    database_status =
+        database_->FinishedWritingCrashReport(std::move(new_report), &uuid);
+    if (database_status != CrashReportDatabase::kNoError) {
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
+    }
+    
+    if (upload_thread_) {
+      upload_thread_->ReportPending(uuid);
+    }
+
+  }
+  
+  void ProcessPendingDumps() {
+    std::vector<base::FilePath> files = handler_.PendingFiles();
+    for (auto& file : files) {
+//      iOSPartialDump dump(file);
+//      if (!dump.Read()) {
+//        // error
+//        return;
+//      }
+      ProcessSnapshotIOS process_snapshot;
+      if (!process_snapshot.Initialize(system_data_)) {
+        // error
+        return;
+      }
+//      if (process_snapshot.Initialize(&dump, &process_state)) {
+//        //error
+//        return;
+//      }
+
+      test_only_dump(process_snapshot);
+//
+//      int fd = open(file.value().c_str(), O_RDONLY);
+//      struct stat filestat;
+//      fstat(fd, &filestat);
+//      ScopedMmap mapping;
+//      mapping.ResetMmap(NULL, filestat.st_size, PROT_READ, MAP_SHARED, fd, 0);
+//      const PackedMap in_process_dump =
+//          Parse(mapping.addr_as<uint8_t*>(), mapping.len());
+//      const PackedData foo =
+//          in_process_dump["ProcessInfo"]["kern_proc_info"].get_data();
+//      kinfo_proc* kern_proc_info = (kinfo_proc*)foo.data;
+////      ProcessSnapshotIOS process_snapshot;
+////      process_snapshot.InitializeFromSerializedSnapshot(system_data_);
+//      kern_proc_info = nullptr;
+//      const auto parentList = static_cast<const PackedList*>(&in_process_dump["Modules"]);
+//      for(auto const& value: parentList->list) {
+//        const PackedMap* map = value.get();
+//        DLOG(WARNING) << std::string((char*)map->map.at("name").get()->get_data().data, map->map.at("name").get()->get_data().length);
+//      }
+//
+//      DLOG(WARNING) << in_process_dump["SystemInfo"]["machine_description"]
+//                           .get_data()
+//                           .data;
+//      close(fd);
+      LoggingRemoveFile(file);
+      sleep(5000);
+    }
   }
 
  private:
@@ -164,17 +271,15 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
                            thread_state_flavor_t flavor,
                            ConstThreadState old_state,
                            mach_msg_type_number_t old_state_count) {
-    // TODO(justincohen): This is incomplete.
-    ProcessSnapshotIOS process_snapshot;
-    process_snapshot.Initialize(system_data_);
-    process_snapshot.SetExceptionFromMachException(behavior,
-                                                   thread,
-                                                   exception,
-                                                   code,
-                                                   code_count,
-                                                   flavor,
-                                                   old_state,
-                                                   old_state_count);
+    handler_.DumpExceptionFromMachException(system_data_,
+                                            behavior,
+                                            thread,
+                                            exception,
+                                            code,
+                                            code_count,
+                                            flavor,
+                                            old_state,
+                                            old_state_count);
   }
 
   // The signal handler installed at OS-level.
@@ -186,10 +291,7 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
   void HandleAndReraiseSignal(int signo,
                               siginfo_t* siginfo,
                               ucontext_t* context) {
-    // TODO(justincohen): This is incomplete.
-    ProcessSnapshotIOS process_snapshot;
-    process_snapshot.Initialize(system_data_);
-    process_snapshot.SetExceptionFromSignal(siginfo, context);
+    handler_.DumpExceptionFromSignal(system_data_, siginfo, context);
 
     // Always call system handler.
     Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, &old_action_);
@@ -198,7 +300,10 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
   base::mac::ScopedMachReceiveRight exception_port_;
   ExceptionPorts::ExceptionHandlerVector original_handlers_;
   struct sigaction old_action_ = {};
+  InProcessHandler handler_;
   IOSSystemDataCollector system_data_;
+  CrashReportUploadThread* upload_thread_;
+  std::unique_ptr<CrashReportDatabase> database_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(CrashHandler);
@@ -210,12 +315,13 @@ CrashpadClient::CrashpadClient() {}
 
 CrashpadClient::~CrashpadClient() {}
 
-void CrashpadClient::StartCrashpadInProcessHandler() {
+void CrashpadClient::StartCrashpadInProcessHandler(
+    const base::FilePath& database) {
   InstallObjcExceptionPreprocessor();
 
   CrashHandler* crash_handler = CrashHandler::Get();
   DCHECK(crash_handler);
-  crash_handler->Initialize();
+  crash_handler->Initialize(database);
 }
 
 // static
@@ -223,6 +329,14 @@ void CrashpadClient::DumpWithoutCrash(NativeCPUContext* context) {
   CrashHandler* crash_handler = CrashHandler::Get();
   DCHECK(crash_handler);
   crash_handler->DumpWithoutCrash(context);
+  crash_handler->ProcessPendingDumps();
+}
+
+// static
+void CrashpadClient::ProcessPendingDumps() {
+  CrashHandler* crash_handler = CrashHandler::Get();
+  DCHECK(crash_handler);
+  crash_handler->ProcessPendingDumps();
 }
 
 }  // namespace crashpad
