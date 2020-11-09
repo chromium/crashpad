@@ -25,6 +25,7 @@
 #import "Service/Sources/EDOHostNamingService.h"
 #import "Service/Sources/EDOHostService.h"
 #include "client/crashpad_client.h"
+#include "test/scoped_temp_dir.h"
 #import "test/ios/host/cptest_crash_view_controller.h"
 #import "test/ios/host/cptest_shared_object.h"
 
@@ -40,7 +41,8 @@
     didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
   // Start up crashpad.
   crashpad::CrashpadClient client;
-  client.StartCrashpadInProcessHandler();
+  crashpad::test::ScopedTempDir database_dir;
+  client.StartCrashpadInProcessHandler(base::FilePath(database_dir.path()));
 
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   [self.window makeKeyAndVisible];

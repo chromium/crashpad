@@ -21,6 +21,7 @@
 
 #include "snapshot/ios/exception_snapshot_ios.h"
 #include "snapshot/ios/module_snapshot_ios.h"
+#include "snapshot/ios/process_snapshot_ios.h"
 #include "snapshot/ios/system_snapshot_ios.h"
 #include "snapshot/ios/thread_snapshot_ios.h"
 #include "snapshot/process_snapshot.h"
