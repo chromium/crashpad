@@ -40,7 +40,8 @@
     didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
   // Start up crashpad.
   crashpad::CrashpadClient client;
-  client.StartCrashpadInProcessHandler();
+  NSString* filePath = NSTemporaryDirectory();
+  client.StartCrashpadInProcessHandler(base::FilePath(std::string([filePath UTF8String])));
 
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   [self.window makeKeyAndVisible];

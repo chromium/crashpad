@@ -443,6 +443,74 @@ bool ThreadSnapshotIOS::Initialize(thread_t thread) {
   return true;
 }
 
+bool ThreadSnapshotIOS::Initialize(const PackedMap& thread_data) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+  thread_basic_info* basic_info =
+      thread_data["thread_basic_info"].AsData().GetPointer<thread_basic_info>();
+  suspend_count_ = basic_info->suspend_count;
+
+  thread_precedence_policy* precedence =
+      thread_data["thread_precedence_policy"]
+          .AsData()
+          .GetPointer<thread_precedence_policy>();
+  priority_ = precedence->importance;
+
+  vm_address_t* stack_region_address =
+      thread_data["stack_region_address"].AsData().GetPointer<vm_address_t>();
+  vm_size_t stack_region_size =
+      thread_data["stack_region_address"].AsData().length();
+  stack_.Initialize(stack_region_address, stack_region_size);
+
+  thread_identifier_info* thread_info =
+      thread_data["thread_identifier_info"]
+          .AsData()
+          .GetPointer<thread_identifier_info>();
+  thread_id_ = thread_info->thread_id;
+
+#if defined(ARCH_CPU_X86_64)
+  typedef x86_thread_state64_t thread_state_type;
+  typedef x86_float_state64_t float_state_type;
+  typedef x86_debug_state64_t debug_state_type;
+#elif defined(ARCH_CPU_ARM64)
+  typedef arm_thread_state64_t thread_state_type;
+  typedef arm_neon_state64_t float_state_type;
+  typedef arm_debug_state64_t debug_state_type;
+#endif
+
+  thread_state_type* thread_state =
+      thread_data["thread_state"].AsData().GetPointer<thread_state_type>();
+  float_state_type* float_state =
+      thread_data["float_state"].AsData().GetPointer<float_state_type>();
+  debug_state_type* debug_state =
+      thread_data["debug_state"].AsData().GetPointer<debug_state_type>();
+
+#if defined(ARCH_CPU_X86_64)
+  context_.architecture = kCPUArchitectureX86_64;
+  context_.x86_64 = &context_x86_64_;
+  InitializeCPUContextX86_64(&context_x86_64_,
+                             THREAD_STATE_NONE,
+                             nullptr,
+                             0,
+                             thread_state,
+                             float_state,
+                             debug_state);
+#elif defined(ARCH_CPU_ARM64)
+  context_.architecture = kCPUArchitectureARM64;
+  context_.arm64 = &context_arm64_;
+  InitializeCPUContextARM64(&context_arm64_,
+                            THREAD_STATE_NONE,
+                            nullptr,
+                            0,
+                            thread_state,
+                            float_state,
+                            debug_state);
+#else
+#error Port to your CPU architecture
+#endif
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
 const CPUContext* ThreadSnapshotIOS::Context() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return &context_;

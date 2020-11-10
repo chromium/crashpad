@@ -45,7 +45,9 @@ ProcessSnapshotIOS::ProcessSnapshotIOS()
       exception_(),
       report_id_(),
       client_id_(),
-      annotations_simple_map_(),
+      annotations_simple_map_({{"prod", "ios_crash_xcuitests"},
+                               {"ver", "1"},
+                               {"plat", "iPhoneos"}}),
       snapshot_time_(),
       initialized_() {}
 
