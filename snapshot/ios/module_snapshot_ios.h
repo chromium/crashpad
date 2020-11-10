@@ -26,6 +26,7 @@
 #include "base/macros.h"
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/module_snapshot.h"
+#include "util/ios/pack_ios_state.h"
 #include "util/misc/initialization_state_dcheck.h"
 
 namespace crashpad {
@@ -47,6 +48,7 @@ class ModuleSnapshotIOS final : public ModuleSnapshot {
   //!
   //! \return `true` if the snapshot could be created.
   bool Initialize(const dyld_image_info* image);
+  bool Initialize(const PackedMap& image_data);
 
   // TODO(justincohen): This function is temporary, and will be broken into two
   // parts.  One to do an in-process dump of all the relevant information, and

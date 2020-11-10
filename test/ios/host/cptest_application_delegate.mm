@@ -27,6 +27,7 @@
 #include "client/crashpad_client.h"
 #import "test/ios/host/cptest_crash_view_controller.h"
 #import "test/ios/host/cptest_shared_object.h"
+#include "test/scoped_temp_dir.h"
 
 #if !defined(__has_feature) || !__has_feature(objc_arc)
 #error "This file requires ARC support."
@@ -40,7 +41,8 @@
     didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
   // Start up crashpad.
   crashpad::CrashpadClient client;
-  client.StartCrashpadInProcessHandler();
+  crashpad::test::ScopedTempDir database_dir;
+  client.StartCrashpadInProcessHandler(base::FilePath(database_dir.path()));
 
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   [self.window makeKeyAndVisible];

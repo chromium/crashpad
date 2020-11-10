@@ -30,6 +30,22 @@ void MemorySnapshotIOS::Initialize(vm_address_t address, vm_size_t size) {
   INITIALIZATION_STATE_SET_VALID(initialized_);
 }
 
+void MemorySnapshotIOS::Initialize(vm_address_t* address, vm_size_t size) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+  if (address) {
+    address_ = *address;
+  }
+  size_ = base::checked_cast<size_t>(size);
+
+  // TODO(justincohen): This is temporary, as MemorySnapshotIOS will likely be
+  // able to point directly to the deserialized data dump rather than copying
+  // data around.
+  buffer_ = std::unique_ptr<uint8_t[]>(new uint8_t[size_]);
+  if (address)
+    memcpy(buffer_.get(), reinterpret_cast<void*>(address_), size_);
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+}
+
 uint64_t MemorySnapshotIOS::Address() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return address_;
