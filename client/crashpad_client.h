@@ -460,7 +460,7 @@ class CrashpadClient {
   //!
   //! TODO(justincohen): This method will need to take database, metrics_dir,
   //! url and annotations eventually.
-  void StartCrashpadInProcessHandler();
+  void StartCrashpadInProcessHandler(const base::FilePath& database);
 
   // TODO(justincohen): This method is purely for bringing up iOS interfaces.
   //! \brief Requests that the handler capture a dump even though there hasn't
@@ -471,6 +471,8 @@ class CrashpadClient {
   //! \param[in] context A NativeCPUContext, generally captured by
   //!     CaptureContext() or similar.
   static void DumpWithoutCrash(NativeCPUContext* context);
+
+  static void ProcessPendingDumps();
 #endif
 
 #if defined(OS_APPLE) || DOXYGEN

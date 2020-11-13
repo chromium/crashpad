@@ -20,6 +20,7 @@
 #include "snapshot/cpu_context.h"
 #include "snapshot/ios/memory_snapshot_ios.h"
 #include "snapshot/thread_snapshot.h"
+#include "util/ios/pack_ios_state.h"
 #include "util/misc/initialization_state_dcheck.h"
 
 namespace crashpad {
@@ -35,6 +36,7 @@ class ThreadSnapshotIOS final : public ThreadSnapshot {
   //!
   //! \brief thread The Mach thread used to initialize this object.
   bool Initialize(thread_t thread);
+  bool Initialize(const PackedMap& thread_data);
 
   //! \brief Returns an array of thread_t threads.
   //!

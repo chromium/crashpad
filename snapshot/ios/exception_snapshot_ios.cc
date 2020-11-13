@@ -37,6 +37,64 @@ ExceptionSnapshotIOS::ExceptionSnapshotIOS()
 
 ExceptionSnapshotIOS::~ExceptionSnapshotIOS() {}
 
+bool ExceptionSnapshotIOS::InitializeFromSignal(
+    const PackedMap& exception_data) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+#if defined(ARCH_CPU_X86_64)
+  typedef x86_thread_state64_t thread_state_type;
+  typedef x86_float_state64_t float_state_type;
+#elif defined(ARCH_CPU_ARM64)
+  typedef arm_thread_state64_t thread_state_type;
+  typedef arm_neon_state64_t float_state_type;
+#endif
+
+  thread_state_type thread_state;
+  exception_data["thread_state"].AsData().GetData<thread_state_type>(
+      &thread_state);
+  float_state_type float_state;
+  exception_data["float_state"].AsData().GetData<float_state_type>(
+      &float_state);
+
+#if defined(ARCH_CPU_X86_64)
+  context_.architecture = kCPUArchitectureX86_64;
+  context_.x86_64 = &context_x86_64_;
+  x86_debug_state64_t empty_debug_state = {};
+  InitializeCPUContextX86_64(&context_x86_64_,
+                             THREAD_STATE_NONE,
+                             nullptr,
+                             0,
+                             &thread_state,
+                             &float_state,
+                             &empty_debug_state);
+#elif defined(ARCH_CPU_ARM64)
+  context_.architecture = kCPUArchitectureARM64;
+  context_.arm64 = &context_arm64_;
+  arm_debug_state64_t empty_debug_state = {};
+  InitializeCPUContextARM64(&context_arm64_,
+                            THREAD_STATE_NONE,
+                            nullptr,
+                            0,
+                            &thread_state,
+                            &float_state,
+                            &empty_debug_state);
+#else
+#error Port to your CPU architecture
+#endif
+
+  exception_data["thread_id"].AsData().GetData<uint64_t>(&thread_id_);
+  exception_data["siginfo"]["si_signo"].AsData().GetData<uint32_t>(&exception_);
+  exception_data["siginfo"]["si_code"].AsData().GetData<uint32_t>(
+      &exception_info_);
+  exception_data["siginfo"]["si_addr"].AsData().GetData<uintptr_t>(
+      &exception_address_);
+
+  // TODO(justincohen): Record the source of the exception (signal, mach, etc).
+
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
+
 void ExceptionSnapshotIOS::InitializeFromSignal(const siginfo_t* siginfo,
                                                 const ucontext_t* context) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
@@ -92,6 +150,133 @@ void ExceptionSnapshotIOS::InitializeFromSignal(const siginfo_t* siginfo,
   // TODO(justincohen): Record the source of the exception (signal, mach, etc).
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
+}
+
+bool ExceptionSnapshotIOS::InitializeFromMachException(
+    const PackedMap& exception_data,
+    const PackedList& thread_list) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+  exception_type_t exception;
+  exception_data["exception"].AsData().GetData<exception_type_t>(&exception);
+  codes_.push_back(exception);
+  exception_ = exception;
+
+  mach_msg_type_number_t code_count;
+  exception_data["code_count"].AsData().GetData<mach_msg_type_number_t>(
+      &code_count);
+  mach_exception_data_type_t* code =
+      (mach_exception_data_type_t*)exception_data["code"].AsData().data();
+  if (exception_data["code"].AsData().length() !=
+      sizeof(mach_exception_data_type_t) * code_count) {
+    LOG(ERROR) << "Invalid mach exception code length";
+  }
+
+  // TODO: rationalize with the macOS implementation.
+  for (mach_msg_type_number_t code_index = 0; code_index < code_count;
+       ++code_index) {
+    codes_.push_back(code[code_index]);
+  }
+  exception_info_ = code[0];
+
+  // For serialization, float_state and, on x86, debug_state, will be identical
+  // between here and the thread_snapshot version for thread_id.  That means
+  // this block getting float_state and debug_state can be skipped when doing
+  // proper serialization.
+#if defined(ARCH_CPU_X86_64)
+  typedef x86_thread_state64_t thread_state_type;
+  typedef x86_float_state64_t float_state_type;
+  typedef x86_debug_state64_t debug_state_type;
+#elif defined(ARCH_CPU_ARM64)
+  typedef arm_thread_state64_t thread_state_type;
+  typedef arm_neon_state64_t float_state_type;
+  typedef arm_debug_state64_t debug_state_type;
+#endif
+
+  exception_data["thread_id"].AsData().GetData<uint64_t>(&thread_id_);
+
+  thread_state_type thread_state;
+  float_state_type float_state;
+  debug_state_type debug_state;
+
+  for (auto& value : thread_list) {
+    uint64_t other_thread_id;
+    exception_data["thread_id"].AsData().GetData<uint64_t>(&other_thread_id);
+    if (thread_id_ == other_thread_id) {
+      (*value)["thread_state"].AsData().GetData<thread_state_type>(
+          &thread_state);
+      (*value)["float_state"].AsData().GetData<float_state_type>(&float_state);
+      (*value)["debug_state"].AsData().GetData<debug_state_type>(&debug_state);
+      break;
+    }
+  }
+
+  thread_state_flavor_t flavor;
+  exception_data["flavor"].AsData().GetData<thread_state_flavor_t>(&flavor);
+  ConstThreadState state;
+  exception_data["state"].AsData().GetData<ConstThreadState>(&state);
+  mach_msg_type_number_t state_count =
+      exception_data["state_count"].AsData().GetData<mach_msg_type_number_t>(
+          &state_count);
+
+#if defined(ARCH_CPU_X86_64)
+  context_.architecture = kCPUArchitectureX86_64;
+  context_.x86_64 = &context_x86_64_;
+  InitializeCPUContextX86_64(&context_x86_64_,
+                             flavor,
+                             state,
+                             state_count,
+                             &thread_state,
+                             &float_state,
+                             &debug_state);
+#elif defined(ARCH_CPU_ARM64)
+  context_.architecture = kCPUArchitectureARM64;
+  context_.arm64 = &context_arm64_;
+  InitializeCPUContextARM64(&context_arm64_,
+                            flavor,
+                            state,
+                            state_count,
+                            &thread_state,
+                            &float_state,
+                            &debug_state);
+#else
+#error Port to your CPU architecture
+#endif
+
+  // Normally, for EXC_BAD_ACCESS exceptions, the exception address is present
+  // in code[1]. It may or may not be the instruction pointer address (usually
+  // it’s not). code[1] may carry the exception address for other exception
+  // types too, but it’s not guaranteed. But for all other exception types, the
+  // instruction pointer will be the exception address, and in fact will be
+  // equal to codes[1] when it’s carrying the exception address. In those cases,
+  // just use the instruction pointer directly.
+  bool code_1_is_exception_address = exception_ == EXC_BAD_ACCESS;
+
+#if defined(ARCH_CPU_X86_64)
+  // For x86 and x86_64 EXC_BAD_ACCESS exceptions, some code[0] values
+  // indicate that code[1] does not (or may not) carry the exception address:
+  // EXC_I386_GPFLT (10.9.5 xnu-2422.115.4/osfmk/i386/trap.c user_trap() for
+  // T_GENERAL_PROTECTION) and the oddball (VM_PROT_READ | VM_PROT_EXECUTE)
+  // which collides with EXC_I386_BOUNDFLT (10.9.5
+  // xnu-2422.115.4/osfmk/i386/fpu.c fpextovrflt()). Other EXC_BAD_ACCESS
+  // exceptions come through 10.9.5 xnu-2422.115.4/osfmk/i386/trap.c
+  // user_page_fault_continue() and do contain the exception address in
+  // code[1].
+  if (exception_ == EXC_BAD_ACCESS &&
+      (exception_info_ == EXC_I386_GPFLT ||
+       exception_info_ == (VM_PROT_READ | VM_PROT_EXECUTE))) {
+    code_1_is_exception_address = false;
+  }
+#endif
+
+  if (code_1_is_exception_address) {
+    exception_address_ = code[1];
+  } else {
+    exception_address_ = context_.InstructionPointer();
+  }
+
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
 }
 
 void ExceptionSnapshotIOS::InitializeFromMachException(
