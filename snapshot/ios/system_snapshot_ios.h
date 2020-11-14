@@ -22,6 +22,7 @@
 #include "base/macros.h"
 #include "snapshot/system_snapshot.h"
 #include "util/ios/ios_system_data_collector.h"
+#include "util/ios/pack_ios_state.h"
 #include "util/misc/initialization_state_dcheck.h"
 
 namespace crashpad {
@@ -38,6 +39,7 @@ class SystemSnapshotIOS final : public SystemSnapshot {
   //!
   //! \param[in] system_data A class containing various system data points.
   void Initialize(const IOSSystemDataCollector& system_data);
+  void Initialize(const PackedMap& system_data);
 
   // SystemSnapshot:
 

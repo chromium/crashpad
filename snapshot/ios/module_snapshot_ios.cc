@@ -72,6 +72,22 @@ bool ModuleSnapshotIOS::Initialize(const dyld_image_info* image) {
   return FinishInitialization();
 }
 
+bool ModuleSnapshotIOS::Initialize(const PackedMap& image_data) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+  image_data["name"].GetString(&name_);
+  image_data["address"].AsData().GetData<uint64_t>(&address_);
+  image_data["size"].AsData().GetData<uint64_t>(&size_);
+  image_data["timestamp"].AsData().GetData<time_t>(&timestamp_);
+  image_data["dylib_current_version"].AsData().GetData<uint32_t>(
+      &dylib_version_);
+  image_data["source_version"].AsData().GetData<uint64_t>(&source_version_);
+  image_data["filetype"].AsData().GetData<uint32_t>(&filetype_);
+  uuid_.InitializeFromBytes(image_data["uuid"].AsData().data());
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
+
 bool ModuleSnapshotIOS::FinishInitialization() {
 #ifndef ARCH_CPU_64_BITS
 #error Only 64-bit Mach-O is supported
