@@ -57,6 +57,49 @@ SystemSnapshotIOS::SystemSnapshotIOS()
 
 SystemSnapshotIOS::~SystemSnapshotIOS() {}
 
+void SystemSnapshotIOS::Initialize(const PackedMap& system_data) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+  system_data["os_version_build"].GetString(&os_version_build_);
+  system_data["machine_description"].GetString(&machine_description_);
+  system_data["cpu_vendor"].GetString(&cpu_vendor_);
+  system_data["standard_name"].GetString(&standard_name_);
+  system_data["daylight_name"].GetString(&daylight_name_);
+
+  system_data["os_version_major"].GetInt(&os_version_major_);
+  system_data["os_version_minor"].GetInt(&os_version_minor_);
+  system_data["os_version_bugfix"].GetInt(&os_version_bugfix_);
+  system_data["cpu_count"].GetInt(&cpu_count_);
+  system_data["os_version_bugfix"].GetInt(&os_version_bugfix_);
+  system_data["standard_offset_seconds"].GetInt(&standard_offset_seconds_);
+  system_data["daylight_offset_seconds"].GetInt(&daylight_offset_seconds_);
+
+  bool has_daylight_saving_time;
+  system_data["has_daylight_saving_time"].GetBool(&has_daylight_saving_time);
+  bool is_daylight_saving_time;
+  system_data["is_daylight_saving_time"].GetBool(&is_daylight_saving_time);
+
+  if (has_daylight_saving_time) {
+    dst_status_ = is_daylight_saving_time
+                      ? SystemSnapshot::kObservingDaylightSavingTime
+                      : SystemSnapshot::kObservingStandardTime;
+  } else {
+    dst_status_ = SystemSnapshot::kDoesNotObserveDaylightSavingTime;
+  }
+
+  vm_size_t page_size;
+  if (system_data["page_size"].AsData().GetData<vm_size_t>(&page_size)) {
+    system_data["vm_stat"]["active"].AsData().GetData<uint64_t>(&active_);
+    active_ *= page_size;
+    system_data["vm_stat"]["inactive"].AsData().GetData<uint64_t>(&inactive_);
+    inactive_ *= page_size;
+    system_data["vm_stat"]["wired"].AsData().GetData<uint64_t>(&wired_);
+    wired_ *= page_size;
+    system_data["vm_stat"]["free"].AsData().GetData<uint64_t>(&free_);
+    free_ *= page_size;
+  }
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+}
+
 void SystemSnapshotIOS::Initialize(const IOSSystemDataCollector& system_data) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 

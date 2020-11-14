@@ -40,7 +40,11 @@
     didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
   // Start up crashpad.
   crashpad::CrashpadClient client;
-  client.StartCrashpadInProcessHandler();
+  base::FilePath database_dir([NSFileManager.defaultManager
+                                  URLsForDirectory:NSDocumentDirectory
+                                         inDomains:NSUserDomainMask]
+                                  .lastObject.path.UTF8String);
+  client.StartCrashpadInProcessHandler(database_dir.Append("crashpad"));
 
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   [self.window makeKeyAndVisible];

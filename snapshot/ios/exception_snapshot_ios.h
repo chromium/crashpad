@@ -24,6 +24,7 @@
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/exception_snapshot.h"
+#include "util/ios/pack_ios_state.h"
 #include "util/mach/mach_extensions.h"
 #include "util/misc/initialization_state_dcheck.h"
 
@@ -44,6 +45,7 @@ class ExceptionSnapshotIOS final : public ExceptionSnapshot {
   //!     an appropriate message logged.
   void InitializeFromSignal(const siginfo_t* siginfo,
                             const ucontext_t* context);
+  bool InitializeFromSignal(const PackedMap& exception_data);
 
   //! \brief Initialize the object from a Mach exception for the current task.
   //!
@@ -57,6 +59,8 @@ class ExceptionSnapshotIOS final : public ExceptionSnapshot {
                                    thread_state_flavor_t flavor,
                                    ConstThreadState state,
                                    mach_msg_type_number_t state_count);
+  bool InitializeFromMachException(const PackedMap& exception_data,
+                                   const PackedList& thread_list);
   // ExceptionSnapshot:
 
   const CPUContext* Context() const override;
