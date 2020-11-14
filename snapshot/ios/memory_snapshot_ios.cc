@@ -14,19 +14,18 @@
 
 #include "snapshot/ios/memory_snapshot_ios.h"
 
+#include "util/misc/from_pointer_cast.h"
+
 namespace crashpad {
 namespace internal {
 
-void MemorySnapshotIOS::Initialize(vm_address_t address, vm_size_t size) {
+void MemorySnapshotIOS::Initialize(vm_address_t address,
+                                   vm_address_t data,
+                                   vm_size_t size) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
   address_ = address;
+  data_ = data;
   size_ = base::checked_cast<size_t>(size);
-
-  // TODO(justincohen): This is temporary, as MemorySnapshotIOS will likely be
-  // able to point directly to the deserialized data dump rather than copying
-  // data around.
-  buffer_ = std::unique_ptr<uint8_t[]>(new uint8_t[size_]);
-  memcpy(buffer_.get(), reinterpret_cast<void*>(address_), size_);
   INITIALIZATION_STATE_SET_VALID(initialized_);
 }
 
@@ -47,7 +46,7 @@ bool MemorySnapshotIOS::Read(Delegate* delegate) const {
     return delegate->MemorySnapshotDelegateRead(nullptr, size_);
   }
 
-  return delegate->MemorySnapshotDelegateRead(buffer_.get(), size_);
+  return delegate->MemorySnapshotDelegateRead((void*)data_, size_);
 }
 
 const MemorySnapshot* MemorySnapshotIOS::MergeWithOtherSnapshot(
@@ -57,7 +56,7 @@ const MemorySnapshot* MemorySnapshotIOS::MergeWithOtherSnapshot(
     return nullptr;
 
   auto result = std::make_unique<MemorySnapshotIOS>();
-  result->Initialize(merged.base(), merged.size());
+  result->Initialize(merged.base(), data_, merged.size());
   return result.release();
 }
 
