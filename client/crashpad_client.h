@@ -460,7 +460,7 @@ class CrashpadClient {
   //!
   //! TODO(justincohen): This method will need to take database, metrics_dir,
   //! url and annotations eventually.
-  void StartCrashpadInProcessHandler();
+  void StartCrashpadInProcessHandler(const base::FilePath& database);
 
   // TODO(justincohen): This method is purely for bringing up iOS interfaces.
   //! \brief Requests that the handler capture a dump even though there hasn't

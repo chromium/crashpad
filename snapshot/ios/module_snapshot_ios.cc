@@ -38,38 +38,20 @@ ModuleSnapshotIOS::ModuleSnapshotIOS()
 
 ModuleSnapshotIOS::~ModuleSnapshotIOS() {}
 
-// static.
-const dyld_all_image_infos* ModuleSnapshotIOS::DyldAllImageInfo() {
-  task_dyld_info_data_t dyld_info;
-  mach_msg_type_number_t count = TASK_DYLD_INFO_COUNT;
-
-  kern_return_t kr = task_info(mach_task_self(),
-                               TASK_DYLD_INFO,
-                               reinterpret_cast<task_info_t>(&dyld_info),
-                               &count);
-  if (kr != KERN_SUCCESS) {
-    MACH_LOG(WARNING, kr) << "task_info";
-    return 0;
-  }
-
-  return reinterpret_cast<dyld_all_image_infos*>(dyld_info.all_image_info_addr);
-}
-
-bool ModuleSnapshotIOS::InitializeDyld(const dyld_all_image_infos* images) {
+bool ModuleSnapshotIOS::Initialize(const PackedMap& image_data) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
-  name_ = images->dyldPath;
-  address_ = FromPointerCast<uint64_t>(images->dyldImageLoadAddress);
-  return FinishInitialization();
-}
-
-bool ModuleSnapshotIOS::Initialize(const dyld_image_info* image) {
-  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
-
-  name_ = image->imageFilePath;
-  address_ = FromPointerCast<uint64_t>(image->imageLoadAddress);
-  timestamp_ = image->imageFileModDate;
-  return FinishInitialization();
+  image_data["name"].GetString(&name_);
+  image_data["address"].AsData().GetData<uint64_t>(&address_);
+  image_data["size"].AsData().GetData<uint64_t>(&size_);
+  image_data["timestamp"].AsData().GetData<time_t>(&timestamp_);
+  image_data["dylib_current_version"].AsData().GetData<uint32_t>(
+      &dylib_version_);
+  image_data["source_version"].AsData().GetData<uint64_t>(&source_version_);
+  image_data["filetype"].AsData().GetData<uint32_t>(&filetype_);
+  uuid_.InitializeFromBytes(image_data["uuid"].AsData().data());
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
 }
 
 bool ModuleSnapshotIOS::FinishInitialization() {
