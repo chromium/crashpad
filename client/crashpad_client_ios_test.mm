@@ -19,6 +19,7 @@
 #include <vector>
 
 #include "gtest/gtest.h"
+#include "test/scoped_temp_dir.h"
 #include "testing/platform_test.h"
 
 namespace crashpad {
@@ -29,8 +30,11 @@ using CrashpadIOSClient = PlatformTest;
 
 TEST_F(CrashpadIOSClient, DumpWithoutCrash) {
   CrashpadClient client;
-  client.StartCrashpadInProcessHandler();
-
+  ScopedTempDir database_dir;
+  client.StartCrashpadInProcessHandler(
+      base::FilePath(database_dir.path()),
+      "https://clients2.google.com/cr/staging_report",
+      {});
   NativeCPUContext context;
   CaptureContext(&context);
   client.DumpWithoutCrash(&context);
@@ -42,7 +46,11 @@ TEST_F(CrashpadIOSClient, DumpWithoutCrash) {
 // during development only.
 TEST_F(CrashpadIOSClient, DISABLED_ThrowNSException) {
   CrashpadClient client;
-  client.StartCrashpadInProcessHandler();
+  ScopedTempDir database_dir;
+  client.StartCrashpadInProcessHandler(
+      base::FilePath(database_dir.path()),
+      "https://clients2.google.com/cr/staging_report",
+      {});
   [NSException raise:@"GoogleTestNSException" format:@"ThrowException"];
 }
 
@@ -52,7 +60,11 @@ TEST_F(CrashpadIOSClient, DISABLED_ThrowNSException) {
 // during development only.
 TEST_F(CrashpadIOSClient, DISABLED_ThrowException) {
   CrashpadClient client;
-  client.StartCrashpadInProcessHandler();
+  ScopedTempDir database_dir;
+  client.StartCrashpadInProcessHandler(
+      base::FilePath(database_dir.path()),
+      "https://clients2.google.com/cr/staging_report",
+      {});
   std::vector<int> empty_vector;
   empty_vector.at(42);
 }

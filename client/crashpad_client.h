@@ -458,9 +458,16 @@ class CrashpadClient {
   //!
   //! This method is only defined on iOS.
   //!
-  //! TODO(justincohen): This method will need to take database, metrics_dir,
-  //! url and annotations eventually.
-  void StartCrashpadInProcessHandler();
+  //! TODO(justincohen): This method will need to take metrics_dir eventually.
+  //! \param[in] database The path to a Crashpad database.
+  //! \param[in] url The URL of an upload server.
+  //! \param[in] annotations Process annotations to set in each crash report.
+  //!     The handler will be started with an `--annotation` argument for each
+  //!     element in this map.
+  void StartCrashpadInProcessHandler(
+      const base::FilePath& database,
+      const std::string& url,
+      const std::map<std::string, std::string>& annotations);
 
   // TODO(justincohen): This method is purely for bringing up iOS interfaces.
   //! \brief Requests that the handler capture a dump even though there hasn't
