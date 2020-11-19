@@ -26,6 +26,7 @@
 #include "base/macros.h"
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/module_snapshot.h"
+#include "util/ios/ios_minidump_map.h"
 #include "util/misc/initialization_state_dcheck.h"
 
 namespace crashpad {
@@ -38,32 +39,17 @@ class ModuleSnapshotIOS final : public ModuleSnapshot {
   ModuleSnapshotIOS();
   ~ModuleSnapshotIOS() override;
 
-  // TODO(justincohen): This function is temporary, and will be broken into two
-  // parts.  One to do an in-process dump of all the relevant information, and
-  // two to initialize the snapshot after the in-process dump is loaded.
   //! \brief Initializes the object.
   //!
   //! \param[in] image The mach-o image to be loaded.
   //!
   //! \return `true` if the snapshot could be created.
-  bool Initialize(const dyld_image_info* image);
-
-  // TODO(justincohen): This function is temporary, and will be broken into two
-  // parts.  One to do an in-process dump of all the relevant information, and
-  // two to initialize the snapshot after the in-process dump is loaded.
-  //! \brief Initializes the object specifically for the dyld module.
-  //!
-  //! \param[in] images The structure containing the necessary dyld information.
-  //!
-  //! \return `true` if the snapshot could be created.
-  bool InitializeDyld(const dyld_all_image_infos* images);
+  bool Initialize(const IOSMinidumpMap& image_data);
 
   //! \brief Returns options from the module’s CrashpadInfo structure.
   //!
   //! \param[out] options Options set in the module’s CrashpadInfo structure.
   void GetCrashpadOptions(CrashpadInfoClientOptions* options);
-
-  static const dyld_all_image_infos* DyldAllImageInfo();
 
   // ModuleSnapshot:
   std::string Name() const override;

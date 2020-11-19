@@ -20,6 +20,7 @@
 #include "snapshot/cpu_context.h"
 #include "snapshot/ios/memory_snapshot_ios.h"
 #include "snapshot/thread_snapshot.h"
+#include "util/ios/ios_minidump_map.h"
 #include "util/misc/initialization_state_dcheck.h"
 
 namespace crashpad {
@@ -34,14 +35,7 @@ class ThreadSnapshotIOS final : public ThreadSnapshot {
   //! \brief Initializes the object.
   //!
   //! \brief thread The Mach thread used to initialize this object.
-  bool Initialize(thread_t thread);
-
-  //! \brief Returns an array of thread_t threads.
-  //!
-  //! \param[out] count The number of threads returned.
-  //!
-  //! \return An array of of size \a count threads.
-  static thread_act_array_t GetThreads(mach_msg_type_number_t* count);
+  bool Initialize(const IOSMinidumpMap& thread_data);
 
   // ThreadSnapshot:
   const CPUContext* Context() const override;

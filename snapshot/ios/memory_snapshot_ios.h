@@ -33,7 +33,7 @@ class MemorySnapshotIOS final : public MemorySnapshot {
   //!
   //! \param[in] address The base address of the memory region to snapshot.
   //! \param[in] size The size of the memory region to snapshot.
-  void Initialize(vm_address_t address, vm_size_t size);
+  void Initialize(vm_address_t address, vm_address_t data, vm_size_t size);
 
   // MemorySnapshot:
   uint64_t Address() const override;
@@ -48,9 +48,8 @@ class MemorySnapshotIOS final : public MemorySnapshot {
       const T* self,
       const MemorySnapshot* other);
 
-  // TODO(justincohen): This is temporary until deserialization is worked out.
-  std::unique_ptr<uint8_t[]> buffer_;
   vm_address_t address_;
+  vm_address_t data_;
   vm_size_t size_;
   InitializationStateDcheck initialized_;
 
