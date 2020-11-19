@@ -57,46 +57,46 @@ SystemSnapshotIOS::SystemSnapshotIOS()
 
 SystemSnapshotIOS::~SystemSnapshotIOS() {}
 
-void SystemSnapshotIOS::Initialize(const IOSSystemDataCollector& system_data) {
+void SystemSnapshotIOS::Initialize(const PackedMap& system_data) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+  system_data["os_version_build"].GetString(&os_version_build_);
+  system_data["machine_description"].GetString(&machine_description_);
+  system_data["cpu_vendor"].GetString(&cpu_vendor_);
+  system_data["standard_name"].GetString(&standard_name_);
+  system_data["daylight_name"].GetString(&daylight_name_);
 
-  system_data.OSVersion(&os_version_major_,
-                        &os_version_minor_,
-                        &os_version_bugfix_,
-                        &os_version_build_);
-  machine_description_ = system_data.MachineDescription();
-  cpu_count_ = system_data.ProcessorCount();
-  cpu_vendor_ = system_data.CPUVendor();
-  if (system_data.HasDaylightSavingTime()) {
-    dst_status_ = system_data.IsDaylightSavingTime()
+  system_data["os_version_major"].GetInt(&os_version_major_);
+  system_data["os_version_minor"].GetInt(&os_version_minor_);
+  system_data["os_version_bugfix"].GetInt(&os_version_bugfix_);
+  system_data["cpu_count"].GetInt(&cpu_count_);
+  system_data["os_version_bugfix"].GetInt(&os_version_bugfix_);
+  system_data["standard_offset_seconds"].GetInt(&standard_offset_seconds_);
+  system_data["daylight_offset_seconds"].GetInt(&daylight_offset_seconds_);
+
+  bool has_daylight_saving_time;
+  system_data["has_daylight_saving_time"].GetBool(&has_daylight_saving_time);
+  bool is_daylight_saving_time;
+  system_data["is_daylight_saving_time"].GetBool(&is_daylight_saving_time);
+
+  if (has_daylight_saving_time) {
+    dst_status_ = is_daylight_saving_time
                       ? SystemSnapshot::kObservingDaylightSavingTime
                       : SystemSnapshot::kObservingStandardTime;
   } else {
     dst_status_ = SystemSnapshot::kDoesNotObserveDaylightSavingTime;
   }
-  standard_offset_seconds_ = system_data.StandardOffsetSeconds();
-  daylight_offset_seconds_ = system_data.DaylightOffsetSeconds();
-  standard_name_ = system_data.StandardName();
-  daylight_name_ = system_data.DaylightName();
 
-  // Currently unused by minidump.
   vm_size_t page_size;
-  host_page_size(mach_host_self(), &page_size);
-  mach_msg_type_number_t host_size =
-      sizeof(vm_statistics_data_t) / sizeof(integer_t);
-  vm_statistics_data_t vm_stat;
-  kern_return_t kr = host_statistics(mach_host_self(),
-                                     HOST_VM_INFO,
-                                     reinterpret_cast<host_info_t>(&vm_stat),
-                                     &host_size);
-  if (kr != KERN_SUCCESS) {
-    MACH_LOG(WARNING, kr) << "host_statistics";
+  if (system_data["page_size"].AsData().GetData<vm_size_t>(&page_size)) {
+    system_data["vm_stat"]["active"].AsData().GetData<uint64_t>(&active_);
+    active_ *= page_size;
+    system_data["vm_stat"]["inactive"].AsData().GetData<uint64_t>(&inactive_);
+    inactive_ *= page_size;
+    system_data["vm_stat"]["wired"].AsData().GetData<uint64_t>(&wired_);
+    wired_ *= page_size;
+    system_data["vm_stat"]["free"].AsData().GetData<uint64_t>(&free_);
+    free_ *= page_size;
   }
-  active_ = vm_stat.active_count * page_size;
-  inactive_ = vm_stat.inactive_count * page_size;
-  wired_ = vm_stat.wire_count * page_size;
-  free_ = vm_stat.free_count * page_size;
-
   INITIALIZATION_STATE_SET_VALID(initialized_);
 }
 

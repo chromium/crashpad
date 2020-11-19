@@ -14,12 +14,10 @@
 
 #include "snapshot/ios/process_snapshot_ios.h"
 
-#include <mach-o/loader.h>
-#include <mach/mach.h>
+#include <sys/stat.h>
 
 #include "base/logging.h"
-#include "base/mac/mach_logging.h"
-#include "base/stl_util.h"
+#include "util/ios/pack_ios_state.h"
 
 namespace {
 
@@ -34,7 +32,7 @@ namespace crashpad {
 
 ProcessSnapshotIOS::ProcessSnapshotIOS()
     : ProcessSnapshot(),
-      kern_proc_info_(),
+      mapping_(),
       basic_info_user_time_(),
       basic_info_system_time_(),
       thread_times_user_time_(),
@@ -49,99 +47,93 @@ ProcessSnapshotIOS::ProcessSnapshotIOS()
       snapshot_time_(),
       initialized_() {}
 
-ProcessSnapshotIOS::~ProcessSnapshotIOS() {}
-
-bool ProcessSnapshotIOS::Initialize(const IOSSystemDataCollector& system_data) {
+bool ProcessSnapshotIOS::Initialize(
+    const base::FilePath& dump_path,
+    const std::map<std::string, std::string>& annotations) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
-  // Used by pid, parent pid and snapshot time.
-  int mib[] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()};
-  size_t len = sizeof(kern_proc_info_);
-  if (sysctl(mib, base::size(mib), &kern_proc_info_, &len, nullptr, 0)) {
-    PLOG(ERROR) << "sysctl";
+  annotations_simple_map_ = annotations;
+  fd_ = base::ScopedFD(open(dump_path.value().c_str(), O_RDONLY));
+  if (!fd_.is_valid())
+    return false;
+
+  struct stat filestat;
+  fstat(fd_.get(), &filestat);
+  if (filestat.st_size == 0) {
     return false;
   }
+  mapping_.ResetMmap(
+      NULL, filestat.st_size, PROT_READ, MAP_SHARED, fd_.get(), 0);
 
-  // Used by user time and system time.
-  task_basic_info_64 task_basic_info;
-  mach_msg_type_number_t task_basic_info_count = TASK_BASIC_INFO_64_COUNT;
-  kern_return_t kr = task_info(mach_task_self(),
-                               TASK_BASIC_INFO_64,
-                               reinterpret_cast<task_info_t>(&task_basic_info),
-                               &task_basic_info_count);
-  if (kr != KERN_SUCCESS) {
-    MACH_LOG(WARNING, kr) << "task_info TASK_BASIC_INFO_64";
+  PackedMap in_process_dump =
+      PackedMap::Parse(mapping_.addr_as<uint8_t*>(), mapping_.len());
+  // Not for landing...
+  in_process_dump.DebugDump();
+
+  uint8_t version;
+  in_process_dump["version"].AsData().GetData<uint8_t>(&version);
+  if (version != 1)
     return false;
+
+  const PackedMap& process_info = in_process_dump["ProcessInfo"].AsMap();
+  process_info["kern_proc_info"]["p_pid"].AsData().GetData<pid_t>(&p_pid_);
+  process_info["kern_proc_info"]["e_ppid"].AsData().GetData<pid_t>(&e_ppid_);
+  process_info["kern_proc_info"]["p_starttime"].AsData().GetData<timeval>(
+      &p_starttime_);
+  process_info["task_basic_info"]["user_time"].AsData().GetData<time_value_t>(
+      &basic_info_user_time_);
+  process_info["task_basic_info"]["system_time"].AsData().GetData<time_value_t>(
+      &basic_info_system_time_);
+  process_info["task_thread_times"]["user_time"].AsData().GetData<time_value_t>(
+      &thread_times_user_time_);
+  process_info["task_thread_times"]["system_time"]
+      .AsData()
+      .GetData<time_value_t>(&thread_times_system_time_);
+  process_info["snapshot_time"].AsData().GetData<timeval>(&snapshot_time_);
+
+  system_.Initialize(in_process_dump["SystemInfo"].AsMap());
+
+  // Threads
+  const auto& thread_list = in_process_dump["Threads"].AsList();
+  for (auto& value : thread_list) {
+    auto thread = std::make_unique<internal::ThreadSnapshotIOS>();
+    if (thread->Initialize((*value).AsMap())) {
+      threads_.push_back(std::move(thread));
+    }
   }
 
-  task_thread_times_info_data_t task_thread_times;
-  mach_msg_type_number_t task_thread_times_count = TASK_THREAD_TIMES_INFO_COUNT;
-  kr = task_info(mach_task_self(),
-                 TASK_THREAD_TIMES_INFO,
-                 reinterpret_cast<task_info_t>(&task_thread_times),
-                 &task_thread_times_count);
-  if (kr != KERN_SUCCESS) {
-    MACH_LOG(WARNING, kr) << "task_info TASK_THREAD_TIMES";
+  const auto& module_list = in_process_dump["Modules"].AsList();
+  for (auto& value : module_list) {
+    auto module = std::make_unique<internal::ModuleSnapshotIOS>();
+    if (module->Initialize((*value).AsMap())) {
+      modules_.push_back(std::move(module));
+    }
   }
 
-  basic_info_user_time_ = task_basic_info.user_time;
-  basic_info_system_time_ = task_basic_info.system_time;
-  thread_times_user_time_ = task_thread_times.user_time;
-  thread_times_system_time_ = task_thread_times.system_time;
-
-  if (gettimeofday(&snapshot_time_, nullptr) != 0) {
-    PLOG(ERROR) << "gettimeofday";
-    return false;
+  // Exceptions
+  if (in_process_dump.HasKey("SignalException")) {
+    exception_.reset(new internal::ExceptionSnapshotIOS());
+    exception_->InitializeFromSignal(
+        in_process_dump["SignalException"].AsMap());
+  } else if (in_process_dump.HasKey("MachException")) {
+    exception_.reset(new internal::ExceptionSnapshotIOS());
+    exception_->InitializeFromMachException(
+        in_process_dump["MachException"].AsMap(),
+        in_process_dump["Threads"].AsList());
   }
-
-  system_.Initialize(system_data);
-  InitializeThreads();
-  InitializeModules();
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
 }
 
-void ProcessSnapshotIOS::SetExceptionFromSignal(const siginfo_t* siginfo,
-                                                const ucontext_t* context) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  DCHECK(!exception_.get());
-
-  exception_.reset(new internal::ExceptionSnapshotIOS());
-  exception_->InitializeFromSignal(siginfo, context);
-}
-
-void ProcessSnapshotIOS::SetExceptionFromMachException(
-    exception_behavior_t behavior,
-    thread_t exception_thread,
-    exception_type_t exception,
-    const mach_exception_data_type_t* code,
-    mach_msg_type_number_t code_count,
-    thread_state_flavor_t flavor,
-    ConstThreadState old_state,
-    mach_msg_type_number_t old_state_count) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  DCHECK(!exception_.get());
-
-  exception_.reset(new internal::ExceptionSnapshotIOS());
-  exception_->InitializeFromMachException(behavior,
-                                          exception_thread,
-                                          exception,
-                                          code,
-                                          code_count,
-                                          flavor,
-                                          old_state,
-                                          old_state_count);
-}
-
 pid_t ProcessSnapshotIOS::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return kern_proc_info_.kp_proc.p_pid;
+  return p_pid_;
 }
 
 pid_t ProcessSnapshotIOS::ParentProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return kern_proc_info_.kp_eproc.e_ppid;
+  return e_ppid_;
 }
 
 void ProcessSnapshotIOS::SnapshotTime(timeval* snapshot_time) const {
@@ -151,7 +143,7 @@ void ProcessSnapshotIOS::SnapshotTime(timeval* snapshot_time) const {
 
 void ProcessSnapshotIOS::ProcessStartTime(timeval* start_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  *start_time = kern_proc_info_.kp_proc.p_starttime;
+  *start_time = p_starttime_;
 }
 
 void ProcessSnapshotIOS::ProcessCPUTimes(timeval* user_time,
@@ -244,44 +236,6 @@ std::vector<const MemorySnapshot*> ProcessSnapshotIOS::ExtraMemory() const {
 const ProcessMemory* ProcessSnapshotIOS::Memory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return nullptr;
-}
-
-void ProcessSnapshotIOS::InitializeThreads() {
-  mach_msg_type_number_t thread_count = 0;
-  const thread_act_array_t threads =
-      internal::ThreadSnapshotIOS::GetThreads(&thread_count);
-  for (uint32_t thread_index = 0; thread_index < thread_count; ++thread_index) {
-    thread_t thread = threads[thread_index];
-    auto thread_snapshot = std::make_unique<internal::ThreadSnapshotIOS>();
-    if (thread_snapshot->Initialize(thread)) {
-      threads_.push_back(std::move(thread_snapshot));
-    }
-    mach_port_deallocate(mach_task_self(), thread);
-  }
-  // TODO(justincohen): This dealloc above and below needs to move with the
-  // call to task_threads inside internal::ThreadSnapshotIOS::GetThreads.
-  vm_deallocate(mach_task_self(),
-                reinterpret_cast<vm_address_t>(threads),
-                sizeof(thread_t) * thread_count);
-}
-
-void ProcessSnapshotIOS::InitializeModules() {
-  const dyld_all_image_infos* image_infos =
-      internal::ModuleSnapshotIOS::DyldAllImageInfo();
-
-  uint32_t image_count = image_infos->infoArrayCount;
-  const dyld_image_info* image_array = image_infos->infoArray;
-  for (uint32_t image_index = 0; image_index < image_count; ++image_index) {
-    const dyld_image_info* image = &image_array[image_index];
-    auto module = std::make_unique<internal::ModuleSnapshotIOS>();
-    if (module->Initialize(image)) {
-      modules_.push_back(std::move(module));
-    }
-  }
-  auto module = std::make_unique<internal::ModuleSnapshotIOS>();
-  if (module->InitializeDyld(image_infos)) {
-    modules_.push_back(std::move(module));
-  }
 }
 
 }  // namespace crashpad
