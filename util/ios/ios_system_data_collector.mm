@@ -51,6 +51,7 @@ std::string ReadStringSysctlByName(const char* name) {
 }  // namespace
 
 namespace crashpad {
+namespace internal {
 
 IOSSystemDataCollector::IOSSystemDataCollector()
     : major_version_(0),
@@ -206,4 +207,5 @@ void IOSSystemDataCollector::OrientationDidChangeNotification() {
       base::saturated_cast<int>([[UIDevice currentDevice] orientation]);
 }
 
+}  // namespace internal
 }  // namespace crashpad

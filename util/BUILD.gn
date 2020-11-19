@@ -373,8 +373,19 @@ crashpad_static_library("util") {
     sources += [
       "ios/exception_processor.h",
       "ios/exception_processor.mm",
+      "ios/ios_minidump_data.h",
+      "ios/ios_minidump_list.h",
+      "ios/ios_minidump_map.cc",
+      "ios/ios_minidump_map.h",
+      "ios/ios_minidump_object.cc",
+      "ios/ios_minidump_object.h",
+      "ios/ios_minidump_reader.cc",
+      "ios/ios_minidump_reader.h",
+      "ios/ios_minidump_writer_util.cc",
+      "ios/ios_minidump_writer_util.h",
       "ios/ios_system_data_collector.h",
       "ios/ios_system_data_collector.mm",
+      "net/http_transport_mac.mm",
     ]
   }
 
