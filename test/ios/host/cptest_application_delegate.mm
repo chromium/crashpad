@@ -40,7 +40,14 @@
     didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
   // Start up crashpad.
   crashpad::CrashpadClient client;
-  client.StartCrashpadInProcessHandler();
+  base::FilePath database_dir([NSFileManager.defaultManager
+                                  URLsForDirectory:NSDocumentDirectory
+                                         inDomains:NSUserDomainMask]
+                                  .lastObject.path.UTF8String);
+  client.StartCrashpadInProcessHandler(
+      database_dir.Append("crashpad"),
+      "https://clients2.google.com/cr/staging_report",
+      {{"prod", "ios_crash_xcuitests"}, {"ver", "1"}, {"plat", "iPhoneos"}});
 
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   [self.window makeKeyAndVisible];
