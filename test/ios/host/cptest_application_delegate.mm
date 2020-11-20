@@ -24,7 +24,9 @@
 
 #import "Service/Sources/EDOHostNamingService.h"
 #import "Service/Sources/EDOHostService.h"
+#include "client/crash_report_database.h"
 #include "client/crashpad_client.h"
+#include "snapshot/minidump/process_snapshot_minidump.h"
 #import "test/ios/host/cptest_crash_view_controller.h"
 #import "test/ios/host/cptest_shared_object.h"
 
@@ -32,16 +34,37 @@
 #error "This file requires ARC support."
 #endif
 
-@implementation CPTestApplicationDelegate
+@implementation CPTestApplicationDelegate {
+  crashpad::CrashpadClient client_;
+  std::unique_ptr<crashpad::CrashReportDatabase> database_;
+}
 
 @synthesize window = _window;
 
 - (BOOL)application:(UIApplication*)application
     didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
   // Start up crashpad.
-  crashpad::CrashpadClient client;
-  client.StartCrashpadInProcessHandler();
+  base::FilePath database_dir([NSFileManager.defaultManager
+                                  URLsForDirectory:NSDocumentDirectory
+                                         inDomains:NSUserDomainMask]
+                                  .lastObject.path.UTF8String);
+  database_dir = database_dir.Append("crashpad");
+  database_ = crashpad::CrashReportDatabase::Initialize(database_dir);
+  std::vector<crashpad::CrashReportDatabase::Report> all_reports;
+  crashpad::CrashReportDatabase::OperationStatus status;
+  status = database_->GetPendingReports(&all_reports);
+  std::vector<crashpad::CrashReportDatabase::Report> completed_reports;
+  status = database_->GetCompletedReports(&completed_reports);
+  all_reports.insert(
+      all_reports.end(), completed_reports.begin(), completed_reports.end());
+  for (auto report : all_reports) {
+    database_->DeleteReport(report.uuid);
+  }
 
+  client_.StartCrashpadInProcessHandler(
+      database_dir,
+      "https://clients2.google.com/cr/staging_report",
+      {{"prod", "ios_crash_xcuitests"}, {"ver", "1"}, {"plat", "iPhoneos"}});
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   [self.window makeKeyAndVisible];
   self.window.backgroundColor = UIColor.greenColor;
@@ -63,6 +86,38 @@
 
 - (NSString*)testEDO {
   return @"crashpad";
+}
+
+- (bool)verifyLastException:(int)type {
+  std::vector<crashpad::CrashReportDatabase::Report> all_reports;
+  crashpad::CrashReportDatabase::OperationStatus status;
+  base::FilePath database_dir([NSFileManager.defaultManager
+                                  URLsForDirectory:NSDocumentDirectory
+                                         inDomains:NSUserDomainMask]
+                                  .lastObject.path.UTF8String);
+  database_dir = database_dir.Append("crashpad");
+  std::unique_ptr<crashpad::CrashReportDatabase> database =
+      crashpad::CrashReportDatabase::Initialize(database_dir);
+  status = database->GetPendingReports(&all_reports);
+  if (status != crashpad::CrashReportDatabase::kNoError) {
+    return false;
+  }
+  std::vector<crashpad::CrashReportDatabase::Report> completed_reports;
+  status = database->GetCompletedReports(&completed_reports);
+  all_reports.insert(
+      all_reports.end(), completed_reports.begin(), completed_reports.end());
+  if (status != crashpad::CrashReportDatabase::kNoError) {
+    return false;
+  }
+  if (all_reports.size() != 1) {
+    return false;
+  }
+
+  auto reader = std::make_unique<crashpad::FileReader>();
+  reader->Open(all_reports[0].file_path);
+  crashpad::ProcessSnapshotMinidump process_snapshot;
+  process_snapshot.Initialize(reader.get());
+  return static_cast<int>(process_snapshot.Exception()->Exception()) == type;
 }
 
 - (void)crashBadAccess {
