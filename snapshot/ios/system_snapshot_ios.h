@@ -21,6 +21,7 @@
 
 #include "base/macros.h"
 #include "snapshot/system_snapshot.h"
+#include "util/ios/ios_minidump_map.h"
 #include "util/ios/ios_system_data_collector.h"
 #include "util/misc/initialization_state_dcheck.h"
 
@@ -36,8 +37,8 @@ class SystemSnapshotIOS final : public SystemSnapshot {
 
   //! \brief Initializes the object.
   //!
-  //! \param[in] system_data A class containing various system data points.
-  void Initialize(const IOSSystemDataCollector& system_data);
+  //! \param[in] system_data An object containing various system data points.
+  void Initialize(const IOSMinidumpMap& system_data);
 
   // SystemSnapshot:
 
