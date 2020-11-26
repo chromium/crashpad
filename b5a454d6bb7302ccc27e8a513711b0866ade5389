@@ -46,6 +46,30 @@
       },
       "revId": "b5a454d6bb7302ccc27e8a513711b0866ade5389",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a27fbe6_6a5e7001",
+        "filename": "test/fuchsia_crashpad_tests.cmx",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-11-26T18:42:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0572f84d_fff4e150",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "b5a454d6bb7302ccc27e8a513711b0866ade5389",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
