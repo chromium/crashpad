@@ -22,6 +22,30 @@
       },
       "revId": "b5a454d6bb7302ccc27e8a513711b0866ade5389",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0572f84d_fff4e150",
+        "filename": "test/fuchsia_crashpad_tests.cmx",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1374378
+      },
+      "writtenOn": "2020-11-26T18:38:01Z",
+      "side": 1,
+      "message": "The include path is configurable. In the Fuchsia tree it is Fuchsia\u0027s \"//\" that\u0027s the base.\nI added more info here:\nhttps://fuchsia-review.googlesource.com/c/fuchsia/+/455676\n\nThis doesn\u0027t do anything out-of-tree yet (fxbug.dev/64207). But this is fine because this cmx file is dead anyway unless crashpad_is_in_fuchsia is true.",
+      "parentUuid": "d76175c7_222bcad0",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "b5a454d6bb7302ccc27e8a513711b0866ade5389",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
