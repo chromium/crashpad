@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d76175c7_222bcad0",
+        "filename": "test/fuchsia_crashpad_tests.cmx",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-11-26T17:27:20Z",
+      "side": 1,
+      "message": "Sorry, I\u0027m not familiar with this key, what\u0027s this relative to?",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "b5a454d6bb7302ccc27e8a513711b0866ade5389",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
