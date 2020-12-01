@@ -114,6 +114,57 @@ void ProcessReaderLinux::Thread::InitializeStack(ProcessReaderLinux* reader) {
   InitializeStackFromSP(reader, stack_pointer);
 }
 
+void ProcessReaderLinux::Thread::InitializeStackFromTLS(
+    ProcessReaderLinux* reader,
+    VMAddress tls) {
+  const MemoryMap* memory_map = reader->GetMemoryMap();
+  const MemoryMap::Mapping* mapping = memory_map->FindMapping(tls);
+  if (!mapping) {
+    LOG(ERROR) << "no stack mapping";
+    return;
+  }
+
+  stack_region_address = mapping->range.Base();
+  while (stack_region_address) {
+    const MemoryMap::Mapping* next_mapping =
+        memory_map->FindMapping(stack_region_address - 1);
+    if (!next_mapping || !ShouldMergeStackMappings(*mapping, *next_mapping)) {
+      break;
+    }
+
+    stack_region_address = next_mapping->range.Base();
+  }
+
+  stack_region_size = tls - stack_region_address;
+}
+
+void ProcessReaderLinux::Thread::InitializeStackFromMaps(
+    ProcessReaderLinux* reader) {
+  const MemoryMap* memory_map = reader->GetMemoryMap();
+  auto stack_mappings = memory_map->FindStackMappings();
+  if (stack_mappings->Count() == 0) {
+    LOG(ERROR) << "no stack mapping";
+    return;
+  }
+  const MemoryMap::Mapping* stack_base = stack_mappings->Next();
+
+  VMAddress stack_base_address =
+      stack_base->range.Base() + stack_base->range.Size() - 1;
+  stack_region_address = stack_base->range.Base();
+  while (stack_region_address) {
+    const MemoryMap::Mapping* next_mapping =
+        memory_map->FindMapping(stack_region_address - 1);
+    if (!next_mapping ||
+        !ShouldMergeStackMappings(*stack_base, *next_mapping)) {
+      break;
+    }
+
+    stack_region_address = next_mapping->range.Base();
+  }
+
+  stack_region_size = stack_base_address - stack_region_address;
+}
+
 void ProcessReaderLinux::Thread::InitializeStackFromSP(
     ProcessReaderLinux* reader,
     LinuxVMAddress stack_pointer) {
@@ -122,7 +173,11 @@ void ProcessReaderLinux::Thread::InitializeStackFromSP(
   // If we can't find the mapping, it's probably a bad stack pointer
   const MemoryMap::Mapping* mapping = memory_map->FindMapping(stack_pointer);
   if (!mapping) {
-    LOG(WARNING) << "no stack mapping";
+    if (tid == reader->ProcessID()) {
+      InitializeStackFromMaps(reader);
+    } else {
+      InitializeStackFromTLS(reader, thread_info.thread_specific_data_address);
+    }
     return;
   }
   LinuxVMAddress stack_region_start = stack_pointer;
@@ -133,7 +188,7 @@ void ProcessReaderLinux::Thread::InitializeStackFromSP(
     stack_region_start = mapping->range.End();
     mapping = memory_map->FindMapping(stack_region_start);
     if (!mapping) {
-      LOG(WARNING) << "no stack mapping";
+      InitializeStackFromTLS(reader, thread_info.thread_specific_data_address);
       return;
     }
   } else {

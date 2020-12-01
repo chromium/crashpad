@@ -58,6 +58,13 @@ class ProcessReaderLinux {
     void InitializeStackFromSP(ProcessReaderLinux* reader,
                                LinuxVMAddress stack_pointer);
 
+    //! \brief Initializes the thread's stack using the thread local storage
+    //!     address.
+    void InitializeStackFromTLS(ProcessReaderLinux* reader, VMAddress tls);
+
+    //! \brief Initializes the thread's stack region from the maps file.
+    void InitializeStackFromMaps(ProcessReaderLinux* reader);
+
     ThreadInfo thread_info;
     LinuxVMAddress stack_region_address;
     LinuxVMSize stack_region_size;

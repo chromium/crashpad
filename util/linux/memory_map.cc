@@ -399,4 +399,16 @@ std::unique_ptr<MemoryMap::Iterator> MemoryMap::ReverseIteratorFrom(
                                                mappings_.rend());
 }
 
+std::unique_ptr<MemoryMap::Iterator> MemoryMap::FindStackMappings() const {
+  std::vector<const Mapping*> stack_mappings;
+  for (const auto& mapping : mappings_) {
+    if (mapping.name == "[stack]" && mapping.offset == 0 &&
+        mapping.device == 0 and mapping.inode == 0 && mapping.readable &&
+        mapping.writable) {
+      stack_mappings.push_back(&mapping);
+    }
+  }
+  return std::make_unique<SparseReverseIterator>(stack_mappings);
+}
+
 }  // namespace crashpad

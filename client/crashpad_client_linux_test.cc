@@ -45,6 +45,7 @@
 #include "util/misc/address_types.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/misc/memory_sanitizer.h"
+#include "util/numeric/checked_vm_address_range.h"
 #include "util/posix/scoped_mmap.h"
 #include "util/posix/signals.h"
 #include "util/thread/thread.h"
@@ -145,7 +146,8 @@ void ValidateAttachment(const CrashReportDatabase::UploadReport* report) {
             0);
 }
 
-void ValidateDump(const CrashReportDatabase::UploadReport* report) {
+void ValidateDump(const CrashReportDatabase::UploadReport* report,
+                  VMAddress exception_stack_address) {
   ProcessSnapshotMinidump minidump_snapshot;
   ASSERT_TRUE(minidump_snapshot.Initialize(report->Reader()));
 
@@ -161,6 +163,18 @@ void ValidateDump(const CrashReportDatabase::UploadReport* report) {
   }
 #endif
   ValidateAttachment(report);
+
+  // Validate exception thread stack address
+  for (const ThreadSnapshot* thread : minidump_snapshot.Threads()) {
+    if (thread->ThreadID() == minidump_snapshot.Exception()->ThreadID()) {
+      CheckedVMAddressRange exception_stack(
+          minidump_snapshot.Exception()->Context()->Is64Bit(),
+          thread->Stack()->Address(),
+          thread->Stack()->Size());
+      EXPECT_TRUE(exception_stack.IsValid());
+      EXPECT_TRUE(exception_stack.ContainsValue(exception_stack_address));
+    }
+  }
 
   for (const ModuleSnapshot* module : minidump_snapshot.Modules()) {
     for (const AnnotationSnapshot& annotation : module->AnnotationObjects()) {
@@ -191,6 +205,12 @@ int RecurseInfinitely(int* ptr) {
 
 void DoCrash(const StartHandlerForSelfTestOptions& options,
              CrashpadClient* client) {
+  FileHandle out = StdioFileHandle(StdioStream::kStandardOutput);
+  VMAddress exception_stack_address =
+      FromPointerCast<VMAddress>(&exception_stack_address);
+  CheckedWriteFile(
+      out, &exception_stack_address, sizeof(exception_stack_address));
+
   switch (options.crash_type) {
     case CrashType::kSimulated:
       if (options.set_first_chance_handler) {
@@ -383,6 +403,11 @@ class StartHandlerForSelfInChildTest : public MultiprocessExec {
     writer.Write(kTestAttachmentContent, sizeof(kTestAttachmentContent));
     writer.Close();
 
+    VMAddress exception_stack_address;
+    ASSERT_TRUE(LoggingReadFileExactly(ReadPipeHandle(),
+                                       &exception_stack_address,
+                                       sizeof(exception_stack_address)));
+
     if (options_.client_uses_signals && !options_.set_first_chance_handler &&
         options_.crash_type != CrashType::kSimulated) {
       // Wait for child's client signal handler.
@@ -413,7 +438,7 @@ class StartHandlerForSelfInChildTest : public MultiprocessExec {
     std::unique_ptr<const CrashReportDatabase::UploadReport> report;
     ASSERT_EQ(database->GetReportForUploading(reports[0].uuid, &report),
               CrashReportDatabase::kNoError);
-    ValidateDump(report.get());
+    ValidateDump(report.get(), exception_stack_address);
   }
 
   StartHandlerForSelfTestOptions options_;

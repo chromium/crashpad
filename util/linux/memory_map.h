@@ -127,6 +127,9 @@ class MemoryMap {
   //!     mapping to the start of the MemoryMap.
   std::unique_ptr<Iterator> ReverseIteratorFrom(const Mapping& mapping) const;
 
+  //! \brief Finds possible stack mappings.
+  std::unique_ptr<Iterator> FindStackMappings() const;
+
  private:
   std::vector<Mapping> mappings_;
   InitializationStateDcheck initialized_;
