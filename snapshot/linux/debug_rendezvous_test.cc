@@ -27,6 +27,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "snapshot/elf/elf_image_reader.h"
+#include "snapshot/linux/test_modules.h"
 #include "test/linux/fake_ptrace_connection.h"
 #include "test/main_arguments.h"
 #include "test/multiprocess.h"
@@ -171,9 +172,11 @@ void TestAgainstTarget(PtraceConnection* connection) {
           const bool is_vdso_mapping =
               device == 0 && inode == 0 && mapping_name == "[vdso]";
           static constexpr char kPrefix[] = "linux-vdso.so.";
+          static constexpr char kPrefix2[] = "linux-gate.so.";
           return is_vdso_mapping ==
                  (module_name.empty() ||
-                  module_name.compare(0, strlen(kPrefix), kPrefix) == 0);
+                  module_name.compare(0, strlen(kPrefix), kPrefix) == 0 ||
+                  module_name.compare(0, strlen(kPrefix2), kPrefix2) == 0);
         },
         module_mapping->name,
         module_mapping->device,
@@ -197,6 +200,12 @@ void TestAgainstTarget(PtraceConnection* connection) {
 }
 
 TEST(DebugRendezvous, Self) {
+  const std::string module_name = "test_module.so";
+  const std::string module_soname = "test_module_soname";
+  ScopedModuleHandle empty_test_module(
+      LoadTestModule(module_name, module_soname));
+  ASSERT_TRUE(empty_test_module.valid());
+
   FakePtraceConnection connection;
   ASSERT_TRUE(connection.Initialize(getpid()));
 
