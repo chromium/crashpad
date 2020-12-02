@@ -126,23 +126,35 @@ bool WriteTestModule(const base::FilePath& module_path,
       offsetof(decltype(module.shdr_table), section_header_string_table) /
       sizeof(Shdr);
 
-  constexpr size_t load2_vaddr = 0x200000;
+  const size_t page_size = getpagesize();
+  auto align = [page_size](uintptr_t addr) {
+    return (addr + page_size - 1) & ~(page_size - 1);
+  };
+  constexpr size_t segment_size = offsetof(decltype(module), shdr_table);
+
+  // This test module covers cases where:
+  // 1. Multiple segments are mapped from file offset 0.
+  // 2. Load bias is negative.
+
+  const uintptr_t load2_vaddr = align(std::numeric_limits<uintptr_t>::max() -
+                                      align(segment_size) - page_size);
+  const uintptr_t load1_vaddr = load2_vaddr - align(segment_size);
 
   module.phdr_table.load1.p_type = PT_LOAD;
   module.phdr_table.load1.p_offset = 0;
-  module.phdr_table.load1.p_vaddr = 0;
-  module.phdr_table.load1.p_filesz = offsetof(decltype(module), shdr_table);
-  module.phdr_table.load1.p_memsz = offsetof(decltype(module), shdr_table);
+  module.phdr_table.load1.p_vaddr = load1_vaddr;
+  module.phdr_table.load1.p_filesz = segment_size;
+  module.phdr_table.load1.p_memsz = segment_size;
   module.phdr_table.load1.p_flags = PF_R;
-  module.phdr_table.load1.p_align = load2_vaddr;
+  module.phdr_table.load1.p_align = page_size;
 
   module.phdr_table.load2.p_type = PT_LOAD;
   module.phdr_table.load2.p_offset = 0;
   module.phdr_table.load2.p_vaddr = load2_vaddr;
-  module.phdr_table.load2.p_filesz = offsetof(decltype(module), shdr_table);
-  module.phdr_table.load2.p_memsz = offsetof(decltype(module), shdr_table);
+  module.phdr_table.load2.p_filesz = segment_size;
+  module.phdr_table.load2.p_memsz = segment_size;
   module.phdr_table.load2.p_flags = PF_R | PF_W;
-  module.phdr_table.load2.p_align = load2_vaddr;
+  module.phdr_table.load2.p_align = page_size;
 
   module.phdr_table.dynamic.p_type = PT_DYNAMIC;
   module.phdr_table.dynamic.p_offset =
@@ -155,13 +167,14 @@ bool WriteTestModule(const base::FilePath& module_path,
   module.phdr_table.dynamic.p_align = 8;
 
   module.dynamic_array.hash.d_tag = DT_HASH;
-  module.dynamic_array.hash.d_un.d_ptr = offsetof(decltype(module), hash_table);
+  module.dynamic_array.hash.d_un.d_ptr =
+      load1_vaddr + offsetof(decltype(module), hash_table);
   module.dynamic_array.strtab.d_tag = DT_STRTAB;
   module.dynamic_array.strtab.d_un.d_ptr =
-      offsetof(decltype(module), string_table);
+      load1_vaddr + offsetof(decltype(module), string_table);
   module.dynamic_array.symtab.d_tag = DT_SYMTAB;
   module.dynamic_array.symtab.d_un.d_ptr =
-      offsetof(decltype(module), symbol_table);
+      load1_vaddr + offsetof(decltype(module), symbol_table);
   module.dynamic_array.strsz.d_tag = DT_STRSZ;
   module.dynamic_array.strsz.d_un.d_val = sizeof(module.string_table);
   module.dynamic_array.syment.d_tag = DT_SYMENT;
