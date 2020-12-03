@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92e635fe_dc232bca",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-12-03T23:18:35Z",
+      "side": 1,
+      "message": "This comment is misplaced. x32 wouldn’t wind up in ARCH_CPU_X86, it’d wind up in ARCH_CPU_X86_64, which handles it correctly by using linux-vdso.so. No need for a comment at all.",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 19
+      },
+      "revId": "5ed71577f67fec20e2b443f2924a2d7bc70ecfc8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
