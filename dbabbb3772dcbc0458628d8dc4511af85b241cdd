@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15534e5c_40c999c0",
+        "filename": "util/posix/scoped_mmap.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-12-03T02:03:07Z",
+      "side": 1,
+      "message": "Can you use “using” for these? Not positive, and I’m not looking at LSS at the moment.\n\nEven “using” kind of obscures what’s going on at the call sites below, so maybe a level of indirection would be better.\n\n  namespace {\n  #if defined(OS_LINUX)\n  int CallMunmap(void* addr, size_t len) { return sys_munmap(addr, len); }\n  #else\n  int CallMunmap(void* addr, size_t len) { return munmap(addr, len); }\n  #endif\n  }  // namespace\n\n(I’m only showing munmap because it’s the simplest of the trio.)",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 29
+      },
+      "revId": "dbabbb3772dcbc0458628d8dc4511af85b241cdd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7db8323a_7e55fcee",
+        "filename": "util/posix/scoped_mmap.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-12-03T02:03:07Z",
+      "side": 1,
+      "message": "There is no constructor that doesn’t explicitly set can_log_, and this change intentionally makes can_log an (explicit or defaulted) constructor parameter. The in-line initializer here has to go, because it’s misleading.",
+      "revId": "dbabbb3772dcbc0458628d8dc4511af85b241cdd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
