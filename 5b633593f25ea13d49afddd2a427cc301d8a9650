@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e900e5f3_58aef315",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-12-03T01:41:55Z",
+      "side": 1,
+      "message": "Can this be a single char[] whose value is chosen at compile time based on ARCH_CPU_X86?",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 62
+      },
+      "revId": "5b633593f25ea13d49afddd2a427cc301d8a9650",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
