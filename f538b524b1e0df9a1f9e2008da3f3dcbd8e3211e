@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43edbb58_3ee54ec9",
+        "filename": "snapshot/linux/test_modules.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-12-03T01:46:21Z",
+      "side": 1,
+      "message": "Since this is a test, ADD_FAILURE and return false?",
+      "revId": "f538b524b1e0df9a1f9e2008da3f3dcbd8e3211e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcbc89d0_cc229494",
+        "filename": "snapshot/linux/test_modules.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-12-03T01:46:21Z",
+      "side": 1,
+      "message": "You may want a LoggingRemoveFile here.",
+      "revId": "f538b524b1e0df9a1f9e2008da3f3dcbd8e3211e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bd64bd5_46d5c7dc",
+        "filename": "snapshot/linux/test_modules.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-12-03T01:46:21Z",
+      "side": 1,
+      "message": "// namespace test",
+      "revId": "f538b524b1e0df9a1f9e2008da3f3dcbd8e3211e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
