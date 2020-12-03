@@ -170,7 +170,14 @@ void TestAgainstTarget(PtraceConnection* connection) {
            const std::string& module_name) {
           const bool is_vdso_mapping =
               device == 0 && inode == 0 && mapping_name == "[vdso]";
+#if defined(ARCH_CPU_X86)
+          // i386 uses linux-gate.so for the vdso. x32 names the vdso
+          // linux-vdso.so but x32 is not currently supported by Crashpad's
+          // build.
+          static constexpr char kPrefix[] = "linux-gate.so.";
+#else
           static constexpr char kPrefix[] = "linux-vdso.so.";
+#endif
           return is_vdso_mapping ==
                  (module_name.empty() ||
                   module_name.compare(0, strlen(kPrefix), kPrefix) == 0);
