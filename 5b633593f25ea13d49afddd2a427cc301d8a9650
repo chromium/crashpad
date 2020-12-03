@@ -22,6 +22,30 @@
       },
       "revId": "5b633593f25ea13d49afddd2a427cc301d8a9650",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc04ce2a_c5a2b135",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-12-03T21:49:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e900e5f3_58aef315",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 62
+      },
+      "revId": "5b633593f25ea13d49afddd2a427cc301d8a9650",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
