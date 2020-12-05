@@ -32,6 +32,37 @@ namespace crashpad {
 
 namespace {
 
+// TODO(ajgo) move to capture_context.h?
+bool InitializeContextForCetU(ProcessReaderWin::Thread* thread) {
+  // We want CET_U xstate to get the ssp, only possible when supported.
+  PCONTEXT ret_context = nullptr;
+  DWORD context_size = 0;
+  // TODO(ajgo) this is probably not available on win7 msdn has no version
+  // detailed!
+  if (!InitializeContext2(nullptr,
+                          CONTEXT_ALL | CONTEXT_XSTATE,
+                          &ret_context,
+                          &context_size,
+                          XSTATE_MASK_CET_U) &&
+      GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
+    PLOG(ERROR) << "InitializeContext2";
+    return false;
+  }
+  // NB: ret_context may not be context.data.begin().
+  thread->context.data.resize(context_size);
+  if (!InitializeContext2(thread->context.native(),
+                          CONTEXT_ALL | CONTEXT_XSTATE,
+                          &ret_context,
+                          &context_size,
+                          XSTATE_MASK_CET_U)) {
+    PLOG(ERROR) << "InitializeContext2";
+    return false;
+  }
+  thread->context.offset = ret_context - thread->context.native();
+
+  return true;
+}
+
 // Gets a pointer to the process information structure after a given one, or
 // null when iteration is complete, assuming they've been retrieved in a block
 // via NtQuerySystemInformation().
@@ -144,7 +175,9 @@ bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
     DCHECK(suspension_state == ProcessSuspensionState::kRunning);
     thread->suspend_count = 0;
     DCHECK(!is_64_reading_32);
-    CaptureContext(&thread->context.native);
+    // For now we won't get shadow stack info from the current thread.
+    thread->context.data.resize(sizeof(CONTEXT));
+    CaptureContext(thread->context.native());
   } else {
     DWORD previous_suspend_count = SuspendThread(thread_handle);
     if (previous_suspend_count == static_cast<DWORD>(-1)) {
@@ -163,22 +196,28 @@ bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
           (suspension_state == ProcessSuspensionState::kSuspended ? 1 : 0);
     }
 
-    memset(&thread->context, 0, sizeof(thread->context));
 #if defined(ARCH_CPU_32_BITS)
     const bool is_native = true;
 #elif defined(ARCH_CPU_64_BITS)
     const bool is_native = !is_64_reading_32;
     if (is_64_reading_32) {
-      thread->context.wow64.ContextFlags = CONTEXT_ALL;
-      if (!Wow64GetThreadContext(thread_handle, &thread->context.wow64)) {
+      thread->context.data.resize(sizeof(WOW64_CONTEXT));
+      thread->context.wow64()->ContextFlags = CONTEXT_ALL;
+      if (!Wow64GetThreadContext(thread_handle, thread->context.wow64())) {
         PLOG(ERROR) << "Wow64GetThreadContext";
         return false;
       }
     }
 #endif
     if (is_native) {
-      thread->context.native.ContextFlags = CONTEXT_ALL;
-      if (!GetThreadContext(thread_handle, &thread->context.native)) {
+      if (XSTATE_MASK_CET_U & GetEnabledXStateFeatures()) {
+        if (!InitializeContextForCetU(thread))
+          return false;
+      } else {
+        thread->context.data.resize(sizeof(CONTEXT));
+        thread->context.native()->ContextFlags = CONTEXT_ALL;
+      }
+      if (!GetThreadContext(thread_handle, thread->context.native())) {
         PLOG(ERROR) << "GetThreadContext";
         return false;
       }
@@ -195,6 +234,8 @@ bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
 
 }  // namespace
 
+ProcessReaderWin::ThreadContext::ThreadContext() : offset(0), data() {}
+
 ProcessReaderWin::Thread::Thread()
     : context(),
       id(0),
@@ -204,8 +245,7 @@ ProcessReaderWin::Thread::Thread()
       stack_region_size(0),
       suspend_count(0),
       priority_class(0),
-      priority(0) {
-}
+      priority(0) {}
 
 ProcessReaderWin::ProcessReaderWin()
     : process_(INVALID_HANDLE_VALUE),

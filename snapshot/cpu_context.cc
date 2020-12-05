@@ -191,6 +191,36 @@ uint64_t CPUContext::StackPointer() const {
   }
 }
 
+uint64_t CPUContext::ShadowStackPointer() const {
+  switch (architecture) {
+    case kCPUArchitectureX86:
+      return 0;
+    case kCPUArchitectureX86_64:
+      return x86_64->cet_u.ssp;
+    case kCPUArchitectureARM:
+      return 0;
+    case kCPUArchitectureARM64:
+      return 0;
+    default:
+      NOTREACHED();
+      return ~0ull;
+  }
+}
+
+bool CPUContext::HasShadowStack() const {
+  switch (architecture) {
+    case kCPUArchitectureX86:
+    case kCPUArchitectureARM:
+    case kCPUArchitectureARM64:
+      return false;
+    case kCPUArchitectureX86_64:
+      return x86_64->cet_u.cetmsr != 0;
+    default:
+      NOTREACHED();
+      return false;
+  }
+}
+
 bool CPUContext::Is64Bit() const {
   switch (architecture) {
     case kCPUArchitectureX86_64:
