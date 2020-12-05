@@ -225,7 +225,7 @@ enum MinidumpContextAMD64Flags : uint32_t {
   //! \brief Indicates the validity of `xsave` data (`CONTEXT_XSTATE`).
   //!
   //! The context contains `xsave` data. This is used with an extended context
-  //! structure not currently defined here.
+  //! structure which is partly implemented for cet state only.
   kMinidumpContextAMD64Xstate = kMinidumpContextAMD64 | 0x00000040,
 
   //! \brief Indicates the validity of control, integer, and floating-point
@@ -384,6 +384,32 @@ struct MinidumpContextARM {
   //! \brief This space is unused. It is included for compatibility with
   //!     breakpad (which also doesn't use it).
   uint32_t extra[8];
+};
+
+//! \brief CONTEXT_CHUNK
+struct MinidumpContextChunk {
+  int32_t offset;
+  uint32_t size;
+};
+
+//! \brief CONTEXT_EX
+struct MinidumpContextExHeader {
+  MinidumpContextChunk all;
+  MinidumpContextChunk legacy;
+  MinidumpContextChunk xstate;
+};
+
+//! \brief XSAVE_AREA_HEADER
+struct MinidumpXSaveAreaHeader {
+  uint64_t mask;
+  uint64_t compaction_mask;
+  uint64_t xsave_header_reserved[6];
+};
+
+//! \brief XSAVE_CET_U_FORMAT
+struct MinidumpAMD64XSaveFormatCetU {
+  uint64_t cetmsr;
+  uint64_t ssp;
 };
 
 //! \brief 64-bit ARM-specifc flags for MinidumpContextARM64::context_flags.

@@ -257,6 +257,20 @@ struct CPUContextX86_64 {
   uint64_t dr5;  // obsolete, normally an alias for dr7
   uint64_t dr6;
   uint64_t dr7;
+
+  struct {
+    // If 0 then none of the xsave areas are valid.
+    uint64_t enabled_features;
+    // Context size if xstate is included.
+    uint32_t context_size;
+  } xstate;
+  // CET_U registers and location in extended context.
+  struct {
+    uint32_t offset;
+    uint32_t size;
+    uint64_t cetmsr;
+    uint64_t ssp;
+  } cet_u;
 };
 
 //! \brief A context structure carrying ARM CPU state.
@@ -369,8 +383,18 @@ struct CPUContext {
   //! context structure.
   uint64_t StackPointer() const;
 
+  //! \brief Returns the shadow stack pointer value from the context structure.
+  //!
+  //! This is a CPU architecture-independent method that is capable of
+  //! recovering the shadow stack pointer from any supported CPU architecture’s
+  //! context structure.
+  uint64_t ShadowStackPointer() const;
+
   //! \brief Returns `true` if this context is for a 64-bit architecture.
   bool Is64Bit() const;
+
+  //! \brief Returns `true` if this context has an active shadow stack pointer.
+  bool HasShadowStack() const;
 
   //! \brief The CPU architecture of a context structure. This field controls
   //!     the expression of the union.

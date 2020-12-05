@@ -41,17 +41,34 @@ enum class ProcessSuspensionState : bool {
 //! \brief Accesses information about another process, identified by a `HANDLE`.
 class ProcessReaderWin {
  public:
+  //! \brief Helper to make the context copyable and resizable.
+  struct ThreadContext {
+    ThreadContext();
+    ~ThreadContext() {}
+
+    CONTEXT* native() const {
+      return reinterpret_cast<CONTEXT*>(
+          const_cast<unsigned char*>(data.data() + offset));
+    }
+#if defined(ARCH_CPU_64_BITS)
+    WOW64_CONTEXT* wow64() const {
+      return reinterpret_cast<WOW64_CONTEXT*>(
+          const_cast<unsigned char*>(data.data() + offset));
+    }
+#endif
+    // This is usually 0 but Windows might cause it to be positive when
+    // fetching the extended context. This needs to be adjusted after
+    // calls to InitializeContext2().
+    size_t offset;
+    std::vector<unsigned char> data;
+  };
+
   //! \brief Contains information about a thread that belongs to a process.
   struct Thread {
     Thread();
     ~Thread() {}
 
-    union {
-      CONTEXT native;
-#if defined(ARCH_CPU_64_BITS)
-      WOW64_CONTEXT wow64;
-#endif
-    } context;
+    ThreadContext context;
     uint64_t id;
     WinVMAddress teb_address;
     WinVMSize teb_size;
