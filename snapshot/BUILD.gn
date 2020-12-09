@@ -239,8 +239,6 @@ crashpad_static_library("snapshot") {
 
   public_configs = [ "..:crashpad_config" ]
 
-  configs = [ "..:disable_ubsan" ]
-
   public_deps = [ ":context" ]
 
   deps = [
