@@ -53,6 +53,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "705d689c_4343640e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-12-10T18:15:32Z",
+      "side": 1,
+      "message": "Yeah, just after I sent that I was thinking cross-bitness captures would be a mess. I guess Microsoft\u0027s implementation can ignore that problem since it\u0027s in-process only.\n\nTo 2021!",
+      "parentUuid": "23b0909c_5055a154",
+      "revId": "89b3862a573d81cdfd26ef02dbbd6c08491bead8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a168c97b_ab657aff",
