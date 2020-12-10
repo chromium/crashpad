@@ -35,6 +35,8 @@
 #include "util/linux/auxiliary_vector.h"
 #include "util/linux/direct_ptrace_connection.h"
 #include "util/linux/memory_map.h"
+#include "util/misc/address_sanitizer.h"
+#include "util/misc/memory_sanitizer.h"
 #include "util/numeric/safe_assignment.h"
 #include "util/process/process_memory_linux.h"
 #include "util/process/process_memory_range.h"
@@ -221,11 +223,13 @@ void TestAgainstTarget(PtraceConnection* connection) {
 }
 
 TEST(DebugRendezvous, Self) {
+#if !defined(ADDRESS_SANITIZER) && !defined(MEMORY_SANITIZER)
   const std::string module_name = "test_module.so";
   const std::string module_soname = "test_module_soname";
   ScopedModuleHandle empty_test_module(
       LoadTestModule(module_name, module_soname));
   ASSERT_TRUE(empty_test_module.valid());
+#endif  // !ADDRESS_SANITIZER && !MEMORY_SANITIZER
 
   FakePtraceConnection connection;
   ASSERT_TRUE(connection.Initialize(getpid()));
