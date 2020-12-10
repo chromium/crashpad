@@ -71,6 +71,23 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5223e7c_d3f453ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1373593
+      },
+      "writtenOn": "2020-12-10T18:38:23Z",
+      "side": 1,
+      "message": "+1 with minor nit",
+      "revId": "89b3862a573d81cdfd26ef02dbbd6c08491bead8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a168c97b_ab657aff",
@@ -84,6 +101,29 @@
       "writtenOn": "2020-12-10T18:06:12Z",
       "side": 1,
       "message": "What\u0027s the error being resolved here? (MINIDUMP_EXCEPTION is only 4-aligned  for the contained uint64_ts?)",
+      "revId": "89b3862a573d81cdfd26ef02dbbd6c08491bead8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b45d52c_83a168f6",
+        "filename": "minidump/minidump_handle_writer_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1373593
+      },
+      "writtenOn": "2020-12-10T18:38:23Z",
+      "side": 1,
+      "message": "Nit: the reinterpret_cast won\u0027t be necessary here when using memcpy().",
+      "range": {
+        "startLine": 115,
+        "startChar": 9,
+        "endLine": 115,
+        "endChar": 60
+      },
       "revId": "89b3862a573d81cdfd26ef02dbbd6c08491bead8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
