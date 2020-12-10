@@ -562,11 +562,13 @@ void ExpectTestModule(ProcessReaderLinux* reader,
 }
 
 TEST(ProcessReaderLinux, SelfModules) {
+#if !defined(ADDRESS_SANITIZER) && !defined(MEMORY_SANITIZER)
   const std::string module_name = "test_module.so";
   const std::string module_soname = "test_module_soname";
   ScopedModuleHandle empty_test_module(
       LoadTestModule(module_name, module_soname));
   ASSERT_TRUE(empty_test_module.valid());
+#endif  // !ADDRESS_SANITIZER && !MEMORY_SANITIZER
 
   FakePtraceConnection connection;
   connection.Initialize(getpid());
@@ -575,7 +577,9 @@ TEST(ProcessReaderLinux, SelfModules) {
   ASSERT_TRUE(process_reader.Initialize(&connection));
 
   ExpectModulesFromSelf(process_reader.Modules());
+#if !defined(ADDRESS_SANITIZER) && !defined(MEMORY_SANITIZER)
   ExpectTestModule(&process_reader, module_soname);
+#endif  // !ADDRESS_SANITIZER && !MEMORY_SANITIZER
 }
 
 class ChildModuleTest : public Multiprocess {
