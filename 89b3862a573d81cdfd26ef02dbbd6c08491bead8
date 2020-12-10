@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fb42258_ffa791d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-12-10T18:06:12Z",
+      "side": 1,
+      "message": "Thanks for looking at this Braden.\n\nMark, do you have any feelings on the align specs in our dbghelp.h copies? I\u0027m wondering if they should be 8 on x64 based on that being the natural alignment https://docs.microsoft.com/en-us/cpp/cpp/align-cpp?view\u003dmsvc-160 and that there\u0027s nothing in the Windows SDK headers.",
+      "revId": "89b3862a573d81cdfd26ef02dbbd6c08491bead8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a168c97b_ab657aff",
+        "filename": "minidump/minidump_exception_writer_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-12-10T18:06:12Z",
+      "side": 1,
+      "message": "What\u0027s the error being resolved here? (MINIDUMP_EXCEPTION is only 4-aligned  for the contained uint64_ts?)",
+      "revId": "89b3862a573d81cdfd26ef02dbbd6c08491bead8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "469a8c8a_ff7a150a",
+        "filename": "minidump/minidump_memory_info_writer_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-12-10T18:06:12Z",
+      "side": 1,
+      "message": "Same question here.\n\nI\u0027m wondering because the native Windows header definitions do not have any alignment specifications, so the aligned(N) specs in our compat headers might be incorrect on x64 and maybe that\u0027s what should be changed to be 4 or 8 depending on the architecture.",
+      "revId": "89b3862a573d81cdfd26ef02dbbd6c08491bead8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75f437f4_3b24e3e2",
+        "filename": "util/file/file_io.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-12-10T18:06:12Z",
+      "side": 1,
+      "message": "(for my own benefit) what was the error in this file? The char* version sorta looks fine to me.",
+      "revId": "89b3862a573d81cdfd26ef02dbbd6c08491bead8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
