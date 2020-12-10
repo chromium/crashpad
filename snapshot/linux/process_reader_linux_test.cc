@@ -599,13 +599,17 @@ class ChildModuleTest : public Multiprocess {
     ASSERT_TRUE(process_reader.Initialize(&connection));
 
     ExpectModulesFromSelf(process_reader.Modules());
+#if !defined(ADDRESS_SANITIZER) && !defined(MEMORY_SANITIZER)
     ExpectTestModule(&process_reader, module_soname_);
+#endif  // !ADDRESS_SANITIZER && !MEMORY_SANITIZER
   }
 
   void MultiprocessChild() override {
+#if !defined(ADDRESS_SANITIZER) && !defined(MEMORY_SANITIZER)
     ScopedModuleHandle empty_test_module(
         LoadTestModule("test_module.so", module_soname_));
     ASSERT_TRUE(empty_test_module.valid());
+#endif  // !ADDRESS_SANITIZER && !MEMORY_SANITIZER
 
     char c = 0;
     ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(), &c, sizeof(c)));
