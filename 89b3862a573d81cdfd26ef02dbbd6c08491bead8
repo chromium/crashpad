@@ -35,6 +35,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23b0909c_5055a154",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2020-12-10T18:12:59Z",
+      "side": 1,
+      "message": "\u003e Thanks for looking at this Braden.\n\u003e \n\u003e Mark, do you have any feelings on the align specs in our dbghelp.h copies? I\u0027m wondering if they should be 8 on x64 based on that being the natural alignment https://docs.microsoft.com/en-us/cpp/cpp/align-cpp?view\u003dmsvc-160 and that there\u0027s nothing in the Windows SDK headers.\n\nWe froze everything at the alignment used on 32-bit platforms because anything else would be an interoperability nightmare, and I thought Microsoft did the same. But if they don’t, then we have a different interoperability nightmare.\n\nI’m getting out of here early to try to put 2020 behind me, so I won’t be able to test, but I’d suggest figuring out the right answer based on what MiniDumpWriteDump does.",
+      "parentUuid": "6fb42258_ffa791d4",
+      "revId": "89b3862a573d81cdfd26ef02dbbd6c08491bead8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a168c97b_ab657aff",
