@@ -107,6 +107,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea55f676_46255686",
+        "filename": "minidump/minidump_exception_writer_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1309455
+      },
+      "writtenOn": "2020-12-10T20:14:30Z",
+      "side": 1,
+      "message": "Yep ExceptionRecord and ExceptionAddress happen to not be 8-aligned, so accessing them through a pointer triggers UBsan. Added a comment to make that clear",
+      "parentUuid": "a168c97b_ab657aff",
+      "revId": "89b3862a573d81cdfd26ef02dbbd6c08491bead8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b45d52c_83a168f6",
         "filename": "minidump/minidump_handle_writer_test.cc",
         "patchSetId": 3
@@ -118,6 +136,30 @@
       "writtenOn": "2020-12-10T18:38:23Z",
       "side": 1,
       "message": "Nit: the reinterpret_cast won\u0027t be necessary here when using memcpy().",
+      "range": {
+        "startLine": 115,
+        "startChar": 9,
+        "endLine": 115,
+        "endChar": 60
+      },
+      "revId": "89b3862a573d81cdfd26ef02dbbd6c08491bead8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74ff8e3b_c5392c5e",
+        "filename": "minidump/minidump_handle_writer_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1309455
+      },
+      "writtenOn": "2020-12-10T20:14:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b45d52c_83a168f6",
       "range": {
         "startLine": 115,
         "startChar": 9,
@@ -147,6 +189,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a3c38662_b1d5bdf4",
+        "filename": "minidump/minidump_memory_info_writer_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1309455
+      },
+      "writtenOn": "2020-12-10T20:14:30Z",
+      "side": 1,
+      "message": "Same issue here, NumberOfEntries isn\u0027t 8-aligned and is being accessed through a pointer. Are you thinking that only the alignments in compat/non_win/dbghelp.h would be changed? From the other comment above it sounds like maybe Windows shouldn\u0027t be changed, but correct me if I\u0027m wrong",
+      "parentUuid": "469a8c8a_ff7a150a",
+      "revId": "89b3862a573d81cdfd26ef02dbbd6c08491bead8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "75f437f4_3b24e3e2",
         "filename": "util/file/file_io.cc",
         "patchSetId": 3
@@ -158,6 +218,24 @@
       "writtenOn": "2020-12-10T18:06:12Z",
       "side": 1,
       "message": "(for my own benefit) what was the error in this file? The char* version sorta looks fine to me.",
+      "revId": "89b3862a573d81cdfd26ef02dbbd6c08491bead8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6cbf3d3_1339f75c",
+        "filename": "util/file/file_io.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1309455
+      },
+      "writtenOn": "2020-12-10T20:14:30Z",
+      "side": 1,
+      "message": "Some tests pass a null pointer through buffer, and advancing a null pointer is enough to trigger UBsan even if the pointer isn\u0027t dereferenced. The other option would be to have the tests use a non-zero dummy pointer, although that would require changing the test logic slightly. WDYT?",
+      "parentUuid": "75f437f4_3b24e3e2",
       "revId": "89b3862a573d81cdfd26ef02dbbd6c08491bead8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
