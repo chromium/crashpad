@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90394dfd_2356c48f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2020-12-10T17:16:58Z",
+      "side": 1,
+      "message": "Note that the comments in the linked code is misleading. That code claims to find the lowest address to adjust l_addr from the link map... but if l_addr needed adjusting, the code wouldn\u0027t have been able to use it to read the program headers in the first place!",
+      "revId": "139ebe0f343a16d1a321c24052f1d84df9cf72c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
