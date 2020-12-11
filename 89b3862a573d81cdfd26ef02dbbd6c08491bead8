@@ -205,6 +205,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cee2fbb_430ceeeb",
+        "filename": "minidump/minidump_memory_info_writer_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2020-12-11T19:03:47Z",
+      "side": 1,
+      "message": "I filed https://bugs.chromium.org/p/gn/issues/detail?id\u003d219 for this issue which I think would avoid the need for some of these memcpys but isn\u0027t really your problem for this CL either.",
+      "parentUuid": "a3c38662_b1d5bdf4",
+      "revId": "89b3862a573d81cdfd26ef02dbbd6c08491bead8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75f437f4_3b24e3e2",
