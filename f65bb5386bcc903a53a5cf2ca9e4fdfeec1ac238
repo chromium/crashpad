@@ -16,6 +16,24 @@
       "message": "If you want to rebase, I will CQ for you.",
       "revId": "f65bb5386bcc903a53a5cf2ca9e4fdfeec1ac238",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e8334f4_ca224e92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1309455
+      },
+      "writtenOn": "2020-12-11T18:55:17Z",
+      "side": 1,
+      "message": "Done! Thanks for the review!",
+      "parentUuid": "c8213d4d_973efebc",
+      "revId": "f65bb5386bcc903a53a5cf2ca9e4fdfeec1ac238",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
