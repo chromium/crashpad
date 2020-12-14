@@ -542,6 +542,7 @@ void ExpectModulesFromSelf(
 #endif  // !OS_ANDROID || !ARCH_CPU_ARMEL || __ANDROID_API__ >= 21
 }
 
+#if !defined(ADDRESS_SANITIZER) && !defined(MEMORY_SANITIZER)
 void ExpectTestModule(ProcessReaderLinux* reader,
                       const std::string& module_name) {
   for (const auto& module : reader->Modules()) {
@@ -560,6 +561,7 @@ void ExpectTestModule(ProcessReaderLinux* reader,
   }
   ADD_FAILURE() << "Test module not found";
 }
+#endif  // !ADDRESS_SANITIZER && !MEMORY_SANITIZER
 
 TEST(ProcessReaderLinux, SelfModules) {
 #if !defined(ADDRESS_SANITIZER) && !defined(MEMORY_SANITIZER)
