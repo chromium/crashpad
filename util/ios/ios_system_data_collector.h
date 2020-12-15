@@ -20,6 +20,7 @@
 #include <string>
 
 namespace crashpad {
+namespace internal {
 
 //! \brief Used to collect system level data before a crash occurs.
 class IOSSystemDataCollector {
@@ -76,6 +77,7 @@ class IOSSystemDataCollector {
   std::string daylight_name_;
 };
 
+}  // namespace internal
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_IOS_IOS_SYSTEM_DATA_COLLECTOR_H_

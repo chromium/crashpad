@@ -19,6 +19,7 @@
 
 #include "base/files/file_path.h"
 #include "base/mac/mach_logging.h"
+#include "util/ios/ios_minidump_data.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/misc/uuid.h"
 
@@ -38,90 +39,36 @@ ModuleSnapshotIOS::ModuleSnapshotIOS()
 
 ModuleSnapshotIOS::~ModuleSnapshotIOS() {}
 
-// static.
-const dyld_all_image_infos* ModuleSnapshotIOS::DyldAllImageInfo() {
-  task_dyld_info_data_t dyld_info;
-  mach_msg_type_number_t count = TASK_DYLD_INFO_COUNT;
-
-  kern_return_t kr = task_info(mach_task_self(),
-                               TASK_DYLD_INFO,
-                               reinterpret_cast<task_info_t>(&dyld_info),
-                               &count);
-  if (kr != KERN_SUCCESS) {
-    MACH_LOG(WARNING, kr) << "task_info";
-    return 0;
-  }
-
-  return reinterpret_cast<dyld_all_image_infos*>(dyld_info.all_image_info_addr);
-}
-
-bool ModuleSnapshotIOS::InitializeDyld(const dyld_all_image_infos* images) {
+bool ModuleSnapshotIOS::Initialize(const IOSMinidumpMap& image_data) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
-  name_ = images->dyldPath;
-  address_ = FromPointerCast<uint64_t>(images->dyldImageLoadAddress);
-  return FinishInitialization();
-}
+  image_data[IntermediateDumpKey::kName].GetString(&name_);
+  image_data[IntermediateDumpKey::kAddress].AsData().GetData<uint64_t>(
+      &address_);
+  image_data[IntermediateDumpKey::kSize].AsData().GetData<uint64_t>(&size_);
+  image_data[IntermediateDumpKey::kTimestamp].AsData().GetData<time_t>(
+      &timestamp_);
+  image_data[IntermediateDumpKey::kDylibCurrentVersion]
+      .AsData()
+      .GetData<uint32_t>(&dylib_version_);
+  image_data[IntermediateDumpKey::kSourceVersion].AsData().GetData<uint64_t>(
+      &source_version_);
+  image_data[IntermediateDumpKey::kFileType].AsData().GetData<uint32_t>(
+      &filetype_);
+  uuid_.InitializeFromBytes(
+      image_data[IntermediateDumpKey::kUUID].AsData().data());
 
-bool ModuleSnapshotIOS::Initialize(const dyld_image_info* image) {
-  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
-
-  name_ = image->imageFilePath;
-  address_ = FromPointerCast<uint64_t>(image->imageLoadAddress);
-  timestamp_ = image->imageFileModDate;
-  return FinishInitialization();
-}
-
-bool ModuleSnapshotIOS::FinishInitialization() {
-#ifndef ARCH_CPU_64_BITS
-#error Only 64-bit Mach-O is supported
-#endif
-  DCHECK(address_);
-  const mach_header_64* header =
-      reinterpret_cast<const mach_header_64*>(address_);
-  const load_command* command =
-      reinterpret_cast<const load_command*>(header + 1);
-  // Make sure that the basic load command structure doesn’t overflow the
-  // space allotted for load commands, as well as iterating through ncmds.
-  for (uint32_t cmd_index = 0, cumulative_cmd_size = 0;
-       cmd_index <= header->ncmds && cumulative_cmd_size < header->sizeofcmds;
-       ++cmd_index, cumulative_cmd_size += command->cmdsize) {
-    if (command->cmd == LC_SEGMENT_64) {
-      const segment_command_64* segment =
-          reinterpret_cast<const segment_command_64*>(command);
-      if (strcmp(segment->segname, SEG_TEXT) == 0) {
-        size_ = segment->vmsize;
-      }
-    } else if (command->cmd == LC_ID_DYLIB) {
-      const dylib_command* dylib =
-          reinterpret_cast<const dylib_command*>(command);
-      dylib_version_ = dylib->dylib.current_version;
-    } else if (command->cmd == LC_SOURCE_VERSION) {
-      const source_version_command* source_version =
-          reinterpret_cast<const source_version_command*>(command);
-      source_version_ = source_version->version;
-    } else if (command->cmd == LC_UUID) {
-      const uuid_command* uuid = reinterpret_cast<const uuid_command*>(command);
-      uuid_.InitializeFromBytes(uuid->uuid);
-    }
-
-    command = reinterpret_cast<const load_command*>(
-        reinterpret_cast<const uint8_t*>(command) + command->cmdsize);
-
-    // TODO(justincohen): Warn-able things:
-    // - Bad Mach-O magic (and give up trying to process the module)
-    // - Unrecognized Mach-O type
-    // - No SEG_TEXT
-    // - More than one SEG_TEXT
-    // - More than one LC_ID_DYLIB, LC_SOURCE_VERSION, or LC_UUID
-    // - No LC_ID_DYLIB in a dylib file
-    // - LC_ID_DYLIB in a non-dylib file
-    // And more optional:
-    // - Missing LC_UUID (although it leaves us with a big "?")
-    // - Missing LC_SOURCE_VERSION.
-  }
-
-  filetype_ = header->filetype;
+  // TODO(justincohen): Warn-able things:
+  // - Bad Mach-O magic (and give up trying to process the module)
+  // - Unrecognized Mach-O type
+  // - No SEG_TEXT
+  // - More than one SEG_TEXT
+  // - More than one LC_ID_DYLIB, LC_SOURCE_VERSION, or LC_UUID
+  // - No LC_ID_DYLIB in a dylib file
+  // - LC_ID_DYLIB in a non-dylib file
+  // And more optional:
+  // - Missing LC_UUID (although it leaves us with a big "?")
+  // - Missing LC_SOURCE_VERSION.
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
