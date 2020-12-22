@@ -25,8 +25,10 @@
 #include "build/build_config.h"
 #include "minidump/minidump_writer_util.h"
 #include "package.h"
+#include "snapshot/cpu_context.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/system_snapshot.h"
+#include "snapshot/thread_snapshot.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/in_range_cast.h"
 #include "util/numeric/safe_assignment.h"
@@ -94,6 +96,36 @@ int AvailabilityVersionToMacOSVersionNumber(int availability) {
   return availability;
 }
 #endif  // OS_MAC
+
+bool MaybeSetXStateData(const ProcessSnapshot* process_snapshot,
+                        XSTATE_CONFIG_FEATURE_MSC_INFO* xstate) {
+  // TODO(ajgo) I tried to make this a compacted context but lost. This is
+  // currently tightly coupled to cpu_context_win.cc.
+  auto threads = process_snapshot->Threads();
+  if (threads.size() == 0)
+    return false;
+
+  // All threads need to be the same.
+  auto context = threads.at(0)->Context();
+  // Only support AMD64 for now.
+  if (context->architecture != kCPUArchitectureX86_64)
+    return false;
+
+  if (context->x86_64->xstate.enabled_features == 0)
+    return false;
+
+  xstate->SizeOfInfo = sizeof(*xstate);
+  // Needs to match the size of the context we'll write or the dump is invalid.
+  xstate->ContextSize = context->x86_64->xstate.context_size;
+  // XXX This doesn't seem to be the same as xstateenabledfeatures!
+  xstate->EnabledFeatures = context->x86_64->xstate.enabled_features | XSTATE_COMPACTION_ENABLE_MASK;
+
+  // maybe this is just in order - assume the legacy features don't count?
+  xstate->Features[XSTATE_CET_U].Offset = 0x240; // context->x86_64->cet_u.offset;
+  xstate->Features[XSTATE_CET_U].Size = context->x86_64->cet_u.size;
+
+  return true;
+}
 
 }  // namespace
 
@@ -235,6 +267,11 @@ void MinidumpMiscInfoWriter::InitializeFromSnapshot(
 
   SetBuildString(BuildString(system_snapshot),
                  internal::MinidumpMiscInfoDebugBuildString());
+
+  XSTATE_CONFIG_FEATURE_MSC_INFO xstate = {0};
+  if (MaybeSetXStateData(process_snapshot, &xstate)) {
+    SetXStateData(xstate);
+  }
 }
 
 void MinidumpMiscInfoWriter::SetProcessID(uint32_t process_id) {
@@ -394,7 +431,6 @@ MinidumpStreamType MinidumpMiscInfoWriter::StreamType() const {
 
 size_t MinidumpMiscInfoWriter::CalculateSizeOfObjectFromFlags() const {
   DCHECK_GE(state(), kStateFrozen);
-
   if (has_xstate_data_ || (misc_info_.Flags1 & MINIDUMP_MISC5_PROCESS_COOKIE)) {
     return sizeof(MINIDUMP_MISC_INFO_5);
   }
