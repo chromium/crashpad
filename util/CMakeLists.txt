@@ -200,7 +200,7 @@ if(APPLE)
             process/process_memory_mac.cc
             process/process_memory_mac.h
         )
-    elseif()
+    else()
         target_sources(crashpad_util PRIVATE
             ios/exception_processor.h
             ios/exception_processor.mm
