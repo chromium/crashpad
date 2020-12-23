@@ -416,6 +416,11 @@ if(APPLE)
         "-framework Foundation"
         "-framework IOKit"
     )
+    if(IOS)
+        target_link_libraries(crashpad_util PRIVATE
+            "-framework UIKit"
+        )
+    endif()
 endif()
 
 if(LINUX)
