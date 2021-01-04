@@ -375,6 +375,22 @@ if(APPLE)
     endif()
     list(TRANSFORM includes PREPEND "--include=")
 
+    if(CMAKE_OSX_SYSROOT)
+        set(sdk --sdk ${CMAKE_OSX_SYSROOT})
+    endif()
+
+    # When building for Xcode, the `CMAKE_OSX_SYSROOT` is not set to a proper
+    # directory, but rather is `iphoneos`, which confuses `mig`.
+    # Also, Xcode uses a different `SDKROOT` depending on the `-sdk` flag
+    # provided to `xcodebuild`.
+    # Similarly, we don't know the arch at configure-time, because it changes
+    # at build time depending on the `-sdk` flag as well.
+    # We hack around this by consuming the arch list from the env.
+    if(XCODE)
+        set(archs --arch "FROM_ENV")
+        set(sdk --sdk "$SDKROOT")
+    endif()
+
     # Create generate rule for each input file. Add each generated output
     # as a source to the target.
     foreach(input ${input_files})
@@ -387,7 +403,7 @@ if(APPLE)
             OUTPUT
             ${output_files}
             COMMAND
-            "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/mach/mig.py" ${archs} ${includes} "${input}" ${output_files}
+            "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/mach/mig.py" ${archs} ${sdk} ${includes} "${input}" ${output_files}
             DEPENDS
             "${CMAKE_CURRENT_SOURCE_DIR}/mach/mig.py" "${input}"
         )
@@ -410,6 +426,12 @@ target_link_libraries(crashpad_util
 )
 
 if(APPLE)
+    get_property(archs TARGET crashpad_util PROPERTY OSX_ARCHITECTURES)
+    if (archs)
+        list(TRANSFORM archs PREPEND "-arch ")
+        set(CMAKE_ASM_FLAGS "${CFLAGS} ${archs}")
+    endif()
+
     target_link_libraries(crashpad_util PRIVATE
         bsm
         "-framework CoreFoundation"
