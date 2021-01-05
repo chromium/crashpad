@@ -21,6 +21,9 @@
 // Returns the string "crashpad" for testing EDO.
 - (NSString*)testEDO;
 
+// Returns |true| if |type| matches the last exception type.
+- (bool)verifyLastException:(int)type;
+
 // Triggers an EXC_BAD_ACCESS exception and crash.
 - (void)crashBadAccess;
 

@@ -47,6 +47,10 @@ crashpad_static_library("client") {
     sources += [
       "crash_report_database_mac.mm",
       "crashpad_client_ios.cc",
+      "ios_handler/in_process_handler.cc",
+      "ios_handler/in_process_handler.h",
+      "ios_handler/in_process_handler_util.cc",
+      "ios_handler/in_process_handler_util.h",
     ]
   }
 
@@ -95,12 +99,16 @@ crashpad_static_library("client") {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
   }
 
-  # TODO(justincohen): Temporary dependency to bring up the iOS client.
   if (crashpad_is_ios) {
     deps += [
+      "../handler",
       "../minidump",
       "../snapshot",
     ]
+
+    # This is because on iOS, client directly depends on handler, which uses
+    # the crash_report_upload_thread, which depends on client/settings.
+    allow_circular_includes_from = [ "//handler" ]
   }
 
   if (crashpad_is_linux || crashpad_is_android) {
