@@ -19,6 +19,13 @@ if (crashpad_is_in_chromium) {
   import("//build/config/sanitizers/sanitizers.gni")
 }
 
+if (crashpad_is_in_chromium) {
+  import("//build/config/linux/pkg_config.gni")
+  pkg_config("libcurl") {
+    packages = [ "libcurl" ]
+  }
+}
+
 if (crashpad_is_mac || crashpad_is_ios) {
   if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
     import("//build/config/sysroot.gni")
@@ -381,7 +388,7 @@ crashpad_static_library("util") {
 
   deps = []
 
-  if (crashpad_is_linux || crashpad_is_fuchsia || crashpad_is_android) {
+  if (crashpad_http_transport_impl == "socket") {
     sources += [ "net/http_transport_socket.cc" ]
     if (crashpad_use_boringssl_for_http_transport_socket) {
       defines += [ "CRASHPAD_USE_BORINGSSL" ]
@@ -394,6 +401,13 @@ crashpad_static_library("util") {
           "ssl",
         ]
       }
+    }
+  } else if (crashpad_http_transport_impl == "libcurl") {
+    sources += [ "net/http_transport_libcurl.cc" ]
+    if (crashpad_is_in_chromium) {
+      configs = [ ":libcurl" ]
+    } else {
+      libs = [ "curl" ]
     }
   }
 
