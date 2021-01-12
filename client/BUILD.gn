@@ -88,7 +88,8 @@ crashpad_static_library("client") {
     "../util",
   ]
 
-  deps = []
+  deps = [ "../third_party/mini_chromium:chromeos_buildflags" ]
+
 
   if (crashpad_is_win) {
     libs = [ "rpcrt4.lib" ]
