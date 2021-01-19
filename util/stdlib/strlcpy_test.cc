@@ -29,27 +29,13 @@ namespace crashpad {
 namespace test {
 namespace {
 
-// The base::c16 functions only exist if WCHAR_T_IS_UTF32.
-#if defined(WCHAR_T_IS_UTF32)
 size_t C16Len(const base::char16* s) {
-  return base::c16len(s);
+  return base::string16::traits_type::length(s);
 }
 
 int C16Memcmp(const base::char16* s1, const base::char16* s2, size_t n) {
-  return base::c16memcmp(s1, s2, n);
+  return base::string16::traits_type::compare(s1, s2, n);
 }
-#elif defined(WCHAR_T_IS_UTF16)
-
-size_t C16Len(const base::char16* s) {
-  return wcslen(reinterpret_cast<const wchar_t*>(s));
-}
-
-int C16Memcmp(const base::char16* s1, const base::char16* s2, size_t n) {
-  return wmemcmp(reinterpret_cast<const wchar_t*>(s1),
-                 reinterpret_cast<const wchar_t*>(s2),
-                 n);
-}
-#endif
 
 TEST(strlcpy, c16lcpy) {
   // Use a destination buffer that’s larger than the length passed to c16lcpy.
