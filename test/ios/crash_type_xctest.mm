@@ -79,6 +79,8 @@
   // TODO: Query the app for crash data
   [_app launch];
   XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  rootObject = [EDOClientService rootObjectWithPort:12345];
+  XCTAssertEqual([rootObject lastException], SIGHUP);
 }
 
 - (void)testKillAbort {
@@ -95,6 +97,8 @@
   // TODO: Query the app for crash data
   [_app launch];
   XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  rootObject = [EDOClientService rootObjectWithPort:12345];
+  XCTAssertEqual([rootObject lastException], SIGABRT);
 }
 
 - (void)testTrap {
@@ -111,6 +115,8 @@
   // TODO: Query the app for crash data
   [_app launch];
   XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  rootObject = [EDOClientService rootObjectWithPort:12345];
+  XCTAssertEqual([rootObject lastException], SIGINT);
 }
 
 - (void)testAbort {
@@ -127,6 +133,8 @@
   // TODO: Query the app for crash data
   [_app launch];
   XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  rootObject = [EDOClientService rootObjectWithPort:12345];
+  XCTAssertEqual([rootObject lastException], SIGABRT);
 }
 
 - (void)testBadAccess {
@@ -140,9 +148,10 @@
   XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
   XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
 
-  // TODO: Query the app for crash data
   [_app launch];
   XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  rootObject = [EDOClientService rootObjectWithPort:12345];
+  XCTAssertEqual([rootObject lastException], SIGHUP);
 }
 
 - (void)testException {
@@ -159,6 +168,8 @@
   // TODO: Query the app for crash data
   [_app launch];
   XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  rootObject = [EDOClientService rootObjectWithPort:12345];
+  XCTAssertEqual([rootObject lastException], SIGABRT);
 }
 
 - (void)testNSException {
@@ -175,6 +186,8 @@
   // TODO: Query the app for crash data
   [_app launch];
   XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  rootObject = [EDOClientService rootObjectWithPort:12345];
+  XCTAssertEqual([rootObject lastException], SIGABRT);
 }
 
 - (void)testCrashUnreocgnizedSelectorAfterDelay {
@@ -191,6 +204,8 @@
   // TODO: Query the app for crash data
   [_app launch];
   XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  rootObject = [EDOClientService rootObjectWithPort:12345];
+  XCTAssertEqual([rootObject lastException], SIGABRT);
 }
 
 - (void)testCatchUIGestureEnvironmentNSException {
@@ -206,6 +221,9 @@
   // TODO: Query the app for crash data
   [_app launch];
   XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
+  rootObject = [EDOClientService rootObjectWithPort:12345];
+  XCTAssertEqual([rootObject lastException], SIGABRT);
 }
 
 - (void)testCatchNSException {
@@ -216,6 +234,7 @@
   [rootObject catchNSException];
 
   XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  // verify no dumps.
 }
 
 - (void)testRecursion {
@@ -236,6 +255,8 @@
   // TODO: Query the app for crash data
   [_app launch];
   XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  rootObject = [EDOClientService rootObjectWithPort:12345];
+  XCTAssertEqual([rootObject lastException], SIGABRT);
 }
 
 @end
