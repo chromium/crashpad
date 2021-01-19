@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1446450e_a25c8b97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1179305
+      },
+      "writtenOn": "2021-01-19T15:53:05Z",
+      "side": 1,
+      "message": "Hi Mark, PTAL here as well.",
+      "revId": "229f9bbb1caf7b45d1bfb3ef9a0d85c4f767d1cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c93bdab9_affec49c",
+        "filename": "util/stdlib/strlcpy.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1179305
+      },
+      "writtenOn": "2021-01-19T15:53:05Z",
+      "side": 1,
+      "message": "In theory we could just remove this block because the implementation below should also work if WCHAR_T_IS_UTF16, but for now I kept it in case StringCchCopyW has some side effects that should be left in. WDYT?",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 0
+      },
+      "revId": "229f9bbb1caf7b45d1bfb3ef9a0d85c4f767d1cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
