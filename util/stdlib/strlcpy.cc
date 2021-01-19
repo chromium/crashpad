@@ -40,11 +40,11 @@ size_t c16lcpy(base::char16* destination,
 size_t c16lcpy(base::char16* destination,
                const base::char16* source,
                size_t length) {
-  size_t source_length = base::c16len(source);
+  size_t source_length = base::string16::traits_type::length(source);
   if (source_length < length) {
-    base::c16memcpy(destination, source, source_length + 1);
+    base::string16::traits_type::copy(destination, source, source_length + 1);
   } else if (length != 0) {
-    base::c16memcpy(destination, source, length - 1);
+    base::string16::traits_type::copy(destination, source, length - 1);
     destination[length - 1] = '\0';
   }
   return source_length;
