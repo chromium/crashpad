@@ -21,6 +21,11 @@
 // Returns the string "crashpad" for testing EDO.
 - (NSString*)testEDO;
 
+// Returns last exception as int.
+- (int)lastException;
+
+- (int)pendingReportCount;
+
 // Triggers an EXC_BAD_ACCESS exception and crash.
 - (void)crashBadAccess;
 
