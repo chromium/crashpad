@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "266cb5de_dafb21c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-01-20T20:18:11Z",
+      "side": 1,
+      "message": "Hi, I\u0027ve regrettably had to make an automatic mirror of chromium.googlesource.com/crashpad/crashpad to fuchsia.googlesource.com/third_party/crashpad because the Fuchsia project has tighter constraints on acceptable licenses than Chromium and Crashpad.\n\ncrashpad/third_party/xnu is one of the directories that was flagged as being unacceptably licensed. Initially, I assumed I would just be able to filter that directory out in the copy, but having actually tried it, I see now that compat depends on third_party/xnu/BUILD.gn for all non-mac.\n\nCould you suggest a correct cut point? It looks like the xnu headers are only used on mac/ios right now, but the descriptions allude to a possible different future plan?\n\nI believe ios is separate from mac here; is not-mac meant for ios, or is it genuinely wanted on all platforms?",
+      "revId": "3332ae35467233df14a2c66e2dcac81cddd189d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
