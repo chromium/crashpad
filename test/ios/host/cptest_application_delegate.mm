@@ -24,7 +24,10 @@
 
 #import "Service/Sources/EDOHostNamingService.h"
 #import "Service/Sources/EDOHostService.h"
+#include "client/annotation.h"
+#include "client/crash_report_database.h"
 #include "client/crashpad_client.h"
+#include "snapshot/minidump/process_snapshot_minidump.h"
 #import "test/ios/host/cptest_crash_view_controller.h"
 #import "test/ios/host/cptest_shared_object.h"
 
@@ -32,16 +35,48 @@
 #error "This file requires ARC support."
 #endif
 
-@implementation CPTestApplicationDelegate
+namespace {
+
+base::FilePath GetDatabaseDir() {
+  base::FilePath database_dir([NSFileManager.defaultManager
+                                  URLsForDirectory:NSDocumentDirectory
+                                         inDomains:NSUserDomainMask]
+                                  .lastObject.path.UTF8String);
+  return database_dir.Append("crashpad");
+}
+
+std::unique_ptr<crashpad::CrashReportDatabase> GetDatabase() {
+  base::FilePath database_dir = GetDatabaseDir();
+  std::unique_ptr<crashpad::CrashReportDatabase> database =
+      crashpad::CrashReportDatabase::Initialize(database_dir);
+  return database;
+}
+
+[[clang::optnone]] void recurse(int counter) {
+  // Fill up the stack faster
+  int arr[1024];
+  arr[0] = counter;
+  if (counter > INT_MAX)
+    return;
+  recurse(++counter);
+}
+}
+
+@implementation CPTestApplicationDelegate {
+  crashpad::CrashpadClient client_;
+}
 
 @synthesize window = _window;
 
 - (BOOL)application:(UIApplication*)application
     didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
   // Start up crashpad.
-  crashpad::CrashpadClient client;
-  client.StartCrashpadInProcessHandler();
-
+  base::FilePath metrics_dir;
+  client_.StartCrashpadInProcessHandler(
+      GetDatabaseDir(),
+      metrics_dir,
+      "",  // https://clients2.google.com/cr/staging_report,
+      {{"prod", "ios_crash_xcuitests"}, {"ver", "1"}, {"plat", "iPhoneos"}});
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   [self.window makeKeyAndVisible];
   self.window.backgroundColor = UIColor.greenColor;
@@ -49,6 +84,9 @@
   CPTestCrashViewController* controller =
       [[CPTestCrashViewController alloc] init];
   self.window.rootViewController = controller;
+
+  crashpad::StringAnnotation<32> name("device-name");
+  name.Set([[UIDevice currentDevice].name UTF8String]);
 
   // Start up EDO.
   [EDOHostService serviceWithPort:12345
@@ -63,6 +101,46 @@
 
 - (NSString*)testEDO {
   return @"crashpad";
+}
+
+- (void)clearReports {
+  crashpad::CrashReportDatabase::OperationStatus status;
+  std::unique_ptr<crashpad::CrashReportDatabase> database(GetDatabase());
+  std::vector<crashpad::CrashReportDatabase::Report> pending_reports;
+  status = database->GetPendingReports(&pending_reports);
+  for (auto report : pending_reports) {
+    database->DeleteReport(report.uuid);
+  }
+}
+- (int)pendingReportCount {
+  crashpad::CrashReportDatabase::OperationStatus status;
+  std::unique_ptr<crashpad::CrashReportDatabase> database(GetDatabase());
+  std::vector<crashpad::CrashReportDatabase::Report> pending_reports;
+  status = database->GetPendingReports(&pending_reports);
+  if (status != crashpad::CrashReportDatabase::kNoError) {
+    return -1;
+  }
+
+  return pending_reports.size();
+}
+
+- (int)lastException {
+  crashpad::CrashReportDatabase::OperationStatus status;
+  std::unique_ptr<crashpad::CrashReportDatabase> database(GetDatabase());
+  std::vector<crashpad::CrashReportDatabase::Report> pending_reports;
+  status = database->GetPendingReports(&pending_reports);
+  if (status != crashpad::CrashReportDatabase::kNoError) {
+    return -1;
+  }
+  if (pending_reports.size() != 1) {
+    return -2;
+  }
+
+  auto reader = std::make_unique<crashpad::FileReader>();
+  reader->Open(pending_reports[0].file_path);
+  crashpad::ProcessSnapshotMinidump process_snapshot;
+  process_snapshot.Initialize(reader.get());
+  return static_cast<int>(process_snapshot.Exception()->Exception());
 }
 
 - (void)crashBadAccess {
@@ -115,12 +193,8 @@
 #pragma clang diagnostic pop
 }
 
-- (void)recurse {
-  [self recurse];
-}
-
 - (void)crashRecursion {
-  [self recurse];
+  recurse(0);
 }
 
 @end
