@@ -16,6 +16,57 @@
       "message": "ptal.  Does this lambda make sense?  Not sure the \u0027right\u0027 way to do this.",
       "revId": "e288c3ae2ac65a79150265118cee04b962140be2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e409443d_29108ee2",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 4
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-01-20T15:50:43Z",
+      "side": 1,
+      "message": "?",
+      "revId": "e288c3ae2ac65a79150265118cee04b962140be2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9df8efed_bd8184b2",
+        "filename": "util/ios/exception_processor_test.mm",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-01-20T15:50:43Z",
+      "side": 1,
+      "message": "EXPECT_NE",
+      "revId": "e288c3ae2ac65a79150265118cee04b962140be2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9de0de5_ffc6b528",
+        "filename": "util/ios/exception_processor_test.mm",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-01-20T15:50:43Z",
+      "side": 1,
+      "message": "anche me",
+      "revId": "e288c3ae2ac65a79150265118cee04b962140be2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
