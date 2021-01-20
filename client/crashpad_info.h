@@ -223,6 +223,8 @@ struct CrashpadInfo {
     kSignature = 'CPad',
   };
 
+  bool is_valid() const;
+
  private:
   // The compiler won’t necessarily see anyone using these fields, but it
   // shouldn’t warn about that. These fields aren’t intended for use by the
