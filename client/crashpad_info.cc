@@ -134,4 +134,9 @@ void CrashpadInfo::AddUserDataMinidumpStream(uint32_t stream_type,
   user_data_minidump_stream_head_ = to_be_added;
 }
 
+bool CrashpadInfo::is_valid() const {
+  return signature_ == CrashpadInfo::kSignature &&
+         version_ == kCrashpadInfoVersion;
+}
+
 }  // namespace crashpad
