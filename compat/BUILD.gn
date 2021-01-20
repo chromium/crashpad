@@ -165,10 +165,6 @@ compat_target("compat") {
 
   deps = [ "../util:no_cfi_icall" ]
 
-  if (!crashpad_is_mac) {
-    deps += [ "../third_party/xnu" ]
-  }
-
   if (crashpad_is_win) {
     deps += [ "../third_party/getopt" ]
   }
