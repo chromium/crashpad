@@ -16,6 +16,23 @@
       "message": "OK, LGTM.",
       "revId": "442eb1a1babec216d4fe932ecfb313d71cfd3c28",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20766c36_1ab3f84f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-01-20T23:27:33Z",
+      "side": 1,
+      "message": "Thanks, feel free to re-add or change in the future of course, and I can adapt the hack. I know it\u0027s annoying to have another layer here.",
+      "revId": "442eb1a1babec216d4fe932ecfb313d71cfd3c28",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
