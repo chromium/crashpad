@@ -91,6 +91,9 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   add_stream_result = AddStream(std::move(thread_list));
   DCHECK(add_stream_result);
 
+  // XXX interrogate thread_list
+  header_.Flags = header_.Flags | MiniDumpWithAvxXStateContext;
+
   const ExceptionSnapshot* exception_snapshot = process_snapshot->Exception();
   if (exception_snapshot) {
     auto exception = std::make_unique<MinidumpExceptionWriter>();

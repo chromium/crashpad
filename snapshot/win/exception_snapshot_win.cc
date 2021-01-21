@@ -41,7 +41,7 @@ void NativeContextToCPUContext32(const Context32& context_record,
                                  CPUContextUnion* context_union) {
   context->architecture = kCPUArchitectureX86;
   context->x86 = &context_union->x86;
-  InitializeX86Context(context_record, context->x86);
+  InitializeX86Context(&context_record, context->x86);
 }
 #endif  // ARCH_CPU_X86_FAMILY
 
@@ -52,11 +52,11 @@ void NativeContextToCPUContext64(const CONTEXT& context_record,
 #if defined(ARCH_CPU_X86_64)
   context->architecture = kCPUArchitectureX86_64;
   context->x86_64 = &context_union->x86_64;
-  InitializeX64Context(context_record, context->x86_64);
+  InitializeX64Context(&context_record, context->x86_64);
 #elif defined(ARCH_CPU_ARM64)
   context->architecture = kCPUArchitectureARM64;
   context->arm64 = &context_union->arm64;
-  InitializeARM64Context(context_record, context->arm64);
+  InitializeARM64Context(&context_record, context->arm64);
 #else
 #error Unsupported Windows 64-bit Arch
 #endif
