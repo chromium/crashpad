@@ -33,6 +33,24 @@
       "message": "Sure. Actually, why don\u0027t you just bring this entire compat BUILD.gn file back to remove the other changes I made for that thing that never got developed too much further?",
       "revId": "e1cf486b78cf0e258883626716627e095d1b71c6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9862a47_f77a11db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-01-21T00:37:34Z",
+      "side": 1,
+      "message": "You mean the \"before\" of https://chromium-review.googlesource.com/c/crashpad/crashpad/+/1489795 right? (meaning some of the headers will be unreferenced)\n\nDone, though I feel like I\u0027m probably asking for another round of CL with those changes. :)",
+      "parentUuid": "0fb67aac_378fdb06",
+      "revId": "e1cf486b78cf0e258883626716627e095d1b71c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
