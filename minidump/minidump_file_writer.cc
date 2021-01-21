@@ -82,6 +82,9 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   add_stream_result = AddStream(std::move(misc_info));
   DCHECK(add_stream_result);
 
+  if (misc_info->HasXStateData())
+    header_.Flags = header_.Flags | MiniDumpWithAvxXStateContext;
+
   auto memory_list = std::make_unique<MinidumpMemoryListWriter>();
   auto thread_list = std::make_unique<MinidumpThreadListWriter>();
   thread_list->SetMemoryListWriter(memory_list.get());
@@ -90,6 +93,7 @@ void MinidumpFileWriter::InitializeFromSnapshot(
                                       &thread_id_map);
   add_stream_result = AddStream(std::move(thread_list));
   DCHECK(add_stream_result);
+
 
   const ExceptionSnapshot* exception_snapshot = process_snapshot->Exception();
   if (exception_snapshot) {
