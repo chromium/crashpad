@@ -16,6 +16,23 @@
       "message": "I needed to read a little bit farther down.",
       "revId": "e1cf486b78cf0e258883626716627e095d1b71c6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fb67aac_378fdb06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-01-21T00:14:50Z",
+      "side": 1,
+      "message": "Sure. Actually, why don\u0027t you just bring this entire compat BUILD.gn file back to remove the other changes I made for that thing that never got developed too much further?",
+      "revId": "e1cf486b78cf0e258883626716627e095d1b71c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
