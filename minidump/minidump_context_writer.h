@@ -104,6 +104,42 @@ class MinidumpContextX86Writer final : public MinidumpContextWriter {
   DISALLOW_COPY_AND_ASSIGN(MinidumpContextX86Writer);
 };
 
+//! \brief Wraps an xsave feature that knows where and how big it is.
+class MinidumpXSaveFeatureAMD64 {
+ public:
+  virtual ~MinidumpXSaveFeatureAMD64() = default;
+  // Number of bytes that will be written. May need to vary by CPUID (see
+  // Intel 13.5).
+  virtual size_t Size() const = 0;
+  // Offset into CONTEXT structure.
+  virtual size_t Offset() const = 0;
+  // Space that will be used to pad to entry alignment, will not be written.
+  virtual size_t Pad() const = 0;
+  // Intel 13.4.2 XCOMP_BV.
+  virtual uint8_t XCompBVBit() const = 0;
+  // Write data to dst. Does not write padding.
+  virtual bool Copy(void* dst) const = 0;
+};
+
+//! \brief XSAVE_CET_U_FORMAT
+class MinidumpXSaveAMD64CetU final : public MinidumpXSaveFeatureAMD64 {
+ public:
+  MinidumpXSaveAMD64CetU() {}
+  ~MinidumpXSaveAMD64CetU() {}
+  size_t Size() const override { return size_; }
+  size_t Offset() const override { return offset_; }
+  size_t Pad() const override { return 0; }
+  uint8_t XCompBVBit() const override { return XSTATE_CET_U; }
+  bool Copy(void* dst) const override;
+  bool InitializeFromSnapshot(const CPUContextX86_64* context_snapshot);
+
+ private:
+  uint32_t size_;
+  uint32_t offset_;
+  MinidumpAMD64XSaveFormatCetU cet_u_;
+  DISALLOW_COPY_AND_ASSIGN(MinidumpXSaveAMD64CetU);
+};
+
 //! \brief The writer for a MinidumpContextAMD64 structure in a minidump file.
 class MinidumpContextAMD64Writer final : public MinidumpContextWriter {
  public:
@@ -151,6 +187,9 @@ class MinidumpContextAMD64Writer final : public MinidumpContextWriter {
 
  private:
   MinidumpContextAMD64 context_;
+  // These should be in order of XCompBVBit().
+  std::vector<std::unique_ptr<MinidumpXSaveFeatureAMD64>> xsave_entries_;
+  size_t context_size_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpContextAMD64Writer);
 };
