@@ -12,10 +12,7 @@ if(APPLE)
     )
 else()
     list(APPEND COMPAT_SOURCES
-        non_mac/mach-o/loader.h
         non_mac/mach/mach.h
-        non_mac/mach/machine.h
-        non_mac/mach/vm_prot.h
     )
 endif()
 
@@ -85,12 +82,6 @@ else()
     )
 endif()
 
-if(NOT LINUX AND NOT ANDROID)
-    list(APPEND COMPAT_SOURCES
-        non_elf/elf.h
-    )
-endif()
-
 if(APPLE)
     add_library(crashpad_compat INTERFACE)
     set(TI_TYPE "INTERFACE")
@@ -117,8 +108,6 @@ endif()
 
 if(APPLE)
     target_include_directories(crashpad_compat ${TI_TYPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/mac>")
-else()
-    target_include_directories(crashpad_compat ${TI_TYPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/non_mac>")
 endif()
 
 if(IOS)
@@ -127,8 +116,6 @@ endif()
 
 if(LINUX OR ANDROID)
     target_include_directories(crashpad_compat ${TI_TYPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/linux>")
-else()
-    target_include_directories(crashpad_compat ${TI_TYPE} "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/non_elf>")
 endif()
 
 if(ANDROID)
