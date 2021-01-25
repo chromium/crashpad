@@ -21,6 +21,15 @@
 // Returns the string "crashpad" for testing EDO.
 - (NSString*)testEDO;
 
+// Returns last exception as int.
+- (int)lastException;
+
+- (NSString*)lastCrashInfoMessage;
+
+- (int)pendingReportCount;
+
+- (void)clearReports;
+
 // Triggers an EXC_BAD_ACCESS exception and crash.
 - (void)crashBadAccess;
 
@@ -50,6 +59,9 @@
 
 // Trigger a crash with an infinite recursion.
 - (void)crashRecursion;
+
+// Trigger a crash dlsym that contains a crash_info message.
+- (void)crashWithCrashInfoMessage;
 @end
 
 #endif  // CRASHPAD_TEST_IOS_HOST_SHARED_OBJECT_H_
