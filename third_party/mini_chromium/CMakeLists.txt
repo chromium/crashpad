@@ -4,6 +4,7 @@ function(mc_append_sources)
     target_sources(mini_chromium PRIVATE ${ARGN})
 endfunction()
 
+target_sources(mini_chromium PRIVATE build/chromeos_buildflags.h)
 mc_append_sources(
     ../build/build_config.h
     atomicops.h
@@ -171,6 +172,9 @@ endif()
 target_include_directories(mini_chromium PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/mini_chromium>"
     $<INSTALL_INTERFACE:include/crashpad/mini_chromium>
+)
+target_include_directories(mini_chromium PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
 )
 target_link_libraries(mini_chromium
     PRIVATE
