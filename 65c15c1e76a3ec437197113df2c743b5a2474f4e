@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0b0e6a5_4b9c5fb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-01-27T19:46:45Z",
+      "side": 1,
+      "message": "This can\u0027t land as-is.  I wonder if we should pipe this thru in_process_handler.  There\u0027s still going to be a circular dependency so things may need to move around.",
+      "revId": "65c15c1e76a3ec437197113df2c743b5a2474f4e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
