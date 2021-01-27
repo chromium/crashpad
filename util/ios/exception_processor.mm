@@ -34,10 +34,14 @@
 #include <typeinfo>
 
 #include "base/bit_cast.h"
+#include "base/format_macros.h"
 #include "base/logging.h"
 #include "base/memory/free_deleter.h"
+#include "base/numerics/safe_conversions.h"
+#include "base/strings/stringprintf.h"
 #include "base/strings/sys_string_conversions.h"
 #include "build/build_config.h"
+#include "client/annotation.h"
 
 namespace {
 
@@ -79,20 +83,36 @@ struct __cxa_exception {
   _Unwind_Exception unwindHeader;
 };
 
+std::string FormatStackTrace(NSArray<NSNumber*>* addresses, size_t max_length) {
+  std::string value;
+  for (NSNumber* address in addresses) {
+    uint64_t addr = [address unsignedLongLongValue];
+    std::string str = base::StringPrintf("0x%" PRIx64, addr);
+    if (value.size() + str.size() > max_length)
+      break;
+    value += str + " ";
+  }
+
+  if (!value.empty() && value.back() == ' ') {
+    value.resize(value.size() - 1);
+  }
+
+  return value;
+}
+
 objc_exception_preprocessor g_next_preprocessor;
 bool g_exception_preprocessor_installed;
 
 void TerminatingFromUncaughtNSException(id exception, const char* sinkhole) {
-  // TODO(justincohen): This is incomplete, as the signal handler will not have
-  // access to the exception name and reason.  Pass that along somehow here.
-  NSString* exception_message_ns = [NSString
-      stringWithFormat:@"%@: %@", [exception name], [exception reason]];
-  std::string exception_message = base::SysNSStringToUTF8(exception_message_ns);
-  LOG(INFO) << "Terminating from Objective-C exception: " << exception_message
-            << " with sinkhole: " << sinkhole;
-  // TODO(justincohen): This is temporary, as crashpad can capture this
-  // exception directly instead.
-  std::terminate();
+  std::string name = base::SysNSStringToUTF8([exception name]);
+  std::string reason = base::SysNSStringToUTF8([exception reason]);
+  static crashpad::StringAnnotation<256> nameKey("exceptionName");
+  nameKey.Set(name);
+  static crashpad::StringAnnotation<512> reasonKey("exceptionReason");
+  reasonKey.Set(reason);
+
+  LOG(FATAL) << "Terminating from Objective-C exception name: " << name
+             << " reason: " << reason << " with sinkhole: " << sinkhole;
 }
 
 // Returns true if |path| equals |sinkhole| on device. Simulator paths prepend
@@ -121,6 +141,26 @@ int LoggingUnwStep(unw_cursor_t* cursor) {
 }
 
 id ObjcExceptionPreprocessor(id exception) {
+  static bool seen_first_exception = false;
+  // Record UMA and crash keys about the exception.
+  //  RecordExceptionWithUma(exception);
+  static crashpad::StringAnnotation<256> firstexception("firstexception");
+  static crashpad::StringAnnotation<256> lastexception("lastexception");
+  static crashpad::StringAnnotation<1024> firstexception_bt(
+      "firstexception_bt");
+  static crashpad::StringAnnotation<1024> lastexception_bt("lastexception_bt");
+  auto* key = seen_first_exception ? &lastexception : &firstexception;
+  auto* bt_key = seen_first_exception ? &lastexception_bt : &firstexception_bt;
+  NSString* value = [NSString
+      stringWithFormat:@"%@ reason %@", [exception name], [exception reason]];
+  key->Set(base::SysNSStringToUTF8(value));
+  // This exception preprocessor runs prior to the one in libobjc, which sets
+  // the -[NSException callStackReturnAddresses].
+  std::string trace_string =
+      FormatStackTrace([NSThread callStackReturnAddresses], 1024);
+  bt_key->Set(trace_string);
+  seen_first_exception = true;
+
   // Unwind the stack looking for any exception handlers. If an exception
   // handler is encountered, test to see if it is a function known to catch-
   // and-rethrow as a "top-level" exception handler. Various routines in
