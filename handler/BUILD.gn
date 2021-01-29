@@ -34,6 +34,11 @@ static_library("handler") {
       "mac/crash_report_exception_handler.h",
       "mac/exception_handler_server.cc",
       "mac/exception_handler_server.h",
+    ]
+  }
+
+  if (crashpad_is_mac || crashpad_is_ios) {
+    sources += [
       "mac/file_limit_annotation.cc",
       "mac/file_limit_annotation.h",
     ]
@@ -71,6 +76,12 @@ static_library("handler") {
     "../third_party/mini_chromium:base",
     "../util",
   ]
+
+  # This is because on iOS, client directly depends on handler, which uses
+  # the crash_report_upload_thread, which depends on client/settings.
+  if (crashpad_is_ios) {
+    public_deps -= [ "../client" ]
+  }
 
   deps = [
     "../minidump",
