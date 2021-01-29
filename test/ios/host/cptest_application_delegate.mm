@@ -24,6 +24,7 @@
 
 #import "Service/Sources/EDOHostNamingService.h"
 #import "Service/Sources/EDOHostService.h"
+#include "client/crash_report_database.h"
 #include "client/crashpad_client.h"
 #import "test/ios/host/cptest_crash_view_controller.h"
 #import "test/ios/host/cptest_shared_object.h"
@@ -32,6 +33,18 @@
 #error "This file requires ARC support."
 #endif
 
+namespace {
+
+base::FilePath GetDatabaseDir() {
+  base::FilePath database_dir([NSFileManager.defaultManager
+                                  URLsForDirectory:NSDocumentDirectory
+                                         inDomains:NSUserDomainMask]
+                                  .lastObject.path.UTF8String);
+  return database_dir.Append("crashpad");
+}
+
+}
+
 @implementation CPTestApplicationDelegate
 
 @synthesize window = _window;
@@ -39,8 +52,9 @@
 - (BOOL)application:(UIApplication*)application
     didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
   // Start up crashpad.
+  base::FilePath metrics_dir;
   crashpad::CrashpadClient client;
-  client.StartCrashpadInProcessHandler();
+  client.StartCrashpadInProcessHandler(GetDatabaseDir(), metrics_dir, "", {});
 
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   [self.window makeKeyAndVisible];
