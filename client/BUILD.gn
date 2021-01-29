@@ -47,6 +47,8 @@ crashpad_static_library("client") {
     sources += [
       "crash_report_database_mac.mm",
       "crashpad_client_ios.cc",
+      "ios_handler/exception_processor.h",
+      "ios_handler/exception_processor.mm",
       "ios_handler/in_process_handler.cc",
       "ios_handler/in_process_handler.h",
     ]
@@ -143,7 +145,10 @@ source_set("client_test") {
   }
 
   if (crashpad_is_ios) {
-    sources += [ "crashpad_client_ios_test.mm" ]
+    sources += [
+      "crashpad_client_ios_test.mm",
+      "ios_handler/exception_processor_test.mm",
+    ]
     sources -= [
       "annotation_list_test.cc",
       "annotation_test.cc",

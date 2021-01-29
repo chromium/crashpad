@@ -22,9 +22,9 @@
 #include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_port.h"
 #include "base/stl_util.h"
+#include "client/ios_handler/exception_processor.h"
 #include "client/ios_handler/in_process_handler.h"
 #include "snapshot/ios/process_snapshot_ios.h"
-#include "util/ios/exception_processor.h"
 #include "util/ios/ios_system_data_collector.h"
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/exception_ports.h"
@@ -65,7 +65,9 @@ namespace crashpad {
 namespace {
 
 // A base class for signal handler and Mach exception server.
-class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
+class CrashHandler : public Thread,
+                     public UniversalMachExcServer::Interface,
+                     public ObjcExceptionDelegate {
  public:
   static CrashHandler* Get() {
     static CrashHandler* instance = new CrashHandler();
@@ -213,6 +215,14 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
                                                        old_state_count);
   }
 
+  void HandleUncaughtNSException(const uint64_t* frames,
+                                 const size_t num_frames) override {
+    // TODO(justincohen): Call in process handler for NSException.
+    // The uncaught exception will eventually trigger std::terminate()/abort()
+    // Remove the abort handlehandler so a second dump isn't generated.
+    CHECK(Signals::InstallDefaultHandler(SIGABRT));
+  }
+
   // The signal handler installed at OS-level.
   static void CatchSignal(int signo, siginfo_t* siginfo, void* context) {
     Get()->HandleAndReraiseSignal(
@@ -249,10 +259,9 @@ void CrashpadClient::StartCrashpadInProcessHandler(
     const base::FilePath& metrics_dir,
     const std::string& url,
     const std::map<std::string, std::string>& annotations) {
-  InstallObjcExceptionPreprocessor();
-
   CrashHandler* crash_handler = CrashHandler::Get();
   DCHECK(crash_handler);
+  InstallObjcExceptionPreprocessor(crash_handler);
   crash_handler->Initialize(database, metrics_dir, url, annotations);
 
   // TODO(justincohen): Reading the intermediate dump and writing the minidumps

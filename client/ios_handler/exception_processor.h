@@ -15,7 +15,23 @@
 #ifndef CRASHPAD_UTIL_IOS_EXCEPTION_PROCESSOR_H_
 #define CRASHPAD_UTIL_IOS_EXCEPTION_PROCESSOR_H_
 
+#include <vector>
+
 namespace crashpad {
+
+//! \brief An interface to handle objective-c exceptions.
+class ObjcExceptionDelegate {
+ public:
+  virtual ~ObjcExceptionDelegate() {}
+
+  //! \brief Handle an uncaught NSException.
+  //!
+  //! \param[in] frames An array of callstack return addresses.
+  //! \param[in] num_frames The number of callstack return addresses.
+  //!
+  virtual void HandleUncaughtNSException(const uint64_t* frames = nullptr,
+                                         const size_t num_frames = 0) = 0;
+};
 
 //! \brief Installs the Objective-C exception preprocessor.
 //!
@@ -30,7 +46,7 @@ namespace crashpad {
 //!
 //! This should be installed at the same time the CrashpadClient installs the
 //! signal handler. It should only be installed once.
-void InstallObjcExceptionPreprocessor();
+void InstallObjcExceptionPreprocessor(ObjcExceptionDelegate* delegate);
 
 }  // namespace crashpad
 
