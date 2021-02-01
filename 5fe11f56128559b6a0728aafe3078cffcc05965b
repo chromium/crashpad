@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e208997_f04ac2ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2021-02-01T14:41:30Z",
+      "side": 1,
+      "message": "This should be fuchsia:68780 to update the right bug.",
+      "revId": "5fe11f56128559b6a0728aafe3078cffcc05965b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
