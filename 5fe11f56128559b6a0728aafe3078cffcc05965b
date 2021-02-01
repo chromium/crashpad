@@ -18,6 +18,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83165739_33c9db4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1372464
+      },
+      "writtenOn": "2021-02-01T17:53:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e208997_f04ac2ba",
+      "revId": "5fe11f56128559b6a0728aafe3078cffcc05965b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50920ddc_e0dd732e",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-02-01T16:44:57Z",
       "side": 1,
       "message": "I think you need to surround this with something like a check for is_fuchsia, otherwise Chromium will fail to gen because Chromium GN doesn\u0027t know about this flag.",
+      "revId": "5fe11f56128559b6a0728aafe3078cffcc05965b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7d8e6ef_ebd6039c",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1372464
+      },
+      "writtenOn": "2021-02-01T17:53:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50920ddc_e0dd732e",
       "revId": "5fe11f56128559b6a0728aafe3078cffcc05965b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
