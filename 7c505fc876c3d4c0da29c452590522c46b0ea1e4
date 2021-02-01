@@ -94,6 +94,30 @@
       },
       "revId": "7c505fc876c3d4c0da29c452590522c46b0ea1e4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7389604a_1c5f6330",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1372464
+      },
+      "writtenOn": "2021-02-01T22:07:48Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s crashing because fsatrace (the tracer we\u0027re using) seems to hit a buffer overflow or something. I\u0027m going to suppress for now, but I\u0027ve filed a bug to track fixing this: http://fxbug.dev/68780",
+      "parentUuid": "1e898189_e17f0a3b",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 27
+      },
+      "revId": "7c505fc876c3d4c0da29c452590522c46b0ea1e4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
