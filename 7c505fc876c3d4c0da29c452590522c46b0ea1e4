@@ -22,6 +22,30 @@
       },
       "revId": "7c505fc876c3d4c0da29c452590522c46b0ea1e4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a830928_796db1b0",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-02-01T21:36:10Z",
+      "side": 1,
+      "message": "crashpad_is_fuchsia is when the code is being run on fuchsia.\ncrashpad_is_in_fuchsia is when the code is being built inside the fuchsia tree, rather than standalone, or in Chromium.\n\nSo for situations you care about, they\u0027re probably both set to true. I would expect probably crashpad_is_fuchsia is correct, but I\u0027m not sure what hermetic_deps actually does.\n\nThat said, mig is Mac/mach-only isn\u0027t it? What does this have to do with Fuchsia?",
+      "parentUuid": "def02ea7_6db2b1f6",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 27
+      },
+      "revId": "7c505fc876c3d4c0da29c452590522c46b0ea1e4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
