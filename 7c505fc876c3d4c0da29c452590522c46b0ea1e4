@@ -46,6 +46,30 @@
       },
       "revId": "7c505fc876c3d4c0da29c452590522c46b0ea1e4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "615ec122_4f9a6339",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1372464
+      },
+      "writtenOn": "2021-02-01T21:53:39Z",
+      "side": 1,
+      "message": "Ah, thanks Scott, I think we want crashpad_is_in_fuchsia.\n\nFor context, we\u0027re trying to improve the hermeticity of our build by tracing actions and making sure they only touch their declared inputs and outputs (see https://fuchsia.dev/fuchsia-src/development/build/hermetic_actions?hl\u003den).\n\nThis particular action appears to touch files outside of its declared deps (https://ci.chromium.org/ui/p/turquoise/builders/global.dev.ci/core.x64-vg-debug-mac-build_default/b8856463748019187504/overview), so we need to exclude it from action tracing. That\u0027s what the `hermetic_deps \u003d false` label does.",
+      "parentUuid": "9a830928_796db1b0",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 27
+      },
+      "revId": "7c505fc876c3d4c0da29c452590522c46b0ea1e4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
