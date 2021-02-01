@@ -70,6 +70,30 @@
       },
       "revId": "7c505fc876c3d4c0da29c452590522c46b0ea1e4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e898189_e17f0a3b",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-02-01T22:00:28Z",
+      "side": 1,
+      "message": "Ah, I see, so it is for \"mig\"? So it must be during the Mac host build? crashpad_is_in_fuchsia probably makes sense then.\n\nThat said, does tracing say what it doesn\u0027t like? It might be just as easy to add a few files to the sources/etc. as it is to suppress.\n\n... oh or it looks like tracing is crashing because it can\u0027t inject its magic thingy into mig? Perhaps we need to actually have our own local copy of that binary then to fix this? In that case suppression seems fine for now.",
+      "parentUuid": "615ec122_4f9a6339",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 27
+      },
+      "revId": "7c505fc876c3d4c0da29c452590522c46b0ea1e4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
