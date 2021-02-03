@@ -16,6 +16,126 @@
       "message": "I\u0027m still working on getting libcurl added to the sysroots so our bots can be green, but otherwise, this patch is pretty much ready for review (no rush!)\n\nIt\u0027s mostly pulled straight out of git history with the addition of a Libcurl class to mediate our libcurl calls.",
       "revId": "29b2339ac02dce9a883f7554d80e3a1743f0b35a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97f4b904_f0b34a78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-03T22:40:46Z",
+      "side": 1,
+      "message": "LG mostly. I focused on the Libcurl wrapper class because, as you say, the rest of this is mostly intact from when it used to be part of Crashpad.",
+      "revId": "29b2339ac02dce9a883f7554d80e3a1743f0b35a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b59660e4_b007df82",
+        "filename": "build/install_linux_sysroot.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-03T22:40:46Z",
+      "side": 1,
+      "message": "Now THAT’S my kind of distribution!",
+      "range": {
+        "startLine": 33,
+        "startChar": 19,
+        "endLine": 33,
+        "endChar": 22
+      },
+      "revId": "29b2339ac02dce9a883f7554d80e3a1743f0b35a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13218d1a_c4b841e7",
+        "filename": "util/net/http_transport_libcurl.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-03T22:40:46Z",
+      "side": 1,
+      "message": "We’re binary-compatible with both 3 and 4?",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 30
+      },
+      "revId": "29b2339ac02dce9a883f7554d80e3a1743f0b35a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff2b6fcc_f1db8d63",
+        "filename": "util/net/http_transport_libcurl.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-03T22:40:46Z",
+      "side": 1,
+      "message": "This will LOG for each library that’s not found in the list, until one is found. Probably better to not LOG anything, since this happens on the expected fallback path.",
+      "revId": "29b2339ac02dce9a883f7554d80e3a1743f0b35a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1781a2df_6d64a692",
+        "filename": "util/net/http_transport_libcurl.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-03T22:40:46Z",
+      "side": 1,
+      "message": "Do you want to be this heavy-handed?\n\nAt first, I thought “yeah, because it’ll make it painfully obvious that upload is broken.” But this will really only be happening in the handler process. A handler CHECK shouldn’t cause any visible brokenness in the browser. So really, this just winds up killing off the handler so that we can’t collect any reports at all.\n\nIt might be better to replace the CHECK with a LOG, allowing this function to return nullptr, and to change STATIC_DLSYM to tolerate this…",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 41
+      },
+      "revId": "29b2339ac02dce9a883f7554d80e3a1743f0b35a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88d0045a_bf1ac70b",
+        "filename": "util/net/http_transport_libcurl.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-03T22:40:46Z",
+      "side": 1,
+      "message": "…and to tolerate this (LOG instead of CHECK) too.",
+      "revId": "29b2339ac02dce9a883f7554d80e3a1743f0b35a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
