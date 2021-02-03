@@ -22,8 +22,8 @@
 #include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_port.h"
 #include "base/stl_util.h"
-#include "snapshot/ios/process_snapshot_ios.h"
-#include "util/ios/exception_processor.h"
+#include "client/ios_handler/exception_processor.h"
+#include "client/ios_handler/in_process_handler.h"
 #include "util/ios/ios_system_data_collector.h"
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/exception_ports.h"
@@ -34,22 +34,52 @@
 #include "util/posix/signals.h"
 #include "util/thread/thread.h"
 
+namespace {
+
+bool IsBeingDebugged() {
+  bool result = false;
+  pid_t pid = getpid();
+  int mib[4] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, pid};
+  int mibSize = sizeof(mib) / sizeof(int);
+  size_t actualSize;
+
+  if (sysctl(mib, mibSize, NULL, &actualSize, NULL, 0) == 0) {
+    struct kinfo_proc* info = (struct kinfo_proc*)malloc(actualSize);
+
+    if (info) {
+      if (sysctl(mib, mibSize, info, &actualSize, NULL, 0) == 0)
+        result = info->kp_proc.p_flag & P_TRACED;
+
+      free(info);
+    }
+  }
+  return result;
+}
+
+}  // namespace
+
 namespace crashpad {
 
 namespace {
 
 // A base class for signal handler and Mach exception server.
-class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
+class CrashHandler : public Thread,
+                     public UniversalMachExcServer::Interface,
+                     public ObjcExceptionDelegate {
  public:
   static CrashHandler* Get() {
     static CrashHandler* instance = new CrashHandler();
     return instance;
   }
 
-  void Initialize() {
+  void Initialize(const base::FilePath& database,
+                  const std::string& url,
+                  const std::map<std::string, std::string>& annotations) {
     INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
     InstallMachExceptionHandler();
     CHECK(Signals::InstallHandler(SIGABRT, CatchSignal, 0, &old_action_));
+    in_process_handler_.Initialize(database, url, annotations);
+
     INITIALIZATION_STATE_SET_VALID(initialized_);
   }
 
@@ -67,6 +97,11 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
                         MACHINE_THREAD_STATE_COUNT);
   }
 
+  void ProcessIntermediateDumps(
+      const std::map<std::string, std::string>& annotations = {}) {
+    in_process_handler_.ProcessIntermediateDumps(annotations);
+  }
+
  private:
   CrashHandler() = default;
 
@@ -81,10 +116,15 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
     MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_port_insert_right";
 
     // TODO: Use SwapExceptionPort instead and put back EXC_MASK_BREAKPOINT.
-    const exception_mask_t mask =
+    exception_mask_t mask =
         ExcMaskAll() &
-        ~(EXC_MASK_EMULATION | EXC_MASK_SOFTWARE | EXC_MASK_BREAKPOINT |
+        ~(EXC_MASK_EMULATION | EXC_MASK_SOFTWARE |  // EXC_MASK_BREAKPOINT |
           EXC_MASK_RPC_ALERT | EXC_MASK_GUARD);
+
+    if (IsBeingDebugged()) {
+      mask &= ~EXC_MASK_BREAKPOINT;
+    }
+
     ExceptionPorts exception_ports(ExceptionPorts::kTargetTypeTask, TASK_NULL);
     exception_ports.GetExceptionPorts(mask, &original_handlers_);
     exception_ports.SetExceptionPort(
@@ -164,17 +204,23 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
                            thread_state_flavor_t flavor,
                            ConstThreadState old_state,
                            mach_msg_type_number_t old_state_count) {
-    // TODO(justincohen): This is incomplete.
-    ProcessSnapshotIOS process_snapshot;
-    process_snapshot.Initialize(system_data_);
-    process_snapshot.SetExceptionFromMachException(behavior,
-                                                   thread,
-                                                   exception,
-                                                   code,
-                                                   code_count,
-                                                   flavor,
-                                                   old_state,
-                                                   old_state_count);
+    in_process_handler_.DumpExceptionFromMachException(system_data_,
+                                                       behavior,
+                                                       thread,
+                                                       exception,
+                                                       code,
+                                                       code_count,
+                                                       flavor,
+                                                       old_state,
+                                                       old_state_count);
+  }
+
+  void HandleUncaughtNSException(const uint64_t* frames,
+                                 const size_t num_frames) override {
+    in_process_handler_.DumpNSException(system_data_, frames, num_frames);
+    // The uncaught exception will eventually trigger std::terminate()/abort()
+    // Remove the abort handlehandler so a second dump isn't generated.
+    CHECK(Signals::InstallDefaultHandler(SIGABRT));
   }
 
   // The signal handler installed at OS-level.
@@ -186,10 +232,7 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
   void HandleAndReraiseSignal(int signo,
                               siginfo_t* siginfo,
                               ucontext_t* context) {
-    // TODO(justincohen): This is incomplete.
-    ProcessSnapshotIOS process_snapshot;
-    process_snapshot.Initialize(system_data_);
-    process_snapshot.SetExceptionFromSignal(siginfo, context);
+    in_process_handler_.DumpExceptionFromSignal(system_data_, siginfo, context);
 
     // Always call system handler.
     Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, &old_action_);
@@ -198,7 +241,8 @@ class CrashHandler : public Thread, public UniversalMachExcServer::Interface {
   base::mac::ScopedMachReceiveRight exception_port_;
   ExceptionPorts::ExceptionHandlerVector original_handlers_;
   struct sigaction old_action_ = {};
-  IOSSystemDataCollector system_data_;
+  internal::InProcessHandler in_process_handler_;
+  internal::IOSSystemDataCollector system_data_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(CrashHandler);
@@ -210,15 +254,23 @@ CrashpadClient::CrashpadClient() {}
 
 CrashpadClient::~CrashpadClient() {}
 
+// static
 void CrashpadClient::StartCrashpadInProcessHandler(
     const base::FilePath& database,
     const std::string& url,
     const std::map<std::string, std::string>& annotations) {
-  InstallObjcExceptionPreprocessor();
-
   CrashHandler* crash_handler = CrashHandler::Get();
   DCHECK(crash_handler);
-  crash_handler->Initialize();
+  crash_handler->Initialize(database, url, annotations);
+  InstallObjcExceptionPreprocessor(crash_handler);
+}
+
+// static
+void CrashpadClient::ProcessIntermediateDumps(
+    const std::map<std::string, std::string>& annotations) {
+  CrashHandler* crash_handler = CrashHandler::Get();
+  DCHECK(crash_handler);
+  crash_handler->ProcessIntermediateDumps(annotations);
 }
 
 // static
@@ -226,6 +278,7 @@ void CrashpadClient::DumpWithoutCrash(NativeCPUContext* context) {
   CrashHandler* crash_handler = CrashHandler::Get();
   DCHECK(crash_handler);
   crash_handler->DumpWithoutCrash(context);
+  crash_handler->ProcessIntermediateDumps();
 }
 
 }  // namespace crashpad

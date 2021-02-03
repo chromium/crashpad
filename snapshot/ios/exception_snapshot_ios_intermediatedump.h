@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_IOS_EXCEPTION_SNAPSHOT_IOS_H_
-#define CRASHPAD_SNAPSHOT_IOS_EXCEPTION_SNAPSHOT_IOS_H_
+#ifndef CRASHPAD_SNAPSHOT_IOS_INTERMEDIATEDUMP_EXCEPTION_SNAPSHOT_IOS_INTERMEDIATEDUMP_H_
+#define CRASHPAD_SNAPSHOT_IOS_INTERMEDIATEDUMP_EXCEPTION_SNAPSHOT_IOS_INTERMEDIATEDUMP_H_
 
 #include <mach/mach.h>
 #include <stdint.h>
@@ -24,6 +24,7 @@
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/exception_snapshot.h"
+#include "util/ios/ios_intermediatedump_map.h"
 #include "util/mach/mach_extensions.h"
 #include "util/misc/initialization_state_dcheck.h"
 
@@ -33,30 +34,26 @@ namespace internal {
 
 //! \brief An ExceptionSnapshot of an exception sustained by a running (or
 //!     crashed) process on an iOS system.
-class ExceptionSnapshotIOS final : public ExceptionSnapshot {
+class ExceptionSnapshotIOSIntermediatedump final : public ExceptionSnapshot {
  public:
-  ExceptionSnapshotIOS();
-  ~ExceptionSnapshotIOS() override;
+  ExceptionSnapshotIOSIntermediatedump();
+  ~ExceptionSnapshotIOSIntermediatedump() override;
 
   //! \brief Initializes the object from a signal.
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  void InitializeFromSignal(const siginfo_t* siginfo,
-                            const ucontext_t* context);
+  bool InitializeFromSignal(const IOSIntermediatedumpMap& exception_data);
 
   //! \brief Initialize the object from a Mach exception for the current task.
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  void InitializeFromMachException(exception_behavior_t behavior,
-                                   thread_t exception_thread,
-                                   exception_type_t exception,
-                                   const mach_exception_data_type_t* code,
-                                   mach_msg_type_number_t code_count,
-                                   thread_state_flavor_t flavor,
-                                   ConstThreadState state,
-                                   mach_msg_type_number_t state_count);
+  bool InitializeFromMachException(const IOSIntermediatedumpMap& exception_data,
+                                   const IOSIntermediatedumpList& thread_list);
+
+  bool InitializeFromNSException(const IOSIntermediatedumpMap& exception_data,
+                                 const IOSIntermediatedumpList& thread_list);
   // ExceptionSnapshot:
 
   const CPUContext* Context() const override;
@@ -83,10 +80,10 @@ class ExceptionSnapshotIOS final : public ExceptionSnapshot {
   uint32_t exception_info_;
   InitializationStateDcheck initialized_;
 
-  DISALLOW_COPY_AND_ASSIGN(ExceptionSnapshotIOS);
+  DISALLOW_COPY_AND_ASSIGN(ExceptionSnapshotIOSIntermediatedump);
 };
 
 }  // namespace internal
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_IOS_EXCEPTION_SNAPSHOT_IOS_H_
+#endif  // CRASHPAD_SNAPSHOT_IOS_INTERMEDIATEDUMP_EXCEPTION_SNAPSHOT_IOS_INTERMEDIATEDUMP_H_
