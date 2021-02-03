@@ -16,6 +16,23 @@
       "message": "ptal",
       "revId": "30277b4b71ae818f9600a4872248f4529e7b23a6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79e54b4d_7a8f50c1",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-03T21:58:50Z",
+      "side": 1,
+      "message": "Say something about the situations you’d expect a client to need to call this.",
+      "revId": "30277b4b71ae818f9600a4872248f4529e7b23a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
