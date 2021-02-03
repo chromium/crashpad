@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4eb5265a_d093d00e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2021-02-03T19:25:05Z",
+      "side": 1,
+      "message": "I\u0027m still working on getting libcurl added to the sysroots so our bots can be green, but otherwise, this patch is pretty much ready for review (no rush!)\n\nIt\u0027s mostly pulled straight out of git history with the addition of a Libcurl class to mediate our libcurl calls.",
+      "revId": "29b2339ac02dce9a883f7554d80e3a1743f0b35a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
