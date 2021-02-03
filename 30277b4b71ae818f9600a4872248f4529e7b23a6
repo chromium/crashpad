@@ -51,6 +51,24 @@
       "parentUuid": "79e54b4d_7a8f50c1",
       "revId": "30277b4b71ae818f9600a4872248f4529e7b23a6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f39c020f_4f8cf70a",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-03T22:29:04Z",
+      "side": 1,
+      "message": "\u003e Done\n\nI didn’t really mean to clarify what the parameter was for, I meant to clarify what the function was for.\n\n\u003e \u003e Say something about the situations you’d expect a client to need to call this.\n\nLike “call me when…”",
+      "parentUuid": "b068ed0f_9d87018f",
+      "revId": "30277b4b71ae818f9600a4872248f4529e7b23a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
