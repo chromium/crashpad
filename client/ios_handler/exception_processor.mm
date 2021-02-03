@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/ios/exception_processor.h"
+#include "client/ios_handler/exception_processor.h"
 
 #import <Foundation/Foundation.h>
 #include <TargetConditionals.h>
@@ -34,10 +34,14 @@
 #include <typeinfo>
 
 #include "base/bit_cast.h"
+#include "base/format_macros.h"
 #include "base/logging.h"
 #include "base/memory/free_deleter.h"
+#include "base/numerics/safe_conversions.h"
+#include "base/strings/stringprintf.h"
 #include "base/strings/sys_string_conversions.h"
 #include "build/build_config.h"
+#include "client/annotation.h"
 
 namespace {
 
@@ -79,20 +83,91 @@ struct __cxa_exception {
   _Unwind_Exception unwindHeader;
 };
 
-objc_exception_preprocessor g_next_preprocessor;
-bool g_exception_preprocessor_installed;
+int LoggingUnwStep(unw_cursor_t* cursor) {
+  int rv = unw_step(cursor);
+  if (rv < 0) {
+    LOG(ERROR) << "unw_step: " << rv;
+  }
+  return rv;
+}
 
-void TerminatingFromUncaughtNSException(id exception, const char* sinkhole) {
-  // TODO(justincohen): This is incomplete, as the signal handler will not have
-  // access to the exception name and reason.  Pass that along somehow here.
-  NSString* exception_message_ns = [NSString
-      stringWithFormat:@"%@: %@", [exception name], [exception reason]];
-  std::string exception_message = base::SysNSStringToUTF8(exception_message_ns);
-  LOG(INFO) << "Terminating from Objective-C exception: " << exception_message
-            << " with sinkhole: " << sinkhole;
-  // TODO(justincohen): This is temporary, as crashpad can capture this
-  // exception directly instead.
-  std::terminate();
+std::string FormatStackTrace(std::vector<uint64_t>& addresses,
+                             size_t max_length) {
+  std::string value;
+  for (uint64_t addr : addresses) {
+    std::string str = base::StringPrintf("0x%" PRIx64, addr);
+    if (value.size() + str.size() > max_length)
+      break;
+    value += str + " ";
+  }
+
+  if (!value.empty() && value.back() == ' ') {
+    value.resize(value.size() - 1);
+  }
+
+  return value;
+}
+
+std::string GetTraceString() {
+  std::vector<uint64_t> addresses;
+  unw_context_t context;
+  unw_getcontext(&context);
+  unw_cursor_t cursor;
+  unw_init_local(&cursor, &context);
+  while (LoggingUnwStep(&cursor) > 0) {
+    unw_word_t ip = 0;
+    unw_get_reg(&cursor, UNW_REG_IP, &ip);
+    addresses.push_back(ip);
+  }
+  return FormatStackTrace(addresses, 1024);
+}
+
+crashpad::ObjcExceptionDelegate* g_exception_delegate;
+objc_exception_preprocessor g_next_preprocessor;
+NSUncaughtExceptionHandler* g_next_uncaught_exception_handler;
+bool g_exception_preprocessor_installed;
+bool g_ignore_uncaught = false;
+
+static void SetNSExceptionAnnotations(id exception,
+                                      std::string& name,
+                                      std::string& reason) {
+  name = base::SysNSStringToUTF8([exception name]);
+  reason = base::SysNSStringToUTF8([exception reason]);
+  static crashpad::StringAnnotation<256> nameKey("exceptionName");
+  nameKey.Set(name);
+  static crashpad::StringAnnotation<512> reasonKey("exceptionReason");
+  reasonKey.Set(reason);
+}
+
+static void ObjcUncaughtExceptionHandler(NSException* exception) {
+  if (g_ignore_uncaught) {
+    return;
+  }
+  g_ignore_uncaught = false;
+  std::string name, reason;
+  SetNSExceptionAnnotations(exception, name, reason);
+  static crashpad::StringAnnotation<256> nameKey("UncaughtNSException");
+  nameKey.Set("true");
+  std::vector<uint64_t> addresses;
+  NSArray<NSNumber*>* addressArray = [exception callStackReturnAddresses];
+  for (NSNumber* address in addressArray)
+    addresses.push_back([address unsignedLongLongValue]);
+  g_exception_delegate->HandleUncaughtNSException(&addresses[0],
+                                                  addresses.size());
+}
+
+// This function is used to make it clear to the crash processor that an
+// uncaught NSException was recorded here.
+static __attribute__((noinline)) id HANDLE_UNCAUGHT_NSEXCEPTION(
+    id exception,
+    const char* sinkhole) {
+  std::string name, reason;
+  SetNSExceptionAnnotations(exception, name, reason);
+  LOG(WARNING) << "Handling Objective-C exception name: " << name
+               << " reason: " << reason << " with sinkhole: " << sinkhole;
+  g_exception_delegate->HandleUncaughtNSException(nullptr, 0);
+  g_ignore_uncaught = true;
+  return g_next_preprocessor ? g_next_preprocessor(exception) : exception;
 }
 
 // Returns true if |path| equals |sinkhole| on device. Simulator paths prepend
@@ -112,15 +187,25 @@ bool ModulePathMatchesSinkhole(const char* path, const char* sinkhole) {
 #endif
 }
 
-int LoggingUnwStep(unw_cursor_t* cursor) {
-  int rv = unw_step(cursor);
-  if (rv < 0) {
-    LOG(ERROR) << "unw_step: " << rv;
-  }
-  return rv;
-}
-
 id ObjcExceptionPreprocessor(id exception) {
+  static bool seen_first_exception = false;
+  // Record UMA and crash keys about the exception.
+  //  RecordExceptionWithUma(exception);
+  static crashpad::StringAnnotation<256> firstexception("firstexception");
+  static crashpad::StringAnnotation<256> lastexception("lastexception");
+  static crashpad::StringAnnotation<1024> firstexception_bt(
+      "firstexception_bt");
+  static crashpad::StringAnnotation<1024> lastexception_bt("lastexception_bt");
+  auto* key = seen_first_exception ? &lastexception : &firstexception;
+  auto* bt_key = seen_first_exception ? &lastexception_bt : &firstexception_bt;
+  NSString* value = [NSString
+      stringWithFormat:@"%@ reason %@", [exception name], [exception reason]];
+  key->Set(base::SysNSStringToUTF8(value));
+  // This exception preprocessor runs prior to the one in libobjc, which sets
+  // the -[NSException callStackReturnAddresses].
+  bt_key->Set(GetTraceString());
+  seen_first_exception = true;
+
   // Unwind the stack looking for any exception handlers. If an exception
   // handler is encountered, test to see if it is a function known to catch-
   // and-rethrow as a "top-level" exception handler. Various routines in
@@ -226,7 +311,7 @@ id ObjcExceptionPreprocessor(id exception) {
     };
     for (const char* sinkhole : kExceptionSymbolNameSinkholes) {
       if (strcmp(sinkhole, proc_name) == 0) {
-        TerminatingFromUncaughtNSException(exception, sinkhole);
+        return HANDLE_UNCAUGHT_NSEXCEPTION(exception, sinkhole);
       }
     }
 
@@ -251,7 +336,7 @@ id ObjcExceptionPreprocessor(id exception) {
         0) {
       for (const char* sinkhole : kExceptionLibraryPathSinkholes) {
         if (ModulePathMatchesSinkhole(dl_info.dli_fname, sinkhole)) {
-          TerminatingFromUncaughtNSException(exception, sinkhole);
+          return HANDLE_UNCAUGHT_NSEXCEPTION(exception, sinkhole);
         }
       }
     }
@@ -298,7 +383,7 @@ id ObjcExceptionPreprocessor(id exception) {
         if (gesture_environment_min_imp && gesture_environment_max_imp &&
             caller >= gesture_environment_min_imp &&
             caller <= gesture_environment_max_imp) {
-          TerminatingFromUncaughtNSException(exception,
+          return HANDLE_UNCAUGHT_NSEXCEPTION(exception,
                                              "_UIGestureEnvironmentUpdate");
         }
       }
@@ -312,35 +397,42 @@ id ObjcExceptionPreprocessor(id exception) {
   // If no handler is found, __cxa_throw would call failed_throw and terminate.
   // See:
   // https://github.com/llvm/llvm-project/blob/c5d2746fbea7/libcxxabi/src/cxa_exception.cpp
-  // __cxa_throw. Instead, terminate via TerminatingFromUncaughtNSException so
-  // the exception name and reason are properly recorded.
+  // __cxa_throw. Instead, terminate via HANDLE_UNCAUGHT_NSEXCEPTION
+  // so the exception name and reason are properly recorded.
   if (!handler_found) {
-    TerminatingFromUncaughtNSException(exception, "__cxa_throw");
+    return HANDLE_UNCAUGHT_NSEXCEPTION(exception, "__cxa_throw");
   }
 
   // Forward to the next preprocessor.
-  if (g_next_preprocessor)
-    return g_next_preprocessor(exception);
-
-  return exception;
+  return g_next_preprocessor ? g_next_preprocessor(exception) : exception;
 }
 
 }  // namespace
 
 namespace crashpad {
 
-void InstallObjcExceptionPreprocessor() {
+void InstallObjcExceptionPreprocessor(ObjcExceptionDelegate* delegate) {
   DCHECK(!g_exception_preprocessor_installed);
 
+  // Preprocessor.
   g_next_preprocessor =
       objc_setExceptionPreprocessor(&ObjcExceptionPreprocessor);
   g_exception_preprocessor_installed = true;
+
+  // Uncaught processor.
+  g_exception_delegate = delegate;
+  g_next_uncaught_exception_handler = NSGetUncaughtExceptionHandler();
+  NSSetUncaughtExceptionHandler(&ObjcUncaughtExceptionHandler);
 }
 
 void UninstallObjcExceptionPreprocessor() {
   DCHECK(g_exception_preprocessor_installed);
 
   objc_setExceptionPreprocessor(g_next_preprocessor);
+  NSSetUncaughtExceptionHandler(g_next_uncaught_exception_handler);
+
+  g_next_uncaught_exception_handler = nullptr;
+  g_exception_delegate = nullptr;
   g_next_preprocessor = nullptr;
   g_exception_preprocessor_installed = false;
 }
