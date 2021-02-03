@@ -467,6 +467,17 @@ class CrashpadClient {
       const std::string& url,
       const std::map<std::string, std::string>& annotations);
 
+  //! \brief Requests that the handler convert intermediate dumps into
+  //!     minidumps and trigger an upload if possible.
+  //!
+  //! A handler must have already been installed before calling this method.
+  //!
+  //! \param[in] annotations Process annotations to set in each crash report.
+  //!     Useful when adding crash annotations detected on the next run after a
+  //!     crash but before upload.
+  void ProcessIntermediateDumps(
+      const std::map<std::string, std::string>& annotations = {});
+
   // TODO(justincohen): This method is purely for bringing up iOS interfaces.
   //! \brief Requests that the handler capture a dump even though there hasn't
   //!     been a crash.
