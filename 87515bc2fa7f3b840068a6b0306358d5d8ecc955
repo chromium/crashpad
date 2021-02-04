@@ -22,6 +22,30 @@
       },
       "revId": "87515bc2fa7f3b840068a6b0306358d5d8ecc955",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d3e56b7_205c8e50",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-02-04T04:43:04Z",
+      "side": 1,
+      "message": "\u003e its own intermediate dump\n\nIn the jenga tower, ProcessIntermediateDumps will process *all* intermediate dumps.",
+      "parentUuid": "0b3ae0fc_2c9d9b3d",
+      "range": {
+        "startLine": 478,
+        "startChar": 34,
+        "endLine": 478,
+        "endChar": 55
+      },
+      "revId": "87515bc2fa7f3b840068a6b0306358d5d8ecc955",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
