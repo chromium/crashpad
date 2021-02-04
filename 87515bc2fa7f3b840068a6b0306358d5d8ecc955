@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b3ae0fc_2c9d9b3d",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-04T04:41:29Z",
+      "side": 1,
+      "message": "This makes it sound like DWC will kick-start this processing, but really, DWC will just cause its own intermediate dump to be turned into a minidump and go out for upload.",
+      "range": {
+        "startLine": 478,
+        "startChar": 34,
+        "endLine": 478,
+        "endChar": 55
+      },
+      "revId": "87515bc2fa7f3b840068a6b0306358d5d8ecc955",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
