@@ -16,6 +16,29 @@
       "message": "How about this?",
       "revId": "2ed236b2d4439ee5556c326f61f07307665364bb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "272e281a_2e743380",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-04T00:46:05Z",
+      "side": 1,
+      "message": "So under this design, no intermediate dumps will be processed (and therefore no minidumps uploaded) until this is called, right?\n\n(Because that’s my understanding based on this comment.)",
+      "range": {
+        "startLine": 473,
+        "startChar": 0,
+        "endLine": 477,
+        "endChar": 0
+      },
+      "revId": "2ed236b2d4439ee5556c326f61f07307665364bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
