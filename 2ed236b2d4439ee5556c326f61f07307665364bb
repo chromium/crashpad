@@ -39,6 +39,30 @@
       },
       "revId": "2ed236b2d4439ee5556c326f61f07307665364bb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71856fb4_b2707b2d",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-02-04T04:21:06Z",
+      "side": 1,
+      "message": "Yep.  Spelled it out even more.",
+      "parentUuid": "272e281a_2e743380",
+      "range": {
+        "startLine": 473,
+        "startChar": 0,
+        "endLine": 477,
+        "endChar": 0
+      },
+      "revId": "2ed236b2d4439ee5556c326f61f07307665364bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
