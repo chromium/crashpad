@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e08b9e9a_dda8e664",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-04T20:12:13Z",
+      "side": 1,
+      "message": "This description is incomplete. Please write these from the perspective of someone reading the shortlog. Nobody should have to look at the diff to answer \"WHAT depends?\".",
+      "revId": "81b0baf0bb6bd9bd76fa646d0ef47eedb0f31684",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7d4b1237_276ae31b",
@@ -14,6 +31,23 @@
       "writtenOn": "2021-02-04T20:02:20Z",
       "side": 1,
       "message": "ptal\n\nSee chromium CL here:\n\nhttps://chromium-review.googlesource.com/c/chromium/src/+/2673826\n",
+      "revId": "81b0baf0bb6bd9bd76fa646d0ef47eedb0f31684",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22c58969_ae725d9c",
+        "filename": "third_party/mini_chromium/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-04T20:12:13Z",
+      "side": 1,
+      "message": "Even with your commit message, I can\u0027t figure out what problem this solves.\n\nA good idea would be for you to share the gn check failure you\u0027re fixing with each of these patches, to make it easier to see what\u0027s wrong and how it\u0027s being solved",
       "revId": "81b0baf0bb6bd9bd76fa646d0ef47eedb0f31684",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
