@@ -18,6 +18,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba7dc29a_5c7ae4ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1251514
+      },
+      "writtenOn": "2021-02-04T20:28:32Z",
+      "side": 1,
+      "message": "Updated commit message now.",
+      "parentUuid": "ad7499d1_e08264f3",
+      "revId": "61a7d8850b2ce9f6fa887619730b78d8559ad958",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0a8414f6_4c023f3f",
