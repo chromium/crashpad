@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ede98b8_fbfa623d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-04T21:58:32Z",
+      "side": 1,
+      "message": "Thanks for providing this information. It absolutely helps evaluate the change.\n\nWe don’t have this #include in this file in Crashpad. In fact, we don’t have this #include anywhere in Crashpad at all.\n\nThis #include is, in fact, a Chromium-local change, made in Chromium fa5b85b90afa, https://chromium-review.googlesource.com/c/2612872. Whatever BUILD changes are needed must also be Chromium-local.\n\nBecause you’ll be tying to that change, you should also tag this as Bug: chromium:1163794.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 38
+      },
+      "revId": "10194af351896209f19c0f333e451e645deeac83",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b815feb_0fb38a84",
+        "filename": "third_party/mini_chromium/BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-04T21:58:32Z",
+      "side": 1,
+      "message": "Please don’t do this. Add dependencies like this to the targets that require them. In Chromium, base doesn’t imply base/allocator:buildflags, and neither should Crashpad’s redirecting base shim, even in Chromium-local form.",
+      "range": {
+        "startLine": 19,
+        "startChar": 30,
+        "endLine": 19,
+        "endChar": 59
+      },
+      "revId": "10194af351896209f19c0f333e451e645deeac83",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
