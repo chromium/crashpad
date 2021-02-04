@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d4b1237_276ae31b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1251514
+      },
+      "writtenOn": "2021-02-04T20:02:20Z",
+      "side": 1,
+      "message": "ptal\n\nSee chromium CL here:\n\nhttps://chromium-review.googlesource.com/c/chromium/src/+/2673826\n",
+      "revId": "81b0baf0bb6bd9bd76fa646d0ef47eedb0f31684",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
