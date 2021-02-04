@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad7499d1_e08264f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-04T19:06:23Z",
+      "side": 1,
+      "message": "This doesn’t really convey what it needs to in a short log. (And it’s misspelled.) The message should convey what the patch is doing in a clear way.\n\nHow about:\n\nAdd missing dependency on util to fuzzer?",
+      "revId": "61a7d8850b2ce9f6fa887619730b78d8559ad958",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0a8414f6_4c023f3f",
