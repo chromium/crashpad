@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_IOS_SYSTEM_SNAPSHOT_IOS_H_
-#define CRASHPAD_SNAPSHOT_IOS_SYSTEM_SNAPSHOT_IOS_H_
+#ifndef CRASHPAD_SNAPSHOT_IOS_INTERMEDIATEDUMP_SYSTEM_SNAPSHOT_IOS_INTERMEDIATEDUMP_H_
+#define CRASHPAD_SNAPSHOT_IOS_INTERMEDIATEDUMP_SYSTEM_SNAPSHOT_IOS_INTERMEDIATEDUMP_H_
 
 #include <stdint.h>
 
@@ -21,6 +21,7 @@
 
 #include "base/macros.h"
 #include "snapshot/system_snapshot.h"
+#include "util/ios/ios_intermediatedump_map.h"
 #include "util/ios/ios_system_data_collector.h"
 #include "util/misc/initialization_state_dcheck.h"
 
@@ -29,15 +30,15 @@ namespace crashpad {
 namespace internal {
 
 //! \brief A SystemSnapshot of the running system, when the system runs iOS.
-class SystemSnapshotIOS final : public SystemSnapshot {
+class SystemSnapshotIOSIntermediatedump final : public SystemSnapshot {
  public:
-  SystemSnapshotIOS();
-  ~SystemSnapshotIOS() override;
+  SystemSnapshotIOSIntermediatedump();
+  ~SystemSnapshotIOSIntermediatedump() override;
 
   //! \brief Initializes the object.
   //!
-  //! \param[in] system_data A class containing various system data points.
-  void Initialize(const IOSSystemDataCollector& system_data);
+  //! \param[in] system_data An object containing various system data points.
+  void Initialize(const IOSIntermediatedumpMap& system_data);
 
   // SystemSnapshot:
 
@@ -85,10 +86,10 @@ class SystemSnapshotIOS final : public SystemSnapshot {
   std::string daylight_name_;
   InitializationStateDcheck initialized_;
 
-  DISALLOW_COPY_AND_ASSIGN(SystemSnapshotIOS);
+  DISALLOW_COPY_AND_ASSIGN(SystemSnapshotIOSIntermediatedump);
 };
 
 }  // namespace internal
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_IOS_SYSTEM_SNAPSHOT_IOS_H_
+#endif  // CRASHPAD_SNAPSHOT_IOS_INTERMEDIATEDUMP_SYSTEM_SNAPSHOT_IOS_INTERMEDIATEDUMP_H_
