@@ -98,6 +98,30 @@
       },
       "revId": "8546ece4e9f60054f273b3facb07993025b52cf7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "884e54be_41050f0b",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-10T18:56:02Z",
+      "side": 1,
+      "message": "\u003e \u003d/\n\nAfter Justin showed me the header:\n\nThe answer was “yes, there’s a way, but you’d have to deduce the type of an argument, and \u003ctype_traits\u003e doesn’t have direct support for that, so you’d have to write your own \u003ctype_traits\u003e-like boilerplate to match the type of the first argument to a function, which is a lot of ‘modern C++’ and definitely not as good as the simple SDK check.”",
+      "parentUuid": "cfd8fbb5_14844a89",
+      "range": {
+        "startLine": 177,
+        "startChar": 1,
+        "endLine": 183,
+        "endChar": 6
+      },
+      "revId": "8546ece4e9f60054f273b3facb07993025b52cf7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
