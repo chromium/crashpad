@@ -35,6 +35,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4340930c_1a81c884",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-02-10T18:48:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b45b548a_7e7c3e99",
+      "revId": "8546ece4e9f60054f273b3facb07993025b52cf7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce460d59_f5e0a3bc",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-02-10T18:25:47Z",
       "side": 1,
       "message": "Is there a better way to deduce what’s needed directly from the SDK, like with decltype?",
+      "range": {
+        "startLine": 177,
+        "startChar": 1,
+        "endLine": 183,
+        "endChar": 6
+      },
+      "revId": "8546ece4e9f60054f273b3facb07993025b52cf7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfd8fbb5_14844a89",
+        "filename": "util/ios/exception_processor.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-02-10T18:48:11Z",
+      "side": 1,
+      "message": "\u003d/",
+      "parentUuid": "ce460d59_f5e0a3bc",
       "range": {
         "startLine": 177,
         "startChar": 1,
