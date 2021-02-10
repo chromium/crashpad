@@ -174,8 +174,13 @@ id ObjcExceptionPreprocessor(id exception) {
     }
 
     // Check to see if the handler is really an exception handler.
+#if defined(__IPHONE_14_5) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_14_5
+    _Unwind_Personality_Fn p =
+        reinterpret_cast<_Unwind_Personality_Fn>(frame_info.handler);
+#else
     __personality_routine p =
         reinterpret_cast<__personality_routine>(frame_info.handler);
+#endif
 
     // From 10.15.0 libunwind-35.4/src/UnwindLevel1.c.
     _Unwind_Reason_Code personalityResult = (*p)(
