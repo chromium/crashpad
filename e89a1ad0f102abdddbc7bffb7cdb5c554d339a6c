@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e2ba477_5fa19032",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-02-10T18:55:05Z",
+      "side": 1,
+      "message": "I\u0027m not sure how to use decltype to get an argument out of _GCC_specific_handler.  How does one do that?",
+      "revId": "e89a1ad0f102abdddbc7bffb7cdb5c554d339a6c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
