@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/ios/system_snapshot_ios.h"
+#include "snapshot/ios/system_snapshot_ios_intermediatedump.h"
 
 #include <mach/mach.h>
 #include <stddef.h>
@@ -28,6 +28,7 @@
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/posix/timezone.h"
+#include "util/ios/ios_intermediatedump_data.h"
 #include "util/mac/mac_util.h"
 #include "util/numeric/in_range_cast.h"
 
@@ -35,7 +36,7 @@ namespace crashpad {
 
 namespace internal {
 
-SystemSnapshotIOS::SystemSnapshotIOS()
+SystemSnapshotIOSIntermediatedump::SystemSnapshotIOSIntermediatedump()
     : SystemSnapshot(),
       os_version_build_(),
       machine_description_(),
@@ -55,52 +56,68 @@ SystemSnapshotIOS::SystemSnapshotIOS()
       daylight_name_(),
       initialized_() {}
 
-SystemSnapshotIOS::~SystemSnapshotIOS() {}
+SystemSnapshotIOSIntermediatedump::~SystemSnapshotIOSIntermediatedump() {}
 
-void SystemSnapshotIOS::Initialize(const IOSSystemDataCollector& system_data) {
+void SystemSnapshotIOSIntermediatedump::Initialize(
+    const IOSIntermediatedumpMap& system_data) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+  system_data[IntermediateDumpKey::kOSVersionBuild].GetString(
+      &os_version_build_);
+  system_data[IntermediateDumpKey::kMachineDescription].GetString(
+      &machine_description_);
+  system_data[IntermediateDumpKey::kCpuVendor].GetString(&cpu_vendor_);
+  system_data[IntermediateDumpKey::kStandardName].GetString(&standard_name_);
+  system_data[IntermediateDumpKey::kDaylightName].GetString(&daylight_name_);
 
-  system_data.OSVersion(&os_version_major_,
-                        &os_version_minor_,
-                        &os_version_bugfix_,
-                        &os_version_build_);
-  machine_description_ = system_data.MachineDescription();
-  cpu_count_ = system_data.ProcessorCount();
-  cpu_vendor_ = system_data.CPUVendor();
-  if (system_data.HasDaylightSavingTime()) {
-    dst_status_ = system_data.IsDaylightSavingTime()
+  system_data[IntermediateDumpKey::kOSVersionMajor].GetInt(&os_version_major_);
+  system_data[IntermediateDumpKey::kOSVersionMinor].GetInt(&os_version_minor_);
+  system_data[IntermediateDumpKey::kOSVersionBugfix].GetInt(
+      &os_version_bugfix_);
+  system_data[IntermediateDumpKey::kCpuCount].GetInt(&cpu_count_);
+  system_data[IntermediateDumpKey::kStandardOffsetSeconds].GetInt(
+      &standard_offset_seconds_);
+  system_data[IntermediateDumpKey::kDaylightOffsetSeconds].GetInt(
+      &daylight_offset_seconds_);
+
+  bool has_daylight_saving_time;
+  system_data[IntermediateDumpKey::kHasDaylightSavingTime].GetBool(
+      &has_daylight_saving_time);
+  bool is_daylight_saving_time;
+  system_data[IntermediateDumpKey::kIsDaylightSavingTime].GetBool(
+      &is_daylight_saving_time);
+
+  if (has_daylight_saving_time) {
+    dst_status_ = is_daylight_saving_time
                       ? SystemSnapshot::kObservingDaylightSavingTime
                       : SystemSnapshot::kObservingStandardTime;
   } else {
     dst_status_ = SystemSnapshot::kDoesNotObserveDaylightSavingTime;
   }
-  standard_offset_seconds_ = system_data.StandardOffsetSeconds();
-  daylight_offset_seconds_ = system_data.DaylightOffsetSeconds();
-  standard_name_ = system_data.StandardName();
-  daylight_name_ = system_data.DaylightName();
 
-  // Currently unused by minidump.
   vm_size_t page_size;
-  host_page_size(mach_host_self(), &page_size);
-  mach_msg_type_number_t host_size =
-      sizeof(vm_statistics_data_t) / sizeof(integer_t);
-  vm_statistics_data_t vm_stat;
-  kern_return_t kr = host_statistics(mach_host_self(),
-                                     HOST_VM_INFO,
-                                     reinterpret_cast<host_info_t>(&vm_stat),
-                                     &host_size);
-  if (kr != KERN_SUCCESS) {
-    MACH_LOG(WARNING, kr) << "host_statistics";
+  if (system_data[IntermediateDumpKey::kPageSize].AsData().GetData<vm_size_t>(
+          &page_size)) {
+    system_data[IntermediateDumpKey::kVMStat][IntermediateDumpKey::kActive]
+        .AsData()
+        .GetData<uint64_t>(&active_);
+    active_ *= page_size;
+    system_data[IntermediateDumpKey::kVMStat][IntermediateDumpKey::kInactive]
+        .AsData()
+        .GetData<uint64_t>(&inactive_);
+    inactive_ *= page_size;
+    system_data[IntermediateDumpKey::kVMStat][IntermediateDumpKey::kWired]
+        .AsData()
+        .GetData<uint64_t>(&wired_);
+    wired_ *= page_size;
+    system_data[IntermediateDumpKey::kVMStat][IntermediateDumpKey::kFree]
+        .AsData()
+        .GetData<uint64_t>(&free_);
+    free_ *= page_size;
   }
-  active_ = vm_stat.active_count * page_size;
-  inactive_ = vm_stat.inactive_count * page_size;
-  wired_ = vm_stat.wire_count * page_size;
-  free_ = vm_stat.free_count * page_size;
-
   INITIALIZATION_STATE_SET_VALID(initialized_);
 }
 
-CPUArchitecture SystemSnapshotIOS::GetCPUArchitecture() const {
+CPUArchitecture SystemSnapshotIOSIntermediatedump::GetCPUArchitecture() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 #if defined(ARCH_CPU_X86_64)
   return kCPUArchitectureX86_64;
@@ -109,25 +126,25 @@ CPUArchitecture SystemSnapshotIOS::GetCPUArchitecture() const {
 #endif
 }
 
-uint32_t SystemSnapshotIOS::CPURevision() const {
+uint32_t SystemSnapshotIOSIntermediatedump::CPURevision() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   // TODO(justincohen): sysctlbyname machdep.cpu.* returns -1 on iOS/ARM64, but
   // consider recording this for X86_64 only.
   return 0;
 }
 
-uint8_t SystemSnapshotIOS::CPUCount() const {
+uint8_t SystemSnapshotIOSIntermediatedump::CPUCount() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return cpu_count_;
 }
 
-std::string SystemSnapshotIOS::CPUVendor() const {
+std::string SystemSnapshotIOSIntermediatedump::CPUVendor() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return cpu_vendor_;
 }
 
-void SystemSnapshotIOS::CPUFrequency(uint64_t* current_hz,
-                                     uint64_t* max_hz) const {
+void SystemSnapshotIOSIntermediatedump::CPUFrequency(uint64_t* current_hz,
+                                                     uint64_t* max_hz) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   // TODO(justincohen): sysctlbyname hw.cpufrequency returns -1 on iOS/ARM64,
   // but consider recording this for X86_64 only.
@@ -135,50 +152,51 @@ void SystemSnapshotIOS::CPUFrequency(uint64_t* current_hz,
   *max_hz = 0;
 }
 
-uint32_t SystemSnapshotIOS::CPUX86Signature() const {
+uint32_t SystemSnapshotIOSIntermediatedump::CPUX86Signature() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   // TODO(justincohen): Consider recording this for X86_64 only.
   return 0;
 }
 
-uint64_t SystemSnapshotIOS::CPUX86Features() const {
+uint64_t SystemSnapshotIOSIntermediatedump::CPUX86Features() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   // TODO(justincohen): Consider recording this for X86_64 only.
   return 0;
 }
 
-uint64_t SystemSnapshotIOS::CPUX86ExtendedFeatures() const {
+uint64_t SystemSnapshotIOSIntermediatedump::CPUX86ExtendedFeatures() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   // TODO(justincohen): Consider recording this for X86_64 only.
   return 0;
 }
 
-uint32_t SystemSnapshotIOS::CPUX86Leaf7Features() const {
+uint32_t SystemSnapshotIOSIntermediatedump::CPUX86Leaf7Features() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   // TODO(justincohen): Consider recording this for X86_64 only.
   return 0;
 }
 
-bool SystemSnapshotIOS::CPUX86SupportsDAZ() const {
+bool SystemSnapshotIOSIntermediatedump::CPUX86SupportsDAZ() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   // TODO(justincohen): Consider recording this for X86_64 only.
   return false;
 }
 
-SystemSnapshot::OperatingSystem SystemSnapshotIOS::GetOperatingSystem() const {
+SystemSnapshot::OperatingSystem
+SystemSnapshotIOSIntermediatedump::GetOperatingSystem() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return kOperatingSystemIOS;
 }
 
-bool SystemSnapshotIOS::OSServer() const {
+bool SystemSnapshotIOSIntermediatedump::OSServer() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return false;
 }
 
-void SystemSnapshotIOS::OSVersion(int* major,
-                                  int* minor,
-                                  int* bugfix,
-                                  std::string* build) const {
+void SystemSnapshotIOSIntermediatedump::OSVersion(int* major,
+                                                  int* minor,
+                                                  int* bugfix,
+                                                  std::string* build) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   *major = os_version_major_;
   *minor = os_version_minor_;
@@ -186,7 +204,7 @@ void SystemSnapshotIOS::OSVersion(int* major,
   build->assign(os_version_build_);
 }
 
-std::string SystemSnapshotIOS::OSVersionFull() const {
+std::string SystemSnapshotIOSIntermediatedump::OSVersionFull() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return base::StringPrintf("%d.%d.%d %s",
                             os_version_major_,
@@ -195,23 +213,24 @@ std::string SystemSnapshotIOS::OSVersionFull() const {
                             os_version_build_.c_str());
 }
 
-std::string SystemSnapshotIOS::MachineDescription() const {
+std::string SystemSnapshotIOSIntermediatedump::MachineDescription() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return machine_description_;
 }
 
-bool SystemSnapshotIOS::NXEnabled() const {
+bool SystemSnapshotIOSIntermediatedump::NXEnabled() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   // TODO(justincohen): Consider using kern.nx when available (pre-iOS 13,
   // pre-OS X 10.15). Otherwise the bit is always enabled.
   return true;
 }
 
-void SystemSnapshotIOS::TimeZone(DaylightSavingTimeStatus* dst_status,
-                                 int* standard_offset_seconds,
-                                 int* daylight_offset_seconds,
-                                 std::string* standard_name,
-                                 std::string* daylight_name) const {
+void SystemSnapshotIOSIntermediatedump::TimeZone(
+    DaylightSavingTimeStatus* dst_status,
+    int* standard_offset_seconds,
+    int* daylight_offset_seconds,
+    std::string* standard_name,
+    std::string* daylight_name) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   *dst_status = dst_status_;
   *standard_offset_seconds = standard_offset_seconds_;
