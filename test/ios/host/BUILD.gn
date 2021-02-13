@@ -42,6 +42,7 @@ static_library("app_host_sources") {
     ":app_shared_sources",
     "../../../build:ios_enable_arc",
     "../../../client",
+    "../../../snapshot",
     "../../../third_party/edo",
   ]
   frameworks = [
