@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dffa23f7_a240ebc9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-02-18T23:36:08Z",
+      "side": 1,
+      "message": "not for review, but first draft.  I wanted to make sure this is what you had in mind before I spend more time writing english.",
+      "revId": "d815bb96f38cf80d6f30d83f285e00cbbb42ddc5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
