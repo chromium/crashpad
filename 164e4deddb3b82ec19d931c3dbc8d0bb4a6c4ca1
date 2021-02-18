@@ -16,6 +16,29 @@
       "message": "ptal.",
       "revId": "164e4deddb3b82ec19d931c3dbc8d0bb4a6c4ca1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20af117a_27d55e75",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-02-18T18:36:10Z",
+      "side": 1,
+      "message": "pending, completed—that was simple.\n\nWith the introduction of “intermediate” dumps, things are more complex.\n\nCould you write a simple small doc (OK if it’s an .md that we check in somewhere here) that explains how all of this works, and a little bit of why it works too?\n\nAs it is now, someone reading through this wouldn’t necessarily have any idea whether ProcessIntermediateDumps has any overlap with EnableUploading, or what _exactly_ to expect when calling either, or when to best call them.",
+      "range": {
+        "startLine": 485,
+        "startChar": 0,
+        "endLine": 486,
+        "endChar": 22
+      },
+      "revId": "164e4deddb3b82ec19d931c3dbc8d0bb4a6c4ca1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
