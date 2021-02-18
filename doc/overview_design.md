@@ -93,7 +93,9 @@ The handler runs in a separate process from the client or clients. It is
 responsible for snapshotting the crashing client process’ state on a crash,
 saving it to a crash dump, and transmitting the crash dump to an upstream
 server. Clients register with the handler to allow it to capture and upload
-their crashes.
+their crashes. On iOS there is no process distinction between the
+handler as the client. [This is a limitation of
+iOS.](ios_overview_design.md#ios-limitations)
 
 ### The Crashpad handler
 
@@ -213,6 +215,12 @@ Crashpad provides a facility for a process to disassociate (unregister) with an
 existing crash handler, which can be necessary when an older client spawns an
 updated version.
 
+#### iOS
+
+iOS registers both a signal handler for SIGABRT and a Mach exception handler
+with a subset of avaiable exceptions. See more information about [iOS
+limitations here.](ios_overview_design.md#ios-limitations)
+
 #### Windows
 
 There are two modes of registration on Windows. In both cases the handler is
@@ -271,6 +279,14 @@ Mach port set as the client process’ exception port. As exceptions are
 dispatched to the Mach port by the kernel, on macOS, exceptions can be handled
 entirely from the Crashpad handler without the need to run any code in the crash
 process at the time of the exception.
+
+#### iOS
+
+On iOS, the operating system will notify the handler of client crashes via the
+Mach port or the signal handler.  As exceptions are handled in process, an
+intermediate dump file rather than an entire minidump. See more information about
+the [iOS In-Process Handler
+here.](ios_overview_design.md#ios-in-process-handler)
 
 #### Windows
 
@@ -414,6 +430,13 @@ details of how these properties are stored vary between platforms.
 
 The macOS implementation simply stores database properties on the minidump files
 in filesystem extended attributes.
+
+#### iOS
+
+iOS also stores database properties on the minidump files in filesystem extended
+attributes. iOS also stores it's intermediate dump files in the filesystem. See
+more about [iOS intermediate dumps
+here.](ios_overview_design.md#the-crashpad-intermediatedump-format)
 
 #### Windows
 
