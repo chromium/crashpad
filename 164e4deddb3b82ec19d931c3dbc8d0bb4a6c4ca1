@@ -39,6 +39,30 @@
       },
       "revId": "164e4deddb3b82ec19d931c3dbc8d0bb4a6c4ca1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ed5ca09_49292ccf",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-02-19T01:54:48Z",
+      "side": 1,
+      "message": "In progress here: https://chromium-review.googlesource.com/c/crashpad/crashpad/+/2706018\n\nTentatively marking this resolved, although the documentation is not done.",
+      "parentUuid": "20af117a_27d55e75",
+      "range": {
+        "startLine": 485,
+        "startChar": 0,
+        "endLine": 486,
+        "endChar": 22
+      },
+      "revId": "164e4deddb3b82ec19d931c3dbc8d0bb4a6c4ca1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
