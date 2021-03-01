@@ -41,7 +41,13 @@ else()
         zlib/zutil.h
         zlib_crashpad.h
     )
-    if(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86_64)|(x86)|(i[3-7]86)|(AMD64)")
+    if (APPLE)
+        get_property(archs TARGET crashpad_zlib PROPERTY OSX_ARCHITECTURES)
+    endif()
+    if(NOT archs)
+        set(archs ${CMAKE_SYSTEM_PROCESSOR})
+    endif()
+    if(archs MATCHES "(x86_64)|(x86)|(i[3-7]86)|(AMD64)")
         target_sources(crashpad_zlib PRIVATE
             zlib/crc_folding.c
             zlib/fill_window_sse.c
@@ -52,6 +58,8 @@ else()
         if(NOT MSVC)
             target_compile_options(crashpad_zlib PRIVATE -msse4.2 -mpclmul)
         endif()
+    else()
+        target_sources(crashpad_zlib PRIVATE zlib/simd_stub.c)
     endif()
     target_compile_definitions(crashpad_zlib PUBLIC
         CRASHPAD_ZLIB_SOURCE_EMBEDDED
