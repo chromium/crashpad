@@ -104,6 +104,24 @@
       "parentUuid": "37f78ad5_f7877373",
       "revId": "091dd51008b243069bcfa73f304ed25b67386fef",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a82b8774_68c37ace",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-01T20:17:22Z",
+      "side": 1,
+      "message": "\u003e Sure thing, although to make it a bit more robust I kept the old implementaiton.  Now we can end up with \"iOS Simulator (iPhone)\", \"iOS Simulator (iPad)\", or \"iPhoneX,Y (simulator).\n\u003e \n\u003e I\u0027m not sure I love this.\n\u003e \n\u003e Maybe iOS here is superfluous, so I can just do \n\u003e \n\u003e Simulator (##model## | iPhone | iPad | unknown)\n\u003e \n\u003e wdyt?\n\nOk, sounds good.",
+      "parentUuid": "499a9f0c_ce96d995",
+      "revId": "091dd51008b243069bcfa73f304ed25b67386fef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
