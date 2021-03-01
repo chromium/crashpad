@@ -50,6 +50,24 @@
       "message": "Can you give an example of what this string looks like?\n\nIs there still something somewhere that distinguishes between simulator and not-simulator?",
       "revId": "091dd51008b243069bcfa73f304ed25b67386fef",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63383b53_cd63dab4",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-01T19:53:27Z",
+      "side": 1,
+      "message": "\u003e Can you give an example of what this string looks like?\n\nIt would be something like \"iPhone13,4\", where:\n\n\u003csnip\u003e\niPhone12,5 : iPhone 11 Pro Max\niPhone12,8 : iPhone SE 2nd Gen\niPhone13,1 : iPhone 12 Mini\niPhone13,2 : iPhone 12\niPhone13,3 : iPhone 12 Pro\niPhone13,4 : iPhone 12 Pro Max\n\n\n\u003e Is there still something somewhere that distinguishes between simulator and not-simulator?\n\nRight now, yes, system architecture will be x86 vs arm64.\n\nWhen we have m1 macs, I don\u0027t know.  Do we need to?",
+      "parentUuid": "c0028713_c0fdda5a",
+      "revId": "091dd51008b243069bcfa73f304ed25b67386fef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
