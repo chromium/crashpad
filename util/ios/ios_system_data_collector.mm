@@ -84,17 +84,7 @@ IOSSystemDataCollector::IOSSystemDataCollector()
   // TODO(justincohen): Consider adding board and model information to
   // |machine_description| as well (similar to MacModelAndBoard in
   // util/mac/mac_util.cc).
-  switch (UI_USER_INTERFACE_IDIOM()) {
-    case UIUserInterfaceIdiomPhone:
-      machine_description_ = "iOS Simulator (iPhone)";
-      break;
-    case UIUserInterfaceIdiomPad:
-      machine_description_ = "iOS Simulator (iPad)";
-      break;
-    default:
-      machine_description_ = "iOS Simulator (Unknown)";
-      break;
-  }
+  machine_description_ = getenv("SIMULATOR_MODEL_IDENTIFIER");
 #elif TARGET_OS_IPHONE
   utsname uts;
   if (uname(&uts) == 0) {
