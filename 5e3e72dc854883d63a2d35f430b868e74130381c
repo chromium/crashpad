@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86e3bf4a_f477d302",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-01T20:34:34Z",
+      "side": 1,
+      "message": "getenv always just returns a char*",
+      "revId": "5e3e72dc854883d63a2d35f430b868e74130381c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c2be373_152915d2",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-01T20:34:34Z",
+      "side": 1,
+      "message": "And these are all const char*",
+      "revId": "5e3e72dc854883d63a2d35f430b868e74130381c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21e9bfb3_4ca8d795",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-01T20:34:34Z",
+      "side": 1,
+      "message": "And here you just get a const char*\n\nso why not have const char* model instead of std::string?",
+      "revId": "5e3e72dc854883d63a2d35f430b868e74130381c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
