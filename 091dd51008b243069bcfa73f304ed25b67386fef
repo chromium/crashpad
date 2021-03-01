@@ -16,6 +16,40 @@
       "message": "Not really necessary, but a nice to have for future tests.",
       "revId": "091dd51008b243069bcfa73f304ed25b67386fef",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b4be947_436205a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-01T18:57:05Z",
+      "side": 1,
+      "message": "tentatively LG",
+      "revId": "091dd51008b243069bcfa73f304ed25b67386fef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0028713_c0fdda5a",
+        "filename": "util/ios/ios_system_data_collector.mm",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-01T18:57:05Z",
+      "side": 1,
+      "message": "Can you give an example of what this string looks like?\n\nIs there still something somewhere that distinguishes between simulator and not-simulator?",
+      "revId": "091dd51008b243069bcfa73f304ed25b67386fef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
