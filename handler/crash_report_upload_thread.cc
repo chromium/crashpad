@@ -68,7 +68,8 @@ CrashReportUploadThread::~CrashReportUploadThread() {
 
 void CrashReportUploadThread::ReportPending(const UUID& report_uuid) {
   known_pending_report_uuids_.PushBack(report_uuid);
-  thread_.DoWorkNow();
+  if (thread_.is_running())
+    thread_.DoWorkNow();
 }
 
 void CrashReportUploadThread::Start() {
@@ -233,13 +234,11 @@ void CrashReportUploadThread::ProcessPendingReport(
           report.uuid, Metrics::CrashSkippedReason::kPrepareForUploadFailed);
       break;
     case UploadResult::kRetry:
-      upload_report.reset();
-
-      // TODO(mark): Deal with retries properly: don’t call SkipReportUplaod()
-      // if the result was kRetry and the report hasn’t already been retried
-      // too many times.
-      database_->SkipReportUpload(report.uuid,
-                                  Metrics::CrashSkippedReason::kUploadFailed);
+      if (upload_report->upload_attempts > 20) {
+        upload_report.reset();
+        database_->SkipReportUpload(report.uuid,
+                                    Metrics::CrashSkippedReason::kUploadFailed);
+      }
       break;
   }
 }
