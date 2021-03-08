@@ -16,6 +16,494 @@
       "message": "ping",
       "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed372f02_468d81ae",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "Every following heading in this document is a child of this \u003ch2\u003e, is that intended?",
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c622de63_158def40",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "captures",
+      "range": {
+        "startLine": 23,
+        "startChar": 28,
+        "endLine": 23,
+        "endChar": 35
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fca5823e_47bd411c",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "strike",
+      "range": {
+        "startLine": 24,
+        "startChar": 56,
+        "endLine": 24,
+        "endChar": 65
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0783250_5a92c7e4",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "into",
+      "range": {
+        "startLine": 26,
+        "startChar": 23,
+        "endLine": 26,
+        "endChar": 25
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f257c19_c704f96c",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "Backtick symbols and macros in .md like this: `EXC_CRASH`.",
+      "range": {
+        "startLine": 31,
+        "startChar": 46,
+        "endLine": 31,
+        "endChar": 55
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24cba8e6_8c5373e9",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "This is not “main”. Strike, replace with “specific”, or explain what’s special about EXC_CRASH.",
+      "range": {
+        "startLine": 31,
+        "startChar": 26,
+        "endLine": 31,
+        "endChar": 30
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f23519c9_722a67f6",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "Other list items ended with periods.",
+      "range": {
+        "startLine": 38,
+        "startChar": 12,
+        "endLine": 38,
+        "endChar": 18
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92ca060c_3918d539",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "`vm_read`",
+      "range": {
+        "startLine": 44,
+        "startChar": 21,
+        "endLine": 44,
+        "endChar": 28
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3595da3a_3294a980",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "in conjunction with Crashpad’s existing minidump writer and structural limitations of the minidump format",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 24
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a85f59d_476c20fb",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "comma",
+      "range": {
+        "startLine": 47,
+        "startChar": 24,
+        "endLine": 47,
+        "endChar": 31
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bfeee67_72c6414f",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "The data is streamed _to_ the file",
+      "range": {
+        "startLine": 55,
+        "startChar": 27,
+        "endLine": 55,
+        "endChar": 70
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e59dd6e3_893da338",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "minidump?",
+      "range": {
+        "startLine": 56,
+        "startChar": 12,
+        "endLine": 56,
+        "endChar": 16
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a8cce9d_6b6130d2",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "Above, you said “on the next run (or when the application decides…” Be equally specific, or just say “when appropriate”.",
+      "range": {
+        "startLine": 56,
+        "startChar": 14,
+        "endLine": 56,
+        "endChar": 43
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc0ff54e_4c1d560d",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "string key?",
+      "range": {
+        "startLine": 61,
+        "startChar": 13,
+        "endLine": 61,
+        "endChar": 16
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dca3176_050dbb74",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "What are you treating as a pair, (length, value)? Because you gave three things (key, length, value) and then said “pair”.",
+      "range": {
+        "startLine": 61,
+        "startChar": 32,
+        "endLine": 61,
+        "endChar": 42
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94fe9457_4f02fff2",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "Since you gave length and value above, should this give map/array, like “[key, map/array]”?",
+      "range": {
+        "startLine": 62,
+        "startChar": 24,
+        "endLine": 62,
+        "endChar": 29
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5937de66_18a4e6f0",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "Reiterate why uploading can’t be done from the crashed process (again, minidump conversion is not advisable, and upload brings in a lot of uncontrolled code that definitely does things unsafe at crash time).",
+      "range": {
+        "startLine": 70,
+        "startChar": 25,
+        "endLine": 71,
+        "endChar": 25
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7aa7fd8b_432be434",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "The database isn’t really what transmits reports.",
+      "range": {
+        "startLine": 72,
+        "startChar": 37,
+        "endLine": 73,
+        "endChar": 15
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abcd3600_7d0ce8fa",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "This is weird, can you just make it\n\n#### ProcessIntermediateDumps\n\nor are we not allowed \u003ch4\u003e?\n\n(Or if you make all of the ###s into ##, then this one becomes a ###, which is surely OK.)",
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2c03a17_81a43fd8",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "This is good, because it answers “where do minidumps live?” But nothing in this document answers “where do intermediate dumps live?”",
+      "range": {
+        "startLine": 79,
+        "startChar": 25,
+        "endLine": 79,
+        "endChar": 76
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf8d7856_89d130df",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "This paragraph makes obvious sense for intermediate dumps written in response to a crash. When do simulated crash (dump-without-crashing) dumps get converted?",
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08c8938c_a88726b5",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T17:50:53Z",
+      "side": 1,
+      "message": "A few blank lines at EOF that aren’t necessary.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 0
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
