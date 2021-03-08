@@ -35,6 +35,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31aa930c_8bc0dcb5",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "Unintentional, thanks, I switched everything from `###` to `##`.",
+      "parentUuid": "ed372f02_468d81ae",
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c622de63_158def40",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-03-08T17:50:53Z",
       "side": 1,
       "message": "captures",
+      "range": {
+        "startLine": 23,
+        "startChar": 28,
+        "endLine": 23,
+        "endChar": 35
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c1a774b_87ce183e",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c622de63_158def40",
       "range": {
         "startLine": 23,
         "startChar": 28,
@@ -81,6 +123,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e920d9c_6eb938e3",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fca5823e_47bd411c",
+      "range": {
+        "startLine": 24,
+        "startChar": 56,
+        "endLine": 24,
+        "endChar": 65
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0783250_5a92c7e4",
@@ -94,6 +160,30 @@
       "writtenOn": "2021-03-08T17:50:53Z",
       "side": 1,
       "message": "into",
+      "range": {
+        "startLine": 26,
+        "startChar": 23,
+        "endLine": 26,
+        "endChar": 25
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b86d644f_120e8fd3",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0783250_5a92c7e4",
       "range": {
         "startLine": 26,
         "startChar": 23,
@@ -150,6 +240,54 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf620b88_34f64f71",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "s/main/specific",
+      "parentUuid": "24cba8e6_8c5373e9",
+      "range": {
+        "startLine": 31,
+        "startChar": 26,
+        "endLine": 31,
+        "endChar": 30
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a02bc80c_38b923bc",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f257c19_c704f96c",
+      "range": {
+        "startLine": 31,
+        "startChar": 46,
+        "endLine": 31,
+        "endChar": 55
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f23519c9_722a67f6",
@@ -163,6 +301,30 @@
       "writtenOn": "2021-03-08T17:50:53Z",
       "side": 1,
       "message": "Other list items ended with periods.",
+      "range": {
+        "startLine": 38,
+        "startChar": 12,
+        "endLine": 38,
+        "endChar": 18
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a5cc079_2151d2fb",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f23519c9_722a67f6",
       "range": {
         "startLine": 38,
         "startChar": 12,
@@ -196,6 +358,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a9a7c27_213d0d1b",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "I don\u0027t understand the formatting.  Are you saying replace with backticks?  If so, done.",
+      "parentUuid": "92ca060c_3918d539",
+      "range": {
+        "startLine": 44,
+        "startChar": 21,
+        "endLine": 44,
+        "endChar": 28
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3595da3a_3294a980",
@@ -209,6 +395,30 @@
       "writtenOn": "2021-03-08T17:50:53Z",
       "side": 1,
       "message": "in conjunction with Crashpad’s existing minidump writer and structural limitations of the minidump format",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 24
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "697dcdbb_4885ee84",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3595da3a_3294a980",
       "range": {
         "startLine": 45,
         "startChar": 0,
@@ -242,6 +452,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14ecdf76_97930890",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a85f59d_476c20fb",
+      "range": {
+        "startLine": 47,
+        "startChar": 24,
+        "endLine": 47,
+        "endChar": 31
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3bfeee67_72c6414f",
@@ -255,6 +489,30 @@
       "writtenOn": "2021-03-08T17:50:53Z",
       "side": 1,
       "message": "The data is streamed _to_ the file",
+      "range": {
+        "startLine": 55,
+        "startChar": 27,
+        "endLine": 55,
+        "endChar": 70
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11bf8279_e0ceb175",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "The data is streamed to a file, which will be used to\ngenerate a final minidump when appropriate.",
+      "parentUuid": "3bfeee67_72c6414f",
       "range": {
         "startLine": 55,
         "startChar": 27,
@@ -311,6 +569,54 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6ac3d37_4e76acb4",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a8cce9d_6b6130d2",
+      "range": {
+        "startLine": 56,
+        "startChar": 14,
+        "endLine": 56,
+        "endChar": 43
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92a61976_d2e04756",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e59dd6e3_893da338",
+      "range": {
+        "startLine": 56,
+        "startChar": 12,
+        "endLine": 56,
+        "endChar": 16
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc0ff54e_4c1d560d",
@@ -357,6 +663,54 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "897642e5_ab5c75bd",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc0ff54e_4c1d560d",
+      "range": {
+        "startLine": 61,
+        "startChar": 13,
+        "endLine": 61,
+        "endChar": 16
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2edab8f_1fe12883",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "struck, I think it\u0027s evident from [key:int, length;int, value:int] that it\u0027s a tuple",
+      "parentUuid": "3dca3176_050dbb74",
+      "range": {
+        "startLine": 61,
+        "startChar": 32,
+        "endLine": 61,
+        "endChar": 42
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94fe9457_4f02fff2",
@@ -370,6 +724,30 @@
       "writtenOn": "2021-03-08T17:50:53Z",
       "side": 1,
       "message": "Since you gave length and value above, should this give map/array, like “[key, map/array]”?",
+      "range": {
+        "startLine": 62,
+        "startChar": 24,
+        "endLine": 62,
+        "endChar": 29
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "696fef91_89dd948b",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "How about:\n - Property [key:int, length;int, value:intarray]\n - StartMap [key:int], followed by repeating Properties until EndMap\n - StartArray [key:int], followed by repeating Maps until EndArray\n - EndMap, EndArray, EndDocument",
+      "parentUuid": "94fe9457_4f02fff2",
       "range": {
         "startLine": 62,
         "startChar": 24,
@@ -403,6 +781,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44a8b4c8_c48ccb23",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5937de66_18a4e6f0",
+      "range": {
+        "startLine": 70,
+        "startChar": 25,
+        "endLine": 71,
+        "endChar": 25
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7aa7fd8b_432be434",
@@ -416,6 +818,30 @@
       "writtenOn": "2021-03-08T17:50:53Z",
       "side": 1,
       "message": "The database isn’t really what transmits reports.",
+      "range": {
+        "startLine": 72,
+        "startChar": 37,
+        "endLine": 73,
+        "endChar": 15
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e7fdfa4_461acad3",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "removed database in reworked sentence.",
+      "parentUuid": "7aa7fd8b_432be434",
       "range": {
         "startLine": 72,
         "startChar": 37,
@@ -443,6 +869,42 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e75d4cc7_91139f8b",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abcd3600_7d0ce8fa",
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dba261af_0880d021",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abcd3600_7d0ce8fa",
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2c03a17_81a43fd8",
@@ -456,6 +918,30 @@
       "writtenOn": "2021-03-08T17:50:53Z",
       "side": 1,
       "message": "This is good, because it answers “where do minidumps live?” But nothing in this document answers “where do intermediate dumps live?”",
+      "range": {
+        "startLine": 79,
+        "startChar": 25,
+        "endLine": 79,
+        "endChar": 76
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ae365ce_3d55b3e4",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "Added a sentence to the handler section:\n```\nBefore an exception is triggered, the handler can gather basic system\ninformation and open a pending intermediate dump adjacent to the Crashpad\ndatabase.\n```\n\nThis is jenga-tower logic that we haven\u0027t had time to discuss yet, there are a number of options for who should own this file, where it should live, etc.",
+      "parentUuid": "d2c03a17_81a43fd8",
       "range": {
         "startLine": 79,
         "startChar": 25,
@@ -483,6 +969,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb2b437c_9cb90669",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "added a sentence.",
+      "parentUuid": "cf8d7856_89d130df",
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08c8938c_a88726b5",
@@ -496,6 +1000,30 @@
       "writtenOn": "2021-03-08T17:50:53Z",
       "side": 1,
       "message": "A few blank lines at EOF that aren’t necessary.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 0
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b03c9f00_40ff14ff",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-08T20:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08c8938c_a88726b5",
       "range": {
         "startLine": 89,
         "startChar": 0,
