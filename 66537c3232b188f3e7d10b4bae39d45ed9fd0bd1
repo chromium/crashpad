@@ -50,6 +50,24 @@
       "message": "Thanks for the review Mark. If it is merged, shall I update the Crashpad in Chromium repo?",
       "revId": "66537c3232b188f3e7d10b4bae39d45ed9fd0bd1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f33cc94a_83907d9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T15:32:46Z",
+      "side": 1,
+      "message": "\u003e Thanks for the review Mark. If it is merged, shall I update the Crashpad in Chromium repo?\n\nYes, please!",
+      "parentUuid": "0b7500e0_9366003b",
+      "revId": "66537c3232b188f3e7d10b4bae39d45ed9fd0bd1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
