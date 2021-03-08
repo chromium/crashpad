@@ -149,6 +149,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d36147e9_099c4cbb",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T23:09:39Z",
+      "side": 1,
+      "message": "\u003e Done\n\nStrike harder (you left “own”).",
+      "parentUuid": "5e920d9c_6eb938e3",
+      "range": {
+        "startLine": 24,
+        "startChar": 56,
+        "endLine": 24,
+        "endChar": 65
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d0783250_5a92c7e4",
         "filename": "doc/ios_overview_design.md",
         "patchSetId": 7
@@ -372,6 +396,30 @@
       "side": 1,
       "message": "I don\u0027t understand the formatting.  Are you saying replace with backticks?  If so, done.",
       "parentUuid": "92ca060c_3918d539",
+      "range": {
+        "startLine": 44,
+        "startChar": 21,
+        "endLine": 44,
+        "endChar": 28
+      },
+      "revId": "1686296dc104561d4fdc8b92ce8eeadde90e925c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0be5f28a_908b99fd",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T23:09:39Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t understand the formatting.  Are you saying replace with backticks?  If so, done.\n\nYes, that’s what I meant. You can see the rendered output, with this turned nicely into monospaced text, at https://chromium.googlesource.com/crashpad/crashpad/+/1a1680e3adff78dc604f405255c911981be84aa8/doc/ios_overview_design.md",
+      "parentUuid": "3a9a7c27_213d0d1b",
       "range": {
         "startLine": 44,
         "startChar": 21,

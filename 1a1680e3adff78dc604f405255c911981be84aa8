@@ -16,6 +16,184 @@
       "message": "Thank you, ptal!",
       "revId": "1a1680e3adff78dc604f405255c911981be84aa8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93ab8eef_b89dca49",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T23:09:39Z",
+      "side": 1,
+      "message": "comma.\n\nAlso on line 41.",
+      "range": {
+        "startLine": 36,
+        "startChar": 10,
+        "endLine": 36,
+        "endChar": 19
+      },
+      "revId": "1a1680e3adff78dc604f405255c911981be84aa8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed08fec9_0709275a",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T23:09:39Z",
+      "side": 1,
+      "message": "Sure, it can. But _does_ it?",
+      "range": {
+        "startLine": 53,
+        "startChar": 34,
+        "endLine": 53,
+        "endChar": 56
+      },
+      "revId": "1a1680e3adff78dc604f405255c911981be84aa8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4a9daa5_b70f4ef5",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T23:09:39Z",
+      "side": 1,
+      "message": "Should be : instead of ;.",
+      "range": {
+        "startLine": 66,
+        "startChar": 30,
+        "endLine": 66,
+        "endChar": 31
+      },
+      "revId": "1a1680e3adff78dc604f405255c911981be84aa8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c48bbda_8c8501bb",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T23:09:39Z",
+      "side": 1,
+      "message": "“transmit” unclear in this context (between processes? no.) Say “upload”. Same on line 81.",
+      "range": {
+        "startLine": 75,
+        "startChar": 47,
+        "endLine": 75,
+        "endChar": 55
+      },
+      "revId": "1a1680e3adff78dc604f405255c911981be84aa8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "748d6cb9_b6ea0fee",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T23:09:39Z",
+      "side": 1,
+      "message": "There used to be a comma here, but you lost it when revising.",
+      "range": {
+        "startLine": 76,
+        "startChar": 19,
+        "endLine": 76,
+        "endChar": 22
+      },
+      "revId": "1a1680e3adff78dc604f405255c911981be84aa8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b7f47c0_4b6f4012",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T23:09:39Z",
+      "side": 1,
+      "message": "I don’t know what this means: “without an API.”",
+      "range": {
+        "startLine": 76,
+        "startChar": 62,
+        "endLine": 77,
+        "endChar": 44
+      },
+      "revId": "1a1680e3adff78dc604f405255c911981be84aa8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0df8dd45_8a6974d2",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T23:09:39Z",
+      "side": 1,
+      "message": "From line 75: “uploaded” here too.",
+      "range": {
+        "startLine": 81,
+        "startChar": 22,
+        "endLine": 81,
+        "endChar": 33
+      },
+      "revId": "1a1680e3adff78dc604f405255c911981be84aa8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c809be04_2e11f7ee",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-08T23:09:39Z",
+      "side": 1,
+      "message": "Revise naming as needed per discussion on your integrate-into-Chrome change.",
+      "revId": "1a1680e3adff78dc604f405255c911981be84aa8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
