@@ -486,7 +486,7 @@ class CrashpadClient {
   //! pending reports.
   //!
   //! A handler must have already been installed before calling this method.
-  void EnableUploading();
+  void StartProcesingPendingReports();
 
   // TODO(justincohen): This method is purely for bringing up iOS interfaces.
   //! \brief Requests that the handler capture a dump even though there hasn't
