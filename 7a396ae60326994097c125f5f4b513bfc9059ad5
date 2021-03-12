@@ -1,0 +1,435 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35b2bebd_fd5b8e99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "Mostly LGTM, and most of these comments just ask for a couple more details to be clarified, but this did tease out the DumpWithoutCrashing behavior that I think will take people by surprise and that you might want to reconsider.",
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5138b7c_d583d975",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "While handling",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 6
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1895bd2_53f4a8c8",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "While handling",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 6
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acdc9248_b065a709",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "Be more specific about timing. It’s not just “before”, which sounds like it might happen immediately before the exception (…but how? magic!) You can say that this stuff happens during Crashpad initialization.",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 32
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53d87ebe_3d267d5f",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "Once started, the client\n(comma)",
+      "range": {
+        "startLine": 75,
+        "startChar": 43,
+        "endLine": 75,
+        "endChar": 66
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da7d5661_bc33e424",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "This is determinate: “the”.",
+      "range": {
+        "startLine": 76,
+        "startChar": 44,
+        "endLine": 76,
+        "endChar": 45
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b25b0ce7_16ae6e77",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "into→in",
+      "range": {
+        "startLine": 76,
+        "startChar": 68,
+        "endLine": 76,
+        "endChar": 72
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a1bc947_2e2cb6e4",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "“However” is unnecessary. Just “Converting”.",
+      "range": {
+        "startLine": 77,
+        "startChar": 19,
+        "endLine": 77,
+        "endChar": 38
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa6deff1_e59fee74",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "intermediate dump file",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 17
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4722cd70_724d6c53",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "not safe to do from within",
+      "range": {
+        "startLine": 78,
+        "startChar": 19,
+        "endLine": 78,
+        "endChar": 30
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bb35243_0c766c48",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "It’s good that you’re saying that this is within application control, and it’s good that the following sections explain those controls in more detail. You should also say when they’re expected to exercise that control. “Applications are expected to process intermediate dumps into pending minidumps and begin processing pending minidumps, possibly for upload, at suitable times following the next application restart.",
+      "range": {
+        "startLine": 79,
+        "startChar": 40,
+        "endLine": 81,
+        "endChar": 13
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92678ff0_ceb1c358",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "You should echo here that this is expected to happen during application startup.",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 6
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc7bf15a_f52c87d7",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "I think people will expect the non-crash dump-without-crashing things to work their way all the way through to upload without any additional action or app restart.",
+      "range": {
+        "startLine": 90,
+        "startChar": 46,
+        "endLine": 91,
+        "endChar": 35
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "855b5160_99d5cdab",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "“not” → “no” (better), “not a” (not as good).",
+      "range": {
+        "startLine": 96,
+        "startChar": 15,
+        "endLine": 96,
+        "endChar": 51
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dad88042_8e521144",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "Backticked `SIGABRT`",
+      "range": {
+        "startLine": 219,
+        "startChar": 40,
+        "endLine": 219,
+        "endChar": 47
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6adc1ae4_7b3bb4ff",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "Including “here” makes not such a great link title. I like how you did it above, “This is a limitation of iOS.”",
+      "range": {
+        "startLine": 220,
+        "startChar": 67,
+        "endLine": 221,
+        "endChar": 16
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dded6750_9a763fcd",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "Mach exception port",
+      "range": {
+        "startLine": 284,
+        "startChar": 72,
+        "endLine": 285,
+        "endChar": 4
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c6b6d52_2ed21fc1",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "Again, lose “here”.",
+      "range": {
+        "startLine": 288,
+        "startChar": 0,
+        "endLine": 288,
+        "endChar": 4
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0dcba5e_37f84c23",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-12T23:07:31Z",
+      "side": 1,
+      "message": "And again.",
+      "range": {
+        "startLine": 439,
+        "startChar": 0,
+        "endLine": 439,
+        "endChar": 4
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
