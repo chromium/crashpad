@@ -35,7 +35,8 @@ TEST_F(CrashpadIOSClient, DumpWithoutCrash) {
       base::FilePath(database_dir.path()), "", {});
   NativeCPUContext context;
   CaptureContext(&context);
-  client.DumpWithoutCrash(&context);
+  client.DumpWithoutCrashAndDeferProcessing(&context);
+  client.ProcessIntermediateDumps();
 }
 
 // This test is covered by a similar XCUITest, but for development purposes it's

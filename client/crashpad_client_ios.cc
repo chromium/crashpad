@@ -234,16 +234,15 @@ void CrashpadClient::ProcessIntermediateDumps(
 }
 
 // static
-void CrashpadClient::EnableUploading() {
+void CrashpadClient::StartProcesingPendingReports() {
   // TODO(justincohen): Start the CrashReportUploadThread.
 }
 
 // static
-void CrashpadClient::DumpWithoutCrash(NativeCPUContext* context) {
+void CrashpadClient::DumpWithoutCrashAndDeferProcessing(NativeCPUContext* context) {
   CrashHandler* crash_handler = CrashHandler::Get();
   DCHECK(crash_handler);
   crash_handler->DumpWithoutCrash(context);
-  crash_handler->ProcessIntermediateDumps();
 }
 
 }  // namespace crashpad

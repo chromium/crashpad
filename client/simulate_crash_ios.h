@@ -20,12 +20,13 @@
 
 //! \file
 
-//! \brief Captures the CPU context and captures a dump without an exception.
-#define CRASHPAD_SIMULATE_CRASH()                             \
-  do {                                                        \
-    crashpad::NativeCPUContext cpu_context;                   \
-    crashpad::CaptureContext(&cpu_context);                   \
-    crashpad::CrashpadClient::DumpWithoutCrash(&cpu_context); \
+//! \brief Captures the CPU context and captures an intermediate dump without an
+//!     exception.
+#define CRASHPAD_SIMULATE_CRASH()                                              \
+  do {                                                                         \
+    crashpad::NativeCPUContext cpu_context;                                    \
+    crashpad::CaptureContext(&cpu_context);                                    \
+    crashpad::CrashpadClient::DumpWithoutCrashAndDeferProcessing(&cpu_context);\
   } while (false)
 
 #endif  // CRASHPAD_CLIENT_SIMULATE_CRASH_IOS_H_

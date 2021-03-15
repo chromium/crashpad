@@ -486,17 +486,17 @@ class CrashpadClient {
   //! pending reports.
   //!
   //! A handler must have already been installed before calling this method.
-  void EnableUploading();
+  void StartProcesingPendingReports();
 
-  // TODO(justincohen): This method is purely for bringing up iOS interfaces.
-  //! \brief Requests that the handler capture a dump even though there hasn't
-  //!     been a crash.
+  //! \brief Requests that the handler capture an intermediate dump even though
+  //!     there hasn't been a crash. The intermediate dump will not be converted
+  //!     to a mindump until ProcessIntermediateDumps() is called.
   //!
   //! A handler must have already been installed before calling this method.
   //!
   //! \param[in] context A NativeCPUContext, generally captured by
   //!     CaptureContext() or similar.
-  static void DumpWithoutCrash(NativeCPUContext* context);
+  static void DumpWithoutCrashAndDeferProcessing(NativeCPUContext* context);
 #endif
 
 #if defined(OS_APPLE) || DOXYGEN
