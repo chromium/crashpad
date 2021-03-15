@@ -18,6 +18,23 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cea5b3e9_50dedcb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:26:10Z",
+      "side": 1,
+      "message": "Thank you for the improved clarity.  Note the question about dumpwithoutcrashing remains open.  PTAL.",
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5138b7c_d583d975",
@@ -31,6 +48,30 @@
       "writtenOn": "2021-03-12T23:07:31Z",
       "side": 1,
       "message": "While handling",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 6
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc1791cf_c116e984",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5138b7c_d583d975",
       "range": {
         "startLine": 36,
         "startChar": 0,
@@ -64,6 +105,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c82ff05e_a613da22",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1895bd2_53f4a8c8",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 6
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "acdc9248_b065a709",
@@ -87,6 +152,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64e17157_be92226b",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:26:10Z",
+      "side": 1,
+      "message": "s/Before..triggered/During Crashpad initialization",
+      "parentUuid": "acdc9248_b065a709",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 32
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53d87ebe_3d267d5f",
@@ -100,6 +189,30 @@
       "writtenOn": "2021-03-12T23:07:31Z",
       "side": 1,
       "message": "Once started, the client\n(comma)",
+      "range": {
+        "startLine": 75,
+        "startChar": 43,
+        "endLine": 75,
+        "endChar": 66
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "849b675c_bded99a2",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53d87ebe_3d267d5f",
       "range": {
         "startLine": 75,
         "startChar": 43,
@@ -156,6 +269,54 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4daa83d8_b41e2f2a",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b25b0ce7_16ae6e77",
+      "range": {
+        "startLine": 76,
+        "startChar": 68,
+        "endLine": 76,
+        "endChar": 72
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f8f49ae_be1db72a",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7d5661_bc33e424",
+      "range": {
+        "startLine": 76,
+        "startChar": 44,
+        "endLine": 76,
+        "endChar": 45
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a1bc947_2e2cb6e4",
@@ -202,6 +363,54 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14a027bb_1c8336e0",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa6deff1_e59fee74",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 17
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6930702d_daf2a044",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a1bc947_2e2cb6e4",
+      "range": {
+        "startLine": 77,
+        "startChar": 19,
+        "endLine": 77,
+        "endChar": 38
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4722cd70_724d6c53",
@@ -215,6 +424,30 @@
       "writtenOn": "2021-03-12T23:07:31Z",
       "side": 1,
       "message": "not safe to do from within",
+      "range": {
+        "startLine": 78,
+        "startChar": 19,
+        "endLine": 78,
+        "endChar": 30
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7bf0dca_0b6e5696",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4722cd70_724d6c53",
       "range": {
         "startLine": 78,
         "startChar": 19,
@@ -248,6 +481,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85ae2427_d72ad5cc",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bb35243_0c766c48",
+      "range": {
+        "startLine": 79,
+        "startChar": 40,
+        "endLine": 81,
+        "endChar": 13
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92678ff0_ceb1c358",
@@ -271,6 +528,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b495967_18a010bb",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92678ff0_ceb1c358",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 6
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc7bf15a_f52c87d7",
@@ -284,6 +565,30 @@
       "writtenOn": "2021-03-12T23:07:31Z",
       "side": 1,
       "message": "I think people will expect the non-crash dump-without-crashing things to work their way all the way through to upload without any additional action or app restart.",
+      "range": {
+        "startLine": 90,
+        "startChar": 46,
+        "endLine": 91,
+        "endChar": 35
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7facc371_bb03013f",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:26:10Z",
+      "side": 1,
+      "message": "iOS calls dumpWithoutCrash in our freeze detection logic.  We def do not want to upload immediately when the app is expected to be frozen.\n\nDo you feel strongly about this?  We could add a boolean that says something like generate_minidump_immediately?",
+      "parentUuid": "cc7bf15a_f52c87d7",
       "range": {
         "startLine": 90,
         "startChar": 46,
