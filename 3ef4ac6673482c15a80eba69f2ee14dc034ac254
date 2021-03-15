@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa58561f_6c69a7c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-15T17:55:33Z",
+      "side": 1,
+      "message": "I would LGTM you right now if it weren’t for the DumpWithoutCrashing talk.",
+      "revId": "3ef4ac6673482c15a80eba69f2ee14dc034ac254",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0efa7aad_d6ac560d",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-15T17:55:33Z",
+      "side": 1,
+      "message": "While handling an exception",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 24
+      },
+      "revId": "3ef4ac6673482c15a80eba69f2ee14dc034ac254",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "236ff902_c82b73e3",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-15T17:55:33Z",
+      "side": 1,
+      "message": "Same",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 24
+      },
+      "revId": "3ef4ac6673482c15a80eba69f2ee14dc034ac254",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a483853_2b3a482b",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-15T17:55:33Z",
+      "side": 1,
+      "message": "The “when possible” at the end makes it sound like sometimes, ProcessIntermediateDumps might not be possible. In reality, I think you mean that you want people to call it when it makes sense for their application. Maybe “suitable” captures that concept better than “possible”.",
+      "range": {
+        "startLine": 88,
+        "startChar": 7,
+        "endLine": 88,
+        "endChar": 76
+      },
+      "revId": "3ef4ac6673482c15a80eba69f2ee14dc034ac254",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b3491da_b53aaeac",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-15T17:55:33Z",
+      "side": 1,
+      "message": "The nested parentheses are harder to parse than needed. How about\n\nAny new intermediate dumps generated after this call, such as simulated crash (dump-without-crashing) dumps or new exceptions, will not be processed…",
+      "range": {
+        "startLine": 92,
+        "startChar": 32,
+        "endLine": 93,
+        "endChar": 48
+      },
+      "revId": "3ef4ac6673482c15a80eba69f2ee14dc034ac254",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}

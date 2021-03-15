@@ -601,6 +601,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5426b5b6_544316a2",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-15T17:55:33Z",
+      "side": 1,
+      "message": "\u003e iOS calls dumpWithoutCrash in our freeze detection logic.  We def do not want to upload immediately when the app is expected to be frozen.\n\u003e \n\u003e Do you feel strongly about this?\n\nA little. I think that most non-iOS-specific code will expect a DumpWithoutCrashing to have immediate effect.\n\nPerhaps the regular DumpWithoutCrashing should do that, and you could add an iOS-specific DumpWithoutCrashingAndDeferProcessing (or other name that you like).\n\n\u003e We could add a boolean that says something like generate_minidump_immediately?\n\nA boolean would have the disadvantage of not being cross-platform.",
+      "parentUuid": "7facc371_bb03013f",
+      "range": {
+        "startLine": 90,
+        "startChar": 46,
+        "endLine": 91,
+        "endChar": 35
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "855b5160_99d5cdab",
         "filename": "doc/overview_design.md",
         "patchSetId": 10
