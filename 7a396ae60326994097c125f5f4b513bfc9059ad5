@@ -622,6 +622,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78e12d54_970e9715",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:31:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "855b5160_99d5cdab",
+      "range": {
+        "startLine": 96,
+        "startChar": 15,
+        "endLine": 96,
+        "endChar": 51
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dad88042_8e521144",
@@ -635,6 +659,30 @@
       "writtenOn": "2021-03-12T23:07:31Z",
       "side": 1,
       "message": "Backticked `SIGABRT`",
+      "range": {
+        "startLine": 219,
+        "startChar": 40,
+        "endLine": 219,
+        "endChar": 47
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "625550a3_47b41e18",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:31:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad88042_8e521144",
       "range": {
         "startLine": 219,
         "startChar": 40,
@@ -668,6 +716,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c44b2d8_47d88046",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:31:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6adc1ae4_7b3bb4ff",
+      "range": {
+        "startLine": 220,
+        "startChar": 67,
+        "endLine": 221,
+        "endChar": 16
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dded6750_9a763fcd",
@@ -681,6 +753,30 @@
       "writtenOn": "2021-03-12T23:07:31Z",
       "side": 1,
       "message": "Mach exception port",
+      "range": {
+        "startLine": 284,
+        "startChar": 72,
+        "endLine": 285,
+        "endChar": 4
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c495e505_b021eea6",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:31:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dded6750_9a763fcd",
       "range": {
         "startLine": 284,
         "startChar": 72,
@@ -714,6 +810,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b289a2f2_3c54e75f",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:31:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c6b6d52_2ed21fc1",
+      "range": {
+        "startLine": 288,
+        "startChar": 0,
+        "endLine": 288,
+        "endChar": 4
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0dcba5e_37f84c23",
@@ -727,6 +847,30 @@
       "writtenOn": "2021-03-12T23:07:31Z",
       "side": 1,
       "message": "And again.",
+      "range": {
+        "startLine": 439,
+        "startChar": 0,
+        "endLine": 439,
+        "endChar": 4
+      },
+      "revId": "7a396ae60326994097c125f5f4b513bfc9059ad5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30b9e888_de87c2c0",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-15T15:31:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0dcba5e_37f84c23",
       "range": {
         "startLine": 439,
         "startChar": 0,
