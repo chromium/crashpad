@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7758dc98_7d44fb72",
+        "filename": "BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-03-17T23:19:18Z",
+      "side": 1,
+      "message": "It looks like the https tests never got re-enabled https://bugs.fuchsia.dev/p/fuchsia/issues/detail?id\u003d5282 so it probably wouldn\u0027t have been obvious if these were missing anyway. :(",
+      "revId": "4a45af219013a20213f3a32440bb48163d9e8e22",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a5b35cb_f379e1af",
+        "filename": "BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-03-17T23:19:18Z",
+      "side": 1,
+      "message": "Was this implicit before?",
+      "range": {
+        "startLine": 103,
+        "startChar": 21,
+        "endLine": 103,
+        "endChar": 26
+      },
+      "revId": "4a45af219013a20213f3a32440bb48163d9e8e22",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7db39fb3_e2a02a37",
         "filename": "BUILD.gn",
         "patchSetId": 3
@@ -14,6 +54,24 @@
       "writtenOn": "2021-03-17T23:10:24Z",
       "side": 1,
       "message": "Note to reviewers: I had to add this in here as I realized upon investigating the loadable_modules that I had not done this part quite correctly - this was causing the same file to be output\u0027d to multiple targets, and I was erroneously not pushing test updates to the device because I had made this into a base-package.\n\nThis change now additionally:\n1) Adds individual resource targets (required, figuring out a better solution in bug 72514 under discussion).\n2) Makes this into a test package instead of a regular package, allowing us to run `fx test` directly.",
+      "revId": "4a45af219013a20213f3a32440bb48163d9e8e22",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "058591d1_34491189",
+        "filename": "BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-03-17T23:19:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7db39fb3_e2a02a37",
       "revId": "4a45af219013a20213f3a32440bb48163d9e8e22",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
