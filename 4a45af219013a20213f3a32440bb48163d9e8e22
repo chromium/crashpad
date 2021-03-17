@@ -41,6 +41,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4efabc3d_0bef0c3c",
+        "filename": "BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1174609
+      },
+      "writtenOn": "2021-03-17T23:24:18Z",
+      "side": 1,
+      "message": "Exactly!\n\nOld (guaranteed to be put in data/): https://fuchsia.googlesource.com/fuchsia/+/master/build/test/test_package.gni#103\n\nNew (requires just any relative path): https://fuchsia.googlesource.com/fuchsia/+/master/build/dist/resource.gni#34",
+      "parentUuid": "0a5b35cb_f379e1af",
+      "range": {
+        "startLine": 103,
+        "startChar": 21,
+        "endLine": 103,
+        "endChar": 26
+      },
+      "revId": "4a45af219013a20213f3a32440bb48163d9e8e22",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7db39fb3_e2a02a37",
