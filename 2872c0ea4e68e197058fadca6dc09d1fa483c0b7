@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d871933_ed2760ef",
+        "filename": "BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-03-17T16:38:18Z",
+      "side": 0,
+      "message": "We seem to have lost the binaries and loadable_modules, are they not needed any more for the tests to run properly?",
+      "revId": "2872c0ea4e68e197058fadca6dc09d1fa483c0b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
