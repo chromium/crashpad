@@ -16,6 +16,24 @@
       "message": "We seem to have lost the binaries and loadable_modules, are they not needed any more for the tests to run properly?",
       "revId": "2872c0ea4e68e197058fadca6dc09d1fa483c0b7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfc54418_0ef1965e",
+        "filename": "BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1174609
+      },
+      "writtenOn": "2021-03-17T16:40:57Z",
+      "side": 0,
+      "message": "The binaries are no longer required, but thank you for catching the loadable modules, I\u0027m not sure how I missed those, or how these tests passed locally. Holding off until I resolve the loadable_modules.",
+      "parentUuid": "8d871933_ed2760ef",
+      "revId": "2872c0ea4e68e197058fadca6dc09d1fa483c0b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
