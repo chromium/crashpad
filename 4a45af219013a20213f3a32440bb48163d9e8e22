@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7db39fb3_e2a02a37",
+        "filename": "BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174609
+      },
+      "writtenOn": "2021-03-17T23:10:24Z",
+      "side": 1,
+      "message": "Note to reviewers: I had to add this in here as I realized upon investigating the loadable_modules that I had not done this part quite correctly - this was causing the same file to be output\u0027d to multiple targets, and I was erroneously not pushing test updates to the device because I had made this into a base-package.\n\nThis change now additionally:\n1) Adds individual resource targets (required, figuring out a better solution in bug 72514 under discussion).\n2) Makes this into a test package instead of a regular package, allowing us to run `fx test` directly.",
+      "revId": "4a45af219013a20213f3a32440bb48163d9e8e22",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}

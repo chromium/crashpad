@@ -34,6 +34,24 @@
       "parentUuid": "8d871933_ed2760ef",
       "revId": "2872c0ea4e68e197058fadca6dc09d1fa483c0b7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5829568b_6748d10b",
+        "filename": "BUILD.gn",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1174609
+      },
+      "writtenOn": "2021-03-17T23:10:24Z",
+      "side": 0,
+      "message": "Finally reasoned out why I left these out, they are already captured by these in the deps list:\n\n        \"snapshot:crashpad_snapshot_test_both_dt_hash_styles\",\n        \"snapshot:crashpad_snapshot_test_module\",\n        \"snapshot:crashpad_snapshot_test_module_large\",\n        \"snapshot:crashpad_snapshot_test_module_small\",\n\nYou no longer have to call out the names of your loadable modules, that is now inferred.",
+      "parentUuid": "dfc54418_0ef1965e",
+      "revId": "2872c0ea4e68e197058fadca6dc09d1fa483c0b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
