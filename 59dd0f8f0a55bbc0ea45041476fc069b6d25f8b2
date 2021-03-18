@@ -65,6 +65,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a14e78e9_1a6f6bf7",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-18T20:42:02Z",
+      "side": 1,
+      "message": "\u003e Correct, this method is not about uploading.  Do I need to make that more clear here?\n\nThat was clear, I was asking about StartProcessingPendingReports but calling it out here where you talked about blocking.",
+      "parentUuid": "79e6534a_4578aa91",
+      "range": {
+        "startLine": 475,
+        "startChar": 56,
+        "endLine": 476,
+        "endChar": 57
+      },
+      "revId": "59dd0f8f0a55bbc0ea45041476fc069b6d25f8b2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5290dec7_fa8f0a41",
@@ -254,6 +278,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "1a593847_4e2191fb",
+      "range": {
+        "startLine": 92,
+        "startChar": 33,
+        "endLine": 94,
+        "endChar": 26
+      },
+      "revId": "59dd0f8f0a55bbc0ea45041476fc069b6d25f8b2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49ef2b4e_03211d06",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-18T20:42:02Z",
+      "side": 1,
+      "message": "\u003e Done\n\nReopening, you didn’t address the rationale part:\n\n\u003e It will be valuable to note the rationale behind bifurcating the interface, to give guidance to people using it.",
+      "parentUuid": "4c4b007c_9e22a03a",
       "range": {
         "startLine": 92,
         "startChar": 33,

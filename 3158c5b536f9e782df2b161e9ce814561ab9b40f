@@ -16,6 +16,178 @@
       "message": "ptal",
       "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bb6f9ce_215c37f3",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-18T20:42:02Z",
+      "side": 1,
+      "message": "Consistency in number of spaces between sentences. Also line 496.",
+      "range": {
+        "startLine": 489,
+        "startChar": 17,
+        "endLine": 489,
+        "endChar": 30
+      },
+      "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "291e6fae_7c13ba52",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-18T20:42:02Z",
+      "side": 1,
+      "message": "I didn’t think you needed both of these. You just needed the AndDeferProcessing version. The public API is the CRASHPAD_SIMULATE_CRASH macro, which should have two variants.\n\nYou should keep only DumpWithoutCrashAndDeferProcessing, and note that it’s intended for internal use only, and that the public interfaces are CRASHPAD_SIMULATE_CRASH or CRASHPAD_SIMULATE_CRASH_AND_DEFER_PROCESSING.",
+      "range": {
+        "startLine": 503,
+        "startChar": 0,
+        "endLine": 513,
+        "endChar": 76
+      },
+      "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e06b503a_9a9b5a7e",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-18T20:42:02Z",
+      "side": 1,
+      "message": "Guess this TODO would need to move into the macro too.",
+      "range": {
+        "startLine": 246,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 29
+      },
+      "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f64865d_e5f5a86e",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 14
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-18T20:42:02Z",
+      "side": 1,
+      "message": "Can use the macro here?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daeefbe2_e2d8943f",
+        "filename": "client/simulate_crash_ios.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-18T20:42:02Z",
+      "side": 1,
+      "message": "into a minidump. The minidump will immediately become eligible for further processing, including upload.",
+      "range": {
+        "startLine": 24,
+        "startChar": 31,
+        "endLine": 24,
+        "endChar": 73
+      },
+      "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a75b4e02_caba44bc",
+        "filename": "client/simulate_crash_ios.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-18T20:42:02Z",
+      "side": 1,
+      "message": "Also add\n\n//!\n//! \\sa CRASHPAD_SIMULATE_CRASH_AND_DEFER_PROCESSING",
+      "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02e1b850_1e71b9d7",
+        "filename": "client/simulate_crash_ios.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-18T20:42:02Z",
+      "side": 1,
+      "message": "This comment doesn’t say why you’d choose this over CRASHPAD_SIMULATE_CRASH.\n\nAfter the \\brief, do a blank //! and then write a sentence about the intended use case.",
+      "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de5ec46e_5a9bf0e2",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-18T20:42:02Z",
+      "side": 1,
+      "message": "Convert these to the macro names, because that’s the intended public interface.",
+      "range": {
+        "startLine": 92,
+        "startChar": 36,
+        "endLine": 95,
+        "endChar": 23
+      },
+      "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
