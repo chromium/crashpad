@@ -122,6 +122,40 @@ TEST(MinidumpCrashpadInfoWriter, ReportAndClientID) {
   EXPECT_FALSE(module_list);
 }
 
+TEST(MinidumpCrashpadInfoWriter, PointerAuthenticationAddressMask) {
+  MinidumpFileWriter minidump_file_writer;
+  auto crashpad_info_writer = std::make_unique<MinidumpCrashpadInfoWriter>();
+
+  uint64_t mask = 0x7FFFFFFFFF;
+  crashpad_info_writer->SetPointerAuthenticationAddressMask(mask);
+
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(crashpad_info_writer)));
+
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
+
+  const MinidumpCrashpadInfo* crashpad_info = nullptr;
+  const MinidumpSimpleStringDictionary* simple_annotations = nullptr;
+  const MinidumpModuleCrashpadInfoList* module_list = nullptr;
+
+  ASSERT_NO_FATAL_FAILURE(GetCrashpadInfoStream(
+      string_file.string(), &crashpad_info, &simple_annotations, &module_list));
+
+  UUID empty_report_id;
+  ASSERT_TRUE(empty_report_id.InitializeFromString(
+      "00000000-0000-0000-0000-000000000000"));
+  UUID empty_client_id;
+  ASSERT_TRUE(empty_client_id.InitializeFromString(
+      "00000000-0000-0000-0000-000000000000"));
+
+  EXPECT_EQ(crashpad_info->version, MinidumpCrashpadInfo::kVersion);
+  EXPECT_EQ(crashpad_info->pointer_authentication_address_mask, mask);
+  EXPECT_EQ(crashpad_info->report_id, empty_report_id);
+  EXPECT_EQ(crashpad_info->client_id, empty_client_id);
+  EXPECT_FALSE(simple_annotations);
+  EXPECT_FALSE(module_list);
+}
+
 TEST(MinidumpCrashpadInfoWriter, SimpleAnnotations) {
   MinidumpFileWriter minidump_file_writer;
   auto crashpad_info_writer = std::make_unique<MinidumpCrashpadInfoWriter>();
