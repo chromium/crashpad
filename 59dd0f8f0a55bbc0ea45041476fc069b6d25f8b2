@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "79e6534a_4578aa91",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-18T20:19:03Z",
+      "side": 1,
+      "message": "Correct, this method is not about uploading.  Do I need to make that more clear here?",
+      "parentUuid": "04b3328b_29065e4d",
+      "range": {
+        "startLine": 475,
+        "startChar": 56,
+        "endLine": 476,
+        "endChar": 57
+      },
+      "revId": "59dd0f8f0a55bbc0ea45041476fc069b6d25f8b2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5290dec7_fa8f0a41",
         "filename": "client/crashpad_client.h",
         "patchSetId": 13
@@ -54,6 +78,24 @@
       "writtenOn": "2021-03-18T14:35:51Z",
       "side": 1,
       "message": "Since this _doesn’t_ block but the thing above does, it’s probably useful to say that uploads happen on another thread and that this returns before anything has happened.",
+      "revId": "59dd0f8f0a55bbc0ea45041476fc069b6d25f8b2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e5b31cd_f624db01",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-18T20:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5290dec7_fa8f0a41",
       "revId": "59dd0f8f0a55bbc0ea45041476fc069b6d25f8b2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -75,6 +117,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd5e4e82_d4055d7f",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-18T20:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8861d7d_8158a8ae",
+      "revId": "59dd0f8f0a55bbc0ea45041476fc069b6d25f8b2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2afca1a_8455b9a7",
@@ -92,6 +152,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0825bac_565a57a6",
+        "filename": "client/simulate_crash_ios.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-18T20:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2afca1a_8455b9a7",
+      "revId": "59dd0f8f0a55bbc0ea45041476fc069b6d25f8b2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b60c63b8_1672264a",
@@ -105,6 +183,30 @@
       "writtenOn": "2021-03-18T14:35:51Z",
       "side": 1,
       "message": "This is what I was saying. When people do this on other OSes, they expect immediate upload. This is often used when the process is in a healthy state and a developer just wants to capture some data. App relaunch may not happen for a long time after.\n\nThis interface, CRASHPAD_SIMULATE_CRASH, should maintain that property.\n\nThere should be a different CRASHPAD_SIMULATE_CRASH_AND_DEFER_PROCESSING that you can use from your hang monitor or any place that iOS specifically wants to defer.\n\nCRASHPAD_SIMULATE_CRASH should be CRASHPAD_SIMULATE_CRASH_AND_DEFER_PROCESSING + ProcessIntermediateDumps.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 17
+      },
+      "revId": "59dd0f8f0a55bbc0ea45041476fc069b6d25f8b2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "357d57c7_79475c8d",
+        "filename": "client/simulate_crash_ios.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-18T20:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b60c63b8_1672264a",
       "range": {
         "startLine": 23,
         "startChar": 0,
@@ -138,6 +240,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c4b007c_9e22a03a",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-18T20:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a593847_4e2191fb",
+      "range": {
+        "startLine": 92,
+        "startChar": 33,
+        "endLine": 94,
+        "endChar": 26
+      },
+      "revId": "59dd0f8f0a55bbc0ea45041476fc069b6d25f8b2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9451efd1_48556ea3",
@@ -151,6 +277,30 @@
       "writtenOn": "2021-03-18T14:35:51Z",
       "side": 1,
       "message": "Comma.\n\nOn iOS, there",
+      "range": {
+        "startLine": 96,
+        "startChar": 15,
+        "endLine": 96,
+        "endChar": 27
+      },
+      "revId": "59dd0f8f0a55bbc0ea45041476fc069b6d25f8b2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5100dcaa_2907818c",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-18T20:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9451efd1_48556ea3",
       "range": {
         "startLine": 96,
         "startChar": 15,
@@ -184,6 +334,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6d3767a_27aaa80b",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-18T20:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f7e63fc_fde4c5b9",
+      "range": {
+        "startLine": 96,
+        "startChar": 67,
+        "endLine": 97,
+        "endChar": 6
+      },
+      "revId": "59dd0f8f0a55bbc0ea45041476fc069b6d25f8b2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9652d336_d30af786",
@@ -207,6 +381,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a911355_ed011d4b",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-18T20:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9652d336_d30af786",
+      "range": {
+        "startLine": 220,
+        "startChar": 39,
+        "endLine": 220,
+        "endChar": 66
+      },
+      "revId": "59dd0f8f0a55bbc0ea45041476fc069b6d25f8b2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8cf0364a_383c03a1",
@@ -220,6 +418,30 @@
       "writtenOn": "2021-03-18T14:35:51Z",
       "side": 1,
       "message": "Nit: two spaces between these sentences, where everything else seems to use only one.",
+      "range": {
+        "startLine": 285,
+        "startChar": 29,
+        "endLine": 285,
+        "endChar": 41
+      },
+      "revId": "59dd0f8f0a55bbc0ea45041476fc069b6d25f8b2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d19f180_0fa2c338",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-18T20:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cf0364a_383c03a1",
       "range": {
         "startLine": 285,
         "startChar": 29,
