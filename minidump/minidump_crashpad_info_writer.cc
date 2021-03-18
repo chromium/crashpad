@@ -20,6 +20,7 @@
 #include "minidump/minidump_module_crashpad_info_writer.h"
 #include "minidump/minidump_simple_string_dictionary_writer.h"
 #include "snapshot/process_snapshot.h"
+#include "snapshot/system_snapshot.h"
 #include "util/file/file_writer.h"
 
 namespace crashpad {
@@ -56,6 +57,10 @@ void MinidumpCrashpadInfoWriter::InitializeFromSnapshot(
     SetSimpleAnnotations(std::move(simple_annotations));
   }
 
+  if (process_snapshot->System())
+    SetPointerAuthenticationAddressMask(
+        process_snapshot->System()->PointerAthenticationAddressMask());
+
   auto modules = std::make_unique<MinidumpModuleCrashpadInfoListWriter>();
   modules->InitializeFromSnapshot(process_snapshot->Modules());
 
@@ -88,6 +93,11 @@ void MinidumpCrashpadInfoWriter::SetModuleList(
   DCHECK_EQ(state(), kStateMutable);
 
   module_list_ = std::move(module_list);
+}
+
+void MinidumpCrashpadInfoWriter::SetPointerAuthenticationAddressMask(
+    uint64_t mask) {
+  crashpad_info_.pointer_authentication_address_mask = mask;
 }
 
 bool MinidumpCrashpadInfoWriter::Freeze() {

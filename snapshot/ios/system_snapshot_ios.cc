@@ -220,5 +220,12 @@ void SystemSnapshotIOS::TimeZone(DaylightSavingTimeStatus* dst_status,
   daylight_name->assign(daylight_name_);
 }
 
+uint64_t SystemSnapshotIOS::PointerAthenticationAddressMask() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  // TODO(justincohen): Find a way to get this from xnu, or build some sort of
+  // table to mimic what the kernel does, based on cpu.
+  return 0x7FFFFFFFFF;
+}
+
 }  // namespace internal
 }  // namespace crashpad

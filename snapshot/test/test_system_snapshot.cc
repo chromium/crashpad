@@ -130,5 +130,9 @@ void TestSystemSnapshot::TimeZone(DaylightSavingTimeStatus* dst_status,
   *daylight_name = time_zone_daylight_name_;
 }
 
+uint64_t TestSystemSnapshot::PointerAthenticationAddressMask() const {
+  return pointer_authentication_address_mask_;
+}
+
 }  // namespace test
 }  // namespace crashpad
