@@ -312,6 +312,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "870d47c7_fdfde889",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-19T01:09:48Z",
+      "side": 1,
+      "message": "Updated it.  Is that clearer?",
+      "parentUuid": "49ef2b4e_03211d06",
+      "range": {
+        "startLine": 92,
+        "startChar": 33,
+        "endLine": 94,
+        "endChar": 26
+      },
+      "revId": "59dd0f8f0a55bbc0ea45041476fc069b6d25f8b2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9451efd1_48556ea3",

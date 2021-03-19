@@ -41,6 +41,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d4183ec_6989cc8c",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-19T01:09:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bb6f9ce_215c37f3",
+      "range": {
+        "startLine": 489,
+        "startChar": 17,
+        "endLine": 489,
+        "endChar": 30
+      },
+      "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "291e6fae_7c13ba52",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-03-18T20:42:02Z",
       "side": 1,
       "message": "I didn’t think you needed both of these. You just needed the AndDeferProcessing version. The public API is the CRASHPAD_SIMULATE_CRASH macro, which should have two variants.\n\nYou should keep only DumpWithoutCrashAndDeferProcessing, and note that it’s intended for internal use only, and that the public interfaces are CRASHPAD_SIMULATE_CRASH or CRASHPAD_SIMULATE_CRASH_AND_DEFER_PROCESSING.",
+      "range": {
+        "startLine": 503,
+        "startChar": 0,
+        "endLine": 513,
+        "endChar": 76
+      },
+      "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c3ac7f6_2d1ed2ee",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-19T01:09:48Z",
+      "side": 1,
+      "message": "Per offline conversation, I\u0027d like to keep this as-is.",
+      "parentUuid": "291e6fae_7c13ba52",
       "range": {
         "startLine": 503,
         "startChar": 0,
@@ -89,6 +137,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ed4e45f3_a1e1002f",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-19T01:09:48Z",
+      "side": 1,
+      "message": "The jenga tower has this implementation, why make it public when this is a stub anyhow.",
+      "parentUuid": "e06b503a_9a9b5a7e",
+      "range": {
+        "startLine": 246,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 29
+      },
+      "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7f64865d_e5f5a86e",
         "filename": "client/crashpad_client_ios_test.mm",
         "patchSetId": 14
@@ -100,6 +172,30 @@
       "writtenOn": "2021-03-18T20:42:02Z",
       "side": 1,
       "message": "Can use the macro here?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6f5a43a_922044b0",
+        "filename": "client/crashpad_client_ios_test.mm",
+        "patchSetId": 14
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-19T01:09:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f64865d_e5f5a86e",
       "range": {
         "startLine": 36,
         "startChar": 0,
@@ -150,6 +246,48 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d493c46_7ecf3eb3",
+        "filename": "client/simulate_crash_ios.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-19T01:09:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daeefbe2_e2d8943f",
+      "range": {
+        "startLine": 24,
+        "startChar": 31,
+        "endLine": 24,
+        "endChar": 73
+      },
+      "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1213ba6e_ab13530c",
+        "filename": "client/simulate_crash_ios.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-19T01:09:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a75b4e02_caba44bc",
+      "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02e1b850_1e71b9d7",
@@ -167,6 +305,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e08b7d96_60f20249",
+        "filename": "client/simulate_crash_ios.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-19T01:09:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e1b850_1e71b9d7",
+      "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de5ec46e_5a9bf0e2",
@@ -180,6 +336,30 @@
       "writtenOn": "2021-03-18T20:42:02Z",
       "side": 1,
       "message": "Convert these to the macro names, because that’s the intended public interface.",
+      "range": {
+        "startLine": 92,
+        "startChar": 36,
+        "endLine": 95,
+        "endChar": 23
+      },
+      "revId": "3158c5b536f9e782df2b161e9ce814561ab9b40f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a88519d_69cd8cfd",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-19T01:09:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de5ec46e_5a9bf0e2",
       "range": {
         "startLine": 92,
         "startChar": 36,
