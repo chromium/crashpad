@@ -35,6 +35,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "accdc823_826a9c50",
+        "filename": "client/simulate_crash_ios.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-24T22:49:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3887b9b3_c6eaf0e6",
+      "revId": "0a35759ba9fcd28b67be76db0fe4cc185bf621a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71acef26_16957834",
@@ -58,6 +76,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53c683fe_e770f85c",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-24T22:49:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71acef26_16957834",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 46
+      },
+      "revId": "0a35759ba9fcd28b67be76db0fe4cc185bf621a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "506ec8a3_418a25f1",
@@ -71,6 +113,30 @@
       "writtenOn": "2021-03-24T19:47:53Z",
       "side": 1,
       "message": "`CRASHPAD_SIMULATE_CRASH` (backticks)",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 25
+      },
+      "revId": "0a35759ba9fcd28b67be76db0fe4cc185bf621a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80de9dd0_2c152ae6",
+        "filename": "doc/ios_overview_design.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-24T22:49:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "506ec8a3_418a25f1",
       "range": {
         "startLine": 95,
         "startChar": 0,
