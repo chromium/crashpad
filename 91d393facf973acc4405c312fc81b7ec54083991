@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c1781bea_ada1eaf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1125980
+      },
+      "writtenOn": "2021-03-25T19:41:39Z",
+      "side": 1,
+      "message": "Should the mask be inverted? On Linux, the mask that you get from NT_ARM_PAC_MASK specifies which bits need to be cleared from the pointer. So to use the mask, you AND with the inverse.\n\nThis also has the advantage that 0 is not a special case, since you can AND with its inverse and get the same pointer back.",
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "40db1eea_8f6c325d",
         "filename": "minidump/minidump_crashpad_info_writer.cc",
         "patchSetId": 5
@@ -37,6 +54,23 @@
       "writtenOn": "2021-03-25T18:43:04Z",
       "side": 1,
       "message": "Multi-line requires {braces}",
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2cd5eda_573d3275",
+        "filename": "minidump/minidump_crashpad_info_writer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1125980
+      },
+      "writtenOn": "2021-03-25T19:41:39Z",
+      "side": 1,
+      "message": "typo: Authentication (and elsewhere)",
       "revId": "91d393facf973acc4405c312fc81b7ec54083991",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
