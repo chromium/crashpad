@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "60fe85cc_1caec3ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-25T18:52:26Z",
+      "side": 1,
+      "message": "mask to MinidumpCrashpadInfo",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "40db1eea_8f6c325d",
         "filename": "minidump/minidump_crashpad_info_writer.cc",
         "patchSetId": 5
@@ -65,6 +88,23 @@
       "writtenOn": "2021-03-25T18:43:04Z",
       "side": 1,
       "message": "TODO about implementing for arm64e?",
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e0ea660_58c3a213",
+        "filename": "snapshot/minidump/system_snapshot_minidump.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-25T18:52:26Z",
+      "side": 1,
+      "message": "crashpad::ProcessSnapshotMinidump::InitializeCrashpadInfo needs a revision too:\n\n  if (stream_it-\u003esecond-\u003eDataSize \u003c sizeof(crashpad_info_)) {\n    LOG(ERROR) \u003c\u003c \"crashpad_info size mismatch\";\n    return false;\n  }",
       "revId": "91d393facf973acc4405c312fc81b7ec54083991",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
