@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40db1eea_8f6c325d",
+        "filename": "minidump/minidump_crashpad_info_writer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-25T18:43:04Z",
+      "side": 1,
+      "message": "Multi-line requires {braces}",
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37d0b2b7_243db390",
+        "filename": "minidump/minidump_crashpad_info_writer_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-25T18:43:04Z",
+      "side": 1,
+      "message": "const or constexpr",
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee9f8cb6_1087e2e8",
+        "filename": "minidump/minidump_crashpad_info_writer_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-25T18:43:04Z",
+      "side": 1,
+      "message": "Also add a test somewhere that makes sure the mask is 0 or whatever you require if this is never called.",
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0984336a_eb910dc2",
+        "filename": "snapshot/mac/system_snapshot_mac.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-25T18:43:04Z",
+      "side": 1,
+      "message": "TODO about implementing for arm64e?",
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81f22b12_457da989",
+        "filename": "snapshot/system_snapshot.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-03-25T18:43:04Z",
+      "side": 1,
+      "message": "inaccessible?",
+      "range": {
+        "startLine": 288,
+        "startChar": 41,
+        "endLine": 288,
+        "endChar": 53
+      },
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
