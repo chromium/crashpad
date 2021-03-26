@@ -82,6 +82,9 @@ class MinidumpCrashpadInfoWriter final : public internal::MinidumpStreamWriter {
   void SetModuleList(
       std::unique_ptr<MinidumpModuleCrashpadInfoListWriter> module_list);
 
+  //! \brief Sets MinidumpCrashpadInfo::pointer_authentication_address_mask.
+  void SetPointerAuthenticationAddressMask(uint64_t mask);
+
   //! \brief Determines whether the object is useful.
   //!
   //! A useful object is one that carries data that makes a meaningful
