@@ -24,6 +24,54 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47971f33_31d0eb54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-26T19:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60fe85cc_1caec3ea",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61a0e180_41d2869b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-26T19:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60fe85cc_1caec3ea",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1781bea_ada1eaf1",
@@ -37,6 +85,24 @@
       "writtenOn": "2021-03-25T19:41:39Z",
       "side": 1,
       "message": "Should the mask be inverted? On Linux, the mask that you get from NT_ARM_PAC_MASK specifies which bits need to be cleared from the pointer. So to use the mask, you AND with the inverse.\n\nThis also has the advantage that 0 is not a special case, since you can AND with its inverse and get the same pointer back.",
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19490522_e9729b04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-26T19:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1781bea_ada1eaf1",
       "revId": "91d393facf973acc4405c312fc81b7ec54083991",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -58,6 +124,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb474650_2a163e11",
+        "filename": "minidump/minidump_crashpad_info_writer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-26T19:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40db1eea_8f6c325d",
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2cd5eda_573d3275",
@@ -71,6 +155,24 @@
       "writtenOn": "2021-03-25T19:41:39Z",
       "side": 1,
       "message": "typo: Authentication (and elsewhere)",
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0001ea7_cceb38fb",
+        "filename": "minidump/minidump_crashpad_info_writer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-26T19:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2cd5eda_573d3275",
       "revId": "91d393facf973acc4405c312fc81b7ec54083991",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -92,6 +194,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d7447ac_3a133a3d",
+        "filename": "minidump/minidump_crashpad_info_writer_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-26T19:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37d0b2b7_243db390",
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee9f8cb6_1087e2e8",
@@ -109,6 +229,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4c6328d_806f8da9",
+        "filename": "minidump/minidump_crashpad_info_writer_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-26T19:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee9f8cb6_1087e2e8",
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0984336a_eb910dc2",
@@ -122,6 +260,24 @@
       "writtenOn": "2021-03-25T18:43:04Z",
       "side": 1,
       "message": "TODO about implementing for arm64e?",
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29ca6ee9_77416c38",
+        "filename": "snapshot/mac/system_snapshot_mac.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-26T19:10:33Z",
+      "side": 1,
+      "message": "I added an implementation.",
+      "parentUuid": "0984336a_eb910dc2",
       "revId": "91d393facf973acc4405c312fc81b7ec54083991",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -156,6 +312,30 @@
       "writtenOn": "2021-03-25T18:43:04Z",
       "side": 1,
       "message": "inaccessible?",
+      "range": {
+        "startLine": 288,
+        "startChar": 41,
+        "endLine": 288,
+        "endChar": 53
+      },
+      "revId": "91d393facf973acc4405c312fc81b7ec54083991",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "894f0ddd_7117df8c",
+        "filename": "snapshot/system_snapshot.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-03-26T19:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81f22b12_457da989",
       "range": {
         "startLine": 288,
         "startChar": 41,
