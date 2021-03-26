@@ -390,5 +390,18 @@ void SystemSnapshotMac::TimeZone(DaylightSavingTimeStatus* dst_status,
                      daylight_name);
 }
 
+uint64_t SystemSnapshotMac::PointerAthenticationAddressMask() const {
+  uint64_t mask = 0;
+#if defined(ARCH_CPU_ARM64)
+  uint8_t virtual_bits =
+      CastIntSysctlByName<uint8_t>("machdep.virtual_address_size", 0);
+  if (virtual_bits) {
+    uint8_t addressable_bits = 64 - virtual_bits;
+    mask = ~((1UL << addressable_bits) - 1);
+  }
+#endif
+  return mask;
+}
+
 }  // namespace internal
 }  // namespace crashpad

@@ -37,6 +37,9 @@ class IOSSystemDataCollector {
   int DaylightOffsetSeconds() const { return daylight_offset_seconds_; }
   std::string StandardName() const { return standard_name_; }
   std::string DaylightName() const { return daylight_name_; }
+  uint64_t PointerAuthenticationAddressMask() const {
+    return pointer_authentication_address_mask_;
+  }
 
   // Currently unused by minidump.
   int Orientation() const { return orientation_; }
@@ -74,6 +77,7 @@ class IOSSystemDataCollector {
   int daylight_offset_seconds_;
   std::string standard_name_;
   std::string daylight_name_;
+  uint64_t pointer_authentication_address_mask_;
 };
 
 }  // namespace crashpad

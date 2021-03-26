@@ -261,7 +261,13 @@ bool ProcessSnapshotMinidump::InitializeCrashpadInfo() {
     return true;
   }
 
-  if (stream_it->second->DataSize < sizeof(crashpad_info_)) {
+  // Support old minidumps that do not implement the PAC field.
+  size_t crashpad_info_size = sizeof(crashpad_info_);
+  if (stream_it->second->DataSize == sizeof(crashpad_info_) - 8) {
+    crashpad_info_size -= 8;
+  }
+
+  if (stream_it->second->DataSize < sizeof(crashpad_info_size)) {
     LOG(ERROR) << "crashpad_info size mismatch";
     return false;
   }
@@ -270,7 +276,7 @@ bool ProcessSnapshotMinidump::InitializeCrashpadInfo() {
     return false;
   }
 
-  if (!file_reader_->ReadExactly(&crashpad_info_, sizeof(crashpad_info_))) {
+  if (!file_reader_->ReadExactly(&crashpad_info_, crashpad_info_size)) {
     return false;
   }
 

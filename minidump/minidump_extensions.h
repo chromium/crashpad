@@ -439,8 +439,8 @@ struct ALIGNAS(4) PACKED MinidumpCrashpadInfo {
         report_id(),
         client_id(),
         simple_annotations(),
-        module_list() {
-  }
+        module_list(),
+        pointer_authentication_address_mask() {}
 
   //! \brief The structure’s currently-defined version number.
   //!
@@ -494,6 +494,20 @@ struct ALIGNAS(4) PACKED MinidumpCrashpadInfo {
   //!
   //! This field is present when #version is at least `1`.
   MINIDUMP_LOCATION_DESCRIPTOR module_list;
+
+  //! \brief A mask indicating the range of valid addresses for a pointer.
+  //!
+  //! ARM64 supports storing pointer authentication codes in the upper bits of
+  //! a pointer. This mask can be used by LLDB to mimic ptrauth_strip and strip
+  //! the pointer authentication codes. To recover an address from pointer with
+  //! an authentication code, `AND` this mask with the pointer.
+  //!
+  //! If the platform does not support pointer authentication, or the range of
+  //! valid addressees for a pointer was inaccessible, this field will be 0 and
+  //! should be ignored.
+  //!
+  //! This field is present when #version is at least `1`.
+  uint64_t pointer_authentication_address_mask;
 };
 
 #if defined(COMPILER_MSVC)
