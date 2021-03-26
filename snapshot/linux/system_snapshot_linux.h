@@ -86,6 +86,7 @@ class SystemSnapshotLinux final : public SystemSnapshot {
                 int* daylight_offset_seconds,
                 std::string* standard_name,
                 std::string* daylight_name) const override;
+  uint64_t PointerAuthenticationAddressMask() const override { return 0; }
 
  private:
   void ReadKernelVersion(const std::string& version_string);

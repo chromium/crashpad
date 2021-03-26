@@ -65,6 +65,7 @@ class SystemSnapshotIOS final : public SystemSnapshot {
                 int* daylight_offset_seconds,
                 std::string* standard_name,
                 std::string* daylight_name) const override;
+  uint64_t PointerAuthenticationAddressMask() const override;
 
  private:
   std::string os_version_build_;
@@ -76,6 +77,7 @@ class SystemSnapshotIOS final : public SystemSnapshot {
   uint64_t inactive_;
   uint64_t wired_;
   uint64_t free_;
+  uint64_t pointer_authentication_address_mask_;
   int cpu_count_;
   std::string cpu_vendor_;
   DaylightSavingTimeStatus dst_status_;

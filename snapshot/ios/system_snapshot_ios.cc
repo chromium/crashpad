@@ -32,7 +32,6 @@
 #include "util/numeric/in_range_cast.h"
 
 namespace crashpad {
-
 namespace internal {
 
 SystemSnapshotIOS::SystemSnapshotIOS()
@@ -78,6 +77,9 @@ void SystemSnapshotIOS::Initialize(const IOSSystemDataCollector& system_data) {
   daylight_offset_seconds_ = system_data.DaylightOffsetSeconds();
   standard_name_ = system_data.StandardName();
   daylight_name_ = system_data.DaylightName();
+
+  pointer_authentication_address_mask_ =
+      system_data.PointerAuthenticationAddressMask();
 
   // Currently unused by minidump.
   vm_size_t page_size;
@@ -218,6 +220,11 @@ void SystemSnapshotIOS::TimeZone(DaylightSavingTimeStatus* dst_status,
   *daylight_offset_seconds = daylight_offset_seconds_;
   standard_name->assign(standard_name_);
   daylight_name->assign(daylight_name_);
+}
+
+uint64_t SystemSnapshotIOS::PointerAuthenticationAddressMask() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return pointer_authentication_address_mask_;
 }
 
 }  // namespace internal
