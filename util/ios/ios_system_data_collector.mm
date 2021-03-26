@@ -79,6 +79,14 @@ IOSSystemDataCollector::IOSSystemDataCollector()
 
 #if defined(ARCH_CPU_X86_64)
   cpu_vendor_ = ReadStringSysctlByName("machdep.cpu.vendor");
+  pointer_authentication_address_mask_ = 0;
+#elif defined(ARCH_CPU_ARM64)
+  // TODO(justincohen): Find a way to get this from xnu, or build some sort of
+  // table to mimic what the kernel does, based on cpu. Currently
+  // sysctl machdep.virtual_address_size does not work on iOS.
+  uint8_t virtual_bits = 25;
+  uint8_t addressable_bits = 64 - virtual_bits;
+  pointer_authentication_address_mask_ = ~((1UL << addressable_bits) - 1);
 #endif
 
 #if TARGET_OS_SIMULATOR
