@@ -83,6 +83,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a0f59660_221176e8",
+        "filename": "util/net/http_transport_libcurl.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2021-04-06T00:44:03Z",
+      "side": 1,
+      "message": "Maybe! Internet searching suggests the 3-\u003e4 change was deprecating a feature and changing the return code of a function, which seem like things we could avoid. It doesn\u0027t seem necessary though since all our supported platforms do have some .so.4 and on debian, the .so.3s are just symlinks to the .so.4s anyway. I\u0027ve removed the .so.3s.",
+      "parentUuid": "13218d1a_c4b841e7",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 30
+      },
+      "revId": "29b2339ac02dce9a883f7554d80e3a1743f0b35a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff2b6fcc_f1db8d63",
         "filename": "util/net/http_transport_libcurl.cc",
         "patchSetId": 14
@@ -94,6 +118,24 @@
       "writtenOn": "2021-02-03T22:40:46Z",
       "side": 1,
       "message": "This will LOG for each library that’s not found in the list, until one is found. Probably better to not LOG anything, since this happens on the expected fallback path.",
+      "revId": "29b2339ac02dce9a883f7554d80e3a1743f0b35a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddda5e02_bc794037",
+        "filename": "util/net/http_transport_libcurl.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2021-04-06T00:44:03Z",
+      "side": 1,
+      "message": "I now accumulate the errors and print them all if they all fail, since we don\u0027t know which one is the important one.",
+      "parentUuid": "ff2b6fcc_f1db8d63",
       "revId": "29b2339ac02dce9a883f7554d80e3a1743f0b35a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -123,6 +165,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "35aec4fe_565754d1",
+        "filename": "util/net/http_transport_libcurl.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2021-04-06T00:44:03Z",
+      "side": 1,
+      "message": "I removed the CHECKs. The library is loaded and symbols resolved in Initialize() and if that fails HttpTransport::Create() returns nullptr. The symbols are resolved in Initialize() to avoid dealing with any cleanup from dealing with those failures in the middle of an upload and lazy resolution didn\u0027t seem useful.",
+      "parentUuid": "1781a2df_6d64a692",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 41
+      },
+      "revId": "29b2339ac02dce9a883f7554d80e3a1743f0b35a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88d0045a_bf1ac70b",
         "filename": "util/net/http_transport_libcurl.cc",
         "patchSetId": 14
@@ -134,6 +200,24 @@
       "writtenOn": "2021-02-03T22:40:46Z",
       "side": 1,
       "message": "…and to tolerate this (LOG instead of CHECK) too.",
+      "revId": "29b2339ac02dce9a883f7554d80e3a1743f0b35a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5175c4d7_66fea727",
+        "filename": "util/net/http_transport_libcurl.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2021-04-06T00:44:03Z",
+      "side": 1,
+      "message": "I now don\u0027t do any logs or checks in the individual methods because it is expected that Initialize() has been successfully called.",
+      "parentUuid": "88d0045a_bf1ac70b",
       "revId": "29b2339ac02dce9a883f7554d80e3a1743f0b35a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
