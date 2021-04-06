@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9874b1d_7d96cac5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-06T03:16:57Z",
+      "side": 1,
+      "message": "Ah, this blast from the past!",
+      "revId": "399d37bfd2ab7fecf0683e2190e095d67eed80bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11a22e23_5e77e2a9",
+        "filename": "util/net/http_transport_libcurl.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-06T03:16:57Z",
+      "side": 1,
+      "message": "Guaranteed to be separated by a reasonable character? Maybe save ’em in a vector and log ’em individually.",
+      "revId": "399d37bfd2ab7fecf0683e2190e095d67eed80bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c217b981_1ed983a2",
+        "filename": "util/net/http_transport_libcurl.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-06T03:16:57Z",
+      "side": 1,
+      "message": "This would be LOG(ERROR) \u003c\u003c \"dlopen: \" \u003c\u003c error or something.",
+      "revId": "399d37bfd2ab7fecf0683e2190e095d67eed80bf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
