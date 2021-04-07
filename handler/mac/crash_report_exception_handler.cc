@@ -23,6 +23,7 @@
 #include "base/strings/stringprintf.h"
 #include "client/settings.h"
 #include "handler/mac/file_limit_annotation.h"
+#include "handler/relaunch_signal.h"
 #include "minidump/minidump_file_writer.h"
 #include "minidump/minidump_user_extension_stream_data_source.h"
 #include "snapshot/crashpad_info_client_options.h"
@@ -209,6 +210,9 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
           Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
       return KERN_FAILURE;
     }
+
+    // timedoctor - signal we have a crash
+    SetCrashed();
 
     if (upload_thread_) {
       upload_thread_->ReportPending(uuid);

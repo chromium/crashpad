@@ -3,6 +3,8 @@ add_library(crashpad_handler_lib STATIC
     crash_report_upload_thread.h
     handler_main.cc
     handler_main.h
+    relaunch_signal.h
+    relaunch_signal.cc
     minidump_to_upload_parameters.cc
     minidump_to_upload_parameters.h
     prune_crash_reports_thread.cc
