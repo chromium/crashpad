@@ -1151,12 +1151,25 @@ int HandlerMain(int argc,
   if (appPath != options.annotations.end() &&
       pidCrashed != options.annotations.end()) {
     // relaunch
+    auto appArgv = options.annotations.find("__td-relaunch-argv");
+    bool hasArgv = appArgv != options.annotations.end();
+    std::string argvStr(hasArgv ? appArgv->second.c_str() : "");
+    size_t n = std::count(argvStr.begin(), argvStr.end(), '\n') + 1;
+    char argv[n][2048];
+    std::istringstream stream(argvStr);
+    std::string arg;
+    int i = 0;
+    while (std::getline(stream, arg, '\n')) {
+      strncpy(argv[i], arg.c_str(), sizeof(argv[i]));
+      i++;
+    }
     LOG(INFO) << "Got __td-relaunch-path and __td-crashed-pid annotations: "
               << appPath->second.c_str() << " (" << pidCrashed->second.c_str()
               << ")";
     int returnC = 0;
     returnC = execl(appPath->second.c_str(),
                     appPath->second.c_str(),
+                    argv...,
                     "--crashed-pid",
                     pidCrashed->second.c_str(),
                     (char*)NULL);
