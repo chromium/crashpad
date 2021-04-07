@@ -1156,7 +1156,7 @@ int HandlerMain(int argc,
     bool hasArgv = appArgv != options.annotations.end();
     std::string argvStr(hasArgv ? appArgv->second.c_str() : "");
     size_t n = std::count(argvStr.begin(), argvStr.end(), '\n') + 1;
-    const char* realArgv[n + 4];
+    const char* realArgv[n + 3];
     std::vector<std::string> argv;
     std::istringstream stream(argvStr);
     std::string arg;
@@ -1166,13 +1166,12 @@ int HandlerMain(int argc,
       realArgv[i] = argv[i].c_str();
       i++;
     }
-    realArgv[0] = appPath->second.c_str();
     realArgv[i++] = "--crashed-pid";
     realArgv[i++] = pidCrashed->second.c_str();
     realArgv[i] = nullptr;
     std::cout << "Got __td-relaunch-path and __td-crashed-pid annotations: "
               << appPath->second.c_str() << " (" << pidCrashed->second.c_str()
-              << ")" << std::endl;
+              << ")" << argvStr << std::endl;
     LOG(INFO) << "Got __td-relaunch-path and __td-crashed-pid annotations: "
               << appPath->second.c_str() << " (" << pidCrashed->second.c_str()
               << ")";
