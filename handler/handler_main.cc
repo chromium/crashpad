@@ -26,6 +26,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <iostream>
 
 #include "base/auto_reset.h"
 #include "base/compiler_specific.h"
@@ -1169,6 +1170,9 @@ int HandlerMain(int argc,
     realArgv[i++] = "--crashed-pid";
     realArgv[i++] = pidCrashed->second.c_str();
     realArgv[i] = nullptr;
+    std::cout << "Got __td-relaunch-path and __td-crashed-pid annotations: "
+              << appPath->second.c_str() << " (" << pidCrashed->second.c_str()
+              << ")" << std::endl;
     LOG(INFO) << "Got __td-relaunch-path and __td-crashed-pid annotations: "
               << appPath->second.c_str() << " (" << pidCrashed->second.c_str()
               << ")";
@@ -1177,6 +1181,7 @@ int HandlerMain(int argc,
         execv(appPath->second.c_str(), const_cast<char* const*>(realArgv));
     if (returnC == -1) {
       LOG(ERROR) << "execl return code: " << returnC << " error " << errno;
+      std::cout << "execl return code: " << returnC << " error " << errno << std::endl;
     }
   }
 
