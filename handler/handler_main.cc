@@ -1142,6 +1142,29 @@ int HandlerMain(int argc,
 
   exception_handler_server.Run(exception_handler.get());
 
+  ///////////////////
+  // timedoctor code
+  ///////////////////
+  auto appPath = options.annotations.find("__td-relaunch-path");
+  auto pidCrashed = options.annotations.find("__td-crashed-pid");
+
+  if (appPath != options.annotations.end() &&
+      pidCrashed != options.annotations.end()) {
+    // relaunch
+    LOG(INFO) << "Got __td-relaunch-path and __td-crashed-pid annotations: "
+              << appPath->second.c_str() << " (" << pidCrashed->second.c_str()
+              << ")";
+    int returnC = 0;
+    returnC = execl(appPath->second.c_str(),
+                    appPath->second.c_str(),
+                    "--crashed-pid",
+                    pidCrashed->second.c_str(),
+                    (char*)NULL);
+    if (returnC == -1) {
+      LOG(ERROR) << "execl return code: " << returnC << " error " << errno;
+    }
+  }
+
   return EXIT_SUCCESS;
 }
 
