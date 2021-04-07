@@ -26,7 +26,6 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include <iostream>
 
 #include "base/auto_reset.h"
 #include "base/compiler_specific.h"
@@ -1155,13 +1154,13 @@ int HandlerMain(int argc,
     auto appArgv = options.annotations.find("__td-relaunch-argv");
     bool hasArgv = appArgv != options.annotations.end();
     std::string argvStr(hasArgv ? appArgv->second.c_str() : "");
-    size_t n = std::count(argvStr.begin(), argvStr.end(), '\n') + 1;
+    size_t n = std::count(argvStr.begin(), argvStr.end(), '|') + 1;
     const char* realArgv[n + 3];
     std::vector<std::string> argv;
     std::istringstream stream(argvStr);
     std::string arg;
     int i = 1;
-    while (std::getline(stream, arg, '\n')) {
+    while (std::getline(stream, arg, '|')) {
       argv.push_back(arg);
       realArgv[i] = argv[i].c_str();
       i++;
@@ -1169,18 +1168,14 @@ int HandlerMain(int argc,
     realArgv[i++] = "--crashed-pid";
     realArgv[i++] = pidCrashed->second.c_str();
     realArgv[i] = nullptr;
-    std::cout << "Got __td-relaunch-path and __td-crashed-pid annotations: "
-              << appPath->second.c_str() << " (" << pidCrashed->second.c_str()
-              << ")" << argvStr << std::endl;
     LOG(INFO) << "Got __td-relaunch-path and __td-crashed-pid annotations: "
               << appPath->second.c_str() << " (" << pidCrashed->second.c_str()
-              << ")";
+              << ") ARGS=" << argvStr;
     int returnC = 0;
     returnC =
         execv(appPath->second.c_str(), const_cast<char* const*>(realArgv));
     if (returnC == -1) {
       LOG(ERROR) << "execl return code: " << returnC << " error " << errno;
-      std::cout << "execl return code: " << returnC << " error " << errno << std::endl;
     }
   }
 
