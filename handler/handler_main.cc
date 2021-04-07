@@ -1155,24 +1155,26 @@ int HandlerMain(int argc,
     bool hasArgv = appArgv != options.annotations.end();
     std::string argvStr(hasArgv ? appArgv->second.c_str() : "");
     size_t n = std::count(argvStr.begin(), argvStr.end(), '\n') + 1;
-    char argv[n][2048];
+    const char* realArgv[n + 4];
+    std::vector<std::string> argv;
     std::istringstream stream(argvStr);
     std::string arg;
-    int i = 0;
+    int i = 1;
     while (std::getline(stream, arg, '\n')) {
-      strncpy(argv[i], arg.c_str(), sizeof(argv[i]));
+      argv.push_back(arg);
+      realArgv[i] = argv[i].c_str();
       i++;
     }
+    realArgv[0] = appPath->second.c_str();
+    realArgv[i++] = "--crashed-pid";
+    realArgv[i++] = pidCrashed->second.c_str();
+    realArgv[i] = nullptr;
     LOG(INFO) << "Got __td-relaunch-path and __td-crashed-pid annotations: "
               << appPath->second.c_str() << " (" << pidCrashed->second.c_str()
               << ")";
     int returnC = 0;
-    returnC = execl(appPath->second.c_str(),
-                    appPath->second.c_str(),
-                    argv...,
-                    "--crashed-pid",
-                    pidCrashed->second.c_str(),
-                    (char*)NULL);
+    returnC =
+        execv(appPath->second.c_str(), const_cast<char* const*>(realArgv));
     if (returnC == -1) {
       LOG(ERROR) << "execl return code: " << returnC << " error " << errno;
     }
