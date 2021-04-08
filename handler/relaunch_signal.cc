@@ -1,8 +1,9 @@
 
 #include "relaunch_signal.h"
 
-#include <vector>
+#include <unistd.h>
 #include <chrono>
+#include <vector>
 
 #include "base/logging.h"
 
@@ -19,7 +20,9 @@ long currentTime() {
   return value.count();
 }
 
-std::vector<char*> getRelaunchArgv(const std::string& argvStr, bool& maybeCrashLoop) {
+std::vector<char*> getRelaunchArgv(const std::string& argvStr,
+                                   const std::string& pidCrashed,
+                                   bool& maybeCrashLoop) {
   maybeCrashLoop = false;
   std::vector<char*> cargv;
   long crashTime = currentTime();
@@ -29,8 +32,7 @@ std::vector<char*> getRelaunchArgv(const std::string& argvStr, bool& maybeCrashL
   bool skipNext = false;
   while (std::getline(stream, arg, '|')) {
     if (!arg.empty() && !skipNext) {
-      if (arg.compare(crashedPidArg) == 0 ||
-          arg.compare(crashedTimeArg) == 0) {
+      if (arg.compare(crashedPidArg) == 0 || arg.compare(crashedTimeArg) == 0) {
         // don't pass the --crashed-pid or --crashed-time from prev. crashes
         skipNext = true;
       } else {
@@ -50,10 +52,9 @@ std::vector<char*> getRelaunchArgv(const std::string& argvStr, bool& maybeCrashL
         long diff = crashTime - lastCrashTime;
         if (diff < 15000) {
           maybeCrashLoop = true;
-          LOG(WARNING) << "May be a crash loop! Last Crash @ "
-                      << lastCrashTime << " (" << arg
-                      << ") Current Crash @ " << crashTime
-                      << " Diff=" << diff;
+          LOG(WARNING) << "May be a crash loop! Last Crash @ " << lastCrashTime
+                       << " (" << arg << ") Current Crash @ " << crashTime
+                       << " Diff=" << diff;
         }
       }
     }
@@ -66,9 +67,8 @@ std::vector<char*> getRelaunchArgv(const std::string& argvStr, bool& maybeCrashL
   cargv.push_back(carg);
 
   // --crashed-pid value
-  carg = new char[pidCrashed->second.length() + 1];
-  strncpy(
-      carg, pidCrashed->second.c_str(), pidCrashed->second.length() + 1);
+  carg = new char[pidCrashed.length() + 1];
+  strncpy(carg, pidCrashed.c_str(), pidCrashed.length() + 1);
   cargv.push_back(carg);
 
   // --crashed-time
@@ -96,38 +96,39 @@ void freeRelaunchArgv(std::vector<char*>& cargv) {
 }
 
 namespace td {
-  void SetCrashed() {
-    crashed = true;
-  }
+void SetCrashed() {
+  crashed = true;
+}
 
-  void RelaunchOnCrash(const std::map<std::string, std::string>& annotations) {
-    if (crashed) {
-      auto appPath = annotations.find("__td-relaunch-path");
-      auto pidCrashed = annotations.find("__td-crashed-pid");
+void RelaunchOnCrash(const std::map<std::string, std::string>& annotations) {
+  if (crashed) {
+    auto appPath = annotations.find("__td-relaunch-path");
+    auto pidCrashed = annotations.find("__td-crashed-pid");
 
-      if (appPath != annotations.end() &&
-          pidCrashed != annotations.end()) {
-        // relaunch
-        auto appArgv = annotations.find("__td-relaunch-argv");
-        bool hasArgv = appArgv != annotations.end();
-        bool maybeCrashLoop;
-        std::vector<char*> cargv = getRelaunchArgv(hasArgv ? appArgv->second.c_str() : "", maybeCrashLoop);
+    if (appPath != annotations.end() && pidCrashed != annotations.end()) {
+      // relaunch
+      auto appArgv = annotations.find("__td-relaunch-argv");
+      bool hasArgv = appArgv != annotations.end();
+      std::string argvStr(hasArgv ? appArgv->second.c_str() : "");
+      bool maybeCrashLoop;
+      std::vector<char*> cargv =
+          getRelaunchArgv(argvStr, pidCrashed->second, maybeCrashLoop);
 
-        LOG(INFO) << "Got __td-relaunch-path and __td-crashed-pid annotations: "
-                  << appPath->second.c_str() << " (" << pidCrashed->second.c_str()
-                  << ") maybeCrashLoop=" << maybeCrashLoop << " ARGS=" << argvStr;
+      LOG(INFO) << "Got __td-relaunch-path and __td-crashed-pid annotations: "
+                << appPath->second.c_str() << " (" << pidCrashed->second.c_str()
+                << ") maybeCrashLoop=" << maybeCrashLoop << " ARGS=" << argvStr;
 
-        int returnC = 0;
-        if (!maybeCrashLoop) {
-          returnC = execvp(appPath->second.c_str(), cargv.data());
-        }
-
-        if (returnC == -1) {
-          LOG(ERROR) << "execl return code: " << returnC << " error " << errno;
-        }
-
-        freeRelaunchArgv(cargv);
+      int returnC = 0;
+      if (!maybeCrashLoop) {
+        returnC = execvp(appPath->second.c_str(), cargv.data());
       }
+
+      if (returnC == -1) {
+        LOG(ERROR) << "execl return code: " << returnC << " error " << errno;
+      }
+
+      freeRelaunchArgv(cargv);
     }
   }
 }
+}  // namespace td
