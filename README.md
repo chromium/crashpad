@@ -49,3 +49,8 @@ changes, and on maintaining the fork.
 Generating patch:
 
     git format-patch --stdout master...HEAD > getsentry.patch
+
+## Time Doctor modifications
+
+See [README.timedoctor.md](README.timedoctor.md) for more information on the
+changes, and on maintaining the fork.

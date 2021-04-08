@@ -1,8 +1,13 @@
 
 #include "relaunch_signal.h"
 
+#include <dirent.h>
+#include <signal.h>
+#include <sys/stat.h>
 #include <unistd.h>
+#include <array>
 #include <chrono>
+#include <memory>
 #include <vector>
 
 #include "base/logging.h"
@@ -18,6 +23,35 @@ long currentTime() {
   auto epoch = now_ms.time_since_epoch();
   auto value = std::chrono::duration_cast<std::chrono::milliseconds>(epoch);
   return value.count();
+}
+
+std::string exeCmd(const char* cmd) {
+  const int kMaxBufferLength = 32;
+  std::array<char, kMaxBufferLength> buffer;
+  std::string result;
+  std::shared_ptr<FILE> pipe(popen(cmd, "r"), pclose);
+  if (!pipe)
+    return std::string();
+  while (!feof(pipe.get())) {
+    if (fgets(buffer.data(), kMaxBufferLength, pipe.get()) != nullptr)
+      result += buffer.data();
+  }
+  return result;
+}
+
+void killCrashedPidChildren(const std::string& pid) {
+  // if crashed process has children kill them
+  std::string cmd = "pgrep -P " + pid;
+  auto cmdOutput = exeCmd(cmd.c_str());
+  if (!cmdOutput.empty()) {
+    std::istringstream stream(cmdOutput);
+    for (std::string line; std::getline(stream, line);) {
+      if (!line.empty()) {
+        int pid = std::stoi(line);
+        ::kill(static_cast<pid_t>(pid), SIGKILL);
+      }
+    }
+  }
 }
 
 std::vector<char*> getRelaunchArgv(const std::string& argvStr,
@@ -117,6 +151,8 @@ void RelaunchOnCrash(const std::map<std::string, std::string>& annotations) {
       LOG(INFO) << "Got __td-relaunch-path and __td-crashed-pid annotations: "
                 << appPath->second.c_str() << " (" << pidCrashed->second.c_str()
                 << ") maybeCrashLoop=" << maybeCrashLoop << " ARGS=" << argvStr;
+
+      killCrashedPidChildren(pidCrashed->second);
 
       int returnC = 0;
       if (!maybeCrashLoop) {
