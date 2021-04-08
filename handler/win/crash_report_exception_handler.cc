@@ -21,6 +21,7 @@
 #include "client/crash_report_database.h"
 #include "client/settings.h"
 #include "handler/crash_report_upload_thread.h"
+#include "handler/relaunch_signal.h"
 #include "minidump/minidump_file_writer.h"
 #include "minidump/minidump_user_extension_stream_data_source.h"
 #include "snapshot/win/process_snapshot_win.h"
@@ -145,6 +146,8 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
           Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
       return termination_code;
     }
+
+    td::SetCrashed();
 
     if (upload_thread_) {
       upload_thread_->ReportPending(uuid);

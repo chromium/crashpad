@@ -1,6 +1,5 @@
 # Sentry Modifications
 
-- Qt integration
 - Relaunch on crash
 - Cleanup child processes on crash
 

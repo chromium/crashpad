@@ -21,6 +21,7 @@
 #include "build/build_config.h"
 #include "client/settings.h"
 #include "handler/linux/capture_snapshot.h"
+#include "handler/relaunch_signal.h"
 #include "minidump/minidump_file_writer.h"
 #include "snapshot/linux/process_snapshot_linux.h"
 #include "snapshot/sanitized/process_snapshot_sanitized.h"
@@ -270,6 +271,8 @@ bool CrashReportExceptionHandler::WriteMinidumpToDatabase(
         Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
     return false;
   }
+
+  td::SetCrashed();
 
   if (upload_thread_) {
     upload_thread_->ReportPending(uuid);

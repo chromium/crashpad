@@ -211,7 +211,6 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
       return KERN_FAILURE;
     }
 
-    // timedoctor - signal we have a crash
     td::SetCrashed();
 
     if (upload_thread_) {
