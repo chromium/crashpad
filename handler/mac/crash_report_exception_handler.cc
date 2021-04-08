@@ -212,7 +212,7 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     }
 
     // timedoctor - signal we have a crash
-    SetCrashed();
+    td::SetCrashed();
 
     if (upload_thread_) {
       upload_thread_->ReportPending(uuid);
