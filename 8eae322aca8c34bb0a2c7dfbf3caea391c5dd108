@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3dd218f_20d1e827",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2021-04-09T19:17:38Z",
+      "side": 1,
+      "message": "Upstreaming some local modifications…\n\nI think we may want to update the README.chromium to say remove the Change-ID line?",
+      "revId": "8eae322aca8c34bb0a2c7dfbf3caea391c5dd108",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
