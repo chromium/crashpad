@@ -35,6 +35,12 @@ if (crashpad_is_mac || crashpad_is_ios) {
       "mach/mig_gen.py",
     ]
 
+    if (crashpad_is_in_fuchsia) {
+      # TODO(https://fxbug.dev/68780): Remove suppression when fixed.
+      hermetic_deps = false
+      all_outputs_fresh = false
+    }
+
     if (crashpad_is_mac) {
       sources = [
         "$sysroot/usr/include/mach/exc.defs",
@@ -77,7 +83,9 @@ if (crashpad_is_mac || crashpad_is_ios) {
           migcom_path,
         ]
       }
-      deps = [ "//build/config/mac:sdk_inputs" ]
+      if (crashpad_is_mac) {
+        deps = [ "//build/config/mac:sdk_inputs" ]
+      }
     }
     if (sysroot != "") {
       if (crashpad_is_in_chromium) {
@@ -381,7 +389,7 @@ crashpad_static_library("util") {
 
   deps = []
 
-  if (crashpad_is_linux || crashpad_is_fuchsia || crashpad_is_android) {
+  if (crashpad_http_transport_impl == "socket") {
     sources += [ "net/http_transport_socket.cc" ]
     if (crashpad_use_boringssl_for_http_transport_socket) {
       defines += [ "CRASHPAD_USE_BORINGSSL" ]
@@ -395,6 +403,8 @@ crashpad_static_library("util") {
         ]
       }
     }
+  } else if (crashpad_http_transport_impl == "libcurl") {
+    sources += [ "net/http_transport_libcurl.cc" ]
   }
 
   if (crashpad_is_android) {
