@@ -429,7 +429,8 @@ if(APPLE)
     get_property(archs TARGET crashpad_util PROPERTY OSX_ARCHITECTURES)
     if (archs)
         list(TRANSFORM archs PREPEND "-arch ")
-        set(CMAKE_ASM_FLAGS "${CFLAGS} ${archs}")
+        list(JOIN archs " " archs_str)
+        set(CMAKE_ASM_FLAGS "${CFLAGS} ${archs_str}")
     endif()
 
     target_link_libraries(crashpad_util PRIVATE
