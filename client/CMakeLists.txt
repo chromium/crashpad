@@ -30,6 +30,7 @@ if(IOS)
     target_sources(crashpad_client PRIVATE
         crash_report_database_mac.mm
         crashpad_client_ios.cc
+        simulate_crash_ios.h
     )
 endif()
 
