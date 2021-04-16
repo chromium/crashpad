@@ -808,6 +808,9 @@ source_set("util_test") {
 
   if (crashpad_is_fuchsia) {
     sources += [ "misc/capture_context_test_util_fuchsia.cc" ]
+
+    # TODO(fxbug.dev/58162): delete the below and fix compiler warnings
+    configs += [ "//build/config:Wno-conversion" ]
   }
 
   if (crashpad_is_win) {
