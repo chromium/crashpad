@@ -56,6 +56,30 @@
       },
       "revId": "3356e40c25f28bcdf912533e0a1ea753eacbc518",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abc01c01_4707dc1e",
+        "filename": "minidump/minidump_extensions.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-18T00:16:11Z",
+      "side": 1,
+      "message": "\u003e LLVM has now added support for https://reviews.llvm.org/source/llvm-github/change/main/lldb/include/lldb/Target/Process.h;fdbb5a7a91b00d1e4a9a16fee96763917a411fff code_address_mask and data_address_mask.  \n\u003e \n\u003e pcc@ do you think we need to add 2 different masks here?   Should we consider changing the name? Jason made the comment upstream; \"Process::GetPointerAuthenticationAddressMask which makes it sound specific to ARM v8.3 ptrauth. The ARM v8.5 MTE tagging might be another use case (or TBI as Omair has noted).\"\n\u003e \n\u003e wdyt?\n\npcc, the question was for you and I’m interested in your response, but for my part:\n\nI would be happy to have distinct code_address_mask and data_address_mask fields here.",
+      "parentUuid": "54fe1024_f38ea7e1",
+      "range": {
+        "startLine": 510,
+        "startChar": 11,
+        "endLine": 510,
+        "endChar": 46
+      },
+      "revId": "3356e40c25f28bcdf912533e0a1ea753eacbc518",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
