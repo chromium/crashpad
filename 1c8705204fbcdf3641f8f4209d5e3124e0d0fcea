@@ -1,0 +1,740 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "491f23c1_7e0fdbad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 79
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "Here’s some first stuff to chew on. ",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45ad84e9_fa8baba8",
+        "filename": "client/BUILD.gn",
+        "patchSetId": 79
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "Can you break the targets up to avoid the circular relationship?\n\n(Would be OK as a distinct change.)",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6545f176_1d4a2c0e",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "To help us out, we should specially mark something on functions that need to be extra-safe because they’ll run at signal or exception time. This only happens during initialization, so it doesn’t need that extra safety.",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18e85b18_8f158b47",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "#include \"base/stl_util.h\" and use base::size(mib).",
+      "range": {
+        "startLine": 43,
+        "startChar": 16,
+        "endLine": 43,
+        "endChar": 41
+      },
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40430a69_8d492c6d",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "naming_like_this outside of Objective-C @interfaces and @implementations and things. (This isn’t even a dot-markmentovai file.)",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "921a20b4_b027a956",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "No (c_style)casts, use cplusplus\u003cstyle\u003e(casts) instead.",
+      "range": {
+        "startLine": 47,
+        "startChar": 30,
+        "endLine": 47,
+        "endChar": 50
+      },
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e903791c_91e5e118",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "No loose malloc/free. You can use a vector\u003cchar\u003e or something.",
+      "range": {
+        "startLine": 47,
+        "startChar": 50,
+        "endLine": 47,
+        "endChar": 56
+      },
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37382206_867bb20d",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "Since this function doesn’t need to be super-safe, maybe you can reuse util/posix/process_info{.h,_mac.cc}. Probably don’t even need a helper function in that case, since you could just have a member function on ProcessInfo to answer this.\n\nDo you even need the dynamic sizing here? We don’t do it there.\n\n(If it’s really necessary, and it may be, we should fix ProcessInfo too.)",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7604ad6_ff433306",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "Adjust comment to explain the breakpoint situation.",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae324028_cf129e1d",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "This shouldn’t be a comment, it should either be here or not.",
+      "range": {
+        "startLine": 135,
+        "startChar": 52,
+        "endLine": 135,
+        "endChar": 74
+      },
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c00c44d_e0b91561",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "Consider:\n\nmask \u003d ExcMaskAll() \u0026 ~(SOME | THINGS | AND | (IsBeingDebugged() ? EXC_MASK_BREAKPOINT : 0));\n\n(may need to say 0u.)",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 5
+      },
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "567402d2_0b39adf0",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "“Eventually,” when? Is it synchronous and guaranteed to happen after this function returns?",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 237,
+        "endChar": 51
+      },
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5303849_e00dafae",
+        "filename": "client/crashpad_client_ios.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "Don’t like the overloaded name, don’t know how the two functions or different or why they look so different.",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "289ba906_a9bcb040",
+        "filename": "client/ios_handler/exception_processor.h",
+        "patchSetId": 79
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "What do I do?",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d41f1d5_e67fcdcd",
+        "filename": "client/ios_handler/exception_processor.h",
+        "patchSetId": 79
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "protected non-virtual is Crashpad style, unless someone really needs to delete through an ObjcExceptionDelegate*.\n\n(protected makes sure that nobody can do that, keeping it safe.)",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df2db2f8_2dd89bc3",
+        "filename": "client/ios_handler/exception_processor.mm",
+        "patchSetId": 79
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "Isn’t this implied by some other variable being non-null?",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21bb8ec2_744ba19c",
+        "filename": "client/ios_handler/exception_processor.mm",
+        "patchSetId": 79
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "This is a lot of static stuff. It kind of indicates that maybe the preprocessor thing should be an object, so that it can have its own member variables, and then you’d have a single pointer to that object once it’s live.",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 31
+      },
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a275475f_b11cb03c",
+        "filename": "client/ios_handler/exception_processor.mm",
+        "patchSetId": 79
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "Not necessary",
+      "range": {
+        "startLine": 131,
+        "startChar": 22,
+        "endLine": 131,
+        "endChar": 31
+      },
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4519617_967f0b51",
+        "filename": "client/ios_handler/exception_processor.mm",
+        "patchSetId": 79
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "Trust default-initialization to make this zero.",
+      "range": {
+        "startLine": 195,
+        "startChar": 34,
+        "endLine": 195,
+        "endChar": 43
+      },
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56bee7a7_ca4f45ad",
+        "filename": "client/ios_handler/exception_processor.mm",
+        "patchSetId": 79
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 0
+      },
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a8409cf_9ff3b079",
+        "filename": "client/ios_handler/exception_processor.mm",
+        "patchSetId": 79
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "Put a blank line before comments that go in-line like this, to break up the flow and make it easier to see that there’s something noteworthy that you might want to read.",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f94567a3_eb15c0fc",
+        "filename": "client/ios_handler/exception_processor.mm",
+        "patchSetId": 79
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "Comments like this want a code reference.",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 49
+      },
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adb68fc6_44c20f3f",
+        "filename": "client/ios_handler/in_process_handler.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "Blank line before this, to separate C system from local headers.",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d09c9b3_75b6e97b",
+        "filename": "client/ios_handler/in_process_handler.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "Crashpad uses Doxygen for these types of comments.",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdb2fac5_a4204160",
+        "filename": "client/ios_handler/in_process_handler.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "What if the path doesn’t exist?",
+      "range": {
+        "startLine": 27,
+        "startChar": 51,
+        "endLine": 28,
+        "endChar": 47
+      },
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "410eef3b_aaaac057",
+        "filename": "client/ios_handler/in_process_handler.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "What’s the point of returning anything here if you never use the return value? You might as well just try the mkdir and not bother with any other checking in that case.\n\nHonestly, the whole “ensure” thing isn’t useful no matter what. Don’t waste time trying to make sure it’s a directory. Let the subsequent file-create fail if it’s not.",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e24bf538_ba30b8b8",
+        "filename": "client/ios_handler/in_process_handler.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "No reason for this to be out here, it’s only used in a single function. Move it there.\n\n(Inside a function, it should be static constexpr.)",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e96c75a2_d62003cd",
+        "filename": "client/ios_handler/in_process_handler.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "This thing just leaks, and is never stopped or joined?",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b73a99c_03647d8b",
+        "filename": "client/ios_handler/in_process_handler.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "DCHECK that you don’t already have a writer_?\n\n(You’d want to .reset() the writer_ in EndReport too.)",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f72285bb_bde7a9ce",
+        "filename": "client/ios_handler/in_process_handler.cc",
+        "patchSetId": 79
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "This block really seems to want to be a scoped helper. Don’t trust people to follow the rules when you can trust computers.",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 263,
+        "endChar": 1
+      },
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5219388f_cb16ef83",
+        "filename": "client/ios_handler/in_process_handler.h",
+        "patchSetId": 79
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "4-space hanging indent.",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "798c6268_1e209baf",
+        "filename": "client/ios_handler/in_process_handler.h",
+        "patchSetId": 79
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "Unnecessary.\n\nActually what you _do_ want is to have a constructor in the .cc file. And you can make it \u003ddefault if that’s appropriate for you.\n\nLeaving this here doesn’t help _not_ inline the constructor in calling code, but you probably don’t want it to be inlined.",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "261466d3_3a8e943f",
+        "filename": "client/ios_handler/in_process_handler.h",
+        "patchSetId": 79
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "These methods should all have some kind of comment.",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a073629_4b9707bd",
+        "filename": "client/ios_handler/in_process_handler.h",
+        "patchSetId": 79
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "This sounds like it wants to make a dump from an NSException, but it doesn’t accept an NSException* argument, so what’s up? Again, documentation for all of these methods would help.",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8833330f_7e111b07",
+        "filename": "client/ios_handler/in_process_handler.h",
+        "patchSetId": 79
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "DumpExceptionFromNSException, so the naming matches the two things above?",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 48
+      },
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6740649_a8a2452d",
+        "filename": "client/ios_handler/in_process_handler.h",
+        "patchSetId": 79
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "#include \u003cstdint.h\u003e",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4ebf722_eb4ae683",
+        "filename": "client/ios_handler/in_process_handler.h",
+        "patchSetId": 79
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "1. Blank line before switching from functions to variables.\n\n2. Organize for better packing.",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6f2b1a1_4375420c",
+        "filename": "client/ios_handler/in_process_handler.h",
+        "patchSetId": 79
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-20T18:19:13Z",
+      "side": 1,
+      "message": "#include \u003cmap\u003e\n#include \u003cstring\u003e",
+      "revId": "1c8705204fbcdf3641f8f4209d5e3124e0d0fcea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
