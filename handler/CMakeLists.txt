@@ -110,7 +110,7 @@ if(NOT IOS)
         endif()
     endif()
 
-    set_property(TARGET crashpad_handler PROPERTY EXPORT_NAME handler)
+    set_property(TARGET crashpad_handler PROPERTY EXPORT_NAME crashpad_handler)
     add_executable(crashpad::handler ALIAS crashpad_handler)
 
     install(TARGETS crashpad_handler EXPORT crashpad_export
