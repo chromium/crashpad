@@ -80,6 +80,30 @@
       },
       "revId": "3356e40c25f28bcdf912533e0a1ea753eacbc518",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35ceb800_9e5891bc",
+        "filename": "minidump/minidump_extensions.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1125980
+      },
+      "writtenOn": "2021-04-22T17:00:27Z",
+      "side": 1,
+      "message": "Having the two masks seems like a good idea because they will have different values on Darwin (necessary to correctly remove signature from e.g. vtable pointers as compared to function pointers) and may have different values on Linux as well e.g. if https://www.spinics.net/lists/arm-kernel/msg857214.html lands.",
+      "parentUuid": "abc01c01_4707dc1e",
+      "range": {
+        "startLine": 510,
+        "startChar": 11,
+        "endLine": 510,
+        "endChar": 46
+      },
+      "revId": "3356e40c25f28bcdf912533e0a1ea753eacbc518",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
