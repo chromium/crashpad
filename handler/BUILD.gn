@@ -16,12 +16,8 @@ import("../build/crashpad_buildconfig.gni")
 
 static_library("handler") {
   sources = [
-    "crash_report_upload_thread.cc",
-    "crash_report_upload_thread.h",
     "handler_main.cc",
     "handler_main.h",
-    "minidump_to_upload_parameters.cc",
-    "minidump_to_upload_parameters.h",
     "prune_crash_reports_thread.cc",
     "prune_crash_reports_thread.h",
     "user_stream_data_source.cc",
@@ -34,8 +30,6 @@ static_library("handler") {
       "mac/crash_report_exception_handler.h",
       "mac/exception_handler_server.cc",
       "mac/exception_handler_server.h",
-      "mac/file_limit_annotation.cc",
-      "mac/file_limit_annotation.h",
     ]
   }
 
@@ -73,6 +67,8 @@ static_library("handler") {
   ]
 
   deps = [
+    ":common",
+    "../client:common",
     "../minidump",
     "../snapshot",
     "../third_party/mini_chromium:chromeos_buildflags",
@@ -94,6 +90,31 @@ if (crashpad_is_android) {
   }
 }
 
+source_set("common") {
+  sources = [
+    "crash_report_upload_thread.cc",
+    "crash_report_upload_thread.h",
+    "minidump_to_upload_parameters.cc",
+    "minidump_to_upload_parameters.h",
+  ]
+  if (crashpad_is_mac || crashpad_is_ios) {
+    sources += [
+      "mac/file_limit_annotation.cc",
+      "mac/file_limit_annotation.h",
+    ]
+  }
+  public_configs = [ "..:crashpad_config" ]
+  public_deps = [
+    "../third_party/mini_chromium:base",
+    "../util",
+  ]
+  deps = [
+    "../client:common",
+    "../snapshot",
+    "../util",
+  ]
+}
+
 source_set("handler_test") {
   testonly = true
 
@@ -108,8 +129,9 @@ source_set("handler_test") {
   }
 
   deps = [
+    ":common",
     ":handler",
-    "../client",
+    "../client:common",
     "../compat",
     "../snapshot",
     "../snapshot:test_support",
@@ -252,6 +274,7 @@ if (crashpad_is_win) {
 
     deps = [
       "../client",
+      "../client:common",
       "../third_party/mini_chromium:base",
     ]
   }
@@ -282,6 +305,7 @@ if (crashpad_is_win) {
 
     deps = [
       "../client",
+      "../client:common",
       "../third_party/mini_chromium:base",
     ]
   }
