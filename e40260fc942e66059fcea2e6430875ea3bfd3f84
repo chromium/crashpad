@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21132bef_e1db3b99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-04-26T20:06:25Z",
+      "side": 1,
+      "message": "Initially I was going to move the files to a shared/ or common/ directory, but the scope of the change got bigger than expected.\n\nWhat do you think of having a :common target?",
+      "revId": "e40260fc942e66059fcea2e6430875ea3bfd3f84",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
