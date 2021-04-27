@@ -249,10 +249,6 @@ crashpad_static_library("snapshot") {
     "../util",
   ]
 
-  if (crashpad_is_ios) {
-    deps -= [ "../client" ]
-  }
-
   if (crashpad_is_win) {
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
     libs = [ "powrprof.lib" ]
@@ -423,7 +419,7 @@ source_set("snapshot_test") {
 
   deps = [
     ":test_support",
-    "../client",
+    "../client:common",
     "../compat",
     "../minidump:format",
     "../test",
