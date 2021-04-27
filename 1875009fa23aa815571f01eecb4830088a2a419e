@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e01c189f_567f4c0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-27T17:15:02Z",
+      "side": 1,
+      "message": "I’m anti-source_set and source_set semantics, and you won’t find it anywhere in Crashpad except for tests, where gtest essentially relies on source_set semantics.",
+      "revId": "1875009fa23aa815571f01eecb4830088a2a419e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
