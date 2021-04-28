@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83cf3500_1a07db4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-04-28T18:28:28Z",
+      "side": 1,
+      "message": "Oops, found the wrong recipe, it\u0027s actually https://source.chromium.org/chromium/chromium/tools/depot_tools/+/main:recipes/recipe_modules/windows_sdk/__init__.py;l\u003d23\n\nBut anyway, I still don\u0027t know how to plumb that though a DEPS file, or if there\u0027s a way.",
+      "revId": "5371ae4f0c4466ba1724ad791c2111350378f9ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
