@@ -34,6 +34,24 @@
       "parentUuid": "9e2032c8_28fdd6b1",
       "revId": "9a27687e63ba253f2b8b5d2a320060dbed532f8b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e1710b6_e9201a04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1291295
+      },
+      "writtenOn": "2021-04-28T16:01:55Z",
+      "side": 1,
+      "message": "\u003e\u003e Joshua, as far as you know, gtest at head should work with the Fuchsia SDK at head, is that right?\nYep. Our pin in the Fuchsia tree is even past the revision at which I updated gtest.",
+      "parentUuid": "65c0c131_156a95bc",
+      "revId": "9a27687e63ba253f2b8b5d2a320060dbed532f8b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
