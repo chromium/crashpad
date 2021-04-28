@@ -34,6 +34,24 @@
       "parentUuid": "a842bd17_f71e147e",
       "revId": "caa8a46b74f1026923570190cf0f1b54db65bbce",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13dc7098_90f3088d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-04-28T17:49:07Z",
+      "side": 1,
+      "message": "I haven\u0027t been able to guess how to map sdk_version like https://source.chromium.org/gn/gn/+/master:infra/recipe_modules/windows_sdk/__init__.py;l\u003d17 into the \"deps\" variable of a DEPS file unfortunately.\n\nIs it maybe supposed to be a dict separately in \"vars\"? More failed tryjobs to come...",
+      "parentUuid": "60a8a719_3a1fa4e0",
+      "revId": "caa8a46b74f1026923570190cf0f1b54db65bbce",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
