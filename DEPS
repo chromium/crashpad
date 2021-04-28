@@ -20,6 +20,7 @@ vars = {
   # gclient hooks. It is enabled by default for developer's convenience. It can
   # be disabled with custom_vars (done automatically on the bots).
   'run_setup_ios_gn': True,
+  'sdk_version': 'uploaded:2021-04-28',
 }
 
 deps = {
@@ -109,7 +110,7 @@ deps = {
     'packages': [
       {
         'package': 'chrome_internal/third_party/sdk/windows',
-        'version': 'uploaded:2018-06-13'
+        'version': 'uploaded:2021-04-28'
       },
     ],
     'condition': 'checkout_win and pull_win_toolchain',
