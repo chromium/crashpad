@@ -16,6 +16,24 @@
       "message": "What very helpful commit messages.\n\nhttps://fuchsia-review.googlesource.com/c/fuchsia/+/488412 is why the API changed in Fuchsia. Joshua, as far as you know, gtest at head should work with the Fuchsia SDK at head, is that right?\n\nJustin, did you abandon because it didn\u0027t fix the problem?\n\n... Oh, I see I breaks on Windows. Great! I remember from last time that it didn\u0027t seem like gtest does much testing on MSVC, I guess now that Chromium has switched to clang there\u0027s less interest.",
       "revId": "9a27687e63ba253f2b8b5d2a320060dbed532f8b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65c0c131_156a95bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-04-28T15:58:00Z",
+      "side": 1,
+      "message": "The /wd we could fix, but \n\n../../third_party/googletest/googletest/googletest/test/googletest-printers-test.cc(818): error C2015: too many characters in constant\n\nkinda sucks. I guess I\u0027ll try to hack something for upstream gtest unless someone else has already started that battle.",
+      "parentUuid": "9e2032c8_28fdd6b1",
+      "revId": "9a27687e63ba253f2b8b5d2a320060dbed532f8b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
