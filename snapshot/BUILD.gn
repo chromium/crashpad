@@ -107,18 +107,18 @@ crashpad_static_library("snapshot") {
 
   if (crashpad_is_ios) {
     sources += [
-      "ios/exception_snapshot_ios.cc",
-      "ios/exception_snapshot_ios.h",
-      "ios/memory_snapshot_ios.cc",
-      "ios/memory_snapshot_ios.h",
-      "ios/module_snapshot_ios.cc",
-      "ios/module_snapshot_ios.h",
-      "ios/process_snapshot_ios.cc",
-      "ios/process_snapshot_ios.h",
-      "ios/system_snapshot_ios.cc",
-      "ios/system_snapshot_ios.h",
-      "ios/thread_snapshot_ios.cc",
-      "ios/thread_snapshot_ios.h",
+      "ios/exception_snapshot_ios_intermediatedump.cc",
+      "ios/exception_snapshot_ios_intermediatedump.h",
+      "ios/memory_snapshot_ios_intermediatedump.cc",
+      "ios/memory_snapshot_ios_intermediatedump.h",
+      "ios/module_snapshot_ios_intermediatedump.cc",
+      "ios/module_snapshot_ios_intermediatedump.h",
+      "ios/process_snapshot_ios_intermediatedump.cc",
+      "ios/process_snapshot_ios_intermediatedump.h",
+      "ios/system_snapshot_ios_intermediatedump.cc",
+      "ios/system_snapshot_ios_intermediatedump.h",
+      "ios/thread_snapshot_ios_intermediatedump.cc",
+      "ios/thread_snapshot_ios_intermediatedump.h",
       "mac/cpu_context_mac.cc",
       "mac/cpu_context_mac.h",
     ]
@@ -242,18 +242,15 @@ crashpad_static_library("snapshot") {
   public_deps = [ ":context" ]
 
   deps = [
-    "../client",
+    "../client:common",
     "../compat",
     "../minidump:format",
     "../third_party/mini_chromium:base",
     "../util",
   ]
 
-  if (crashpad_is_ios) {
-    deps -= [ "../client" ]
-  }
-
   if (crashpad_is_win) {
+    deps += [ "../client" ]
     cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
     libs = [ "powrprof.lib" ]
   }
@@ -423,7 +420,7 @@ source_set("snapshot_test") {
 
   deps = [
     ":test_support",
-    "../client",
+    "../client:common",
     "../compat",
     "../minidump:format",
     "../test",
@@ -431,6 +428,10 @@ source_set("snapshot_test") {
     "../third_party/mini_chromium:base",
     "../util",
   ]
+
+  if (crashpad_is_win) {
+    deps += [ "../client" ]
+  }
 
   data_deps = [
     ":crashpad_snapshot_test_module",
