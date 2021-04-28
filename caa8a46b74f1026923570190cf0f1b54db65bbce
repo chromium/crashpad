@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a842bd17_f71e147e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-04-28T17:29:24Z",
+      "side": 1,
+      "message": "It took me a while to figure out why this was still pulling an old Windows toolchain in tryjobs, but the Windows SDK stuff in DEPS isn\u0027t used on the bots I think?\n\nI don\u0027t see \"ensure_installed\" here, or the setting of \"pull_win_toolchain\" here:\n\nhttps://source.chromium.org/chromium/chromium/tools/build/+/master:recipes/recipes/crashpad/build.py;drc\u003df946f76947daa884a89e3c6ea922be6cedb8bf0f;l\u003d83\n\nSo while a pull_win_toolchain:True in .gclient will cause the cipd package listed in DEPS to be downloaded for local use, I don\u0027t see ensure_installed in that recipe, so I guess it must be hardcoded in depot_tools/windows_sdk?\n\nBut I couldn\u0027t find that recipe \"depot_tools/windows_sdk\"\nhttps://source.chromium.org/chromium/chromium/tools/build/+/master:recipes/recipes/crashpad/build.py;l\u003d27 can anyone point me at it?",
+      "revId": "caa8a46b74f1026923570190cf0f1b54db65bbce",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
