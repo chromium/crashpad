@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01414223_a6fa5fa4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-28T16:00:34Z",
+      "side": 1,
+      "message": "Dump all of this useless goop.",
+      "revId": "b379dcb22076628e56ea95788d28a1edfb493672",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d90637b_bdea34fd",
+        "filename": "third_party/googletest/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-04-28T16:00:34Z",
+      "side": 1,
+      "message": "Also say why /wd didn’t work, and link to the previous attempt so that people can see.",
+      "revId": "b379dcb22076628e56ea95788d28a1edfb493672",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
