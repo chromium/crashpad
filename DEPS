@@ -109,7 +109,9 @@ deps = {
     'packages': [
       {
         'package': 'chrome_internal/third_party/sdk/windows',
-        'version': 'uploaded:2018-06-13'
+        # This is currently accurate, however, I'm not sure that cipd is using
+        # "version" rather than pulling "latest".
+        'version': 'uploaded:2021-04-28'
       },
     ],
     'condition': 'checkout_win and pull_win_toolchain',
