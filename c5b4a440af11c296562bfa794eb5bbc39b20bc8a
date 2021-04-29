@@ -22,6 +22,30 @@
       },
       "revId": "c5b4a440af11c296562bfa794eb5bbc39b20bc8a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30e510ae_56204af8",
+        "filename": "cr-buildbucket.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-04-29T16:03:55Z",
+      "side": 1,
+      "message": "(CQ doesn\u0027t work because this is on a branch that only contains the config files. I\u0027m not sure if there\u0027s a way we could just put those in a subdirectory instead, it\u0027d be a lot simpler for sure.)",
+      "parentUuid": "c2a9909a_0c03c0bf",
+      "range": {
+        "startLine": 80,
+        "startChar": 19,
+        "endLine": 80,
+        "endChar": 72
+      },
+      "revId": "c5b4a440af11c296562bfa794eb5bbc39b20bc8a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
