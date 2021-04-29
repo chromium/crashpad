@@ -18,6 +18,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b018c7d9_448b38e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-04-29T16:48:50Z",
+      "side": 1,
+      "message": "Removed all the lines with `Googletest export`",
+      "parentUuid": "01414223_a6fa5fa4",
+      "revId": "b379dcb22076628e56ea95788d28a1edfb493672",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d90637b_bdea34fd",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-04-28T16:00:34Z",
       "side": 1,
       "message": "Also say why /wd didn’t work, and link to the previous attempt so that people can see.",
+      "revId": "b379dcb22076628e56ea95788d28a1edfb493672",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a356893_08665ed2",
+        "filename": "third_party/googletest/BUILD.gn",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-04-29T16:48:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d90637b_bdea34fd",
       "revId": "b379dcb22076628e56ea95788d28a1edfb493672",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
