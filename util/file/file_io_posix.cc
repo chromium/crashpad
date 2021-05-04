@@ -210,8 +210,11 @@ FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
 
 #if !defined(OS_FUCHSIA)
 
-bool LoggingLockFile(FileHandle file, FileLocking locking) {
+bool LoggingLockFile(FileHandle file, FileLocking locking, bool nonblocking) {
   int operation = (locking == FileLocking::kShared) ? LOCK_SH : LOCK_EX;
+  if (nonblocking)
+    operation |= LOCK_NB;
+
   int rv = HANDLE_EINTR(flock(file, operation));
   PLOG_IF(ERROR, rv != 0) << "flock";
   return rv == 0;
