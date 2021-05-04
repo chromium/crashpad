@@ -16,6 +16,120 @@
       "message": "e.z.",
       "revId": "f22c5b2c3385049378059231fb4facb4da29f764",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3d9bf78_417657a8",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-04T20:41:13Z",
+      "side": 1,
+      "message": "Just int.",
+      "range": {
+        "startLine": 100,
+        "startChar": 31,
+        "endLine": 100,
+        "endChar": 38
+      },
+      "revId": "f22c5b2c3385049378059231fb4facb4da29f764",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f0ff892_4de1c56d",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-04T20:41:13Z",
+      "side": 1,
+      "message": "Local style puts a comma at the end of the last one too.",
+      "revId": "f22c5b2c3385049378059231fb4facb4da29f764",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53f9e919_00a4243c",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-04T20:41:13Z",
+      "side": 1,
+      "message": "Fix the documentation, it’s not true and false anymore.\n\nIt should not be possible to read the documentation and come away with a question about whether kWouldBlock logs something or not.",
+      "revId": "f22c5b2c3385049378059231fb4facb4da29f764",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d1cc68d_42b61a5a",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-04T20:41:13Z",
+      "side": 1,
+      "message": "This shouldn’t be a bool, you should have a new enum class, so that it’s clear what it means at use sites. It answers the question: “is the bool ‘blocking’ or ‘nonblocking‘?”.\n\nenum class FileLockingBlocking : bool {\n  //! \\brief Don’t forget me!\n  kNonBlocking \u003d false,\n\n  //! \\brief Don’t forget me either!\n  kBlocking \u003d true,\n};",
+      "range": {
+        "startLine": 474,
+        "startChar": 34,
+        "endLine": 474,
+        "endChar": 38
+      },
+      "revId": "f22c5b2c3385049378059231fb4facb4da29f764",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99f98ade_eeb0ccba",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-04T20:41:13Z",
+      "side": 1,
+      "message": "Don’t want to log anything if EWOULDBLOCK.",
+      "revId": "f22c5b2c3385049378059231fb4facb4da29f764",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "565da92e_457ad410",
+        "filename": "util/file/file_io_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-04T20:41:13Z",
+      "side": 1,
+      "message": "Don’t want to log anything if kWouldBlock.",
+      "revId": "f22c5b2c3385049378059231fb4facb4da29f764",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
