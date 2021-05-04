@@ -16,6 +16,63 @@
       "message": "ptal",
       "revId": "a3f406064195f5f5ff48c37ceb8d59d37b435efb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b92a9cb_81adcc3a",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-04T19:34:24Z",
+      "side": 1,
+      "message": "Fail and return false with an error message? When in nonblocking mode, I think the error message is undesirable. Also, I think the caller will want to distinguish between “failed, lock is held” and “failed, any other reason,” so the return type should be expanded.",
+      "range": {
+        "startLine": 456,
+        "startChar": 0,
+        "endLine": 457,
+        "endChar": 20
+      },
+      "revId": "a3f406064195f5f5ff48c37ceb8d59d37b435efb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86a528f0_6c4c5611",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-04T19:34:24Z",
+      "side": 1,
+      "message": "While expanding the return type, you’ll need to visit the call sites anyway, so this would be better as a non-optional enum, for documentary value at call sites.\n\n(Only one call site currently existing? Good, easy!)",
+      "revId": "a3f406064195f5f5ff48c37ceb8d59d37b435efb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23bc6e1c_590b8838",
+        "filename": "util/file/file_io_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-04T19:34:24Z",
+      "side": 1,
+      "message": "This also needs a test, which can be added to util/file/file_io_test.cc.",
+      "revId": "a3f406064195f5f5ff48c37ceb8d59d37b435efb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
