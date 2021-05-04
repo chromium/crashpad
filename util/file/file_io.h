@@ -96,6 +96,18 @@ enum class FileLocking : bool {
   kExclusive,
 };
 
+//! \brief The return value for LoggingLockFile().
+enum class FileLockingResult : int32_t {
+  //! \brief The lock was obtained successfully.
+  kSuccess,
+
+  //! \brief In non-blocking mode only, the file was locked and would block.
+  kWouldBlock,
+
+  //! \brief The lock was not obtained.
+  kFailure
+};
+
 //! \brief Determines the FileHandle that StdioFileHandle() returns.
 enum class StdioStream {
   //! \brief Standard input, or `stdin`.
@@ -453,9 +465,13 @@ FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
 //! \param[in] file The open file handle to be locked.
 //! \param[in] locking Controls whether the lock is a shared reader lock, or an
 //!     exclusive writer lock.
+//! \param[in] nonblocking Controls whether the lock will block or fail
+//!     immediately.
 //!
 //! \return `true` on success, or `false` and a message will be logged.
-bool LoggingLockFile(FileHandle file, FileLocking locking);
+FileLockingResult LoggingLockFile(FileHandle file,
+                                  FileLocking locking,
+                                  bool nonblocking);
 
 //! \brief Unlocks a file previously locked with LoggingLockFile().
 //!
