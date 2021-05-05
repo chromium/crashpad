@@ -16,6 +16,98 @@
       "message": "ptal!",
       "revId": "3879368d4f3d683efc8f5c39af2610e421f7aaab",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b98cb296_5b395330",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:05:40Z",
+      "side": 1,
+      "message": "Not treating it as a failure, just “return.”\n\n“Controls whether a locked file will result in blocking or an immediate return.”",
+      "range": {
+        "startLine": 479,
+        "startChar": 64,
+        "endLine": 479,
+        "endChar": 68
+      },
+      "revId": "3879368d4f3d683efc8f5c39af2610e421f7aaab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "847e92e6_edcf0391",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:05:40Z",
+      "side": 1,
+      "message": "Lose the |",
+      "range": {
+        "startLine": 483,
+        "startChar": 31,
+        "endLine": 483,
+        "endChar": 32
+      },
+      "revId": "3879368d4f3d683efc8f5c39af2610e421f7aaab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38344694_805d75c5",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:05:40Z",
+      "side": 1,
+      "message": "Two spaces here should be one.",
+      "range": {
+        "startLine": 483,
+        "startChar": 65,
+        "endLine": 483,
+        "endChar": 67
+      },
+      "revId": "3879368d4f3d683efc8f5c39af2610e421f7aaab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcd9ab68_956d2364",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:05:40Z",
+      "side": 1,
+      "message": "acquiring",
+      "range": {
+        "startLine": 483,
+        "startChar": 71,
+        "endLine": 483,
+        "endChar": 79
+      },
+      "revId": "3879368d4f3d683efc8f5c39af2610e421f7aaab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
