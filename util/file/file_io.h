@@ -96,6 +96,26 @@ enum class FileLocking : bool {
   kExclusive,
 };
 
+//! \brief Determines if LoggingLockFile will block.
+enum class FileLockingBlocking : bool {
+  //! \brief Block until the lock is acquired
+  kBlocking = false,
+  //! \brief Do not block when attempting to aquire a lock.
+  kNonBlocking = true,
+};
+
+//! \brief The return value for LoggingLockFile().
+enum class FileLockingResult : int {
+  //! \brief The lock was acquired successfully.
+  kSuccess,
+
+  //! \brief In non-blocking mode only, the file was locked and would block.
+  kWouldBlock,
+
+  //! \brief The lock was not acquired.
+  kFailure,
+};
+
 //! \brief Determines the FileHandle that StdioFileHandle() returns.
 enum class StdioStream {
   //! \brief Standard input, or `stdin`.
@@ -443,8 +463,9 @@ FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
 //!     Windows.
 //!
 //! It is an error to attempt to lock a file in a different mode when it is
-//! already locked. This call will block until the lock is acquired. The
-//! entire file is locked.
+//! already locked. This call will block until the lock is acquired unless
+//! \a nonblocking is FileLockingBlocking::kNonBlocking. The entire file is
+//! locked.
 //!
 //! If \a locking is FileLocking::kShared, \a file must have been opened for
 //! reading, and if it's FileLocking::kExclusive, \a file must have been opened
@@ -453,9 +474,16 @@ FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
 //! \param[in] file The open file handle to be locked.
 //! \param[in] locking Controls whether the lock is a shared reader lock, or an
 //!     exclusive writer lock.
+//! \param[in] nonblocking Controls whether the lock will block or fail
+//!     immediately.
 //!
-//! \return `true` on success, or `false` and a message will be logged.
-bool LoggingLockFile(FileHandle file, FileLocking locking);
+//! \return kSuccess if a lock is acquired. If a lock could not be acquired
+//!     because |nonblocking| is true and aquiring the lock would block,
+//!     returns kWouldBlock. If a lock fails for any other reason, returns
+//!     kFailure and a message will be logged.
+FileLockingResult LoggingLockFile(FileHandle file,
+                                  FileLocking locking,
+                                  FileLockingBlocking nonblocking);
 
 //! \brief Unlocks a file previously locked with LoggingLockFile().
 //!
