@@ -41,6 +41,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d2d38e4_4701bba8",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T02:16:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3d9bf78_417657a8",
+      "range": {
+        "startLine": 100,
+        "startChar": 31,
+        "endLine": 100,
+        "endChar": 38
+      },
+      "revId": "f22c5b2c3385049378059231fb4facb4da29f764",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f0ff892_4de1c56d",
@@ -58,6 +82,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d60ec264_34da56c4",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T02:16:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f0ff892_4de1c56d",
+      "revId": "f22c5b2c3385049378059231fb4facb4da29f764",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53f9e919_00a4243c",
@@ -71,6 +113,24 @@
       "writtenOn": "2021-05-04T20:41:13Z",
       "side": 1,
       "message": "Fix the documentation, it’s not true and false anymore.\n\nIt should not be possible to read the documentation and come away with a question about whether kWouldBlock logs something or not.",
+      "revId": "f22c5b2c3385049378059231fb4facb4da29f764",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "157a9ed9_ba0fb7a9",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T02:16:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53f9e919_00a4243c",
       "revId": "f22c5b2c3385049378059231fb4facb4da29f764",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -98,6 +158,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56847b8c_75ce0182",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T02:16:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d1cc68d_42b61a5a",
+      "range": {
+        "startLine": 474,
+        "startChar": 34,
+        "endLine": 474,
+        "endChar": 38
+      },
+      "revId": "f22c5b2c3385049378059231fb4facb4da29f764",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99f98ade_eeb0ccba",
@@ -115,6 +199,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "430f2dd4_ae46242d",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T02:16:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99f98ade_eeb0ccba",
+      "revId": "f22c5b2c3385049378059231fb4facb4da29f764",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "565da92e_457ad410",
@@ -128,6 +230,24 @@
       "writtenOn": "2021-05-04T20:41:13Z",
       "side": 1,
       "message": "Don’t want to log anything if kWouldBlock.",
+      "revId": "f22c5b2c3385049378059231fb4facb4da29f764",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75d8ebf2_f7dddbd5",
+        "filename": "util/file/file_io_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T02:16:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "565da92e_457ad410",
       "revId": "f22c5b2c3385049378059231fb4facb4da29f764",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
