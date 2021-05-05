@@ -16,6 +16,297 @@
       "message": "ptal!",
       "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10e882d9_88b33925",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:42:04Z",
+      "side": 1,
+      "message": "I don’t think you use this, but you do use \u003cmach/mach.h\u003e.",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14ed6290_a2b614bf",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:42:04Z",
+      "side": 1,
+      "message": "I don’t think you use this.",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d61c5c62_33555a98",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:42:04Z",
+      "side": 1,
+      "message": "I don’t think you use this.",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0d29780_a8b15a13",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:42:04Z",
+      "side": 1,
+      "message": "How much of this RUNS-DURING-CRASH? The whole thing? Because you wrote RUNS-DURING-CRASH once below, in reset.",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07932e59_aa2f304a",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:42:04Z",
+      "side": 1,
+      "message": "This is a little unsafe. Does it need to be a parameter?\n\nCan’t you just use sizeof(typename T) or sizeof(*value) where needed?",
+      "range": {
+        "startLine": 39,
+        "startChar": 40,
+        "endLine": 39,
+        "endChar": 71
+      },
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d70da4e1_fa7e3f5d",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:42:04Z",
+      "side": 1,
+      "message": "Same.",
+      "range": {
+        "startLine": 47,
+        "startChar": 44,
+        "endLine": 47,
+        "endChar": 75
+      },
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a501cd2_abe9e297",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:42:04Z",
+      "side": 1,
+      "message": "Catch the return value and MACH_LOG_IF it’s not KERN_SUCCESS, if this doesn’t run during crash, or if you can log during RUNS-DURING-CRASH.",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae968261_6d362417",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:42:04Z",
+      "side": 1,
+      "message": "A lot of the innards are just doing what ScopedMachVM does. Can you have a ScopedMachVM instance to deal with that stuff? Or do you not want to because RUNS-DURING-CRASH?",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be83f2c4_9881844a",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:42:04Z",
+      "side": 1,
+      "message": "Do I need to be public?",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "659dd7c0_185d610c",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:42:04Z",
+      "side": 1,
+      "message": "Catch the return value and MACH_LOG_IF it’s not KERN_SUCCESS, if we’re allowed to log during RUNS-DURING-CRASH.",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1ebe347_e9be74a8",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:42:04Z",
+      "side": 1,
+      "message": "Why are you switching from vm_address_t to mach_vm_address_t? Don’t you just want to stick with the native-width vm_address_t and vm_size_t? And then use trunc_page and round_page instead of mach_vm_trunc_page and mach_vm_round_page?",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 79
+      },
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db448268_4f331297",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:42:04Z",
+      "side": 1,
+      "message": "PLOG is right for things that set errno. You’re calling vm_read, which returns a kern_return_t, so you want MACH_LOG. But do we want logging during RUNS-DURING-CRASH?",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "119ec74e_065a87b6",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:42:04Z",
+      "side": 1,
+      "message": "This is a substantial chunk of code to force to be inlined everywhere (by virtue of being in this templated class).\n\nI suggest a different design that has a non-templated internal class whose implementation can live in a .cc, and which operates on vm_address_ts and void*s. Then, a thin outer templated class to deal with the typename and automatic sizing.\n\nYou’re mostly already structured that way, you’ve just got to split it in two.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 5
+      },
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a24a833_e61e75b1",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:42:04Z",
+      "side": 1,
+      "message": "Always use C++-style casts.",
+      "range": {
+        "startLine": 92,
+        "startChar": 26,
+        "endLine": 92,
+        "endChar": 30
+      },
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8472c66e_67f197ca",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-05T18:42:04Z",
+      "side": 1,
+      "message": "data_ !\u003d 0",
+      "range": {
+        "startLine": 95,
+        "startChar": 33,
+        "endLine": 95,
+        "endChar": 40
+      },
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
