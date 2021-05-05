@@ -18,6 +18,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "973b6fed_7b3ae9b0",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T17:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad54da60_e2a41734",
+      "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38966369_f648ff97",
@@ -41,6 +59,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6507d8e_790289f5",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T17:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38966369_f648ff97",
+      "range": {
+        "startLine": 107,
+        "startChar": 47,
+        "endLine": 107,
+        "endChar": 49
+      },
+      "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3d455bd_e2ec2ffc",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-05-05T13:12:18Z",
       "side": 1,
       "message": "already locked. Locking would block, so the lock was not acquired.",
+      "range": {
+        "startLine": 112,
+        "startChar": 53,
+        "endLine": 112,
+        "endChar": 76
+      },
+      "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b319955d_42f67a85",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T17:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3d455bd_e2ec2ffc",
       "range": {
         "startLine": 112,
         "startChar": 53,
@@ -110,6 +176,54 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "216bf350_1e46fdef",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T17:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7da9c4d4_e60c2854",
+      "range": {
+        "startLine": 481,
+        "startChar": 16,
+        "endLine": 481,
+        "endChar": 29
+      },
+      "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "170f5ba8_0ee2c0fb",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T17:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d65662b_91c2bd8a",
+      "range": {
+        "startLine": 481,
+        "startChar": 33,
+        "endLine": 481,
+        "endChar": 37
+      },
+      "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cfd0aee_ed8121d7",
@@ -123,6 +237,30 @@
       "writtenOn": "2021-05-05T13:12:18Z",
       "side": 1,
       "message": "s/nonblocking/blocking/ throughout: now that this is an enum instead of a bool, it’s confusing for its name to be negated.",
+      "range": {
+        "startLine": 486,
+        "startChar": 54,
+        "endLine": 486,
+        "endChar": 65
+      },
+      "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e3b8975_a103cb72",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T17:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cfd0aee_ed8121d7",
       "range": {
         "startLine": 486,
         "startChar": 54,
@@ -156,6 +294,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69d7867a_f149f1fb",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T17:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abfac7ba_682c4aad",
+      "range": {
+        "startLine": 215,
+        "startChar": 54,
+        "endLine": 215,
+        "endChar": 65
+      },
+      "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0a79b5f_300920fb",
@@ -169,6 +331,24 @@
       "writtenOn": "2021-05-05T13:12:18Z",
       "side": 1,
       "message": "There’s a return above, so no else here.",
+      "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4813e570_e9149cc6",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T17:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a79b5f_300920fb",
       "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -190,6 +370,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3548f950_2c6eaa04",
+        "filename": "util/file/file_io_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T17:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24638d59_248c25e5",
+      "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3913eb98_03e5ed9a",
@@ -203,6 +401,24 @@
       "writtenOn": "2021-05-05T13:12:18Z",
       "side": 1,
       "message": "(for example, this.)",
+      "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0c7a51d_b9c1e13f",
+        "filename": "util/file/file_io_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T17:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3913eb98_03e5ed9a",
       "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -230,6 +446,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9e820f9_88d5b914",
+        "filename": "util/file/file_io_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T17:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59b08a08_df59eb51",
+      "range": {
+        "startLine": 705,
+        "startChar": 12,
+        "endLine": 705,
+        "endChar": 19
+      },
+      "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2aac57d9_327ec306",
@@ -243,6 +483,24 @@
       "writtenOn": "2021-05-05T13:12:18Z",
       "side": 1,
       "message": "After unlocking on handle1, try a nonblocking lock on handle2 again to see if it succeeds, as some form of proof that nonblocking locks do in fact work, and that the only reason it didn’t work the first time was that handle1 was already locked.",
+      "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b9f7111_2cf2dd54",
+        "filename": "util/file/file_io_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T17:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2aac57d9_327ec306",
       "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -270,6 +528,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ce17f63_b0074048",
+        "filename": "util/file/file_io_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T17:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05c50283_a3bfdb3d",
+      "range": {
+        "startLine": 187,
+        "startChar": 54,
+        "endLine": 187,
+        "endChar": 65
+      },
+      "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4acfeba6_7c91a85d",
@@ -283,6 +565,24 @@
       "writtenOn": "2021-05-05T13:12:18Z",
       "side": 1,
       "message": "No “else” necessary after a return.",
+      "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5caa4e65_870fff8b",
+        "filename": "util/file/file_io_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-05T17:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4acfeba6_7c91a85d",
       "revId": "68f5145b5a2c7d67215515799dbe31b592818421",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
