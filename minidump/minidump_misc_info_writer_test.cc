@@ -372,9 +372,11 @@ TEST(MinidumpMiscInfoWriter, TimeZone) {
   constexpr uint32_t kTimeZoneId = 2;
   constexpr int32_t kBias = 300;
   static constexpr char kStandardName[] = "EST";
+  static constexpr char16_t kStandardName16[] = u"EST";
   constexpr SYSTEMTIME kStandardDate = {0, 11, 1, 0, 2, 0, 0, 0};
   constexpr int32_t kStandardBias = 0;
   static constexpr char kDaylightName[] = "EDT";
+  static constexpr char16_t kDaylightName16[] = u"EDT";
   constexpr SYSTEMTIME kDaylightDate = {0, 3, 2, 0, 2, 0, 0, 0};
   constexpr int32_t kDaylightBias = -60;
 
@@ -399,7 +401,7 @@ TEST(MinidumpMiscInfoWriter, TimeZone) {
   expected.Flags1 = MINIDUMP_MISC3_TIMEZONE;
   expected.TimeZoneId = kTimeZoneId;
   expected.TimeZone.Bias = kBias;
-  std::u16string standard_name_utf16 = base::UTF8ToUTF16(kStandardName);
+  std::u16string standard_name_utf16 = kStandardName16;
   c16lcpy(AsU16CStr(expected.TimeZone.StandardName),
           standard_name_utf16.c_str(),
           base::size(expected.TimeZone.StandardName));
@@ -407,7 +409,7 @@ TEST(MinidumpMiscInfoWriter, TimeZone) {
          &kStandardDate,
          sizeof(expected.TimeZone.StandardDate));
   expected.TimeZone.StandardBias = kStandardBias;
-  std::u16string daylight_name_utf16 = base::UTF8ToUTF16(kDaylightName);
+  std::u16string daylight_name_utf16 = kDaylightName16;
   c16lcpy(AsU16CStr(expected.TimeZone.DaylightName),
           daylight_name_utf16.c_str(),
           base::size(expected.TimeZone.DaylightName));
@@ -485,7 +487,9 @@ TEST(MinidumpMiscInfoWriter, BuildStrings) {
   auto misc_info_writer = std::make_unique<MinidumpMiscInfoWriter>();
 
   static constexpr char kBuildString[] = "build string";
+  static constexpr char16_t kBuildString16[] = u"build string";
   static constexpr char kDebugBuildString[] = "debug build string";
+  static constexpr char16_t kDebugBuildString16[] = u"debug build string";
 
   misc_info_writer->SetBuildString(kBuildString, kDebugBuildString);
 
@@ -499,12 +503,11 @@ TEST(MinidumpMiscInfoWriter, BuildStrings) {
 
   MINIDUMP_MISC_INFO_4 expected = {};
   expected.Flags1 = MINIDUMP_MISC4_BUILDSTRING;
-  std::u16string build_string_utf16 = base::UTF8ToUTF16(kBuildString);
+  std::u16string build_string_utf16 = kBuildString16;
   c16lcpy(AsU16CStr(expected.BuildString),
           build_string_utf16.c_str(),
           base::size(expected.BuildString));
-  std::u16string debug_build_string_utf16 =
-      base::UTF8ToUTF16(kDebugBuildString);
+  std::u16string debug_build_string_utf16 = kDebugBuildString16;
   c16lcpy(AsU16CStr(expected.DbgBldStr),
           debug_build_string_utf16.c_str(),
           base::size(expected.DbgBldStr));
@@ -625,12 +628,16 @@ TEST(MinidumpMiscInfoWriter, Everything) {
   constexpr uint32_t kTimeZoneId = 2;
   constexpr int32_t kBias = 300;
   static constexpr char kStandardName[] = "EST";
+  static constexpr char16_t kStandardName16[] = u"EST";
   constexpr int32_t kStandardBias = 0;
   static constexpr char kDaylightName[] = "EDT";
+  static constexpr char16_t kDaylightName16[] = u"EDT";
   constexpr int32_t kDaylightBias = -60;
   constexpr SYSTEMTIME kSystemTimeZero = {};
   static constexpr char kBuildString[] = "build string";
+  static constexpr char16_t kBuildString16[] = u"build string";
   static constexpr char kDebugBuildString[] = "debug build string";
+  static constexpr char16_t kDebugBuildString16[] = u"debug build string";
 
   misc_info_writer->SetProcessID(kProcessId);
   misc_info_writer->SetProcessTimes(
@@ -681,7 +688,7 @@ TEST(MinidumpMiscInfoWriter, Everything) {
   expected.ProtectedProcess = kProtectedProcess;
   expected.TimeZoneId = kTimeZoneId;
   expected.TimeZone.Bias = kBias;
-  std::u16string standard_name_utf16 = base::UTF8ToUTF16(kStandardName);
+  std::u16string standard_name_utf16 = kStandardName16;
   c16lcpy(AsU16CStr(expected.TimeZone.StandardName),
           standard_name_utf16.c_str(),
           base::size(expected.TimeZone.StandardName));
@@ -689,7 +696,7 @@ TEST(MinidumpMiscInfoWriter, Everything) {
          &kSystemTimeZero,
          sizeof(expected.TimeZone.StandardDate));
   expected.TimeZone.StandardBias = kStandardBias;
-  std::u16string daylight_name_utf16 = base::UTF8ToUTF16(kDaylightName);
+  std::u16string daylight_name_utf16 = kDaylightName16;
   c16lcpy(AsU16CStr(expected.TimeZone.DaylightName),
           daylight_name_utf16.c_str(),
           base::size(expected.TimeZone.DaylightName));
@@ -697,12 +704,11 @@ TEST(MinidumpMiscInfoWriter, Everything) {
          &kSystemTimeZero,
          sizeof(expected.TimeZone.DaylightDate));
   expected.TimeZone.DaylightBias = kDaylightBias;
-  std::u16string build_string_utf16 = base::UTF8ToUTF16(kBuildString);
+  std::u16string build_string_utf16 = kBuildString16;
   c16lcpy(AsU16CStr(expected.BuildString),
           build_string_utf16.c_str(),
           base::size(expected.BuildString));
-  std::u16string debug_build_string_utf16 =
-      base::UTF8ToUTF16(kDebugBuildString);
+  std::u16string debug_build_string_utf16 = kDebugBuildString16;
   c16lcpy(AsU16CStr(expected.DbgBldStr),
           debug_build_string_utf16.c_str(),
           base::size(expected.DbgBldStr));
@@ -714,20 +720,27 @@ TEST(MinidumpMiscInfoWriter, InitializeFromSnapshot) {
   MINIDUMP_MISC_INFO_4 expect_misc_info = {};
 
   static constexpr char kStandardTimeName[] = "EST";
+  static constexpr char16_t kStandardTimeName16[] = u"EST";
   static constexpr char kDaylightTimeName[] = "EDT";
+  static constexpr char16_t kDaylightTimeName16[] = u"EDT";
   static constexpr char kOSVersionFull[] =
       "Mac OS X 10.9.5 (13F34); "
       "Darwin 13.4.0 Darwin Kernel Version 13.4.0: "
       "Sun Aug 17 19:50:11 PDT 2014; "
       "root:xnu-2422.115.4~1/RELEASE_X86_64 x86_64";
+  static constexpr char16_t kOSVersionFull16[] =
+      u"Mac OS X 10.9.5 (13F34); "
+      u"Darwin 13.4.0 Darwin Kernel Version 13.4.0: "
+      u"Sun Aug 17 19:50:11 PDT 2014; "
+      u"root:xnu-2422.115.4~1/RELEASE_X86_64 x86_64";
   static constexpr char kMachineDescription[] =
       "MacBookPro11,3 (Mac-2BD1B31983FE1663)";
-  std::u16string standard_time_name_utf16 =
-      base::UTF8ToUTF16(kStandardTimeName);
-  std::u16string daylight_time_name_utf16 =
-      base::UTF8ToUTF16(kDaylightTimeName);
-  std::u16string build_string_utf16 = base::UTF8ToUTF16(
-      std::string(kOSVersionFull) + "; " + kMachineDescription);
+  static constexpr char16_t kMachineDescription16[] =
+      u"MacBookPro11,3 (Mac-2BD1B31983FE1663)";
+  std::u16string standard_time_name_utf16 = kStandardTimeName16;
+  std::u16string daylight_time_name_utf16 = kDaylightTimeName16;
+  std::u16string build_string_utf16 =
+      std::u16string(kOSVersionFull16) + u"; " + kMachineDescription16;
   std::string debug_build_string = internal::MinidumpMiscInfoDebugBuildString();
   EXPECT_FALSE(debug_build_string.empty());
   std::u16string debug_build_string_utf16 =
