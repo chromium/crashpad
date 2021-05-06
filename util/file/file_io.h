@@ -453,9 +453,13 @@ FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
 //! \param[in] file The open file handle to be locked.
 //! \param[in] locking Controls whether the lock is a shared reader lock, or an
 //!     exclusive writer lock.
+//! \param[in] nonblocking Controls whether the lock will block or fail
+//!     immediately.
 //!
 //! \return `true` on success, or `false` and a message will be logged.
-bool LoggingLockFile(FileHandle file, FileLocking locking);
+bool LoggingLockFile(FileHandle file,
+                     FileLocking locking,
+                     bool nonblocking = false);
 
 //! \brief Unlocks a file previously locked with LoggingLockFile().
 //!
