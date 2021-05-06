@@ -94,6 +94,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa1ac2f1_2450004e",
+        "filename": "util/ios/exception_logging.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-06T14:58:40Z",
+      "side": 1,
+      "message": "exception_logging makes it sound like it logs exceptions. This defines a single RawLog, so just raw_log.h or raw_logging.h?",
+      "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "95c8d852_9529aa07",
         "filename": "util/ios/exception_logging.h",
         "patchSetId": 14
