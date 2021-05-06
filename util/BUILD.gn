@@ -382,6 +382,17 @@ crashpad_static_library("util") {
     sources += [
       "ios/exception_processor.h",
       "ios/exception_processor.mm",
+      "ios/ios_intermediatedump_data.cc",
+      "ios/ios_intermediatedump_data.h",
+      "ios/ios_intermediatedump_list.h",
+      "ios/ios_intermediatedump_map.cc",
+      "ios/ios_intermediatedump_map.h",
+      "ios/ios_intermediatedump_object.cc",
+      "ios/ios_intermediatedump_object.h",
+      "ios/ios_intermediatedump_reader.cc",
+      "ios/ios_intermediatedump_reader.h",
+      "ios/ios_intermediatedump_writer.cc",
+      "ios/ios_intermediatedump_writer.h",
       "ios/ios_system_data_collector.h",
       "ios/ios_system_data_collector.mm",
       "ios/scoped_vm_read.cc",
@@ -791,6 +802,8 @@ source_set("util_test") {
   if (crashpad_is_ios) {
     sources += [
       "ios/exception_processor_test.mm",
+      "ios/ios_intermediatedump_reader_test.cc",
+      "ios/ios_intermediatedump_writer_test.cc",
       "ios/scoped_vm_read_test.cc",
     ]
 
