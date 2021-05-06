@@ -16,6 +16,131 @@
       "message": "now with logging!",
       "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3bd7544_a20df874",
+        "filename": "util/ios/exception_logging.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-06T14:58:15Z",
+      "side": 1,
+      "message": "Nit: calculate the length, which is a higher-level thing, before you set up bytes_written, which is more of an implementation detail.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 45
+      },
+      "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74069d65_8c3169b8",
+        "filename": "util/ios/exception_logging.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-06T14:58:15Z",
+      "side": 1,
+      "message": "If you wind up getting rid of the rv below (see below), this can move into the loop body.",
+      "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6029f62_5779d6c5",
+        "filename": "util/ios/exception_logging.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-06T14:58:15Z",
+      "side": 1,
+      "message": "No need to check any of this. The caller (1) shouldn’t be providing empty messages and (2) shouldn’t be providing messages that end with \\n.",
+      "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d154343_e567e016",
+        "filename": "util/ios/exception_logging.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-06T14:58:15Z",
+      "side": 1,
+      "message": "rv can only be 1 here, there’s no need for a loop. All you really need is\n\n  HANDLE_EINTR(write(STDERR_FILENO, \"\\n\", 1));\n\nsince there’s nothing you can do if it fails, there’s no need to check the return value.",
+      "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95c8d852_9529aa07",
+        "filename": "util/ios/exception_logging.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-06T14:58:15Z",
+      "side": 1,
+      "message": "Reduce namespace proliferation. crashpad::internal is enough.",
+      "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba2677d9_846c7eaa",
+        "filename": "util/ios/exception_logging.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-06T14:58:15Z",
+      "side": 1,
+      "message": "Would be nice if this (optionally) allowed an int status code to ride along, so that we have some indication of what went wrong. Messages that need to be logged via this interface will almost always come along with a kern_return_t or errno.\n\nYou don’t need to turn the int into a string. A simple decimal or (even easier) hexadecimal conversion would do the trick.",
+      "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ae1172f_7f5cd961",
+        "filename": "util/ios/exception_logging.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-06T14:58:15Z",
+      "side": 1,
+      "message": "Ought to capture __FILE__ and __LINE__ too. (These are just compile-time constants, so it’s safe.)",
+      "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
