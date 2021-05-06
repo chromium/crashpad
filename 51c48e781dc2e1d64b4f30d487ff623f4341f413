@@ -35,6 +35,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df89b128_d39d42f3",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T02:30:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10e882d9_88b33925",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14ed6290_a2b614bf",
@@ -52,6 +70,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f85457e2_d986f2f9",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T02:30:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14ed6290_a2b614bf",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d61c5c62_33555a98",
@@ -65,6 +101,24 @@
       "writtenOn": "2021-05-05T18:42:04Z",
       "side": 1,
       "message": "I don’t think you use this.",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb238d02_6de1220d",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T02:30:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d61c5c62_33555a98",
       "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -88,6 +142,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2804ec85_0b79d9f0",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T02:30:34Z",
+      "side": 1,
+      "message": "The whole thing.  Is at the top enough?  Removing reset for now.",
+      "parentUuid": "b0d29780_a8b15a13",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "07932e59_aa2f304a",
         "filename": "util/ios/scoped_vm_read.h",
         "patchSetId": 7
@@ -99,6 +171,30 @@
       "writtenOn": "2021-05-05T18:42:04Z",
       "side": 1,
       "message": "This is a little unsafe. Does it need to be a parameter?\n\nCan’t you just use sizeof(typename T) or sizeof(*value) where needed?",
+      "range": {
+        "startLine": 39,
+        "startChar": 40,
+        "endLine": 39,
+        "endChar": 71
+      },
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e885548_b68da146",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T02:30:34Z",
+      "side": 1,
+      "message": "I use it sometimes for things like:\n\n  ScopedVMRead\u003cSimpleStringDictionary\u003e simple_annotations(\n     crashpad_info-\u003esimple_annotations,\n      sizeof(SimpleStringDictionary::Entry) *\n          SimpleStringDictionary::num_entries);\n\nOr within\n\nvoid IOSIntermediatedumpWriter::AddProperty(IntermediateDumpKey key,\n                                           const void* value,\n                                            size_t value_length) {\n  ScopedVMRead\u003cvoid\u003e vmread(value, value_length);\n  if (!vmread.is_valid())\n    return;",
+      "parentUuid": "07932e59_aa2f304a",
       "range": {
         "startLine": 39,
         "startChar": 40,
@@ -151,6 +247,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8dc52adc_ecac85ae",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T02:30:34Z",
+      "side": 1,
+      "message": "I do not know if I can log runs-during crash.  For now I\u0027m assuming yes.",
+      "parentUuid": "4a501cd2_abe9e297",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae968261_6d362417",
         "filename": "util/ios/scoped_vm_read.h",
         "patchSetId": 7
@@ -162,6 +276,24 @@
       "writtenOn": "2021-05-05T18:42:04Z",
       "side": 1,
       "message": "A lot of the innards are just doing what ScopedMachVM does. Can you have a ScopedMachVM instance to deal with that stuff? Or do you not want to because RUNS-DURING-CRASH?",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db267812_30875cd1",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T02:30:34Z",
+      "side": 1,
+      "message": "ScopedMachVM doesn\u0027t do vm_read does it?",
+      "parentUuid": "ae968261_6d362417",
       "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -185,6 +317,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d793197b_ad68354b",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T02:30:34Z",
+      "side": 1,
+      "message": "I use reset for things like (see usage of |current| in this method.)\n\n// static\nvoid InProcessIntermediatedumpHandler::WriteAnnotationList(\n    IOSIntermediatedumpWriter* writer,\n    process_types::CrashpadInfo* crashpad_info) {\n  if (!crashpad_info-\u003eannotations_list) {\n    return;\n  }\n  ScopedVMRead\u003cprocess_types::AnnotationList\u003e annotation_list(\n      crashpad_info-\u003eannotations_list);\n  if (!annotation_list.is_valid()) {\n    LOG(WARNING) \u003c\u003c \"could not read annotations list object\";\n    return;\n  }\n  IOSIntermediatedumpWriter::ScopedArray annotationsArray(\n      writer, IntermediateDumpKey::kAnnotationObjects);\n  ScopedVMRead\u003cprocess_types::Annotation\u003e current(\u0026annotation_list-\u003ehead);\n  if (!current.is_valid()) {\n    LOG(WARNING) \u003c\u003c \"could not read annotation\";\n    return;\n  }\n  for (size_t index \u003d 0;\n       current-\u003elink_node !\u003d annotation_list.get()-\u003etail_pointer \u0026\u0026\n       index \u003c kMaxNumberOfAnnotations;\n       ++index) {\n    ScopedVMRead\u003cprocess_types::Annotation\u003e node(current-\u003elink_node);\n    if (!node.is_valid()) {\n      LOG(WARNING) \u003c\u003c \"could not read annotation\";\n      return;\n    }\n    current.reset(\n        reinterpret_cast\u003cprocess_types::Annotation*\u003e(current-\u003elink_node));\n    if (node-\u003esize \u003d\u003d 0)\n      continue;\n    if (node-\u003esize \u003e Annotation::kValueMaxSize) {\n      DLOG(WARNING) \u003c\u003c \"Incorrect annotation length \" \u003c\u003c node-\u003esize;\n      continue;\n    }\n    IOSIntermediatedumpWriter::ScopedMap annotationMap(writer);\n    const size_t name_len \u003d\n        strnlen((const char*)node-\u003ename, Annotation::kNameMaxLength);\n    writer-\u003eAddProperty(IntermediateDumpKey::kAnnotationName,\n                        reinterpret_cast\u003cconst void*\u003e(node-\u003ename),\n                        name_len);\n    writer-\u003eAddProperty(IntermediateDumpKey::kAnnotationValue,\n                        reinterpret_cast\u003cconst void*\u003e(node-\u003evalue),\n                        node-\u003esize);\n    writer-\u003eAddProperty(IntermediateDumpKey::kAnnotationType,\n                        reinterpret_cast\u003cconst void*\u003e(\u0026node-\u003etype),\n                        sizeof(node-\u003etype));\n  }\n}",
+      "parentUuid": "be83f2c4_9881844a",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "659dd7c0_185d610c",
         "filename": "util/ios/scoped_vm_read.h",
         "patchSetId": 7
@@ -196,6 +346,24 @@
       "writtenOn": "2021-05-05T18:42:04Z",
       "side": 1,
       "message": "Catch the return value and MACH_LOG_IF it’s not KERN_SUCCESS, if we’re allowed to log during RUNS-DURING-CRASH.",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1e9422b_f6b419e7",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T02:30:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "659dd7c0_185d610c",
       "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -223,6 +391,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21d2216d_9b224684",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T02:30:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1ebe347_e9be74a8",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 79
+      },
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db448268_4f331297",
@@ -240,6 +432,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64c58329_01d80d1d",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T02:30:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db448268_4f331297",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "119ec74e_065a87b6",
@@ -253,6 +463,30 @@
       "writtenOn": "2021-05-05T18:42:04Z",
       "side": 1,
       "message": "This is a substantial chunk of code to force to be inlined everywhere (by virtue of being in this templated class).\n\nI suggest a different design that has a non-templated internal class whose implementation can live in a .cc, and which operates on vm_address_ts and void*s. Then, a thin outer templated class to deal with the typename and automatic sizing.\n\nYou’re mostly already structured that way, you’ve just got to split it in two.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 5
+      },
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39bd28c9_f7013d8f",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T02:30:34Z",
+      "side": 1,
+      "message": "done, I think.  Added a vmread_internal namespace with a ScopedVMReadInternal class.",
+      "parentUuid": "119ec74e_065a87b6",
       "range": {
         "startLine": 65,
         "startChar": 0,
@@ -286,6 +520,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dc52cc1_60c1b33f",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T02:30:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a24a833_e61e75b1",
+      "range": {
+        "startLine": 92,
+        "startChar": 26,
+        "endLine": 92,
+        "endChar": 30
+      },
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8472c66e_67f197ca",
@@ -299,6 +557,30 @@
       "writtenOn": "2021-05-05T18:42:04Z",
       "side": 1,
       "message": "data_ !\u003d 0",
+      "range": {
+        "startLine": 95,
+        "startChar": 33,
+        "endLine": 95,
+        "endChar": 40
+      },
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b76fed06_7e4de70f",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T02:30:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8472c66e_67f197ca",
       "range": {
         "startLine": 95,
         "startChar": 33,
